@@ -30,7 +30,7 @@ import { type GoApiBody } from '#utils/restRequest';
 function lengthEqualToCondition(count: number) {
     return (value: Maybe<number[]>) => {
         if (count !== (value?.length ?? 0)) {
-            // FIXME: Add translations
+            // FIXME: use translations
             return 'There should be at least one activity in selected sectors.';
         }
         return undefined;
@@ -40,11 +40,11 @@ function lengthEqualToCondition(count: number) {
 function hasValueCondition(x: number) {
     return (value: Maybe<boolean>) => {
         if (!value && x === 0) {
-            // FIXME: Add translations
+            // FIXME: use translations
             return 'If data is not available for people, please check "No data on people reached"';
         }
         if (value && x > 0) {
-            // FIXME: Add translations
+            // FIXME: use translations
             return 'If data is available for people, please uncheck "No data on people reached"';
         }
         return undefined;

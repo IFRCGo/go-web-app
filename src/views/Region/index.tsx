@@ -1,28 +1,18 @@
 import { useMemo } from 'react';
 import { useParams, Outlet } from 'react-router-dom';
-import {
-    DrefIcon,
-    AppealsIcon,
-    FundingIcon,
-    FundingCoverageIcon,
-    TargetedPopulationIcon,
-    AppealsTwoIcon,
-} from '@ifrc-go/icons';
-import { isNotDefined, isTruthyString } from '@togglecorp/fujs';
+import { isDefined, isNotDefined, isTruthyString } from '@togglecorp/fujs';
 
 import Page from '#components/Page';
 import BlockLoading from '#components/BlockLoading';
 import Breadcrumbs from '#components/Breadcrumbs';
-import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
-import InfoPopup from '#components/InfoPopup';
+import RegionKeyFigures from '#components/domain/RegionKeyFigures';
 import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
 import useTranslation from '#hooks/useTranslation';
 import useRegion from '#hooks/domain/useRegion';
 import { useRequest } from '#utils/restRequest';
 import { type RegionOutletContext } from '#utils/outletContext';
-import { getPercentage } from '#utils/common';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -54,15 +44,6 @@ export function Component() {
         query: { region: Number(regionId) },
     });
 
-    const {
-        pending: aggregatedAppealPending,
-        response: aggregatedAppealResponse,
-    } = useRequest({
-        skip: isNotDefined(regionId),
-        url: '/api/v2/appeal/aggregated',
-        query: { region: Number(regionId) },
-    });
-
     const outletContext: RegionOutletContext = useMemo(
         () => ({
             regionResponse,
@@ -71,7 +52,7 @@ export function Component() {
         [regionResponse, regionKeyFigureResponse],
     );
 
-    const pending = regionPending || aggregatedAppealPending || regionKeyFigurePending;
+    const pending = regionPending || regionKeyFigurePending;
     const additionalInfoTabName = regionResponse?.additional_tab_name
         || strings.regionAdditionalInfoTab;
     const hasPreparednessSnippet = (
@@ -111,65 +92,11 @@ export function Component() {
             info={(
                 <>
                     {pending && <BlockLoading />}
-                    {!pending && aggregatedAppealResponse && regionResponse && (
-                        <>
-                            <KeyFigure
-                                icon={<DrefIcon />}
-                                className={styles.keyFigure}
-                                value={aggregatedAppealResponse.active_drefs}
-                                info={(
-                                    <InfoPopup
-                                        title={strings.regionKeyFiguresDrefTitle}
-                                        description={strings.regionKeyFiguresDrefDescription}
-                                    />
-                                )}
-                                label={strings.regionKeyFiguresActiveDrefs}
-                            />
-                            <KeyFigure
-                                icon={<AppealsIcon />}
-                                className={styles.keyFigure}
-                                value={aggregatedAppealResponse.active_appeals}
-                                info={(
-                                    <InfoPopup
-                                        title={strings.regionKeyFiguresActiveAppealsTitle}
-                                        description={strings.regionKeyFigureActiveAppealDescription}
-                                    />
-                                )}
-                                label={strings.regionKeyFiguresActiveAppeals}
-                            />
-                            <KeyFigure
-                                icon={<FundingIcon />}
-                                className={styles.keyFigure}
-                                value={aggregatedAppealResponse.amount_requested_dref_included}
-                                compactValue
-                                label={strings.regionKeyFiguresBudget}
-                            />
-                            <KeyFigure
-                                icon={<FundingCoverageIcon />}
-                                className={styles.keyFigure}
-                                value={getPercentage(
-                                    aggregatedAppealResponse?.amount_funded,
-                                    aggregatedAppealResponse?.amount_requested_dref_included,
-                                )}
-                                suffix="%"
-                                compactValue
-                                label={strings.regionKeyFiguresAppealsFunding}
-                            />
-                            <KeyFigure
-                                icon={<TargetedPopulationIcon />}
-                                className={styles.keyFigure}
-                                value={aggregatedAppealResponse.target_population}
-                                compactValue
-                                label={strings.regionKeyFiguresTargetPop}
-                            />
-                            <KeyFigure
-                                icon={<AppealsTwoIcon />}
-                                className={styles.keyFigure}
-                                value={regionResponse.country_plan_count}
-                                compactValue
-                                label={strings.regionKeyFiguresCountryPlan}
-                            />
-                        </>
+                    {isDefined(regionId) && (
+                        <RegionKeyFigures
+                            regionResponse={regionResponse}
+                            regionId={regionId}
+                        />
                     )}
                 </>
             )}
