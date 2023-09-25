@@ -53,7 +53,7 @@ const rootLayout = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: '',
+        title: 'IFRC Go',
         visibility: 'anything',
     },
 });
@@ -109,7 +109,7 @@ const resendValidationEmail = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Resend validation email',
+        title: 'Resend Validation Email',
         visibility: 'is-not-authenticated',
     },
 });
@@ -156,7 +156,7 @@ const regionIndex = customWrapRoute({
         },
     },
     context: {
-        title: 'Region index',
+        title: 'Region',
         visibility: 'anything',
     },
 });
@@ -214,7 +214,7 @@ const regionRiskIndex = customWrapRoute({
         },
     },
     context: {
-        title: 'Region Risk index',
+        title: 'Region Risk Watch',
         visibility: 'anything',
     },
 });
@@ -227,7 +227,7 @@ const regionImminentRiskWatch = customWrapRoute({
         props: {},
     },
     context: {
-        title: 'Region Risk Watch - Imminent',
+        title: 'Region Imminent Risk Watch',
         visibility: 'anything',
     },
 });
@@ -240,7 +240,7 @@ const regionSeasonalRiskWatch = customWrapRoute({
         props: {},
     },
     context: {
-        title: 'Region Risk Watch - Seasonal',
+        title: 'Region Seasonal Risk Watch',
         visibility: 'anything',
     },
 });
@@ -312,7 +312,7 @@ const countryIndex = customWrapRoute({
         },
     },
     context: {
-        title: 'Country index',
+        title: 'Country',
         visibility: 'anything',
     },
 });
@@ -357,7 +357,7 @@ const countryThreeWIndex = customWrapRoute({
         },
     },
     context: {
-        title: 'Country 3W index',
+        title: 'Country 3W',
         visibility: 'anything',
     },
 });
@@ -383,7 +383,7 @@ const countryThreeWNationalSocietyProjects = customWrapRoute({
         props: {},
     },
     context: {
-        title: 'Country 3W National Society Project',
+        title: 'Country 3W National Society Projects',
         visibility: 'anything',
     },
 });
@@ -482,7 +482,7 @@ const emergencyIndex = customWrapRoute({
         },
     },
     context: {
-        title: 'Emergency index',
+        title: 'Emergency',
         visibility: 'anything',
     },
 });
@@ -508,7 +508,7 @@ const emergencyReportsAndDocuments = customWrapRoute({
         props: {},
     },
     context: {
-        title: 'Emergency Reports/Documents',
+        title: 'Emergency Reports and Documents',
         visibility: 'anything',
     },
 });
@@ -548,7 +548,7 @@ const emergencyAdditionalInfoOne = customWrapRoute({
         },
     },
     context: {
-        title: 'Emergency Additional Tab',
+        title: 'Emergency Additional Tab 1',
         visibility: 'anything',
     },
 });
@@ -562,7 +562,7 @@ const emergencyAdditionalInfoTwo = customWrapRoute({
         },
     },
     context: {
-        title: 'Emergency Additional Tab',
+        title: 'Emergency Additional Tab 2',
         visibility: 'anything',
     },
 });
@@ -576,7 +576,7 @@ const emergencyAdditionalInfoThree = customWrapRoute({
         },
     },
     context: {
-        title: 'Emergency Additional Tab',
+        title: 'Emergency Additional Tab 3',
         visibility: 'anything',
     },
 });
@@ -609,7 +609,7 @@ const surgeIndex = customWrapRoute({
         },
     },
     context: {
-        title: 'Surge index',
+        title: 'Surge',
         visibility: 'anything',
     },
 });
@@ -650,7 +650,7 @@ const surgeCatalogueLayout = customWrapRoute({
         props: {},
     },
     context: {
-        title: 'Surge Services Catalogue',
+        title: 'Surge Catalogue',
         visibility: 'anything',
     },
 });
@@ -667,7 +667,7 @@ const catalogueIndex = customWrapRoute({
         },
     },
     context: {
-        title: 'Surge Catalogue Index',
+        title: 'Surge Catalogue',
         visibility: 'anything',
     },
 });
@@ -681,7 +681,7 @@ const surgeCatalogueOverview = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Surge Services Catalogue',
+        title: 'Surge Catalogue Overview',
         visibility: 'anything',
     },
 });
@@ -695,7 +695,7 @@ const surgeCatalogueEmergencyNeedsAssessment = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Emergency Catalogue',
+        title: 'Emergency Needs Assessment',
         visibility: 'anything',
     },
 });
@@ -723,7 +723,7 @@ const surgeCatalogueBasecamp = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Basecampe Catalogue',
+        title: 'Basecamp Catalogue',
         visibility: 'anything',
     },
 });
@@ -1578,7 +1578,7 @@ const surgeCatalogueOtherCivilMilitaryRelations = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Other',
+        title: 'Civil Military Relations',
         visibility: 'anything',
     },
 });
@@ -1592,7 +1592,7 @@ const surgeCatalogueOtherDisasterRiskReduction = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Other',
+        title: 'Disaster Risk Reduction',
         visibility: 'anything',
     },
 });
@@ -1606,7 +1606,7 @@ const surgeCatalogueOtherHumanResources = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Other',
+        title: 'Human Resources',
         visibility: 'anything',
     },
 });
@@ -1620,7 +1620,7 @@ const surgeCatalogueOtherInternationalDisasterResponseLaw = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Other',
+        title: 'International Diaster Response Law',
         visibility: 'anything',
     },
 });
@@ -1634,7 +1634,7 @@ const surgeCatalogueOtherMigration = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Other',
+        title: 'Migration',
         visibility: 'anything',
     },
 });
@@ -1648,7 +1648,7 @@ const surgeCatalogueOtherNationalSocietyDevelopment = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Other',
+        title: 'National Society Development',
         visibility: 'anything',
     },
 });
@@ -1662,7 +1662,7 @@ const surgeCatalogueOtherPartnershipResourceDevelopment = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Other',
+        title: 'Partnership Resource Development',
         visibility: 'anything',
     },
 });
@@ -1676,7 +1676,7 @@ const surgeCatalogueOtherPreparednessEffectiveResponse = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Other',
+        title: 'Preparedness Effective Response',
         visibility: 'anything',
     },
 });
@@ -1690,7 +1690,7 @@ const surgeCatalogueOtherRecovery = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Other',
+        title: 'Recovery',
         visibility: 'anything',
     },
 });
@@ -1704,7 +1704,7 @@ const surgeCatalogueOtherGreenResponse = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Other',
+        title: 'Green Response',
         visibility: 'anything',
     },
 });
@@ -1737,7 +1737,7 @@ const preparednessIndex = customWrapRoute({
         },
     },
     context: {
-        title: 'Preparedness index',
+        title: 'Preparedness',
         visibility: 'anything',
     },
 });
@@ -1779,7 +1779,7 @@ const preparednessGlobalCatalogue = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Preparedness - Catalogue of learning',
+        title: 'Preparedness - Catalogue of Learning',
         visibility: 'anything',
     },
 });
@@ -1793,7 +1793,7 @@ const preparednessGlobalOperational = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Preparedness - Operational learning',
+        title: 'Preparedness - Operational Learning',
         visibility: 'anything',
     },
 });
@@ -1807,7 +1807,7 @@ const globalThreeW = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Global Three W',
+        title: 'Global 3W',
         visibility: 'anything',
     },
 });
@@ -1821,7 +1821,7 @@ const newThreeWProject = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'New 3w project',
+        title: 'New 3W Project',
         visibility: 'is-authenticated',
     },
 });
@@ -1835,7 +1835,7 @@ const threeWProjectDetail = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'ThreeW Project Detail',
+        title: '3W Project Details',
         visibility: 'anything',
     },
 });
@@ -1849,7 +1849,7 @@ const threeWProjectEdit = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Edit 3W project',
+        title: 'Edit 3W Project',
         visibility: 'is-authenticated',
     },
 });
@@ -1863,7 +1863,7 @@ const newThreeWActivity = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'New 3W activity',
+        title: 'New 3W Activity',
         visibility: 'is-authenticated',
     },
 });
@@ -1877,7 +1877,7 @@ const threeWActivityDetail = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'ThreeW Activity Detail',
+        title: '3W Activity Detail',
         visibility: 'anything',
     },
 });
@@ -1907,7 +1907,7 @@ const riskWatchLayout = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Risk',
+        title: 'Risk Watch',
         visibility: 'anything',
     },
 });
@@ -1924,7 +1924,7 @@ const riskWatchIndex = customWrapRoute({
         },
     },
     context: {
-        title: 'Risk watch index',
+        title: 'Risk Watch',
         visibility: 'anything',
     },
 });
@@ -1937,7 +1937,7 @@ const riskWatchSeasonal = customWrapRoute({
         props: {},
     },
     context: {
-        title: 'Risk Watch - Seasonal',
+        title: 'Seasonal Risk Watch',
         visibility: 'anything',
     },
 });
@@ -1950,7 +1950,7 @@ const riskWatchImminent = customWrapRoute({
         props: {},
     },
     context: {
-        title: 'Risk Watch - Seasonal',
+        title: 'Imminent Risk Watch',
         visibility: 'anything',
     },
 });
@@ -1983,7 +1983,7 @@ const accountIndex = customWrapRoute({
         },
     },
     context: {
-        title: 'Account index',
+        title: 'Account',
         visibility: 'anything',
     },
 });
@@ -1996,7 +1996,7 @@ const accountDetails = customWrapRoute({
         props: {},
     },
     context: {
-        title: 'Account Information',
+        title: 'Account Details',
         visibility: 'is-authenticated',
     },
 });
@@ -2028,7 +2028,7 @@ const accountMyFormsIndex = customWrapRoute({
         },
     },
     context: {
-        title: 'Account - My Forms index',
+        title: 'Account - My Forms',
         visibility: 'anything',
     },
 });
@@ -2041,7 +2041,7 @@ const accountMyFormsFieldReport = customWrapRoute({
         props: {},
     },
     context: {
-        title: 'Account Field Report Forms',
+        title: 'Account - Field Report Forms',
         visibility: 'is-authenticated',
     },
 });
@@ -2054,7 +2054,7 @@ const accountMyFormsPer = customWrapRoute({
         props: {},
     },
     context: {
-        title: 'Account PER Forms',
+        title: 'Account - PER Forms',
         visibility: 'is-authenticated',
     },
 });
@@ -2067,7 +2067,7 @@ const accountMyFormsDref = customWrapRoute({
         props: {},
     },
     context: {
-        title: 'Account DREF Applications',
+        title: 'Account - DREF Applications',
         visibility: 'is-authenticated',
     },
 });
@@ -2080,7 +2080,7 @@ const accountMyFormsThreeW = customWrapRoute({
         props: {},
     },
     context: {
-        title: 'Account 3W',
+        title: 'Account - 3W',
         visibility: 'is-authenticated',
     },
 });
@@ -2093,7 +2093,7 @@ const accountNotifications = customWrapRoute({
         props: {},
     },
     context: {
-        title: 'Account Notifications',
+        title: 'Account - Notifications',
         visibility: 'is-authenticated',
     },
 });
@@ -2135,7 +2135,7 @@ const allThreeWProject = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'All 3W',
+        title: 'All 3W Projects',
         visibility: 'anything',
     },
 });
@@ -2149,7 +2149,7 @@ const allThreeWActivity = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'All 3W',
+        title: 'All 3W Activities',
         visibility: 'anything',
     },
 });
@@ -2235,7 +2235,7 @@ const flashUpdateFormEdit = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Flash Update Edit',
+        title: 'Edit Flash Update',
         visibility: 'is-authenticated',
         permissions: ({ isIfrcAdmin }) => isIfrcAdmin,
     },
@@ -2308,7 +2308,7 @@ const newDrefApplicationForm = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'New Dref Application Form',
+        title: 'New DREF Application Form',
         visibility: 'is-authenticated',
     },
 });
@@ -2322,7 +2322,7 @@ const drefApplicationForm = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Dref Application Form',
+        title: 'Edit DREF Application Form',
         visibility: 'is-authenticated',
     },
 });
@@ -2336,7 +2336,7 @@ const drefApplicationExport = customWrapRoute({
     parent: rootLayout,
     wrapperComponent: Auth,
     context: {
-        title: 'Dref Application Export',
+        title: 'DREF Application Export',
         visibility: 'is-authenticated',
     },
 });
@@ -2350,7 +2350,7 @@ const drefOperationalUpdateForm = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Dref Operational Update Form',
+        title: 'Edit DREF Operational Update Form',
         visibility: 'is-authenticated',
     },
 });
@@ -2364,7 +2364,7 @@ const drefOperationalUpdateExport = customWrapRoute({
     parent: rootLayout,
     wrapperComponent: Auth,
     context: {
-        title: 'Dref Operational Update Export',
+        title: 'DREF Operational Update Export',
         visibility: 'is-authenticated',
     },
 });
@@ -2377,7 +2377,7 @@ const drefFinalReportForm = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Dref Final Report Form',
+        title: 'Edit DREF Final Report Form',
         visibility: 'is-authenticated',
     },
 });
@@ -2391,7 +2391,7 @@ const drefFinalReportExport = customWrapRoute({
     parent: rootLayout,
     wrapperComponent: Auth,
     context: {
-        title: 'Dref Final Report Export',
+        title: 'DREF Final Report Export',
         visibility: 'is-authenticated',
     },
 });
@@ -2449,7 +2449,7 @@ const perProcessLayout = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Per Process',
+        title: 'PER Process',
         visibility: 'is-authenticated',
     },
 });
@@ -2466,7 +2466,7 @@ const perProcessFormIndex = customWrapRoute({
         },
     },
     context: {
-        title: 'Per Process',
+        title: 'PER Process',
         visibility: 'anything',
     },
 });
@@ -2480,7 +2480,7 @@ const newPerOverviewForm = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'New Per Process',
+        title: 'New PER Overview',
         visibility: 'is-authenticated',
     },
 });
@@ -2494,7 +2494,7 @@ const perOverviewForm = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'New Per Process',
+        title: 'Edit PER Overview',
         visibility: 'is-authenticated',
     },
 });
@@ -2508,7 +2508,7 @@ const perAssessmentForm = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'New Per Process Form',
+        title: 'Edit PER Assessment',
         visibility: 'is-authenticated',
     },
 });
@@ -2522,7 +2522,7 @@ const perPrioritizationForm = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'New Per Process Form',
+        title: 'Edit PER Prioritization',
         visibility: 'is-authenticated',
     },
 });
@@ -2536,7 +2536,7 @@ const perWorkPlanForm = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'New Per Process Form',
+        title: 'Edit PER Work Plan',
         visibility: 'is-authenticated',
     },
 });
