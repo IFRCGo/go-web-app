@@ -3,6 +3,7 @@ import { isNotDefined, isDefined } from '@togglecorp/fujs';
 import { Navigate, useParams } from 'react-router-dom';
 
 import UserContext from '#contexts/user';
+import FourHundredThree from '#components/FourHundredThree';
 import usePermissions from '#hooks/domain/usePermissions';
 import { type ExtendedProps } from './routes';
 
@@ -36,11 +37,8 @@ function Auth(props: Props) {
         const hasPermission = context.permissions(perms, urlParams);
 
         if (!hasPermission) {
-            // TODO: Add a permission denied page
             return (
-                <div>
-                    403
-                </div>
+                <FourHundredThree />
             );
         }
     }
