@@ -25,7 +25,6 @@ import Container, { Props as ContainerProps } from '#components/Container';
 import useCountryRaw, { Country } from '#hooks/domain/useCountryRaw';
 import useTranslation from '#hooks/useTranslation';
 import { numericIdSelector } from '#utils/selectors';
-import { resolveToString } from '#utils/translation';
 import { type GoApiResponse } from '#utils/restRequest';
 import { type RegionOutletContext } from '#utils/outletContext';
 import {
@@ -224,46 +223,54 @@ function MovementActivitiesMap(props: Props) {
                             className={styles.mapPopup}
                             coordinates={clickedPointProperties.lngLat}
                             onCloseButtonClick={handlePointClose}
+                            headingLevel={5}
                             heading={(
                                 <Link
                                     to="countriesLayout"
                                     urlParams={{ countryId: clickedPointProperties.feature.id }}
                                     withUnderline
-                                    withLinkIcon
                                 >
                                     {clickedPointProperties.feature.properties.name}
                                 </Link>
                             )}
                             childrenContainerClassName={styles.mapPopupContent}
                             withHeaderBorder
+                            headerDescriptionContainerClassName={styles.stats}
+                            headerDescription={(
+                                <>
+                                    <TextOutput
+                                        label={strings.plannedProjects}
+                                        labelClassName={styles.label}
+                                        value={selectedCountry?.planned_projects_count}
+                                        strongValue
+                                        withoutLabelColon
+                                    />
+                                    <TextOutput
+                                        label={strings.ongoingProjects}
+                                        labelClassName={styles.label}
+                                        value={selectedCountry?.ongoing_projects_count}
+                                        strongValue
+                                        withoutLabelColon
+                                    />
+                                    <TextOutput
+                                        label={strings.completedProjects}
+                                        labelClassName={styles.label}
+                                        value={selectedCountry?.completed_projects_count}
+                                        strongValue
+                                        withoutLabelColon
+                                    />
+                                    <TextOutput
+                                        label={strings.activeNsCount}
+                                        labelClassName={styles.label}
+                                        value={activeNSinSelectedCountry
+                                            ?.reporting_national_societies.length}
+                                        strongValue
+                                        withoutLabelColon
+                                    />
+                                </>
+                            )}
                             contentViewType="vertical"
                         >
-                            <div className={styles.stats}>
-                                <div>
-                                    {resolveToString(
-                                        strings.plannedProjects,
-                                        { count: selectedCountry?.planned_projects_count ?? '-' },
-                                    )}
-                                </div>
-                                <div>
-                                    {resolveToString(
-                                        strings.ongoingProjects,
-                                        { count: selectedCountry?.ongoing_projects_count ?? '-' },
-                                    )}
-                                </div>
-                                <div>
-                                    {resolveToString(
-                                        strings.completedProjects,
-                                        { count: selectedCountry?.completed_projects_count ?? '-' },
-                                    )}
-                                </div>
-                                <div>
-                                    {resolveToString(
-                                        strings.activeNsCount,
-                                        { count: activeNSinSelectedCountry?.reporting_national_societies.length ?? '-' },
-                                    )}
-                                </div>
-                            </div>
                             <div className={styles.nationalSocietyList}>
                                 <RawList
                                     data={activeNSinSelectedCountry

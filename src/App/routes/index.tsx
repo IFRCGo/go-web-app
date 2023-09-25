@@ -58,6 +58,19 @@ const rootLayout = customWrapRoute({
     },
 });
 
+const fourHundredFour = customWrapRoute({
+    parent: rootLayout,
+    path: '*',
+    component: {
+        render: () => import('#views/FourHundredFour'),
+        props: {},
+    },
+    context: {
+        title: '404',
+        visibility: 'anything',
+    },
+});
+
 const login = customWrapRoute({
     parent: rootLayout,
     path: 'login',
@@ -2542,6 +2555,7 @@ const perWorkPlanForm = customWrapRoute({
 });
 
 const wrappedRoutes = {
+    fourHundredFour,
     rootLayout,
     login,
     register,

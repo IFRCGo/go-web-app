@@ -26,6 +26,7 @@ interface Props {
     heading?: React.ReactNode;
     description?: React.ReactNode;
     descriptionContainerClassName?: string;
+    mainSectionContainerClassName?: string;
     breadCrumbs?: React.ReactNode;
     info?: React.ReactNode;
     children?: React.ReactNode;
@@ -49,6 +50,7 @@ function Page(props: Props) {
         breadCrumbs,
         info,
         children,
+        mainSectionContainerClassName,
         mainSectionClassName,
         infoContainerClassName,
         wikiLink,
@@ -116,6 +118,7 @@ function Page(props: Props) {
                     contentAs="main"
                     className={_cs(
                         styles.mainSectionContainer,
+                        mainSectionContainerClassName,
                         withBackgroundColorInMainSection && styles.withBackgroundColor,
                     )}
                     contentClassName={_cs(
