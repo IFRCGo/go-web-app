@@ -4,8 +4,6 @@ import { isDefined, isNotDefined, isTruthyString } from '@togglecorp/fujs';
 
 import Page from '#components/Page';
 import BlockLoading from '#components/BlockLoading';
-import Breadcrumbs from '#components/Breadcrumbs';
-import Link from '#components/Link';
 import RegionKeyFigures from '#components/domain/RegionKeyFigures';
 import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
@@ -70,24 +68,6 @@ export function Component() {
             className={styles.region}
             title={strings.regionTitle}
             heading={region?.region_name ?? '--'}
-            breadCrumbs={(
-                <Breadcrumbs>
-                    <Link
-                        to="home"
-                    >
-                        {strings.home}
-                    </Link>
-                    <Link
-                        to="regionsLayout"
-                        disabled
-                        urlParams={{
-                            regionId,
-                        }}
-                    >
-                        {region?.region_name}
-                    </Link>
-                </Breadcrumbs>
-            )}
             infoContainerClassName={styles.keyFigureList}
             info={(
                 <>

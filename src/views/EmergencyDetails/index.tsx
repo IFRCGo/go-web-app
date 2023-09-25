@@ -141,7 +141,9 @@ export function Component() {
     );
 
     return (
-        <div className={styles.emergencyDetails}>
+        <div
+            className={styles.emergencyDetails}
+        >
             {hasKeyFigures && (
                 <Container
                     className={styles.keyFiguresContainer}

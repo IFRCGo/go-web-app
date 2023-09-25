@@ -35,6 +35,8 @@
         "fieldReportEmergencyResponseTitle": "Emergency Response Units",
         "fieldReportForecastBasedTitle": "Forecast Based Action",
         "fieldReportDetailsNotes": "Notes",
-        "fieldReportDetailsSummary": "Summary"
+        "fieldReportDetailsSummary": "Summary",
+        "home": "Home",
+        "emergencies": "Emergencies"
     }
 }

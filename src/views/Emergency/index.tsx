@@ -7,10 +7,13 @@ import {
 } from '@ifrc-go/icons';
 import { isNotDefined } from '@togglecorp/fujs';
 
+import Breadcrumbs from '#components/Breadcrumbs';
 import Page from '#components/Page';
 import NavigationTabList from '#components/NavigationTabList';
 import KeyFigure from '#components/KeyFigure';
+import Link from '#components/Link';
 import NavigationTab from '#components/NavigationTab';
+import useRegion from '#hooks/domain/useRegion';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
@@ -51,6 +54,9 @@ export function Component() {
             event: Number(emergencyId),
         },
     });
+
+    const country = emergencyResponse?.countries[0];
+    const region = useRegion({ id: Number(country?.region) });
 
     const peopleTargeted = sumSafe(
         emergencyResponse?.appeals.map(
@@ -115,7 +121,49 @@ export function Component() {
         <Page
             className={styles.emergency}
             title={strings.emergencyPageTitle}
+            breadCrumbs={(
+                <Breadcrumbs>
+                    <Link
+                        to="home"
+                    >
+                        {strings.home}
+                    </Link>
+                    <Link
+                        to="emergencies"
+                    >
+                        {strings.emergencies}
+                    </Link>
+                    <Link
+                        to="emergencyDetails"
+                        urlParams={{ emergencyId }}
+                    >
+                        {emergencyResponse?.name}
+                    </Link>
+                </Breadcrumbs>
+            )}
             heading={emergencyResponse?.name ?? '--'}
+            description={(
+                <>
+                    <Link
+                        to="regionsLayout"
+                        urlParams={{
+                            regionId: region?.id,
+                        }}
+                        withLinkIcon
+                    >
+                        {region?.region_name}
+                    </Link>
+                    <Link
+                        to="countriesLayout"
+                        urlParams={{
+                            countryId: country?.id,
+                        }}
+                        withLinkIcon
+                    >
+                        {country?.name}
+                    </Link>
+                </>
+            )}
             infoContainerClassName={styles.keyFigureList}
             info={(
                 <>

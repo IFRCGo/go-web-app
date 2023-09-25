@@ -6,6 +6,7 @@
         display: flex;
 
         &:not(:last-child) {
+            color: var(--go-ui-color-gray-70);
             font-weight: var(--go-ui-font-weight-light);
             :hover {
                 text-decoration: underline;
@@ -22,6 +23,7 @@
     .separator {
         display: flex;
         justify-content: center;
+        color: var(--go-ui-color-gray-70);
         font-size: var(--go-ui-font-size-xl);
     }
 }
