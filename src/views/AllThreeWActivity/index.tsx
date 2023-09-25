@@ -11,6 +11,7 @@ import {
     createDateColumn,
     createListDisplayColumn,
     createNumberColumn,
+    createElementColumn,
 } from '#components/Table/ColumnShortcuts';
 import useUrlSearchState from '#hooks/useUrlSearchState';
 import useFilterState from '#hooks/useFilterState';
@@ -20,6 +21,9 @@ import { resolveToComponent } from '#utils/translation';
 import { numericIdSelector } from '#utils/selectors';
 import { formatNumber, sumSafe } from '#utils/common';
 
+import ThreeWActivityTableActions, {
+    type Props as ThreeWActivityTableActionsProps,
+} from './AllThreeWProjectTableActions';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -202,6 +206,18 @@ export function Component() {
                 'people_count',
                 strings.allThreeWActivityPeopleReached,
                 (item) => getPeopleReached(item),
+            ),
+            createElementColumn<
+            ProjectListItem,
+                number,
+                ThreeWActivityTableActionsProps
+            >(
+                'actions',
+                '',
+                ThreeWActivityTableActions,
+                (activityId) => ({
+                    activityId,
+                }),
             ),
         ]),
         [strings, districtRendererParams],
