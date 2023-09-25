@@ -25,12 +25,16 @@ import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import { resolveToComponent } from '#utils/translation';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
+import RegionSelectInput from '#components/domain/RegionSelectInput';
+import { components } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type FieldReportResponse = GoApiResponse<'/api/v2/field-report/'>;
 type FieldReportListItem = NonNullable<FieldReportResponse['results']>[number];
+
+type RegionOption = components<'read'>['schemas']['ApiRegionNameEnum'];
 
 const fieldReportKeySelector = (item: FieldReportListItem) => item.id;
 
@@ -64,6 +68,22 @@ export function Component() {
             return potentialValue;
         },
         (country) => country,
+    );
+    const [filterRegion, setFilterRegion] = useUrlSearchState<RegionOption['key'] | undefined>(
+        'region',
+        (searchValue) => {
+            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
+            if (potentialValue === 0
+                || potentialValue === 1
+                || potentialValue === 2
+                || potentialValue === 3
+                || potentialValue === 4
+            ) {
+                return potentialValue;
+            }
+            return undefined;
+        },
+        (region) => region,
     );
 
     const columns = useMemo(
@@ -120,12 +140,14 @@ export function Component() {
         ordering,
         dtype: filterDisasterType,
         countries__in: filterCountry,
+        regions__in: filterRegion,
     }), [
         limit,
         offset,
         ordering,
         filterDisasterType,
         filterCountry,
+        filterRegion,
     ]);
 
     const {
@@ -215,6 +237,13 @@ export function Component() {
                             name={undefined}
                             value={filterCountry}
                             onChange={setFilterCountry}
+                        />
+                        <RegionSelectInput
+                            placeholder={strings.allFieldReportsFilterRegionPlaceholder}
+                            label={strings.allFieldReportsRegions}
+                            name={undefined}
+                            value={filterRegion}
+                            onChange={setFilterRegion}
                         />
                     </>
                 )}
