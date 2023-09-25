@@ -13,6 +13,10 @@
         text-transform: uppercase;
         color: var(--go-ui-color-white);
         font-weight: var(--go-ui-font-weight-medium);
+
+        @media print {
+            display: none;
+        }
     }
 
     .navigation-loader {
