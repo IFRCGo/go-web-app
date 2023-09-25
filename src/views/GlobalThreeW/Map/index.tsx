@@ -256,6 +256,22 @@ function GlobalThreeWMap(props: Props) {
         <BaseMap>
             <MapContainerWithDisclaimer
                 className={_cs(styles.mapContainer, className)}
+                footer={operationTypeOptions && (
+                    <div className={styles.legend}>
+                        {operationTypeOptions.map((d) => (
+                            <LegendItem
+                                key={d.key}
+                                label={d.value}
+                                color={pointColorMap[d.key]}
+                            />
+                        ))}
+                        <LegendItem
+                            key={OPERATION_TYPE_MULTI}
+                            label={strings.multipleTypesLegend}
+                            color={pointColorMap[OPERATION_TYPE_MULTI]}
+                        />
+                    </div>
+                )}
             />
             {programmesGeo && (
                 <MapSource

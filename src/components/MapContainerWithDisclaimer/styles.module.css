@@ -1,11 +1,28 @@
+.download-header {
+    border-bottom: var(--go-ui-width-separator-md) solid var(--go-ui-color-primary-red);
+    background-color: var(--go-ui-color-background);
+    padding: var(--go-ui-spacing-lg);
+}
+
 .map-container-with-disclaimer {
     display: flex;
     position: relative;
     flex-direction: column;
     z-index: 0;
 
-    .container {
+    &.print-mode {
+        border: var(--go-ui-width-separator-sm) solid var(--go-ui-color-separator);
+    }
+
+    .map-wrapper {
+        display: flex;
+        position: relative;
+        flex-direction: column;
         flex-grow: 1;
+
+        .container {
+            flex-grow: 1;
+        }
     }
 
     .map-disclaimer {
@@ -15,6 +32,21 @@
         background-color: var(--go-ui-color-white);
         padding: 0 var(--go-ui-spacing-2xs);
         font-size: var(--go-ui-font-size-sm);
+    }
+
+    .download-button {
+        position: absolute;
+        top: 6rem;
+        /* NOTE: Exactly as mapbox */
+        right: calc(10px - var(--go-ui-width-separator-md));
+        border: var(--go-ui-width-separator-md) solid var(--go-ui-color-separator);
+        border-radius: var(--go-ui-border-radius-md);
+        padding: 0 var(--go-ui-spacing-2xs);
+        font-size: var(--go-ui-height-icon-multiplier);
+
+        &:hover {
+            background-color: var(--go-ui-color-background);
+        }
     }
 }
 
@@ -27,5 +59,14 @@
         display: flex;
         flex-wrap: wrap;
         gap: var(--go-ui-spacing-2xs) var(--go-ui-spacing-sm);
+    }
+}
+
+.header {
+    background-color: var(--go-ui-color-background);
+    padding: var(--go-ui-spacing-md);
+
+    .actions {
+        align-items: center;
     }
 }

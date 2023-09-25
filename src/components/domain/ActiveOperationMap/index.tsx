@@ -354,6 +354,29 @@ function ActiveOperationMap(props: Props) {
             >
                 <MapContainerWithDisclaimer
                     className={styles.mapContainer}
+                    footer={(
+                        <div className={styles.footer}>
+                            <RadioInput
+                                label={strings.explanationBubbleScalePoints}
+                                name={undefined}
+                                options={scaleOptions}
+                                keySelector={optionKeySelector}
+                                labelSelector={optionLabelSelector}
+                                value={scaleBy}
+                                onChange={setScaleBy}
+                            />
+                            <div className={styles.legend}>
+                                {legendOptions.map((legendItem) => (
+                                    <LegendItem
+                                        key={legendItem.value}
+                                        className={styles.legendItem}
+                                        color={legendItem.color}
+                                        label={legendItem.label}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 />
                 <MapSource
                     sourceKey="points"
@@ -443,27 +466,6 @@ function ActiveOperationMap(props: Props) {
                     {strings.presentationModeButton}
                 </Button>
             )}
-            <div className={styles.footer}>
-                <RadioInput
-                    label={strings.explanationBubbleScalePoints}
-                    name={undefined}
-                    options={scaleOptions}
-                    keySelector={optionKeySelector}
-                    labelSelector={optionLabelSelector}
-                    value={scaleBy}
-                    onChange={setScaleBy}
-                />
-                <div className={styles.legend}>
-                    {legendOptions.map((legendItem) => (
-                        <LegendItem
-                            key={legendItem.value}
-                            className={styles.legendItem}
-                            color={legendItem.color}
-                            label={legendItem.label}
-                        />
-                    ))}
-                </div>
-            </div>
         </Container>
     );
 }

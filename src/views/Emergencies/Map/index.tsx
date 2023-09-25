@@ -248,7 +248,38 @@ function EmergenciesMap(props: Props) {
                     />
                 )}
             >
-                <MapContainerWithDisclaimer className={styles.mapContainer} />
+                <MapContainerWithDisclaimer
+                    className={styles.mapContainer}
+                    footer={(
+                        <div className={styles.footer}>
+                            <div className={styles.left}>
+                                <RadioInput
+                                    label={strings.emergenciesScaleByLabel}
+                                    name={undefined}
+                                    options={scaleOptions}
+                                    keySelector={optionKeySelector}
+                                    labelSelector={optionLabelSelector}
+                                    value={scaleBy}
+                                    onChange={setScaleBy}
+                                />
+                            </div>
+                            <div className={styles.legend}>
+                                {strings.emergenciesKey}
+                                {legendOptions.map((legendItem) => (
+                                    <LegendItem
+                                        className={styles.legendItem}
+                                        key={legendItem.value}
+                                        label={legendItem.label}
+                                        color={legendItem.color}
+                                    />
+                                ))}
+                            </div>
+                            <div>
+                                {strings.emergenciesMapDescription}
+                            </div>
+                        </div>
+                    )}
+                />
                 <MapSource
                     sourceKey="points"
                     sourceOptions={sourceOptions}
@@ -309,33 +340,6 @@ function EmergenciesMap(props: Props) {
                     </MapPopup>
                 )}
             </BaseMap>
-            <div className={styles.footer}>
-                <div className={styles.left}>
-                    <RadioInput
-                        label={strings.emergenciesScaleByLabel}
-                        name={undefined}
-                        options={scaleOptions}
-                        keySelector={optionKeySelector}
-                        labelSelector={optionLabelSelector}
-                        value={scaleBy}
-                        onChange={setScaleBy}
-                    />
-                </div>
-                <div className={styles.legend}>
-                    {strings.emergenciesKey}
-                    {legendOptions.map((legendItem) => (
-                        <LegendItem
-                            className={styles.legendItem}
-                            key={legendItem.value}
-                            label={legendItem.label}
-                            color={legendItem.color}
-                        />
-                    ))}
-                </div>
-                <div>
-                    {strings.emergenciesMapDescription}
-                </div>
-            </div>
         </Container>
     );
 }

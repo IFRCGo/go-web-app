@@ -144,7 +144,32 @@ function ActivitiesMap(props: Props) {
                         </>
                     )}
                 >
-                    <MapContainerWithDisclaimer className={styles.mapContainer} />
+                    <MapContainerWithDisclaimer
+                        className={styles.mapContainer}
+                        footer={(
+                            <div className={styles.legend}>
+                                <div className={styles.label}>
+                                    {strings.numberOfProjects}
+                                </div>
+                                <LegendItem
+                                    color={COLOR_SEVERITY_LOW}
+                                    label={strings.severityLow}
+                                />
+                                <LegendItem
+                                    color={COLOR_SEVERITY_MEDIUM}
+                                    label={strings.severityMedium}
+                                />
+                                <LegendItem
+                                    color={COLOR_SEVERITY_HIGH}
+                                    label={strings.severityHigh}
+                                />
+                                <LegendItem
+                                    color={COLOR_SEVERITY_SEVERE}
+                                    label={strings.severitySevere}
+                                />
+                            </div>
+                        )}
+                    />
                     {isDefined(bounds) && (
                         <MapBounds
                             duration={DURATION_MAP_ZOOM}
@@ -153,27 +178,6 @@ function ActivitiesMap(props: Props) {
                         />
                     )}
                 </BaseMap>
-                <div className={styles.legend}>
-                    <div className={styles.label}>
-                        {strings.numberOfProjects}
-                    </div>
-                    <LegendItem
-                        color={COLOR_SEVERITY_LOW}
-                        label={strings.severityLow}
-                    />
-                    <LegendItem
-                        color={COLOR_SEVERITY_MEDIUM}
-                        label={strings.severityMedium}
-                    />
-                    <LegendItem
-                        color={COLOR_SEVERITY_HIGH}
-                        label={strings.severityHigh}
-                    />
-                    <LegendItem
-                        color={COLOR_SEVERITY_SEVERE}
-                        label={strings.severitySevere}
-                    />
-                </div>
             </div>
             {sidebarContent && (
                 <div className={styles.sidebar}>

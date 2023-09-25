@@ -9,7 +9,6 @@ import {
     isNotDefined,
     isFalsyString,
 } from '@togglecorp/fujs';
-
 import {
     defaultMapStyle,
     defaultMapOptions,

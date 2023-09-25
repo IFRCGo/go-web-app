@@ -302,7 +302,21 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
         <div className={_cs(styles.map, className)}>
             <div className={styles.mapWithLegend}>
                 <BaseMap>
-                    <MapContainerWithDisclaimer className={styles.mapContainer} />
+                    <MapContainerWithDisclaimer
+                        className={styles.mapContainer}
+                        footer={(
+                            <div className={styles.legend}>
+                                <LegendItem
+                                    color={COLOR_BLUE}
+                                    label={strings.reportingNationalSociety}
+                                />
+                                <LegendItem
+                                    color={COLOR_RED}
+                                    label={strings.receivingCountry}
+                                />
+                            </div>
+                        )}
+                    />
                     {receivingCountryProjectGeoJson && (
                         <MapSource
                             sourceKey="receiving-points"
@@ -414,16 +428,6 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
                         />
                     )}
                 </BaseMap>
-                <div className={styles.legend}>
-                    <LegendItem
-                        color={COLOR_BLUE}
-                        label={strings.reportingNationalSociety}
-                    />
-                    <LegendItem
-                        color={COLOR_RED}
-                        label={strings.receivingCountry}
-                    />
-                </div>
             </div>
             {sidebarContent && (
                 <div className={styles.sidebar}>
