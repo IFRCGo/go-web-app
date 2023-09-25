@@ -27,6 +27,7 @@ import {
     createNumberColumn,
     createStringColumn,
 } from '#components/Table/ColumnShortcuts';
+import ProjectActions, { Props as ProjectActionsProps } from '#components/domain/ProjectActions';
 import useTranslation from '#hooks/useTranslation';
 import useFilterState from '#hooks/useFilterState';
 import { PROJECT_STATUS_ONGOING } from '#utils/constants';
@@ -40,9 +41,6 @@ import {
     numericValueSelector,
     stringLabelSelector,
 } from '#utils/selectors';
-
-// FIXME: One view should not import from another view
-import ProjectActions, { Props as ProjectActionsProps } from '#views/CountryThreeW/ProjectActions';
 
 import Filter, { FilterValue } from './Filters';
 import Map from './Map';
@@ -416,8 +414,7 @@ export function Component() {
                             {/* FIXME: Use List component instead? */}
                             {countryIdList.length === 0 && (
                                 <Message
-                                    // FIXME: use translations
-                                    description="Data not available!"
+                                    description={strings.projectDataNotAvailable}
                                 />
                             )}
                         </Container>

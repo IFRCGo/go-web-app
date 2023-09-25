@@ -159,8 +159,7 @@ function ContextFields(props: Props) {
 
     return (
         <Container
-            // FIXME: use translation
-            heading="Context"
+            heading={strings.fieldReportFormContextTitle}
             className={styles.contextFields}
             childrenContainerClassName={styles.content}
         >
@@ -195,9 +194,8 @@ function ContextFields(props: Props) {
             </InputSection>
 
             <InputSection
-                // FIXME: use translations
-                title="Search for existing emergency"
-                description="Type the name of the country you want to report on in the box above to begin the search."
+                title={strings.fieldReportFormSearchTitle}
+                description={strings.fieldReportFormSearchDescription}
             >
                 <EventSearchSelectInput
                     label={strings.emergencySelectLabel}

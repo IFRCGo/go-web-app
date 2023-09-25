@@ -15,6 +15,7 @@
         "flashUpdateResourcesHeading": "Resources",
         "flashUpdateDownloadDocument": "Download Document",
         "flashUpdateMapImage": "Map",
-        "flashUpdateFile": "File"
+        "flashUpdateFile": "File",
+        "flashUpdateReference": "Go to Reference"
     }
 }

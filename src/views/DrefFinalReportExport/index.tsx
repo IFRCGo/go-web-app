@@ -470,7 +470,7 @@ export function Component() {
                                     <img
                                         className={styles.icon}
                                         src={identifiedNeed.image_url}
-                                        alt=""
+                                        alt={strings.drefApplicationFormImageAlt}
                                     />
                                 )}
                             >
@@ -686,7 +686,7 @@ export function Component() {
                                     <img
                                         className={styles.icon}
                                         src={plannedIntervention.image_url}
-                                        alt=""
+                                        alt={strings.drefApplicationFormImageAlt}
                                     />
                                 )}
                                 heading={plannedIntervention.title_display}
@@ -812,7 +812,7 @@ export function Component() {
                         <img
                             className={styles.preview}
                             src={drefResponse?.financial_report_preview}
-                            alt=""
+                            alt={strings.drefApplicationFormImageAlt}
                         />
                     )}
                     {financialReportDescriptionDefined && (

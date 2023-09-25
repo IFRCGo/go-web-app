@@ -227,8 +227,7 @@ export function Component() {
                     variant="secondary"
                     icons={<PencilFillIcon />}
                 >
-                    {/* FIXME: use translations */}
-                    Edit Country
+                    {strings.editCountryLink}
                 </Link>
             )}
         >

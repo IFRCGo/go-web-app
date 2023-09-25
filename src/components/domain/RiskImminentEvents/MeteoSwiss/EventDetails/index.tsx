@@ -42,8 +42,13 @@ function EventDetails(props: Props) {
 
     const strings = useTranslation(i18n);
 
-    // FIXME: use translation?
-    const hazardName = `${hazard_type_display} - ${country_details?.name ?? hazard_name}`;
+    const hazardName = resolveToString(
+        strings.meteoSwissHazardName,
+        {
+            hazardType: hazard_type_display,
+            hazardName: country_details?.name ?? hazard_name,
+        },
+    );
 
     const impactList = useMemo(
         () => (
@@ -118,15 +123,13 @@ function EventDetails(props: Props) {
             headerDescription={(
                 <>
                     <TextOutput
-                        // FIXME: use translation
-                        label="Started on"
+                        label={strings.meteoSwissEventDetailsStartedOnLabel}
                         value={start_date}
                         valueType="date"
                         strongValue
                     />
                     <TextOutput
-                        // FIXME: use translation
-                        label="Updated at"
+                        label={strings.meteoSwissEventDetailsUpdatedAtLabel}
                         value={updated_at}
                         valueType="date"
                         format={UPDATED_AT_FORMAT}

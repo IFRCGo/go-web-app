@@ -233,8 +233,7 @@ function ContextTab(props: Props) {
                 description={strings.flashUpdateFormContextGraphicDescription}
             >
                 <MultiImageWithCaptionInput
-                    // FIXME: Add translations
-                    label="Upload"
+                    label={strings.flashUpdateUpload}
                     name="graphics_files"
                     url="/api/v2/flash-update-file/multiple/"
                     value={value?.graphics_files}
@@ -250,8 +249,7 @@ function ContextTab(props: Props) {
                 description={strings.flashUpdateFormContextMapDescription}
             >
                 <MultiImageWithCaptionInput
-                    // FIXME: Add translations
-                    label="Upload"
+                    label={strings.flashUpdateUpload}
                     name="map_files"
                     url="/api/v2/flash-update-file/multiple/"
                     value={value?.map_files}

@@ -16,6 +16,7 @@
         "appealDocumentLocation": "Location",
         "appealDocumentCode": "Code",
         "appealDocumentDescription": "Description",
-        "appealDocumentLink": "Name"
+        "appealDocumentLink": "Name",
+        "emergencyReportAndDocumentImageAlt": "Image"
     }
 }

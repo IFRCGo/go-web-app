@@ -1,5 +1,5 @@
 {
-    "namespace": "accountInformation",
+    "namespace": "accountDetails",
     "strings": {
         "editUserProfileHeading": "Edit User Profile",
         "firstNameInputLabel": "First Name",

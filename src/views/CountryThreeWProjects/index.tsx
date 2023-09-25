@@ -27,6 +27,7 @@ import Link from '#components/Link';
 import PieChart from '#components/PieChart';
 import Table from '#components/Table';
 import Message from '#components/Message';
+import ProjectActions, { Props as ProjectActionsProps } from '#components/domain/ProjectActions';
 import type { CountryOutletContext } from '#utils/outletContext';
 import type { GoApiResponse } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
@@ -44,7 +45,6 @@ import {
     numericValueSelector,
     stringLabelSelector,
 } from '#utils/selectors';
-import ProjectActions, { Props as ProjectActionsProps } from '#views/CountryThreeW/ProjectActions';
 
 import Map from './Map';
 import Filter, { FilterValue } from './Filters';
@@ -490,8 +490,7 @@ export function Component() {
                             })}
                             {districtIdList.length === 0 && (
                                 <Message
-                                    // FIXME: use translations
-                                    description="Data not available!"
+                                    description={strings.countryThreeWDataNotAvailable}
                                 />
                             )}
                         </Container>

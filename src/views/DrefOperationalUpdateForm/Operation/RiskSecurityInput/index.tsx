@@ -80,8 +80,7 @@ function RiskSecurityInput(props: Props) {
                 onClick={onRemove}
                 variant="tertiary"
                 disabled={disabled}
-                // FIXME: use translations
-                title="Delete Risk"
+                title={strings.drefOperationalUpdateFormDeleteRisk}
             >
                 <DeleteBinTwoLineIcon />
             </Button>

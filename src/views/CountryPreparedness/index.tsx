@@ -338,8 +338,7 @@ export function Component() {
                 className={styles.countryPreparedness}
                 icon={<CloseCircleLineIcon />}
                 title={strings.nsPreparednessAndResponseCapacityHeading}
-                // FIXME: use translation
-                description="There was an error loading the PER data!"
+                description={strings.componentMessageDescription}
             />
         );
     }
@@ -350,8 +349,7 @@ export function Component() {
                 className={styles.countryPreparedness}
                 icon={<AnalysisIcon />}
                 title={strings.nsPreparednessAndResponseCapacityHeading}
-                // FIXME: use translation
-                description="PER data not available for this Country yet!"
+                description={strings.componentMessagePERDataNotAvailable}
             />
         );
     }
@@ -361,8 +359,7 @@ export function Component() {
             <Message
                 className={styles.pendingMessage}
                 pending
-                // FIXME: use translation
-                description="Fetching data..."
+                description={strings.componentFetchingData}
             />
         );
     }
@@ -404,7 +401,7 @@ export function Component() {
                     strongValue
                 />
                 <TextOutput
-                    label={strings.focalPointEmailLitle}
+                    label={strings.focalPointEmailTitle}
                     value={latestPerOverview?.ns_focal_point_email}
                     strongValue
                 />
@@ -414,8 +411,7 @@ export function Component() {
                         external
                         variant="secondary"
                     >
-                        {/* FIXME: use translation */}
-                        Contact PER Team
+                        {strings.componentContactPERTeam}
                     </Link>
                 </div>
             </div>
@@ -511,8 +507,10 @@ export function Component() {
                             <Container
                                 key={priorityComponent.id}
                                 className={styles.priorityComponent}
-                                // FIXME: use translation
-                                heading={priorityComponent.rating?.title ?? 'Not Reviewed'}
+                                heading={
+                                    priorityComponent.rating?.title
+                                    ?? strings.componentNotReviewed
+                                }
                                 headingLevel={5}
                                 withHeaderBorder
                                 withInternalPadding
@@ -547,8 +545,7 @@ export function Component() {
                                     title={(
                                         isDefined(component.rating)
                                             ? `${component.rating.value} - ${component.rating.title}`
-                                            // FIXME: use translation
-                                            : '0 - Not reviewed'
+                                            : strings.component0NotReviewed
                                     )}
                                 />
                                 <div>
@@ -564,26 +561,21 @@ export function Component() {
                 <Message
                     className={styles.emptyMessage}
                     icon={<AnalyzingIcon />}
-                    // FIXME: use translation
-                    title="Charts not available!"
-                    // FIXME: use translation
-                    description="Assessment has not been performed yet for current PER cycle!"
+                    title={strings.componentChartNotAvailable}
+                    description={strings.componentChartNotAvailableDescription}
                 />
             )}
             {limitedAccess && (
                 <Message
                     className={styles.limitedAccessAction}
-                    // FIXME: use translation
-                    title="Limited access!"
-                    // FIXME: use translation
-                    description="You do not have enough permission to view more details on this PER."
+                    title={strings.componentLimitedAccess}
+                    description={strings.componentLimitedAccessDescription}
                     actions={(
                         <Button
                             variant="primary"
                             name={undefined}
                         >
-                            {/* FIXME: use translation */}
-                            Request to see more
+                            {strings.componentRequestSeeMore}
                         </Button>
                     )}
                 />

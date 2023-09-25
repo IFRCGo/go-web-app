@@ -1,5 +1,5 @@
 {
-    "namespace": "home",
+    "namespace": "countryPreparedness",
     "strings": {
         "nsPreparednessAndResponseCapacityHeading": "NS Preparedness and Response Capacity",
         "startDateLabel": "Start Date",
@@ -7,8 +7,7 @@
         "perCycleLabel": "Per Cycle",
         "typeOfAssessmentLabel": "Type of Assessment",
         "focalPointNameLabel": "Focal Point",
-        "focalPointEmailLitle": "Email",
-
+        "focalPointEmailTitle": "Email",
         "perAssessmentHeading": "Per Assessment Results",
         "totalBenchmarkSummaryHeading": "Total Benchmark Summary: ",
         "previousPerAssessmentHeading":"Previous PER Assessment",
@@ -17,6 +16,17 @@
         "priorityComponentToBeStrengthenedHeading": "Priority Components To Be Strengthened",
         "averageComponentRatingLabel": "Average Component Rating",
         "componentRatingResultsHeading": "Components Rating Results",
-        "componentHeading": "Component"
+        "componentHeading": "Component",
+        "componentMessageDescription": "There was an error loading the PER data!",
+        "componentMessagePERDataNotAvailable": "PER data not available for this Country yet!",
+        "componentFetchingData": "Fetching data...",
+        "componentContactPERTeam": "Contact PER Team",
+        "componentNotReviewed": "Not Reviewed",
+        "component0NotReviewed": "0 - Not reviewed",
+        "componentChartNotAvailable": "Charts not available!",
+        "componentChartNotAvailableDescription": "Assessment has not been performed yet for current PER cycle!",
+        "componentLimitedAccess": "Limited access!",
+        "componentLimitedAccessDescription": "You do not have enough permission to view more details on this PER.",
+        "componentRequestSeeMore": "Request to see more"
     }
 }

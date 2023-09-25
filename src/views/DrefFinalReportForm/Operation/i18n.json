@@ -41,6 +41,7 @@
         "drefFormEstimateResponse": "Estimate",
         "drefFormGirls": "Girls (under 18)",
         "drefFormInterventionsLabel": "Select the interventions that apply.",
-        "drefFormMen": "Men"
+        "drefFormMen": "Men",
+        "drefFinalReportTotalTargeted": "Total targeted population is not equal to sum of other population fields"
     }
 }

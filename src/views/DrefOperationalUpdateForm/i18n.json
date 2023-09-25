@@ -19,6 +19,14 @@
         "formLoadErrorTitle": "Failed to load DREF Operational Update",
         "formLoadErrorHelpText": "Please make sure that the operational update with given id exists and you have the permission to view it",
         "formBackButtonLabel": "Back",
-        "formShareButtonLabel": "Share"
+        "formShareButtonLabel": "Share",
+        "drefOperationalUpdateFormTimeframe": "Please select a different timeframe when selected yes on changing the operation timeframe",
+        "drefOperationalUpdateFormOperationTimeframe": "Please select yes on changing the operation timeframe",
+        "drefOperationAdditionalBudget": "When requesting for additional budget allocation, the fields \"Are you making changes to the budget\" and \"Is this a request for a second allocation\" both should be marked \"Yes\" in \"Event Details\" section",
+        "drefOperationAdditionalAllocation": "The field \"Additional Allocation Requested\" should be filled in \"Operation Overview\" section to change the budget or for a second allocation",
+        "drefOperationSelectDistrict": "Please select a different district when selected yes on changing geographic location",
+        "drefOperationSelectLocation": "Please select yes on changing geographic location",
+        "drefOperationTargetedPopulation": "Please select a different value for targeted population when selected yes on changing target population",
+        "drefOperationChangingTargetPopulation": "Please select yes on changing target population"
     }
 }

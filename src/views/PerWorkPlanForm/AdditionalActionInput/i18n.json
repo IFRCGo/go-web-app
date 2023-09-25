@@ -1,5 +1,5 @@
 {
-    "namespace": "perWorkPlanFormForm",
+    "namespace": "perWorkPlanForm",
     "strings": {
         "actionInputHeading": "Additional action #{actionNumber}",
         "actionInputRemoveButtonLabel": "Remove",

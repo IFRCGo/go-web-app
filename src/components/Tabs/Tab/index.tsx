@@ -4,7 +4,9 @@ import { CheckFillIcon, CloseFillIcon } from '@ifrc-go/icons';
 
 import RawButton, { Props as RawButtonProps } from '#components/RawButton';
 import { TabKey, TabContext } from '#components/Tabs/TabContext';
+import useTranslation from '#hooks/useTranslation';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export interface Props<T extends TabKey> extends Omit<RawButtonProps<T>, 'onClick' | 'variant'> {
@@ -15,6 +17,7 @@ export interface Props<T extends TabKey> extends Omit<RawButtonProps<T>, 'onClic
 
 export default function Tab<T extends TabKey>(props: Props<T>) {
     const context = React.useContext(TabContext);
+    const strings = useTranslation(i18n);
 
     const {
         variant,
@@ -99,8 +102,7 @@ export default function Tab<T extends TabKey>(props: Props<T>) {
             name={name}
             disabled={disabled}
             type="button"
-            // FIXME: use translations
-            title={typeof children === 'string' ? children : 'Tab'}
+            title={typeof children === 'string' ? children : strings.buttonTitleTab}
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
         >

@@ -294,8 +294,7 @@ function EmergenciesMap(props: Props) {
                                     headingLevel={5}
                                 >
                                     <TextOutput
-                                        // FIXME: use translations
-                                        label="People Affected"
+                                        label={strings.emergenciesPeopleAffected}
                                         value={getNumAffected(event.details)}
                                         valueType="number"
                                     />

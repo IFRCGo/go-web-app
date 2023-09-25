@@ -172,8 +172,7 @@ export function Component() {
             ),
             createLinkColumn<ProjectListItem, number>(
                 'country',
-                // FIXME: use translations
-                'Country',
+                strings.allThreeWCountry,
                 (activity) => activity.country_details.name,
                 (activity) => ({
                     to: 'countriesLayout',

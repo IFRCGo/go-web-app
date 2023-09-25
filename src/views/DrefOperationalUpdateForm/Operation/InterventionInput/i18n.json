@@ -10,6 +10,7 @@
         "drefAddIndicatorButtonLabel": "Add Indicator",
         "drefFormIndicatorsLabel": "Indicators",
         "drefFormRemoveIntervention": "Remove Intervention",
-        "drefFormNoIndicatorMessage": "No indicators"
+        "drefFormNoIndicatorMessage": "No indicators",
+        "drefOperationalUpdateFormRemoveIntervention": "Remove Intervention"
     }
 }

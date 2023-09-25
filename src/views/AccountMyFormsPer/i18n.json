@@ -1,5 +1,5 @@
 {
-    "namespace":"accountPerForms",
+    "namespace":"accountMyFormsPer",
     "strings":{
         "processStatusTitle":"PER Process Status",
         "newProcessButtonLabel": "Start New PER Process",

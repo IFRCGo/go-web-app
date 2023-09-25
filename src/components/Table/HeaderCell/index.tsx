@@ -12,10 +12,12 @@ import {
 
 import Button from '#components/Button';
 import InfoPopup from '#components/InfoPopup';
+import useTranslation from '#hooks/useTranslation';
 
 import type { BaseHeader, SortDirection } from '../types';
 import { SortContext } from '../useSorting';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export interface HeaderCellProps extends BaseHeader {
@@ -42,6 +44,7 @@ function HeaderCell(props: HeaderCellProps) {
         sorting,
         setSorting: onSortChange,
     } = useContext(SortContext);
+    const strings = useTranslation(i18n);
 
     const sortDirection = sorting?.name === name
         ? sorting.direction
@@ -85,7 +88,7 @@ function HeaderCell(props: HeaderCellProps) {
                     name={undefined}
                     variant="tertiary"
                     onClick={handleSortClick}
-                    title="Sort column"
+                    title={strings.sortTableButtonTitle}
                     className={styles.sortButton}
                 >
                     {isNotDefined(sortDirection)

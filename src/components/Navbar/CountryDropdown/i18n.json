@@ -2,6 +2,7 @@
     "namespace": "common",
     "strings": {
         "menuCountriesLabel": "Countries",
-        "countryDropdownSearchPlaceholder": "Search for country"
+        "countryDropdownSearchPlaceholder": "Search for country",
+        "messageNotAvailable": "Not available!"
     }
 }

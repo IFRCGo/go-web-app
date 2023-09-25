@@ -23,6 +23,7 @@
         "drefFormTargetCommunitiesDescription": "If the operation uses triggers related to different phases (such as readiness activities and early actions) add your triggers and data sources",
         "drefFormUploadPhotos": "Upload photos (e.g. impact of the events, NS in the field, assessments)",
         "drefFormUploadPhotosLimitation": "Add maximum 2 photos",
-        "drefFormWhatWhereWhen": "What happened, where and when?"
+        "drefFormWhatWhereWhen": "What happened, where and when?",
+        "drefOperationalUpdateFormSelectImages": "Select images"
     }
 }

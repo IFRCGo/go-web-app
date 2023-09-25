@@ -40,8 +40,7 @@ function RiskAnalysisFields(props: Props) {
 
     return (
         <Container
-            // FIXME: use translations
-            heading="Numeric Details (People)"
+            heading={strings.fieldReportNumericDetails}
             className={styles.riskAnalysisFields}
             childrenContainerClassName={styles.content}
         >

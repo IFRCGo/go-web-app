@@ -3,8 +3,10 @@ import { ChevronRightLineIcon } from '@ifrc-go/icons';
 import Button from '#components/Button';
 import Header from '#components/Header';
 import TextOutput from '#components/TextOutput';
+import useTranslation from '#hooks/useTranslation';
 import { type RiskApiResponse } from '#utils/restRequest';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type ImminentEventResponse = RiskApiResponse<'/api/v1/adam-exposure/'>;
@@ -25,6 +27,8 @@ function EventListItem(props: Props) {
         onExpandClick,
     } = props;
 
+    const strings = useTranslation(i18n);
+
     return (
         <Header
             className={styles.eventListItem}
@@ -35,8 +39,7 @@ function EventListItem(props: Props) {
                     name={id}
                     onClick={onExpandClick}
                     variant="tertiary"
-                    // FIXME: use translation
-                    title="View Details"
+                    title={strings.wfpEventListViewDetails}
                 >
                     <ChevronRightLineIcon className={styles.icon} />
                 </Button>
@@ -44,8 +47,7 @@ function EventListItem(props: Props) {
             spacing="compact"
         >
             <TextOutput
-                // FIXME: use translation
-                label="Published on"
+                label={strings.wfpEventListPublishedOn}
                 value={publish_date}
                 valueType="date"
             />

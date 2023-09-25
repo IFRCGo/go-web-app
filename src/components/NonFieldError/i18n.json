@@ -1,0 +1,6 @@
+{
+    "namespace": "common",
+    "strings": {
+        "fallbackMessage":"Please correct all the errors before submission!"
+    }
+}

@@ -1,0 +1,7 @@
+{
+    "namespace": "common",
+    "strings": {
+        "eventListViewDetails": "View Details",
+        "eventListStartedOn": "Started on"
+    }
+}

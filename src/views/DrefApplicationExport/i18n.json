@@ -83,6 +83,10 @@
         "appealManagerContactHeading": "IFRC Appeal Manager",
         "projectManagerContactHeading": "IFRC Project Manager",
         "focalPointContactHeading": "IFRC focal point for the emergency",
-        "mediaContactHeading": "Media Contact"
+        "mediaContactHeading": "Media Contact",
+        "imageLogoIFRCAlt": "IFRC",
+        "imageFileAlt": "image",
+        "drefApplicationExportRisk": "Risk",
+        "drefApplicationExportMitigation": "Mitigation"
     }
 }

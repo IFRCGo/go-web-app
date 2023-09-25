@@ -1,5 +1,5 @@
 {
-    "namespace": "riskWatchImminent",
+    "namespace": "common",
     "strings": {
         "meteoSwissEconomicLossLabel": "Direct economic damage",
         "meteoSwissExposureLabel": "People exposed to windspeed above {windspeed}m/s",
@@ -7,6 +7,9 @@
         "meteoSwissEstimatesNote": "These impact estimates are derived from a model and come with very high uncertainty. More information will be added soon.",
         "meteoSwissEventDescription": "{model} has forecasted a tropical cyclone on {updatedAt}. The tropical cyclone named {eventName} is forecasted to impact {countryName} from {eventDate}.",
         "meteoSwissAuthoritativeMessage": "Please also consider {link}",
-        "meteoSwissAuthoritativeLinkLabel": "authoritative information about the hazard"
+        "meteoSwissAuthoritativeLinkLabel": "authoritative information about the hazard",
+        "meteoSwissEventDetailsStartedOnLabel": "Started on",
+        "meteoSwissEventDetailsUpdatedAtLabel": "Updated at",
+        "meteoSwissHazardName": "{hazardType} - {hazardName}"
     }
 }

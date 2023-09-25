@@ -1,0 +1,7 @@
+{
+    "namespace": "common",
+    "strings": {
+        "hidePassword":"Hide password",
+        "showPassword":"Show password"
+    }
+}

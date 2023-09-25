@@ -17,7 +17,7 @@ import { createElementColumn, createStringColumn } from '#components/Table/Colum
 import { numericKeySelector } from '#utils/selectors';
 import { type GoApiResponse } from '#utils/restRequest';
 
-import i18n from '../i18n.json';
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type GetCountryPlanResponse = GoApiResponse<'/api/v2/country-plan/{country}/'>;

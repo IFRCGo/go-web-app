@@ -223,24 +223,21 @@ function RiskSeasonalMap(props: Props) {
         () => ([
             {
                 key: 'exposure',
-                // FIXME: use translation
-                label: 'People Exposed',
+                label: strings.peopleExposedOptionLabel,
                 applicableHazards: applicableHazardsByRiskMetric.exposure,
             },
             {
                 key: 'displacement',
-                // FIXME: use translation
-                label: 'People at Risk of Displacement',
+                label: strings.peopleAtRiskOptionLabel,
                 applicableHazards: applicableHazardsByRiskMetric.displacement,
             },
             {
                 key: 'riskScore',
-                // FIXME: use translation
-                label: 'Risk Score',
+                label: strings.riskScoreOptionLabel,
                 applicableHazards: applicableHazardsByRiskMetric.riskScore,
             },
         ]),
-        [],
+        [strings],
     );
 
     const availableHazards: { [key in HazardType]?: string } | undefined = useMemo(
@@ -690,23 +687,21 @@ function RiskSeasonalMap(props: Props) {
         [filteredData],
     );
 
-    // FIXME: use translation
     const riskCategoryToLabelMap: Record<number, string> = useMemo(
         () => ({
-            [CATEGORY_RISK_VERY_LOW]: 'Very Low',
-            [CATEGORY_RISK_LOW]: 'Low',
-            [CATEGORY_RISK_MEDIUM]: 'Medium',
-            [CATEGORY_RISK_HIGH]: 'High',
-            [CATEGORY_RISK_VERY_HIGH]: 'Very High',
+            [CATEGORY_RISK_VERY_LOW]: strings.riskCategoryVeryLow,
+            [CATEGORY_RISK_LOW]: strings.riskCategoryLow,
+            [CATEGORY_RISK_MEDIUM]: strings.riskCategoryMedium,
+            [CATEGORY_RISK_HIGH]: strings.riskCategoryHigh,
+            [CATEGORY_RISK_VERY_HIGH]: strings.riskCategoryVeryHigh,
         }),
-        [],
+        [strings],
     );
 
     return (
         <Container
             className={_cs(styles.riskSeasonalMapContainer, className)}
-            // FIXME: use translation
-            heading="Risk Map"
+            heading={strings.riskSeasonalMapHeading}
             filters={(
                 <Filters
                     regionId={Number(regionId)}
@@ -732,8 +727,7 @@ function RiskSeasonalMap(props: Props) {
                     className={styles.wikiLink}
                     external
                     href={`https://go-wiki.ifrc.org/${lang}/user_guide/risk_module#seasonal-risk`}
-                    // FIXME: use translations
-                    title="Wiki"
+                    title={strings.riskSeasonalLinkTitle}
                 >
                     <WikiHelpSectionLineIcon />
                 </Link>
@@ -743,7 +737,7 @@ function RiskSeasonalMap(props: Props) {
             footerClassName={styles.footer}
             footerContent={(
                 <div className={styles.severityLegend}>
-                    <div className={styles.legendLabel}>{strings.severity}</div>
+                    <div className={styles.legendLabel}>{strings.severityLegendLabel}</div>
                     <div className={styles.legendContent}>
                         <div
                             className={styles.severityGradient}
@@ -751,10 +745,10 @@ function RiskSeasonalMap(props: Props) {
                         />
                         <div className={styles.labelList}>
                             <div>
-                                {strings.severityLow}
+                                {strings.severityLowLabel}
                             </div>
                             <div>
-                                {strings.severityHigh}
+                                {strings.severityHighLabel}
                             </div>
                         </div>
                     </div>
@@ -764,7 +758,7 @@ function RiskSeasonalMap(props: Props) {
             footerActions={(
                 <div className={styles.typeOfHazardLegend}>
                     <div className={styles.legendLabel}>
-                        {strings.hazardsType}
+                        {strings.hazardsTypeLegendLabel}
                     </div>
                     <div className={styles.legendContent}>
                         {hazardTypeOptions.map((hazard) => (
@@ -800,8 +794,7 @@ function RiskSeasonalMap(props: Props) {
                 className={styles.countryList}
                 childrenContainerClassName={styles.content}
                 withInternalPadding
-                // FIXME use translation
-                heading="Countries by Risk"
+                heading={strings.riskSeasonalCountriesByRiskHeading}
                 headingLevel={4}
                 withHeaderBorder
                 contentViewType="vertical"

@@ -147,8 +147,7 @@ function getProjectColumns(strings: Strings) {
             { name: string }
         >(
             'districts',
-            // FIXME: use translation
-            'Province/Region',
+            strings.searchProjectTableProvince,
             (activity) => ({
                 // FIXME: type should be fixed on the server
                 list: activity.regions as string[],

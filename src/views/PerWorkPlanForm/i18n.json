@@ -1,5 +1,5 @@
 {
-    "namespace": "perWorkPlanFormForm",
+    "namespace": "perWorkPlanForm",
     "strings": {
         "workPlanDate": "Work-plan date",
         "perResponsibleLabel": "Responsible",
@@ -13,6 +13,7 @@
         "noActionsLabel": "No Actions",
         "confirmHeading": "Confirm Work Plan",
         "confirmMessage": "You're about to submit the results of PER Work Plan. Once submitted, you'll be redirected to the accounts page",
-        "saveButtonLabel": "Save"
+        "saveButtonLabel": "Save",
+        "perWorkPlanResource": "Resource not found"
     }
 }

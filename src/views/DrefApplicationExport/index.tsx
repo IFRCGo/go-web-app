@@ -212,7 +212,7 @@ export function Component() {
                 <img
                     className={styles.ifrcLogo}
                     src={ifrcLogo}
-                    alt="IFRC"
+                    alt={strings.imageLogoIFRCAlt}
                 />
                 <Header
                     heading={strings.exportTitle}
@@ -383,7 +383,7 @@ export function Component() {
                             <Image
                                 key={imageFile.id}
                                 src={imageFile.file}
-                                alt=""
+                                alt={strings.imageFileAlt}
                                 caption={imageFile.caption}
                             />
                         ),
@@ -557,7 +557,7 @@ export function Component() {
                                     <img
                                         className={styles.icon}
                                         src={identifiedNeed.image_url}
-                                        alt=""
+                                        alt={strings.imageFileAlt}
                                     />
                                 )}
                             >
@@ -726,10 +726,10 @@ export function Component() {
                             headingLevel={4}
                         >
                             <div className={styles.riskTitle}>
-                                Risk
+                                {strings.drefApplicationExportRisk}
                             </div>
                             <div className={styles.mitigationTitle}>
-                                Mitigation
+                                {strings.drefApplicationExportMitigation}
                             </div>
                             {drefResponse?.risk_security?.map(
                                 (riskSecurity) => (
@@ -774,7 +774,7 @@ export function Component() {
                                     <img
                                         className={styles.icon}
                                         src={plannedIntervention.image_url}
-                                        alt=""
+                                        alt={strings.imageFileAlt}
                                     />
                                 )}
                                 heading={plannedIntervention.title_display}
@@ -917,7 +917,7 @@ export function Component() {
                     <img
                         className={styles.budgetFilePreview}
                         src={drefResponse?.budget_file_preview}
-                        alt=""
+                        alt={strings.imageFileAlt}
                     />
                 </Container>
             )}

@@ -1,0 +1,7 @@
+{
+    "namespace": "common",
+    "strings": {
+        "expandableContainerCollapse": "Collapse",
+        "expandableContainerExpand": "Expand"
+    }
+}

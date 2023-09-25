@@ -4,6 +4,7 @@ import {
     type EntriesAsList,
 } from '@togglecorp/toggle-form';
 
+import useTranslation from '#hooks/useTranslation';
 import NumberOutput from '#components/NumberOutput';
 import NumberInput from '#components/NumberInput';
 import Switch from '#components/Switch';
@@ -13,6 +14,7 @@ import {
     type PartialActivityItem,
 } from '../../../schema';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 interface Props {
@@ -29,6 +31,8 @@ function DisaggregationInput(props: Props) {
         disabled,
         error,
     } = props;
+
+    const strings = useTranslation(i18n);
 
     const total_0_1_count = sumSafe([
         value?.male_0_1_count,
@@ -191,46 +195,36 @@ function DisaggregationInput(props: Props) {
             <div className={styles.tableContainer}>
                 <div className={styles.row}>
                     <div className={styles.header}>
-                        {/* FIXME: Add translations */}
-                        Gender/Age
+                        {strings.genderAgeHeader}
                     </div>
                     <div className={styles.header}>
-                        {/* FIXME: Add translations */}
-                        0-1
+                        {strings.zeroOneHeader}
                     </div>
                     <div className={styles.header}>
-                        {/* FIXME: Add translations */}
-                        2-5
+                        {strings.twoFiveHeader}
                     </div>
                     <div className={styles.header}>
-                        {/* FIXME: Add translations */}
-                        6-12
+                        {strings.sixTwelveHeader}
                     </div>
                     <div className={styles.header}>
-                        {/* FIXME: Add translations */}
-                        13-17
+                        {strings.thirteenSeventeenHeader}
                     </div>
                     <div className={styles.header}>
-                        {/* FIXME: Add translations */}
-                        18-59
+                        {strings.eighteenFiftyNineHeader}
                     </div>
                     <div className={styles.header}>
-                        {/* FIXME: Add translations */}
-                        60+
+                        {strings.sixtyPlusHeader}
                     </div>
                     <div className={styles.header}>
-                        {/* FIXME: Add translations */}
-                        Unknown
+                        {strings.unknownHeader}
                     </div>
                     <div className={styles.header}>
-                        {/* FIXME: Add translations */}
-                        Total
+                        {strings.totalHeader}
                     </div>
                 </div>
                 <div className={styles.row}>
                     <div className={_cs(styles.cell, styles.header)}>
-                        {/* FIXME: Add translations */}
-                        Male
+                        {strings.maleHeader}
                     </div>
                     <NumberInput
                         className={styles.cell}
@@ -302,8 +296,7 @@ function DisaggregationInput(props: Props) {
                 </div>
                 <div className={styles.row}>
                     <div className={_cs(styles.cell, styles.header)}>
-                        {/* FIXME: Add translations */}
-                        Female
+                        {strings.femaleHeader}
                     </div>
                     <NumberInput
                         className={styles.cell}
@@ -375,8 +368,7 @@ function DisaggregationInput(props: Props) {
                 </div>
                 <div className={styles.row}>
                     <div className={_cs(styles.cell, styles.header)}>
-                        {/* FIXME: Add translations */}
-                        Other
+                        {strings.otherHeader}
                     </div>
                     <NumberInput
                         className={styles.cell}
@@ -448,8 +440,7 @@ function DisaggregationInput(props: Props) {
                 </div>
                 <div className={styles.row}>
                     <div className={_cs(styles.cell, styles.header)}>
-                        {/* FIXME: Add translations */}
-                        Total
+                        {strings.totalHeader}
                     </div>
                     <NumberOutput
                         className={_cs(styles.cell, styles.output)}
@@ -486,8 +477,7 @@ function DisaggregationInput(props: Props) {
                 </div>
             </div>
             <Switch
-                // FIXME: Add translations
-                label="Disaggregation for disabled available"
+                label={strings.disaggregationSwitchLabel}
                 name="is_disaggregated_for_disabled"
                 value={value?.is_disaggregated_for_disabled}
                 disabled={disabled}
@@ -498,46 +488,36 @@ function DisaggregationInput(props: Props) {
                 <div className={styles.tableContainer}>
                     <div className={styles.row}>
                         <div className={styles.header}>
-                            {/* FIXME: Add translations */}
-                            Gender/Age
+                            {strings.genderAgeHeader}
                         </div>
                         <div className={styles.header}>
-                            {/* FIXME: Add translations */}
-                            0-1
+                            {strings.zeroOneHeader}
                         </div>
                         <div className={styles.header}>
-                            {/* FIXME: Add translations */}
-                            2-5
+                            {strings.twoFiveHeader}
                         </div>
                         <div className={styles.header}>
-                            {/* FIXME: Add translations */}
-                            6-12
+                            {strings.sixTwelveHeader}
                         </div>
                         <div className={styles.header}>
-                            {/* FIXME: Add translations */}
-                            13-17
+                            {strings.thirteenSeventeenHeader}
                         </div>
                         <div className={styles.header}>
-                            {/* FIXME: Add translations */}
-                            18-59
+                            {strings.eighteenFiftyNineHeader}
                         </div>
                         <div className={styles.header}>
-                            {/* FIXME: Add translations */}
-                            60+
+                            {strings.sixtyPlusHeader}
                         </div>
                         <div className={styles.header}>
-                            {/* FIXME: Add translations */}
-                            Unknown
+                            {strings.unknownHeader}
                         </div>
                         <div className={styles.header}>
-                            {/* FIXME: Add translations */}
-                            Total
+                            {strings.totalHeader}
                         </div>
                     </div>
                     <div className={styles.row}>
                         <div className={_cs(styles.cell, styles.header)}>
-                            {/* FIXME: Add translations */}
-                            Male
+                            {strings.maleHeader}
                         </div>
                         <NumberInput
                             className={styles.cell}
@@ -609,8 +589,7 @@ function DisaggregationInput(props: Props) {
                     </div>
                     <div className={styles.row}>
                         <div className={_cs(styles.cell, styles.header)}>
-                            {/* FIXME: Add translations */}
-                            Female
+                            {strings.femaleHeader}
                         </div>
                         <NumberInput
                             className={styles.cell}
@@ -682,8 +661,7 @@ function DisaggregationInput(props: Props) {
                     </div>
                     <div className={styles.row}>
                         <div className={_cs(styles.cell, styles.header)}>
-                            {/* FIXME: Add translations */}
-                            Other
+                            {strings.otherHeader}
                         </div>
                         <NumberInput
                             className={styles.cell}
@@ -755,8 +733,7 @@ function DisaggregationInput(props: Props) {
                     </div>
                     <div className={styles.row}>
                         <div className={_cs(styles.cell, styles.header)}>
-                            {/* FIXME: Add translations */}
-                            Total
+                            {strings.totalHeader}
                         </div>
                         <NumberOutput
                             className={_cs(styles.cell, styles.output)}

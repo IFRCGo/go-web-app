@@ -17,18 +17,18 @@ import TableActions from '#components/Table/TableActions';
 import Link from '#components/Link';
 import Modal from '#components/Modal';
 import Message from '#components/Message';
+import DrefShareModal from '#components/domain/DrefShareModal';
+import { type components } from '#generated/types';
 import useBooleanState from '#hooks/useBooleanState';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import { useLazyRequest } from '#utils/restRequest';
 import { DREF_STATUS_IN_PROGRESS } from '#utils/constants';
-import { type components } from '#generated/types';
 
 import DrefExportModal from './DrefExportModal';
+import { exportDrefAllocation } from './drefAllocationExport';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-import DrefShareModal from './DrefShareModal';
-import { exportDrefAllocation } from './drefAllocationExport';
 
 type DrefStatus = components<'read'>['schemas']['OperationTypeEnum'];
 
@@ -120,6 +120,7 @@ function DrefTableActions(props: Props) {
                 disasterType: response?.disaster_type_details?.name,
                 responseType:
                     response?.type_of_dref_display === 'Imminent'
+                    // FIXME: can't compare imminent with Imminent Crisis directly
                         ? 'Imminent Crisis'
                         : response?.type_of_onset_display,
                 noOfPeopleTargeted: response?.number_of_people_targeted,
@@ -131,6 +132,7 @@ function DrefTableActions(props: Props) {
                 totalDREFAllocation: response?.total_dref_allocation,
                 toBeAllocatedFrom:
                     response?.type_of_dref_display === 'Imminent'
+                    // FIXME: can't compare imminent with Anticipatory Pillar
                         ? 'Anticipatory Pillar'
                         : 'Response Pillar',
                 focalPointName: response?.regional_focal_point_name,
@@ -250,8 +252,7 @@ function DrefTableActions(props: Props) {
             value: { messageForNotification },
         }) => {
             alert.show(
-                // FIXME: use translations
-                'Could not create new operational update',
+                strings.drefAccountCouldNotCreate,
                 {
                     description: messageForNotification,
                     variant: 'danger',
@@ -278,8 +279,7 @@ function DrefTableActions(props: Props) {
             value: { messageForNotification },
         }) => {
             alert.show(
-                // FIXME: use translations
-                'Could not create final report',
+                strings.drefAccountCouldNotCreateFinalReport,
                 {
                     description: messageForNotification,
                     variant: 'danger',
@@ -376,7 +376,7 @@ function DrefTableActions(props: Props) {
                             name={undefined}
                             type="confirm-button"
                             icons={<CheckLineIcon className={styles.icon} />}
-                            confirmMessage="You're about to Approve this DREF. Once approved, it can no longer be edited. Are you sure, you want to Approve?"
+                            confirmMessage={strings.drefAccountConfirmMessage}
                             onConfirm={handlePublishClick}
                             disabled={disabled}
                             persist

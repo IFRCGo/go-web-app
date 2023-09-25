@@ -9,6 +9,7 @@
         "allThreeWActivityCountry": "Country",
         "allThreeWActivityRegion": "Province / Region",
         "allThreeWActivityStatus": "Status",
-        "allThreeWActivityPeopleReached": "Services provided to people in need"
+        "allThreeWActivityPeopleReached": "Services provided to people in need",
+        "allThreeWCountry": "Country"
     }
 }

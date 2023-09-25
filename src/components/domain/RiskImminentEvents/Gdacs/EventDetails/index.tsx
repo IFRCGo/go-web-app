@@ -1,10 +1,13 @@
+import { isDefined } from '@togglecorp/fujs';
+
 import BlockLoading from '#components/BlockLoading';
 import Container from '#components/Container';
 import Link from '#components/Link';
 import TextOutput from '#components/TextOutput';
 import { type RiskApiResponse } from '#utils/restRequest';
-import { isDefined } from '@togglecorp/fujs';
+import useTranslation from '#hooks/useTranslation';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type GdacsResponse = RiskApiResponse<'/api/v1/gdacs/'>;
@@ -78,6 +81,8 @@ function EventDetails(props: Props) {
         pending,
     } = props;
 
+    const strings = useTranslation(i18n);
+
     const populationExposure = exposure?.population_exposure as GdacsPopulationExposure | undefined;
     const eventDetails = event_details as GdacsEventDetails | undefined;
 
@@ -90,8 +95,7 @@ function EventDetails(props: Props) {
             spacing="compact"
             headerDescription={(
                 <TextOutput
-                    // FIXME: use translation
-                    label="Started on"
+                    label={strings.eventStartOnLabel}
                     value={start_date}
                     valueType="date"
                     strongValue
@@ -101,8 +105,7 @@ function EventDetails(props: Props) {
             {pending && <BlockLoading />}
             {isDefined(eventDetails?.url) && (
                 <Container
-                    // FIXME: use translation
-                    heading="Useful links:"
+                    heading={strings.usefulLinksHeading}
                     headingLevel={5}
                     childrenContainerClassName={styles.usefulLinksContent}
                     spacing="compact"
@@ -113,8 +116,7 @@ function EventDetails(props: Props) {
                             external
                             withLinkIcon
                         >
-                            {/* FIXME: use translation */}
-                            More Details
+                            {strings.eventMoreDetailsLink}
                         </Link>
                     )}
                     {isDefined(eventDetails?.url.geometry) && (
@@ -123,8 +125,7 @@ function EventDetails(props: Props) {
                             external
                             withLinkIcon
                         >
-                            {/* FIXME: use translation */}
-                            Geometry
+                            {strings.eventGeometryLink}
                         </Link>
                     )}
                     {isDefined(eventDetails?.url.report) && (
@@ -133,8 +134,7 @@ function EventDetails(props: Props) {
                             external
                             withLinkIcon
                         >
-                            {/* FIXME: use translation */}
-                            Report
+                            {strings.eventReportLink}
                         </Link>
                     )}
                 </Container>
@@ -142,52 +142,45 @@ function EventDetails(props: Props) {
             <div className={styles.eventDetails}>
                 {isDefined(eventDetails?.source) && (
                     <TextOutput
-                        // FIXME: use translation
-                        label="Source"
+                        label={strings.eventSourceLabel}
                         value={eventDetails?.source}
                     />
                 )}
                 {isDefined(populationExposure?.death) && (
                     <TextOutput
-                        // FIXME: use translation
-                        label="Death"
+                        label={strings.eventDeathLabel}
                         value={populationExposure?.death}
                         valueType="number"
                     />
                 )}
                 {isDefined(populationExposure?.displaced) && (
                     <TextOutput
-                        // FIXME: use translation
-                        label="Displaced"
+                        label={strings.eventDisplacedLabel}
                         value={populationExposure?.displaced}
                         valueType="number"
                     />
                 )}
                 {isDefined(populationExposure?.exposed_population) && (
                     <TextOutput
-                        // FIXME: use translation
-                        label="Population exposed"
+                        label={strings.eventPopulationLabel}
                         value={populationExposure?.exposed_population}
                     />
                 )}
                 {isDefined(populationExposure?.people_affected) && (
                     <TextOutput
-                        // FIXME: use translation
-                        label="People affected"
+                        label={strings.eventPeopleAffectedLabel}
                         value={populationExposure?.people_affected}
                     />
                 )}
                 {isDefined(populationExposure?.impact) && (
                     <TextOutput
-                        // FIXME: use translation
-                        label="Impact"
+                        label={strings.eventImpactLabel}
                         value={populationExposure?.impact}
                     />
                 )}
                 {isDefined(eventDetails?.severitydata) && (
                     <TextOutput
-                        // FIXME: use translation
-                        label="Severity"
+                        label={strings.eventSeverityLabel}
                         value={eventDetails?.severitydata?.severitytext}
                     />
                 )}

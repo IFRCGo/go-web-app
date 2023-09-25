@@ -129,12 +129,12 @@ function Operation(props: Props) {
             value?.girls,
             value?.boys,
         ]) !== value?.total_targeted_population) {
-            // FIXME: use Translations
-            w.push('Total targeted population is not equal to sum of other population fields');
+            w.push(strings.drefOperationalUpdateFormTotalTargetedPopulation);
         }
 
         return w;
     }, [
+        strings,
         value?.women,
         value?.men,
         value?.girls,
@@ -153,13 +153,13 @@ function Operation(props: Props) {
         const totalBudget = sumSafe(value?.planned_interventions?.map((item) => item.budget));
 
         if (totalBudget !== value?.total_dref_allocation) {
-            // FIXME: use translations
-            w.push('Total DREF allocation is not equal to sum of other budget fields');
+            w.push(strings.drefOperationalUpdateFormTotalDrefAllocation);
         }
         return w;
     }, [
         value?.total_dref_allocation,
         value?.planned_interventions,
+        strings,
     ]);
 
     const interventionMap = useMemo(() => (

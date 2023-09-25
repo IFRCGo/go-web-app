@@ -54,8 +54,8 @@ function MapContainerWithDisclaimer(props: Props) {
                             <Link
                                 href="https://www.mapbox.com/about/maps/"
                                 external
-                                title="Mapbox"
-                                aria-label="Mapbox"
+                                title={strings.mapContainerMapbox}
+                                aria-label={strings.mapContainerMapbox}
                                 role="listitem"
                                 withLinkIcon
                             >
@@ -64,8 +64,8 @@ function MapContainerWithDisclaimer(props: Props) {
                             <Link
                                 href="https://www.openstreetmap.org/about/"
                                 external
-                                title="OpenStreetMap"
-                                aria-label="OpenStreetMap"
+                                title={strings.mapContainerOpenStreetMap}
+                                aria-label={strings.mapContainerOpenStreetMap}
                                 role="listitem"
                                 withLinkIcon
                             >
@@ -75,7 +75,7 @@ function MapContainerWithDisclaimer(props: Props) {
                                 className="mapbox-improve-map"
                                 href={`https://apps.mapbox.com/feedback/?owner=go-ifrc&amp;id=ckrfe16ru4c8718phmckdfjh0&amp;access_token=${mbtoken}`}
                                 external
-                                title="Map feedback"
+                                title={strings.feedbackAriaLabel}
                                 aria-label={strings.feedbackAriaLabel}
                                 role="listitem"
                                 withLinkIcon

@@ -1,0 +1,8 @@
+{
+    "namespace": "countryPlan",
+    "strings": {
+        "countryPlanStrategicPriority": "Strategic Priority",
+        "countryPlanKeyFigurePeopleTargeted": "People Targeted",
+        "countryPlanStrategicPrioritiesTableHeading": "Strategic Priorities"
+    }
+}

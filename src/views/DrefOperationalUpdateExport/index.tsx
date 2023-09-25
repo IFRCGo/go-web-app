@@ -215,7 +215,7 @@ export function Component() {
                 <img
                     className={styles.ifrcLogo}
                     src={ifrcLogo}
-                    alt="IFRC"
+                    alt={strings.drefOperationalImageAlt}
                 />
                 <Header
                     heading={strings.exportTitle}
@@ -588,7 +588,7 @@ export function Component() {
                                     <img
                                         className={styles.icon}
                                         src={identifiedNeed.image_url}
-                                        alt=""
+                                        alt={strings.drefOperationalImageAlt}
                                     />
                                 )}
                             >
@@ -764,10 +764,10 @@ export function Component() {
                             headingLevel={4}
                         >
                             <div className={styles.riskTitle}>
-                                Risk
+                                {strings.drefOperationalRisk}
                             </div>
                             <div className={styles.mitigationTitle}>
-                                Mitigation
+                                {strings.drefOperationalMitigation}
                             </div>
                             {drefResponse?.risk_security?.map(
                                 (riskSecurity) => (
@@ -812,7 +812,7 @@ export function Component() {
                                     <img
                                         className={styles.icon}
                                         src={plannedIntervention.image_url}
-                                        alt=""
+                                        alt={strings.drefOperationalOtherImageAlt}
                                     />
                                 )}
                                 heading={plannedIntervention.title_display}

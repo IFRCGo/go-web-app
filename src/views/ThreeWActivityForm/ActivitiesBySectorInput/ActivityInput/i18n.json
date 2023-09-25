@@ -1,0 +1,27 @@
+{
+    "namespace": "threeWActivityForm",
+    "strings": {
+        "deleteActivityTitle": "Delete activity",
+        "customActivityHeading": "Custom Activity",
+        "deleteButton": "Delete",
+        "activityTitleLabel": "Activity Title",
+        "detailedReportingLabel": "Detailed Reporting",
+        "householdsCountLabel": "Households",
+        "peopleCountLabel": "People",
+        "rowOrLabel": "OR",
+        "maleCountLabel": "Male",
+        "femaleCountLabel": "Female",
+        "peopleReachedLabel": "No data on people reached",
+        "beneficiariesCountLabel": "Number of Beneficiaries",
+        "amountLabel": "Amount in CHF",
+        "pointCountLabel": "No of Locations",
+        "locationsContainerHeading": "Locations",
+        "locationsButtonTitle": "Add locations",
+        "addLocationButtonLabel": "Add Location",
+        "suppliesContainerHeading": "Supplies",
+        "addActionButtonLabel": "Add Action Supply",
+        "customSuppliesContainerHeading": "Custom Supplies",
+        "addCustomSupplyButtonTitle": "Add custom supply",
+        "activityDetailsLabel": "Activity Details"
+    }
+}

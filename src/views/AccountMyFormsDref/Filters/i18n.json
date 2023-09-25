@@ -1,5 +1,5 @@
 {
-    "namespace": "accountDrefApplications",
+    "namespace": "accountMyFormsDref",
     "strings": {
         "filterCountryPlaceholder": "All countries",
         "filterTypeOfDrefPlaceholder": "All type of DREFs",

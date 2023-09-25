@@ -6,10 +6,10 @@ import {
     mapToList,
 } from '@togglecorp/fujs';
 import { SearchLineIcon } from '@ifrc-go/icons';
-import { sumSafe } from '#utils/common';
 
-import useRouting from '#hooks/useRouting';
 import SearchSelectInput from '#components/SearchSelectInput';
+import useRouting from '#hooks/useRouting';
+import { sumSafe, defaultRanking } from '#utils/common';
 import {
     useRequest,
     type GoApiUrlQuery,
@@ -18,7 +18,6 @@ import {
 import useDebouncedValue from '#hooks/useDebouncedValue';
 import useTranslation from '#hooks/useTranslation';
 import { KEY_URL_SEARCH } from '#utils/constants';
-import { defaultRanking } from '#views/Search';
 
 import { type WrappedRoutes } from '../../../App/routes';
 

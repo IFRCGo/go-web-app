@@ -28,6 +28,7 @@ import NonFieldError from '#components/NonFieldError';
 import Message from '#components/Message';
 import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage';
 import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
+import DrefShareModal from '#components/domain/DrefShareModal';
 import {
     useRequest,
     useLazyRequest,
@@ -43,9 +44,6 @@ import {
     NUM,
 } from '#utils/restRequest/error';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
-
-// FIXME: We should not import from views
-import DrefShareModal from '#views/AccountMyFormsDref/DrefTableActions/DrefShareModal';
 
 import finalReportSchema, {
     type FinalReportRequestBody,

@@ -1,6 +1,9 @@
 {
-    "namespace": "globalThreeWMap",
+    "namespace": "globalThreeW",
     "strings": {
-        "multipleTypesLegend": "Multiple types"
+        "multipleTypesLegend": "Multiple types",
+        "ongoingProjectsMap": "Ongoing Projects",
+        "mapTargetedPopulation": "Targeted Population",
+        "mapTopProjectSectors": "Top Project Sectors"
     }
 }

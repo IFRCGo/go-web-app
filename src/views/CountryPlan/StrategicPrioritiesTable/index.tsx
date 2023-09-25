@@ -7,7 +7,7 @@ import { createNumberColumn, createStringColumn } from '#components/Table/Column
 import { numericIdSelector } from '#utils/selectors';
 import { type GoApiResponse } from '#utils/restRequest';
 
-import i18n from '../i18n.json';
+import i18n from './i18n.json';
 
 type GetCountryPlanResponse = GoApiResponse<'/api/v2/country-plan/{country}/'>;
 

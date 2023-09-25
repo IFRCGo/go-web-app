@@ -129,12 +129,12 @@ function Operation(props: Props) {
             value?.girls,
             value?.boys,
         ]) !== value?.total_targeted_population) {
-            // FIXME: use Translations
-            w.push('Total targeted population is not equal to sum of other population fields');
+            w.push(strings.drefFinalReportTotalTargeted);
         }
 
         return w;
     }, [
+        strings,
         value?.women,
         value?.men,
         value?.girls,

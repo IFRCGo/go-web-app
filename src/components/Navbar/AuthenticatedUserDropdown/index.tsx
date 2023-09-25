@@ -42,7 +42,7 @@ function AuthenticatedUserDropdown(props: Props) {
             label={(
                 userMe
                     ? getUserName(userMe)
-                    : userDetails.displayName ?? 'Anonymous'
+                    : userDetails.displayName ?? strings.userDisplayNameAnonymous
             )}
             variant="tertiary"
             persistent

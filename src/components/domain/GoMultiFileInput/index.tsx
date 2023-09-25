@@ -4,20 +4,21 @@ import {
     isDefined,
     isNotDefined,
 } from '@togglecorp/fujs';
+import { DeleteBinFillIcon } from '@ifrc-go/icons';
 import { nonFieldError } from '@togglecorp/toggle-form';
 
-import { transformObjectError } from '#utils/restRequest/error';
+import Button from '#components/Button';
 import InputError from '#components/InputError';
 import Link from '#components/Link';
 import { NameType } from '#components/types';
 import type { ButtonVariant } from '#components/Button';
 import RawFileInput, { RawFileInputProps } from '#components/RawFileInput';
 import { useLazyRequest } from '#utils/restRequest';
+import { transformObjectError } from '#utils/restRequest/error';
 import useAlert from '#hooks/useAlert';
+import useTranslation from '#hooks/useTranslation';
 
-import { DeleteBinFillIcon } from '@ifrc-go/icons';
-import Button from '#components/Button';
-
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export type SupportedPaths = '/api/v2/per-file/multiple/' | '/api/v2/dref-files/multiple/' | '/api/v2/flash-update-file/multiple/';
@@ -76,6 +77,7 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
         description,
     } = props;
 
+    const strings = useTranslation(i18n);
     const alert = useAlert();
 
     const {
@@ -130,8 +132,7 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
                     : err?.file
             );
             alert.show(
-                // FIXME use translation
-                'Failed to upload the file!',
+                strings.goMultiFailedUploadMessage,
                 {
                     variant: 'danger',
                     description: serverErrorMessage,
@@ -206,8 +207,7 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
                                     variant="tertiary"
                                     className={styles.deleteIcon}
                                     onClick={handleFileRemove}
-                                    // FIXME: use translations
-                                    title="Delete"
+                                    title={strings.goMultiDeleteButton}
                                 >
                                     <DeleteBinFillIcon />
                                 </Button>

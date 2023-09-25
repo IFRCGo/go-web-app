@@ -11,9 +11,10 @@ import NonFieldError from '#components/NonFieldError';
 import TextArea from '#components/TextArea';
 import Button from '#components/Button';
 import InputSection from '#components/InputSection';
+import useTranslation from '#hooks/useTranslation';
 
 import { type PartialDref } from '../../schema';
-
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type NsActionFormFields = NonNullable<PartialDref['national_society_actions']>[number];
@@ -42,6 +43,8 @@ function NsActionInput(props: Props) {
         onRemove,
         disabled,
     } = props;
+
+    const strings = useTranslation(i18n);
 
     const onFieldChange = useFormObject(index, onChange, defaultNsActionValue);
 
@@ -75,8 +78,7 @@ function NsActionInput(props: Props) {
                 name={index}
                 onClick={onRemove}
                 variant="tertiary"
-                // TODO: use translations
-                title="Remove Action"
+                title={strings.drefApplicationNSActionRemoveNeed}
                 disabled={disabled}
             >
                 <DeleteBinTwoLineIcon />

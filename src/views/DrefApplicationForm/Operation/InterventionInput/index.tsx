@@ -129,8 +129,7 @@ function InterventionInput(props: Props) {
                     disabled={disabled}
                     icons={<DeleteBinTwoLineIcon />}
                 >
-                    {/* FIXME: use translation */}
-                    Remove Intervention
+                    {strings.drefFormRemoveIntervention}
                 </Button>
             </div>
             <NonFieldError error={error} />

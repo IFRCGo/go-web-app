@@ -16,7 +16,8 @@
         "situationFieldsEWHighestRiskLabel": "People at Highest Risk",
         "situationFieldsEWPotentiallyAffectedDescription": "Number of people that are located in the geographic area where the hazard is likely to impact",
         "situationFieldsEWPotentiallyAffectedLabel": "Potentially Affected",
-        "riskAnalysisEstimationPlaceholder": "Estimation"
+        "riskAnalysisEstimationPlaceholder": "Estimation",
+        "fieldReportNumericDetails": "Numeric Details (People)"
     }
 }
 

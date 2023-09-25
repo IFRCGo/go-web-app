@@ -18,6 +18,7 @@ import Container from '#components/Container';
 import Button from '#components/Button';
 import Checkbox from '#components/Checkbox';
 import { type GoApiResponse } from '#utils/restRequest';
+import useTranslation from '#hooks/useTranslation';
 
 import ActivityInput from './ActivityInput';
 import {
@@ -25,6 +26,7 @@ import {
     type FormType,
 } from '../schema';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type Options = GoApiResponse<'/api/v2/emergency-project/options/'>;
@@ -51,6 +53,8 @@ function ActivitiesBySectorInput(props: Props) {
         setFieldValue,
         disabled,
     } = props;
+
+    const strings = useTranslation(i18n);
 
     const selectedActions = useMemo(() => (
         listToMap(
@@ -186,8 +190,7 @@ function ActivitiesBySectorInput(props: Props) {
                         <AddLineIcon />
                     )}
                 >
-                    {/* FIXME: Add translations */}
-                    Add custom activity
+                    {strings.addCustomActivity}
                 </Button>
             </div>
             {actionActivities?.map((activity) => (

@@ -10,12 +10,13 @@ import Container from '#components/Container';
 import DateInput from '#components/DateInput';
 import SelectInput from '#components/SelectInput';
 import TextArea from '#components/TextArea';
+import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
+import NonFieldError from '#components/NonFieldError';
 import useTranslation from '#hooks/useTranslation';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import { stringValueSelector } from '#utils/selectors';
-import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
 import { type GoApiResponse } from '#utils/restRequest';
-import NonFieldError from '#components/NonFieldError';
+import { stringValueSelector } from '#utils/selectors';
+import { resolveToString } from '#utils/translation';
 
 import { type PartialWorkPlan } from '../schema';
 
@@ -70,10 +71,22 @@ function PrioritizedActionInput(props: Props) {
     return (
         <Container
             className={styles.prioritizedActionInput}
-            // FIXME: use translations
             heading={isTruthyString(component.component_letter)
-                ? `${component.component_num}(${component.component_letter}). ${component.title}`
-                : `${component.component_num}. ${component.title}`}
+                ? resolveToString(
+                    strings.componentHeading,
+                    {
+                        componentNumber: component.component_num,
+                        componentLetter: component.component_letter,
+                        componentTitle: component.title,
+                    },
+                )
+                : resolveToString(
+                    strings.componentHeadingOther,
+                    {
+                        componentNumber: component.component_num,
+                        componentTitle: component.title,
+                    },
+                )}
             headingLevel={4}
             spacing="compact"
             childrenContainerClassName={styles.content}

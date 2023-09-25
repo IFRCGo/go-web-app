@@ -96,8 +96,7 @@ function EventItemsTable(props: Props) {
             ),
             createNumberColumn<EventListItem, number>(
                 'num_affected',
-                // FIXME: use translations
-                '# Affected',
+                strings.regionEmergenciesTableNumberAffected,
                 (item) => item.num_affected,
                 { sortable: true },
             ),

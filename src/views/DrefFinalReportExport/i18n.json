@@ -1,6 +1,7 @@
 {
     "namespace": "drefFinalReportExport",
     "strings": {
+        "drefApplicationFormImageAlt": "Image",
         "exportTitle": "DREF Final Report",
         "appealLabel": "Appeal",
         "countryLabel": "Country",

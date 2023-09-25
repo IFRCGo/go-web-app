@@ -124,8 +124,7 @@ function Operation(props: Props) {
         const w = [];
 
         if (value?.num_assisted !== value?.total_targeted_population) {
-            // FIXME: use Translations
-            w.push('Total targeted population is different from that in Operation Overview');
+            w.push(strings.drefFormTotalTargeted);
         }
 
         if (sumSafe([
@@ -134,12 +133,12 @@ function Operation(props: Props) {
             value?.girls,
             value?.boys,
         ]) !== value?.total_targeted_population) {
-            // FIXME: use Translations
-            w.push('Total targeted population is not equal to sum of other population fields');
+            w.push(strings.drefFormTotalTargetedPopulation);
         }
 
         return w;
     }, [
+        strings,
         value?.num_assisted,
         value?.women,
         value?.men,

@@ -3,10 +3,13 @@ import { ElementRef, useRef } from 'react';
 import useChartData from '#hooks/useChartData';
 import ChartAxisX from '#components/ChartAxisX';
 import ChartAxisY from '#components/ChartAxisY';
+import useTranslation from '#hooks/useTranslation';
 import { formatDate } from '#utils/common';
 import { type GoApiResponse } from '#utils/restRequest';
 import { getDiscretePathDataList } from '#utils/chart';
+import { resolveToString } from '#utils/translation';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type LatestPerResponse = GoApiResponse<'/api/v2/latest-per-overview/'>;
@@ -18,6 +21,7 @@ interface Props {
 
 function PreviousAssessmentCharts(props: Props) {
     // FIXME: we need rating_display for average_rating
+    const strings = useTranslation(i18n);
     const { data } = props;
     const containerRef = useRef<ElementRef<'div'>>(null);
 
@@ -29,8 +33,13 @@ function PreviousAssessmentCharts(props: Props) {
         containerRef,
         {
             xValueSelector: (datum) => datum.assessment_number,
-            // FIXME: use translations
-            xAxisLabelFormatter: (datum) => `Cycle ${datum.assessment_number} (${formatDate(datum.date_of_assessment, 'yyyy')})`,
+            xAxisLabelFormatter: (datum) => resolveToString(
+                strings.cycleLabel,
+                {
+                    assessmentNumber: datum.assessment_number,
+                    assessmentDate: formatDate(datum.date_of_assessment, 'yyyy'),
+                },
+            ),
             yValueSelector: (datum) => datum.average_rating ?? 0,
             keySelector: (datum) => datum.date_of_assessment,
             maxYValue: 5,
@@ -74,8 +83,13 @@ function PreviousAssessmentCharts(props: Props) {
                             cy={point.y}
                         >
                             <title>
-                                {/* FIXME: use translation */}
-                                {`Assessment: ${point.xValue}, Rating: ${point.yValue ?? '-'}`}
+                                {resolveToString(
+                                    strings.assessmentLabel,
+                                    {
+                                        xValue: point.xValue,
+                                        yValue: point.yValue ?? '-',
+                                    },
+                                )}
                             </title>
                         </circle>
                     ),

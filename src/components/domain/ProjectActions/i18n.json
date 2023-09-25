@@ -1,5 +1,5 @@
 {
-    "namespace": "countryThreeWProjects",
+    "namespace": "common",
     "strings": {
         "projectViewDetails": "View Project Details",
         "actionDropdownEditLabel": "Edit Project",

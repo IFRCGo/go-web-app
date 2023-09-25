@@ -13,7 +13,9 @@ import {
     GoApiBody,
 } from '#utils/restRequest';
 import { numericIdSelector, stringNameSelector } from '#utils/selectors';
+import useTranslation from '#hooks/useTranslation';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type ShareRequestBody = GoApiBody<'/api/v2/share-flash-update/', 'POST'>;
@@ -28,6 +30,8 @@ function FlashUpdateShareModal(props: Props) {
         id,
         onClose,
     } = props;
+
+    const strings = useTranslation(i18n);
 
     const [donors, setDonors] = useInputState<number[] | undefined>(undefined);
     const [donorGroups, setDonorGroups] = useInputState<number[] | undefined>(undefined);
@@ -57,7 +61,7 @@ function FlashUpdateShareModal(props: Props) {
         url: '/api/v2/share-flash-update/',
         onSuccess: () => {
             alert.show(
-                'Flash Update shared successfully!',
+                strings.flashUpdateSharedSuccessfully,
                 { variant: 'success' },
             );
             onClose();
@@ -82,8 +86,7 @@ function FlashUpdateShareModal(props: Props) {
 
     return (
         <Modal
-            // FIXME: use translation
-            heading="Share Flash Update"
+            heading={strings.flashUpdateShareTitle}
             onClose={onClose}
             footerActions={(
                 <Button
@@ -94,8 +97,7 @@ function FlashUpdateShareModal(props: Props) {
                         || donorResponsePending
                         || donorGroupResponsePending}
                 >
-                    {/* FIXME: use translation */}
-                    Share
+                    {strings.flashUpdateShareButtonLabel}
                 </Button>
             )}
             contentViewType="vertical"
@@ -112,8 +114,7 @@ function FlashUpdateShareModal(props: Props) {
                         </div>
                     )}
                     <MultiSelectInput
-                        // FIXME: use translation
-                        label="Select Donors"
+                        label={strings.flashUpdateSelectDonors}
                         value={donors}
                         onChange={setDonors}
                         options={donorResponse?.results}
@@ -122,8 +123,7 @@ function FlashUpdateShareModal(props: Props) {
                         name={undefined}
                     />
                     <MultiSelectInput
-                        // FIXME: use translation
-                        label="Select Donor Groups"
+                        label={strings.flashUpdateSelectDonorsGroup}
                         value={donorGroups}
                         onChange={setDonorGroups}
                         options={donorGroupResponse?.results}

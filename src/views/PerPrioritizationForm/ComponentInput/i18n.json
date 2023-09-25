@@ -1,5 +1,5 @@
 {
-    "namespace": "componentInput",
+    "namespace": "perPrioritizationForm",
     "strings": {
         "notReviewed": "0 - Not reviewed",
         "benchmarksAssessed": "{count} benchmarks assessed",

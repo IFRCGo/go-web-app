@@ -23,6 +23,7 @@
         "threeWTablePeopleReached": "Services Provided to People in Need",
         "otherNSProjects": "Projects by Other NS ({count})",
         "programmeType": "Programme Type",
-        "projectStatus": "Project Status"
+        "projectStatus": "Project Status",
+        "countryThreeWDataNotAvailable": "Data not available!"
     }
 }

@@ -33,6 +33,7 @@ import FormFailedToLoadMessage from '#components/domain/FormFailedToLoadMessage'
 import NonEnglishFormCreationMessage from '#components/domain/NonEnglishFormCreationMessage';
 import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import { type Props as ButtonProps } from '#components/Button';
+import DrefShareModal from '#components/domain/DrefShareModal';
 import {
     useRequest,
     useLazyRequest,
@@ -48,9 +49,6 @@ import {
     matchArray,
     NUM,
 } from '#utils/restRequest/error';
-
-// FIXME: We should not import from views
-import DrefShareModal from '#views/AccountMyFormsDref/DrefTableActions/DrefShareModal';
 
 import drefSchema, {
     type DrefRequestPostBody,

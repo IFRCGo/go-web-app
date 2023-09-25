@@ -1,5 +1,5 @@
 {
-    "namespace": "accountInformation",
+    "namespace": "accountDetails",
     "strings": {
         "accountInformationHeading": "Account Information",
         "usernameLabel": "Username",

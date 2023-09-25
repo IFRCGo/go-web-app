@@ -33,38 +33,6 @@ function viewKeySelector(option: ViewOption) {
 }
 
 type HazardType = components<'read'>['schemas']['HazardTypeEnum'];
-const riskHazards: Array<{
-    key: HazardType,
-    label: string,
-    icon: React.ReactNode,
-}> = [
-    // FIXME: use translation
-    {
-        key: 'FL',
-        label: 'Flood',
-        icon: <FloodIcon className={styles.icon} />,
-    },
-    {
-        key: 'TC',
-        label: 'Storm',
-        icon: <CycloneIcon className={styles.icon} />,
-    },
-    {
-        key: 'EQ',
-        label: 'Earthquake',
-        icon: <EarthquakeIcon className={styles.icon} />,
-    },
-    {
-        key: 'DR',
-        label: 'Drought',
-        icon: <DroughtIcon className={styles.icon} />,
-    },
-    {
-        key: 'WF',
-        label: 'Wildfire',
-        icon: <ForestFireIcon className={styles.icon} />,
-    },
-];
 
 type BaseProps = {
     className?: string;
@@ -95,6 +63,41 @@ function RiskImminentEvents(props: Props) {
             { key: 'wfpAdam', label: strings.imminentEventsSourceWfpAdamLabel },
             { key: 'gdacs', label: strings.imminentEventsSourceGdacsLabel },
             { key: 'meteoSwiss', label: strings.imminentEventsSourceMeteoSwissLabel },
+        ],
+        [strings],
+    );
+
+    const riskHazards: Array<{
+        key: HazardType,
+        label: string,
+        icon: React.ReactNode,
+    }> = useMemo(
+        () => [
+            {
+                key: 'FL',
+                label: strings.imminentEventsFlood,
+                icon: <FloodIcon className={styles.icon} />,
+            },
+            {
+                key: 'TC',
+                label: strings.imminentEventsStorm,
+                icon: <CycloneIcon className={styles.icon} />,
+            },
+            {
+                key: 'EQ',
+                label: strings.imminentEventsEarthquake,
+                icon: <EarthquakeIcon className={styles.icon} />,
+            },
+            {
+                key: 'DR',
+                label: strings.imminentEventsDrought,
+                icon: <DroughtIcon className={styles.icon} />,
+            },
+            {
+                key: 'WF',
+                label: strings.imminentEventsWildfire,
+                icon: <ForestFireIcon className={styles.icon} />,
+            },
         ],
         [strings],
     );
@@ -133,8 +136,7 @@ function RiskImminentEvents(props: Props) {
                     className={styles.wikiIcon}
                     external
                     href={`https://go-wiki.ifrc.org/${lang}/user_guide/risk_module#imminent-events`}
-                    // FIXME: use translations
-                    title="Wiki"
+                    title={strings.imminentEventLinkTitle}
                 >
                     <WikiHelpSectionLineIcon />
                 </Link>

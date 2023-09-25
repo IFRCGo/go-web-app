@@ -12,9 +12,11 @@ import NonFieldError from '#components/NonFieldError';
 import TextArea from '#components/TextArea';
 import Button from '#components/Button';
 import InputSection from '#components/InputSection';
+import useTranslation from '#hooks/useTranslation';
 
 import { type PartialDref } from '../../schema';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type NeedFormFields = NonNullable<PartialDref['needs_identified']>[number];
@@ -42,6 +44,8 @@ function NeedInput(props: Props) {
         onRemove,
         disabled,
     } = props;
+
+    const strings = useTranslation(i18n);
 
     const onFieldChange = useFormObject(index, onChange, defaultNeedValue);
 
@@ -75,8 +79,7 @@ function NeedInput(props: Props) {
                 name={index}
                 onClick={onRemove}
                 variant="tertiary"
-                // FIXME: use translations
-                title="Remove Need"
+                title={strings.drefApplicationRemoveNeed}
                 disabled={disabled}
             >
                 <DeleteBinTwoLineIcon />

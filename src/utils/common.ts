@@ -14,10 +14,15 @@ import {
     randomString,
 } from '@togglecorp/fujs';
 import { type Language } from '#contexts/language';
+import type { GoApiResponse } from '#utils/restRequest';
 
 import { DEFAULT_DATE_FORMAT } from './constants';
 
 export type UnsafeNumberList = Maybe<Maybe<number>[]>;
+
+type SearchResponse = GoApiResponse<'/api/v1/search/'>;
+
+type SearchResponseKeys = keyof SearchResponse;
 
 type DeepNonNullable<T> = T extends object ? (
     T extends (infer K)[] ? (
@@ -577,4 +582,18 @@ export const languageNameMapEn: Record<Language, string> = {
     fr: 'French',
     es: 'Spanish',
     ar: 'Arabic',
+};
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const defaultRanking: Record<SearchResponseKeys, number> = {
+    regions: 1,
+    countries: 2,
+    district_province_response: 3,
+
+    emergencies: 4,
+    projects: 5,
+    surge_alerts: 6,
+    surge_deployments: 7,
+    reports: 8,
+    rapid_response_deployments: 9,
 };

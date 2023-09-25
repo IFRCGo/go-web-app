@@ -8,7 +8,9 @@ import { DeleteBinFillIcon } from '@ifrc-go/icons';
 
 import Button from '#components/Button';
 import { type DistrictItem as DistrictSearchItem } from '#components/domain/DistrictSearchMultiSelectInput';
+import useTranslation from '#hooks/useTranslation';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 interface Props {
@@ -31,6 +33,8 @@ function DistrictItem(props: Props) {
         admin2Options,
         onAdmin2Remove,
     } = props;
+
+    const strings = useTranslation(i18n);
 
     const districtItem = useMemo(
         () => districtOptions?.find((item) => item.id === districtId),
@@ -67,7 +71,7 @@ function DistrictItem(props: Props) {
                     className={styles.removeButton}
                     onClick={onDistrictRemove}
                     variant="tertiary"
-                    // FIXME: add title
+                    title={strings.removeDistrict}
                 >
                     <DeleteBinFillIcon />
                 </Button>
@@ -87,7 +91,7 @@ function DistrictItem(props: Props) {
                                 name={item}
                                 onClick={onAdmin2Remove}
                                 variant="tertiary"
-                                // FIXME: add title
+                                title={strings.removeAdmin2}
                             >
                                 <DeleteBinFillIcon />
                             </Button>
