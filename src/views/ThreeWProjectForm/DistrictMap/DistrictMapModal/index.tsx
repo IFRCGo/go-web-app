@@ -610,7 +610,10 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
                         </>
                     )}
                 >
-                    <MapContainerWithDisclaimer className={styles.mapContainer} />
+                    <MapContainerWithDisclaimer
+                        className={styles.mapContainer}
+                        withoutDownloadButton
+                    />
                     {bounds && (
                         <MapBounds
                             duration={DURATION_MAP_ZOOM}

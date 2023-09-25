@@ -271,7 +271,20 @@ function CountryThreeWMap(props: Props) {
         <div className={_cs(styles.map, className)}>
             <div className={styles.mapWithLegend}>
                 <BaseMap>
-                    <MapContainerWithDisclaimer className={styles.mapContainer} />
+                    <MapContainerWithDisclaimer
+                        className={styles.mapContainer}
+                        footer={operationTypeOptions && operationTypeOptions.length > 0 && (
+                            <div className={styles.legend}>
+                                {operationTypeOptions.map((d) => (
+                                    <LegendItem
+                                        key={d.key}
+                                        label={d.value}
+                                        color={pointColorMap[d.key]}
+                                    />
+                                ))}
+                            </div>
+                        )}
+                    />
                     {programmesGeo && (
                         <MapSource
                             sourceKey="programme-points"
@@ -389,17 +402,6 @@ function CountryThreeWMap(props: Props) {
                         </MapPopup>
                     )}
                 </BaseMap>
-                {operationTypeOptions && operationTypeOptions.length > 0 && (
-                    <div className={styles.legend}>
-                        {operationTypeOptions.map((d) => (
-                            <LegendItem
-                                key={d.key}
-                                label={d.value}
-                                color={pointColorMap[d.key]}
-                            />
-                        ))}
-                    </div>
-                )}
             </div>
             {sidebarContent && (
                 <div className={styles.sidebar}>

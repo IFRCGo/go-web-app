@@ -161,7 +161,27 @@ function EmergencyMap(props: Props) {
                     </>
                 )}
             >
-                <MapContainerWithDisclaimer className={styles.mapContainer} />
+                <MapContainerWithDisclaimer
+                    className={styles.mapContainer}
+                    footer={(
+                        <div className={styles.footer}>
+                            {legendOptions.map((legendItem) => (
+                                <div
+                                    key={legendItem.label}
+                                    className={styles.legendItem}
+                                >
+                                    <div
+                                        className={styles.color}
+                                        style={{ backgroundColor: legendItem.color }}
+                                    />
+                                    <div className={styles.label}>
+                                        {legendItem.label}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                />
                 {isDefined(bounds) && (
                     <MapBounds
                         duration={DURATION_MAP_ZOOM}
@@ -170,22 +190,6 @@ function EmergencyMap(props: Props) {
                     />
                 )}
             </BaseMap>
-            <div className={styles.footer}>
-                {legendOptions.map((legendItem) => (
-                    <div
-                        key={legendItem.label}
-                        className={styles.legendItem}
-                    >
-                        <div
-                            className={styles.color}
-                            style={{ backgroundColor: legendItem.color }}
-                        />
-                        <div className={styles.label}>
-                            {legendItem.label}
-                        </div>
-                    </div>
-                ))}
-            </div>
         </div>
     );
 }
