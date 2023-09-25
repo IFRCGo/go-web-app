@@ -48,8 +48,8 @@
 .map-popup-content {
     .national-society-list {
         display: table;
-        font-size: var(--go-ui-font-size-sm);
         padding: var(--go-ui-spacing-sm);
+        font-size: var(--go-ui-font-size-sm);
 
         .main-text-output {
             display: table-row;
