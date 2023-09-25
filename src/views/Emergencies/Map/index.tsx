@@ -260,7 +260,7 @@ function EmergenciesMap(props: Props) {
                     />
                     <MapLayer
                         key={scaleBy}
-                        layerKey="outer-circle"
+                        layerKey="point-outer-circle"
                         layerOptions={
                             scaleBy === 'numEvents'
                                 ? outerCircleLayerOptionsForNumEvents

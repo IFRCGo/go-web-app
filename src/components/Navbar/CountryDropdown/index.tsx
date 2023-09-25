@@ -132,6 +132,7 @@ function CountryDropdown() {
                             ),
                         )}
                     </TabList>
+                    <div className={styles.regionBorder} />
                     {regionOptions?.map(
                         (region) => (
                             <TabPanel
@@ -151,7 +152,7 @@ function CountryDropdown() {
                                             variant="primary"
                                         >
                                             {/* FIXME: use translation */}
-                                            Go to Region
+                                            {`${region.value} Region`}
                                         </DropdownMenuItem>
                                     )}
                                     headingLevel={4}
@@ -175,6 +176,7 @@ function CountryDropdown() {
                                                 to="countriesLayout"
                                                 urlParams={{ countryId: id }}
                                                 variant="tertiary"
+                                                withLinkIcon
                                             >
                                                 {name}
                                             </DropdownMenuItem>

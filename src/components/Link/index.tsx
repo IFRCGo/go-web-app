@@ -177,7 +177,7 @@ function Link(props: Props) {
         children: childrenFromProps,
         variant,
         ellipsize,
-        disabled: disabled && !nonLink,
+        disabled,
         actions: (isDefined(actions) || withLinkIcon) ? (
             <>
                 {actions}

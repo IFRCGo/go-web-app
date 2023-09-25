@@ -784,7 +784,6 @@ function RiskSeasonalMap(props: Props) {
                         layerKey="admin-0"
                         hoverable
                         layerOptions={layerOptions}
-                        // onClick={handleCountryClick}
                     />
                 )}
             >

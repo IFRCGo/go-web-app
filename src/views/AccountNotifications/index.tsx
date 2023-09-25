@@ -67,7 +67,6 @@ export function Component() {
             <Container
                 className={styles.operationsFollowing}
                 heading={strings.operationFollowingHeading}
-                headerDescription={strings.operationFollowingHeadingDescription}
                 withHeaderBorder
                 footerActions={(
                     <Pager

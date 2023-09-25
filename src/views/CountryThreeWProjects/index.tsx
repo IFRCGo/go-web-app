@@ -308,6 +308,7 @@ export function Component() {
                             value={targetedPopulation}
                             label={strings.targetedPopulationTitle}
                             labelClassName={styles.keyFigureDescription}
+                            compactValue
                         />
                     </div>
                     <div className={styles.keyFigureCard}>
@@ -340,6 +341,7 @@ export function Component() {
                             value={ongoingProjectBudget}
                             label={strings.ongoingProjectBudgetTitle}
                             labelClassName={styles.keyFigureDescription}
+                            compactValue
                         />
                         <div className={styles.separator} />
                         <Container

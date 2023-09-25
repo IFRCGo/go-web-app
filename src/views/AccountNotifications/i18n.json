@@ -1,7 +1,6 @@
 {
     "namespace": "accountNotifications",
     "strings": {
-        "operationFollowingHeading": "Operations Following",
-        "operationFollowingHeadingDescription": "Operations Currently Following"
+        "operationFollowingHeading": "Operations Following"
     }
 }

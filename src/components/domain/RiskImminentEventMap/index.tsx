@@ -238,6 +238,7 @@ function RiskImminentEventMap<
     return (
         <div className={styles.riskImminentEventMap}>
             <BaseMap>
+                <MapContainerWithDisclaimer className={styles.mapContainer} />
                 {hazardKeys.map((key) => {
                     const url = hazardKeyToIconmap[key];
 
@@ -255,7 +256,6 @@ function RiskImminentEventMap<
                         />
                     );
                 })}
-                <MapContainerWithDisclaimer className={styles.mapContainer} />
                 {/* FIXME: footprint layer should always be the bottom layer */}
                 {activeEventFootprint && (
                     <MapSource
