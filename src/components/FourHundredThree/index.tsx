@@ -31,29 +31,29 @@ function FourHundredThree() {
                             403
                         </Heading>
                     </div>
-                    {strings.permissionDenied}
+                    {strings.permissionDeniedHeading}
                 </Heading>
                 <div className={styles.description}>
-                    {strings.pageDescription}
+                    {strings.permissionDeniedPageDescription}
                 </div>
             </div>
             <div className={styles.bottomSection}>
-                {strings.areYouSureUrlIsCorrect}
+                {strings.permissionDeniedAreYouSureUrlIsCorrect}
                 <div className={styles.text}>
                     <Link
                         href="mailto:im@ifrc.org"
                         external
                     >
-                        {strings.getInTouch}
+                        {strings.permissionDeniedGetInTouch}
                     </Link>
                     &nbsp;
-                    {strings.withThePlatformTeam}
+                    {strings.permissionDeniedWithThePlatformTeam}
                 </div>
                 <Link
                     to="home"
                     variant="primary"
                 >
-                    {strings.exploreOurHomepage}
+                    {strings.permissionDeniedExploreOurHomepage}
                 </Link>
             </div>
         </Page>

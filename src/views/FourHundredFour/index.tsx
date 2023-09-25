@@ -39,22 +39,22 @@ export function Component() {
                 </div>
             </div>
             <div className={styles.bottomSection}>
-                {strings.areYouSureUrlIsCorrect}
+                {strings.uhohAreYouSureUrlIsCorrect}
                 <div className={styles.text}>
                     <Link
                         href="mailto:im@ifrc.org"
                         external
                     >
-                        {strings.getInTouch}
+                        {strings.uhohGetInTouch}
                     </Link>
                     &nbsp;
-                    {strings.withThePlatformTeam}
+                    {strings.uhohWithThePlatformTeam}
                 </div>
                 <Link
                     to="home"
                     variant="primary"
                 >
-                    {strings.exploreOurHomepage}
+                    {strings.uhohExploreOurHomepage}
                 </Link>
             </div>
         </Page>

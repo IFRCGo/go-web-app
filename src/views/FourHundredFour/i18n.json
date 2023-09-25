@@ -1,12 +1,12 @@
 {
-    "namespace": "fourHundredFour",
+    "namespace": "common",
     "strings": {
         "uhohPageNotFoundTitle":"IFRC GO - Page not found",
         "uhohPageNotFound":"Page not found",
-        "areYouSureUrlIsCorrect":"Are you sure the URL is correct?",
-        "getInTouch":"Get in touch",
-        "withThePlatformTeam":"with the platform team.",
-        "exploreOurHomepage":"Explore our homepage",
-        "uhohPageDescription":"The requested page does not exist or may have been removed."
+        "uhohPageDescription":"The requested page does not exist or may have been removed.",
+        "uhohAreYouSureUrlIsCorrect":"Are you sure the URL is correct?",
+        "uhohGetInTouch":"Get in touch",
+        "uhohWithThePlatformTeam":"with the platform team.",
+        "uhohExploreOurHomepage":"Explore our homepage"
     }
 }

@@ -34,13 +34,18 @@
     }
 }
 
-.map-popup-content {
-    .stats{
-        display: flex;
-        flex-wrap: wrap;
-        gap: var(--go-ui-spacing-2xs) var(--go-ui-spacing-sm);
-    }
+.stats{
+    display: flex;
+    flex-wrap: wrap;
+    font-size: var(--go-ui-font-size-sm);
+    gap: var(--go-ui-spacing-lg);
 
+    .label {
+        order: 2;
+    }
+}
+
+.map-popup-content {
     .national-society-list {
         display: flex;
         flex-direction: column;

@@ -65,9 +65,8 @@ const fourHundredFour = customWrapRoute({
         render: () => import('#views/FourHundredFour'),
         props: {},
     },
-    wrapperComponent: Auth,
     context: {
-        title: '',
+        title: '404',
         visibility: 'anything',
     },
 });

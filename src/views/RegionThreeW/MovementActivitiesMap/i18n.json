@@ -1,9 +1,9 @@
 {
     "namespace": "regionThreeW",
     "strings": {
-        "plannedProjects": "{count} Planned",
-        "ongoingProjects": "{count} Ongoing",
-        "completedProjects": "{count} Completed",
-        "activeNsCount": "{count} Active National Societies"
+        "plannedProjects": "Planned",
+        "ongoingProjects": "Ongoing",
+        "completedProjects": "Completed",
+        "activeNsCount": "Active National Societies"
     }
 }

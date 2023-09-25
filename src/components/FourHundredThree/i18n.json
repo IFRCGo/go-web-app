@@ -1,12 +1,12 @@
 {
-    "namespace": "fourHundredThree",
+    "namespace": "common",
     "strings": {
         "permissionDeniedPageTitle":"IFRC GO - Permission Denied",
-        "permissionDenied":"Permission Denied",
-        "areYouSureUrlIsCorrect":"Are you sure the you have the right roles?",
-        "getInTouch":"Get in touch",
-        "withThePlatformTeam":"with the platform team.",
-        "exploreOurHomepage":"Explore our homepage",
-        "pageDescription":"Looks like you don't have the correct permissions to view this page."
+        "permissionDeniedHeading":"Permission Denied",
+        "permissionDeniedAreYouSureUrlIsCorrect":"Are you sure the you have the right roles?",
+        "permissionDeniedGetInTouch":"Get in touch",
+        "permissionDeniedWithThePlatformTeam":"with the platform team.",
+        "permissionDeniedExploreOurHomepage":"Explore our homepage",
+        "permissionDeniedPageDescription":"Looks like you don't have the correct permissions to view this page."
     }
 }
