@@ -38,7 +38,7 @@
     display: flex;
     flex-wrap: wrap;
     font-size: var(--go-ui-font-size-sm);
-    gap: var(--go-ui-spacing-lg);
+    gap: var(--go-ui-spacing-xs) var(--go-ui-spacing-lg);
 
     .label {
         order: 2;
@@ -47,8 +47,29 @@
 
 .map-popup-content {
     .national-society-list {
-        display: flex;
-        flex-direction: column;
-        gap: var(--go-ui-spacing-sm);
+        display: table;
+        font-size: var(--go-ui-font-size-sm);
+        padding: var(--go-ui-spacing-sm);
+
+        .main-text-output {
+            display: table-row;
+
+            .main-value,
+            .main-label {
+                display: table-cell;
+            }
+
+            .sector-text-output {
+                display: block;
+
+                >* {
+                    display: inline;
+                }
+
+                .sector-value {
+                    padding: 0 var(--go-ui-spacing-xs);
+                }
+            }
+        }
     }
 }

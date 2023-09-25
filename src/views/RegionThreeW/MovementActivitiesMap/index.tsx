@@ -20,8 +20,7 @@ import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import Link from '#components/Link';
 import RawList from '#components/RawList';
 import MapPopup from '#components/MapPopup';
-import TextOutput from '#components/TextOutput';
-import Container, { Props as ContainerProps } from '#components/Container';
+import TextOutput, { Props as TextOutputProps } from '#components/TextOutput';
 import useCountryRaw, { Country } from '#hooks/domain/useCountryRaw';
 import useTranslation from '#hooks/useTranslation';
 import { numericIdSelector } from '#utils/selectors';
@@ -166,18 +165,23 @@ function MovementActivitiesMap(props: Props) {
     );
 
     const nationalSocietyRendererParams = useCallback(
-        (_: number, val: ReportingNationalSociety): ContainerProps => ({
-            heading: val.name,
-            headingLevel: 5 as const,
-            spacing: 'condensed',
-            contentViewType: 'vertical',
+        (_: number, val: ReportingNationalSociety): TextOutputProps => ({
+            className: styles.mainTextOutput,
+            labelClassName: styles.mainLabel,
+            strongLabel: true,
+            valueClassName: styles.mainValue,
+            withoutLabelColon: true,
+            label: val.name,
             // FIXME a separate component should be created
-            children: val.sectors.map((sector) => (
+            value: val.sectors.map((sector) => (
                 <TextOutput
+                    className={styles.sectorTextOutput}
+                    valueClassName={styles.sectorValue}
                     key={sector.id}
                     label={sector.sector}
                     value={sector.count}
                     strongValue
+                    withoutLabelColon
                 />
             )),
         }),
@@ -275,7 +279,7 @@ function MovementActivitiesMap(props: Props) {
                                 <RawList
                                     data={activeNSinSelectedCountry
                                         ?.reporting_national_societies}
-                                    renderer={Container}
+                                    renderer={TextOutput}
                                     rendererParams={nationalSocietyRendererParams}
                                     keySelector={numericIdSelector}
                                 />
