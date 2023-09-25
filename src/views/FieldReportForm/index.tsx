@@ -5,7 +5,10 @@ import {
     useRef,
     type ElementRef,
 } from 'react';
-import { useParams } from 'react-router-dom';
+import {
+    useParams,
+    useLocation,
+} from 'react-router-dom';
 import {
     isDefined,
     isNotDefined,
@@ -128,10 +131,15 @@ export function Component() {
     const countries = useCountryRaw();
     const disasterTypeOptions = useDisasterType();
     const currentLanguage = useCurrentLanguage();
+    const { state } = useLocation();
 
     const [activeTab, setActiveTab] = useState<TabKeys>('context');
     const [eventOptions, setEventOptions] = useState<EventItem[] | null | undefined>([]);
     const [districtOptions, setDistrictOptions] = useState<DistrictItem[] | null | undefined>([]);
+
+    const status = !fieldReportId && state?.earlyWarning
+        ? FIELD_REPORT_STATUS_EARLY_WARNING
+        : FIELD_REPORT_STATUS_EVENT;
 
     const {
         value,
@@ -144,7 +152,7 @@ export function Component() {
         reportSchema,
         {
             value: {
-                status: FIELD_REPORT_STATUS_EVENT,
+                status,
                 is_covid_report: false,
                 visibility: VISIBILITY_PUBLIC,
                 bulletin: BULLETIN_PUBLISHED_NO,

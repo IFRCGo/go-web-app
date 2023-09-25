@@ -2192,7 +2192,7 @@ const allFieldReports = customWrapRoute({
     wrapperComponent: Auth,
     context: {
         title: 'All Field Reports',
-        visibility: 'is-authenticated',
+        visibility: 'anything',
     },
 });
 
@@ -2434,7 +2434,7 @@ const fieldReportDetails = customWrapRoute({
     wrapperComponent: Auth,
     context: {
         title: 'Field Report Details',
-        visibility: 'is-authenticated',
+        visibility: 'anything',
     },
 });
 

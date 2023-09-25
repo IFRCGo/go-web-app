@@ -25,6 +25,7 @@ type overrides = 'mapStyle' | 'mapOptions' | 'navControlShown' | 'navControlPosi
 
 type BaseMapProps = Omit<MapProps, overrides> & {
     baseLayers?: React.ReactNode;
+    withDisclaimer?: boolean;
 } & Partial<Pick<MapProps, overrides>>;
 
 const sourceOptions: mapboxgl.GeoJSONSourceRaw = {

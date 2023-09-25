@@ -357,7 +357,7 @@ function ActiveOperationMap(props: Props) {
                     />
                     <MapLayer
                         key={scaleBy}
-                        layerKey="outer-circle"
+                        layerKey="point-outer-circle"
                         layerOptions={
                             scaleBy === 'peopleTargeted'
                                 ? outerCircleLayerOptionsForPeopleTargeted

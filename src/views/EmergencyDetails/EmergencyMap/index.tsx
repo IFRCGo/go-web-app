@@ -99,6 +99,7 @@ function EmergencyMap(props: Props) {
         [districtIdList],
     );
 
+    // FIXME: this might be a mistake
     const adminOneLabelSelectedLayerOptions = useMemo<Omit<FillLayer, 'id'>>(
         () => ({
             type: 'fill',

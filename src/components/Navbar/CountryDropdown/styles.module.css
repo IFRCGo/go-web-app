@@ -3,7 +3,8 @@
     flex-direction: row;
     padding: var(--go-ui-spacing-md);
     width: calc(100% - var(--go-ui-spacing-md) * 2)!important;
-    max-width: 60rem;
+    max-width: 64rem;
+    min-height: 16rem;
     gap: var(--go-ui-spacing-md);
     overflow: auto;
 
@@ -14,6 +15,12 @@
         .region {
             padding: 0;
         }
+    }
+
+    .region-border {
+        flex-shrink: 0;
+        margin: 0;
+        border-right: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator)
     }
 
     .region-detail {
@@ -45,6 +52,11 @@
                 flex-wrap: wrap;
                 gap: var(--go-ui-spacing-2xs) var(--go-ui-spacing-md);
             }
+        }
+
+        .region-border {
+            border-right: unset;
+            border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
         }
 
         .region-detail {

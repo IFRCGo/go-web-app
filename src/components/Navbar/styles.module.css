@@ -1,3 +1,59 @@
+.dropdown {
+    display: flex;
+    flex-direction: row;
+    padding: var(--go-ui-spacing-md);
+    width: calc(100% - var(--go-ui-spacing-md) * 2)!important;
+    max-width: 32rem;
+    min-height: 16rem;
+    gap: var(--go-ui-spacing-md);
+    overflow: auto;
+
+    .option-list {
+        flex-basis: 10rem;
+        flex-shrink: 0;
+
+        .option {
+            padding: 0;
+        }
+    }
+
+    .option-border {
+        flex-shrink: 0;
+        margin: 0;
+        border-right: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator)
+    }
+
+    .option-detail {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        overflow: auto;
+        gap: var(--go-ui-spacing-sm);
+
+        .description {
+            color: var(--go-ui-color-text-light);
+            font-size: var(--go-ui-font-size-sm);
+        }
+    }
+
+    @media screen and (max-width: 50rem) {
+        flex-direction: column;
+
+        .option-list {
+            flex-basis: unset;
+        }
+
+        .option-border {
+            border-right: unset;
+            border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+        }
+
+        .option-detail {
+            overflow: unset;
+        }
+    }
+}
+
 .navbar {
     border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
     background-color: var(--go-ui-color-white);
