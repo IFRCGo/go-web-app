@@ -11,6 +11,7 @@ import {
     createStringColumn,
     createDateColumn,
     createCountryListColumn,
+    createElementColumn,
     createLinkColumn,
 } from '#components/Table/ColumnShortcuts';
 import Pager from '#components/Pager';
@@ -20,6 +21,9 @@ import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
 
+import FlashUpdatesTableAction, {
+    Props as FlashUpdatesTableActions,
+} from './FlashUpdatesTableActions';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -84,6 +88,19 @@ function FlashUpdateTable() {
                 (item) => item.country_district?.map(
                     (country_district) => country_district.country_details,
                 ) ?? [],
+            ),
+            createElementColumn<
+                FlashUpdateListItem,
+                number,
+                FlashUpdatesTableActions
+            >(
+                'actions',
+                '',
+                FlashUpdatesTableAction,
+                (flashUpdateId) => ({
+                    type: 'activity',
+                    flashUpdateId,
+                }),
             ),
         ]),
         [strings],
