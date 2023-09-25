@@ -10,7 +10,7 @@ import {
     isTruthyString,
     isNotDefined,
 } from '@togglecorp/fujs';
-import Map, {
+import {
     MapSource,
     MapLayer,
 } from '@togglecorp/re-map';
@@ -25,16 +25,11 @@ import TextOutput from '#components/TextOutput';
 import useInputState from '#hooks/useInputState';
 import useTranslation from '#hooks/useTranslation';
 import type { GoApiResponse } from '#utils/restRequest';
-import {
-    defaultMapStyle,
-    defaultMapOptions,
-    defaultNavControlPosition,
-    defaultNavControlOptions,
-} from '#utils/map';
 import { sumSafe } from '#utils/common';
 import { resolveToComponent } from '#utils/translation';
 import { getNumAffected } from '#utils/domain/emergency';
 import useCountryRaw from '#hooks/domain/useCountryRaw';
+import BaseMap from '#components/domain/BaseMap';
 
 import i18n from './i18n.json';
 import {
@@ -47,7 +42,6 @@ import {
     outerCircleLayerOptionsForPeopleTargeted,
     basePointLayerOptions,
     adminFillLayerOptions,
-    adminLabelLayerOptions,
     RESPONSE_LEVEL_WITHOUT_IFRC_RESPONSE,
     RESPONSE_LEVEL_MIXED_RESPONSE,
     RESPONSE_LEVEL_WITH_IFRC_RESPONSE,
@@ -244,34 +238,17 @@ function EmergenciesMap(props: Props) {
                 </Link>
             )}
         >
-            <Map
-                mapStyle={defaultMapStyle}
-                mapOptions={defaultMapOptions}
-                navControlShown
-                navControlPosition={defaultNavControlPosition}
-                navControlOptions={defaultNavControlOptions}
-                scaleControlShown={false}
-            >
-                <MapContainerWithDisclaimer className={styles.mapContainer} />
-                <MapSource
-                    sourceKey="composite"
-                    managed={false}
-                >
+            <BaseMap
+                baseLayers={(
                     <MapLayer
                         layerKey="admin-0"
                         hoverable
                         layerOptions={adminFillLayerOptions}
                         onClick={handleCountryClick}
                     />
-                    <MapLayer
-                        layerKey="admin-0-label"
-                        layerOptions={adminLabelLayerOptions}
-                    />
-                    <MapLayer
-                        layerKey="admin-0-label-priority"
-                        layerOptions={adminLabelLayerOptions}
-                    />
-                </MapSource>
+                )}
+            >
+                <MapContainerWithDisclaimer className={styles.mapContainer} />
                 <MapSource
                     sourceKey="points"
                     sourceOptions={sourceOptions}
@@ -332,7 +309,7 @@ function EmergenciesMap(props: Props) {
                         )}
                     </MapPopup>
                 )}
-            </Map>
+            </BaseMap>
             <div className={styles.footer}>
                 <div className={styles.left}>
                     <RadioInput

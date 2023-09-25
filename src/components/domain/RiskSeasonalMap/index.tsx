@@ -11,20 +11,12 @@ import {
     mapToList,
     unique,
 } from '@togglecorp/fujs';
-import Map, {
-    MapSource,
+import {
     MapLayer,
     MapBounds,
 } from '@togglecorp/re-map';
 import { WikiHelpSectionLineIcon } from '@ifrc-go/icons';
 
-import {
-    defaultMapStyle,
-    defaultMapOptions,
-    adminLabelLayerOptions,
-    defaultNavControlPosition,
-    defaultNavControlOptions,
-} from '#utils/map';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import Container from '#components/Container';
 import BlockLoading from '#components/BlockLoading';
@@ -63,6 +55,7 @@ import {
     DURATION_MAP_ZOOM,
     DEFAULT_MAP_PADDING,
 } from '#utils/constants';
+import BaseMap from '#components/domain/BaseMap';
 
 import Filters, { type FilterValue } from './Filters';
 import i18n from './i18n.json';
@@ -785,42 +778,25 @@ function RiskSeasonalMap(props: Props) {
                 </div>
             )}
         >
-            <Map
-                mapStyle={defaultMapStyle}
-                mapOptions={defaultMapOptions}
-                navControlShown
-                navControlPosition={defaultNavControlPosition}
-                navControlOptions={defaultNavControlOptions}
-                scaleControlShown={false}
-            >
-                <MapContainerWithDisclaimer
-                    className={styles.mapContainer}
-                />
-                <MapSource
-                    sourceKey="composite"
-                    managed={false}
-                >
+            <BaseMap
+                baseLayers={(
                     <MapLayer
                         layerKey="admin-0"
                         hoverable
                         layerOptions={layerOptions}
                         // onClick={handleCountryClick}
                     />
-                    <MapLayer
-                        layerKey="admin-0-label"
-                        layerOptions={adminLabelLayerOptions}
-                    />
-                    <MapLayer
-                        layerKey="admin-0-label-priority"
-                        layerOptions={adminLabelLayerOptions}
-                    />
-                </MapSource>
+                )}
+            >
+                <MapContainerWithDisclaimer
+                    className={styles.mapContainer}
+                />
                 <MapBounds
                     duration={DURATION_MAP_ZOOM}
                     bounds={bbox}
                     padding={DEFAULT_MAP_PADDING}
                 />
-            </Map>
+            </BaseMap>
             <Container
                 className={styles.countryList}
                 childrenContainerClassName={styles.content}

@@ -12,12 +12,13 @@ import {
     mapToMap,
     unique,
 } from '@togglecorp/fujs';
-import Map, {
+import {
     MapSource,
     MapLayer,
     MapBounds,
 } from '@togglecorp/re-map';
 
+import BaseMap from '#components/domain/BaseMap';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import RadioInput from '#components/RadioInput';
 import Container from '#components/Container';
@@ -33,12 +34,7 @@ import useFilterState from '#hooks/useFilterState';
 import { useRequest } from '#utils/restRequest';
 import type { GoApiUrlQuery, GoApiResponse } from '#utils/restRequest';
 import {
-    defaultMapStyle,
-    defaultMapOptions,
     adminFillLayerOptions,
-    adminLabelLayerOptions,
-    defaultNavControlPosition,
-    defaultNavControlOptions,
 } from '#utils/map';
 import { resolveToComponent } from '#utils/translation';
 import useTranslation from '#hooks/useTranslation';
@@ -337,36 +333,19 @@ function ActiveOperationMap(props: Props) {
                 </Link>
             )}
         >
-            <Map
-                mapStyle={defaultMapStyle}
-                mapOptions={defaultMapOptions}
-                navControlShown
-                navControlPosition={defaultNavControlPosition}
-                navControlOptions={defaultNavControlOptions}
-                scaleControlShown={false}
-            >
-                <MapContainerWithDisclaimer
-                    className={styles.mapContainer}
-                />
-                <MapSource
-                    sourceKey="composite"
-                    managed={false}
-                >
+            <BaseMap
+                baseLayers={(
                     <MapLayer
                         layerKey="admin-0"
                         hoverable
                         layerOptions={adminFillLayerOptions}
                         onClick={handleCountryClick}
                     />
-                    <MapLayer
-                        layerKey="admin-0-label"
-                        layerOptions={adminLabelLayerOptions}
-                    />
-                    <MapLayer
-                        layerKey="admin-0-label-priority"
-                        layerOptions={adminLabelLayerOptions}
-                    />
-                </MapSource>
+                )}
+            >
+                <MapContainerWithDisclaimer
+                    className={styles.mapContainer}
+                />
                 <MapSource
                     sourceKey="points"
                     sourceOptions={sourceOptions}
@@ -443,7 +422,7 @@ function ActiveOperationMap(props: Props) {
                         padding={DEFAULT_MAP_PADDING}
                     />
                 )}
-            </Map>
+            </BaseMap>
             <div className={styles.footer}>
                 <RadioInput
                     label={strings.explanationBubbleScalePoints}

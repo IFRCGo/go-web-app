@@ -9,7 +9,7 @@ import {
     isDefined,
     isNotDefined,
 } from '@togglecorp/fujs';
-import Map, {
+import {
     MapSource,
     MapLayer,
     MapBounds,
@@ -29,8 +29,6 @@ import { resolveToString } from '#utils/translation';
 import { type GoApiResponse } from '#utils/restRequest';
 import { type RegionOutletContext } from '#utils/outletContext';
 import {
-    defaultMapStyle,
-    defaultMapOptions,
     getPointCirclePaint,
     getPointCircleHaloPaint,
 } from '#utils/map';
@@ -39,6 +37,7 @@ import {
     DURATION_MAP_ZOOM,
     DEFAULT_MAP_PADDING,
 } from '#utils/constants';
+import BaseMap from '#components/domain/BaseMap';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -189,14 +188,7 @@ function MovementActivitiesMap(props: Props) {
     return (
         <div className={_cs(styles.map, className)}>
             <div className={styles.mapWithLegend}>
-                <Map
-                    scaleControlShown
-                    mapStyle={defaultMapStyle}
-                    mapOptions={defaultMapOptions}
-                    navControlShown
-                    navControlPosition="top-right"
-                    debug={false}
-                >
+                <BaseMap>
                     <MapContainerWithDisclaimer className={styles.mapContainer} />
                     {activitiesGeoJson && (
                         <MapSource
@@ -283,7 +275,7 @@ function MovementActivitiesMap(props: Props) {
                             </div>
                         </MapPopup>
                     )}
-                </Map>
+                </BaseMap>
             </div>
             {
                 sidebarContent && (

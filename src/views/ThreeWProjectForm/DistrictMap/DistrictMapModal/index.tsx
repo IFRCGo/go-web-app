@@ -28,12 +28,6 @@ import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import useCountry from '#hooks/domain/useCountry';
 import { useRequest } from '#utils/restRequest';
 import {
-    defaultMapStyle,
-    defaultMapOptions,
-    defaultNavControlPosition,
-    defaultNavControlOptions,
-} from '#utils/map';
-import Map, {
     MapSource,
     MapLayer,
     MapBounds,
@@ -52,6 +46,7 @@ import DistrictSearchMultiSelectInput, {
     type DistrictItem,
 } from '#components/domain/DistrictSearchMultiSelectInput';
 import NonFieldError from '#components/NonFieldError';
+import BaseMap from '#components/domain/BaseMap';
 
 import DistrictListItem from './DistrictItem';
 
@@ -598,38 +593,31 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
                         Back to Country
                     </Button>
                 )}
-                <Map
-                    mapStyle={defaultMapStyle}
-                    mapOptions={defaultMapOptions}
-                    navControlShown
-                    navControlPosition={defaultNavControlPosition}
-                    navControlOptions={defaultNavControlOptions}
-                    scaleControlShown={false}
+                <BaseMap
+                    baseLayers={(
+                        <>
+                            <MapLayer
+                                layerKey="admin-1-highlight"
+                                hoverable
+                                layerOptions={adminOneFillLayerOptions}
+                                onClick={!disabled ? handleDistrictClick : undefined}
+                                onDoubleClick={!disabled ? handleDistrictDoubleClick : undefined}
+                            />
+                            <MapLayer
+                                layerKey="admin-1-label"
+                                layerOptions={adminLabelLayerOptions}
+                            />
+                        </>
+                    )}
                 >
                     <MapContainerWithDisclaimer className={styles.mapContainer} />
-                    <MapSource
-                        sourceKey="composite"
-                        managed={false}
-                    >
-                        <MapLayer
-                            layerKey="admin-1-highlight"
-                            hoverable
-                            layerOptions={adminOneFillLayerOptions}
-                            onClick={!disabled ? handleDistrictClick : undefined}
-                            onDoubleClick={!disabled ? handleDistrictDoubleClick : undefined}
+                    {bounds && (
+                        <MapBounds
+                            duration={DURATION_MAP_ZOOM}
+                            padding={DEFAULT_MAP_PADDING}
+                            bounds={bounds}
                         />
-                        <MapLayer
-                            layerKey="admin-1-label"
-                            layerOptions={adminLabelLayerOptions}
-                        />
-                        {bounds && (
-                            <MapBounds
-                                duration={DURATION_MAP_ZOOM}
-                                padding={DEFAULT_MAP_PADDING}
-                                bounds={bounds}
-                            />
-                        )}
-                    </MapSource>
+                    )}
                     {/* eslint-disable-next-line max-len */}
                     {adminTwoFillLayerOptions && adminTwoLineLayerOptions && adminTwoLabelLayerOptions && (
                         <>
@@ -665,7 +653,7 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
                             </MapSource>
                         </>
                     )}
-                </Map>
+                </BaseMap>
             </div>
             <div className={styles.sidePanel}>
                 {/* FIXME: DistrictSearchMultiSelectInput should handle error itself */}
