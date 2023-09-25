@@ -10,8 +10,10 @@
         "allFieldReportsDisasterType":"Disaster Type",
         "allFieldReportsCountry":"Countries",
         "allFieldReportsCountries":"Countries",
+        "allFieldReportsRegions":"Regions",
         "allFieldReportsViewAllReports":"View All Field Reports",
         "allFieldReportsFilterCountryPlaceholder": "All Countries",
-        "allFieldReportsFilterDisastersPlaceholder": "All Disaster Types"
+        "allFieldReportsFilterDisastersPlaceholder": "All Disaster Types",
+        "allFieldReportsFilterRegionPlaceholder": "All Regions"
     }
 }

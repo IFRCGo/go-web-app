@@ -25,12 +25,15 @@ import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import { resolveToComponent } from '#utils/translation';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
+import RegionSelectInput from '#components/domain/RegionSelectInput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type FieldReportResponse = GoApiResponse<'/api/v2/field-report/'>;
 type FieldReportListItem = NonNullable<FieldReportResponse['results']>[number];
+
+export type RegionOption = components<'read'>['schemas']['ApiRegionNameEnum'];
 
 const fieldReportKeySelector = (item: FieldReportListItem) => item.id;
 
@@ -64,6 +67,14 @@ export function Component() {
             return potentialValue;
         },
         (country) => country,
+    );
+    const [filterRegion, setFilterRegion] = useUrlSearchState<RegionOption | undefined>(
+        'region',
+        (searchValue) => {
+            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
+            return potentialValue;
+        },
+        (region) => region,
     );
 
     const columns = useMemo(
@@ -215,6 +226,13 @@ export function Component() {
                             name={undefined}
                             value={filterCountry}
                             onChange={setFilterCountry}
+                        />
+                        <RegionSelectInput
+                            placeholder={strings.allFieldReportsFilterRegionPlaceholder}
+                            label={strings.allFieldReportsRegions}
+                            name={undefined}
+                            value={filterRegion}
+                            onChange={setFilterRegion}
                         />
                     </>
                 )}

@@ -21,6 +21,7 @@ import KeyFigure from '#components/KeyFigure';
 import BarChart from '#components/BarChart';
 import Container from '#components/Container';
 import TimeSeriesChart from '#components/TimeSeriesChart';
+import Link from '#components/Link';
 import usePermissions from '#hooks/domain/usePermissions';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
@@ -88,6 +89,12 @@ export function Component() {
             disaster_start_date__gt: thirtyDaysAgo.toISOString(),
             ordering: '-disaster_start_date',
         },
+    });
+
+    const {
+        response: regionResponse,
+    } = useRequest({
+        url: '/api/v2/region/',
     });
 
     const {
@@ -289,6 +296,26 @@ export function Component() {
                 <FlashUpdateTable />
             )}
             <FieldReportTable />
+            <div className={styles.tableFooter}>
+                <div className={styles.regionList}>
+                    {strings.emergencyViewAllReport}
+                    {regionResponse?.results?.map((region, index) => (
+                        <>
+                            {index !== 0 && '/ '}
+                            <Link
+                                key={region.region_name}
+                                to="allFieldReports"
+                                urlSearch={`region=${region.id}`}
+                            >
+                                {region.region_name}
+                            </Link>
+                        </>
+                    ))}
+                </div>
+                <div className={styles.footerDescription}>
+                    {strings.emergencyPerformanceProblems}
+                </div>
+            </div>
         </Page>
     );
 }

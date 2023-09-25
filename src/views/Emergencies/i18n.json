@@ -8,6 +8,8 @@
         "emergenciesByTypeTitle": "Emergencies by Type",
         "emergenciesOverLastYearTitle": "Emergencies over the last year",
         "emergenciesStatsRequested":"Requested Amount",
-        "emergenciesStatsFunding":"Funding (CHF)"
+        "emergenciesStatsFunding":"Funding (CHF)",
+        "emergencyViewAllReport": "View all field reports in",
+        "emergencyPerformanceProblems": "(Performance problems with Export Table)"
     }
 }
