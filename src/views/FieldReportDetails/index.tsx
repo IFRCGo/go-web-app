@@ -11,18 +11,19 @@ import {
 } from '@togglecorp/fujs';
 import { CheckboxCircleLineIcon } from '@ifrc-go/icons';
 
-import { getUserName } from '#utils/domain/user';
-import useTranslation from '#hooks/useTranslation';
-import Page from '#components/Page';
-import Link from '#components/Link';
-import DateOutput from '#components/DateOutput';
+import Breadcrumbs from '#components/Breadcrumbs';
 import Container from '#components/Container';
-import TextOutput from '#components/TextOutput';
-import HtmlOutput from '#components/HtmlOutput';
-import Message from '#components/Message';
+import DateOutput from '#components/DateOutput';
 import DetailsFailedToLoadMessage from '#components/domain/DetailsFailedToLoadMessage';
-import { useRequest } from '#utils/restRequest';
+import HtmlOutput from '#components/HtmlOutput';
+import Link from '#components/Link';
+import Message from '#components/Message';
+import Page from '#components/Page';
+import TextOutput from '#components/TextOutput';
+import useTranslation from '#hooks/useTranslation';
+import { getUserName } from '#utils/domain/user';
 import { resolveToComponent } from '#utils/translation';
+import { useRequest } from '#utils/restRequest';
 import {
     FIELD_REPORT_STATUS_EARLY_WARNING,
     DISASTER_TYPE_EPIDEMIC,
@@ -212,6 +213,26 @@ export function Component() {
             title={strings.fieldReportTitle}
             className={styles.fieldReportDetails}
             heading={shouldHideDetails ? strings.fieldReportDefaultHeading : summary}
+            breadCrumbs={(
+                <Breadcrumbs>
+                    <Link
+                        to="home"
+                    >
+                        {strings.home}
+                    </Link>
+                    <Link
+                        to="emergencies"
+                    >
+                        {strings.emergencies}
+                    </Link>
+                    <Link
+                        to="fieldReportDetails"
+                        urlParams={{ fieldReportId }}
+                    >
+                        {fieldReportResponse?.summary}
+                    </Link>
+                </Breadcrumbs>
+            )}
             actions={(
                 <Link
                     className={styles.editLink}

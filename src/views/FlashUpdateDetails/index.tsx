@@ -11,6 +11,7 @@ import { PencilFillIcon, DownloadLineIcon } from '@ifrc-go/icons';
 import Link from '#components/Link';
 import Page from '#components/Page';
 import Button from '#components/Button';
+import Breadcrumbs from '#components/Breadcrumbs';
 import Container from '#components/Container';
 import Image from '#components/Image';
 import Message from '#components/Message';
@@ -102,6 +103,26 @@ export function Component() {
             title={strings.flashUpdateDetailsPageTitle}
             className={styles.flashUpdateDetails}
             heading={flashUpdateResponse?.title ?? strings.flashUpdateDetailsHeading}
+            breadCrumbs={(
+                <Breadcrumbs>
+                    <Link
+                        to="home"
+                    >
+                        {strings.home}
+                    </Link>
+                    <Link
+                        to="emergencies"
+                    >
+                        {strings.emergencies}
+                    </Link>
+                    <Link
+                        to="flashUpdateFormDetails"
+                        urlParams={{ flashUpdateId }}
+                    >
+                        {flashUpdateResponse?.title}
+                    </Link>
+                </Breadcrumbs>
+            )}
             actions={flashUpdateResponse && (
                 <>
                     <Button
@@ -136,6 +157,7 @@ export function Component() {
                         <Link
                             to="countriesLayout"
                             urlParams={{ countryId: country?.country_details.id }}
+                            withLinkIcon
                         >
                             {country.country_details.name}
                         </Link>

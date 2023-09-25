@@ -126,7 +126,6 @@ export function Component() {
                     </Link>
                     <Link
                         to="countriesLayout"
-                        disabled
                         urlParams={{
                             countryId,
                         }}

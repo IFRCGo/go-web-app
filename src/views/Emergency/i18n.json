@@ -8,7 +8,8 @@
         "emergencyTabSurge":"Surge",
         "emergencyPeopleTargetedLabel":"People Targeted",
         "emergencyFundingRequirementsLabel":"Funding Requirements (CHF)",
-        "emergencyFundingLabel":"Funding (CHF)"
-
+        "emergencyFundingLabel":"Funding (CHF)",
+        "home": "Home",
+        "emergencies": "Emergencies"
     }
 }
