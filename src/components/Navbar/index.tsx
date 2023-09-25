@@ -132,6 +132,7 @@ function Navbar(props: Props) {
                     <CountryDropdown />
                     <DropdownMenu
                         popupClassName={styles.dropdown}
+                        // FIXME: use translations
                         label="Prepare"
                         variant="tertiary"
                         persistent
@@ -149,18 +150,21 @@ function Navbar(props: Props) {
                                     name="risk-analysis"
                                     className={styles.option}
                                 >
+                                    {/* FIXME: use translations */}
                                     Risk Analysis
                                 </Tab>
                                 <Tab
                                     name="per"
                                     className={styles.option}
                                 >
+                                    {/* FIXME: use translations */}
                                     Preparedness for Effective Response (PER)
                                 </Tab>
                                 <Tab
                                     name="global-3w-projects"
                                     className={styles.option}
                                 >
+                                    {/* FIXME: use translations */}
                                     Global 3W Projects
                                 </Tab>
                             </TabList>
@@ -170,6 +174,7 @@ function Navbar(props: Props) {
                                 className={styles.optionDetail}
                             >
                                 <div className={styles.description}>
+                                    {/* FIXME: use translations */}
                                     The global risk overview presents information about the
                                     magnitude of risks per country, per month based on
                                     historical events and risk analysis.
@@ -187,6 +192,7 @@ function Navbar(props: Props) {
                                 className={styles.optionDetail}
                             >
                                 <div className={styles.description}>
+                                    {/* FIXME: use translations */}
                                     The PER Approach is a continuous and flexible process that
                                     enables National Societies to assess, measure and analyse
                                     the strengths and gaps of its preparedness and response
@@ -204,6 +210,7 @@ function Navbar(props: Props) {
                                     to="preparednessGlobalPerformance"
                                     variant="tertiary"
                                 >
+                                    {/* FIXME: use translations */}
                                     Global Performance
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
@@ -211,6 +218,7 @@ function Navbar(props: Props) {
                                     to="preparednessGlobalCatalogue"
                                     variant="tertiary"
                                 >
+                                    {/* FIXME: use translations */}
                                     Catalogue of Resources
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
@@ -218,6 +226,7 @@ function Navbar(props: Props) {
                                     to="preparednessGlobalOperational"
                                     variant="tertiary"
                                 >
+                                    {/* FIXME: use translations */}
                                     Operational Learning
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
@@ -225,6 +234,7 @@ function Navbar(props: Props) {
                                     to="perProcessLayout"
                                     variant="secondary"
                                 >
+                                    {/* FIXME: use translations */}
                                     Start PER Process
                                 </DropdownMenuItem>
                             </TabPanel>
@@ -233,6 +243,7 @@ function Navbar(props: Props) {
                                 className={styles.optionDetail}
                             >
                                 <div className={styles.description}>
+                                    {/* FIXME: use translations */}
                                     {`The "Who does What, Where" or 3W aims to map the global
                                     footprint of the Red Cross Red Crescent Movement, as
                                     reported by the National Societies.`}
@@ -249,6 +260,7 @@ function Navbar(props: Props) {
                                     to="newThreeWProject"
                                     variant="secondary"
                                 >
+                                    {/* FIXME: use translations */}
                                     Submit 3W Project
                                 </DropdownMenuItem>
                             </TabPanel>
@@ -256,6 +268,7 @@ function Navbar(props: Props) {
                     </DropdownMenu>
                     <DropdownMenu
                         popupClassName={styles.dropdown}
+                        // FIXME: use translations
                         label="Respond"
                         variant="tertiary"
                         persistent
@@ -273,24 +286,28 @@ function Navbar(props: Props) {
                                     name="emergencies"
                                     className={styles.option}
                                 >
+                                    {/* FIXME: use translations */}
                                     Emergencies
                                 </Tab>
                                 <Tab
                                     name="early-warning"
                                     className={styles.option}
                                 >
+                                    {/* FIXME: use translations */}
                                     Early Warning
                                 </Tab>
                                 <Tab
                                     name="dref-process"
                                     className={styles.option}
                                 >
+                                    {/* FIXME: use translations */}
                                     Dref Process
                                 </Tab>
                                 <Tab
                                     name="surge"
                                     className={styles.option}
                                 >
+                                    {/* FIXME: use translations */}
                                     Surge/Deployments
                                 </Tab>
                             </TabList>
@@ -300,6 +317,7 @@ function Navbar(props: Props) {
                                 className={styles.optionDetail}
                             >
                                 <div className={styles.description}>
+                                    {/* FIXME: use translations */}
                                     Follow curretly ongoing emergencies, as well as access the
                                     list of previous emergencies of IFRC-led operations.
                                 </div>
@@ -308,6 +326,7 @@ function Navbar(props: Props) {
                                     to="emergencies"
                                     variant="tertiary"
                                 >
+                                    {/* FIXME: use translations */}
                                     Ongoing Emergencies
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
@@ -315,6 +334,7 @@ function Navbar(props: Props) {
                                     to="fieldReportFormNew"
                                     variant="secondary"
                                 >
+                                    {/* FIXME: use translations */}
                                     Create Field report
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
@@ -322,6 +342,7 @@ function Navbar(props: Props) {
                                     to="newThreeWActivity"
                                     variant="secondary"
                                 >
+                                    {/* FIXME: use translations */}
                                     Submit 3W Activity
                                 </DropdownMenuItem>
                             </TabPanel>
@@ -330,6 +351,7 @@ function Navbar(props: Props) {
                                 className={styles.optionDetail}
                             >
                                 <div className={styles.description}>
+                                    {/* FIXME: use translations */}
                                     Early Warning focuses on preparatory action ahead of possible
                                     disasters and events. Use one of the following links to submit
                                     information on early warning.
@@ -340,6 +362,7 @@ function Navbar(props: Props) {
                                     variant="secondary"
                                     state={{ earlyWarning: true }}
                                 >
+                                    {/* FIXME: use translations */}
                                     Create Early Action Field Report
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
@@ -347,6 +370,7 @@ function Navbar(props: Props) {
                                     to={undefined}
                                     variant="secondary"
                                 >
+                                    {/* FIXME: use translations */}
                                     Submit EAP Activation
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
@@ -354,6 +378,7 @@ function Navbar(props: Props) {
                                     to={undefined}
                                     variant="secondary"
                                 >
+                                    {/* FIXME: use translations */}
                                     Submit EAP Final Report
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
@@ -361,6 +386,7 @@ function Navbar(props: Props) {
                                     to="flashUpdateFormNew"
                                     variant="secondary"
                                 >
+                                    {/* FIXME: use translations */}
                                     Create Flash Update
                                 </DropdownMenuItem>
                             </TabPanel>
@@ -369,6 +395,7 @@ function Navbar(props: Props) {
                                 className={styles.optionDetail}
                             >
                                 <div className={styles.description}>
+                                    {/* FIXME: use translations */}
                                     Disaster Response Emergency Fund (DREF) is the quickest way of
                                     getting funding directly to local humanitarian actors. Use one
                                     of the links below to submit a DREF Application or an update.
@@ -378,6 +405,7 @@ function Navbar(props: Props) {
                                     to="newDrefApplicationForm"
                                     variant="tertiary"
                                 >
+                                    {/* FIXME: use translations */}
                                     Create DREF Application
                                 </DropdownMenuItem>
                             </TabPanel>
@@ -386,6 +414,7 @@ function Navbar(props: Props) {
                                 className={styles.optionDetail}
                             >
                                 <div className={styles.description}>
+                                    {/* FIXME: use translations */}
                                     The section displays the summary of deployments within current
                                     and ongoing emergencies. Login to see available details
                                 </div>
@@ -394,6 +423,7 @@ function Navbar(props: Props) {
                                     to="surgeOverview"
                                     variant="tertiary"
                                 >
+                                    {/* FIXME: use translations */}
                                     Surge Global Overview
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
@@ -401,6 +431,7 @@ function Navbar(props: Props) {
                                     to="surgeOperationalToolbox"
                                     variant="tertiary"
                                 >
+                                    {/* FIXME: use translations */}
                                     Operational Toolbox
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
@@ -408,6 +439,7 @@ function Navbar(props: Props) {
                                     to="surgeCatalogueLayout"
                                     variant="tertiary"
                                 >
+                                    {/* FIXME: use translations */}
                                     Catalogue of Surge Services
                                 </DropdownMenuItem>
                             </TabPanel>
@@ -415,6 +447,7 @@ function Navbar(props: Props) {
                     </DropdownMenu>
                     <DropdownMenu
                         popupClassName={styles.dropdown}
+                        // FIXME: use translations
                         label="Learn"
                         variant="tertiary"
                         persistent
@@ -432,12 +465,14 @@ function Navbar(props: Props) {
                                     name="tools"
                                     className={styles.option}
                                 >
+                                    {/* FIXME: use translations */}
                                     Tools
                                 </Tab>
                                 <Tab
                                     name="resources"
                                     className={styles.option}
                                 >
+                                    {/* FIXME: use translations */}
                                     Resources
                                 </Tab>
                                 <DropdownMenuItem
@@ -448,6 +483,7 @@ function Navbar(props: Props) {
                                     variant="tertiary"
                                     withLinkIcon
                                 >
+                                    {/* FIXME: use translations */}
                                     GO Blog
                                 </DropdownMenuItem>
                             </TabList>
@@ -461,9 +497,11 @@ function Navbar(props: Props) {
                                     to="surgeOperationalToolbox"
                                     variant="tertiary"
                                 >
+                                    {/* FIXME: use translations */}
                                     Operational Toolbox
                                 </DropdownMenuItem>
                                 <div className={styles.description}>
+                                    {/* FIXME: use translations */}
                                     This operational toolbox is a central repository
                                     with key operational document helpful for your
                                     mission like templates, checklists, guidance and examples.
@@ -479,9 +517,11 @@ function Navbar(props: Props) {
                                     variant="tertiary"
                                     state={{ earlyWarning: true }}
                                 >
+                                    {/* FIXME: use translations */}
                                     Catalogue of Surge Services
                                 </DropdownMenuItem>
                                 <div className={styles.description}>
+                                    {/* FIXME: use translations */}
                                     Catalogue of Surge Services contains all relevant content
                                     and materials related to Surge.
                                 </div>
@@ -491,9 +531,11 @@ function Navbar(props: Props) {
                                     variant="tertiary"
                                     state={{ earlyWarning: true }}
                                 >
+                                    {/* FIXME: use translations */}
                                     PER Catalogue of Resources
                                 </DropdownMenuItem>
                                 <div className={styles.description}>
+                                    {/* FIXME: use translations */}
                                     PER Catalogue of Resources contains resource relevant to
                                     strengthening resource and capactiy.
                                 </div>
@@ -503,9 +545,11 @@ function Navbar(props: Props) {
                                     variant="tertiary"
                                     state={{ earlyWarning: true }}
                                 >
+                                    {/* FIXME: use translations */}
                                     GO Resources
                                 </DropdownMenuItem>
                                 <div className={styles.description}>
+                                    {/* FIXME: use translations */}
                                     Find all relevant user guides, references videos, IFRC
                                     other resources, and GO contacts on this page.
                                 </div>
