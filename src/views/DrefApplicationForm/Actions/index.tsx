@@ -401,6 +401,7 @@ function Actions(props: Props) {
                                 fileIdToUrlMap={fileIdToUrlMap}
                                 setFileIdToUrlMap={setFileIdToUrlMap}
                                 disabled={disabled}
+                                clearable
                             >
                                 {strings.drefFormAssessmentReportUploadButtonLabel}
                             </GoSingleFileInput>

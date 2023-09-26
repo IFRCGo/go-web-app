@@ -1,6 +1,10 @@
 import { useEffect } from 'react';
 import { useRouteError } from 'react-router-dom';
 
+import useBooleanState from '#hooks/useBooleanState';
+import Button from '#components/Button';
+import Link from '#components/Link';
+
 import styles from './styles.module.css';
 
 function PageError() {
@@ -15,24 +19,57 @@ function PageError() {
         [errorResponse],
     );
 
+    const [
+        fullErrorVisible,
+        {
+            toggle: toggleFullErrorVisibility,
+        },
+    ] = useBooleanState(false);
+
     return (
         <div className={styles.pageError}>
             <div className={styles.container}>
-                <h1 className={styles.heading}>
-                    Oops! Looks like we ran into some issue!
-                </h1>
-                <div className={styles.message}>
-                    {errorResponse?.error?.message
-                        ?? errorResponse?.message
-                        ?? 'Something unexpected happened!'}
+                <div className={styles.content}>
+                    <h1 className={styles.heading}>
+                        {/* FIXME: use translations */}
+                        Oops! Looks like we ran into some issue!
+                    </h1>
+                    <div className={styles.message}>
+                        {/* FIXME: use translations */}
+                        {errorResponse?.error?.message
+                            ?? errorResponse?.message
+                            ?? 'Something unexpected happened!'}
+                    </div>
+                    <Button
+                        name={undefined}
+                        onClick={toggleFullErrorVisibility}
+                        variant="tertiary"
+                    >
+                        {/* FIXME: use translations */}
+                        {fullErrorVisible ? 'Hide Error' : 'Show Full Error'}
+                    </Button>
+                    {fullErrorVisible && (
+                        <>
+                            <div className={styles.stack}>
+                                {/* FIXME: use translations */}
+                                {errorResponse?.error?.stack
+                                    ?? errorResponse?.stack ?? 'Stack trace not available'}
+                            </div>
+                            <div className={styles.actions}>
+                                {/* FIXME: use translations */}
+                                See the developer console for more details
+                            </div>
+                        </>
+                    )}
                 </div>
-                <div className={styles.stack}>
-                    {errorResponse?.error?.stack
-                        ?? errorResponse?.stack
-                        ?? 'Stack trace not available'}
-                </div>
-                <div className={styles.actions}>
-                    See the developer console for more details
+                <div className={styles.footer}>
+                    <Link
+                        to="home"
+                        variant="primary"
+                    >
+                        {/* FIXME: use translations */}
+                        Go back to homepage
+                    </Link>
                 </div>
             </div>
         </div>

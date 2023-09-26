@@ -188,6 +188,7 @@
     --go-ui-color-foreground: #ffffff;
 
     --go-ui-color-element-background: rgb(0 0 0 / .06);
+    --go-ui-color-readonly-element-background: rgb(0 0 0 / .03);
     --go-ui-color-background-overlay: rgb(255 255 255 / .88);
     --go-ui-color-background-overlay-dark: rgb(0 0 0 / .5);
     --go-ui-color-background-hover: rgb(0 0 0 / .06);

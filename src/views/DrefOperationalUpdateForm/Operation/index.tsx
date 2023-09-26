@@ -455,6 +455,7 @@ function Operation(props: Props) {
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         error={error?.budget_file}
                         disabled={disabled}
+                        clearable
                     >
                         {strings.drefFormBudgetTemplateUploadButtonLabel}
                     </GoSingleFileInput>

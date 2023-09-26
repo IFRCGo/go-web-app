@@ -15,23 +15,34 @@
         padding: var(--go-ui-spacing-2xl);
         width: calc(100% - var(--go-ui-spacing-2xl));
         max-width: 60rem;
-        height: calc(100% - var(--go-ui-spacing-2xl));
         max-height: 60rem;
-        gap: var(--go-ui-spacing-lg);
+        gap: var(--go-ui-spacing-2xl);
 
-        .heading {
-            margin: 0;
-            font-weight: var(--go-ui-font-weight-medium);
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-md);
+
+            .heading {
+                margin: 0;
+                font-weight: var(--go-ui-font-weight-medium);
+            }
+
+            .stack {
+                flex-grow: 1;
+                background-color: var(--go-ui-color-background);
+                padding: var(--go-ui-spacing-md);
+                width: 100%;
+                overflow: auto;
+                white-space: pre;
+                font-family: var(--go-ui-font-family-mono);
+            }
         }
 
-        .stack {
-            flex-grow: 1;
-            background-color: var(--go-ui-color-background);
-            padding: var(--go-ui-spacing-md);
-            width: 100%;
-            overflow: auto;
-            white-space: pre;
-            font-family: var(--go-ui-font-family-mono);
+        .footer {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
         }
     }
 }

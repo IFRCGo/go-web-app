@@ -1,7 +1,7 @@
 {
     "namespace": "common",
     "strings": {
-        "removeButtonTitle": "Remove",
+        "removeImagesButtonTitle": "Remove",
         "imagePreviewAlt": "preview",
         "enterCaptionPlaceholder": "Enter Caption"
     }

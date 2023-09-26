@@ -724,7 +724,9 @@ export function Component() {
                         <TextInput
                             className={styles.statusDisplay}
                             label={strings.projectStatusLabel}
-                            value={isDefined(value?.status) ? projectStatusOptionsMap?.[value?.status] : '--'}
+                            value={isDefined(value?.status)
+                                ? projectStatusOptionsMap?.[value?.status]
+                                : undefined}
                             readOnly
                             name={undefined}
                             // eslint-disable-next-line @typescript-eslint/no-empty-function

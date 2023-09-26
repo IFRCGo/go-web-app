@@ -579,7 +579,7 @@ export function Component() {
         >
             <Page
                 elementRef={formContentRef}
-                className={styles.drefApplicationForm}
+                className={styles.drefOperationalUpdateForm}
                 title={strings.formPageTitle}
                 heading={strings.formPageHeading}
                 actions={isTruthyString(opsUpdateId) && (

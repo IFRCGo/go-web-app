@@ -491,6 +491,7 @@ function Operation(props: Props) {
                         error={error?.financial_report}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
+                        clearable
                         disabled={disabled}
                     >
                         {strings.finalReportFinancialReportAttachment}

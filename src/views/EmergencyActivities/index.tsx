@@ -295,21 +295,24 @@ export function Component() {
                 [unparseData],
                 { type: 'text/csv' },
             );
-            saveAs(blob, 'Data Export.csv');
+            saveAs(blob, 'emergency-activities.csv');
         },
     });
 
     const handleExportClick = useCallback(() => {
-        if (!emergencyProjectListResponse?.count) {
+        if (!emergencyProjectListResponse?.count || !emergencyResponse) {
             return;
         }
         triggerExportStart(
-            '/api/v2/appeal/',
+            '/api/v2/emergency-project/',
             emergencyProjectListResponse.count,
-            {},
+            {
+                event: [emergencyResponse.id],
+            },
         );
     }, [
         triggerExportStart,
+        emergencyResponse,
         emergencyProjectListResponse?.count,
     ]);
     return (
