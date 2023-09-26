@@ -68,7 +68,7 @@ type AppealTypeOption = NonNullable<GlobalEnumsResponse['api_appeal_type']>[numb
 const appealTypeKeySelector = (option: AppealTypeOption) => option.key;
 const appealTypeLabelSelector = (option: AppealTypeOption) => option.value;
 
-const today = new Date().toISOString();
+const now = new Date().toISOString();
 const sourceOptions: mapboxgl.GeoJSONSourceRaw = {
     type: 'geojson',
 };
@@ -122,6 +122,7 @@ function ActiveOperationMap(props: Props) {
     } = props;
 
     const {
+        rawFilter,
         filter,
         setFilterField,
         limit,
@@ -140,9 +141,9 @@ function ActiveOperationMap(props: Props) {
     const query = useMemo<AppealQueryParams>(
         () => {
             const baseQuery: AppealQueryParams = {
-                end_date__gt: today,
                 atype: filter.appeal,
                 dtype: filter.displacement,
+                end_date__gt: now,
                 start_date__gte: filter.startDateAfter,
                 start_date__lte: filter.startDateBefore,
                 limit,
@@ -302,19 +303,19 @@ function ActiveOperationMap(props: Props) {
                         name="startDateAfter"
                         label={strings.mapStartDateAfter}
                         onChange={setFilterField}
-                        value={filter.startDateAfter}
+                        value={rawFilter.startDateAfter}
                     />
                     <DateInput
                         name="startDateBefore"
                         label={strings.mapStartDateBefore}
                         onChange={setFilterField}
-                        value={filter.startDateBefore}
+                        value={rawFilter.startDateBefore}
                     />
                     <SelectInput
                         placeholder={strings.operationFilterTypePlaceholder}
                         label={strings.operationType}
                         name="appeal"
-                        value={filter.appeal}
+                        value={rawFilter.appeal}
                         onChange={setFilterField}
                         keySelector={appealTypeKeySelector}
                         labelSelector={appealTypeLabelSelector}
@@ -324,7 +325,7 @@ function ActiveOperationMap(props: Props) {
                         placeholder={strings.operationFilterDisastersPlaceholder}
                         label={strings.operationDisastertype}
                         name="displacement"
-                        value={filter.displacement}
+                        value={rawFilter.displacement}
                         onChange={setFilterField}
                     />
                 </>

@@ -39,6 +39,7 @@ function CompletedDrefTable(props: Props) {
     const {
         page,
         setPage,
+        rawFilter,
         filter,
         filtered,
         setFilterField,
@@ -220,7 +221,7 @@ function CompletedDrefTable(props: Props) {
             filtersContainerClassName={styles.filters}
             filters={(
                 <Filters
-                    value={filter}
+                    value={rawFilter}
                     onChange={setFilterField}
                 />
             )}

@@ -597,3 +597,14 @@ export const defaultRanking: Record<SearchResponseKeys, number> = {
     reports: 8,
     rapid_response_deployments: 9,
 };
+
+// Convert date string to datetime string respective to the user
+export function toDateTimeString(value: string | undefined) {
+    if (isFalsyString(value)) {
+        return undefined;
+    }
+    if (value.includes('T')) {
+        return new Date(value).toISOString();
+    }
+    return new Date(`${value}T00:00:00`).toISOString();
+}

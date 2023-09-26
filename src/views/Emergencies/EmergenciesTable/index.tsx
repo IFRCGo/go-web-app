@@ -1,7 +1,6 @@
-import {
-    useMemo,
-} from 'react';
+import { useMemo } from 'react';
 import { SortContext } from '#components/Table/useSorting';
+import { encodeDate } from '@togglecorp/fujs';
 import Table from '#components/Table';
 import Container from '#components/Container';
 import {
@@ -14,6 +13,8 @@ import {
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import useFilterState from '#hooks/useFilterState';
+import DateInput from '#components/DateInput';
+import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse, GoApiUrlQuery } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
@@ -41,8 +42,18 @@ function EventItemsTable() {
         setPage,
         limit,
         offset,
-    } = useFilterState<object>({
-        filter: {},
+        rawFilter,
+        filter,
+        setFilterField,
+        filtered,
+    } = useFilterState<{
+        startDateAfter?: string,
+        startDateBefore?: string,
+        dType?: number,
+    }>({
+        filter: {
+            startDateAfter: encodeDate(thirtyDaysAgo),
+        },
         pageSize: 5,
     });
 
@@ -108,9 +119,11 @@ function EventItemsTable() {
             limit,
             offset,
             ordering,
-            disaster_start_date__gt: thirtyDaysAgo.toISOString(),
+            disaster_start_date__gte: filter.startDateAfter,
+            disaster_start_date__lte: filter.startDateBefore,
+            dtype: filter.dType,
         }),
-        [limit, offset, ordering],
+        [limit, offset, ordering, filter],
     );
     const {
         pending: eventPending,
@@ -124,6 +137,30 @@ function EventItemsTable() {
     return (
         <Container
             className={styles.emergenciesTable}
+            withGridViewInFilter
+            filters={(
+                <>
+                    <DateInput
+                        name="startDateAfter"
+                        label={strings.emergenciesTableFilterStartAfter}
+                        onChange={setFilterField}
+                        value={rawFilter.startDateAfter}
+                    />
+                    <DateInput
+                        name="startDateBefore"
+                        label={strings.emergenciesTableFilterStartBefore}
+                        onChange={setFilterField}
+                        value={rawFilter.startDateBefore}
+                    />
+                    <DisasterTypeSelectInput
+                        placeholder={strings.emergenciesTableFilterDisastersPlaceholder}
+                        label={strings.emergenciesTableDisasterType}
+                        name="dType"
+                        value={rawFilter.dType}
+                        onChange={setFilterField}
+                    />
+                </>
+            )}
             footerActions={(
                 <Pager
                     activePage={page}
@@ -136,7 +173,7 @@ function EventItemsTable() {
             <SortContext.Provider value={sortState}>
                 <Table
                     pending={eventPending}
-                    filtered={false}
+                    filtered={filtered}
                     className={styles.table}
                     columns={columns}
                     keySelector={keySelector}

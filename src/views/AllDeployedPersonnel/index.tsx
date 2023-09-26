@@ -5,6 +5,7 @@ import {
 import Papa from 'papaparse';
 import { saveAs } from 'file-saver';
 
+import { toDateTimeString } from '#utils/common';
 import useTranslation from '#hooks/useTranslation';
 import {
     type GoApiResponse,
@@ -26,6 +27,7 @@ import {
 } from '#components/Table/ColumnShortcuts';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import Table from '#components/Table';
+import DateInput from '#components/DateInput';
 import useFilterState from '#hooks/useFilterState';
 
 import i18n from './i18n.json';
@@ -46,7 +48,14 @@ export function Component() {
         setPage,
         limit,
         offset,
-    } = useFilterState<object>({
+        rawFilter,
+        filter,
+        setFilterField,
+        filtered,
+    } = useFilterState<{
+        startDateAfter?: string,
+        startDateBefore?: string,
+    }>({
         filter: {},
         pageSize: 10,
     });
@@ -64,10 +73,14 @@ export function Component() {
         offset,
         ordering,
         end_date__gt: now,
+        // FIXME: The server does not support date string
+        start_date__gte: toDateTimeString(filter.startDateAfter),
+        start_date__lte: toDateTimeString(filter.startDateBefore),
     }), [
         limit,
         offset,
         ordering,
+        filter,
     ]);
 
     const {
@@ -211,6 +224,23 @@ export function Component() {
                         totalCount={personnelResponse?.count}
                     />
                 )}
+                withGridViewInFilter
+                filters={(
+                    <>
+                        <DateInput
+                            name="startDateAfter"
+                            label={strings.allDeployedPersonnelFilterStartDateAfter}
+                            onChange={setFilterField}
+                            value={rawFilter.startDateAfter}
+                        />
+                        <DateInput
+                            name="startDateBefore"
+                            label={strings.allDeployedPersonnelFilterStartDateBefore}
+                            onChange={setFilterField}
+                            value={rawFilter.startDateBefore}
+                        />
+                    </>
+                )}
                 footerActions={(
                     <Pager
                         activePage={page}
@@ -222,7 +252,7 @@ export function Component() {
             >
                 <SortContext.Provider value={sortState}>
                     <Table
-                        filtered={false}
+                        filtered={filtered}
                         pending={personnelPending}
                         data={personnelResponse?.results}
                         keySelector={keySelector}

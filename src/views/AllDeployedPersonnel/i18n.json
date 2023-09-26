@@ -11,6 +11,8 @@
         "personnelTableType": "Type",
         "personnelTableDeployingParty": "Deploying Party",
         "personnelTableDeployedTo": "Deployed To",
-        "personnelTableEmergency": "Emergency"
+        "personnelTableEmergency": "Emergency",
+        "allDeployedPersonnelFilterStartDateAfter": "Start After",
+        "allDeployedPersonnelFilterStartDateBefore": "Start Before"
     }
 }

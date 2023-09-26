@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { encodeDate } from '@togglecorp/fujs';
 
 import { SortContext } from '#components/Table/useSorting';
 import Table from '#components/Table';
@@ -12,6 +13,7 @@ import {
 } from '#components/Table/ColumnShortcuts';
 import Pager from '#components/Pager';
 import NumberOutput from '#components/NumberOutput';
+import DateInput from '#components/DateInput';
 import useTranslation from '#hooks/useTranslation';
 import useFilterState from '#hooks/useFilterState';
 import { useRequest } from '#utils/restRequest';
@@ -40,8 +42,17 @@ function FieldReportsTable() {
         setPage,
         limit,
         offset,
-    } = useFilterState<object>({
-        filter: {},
+        rawFilter,
+        filter,
+        setFilterField,
+        filtered,
+    } = useFilterState<{
+        createdDateAfter?: string,
+        createdDateBefore?: string,
+    }>({
+        filter: {
+            createdDateAfter: encodeDate(thirtyDaysAgo),
+        },
         pageSize: 5,
     });
 
@@ -103,7 +114,8 @@ function FieldReportsTable() {
             limit,
             offset,
             ordering,
-            created_at__gte: thirtyDaysAgo.toISOString(),
+            created_at__gte: filter.createdDateAfter,
+            created_at__lte: filter.createdDateBefore,
         },
     });
 
@@ -127,6 +139,23 @@ function FieldReportsTable() {
             heading={heading}
             headerDescriptionContainerClassName={styles.filters}
             withHeaderBorder
+            withGridViewInFilter
+            filters={(
+                <>
+                    <DateInput
+                        name="createdDateAfter"
+                        label={strings.fieldReportsFilterCreatedDateAfter}
+                        onChange={setFilterField}
+                        value={rawFilter.createdDateAfter}
+                    />
+                    <DateInput
+                        name="createdDateBefore"
+                        label={strings.fieldReportsFilterCreatedDateBefore}
+                        onChange={setFilterField}
+                        value={rawFilter.createdDateBefore}
+                    />
+                </>
+            )}
             actions={(
                 <Link
                     to="allFieldReports"
@@ -148,7 +177,7 @@ function FieldReportsTable() {
             <SortContext.Provider value={sortState}>
                 <Table
                     pending={fieldReportPending}
-                    filtered={false}
+                    filtered={filtered}
                     className={styles.table}
                     columns={columns}
                     keySelector={fieldReportKeySelector}

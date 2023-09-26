@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { max } from '@togglecorp/fujs';
+import { max, encodeDate } from '@togglecorp/fujs';
 
 import useTranslation from '#hooks/useTranslation';
 import Link from '#components/Link';
@@ -13,6 +13,8 @@ import {
 import Table from '#components/Table';
 import Container from '#components/Container';
 import Pager from '#components/Pager';
+import DateInput from '#components/DateInput';
+import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import useFilterState from '#hooks/useFilterState';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
@@ -29,8 +31,6 @@ function keySelector(emergency: EmergenciesTableItem) {
 const thirtyDaysAgo = new Date();
 thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 thirtyDaysAgo.setHours(0, 0, 0, 0);
-
-const disasterStartDate = thirtyDaysAgo.toISOString();
 
 function getMostRecentAffectedValue(fieldReport: EmergenciesTableItem['field_reports']) {
     const latestReport = max(fieldReport, (item) => new Date(item.updated_at).getTime());
@@ -56,8 +56,18 @@ function EmergenciesOperationTable(props: Props) {
         setPage,
         limit,
         offset,
-    } = useFilterState<object>({
-        filter: {},
+        rawFilter,
+        filter,
+        setFilterField,
+        filtered,
+    } = useFilterState<{
+        startDateAfter?: string,
+        startDateBefore?: string,
+        dType?: number,
+    }>({
+        filter: {
+            startDateAfter: encodeDate(thirtyDaysAgo),
+        },
         pageSize: 10,
     });
 
@@ -118,7 +128,9 @@ function EmergenciesOperationTable(props: Props) {
             offset,
             countries__in: countryId,
             ordering,
-            disaster_start_date__gte: disasterStartDate,
+            disaster_start_date__gte: filter.startDateAfter,
+            disaster_start_date__lte: filter.startDateBefore,
+            dtype: filter.dType,
         },
     });
 
@@ -136,6 +148,30 @@ function EmergenciesOperationTable(props: Props) {
         <Container
             heading={emergenciesHeading}
             withHeaderBorder
+            withGridViewInFilter
+            filters={(
+                <>
+                    <DateInput
+                        name="startDateAfter"
+                        label={strings.emergenciesTableFilterStartAfter}
+                        onChange={setFilterField}
+                        value={rawFilter.startDateAfter}
+                    />
+                    <DateInput
+                        name="startDateBefore"
+                        label={strings.emergenciesTableFilterStartBefore}
+                        onChange={setFilterField}
+                        value={rawFilter.startDateBefore}
+                    />
+                    <DisasterTypeSelectInput
+                        placeholder={strings.emergenciesTableFilterDisastersPlaceholder}
+                        label={strings.emergenciesTableDisasterType}
+                        name="dType"
+                        value={rawFilter.dType}
+                        onChange={setFilterField}
+                    />
+                </>
+            )}
             actions={(
                 <Link
                     to="allEmergencies"
@@ -157,7 +193,7 @@ function EmergenciesOperationTable(props: Props) {
         >
             <SortContext.Provider value={sortState}>
                 <Table
-                    filtered={false}
+                    filtered={filtered}
                     pending={countryEmergenciesPending}
                     data={countryEmergenciesResponse?.results}
                     keySelector={keySelector}

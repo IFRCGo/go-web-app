@@ -132,6 +132,7 @@ export function Component() {
     const { emergencyResponse } = useOutletContext<EmergencyOutletContext>();
 
     const {
+        rawFilter,
         filter: filters,
         setFilter: setFilters,
         page: activePage,
@@ -400,7 +401,7 @@ export function Component() {
                 withHeaderBorder
                 filters={(
                     <Filters
-                        value={filters}
+                        value={rawFilter}
                         onChange={setFilters}
                     />
                 )}

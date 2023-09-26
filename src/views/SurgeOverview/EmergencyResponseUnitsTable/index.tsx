@@ -41,6 +41,7 @@ function EmergencyResponseUnitsTable() {
         ordering,
         page,
         setPage,
+        rawFilter,
         filter,
         filtered,
         setFilterField,
@@ -133,7 +134,7 @@ function EmergencyResponseUnitsTable() {
                 <SelectInput
                     placeholder={strings.emergencyResponseUnitTypeFilterPlaceholder}
                     name="type"
-                    value={filter.type}
+                    value={rawFilter.type}
                     onChange={setFilterField}
                     keySelector={emergencyResponseUnitTypeKeySelector}
                     labelSelector={emergencyResponseUnitTypeLabelSelector}

@@ -9,12 +9,14 @@ import { SortContext } from '#components/Table/useSorting';
 import Pager from '#components/Pager';
 import Link from '#components/Link';
 import Table from '#components/Table';
+import DateInput from '#components/DateInput';
 import {
     createStringColumn,
     createNumberColumn,
     createDateColumn,
     createLinkColumn,
 } from '#components/Table/ColumnShortcuts';
+import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import useTranslation from '#hooks/useTranslation';
 import useFilterState from '#hooks/useFilterState';
 import {
@@ -52,7 +54,15 @@ function AppealOperationTable(props: Props) {
         setPage,
         limit,
         offset,
-    } = useFilterState<object>({
+        rawFilter,
+        filter,
+        setFilterField,
+        filtered,
+    } = useFilterState<{
+        startDateAfter?: string,
+        startDateBefore?: string,
+        dType?: number,
+    }>({
         filter: {},
         pageSize: 10,
     });
@@ -72,6 +82,9 @@ function AppealOperationTable(props: Props) {
             offset,
             ordering,
             country: countryId,
+            dtype: filter.dType,
+            start_date__gte: filter.startDateAfter,
+            start_date__lte: filter.startDateBefore,
         },
     });
 
@@ -145,6 +158,30 @@ function AppealOperationTable(props: Props) {
         <Container
             heading={heading}
             withHeaderBorder
+            withGridViewInFilter
+            filters={(
+                <>
+                    <DateInput
+                        name="startDateAfter"
+                        label={strings.appealsTableFilterStartAfter}
+                        onChange={setFilterField}
+                        value={rawFilter.startDateAfter}
+                    />
+                    <DateInput
+                        name="startDateBefore"
+                        label={strings.appealsTableFilterStartBefore}
+                        onChange={setFilterField}
+                        value={rawFilter.startDateBefore}
+                    />
+                    <DisasterTypeSelectInput
+                        placeholder={strings.appealsTableFilterDisastersPlaceholder}
+                        label={strings.appealsTableDisastertype}
+                        name="dType"
+                        value={rawFilter.dType}
+                        onChange={setFilterField}
+                    />
+                </>
+            )}
             actions={(
                 <Link
                     to="allAppeals"
@@ -166,7 +203,7 @@ function AppealOperationTable(props: Props) {
         >
             <SortContext.Provider value={sortState}>
                 <Table
-                    filtered={false}
+                    filtered={filtered}
                     pending={countryAppealPending}
                     data={countryAppealResponse?.results}
                     keySelector={keySelector}

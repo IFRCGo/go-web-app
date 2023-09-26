@@ -35,7 +35,7 @@ const appealKeySelector = (option: AppealListItem) => option.id;
 const appealTypeKeySelector = (option: AppealTypeOption) => option.key;
 const appealTypeLabelSelector = (option: AppealTypeOption) => option.value;
 
-const endDate = (new Date()).toISOString();
+const now = new Date().toISOString();
 type BaseProps = {
     className?: string;
 }
@@ -63,6 +63,7 @@ function AppealsTable(props: Props) {
         page,
         setPage,
         filter,
+        rawFilter,
         filtered,
         setFilterField,
         limit,
@@ -167,7 +168,7 @@ function AppealsTable(props: Props) {
                 ordering,
                 atype: filter.appeal,
                 dtype: filter.displacement,
-                end_date__gt: endDate,
+                end_date__gt: now,
                 start_date__gte: filter.startDateAfter,
                 start_date__lte: filter.startDateBefore,
             };
@@ -212,19 +213,19 @@ function AppealsTable(props: Props) {
                         name="startDateAfter"
                         label={strings.appealsTableStartDateAfter}
                         onChange={setFilterField}
-                        value={filter.startDateAfter}
+                        value={rawFilter.startDateAfter}
                     />
                     <DateInput
                         name="startDateBefore"
                         label={strings.appealsTableStartDateBefore}
                         onChange={setFilterField}
-                        value={filter.startDateBefore}
+                        value={rawFilter.startDateBefore}
                     />
                     <SelectInput
                         placeholder={strings.appealsTableFilterTypePlaceholder}
                         label={strings.appealsTableType}
                         name="appeal"
-                        value={filter.appeal}
+                        value={rawFilter.appeal}
                         onChange={setFilterField}
                         keySelector={appealTypeKeySelector}
                         labelSelector={appealTypeLabelSelector}
@@ -234,7 +235,7 @@ function AppealsTable(props: Props) {
                         placeholder={strings.appealsTableFilterDisastersPlaceholder}
                         label={strings.appealsTableDisastertype}
                         name="displacement"
-                        value={filter.displacement}
+                        value={rawFilter.displacement}
                         onChange={setFilterField}
                     />
                 </>

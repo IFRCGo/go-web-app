@@ -58,6 +58,7 @@ export function Component() {
         ordering,
         page,
         setPage,
+        rawFilter,
         filter,
         filtered,
         setFilterField,
@@ -226,7 +227,7 @@ export function Component() {
                         placeholder={strings.eruTableFilterTypePlaceholder}
                         label={strings.eruFilterType}
                         name="eruType"
-                        value={filter.eruType}
+                        value={rawFilter.eruType}
                         onChange={setFilterField}
                         keySelector={eruTypeKeySelector}
                         labelSelector={eruTypeLabelSelector}

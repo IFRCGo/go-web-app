@@ -4,7 +4,10 @@ import Papa from 'papaparse';
 import { saveAs } from 'file-saver';
 
 import Page from '#components/Page';
-import { useRequest, type GoApiResponse } from '#utils/restRequest';
+import {
+    useRequest,
+    type GoApiResponse,
+} from '#utils/restRequest';
 import { SortContext } from '#components/Table/useSorting';
 import Table from '#components/Table';
 import Container from '#components/Container';
@@ -17,6 +20,7 @@ import {
 import Pager from '#components/Pager';
 import NumberOutput from '#components/NumberOutput';
 import ExportButton from '#components/domain/ExportButton';
+import DateInput from '#components/DateInput';
 import useTranslation from '#hooks/useTranslation';
 import useUrlSearchState from '#hooks/useUrlSearchState';
 import useFilterState from '#hooks/useFilterState';
@@ -48,7 +52,14 @@ export function Component() {
         setPage,
         limit,
         offset,
-    } = useFilterState<object>({
+        rawFilter,
+        filter,
+        setFilterField,
+        filtered,
+    } = useFilterState<{
+        createdDateAfter?: string,
+        createdDateBefore?: string,
+    }>({
         filter: {},
         pageSize: 15,
     });
@@ -141,6 +152,8 @@ export function Component() {
         dtype: filterDisasterType,
         countries__in: filterCountry,
         regions__in: filterRegion,
+        created_at__gte: filter.createdDateAfter,
+        created_at__lte: filter.createdDateBefore,
     }), [
         limit,
         offset,
@@ -148,6 +161,7 @@ export function Component() {
         filterDisasterType,
         filterCountry,
         filterRegion,
+        filter,
     ]);
 
     const {
@@ -160,7 +174,9 @@ export function Component() {
     });
 
     const fieldReportFiltered = (
-        isDefined(filterDisasterType) || isDefined(filterCountry)
+        isDefined(filterDisasterType)
+        || isDefined(filterCountry)
+        || filtered
     );
 
     const heading = useMemo(
@@ -224,6 +240,18 @@ export function Component() {
                 withGridViewInFilter
                 filters={(
                     <>
+                        <DateInput
+                            name="createdDateAfter"
+                            label={strings.allFieldReportsFilterCreatedDateAfter}
+                            onChange={setFilterField}
+                            value={rawFilter.createdDateAfter}
+                        />
+                        <DateInput
+                            name="createdDateBefore"
+                            label={strings.allFieldReportsFilterCreatedDateBefore}
+                            onChange={setFilterField}
+                            value={rawFilter.createdDateBefore}
+                        />
                         <DisasterTypeSelectInput
                             placeholder={strings.allFieldReportsFilterDisastersPlaceholder}
                             label={strings.allFieldReportsDisasterType}

@@ -41,6 +41,7 @@ function PossibleEarlyActionTable(props: Props) {
     const {
         page,
         setPage,
+        rawFilter,
         filter,
         filtered,
         setFilterField,
@@ -146,7 +147,7 @@ function PossibleEarlyActionTable(props: Props) {
                         options={earlyActionsOptionsResponse?.hazard_type}
                         keySelector={stringKeySelector}
                         labelSelector={stringValueSelector}
-                        value={filter.hazardType}
+                        value={rawFilter.hazardType}
                         onChange={setFilterField}
                     />
                     <SelectInput
@@ -155,7 +156,7 @@ function PossibleEarlyActionTable(props: Props) {
                         options={earlyActionsOptionsResponse?.sectors}
                         keySelector={stringNameSelector}
                         labelSelector={stringNameSelector}
-                        value={filter.sector}
+                        value={rawFilter.sector}
                         onChange={setFilterField}
                     />
                 </>

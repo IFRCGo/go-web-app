@@ -73,7 +73,7 @@ function MonthlyChart(props: Props) {
         () => getFormattedKey(dateList[0]),
     );
 
-    const queryParams = {
+    const query = {
         model_type: 'appeal',
         start_date: encodeDate(new Date(year, 0, 1)),
         end_date: encodeDate(new Date(year, 11, 31)),
@@ -90,7 +90,7 @@ function MonthlyChart(props: Props) {
         url: '/api/v1/aggregate/',
         query: {
             filter_atype: APPEAL_TYPE_EMERGENCY,
-            ...queryParams,
+            ...query,
             // FIXME: need to fix typing in server (low priority)
         } as never,
     });
@@ -102,7 +102,7 @@ function MonthlyChart(props: Props) {
         url: '/api/v1/aggregate/',
         query: {
             filter_atype: APPEAL_TYPE_DREF,
-            ...queryParams,
+            ...query,
             // FIXME: need to fix the typing in server (low priority)
         } as never,
     });

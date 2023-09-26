@@ -45,6 +45,7 @@ export function Component() {
     const {
         sortState,
         ordering,
+        rawFilter,
         filter,
         filtered,
         setFilterField,
@@ -217,15 +218,15 @@ export function Component() {
                     <RegionSelectInput
                         placeholder={strings.allRegions}
                         name="region"
-                        value={filter.region}
+                        value={rawFilter.region}
                         onChange={setFilterField}
-                        disabled={isDefined(filter.country)}
+                        disabled={isDefined(rawFilter.country)}
                     />
                     <CountrySelectInput
                         placeholder={strings.allCountries}
                         name="country"
-                        value={filter.country}
-                        disabled={isDefined(filter.region)}
+                        value={rawFilter.country}
+                        disabled={isDefined(rawFilter.region)}
                         onChange={setFilterField}
                     />
                 </>

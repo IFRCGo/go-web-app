@@ -94,6 +94,7 @@ function filterProjects(projectList: Project[], filters: Partial<Record<ProjectK
 export function Component() {
     const strings = useTranslation(i18n);
     const {
+        rawFilter,
         filter,
         filtered,
         setFilterField,
@@ -368,7 +369,7 @@ export function Component() {
                 withHeaderBorder
                 filters={(
                     <Filter
-                        value={filter}
+                        value={rawFilter}
                         onChange={setFilterField}
                     />
                 )}
