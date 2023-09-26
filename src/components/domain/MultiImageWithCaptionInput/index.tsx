@@ -161,8 +161,8 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
                                     className={styles.removeButton}
                                     name={index}
                                     onClick={removeValue}
-                                    title={strings.removeButtonTitle}
-                                    ariaLabel={strings.removeButtonTitle}
+                                    title={strings.removeImagesButtonTitle}
+                                    ariaLabel={strings.removeImagesButtonTitle}
                                     variant="secondary"
                                     spacing="none"
                                     disabled={disabled}

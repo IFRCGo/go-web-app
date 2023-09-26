@@ -143,8 +143,8 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
                         className={styles.removeButton}
                         name={undefined}
                         onClick={handleClearButtonClick}
-                        title={strings.removeButtonTitle}
-                        ariaLabel={strings.removeButtonTitle}
+                        title={strings.removeFileButtonTitle}
+                        ariaLabel={strings.removeFileButtonTitle}
                         variant="tertiary"
                         spacing="none"
                         disabled={disabled}

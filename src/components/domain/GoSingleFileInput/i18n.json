@@ -3,7 +3,7 @@
     "strings": {
         "failedUploadMessage": "Failed to upload the file!",
         "oneFileSelected": "1 file selected",
-        "removeButtonTitle": "Remove",
+        "removeFileButtonTitle": "Remove",
         "noFileSelected": "No file Selected"
     }
 }

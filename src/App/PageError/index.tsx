@@ -31,9 +31,11 @@ function PageError() {
             <div className={styles.container}>
                 <div className={styles.content}>
                     <h1 className={styles.heading}>
+                        {/* FIXME: use translations */}
                         Oops! Looks like we ran into some issue!
                     </h1>
                     <div className={styles.message}>
+                        {/* FIXME: use translations */}
                         {errorResponse?.error?.message
                             ?? errorResponse?.message
                             ?? 'Something unexpected happened!'}
@@ -43,15 +45,18 @@ function PageError() {
                         onClick={toggleFullErrorVisibility}
                         variant="tertiary"
                     >
+                        {/* FIXME: use translations */}
                         {fullErrorVisible ? 'Hide Error' : 'Show Full Error'}
                     </Button>
                     {fullErrorVisible && (
                         <>
                             <div className={styles.stack}>
+                                {/* FIXME: use translations */}
                                 {errorResponse?.error?.stack
                                     ?? errorResponse?.stack ?? 'Stack trace not available'}
                             </div>
                             <div className={styles.actions}>
+                                {/* FIXME: use translations */}
                                 See the developer console for more details
                             </div>
                         </>
@@ -62,6 +67,7 @@ function PageError() {
                         to="home"
                         variant="primary"
                     >
+                        {/* FIXME: use translations */}
                         Go back to homepage
                     </Link>
                 </div>
