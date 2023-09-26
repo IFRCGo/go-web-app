@@ -5,6 +5,8 @@
         "failedToCreateExport": "Failed to generate export.",
         "eruTableName": "Owner",
         "eruTableType": "Type",
+        "eruFilterType": "Type of Eru",
+        "eruTableFilterTypePlaceholder": "All Eru Types",
         "eruTablePersonnel": "Personnel Units",
         "eruTableEquipment":"Equipments Units",
         "eruTableCountry": "Country Deployed To",

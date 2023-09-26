@@ -21,6 +21,7 @@ import Page from '#components/Page';
 import ExportButton from '#components/domain/ExportButton';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import useAlert from '#hooks/useAlert';
+import SelectInput from '#components/SelectInput';
 import {
     SortContext,
 } from '#components/Table/useSorting';
@@ -36,10 +37,19 @@ import useFilterState from '#hooks/useFilterState';
 import i18n from './i18n.json';
 
 type EruTableItem = NonNullable<GoApiResponse<'/api/v2/eru/'>['results']>[number];
+type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
+type EruTypeOption = NonNullable<GlobalEnumsResponse['deployments_eru_type']>[number];
 
 function keySelector(personnel: EruTableItem) {
     return personnel.id;
 }
+function eruTypeKeySelector(option: EruTypeOption) {
+    return option.key;
+}
+function eruTypeLabelSelector(option: EruTypeOption) {
+    return option.value;
+}
+
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -48,27 +58,32 @@ export function Component() {
         ordering,
         page,
         setPage,
+        filter,
+        filtered,
+        setFilterField,
         limit,
         offset,
-    } = useFilterState<object>({
+    } = useFilterState<{
+        eruType?: EruTypeOption['key']
+    }>({
         filter: {},
         pageSize: 10,
     });
 
     const alert = useAlert();
     const {
-        deployments_eru_type,
+        deployments_eru_type: eruTypeOptions,
     } = useGlobalEnums();
 
     const eruTypes = useMemo(
         () => (
             listToMap(
-                deployments_eru_type,
+                eruTypeOptions,
                 (item) => item.key,
                 (item) => item.value,
             )
         ),
-        [deployments_eru_type],
+        [eruTypeOptions],
     );
 
     const getEruType = useCallback(
@@ -81,15 +96,18 @@ export function Component() {
         [eruTypes],
     );
 
+    // FIXME: Add types
     const query = useMemo(() => ({
         limit,
         offset,
         ordering,
         deployed_to__isnull: false,
+        type: filter.eruType,
     }), [
         limit,
         offset,
         ordering,
+        filter,
     ]);
 
     const {
@@ -203,6 +221,19 @@ export function Component() {
             <Container
                 heading={containerHeading}
                 withHeaderBorder
+                filters={(
+                    <SelectInput
+                        placeholder={strings.eruTableFilterTypePlaceholder}
+                        label={strings.eruFilterType}
+                        name="eruType"
+                        value={filter.eruType}
+                        onChange={setFilterField}
+                        keySelector={eruTypeKeySelector}
+                        labelSelector={eruTypeLabelSelector}
+                        options={eruTypeOptions}
+                    />
+                )}
+                withGridViewInFilter
                 actions={(
                     <ExportButton
                         onClick={handleExportClick}
@@ -222,7 +253,7 @@ export function Component() {
             >
                 <SortContext.Provider value={sortState}>
                     <Table
-                        filtered={false}
+                        filtered={filtered}
                         pending={eruPending}
                         data={eruResponse?.results}
                         keySelector={keySelector}
