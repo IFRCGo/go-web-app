@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import {
     useFormObject,
     type ObjectError,
@@ -31,7 +32,7 @@ interface Props<N> {
     name: N;
     url: SupportedPaths;
     value: Value | null | undefined;
-    onChange: (value: SetValueArg<Value>, name: N) => void;
+    onChange: (value: SetValueArg<Value> | undefined, name: N) => void;
     error: ObjectError<Value> | undefined;
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
@@ -72,6 +73,18 @@ function ImageWithCaptionInput<const N extends string | number>(props: Props<N>)
         ? fileIdToUrlMap[value.id]
         : undefined;
 
+    const handleFileInputChange = useCallback((newFileId: number | undefined) => {
+        if (!newFileId) {
+            onChange(undefined, name);
+        } else {
+            setFieldValue(newFileId, 'id');
+        }
+    }, [
+        setFieldValue,
+        onChange,
+        name,
+    ]);
+
     return (
         <div className={_cs(styles.imageWithCaptionInput, className)}>
             <NonFieldError
@@ -81,15 +94,14 @@ function ImageWithCaptionInput<const N extends string | number>(props: Props<N>)
                 name="id"
                 accept="image/*"
                 value={value?.id}
-                onChange={setFieldValue}
-                // url="/api/v2/dref-files/"
+                onChange={handleFileInputChange}
                 url={url}
                 fileIdToUrlMap={fileIdToUrlMap}
                 setFileIdToUrlMap={setFileIdToUrlMap}
                 icons={icons}
                 actions={actions}
                 disabled={disabled}
-                // FIXME: create a component for preview, implement remove
+                // FIXME: Make Go single file input with preview
                 description={isDefined(fileUrl) ? (
                     <img
                         className={styles.preview}
@@ -97,6 +109,7 @@ function ImageWithCaptionInput<const N extends string | number>(props: Props<N>)
                         src={fileUrl}
                     />
                 ) : undefined}
+                clearable
             >
                 {label}
             </GoSingleFileInput>

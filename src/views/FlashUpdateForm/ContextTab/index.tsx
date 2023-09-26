@@ -183,6 +183,7 @@ function ContextTab(props: Props) {
                     error={error?.hazard_type}
                     name="hazard_type"
                     value={value.hazard_type}
+                    label="Disaster Type"
                     onChange={onValueChange}
                     disabled={disabled}
                     // withAsterisk

@@ -235,6 +235,7 @@ function EventDetail(props: Props) {
                             value={value.supporting_document}
                             error={error?.supporting_document}
                             setFileIdToUrlMap={setFileIdToUrlMap}
+                            clearable
                             disabled={disabled}
                         >
                             {strings.drefFormUploadSupportingDocumentButtonLabel}

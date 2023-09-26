@@ -1,9 +1,11 @@
 import React, { useCallback } from 'react';
 import { _cs, isDefined } from '@togglecorp/fujs';
 import { nonFieldError } from '@togglecorp/toggle-form';
+import { DeleteBinLineIcon } from '@ifrc-go/icons';
 
 import InputError from '#components/InputError';
 import { NameType } from '#components/types';
+import IconButton from '#components/IconButton';
 import Link from '#components/Link';
 import type { ButtonVariant } from '#components/Button';
 import RawFileInput, { RawFileInputProps } from '#components/RawFileInput';
@@ -113,24 +115,44 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
     }, [triggerFileUpload]);
 
     const disabled = disabledFromProps || pending || readOnly;
-    const actions = (clearable && value && !readOnly && !disabled ? actionsFromProps : null);
+    const actions = (!readOnly && !disabled ? actionsFromProps : null);
     const selectedFileUrl = isDefined(value) ? fileIdToUrlMap?.[value] : undefined;
+
+    const handleClearButtonClick = useCallback(() => {
+        onChange(undefined, name);
+    }, [onChange, name]);
 
     return (
         <div className={_cs(styles.goSingleFileInput, className)}>
-            <RawFileInput
-                name={name}
-                onChange={handleChange}
-                accept={accept}
-                disabled={disabled}
-                readOnly={readOnly}
-                inputProps={inputProps}
-                variant={variant}
-                icons={icons}
-                actions={actions}
-            >
-                {children}
-            </RawFileInput>
+            <div className={styles.inputContainer}>
+                <RawFileInput
+                    name={name}
+                    onChange={handleChange}
+                    accept={accept}
+                    disabled={disabled}
+                    readOnly={readOnly}
+                    inputProps={inputProps}
+                    variant={variant}
+                    icons={icons}
+                    actions={actions}
+                >
+                    {children}
+                </RawFileInput>
+                {clearable && value && (
+                    <IconButton
+                        className={styles.removeButton}
+                        name={undefined}
+                        onClick={handleClearButtonClick}
+                        title={strings.removeButtonTitle}
+                        ariaLabel={strings.removeButtonTitle}
+                        variant="tertiary"
+                        spacing="none"
+                        disabled={disabled}
+                    >
+                        <DeleteBinLineIcon />
+                    </IconButton>
+                )}
+            </div>
             {!withoutPreview && isDefined(selectedFileUrl) ? (
                 <Link
                     href={selectedFileUrl}

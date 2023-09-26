@@ -97,6 +97,7 @@ function ReferenceInput(props: Props) {
                     setFileIdToUrlMap={setFileIdToUrlMap}
                     error={error?.document}
                     disabled={disabled}
+                    clearable
                 >
                     {strings.uploadDocumentButtonTitle}
                 </GoSingleFileInput>
