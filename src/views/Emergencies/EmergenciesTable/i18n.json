@@ -7,6 +7,9 @@
         "emergenciesTableGlide":"Glide",
         "emergenciesTableRequestedAmt":"Requested Amount",
         "emergenciesTableAffected":"# Affected",
-        "emergenciesTableCountry":"Countries"
+        "emergenciesTableCountry":"Countries",
+        "emergenciesTableFilterStartAfter": "Start After",
+        "emergenciesTableFilterStartBefore": "Start Before",
+        "emergenciesTableFilterDisastersPlaceholder": "All Disaster Types"
     }
 }

@@ -4,6 +4,7 @@ import {
 } from 'react';
 import Papa from 'papaparse';
 import { saveAs } from 'file-saver';
+import { isDefined } from '@togglecorp/fujs';
 
 import useTranslation from '#hooks/useTranslation';
 import {
@@ -26,6 +27,7 @@ import {
 } from '#components/Table/ColumnShortcuts';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import Table from '#components/Table';
+import DateInput from '#components/DateInput';
 import useFilterState from '#hooks/useFilterState';
 
 import i18n from './i18n.json';
@@ -46,7 +48,13 @@ export function Component() {
         setPage,
         limit,
         offset,
-    } = useFilterState<object>({
+        filter,
+        setFilterField,
+        filtered,
+    } = useFilterState<{
+        startDateAfter?: string,
+        startDateBefore?: string,
+    }>({
         filter: {},
         pageSize: 10,
     });
@@ -64,10 +72,18 @@ export function Component() {
         offset,
         ordering,
         end_date__gt: now,
+        start_date__gte: isDefined(filter.startDateAfter)
+            ? new Date(filter.startDateAfter).toISOString()
+            : undefined,
+        start_date__lte: isDefined(filter.startDateBefore)
+            ? new Date(filter.startDateBefore).toISOString()
+            : undefined,
+
     }), [
         limit,
         offset,
         ordering,
+        filter,
     ]);
 
     const {
@@ -211,6 +227,23 @@ export function Component() {
                         totalCount={personnelResponse?.count}
                     />
                 )}
+                withGridViewInFilter
+                filters={(
+                    <>
+                        <DateInput
+                            name="startDateAfter"
+                            label={strings.allDeployedPersonnelFilterStartDateAfter}
+                            onChange={setFilterField}
+                            value={filter.startDateAfter}
+                        />
+                        <DateInput
+                            name="startDateBefore"
+                            label={strings.allDeployedPersonnelFilterStartDateBefore}
+                            onChange={setFilterField}
+                            value={filter.startDateBefore}
+                        />
+                    </>
+                )}
                 footerActions={(
                     <Pager
                         activePage={page}
@@ -222,7 +255,7 @@ export function Component() {
             >
                 <SortContext.Provider value={sortState}>
                     <Table
-                        filtered={false}
+                        filtered={filtered}
                         pending={personnelPending}
                         data={personnelResponse?.results}
                         keySelector={keySelector}

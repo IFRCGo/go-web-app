@@ -24,6 +24,7 @@ import useAlert from '#hooks/useAlert';
 import useFilterState from '#hooks/useFilterState';
 import NumberOutput from '#components/NumberOutput';
 import ExportButton from '#components/domain/ExportButton';
+import DateInput from '#components/DateInput';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import { resolveToComponent } from '#utils/translation';
 import {
@@ -58,7 +59,13 @@ export function Component() {
         setPage,
         limit,
         offset,
-    } = useFilterState<object>({
+        filter,
+        setFilterField,
+        filtered,
+    } = useFilterState<{
+        startDateAfter?: string,
+        startDateBefore?: string,
+    }>({
         filter: {},
         pageSize: 15,
     });
@@ -166,8 +173,18 @@ export function Component() {
             // of just number
             regions__in: isDefined(filterRegion) ? filterRegion : undefined,
             countries__in: filterCountry,
+            disaster_start_date__gte: filter.startDateAfter,
+            disaster_start_date__lte: filter.startDateBefore,
         }),
-        [limit, offset, ordering, filterDisasterType, filterRegion, filterCountry],
+        [
+            limit,
+            offset,
+            ordering,
+            filterDisasterType,
+            filterRegion,
+            filterCountry,
+            filter,
+        ],
     );
 
     const {
@@ -231,7 +248,8 @@ export function Component() {
 
     const isFiltered = isDefined(filterDisasterType)
         || isDefined(filterRegion)
-        || isDefined(filterCountry);
+        || isDefined(filterCountry)
+        || filtered;
 
     return (
         <Page
@@ -244,6 +262,18 @@ export function Component() {
                 withGridViewInFilter
                 filters={(
                     <>
+                        <DateInput
+                            name="startDateAfter"
+                            label={strings.allEmergenciesDisasterType}
+                            onChange={setFilterField}
+                            value={filter.startDateAfter}
+                        />
+                        <DateInput
+                            name="startDateBefore"
+                            label={strings.allEmergenciesTableFilterStartBefore}
+                            onChange={setFilterField}
+                            value={filter.startDateBefore}
+                        />
                         <DisasterTypeSelectInput
                             placeholder={strings.allEmergenciesFilterDisastersPlaceholder}
                             label={strings.allEmergenciesDisasterType}
@@ -265,7 +295,6 @@ export function Component() {
                             value={filterCountry}
                             onChange={setFilterCountry}
                         />
-                        <div />
                     </>
                 )}
                 actions={(

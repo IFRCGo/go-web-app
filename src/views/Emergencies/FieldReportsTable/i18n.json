@@ -9,6 +9,8 @@
         "fieldReportsTableCountry":"Countries",
         "fieldReportsTableViewAllReports":"View All Field Reports",
         "fieldReportsTableFooter":"View all field reports in {regions}",
-        "fieldReportsTablePerformance":"(Performance problems with Export Table)"
+        "fieldReportsTablePerformance":"(Performance problems with Export Table)",
+        "fieldReportsFilterCreatedDateAfter": "Created After",
+        "fieldReportsFilterCreatedDateBefore": "Created Before"
     }
 }
