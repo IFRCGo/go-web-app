@@ -354,6 +354,7 @@ function ActiveOperationMap(props: Props) {
             >
                 <MapContainerWithDisclaimer
                     className={styles.mapContainer}
+                    title={strings.downloadMapTitle}
                     footer={(
                         <div className={styles.footer}>
                             <RadioInput

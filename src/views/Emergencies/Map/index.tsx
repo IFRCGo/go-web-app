@@ -250,6 +250,7 @@ function EmergenciesMap(props: Props) {
             >
                 <MapContainerWithDisclaimer
                     className={styles.mapContainer}
+                    title={strings.emergenciesDownloadMapTitle}
                     footer={(
                         <div className={styles.footer}>
                             <div className={styles.left}>

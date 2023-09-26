@@ -1,7 +1,21 @@
 .download-header {
-    border-bottom: var(--go-ui-width-separator-md) solid var(--go-ui-color-primary-red);
+    border-bottom: var(--go-ui-width-separator-lg) solid var(--go-ui-color-primary-red);
     background-color: var(--go-ui-color-background);
-    padding: var(--go-ui-spacing-lg);
+    padding: var(--go-ui-spacing-sm);
+
+    .download-heading {
+        align-items: baseline;
+        gap: var(--go-ui-spacing-xs);
+        color: var(--go-ui-color-primary-red);
+
+        .header-date {
+            font-size: var(--go-ui-font-size-xs);
+        }
+    }
+
+    .go-icon {
+        height: var(--go-ui-height-compact-status-icon);
+    }
 }
 
 .map-container-with-disclaimer {

@@ -259,6 +259,7 @@ function SurgeMap(props: Props) {
             >
                 <MapContainerWithDisclaimer
                     className={styles.mapContainer}
+                    title={strings.surgeDownloadMapTitle}
                     footer={(
                         <div className={styles.footer}>
                             <div className={styles.left}>
