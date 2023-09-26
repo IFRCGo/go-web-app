@@ -1,8 +1,7 @@
-import { type ReactElement, useContext } from 'react';
-import { isNotDefined, isDefined } from '@togglecorp/fujs';
+import { type ReactElement } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 
-import UserContext from '#contexts/user';
+import useAuth from '#hooks/domain/useAuth';
 import FourHundredThree from '#components/FourHundredThree';
 import usePermissions from '#hooks/domain/usePermissions';
 import { type ExtendedProps } from './routes';
@@ -20,14 +19,14 @@ function Auth(props: Props) {
     const urlParams = useParams();
     const perms = usePermissions();
 
-    const { userAuth: userDetails } = useContext(UserContext);
+    const { isAuthenticated } = useAuth();
 
-    if (context.visibility === 'is-authenticated' && isNotDefined(userDetails)) {
+    if (context.visibility === 'is-authenticated' && !isAuthenticated) {
         return (
             <Navigate to="/login" />
         );
     }
-    if (context.visibility === 'is-not-authenticated' && isDefined(userDetails)) {
+    if (context.visibility === 'is-not-authenticated' && isAuthenticated) {
         return (
             <Navigate to="/" />
         );

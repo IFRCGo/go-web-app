@@ -1,6 +1,7 @@
-import { useContext, useState } from 'react';
-import { isNotDefined, _cs } from '@togglecorp/fujs';
+import { useState } from 'react';
+import { _cs } from '@togglecorp/fujs';
 
+import useAuth from '#hooks/domain/useAuth';
 import PageContainer from '#components/PageContainer';
 import Link from '#components/Link';
 import DropdownMenu from '#components/DropdownMenu';
@@ -9,7 +10,6 @@ import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
 import KeywordSearchSelectInput from '#components/domain/KeywordSearchSelectInput';
 import useTranslation from '#hooks/useTranslation';
-import UserContext from '#contexts/user';
 import { environment } from '#config';
 import goLogo from '#assets/icons/go-logo-2020.svg';
 import TabList from '#components/Tabs/TabList';
@@ -32,7 +32,7 @@ function Navbar(props: Props) {
         className,
     } = props;
 
-    const { userAuth: userDetails } = useContext(UserContext);
+    const { isAuthenticated } = useAuth();
     const strings = useTranslation(i18n);
 
     type PrepareOptionKey = 'risk-analysis' | 'per' | 'global-3w-projects';
@@ -69,7 +69,7 @@ function Navbar(props: Props) {
                     variant="tertiary"
                 >
                     <LangaugeDropdown />
-                    {isNotDefined(userDetails) && (
+                    {!isAuthenticated && (
                         <>
                             <NavigationTab
                                 to="login"

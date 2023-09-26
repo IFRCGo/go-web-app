@@ -16,9 +16,13 @@ import {
     _cs,
     isDefined,
     isNotDefined,
+    unique,
 } from '@togglecorp/fujs';
 
+import PageContainer from '#components/PageContainer';
+import PageHeader from '#components/PageHeader';
 import Page from '#components/Page';
+import useUserMe from '#hooks/domain/useUserMe';
 import Container from '#components/Container';
 import IconButton from '#components/IconButton';
 import BlockLoading from '#components/BlockLoading';
@@ -35,6 +39,7 @@ import TextOutput from '#components/TextOutput';
 import Link from '#components/Link';
 import useAuth from '#hooks/domain/useAuth';
 import useTranslation from '#hooks/useTranslation';
+import { getUserName } from '#utils/domain/user';
 import { numericIdSelector } from '#utils/selectors';
 import { getPercentage } from '#utils/common';
 import useFilterState from '#hooks/useFilterState';
@@ -61,6 +66,7 @@ export function Component() {
     });
 
     const { isAuthenticated } = useAuth();
+    const userResponse = useUserMe();
 
     const {
         pending: aggregatedAppealPending,
@@ -70,17 +76,12 @@ export function Component() {
     });
 
     const {
-        response: userResponse,
-    } = useRequest({
-        url: '/api/v2/user/me/',
-    });
-
-    const {
         error: subscribedEventsResponseError,
         response: subscribedEventsResponse,
         pending: subscribedEventsResponsePending,
         retrigger: updateSubscribedEventsResponse,
     } = useRequest({
+        skip: !isAuthenticated,
         url: '/api/v2/event/',
         query: {
             limit,
@@ -192,159 +193,117 @@ export function Component() {
         [updateSubscribedEventsResponse],
     );
 
+    const userCountries = userResponse?.user_countries_regions;
+    // FIXME: The typing of region/region_details is not correct. Fix in the sever
+    // NOTE: Only showing unique regions
+    const userRegions = unique(
+        userCountries ?? [],
+        (item) => item.country_details.region_details.id,
+    );
+
     return (
         <>
             {isAuthenticated && (
-                <Page
-                    title={strings.homeTitle}
-                    className={styles.home}
-                    heading={resolveToString(
-                        strings.homeUserNameHeading,
-                        {
-                            userName: userResponse?.username,
-                        },
-                    )}
-                    mainSectionClassName={styles.content}
-                    infoContainerClassName={styles.keyFigureList}
-                    info={isAuthenticated && (
-                        <div className={styles.operationsFollowing}>
-                            <Container
-                                className={styles.operationsCard}
-                                heading={strings.homeOperationFollowingHeading}
-                                withHeaderBorder
-                                footerActions={(
-                                    <Pager
-                                        activePage={page}
-                                        itemsCount={subscribedEventsResponse?.count ?? 0}
-                                        maxItemsPerPage={limit}
-                                        onActivePageChange={setPage}
-                                    />
-                                )}
-                            >
-                                <List
-                                    className={styles.operationsList}
-                                    data={eventList}
-                                    pending={subscribedEventsResponsePending}
-                                    errored={isDefined(subscribedEventsResponseError)}
-                                    filtered={false}
-                                    keySelector={numericIdSelector}
-                                    renderer={OperationListItem}
-                                    rendererParams={rendererParams}
-                                />
-                            </Container>
-                            <Container
-                                className={styles.operationsCard}
-                                heading={strings.homeQuickLinksTitle}
-                                childrenContainerClassName={styles.quickCard}
-                            >
-                                <TextOutput
-                                    label={strings.homeYourCountryLabel}
-                                    value={userResponse?.user_countries_regions?.map((country) => (
-                                        <Link
-                                            to="countriesLayout"
-                                            urlParams={{
-                                                countryId: country.country_details.id,
-                                            }}
-                                            withLinkIcon
-                                        >
-                                            {country.country_details.name}
-                                        </Link>
-                                    ))}
-                                    strongValue
-                                />
-                                <TextOutput
-                                    label={strings.homeFieldReportLabel}
-                                    value={(
-                                        <Link
-                                            to="fieldReportFormNew"
-                                            withLinkIcon
-                                        >
-                                            {strings.homeCreateFieldReport}
-                                        </Link>
-                                    )}
-                                    strongValue
-                                />
-                                <TextOutput
-                                    label={strings.homeYourRegionLabel}
-                                    value={userResponse?.user_countries_regions?.map((region) => (
-                                        <Link
-                                            to="regionsLayout"
-                                            withLinkIcon
-                                            urlParams={{
-                                                regionId: region.country_details.region,
-                                            }}
-                                        >
-                                            {region.country_details.region_details.name}
-                                        </Link>
-                                    ))}
-                                    strongValue
-                                />
-                                <TextOutput
-                                    label={strings.homeFlashUpdateLabel}
-                                    value={(
-                                        <Link
-                                            to="flashUpdateFormNew"
-                                            withLinkIcon
-                                        >
-                                            {strings.homeCreateFlashUpdate}
-                                        </Link>
-                                    )}
-                                    strongValue
-                                />
-                            </Container>
-                            <Container
-                                className={styles.loggedInHome}
-                                headerClassName={styles.header}
-                                heading={strings.homeHeading}
-                                headingLevel={1}
-                                headerDescription={strings.homeDescription}
-                                childrenContainerClassName={styles.keyFigureList}
-                            >
-
-                                {pending && <BlockLoading />}
-                                {infoBarElements}
-                            </Container>
-                        </div>
-                    )}
-                >
-                    <HighlightedOperations variant="global" />
-                    <ActiveOperationMap
-                        variant="global"
-                        onPresentationModeButtonClick={handleFullScreenToggleClick}
-                        bbox={undefined}
-                    />
-                    <AppealsTable variant="global" />
-                    <AppealsOverYearsChart />
-                    <div
-                        className={_cs(presentationMode && styles.presentationMode)}
-                        ref={containerRef}
-                    >
-                        {presentationMode && (
-                            <Container
-                                heading={strings.fullScreenHeading}
-                                actions={(
-                                    <IconButton
-                                        name={undefined}
-                                        onClick={handleFullScreenToggleClick}
-                                        title={strings.homeIconButtonLabel}
-                                        variant="secondary"
-                                        ariaLabel={strings.homeIconButtonLabel}
-                                    >
-                                        <CloseLineIcon />
-                                    </IconButton>
-                                )}
-                                headerDescriptionContainerClassName={styles.keyFigureList}
-                                headerDescription={infoBarElements}
-                            >
-                                <ActiveOperationMap
-                                    variant="global"
-                                    bbox={undefined}
-                                    presentationMode
-                                />
-                            </Container>
+                <div>
+                    <PageHeader
+                        heading={resolveToString(
+                            strings.homeUserNameHeading,
+                            {
+                                userName: getUserName(userResponse),
+                            },
                         )}
-                    </div>
-                </Page>
+                    />
+                    <PageContainer
+                        contentClassName={styles.greetingCard}
+                    >
+                        <Container
+                            className={styles.operationsCard}
+                            heading={strings.homeOperationFollowingHeading}
+                            withHeaderBorder
+                            footerActions={(
+                                <Pager
+                                    activePage={page}
+                                    itemsCount={subscribedEventsResponse?.count ?? 0}
+                                    maxItemsPerPage={limit}
+                                    onActivePageChange={setPage}
+                                />
+                            )}
+                        >
+                            <List
+                                className={styles.operationsList}
+                                data={eventList}
+                                pending={subscribedEventsResponsePending}
+                                errored={isDefined(subscribedEventsResponseError)}
+                                filtered={false}
+                                keySelector={numericIdSelector}
+                                renderer={OperationListItem}
+                                rendererParams={rendererParams}
+                            />
+                        </Container>
+                        <Container
+                            className={styles.operationsCard}
+                            heading={strings.homeQuickLinksTitle}
+                            childrenContainerClassName={styles.quickCard}
+                        >
+                            <TextOutput
+                                label={strings.homeYourCountryLabel}
+                                value={userCountries?.map((country) => (
+                                    <Link
+                                        to="countriesLayout"
+                                        urlParams={{
+                                            countryId: country.country_details.id,
+                                        }}
+                                        key={country.country_details.id}
+                                        withLinkIcon
+                                    >
+                                        {country.country_details.name}
+                                    </Link>
+                                ))}
+                                strongValue
+                            />
+                            <TextOutput
+                                label={strings.homeFieldReportLabel}
+                                value={(
+                                    <Link
+                                        to="fieldReportFormNew"
+                                        withLinkIcon
+                                    >
+                                        {strings.homeCreateFieldReport}
+                                    </Link>
+                                )}
+                                strongValue
+                            />
+                            <TextOutput
+                                label={strings.homeYourRegionLabel}
+                                value={userRegions?.map((region) => (
+                                    <Link
+                                        key={region.country_details.region}
+                                        to="regionsLayout"
+                                        withLinkIcon
+                                        urlParams={{
+                                            regionId: region.country_details.region,
+                                        }}
+                                    >
+                                        {region.country_details.region_details.name}
+                                    </Link>
+                                ))}
+                                strongValue
+                            />
+                            <TextOutput
+                                label={strings.homeFlashUpdateLabel}
+                                value={(
+                                    <Link
+                                        to="flashUpdateFormNew"
+                                        withLinkIcon
+                                    >
+                                        {strings.homeCreateFlashUpdate}
+                                    </Link>
+                                )}
+                                strongValue
+                            />
+                        </Container>
+                    </PageContainer>
+                </div>
             )}
             <Page
                 title={strings.homeTitle}

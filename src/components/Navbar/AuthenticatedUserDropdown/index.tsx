@@ -1,6 +1,6 @@
 import { useContext, useCallback } from 'react';
-import { isNotDefined } from '@togglecorp/fujs';
 
+import useAuth from '#hooks/domain/useAuth';
 import { getUserName } from '#utils/domain/user';
 import useUserMe from '#hooks/domain/useUserMe';
 import DropdownMenu from '#components/DropdownMenu';
@@ -20,6 +20,7 @@ function AuthenticatedUserDropdown(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
+    const { isAuthenticated } = useAuth();
 
     const {
         userAuth: userDetails,
@@ -32,7 +33,7 @@ function AuthenticatedUserDropdown(props: Props) {
         window.location.reload();
     }, [removeUser]);
 
-    if (isNotDefined(userDetails)) {
+    if (!isAuthenticated) {
         return null;
     }
 
@@ -42,7 +43,7 @@ function AuthenticatedUserDropdown(props: Props) {
             label={(
                 userMe
                     ? getUserName(userMe)
-                    : userDetails.displayName ?? strings.userDisplayNameAnonymous
+                    : userDetails?.displayName ?? strings.userDisplayNameAnonymous
             )}
             variant="tertiary"
             persistent

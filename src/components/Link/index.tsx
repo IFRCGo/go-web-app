@@ -16,7 +16,7 @@ import {
 } from '@ifrc-go/icons';
 
 import usePermissions from '#hooks/domain/usePermissions';
-import UserContext from '#contexts/user';
+import useAuth from '#hooks/domain/useAuth';
 import RouteContext from '#contexts/route';
 import { useButtonFeatures } from '#components/Button';
 import type { ButtonFeatureProps } from '#components/Button';
@@ -61,7 +61,7 @@ export function useLink(props: {
     urlParams?: UrlParams,
     href?: never,
 }) {
-    const { userAuth: userDetails } = useContext(UserContext);
+    const { isAuthenticated } = useAuth();
     const routes = useContext(RouteContext);
     const perms = usePermissions();
 
@@ -86,8 +86,8 @@ export function useLink(props: {
 
     return {
         disabled: (
-            (route.visibility === 'is-authenticated' && isNotDefined(userDetails))
-            || (route.visibility === 'is-not-authenticated' && isDefined(userDetails))
+            (route.visibility === 'is-authenticated' && !isAuthenticated)
+            || (route.visibility === 'is-not-authenticated' && isAuthenticated)
             || (route.permissions && !route.permissions(perms, props.urlParams))
         ),
         to: resolvedPath,
