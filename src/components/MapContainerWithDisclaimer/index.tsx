@@ -9,6 +9,7 @@ import {
     CloseFillIcon,
 } from '@ifrc-go/icons';
 
+import goLogo from '#assets/icons/go-logo-2020.svg';
 import InfoPopup from '#components/InfoPopup';
 import DateOutput from '#components/DateOutput';
 import useAlert from '#hooks/useAlert';
@@ -33,7 +34,7 @@ async function downloadImage(
     if (divRef?.current) {
         const canvas = await html2canvas(divRef.current, { scale: 3 });
 
-        const png = canvas.toDataURL('image/png', 1.0);
+        const png = canvas.toDataURL('image/png');
 
         FileSaver.saveAs(png, `${title}.png`);
     }
@@ -142,15 +143,23 @@ function MapContainerWithDisclaimer(props: Props) {
                 {printMode && (
                     <Header
                         className={styles.downloadHeader}
+                        headingClassName={styles.downloadHeading}
+                        headingLevel={2}
                         heading={(
                             <>
                                 {title}
-                                (
                                 <DateOutput
+                                    className={styles.headerDate}
                                     value={(new Date()).toDateString()}
                                 />
-                                )
                             </>
+                        )}
+                        actions={(
+                            <img
+                                className={styles.goIcon}
+                                src={goLogo}
+                                alt={strings.downloadHeaderLogoAltText}
+                            />
                         )}
                     />
                 )}

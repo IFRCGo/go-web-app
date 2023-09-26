@@ -26,6 +26,7 @@
         "explanationBubbleDref":"DREF",
         "explanationBubbleEAP":"Early Action Protocol Activation",
         "explanationBubbleMultiple":"Multiple types",
-        "explanationBubbleDeployments":"Deployments"
+        "explanationBubbleDeployments":"Deployments",
+        "downloadMapTitle": "Ongoing operations"
     }
 }
