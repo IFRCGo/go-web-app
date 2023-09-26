@@ -17,18 +17,18 @@ import {
 } from '@togglecorp/fujs';
 
 import Button from '#components/Button';
-import Message from '#components/Message';
-import Link from '#components/Link';
-import Heading from '#components/Heading';
-import { sumSafe } from '#utils/common';
-import { useRequest } from '#utils/restRequest';
-import useTranslation from '#hooks/useTranslation';
-import KeyFigure from '#components/KeyFigure';
-import PieChart from '#components/PieChart';
 import Container from '#components/Container';
-import TextOutput from '#components/TextOutput';
+import Heading from '#components/Heading';
+import KeyFigure from '#components/KeyFigure';
+import Link from '#components/Link';
+import Message from '#components/Message';
+import PieChart from '#components/PieChart';
 import ProgressBar from '#components/ProgressBar';
 import StackedProgressBar from '#components/StackedProgressBar';
+import TextOutput from '#components/TextOutput';
+import useTranslation from '#hooks/useTranslation';
+import { sumSafe } from '#utils/common';
+import { useRequest } from '#utils/restRequest';
 import {
     numericCountSelector,
     numericIdSelector,
@@ -37,6 +37,7 @@ import {
 } from '#utils/selectors';
 
 import PreviousAssessmentCharts from './PreviousAssessmentChart';
+import PublicCountryPreparedness from './PublicCountryPreparedness';
 import RatingByAreaChart from './RatingByAreaChart';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -566,22 +567,23 @@ export function Component() {
                 />
             )}
             {limitedAccess && (
-                <Message
-                    className={styles.limitedAccessAction}
-                    title={strings.componentLimitedAccess}
-                    description={strings.componentLimitedAccessDescription}
-                    actions={(
-                        <Button
-                            variant="primary"
-                            name={undefined}
-                        >
-                            {strings.componentRequestSeeMore}
-                        </Button>
-                    )}
-                />
+                <div className={styles.limitedAccess}>
+                    <PublicCountryPreparedness perId={perId} />
+                    <Message
+                        title={strings.componentLimitedAccess}
+                        description={strings.componentLimitedAccessDescription}
+                        actions={(
+                            <Button
+                                variant="primary"
+                                name={undefined}
+                            >
+                                {strings.componentRequestSeeMore}
+                            </Button>
+                        )}
+                    />
+                </div>
             )}
         </Container>
     );
 }
-
 Component.displayName = 'CountryPreparedness';

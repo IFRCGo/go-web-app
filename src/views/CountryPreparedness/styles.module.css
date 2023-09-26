@@ -17,10 +17,6 @@
             grid-column: 1 / -1;
         }
 
-        .limited-access-action {
-            grid-column: 1 / -1;
-        }
-
         .latest-per-details {
             display: grid;
             border-radius: var(--go-ui-border-radius-lg);
@@ -116,6 +112,9 @@
                     height: var(--go-ui-width-separator-thin);
                 }
             }
+        }
+        .limited-access {
+            grid-column: 1  / -1;
         }
     }
 }
