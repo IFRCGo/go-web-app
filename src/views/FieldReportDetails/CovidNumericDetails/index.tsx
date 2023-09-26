@@ -43,11 +43,6 @@ function CovidNumericDetails(props: Props) {
                 label={strings.covidAssistedGovernmentLabel}
                 value={value?.gov_num_assisted}
             />
-            {/* FIXME: This is not visible in the form */}
-            <KeyFigure
-                label={strings.covidAssistedOtherLabel}
-                value={value?.other_num_assisted}
-            />
             {/* FIXME: This is not there in old details */}
             <TextOutput
                 label={strings.covidSourceLabel}

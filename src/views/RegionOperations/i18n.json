@@ -1,6 +1,7 @@
 {
     "namespace": "region",
     "strings": {
-        "fullScreenHeading":"IFRC Disaster Response and Preparedness"
+        "fullScreenHeading":"IFRC Disaster Response and Preparedness",
+        "regionCloseButton":"Close"
     }
 }

@@ -13,6 +13,7 @@
         "feedbackAriaLabel" : "Map feedback",
         "mapContainerMapbox": "Mapbox",
         "downloadHeaderLogoAltText":"IFRC GO logo",
-        "mapContainerOpenStreetMap": "OpenStreetMap"
+        "mapContainerOpenStreetMap": "OpenStreetMap",
+        "mapContainerIconButton": "Close"
     }
 }

@@ -9,7 +9,7 @@ import useTranslation from '#hooks/useTranslation';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import { numericIdSelector } from '#utils/selectors';
 
-import OperationListItem, { type Props as OperationListItemProps } from './OperationListItem';
+import OperationListItem, { type Props as OperationListItemProps } from '#components/OperationListItem';
 import SubscriptionPreferences from './SubscriptionPreferences';
 
 import i18n from './i18n.json';
