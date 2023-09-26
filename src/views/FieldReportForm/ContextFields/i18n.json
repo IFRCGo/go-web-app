@@ -11,7 +11,7 @@
         "emergencySelectPlaceholder": "Click here to link to an existing hazard alert (if one exists)",
 
         "titleInputPlaceholder": "Example: Cyclone Cody",
-        "titleSecondaryLabel": "Add Summary",
+        "titleSecondaryLabel": "Title",
 
         "assistanceDescription": "Indicate if the government requested international assistance.",
         "assistanceLabel": "Government requests international assistance?",

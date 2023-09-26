@@ -1,3 +1,4 @@
+import { type RefObject } from 'react';
 import {
     ObjectSchema,
     PartialForm,
@@ -8,6 +9,8 @@ import {
 
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
 import { type GoApiResponse, type GoApiBody } from '#utils/restRequest';
+
+type FormContext = RefObject<boolean>;
 
 export type PerOverviewResponse = GoApiResponse<'/api/v2/per-overview/{id}/'>;
 export type PerOverviewRequestBody = GoApiBody<'/api/v2/per-overview/{id}/', 'PATCH'>;
@@ -24,11 +27,12 @@ export type PerOverviewFormFields = Omit<
 >;
 
 export type PartialOverviewFormFields = PartialForm<PerOverviewFormFields, 'id'>;
-type OverviewFormSchema = ObjectSchema<PartialOverviewFormFields>;
+// eslint-disable-next-line max-len
+type OverviewFormSchema = ObjectSchema<PartialOverviewFormFields, PartialOverviewFormFields, FormContext>;
 type OverviewFormSchemaFields = ReturnType<OverviewFormSchema['fields']>;
 
 export const overviewSchema: OverviewFormSchema = {
-    fields: (formValue): OverviewFormSchemaFields => {
+    fields: (formValue, _, isSettingUpProcess): OverviewFormSchemaFields => {
         let schema: OverviewFormSchemaFields = {
             is_draft: {},
 
@@ -62,9 +66,6 @@ export const overviewSchema: OverviewFormSchema = {
 
         const partiallyReadonlyFields = [
             'country',
-            'date_of_orientation',
-            'date_of_assessment',
-            'type_of_assessment',
             'branches_involved',
             'assessment_method',
             'assess_preparedness_of_country',
@@ -80,9 +81,6 @@ export const overviewSchema: OverviewFormSchema = {
                 if (val?.is_draft === false) {
                     return {
                         country: { forceValue: undefinedValue },
-                        date_of_orientation: { forceValue: undefinedValue },
-                        date_of_assessment: { forceValue: undefinedValue },
-                        type_of_assessment: { forceValue: undefinedValue },
                         branches_involved: { forceValue: undefinedValue },
                         assessment_method: { forceValue: undefinedValue },
                         assess_preparedness_of_country: { forceValue: undefinedValue },
@@ -92,9 +90,6 @@ export const overviewSchema: OverviewFormSchema = {
                 }
                 return {
                     country: { required: true },
-                    date_of_orientation: {},
-                    date_of_assessment: {},
-                    type_of_assessment: {},
                     branches_involved: {},
                     assessment_method: {},
                     assess_preparedness_of_country: {},
@@ -107,14 +102,17 @@ export const overviewSchema: OverviewFormSchema = {
         schema = addCondition(
             schema,
             formValue,
-            ['date_of_assessment'],
+            ['date_of_assessment', 'is_draft'],
             ['date_of_orientation'],
             (val): Pick<OverviewFormSchemaFields, 'date_of_orientation'> => {
+                if (val?.is_draft === false) {
+                    return {
+                        date_of_orientation: { forceValue: undefinedValue },
+                    };
+                }
                 if (isNotDefined(val?.date_of_assessment)) {
                     return {
-                        date_of_orientation: {
-                            required: true,
-                        },
+                        date_of_orientation: { required: true },
                     };
                 }
 
@@ -127,17 +125,19 @@ export const overviewSchema: OverviewFormSchema = {
         schema = addCondition(
             schema,
             formValue,
-            ['date_of_orientation'],
+            ['date_of_orientation', 'is_draft'],
             ['date_of_assessment'],
             (val): Pick<OverviewFormSchemaFields, 'date_of_assessment'> => {
-                if (isNotDefined(val?.date_of_orientation)) {
+                if (val?.is_draft === false) {
                     return {
-                        date_of_assessment: {
-                            required: true,
-                        },
+                        date_of_assessment: { forceValue: undefinedValue },
                     };
                 }
-
+                if (isNotDefined(val?.date_of_orientation) || isSettingUpProcess.current) {
+                    return {
+                        date_of_assessment: { required: true },
+                    };
+                }
                 return {
                     date_of_assessment: {},
                 };
@@ -147,14 +147,17 @@ export const overviewSchema: OverviewFormSchema = {
         schema = addCondition(
             schema,
             formValue,
-            ['date_of_assessment'],
+            ['date_of_assessment', 'is_draft'],
             ['type_of_assessment'],
             (val): Pick<OverviewFormSchemaFields, 'type_of_assessment'> => {
-                if (isDefined(val?.date_of_assessment)) {
+                if (val?.is_draft === false) {
                     return {
-                        type_of_assessment: {
-                            required: true,
-                        },
+                        type_of_assessment: { forceValue: undefinedValue },
+                    };
+                }
+                if (isDefined(val?.date_of_assessment) || isSettingUpProcess.current) {
+                    return {
+                        type_of_assessment: { required: true },
                     };
                 }
                 return {

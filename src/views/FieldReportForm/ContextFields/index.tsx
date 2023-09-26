@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import { isNotDefined } from '@togglecorp/fujs';
+import { isNotDefined, isTruthyString } from '@togglecorp/fujs';
 import {
     type Error,
     type EntriesAsList,
@@ -46,7 +46,10 @@ interface Props {
     setDistrictOptions: React.Dispatch<React.SetStateAction<DistrictItem[] | null | undefined>>;
     setEventOptions: React.Dispatch<React.SetStateAction<EventItem[] | null | undefined>>;
     disabled?: boolean;
-    titlePreview: string | undefined;
+
+    fieldReportId: string | undefined;
+    titlePrefix: string | undefined;
+    titleSuffix: string | undefined;
 }
 
 function ContextFields(props: Props) {
@@ -60,7 +63,9 @@ function ContextFields(props: Props) {
         setDistrictOptions,
         setEventOptions,
         disabled,
-        titlePreview,
+        titlePrefix,
+        titleSuffix,
+        fieldReportId,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -157,6 +162,17 @@ function ContextFields(props: Props) {
         [onValueChange, value.dtype],
     );
 
+    const prefixVisible = !fieldReportId && isTruthyString(titlePrefix);
+    const summaryVisible = !value.is_covid_report;
+    const suffixVisible = !fieldReportId && isTruthyString(titleSuffix);
+
+    const preferredColumnNoForSummary = Math.max(
+        (prefixVisible ? 1 : 0)
+        + (summaryVisible ? 1 : 0)
+        + (suffixVisible ? 1 : 0),
+        1,
+    ) as 1 | 2 | 3;
+
     return (
         <Container
             heading={strings.fieldReportFormContextTitle}
@@ -181,6 +197,7 @@ function ContextFields(props: Props) {
                 />
             </InputSection>
             <InputSection
+                className={styles.hidden}
                 title={strings.covidSectionTitle}
                 withAsteriskOnTitle
             >
@@ -273,18 +290,42 @@ function ContextFields(props: Props) {
                 title={strings.summaryLabel}
                 description={strings.summaryDescription}
                 withAsteriskOnTitle
+                numPreferredColumns={preferredColumnNoForSummary}
             >
-                <TextInput
-                    label={strings.titleSecondaryLabel}
-                    placeholder={strings.titleInputPlaceholder}
-                    name="summary"
-                    value={value.summary}
-                    maxLength={256}
-                    onChange={onValueChange}
-                    error={error?.summary}
-                    disabled={disabled}
-                    hint={titlePreview}
-                />
+                {prefixVisible && (
+                    <TextInput
+                        // FIXME: use translations
+                        label={summaryVisible ? 'Prefix' : strings.titleSecondaryLabel}
+                        name={undefined}
+                        value={titlePrefix}
+                        // eslint-disable-next-line @typescript-eslint/no-empty-function
+                        onChange={() => {}}
+                    />
+                )}
+                {summaryVisible && (
+                    <TextInput
+                        label={strings.titleSecondaryLabel}
+                        placeholder={strings.titleInputPlaceholder}
+                        name="summary"
+                        value={value.summary}
+                        maxLength={256}
+                        onChange={onValueChange}
+                        error={error?.summary}
+                        disabled={disabled}
+                        withAsterisk
+                    />
+                )}
+                {suffixVisible && (
+                    <TextInput
+                        // FIXME: use translations
+                        label="Suffix"
+                        name={undefined}
+                        value={titleSuffix}
+                        // eslint-disable-next-line @typescript-eslint/no-empty-function
+                        onChange={() => {}}
+                        // readOnly
+                    />
+                )}
             </InputSection>
             <InputSection
                 title={strings.assistanceLabel}
