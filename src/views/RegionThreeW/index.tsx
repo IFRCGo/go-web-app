@@ -85,6 +85,7 @@ export function Component() {
     const {
         page,
         setPage,
+        rawFilter,
         filter,
         filtered,
         setFilterField,
@@ -173,7 +174,7 @@ export function Component() {
             children: (
                 <CountryProjectTable
                     country={country.id}
-                    filters={filter}
+                    filters={rawFilter}
                     page={page}
                     setPage={setPage}
                     limit={limit}
@@ -181,7 +182,7 @@ export function Component() {
                 />
             ),
         }),
-        [strings.projectsCount, filter, page, setPage, limit, offset],
+        [strings.projectsCount, rawFilter, page, setPage, limit, offset],
     );
 
     const countrySectorRendererParams = useCallback((_: number, country: CountryActivity) => ({
@@ -284,7 +285,7 @@ export function Component() {
                 withGridViewInFilter
                 filters={(
                     <Filters
-                        value={filter}
+                        value={rawFilter}
                         onChange={setFilterField}
                     />
                 )}

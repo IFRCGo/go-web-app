@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { max } from '@togglecorp/fujs';
+import { max, encodeDate } from '@togglecorp/fujs';
 
 import useTranslation from '#hooks/useTranslation';
 import Link from '#components/Link';
@@ -32,8 +32,6 @@ const thirtyDaysAgo = new Date();
 thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 thirtyDaysAgo.setHours(0, 0, 0, 0);
 
-const disasterStartDate = thirtyDaysAgo.toISOString();
-
 function getMostRecentAffectedValue(fieldReport: EmergenciesTableItem['field_reports']) {
     const latestReport = max(fieldReport, (item) => new Date(item.updated_at).getTime());
     return latestReport?.num_affected;
@@ -58,6 +56,7 @@ function EmergenciesOperationTable(props: Props) {
         setPage,
         limit,
         offset,
+        rawFilter,
         filter,
         setFilterField,
         filtered,
@@ -66,7 +65,9 @@ function EmergenciesOperationTable(props: Props) {
         startDateBefore?: string,
         dType?: number,
     }>({
-        filter: {},
+        filter: {
+            startDateAfter: encodeDate(thirtyDaysAgo),
+        },
         pageSize: 10,
     });
 
@@ -127,7 +128,7 @@ function EmergenciesOperationTable(props: Props) {
             offset,
             countries__in: countryId,
             ordering,
-            disaster_start_date__gte: filter.startDateAfter ?? disasterStartDate,
+            disaster_start_date__gte: filter.startDateAfter,
             disaster_start_date__lte: filter.startDateBefore,
             dtype: filter.dType,
         },
@@ -154,19 +155,19 @@ function EmergenciesOperationTable(props: Props) {
                         name="startDateAfter"
                         label={strings.emergenciesTableFilterStartAfter}
                         onChange={setFilterField}
-                        value={filter.startDateAfter}
+                        value={rawFilter.startDateAfter}
                     />
                     <DateInput
                         name="startDateBefore"
                         label={strings.emergenciesTableFilterStartBefore}
                         onChange={setFilterField}
-                        value={filter.startDateBefore}
+                        value={rawFilter.startDateBefore}
                     />
                     <DisasterTypeSelectInput
                         placeholder={strings.emergenciesTableFilterDisastersPlaceholder}
                         label={strings.emergenciesTableDisasterType}
                         name="dType"
-                        value={filter.dType}
+                        value={rawFilter.dType}
                         onChange={setFilterField}
                     />
                 </>

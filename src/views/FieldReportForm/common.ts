@@ -97,6 +97,7 @@ export function transformFormFieldsToAPIFields(
         ...otherProps,
         contacts,
         countries: isDefined(country) ? [country] : [],
+        // FIXME: Why do we convert the date to ISOString?
         start_date: isDefined(start_date)
             ? (new Date(start_date)).toISOString()
             : start_date,

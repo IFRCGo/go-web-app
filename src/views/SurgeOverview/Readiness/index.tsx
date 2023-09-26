@@ -37,6 +37,7 @@ function Readiness() {
     const {
         page,
         setPage,
+        rawFilter,
         filter,
         setFilterField,
         setFilter,
@@ -101,7 +102,7 @@ function Readiness() {
                         listContainerClassName={styles.checklistContainer}
                         name="selectedERUTypes"
                         options={deployments_eru_type}
-                        value={filter.selectedERUTypes}
+                        value={rawFilter.selectedERUTypes}
                         keySelector={emergencyResponseUnitTypeKeySelector}
                         labelSelector={emergencyResponseUnitTypeLabelSelector}
                         onChange={setFilterField}

@@ -59,6 +59,7 @@ export function Component() {
         setPage,
         limit,
         offset,
+        rawFilter,
         filter,
         setFilterField,
         filtered,
@@ -264,15 +265,15 @@ export function Component() {
                     <>
                         <DateInput
                             name="startDateAfter"
-                            label={strings.allEmergenciesDisasterType}
+                            label={strings.allEmergenciesTableFilterStartAfter}
                             onChange={setFilterField}
-                            value={filter.startDateAfter}
+                            value={rawFilter.startDateAfter}
                         />
                         <DateInput
                             name="startDateBefore"
                             label={strings.allEmergenciesTableFilterStartBefore}
                             onChange={setFilterField}
-                            value={filter.startDateBefore}
+                            value={rawFilter.startDateBefore}
                         />
                         <DisasterTypeSelectInput
                             placeholder={strings.allEmergenciesFilterDisastersPlaceholder}

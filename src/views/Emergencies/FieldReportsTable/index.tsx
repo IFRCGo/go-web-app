@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { encodeDate } from '@togglecorp/fujs';
 
 import { SortContext } from '#components/Table/useSorting';
 import Table from '#components/Table';
@@ -41,6 +42,7 @@ function FieldReportsTable() {
         setPage,
         limit,
         offset,
+        rawFilter,
         filter,
         setFilterField,
         filtered,
@@ -48,7 +50,9 @@ function FieldReportsTable() {
         createdDateAfter?: string,
         createdDateBefore?: string,
     }>({
-        filter: {},
+        filter: {
+            createdDateAfter: encodeDate(thirtyDaysAgo),
+        },
         pageSize: 5,
     });
 
@@ -110,7 +114,7 @@ function FieldReportsTable() {
             limit,
             offset,
             ordering,
-            created_at__gte: filter.createdDateAfter ?? thirtyDaysAgo.toISOString(),
+            created_at__gte: filter.createdDateAfter,
             created_at__lte: filter.createdDateBefore,
         },
     });
@@ -142,13 +146,13 @@ function FieldReportsTable() {
                         name="createdDateAfter"
                         label={strings.fieldReportsFilterCreatedDateAfter}
                         onChange={setFilterField}
-                        value={filter.createdDateAfter}
+                        value={rawFilter.createdDateAfter}
                     />
                     <DateInput
                         name="createdDateBefore"
                         label={strings.fieldReportsFilterCreatedDateBefore}
                         onChange={setFilterField}
-                        value={filter.createdDateBefore}
+                        value={rawFilter.createdDateBefore}
                     />
                 </>
             )}

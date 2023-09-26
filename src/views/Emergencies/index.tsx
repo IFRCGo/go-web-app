@@ -86,7 +86,7 @@ export function Component() {
         url: '/api/v2/event/',
         query: {
             limit: 9999,
-            disaster_start_date__gt: thirtyDaysAgo.toISOString(),
+            disaster_start_date__gte: thirtyDaysAgo.toISOString(),
             ordering: '-disaster_start_date',
         },
     });

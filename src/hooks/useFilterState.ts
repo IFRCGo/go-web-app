@@ -171,10 +171,10 @@ function useFilterState<FILTER extends object>(options: {
 
     const sortState = useMemo(
         () => ({
-            sorting: debouncedState.ordering,
+            sorting: state.ordering,
             setSorting: setOrdering,
         }),
-        [debouncedState.ordering, setOrdering],
+        [state.ordering, setOrdering],
     );
 
     const filtered = useMemo(
@@ -183,16 +183,19 @@ function useFilterState<FILTER extends object>(options: {
     );
 
     return {
+        rawFilter: state.filter,
+
         filter: debouncedState.filter,
         filtered,
         setFilter,
         setFilterField,
 
-        page: debouncedState.page,
+        page: state.page,
         offset: pageSize * (debouncedState.page - 1),
         limit: pageSize,
         setPage,
 
+        rawOrdering: getOrdering(ordering),
         ordering: getOrdering(debouncedState.ordering),
 
         sortState,

@@ -43,7 +43,7 @@ import {
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-const today = new Date().toISOString();
+const now = new Date().toISOString();
 
 const sourceOptions: mapboxgl.GeoJSONSourceRaw = {
     type: 'geojson',
@@ -102,7 +102,7 @@ function SurgeMap(props: Props) {
     } = useRequest({
         url: '/api/v2/personnel/',
         query: {
-            end_date__gt: today,
+            end_date__gt: now,
             limit: 9999,
         },
     });

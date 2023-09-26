@@ -4,8 +4,8 @@ import {
 } from 'react';
 import Papa from 'papaparse';
 import { saveAs } from 'file-saver';
-import { isDefined } from '@togglecorp/fujs';
 
+import { toDateTimeString } from '#utils/common';
 import useTranslation from '#hooks/useTranslation';
 import {
     type GoApiResponse,
@@ -48,6 +48,7 @@ export function Component() {
         setPage,
         limit,
         offset,
+        rawFilter,
         filter,
         setFilterField,
         filtered,
@@ -72,13 +73,9 @@ export function Component() {
         offset,
         ordering,
         end_date__gt: now,
-        start_date__gte: isDefined(filter.startDateAfter)
-            ? new Date(filter.startDateAfter).toISOString()
-            : undefined,
-        start_date__lte: isDefined(filter.startDateBefore)
-            ? new Date(filter.startDateBefore).toISOString()
-            : undefined,
-
+        // FIXME: The server does not support date string
+        start_date__gte: toDateTimeString(filter.startDateAfter),
+        start_date__lte: toDateTimeString(filter.startDateBefore),
     }), [
         limit,
         offset,
@@ -234,13 +231,13 @@ export function Component() {
                             name="startDateAfter"
                             label={strings.allDeployedPersonnelFilterStartDateAfter}
                             onChange={setFilterField}
-                            value={filter.startDateAfter}
+                            value={rawFilter.startDateAfter}
                         />
                         <DateInput
                             name="startDateBefore"
                             label={strings.allDeployedPersonnelFilterStartDateBefore}
                             onChange={setFilterField}
-                            value={filter.startDateBefore}
+                            value={rawFilter.startDateBefore}
                         />
                     </>
                 )}

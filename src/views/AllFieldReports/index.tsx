@@ -52,6 +52,7 @@ export function Component() {
         setPage,
         limit,
         offset,
+        rawFilter,
         filter,
         setFilterField,
         filtered,
@@ -243,13 +244,13 @@ export function Component() {
                             name="createdDateAfter"
                             label={strings.allFieldReportsFilterCreatedDateAfter}
                             onChange={setFilterField}
-                            value={filter.createdDateAfter}
+                            value={rawFilter.createdDateAfter}
                         />
                         <DateInput
                             name="createdDateBefore"
                             label={strings.allFieldReportsFilterCreatedDateBefore}
                             onChange={setFilterField}
-                            value={filter.createdDateBefore}
+                            value={rawFilter.createdDateBefore}
                         />
                         <DisasterTypeSelectInput
                             placeholder={strings.allFieldReportsFilterDisastersPlaceholder}

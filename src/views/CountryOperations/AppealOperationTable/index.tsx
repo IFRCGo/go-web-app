@@ -54,6 +54,7 @@ function AppealOperationTable(props: Props) {
         setPage,
         limit,
         offset,
+        rawFilter,
         filter,
         setFilterField,
         filtered,
@@ -164,19 +165,19 @@ function AppealOperationTable(props: Props) {
                         name="startDateAfter"
                         label={strings.appealsTableFilterStartAfter}
                         onChange={setFilterField}
-                        value={filter.startDateAfter}
+                        value={rawFilter.startDateAfter}
                     />
                     <DateInput
                         name="startDateBefore"
                         label={strings.appealsTableFilterStartBefore}
                         onChange={setFilterField}
-                        value={filter.startDateBefore}
+                        value={rawFilter.startDateBefore}
                     />
                     <DisasterTypeSelectInput
                         placeholder={strings.appealsTableFilterDisastersPlaceholder}
                         label={strings.appealsTableDisastertype}
                         name="dType"
-                        value={filter.dType}
+                        value={rawFilter.dType}
                         onChange={setFilterField}
                     />
                 </>

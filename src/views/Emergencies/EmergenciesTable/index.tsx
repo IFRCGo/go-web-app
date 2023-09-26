@@ -1,7 +1,6 @@
-import {
-    useMemo,
-} from 'react';
+import { useMemo } from 'react';
 import { SortContext } from '#components/Table/useSorting';
+import { encodeDate } from '@togglecorp/fujs';
 import Table from '#components/Table';
 import Container from '#components/Container';
 import {
@@ -43,6 +42,7 @@ function EventItemsTable() {
         setPage,
         limit,
         offset,
+        rawFilter,
         filter,
         setFilterField,
         filtered,
@@ -51,7 +51,9 @@ function EventItemsTable() {
         startDateBefore?: string,
         dType?: number,
     }>({
-        filter: {},
+        filter: {
+            startDateAfter: encodeDate(thirtyDaysAgo),
+        },
         pageSize: 5,
     });
 
@@ -117,7 +119,7 @@ function EventItemsTable() {
             limit,
             offset,
             ordering,
-            disaster_start_date__gte: filter.startDateAfter ?? thirtyDaysAgo.toISOString(),
+            disaster_start_date__gte: filter.startDateAfter,
             disaster_start_date__lte: filter.startDateBefore,
             dtype: filter.dType,
         }),
@@ -142,19 +144,19 @@ function EventItemsTable() {
                         name="startDateAfter"
                         label={strings.emergenciesTableFilterStartAfter}
                         onChange={setFilterField}
-                        value={filter.startDateAfter}
+                        value={rawFilter.startDateAfter}
                     />
                     <DateInput
                         name="startDateBefore"
                         label={strings.emergenciesTableFilterStartBefore}
                         onChange={setFilterField}
-                        value={filter.startDateBefore}
+                        value={rawFilter.startDateBefore}
                     />
                     <DisasterTypeSelectInput
                         placeholder={strings.emergenciesTableFilterDisastersPlaceholder}
                         label={strings.emergenciesTableDisasterType}
                         name="dType"
-                        value={filter.dType}
+                        value={rawFilter.dType}
                         onChange={setFilterField}
                     />
                 </>

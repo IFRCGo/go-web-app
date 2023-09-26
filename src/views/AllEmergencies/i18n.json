@@ -16,6 +16,7 @@
         "allEmergenciesFilterDisastersPlaceholder": "All Disaster Types",
         "allEmergenciesFilterCountryPlaceholder": "All Countries",
         "allEmergenciesFilterRegionPlaceholder": "All Regions",
+        "allEmergenciesTableFilterStartAfter": "Start After",
         "allEmergenciesTableFilterStartBefore": "Start Before",
         "allEmergenciesTableFilterDisastersPlaceholder": "All Disaster Types"
     }

@@ -47,6 +47,7 @@ function ActiveDrefTable(props: Props) {
     const {
         page,
         setPage,
+        rawFilter,
         filter,
         filtered,
         setFilterField,
@@ -343,7 +344,7 @@ function ActiveDrefTable(props: Props) {
             withHeaderBorder
             filters={(
                 <Filters
-                    value={filter}
+                    value={rawFilter}
                     onChange={setFilterField}
                 />
             )}

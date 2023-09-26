@@ -63,6 +63,7 @@ export function Component() {
         setPage,
         limit,
         offset,
+        rawFilter,
         filter,
         setFilterField,
         filtered,
@@ -310,13 +311,13 @@ export function Component() {
                             name="startDateAfter"
                             label={strings.allAppealsFilterStartDateAfter}
                             onChange={setFilterField}
-                            value={filter.startDateAfter}
+                            value={rawFilter.startDateAfter}
                         />
                         <DateInput
                             name="startDateBefore"
                             label={strings.allAppealsFilterStartDateBefore}
                             onChange={setFilterField}
-                            value={filter.startDateBefore}
+                            value={rawFilter.startDateBefore}
                         />
                         <SelectInput
                             placeholder={strings.allAppealsFilterAppealsPlaceholder}
