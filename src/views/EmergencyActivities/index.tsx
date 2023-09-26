@@ -149,7 +149,7 @@ export function Component() {
             country: [],
             districts: [],
         },
-        pageSize: 9999,
+        pageSize: ITEM_PER_PAGE,
     });
 
     const {
