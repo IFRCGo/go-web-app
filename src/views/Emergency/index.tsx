@@ -1,23 +1,37 @@
-import { useMemo } from 'react';
+import { useMemo, useContext } from 'react';
 import { useParams, Outlet } from 'react-router-dom';
 import {
     FundingIcon,
     FundingCoverageIcon,
     TargetedPopulationIcon,
+    PencilFillIcon,
 } from '@ifrc-go/icons';
-import { isNotDefined } from '@togglecorp/fujs';
+import {
+    isNotDefined,
+    isDefined,
+    listToMap,
+} from '@togglecorp/fujs';
 
+import DomainContext from '#contexts/domain';
 import Breadcrumbs from '#components/Breadcrumbs';
 import Page from '#components/Page';
+import Button from '#components/Button';
 import NavigationTabList from '#components/NavigationTabList';
 import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
 import NavigationTab from '#components/NavigationTab';
 import useRegion from '#hooks/domain/useRegion';
+import useAuth from '#hooks/domain/useAuth';
+import useUserMe from '#hooks/domain/useUserMe';
 import useTranslation from '#hooks/useTranslation';
-import { useRequest } from '#utils/restRequest';
+import {
+    useRequest,
+    useLazyRequest,
+} from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
+import { resolveUrl } from '#utils/resolveUrl';
 import { type EmergencyOutletContext } from '#utils/outletContext';
+import { adminUrl } from '#config';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -32,9 +46,11 @@ function getRouteIdFromName(text: string) {
 export function Component() {
     const { emergencyId } = useParams<{ emergencyId: string }>();
     const strings = useTranslation(i18n);
+    const { invalidate } = useContext(DomainContext);
 
     const {
         response: emergencyResponse,
+        pending: emergencyPending,
     } = useRequest({
         // FIXME: need to check if emergencyId can be ''
         skip: isNotDefined(emergencyId),
@@ -46,6 +62,7 @@ export function Component() {
 
     const {
         response: emergencySnippetResponse,
+        pending: emergencySnippetPending,
     } = useRequest({
         // FIXME: need to check if emergencyId can be ''
         skip: isNotDefined(emergencyId),
@@ -54,6 +71,52 @@ export function Component() {
             event: Number(emergencyId),
         },
     });
+
+    const {
+        pending: addSubscriptionPending,
+        trigger: triggerAddSubscription,
+    } = useLazyRequest({
+        url: '/api/v2/add_subscription/',
+        method: 'POST',
+        body: (eventId: number) => ([{
+            type: 'followedEvent',
+            value: eventId,
+        }]),
+        onSuccess: () => {
+            invalidate('user-me');
+        },
+    });
+
+    const {
+        pending: removeSubscriptionPending,
+        trigger: triggerRemoveSubscription,
+    } = useLazyRequest({
+        url: '/api/v2/del_subscription/',
+        method: 'POST',
+        body: (eventId: number) => ([{
+            value: eventId,
+        }]),
+        onSuccess: () => {
+            invalidate('user-me');
+        },
+    });
+    const meResponse = useUserMe();
+
+    // FIXME: the subscription information should be sent from the server on
+    // the emergency
+    const subscriptionMap = listToMap(
+        meResponse?.subscription?.filter(
+            (sub) => isDefined(sub.event),
+        ) ?? [],
+        (sub) => sub.event ?? 'unknown',
+        () => true,
+    );
+
+    const isSubscribed = isDefined(emergencyId) ? subscriptionMap[Number(emergencyId)] : false;
+
+    const { isAuthenticated } = useAuth();
+    const subscriptionPending = addSubscriptionPending || removeSubscriptionPending;
+    const isPending = emergencyPending || emergencySnippetPending;
 
     const country = emergencyResponse?.countries[0];
     const region = useRegion({ id: Number(country?.region) });
@@ -141,13 +204,28 @@ export function Component() {
                     </Link>
                 </Breadcrumbs>
             )}
-            /*
-            actions={
-                strings.wikiJsLink?.length > 0 ? (
-                    <WikiLink href={strings.wikiJsLink} />
-                ) : null
-            }
-            */
+            actions={isAuthenticated && (
+                <>
+                    {/* <WikiLink href="" /> */}
+                    <Button
+                        name={Number(emergencyId)}
+                        variant="secondary"
+                        disabled={subscriptionPending}
+                        onClick={isSubscribed ? triggerRemoveSubscription : triggerAddSubscription}
+                    >
+                        {isSubscribed ? strings.emergencyUnfollow : strings.emergencyFollow}
+                    </Button>
+                    <Link
+                        external
+                        href={resolveUrl(adminUrl, `api/event/${emergencyId}/change/`)}
+                        variant="secondary"
+                        icons={<PencilFillIcon />}
+                        disabled={isPending}
+                    >
+                        {strings.emergencyEdit}
+                    </Link>
+                </>
+            )}
             heading={emergencyResponse?.name ?? '--'}
             description={(
                 <>
