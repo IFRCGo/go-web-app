@@ -10,6 +10,7 @@ interface Props {
     src: string | null | undefined;
     alt?: string;
     caption?: React.ReactNode;
+    captionClassName?: string;
     imgElementClassName?: string;
     withCaptionHidden?: boolean;
     expandable?: boolean;
@@ -22,6 +23,7 @@ function Image(props: Props) {
         alt = '',
         caption,
         imgElementClassName,
+        captionClassName,
         withCaptionHidden = false,
         expandable,
     } = props;
@@ -51,7 +53,7 @@ function Image(props: Props) {
                 className={_cs(styles.imgElement, imgElementClassName)}
             />
             {!withCaptionHidden && isDefined(caption) && (
-                <figcaption className={styles.caption}>
+                <figcaption className={_cs(captionClassName, styles.caption)}>
                     {caption}
                 </figcaption>
             )}

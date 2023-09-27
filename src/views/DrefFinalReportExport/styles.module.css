@@ -1,22 +1,63 @@
 .dref-final-report-export {
     --pdf-element-bg: var(--go-ui-color-gray-20);
+    --pdf-font-body: OpenSans, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --pdf-font-heading: Montserrat, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --pdf-color-heading: #011E41;
 
     display: flex;
     flex-direction: column;
+    font-family: var(--pdf-font-body);
+    font-size: var(--go-ui-font-size-sm);
     gap: var(--go-ui-spacing-2xl);
+
+    h1 {
+        font-family: var(--pdf-font-heading);
+        font-weight: var(--go-ui-font-weight-bold);
+    }
+    h2 {
+        color: var(--pdf-color-heading);
+    }
+    h1, h3 {
+        color: var(--go-ui-color-primary-red);
+        font-family: var(--pdf-font-heading);
+        font-weight: var(--go-ui-font-weight-bold);
+    }
+    h2, h4, h5, h6 {
+        font-family: var(--pdf-font-heading);
+        font-weight: var(--go-ui-font-weight-bold);
+    }
+
+    .text-output {
+        >* {
+            background-color: var(--go-ui-color-gray-20);
+            padding: var(--go-ui-spacing-xs);
+        }
+    }
 
     @media screen {
         margin: var(--go-ui-spacing-2xl) auto;
         background-color: var(--go-ui-color-foreground);
-        padding: var(--go-ui-spacing-3xl);
+        padding: var(--go-ui-spacing-xl);
         width: 210mm;
         min-height: 297mm;
     }
 
+    .caption {
+        background-color: var(--go-ui-color-gray-20);
+        padding: var(--go-ui-spacing-2xs);
+        text-align: left;
+        font-weight: var(--go-ui-font-weight-semibold);
+    }
+
     .page-title-section {
         display: flex;
+        align-items: center;
         justify-content: space-between;
         text-align: right;
+
+        .main-heading {
+            text-transform: uppercase;
+        }
 
         .ifrc-logo {
             width: 6rem;
@@ -24,8 +65,10 @@
         }
 
         .dref-content-title {
+            color: #011e41;
+            font-family: var(--pdf-font-heading);
             font-size: var(--go-ui-font-size-lg);
-            font-weight: var(--go-ui-font-weight-semibold);
+            font-weight: var(--go-ui-font-weight-bold);
         }
     }
 
@@ -39,21 +82,22 @@
             display: flex;
             flex-direction: column;
             background-color: var(--pdf-element-bg);
-            padding: var(--go-ui-spacing-sm);
+            padding: var(--go-ui-spacing-xs);
             break-inside: avoid;
         }
 
-        .date-item {
-            grid-column: span 4;
-            display: flex;
-            flex-direction: column;
-            background-color: var(--pdf-element-bg);
-            padding: var(--go-ui-spacing-sm);
-            break-inside: avoid;
+        .yellow {
+            color: #ffc000;
         }
 
-        .glide-code,
-        .budget {
+        .red {
+            color: #f40d11;
+        }
+
+        .orange {
+            color: #ed7d31;
+        }
+        .people-targeted {
             display: flex;
             flex-direction: column;
             background-color: var(--pdf-element-bg);
@@ -81,6 +125,16 @@
             display: flex;
             flex-direction: column;
             gap: var(--go-ui-spacing-xl);
+
+            .dref-images {
+                display: flex;
+                flex-wrap: wrap;
+                gap: var(--go-ui-spacing-xl);
+
+                >* {
+                    flex-basis: calc(50% - var(--go-ui-spacing-xl) / 2);
+                }
+            }
         }
     }
 
@@ -125,19 +179,49 @@
 
     .target-population-section {
         .content {
-            display: grid;
-            grid-gap: var(--go-ui-width-separator-md);
-            grid-template-columns: 1fr 1fr 1fr 1fr;
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-width-separator-md);
 
             .total-targeted-population-value {
-                grid-column: span 2;
+                flex-grow: 1;
                 color: var(--go-ui-color-primary-red);
             }
 
-            .total-targeted-population-label,
-            .disability-value,
-            .disability-label {
-                grid-column: span 2;
+            .top {
+                display: flex;
+                gap: var(--go-ui-width-separator-md);
+
+                .left {
+                    display: grid;
+                    flex-basis: 60%;
+                    flex-shrink: 0;
+                    grid-template-columns: 1fr 1fr 1fr;
+                    grid-gap: var(--go-ui-width-separator-md);
+
+                    .label {
+                        grid-column: span 2;
+                    }
+                }
+
+                .right {
+                    display: grid;
+                    flex-grow: 1;
+                    grid-template-columns: 1fr 1fr;
+                    grid-template-rows: 2fr 2fr 1fr;
+                    grid-gap: var(--go-ui-width-separator-md);
+
+                    .text-output {
+                        display: flex;
+                        flex-direction: column;
+                        gap: var(--go-ui-width-separator-md);
+                    }
+
+                    .large {
+                        grid-row: 2 span;
+                        grid-column: span 2;
+                    }
+                }
             }
         }
     }
@@ -156,14 +240,14 @@
                 .risk,
                 .mitigation {
                     background-color: var(--pdf-element-bg);
-                    padding: var(--go-ui-spacing-md);
+                    padding: var(--go-ui-spacing-xs);
                     break-inside: avoid;
                 }
 
                 .risk-title,
                 .mitigation-title {
                     background-color: var(--pdf-element-bg);
-                    padding: var(--go-ui-spacing-md);
+                    padding: var(--go-ui-spacing-xs);
                     font-weight: var(--go-ui-font-weight-semibold);
                     break-inside: avoid;
                 }
@@ -180,9 +264,21 @@
             .planned-intervention {
                 background-color: var(--pdf-element-bg);
 
+                .heading {
+                    color: var(--pdf-color-heading);
+                }
+
                 .meta-details {
-                    display: flex;
-                    gap: var(--go-ui-spacing-lg);
+                    display: grid;
+                    width: 50%;
+                    grid-template-columns: 1fr 1fr;
+                    grid-gap: var(--go-ui-spacing-2xs);
+
+                    .text-output {
+                        >* {
+                            background-color: var(--go-ui-color-element-background);
+                        }
+                    }
                 }
 
                 .icon {
@@ -247,7 +343,11 @@
         .content {
             display: flex;
             flex-direction: column;
-            gap: var(--go-ui-spacing-lg);
+            gap: var(--go-ui-spacing-xs);
+
+            .contact-person-label {
+                color: var(--go-ui-color-primary-red);
+            }
         }
     }
 }
