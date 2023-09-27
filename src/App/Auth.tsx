@@ -1,4 +1,4 @@
-import { type ReactElement } from 'react';
+import { type ReactElement, Fragment } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 
 import useAuth from '#hooks/domain/useAuth';
@@ -9,11 +9,13 @@ import { type ExtendedProps } from './routes';
 interface Props {
     children: ReactElement,
     context: ExtendedProps,
+    absolutePath: string,
 }
 function Auth(props: Props) {
     const {
         context,
         children,
+        absolutePath,
     } = props;
 
     const urlParams = useParams();
@@ -42,7 +44,13 @@ function Auth(props: Props) {
         }
     }
 
-    return children;
+    return (
+        <Fragment
+            key={absolutePath}
+        >
+            {children}
+        </Fragment>
+    );
 }
 
 export default Auth;

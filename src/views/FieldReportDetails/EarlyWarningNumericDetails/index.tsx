@@ -60,11 +60,6 @@ function EarlyWarningNumericDetails(props: Props) {
                 label={strings.earlyAffectedPopCentersOtherLabel}
                 value={Number(value?.other_affected_pop_centres)}
             />
-            {/* FIXME: This is not in the form */}
-            <KeyFigure
-                label={strings.earlyAssistedOtherLabel}
-                value={value?.other_num_assisted}
-            />
         </>
     );
 }

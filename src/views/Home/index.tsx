@@ -32,7 +32,7 @@ import HighlightedOperations from '#components/domain/HighlightedOperations';
 import ActiveOperationMap from '#components/domain/ActiveOperationMap';
 import AppealsTable from '#components/domain/AppealsTable';
 import AppealsOverYearsChart from '#components/domain/AppealsOverYearsChart';
-import OperationListItem, { type Props as OperationListItemProps } from '#components/OperationListItem';
+import OperationListItem, { type Props as OperationListItemProps } from '#components/domain/OperationListItem';
 import List from '#components/List';
 import Pager from '#components/Pager';
 import TextOutput from '#components/TextOutput';

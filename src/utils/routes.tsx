@@ -39,6 +39,7 @@ export type MyInputIndexRouteObject<T, K extends object> = {
     wrapperComponent?: (props: {
         children: React.ReactElement,
         context: K,
+        absolutePath: string,
     }) => React.ReactElement;
     component: {
         eagerLoad?: false,
@@ -62,6 +63,7 @@ export type MyInputNonIndexRouteObject<T, K extends object> = {
     wrapperComponent?: (props: {
         children: React.ReactElement,
         context: K,
+        absolutePath: string,
     }) => React.ReactElement;
     component: {
         eagerLoad?: false,
@@ -125,6 +127,11 @@ export function wrapRoute<K extends object, T>(
             ...remainingRouteOptions
         } = myRouteOptions;
 
+        const absolutePath = parent?.absolutePath ?? '/';
+        const absoluteForwardPath = isDefined(forwardPath)
+            ? joinUrlPart([absolutePath, forwardPath])
+            : absolutePath;
+
         let dynamicProps;
         if (component.eagerLoad) {
             const Component = component.render;
@@ -133,7 +140,14 @@ export function wrapRoute<K extends object, T>(
             // NOTE: Wrapper will only be mounted after waiting for the Component
             dynamicProps = {
                 element: Wrapper
-                    ? <Wrapper context={context}>{element}</Wrapper>
+                    ? (
+                        <Wrapper
+                            context={context}
+                            absolutePath={absolutePath}
+                        >
+                            {element}
+                        </Wrapper>
+                    )
                     : element,
             };
         } else {
@@ -150,22 +164,26 @@ export function wrapRoute<K extends object, T>(
                     return {
                         ...otherProps,
                         element: Wrapper
-                            ? <Wrapper context={context}>{element}</Wrapper>
+                            ? (
+                                <Wrapper
+                                    context={context}
+                                    absolutePath={absolutePath}
+                                >
+                                    {element}
+                                </Wrapper>
+                            )
                             : element,
                     };
                 },
             };
         }
-        const absolutePath = parent?.absolutePath ?? '/';
         return {
             ...remainingRouteOptions,
             ...dynamicProps,
             ...context,
             parent,
             absolutePath,
-            absoluteForwardPath: isDefined(forwardPath)
-                ? joinUrlPart([absolutePath, forwardPath])
-                : absolutePath,
+            absoluteForwardPath,
             id: randomString(),
         };
     }
@@ -179,6 +197,13 @@ export function wrapRoute<K extends object, T>(
         ...remainingRouteOptions
     } = myRouteOptions;
 
+    const absolutePath = parent
+        ? joinUrlPart([parent.absolutePath ?? '/', remainingRouteOptions.path ?? '/'])
+        : remainingRouteOptions.path ?? '/';
+    const absoluteForwardPath = isDefined(forwardPath)
+        ? joinUrlPart([absolutePath, forwardPath])
+        : absolutePath;
+
     let dynamicProps;
     if (component.eagerLoad) {
         const Component = component.render;
@@ -187,7 +212,14 @@ export function wrapRoute<K extends object, T>(
         // NOTE: Wrapper will only be mounted after waiting for the Component
         dynamicProps = {
             element: Wrapper
-                ? <Wrapper context={context}>{element}</Wrapper>
+                ? (
+                    <Wrapper
+                        context={context}
+                        absolutePath={absolutePath}
+                    >
+                        {element}
+                    </Wrapper>
+                )
                 : element,
         };
     } else {
@@ -204,16 +236,19 @@ export function wrapRoute<K extends object, T>(
                 return {
                     ...otherProps,
                     element: Wrapper
-                        ? <Wrapper context={context}>{element}</Wrapper>
+                        ? (
+                            <Wrapper
+                                context={context}
+                                absolutePath={absolutePath}
+                            >
+                                {element}
+                            </Wrapper>
+                        )
                         : element,
                 };
             },
         };
     }
-
-    const absolutePath = parent
-        ? joinUrlPart([parent.absolutePath ?? '/', remainingRouteOptions.path ?? '/'])
-        : remainingRouteOptions.path ?? '/';
 
     return {
         ...remainingRouteOptions,
@@ -221,9 +256,7 @@ export function wrapRoute<K extends object, T>(
         ...context,
         parent,
         absolutePath,
-        absoluteForwardPath: isDefined(forwardPath)
-            ? joinUrlPart([absolutePath, forwardPath])
-            : absolutePath,
+        absoluteForwardPath,
         id: randomString(),
     };
 }
