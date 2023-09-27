@@ -1,6 +1,7 @@
 {
     "namespace": "emergencyFollow",
     "strings": {
-        "emergencyFollowFollowingEvent": "Following event..."
+        "emergencyFollowFollowingEvent": "Following event...",
+        "emergencyFollowEventError": "Error following event..."
     }
 }

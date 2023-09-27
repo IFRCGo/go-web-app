@@ -53,9 +53,14 @@
 
         .quick-card {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
             gap: var(--go-ui-spacing-md);
             justify-content: space-between;
+
+            .region-country-link-container {
+                display: inline-flex;
+                gap: var(--go-ui-spacing-sm);
+            }
         }
     }
 }

@@ -247,6 +247,7 @@ export function Component() {
                         >
                             <TextOutput
                                 label={strings.homeYourCountryLabel}
+                                valueClassName={styles.regionCountryLinkContainer}
                                 value={userCountries?.map((country) => (
                                     <Link
                                         to="countriesLayout"
@@ -275,6 +276,7 @@ export function Component() {
                             />
                             <TextOutput
                                 label={strings.homeYourRegionLabel}
+                                valueClassName={styles.regionCountryLinkContainer}
                                 value={userRegions?.map((region) => (
                                     <Link
                                         key={region.region}

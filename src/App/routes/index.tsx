@@ -520,8 +520,8 @@ const emergencyFollow = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Emergency',
-        visibility: 'anything',
+        title: 'Follow Emergency',
+        visibility: 'is-authenticated',
     },
 });
 

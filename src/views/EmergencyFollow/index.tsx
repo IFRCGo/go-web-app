@@ -8,7 +8,8 @@ import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 
-export default function Component() {
+// eslint-disable-next-line import/prefer-default-export
+export function Component() {
     const strings = useTranslation(i18n);
 
     const { emergencyId } = useParams<{ emergencyId: string }>();
@@ -20,6 +21,7 @@ export default function Component() {
 
     const {
         pending,
+        error,
     } = useRequest({
         skip: isNotDefined(emergencyId),
         url: '/api/v2/add_subscription/',
@@ -31,6 +33,11 @@ export default function Component() {
         return <Message title={strings.emergencyFollowFollowingEvent} />;
     }
 
+    if (error) {
+        return <Message title={strings.emergencyFollowEventError} />;
+    }
+
+    // FIXME: Add a wrapper around navigate
     return (
         <Navigate to={`/emergencies/${emergencyId}`} replace />
     );

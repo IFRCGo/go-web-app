@@ -2,7 +2,7 @@
     "namespace": "common",
     "strings": {
         "wfpEventDetailsPublishedOn": "Published on",
-        "wfpEventDetailsKm": "{point} Km/h on ${pointDate}",
+        "wfpEventDetailsKm": "{point} Km/h on {pointDate}",
         "wfpUsefulLinks": "Useful Links:",
         "wfpDashboard": "Dashboard",
         "wfpShakemap": "Shakemap",
