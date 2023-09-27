@@ -361,6 +361,7 @@ function Submission(props: Props) {
                 )}
                 <InputSection
                     title={strings.drefFormDrefRegionalPoint}
+                    numPreferredColumns={2}
                 >
                     <TextInput
                         label={strings.drefFormSubmissionNameLabel}

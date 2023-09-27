@@ -21,7 +21,8 @@ const COLOR_MULTIPLE_TYPES = COLOR_ORANGE;
 // FIXME: these must be a constant defined somewhere else
 const APPEAL_TYPE_DREF = 0;
 const APPEAL_TYPE_EMERGENCY = 1;
-const APPEAL_TYPE_EAP = 2;
+// const APPEAL_TYPE_INTERNATIONAL = 2; // TODO: we are not showing this?
+const APPEAL_TYPE_EAP = 3;
 export const APPEAL_TYPE_MULTIPLE = -1;
 
 export function getLegendOptions(strings: i18nType['strings']) {

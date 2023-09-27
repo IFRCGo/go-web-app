@@ -73,7 +73,7 @@
             }
 
             &.three-column {
-                grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
 
                 @media screen and (max-width: 30rem) {
                     grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
