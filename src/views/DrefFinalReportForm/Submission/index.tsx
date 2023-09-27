@@ -96,7 +96,10 @@ function Submission(props: Props) {
                 heading={strings.drefFormOperationalTimeframes}
                 className={styles.operationalTimeframes}
             >
-                <InputSection>
+                <InputSection
+                    withoutTitleSection
+                    numPreferredColumns={2}
+                >
                     <DateInput
                         label={strings.finalReportStartOfOperation}
                         name="operation_start_date"
@@ -114,7 +117,10 @@ function Submission(props: Props) {
                         disabled={disabled}
                     />
                 </InputSection>
-                <InputSection>
+                <InputSection
+                    withoutTitleSection
+                    numPreferredColumns={2}
+                >
                     <DateInput
                         label={strings.finalReportEndOfOperation}
                         name="operation_end_date"
@@ -315,6 +321,7 @@ function Submission(props: Props) {
                 </InputSection>
                 <InputSection
                     title={strings.drefFormDrefRegionalPoint}
+                    numPreferredColumns={2}
                 >
                     <TextInput
                         label={strings.drefFormFocalPointNameLabel}

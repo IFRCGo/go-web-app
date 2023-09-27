@@ -164,7 +164,7 @@ function YearlyChart(props: Props) {
                     title={strings.yearlyAppealChartNotAvailableMessage}
                 />
             )}
-            {!shouldHideChart && (
+            {!shouldHideChart && !appealResponseError && (
                 <>
                     <TimeSeriesChart
                         className={styles.timelineChart}

@@ -194,11 +194,11 @@ export function Component() {
     );
 
     const userCountries = userResponse?.user_countries_regions;
-    // FIXME: The typing of region/region_details is not correct. Fix in the sever
+    // FIXME: The typing of country should no non-nullabe in the server
     // NOTE: Only showing unique regions
     const userRegions = unique(
         userCountries ?? [],
-        (item) => item.country_details.region_details.id,
+        (item) => item.region_details.id,
     );
 
     return (
@@ -251,12 +251,12 @@ export function Component() {
                                     <Link
                                         to="countriesLayout"
                                         urlParams={{
-                                            countryId: country.country_details.id,
+                                            countryId: country.country,
                                         }}
-                                        key={country.country_details.id}
+                                        key={country.country}
                                         withLinkIcon
                                     >
-                                        {country.country_details.name}
+                                        {country.country_name}
                                     </Link>
                                 ))}
                                 strongValue
@@ -277,14 +277,14 @@ export function Component() {
                                 label={strings.homeYourRegionLabel}
                                 value={userRegions?.map((region) => (
                                     <Link
-                                        key={region.country_details.region}
+                                        key={region.region}
                                         to="regionsLayout"
                                         withLinkIcon
                                         urlParams={{
-                                            regionId: region.country_details.region,
+                                            regionId: region.region,
                                         }}
                                     >
-                                        {region.country_details.region_details.name}
+                                        {region.region_details.name}
                                     </Link>
                                 ))}
                                 strongValue
