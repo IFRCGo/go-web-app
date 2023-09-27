@@ -10,6 +10,9 @@
         "emergencyFundingRequirementsLabel":"Funding Requirements (CHF)",
         "emergencyFundingLabel":"Funding (CHF)",
         "home": "Home",
-        "emergencies": "Emergencies"
+        "emergencies": "Emergencies",
+        "emergencyEdit": "Edit Event",
+        "emergencyFollow":"Follow",
+        "emergencyUnfollow":"Unfollow"
     }
 }
