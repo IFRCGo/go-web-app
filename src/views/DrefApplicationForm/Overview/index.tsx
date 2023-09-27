@@ -14,6 +14,7 @@ import {
     isNotDefined,
 } from '@togglecorp/fujs';
 
+import { type FieldReportItem as FieldReportSearchItem } from '#components/domain/FieldReportSearchSelectInput';
 import Container from '#components/Container';
 import InputSection from '#components/InputSection';
 import Link from '#components/Link';
@@ -81,6 +82,9 @@ interface Props {
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
     districtOptions: DistrictItem[] | null | undefined;
     setDistrictOptions: Dispatch<SetStateAction<DistrictItem[] | null | undefined>>;
+
+    fieldReportOptions: FieldReportSearchItem[] | null | undefined;
+    setFieldReportOptions: Dispatch<SetStateAction<FieldReportSearchItem[] | null | undefined>>;
 }
 
 function Overview(props: Props) {
@@ -93,6 +97,8 @@ function Overview(props: Props) {
         disabled,
         districtOptions,
         setDistrictOptions,
+        fieldReportOptions,
+        setFieldReportOptions,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -170,6 +176,9 @@ function Overview(props: Props) {
                     value={value}
                     setFieldValue={setFieldValue}
                     disabled={disabled}
+                    setDistrictOptions={setDistrictOptions}
+                    fieldReportOptions={fieldReportOptions}
+                    setFieldReportOptions={setFieldReportOptions}
                 />
             )}
             <InputSection
