@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, Fragment } from 'react';
 import {
     isDefined,
     isNotDefined,
@@ -8,7 +8,7 @@ import { CheckboxFillIcon } from '@ifrc-go/icons';
 
 import Container from '#components/Container';
 import Message from '#components/Message';
-import TextOutput from '#components/TextOutput';
+import Heading from '#components/Heading';
 import useAuth from '#hooks/domain/useAuth';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToString } from '#utils/translation';
@@ -127,7 +127,7 @@ function PublicCountryPreparedness(props: Props) {
             <Message
                 className={styles.pendingMessage}
                 pending
-                description={strings.componentFetchingData}
+                description={strings.publicComponentFetchingData}
             />
         );
     }
@@ -171,15 +171,18 @@ function PublicCountryPreparedness(props: Props) {
                 >
                     {componentsToBeStrengthened.map(
                         (priorityComponent) => (
-                            <TextOutput
-                                key={priorityComponent.id}
-                                className={styles.priorityComponent}
-                                label={resolveToString(strings.priorityComponentHeading, {
-                                    componentNumber: priorityComponent.componentNumber,
-                                    componentLetter: priorityComponent.componentLetter,
-                                })}
-                                value={priorityComponent.label}
-                            />
+                            <Fragment key={priorityComponent.id}>
+                                <Heading
+                                    level={5}
+                                >
+                                    {resolveToString(strings.publicPriorityComponentHeading, {
+                                        componentNumber: priorityComponent.componentNumber,
+                                        componentLetter: priorityComponent.componentLetter,
+                                        componentName: priorityComponent.label,
+                                    })}
+                                </Heading>
+                                <div className={styles.separator} />
+                            </Fragment>
                         ),
                     )}
                 </Container>

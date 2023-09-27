@@ -15,6 +15,7 @@
         "highlightedTopRatedComponentHeading": "Highlighted Top Rated Components",
         "priorityComponentToBeStrengthenedHeading": "Priority Components To Be Strengthened",
         "averageComponentRatingLabel": "Average Component Rating",
+        "priorityComponentHeading": "Component {componentNumber} {componentLetter}: {componentName}",
         "componentRatingResultsHeading": "Components Rating Results",
         "componentHeading": "Component",
         "componentMessageDescription": "There was an error loading the PER data!",

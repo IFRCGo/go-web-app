@@ -35,11 +35,13 @@
 
         .priority-components-content {
             display: grid;
-            grid-gap: var(--go-ui-spacing-md);
+            grid-gap: var(--go-ui-spacing-sm) var(--go-ui-spacing-xl);
             grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
 
-            .priority-component {
-                border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+            .separator {
+                grid-column: 1 / -1;
+                background-color: var(--go-ui-color-separator);
+                height: var(--go-ui-width-separator-thin);
             }
         }
     }

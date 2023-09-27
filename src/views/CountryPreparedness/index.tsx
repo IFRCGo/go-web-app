@@ -4,7 +4,6 @@ import {
     AnalysisIcon,
     AnalyzingIcon,
     CheckboxFillIcon,
-    CheckboxIndeterminateFillIcon,
     CloseCircleLineIcon,
 } from '@ifrc-go/icons';
 import {
@@ -27,6 +26,7 @@ import ProgressBar from '#components/ProgressBar';
 import StackedProgressBar from '#components/StackedProgressBar';
 import TextOutput from '#components/TextOutput';
 import useTranslation from '#hooks/useTranslation';
+import { resolveToString } from '#utils/translation';
 import { sumSafe } from '#utils/common';
 import { useRequest } from '#utils/restRequest';
 import {
@@ -296,9 +296,11 @@ export function Component() {
                     id: component.id,
                     value: component.rating?.value,
                     label: component.details.title,
+                    num: component.details.component_num,
+                    letter: component.details.component_letter,
                     rating: component.rating,
                 }),
-            );
+            ).sort((a, b) => compareNumber(b.rating?.value ?? 0, a.rating?.value ?? 0));
 
             return {
                 componentsWithRating,
@@ -499,28 +501,30 @@ export function Component() {
             )}
             {hasPriorityComponents && (
                 <Container
+                    className={styles.settingResults}
                     heading={strings.priorityComponentToBeStrengthenedHeading}
-                    childrenContainerClassName={styles.priorityComponentsContent}
+                    childrenContainerClassName={styles.ratingResultsContent}
                     withHeaderBorder
                 >
                     {prioritizationStats.componentsToBeStrengthened.map(
                         (priorityComponent) => (
-                            <Container
+                            <Fragment
                                 key={priorityComponent.id}
-                                className={styles.priorityComponent}
-                                heading={
-                                    priorityComponent.rating?.title
-                                    ?? strings.componentNotReviewed
-                                }
-                                headingLevel={5}
-                                withHeaderBorder
-                                withInternalPadding
-                                icons={<CheckboxIndeterminateFillIcon className={styles.icon} />}
-                                withoutWrapInHeading
-                                spacing="cozy"
                             >
-                                {priorityComponent.label}
-                            </Container>
+                                <Heading level={5}>
+                                    {resolveToString(strings.priorityComponentHeading, {
+                                        componentNumber: priorityComponent.num,
+                                        componentLetter: priorityComponent.letter,
+                                        componentName: priorityComponent.label,
+                                    })}
+                                </Heading>
+                                <ProgressBar
+                                    className={styles.progressBar}
+                                    value={priorityComponent.rating?.value}
+                                    totalValue={5}
+                                />
+                                <div className={styles.separator} />
+                            </Fragment>
                         ),
                     )}
                 </Container>
@@ -538,7 +542,11 @@ export function Component() {
                                 key={component.details.id}
                             >
                                 <Heading level={5}>
-                                    {`${component.details.component_num}: ${component.details.title}`}
+                                    {resolveToString(strings.priorityComponentHeading, {
+                                        componentNumber: component.details.component_num,
+                                        componentLetter: component.details.component_letter,
+                                        componentName: component.details.title,
+                                    })}
                                 </Heading>
                                 <ProgressBar
                                     value={component.rating?.value}

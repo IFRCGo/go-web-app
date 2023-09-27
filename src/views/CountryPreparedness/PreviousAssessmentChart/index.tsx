@@ -37,11 +37,11 @@ function PreviousAssessmentCharts(props: Props) {
                 strings.cycleLabel,
                 {
                     assessmentNumber: datum.assessment_number,
-                    assessmentDate: formatDate(datum.date_of_assessment, 'yyyy'),
+                    assessmentDate: formatDate(datum.date_of_assessment, 'yyyy') ?? '',
                 },
             ),
             yValueSelector: (datum) => datum.average_rating ?? 0,
-            keySelector: (datum) => datum.date_of_assessment,
+            keySelector: (datum) => datum.assessment_number,
             maxYValue: 5,
         },
     );
