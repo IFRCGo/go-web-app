@@ -54,12 +54,12 @@ import {
 } from '#utils/restRequest';
 
 import i18n from './i18n.json';
-import migratedStrings from './go-migrated-strings.json';
+import migratedStrings from '../../../test.json';
 
 import styles from './styles.module.css';
 
 type OperationsResponse = GoApiResponse<'/api/v2/event/'>;
-const LANG = 'ar';
+const LANG = 'fr';
 
 type RequestBody = GoApiBody<'/api/v2/language/{id}/bulk-action/', 'POST'>;
 
@@ -123,11 +123,7 @@ export function Component() {
                     page_name: string.namespace,
                 }),
             ).filter(({ value }) => isTruthyString(value));
-
-            // FIXME: we can trigger to update the database
-            // eslint-disable-next-line no-console
-            console.log(actions);
-
+            console.log(actions.length);
             // trigger({ actions });
         },
         [trigger],
