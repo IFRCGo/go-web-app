@@ -1,0 +1,9 @@
+{
+    "namespace": "countryPreparedness",
+    "strings": {
+        "publicComponentFetchingData": "Fetching data...",
+        "publicHighlightedTopRatedComponentHeading": "Highlighted Top Rated Components",
+        "publicPriorityComponentToBeStrengthenedHeading": "Priority Components To Be Strengthened",
+        "publicPriorityComponentHeading": "Component {componentNumber} {componentLetter}: {componentName}"
+    }
+}

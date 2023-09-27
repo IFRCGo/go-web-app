@@ -4,7 +4,6 @@ import {
     AnalysisIcon,
     AnalyzingIcon,
     CheckboxFillIcon,
-    CheckboxIndeterminateFillIcon,
     CloseCircleLineIcon,
 } from '@ifrc-go/icons';
 import {
@@ -17,18 +16,19 @@ import {
 } from '@togglecorp/fujs';
 
 import Button from '#components/Button';
-import Message from '#components/Message';
-import Link from '#components/Link';
-import Heading from '#components/Heading';
-import { sumSafe } from '#utils/common';
-import { useRequest } from '#utils/restRequest';
-import useTranslation from '#hooks/useTranslation';
-import KeyFigure from '#components/KeyFigure';
-import PieChart from '#components/PieChart';
 import Container from '#components/Container';
-import TextOutput from '#components/TextOutput';
+import Heading from '#components/Heading';
+import KeyFigure from '#components/KeyFigure';
+import Link from '#components/Link';
+import Message from '#components/Message';
+import PieChart from '#components/PieChart';
 import ProgressBar from '#components/ProgressBar';
 import StackedProgressBar from '#components/StackedProgressBar';
+import TextOutput from '#components/TextOutput';
+import useTranslation from '#hooks/useTranslation';
+import { resolveToString } from '#utils/translation';
+import { sumSafe } from '#utils/common';
+import { useRequest } from '#utils/restRequest';
 import {
     numericCountSelector,
     numericIdSelector,
@@ -37,6 +37,7 @@ import {
 } from '#utils/selectors';
 
 import PreviousAssessmentCharts from './PreviousAssessmentChart';
+import PublicCountryPreparedness from './PublicCountryPreparedness';
 import RatingByAreaChart from './RatingByAreaChart';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -295,9 +296,11 @@ export function Component() {
                     id: component.id,
                     value: component.rating?.value,
                     label: component.details.title,
+                    num: component.details.component_num,
+                    letter: component.details.component_letter,
                     rating: component.rating,
                 }),
-            );
+            ).sort((a, b) => compareNumber(b.rating?.value ?? 0, a.rating?.value ?? 0));
 
             return {
                 componentsWithRating,
@@ -498,28 +501,30 @@ export function Component() {
             )}
             {hasPriorityComponents && (
                 <Container
+                    className={styles.settingResults}
                     heading={strings.priorityComponentToBeStrengthenedHeading}
-                    childrenContainerClassName={styles.priorityComponentsContent}
+                    childrenContainerClassName={styles.ratingResultsContent}
                     withHeaderBorder
                 >
                     {prioritizationStats.componentsToBeStrengthened.map(
                         (priorityComponent) => (
-                            <Container
+                            <Fragment
                                 key={priorityComponent.id}
-                                className={styles.priorityComponent}
-                                heading={
-                                    priorityComponent.rating?.title
-                                    ?? strings.componentNotReviewed
-                                }
-                                headingLevel={5}
-                                withHeaderBorder
-                                withInternalPadding
-                                icons={<CheckboxIndeterminateFillIcon className={styles.icon} />}
-                                withoutWrapInHeading
-                                spacing="cozy"
                             >
-                                {priorityComponent.label}
-                            </Container>
+                                <Heading level={5}>
+                                    {resolveToString(strings.priorityComponentHeading, {
+                                        componentNumber: priorityComponent.num,
+                                        componentLetter: priorityComponent.letter,
+                                        componentName: priorityComponent.label,
+                                    })}
+                                </Heading>
+                                <ProgressBar
+                                    className={styles.progressBar}
+                                    value={priorityComponent.rating?.value}
+                                    totalValue={5}
+                                />
+                                <div className={styles.separator} />
+                            </Fragment>
                         ),
                     )}
                 </Container>
@@ -537,7 +542,11 @@ export function Component() {
                                 key={component.details.id}
                             >
                                 <Heading level={5}>
-                                    {`${component.details.component_num}: ${component.details.title}`}
+                                    {resolveToString(strings.priorityComponentHeading, {
+                                        componentNumber: component.details.component_num,
+                                        componentLetter: component.details.component_letter,
+                                        componentName: component.details.title,
+                                    })}
                                 </Heading>
                                 <ProgressBar
                                     value={component.rating?.value}
@@ -566,22 +575,23 @@ export function Component() {
                 />
             )}
             {limitedAccess && (
-                <Message
-                    className={styles.limitedAccessAction}
-                    title={strings.componentLimitedAccess}
-                    description={strings.componentLimitedAccessDescription}
-                    actions={(
-                        <Button
-                            variant="primary"
-                            name={undefined}
-                        >
-                            {strings.componentRequestSeeMore}
-                        </Button>
-                    )}
-                />
+                <div className={styles.limitedAccess}>
+                    <PublicCountryPreparedness perId={perId} />
+                    <Message
+                        title={strings.componentLimitedAccess}
+                        description={strings.componentLimitedAccessDescription}
+                        actions={(
+                            <Button
+                                variant="primary"
+                                name={undefined}
+                            >
+                                {strings.componentRequestSeeMore}
+                            </Button>
+                        )}
+                    />
+                </div>
             )}
         </Container>
     );
 }
-
 Component.displayName = 'CountryPreparedness';
