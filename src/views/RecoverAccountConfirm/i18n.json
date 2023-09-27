@@ -1,0 +1,13 @@
+{
+    "namespace": "recoverAccountConfirm",
+    "strings": {
+        "pageTitle": "IFRC GO - Recover Password",
+        "pageHeading": "Recover Account",
+        "newPassword": "New Password",
+        "confrimPassword": "Confirm new Password",
+        "submitButtonLabel": "Submit",
+        "successfulMessageTitle": "Password Changed!",
+        "successfulMessageDescription": "Your password has been changed. Please login again!",
+        "failureMessageTitle": "Could not change password!"
+    }
+}
