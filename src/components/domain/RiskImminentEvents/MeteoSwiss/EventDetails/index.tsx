@@ -1,10 +1,11 @@
 import { useMemo } from 'react';
-import { isDefined, isNotDefined } from '@togglecorp/fujs';
+import { compareString, isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import BlockLoading from '#components/BlockLoading';
 import Link from '#components/Link';
 import Container from '#components/Container';
 import TextOutput from '#components/TextOutput';
+import NumberOutput from '#components/NumberOutput';
 import DateOutput from '#components/DateOutput';
 import { type RiskApiResponse } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
@@ -59,16 +60,22 @@ function EventDetails(props: Props) {
                     || isNotDefined(event)
                     || !('mean' in event)
                     || !('impact_type' in event)
+                    || !('five_perc' in event)
+                    || !('ninety_five_perc' in event)
                 ) {
                     return undefined;
                 }
 
                 const {
                     impact_type,
+                    five_perc,
+                    ninety_five_perc,
                     mean,
                 } = event;
 
                 const valueSafe = typeof mean === 'number' ? Math.round(mean) : undefined;
+                const fivePercentValue = typeof five_perc === 'number' ? Math.round(five_perc) : undefined;
+                const ninetyFivePercentValue = typeof ninety_five_perc === 'number' ? Math.round(ninety_five_perc) : undefined;
                 if (isNotDefined(valueSafe) || valueSafe === 0) {
                     return undefined;
                 }
@@ -82,7 +89,10 @@ function EventDetails(props: Props) {
                         key: i,
                         type: 'economic',
                         value: valueSafe,
+                        fivePercentValue,
+                        ninetyFivePercentValue,
                         label: strings.meteoSwissEconomicLossLabel,
+                        unit: strings.usd,
                     };
                 }
 
@@ -100,15 +110,18 @@ function EventDetails(props: Props) {
                         key: i,
                         type: 'exposure',
                         value: valueSafe,
+                        fivePercentValue,
+                        ninetyFivePercentValue,
                         label: resolveToString(
                             strings.meteoSwissExposureLabel,
                             { windspeed },
                         ),
+                        unit: strings.people,
                     };
                 }
 
                 return undefined;
-            }).filter(isDefined)
+            }).filter(isDefined).sort((a, b) => compareString(b.type, a.type))
         ),
         [event_details, strings],
     );
@@ -152,9 +165,41 @@ function EventDetails(props: Props) {
                         {impactList.map((impact) => (
                             <TextOutput
                                 key={impact.key}
-                                label={impact.label}
-                                value={impact.value}
-                                valueType="number"
+                                label={resolveToComponent(
+                                    strings.impactLabel,
+                                    {
+                                        label: impact.label,
+                                        beta: <span className={styles.beta}>{strings.beta}</span>,
+                                    },
+                                )}
+                                valueClassName={styles.impactValue}
+                                value={resolveToComponent(
+                                    strings.meteoSwissImpactValue,
+                                    {
+                                        value: (
+                                            <NumberOutput
+                                                value={impact.value}
+                                                compact
+                                                maximumFractionDigits={2}
+                                            />
+                                        ),
+                                        fivePercent: (
+                                            <NumberOutput
+                                                value={impact.fivePercentValue}
+                                                compact
+                                                maximumFractionDigits={2}
+                                            />
+                                        ),
+                                        ninetyFivePercent: (
+                                            <NumberOutput
+                                                value={impact.ninetyFivePercentValue}
+                                                compact
+                                                maximumFractionDigits={2}
+                                            />
+                                        ),
+                                        unit: impact.unit,
+                                    },
+                                )}
                                 strongValue
                             />
                         ))}
@@ -185,7 +230,7 @@ function EventDetails(props: Props) {
                             {
                                 link: (
                                     <Link
-                                        href="https://community.wmo.int/en/latest-advisories-rsmcs-and-tcwcs"
+                                        href="https://severeweather.wmo.int"
                                         external
                                     >
                                         {strings.meteoSwissAuthoritativeLinkLabel}

@@ -1,8 +1,8 @@
 {
     "namespace": "common",
     "strings": {
-        "meteoSwissEconomicLossLabel": "Direct economic damage",
-        "meteoSwissExposureLabel": "People exposed to windspeed above {windspeed}m/s",
+        "meteoSwissEconomicLossLabel": "Wind related direct economic damage",
+        "meteoSwissExposureLabel": "Estimated people exposed to windspeed above {windspeed}m/s",
         "meteoSwissimpactHeading": "Impact in all affected countries",
         "meteoSwissEstimatesNote": "These impact estimates are derived from a model and come with very high uncertainty. More information will be added soon.",
         "meteoSwissEventDescription": "{model} has forecasted a tropical cyclone on {updatedAt}. The tropical cyclone named {eventName} is forecasted to impact {countryName} from {eventDate}.",
@@ -10,6 +10,11 @@
         "meteoSwissAuthoritativeLinkLabel": "authoritative information about the hazard",
         "meteoSwissEventDetailsStartedOnLabel": "Started on",
         "meteoSwissEventDetailsUpdatedAtLabel": "Updated at",
-        "meteoSwissHazardName": "{hazardType} - {hazardName}"
+        "meteoSwissHazardName": "{hazardType} - {hazardName}",
+        "meteoSwissImpactValue": "{value} ({fivePercent} - {ninetyFivePercent}) {unit}",
+        "beta": "beta",
+        "impactLabel": "{label} {beta}",
+        "usd": "USD",
+        "people": "People"
     }
 }
