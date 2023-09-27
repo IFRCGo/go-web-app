@@ -3,7 +3,6 @@ import {
     type SetStateAction,
     type Dispatch,
 } from 'react';
-import { WikiHelpSectionLineIcon } from '@ifrc-go/icons';
 import {
     type Error,
     getErrorObject,
@@ -17,12 +16,12 @@ import {
 import { type FieldReportItem as FieldReportSearchItem } from '#components/domain/FieldReportSearchSelectInput';
 import Container from '#components/Container';
 import InputSection from '#components/InputSection';
-import Link from '#components/Link';
 import Button from '#components/Button';
 import TextInput from '#components/TextInput';
 import SelectInput from '#components/SelectInput';
 import NumberInput from '#components/NumberInput';
 import BooleanInput from '#components/BooleanInput';
+import WikiLink from '#components/WikiLink';
 import useTranslation from '#hooks/useTranslation';
 import { type GoApiResponse } from '#utils/restRequest';
 import {
@@ -253,14 +252,9 @@ function Overview(props: Props) {
 
                                 ? strings.drefFormImminentDisasterCategoryLabel
                                 : strings.drefFormDisasterCategoryLabel}
-                            <Link
-                                title={strings.drefFormClickEmergencyResponseFramework}
+                            <WikiLink
                                 href={disasterCategoryLink}
-                                external
-                                variant="tertiary"
-                            >
-                                <WikiHelpSectionLineIcon />
-                            </Link>
+                            />
                         </>
                     )}
                     options={drefDisasterCategoryOptions}
@@ -338,24 +332,16 @@ function Overview(props: Props) {
                     label={value?.type_of_dref === TYPE_IMMINENT ? (
                         <>
                             {strings.drefFormRiskPeopleLabel}
-                            <Link
-                                title={strings.drefFormClickEmergencyResponseFramework}
+                            <WikiLink
                                 href={totalPopulationRiskImminentLink}
-                                external
-                            >
-                                <WikiHelpSectionLineIcon />
-                            </Link>
+                            />
                         </>
                     ) : (
                         <>
                             {strings.drefFormPeopleAffected}
-                            <Link
-                                title={strings.drefFormClickEmergencyResponseFramework}
+                            <WikiLink
                                 href={totalPeopleAffectedSlowSuddenLink}
-                                external
-                            >
-                                <WikiHelpSectionLineIcon />
-                            </Link>
+                            />
                         </>
                     )}
                     value={value?.num_affected}
@@ -377,13 +363,9 @@ function Overview(props: Props) {
                                         ? strings.drefFormEstimatedPeopleInNeed
                                         : strings.drefFormPeopleInNeed
                                 }
-                                <Link
-                                    title={strings.drefFormClickEmergencyResponseFramework}
+                                <WikiLink
                                     href={peopleInNeedLink}
-                                    external
-                                >
-                                    <WikiHelpSectionLineIcon />
-                                </Link>
+                                />
                             </>
                         )}
                         name="people_in_need"
@@ -402,13 +384,9 @@ function Overview(props: Props) {
                     label={(
                         <>
                             {strings.drefFormPeopleTargeted}
-                            <Link
-                                title={strings.drefFormClickEmergencyResponseFramework}
+                            <WikiLink
                                 href={peopleTargetedLink}
-                                external
-                            >
-                                <WikiHelpSectionLineIcon />
-                            </Link>
+                            />
                         </>
                     )}
                     name="num_assisted"

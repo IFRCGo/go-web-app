@@ -141,6 +141,13 @@ export function Component() {
                     </Link>
                 </Breadcrumbs>
             )}
+            /*
+            actions={
+                strings.wikiJsLink?.length > 0 ? (
+                    <WikiLink href={strings.wikiJsLink} />
+                ) : null
+            }
+            */
             heading={emergencyResponse?.name ?? '--'}
             description={(
                 <>

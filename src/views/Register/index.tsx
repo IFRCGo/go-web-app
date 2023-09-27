@@ -278,6 +278,13 @@ export function Component() {
             heading={strings.registerHeader}
             description={strings.registerSubHeader}
             mainSectionClassName={styles.mainSection}
+            /*
+            info={
+                strings.wikiJsLink?.length > 0 ? (
+                    <WikiLink href={strings.wikiJsLink} />
+                ) : null
+            }
+            */
         >
             <div className={styles.form}>
                 <NonFieldError

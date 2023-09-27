@@ -1,13 +1,14 @@
-import { Outlet } from 'react-router-dom';
 import { useContext } from 'react';
+import { Outlet } from 'react-router-dom';
 
-import useUserMe from '#hooks/domain/useUserMe';
-import { getUserName } from '#utils/domain/user';
 import Page from '#components/Page';
 import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
-import useTranslation from '#hooks/useTranslation';
+import WikiLink from '#components/WikiLink';
 import UserContext from '#contexts/user';
+import useTranslation from '#hooks/useTranslation';
+import useUserMe from '#hooks/domain/useUserMe';
+import { getUserName } from '#utils/domain/user';
 
 import i18n from './i18n.json';
 
@@ -20,6 +21,11 @@ export function Component() {
     return (
         <Page
             title={strings.accountPageTitle}
+            actions={(
+                <WikiLink
+                    href="user_guide/account"
+                />
+            )}
             heading={
                 userMe
                     ? getUserName(userMe)

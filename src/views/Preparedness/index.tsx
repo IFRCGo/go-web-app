@@ -29,13 +29,20 @@ export function Component() {
                 withHeaderBorder
                 childrenContainerClassName={styles.approachContent}
                 actions={(
-                    <Link
-                        href="mailto:PER.Team@ifrc.org"
-                        external
-                        variant="primary"
-                    >
-                        {strings.contactPerTeam}
-                    </Link>
+                    <>
+                        <Link
+                            href="mailto:PER.Team@ifrc.org"
+                            external
+                            variant="primary"
+                        >
+                            {strings.contactPerTeam}
+                        </Link>
+                        {/* {strings.wikiJsLink?.length > 0 && (
+                            <WikiLink
+                                href=''
+                            />
+                        )} */}
+                    </>
                 )}
             >
                 <div className={styles.approachDescription}>

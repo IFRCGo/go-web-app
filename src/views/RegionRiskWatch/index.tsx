@@ -4,12 +4,10 @@ import {
     useOutletContext,
 } from 'react-router-dom';
 import { isFalsyString } from '@togglecorp/fujs';
-import { WikiHelpSectionLineIcon } from '@ifrc-go/icons';
 
-import Link from '#components/Link';
-import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
+import WikiLink from '#components/WikiLink';
 import { RegionOutletContext } from '#utils/outletContext';
 import useTranslation from '#hooks/useTranslation';
 
@@ -21,7 +19,6 @@ export function Component() {
     const strings = useTranslation(i18n);
     const { regionId } = useParams<{ regionId: string }>();
     const regionOutletContext = useOutletContext<RegionOutletContext>();
-    const lang = useCurrentLanguage();
 
     // FIXME: show proper error message
     if (isFalsyString(regionId)) {
@@ -32,14 +29,9 @@ export function Component() {
 
     return (
         <div className={styles.regionRiskWatch}>
-            <Link
-                className={styles.wikiLink}
-                external
-                href={`https://go-wiki.ifrc.org/${lang}/user_guide/risk_module`}
-                title={strings.regionRiskWatchLinkTitle}
-            >
-                <WikiHelpSectionLineIcon />
-            </Link>
+            <WikiLink
+                href="user_guide/risk_module"
+            />
             <NavigationTabList variant="secondary">
                 <NavigationTab
                     to="regionImminentRiskWatch"

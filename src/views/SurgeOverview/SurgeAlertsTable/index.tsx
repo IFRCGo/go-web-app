@@ -172,13 +172,20 @@ function SurgeAlertsTable() {
                 />
             )}
             actions={(
-                <Link
-                    to="allSurgeAlerts"
-                    withLinkIcon
-                    withUnderline
-                >
-                    {strings.surgeAlertsViewAll}
-                </Link>
+                <>
+                    {/* {strings.wikiJsLink?.length > 0 && (
+                        <WikiLink
+                            href=''
+                        />
+                    )} */}
+                    <Link
+                        to="allSurgeAlerts"
+                        withLinkIcon
+                        withUnderline
+                    >
+                        {strings.surgeAlertsViewAll}
+                    </Link>
+                </>
             )}
         >
             <SortContext.Provider value={sortState}>

@@ -648,7 +648,13 @@ export function Component() {
                         ? strings.updateHeading
                         : strings.createHeading
                 )}
-                // FIXME: Add link to wiki
+                /*
+                actions={
+                    strings.wikiJsLink?.length > 0 ? (
+                        <WikiLink href={strings.wikiJsLink} />
+                    ) : null
+                }
+                */
                 info={!shouldHideForm && (
                     <TabList className={styles.tabList}>
                         <Tab

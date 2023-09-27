@@ -170,13 +170,21 @@ export function Component() {
             title={strings.globalThreeWPageTitle}
             heading={strings.globalThreeWPageHeading}
             actions={(
-                <Link
-                    to="newThreeWProject"
-                    variant="secondary"
-                    icons={<AddFillIcon />}
-                >
-                    {strings.globalThreeWAddProjectButtonLabel}
-                </Link>
+                <>
+                    <Link
+                        to="newThreeWProject"
+                        variant="secondary"
+                        icons={<AddFillIcon />}
+                    >
+                        {strings.globalThreeWAddProjectButtonLabel}
+                    </Link>
+                    {/* {strings.wikiJsLink?.length > 0 && (
+                        <WikiLink
+                            href=''
+                        />
+                    )}
+                    */}
+                </>
             )}
             descriptionContainerClassName={styles.description}
             description={(

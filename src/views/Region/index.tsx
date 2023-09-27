@@ -78,6 +78,11 @@ export function Component() {
                             regionId={regionId}
                         />
                     )}
+                    {/* {strings.wikiJsLink?.length > 0 && (
+                            <WikiLink
+                                href=''
+                            />
+                    )} */}
                 </>
             )}
         >
