@@ -44,7 +44,7 @@ function AllThreeWActivityTableActions(props: Props) {
                     <DropdownMenuItem
                         type="link"
                         to="newThreeWActivity"
-                        urlParams={{ activityId }}
+                        state={{ activityId }}
                         icons={<CopyLineIcon />}
                     >
                         {strings.threeWActivityDuplicate}
