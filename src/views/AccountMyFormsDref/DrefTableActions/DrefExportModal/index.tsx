@@ -61,6 +61,7 @@ function DrefExportModal(props: Props) {
     } = useRequest({
         skip: isDefined(exportId) || isNotDefined(id),
         method: 'POST',
+        useCurrentLanguageForMutation: true,
         url: '/api/v2/pdf-export/',
         body: exportTriggerBody,
         onSuccess: (response) => {
