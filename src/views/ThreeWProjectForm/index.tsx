@@ -116,9 +116,8 @@ function calculateStatus(
 
     if (isDefined(endDate)) {
         const end = new Date(endDate);
-        // FIXME: why is this undefined?
         if (end.getTime() < now.getTime()) {
-            return undefined;
+            return PROJECT_STATUS_COMPLETED;
         }
     }
 
@@ -521,9 +520,12 @@ export function Component() {
         setValue((oldValue) => ({
             ...oldValue,
             budget_amount: newBudget,
+            // FIXME: This does not make sense
+            /*
             actual_expenditure: isNotDefined(oldValue.actual_expenditure)
                 ? newBudget
                 : oldValue.actual_expenditure,
+            */
         }), true);
     }, [setValue]);
 
@@ -531,9 +533,12 @@ export function Component() {
         setValue((oldValue) => ({
             ...oldValue,
             actual_expenditure: newExpenditure,
+            // FIXME: This does not make sense
+            /*
             budget_amount: isNotDefined(oldValue.budget_amount)
                 ? newExpenditure
                 : oldValue.budget_amount,
+            */
         }), true);
     }, [setValue]);
 

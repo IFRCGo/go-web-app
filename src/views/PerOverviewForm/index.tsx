@@ -75,6 +75,7 @@ export function Component() {
     const { per_overviewassessmentmethods } = useGlobalEnums();
 
     const formContentRef = useRef<ElementRef<'div'>>(null);
+    const isSettingUpProcess = useRef(false);
 
     const {
         value,
@@ -83,7 +84,11 @@ export function Component() {
         error: formError,
         setError,
         validate,
-    } = useForm(overviewSchema, { value: { assessment_method: 'per' } });
+    } = useForm(
+        overviewSchema,
+        { value: { assessment_method: 'per' } },
+        isSettingUpProcess,
+    );
 
     const [
         fileIdToUrlMap,
@@ -294,6 +299,18 @@ export function Component() {
     }, []);
 
     const handleSetupPerProcess = useCallback(() => {
+        isSettingUpProcess.current = true;
+        const handler = createSubmitHandler(
+            validate,
+            setError,
+            handleFinalSubmit,
+            handleFormError,
+        );
+        handler();
+        isSettingUpProcess.current = false;
+    }, [handleFormError, handleFinalSubmit, validate, setError]);
+
+    const handleSave = useCallback(() => {
         const handler = createSubmitHandler(
             validate,
             setError,
@@ -303,21 +320,11 @@ export function Component() {
         handler();
     }, [handleFormError, handleSubmit, validate, setError]);
 
-    const handleSave = useCallback(() => {
-        const handler = createSubmitHandler(
-            validate,
-            setError,
-            handleFinalSubmit,
-            handleFormError,
-        );
-        handler();
-    }, [handleFormError, handleFinalSubmit, validate, setError]);
-
     const error = getErrorObject(formError);
 
     const currentPerStep = statusResponse?.phase;
-    const submissionDisabled = isNotDefined(currentPerStep)
-        || currentPerStep !== PER_PHASE_OVERVIEW;
+    const submissionDisabled = isDefined(currentPerStep)
+        && currentPerStep !== PER_PHASE_OVERVIEW;
 
     const partialReadonlyMode = value?.is_draft === false;
 
@@ -356,7 +363,7 @@ export function Component() {
                     name={undefined}
                     confirmHeading={strings.submitConfirmHeading}
                     confirmMessage={strings.submitConfirmMessage}
-                    onConfirm={handleSave}
+                    onConfirm={handleSetupPerProcess}
                     disabled={submissionDisabled || savePerPending}
                 >
                     {strings.submitButtonLabel}
@@ -371,7 +378,7 @@ export function Component() {
                     <Button
                         name={undefined}
                         variant="secondary"
-                        onClick={handleSetupPerProcess}
+                        onClick={handleSave}
                         disabled={savePerPending}
                     >
                         {strings.saveButtonLabel}

@@ -1,10 +1,6 @@
 {
     "namespace": "fieldReportForm",
     "strings": {
-        "generatedTitleFormat": "{iso3}: {disaster} - {shortDate} - {summary} #{fieldReportNumber} ({fullDate})",
-        "generatedTitleFormatOld": "{iso3}: {disaster} - {shortDate} - {summary}",
-        "generatedTitleFormatForCovid": "{iso3}: COVID-19 #{fieldReportNumber} ({fullDate})",
-        "generatedTitleFormatForCovidOld": "{iso3}: COVID-19",
         "formRedirectMessage": "Field report updated, redirecting...",
         "formErrorLabel": "Failed to create/update!",
         "title": "IFRC GO - Field Report",
