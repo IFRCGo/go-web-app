@@ -19,6 +19,7 @@ import {
 } from '@togglecorp/fujs';
 import { Outlet, useNavigation } from 'react-router-dom';
 
+import useAuth from '#hooks/domain/useAuth';
 import Navbar from '#components/Navbar';
 import GlobalFooter from '#components/GlobalFooter';
 import AlertContainer from '#components/AlertContainer';
@@ -40,10 +41,8 @@ export function Component() {
     const isLoadingDebounced = useDebouncedValue(isLoading);
     const strings = useTranslation(i18n);
 
-    const {
-        userAuth: userDetails,
-        removeUserAuth,
-    } = useContext(UserContext);
+    const { isAuthenticated } = useAuth();
+    const { removeUserAuth } = useContext(UserContext);
 
     const [fetchDomainData, setFetchDomainData] = useState<{ [key in CacheKey]?: boolean }>({});
 
@@ -245,8 +244,8 @@ export function Component() {
     });
 
     // NOTE: Always calling /api/v2/user/me to check validity of logged-in user
-    const userSkip = !userDetails;
-    // const userSkip = !fetchDomainData['user-me'] || !userDetails;
+    const userSkip = !isAuthenticated;
+    // const userSkip = !fetchDomainData['user-me'] || !isAuthenticated;
 
     const {
         response: userMe,

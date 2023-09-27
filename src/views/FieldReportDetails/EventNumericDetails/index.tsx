@@ -84,11 +84,6 @@ function EventNumericDetails(props: Props) {
                 label={strings.eventAssistedGovernmentLabel}
                 value={value?.gov_num_assisted}
             />
-            {/* NOTE: This is not in the form */}
-            <KeyFigure
-                label={strings.eventAssistedOtherLabel}
-                value={value?.other_num_assisted}
-            />
             <KeyFigure
                 label={strings.eventLocalStaffLabel}
                 value={value?.num_localstaff}

@@ -8,7 +8,6 @@
         "epidemicDeadLabel": "Dead",
         "epidemicAssistedRCLabel": "Assisted (RC)",
         "epidemicAssistedGovernmentLabel": "Assisted (Government)",
-        "epidemicAssistedOtherLabel": "Assisted (Other)",
         "epidemicLocalStaffLabel": "Local Staff",
         "epidemicVolunteersLabel": "Volunteers",
         "epidemicDelegatesLabel": "Delegates"

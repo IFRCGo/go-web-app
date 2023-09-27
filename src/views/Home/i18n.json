@@ -15,6 +15,16 @@
         "homeKeyFiguresAppealsFunding":"Funding Coverage",
         "homeKeyFiguresTargetPop":"Targeted Population",
         "fullScreenHeading":"IFRC Disaster Response and Preparedness",
-        "homeKeyFiguresCountryPlan":"Active Country Plan"
+        "homeKeyFiguresCountryPlan":"Active Country Plan",
+        "homeIconButtonLabel": "Close",
+        "homeOperationFollowingHeading": "Operations Following",
+        "homeUserNameHeading":"Hello {userName}!",
+        "homeQuickLinksTitle": "Quick Links",
+        "homeYourCountryLabel": "Your Country",
+        "homeFieldReportLabel": "Field Report",
+        "homeCreateFieldReport":"Create Field Report",
+        "homeYourRegionLabel": "Your Region",
+        "homeFlashUpdateLabel": "Flash Update",
+        "homeCreateFlashUpdate": "Create Flash Update"
     }
 }

@@ -1,6 +1,7 @@
-import { useContext, useState } from 'react';
-import { isNotDefined, _cs } from '@togglecorp/fujs';
+import { useState } from 'react';
+import { _cs } from '@togglecorp/fujs';
 
+import useAuth from '#hooks/domain/useAuth';
 import PageContainer from '#components/PageContainer';
 import Link from '#components/Link';
 import DropdownMenu from '#components/DropdownMenu';
@@ -9,7 +10,6 @@ import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
 import KeywordSearchSelectInput from '#components/domain/KeywordSearchSelectInput';
 import useTranslation from '#hooks/useTranslation';
-import UserContext from '#contexts/user';
 import { environment } from '#config';
 import goLogo from '#assets/icons/go-logo-2020.svg';
 import TabList from '#components/Tabs/TabList';
@@ -32,7 +32,7 @@ function Navbar(props: Props) {
         className,
     } = props;
 
-    const { userAuth: userDetails } = useContext(UserContext);
+    const { isAuthenticated } = useAuth();
     const strings = useTranslation(i18n);
 
     type PrepareOptionKey = 'risk-analysis' | 'per' | 'global-3w-projects';
@@ -69,7 +69,7 @@ function Navbar(props: Props) {
                     variant="tertiary"
                 >
                     <LangaugeDropdown />
-                    {isNotDefined(userDetails) && (
+                    {!isAuthenticated && (
                         <>
                             <NavigationTab
                                 to="login"
@@ -132,8 +132,7 @@ function Navbar(props: Props) {
                     <CountryDropdown />
                     <DropdownMenu
                         popupClassName={styles.dropdown}
-                        // FIXME: use translations
-                        label="Prepare"
+                        label={strings.userMenuPrepare}
                         variant="tertiary"
                         persistent
                     >
@@ -150,22 +149,19 @@ function Navbar(props: Props) {
                                     name="risk-analysis"
                                     className={styles.option}
                                 >
-                                    {/* FIXME: use translations */}
-                                    Risk Analysis
+                                    {strings.userMenuRiskAnalysisLabel}
                                 </Tab>
                                 <Tab
                                     name="per"
                                     className={styles.option}
                                 >
-                                    {/* FIXME: use translations */}
-                                    Preparedness for Effective Response (PER)
+                                    {strings.userMenuPERLabel}
                                 </Tab>
                                 <Tab
                                     name="global-3w-projects"
                                     className={styles.option}
                                 >
-                                    {/* FIXME: use translations */}
-                                    Global 3W Projects
+                                    {strings.userMenuGlobal3WProjects}
                                 </Tab>
                             </TabList>
                             <div className={styles.optionBorder} />
@@ -174,10 +170,7 @@ function Navbar(props: Props) {
                                 className={styles.optionDetail}
                             >
                                 <div className={styles.description}>
-                                    {/* FIXME: use translations */}
-                                    The global risk overview presents information about the
-                                    magnitude of risks per country, per month based on
-                                    historical events and risk analysis.
+                                    {strings.userMenuGlobalRiskDescription}
                                 </div>
                                 <DropdownMenuItem
                                     type="link"
@@ -192,50 +185,42 @@ function Navbar(props: Props) {
                                 className={styles.optionDetail}
                             >
                                 <div className={styles.description}>
-                                    {/* FIXME: use translations */}
-                                    The PER Approach is a continuous and flexible process that
-                                    enables National Societies to assess, measure and analyse
-                                    the strengths and gaps of its preparedness and response
-                                    mechanism.
+                                    {strings.userMenuPERDescription}
                                 </div>
                                 <DropdownMenuItem
                                     type="link"
                                     to="preparednessGlobalSummary"
                                     variant="tertiary"
                                 >
-                                    Global Summary
+                                    {strings.userMenuGlobalSummary}
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                     type="link"
                                     to="preparednessGlobalPerformance"
                                     variant="tertiary"
                                 >
-                                    {/* FIXME: use translations */}
-                                    Global Performance
+                                    {strings.userMenuGlobalPerformance}
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                     type="link"
                                     to="preparednessGlobalCatalogue"
                                     variant="tertiary"
                                 >
-                                    {/* FIXME: use translations */}
-                                    Catalogue of Resources
+                                    {strings.userMenuCatalogueResources}
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                     type="link"
                                     to="preparednessGlobalOperational"
                                     variant="tertiary"
                                 >
-                                    {/* FIXME: use translations */}
-                                    Operational Learning
+                                    {strings.userMenuOperationalLearning}
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                     type="link"
                                     to="perProcessLayout"
                                     variant="secondary"
                                 >
-                                    {/* FIXME: use translations */}
-                                    Start PER Process
+                                    {strings.userMenuStartPER}
                                 </DropdownMenuItem>
                             </TabPanel>
                             <TabPanel
@@ -243,10 +228,7 @@ function Navbar(props: Props) {
                                 className={styles.optionDetail}
                             >
                                 <div className={styles.description}>
-                                    {/* FIXME: use translations */}
-                                    {`The "Who does What, Where" or 3W aims to map the global
-                                    footprint of the Red Cross Red Crescent Movement, as
-                                    reported by the National Societies.`}
+                                    {strings.userMenuGlobal3WProjectDescription}
                                 </div>
                                 <DropdownMenuItem
                                     type="link"
@@ -260,16 +242,14 @@ function Navbar(props: Props) {
                                     to="newThreeWProject"
                                     variant="secondary"
                                 >
-                                    {/* FIXME: use translations */}
-                                    Submit 3W Project
+                                    {strings.userMenuSubmit3WProject}
                                 </DropdownMenuItem>
                             </TabPanel>
                         </Tabs>
                     </DropdownMenu>
                     <DropdownMenu
                         popupClassName={styles.dropdown}
-                        // FIXME: use translations
-                        label="Respond"
+                        label={strings.userMenuRespondLabel}
                         variant="tertiary"
                         persistent
                     >
@@ -286,29 +266,25 @@ function Navbar(props: Props) {
                                     name="emergencies"
                                     className={styles.option}
                                 >
-                                    {/* FIXME: use translations */}
-                                    Emergencies
+                                    {strings.userMenuEmergencies}
                                 </Tab>
                                 <Tab
                                     name="early-warning"
                                     className={styles.option}
                                 >
-                                    {/* FIXME: use translations */}
-                                    Early Warning
+                                    {strings.userMenuEarlyWarning}
                                 </Tab>
                                 <Tab
                                     name="dref-process"
                                     className={styles.option}
                                 >
-                                    {/* FIXME: use translations */}
-                                    Dref Process
+                                    {strings.userMenuDrefProcess}
                                 </Tab>
                                 <Tab
                                     name="surge"
                                     className={styles.option}
                                 >
-                                    {/* FIXME: use translations */}
-                                    Surge/Deployments
+                                    {strings.userMenuSurgeDeployments}
                                 </Tab>
                             </TabList>
                             <div className={styles.optionBorder} />
@@ -317,33 +293,28 @@ function Navbar(props: Props) {
                                 className={styles.optionDetail}
                             >
                                 <div className={styles.description}>
-                                    {/* FIXME: use translations */}
-                                    Follow curretly ongoing emergencies, as well as access the
-                                    list of previous emergencies of IFRC-led operations.
+                                    {strings.userMenuSurgeDeployments}
                                 </div>
                                 <DropdownMenuItem
                                     type="link"
                                     to="emergencies"
                                     variant="tertiary"
                                 >
-                                    {/* FIXME: use translations */}
-                                    Ongoing Emergencies
+                                    {strings.userMenuOngoingEmergencies}
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                     type="link"
                                     to="fieldReportFormNew"
                                     variant="secondary"
                                 >
-                                    {/* FIXME: use translations */}
-                                    Create Field report
+                                    {strings.userMenuCreateFieldReport}
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                     type="link"
                                     to="newThreeWActivity"
                                     variant="secondary"
                                 >
-                                    {/* FIXME: use translations */}
-                                    Submit 3W Activity
+                                    {strings.userMenuSubmit3WActivity}
                                 </DropdownMenuItem>
                             </TabPanel>
                             <TabPanel
@@ -351,10 +322,7 @@ function Navbar(props: Props) {
                                 className={styles.optionDetail}
                             >
                                 <div className={styles.description}>
-                                    {/* FIXME: use translations */}
-                                    Early Warning focuses on preparatory action ahead of possible
-                                    disasters and events. Use one of the following links to submit
-                                    information on early warning.
+                                    {strings.userMenuEarlyWarningDescription}
                                 </div>
                                 <DropdownMenuItem
                                     type="link"
@@ -362,32 +330,28 @@ function Navbar(props: Props) {
                                     variant="secondary"
                                     state={{ earlyWarning: true }}
                                 >
-                                    {/* FIXME: use translations */}
-                                    Create Early Action Field Report
+                                    {strings.userMenuCreateEarlyActionFieldReport}
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                     type="link"
                                     to={undefined}
                                     variant="secondary"
                                 >
-                                    {/* FIXME: use translations */}
-                                    Submit EAP Activation
+                                    {strings.userMenuSubmitEAPActivation}
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                     type="link"
                                     to={undefined}
                                     variant="secondary"
                                 >
-                                    {/* FIXME: use translations */}
-                                    Submit EAP Final Report
+                                    {strings.userMenuSubmitEAPFinalReport}
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                     type="link"
                                     to="flashUpdateFormNew"
                                     variant="secondary"
                                 >
-                                    {/* FIXME: use translations */}
-                                    Create Flash Update
+                                    {strings.userMenuCreateFlashUpdate}
                                 </DropdownMenuItem>
                             </TabPanel>
                             <TabPanel
@@ -395,18 +359,14 @@ function Navbar(props: Props) {
                                 className={styles.optionDetail}
                             >
                                 <div className={styles.description}>
-                                    {/* FIXME: use translations */}
-                                    Disaster Response Emergency Fund (DREF) is the quickest way of
-                                    getting funding directly to local humanitarian actors. Use one
-                                    of the links below to submit a DREF Application or an update.
+                                    {strings.userMenuDrefProcessDescription}
                                 </div>
                                 <DropdownMenuItem
                                     type="link"
                                     to="newDrefApplicationForm"
                                     variant="tertiary"
                                 >
-                                    {/* FIXME: use translations */}
-                                    Create DREF Application
+                                    {strings.userMenuCreateDrefApplication}
                                 </DropdownMenuItem>
                             </TabPanel>
                             <TabPanel
@@ -414,41 +374,35 @@ function Navbar(props: Props) {
                                 className={styles.optionDetail}
                             >
                                 <div className={styles.description}>
-                                    {/* FIXME: use translations */}
-                                    The section displays the summary of deployments within current
-                                    and ongoing emergencies. Login to see available details
+                                    {strings.userMenuSurge}
                                 </div>
                                 <DropdownMenuItem
                                     type="link"
                                     to="surgeOverview"
                                     variant="tertiary"
                                 >
-                                    {/* FIXME: use translations */}
-                                    Surge Global Overview
+                                    {strings.userMenuSurgeGlobalOverview}
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                     type="link"
                                     to="surgeOperationalToolbox"
                                     variant="tertiary"
                                 >
-                                    {/* FIXME: use translations */}
-                                    Operational Toolbox
+                                    {strings.userMenuOperationalToolbox}
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                     type="link"
                                     to="surgeCatalogueLayout"
                                     variant="tertiary"
                                 >
-                                    {/* FIXME: use translations */}
-                                    Catalogue of Surge Services
+                                    {strings.userMenuCatalogueSurgeServices}
                                 </DropdownMenuItem>
                             </TabPanel>
                         </Tabs>
                     </DropdownMenu>
                     <DropdownMenu
                         popupClassName={styles.dropdown}
-                        // FIXME: use translations
-                        label="Learn"
+                        label={strings.userMenuLearnLabel}
                         variant="tertiary"
                         persistent
                     >
@@ -465,15 +419,13 @@ function Navbar(props: Props) {
                                     name="tools"
                                     className={styles.option}
                                 >
-                                    {/* FIXME: use translations */}
-                                    Tools
+                                    {strings.userMenuTools}
                                 </Tab>
                                 <Tab
                                     name="resources"
                                     className={styles.option}
                                 >
-                                    {/* FIXME: use translations */}
-                                    Resources
+                                    {strings.userMenuResources}
                                 </Tab>
                                 <DropdownMenuItem
                                     external
@@ -483,8 +435,7 @@ function Navbar(props: Props) {
                                     variant="tertiary"
                                     withLinkIcon
                                 >
-                                    {/* FIXME: use translations */}
-                                    GO Blog
+                                    {strings.userMenuGoBlog}
                                 </DropdownMenuItem>
                             </TabList>
                             <div className={styles.optionBorder} />
@@ -497,14 +448,10 @@ function Navbar(props: Props) {
                                     to="surgeOperationalToolbox"
                                     variant="tertiary"
                                 >
-                                    {/* FIXME: use translations */}
-                                    Operational Toolbox
+                                    {strings.userMenuOperationalToolboxItem}
                                 </DropdownMenuItem>
                                 <div className={styles.description}>
-                                    {/* FIXME: use translations */}
-                                    This operational toolbox is a central repository
-                                    with key operational document helpful for your
-                                    mission like templates, checklists, guidance and examples.
+                                    {strings.userMenuOperationalToolboxItemDescription}
                                 </div>
                             </TabPanel>
                             <TabPanel
@@ -517,13 +464,10 @@ function Navbar(props: Props) {
                                     variant="tertiary"
                                     state={{ earlyWarning: true }}
                                 >
-                                    {/* FIXME: use translations */}
-                                    Catalogue of Surge Services
+                                    {strings.userMenuCatalogueSurgeServicesItem}
                                 </DropdownMenuItem>
                                 <div className={styles.description}>
-                                    {/* FIXME: use translations */}
-                                    Catalogue of Surge Services contains all relevant content
-                                    and materials related to Surge.
+                                    {strings.userMenuCatalogueSurgeServicesItem}
                                 </div>
                                 <DropdownMenuItem
                                     type="link"
@@ -531,13 +475,10 @@ function Navbar(props: Props) {
                                     variant="tertiary"
                                     state={{ earlyWarning: true }}
                                 >
-                                    {/* FIXME: use translations */}
-                                    PER Catalogue of Resources
+                                    {strings.userMenuPERCatalogueItem}
                                 </DropdownMenuItem>
                                 <div className={styles.description}>
-                                    {/* FIXME: use translations */}
-                                    PER Catalogue of Resources contains resource relevant to
-                                    strengthening resource and capactiy.
+                                    {strings.userMenuPERCatalogueItemDescription}
                                 </div>
                                 <DropdownMenuItem
                                     type="link"
@@ -545,13 +486,10 @@ function Navbar(props: Props) {
                                     variant="tertiary"
                                     state={{ earlyWarning: true }}
                                 >
-                                    {/* FIXME: use translations */}
-                                    GO Resources
+                                    {strings.userMenuGoResourcesItem}
                                 </DropdownMenuItem>
                                 <div className={styles.description}>
-                                    {/* FIXME: use translations */}
-                                    Find all relevant user guides, references videos, IFRC
-                                    other resources, and GO contacts on this page.
+                                    {strings.userMenuGoResourcesItemDescription}
                                 </div>
                             </TabPanel>
                         </Tabs>

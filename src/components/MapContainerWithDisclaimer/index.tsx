@@ -120,9 +120,8 @@ function MapContainerWithDisclaimer(props: Props) {
                             </Button>
                             <IconButton
                                 name={undefined}
-                                // FIXME: Use translations
-                                title="Close"
-                                ariaLabel="Close"
+                                title={strings.mapContainerIconButton}
+                                ariaLabel={strings.mapContainerIconButton}
                                 onClick={exitPrintMode}
                                 variant="secondary"
                             >

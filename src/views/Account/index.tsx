@@ -1,6 +1,8 @@
 import { Outlet } from 'react-router-dom';
 import { useContext } from 'react';
 
+import useUserMe from '#hooks/domain/useUserMe';
+import { getUserName } from '#utils/domain/user';
 import Page from '#components/Page';
 import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
@@ -13,11 +15,16 @@ import i18n from './i18n.json';
 export function Component() {
     const strings = useTranslation(i18n);
     const { userAuth: userDetails } = useContext(UserContext);
+    const userMe = useUserMe();
 
     return (
         <Page
             title={strings.accountPageTitle}
-            heading={userDetails?.displayName ?? '--'}
+            heading={
+                userMe
+                    ? getUserName(userMe)
+                    : userDetails?.displayName ?? '--'
+            }
         >
             <NavigationTabList>
                 <NavigationTab

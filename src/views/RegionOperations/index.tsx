@@ -112,10 +112,9 @@ export function Component() {
                             <IconButton
                                 name={undefined}
                                 onClick={handleFullScreenToggleClick}
-                                // FIXME: use translations
-                                title="Close"
+                                title={strings.regionCloseButton}
                                 variant="secondary"
-                                ariaLabel="Close"
+                                ariaLabel={strings.regionCloseButton}
                             >
                                 <CloseLineIcon />
                             </IconButton>

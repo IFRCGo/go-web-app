@@ -37,6 +37,7 @@ interface Props {
     elementRef?: RefObject<ElementRef<'div'>>;
     blockingContent?: React.ReactNode;
     contentOriginalLanguage?: TranslationModuleOriginalLanguageEnum;
+    beforeHeaderContent?: React.ReactNode;
 }
 
 function Page(props: Props) {
@@ -58,6 +59,7 @@ function Page(props: Props) {
         elementRef,
         blockingContent,
         contentOriginalLanguage,
+        beforeHeaderContent,
     } = props;
 
     const currentLanguage = useCurrentLanguage();
@@ -98,6 +100,7 @@ function Page(props: Props) {
                         )}
                     </div>
                 )}
+            {beforeHeaderContent}
             {isNotDefined(blockingContent) && showPageContainer && (
                 <PageHeader
                     className={_cs(

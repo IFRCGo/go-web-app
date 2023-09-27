@@ -48,11 +48,6 @@ function EpidemicNumericDetails(props: Props) {
                 label={strings.epidemicAssistedGovernmentLabel}
                 value={value?.gov_num_assisted}
             />
-            {/* FIXME: This is not in the form */}
-            <KeyFigure
-                label={strings.epidemicAssistedOtherLabel}
-                value={value?.other_num_assisted}
-            />
             <KeyFigure
                 label={strings.epidemicVolunteersLabel}
                 value={value?.num_localstaff}
