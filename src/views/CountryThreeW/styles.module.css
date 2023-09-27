@@ -3,4 +3,10 @@
     flex-direction: column;
     padding: var(--go-ui-spacing-2xl) 0;
     gap: var(--go-ui-spacing-2xl);
+
+    .country-three-w-actions {
+        display: flex;
+        align-items: center;
+        gap: var(--go-ui-spacing-md);
+    }
 }

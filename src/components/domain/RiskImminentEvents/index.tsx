@@ -7,14 +7,13 @@ import {
     EarthquakeIcon,
     FloodIcon,
     ForestFireIcon,
-    WikiHelpSectionLineIcon,
 } from '@ifrc-go/icons';
 
 import Container from '#components/Container';
 import InfoPopup from '#components/InfoPopup';
 import Link from '#components/Link';
 import Radio from '#components/RadioInput/Radio';
-import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
+import WikiLink from '#components/WikiLink';
 import useTranslation from '#hooks/useTranslation';
 import { hazardTypeToColorMap } from '#utils/domain/risk';
 import { resolveToComponent } from '#utils/translation';
@@ -52,7 +51,6 @@ function RiskImminentEvents(props: Props) {
     const { className, ...otherProps } = props;
 
     const strings = useTranslation(i18n);
-    const lang = useCurrentLanguage();
 
     const riskHazards: Array<{
         key: HazardType,
@@ -123,14 +121,9 @@ function RiskImminentEvents(props: Props) {
             headerDescription={strings.imminentEventsDescription}
             withHeaderBorder
             actions={(
-                <Link
-                    className={styles.wikiIcon}
-                    external
-                    href={`https://go-wiki.ifrc.org/${lang}/user_guide/risk_module#imminent-events`}
-                    title={strings.imminentEventLinkTitle}
-                >
-                    <WikiHelpSectionLineIcon />
-                </Link>
+                <WikiLink
+                    href="user_guide/risk_module#imminent-events"
+                />
             )}
             footerContent={(
                 <div className={styles.legend}>

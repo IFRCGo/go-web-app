@@ -12,7 +12,6 @@
         "imminentEventsEarthquake": "Earthquake",
         "imminentEventsDrought": "Drought",
         "imminentEventsWildfire": "Wildfire",
-        "imminentEventLinkTitle": "Wiki",
         "pdcTooltipTitle": "Source: Pacific Disaster Center",
         "pdcTooltipDescription": "These impacts are produced by the Pacific Disaster Center's All-hazards Impact Model (AIM) 3.0. Click {here} for more information about the model and its inputs.",
         "here": "here",

@@ -3,7 +3,6 @@ import {
     type SetStateAction,
     type Dispatch,
 } from 'react';
-import { WikiHelpSectionLineIcon } from '@ifrc-go/icons';
 import {
     type Error,
     getErrorObject,
@@ -13,14 +12,15 @@ import {
 import {
     isNotDefined,
 } from '@togglecorp/fujs';
+import { WikiHelpSectionLineIcon } from '@ifrc-go/icons';
 
 import Container from '#components/Container';
 import InputSection from '#components/InputSection';
-import Link from '#components/Link';
 import Button from '#components/Button';
 import TextInput from '#components/TextInput';
 import SelectInput from '#components/SelectInput';
 import NumberInput from '#components/NumberInput';
+import Link from '#components/Link';
 import BooleanInput from '#components/BooleanInput';
 import useTranslation from '#hooks/useTranslation';
 import { type GoApiResponse } from '#utils/restRequest';

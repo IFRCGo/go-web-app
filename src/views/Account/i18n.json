@@ -8,6 +8,7 @@
 
         "accountPerForms":"PER forms",
         "accountThreeWForms":"3W forms",
-        "accountMyDrefApplications":"Dref Application forms"
+        "accountMyDrefApplications":"Dref Application forms",
+        "accountGOWiki": "GO Wiki"
     }
 }

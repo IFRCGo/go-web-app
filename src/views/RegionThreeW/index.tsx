@@ -210,6 +210,11 @@ export function Component() {
         <div
             className={styles.regionThreeW}
         >
+            {/* {strings.wikiJsLink?.length > 0 && (
+                    <WikiLink
+                    href=''
+                />
+            )} */}
             {regionProjectOverviewResponsePending ? (
                 <BlockLoading />
             ) : (

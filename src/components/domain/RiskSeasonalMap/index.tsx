@@ -15,17 +15,16 @@ import {
     MapLayer,
     MapBounds,
 } from '@togglecorp/re-map';
-import { WikiHelpSectionLineIcon } from '@ifrc-go/icons';
 
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import Container from '#components/Container';
 import BlockLoading from '#components/BlockLoading';
+import WikiLink from '#components/WikiLink';
 import LegendItem from '#components/LegendItem';
 import Link from '#components/Link';
 import useInputState from '#hooks/useInputState';
 import useCountry from '#hooks/domain/useCountry';
 import useTranslation from '#hooks/useTranslation';
-import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 import {
     getDataWithTruthyHazardType,
     getFiRiskDataItem,
@@ -96,7 +95,6 @@ function RiskSeasonalMap(props: Props) {
 
     const [hazardTypeOptions, setHazardTypeOptions] = useInputState<HazardTypeOption[]>([]);
     const strings = useTranslation(i18n);
-    const lang = useCurrentLanguage();
 
     const {
         response: seasonalResponse,
@@ -541,10 +539,10 @@ function RiskSeasonalMap(props: Props) {
 
                         if (
                             isNotDefined(maxValue)
-                                || maxValue === 0
-                                || isNotDefined(sum)
-                                || sum === 0
-                                || isNotDefined(maxRiskCategory)
+                            || maxValue === 0
+                            || isNotDefined(sum)
+                            || sum === 0
+                            || isNotDefined(maxRiskCategory)
                         ) {
                             return undefined;
                         }
@@ -727,14 +725,9 @@ function RiskSeasonalMap(props: Props) {
                 </>
             )}
             actions={(
-                <Link
-                    className={styles.wikiLink}
-                    external
-                    href={`https://go-wiki.ifrc.org/${lang}/user_guide/risk_module#seasonal-risk`}
-                    title={strings.riskSeasonalLinkTitle}
-                >
-                    <WikiHelpSectionLineIcon />
-                </Link>
+                <WikiLink
+                    href="user_guide/risk_module#seasonal-risk"
+                />
             )}
             childrenContainerClassName={styles.mainContent}
             withHeaderBorder
