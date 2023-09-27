@@ -113,6 +113,20 @@ const recoverAccount = customWrapRoute({
     },
 });
 
+const recoverAccountConfirm = customWrapRoute({
+    parent: rootLayout,
+    path: 'recover-account/:username/:token',
+    component: {
+        render: () => import('#views/RecoverAccountConfirm'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Recover Account Confirm',
+        visibility: 'is-not-authenticated',
+    },
+});
+
 const resendValidationEmail = customWrapRoute({
     parent: rootLayout,
     path: 'resend-validation-email',
@@ -2560,6 +2574,7 @@ const wrappedRoutes = {
     login,
     register,
     recoverAccount,
+    recoverAccountConfirm,
     resendValidationEmail,
     home,
     regionsLayout,
