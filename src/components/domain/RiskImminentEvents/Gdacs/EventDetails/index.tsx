@@ -150,6 +150,8 @@ function EventDetails(props: Props) {
                     <TextOutput
                         label={strings.eventDeathLabel}
                         value={populationExposure?.death}
+                        maximumFractionDigits={2}
+                        compact
                         valueType="number"
                     />
                 )}
@@ -157,6 +159,8 @@ function EventDetails(props: Props) {
                     <TextOutput
                         label={strings.eventDisplacedLabel}
                         value={populationExposure?.displaced}
+                        maximumFractionDigits={2}
+                        compact
                         valueType="number"
                     />
                 )}
@@ -178,7 +182,8 @@ function EventDetails(props: Props) {
                         value={populationExposure?.impact}
                     />
                 )}
-                {isDefined(eventDetails?.severitydata) && (
+                {isDefined(eventDetails?.severitydata)
+                    && (isDefined(eventDetails) && (eventDetails?.eventtype) && !(eventDetails.eventtype === 'FL')) && (
                     <TextOutput
                         label={strings.eventSeverityLabel}
                         value={eventDetails?.severitydata?.severitytext}

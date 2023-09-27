@@ -1,4 +1,15 @@
 .event-details {
+    .impact-value {
+        gap: var(--go-ui-spacing-4xs);
+    }
+
+    .beta {
+        padding: 0 var(--go-ui-spacing-2xs);
+        vertical-align: super;
+        color: var(--go-ui-color-gray-80);
+        font-size: var(--go-ui-font-size-2xs);
+    }
+
     .estimation-note {
         color: var(--go-ui-color-text-light);
         font-size: var(--go-ui-font-size-sm);

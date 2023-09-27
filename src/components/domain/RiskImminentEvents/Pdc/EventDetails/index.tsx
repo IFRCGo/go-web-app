@@ -89,28 +89,31 @@ function EventDetails(props: Props) {
                             label={strings.eventDetailsPeopleExposed}
                             value={popExposure?.total?.value}
                             valueType="number"
-                            maximumFractionDigits={0}
+                            maximumFractionDigits={2}
+                            compact
                             strongValue
                         />
                         <TextOutput
                             label={strings.eventDetailsHouseholdExposed}
                             value={popExposure?.households?.value}
                             valueType="number"
-                            maximumFractionDigits={0}
+                            maximumFractionDigits={2}
+                            compact
                             strongValue
                         />
                         <TextOutput
                             label={strings.eventDetailsPeopleGroups}
                             value={popExposure?.vulnerable?.value}
                             valueType="number"
-                            maximumFractionDigits={0}
+                            maximumFractionDigits={2}
+                            compact
                             strongValue
                         />
                         <TextOutput
                             label={strings.eventDetailsValueExposed}
                             value={capitalExposure?.total?.value}
                             valueType="number"
-                            maximumFractionDigits={0}
+                            maximumFractionDigits={2}
                             compact
                             strongValue
                         />
@@ -118,14 +121,16 @@ function EventDetails(props: Props) {
                             label={strings.eventDetailsSchoolExposed}
                             value={capitalExposure?.school?.value}
                             valueType="number"
-                            maximumFractionDigits={0}
+                            maximumFractionDigits={2}
+                            compact
                             strongValue
                         />
                         <TextOutput
                             label={strings.eventHospitalsExposed}
                             value={capitalExposure?.hospital?.value}
                             valueType="number"
-                            maximumFractionDigits={0}
+                            maximumFractionDigits={2}
+                            compact
                             strongValue
                         />
                     </div>
