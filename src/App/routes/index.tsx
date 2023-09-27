@@ -497,6 +497,34 @@ const emergenciesLayout = customWrapRoute({
     },
 });
 
+const emergencySlug = customWrapRoute({
+    parent: rootLayout,
+    path: 'emergencies/slug/:slug',
+    component: {
+        render: () => import('#views/EmergencySlug'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Emergency',
+        visibility: 'anything',
+    },
+});
+
+const emergencyFollow = customWrapRoute({
+    parent: rootLayout,
+    path: 'emergencies/:emergencyId/follow',
+    component: {
+        render: () => import('#views/EmergencyFollow'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Emergency',
+        visibility: 'anything',
+    },
+});
+
 const emergencyIndex = customWrapRoute({
     parent: emergenciesLayout,
     index: true,
@@ -2600,6 +2628,8 @@ const wrappedRoutes = {
     countryPlan,
     countryAdditionalInfo,
     emergencies,
+    emergencySlug,
+    emergencyFollow,
     emergenciesLayout,
     emergencyDetails,
     emergencyIndex,
@@ -2747,6 +2777,7 @@ const wrappedRoutes = {
     surgeCatalogueOtherPreparednessEffectiveResponse,
     surgeCatalogueOtherRecovery,
     surgeCatalogueOtherGreenResponse,
+
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));

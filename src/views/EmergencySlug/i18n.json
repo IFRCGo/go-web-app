@@ -1,0 +1,6 @@
+{
+    "namespace": "emergencySlug",
+    "strings": {
+        "emergencySlugFetchingEvent": "Fetching event..."
+    }
+}

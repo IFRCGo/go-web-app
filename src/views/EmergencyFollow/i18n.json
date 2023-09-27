@@ -1,0 +1,6 @@
+{
+    "namespace": "emergencyFollow",
+    "strings": {
+        "emergencyFollowFollowingEvent": "Following event..."
+    }
+}
