@@ -237,7 +237,11 @@ function RiskSeasonalMap(props: Props) {
                 applicableHazards: applicableHazardsByRiskMetric.riskScore,
             },
         ]),
-        [strings],
+        [
+            strings.peopleExposedOptionLabel,
+            strings.peopleAtRiskOptionLabel,
+            strings.riskScoreOptionLabel,
+        ],
     );
 
     const availableHazards: { [key in HazardType]?: string } | undefined = useMemo(

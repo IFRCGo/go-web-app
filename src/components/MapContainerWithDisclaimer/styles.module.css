@@ -50,11 +50,12 @@
 
     .download-button {
         position: absolute;
-        top: 6rem;
+        top: 5rem;
         /* NOTE: Exactly as mapbox */
         right: calc(10px - var(--go-ui-width-separator-md));
         border: var(--go-ui-width-separator-md) solid var(--go-ui-color-separator);
         border-radius: var(--go-ui-border-radius-md);
+        background-color: var(--go-ui-color-foreground);
         padding: 0 var(--go-ui-spacing-2xs);
         font-size: var(--go-ui-height-icon-multiplier);
 
