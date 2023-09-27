@@ -36,6 +36,7 @@ import {
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useNationalSociety, { NationalSociety } from '#hooks/domain/useNationalSociety';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
+import WikiLink from '#components/WikiLink';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -278,13 +279,11 @@ export function Component() {
             heading={strings.registerHeader}
             description={strings.registerSubHeader}
             mainSectionClassName={styles.mainSection}
-            /*
-            info={
-                strings.wikiJsLink?.length > 0 ? (
-                    <WikiLink href={strings.wikiJsLink} />
-                ) : null
-            }
-            */
+            actions={(
+                <WikiLink
+                    href="user_guide/account"
+                />
+            )}
         >
             <div className={styles.form}>
                 <NonFieldError
