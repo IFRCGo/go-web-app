@@ -22,7 +22,10 @@ function BooleanInput<const NAME>(props: Prop<NAME>) {
             { value: true, label: strings.yesLabel },
             { value: false, label: strings.noLabel },
         ],
-        [strings],
+        [
+            strings.yesLabel,
+            strings.noLabel,
+        ],
     );
 
     return (
