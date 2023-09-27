@@ -222,7 +222,7 @@ export function Component() {
             actions={isAuthenticated && (
                 <Link
                     external
-                    href={resolveUrl(adminUrl, `${adminUrl}api/country/${countryId}/change/`)}
+                    href={resolveUrl(adminUrl, `api/country/${countryId}/change/`)}
                     variant="secondary"
                     icons={<PencilFillIcon />}
                 >

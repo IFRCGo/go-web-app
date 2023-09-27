@@ -1,6 +1,7 @@
 import {
-    useState,
     useCallback,
+    type SetStateAction,
+    type Dispatch,
 } from 'react';
 import {
     unique,
@@ -23,6 +24,7 @@ import {
     useLazyRequest,
 } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
+import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 
 import { type PartialDref } from '../../schema';
 
@@ -34,6 +36,9 @@ interface Props {
     value: Value;
     setFieldValue: (...entries: EntriesAsList<PartialDref>) => void;
     disabled?: boolean;
+    setDistrictOptions: Dispatch<SetStateAction<DistrictItem[] | null | undefined>>;
+    fieldReportOptions: FieldReportSearchItem[] | null | undefined;
+    setFieldReportOptions: Dispatch<SetStateAction<FieldReportSearchItem[] | null | undefined>>;
 }
 
 function CopyFieldReportSection(props: Props) {
@@ -41,6 +46,9 @@ function CopyFieldReportSection(props: Props) {
         value,
         setFieldValue,
         disabled,
+        setDistrictOptions,
+        fieldReportOptions,
+        setFieldReportOptions,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -49,9 +57,6 @@ function CopyFieldReportSection(props: Props) {
     const [fieldReport, setFieldReport] = useInputState<number | undefined | null>(
         value?.field_report,
     );
-    const [fieldReportOptions, setFieldReportOptions] = useState<
-        FieldReportSearchItem[] | undefined | null
-    >([]);
 
     useRequest({
         skip: isNotDefined(value.field_report),
@@ -96,6 +101,14 @@ function CopyFieldReportSection(props: Props) {
             const district = (value.district && value.district.length > 0)
                 ? value.district
                 : fieldReportResponse.districts;
+
+            setDistrictOptions(((existingOptions) => {
+                const safeOptions = existingOptions ?? [];
+                return unique(
+                    [...safeOptions, ...(fieldReportResponse.districts_details ?? [])],
+                    (item) => item.id,
+                );
+            }));
 
             const num_affected = value?.num_affected
                 ?? fieldReportResponse.num_affected
@@ -198,6 +211,8 @@ function CopyFieldReportSection(props: Props) {
             setFieldValue(partner_national_society, 'partner_national_society');
             setFieldValue(ifrc, 'ifrc');
             setFieldValue(icrc, 'icrc');
+
+            // set field_report_option and districts
 
             alert.show(
                 strings.drefFormCopyFRSuccessMessage,

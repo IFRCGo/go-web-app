@@ -18,6 +18,7 @@ import {
     isTruthyString,
 } from '@togglecorp/fujs';
 
+import { type FieldReportItem as FieldReportSearchItem } from '#components/domain/FieldReportSearchSelectInput';
 import useRouting from '#hooks/useRouting';
 import Page from '#components/Page';
 import Tab from '#components/Tabs/Tab';
@@ -132,8 +133,12 @@ export function Component() {
         setFalse: setShowShareModalFalse,
     }] = useBooleanState(false);
     const lastModifiedAtRef = useRef<string | undefined>();
+
     const [districtOptions, setDistrictOptions] = useState<
         DistrictItem[] | undefined | null
+    >([]);
+    const [fieldReportOptions, setFieldReportOptions] = useState<
+        FieldReportSearchItem[] | undefined | null
     >([]);
 
     const {
@@ -586,6 +591,8 @@ export function Component() {
                                 disabled={disabled}
                                 districtOptions={districtOptions}
                                 setDistrictOptions={setDistrictOptions}
+                                fieldReportOptions={fieldReportOptions}
+                                setFieldReportOptions={setFieldReportOptions}
                             />
                         </TabPanel>
                         <TabPanel name="eventDetail">
