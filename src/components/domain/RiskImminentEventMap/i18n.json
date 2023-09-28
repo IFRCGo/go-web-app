@@ -1,6 +1,12 @@
 {
     "namespace": "common",
     "strings": {
-        "backToEventsLabel": "Back to events"
+        "riskImminentEventsMap": "Risk Imminent Events Map",
+        "backToEventsLabel": "Back to events",
+        "imminentEventsFlood": "Flood",
+        "imminentEventsStorm": "Storm",
+        "imminentEventsEarthquake": "Earthquake",
+        "imminentEventsDrought": "Drought",
+        "imminentEventsWildfire": "Wildfire"
     }
 }
