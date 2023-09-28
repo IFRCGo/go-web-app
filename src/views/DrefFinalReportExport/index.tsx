@@ -210,6 +210,7 @@ export function Component() {
                 </Header>
             </div>
             <Image
+                imgElementClassName={styles.image}
                 src={drefResponse?.cover_image_file?.file}
                 caption={drefResponse?.cover_image_file?.caption}
                 captionClassName={styles.caption}
@@ -333,6 +334,7 @@ export function Component() {
                     childrenContainerClassName={styles.content}
                 >
                     <Image
+                        imgElementClassName={styles.image}
                         src={drefResponse?.event_map_file?.file}
                         caption={drefResponse?.event_map_file?.caption}
                         captionClassName={styles.caption}
@@ -353,6 +355,7 @@ export function Component() {
                         {imagesFileDefined && drefResponse.images_file?.map(
                             (imageFile) => (
                                 <Image
+                                    imgElementClassName={styles.smallImage}
                                     key={imageFile.id}
                                     src={imageFile.file}
                                     caption={imageFile.caption}
@@ -492,6 +495,7 @@ export function Component() {
                             <Container
                                 key={identifiedNeed.id}
                                 heading={identifiedNeed.title_display}
+                                headingSectionClassName={styles.headingSection}
                                 spacing="compact"
                                 icons={(
                                     <img
@@ -574,104 +578,87 @@ export function Component() {
                 className={styles.targetPopulationSection}
                 childrenContainerClassName={styles.content}
             >
-                <div className={styles.top}>
+                <div className={styles.left}>
                     {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
-                        <div className={styles.left}>
+                        <>
                             <BlockTextOutput
-                                className={_cs(styles.peopleFigure, styles.textOutput)}
-                                labelClassName={styles.label}
+                                className={styles.textOutput}
+                                labelClassName={styles.categoryLabel}
                                 label={strings.womenLabel}
                                 value={drefResponse?.women}
                                 valueType="number"
                                 strongValue
                             />
                             <BlockTextOutput
-                                className={_cs(styles.peopleFigure, styles.textOutput)}
-                                labelClassName={styles.label}
+                                className={styles.textOutput}
                                 label={strings.girlsLabel}
                                 value={drefResponse?.girls}
                                 valueType="number"
                                 strongValue
+                                labelClassName={styles.categoryLabel}
                             />
                             <BlockTextOutput
-                                className={_cs(styles.peopleFigure, styles.textOutput)}
-                                labelClassName={styles.label}
+                                className={styles.textOutput}
                                 label={strings.menLabel}
                                 value={drefResponse?.men}
                                 valueType="number"
                                 strongValue
+                                labelClassName={styles.categoryLabel}
                             />
                             <BlockTextOutput
-                                className={_cs(styles.peopleFigure, styles.textOutput)}
-                                labelClassName={styles.label}
+                                className={styles.textOutput}
                                 label={strings.boysLabel}
                                 value={drefResponse?.boys}
                                 valueType="number"
                                 strongValue
+                                labelClassName={styles.categoryLabel}
                             />
-                            <BlockTextOutput
-                                className={_cs(styles.peopleFigure, styles.textOutput)}
-                                label={strings.targetedPopulationLabel}
-                                value={drefResponse?.total_targeted_population}
-                                labelClassName={_cs(
-                                    styles.label,
-                                    styles.totalTargetedPopulationLabel,
-                                )}
-                                valueClassName={styles.totalTargetedPopulationValue}
-                                valueType="number"
-                                strongValue
-                            />
-                        </div>
+                        </>
                     )}
-                    <div className={styles.right}>
-                        <TextOutput
-                            className={styles.textOutput}
-                            label={strings.ruralLabel}
-                            value={isDefined(drefResponse?.people_per_local)
-                                ? Number(drefResponse?.people_per_local)
-                                : undefined}
-                            valueType="number"
-                            suffix="%"
-                            strongValue
-                        />
-                        <TextOutput
-                            className={styles.textOutput}
-                            label={strings.urbanLabel}
-                            value={isDefined(drefResponse?.people_per_urban)
-                                ? Number(drefResponse?.people_per_urban)
-                                : undefined}
-                            suffix="%"
-                            valueType="number"
-                            strongValue
-                        />
-                        <TextOutput
-                            className={_cs(styles.textOutput, styles.large)}
-                            label={strings.peopleWithDisabilitesLabel}
-                            value={isDefined(drefResponse?.disability_people_per)
-                                ? Number(drefResponse?.disability_people_per)
-                                : undefined}
-                            labelClassName={styles.disabilityLabel}
-                            valueClassName={styles.disabilityValue}
-                            suffix="%"
-                            valueType="number"
-                            strongValue
-                        />
-                        {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
-                            <div />
-                        )}
-                    </div>
                 </div>
-                {drefResponse?.type_of_dref === DREF_TYPE_ASSESSMENT && (
-                    <TextOutput
-                        className={_cs(styles.textOutput, styles.totalTextOutput)}
-                        label={strings.targetedPopulationLabel}
-                        value={drefResponse?.total_targeted_population}
-                        labelClassName={styles.totalTargetedPopulationLabel}
-                        valueClassName={styles.totalTargetedPopulationValue}
+                <div className={styles.right}>
+                    <BlockTextOutput
+                        className={styles.textOutput}
+                        label={strings.ruralLabel}
+                        value={isDefined(drefResponse?.people_per_local)
+                            ? Number(drefResponse?.people_per_local)
+                            : undefined}
+                        valueType="number"
+                        suffix="%"
+                        strongValue
+                    />
+                    <BlockTextOutput
+                        className={_cs(styles.textOutput, styles.ruralUrban)}
+                        label={strings.urbanLabel}
+                        value={isDefined(drefResponse?.people_per_urban)
+                            ? Number(drefResponse?.people_per_urban)
+                            : undefined}
+                        suffix="%"
                         valueType="number"
                         strongValue
                     />
-                )}
+                    <BlockTextOutput
+                        className={_cs(styles.textOutput, styles.disabilities)}
+                        label={strings.peopleWithDisabilitesLabel}
+                        value={isDefined(drefResponse?.disability_people_per)
+                            ? Number(drefResponse?.disability_people_per)
+                            : undefined}
+                        labelClassName={styles.disabilityLabel}
+                        valueClassName={styles.disabilityValue}
+                        suffix="%"
+                        valueType="number"
+                        strongValue
+                    />
+                </div>
+                <BlockTextOutput
+                    className={styles.textOutput}
+                    label={strings.targetedPopulationLabel}
+                    value={drefResponse?.total_targeted_population}
+                    labelClassName={styles.totalTargetedPopulationLabel}
+                    valueClassName={styles.totalTargetedPopulationValue}
+                    valueType="number"
+                    strongValue
+                />
             </Container>
             {showRiskAndSecuritySection && (
                 <Container
@@ -739,6 +726,7 @@ export function Component() {
                                         alt={strings.drefApplicationFormImageAlt}
                                     />
                                 )}
+                                headingSectionClassName={styles.headingSection}
                                 heading={plannedIntervention.title_display}
                                 headingClassName={styles.heading}
                                 actionsContainerClassName={styles.metaDetails}
@@ -770,6 +758,7 @@ export function Component() {
                                 )}
                                 withInternalPadding
                                 withHeaderBorder
+                                withoutWrapInHeading
                                 childrenContainerClassName={styles.plannedInterventionContent}
                             >
                                 <Container
@@ -881,55 +870,63 @@ export function Component() {
                 </Container>
             )}
             {showContactsSection && (
-                <Container
-                    className={styles.contactInformationSection}
-                    childrenContainerClassName={styles.content}
-                    heading={strings.contactInformationSectionHeading}
-                    headingLevel={2}
-                    headerDescription={strings.contactInformationSectionDescription}
-                >
-                    {nsContactDefined && (
-                        <TextOutput
-                            labelClassName={styles.contactPersonLabel}
-                            label={strings.nsContactHeading}
-                            value={nsContactText}
-                            strongLabel
-                        />
-                    )}
-                    {appealManagerContactDefined && (
-                        <TextOutput
-                            labelClassName={styles.contactPersonLabel}
-                            label={strings.appealManagerContactHeading}
-                            value={appealManagerContactText}
-                            strongLabel
-                        />
-                    )}
-                    {projectManagerContactDefined && (
-                        <TextOutput
-                            labelClassName={styles.contactPersonLabel}
-                            label={strings.projectManagerContactHeading}
-                            value={projectManagerContactText}
-                            strongLabel
-                        />
-                    )}
-                    {focalPointContactDefined && (
-                        <TextOutput
-                            labelClassName={styles.contactPersonLabel}
-                            label={strings.focalPointContactHeading}
-                            value={focalPointContactText}
-                            strongLabel
-                        />
-                    )}
-                    {mediaContactDefined && (
-                        <TextOutput
-                            labelClassName={styles.contactPersonLabel}
-                            label={strings.mediaContactHeading}
-                            value={mediaContactText}
-                            strongLabel
-                        />
-                    )}
-                    {/* FIXME: Add references */}
-                </Container>
+                <>
+                    <Container
+                        className={styles.contactInformationSection}
+                        childrenContainerClassName={styles.content}
+                        heading={strings.contactInformationSectionHeading}
+                        headingLevel={2}
+                        headerDescription={strings.contactInformationSectionDescription}
+                    >
+                        {nsContactDefined && (
+                            <TextOutput
+                                labelClassName={styles.contactPersonLabel}
+                                label={strings.nsContactHeading}
+                                value={nsContactText}
+                                strongLabel
+                            />
+                        )}
+                        {appealManagerContactDefined && (
+                            <TextOutput
+                                labelClassName={styles.contactPersonLabel}
+                                label={strings.appealManagerContactHeading}
+                                value={appealManagerContactText}
+                                strongLabel
+                            />
+                        )}
+                        {projectManagerContactDefined && (
+                            <TextOutput
+                                labelClassName={styles.contactPersonLabel}
+                                label={strings.projectManagerContactHeading}
+                                value={projectManagerContactText}
+                                strongLabel
+                            />
+                        )}
+                        {focalPointContactDefined && (
+                            <TextOutput
+                                labelClassName={styles.contactPersonLabel}
+                                label={strings.focalPointContactHeading}
+                                value={focalPointContactText}
+                                strongLabel
+                            />
+                        )}
+                        {mediaContactDefined && (
+                            <TextOutput
+                                labelClassName={styles.contactPersonLabel}
+                                label={strings.mediaContactHeading}
+                                value={mediaContactText}
+                                strongLabel
+                            />
+                        )}
+                        {/* FIXME: Add references */}
+                    </Container>
+                    <Link
+                        to="emergencies"
+                        withUnderline
+                    >
+                        {strings.drefExportReference}
+                    </Link>
+                </>
             )}
             {previewReady && <div id="pdf-preview-ready" />}
         </div>

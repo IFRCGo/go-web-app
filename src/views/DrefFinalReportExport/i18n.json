@@ -3,6 +3,7 @@
     "strings": {
         "drefApplicationFormImageAlt": "Image",
         "exportTitle": "DREF Final Report",
+        "drefExportReference": "Click here for reference",
         "appealLabel": "Appeal",
         "countryLabel": "Country",
         "hazardLabel": "Hazard",
@@ -29,7 +30,7 @@
         "nationalSocietyActionsHeading": "National Society Actions",
         "nsConductedInterventionLabel": "Have the National Society conducted any intervention additionally to those part of this DREF Operation?",
         "nsInterventionDescriptionLabel": "Please provide a brief description of those additional activities",
-        "movementPartnersActionsHeading": "Movement Partners Actions Related To The Current Event",
+        "movementPartnersActionsHeading": "IFRC Network Actions Related To The Current Event",
         "secretariatLabel": "Secretariat",
         "participatingNsLabel": "Participating National Societies",
         "icrcActionsHeading": "ICRC Actions Related To The Current Event",

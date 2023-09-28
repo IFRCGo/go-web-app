@@ -42,6 +42,14 @@
         min-height: 297mm;
     }
 
+    .image {
+        max-height: 140mm;
+    }
+
+    .small-image {
+        max-height: 70mm;
+    }
+
     .caption {
         background-color: var(--go-ui-color-gray-20);
         padding: var(--go-ui-spacing-2xs);
@@ -56,7 +64,9 @@
         text-align: right;
 
         .main-heading {
+            display: block;
             text-transform: uppercase;
+            color: var(--go-ui-color-primary-red);
         }
 
         .ifrc-logo {
@@ -161,9 +171,13 @@
             flex-direction: column;
             gap: var(--go-ui-spacing-xl);
 
-            .icon {
-                width: 2rem;
-                height: 2rem;
+            .heading-section {
+                align-items: center;
+
+                .icon {
+                    width: 4rem;
+                    height: 4rem;
+                }
             }
         }
     }
@@ -179,49 +193,36 @@
 
     .target-population-section {
         .content {
-            display: flex;
-            flex-direction: column;
-            gap: var(--go-ui-width-separator-md);
+            display: grid;
+            grid-gap: var(--go-ui-width-separator-md);
+            grid-template-columns: 2fr 1fr 1fr 1fr;
 
+            .left {
+                display: grid;
+                grid-gap: var(--go-ui-width-separator-md);
+                grid-template-columns: 2fr 1fr;
+                grid-column: span 2;
+            }
+            .right {
+                display: grid;
+                grid-gap: var(--go-ui-width-separator-md);
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: 1fr 1fr 1fr 1fr;
+                grid-column: span 2;
+
+                .disabilities {
+                    >* {
+                        grid-row: 2 span;
+                    }
+                }
+            }
             .total-targeted-population-value {
-                flex-grow: 1;
+                grid-column: span 3;
                 color: var(--go-ui-color-primary-red);
             }
 
-            .top {
-                display: flex;
-                gap: var(--go-ui-width-separator-md);
-
-                .left {
-                    display: grid;
-                    flex-basis: 60%;
-                    flex-shrink: 0;
-                    grid-template-columns: 1fr 1fr 1fr;
-                    grid-gap: var(--go-ui-width-separator-md);
-
-                    .label {
-                        grid-column: span 2;
-                    }
-                }
-
-                .right {
-                    display: grid;
-                    flex-grow: 1;
-                    grid-template-columns: 1fr 1fr;
-                    grid-template-rows: 2fr 2fr 1fr;
-                    grid-gap: var(--go-ui-width-separator-md);
-
-                    .text-output {
-                        display: flex;
-                        flex-direction: column;
-                        gap: var(--go-ui-width-separator-md);
-                    }
-
-                    .large {
-                        grid-row: 2 span;
-                        grid-column: span 2;
-                    }
-                }
+            .total-targeted-population-label {
+                grid-column: span 1;
             }
         }
     }
@@ -281,9 +282,13 @@
                     }
                 }
 
-                .icon {
-                    width: 2rem;
-                    height: 2rem;
+                .heading-section {
+                    align-items: center;
+
+                    .icon {
+                        width: 4rem;
+                        height: 4rem;
+                    }
                 }
 
                 .planned-intervention-content {
