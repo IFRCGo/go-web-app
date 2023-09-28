@@ -1,4 +1,9 @@
-.download-header {
+.map-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
+    .download-header {
     border-bottom: var(--go-ui-width-separator-lg) solid var(--go-ui-color-primary-red);
     background-color: var(--go-ui-color-background);
     padding: var(--go-ui-spacing-sm);
@@ -84,4 +89,6 @@
     .actions {
         align-items: center;
     }
+}
+
 }

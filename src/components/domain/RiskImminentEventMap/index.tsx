@@ -11,7 +11,14 @@ import {
     MapImage,
     MapBounds,
 } from '@togglecorp/re-map';
-import { ChevronLeftLineIcon } from '@ifrc-go/icons';
+import {
+    CycloneIcon,
+    DroughtIcon,
+    EarthquakeIcon,
+    FloodIcon,
+    ForestFireIcon,
+    ChevronLeftLineIcon,
+} from '@ifrc-go/icons';
 import getBbox from '@turf/bbox';
 import getBuffer from '@turf/buffer';
 
@@ -27,6 +34,7 @@ import {
 } from '#utils/constants';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import BaseMap from '#components/domain/BaseMap';
+import { hazardTypeToColorMap } from '#utils/domain/risk';
 import useTranslation from '#hooks/useTranslation';
 
 import {
@@ -238,10 +246,70 @@ function RiskImminentEventMap<
         [allIconsLoaded],
     );
 
+    const riskHazards: Array<{
+        key: HazardType,
+        label: string,
+        icon: React.ReactNode,
+    }> = useMemo(
+        () => [
+            {
+                key: 'FL',
+                label: strings.imminentEventsFlood,
+                icon: <FloodIcon className={styles.icon} />,
+            },
+            {
+                key: 'TC',
+                label: strings.imminentEventsStorm,
+                icon: <CycloneIcon className={styles.icon} />,
+            },
+            {
+                key: 'EQ',
+                label: strings.imminentEventsEarthquake,
+                icon: <EarthquakeIcon className={styles.icon} />,
+            },
+            {
+                key: 'DR',
+                label: strings.imminentEventsDrought,
+                icon: <DroughtIcon className={styles.icon} />,
+            },
+            {
+                key: 'WF',
+                label: strings.imminentEventsWildfire,
+                icon: <ForestFireIcon className={styles.icon} />,
+            },
+        ],
+        [strings],
+    );
+
     return (
         <div className={styles.riskImminentEventMap}>
             <BaseMap>
-                <MapContainerWithDisclaimer className={styles.mapContainer} />
+                <MapContainerWithDisclaimer
+                    title={strings.riskImminentEventsMap}
+                    className={styles.mapContainer}
+                    footer={(
+                        <div className={styles.legend}>
+                            {riskHazards.map((hazard) => (
+                                <div
+                                    key={hazard.key}
+                                    className={styles.legendItem}
+                                >
+                                    <div
+                                        className={styles.iconContainer}
+                                        style={{
+                                            backgroundColor: hazardTypeToColorMap[hazard.key],
+                                        }}
+                                    >
+                                        {hazard.icon}
+                                    </div>
+                                    <div className={styles.label}>
+                                        {hazard.label}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                />
                 {hazardKeys.map((key) => {
                     const url = hazardKeyToIconmap[key];
 
