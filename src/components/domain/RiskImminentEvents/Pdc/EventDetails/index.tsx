@@ -34,6 +34,7 @@ function EventDetails(props: Props) {
 
     interface Exposure {
         value?: number | null;
+        valueFormatted?: string | null;
     }
 
     // NOTE: these are stored as json so we don't have typings for these
@@ -87,50 +88,32 @@ function EventDetails(props: Props) {
                     <div className={styles.exposureDetails}>
                         <TextOutput
                             label={strings.eventDetailsPeopleExposed}
-                            value={popExposure?.total?.value}
-                            valueType="number"
-                            maximumFractionDigits={2}
-                            compact
+                            value={popExposure?.total?.valueFormatted}
                             strongValue
                         />
                         <TextOutput
                             label={strings.eventDetailsHouseholdExposed}
-                            value={popExposure?.households?.value}
-                            valueType="number"
-                            maximumFractionDigits={2}
-                            compact
+                            value={popExposure?.households?.valueFormatted}
                             strongValue
                         />
                         <TextOutput
                             label={strings.eventDetailsPeopleGroups}
-                            value={popExposure?.vulnerable?.value}
-                            valueType="number"
-                            maximumFractionDigits={2}
-                            compact
+                            value={popExposure?.vulnerable?.valueFormatted}
                             strongValue
                         />
                         <TextOutput
                             label={strings.eventDetailsValueExposed}
-                            value={capitalExposure?.total?.value}
-                            valueType="number"
-                            maximumFractionDigits={2}
-                            compact
+                            value={capitalExposure?.total?.valueFormatted}
                             strongValue
                         />
                         <TextOutput
                             label={strings.eventDetailsSchoolExposed}
-                            value={capitalExposure?.school?.value}
-                            valueType="number"
-                            maximumFractionDigits={2}
-                            compact
+                            value={capitalExposure?.school?.valueFormatted}
                             strongValue
                         />
                         <TextOutput
                             label={strings.eventHospitalsExposed}
-                            value={capitalExposure?.hospital?.value}
-                            valueType="number"
-                            maximumFractionDigits={2}
-                            compact
+                            value={capitalExposure?.hospital?.valueFormatted}
                             strongValue
                         />
                     </div>
