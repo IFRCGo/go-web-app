@@ -1,4 +1,9 @@
-import { useEffect, useMemo } from 'react';
+import {
+    useEffect,
+    useMemo,
+    useState,
+    useCallback,
+} from 'react';
 import { type FillLayer, type LngLatBoundsLike } from 'mapbox-gl';
 import {
     _cs,
@@ -14,6 +19,7 @@ import {
 import {
     MapLayer,
     MapBounds,
+    MapPopup,
 } from '@togglecorp/re-map';
 
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
@@ -53,6 +59,7 @@ import {
     CATEGORY_RISK_VERY_LOW,
     DURATION_MAP_ZOOM,
     DEFAULT_MAP_PADDING,
+    COLOR_BLACK,
 } from '#utils/constants';
 import BaseMap from '#components/domain/BaseMap';
 
@@ -82,6 +89,11 @@ type Props = BaseProps & ({
     regionId: number;
 });
 
+interface ClickedPoint {
+    feature: GeoJSON.Feature<GeoJSON.Point, GeoJsonProps>;
+    lngLat: mapboxgl.LngLatLike;
+}
+
 const RISK_LOW_COLOR = '#c7d3e0';
 const RISK_HIGH_COLOR = '#f5333f';
 
@@ -94,6 +106,10 @@ function RiskSeasonalMap(props: Props) {
     } = props;
 
     const [hazardTypeOptions, setHazardTypeOptions] = useInputState<HazardTypeOption[]>([]);
+    const [
+        clickedPointProperties,
+        setClickedPointProperties,
+    ] = useState<ClickedPoint | undefined>();
     const strings = useTranslation(i18n);
 
     const {
@@ -216,6 +232,8 @@ function RiskSeasonalMap(props: Props) {
         },
         [seasonalRiskData, riskScoreResponse],
     );
+
+    console.log('risk', data);
 
     const riskMetricOptions: RiskMetricOption[] = useMemo(
         () => ([
@@ -683,6 +701,12 @@ function RiskSeasonalMap(props: Props) {
                         ),
                         COLOR_LIGHT_GREY,
                     ],
+                    'fill-outline-color': [
+                        'case',
+                        ['boolean', ['feature-state', 'hovered'], false],
+                        COLOR_BLACK,
+                        'transparent',
+                    ],
                 },
             };
         },
@@ -705,7 +729,25 @@ function RiskSeasonalMap(props: Props) {
             strings.riskCategoryVeryHigh,
         ],
     );
+    const handleCountryClick = useCallback(
+        (feature: mapboxgl.MapboxGeoJSONFeature, lngLat: mapboxgl.LngLat) => {
+            setClickedPointProperties({
+                feature: feature as unknown as ClickedPoint['feature'],
+                lngLat,
+            });
+            return true;
+        },
+        [setClickedPointProperties],
+    );
 
+    const handlePointClose = useCallback(
+        () => {
+            setClickedPointProperties(undefined);
+        },
+        [setClickedPointProperties],
+    );
+
+    console.log('mapping', mappings, 'filter', filteredData);
     return (
         <Container
             className={_cs(styles.riskSeasonalMapContainer, className)}
@@ -781,6 +823,7 @@ function RiskSeasonalMap(props: Props) {
                         layerKey="admin-0"
                         hoverable
                         layerOptions={layerOptions}
+                        onClick={handleCountryClick}
                     />
                 )}
             >
@@ -792,6 +835,16 @@ function RiskSeasonalMap(props: Props) {
                     bounds={bbox}
                     padding={DEFAULT_MAP_PADDING}
                 />
+                {clickedPointProperties?.lngLat
+                    && (
+                        <MapPopup
+                            coordinates={clickedPointProperties.lngLat}
+                            onCloseButtonClick={handlePointClose}
+                            heading="heading"
+                        >
+                            <div>POPUP</div>
+                        </MapPopup>
+                    )}
             </BaseMap>
             <Container
                 className={styles.countryList}

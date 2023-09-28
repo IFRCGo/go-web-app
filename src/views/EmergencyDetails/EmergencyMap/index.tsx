@@ -86,6 +86,8 @@ function EmergencyMap(props: Props) {
         [event],
     );
 
+    console.log('details', districtIdList);
+
     const adminOneHightlightLayerOptions = useMemo<Omit<FillLayer, 'id'>>(
         () => ({
             type: 'fill',
@@ -154,7 +156,6 @@ function EmergencyMap(props: Props) {
                         />
                         <MapLayer
                             layerKey="admin-1-highlight"
-                            hoverable
                             layerOptions={adminOneHightlightLayerOptions}
                         />
                         <MapLayer
