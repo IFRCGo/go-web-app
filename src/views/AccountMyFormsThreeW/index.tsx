@@ -232,7 +232,17 @@ export function Component(props: Props) {
                 }),
             ),
         ]),
-        [strings],
+        [
+            strings.threeWTableCountry,
+            strings.threeWTableNS,
+            strings.threeWTableProjectName,
+            strings.threeWTableSector,
+            strings.threeWTableTotalBudget,
+            strings.threeWTableProgrammeType,
+            strings.threeWTableDisasterType,
+            strings.threeWTablePeopleTargeted,
+            strings.threeWTablePeopleReached2,
+        ],
     );
 
     const activityColumns = useMemo(
@@ -311,7 +321,15 @@ export function Component(props: Props) {
                 }),
             ),
         ]),
-        [strings],
+        [
+            strings.threeWNationalSociety,
+            strings.threeWEmergencyTitle,
+            strings.threeWEmergencyStartDate,
+            strings.threeWEmergencyCountryName,
+            strings.threeWEmergencyRegion,
+            strings.threeWEmergencyStatus,
+            strings.threeWEmergencyServices,
+        ],
     );
 
     return (

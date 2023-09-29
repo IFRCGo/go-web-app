@@ -126,7 +126,15 @@ export function Component() {
                 (item) => item.countries,
             ),
         ]),
-        [strings],
+        [
+            strings.allEmergenciesDate,
+            strings.allEmergenciesName,
+            strings.allEmergenciesDisasterType,
+            strings.allEmergenciesGlide,
+            strings.allEmergenciesRequestedAmt,
+            strings.allEmergenciesAffected,
+            strings.allEmergenciesCountry,
+        ],
     );
 
     const [filterDisasterType, setFilterDisasterType] = useUrlSearchState<number | undefined>(
@@ -208,7 +216,7 @@ export function Component() {
                 ),
             },
         ),
-        [eventResponse, strings],
+        [eventResponse, strings.allEmergenciesHeading],
     );
 
     const [

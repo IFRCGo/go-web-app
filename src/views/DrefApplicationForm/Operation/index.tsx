@@ -138,7 +138,8 @@ function Operation(props: Props) {
 
         return w;
     }, [
-        strings,
+        strings.drefFormTotalTargeted,
+        strings.drefFormTotalTargetedPopulation,
         value?.num_assisted,
         value?.women,
         value?.men,

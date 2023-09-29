@@ -97,7 +97,7 @@ function MapContainerWithDisclaimer(props: Props) {
         exitPrintMode,
         title,
         alert,
-        strings,
+        strings.failureToDownloadMessage,
     ]);
 
     return (

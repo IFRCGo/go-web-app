@@ -39,7 +39,10 @@ function StrategicPrioritiesTable(props: Props) {
                 (strategic) => strategic?.people_targeted,
             ),
         ]),
-        [strings],
+        [
+            strings.countryPlanStrategicPriority,
+            strings.countryPlanKeyFigurePeopleTargeted,
+        ],
     );
 
     return (

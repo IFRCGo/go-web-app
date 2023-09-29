@@ -163,7 +163,14 @@ export function Component() {
             ),
         ]),
         [
-            strings,
+            strings.personnelTableStartDate,
+            strings.personnelTableEndDate,
+            strings.personnelTableName,
+            strings.personnelTablePosition,
+            strings.personnelTableType,
+            strings.personnelTableDeployingParty,
+            strings.personnelTableDeployedTo,
+            strings.personnelTableEmergency,
             getTypeName,
         ],
     );

@@ -467,7 +467,8 @@ export function Component() {
             return undefined;
         },
         [
-            strings,
+            strings.drefOperationalUpdateFormTimeframe,
+            strings.drefOperationalUpdateFormOperationTimeframe,
             value.total_operation_timeframe,
             value.changing_timeframe_operation,
             value.type_of_dref,
@@ -489,7 +490,8 @@ export function Component() {
             return undefined;
         },
         [
-            strings,
+            strings.drefOperationAdditionalBudget,
+            strings.drefOperationAdditionalAllocation,
             value.request_for_second_allocation,
             value.changing_budget,
             value.additional_allocation,
@@ -513,7 +515,8 @@ export function Component() {
             return undefined;
         },
         [
-            strings,
+            strings.drefOperationSelectDistrict,
+            strings.drefOperationSelectLocation,
             value.district,
             value.changing_geographic_location,
             prevOpsUpdateResponse,
@@ -538,7 +541,8 @@ export function Component() {
             return undefined;
         },
         [
-            strings,
+            strings.drefOperationTargetedPopulation,
+            strings.drefOperationChangingTargetPopulation,
             value.total_targeted_population,
             value.changing_target_population_of_operation,
             prevOpsUpdateResponse,

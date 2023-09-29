@@ -94,21 +94,36 @@ function ActionsInput(props: Props) {
         PNS: strings.flashUpdateFormActionTakenByRcrcPlaceholder,
         FDRN: strings.flashUpdateFormActionTakenByIfrcPlaceholder,
         GOV: strings.flashUpdateFormActionTakenByGovernmentPlaceholder,
-    } as const), [strings]);
+    } as const), [
+        strings.flashUpdateFormActionTakenByNationalSocietyPlaceholder,
+        strings.flashUpdateFormActionTakenByRcrcPlaceholder,
+        strings.flashUpdateFormActionTakenByIfrcPlaceholder,
+        strings.flashUpdateFormActionTakenByGovernmentPlaceholder,
+    ]);
 
     const title = useMemo(() => ({
         NTLS: strings.flashUpdateFormActionTakenByNationalSocietyLabel,
         PNS: strings.flashUpdateFormActionTakenByRcrcLabel,
         FDRN: strings.flashUpdateFormActionTakenByIfrcLabel,
         GOV: strings.flashUpdateFormActionTakenByGovernmentLabel,
-    } as const), [strings]);
+    } as const), [
+        strings.flashUpdateFormActionTakenByNationalSocietyLabel,
+        strings.flashUpdateFormActionTakenByRcrcLabel,
+        strings.flashUpdateFormActionTakenByIfrcLabel,
+        strings.flashUpdateFormActionTakenByGovernmentLabel,
+    ]);
 
     const description = useMemo(() => ({
         NTLS: strings.flashUpdateFormActionTakenByNationalSocietyDescription,
         PNS: strings.flashUpdateFormActionTakenByRcrcDescription,
         FDRN: strings.flashUpdateFormActionTakenByIfrcDescription,
         GOV: strings.flashUpdateFormActionTakenByGovernmentDescription,
-    } as const), [strings]);
+    } as const), [
+        strings.flashUpdateFormActionTakenByNationalSocietyDescription,
+        strings.flashUpdateFormActionTakenByRcrcDescription,
+        strings.flashUpdateFormActionTakenByIfrcDescription,
+        strings.flashUpdateFormActionTakenByGovernmentDescription,
+    ]);
 
     return (
         <Container

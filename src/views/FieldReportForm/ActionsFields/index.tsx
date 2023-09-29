@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
     type Error,
     type EntriesAsList,
@@ -81,8 +81,7 @@ function ActionsFields(props: Props) {
         description: string;
     }
 
-    // FIXME: use memo
-    const organizations: OrganizationOption[] = [
+    const organizations: OrganizationOption[] = useMemo(() => [
         {
             key: 'NTLS',
             title: strings.checkboxSectionsNSActionsEVTEPILabel,
@@ -98,14 +97,20 @@ function ActionsFields(props: Props) {
             title: strings.checkboxSectionsPNSActionsEVTLabel,
             description: strings.checkboxSectionsPNSActionsEVTEPIDescription,
         },
-    ];
+    ], [
+        strings.checkboxSectionsNSActionsEVTEPILabel,
+        strings.checkboxSectionsNSActionsEVTEPIDescription,
+        strings.checkboxSectionsFederationActionsEVTEPILabel,
+        strings.checkboxSectionsFederationActionsEVTEPIDescription,
+        strings.checkboxSectionsPNSActionsEVTLabel,
+        strings.checkboxSectionsPNSActionsEVTEPIDescription,
+    ]);
 
-    // FIXME: use memo
-    const mapping = listToMap(
+    const mapping = useMemo(() => listToMap(
         value.actions_taken,
         (item) => item.organization,
         (_, __, index) => index,
-    );
+    ), [value.actions_taken]);
 
     const actionsError = getErrorObject(error?.actions_taken);
 

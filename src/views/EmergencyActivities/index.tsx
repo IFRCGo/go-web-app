@@ -248,7 +248,15 @@ export function Component() {
                 }),
             ),
         ]),
-        [strings],
+        [
+            strings.emergencyProjectNationalSociety,
+            strings.emergencyProjectTitle,
+            strings.emergencyProjectStartDate,
+            strings.emergencyProjectCountry,
+            strings.emergencyProjectDistrict,
+            strings.emergencyProjectStatus,
+            strings.emergencyProjectPeopleReached,
+        ],
     );
 
     const aggreatedProjectCountListBySector = useMemo(() => (
@@ -316,6 +324,7 @@ export function Component() {
         emergencyResponse,
         emergencyProjectListResponse?.count,
     ]);
+
     return (
         <div className={styles.emergencyActivities}>
             <Container

@@ -111,7 +111,15 @@ function EventItemsTable() {
                 (item) => item.countries,
             ),
         ]),
-        [strings],
+        [
+            strings.emergenciesTableDate,
+            strings.emergenciesTableName,
+            strings.emergenciesTableDisasterType,
+            strings.emergenciesTableGlide,
+            strings.emergenciesTableRequestedAmt,
+            strings.emergenciesTableAffected,
+            strings.emergenciesTableCountry,
+        ],
     );
 
     const query = useMemo<EventQueryParams>(

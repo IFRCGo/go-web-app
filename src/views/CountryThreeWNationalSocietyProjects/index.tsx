@@ -234,7 +234,17 @@ export function Component() {
                 project,
             }),
         ),
-    ]), [reTriggerProjectListRequest, strings]);
+    ]), [
+        reTriggerProjectListRequest,
+        strings.threeWTableReceivingCountry,
+        strings.threeWTableProjectName,
+        strings.threeWTableSector,
+        strings.threeWTableTotalBudget,
+        strings.threeWTableProgrammeType,
+        strings.threeWTableDisasterType,
+        strings.threeWTablePeopleTargeted,
+        strings.threeWTablePeopleReached,
+    ]);
 
     const countryIdList = Object.keys(countryGroupedProjects);
 

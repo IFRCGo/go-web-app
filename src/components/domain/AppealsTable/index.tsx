@@ -157,7 +157,16 @@ function AppealsTable(props: Props) {
                 }),
             ),
         ]),
-        [strings],
+        [
+            strings.appealsTableStartDate,
+            strings.appealsTableType,
+            strings.appealsTableCode,
+            strings.appealsTableOperation,
+            strings.appealsTableDisastertype,
+            strings.appealsTableRequestedAmount,
+            strings.appealsTableFundedAmount,
+            strings.appealsTableCountry,
+        ],
     );
 
     const query = useMemo<AppealQueryParams>(

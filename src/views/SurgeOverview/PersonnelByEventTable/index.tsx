@@ -80,7 +80,13 @@ function PersonnelByEventTable() {
                 sortable: true,
             },
         ),
-    ]), [strings]);
+    ]), [
+        strings.personnelByEventTableEmergency,
+        strings.personnelByEventTableOrganization,
+        strings.personnelByEventTableSurgeType,
+        strings.personnelByEventTablePersonnelCount,
+        strings.rapidResponseSurgeType,
+    ]);
 
     return (
         <Container

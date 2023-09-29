@@ -98,7 +98,15 @@ function CountryProjectTable(props: Props) {
             (item) => item.budget_amount,
             undefined,
         ),
-    ]), [strings]);
+    ]), [
+        strings.reportingNationalSociety,
+        strings.activitySector,
+        strings.status,
+        strings.programmeType,
+        strings.peopleTargeted,
+        strings.peopleReached,
+        strings.budget,
+    ]);
 
     return (
         <Container

@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 import { isNotDefined } from '@togglecorp/fujs';
 
 import Table from '#components/Table';
@@ -49,17 +49,6 @@ function getMolnixKeywords(molnixTags: SurgeAlertListItem['molnix_tags']) {
     return filtered.map((tag) => tag.name).join(', ');
 }
 
-function getStatus(alert: SurgeAlertListItem, strings: Record<string, string>) {
-    if (alert.is_stood_down) {
-        return strings.surgeAlertStoodDown;
-    }
-    const closed = alert.end ? new Date(alert.end).getTime() < today : undefined;
-    if (closed) {
-        return strings.surgeAlertClosed;
-    }
-    return strings.surgeAlertOpen;
-}
-
 function SurgeAlertsTable() {
     const strings = useTranslation(i18n);
     const {
@@ -88,6 +77,21 @@ function SurgeAlertsTable() {
             ordering,
         },
     });
+
+    const getStatus = useCallback((alert: SurgeAlertListItem) => {
+        if (alert.is_stood_down) {
+            return strings.surgeAlertStoodDown;
+        }
+        const closed = alert.end ? new Date(alert.end).getTime() < today : undefined;
+        if (closed) {
+            return strings.surgeAlertClosed;
+        }
+        return strings.surgeAlertOpen;
+    }, [
+        strings.surgeAlertClosed,
+        strings.surgeAlertOpen,
+        strings.surgeAlertStoodDown,
+    ]);
 
     const columns = useMemo(() => ([
         createDateColumn<SurgeAlertListItem, number>(
@@ -154,9 +158,19 @@ function SurgeAlertsTable() {
         createStringColumn<SurgeAlertListItem, number>(
             'status',
             strings.surgeAlertsTableStatus,
-            (surgeAlert) => getStatus(surgeAlert, strings),
+            (surgeAlert) => getStatus(surgeAlert),
         ),
-    ]), [strings]);
+    ]), [
+        getStatus,
+        strings.surgeAlertsTableAlertDate,
+        strings.surgeAlertsTableDuration,
+        strings.surgeAlertsTableStartDate,
+        strings.surgeAlertsTablePosition,
+        strings.surgeAlertsTableKeywords,
+        strings.surgeAlertsTableEmergency,
+        strings.surgeAlertsTableCountry,
+        strings.surgeAlertsTableStatus,
+    ]);
 
     return (
         <Container

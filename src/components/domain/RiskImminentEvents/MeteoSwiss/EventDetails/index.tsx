@@ -123,7 +123,13 @@ function EventDetails(props: Props) {
                 return undefined;
             }).filter(isDefined).sort((a, b) => compareString(b.type, a.type))
         ),
-        [event_details, strings],
+        [
+            event_details,
+            strings.meteoSwissEconomicLossLabel,
+            strings.usd,
+            strings.meteoSwissExposureLabel,
+            strings.people,
+        ],
     );
 
     // TODO: add exposure details

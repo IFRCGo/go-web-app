@@ -77,7 +77,11 @@ export default function SurgeTable(props: Props) {
             const closed = isDefined(alert.end) ? new Date(alert.end).getTime() < today : undefined;
             return closed ? strings.surgeAlertClosed : strings.surgeAlertOpen;
         },
-        [strings],
+        [
+            strings.surgeAlertStoodDown,
+            strings.surgeAlertClosed,
+            strings.surgeAlertOpen,
+        ],
     );
 
     const columns = useMemo(
@@ -156,7 +160,18 @@ export default function SurgeTable(props: Props) {
                 (item) => getStatus(item),
             ),
         ]),
-        [strings, getStatus],
+        [
+            strings.surgeAlertDate,
+            strings.surgeAlertDuration,
+            strings.surgeAlertStartDate,
+            strings.surgeAlertPosition,
+            strings.surgeAlertKeywords,
+            strings.surgeAlertEmergency,
+            strings.surgeAlertCountry,
+            strings.surgeAlertStatus,
+            strings.emergencySurgeImmediately,
+            getStatus,
+        ],
     );
 
     return (

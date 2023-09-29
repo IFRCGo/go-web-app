@@ -28,7 +28,7 @@ function FourHundredThree() {
                         <Heading
                             level={2}
                         >
-                            403
+                            {strings.permissionHeadingLabel}
                         </Heading>
                     </div>
                     {strings.permissionDeniedHeading}

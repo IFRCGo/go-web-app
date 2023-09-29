@@ -232,7 +232,16 @@ export function Component() {
                 }),
             ),
         ]),
-        [strings, districtRendererParams],
+        [
+            strings.allThreeWActivityNS,
+            strings.allThreeWActivityTitle,
+            strings.allThreeWActivityStartDate,
+            strings.allThreeWCountry,
+            strings.allThreeWActivityRegion,
+            strings.allThreeWActivityStatus,
+            strings.allThreeWActivityPeopleReached,
+            districtRendererParams,
+        ],
     );
 
     const heading = resolveToComponent(

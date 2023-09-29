@@ -142,7 +142,13 @@ export function Component() {
                 (item) => item.countries_details,
             ),
         ]),
-        [strings],
+        [
+            strings.allFieldReportsCreatedAt,
+            strings.allFieldReportsName,
+            strings.allFieldReportsEmergency,
+            strings.allFieldReportsDisasterType,
+            strings.allFieldReportsCountries,
+        ],
     );
 
     const query = useMemo(() => ({
@@ -190,7 +196,7 @@ export function Component() {
                 ),
             },
         ),
-        [fieldReportResponse, strings],
+        [fieldReportResponse, strings.allFieldReportsHeading],
     );
 
     const [

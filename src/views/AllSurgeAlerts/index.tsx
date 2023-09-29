@@ -82,7 +82,11 @@ export function Component() {
                 ? new Date(surgeAlert.end).getTime() < today : undefined;
             return closed ? strings.surgeAlertClosed : strings.surgeAlertOpen;
         },
-        [strings],
+        [
+            strings.surgeAlertStoodDown,
+            strings.surgeAlertClosed,
+            strings.surgeAlertOpen,
+        ],
     );
 
     const columns = useMemo(
@@ -161,7 +165,18 @@ export function Component() {
                 (item) => getStatus(item),
             ),
         ]),
-        [strings, getStatus],
+        [
+            strings.surgeAlertImmediately,
+            strings.surgeAlertDate,
+            strings.surgeAlertDuration,
+            strings.surgeAlertStartDate,
+            strings.surgeAlertPosition,
+            strings.surgeAlertKeywords,
+            strings.surgeAlertEmergency,
+            strings.surgeAlertCountry,
+            strings.surgeAlertStatus,
+            getStatus,
+        ],
     );
 
     const [

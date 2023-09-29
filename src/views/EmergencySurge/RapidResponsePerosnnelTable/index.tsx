@@ -124,7 +124,13 @@ export default function RapidResponsePersonnelTable(props: Props) {
             ),
         ]),
         [
-            strings,
+            strings.personnelTablePosition,
+            strings.personnelTableType,
+            strings.personnelTableDeployedParty,
+            strings.personnelTableDeployedTo,
+            strings.personnelTableName,
+            strings.personnelTableStartDate,
+            strings.personnelTableEndDate,
             getTypeName,
         ],
     );

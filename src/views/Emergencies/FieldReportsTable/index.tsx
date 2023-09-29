@@ -101,7 +101,13 @@ function FieldReportsTable() {
                 (item) => item.countries_details,
             ),
         ]),
-        [strings],
+        [
+            strings.fieldReportsTableCreatedAt,
+            strings.fieldReportsTableName,
+            strings.fieldReportsTableEmergency,
+            strings.fieldReportsTableDisasterType,
+            strings.fieldReportsTableCountry,
+        ],
     );
 
     const {
@@ -130,7 +136,7 @@ function FieldReportsTable() {
                 ),
             },
         ),
-        [fieldReportResponse, strings],
+        [fieldReportResponse, strings.fieldReportsTableTitle],
     );
 
     return (

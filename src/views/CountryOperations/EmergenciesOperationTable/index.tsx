@@ -114,7 +114,14 @@ function EmergenciesOperationTable(props: Props) {
                 (item) => item.num_affected ?? getMostRecentAffectedValue(item.field_reports),
             ),
         ]),
-        [strings],
+        [
+            strings.emergenciesTableStartDate,
+            strings.emergenciesTableName,
+            strings.emergenciesTableDisasterType,
+            strings.emergenciesTableGlide,
+            strings.emergenciesTableRequestedAmount,
+            strings.emergenciesTableAffected,
+        ],
     );
 
     const {

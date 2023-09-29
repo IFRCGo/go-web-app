@@ -373,15 +373,18 @@ export function Component() {
             { key: 'rating', label: strings.sortByRatingLabel },
             { key: 'benchmark', label: strings.sortByBenchmarkLabel },
         ]),
-        [strings],
+        [
+            strings.sortByComponentLabel,
+            strings.sortByRatingLabel,
+            strings.sortByBenchmarkLabel,
+        ],
     );
 
-    // FIXME: use memo
-    const sortKeyToLabel = listToMap(
+    const sortKeyToLabel = useMemo(() => listToMap(
         sortOptions,
         (sortOption) => sortOption.key,
         (sortOption) => sortOption.label,
-    );
+    ), [sortOptions]);
 
     if (dataPending) {
         return (
