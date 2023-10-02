@@ -38,7 +38,6 @@
         "@togglecorp/toggle-request": "^1.0.0-beta.2",
         "@turf/bbox": "^6.5.0",
         "@turf/buffer": "^6.5.0",
-        "docx4js": "^3.2.20",
         "exceljs": "^4.3.0",
         "file-saver": "^2.0.5",
         "html2canvas": "^1.4.1",

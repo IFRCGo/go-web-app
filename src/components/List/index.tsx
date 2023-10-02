@@ -13,6 +13,7 @@ export interface Props<
     RENDERER_PROPS
 > extends RawListProps<DATUM, KEY, RENDERER_PROPS> {
     className?: string;
+    messageClassName?: string;
 
     pending: boolean;
     errored: boolean;
@@ -32,6 +33,7 @@ function List<DATUM, KEY extends ListKey, RENDERER_PROPS>(
 ) {
     const {
         className,
+        messageClassName,
         data,
         keySelector,
         renderer,
@@ -94,7 +96,7 @@ function List<DATUM, KEY extends ListKey, RENDERER_PROPS>(
             />
             {(pending || isEmpty) && !withoutMessage && (
                 <Message
-                    className={styles.message}
+                    className={_cs(styles.message, messageClassName)}
                     pending={pending}
                     title={messageTitle}
                     compact={compact}

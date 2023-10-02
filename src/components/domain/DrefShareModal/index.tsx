@@ -1,20 +1,26 @@
+import { useCallback } from 'react';
 import { isDefined } from '@togglecorp/fujs';
 
 import Button from '#components/Button';
+import List from '#components/List';
 import Modal from '#components/Modal';
 import UserSearchMultiSelectInput, { type User } from '#components/domain/UserSearchMultiSelectInput';
 import useAlert from '#hooks/useAlert';
 import useInputState from '#hooks/useInputState';
-import { useLazyRequest, useRequest } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
+import { useLazyRequest, useRequest } from '#utils/restRequest';
 
+import UserItem from './UserItem';
 import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 interface Props {
     drefId: number;
     onCancel: () => void;
     onSuccess: () => void;
 }
+
+const userKeySelector = (item: number) => item;
 
 function DrefShareModal(props: Props) {
     const {
@@ -63,8 +69,24 @@ function DrefShareModal(props: Props) {
         },
     });
 
+    const handleUserRemove = useCallback((userId: number) => {
+        setUsers((oldVal = []) => (
+            oldVal.filter((item) => item !== userId)
+        ));
+    }, [setUsers]);
+
+    const userRendererParams = useCallback((userId: number) => ({
+        userId,
+        userOptions,
+        onUserRemove: handleUserRemove,
+    }), [
+        userOptions,
+        handleUserRemove,
+    ]);
+
     return (
         <Modal
+            className={styles.drefShareModal}
             heading={strings.drefShareTitle}
             headerDescription={strings.drefShareDescription}
             onClose={onCancel}
@@ -76,7 +98,8 @@ function DrefShareModal(props: Props) {
                     {strings.drefShareUpdate}
                 </Button>
             )}
-            size="sm"
+            size="md"
+            childrenContainerClassName={styles.content}
         >
             <UserSearchMultiSelectInput
                 name={undefined}
@@ -85,6 +108,19 @@ function DrefShareModal(props: Props) {
                 options={userOptions}
                 onOptionsChange={setUserOptions}
                 disabled={updatePending || getPending}
+            />
+            <List
+                className={styles.userList}
+                messageClassName={styles.message}
+                data={users}
+                renderer={UserItem}
+                keySelector={userKeySelector}
+                rendererParams={userRendererParams}
+                emptyMessage={strings.userListEmptyMessage}
+                errored={false}
+                pending={updatePending || getPending}
+                filtered={false}
+                compact
             />
         </Modal>
     );
