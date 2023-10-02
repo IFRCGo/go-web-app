@@ -50,6 +50,7 @@
         "userMenuCreateFlashUpdate":"Create Flash Update",
         "userMenuDrefProcessDescription":"Disaster Response Emergency Fund (DREF) is the quickest way of getting funding directly to local humanitarian actors. Use one of the links below to submit a DREF Application or an update.",
         "userMenuCreateDrefApplication":"Create DREF Application",
+        "myDrefApplications": "My DREF Applications",
         "userMenuSurge":"The section displays the summary of deployments within current and ongoing emergencies. Login to see available details",
         "userMenuSurgeGlobalOverview":"Surge Global Overview",
         "userMenuOperationalToolbox":"Operational Toolbox",

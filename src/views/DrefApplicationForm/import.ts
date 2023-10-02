@@ -42,6 +42,7 @@ interface KeyValue {
     value: string | undefined,
 }
 
+// TODO: this is not used we should remove it
 export async function getImportData(file: File) {
     const docx = docxReader.load(file);
 
