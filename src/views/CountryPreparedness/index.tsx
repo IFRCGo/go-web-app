@@ -193,7 +193,7 @@ export function Component() {
 
             const ratingByArea = mapToList(
                 listToGroupList(
-                    componentList.filter((component) => isDefined(component.area)),
+                    componentList.filter((component) => isDefined(component.rating)),
                     (component) => component.area.id,
                 ),
                 (groupedComponentList) => ({

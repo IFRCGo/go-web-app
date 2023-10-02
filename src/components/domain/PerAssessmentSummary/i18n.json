@@ -4,6 +4,6 @@
         "multiImageArea": "Area {areaId}",
         "benchmarksAssessed": "{totalQuestionCount} benchmarks assessed",
         "perAssessmentSummaryHeading": "Summary",
-        "benchmarksAssessedTitle": "benchmarks assessed : {allAnsweredResponses} / ${totalQuestionCount}"
+        "benchmarksAssessedTitle": "benchmarks assessed : {allAnsweredResponses} / {totalQuestionCount}"
     }
 }
