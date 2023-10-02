@@ -19,14 +19,15 @@ import {
 import {
     MapLayer,
     MapBounds,
-    MapPopup,
 } from '@togglecorp/re-map';
 
+import MapPopup from '#components/MapPopup';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import Container from '#components/Container';
 import BlockLoading from '#components/BlockLoading';
 import WikiLink from '#components/WikiLink';
 import LegendItem from '#components/LegendItem';
+import TextOutput from '#components/TextOutput';
 import Link from '#components/Link';
 import useInputState from '#hooks/useInputState';
 import useCountry from '#hooks/domain/useCountry';
@@ -59,7 +60,7 @@ import {
     CATEGORY_RISK_VERY_LOW,
     DURATION_MAP_ZOOM,
     DEFAULT_MAP_PADDING,
-    COLOR_BLACK,
+    COLOR_DARK_GREY,
 } from '#utils/constants';
 import BaseMap from '#components/domain/BaseMap';
 
@@ -79,6 +80,19 @@ const defaultFilterValue: FilterValue = {
 type BaseProps = {
     className?: string;
     bbox: LngLatBoundsLike | undefined;
+}
+
+interface GeoJsonProps {
+    country_id: number;
+    disputed: boolean;
+    fdrs: string;
+    independent: boolean;
+    is_deprecated: boolean;
+    iso: string;
+    iso3: string;
+    name: string;
+    record_type: number;
+    region_id: number;
 }
 
 type Props = BaseProps & ({
@@ -232,8 +246,6 @@ function RiskSeasonalMap(props: Props) {
         },
         [seasonalRiskData, riskScoreResponse],
     );
-
-    console.log('risk', data);
 
     const riskMetricOptions: RiskMetricOption[] = useMemo(
         () => ([
@@ -704,7 +716,7 @@ function RiskSeasonalMap(props: Props) {
                     'fill-outline-color': [
                         'case',
                         ['boolean', ['feature-state', 'hovered'], false],
-                        COLOR_BLACK,
+                        COLOR_DARK_GREY,
                         'transparent',
                     ],
                 },
@@ -729,6 +741,7 @@ function RiskSeasonalMap(props: Props) {
             strings.riskCategoryVeryHigh,
         ],
     );
+
     const handleCountryClick = useCallback(
         (feature: mapboxgl.MapboxGeoJSONFeature, lngLat: mapboxgl.LngLat) => {
             setClickedPointProperties({
@@ -747,7 +760,13 @@ function RiskSeasonalMap(props: Props) {
         [setClickedPointProperties],
     );
 
-    console.log('mapping', mappings, 'filter', filteredData);
+    const riskPopupValue = useMemo(() => (
+        filteredData?.find(
+            (filter) => filter.iso3
+            === clickedPointProperties?.feature.properties.iso3.toLowerCase(),
+        )
+    ), [filteredData, clickedPointProperties]);
+
     return (
         <Container
             className={_cs(styles.riskSeasonalMapContainer, className)}
@@ -835,16 +854,40 @@ function RiskSeasonalMap(props: Props) {
                     bounds={bbox}
                     padding={DEFAULT_MAP_PADDING}
                 />
-                {clickedPointProperties?.lngLat
-                    && (
-                        <MapPopup
-                            coordinates={clickedPointProperties.lngLat}
-                            onCloseButtonClick={handlePointClose}
-                            heading="heading"
-                        >
-                            <div>POPUP</div>
-                        </MapPopup>
-                    )}
+                {clickedPointProperties?.lngLat && riskPopupValue && (
+                    <MapPopup
+                        coordinates={clickedPointProperties.lngLat}
+                        onCloseButtonClick={handlePointClose}
+                        heading={(
+                            <Link
+                                to="countriesLayout"
+                                urlParams={{
+                                    countryId: clickedPointProperties.feature.properties.country_id,
+                                }}
+                                withUnderline
+                            >
+                                {clickedPointProperties.feature.properties.name}
+                            </Link>
+                        )}
+                        contentViewType="vertical"
+                        childrenContainerClassName={styles.popupContent}
+                    >
+                        {riskPopupValue.valueListByHazard.map((hazard) => (
+                            <Container
+                                key={hazard.hazard_type}
+                                heading={hazard.hazard_type_display}
+                                headingLevel={5}
+                                className={styles.popupAppeal}
+                                childrenContainerClassName={styles.popupAppealDetail}
+                            >
+                                <TextOutput
+                                    value={riskCategoryToLabelMap[hazard.riskCategory]}
+                                    label={strings.riskPopupLabel}
+                                />
+                            </Container>
+                        ))}
+                    </MapPopup>
+                )}
             </BaseMap>
             <Container
                 className={styles.countryList}

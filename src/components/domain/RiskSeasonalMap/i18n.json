@@ -16,6 +16,7 @@
         "riskCategoryHigh": "High",
         "riskCategoryVeryHigh": "Very High",
         "riskSeasonalMapHeading": "Risk Map",
-        "riskSeasonalCountriesByRiskHeading": "Countries by Risk"
+        "riskSeasonalCountriesByRiskHeading": "Countries by Risk",
+        "riskPopupLabel": "Risk"
     }
 }

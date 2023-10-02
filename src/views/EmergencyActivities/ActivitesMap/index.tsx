@@ -22,7 +22,6 @@ import useTranslation from '#hooks/useTranslation';
 import type { EmergencyOutletContext } from '#utils/outletContext';
 import {
     getCountryListBoundingBox,
-    adminLabelLayerOptions,
 } from '#utils/map';
 import {
     DURATION_MAP_ZOOM,
@@ -88,8 +87,6 @@ function ActivitiesMap(props: Props) {
         ),
         [emergencyProjectCountByDistrictList],
     );
-
-    console.log('id', districtIdList);
 
     const adminOneLabelSelectedLayerOptions = useMemo<Omit<FillLayer, 'id'>>(
         () => ({
