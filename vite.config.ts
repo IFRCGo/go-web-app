@@ -60,7 +60,6 @@ export default defineConfig(({ mode }) => {
                     entryFileNames: 'entry-[name].[hash].js',
                     manualChunks: {
                         'mapbox-gl': ['mapbox-gl'],
-                        'docx4js': ['docx4js'],
                         'exceljs': ['exceljs'],
                     }
                     // experimentalMinChunkSize: 500_000,
