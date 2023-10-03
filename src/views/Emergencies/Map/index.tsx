@@ -34,8 +34,6 @@ import BaseMap from '#components/domain/BaseMap';
 import i18n from './i18n.json';
 import {
     ScaleOption,
-    getScaleOptions,
-    getLegendOptions,
     optionKeySelector,
     optionLabelSelector,
     outerCircleLayerOptionsForNumEvents,
@@ -45,6 +43,9 @@ import {
     RESPONSE_LEVEL_WITHOUT_IFRC_RESPONSE,
     RESPONSE_LEVEL_MIXED_RESPONSE,
     RESPONSE_LEVEL_WITH_IFRC_RESPONSE,
+    COLOR_WITHOUT_IFRC_RESPONSE,
+    COLOR_WITH_IFRC_RESPONSE,
+    COLOR_MIXED_RESPONSE,
 } from './utils';
 import styles from './styles.module.css';
 
@@ -96,8 +97,35 @@ function EmergenciesMap(props: Props) {
     const [scaleBy, setScaleBy] = useInputState<ScaleOption['value']>('numAffected');
     const strings = useTranslation(i18n);
 
-    const scaleOptions = useMemo(() => getScaleOptions(strings), [strings]);
-    const legendOptions = useMemo(() => getLegendOptions(strings), [strings]);
+    const scaleOptions: ScaleOption[] = useMemo(() => ([
+        { value: 'numAffected', label: strings.emergenciesScaleByNumPeopleAffected },
+        { value: 'numEvents', label: strings.emergenciesScaleByNumEmergencies },
+    ]), [
+        strings.emergenciesScaleByNumPeopleAffected,
+        strings.emergenciesScaleByNumEmergencies,
+    ]);
+
+    const legendOptions = useMemo(() => ([
+        {
+            value: RESPONSE_LEVEL_WITHOUT_IFRC_RESPONSE,
+            label: strings.emergenciesMapWithoutIFRC,
+            color: COLOR_WITHOUT_IFRC_RESPONSE,
+        },
+        {
+            value: RESPONSE_LEVEL_WITH_IFRC_RESPONSE,
+            label: strings.emergenciesMapWithIFRC,
+            color: COLOR_WITH_IFRC_RESPONSE,
+        },
+        {
+            value: RESPONSE_LEVEL_MIXED_RESPONSE,
+            label: strings.emergenciesMapMixResponse,
+            color: COLOR_MIXED_RESPONSE,
+        },
+    ]), [
+        strings.emergenciesMapWithoutIFRC,
+        strings.emergenciesMapWithIFRC,
+        strings.emergenciesMapMixResponse,
+    ]);
 
     const countryResponse = useCountryRaw();
 

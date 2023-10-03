@@ -7,6 +7,7 @@
         "permissionDeniedGetInTouch":"Get in touch",
         "permissionDeniedWithThePlatformTeam":"with the platform team.",
         "permissionDeniedExploreOurHomepage":"Explore our homepage",
-        "permissionDeniedPageDescription":"Looks like you don't have the correct permissions to view this page."
+        "permissionDeniedPageDescription":"Looks like you don't have the correct permissions to view this page.",
+        "permissionHeadingLabel": "403"
     }
 }

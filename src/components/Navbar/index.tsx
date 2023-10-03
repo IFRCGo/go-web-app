@@ -363,8 +363,15 @@ function Navbar(props: Props) {
                                 </div>
                                 <DropdownMenuItem
                                     type="link"
-                                    to="newDrefApplicationForm"
+                                    to="accountMyFormsDref"
                                     variant="tertiary"
+                                >
+                                    {strings.myDrefApplications}
+                                </DropdownMenuItem>
+                                <DropdownMenuItem
+                                    type="link"
+                                    to="newDrefApplicationForm"
+                                    variant="secondary"
                                 >
                                     {strings.userMenuCreateDrefApplication}
                                 </DropdownMenuItem>

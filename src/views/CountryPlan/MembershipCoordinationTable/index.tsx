@@ -110,7 +110,7 @@ function MembershipCoordinationTable(props: Props) {
                 columns,
             };
         },
-        [strings, membershipData],
+        [strings.countryPlanNameOfPNS, membershipData],
     );
 
     if (isNotDefined(tableData)) {

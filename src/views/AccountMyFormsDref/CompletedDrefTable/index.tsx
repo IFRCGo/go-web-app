@@ -131,7 +131,14 @@ function CompletedDrefTable(props: Props) {
                 }),
             ),
         ]),
-        [strings],
+        [
+            strings.completedDrefTableCreatedHeading,
+            strings.completedDrefTableAppealCodeHeading,
+            strings.completedDrefTableTitleHeading,
+            strings.completedDrefTableStageHeading,
+            strings.completedDrefTableCountryHeading,
+            strings.completedDrefTableStatusHeading,
+        ],
     );
 
     const columns = useMemo(

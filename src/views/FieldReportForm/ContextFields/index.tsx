@@ -74,13 +74,11 @@ function ContextFields(props: Props) {
         api_field_report_status,
     } = useGlobalEnums();
 
-    // FIXME: memoize this
-    const statusOptions = api_field_report_status?.filter((item) => (
+    const statusOptions = useMemo(() => api_field_report_status?.filter((item) => (
         item.key === FIELD_REPORT_STATUS_EARLY_WARNING || item.key === FIELD_REPORT_STATUS_EVENT
-    ));
+    )) || [], [api_field_report_status]);
 
-    // FIXME: memoize this
-    const statusDescriptionSelector = ({ key }: { key: FieldReportStatusEnum }) => {
+    const statusDescriptionSelector = useMemo(() => ({ key }: { key: FieldReportStatusEnum }) => {
         if (key === FIELD_REPORT_STATUS_EARLY_WARNING) {
             return strings.statusEarlyWarningDescription;
         }
@@ -88,7 +86,10 @@ function ContextFields(props: Props) {
             return strings.statusEventDescription;
         }
         return '';
-    };
+    }, [
+        strings.statusEarlyWarningDescription,
+        strings.statusEventDescription,
+    ]);
 
     type MapByReportType = {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -299,7 +300,7 @@ function ContextFields(props: Props) {
                         name={undefined}
                         value={titlePrefix}
                         // eslint-disable-next-line @typescript-eslint/no-empty-function
-                        onChange={() => {}}
+                        onChange={() => { }}
                     />
                 )}
                 {summaryVisible && (
@@ -322,8 +323,8 @@ function ContextFields(props: Props) {
                         name={undefined}
                         value={titleSuffix}
                         // eslint-disable-next-line @typescript-eslint/no-empty-function
-                        onChange={() => {}}
-                        // readOnly
+                        onChange={() => { }}
+                    // readOnly
                     />
                 )}
             </InputSection>

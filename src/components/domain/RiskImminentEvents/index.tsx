@@ -1,13 +1,6 @@
 import { useMemo, useState, useCallback } from 'react';
 import type { LngLatBoundsLike } from 'mapbox-gl';
 import { _cs } from '@togglecorp/fujs';
-import {
-    CycloneIcon,
-    DroughtIcon,
-    EarthquakeIcon,
-    FloodIcon,
-    ForestFireIcon,
-} from '@ifrc-go/icons';
 
 import Container from '#components/Container';
 import InfoPopup from '#components/InfoPopup';
@@ -15,9 +8,7 @@ import Link from '#components/Link';
 import Radio from '#components/RadioInput/Radio';
 import WikiLink from '#components/WikiLink';
 import useTranslation from '#hooks/useTranslation';
-import { hazardTypeToColorMap } from '#utils/domain/risk';
 import { resolveToComponent } from '#utils/translation';
-import { type components } from '#generated/riskTypes';
 
 import Pdc from './Pdc';
 import WfpAdam from './WfpAdam';
@@ -27,8 +18,6 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type ActiveView = 'pdc' | 'wfpAdam' | 'gdacs' | 'meteoSwiss';
-
-type HazardType = components<'read'>['schemas']['HazardTypeEnum'];
 
 type BaseProps = {
     className?: string;
@@ -51,41 +40,6 @@ function RiskImminentEvents(props: Props) {
     const { className, ...otherProps } = props;
 
     const strings = useTranslation(i18n);
-
-    const riskHazards: Array<{
-        key: HazardType,
-        label: string,
-        icon: React.ReactNode,
-    }> = useMemo(
-        () => [
-            {
-                key: 'FL',
-                label: strings.imminentEventsFlood,
-                icon: <FloodIcon className={styles.icon} />,
-            },
-            {
-                key: 'TC',
-                label: strings.imminentEventsStorm,
-                icon: <CycloneIcon className={styles.icon} />,
-            },
-            {
-                key: 'EQ',
-                label: strings.imminentEventsEarthquake,
-                icon: <EarthquakeIcon className={styles.icon} />,
-            },
-            {
-                key: 'DR',
-                label: strings.imminentEventsDrought,
-                icon: <DroughtIcon className={styles.icon} />,
-            },
-            {
-                key: 'WF',
-                label: strings.imminentEventsWildfire,
-                icon: <ForestFireIcon className={styles.icon} />,
-            },
-        ],
-        [strings],
-    );
 
     const CurrentView = useMemo(
         () => {
@@ -124,28 +78,6 @@ function RiskImminentEvents(props: Props) {
                 <WikiLink
                     href="user_guide/risk_module#imminent-events"
                 />
-            )}
-            footerContent={(
-                <div className={styles.legend}>
-                    {riskHazards.map((hazard) => (
-                        <div
-                            key={hazard.key}
-                            className={styles.legendItem}
-                        >
-                            <div
-                                className={styles.iconContainer}
-                                style={{
-                                    backgroundColor: hazardTypeToColorMap[hazard.key],
-                                }}
-                            >
-                                {hazard.icon}
-                            </div>
-                            <div className={styles.label}>
-                                {hazard.label}
-                            </div>
-                        </div>
-                    ))}
-                </div>
             )}
             footerActionsContainerClassName={styles.footerActions}
             footerActions={(

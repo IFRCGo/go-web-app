@@ -102,7 +102,13 @@ export function Component() {
                 (item) => item.countries_details,
             ),
         ]),
-        [strings],
+        [
+            strings.createdAtHeading,
+            strings.nameHeading,
+            strings.emergencyHeading,
+            strings.disasterTypeHeading,
+            strings.countryHeading,
+        ],
     );
 
     const heading = useMemo(
@@ -116,7 +122,7 @@ export function Component() {
                 ),
             },
         ),
-        [fieldReportResponse, strings],
+        [fieldReportResponse, strings.pageHeading],
     );
 
     return (

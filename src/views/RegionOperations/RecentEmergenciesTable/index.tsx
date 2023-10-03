@@ -106,7 +106,15 @@ function EventItemsTable(props: Props) {
                 (item) => item.countries,
             ),
         ]),
-        [strings],
+        [
+            strings.regionEmergenciesTableDate,
+            strings.regionEmergenciesTableName,
+            strings.regionEmergenciesTableDisasterType,
+            strings.regionEmergenciesTableGlide,
+            strings.regionEmergenciesTableRequestedAmt,
+            strings.regionEmergenciesTableNumberAffected,
+            strings.regionEmergenciesTableCountry,
+        ],
     );
 
     const {
@@ -131,7 +139,7 @@ function EventItemsTable(props: Props) {
                 { numEmergencies: <NumberOutput value={eventResponse?.count} /> },
             )
         ),
-        [strings, eventResponse],
+        [strings.regionEmergenciesTableTitle, eventResponse],
     );
 
     return (

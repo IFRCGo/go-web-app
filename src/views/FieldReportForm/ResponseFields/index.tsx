@@ -17,7 +17,6 @@ import useUserMe from '#hooks/domain/useUserMe';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import {
     type ReportType,
-    type Visibility,
     type ContactType,
     REQUEST_CHOICES_NO,
     VISIBILITY_IFRC_SECRETARIAT,
@@ -73,19 +72,22 @@ function ResponseFields(props: Props) {
         onValueChange,
     );
 
-    // FIXME: use memo
-    const requestOptions = api_request_choices?.filter((item) => (
+    const requestOptions = useMemo(() => api_request_choices?.filter((item) => (
         item.key !== REQUEST_CHOICES_NO
-    ));
+    )), [api_request_choices]);
 
-    // FIXME: use memo
-    const visibilityDescriptionMapping: { [key in Visibility]: string } = {
+    const visibilityDescriptionMapping = useMemo(() => ({
         [VISIBILITY_PUBLIC]: strings.fieldReportConstantVisibilityPublicTooltipTitle,
         [VISIBILITY_RCRC_MOVEMENT]: strings.fieldReportConstantVisibilityRCRCMovementTooltipTitle,
         // eslint-disable-next-line max-len
         [VISIBILITY_IFRC_SECRETARIAT]: strings.fieldReportConstantVisibilityIFRCSecretariatTooltipTitle,
         [VISIBILITY_IFRC_NS]: strings.fieldReportConstantVisibilityIFRCandNSTooltipTitle,
-    };
+    }), [
+        strings.fieldReportConstantVisibilityPublicTooltipTitle,
+        strings.fieldReportConstantVisibilityRCRCMovementTooltipTitle,
+        strings.fieldReportConstantVisibilityIFRCSecretariatTooltipTitle,
+        strings.fieldReportConstantVisibilityIFRCandNSTooltipTitle,
+    ]);
 
     const visibilityOptions = useMemo(
         () => {
@@ -122,8 +124,8 @@ function ResponseFields(props: Props) {
         title: string;
         description: string;
     }
-    // FIXME: use memo
-    const contacts: ContactOption[] = [
+
+    const contacts: ContactOption[] = useMemo(() => [
         {
             key: 'Originator',
             title: strings.fieldsStep4ContactRowsOriginatorLabel,
@@ -144,14 +146,22 @@ function ResponseFields(props: Props) {
             title: strings.fieldsStep4ContactRowsMediaContactLabel,
             description: strings.fieldsStep4ContactRowsMediaContactEVTEPIEWDesc,
         },
-    ];
+    ], [
+        strings.fieldsStep4ContactRowsOriginatorLabel,
+        strings.fieldsStep4ContactRowsOriginatorEVTEPIEWDesc,
+        strings.fieldsStep4ContactRowsNSContactLabel,
+        strings.fieldsStep4ContactRowsNSContactEVTEPIDesc,
+        strings.fieldsStep4ContactRowsFederationContactLabel,
+        strings.fieldsStep4ContactRowsFederationContactEVTEPIDesc,
+        strings.fieldsStep4ContactRowsMediaContactLabel,
+        strings.fieldsStep4ContactRowsMediaContactEVTEPIEWDesc,
+    ]);
 
-    // FIXME: use memo
-    const mapping = listToMap(
+    const mapping = useMemo(() => listToMap(
         value.contacts,
         (item) => item.ctype,
         (_, __, index) => index,
-    );
+    ), [value.contacts]);
 
     const contactsError = getErrorObject(error?.contacts);
 
@@ -179,7 +189,7 @@ function ResponseFields(props: Props) {
                             value={value.dref}
                             disabled={disabled}
                             clearable
-                            // withAsterisk={isDefined(value.dref_amount) || isDefined(value.dref)}
+                        // withAsterisk={isDefined(value.dref_amount) || isDefined(value.dref)}
                         />
                         <NumberInput
                             label={strings.fieldsStep4PlannedResponseRowsDREFValueFieldLabel}
@@ -208,8 +218,8 @@ function ResponseFields(props: Props) {
                             value={value.appeal}
                             clearable
                             disabled={disabled}
-                            // eslint-disable-next-line max-len
-                            // withAsterisk={isDefined(value.appeal_amount) || isDefined(value.appeal)}
+                        // eslint-disable-next-line max-len
+                        // withAsterisk={isDefined(value.appeal_amount) || isDefined(value.appeal)}
                         />
                         <NumberInput
                             // eslint-disable-next-line max-len
@@ -238,7 +248,7 @@ function ResponseFields(props: Props) {
                             value={value.fact}
                             clearable
                             disabled={disabled}
-                            // withAsterisk={isDefined(value.num_fact) || isDefined(value.fact)}
+                        // withAsterisk={isDefined(value.num_fact) || isDefined(value.fact)}
                         />
                         <NumberInput
                             label={strings.fieldsStep4PlannedResponseRowsFactValueFieldLabel}
@@ -267,8 +277,8 @@ function ResponseFields(props: Props) {
                             value={value.ifrc_staff}
                             clearable
                             disabled={disabled}
-                            // eslint-disable-next-line max-len
-                            // withAsterisk={isDefined(value.num_ifrc_staff) || isDefined(value.ifrc_staff)}
+                        // eslint-disable-next-line max-len
+                        // withAsterisk={isDefined(value.num_ifrc_staff) || isDefined(value.ifrc_staff)}
                         />
                         <NumberInput
                             // eslint-disable-next-line max-len
@@ -300,8 +310,8 @@ function ResponseFields(props: Props) {
                                 value={value.forecast_based_action}
                                 clearable
                                 disabled={disabled}
-                                // eslint-disable-next-line max-len
-                                // withAsterisk={isDefined(value.forecast_based_action) || isDefined(value.forecast_based_action_amount)}
+                            // eslint-disable-next-line max-len
+                            // withAsterisk={isDefined(value.forecast_based_action) || isDefined(value.forecast_based_action_amount)}
                             />
                             <NumberInput
                                 // eslint-disable-next-line max-len

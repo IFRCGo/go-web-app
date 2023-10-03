@@ -87,7 +87,11 @@ function RiskBarChart(props: Props) {
                 applicableHazards: applicableHazardsByRiskMetric.riskScore,
             },
         ]),
-        [strings],
+        [
+            strings.riskBarChartExposureLabel,
+            strings.riskBarChartDisplacementLabel,
+            strings.riskBarChartRiskScoreLabel,
+        ],
     );
 
     const fiRiskDataItem = useMemo(

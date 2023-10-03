@@ -105,7 +105,17 @@ function PossibleEarlyActionTable(props: Props) {
                 (item) => item?.evidence_of_sucess,
             ),
         ]),
-        [strings],
+        [
+            strings.earlyActionTableHazardTitle,
+            strings.earlyActionTablePossibleActionTitle,
+            strings.earlyActionTableLocationTitle,
+            strings.earlyActionTableSectorTitle,
+            strings.earlyActionTablePurposeTitle,
+            strings.earlyActionTableOrganisationTitle,
+            strings.earlyActionTableDateTitle,
+            strings.earlyActionTableImpactTitle,
+            strings.earlyActionTableEvidenceTitle,
+        ],
     );
 
     const {

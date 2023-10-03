@@ -1,0 +1,23 @@
+.user {
+    display: flex;
+    border-radius: var(--go-ui-border-radius-full);
+    background-color: var(--go-ui-color-background-hover);
+    padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-md);
+    font-weight: var(--go-ui-font-weight-medium);
+    gap: var(--go-ui-spacing-xs);
+
+    .name {
+        flex-grow: 1;
+    }
+    .remove-button {
+        flex-shrink: 0;
+        opacity: 0;
+    }
+
+    &:hover {
+        background-color: var(--go-ui-color-background-hover);
+        .remove-button {
+            opacity: 1;
+        }
+    }
+}

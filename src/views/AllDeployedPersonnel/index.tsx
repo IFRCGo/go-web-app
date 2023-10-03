@@ -66,7 +66,7 @@ export function Component() {
             return strings.rapidResponse;
         }
         return type.toUpperCase();
-    }, [strings]);
+    }, [strings.rapidResponse]);
 
     const query = useMemo(() => ({
         limit,
@@ -163,7 +163,14 @@ export function Component() {
             ),
         ]),
         [
-            strings,
+            strings.personnelTableStartDate,
+            strings.personnelTableEndDate,
+            strings.personnelTableName,
+            strings.personnelTablePosition,
+            strings.personnelTableType,
+            strings.personnelTableDeployingParty,
+            strings.personnelTableDeployedTo,
+            strings.personnelTableEmergency,
             getTypeName,
         ],
     );

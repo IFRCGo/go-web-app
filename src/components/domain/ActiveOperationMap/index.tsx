@@ -50,13 +50,18 @@ import DateInput from '#components/DateInput';
 import i18n from './i18n.json';
 import {
     ScaleOption,
-    getScaleOptions,
-    getLegendOptions,
     optionKeySelector,
     optionLabelSelector,
     outerCircleLayerOptionsForFinancialRequirements,
     outerCircleLayerOptionsForPeopleTargeted,
     basePointLayerOptions,
+    COLOR_EMERGENCY_APPEAL,
+    COLOR_DREF,
+    COLOR_EAP,
+    COLOR_MULTIPLE_TYPES,
+    APPEAL_TYPE_DREF,
+    APPEAL_TYPE_EMERGENCY,
+    APPEAL_TYPE_EAP,
     APPEAL_TYPE_MULTIPLE,
 } from './utils';
 import styles from './styles.module.css';
@@ -178,13 +183,41 @@ function ActiveOperationMap(props: Props) {
 
     const countryResponse = useCountryRaw();
 
-    const [
-        scaleOptions,
-        legendOptions,
-    ] = useMemo(() => ([
-        getScaleOptions(strings),
-        getLegendOptions(strings),
-    ]), [strings]);
+    const scaleOptions: ScaleOption[] = useMemo(() => ([
+        { value: 'peopleTargeted', label: strings.explanationBubblePopulationLabel },
+        { value: 'financialRequirements', label: strings.explanationBubbleAmountLabel },
+    ]), [
+        strings.explanationBubblePopulationLabel,
+        strings.explanationBubbleAmountLabel,
+    ]);
+
+    const legendOptions = useMemo(() => ([
+        {
+            value: APPEAL_TYPE_EMERGENCY,
+            label: strings.explanationBubbleEmergencyAppeal,
+            color: COLOR_EMERGENCY_APPEAL,
+        },
+        {
+            value: APPEAL_TYPE_DREF,
+            label: strings.explanationBubbleDref,
+            color: COLOR_DREF,
+        },
+        {
+            value: APPEAL_TYPE_EAP,
+            label: strings.explanationBubbleEAP,
+            color: COLOR_EAP,
+        },
+        {
+            value: APPEAL_TYPE_MULTIPLE,
+            label: strings.explanationBubbleMultiple,
+            color: COLOR_MULTIPLE_TYPES,
+        },
+    ]), [
+        strings.explanationBubbleEmergencyAppeal,
+        strings.explanationBubbleDref,
+        strings.explanationBubbleEAP,
+        strings.explanationBubbleMultiple,
+    ]);
 
     const countryGroupedAppeal = useMemo(() => (
         listToGroupList(

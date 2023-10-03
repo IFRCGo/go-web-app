@@ -56,7 +56,9 @@ function ChangePasswordModal(props: Props) {
             return undefined;
         }
         return passwordMatchCondition;
-    }, [strings]);
+    }, [
+        strings.changePasswordDoNotMatch,
+    ]);
 
     const formSchema: FormSchema = useMemo(() => (
         {

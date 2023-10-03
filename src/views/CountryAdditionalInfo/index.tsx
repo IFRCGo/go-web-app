@@ -89,7 +89,12 @@ export function Component() {
                 (item) => item.email,
             ),
         ]),
-        [strings],
+        [
+            strings.columnName,
+            strings.columnTitle,
+            strings.columnType,
+            strings.columnEmail,
+        ],
     );
 
     const isDataAvailable = hasCountryLinks || hasCountryContacts || hasCountrySnippet;

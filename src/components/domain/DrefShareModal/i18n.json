@@ -4,6 +4,7 @@
         "drefShareTitle": "Share DREF",
         "drefShareDescription": "Add or remove users you with whom you want to share the DREF.",
         "drefShareSuccessfully": "Successfully updated sharing preferences!",
-        "drefShareUpdate": "Update"
+        "drefShareUpdate": "Update",
+        "userListEmptyMessage": "The DREF form is not shared with anyone."
     }
 }

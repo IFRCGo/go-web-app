@@ -134,7 +134,7 @@ function Operation(props: Props) {
 
         return w;
     }, [
-        strings,
+        strings.drefFinalReportTotalTargeted,
         value?.women,
         value?.men,
         value?.girls,

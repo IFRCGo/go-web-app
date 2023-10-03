@@ -697,7 +697,13 @@ function RiskSeasonalMap(props: Props) {
             [CATEGORY_RISK_HIGH]: strings.riskCategoryHigh,
             [CATEGORY_RISK_VERY_HIGH]: strings.riskCategoryVeryHigh,
         }),
-        [strings],
+        [
+            strings.riskCategoryVeryLow,
+            strings.riskCategoryLow,
+            strings.riskCategoryMedium,
+            strings.riskCategoryHigh,
+            strings.riskCategoryVeryHigh,
+        ],
     );
 
     return (

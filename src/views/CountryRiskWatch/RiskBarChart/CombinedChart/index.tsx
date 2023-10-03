@@ -107,7 +107,13 @@ function CombinedChart(props: Props) {
             [CATEGORY_RISK_HIGH]: strings.riskBarChartHighLabel,
             [CATEGORY_RISK_VERY_HIGH]: strings.riskBarChartVeryHighLabel,
         }),
-        [strings],
+        [
+            strings.riskBarChartVeryLowLabel,
+            strings.riskBarChartLowLabel,
+            strings.riskBarChartMediumLabel,
+            strings.riskBarChartHighLabel,
+            strings.riskBarChartVeryHighLabel,
+        ],
     );
 
     const fiRiskDataItem = useMemo(

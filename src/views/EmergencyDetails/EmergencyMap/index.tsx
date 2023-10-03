@@ -137,7 +137,10 @@ function EmergencyMap(props: Props) {
                 color: COLOR_RED,
             },
         ]),
-        [strings],
+        [
+            strings.affectedCountry,
+            strings.affectedProvince,
+        ],
     );
 
     return (

@@ -2,7 +2,7 @@ import { useRef, useCallback } from 'react';
 import { _cs } from '@togglecorp/fujs';
 import { MapContainer } from '@togglecorp/re-map';
 import FileSaver from 'file-saver';
-import html2canvas from 'html2canvas';
+import { toPng } from 'html-to-image';
 
 import {
     DownloadTwoLineIcon,
@@ -26,19 +26,6 @@ import { mbtoken } from '#config';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-async function downloadImage(
-    divRef: React.RefObject<HTMLDivElement>,
-    title = 'test',
-) {
-    if (divRef?.current) {
-        const canvas = await html2canvas(divRef.current, { scale: 3 });
-
-        const png = canvas.toDataURL('image/png');
-
-        FileSaver.saveAs(png, `${title}.png`);
-    }
-}
 
 interface Props {
     className?: string;
@@ -89,19 +76,23 @@ function MapContainerWithDisclaimer(props: Props) {
                 strings.failureToDownloadMessage,
                 { variant: 'danger' },
             );
+            exitPrintMode();
             return;
         }
-        downloadImage(containerRef, `${title}-(${new Date().toDateString()})`);
-        exitPrintMode();
+        toPng(containerRef.current, {
+            skipAutoScale: false,
+        })
+            .then((data) => FileSaver.saveAs(data, title))
+            .finally(exitPrintMode);
     }, [
         exitPrintMode,
         title,
         alert,
-        strings,
+        strings.failureToDownloadMessage,
     ]);
 
     return (
-        <>
+        <div className={styles.mapContainer}>
             {printMode && (
                 <Header
                     className={styles.header}
@@ -227,7 +218,7 @@ function MapContainerWithDisclaimer(props: Props) {
                 )}
                 {footer}
             </div>
-        </>
+        </div>
     );
 }
 
