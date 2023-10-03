@@ -11,46 +11,17 @@ import {
     COLOR_BLUE,
 } from '#utils/constants';
 
-type i18nType = typeof import('./i18n.json');
-
-const COLOR_EMERGENCY_APPEAL = COLOR_RED;
-const COLOR_DREF = COLOR_YELLOW;
-const COLOR_EAP = COLOR_BLUE;
-const COLOR_MULTIPLE_TYPES = COLOR_ORANGE;
+export const COLOR_EMERGENCY_APPEAL = COLOR_RED;
+export const COLOR_DREF = COLOR_YELLOW;
+export const COLOR_EAP = COLOR_BLUE;
+export const COLOR_MULTIPLE_TYPES = COLOR_ORANGE;
 
 // FIXME: these must be a constant defined somewhere else
-const APPEAL_TYPE_DREF = 0;
-const APPEAL_TYPE_EMERGENCY = 1;
+export const APPEAL_TYPE_DREF = 0;
+export const APPEAL_TYPE_EMERGENCY = 1;
 // const APPEAL_TYPE_INTERNATIONAL = 2; // TODO: we are not showing this?
-const APPEAL_TYPE_EAP = 3;
+export const APPEAL_TYPE_EAP = 3;
 export const APPEAL_TYPE_MULTIPLE = -1;
-
-export function getLegendOptions(strings: i18nType['strings']) {
-    const legendOptions = [
-        {
-            value: APPEAL_TYPE_EMERGENCY,
-            label: strings.explanationBubbleEmergencyAppeal,
-            color: COLOR_EMERGENCY_APPEAL,
-        },
-        {
-            value: APPEAL_TYPE_DREF,
-            label: strings.explanationBubbleDref,
-            color: COLOR_DREF,
-        },
-        {
-            value: APPEAL_TYPE_EAP,
-            label: strings.explanationBubbleEAP,
-            color: COLOR_EAP,
-        },
-        {
-            value: APPEAL_TYPE_MULTIPLE,
-            label: strings.explanationBubbleMultiple,
-            color: COLOR_MULTIPLE_TYPES,
-        },
-    ];
-
-    return legendOptions;
-}
 
 const circleColor: CirclePaint['circle-color'] = [
     'match',
@@ -129,15 +100,6 @@ export const outerCircleLayerOptionsForPeopleTargeted: Omit<CircleLayer, 'id'> =
 export interface ScaleOption {
     label: string;
     value: 'financialRequirements' | 'peopleTargeted';
-}
-
-export function getScaleOptions(strings: i18nType['strings']) {
-    const scaleOptions: ScaleOption[] = [
-        { value: 'peopleTargeted', label: strings.explanationBubblePopulationLabel },
-        { value: 'financialRequirements', label: strings.explanationBubbleAmountLabel },
-    ];
-
-    return scaleOptions;
 }
 
 export function optionKeySelector(option: ScaleOption) {

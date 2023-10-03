@@ -14,11 +14,9 @@ import {
     COLOR_DARK_GREY,
 } from '#utils/constants';
 
-type i18nType = typeof import('./i18n.json');
-
-const COLOR_WITHOUT_IFRC_RESPONSE = COLOR_RED;
-const COLOR_WITH_IFRC_RESPONSE = COLOR_YELLOW;
-const COLOR_MIXED_RESPONSE = COLOR_BLUE;
+export const COLOR_WITHOUT_IFRC_RESPONSE = COLOR_RED;
+export const COLOR_WITH_IFRC_RESPONSE = COLOR_YELLOW;
+export const COLOR_MIXED_RESPONSE = COLOR_BLUE;
 
 export const RESPONSE_LEVEL_WITHOUT_IFRC_RESPONSE = 0;
 export const RESPONSE_LEVEL_WITH_IFRC_RESPONSE = 1;
@@ -44,28 +42,6 @@ export const adminFillLayerOptions: Omit<FillLayer, 'id'> = {
         ],
     },
 };
-
-export function getLegendOptions(strings: i18nType['strings']) {
-    const legendOptions = [
-        {
-            value: RESPONSE_LEVEL_WITHOUT_IFRC_RESPONSE,
-            label: strings.emergenciesMapWithoutIFRC,
-            color: COLOR_WITHOUT_IFRC_RESPONSE,
-        },
-        {
-            value: RESPONSE_LEVEL_WITH_IFRC_RESPONSE,
-            label: strings.emergenciesMapWithIFRC,
-            color: COLOR_WITH_IFRC_RESPONSE,
-        },
-        {
-            value: RESPONSE_LEVEL_MIXED_RESPONSE,
-            label: strings.emergenciesMapMixResponse,
-            color: COLOR_MIXED_RESPONSE,
-        },
-    ];
-
-    return legendOptions;
-}
 
 const circleColor: CirclePaint['circle-color'] = [
     'match',
@@ -142,15 +118,6 @@ export const outerCircleLayerOptionsForPeopleTargeted: Omit<CircleLayer, 'id'> =
 export interface ScaleOption {
     label: string;
     value: 'numAffected' | 'numEvents';
-}
-
-export function getScaleOptions(strings: i18nType['strings']) {
-    const scaleOptions: ScaleOption[] = [
-        { value: 'numAffected', label: strings.emergenciesScaleByNumPeopleAffected },
-        { value: 'numEvents', label: strings.emergenciesScaleByNumEmergencies },
-    ];
-
-    return scaleOptions;
 }
 
 export function optionKeySelector(option: ScaleOption) {
