@@ -4,7 +4,7 @@
     .label,
     .value {
         background-color: var(--go-ui-color-gray-20);
-        padding: var(--go-ui-spacing-md);
+        padding: var(--go-ui-spacing-xs);
         break-inside: avoid;
     }
 }

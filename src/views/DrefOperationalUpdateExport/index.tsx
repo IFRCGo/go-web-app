@@ -1,6 +1,7 @@
 import { Fragment, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
+    _cs,
     isDefined,
     isFalsyString,
     isTruthyString,
@@ -9,6 +10,7 @@ import {
 import Container from '#components/Container';
 import Image from '#components/Image';
 import Header from '#components/Header';
+import Link from '#components/Link';
 import TextOutput from '#components/TextOutput';
 import DescriptionText from '#components/domain/DescriptionText';
 import BlockTextOutput from '#components/domain/BlockTextOutput';
@@ -21,6 +23,13 @@ import ifrcLogo from '#assets/icons/ifrc-square.png';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+const colorMap: Record<string, string | undefined> = {
+    Yellow: styles.yellow,
+    Orange: styles.orange,
+    Red: styles.red,
+    Text: undefined,
+};
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -228,8 +237,10 @@ export function Component() {
                 </Header>
             </div>
             <Image
+                imgElementClassName={styles.image}
                 src={drefResponse?.cover_image_file?.file}
                 caption={drefResponse?.cover_image_file?.caption}
+                captionClassName={styles.caption}
             />
             <div className={styles.metaSection}>
                 <TextOutput
@@ -240,10 +251,30 @@ export function Component() {
                 />
                 <TextOutput
                     className={styles.metaItem}
+                    label={strings.drefAllocationLabel}
+                    value={drefResponse?.total_dref_allocation}
+                    valueType="number"
+                    prefix={strings.chfPrefix}
+                    strongValue
+                />
+                <TextOutput
+                    className={styles.metaItem}
+                    label={strings.crisisCategoryLabel}
+                    value={drefResponse?.disaster_category_display}
+                    valueClassName={_cs(
+                        drefResponse?.disaster_category_display
+                            && colorMap[drefResponse.disaster_category_display],
+                    )}
+                    strongValue
+                />
+                {/*
+                <TextOutput
+                    className={styles.metaItem}
                     label={strings.countryLabel}
                     value={drefResponse?.country_details?.name}
                     strongValue
                 />
+                */}
                 <TextOutput
                     className={styles.metaItem}
                     label={strings.hazardLabel}
@@ -252,37 +283,18 @@ export function Component() {
                 />
                 <TextOutput
                     className={styles.metaItem}
-                    label={strings.typeOfDrefLabel}
-                    value={drefResponse?.type_of_dref_display}
-                    strongValue
-                />
-                <TextOutput
-                    // TODO: add color according to category
-                    className={styles.metaItem}
-                    label={strings.crisisCategoryLabel}
-                    value={drefResponse?.disaster_category_display}
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.eventOnsetLabel}
-                    value={drefResponse?.type_of_onset_display}
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.budget}
-                    label={strings.drefAllocationLabel}
-                    value={drefResponse?.total_dref_allocation}
-                    valueType="number"
-                    prefix={strings.chfPrefix}
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.glideCode}
                     label={strings.glideNumberLabel}
                     value={drefResponse?.glide_code}
                     strongValue
                 />
+                {/*
+                <TextOutput
+                    className={styles.metaItem}
+                    label={strings.typeOfDrefLabel}
+                    value={drefResponse?.type_of_dref_display}
+                    strongValue
+                />
+                */}
                 <TextOutput
                     className={styles.metaItem}
                     label={strings.peopleAffectedLabel}
@@ -292,7 +304,7 @@ export function Component() {
                     strongValue
                 />
                 <TextOutput
-                    className={styles.metaItem}
+                    className={styles.peopleTargeted}
                     label={strings.peopleTargetedLabel}
                     value={drefResponse?.total_targeted_population}
                     suffix={strings.peopleSuffix}
@@ -301,8 +313,14 @@ export function Component() {
                 />
                 <TextOutput
                     className={styles.metaItem}
+                    label={strings.eventOnsetLabel}
+                    value={drefResponse?.type_of_onset_display}
+                    strongValue
+                />
+                <TextOutput
+                    className={styles.metaItem}
                     label={strings.operationStartDateLabel}
-                    value={drefResponse?.date_of_approval}
+                    value={drefResponse?.new_operational_start_date}
                     valueType="date"
                     strongValue
                 />
@@ -345,6 +363,8 @@ export function Component() {
                     childrenContainerClassName={styles.content}
                 >
                     <Image
+                        imgElementClassName={styles.image}
+                        captionClassName={styles.caption}
                         src={drefResponse?.event_map_file?.file}
                         caption={drefResponse?.event_map_file?.caption}
                     />
@@ -363,6 +383,8 @@ export function Component() {
                     {imagesFileDefined && drefResponse.images_file?.map(
                         (imageFile) => (
                             <Image
+                                imgElementClassName={styles.smallImage}
+                                captionClassName={styles.caption}
                                 key={imageFile.id}
                                 src={imageFile.file}
                                 caption={imageFile.caption}
@@ -399,42 +421,49 @@ export function Component() {
                     headingLevel={2}
                 >
                     <BlockTextOutput
+                        className={styles.textOutput}
                         label={strings.changingTimeFrameLabel}
                         value={drefResponse?.changing_timeframe_operation}
                         valueType="boolean"
                         strongValue
                     />
                     <BlockTextOutput
+                        className={styles.textOutput}
                         label={strings.changingStrategyLabel}
                         value={drefResponse?.changing_operation_strategy}
                         valueType="boolean"
                         strongValue
                     />
                     <BlockTextOutput
+                        className={styles.textOutput}
                         label={strings.changingTargetPopulationLabel}
                         value={drefResponse?.changing_target_population_of_operation}
                         valueType="boolean"
                         strongValue
                     />
                     <BlockTextOutput
+                        className={styles.textOutput}
                         label={strings.changingLocationLabel}
                         value={drefResponse?.changing_geographic_location}
                         valueType="boolean"
                         strongValue
                     />
                     <BlockTextOutput
+                        className={styles.textOutput}
                         label={strings.changingBudgetLabel}
                         value={drefResponse?.changing_budget}
                         valueType="boolean"
                         strongValue
                     />
                     <BlockTextOutput
+                        className={styles.textOutput}
                         label={strings.secondAllocationLabel}
                         value={drefResponse?.request_for_second_allocation}
                         valueType="boolean"
                         strongValue
                     />
                     <BlockTextOutput
+                        className={styles.textOutput}
                         label={strings.eventMaterializedLabel}
                         value={drefResponse?.has_forecasted_event_materialize}
                         valueType="boolean"
@@ -470,6 +499,7 @@ export function Component() {
                     {nsActionImagesDefined && drefResponse?.photos_file?.map(
                         (nsActionImage) => (
                             <Image
+                                captionClassName={styles.caption}
                                 key={nsActionImage.id}
                                 src={nsActionImage.file}
                                 caption={nsActionImage.caption}
@@ -481,6 +511,7 @@ export function Component() {
                             {drefResponse?.national_society_actions?.map(
                                 (nsAction) => (
                                     <BlockTextOutput
+                                        className={styles.textOutput}
                                         key={nsAction.id}
                                         label={nsAction.title_display}
                                         value={nsAction.description}
@@ -502,6 +533,7 @@ export function Component() {
                 >
                     {ifrcActionsDefined && (
                         <BlockTextOutput
+                            className={styles.textOutput}
                             label={strings.secretariatLabel}
                             value={drefResponse?.ifrc}
                             valueType="text"
@@ -510,6 +542,7 @@ export function Component() {
                     )}
                     {partnerNsActionsDefined && (
                         <BlockTextOutput
+                            className={styles.textOutput}
                             label={strings.participatingNsLabel}
                             value={drefResponse?.partner_national_society}
                             valueType="text"
@@ -539,14 +572,16 @@ export function Component() {
                 >
                     {governmentRequestedAssistanceDefined && (
                         <BlockTextOutput
+                            className={styles.textOutput}
                             label={strings.governmentRequestedAssistanceLabel}
                             value={drefResponse?.government_requested_assistance}
                             valueType="boolean"
-                            strongValue
+                            strongLabel
                         />
                     )}
                     {nationalAuthoritiesDefined && (
                         <BlockTextOutput
+                            className={styles.textOutput}
                             label={strings.nationalAuthoritiesLabel}
                             value={drefResponse?.national_authorities}
                             valueType="text"
@@ -555,6 +590,7 @@ export function Component() {
                     )}
                     {unOrOtherActorDefined && (
                         <BlockTextOutput
+                            className={styles.textOutput}
                             label={strings.unOrOtherActorsLabel}
                             value={drefResponse?.un_or_other_actor}
                             valueType="text"
@@ -563,6 +599,7 @@ export function Component() {
                     )}
                     {majorCoordinationMechanismDefined && (
                         <BlockTextOutput
+                            className={_cs(styles.textOutput, styles.majorCoordination)}
                             label={strings.majorCoordinationMechanismLabel}
                             value={drefResponse?.major_coordination_mechanism}
                             valueType="text"
@@ -583,6 +620,7 @@ export function Component() {
                             <Container
                                 key={identifiedNeed.id}
                                 heading={identifiedNeed.title_display}
+                                headingSectionClassName={styles.headingSection}
                                 spacing="compact"
                                 icons={(
                                     <img
@@ -673,81 +711,87 @@ export function Component() {
                 className={styles.targetPopulationSection}
                 childrenContainerClassName={styles.content}
             >
-                {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
-                    <>
-                        <BlockTextOutput
-                            label={strings.womenLabel}
-                            value={drefResponse?.women}
-                            valueType="number"
-                            strongValue
-                        />
-                        <BlockTextOutput
-                            label={strings.girlsLabel}
-                            value={drefResponse?.girls}
-                            valueType="number"
-                            strongValue
-                        />
-                        <BlockTextOutput
-                            label={strings.menLabel}
-                            value={drefResponse?.men}
-                            valueType="number"
-                            strongValue
-                        />
-                        <BlockTextOutput
-                            label={strings.boysLabel}
-                            value={drefResponse?.boys}
-                            valueType="number"
-                            strongValue
-                        />
-                        <BlockTextOutput
-                            label={strings.targetedPopulationLabel}
-                            value={drefResponse?.total_targeted_population}
-                            labelClassName={styles.totalTargetedPopulationLabel}
-                            valueClassName={styles.totalTargetedPopulationValue}
-                            valueType="number"
-                            strongValue
-                        />
-                    </>
-                )}
-                <BlockTextOutput
-                    label={strings.ruralLabel}
-                    value={isDefined(drefResponse?.people_per_local)
-                        ? Number(drefResponse?.people_per_local)
-                        : undefined}
-                    valueType="number"
-                    suffix="%"
-                    strongValue
-                />
-                <BlockTextOutput
-                    label={strings.urbanLabel}
-                    value={isDefined(drefResponse?.people_per_urban)
-                        ? Number(drefResponse?.people_per_urban)
-                        : undefined}
-                    suffix="%"
-                    valueType="number"
-                    strongValue
-                />
-                <BlockTextOutput
-                    label={strings.peopleWithDisabilitesLabel}
-                    value={isDefined(drefResponse?.disability_people_per)
-                        ? Number(drefResponse?.disability_people_per)
-                        : undefined}
-                    labelClassName={styles.disabilityLabel}
-                    valueClassName={styles.disabilityValue}
-                    suffix="%"
-                    valueType="number"
-                    strongValue
-                />
-                {drefResponse?.type_of_dref === DREF_TYPE_ASSESSMENT && (
+                <div className={styles.left}>
+                    {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
+                        <>
+                            <BlockTextOutput
+                                className={styles.textOutput}
+                                labelClassName={styles.categoryLabel}
+                                label={strings.womenLabel}
+                                value={drefResponse?.women}
+                                valueType="number"
+                                strongValue
+                            />
+                            <BlockTextOutput
+                                className={styles.textOutput}
+                                label={strings.girlsLabel}
+                                value={drefResponse?.girls}
+                                valueType="number"
+                                strongValue
+                                labelClassName={styles.categoryLabel}
+                            />
+                            <BlockTextOutput
+                                className={styles.textOutput}
+                                label={strings.menLabel}
+                                value={drefResponse?.men}
+                                valueType="number"
+                                strongValue
+                                labelClassName={styles.categoryLabel}
+                            />
+                            <BlockTextOutput
+                                className={styles.textOutput}
+                                label={strings.boysLabel}
+                                value={drefResponse?.boys}
+                                valueType="number"
+                                strongValue
+                                labelClassName={styles.categoryLabel}
+                            />
+                        </>
+                    )}
+                </div>
+                <div className={styles.right}>
                     <BlockTextOutput
-                        label={strings.targetedPopulationLabel}
-                        value={drefResponse?.total_targeted_population}
-                        labelClassName={styles.totalTargetedPopulationLabel}
-                        valueClassName={styles.totalTargetedPopulationValue}
+                        className={styles.textOutput}
+                        label={strings.ruralLabel}
+                        value={isDefined(drefResponse?.people_per_local)
+                            ? Number(drefResponse?.people_per_local)
+                            : undefined}
+                        valueType="number"
+                        suffix="%"
+                        strongValue
+                    />
+                    <BlockTextOutput
+                        className={_cs(styles.textOutput, styles.ruralUrban)}
+                        label={strings.urbanLabel}
+                        value={isDefined(drefResponse?.people_per_urban)
+                            ? Number(drefResponse?.people_per_urban)
+                            : undefined}
+                        suffix="%"
                         valueType="number"
                         strongValue
                     />
-                )}
+                    <BlockTextOutput
+                        className={_cs(styles.textOutput, styles.disabilities)}
+                        label={strings.peopleWithDisabilitesLabel}
+                        value={isDefined(drefResponse?.disability_people_per)
+                            ? Number(drefResponse?.disability_people_per)
+                            : undefined}
+                        labelClassName={styles.disabilityLabel}
+                        valueClassName={styles.disabilityValue}
+                        suffix="%"
+                        valueType="number"
+                        strongValue
+                    />
+                </div>
+                <BlockTextOutput
+                    className={styles.textOutput}
+                    label={strings.targetedPopulationLabel}
+                    value={drefResponse?.total_targeted_population}
+                    labelClassName={styles.totalTargetedPopulationLabel}
+                    valueClassName={styles.totalTargetedPopulationValue}
+                    valueType="number"
+                    strongValue
+                />
             </Container>
             {showRiskAndSecuritySection && (
                 <Container
@@ -760,8 +804,9 @@ export function Component() {
                         <Container
                             heading={strings.riskSecurityHeading}
                             spacing="compact"
+                            headingClassName={styles.riskHeading}
                             childrenContainerClassName={styles.riskList}
-                            headingLevel={4}
+                            headingLevel={6}
                         >
                             <div className={styles.riskTitle}>
                                 {strings.drefOperationalRisk}
@@ -787,9 +832,12 @@ export function Component() {
                         <Container
                             heading={strings.safetyConcernHeading}
                             spacing="compact"
-                            headingLevel={4}
+                            headingLevel={6}
+                            headingClassName={styles.riskHeading}
                         >
-                            <DescriptionText>
+                            <DescriptionText
+                                className={styles.description}
+                            >
                                 {drefResponse?.risk_security_concern}
                             </DescriptionText>
                         </Container>
@@ -815,17 +863,22 @@ export function Component() {
                                         alt={strings.drefOperationalOtherImageAlt}
                                     />
                                 )}
+                                headingSectionClassName={styles.headingSection}
+                                headingClassName={styles.interventionHeading}
                                 heading={plannedIntervention.title_display}
-                                headerDescriptionContainerClassName={styles.metaDetails}
-                                headerDescription={(
+                                actionsContainerClassName={styles.metaDetails}
+                                withoutWrapInHeading
+                                actions={(
                                     <>
-                                        <TextOutput
+                                        <BlockTextOutput
+                                            className={styles.textOutput}
                                             label={strings.targetedPersonsLabel}
                                             value={plannedIntervention.person_targeted}
                                             valueType="number"
                                             strongLabel
                                         />
-                                        <TextOutput
+                                        <BlockTextOutput
+                                            className={styles.textOutput}
                                             label={strings.budgetLabel}
                                             value={plannedIntervention.budget}
                                             valueType="number"
@@ -967,60 +1020,62 @@ export function Component() {
                 </Container>
             ) */}
             {showContactsSection && (
-                <Container
-                    className={styles.contactInformationSection}
-                    childrenContainerClassName={styles.content}
-                    heading={strings.contactInformationSectionHeading}
-                    headingLevel={2}
-                    headerDescription={strings.contactInformationSectionDescription}
-                >
-                    {nsContactDefined && (
-                        <Container
-                            heading={strings.nsContactHeading}
-                            headingLevel={4}
-                            spacing="none"
-                        >
-                            {nsContactText}
-                        </Container>
-                    )}
-                    {appealManagerContactDefined && (
-                        <Container
-                            heading={strings.appealManagerContactHeading}
-                            headingLevel={4}
-                            spacing="none"
-                        >
-                            {appealManagerContactText}
-                        </Container>
-                    )}
-                    {projectManagerContactDefined && (
-                        <Container
-                            heading={strings.projectManagerContactHeading}
-                            headingLevel={4}
-                            spacing="none"
-                        >
-                            {projectManagerContactText}
-                        </Container>
-                    )}
-                    {focalPointContactDefined && (
-                        <Container
-                            heading={strings.focalPointContactHeading}
-                            headingLevel={4}
-                            spacing="none"
-                        >
-                            {focalPointContactText}
-                        </Container>
-                    )}
-                    {mediaContactDefined && (
-                        <Container
-                            heading={strings.mediaContactHeading}
-                            headingLevel={4}
-                            spacing="none"
-                        >
-                            {mediaContactText}
-                        </Container>
-                    )}
-                    {/* FIXME: Add references */}
-                </Container>
+                <>
+                    <Container
+                        className={styles.contactInformationSection}
+                        childrenContainerClassName={styles.content}
+                        heading={strings.contactInformationSectionHeading}
+                        headingLevel={2}
+                        headerDescription={strings.contactInformationSectionDescription}
+                    >
+                        {nsContactDefined && (
+                            <TextOutput
+                                labelClassName={styles.contactPersonLabel}
+                                label={strings.nsContactHeading}
+                                value={nsContactText}
+                                strongLabel
+                            />
+                        )}
+                        {appealManagerContactDefined && (
+                            <TextOutput
+                                labelClassName={styles.contactPersonLabel}
+                                label={strings.appealManagerContactHeading}
+                                value={appealManagerContactText}
+                                strongLabel
+                            />
+                        )}
+                        {projectManagerContactDefined && (
+                            <TextOutput
+                                labelClassName={styles.contactPersonLabel}
+                                label={strings.projectManagerContactHeading}
+                                value={projectManagerContactText}
+                                strongLabel
+                            />
+                        )}
+                        {focalPointContactDefined && (
+                            <TextOutput
+                                labelClassName={styles.contactPersonLabel}
+                                label={strings.focalPointContactHeading}
+                                value={focalPointContactText}
+                                strongLabel
+                            />
+                        )}
+                        {mediaContactDefined && (
+                            <TextOutput
+                                labelClassName={styles.contactPersonLabel}
+                                label={strings.mediaContactHeading}
+                                value={mediaContactText}
+                                strongLabel
+                            />
+                        )}
+                    </Container>
+                    <Link
+                        to="emergencies"
+                        withUnderline
+                    >
+                        {strings.drefExportReference}
+                    </Link>
+                </>
             )}
             {previewReady && <div id="pdf-preview-ready" />}
         </div>
