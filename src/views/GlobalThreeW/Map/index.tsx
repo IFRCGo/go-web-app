@@ -144,7 +144,9 @@ function GlobalThreeWMap(props: Props) {
             id: OPERATION_TYPE_MULTI,
             title: strings.multipleTypesLegend,
         };
-    }, [strings]);
+    }, [
+        strings.multipleTypesLegend,
+    ]);
 
     const {
         deployments_project_operation_type: operationTypeOptions,

@@ -104,7 +104,17 @@ function KeywordSearchSelectInput() {
         emergencies: strings.emergency,
         projects: strings.project,
         reports: strings.report,
-    }), [strings]);
+    }), [
+        strings.country,
+        strings.district,
+        strings.region,
+        strings.surgeDeployment,
+        strings.surgeAlert,
+        strings.rrDeployment,
+        strings.emergency,
+        strings.project,
+        strings.report,
+    ]);
 
     const descriptionSelector = useCallback((d: SearchItem) => (
         searchTypeToLabelMap[d.type]

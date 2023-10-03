@@ -293,7 +293,17 @@ export function Component() {
                 className: styles.projectActions,
             }),
         ),
-    ]), [reTriggerProjectListRequest, strings]);
+    ]), [
+        strings.threeWTableNS,
+        strings.threeWTableProjectName,
+        strings.threeWTableSector,
+        strings.threeWTableTotalBudget,
+        strings.threeWTableProgrammeType,
+        strings.threeWTableDisasterType,
+        strings.threeWTablePeopleTargeted,
+        strings.threeWTablePeopleReached,
+        reTriggerProjectListRequest,
+    ]);
 
     const districtIdList = Object.keys(districtGroupedProject);
 

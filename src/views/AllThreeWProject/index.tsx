@@ -151,7 +151,17 @@ export function Component() {
                 }),
             ),
         ]),
-        [strings],
+        [
+            strings.allThreeWCountry,
+            strings.allThreeWNS,
+            strings.allThreeWProjectName,
+            strings.allThreeWSector,
+            strings.allThreeWTotalBudget,
+            strings.allThreeWProgrammeType,
+            strings.allThreeWDisasterType,
+            strings.allThreeWPeopleTargeted,
+            strings.allThreeWPeopleReached,
+        ],
     );
 
     const heading = resolveToComponent(

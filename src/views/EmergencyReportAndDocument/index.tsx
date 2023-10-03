@@ -159,7 +159,12 @@ export function Component() {
                 (item) => item.regions,
             ),
         ]),
-        [strings],
+        [
+            strings.fieldReportsTableCreatedAt,
+            strings.fieldReportsTableName,
+            strings.fieldReportsTableCountry,
+            strings.fieldReportsTableRegion,
+        ],
     );
 
     const appealColumns = useMemo(
@@ -198,7 +203,13 @@ export function Component() {
                 }),
             ),
         ]),
-        [strings],
+        [
+            strings.appealDocumentDate,
+            strings.appealDocumentLocation,
+            strings.appealDocumentCode,
+            strings.appealDocumentDescription,
+            strings.appealDocumentLink,
+        ],
     );
 
     const groupedSituationReports = useMemo(() => (

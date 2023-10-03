@@ -238,7 +238,16 @@ export function Component() {
                 }),
             ),
         ]),
-        [strings],
+        [
+            strings.allAppealsStartDate,
+            strings.allAppealsType,
+            strings.allAppealsCode,
+            strings.allAppealsOperation,
+            strings.allAppealsDisasterType,
+            strings.allAppealsRequestedAmount,
+            strings.allAppealsFundedAmount,
+            strings.allAppealsCountry,
+        ],
     );
 
     const heading = useMemo(
@@ -252,7 +261,7 @@ export function Component() {
                 ),
             },
         ),
-        [appealsResponse, strings],
+        [appealsResponse, strings.allAppealsHeading],
     );
 
     const [

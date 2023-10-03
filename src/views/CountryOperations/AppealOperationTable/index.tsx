@@ -141,7 +141,16 @@ function AppealOperationTable(props: Props) {
                 { sortable: true },
             ),
         ]),
-        [strings],
+        [
+            strings.appealsTableLink,
+            strings.appealsTableStartDate,
+            strings.appealsTableName,
+            strings.appealsTableEmergency,
+            strings.appealsTableDisastertype,
+            strings.appealsTableRequestedAmount,
+            strings.appealsTableFundedAmount,
+            strings.appealsTableStatus,
+        ],
     );
 
     const viewAllOperationsLinkLabel = resolveToComponent(

@@ -114,7 +114,14 @@ function RiskTable(props: Props) {
 
             return riskCategoryToLabelMap[riskCategory];
         },
-        [strings],
+        [
+            strings.riskScoreNotApplicableLabel,
+            strings.riskScoreVeryHighLabel,
+            strings.riskScoreMediumLabel,
+            strings.riskScoreLowLabel,
+            strings.riskScoreHighLabel,
+            strings.riskScoreVeryLowLabel,
+        ],
     );
 
     const displacementRiskData = useMemo(
@@ -245,7 +252,16 @@ function RiskTable(props: Props) {
             displacementRiskData,
             exposureRiskData,
             informSeasonalRiskData,
-            strings,
+            strings.riskTableHazardTypeTitle,
+            strings.riskTableInformTitle,
+            strings.riskTableInformDescriptionP1,
+            strings.riskTableInformDescriptionP2,
+            strings.riskTableInformDescriptionP3,
+            strings.riskTableInformDescriptionHereLabel,
+            strings.riskTablePeopleExposedTitle,
+            strings.riskTablePeopleExposedDescription,
+            strings.riskTableDisplacementTitle,
+            strings.riskTableDisplacementDescription,
             riskScoreToLabel,
             selectedMonths,
         ],

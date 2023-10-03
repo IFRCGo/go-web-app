@@ -100,7 +100,12 @@ export function Component() {
                 }),
             ),
         ]),
-        [strings],
+        [
+            strings.allFlashUpdatesLastUpdate,
+            strings.allFlashUpdatesReport,
+            strings.allFlashUpdatesDisasterType,
+            strings.allFlashUpdatesCountry,
+        ],
     );
 
     const {
@@ -127,7 +132,7 @@ export function Component() {
                 ),
             },
         ),
-        [strings, flashUpdateResponse],
+        [strings.allFlashUpdatesTitle, flashUpdateResponse],
     );
 
     return (

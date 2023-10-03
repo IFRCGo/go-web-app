@@ -119,7 +119,14 @@ function EmergencyResponseUnitsTable() {
             }),
             { sortable: true },
         ),
-    ]), [strings]);
+    ]), [
+        strings.emergencyResponseUnitsTableOwner,
+        strings.emergencyResponseUnitsTableType,
+        strings.emergencyResponseUnitsTableUnits,
+        strings.emergencyResponseUnitsTableEquipment,
+        strings.emergencyResponseUnitsTableDeployedTo,
+        strings.emergencyResponseUnitsTableEmergency,
+    ]);
 
     return (
         <Container

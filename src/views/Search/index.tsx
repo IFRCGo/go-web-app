@@ -107,7 +107,17 @@ export function Component() {
             regions: strings.searchRegionsTitle,
             countries: strings.searchCountriesTitle,
         }),
-        [strings],
+        [
+            strings.searchEmergenciesTitle,
+            strings.searchReportsTitle,
+            strings.searchProjectsTitle,
+            strings.searchSurgeAlertsTitle,
+            strings.searchSurgeDeploymentsTitle,
+            strings.searchRapidResponseDeploymentsTitle,
+            strings.searchProvincesTitle,
+            strings.searchRegionsTitle,
+            strings.searchCountriesTitle,
+        ],
     );
 
     const handleClearSearchInput = useCallback(() => {
@@ -202,7 +212,7 @@ export function Component() {
                 </Button>
             );
         },
-        [activeView, strings],
+        [activeView, strings.searchGoBack],
     );
 
     const trimmedSearchString = isDefined(searchStringTemp) ? searchStringTemp.trim() : '';
@@ -218,7 +228,13 @@ export function Component() {
 
             return strings.searchResultforQuery;
         },
-        [strings, urlSearchValue, trimmedSearchString],
+        [
+            strings.searchThreeCharactersRequired,
+            strings.searchHint,
+            strings.searchResultforQuery,
+            urlSearchValue,
+            trimmedSearchString,
+        ],
     );
 
     return (

@@ -134,7 +134,7 @@ function Operation(props: Props) {
 
         return w;
     }, [
-        strings,
+        strings.drefOperationalUpdateFormTotalTargetedPopulation,
         value?.women,
         value?.men,
         value?.girls,
@@ -159,7 +159,7 @@ function Operation(props: Props) {
     }, [
         value?.total_dref_allocation,
         value?.planned_interventions,
-        strings,
+        strings.drefOperationalUpdateFormTotalDrefAllocation,
     ]);
 
     const interventionMap = useMemo(() => (

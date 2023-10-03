@@ -71,56 +71,67 @@ function ReturnPeriodTable(props: Props) {
         [data],
     );
 
-    const columns = [
-        createStringColumn<TransformedReturnPeriodData, string | number>(
-            'frequency',
+    const columns = useMemo(
+        () => ([
+            createStringColumn<TransformedReturnPeriodData, string | number>(
+                'frequency',
+                strings.returnPeriodTableReturnPeriodTitle,
+                (item) => item.frequencyDisplay,
+            ),
+            createNumberColumn<TransformedReturnPeriodData, string | number>(
+                'numRiskOfDisplacement',
+                strings.returnPeriodTableReturnPeriodTitle,
+                (item) => item.displacement,
+                {
+                    headerInfoTitle: strings.returnPeriodTableDisplacementTitle,
+                    headerInfoDescription: resolveToComponent(
+                        strings.returnPeriodTableDisplacementDescription,
+                        {
+                            source: (
+                                <Link
+                                    href="https://www.internal-displacement.org/database/global-displacement-risk-model"
+                                    external
+                                >
+                                    {strings.returnPeriodTableDisplacementSource}
+                                </Link>
+                            ),
+                        },
+                    ),
+                    maximumFractionDigits: 0,
+                },
+            ),
+            createNumberColumn<TransformedReturnPeriodData, string | number>(
+                'economicLosses',
+                strings.returnPeriodTableEconomicLossesTitle,
+                (item) => item.economicLosses,
+                {
+                    headerInfoTitle: strings.returnPeriodTableEconomicLossesTitle,
+                    headerInfoDescription: resolveToComponent(
+                        strings.returnPeriodTableEconomicLossesDescription,
+                        {
+                            source: (
+                                <Link
+                                    href="https://www.gfdrr.org/en/disaster-risk-country-profiles"
+                                    external
+                                >
+                                    {strings.returnPeriodTableEconomicLossesSource}
+                                </Link>
+                            ),
+                        },
+                    ),
+                },
+            ),
+        ]),
+        [
             strings.returnPeriodTableReturnPeriodTitle,
-            (item) => item.frequencyDisplay,
-        ),
-        createNumberColumn<TransformedReturnPeriodData, string | number>(
-            'numRiskOfDisplacement',
-            strings.returnPeriodTableReturnPeriodTitle,
-            (item) => item.displacement,
-            {
-                headerInfoTitle: strings.returnPeriodTableDisplacementTitle,
-                headerInfoDescription: resolveToComponent(
-                    strings.returnPeriodTableDisplacementDescription,
-                    {
-                        source: (
-                            <Link
-                                href="https://www.internal-displacement.org/database/global-displacement-risk-model"
-                                external
-                            >
-                                {strings.returnPeriodTableDisplacementSource}
-                            </Link>
-                        ),
-                    },
-                ),
-                maximumFractionDigits: 0,
-            },
-        ),
-        createNumberColumn<TransformedReturnPeriodData, string | number>(
-            'economicLosses',
             strings.returnPeriodTableEconomicLossesTitle,
-            (item) => item.economicLosses,
-            {
-                headerInfoTitle: strings.returnPeriodTableEconomicLossesTitle,
-                headerInfoDescription: resolveToComponent(
-                    strings.returnPeriodTableEconomicLossesDescription,
-                    {
-                        source: (
-                            <Link
-                                href="https://www.gfdrr.org/en/disaster-risk-country-profiles"
-                                external
-                            >
-                                {strings.returnPeriodTableEconomicLossesSource}
-                            </Link>
-                        ),
-                    },
-                ),
-            },
-        ),
-    ];
+            strings.returnPeriodTableEconomicLossesDescription,
+            strings.returnPeriodTableDisplacementDescription,
+            strings.returnPeriodTableDisplacementSource,
+            strings.returnPeriodTableEconomicLossesSource,
+            strings.returnPeriodTableDisplacementTitle,
+        ],
+    );
 
     const transformedReturnPeriods = useMemo<TransformedReturnPeriodData[]>(
         () => {

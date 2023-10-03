@@ -103,7 +103,12 @@ function FlashUpdateTable() {
                 }),
             ),
         ]),
-        [strings],
+        [
+            strings.flashUpdateTableLastUpdate,
+            strings.flashUpdateTableReport,
+            strings.flashUpdateTableDisasterType,
+            strings.flashUpdateTableCountry,
+        ],
     );
 
     const {
@@ -131,7 +136,7 @@ function FlashUpdateTable() {
                 ),
             },
         ),
-        [strings, flashUpdateResponse],
+        [strings.flashUpdateTableTitle, flashUpdateResponse],
     );
 
     return (

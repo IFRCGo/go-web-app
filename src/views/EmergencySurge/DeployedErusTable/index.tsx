@@ -97,7 +97,7 @@ export default function DeployedErusTable(props: Props) {
                 'eru_owner__national_society_country__society_name',
                 strings.eruTableName,
                 (item) => item.eru_owner.national_society_country.society_name
-                        ?? item.eru_owner.national_society_country.name,
+                    ?? item.eru_owner.national_society_country.name,
                 { sortable: true },
             ),
             createStringColumn<EruTableItem, number>(
@@ -143,7 +143,15 @@ export default function DeployedErusTable(props: Props) {
                 { sortable: true },
             ),
         ]),
-        [strings, getEruType],
+        [
+            strings.eruTableName,
+            strings.eruTableType,
+            strings.eruTablePersonnel,
+            strings.eruTableEquipment,
+            strings.eruTableCountry,
+            strings.eruTableEmergency,
+            getEruType,
+        ],
     );
 
     const containerHeading = resolveToComponent(

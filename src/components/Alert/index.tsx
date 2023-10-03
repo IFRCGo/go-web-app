@@ -7,9 +7,9 @@ import {
     QuestionLineIcon,
     CloseLineIcon,
 } from '@ifrc-go/icons';
+
 import Button from '#components/Button';
 import Container from '#components/Container';
-
 import { AlertType } from '#contexts/alert';
 import useTranslation from '#hooks/useTranslation';
 

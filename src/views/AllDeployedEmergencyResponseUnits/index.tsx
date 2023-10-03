@@ -172,7 +172,15 @@ export function Component() {
                 { sortable: true },
             ),
         ]),
-        [strings, getEruType],
+        [
+            getEruType,
+            strings.eruTableName,
+            strings.eruTableType,
+            strings.eruTablePersonnel,
+            strings.eruTableEquipment,
+            strings.eruTableCountry,
+            strings.eruTableEmergency,
+        ],
     );
     const containerHeading = resolveToComponent(
         strings.containerHeading,

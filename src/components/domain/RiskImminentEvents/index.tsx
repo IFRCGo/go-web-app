@@ -84,7 +84,13 @@ function RiskImminentEvents(props: Props) {
                 icon: <ForestFireIcon className={styles.icon} />,
             },
         ],
-        [strings],
+        [
+            strings.imminentEventsFlood,
+            strings.imminentEventsStorm,
+            strings.imminentEventsEarthquake,
+            strings.imminentEventsDrought,
+            strings.imminentEventsWildfire,
+        ],
     );
 
     const CurrentView = useMemo(

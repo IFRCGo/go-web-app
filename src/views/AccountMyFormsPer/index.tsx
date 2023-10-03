@@ -141,7 +141,12 @@ export function Component() {
                 }),
             ),
         ]),
-        [strings],
+        [
+            strings.tableCountryTitle,
+            strings.tableStartDateTitle,
+            strings.tablePerCycleTitle,
+            strings.tablePerPhaseTitle,
+        ],
     );
 
     const aggregatedColumns = useMemo(
