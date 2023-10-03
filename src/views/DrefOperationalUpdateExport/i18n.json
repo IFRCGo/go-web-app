@@ -11,7 +11,7 @@
         "drefAllocationLabel": "Total DREF Allocation",
         "chfPrefix": "CHF ",
         "glideNumberLabel": "Glide Number",
-        "peopleAffectedLabel": "People At Risk",
+        "peopleAffectedLabel": "People Affected",
         "peopleTargetedLabel": "People Targeted",
         "peopleSuffix": " people",
         "operationStartDateLabel": "Operation Start Date",
@@ -38,7 +38,8 @@
         "specifiedTriggerMetLabel": "Please explain how the operation is transitioning from Anticipatory to Response",
 
         "currentNationalSocietyActionsHeading": "Current National Society Actions",
-        "movementPartnersActionsHeading": "Movement Partners Actions Related To The Current Event",
+        "movementPartnersActionsHeading": "IFRC Network Actions Related To The Current Event",
+        "drefExportReference": "Click here for reference",
         "secretariatLabel": "Secretariat",
         "participatingNsLabel": "Participating National Societies",
         "icrcActionsHeading": "ICRC Actions Related To The Current Event",
