@@ -13,30 +13,23 @@ import styles from './styles.module.css';
 interface Props {
     className?: string;
     userId: number;
+    user: User;
     onUserRemove: (item: number) => void;
-    userOptions: User[] | undefined | null;
 }
 
 function UserItem(props: Props) {
     const {
         className,
         userId,
+        user,
         onUserRemove,
-        userOptions,
     } = props;
 
     const strings = useTranslation(i18n);
 
-    const userItem = useMemo(
-        () => userOptions?.find((item) => item.id === userId),
-        [
-            userOptions,
-            userId,
-        ],
-    );
     const userName = useMemo(
-        () => getUserName(userItem),
-        [userItem],
+        () => getUserName(user),
+        [user],
     );
 
     return (

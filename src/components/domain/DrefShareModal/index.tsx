@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { isDefined } from '@togglecorp/fujs';
 
 import Button from '#components/Button';
@@ -20,7 +20,7 @@ interface Props {
     onSuccess: () => void;
 }
 
-const userKeySelector = (item: number) => item;
+const userKeySelector = (item: User) => item.id;
 
 function DrefShareModal(props: Props) {
     const {
@@ -75,12 +75,15 @@ function DrefShareModal(props: Props) {
         ));
     }, [setUsers]);
 
-    const userRendererParams = useCallback((userId: number) => ({
+    const selectedUsers = useMemo(() => (
+        userOptions?.filter((user) => users.includes(user.id))
+    ), [userOptions, users]);
+
+    const userRendererParams = useCallback((userId: number, user: User) => ({
         userId,
-        userOptions,
+        user,
         onUserRemove: handleUserRemove,
     }), [
-        userOptions,
         handleUserRemove,
     ]);
 
@@ -112,7 +115,7 @@ function DrefShareModal(props: Props) {
             <List
                 className={styles.userList}
                 messageClassName={styles.message}
-                data={users}
+                data={selectedUsers}
                 renderer={UserItem}
                 keySelector={userKeySelector}
                 rendererParams={userRendererParams}
