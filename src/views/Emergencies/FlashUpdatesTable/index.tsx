@@ -136,7 +136,7 @@ function FlashUpdateTable() {
                 ),
             },
         ),
-        [strings, flashUpdateResponse],
+        [strings.flashUpdateTableTitle, flashUpdateResponse],
     );
 
     return (

@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 import { isNotDefined } from '@togglecorp/fujs';
 
 import {
@@ -27,12 +27,10 @@ type RapidResponseDeploymentResult = NonNullable<SearchResponse['rapid_response_
 type SurgeAlertResult = NonNullable<SearchResponse['surge_alerts']>[number];
 type SurgeDeploymentResult = NonNullable<SearchResponse['surge_deployments']>[number];
 
-type Strings = (typeof i18n)['strings'];
+function useColumns(searchResponse: SearchResponse | undefined) {
+    const strings = useTranslation(i18n);
 
-function getEmergencyColumns(
-    strings: Strings,
-) {
-    return [
+    const getEmergencyColumns = useCallback(() => ([
         createLinkColumn<EmergencyResult, number>(
             'title',
             strings.searchEmergencyTableTitle,
@@ -78,37 +76,16 @@ function getEmergencyColumns(
             strings.searchEmergencyTableCountry,
             (item) => item.countries,
         ),
-    ];
-}
+    ]), [
+        strings.searchEmergencyTableTitle,
+        strings.searchEmergencyTableAppealType,
+        strings.searchEmergencyTableDisasterType,
+        strings.searchEmergencyTableFundingRequirements,
+        strings.searchEmergencyTableFundingCoverage,
+        strings.searchEmergencyTableCountry,
+    ]);
 
-function getFieldReportColumns(strings: Strings) {
-    return [
-        createDateColumn<FieldReportResult, number>(
-            'created_at',
-            strings.searchFieldReportTableDate,
-            (fieldReport) => fieldReport.created_at,
-        ),
-        createStringColumn<FieldReportResult, number>(
-            'type',
-            strings.searchFieldReportTableType,
-            (fieldReport) => fieldReport.type,
-        ),
-        createLinkColumn<FieldReportResult, number>(
-            'name',
-            strings.searchFieldReportTableTitle,
-            (fieldReport) => fieldReport.name,
-            (fieldReport) => ({
-                to: 'fieldReportDetails',
-                urlParams: {
-                    fieldReportId: fieldReport.id,
-                },
-            }),
-        ),
-    ];
-}
-
-function getProjectColumns(strings: Strings) {
-    return [
+    const getProjectColumns = useCallback(() => ([
         createLinkColumn<ProjectResult, number>(
             'emergency_name',
             strings.searchProjectTableEmergency,
@@ -166,13 +143,17 @@ function getProjectColumns(strings: Strings) {
             strings.searchProjectTablePeopleTargeted,
             (project) => project.people_targeted,
         ),
-    ];
-}
+    ]), [
+        strings.searchProjectTableEmergency,
+        strings.searchProjectTableNationalSociety,
+        strings.searchProjectTableProjectName,
+        strings.searchProjectTableStartEndDate,
+        strings.searchProjectTableProvince,
+        strings.searchProjectTableSector,
+        strings.searchProjectTablePeopleTargeted,
+    ]);
 
-function getRapidResponseDeploymentColumns(
-    strings: Strings,
-) {
-    return [
+    const getRapidResponseDeploymentColumns = useCallback(() => ([
         createDateColumn<RapidResponseDeploymentResult, number>(
             'start_date',
             strings.searchRapidDeploymentTableStartDate,
@@ -225,11 +206,18 @@ function getRapidResponseDeploymentColumns(
                 urlParams: { emergencyId: rapidResponse.event_id },
             }),
         ),
-    ];
-}
+    ]), [
+        strings.searchRapidDeploymentTableStartDate,
+        strings.searchRapidDeploymentTableEndDate,
+        strings.searchRapidDeploymentTableName,
+        strings.searchRapidDeploymentTablePosition,
+        strings.searchRapidDeploymentTableKeywords,
+        strings.searchRapidDeploymentTableDeployingParty,
+        strings.searchRapidDeploymentTableDeployedTo,
+        strings.searchRapidDeploymentTableEmergency,
+    ]);
 
-function getSurgeAlertColumns(strings: Strings) {
-    return [
+    const getSurgeAlertColumns = useCallback(() => ([
         createDateColumn<SurgeAlertResult, number>(
             'alert_date',
             strings.searchSurgeAlertTableAlertDate,
@@ -293,11 +281,18 @@ function getSurgeAlertColumns(strings: Strings) {
             strings.searchSurgeAlertTableStatus,
             (surgeAlert) => surgeAlert.status,
         ),
-    ];
-}
+    ]), [
+        strings.searchSurgeAlertTableAlertDate,
+        strings.searchSurgeAlertTableDuration,
+        strings.searchSurgeAlertTableStartDate,
+        strings.searchSurgeAlertTablePosition,
+        strings.searchSurgeAlertTableKeywords,
+        strings.searchSurgeAlertTableEmergency,
+        strings.searchSurgeAlertTableCountry,
+        strings.searchSurgeAlertTableStatus,
+    ]);
 
-function getSurgeDeploymentColumns(strings: Strings) {
-    return [
+    const getSurgeDeploymentColumns = useCallback(() => ([
         createStringColumn<SurgeDeploymentResult, number>(
             'owner',
             strings.searchSurgeDeploymentTableOwner,
@@ -336,53 +331,87 @@ function getSurgeDeploymentColumns(strings: Strings) {
                 urlParams: { emergencyId: surgeDeployment.event_id },
             }),
         ),
-    ];
-}
+    ]), [
+        strings.searchSurgeDeploymentTableOwner,
+        strings.searchSurgeDeploymentTableType,
+        strings.searchSurgeDeploymentTablePersonnelUnits,
+        strings.searchSurgeDeploymentTableEquipmentUnits,
+        strings.searchSurgeDeploymentsTableCountryDeployedTo,
+        strings.searchSurgeDeploymentsTableEmergency,
+    ]);
 
-function useColumns(searchResponse: SearchResponse | undefined) {
-    const strings = useTranslation(i18n);
+    const getFieldReportColumns = useCallback(() => (
+        [
+            createDateColumn<FieldReportResult, number>(
+                'created_at',
+                strings.searchFieldReportTableDate,
+                (fieldReport) => fieldReport.created_at,
+            ),
+            createStringColumn<FieldReportResult, number>(
+                'type',
+                strings.searchFieldReportTableType,
+                (fieldReport) => fieldReport.type,
+            ),
+            createLinkColumn<FieldReportResult, number>(
+                'name',
+                strings.searchFieldReportTableTitle,
+                (fieldReport) => fieldReport.name,
+                (fieldReport) => ({
+                    to: 'fieldReportDetails',
+                    urlParams: {
+                        fieldReportId: fieldReport.id,
+                    },
+                }),
+            ),
+        ]
+    ), [
+        strings.searchFieldReportTableDate,
+        strings.searchFieldReportTableType,
+        strings.searchFieldReportTableTitle,
+    ]);
+
     const columnMap = useMemo(
         () => ({
             reports: {
-                columns: getFieldReportColumns(strings),
+                columns: getFieldReportColumns,
                 keySelector: (item: FieldReportResult) => item.id,
                 data: searchResponse?.reports as FieldReportResult[],
             },
             emergencies: {
-                columns: getEmergencyColumns(
-                    strings,
-                ),
+                columns: getEmergencyColumns,
                 keySelector: (item: EmergencyResult) => item.id,
                 data: searchResponse?.emergencies as EmergencyResult[],
             },
             projects: {
-                columns: getProjectColumns(
-                    strings,
-                ),
+                columns: getProjectColumns,
                 keySelector: (item: ProjectResult) => item.id,
                 data: searchResponse?.projects,
             },
             rapid_response_deployments: {
-                columns: getRapidResponseDeploymentColumns(
-                    strings,
-                ),
+                columns: getRapidResponseDeploymentColumns,
                 keySelector: (item: RapidResponseDeploymentResult) => item.id,
                 data: searchResponse?.rapid_response_deployments,
             },
             surge_alerts: {
-                columns: getSurgeAlertColumns(strings),
+                columns: getSurgeAlertColumns,
                 keySelector: (item: SurgeAlertResult) => item.id,
                 data: searchResponse?.surge_alerts,
             },
             surge_deployments: {
-                columns: getSurgeDeploymentColumns(
-                    strings,
-                ),
+                columns: getSurgeDeploymentColumns,
                 keySelector: (item: SurgeDeploymentResult) => item.id,
                 data: searchResponse?.surge_deployments,
             },
         }),
-        [strings, searchResponse],
+        [
+            getFieldReportColumns,
+            getProjectColumns,
+            getRapidResponseDeploymentColumns,
+            getSurgeAlertColumns,
+            getSurgeDeploymentColumns,
+            searchResponse,
+            getEmergencyColumns,
+        ],
     );
 
     return columnMap;

@@ -53,7 +53,7 @@ export default function RapidResponsePersonnelTable(props: Props) {
             return strings.rapidResponse;
         }
         return type.toUpperCase();
-    }, [strings]);
+    }, [strings.rapidResponse]);
 
     const {
         response: personnelResponse,

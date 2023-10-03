@@ -66,7 +66,7 @@ export function Component() {
             return strings.rapidResponse;
         }
         return type.toUpperCase();
-    }, [strings]);
+    }, [strings.rapidResponse]);
 
     const query = useMemo(() => ({
         limit,
