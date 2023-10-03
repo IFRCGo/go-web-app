@@ -26,7 +26,6 @@ import Tabs from '#components/Tabs';
 import TabList from '#components/Tabs/TabList';
 import TabPanel from '#components/Tabs/TabPanel';
 import Button from '#components/Button';
-import RawFileInput from '#components/RawFileInput';
 import NonFieldError from '#components/NonFieldError';
 import Message from '#components/Message';
 import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage';
@@ -60,7 +59,6 @@ import {
     TYPE_LOAN,
     type TypeOfDrefEnum,
 } from './common';
-import { getImportData } from './import';
 import Overview from './Overview';
 import EventDetail from './EventDetail';
 import Actions from './Actions';
@@ -434,22 +432,6 @@ export function Component() {
         [handleFormSubmit],
     );
 
-    const handleImport = useCallback(
-        async (importFile: File | undefined) => {
-            if (isNotDefined(importFile)) {
-                return;
-            }
-
-            const formValues = await getImportData(importFile);
-
-            // eslint-disable-next-line no-console
-            console.info(formValues);
-
-            // TODO: set form values from import
-        },
-        [],
-    );
-
     const handleTabChange = useCallback((newTab: TabKeys) => {
         formContentRef.current?.scrollIntoView();
         setActiveTab(newTab);
@@ -489,16 +471,7 @@ export function Component() {
                 className={styles.drefApplicationForm}
                 title={strings.formPageTitle}
                 heading={strings.formPageHeading}
-                actions={isFalsyString(drefId) ? (
-                    <RawFileInput
-                        name={undefined}
-                        onChange={handleImport}
-                        disabled
-                        // disabled={disabled || shouldHideForm}
-                    >
-                        {strings.formImportFromDocument}
-                    </RawFileInput>
-                ) : (
+                actions={isDefined(drefId) && (
                     <Button
                         name={undefined}
                         onClick={handleShareClick}
