@@ -87,7 +87,7 @@ interface Props {
 
     fieldReportOptions: FieldReportSearchItem[] | null | undefined;
     setFieldReportOptions: Dispatch<SetStateAction<FieldReportSearchItem[] | null | undefined>>;
-    selectedUsers?: User[];
+    drefUsers?: User[] | null;
 }
 
 const userKeySelector = (item: User) => item.id;
@@ -104,7 +104,7 @@ function Overview(props: Props) {
         setDistrictOptions,
         fieldReportOptions,
         setFieldReportOptions,
-        selectedUsers,
+        drefUsers,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -173,15 +173,16 @@ function Overview(props: Props) {
                 <InputSection
                     title={strings.drefShareApplicationLabel}
                     description={strings.drefShareApplicationDescription}
-                    numPreferredColumns={2}
+                    numPreferredColumns={1}
                 >
                     <List
                         className={styles.userList}
                         messageClassName={styles.message}
-                        data={selectedUsers}
+                        data={drefUsers}
                         renderer={UserItem}
                         keySelector={userKeySelector}
                         rendererParams={userRendererParams}
+                        emptyMessage={strings.userListEmptyMessage}
                         errored={false}
                         filtered={false}
                         pending={false}

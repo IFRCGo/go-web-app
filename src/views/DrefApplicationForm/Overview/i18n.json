@@ -2,8 +2,8 @@
     "namespace": "drefApplicationForm",
     "strings": {
         "drefFormSharingHeading": "Sharing",
-        "drefShareApplicationLabel": "Share the DREF Application with other Users",
-        "drefShareApplicationDescription": "The users will be able to view, edit and add other users",
+        "drefShareApplicationLabel": "The DREF Application is shared with",
+        "drefShareApplicationDescription": "The users will be able to view, edit and add other users.",
         "drefFormInstantShareLabel": "Share",
         "drefFormEssentialInformation": "Essential Information",
         "drefFormNationalSociety": "Name of National Society",
@@ -41,6 +41,7 @@
         "drefFormUploadCoverImage": "Cover image",
         "drefFormUploadCoverImageDescription": "Upload a image for the cover page of the publicly published DREF application.",
         "drefFormDrefTypeTitle": "DREF Type",
-        "drefFormClickEmergencyResponseFramework": "Click to view Emergency Response Framework"
+        "drefFormClickEmergencyResponseFramework": "Click to view Emergency Response Framework",
+        "userListEmptyMessage": "The DREF Application is not shared with anyone."
     }
 }

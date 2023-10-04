@@ -3,7 +3,6 @@ import {
     useCallback,
     useRef,
     type ElementRef,
-    useMemo,
 } from 'react';
 import {
     useParams,
@@ -104,8 +103,7 @@ export function Component() {
 
     const [activeTab, setActiveTab] = useState<TabKeys>('overview');
     const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
-    const [userOptions, setUserOptions] = useInputState<User[] | undefined | null>([]);
-    const [users, setUsers] = useInputState<number[]>([]);
+    const [drefUsers, setDrefUsers] = useInputState<User[] | undefined | null>([]);
     const [districtOptions, setDistrictOptions] = useState<
         DistrictItem[] | undefined | null
     >([]);
@@ -332,11 +330,7 @@ export function Component() {
         url: '/api/v2/dref-share-user/{id}/',
         pathVariables: { id: Number(drefId) },
         onSuccess: (response) => {
-            if (isDefined(response.users)) {
-                setUsers(response.users);
-            }
-
-            setUserOptions(response.users_details);
+            setDrefUsers(response.users_details);
         },
     });
 
@@ -380,10 +374,6 @@ export function Component() {
         getDrefUsers,
         setShowShareModalFalse,
     ]);
-
-    const selectedUsers = useMemo(() => (
-        userOptions?.filter((user) => users.includes(user.id))
-    ), [userOptions, users]);
 
     const nextStep = getNextStep(activeTab, 1);
     const prevStep = getNextStep(activeTab, -1);
@@ -504,7 +494,7 @@ export function Component() {
                                 setFileIdToUrlMap={setFileIdToUrlMap}
                                 error={formError}
                                 disabled={disabled}
-                                selectedUsers={selectedUsers}
+                                drefUsers={drefUsers}
                                 districtOptions={districtOptions}
                                 setDistrictOptions={setDistrictOptions}
                             />

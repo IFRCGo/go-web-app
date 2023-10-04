@@ -3,7 +3,6 @@ import {
     useCallback,
     useRef,
     type ElementRef,
-    useMemo,
 } from 'react';
 import {
     useParams,
@@ -128,8 +127,7 @@ export function Component() {
 
     const [activeTab, setActiveTab] = useState<TabKeys>('overview');
     const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
-    const [userOptions, setUserOptions] = useInputState<User[] | undefined | null>([]);
-    const [users, setUsers] = useInputState<number[]>([]);
+    const [drefUsers, setDrefUsers] = useInputState<User[] | undefined | null>([]);
     const currentLanguage = useCurrentLanguage();
 
     const [
@@ -418,11 +416,7 @@ export function Component() {
         url: '/api/v2/dref-share-user/{id}/',
         pathVariables: { id: Number(drefId) },
         onSuccess: (response) => {
-            if (isDefined(response.users)) {
-                setUsers(response.users);
-            }
-
-            setUserOptions(response.users_details);
+            setDrefUsers(response.users_details);
         },
     });
 
@@ -487,10 +481,6 @@ export function Component() {
         getDrefUsers,
         setShowShareModalFalse,
     ]);
-
-    const selectedUsers = useMemo(() => (
-        userOptions?.filter((user) => users.includes(user.id))
-    ), [userOptions, users]);
 
     const nextStep = getNextStep(activeTab, 1, value.type_of_dref);
     const prevStep = getNextStep(activeTab, -1, value.type_of_dref);
@@ -623,7 +613,7 @@ export function Component() {
                                 setDistrictOptions={setDistrictOptions}
                                 fieldReportOptions={fieldReportOptions}
                                 setFieldReportOptions={setFieldReportOptions}
-                                selectedUsers={selectedUsers}
+                                drefUsers={drefUsers}
                             />
                         </TabPanel>
                         <TabPanel name="eventDetail">

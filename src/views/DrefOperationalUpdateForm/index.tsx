@@ -122,8 +122,7 @@ export function Component() {
 
     const [activeTab, setActiveTab] = useState<TabKeys>('overview');
     const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
-    const [userOptions, setUserOptions] = useInputState<User[] | undefined | null>([]);
-    const [users, setUsers] = useInputState<number[]>([]);
+    const [drefUsers, setDrefUsers] = useInputState<User[] | undefined | null>([]);
     const [
         showObsoletePayloadModal,
         setShowObsoletePayloadModal,
@@ -422,11 +421,7 @@ export function Component() {
         url: '/api/v2/dref-share-user/{id}/',
         pathVariables: { id: Number(drefId) },
         onSuccess: (response) => {
-            if (isDefined(response.users)) {
-                setUsers(response.users);
-            }
-
-            setUserOptions(response.users_details);
+            setDrefUsers(response.users_details);
         },
     });
 
@@ -597,10 +592,6 @@ export function Component() {
         setShowShareModalFalse,
     ]);
 
-    const selectedUsers = useMemo(() => (
-        userOptions?.filter((user) => users.includes(user.id))
-    ), [userOptions, users]);
-
     const hasAnyWarning = isTruthyString(peopleTargetedWarning)
         || isTruthyString(operationTimeframeWarning)
         || isTruthyString(budgetWarning)
@@ -757,7 +748,7 @@ export function Component() {
                                 error={formError}
                                 disabled={disabled}
                                 districtOptions={districtOptions}
-                                selectedUsers={selectedUsers}
+                                drefUsers={drefUsers}
                                 setDistrictOptions={setDistrictOptions}
                             />
                         </TabPanel>

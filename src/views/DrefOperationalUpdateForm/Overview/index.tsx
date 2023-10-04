@@ -86,7 +86,7 @@ interface Props {
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
     districtOptions: DistrictItem[] | null | undefined;
     setDistrictOptions: Dispatch<SetStateAction<DistrictItem[] | null | undefined>>;
-    selectedUsers?: User[];
+    drefUsers?: User[] | null;
 }
 
 function Overview(props: Props) {
@@ -99,7 +99,7 @@ function Overview(props: Props) {
         disabled,
         districtOptions,
         setDistrictOptions,
-        selectedUsers,
+        drefUsers,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -191,15 +191,16 @@ function Overview(props: Props) {
                 <InputSection
                     title={strings.drefOperationalShareApplicationLabel}
                     description={strings.drefOperationalShareApplicationDescription}
-                    numPreferredColumns={2}
+                    numPreferredColumns={1}
                 >
                     <List
                         className={styles.userList}
                         messageClassName={styles.message}
-                        data={selectedUsers}
+                        data={drefUsers}
                         renderer={UserItem}
                         keySelector={userKeySelector}
                         rendererParams={userRendererParams}
+                        emptyMessage={strings.userListEmptyMessage}
                         errored={false}
                         filtered={false}
                         pending={false}
