@@ -160,6 +160,14 @@ function InterventionInput(props: Props) {
                 disabled={disabled}
                 autoBullets
             />
+            <TextArea
+                label={strings.drefOperationalUpdateProgressTowardsOutcome}
+                name="progress_towards_outcome"
+                value={value.progress_towards_outcome}
+                onChange={onFieldChange}
+                error={error?.progress_towards_outcome}
+                disabled={disabled}
+            />
             <Container
                 heading={strings.drefFormIndicatorsLabel}
                 headingLevel={5}
@@ -194,14 +202,6 @@ function InterventionInput(props: Props) {
                     </div>
                 )}
             </Container>
-            <TextArea
-                label={strings.drefOperationalUpdateProgressTowardsOutcome}
-                name="progress_towards_outcome"
-                value={value.progress_towards_outcome}
-                onChange={onFieldChange}
-                error={error?.progress_towards_outcome}
-                disabled={disabled}
-            />
         </InputSection>
     );
 }

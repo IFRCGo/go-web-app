@@ -297,7 +297,7 @@ function Overview(props: Props) {
                 </div>
             </InputSection>
             <InputSection
-                withoutTitleSection
+                title={strings.numericDetails}
                 numPreferredColumns={2}
             >
                 <NumberInput
