@@ -466,7 +466,7 @@ export function Component() {
             )}
             {hasPrevAssessments && (
                 <Container
-                    heading={strings.previousPerAssessmentHeading}
+                    heading={strings.NSResponseHeading}
                     withHeaderBorder
                 >
                     <PreviousAssessmentCharts

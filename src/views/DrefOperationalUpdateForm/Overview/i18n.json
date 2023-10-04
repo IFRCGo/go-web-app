@@ -3,6 +3,8 @@
     "strings": {
 
         "drefOperationalUpdateNumber": "Operational Update Number",
+        "drefOperationalShareApplicationLabel": "Share the DREF Application with other Users",
+        "drefOperationalShareApplicationDescription": "The users will be able to view, edit and add other users",
         "drefOperationalUpdateAllocationSoFar": "Budget Allocated so far",
         "drefOperationalUpdateAdditionalAllocationRequested": "Additional Allocation Requested",
         "drefOperationalUpdateTotalAllocation": "Total DREF Allocation",

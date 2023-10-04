@@ -2,7 +2,9 @@
     "namespace": "drefApplicationForm",
     "strings": {
         "drefFormSharingHeading": "Sharing",
-        "drefFormInstantShareLabel": "Create & Share",
+        "drefShareApplicationLabel": "Share the DREF Application with other Users",
+        "drefShareApplicationDescription": "The users will be able to view, edit and add other users",
+        "drefFormInstantShareLabel": "Share",
         "drefFormEssentialInformation": "Essential Information",
         "drefFormNationalSociety": "Name of National Society",
         "drefFormTypeOfDref": "Type of DREF",

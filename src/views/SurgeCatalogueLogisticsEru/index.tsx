@@ -73,7 +73,6 @@ export function Component() {
                 <div>{strings.logisticsEmergencyServicesDescription}</div>
                 <ul>
                     <li>{strings.logisticsEmergencyServicesItemOne}</li>
-                    <li>{strings.logisticsEmergencyServicesItemTwo}</li>
                     <li>{strings.logisticsEmergencyServicesItemThree}</li>
                     <li>{strings.logisticsEmergencyServicesItemFour}</li>
                 </ul>

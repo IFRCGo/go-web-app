@@ -26,11 +26,6 @@
             .top-rated-component {
                 border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
             }
-
-            .icon {
-                color: var(--go-ui-color-green);
-                font-size: var(--go-ui-height-icon-multiplier);
-            }
         }
 
         .priority-components-content {

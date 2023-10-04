@@ -4,7 +4,6 @@ import {
     isNotDefined,
     compareNumber,
 } from '@togglecorp/fujs';
-import { CheckboxFillIcon } from '@ifrc-go/icons';
 
 import Container from '#components/Container';
 import Message from '#components/Message';
@@ -149,11 +148,7 @@ function PublicCountryPreparedness(props: Props) {
                             <Container
                                 key={component.details.id}
                                 className={styles.topRatedComponent}
-                                heading={component.rating?.title}
-                                headingLevel={5}
-                                withHeaderBorder
                                 withInternalPadding
-                                icons={<CheckboxFillIcon className={styles.icon} />}
                                 withoutWrapInHeading
                                 spacing="cozy"
                             >

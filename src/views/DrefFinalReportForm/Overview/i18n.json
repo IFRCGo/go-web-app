@@ -2,6 +2,8 @@
     "namespace": "drefFinalReportForm",
     "strings": {
         "finalReportMainDonor": "Main Donors",
+        "drefOperationalShareApplicationLabel": "Share the DREF Application with other Users",
+        "drefOperationalShareApplicationDescription": "The users will be able to view, edit and add other users",
         "finalReportTotalAllocation": "Total DREF Allocation",
         "finalReportPeopleTargeted": "Number of people targeted",
         "drefFormSharingHeading": "Sharing",
