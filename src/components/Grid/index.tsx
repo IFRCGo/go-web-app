@@ -3,23 +3,14 @@ import { _cs, isNotDefined } from '@togglecorp/fujs';
 
 import Message from '#components/Message';
 import RawList, { type Props as RawListProps, type ListKey } from '#components/RawList';
-import type { SpacingType } from '#components/types';
 import useTranslation from '#hooks/useTranslation';
+import { type SpacingType } from '#components/types';
+import useSpacingTokens from '#hooks/useSpacingTokens';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type NumColumn = 2 | 3 | 4 | 5;
-const spacingTypeToClassNameMap: Record<SpacingType, string> = {
-    none: styles.noSpacing,
-    condensed: styles.condensedSpacing,
-    compact: styles.compactSpacing,
-    cozy: styles.cozySpacing,
-    default: styles.defaultSpacing,
-    comfortable: styles.comfortableSpacing,
-    relaxed: styles.relaxedSpacing,
-    loose: styles.looseSpacing,
-};
 
 export interface Props<
     DATUM,
@@ -93,6 +84,8 @@ function Grid<DATUM, KEY extends ListKey, RENDERER_PROPS>(
         [pending, filtered, errored, errorMessage, pendingMessage, filteredMessage, emptyMessage],
     );
 
+    const gapSpacing = useSpacingTokens({ spacing });
+
     return (
         <div
             className={_cs(
@@ -101,7 +94,7 @@ function Grid<DATUM, KEY extends ListKey, RENDERER_PROPS>(
                 numPreferredColumns === 3 && styles.threeColumns,
                 numPreferredColumns === 4 && styles.fourColumns,
                 numPreferredColumns === 5 && styles.fiveColumns,
-                spacingTypeToClassNameMap[spacing],
+                gapSpacing,
                 pending && styles.pending,
                 compact && styles.compact,
                 className,
