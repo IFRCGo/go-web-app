@@ -39,7 +39,14 @@ export function Component() {
                 caption: strings.healthEruHospitalImageSix,
             },
         ]),
-        [strings],
+        [
+            strings.healthEruHospitalImageOne,
+            strings.healthEruHospitalImageTwo,
+            strings.healthEruHospitalImageThree,
+            strings.healthEruHospitalImageFour,
+            strings.healthEruHospitalImageFive,
+            strings.healthEruHospitalImageSix,
+        ],
     );
 
     return (

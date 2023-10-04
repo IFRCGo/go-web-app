@@ -29,7 +29,12 @@ export function Component() {
                 caption: strings.assessmentCellImageFour,
             },
         ]),
-        [strings],
+        [
+            strings.assessmentCellImageOne,
+            strings.assessmentCellImageTwo,
+            strings.assessmentCellImageThree,
+            strings.assessmentCellImageFour,
+        ],
     );
 
     return (

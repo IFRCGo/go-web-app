@@ -17,7 +17,9 @@ export function Component() {
                 caption: strings.communityCaseImageCaption,
             },
         ]),
-        [strings],
+        [
+            strings.communityCaseImageCaption,
+        ],
     );
 
     return (

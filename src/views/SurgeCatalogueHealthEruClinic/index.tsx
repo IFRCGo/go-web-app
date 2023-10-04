@@ -29,7 +29,12 @@ export function Component() {
                 caption: strings.healthEruClinicImageFour,
             },
         ]),
-        [strings],
+        [
+            strings.healthEruClinicImageOne,
+            strings.healthEruClinicImageTwo,
+            strings.healthEruClinicImageThree,
+            strings.healthEruClinicImageFour,
+        ],
     );
 
     return (

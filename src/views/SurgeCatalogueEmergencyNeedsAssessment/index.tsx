@@ -36,7 +36,12 @@ export function Component() {
             external: true,
             withLinkIcon: true,
         },
-    ]), [strings]);
+    ]), [
+        strings.assessmentCoordinator,
+        strings.informationAnalysisOfficer,
+        strings.primaryDataCollectionOfficer,
+        strings.mappingAndVisualizationOfficer,
+    ]);
 
     const technicalCompetencyFrameworkInfo: LinkData[] = useMemo(() => ([
         {
@@ -45,7 +50,9 @@ export function Component() {
             external: true,
             withLinkIcon: true,
         },
-    ]), [strings]);
+    ]), [
+        strings.technicalCompetencyFrameworkAssesment,
+    ]);
 
     const assessmentCellInfo: LinkData[] = useMemo(() => ([
         {
@@ -53,7 +60,9 @@ export function Component() {
             to: 'surgeCatalogueEmergencyNeedsAssessmentCell',
             withLinkIcon: true,
         },
-    ]), [strings]);
+    ]), [
+        strings.assessmentCell,
+    ]);
 
     const assessmentAndPlanningInfo: LinkData[] = useMemo(() => ([
         {
@@ -62,7 +71,9 @@ export function Component() {
             external: true,
             withLinkIcon: true,
         },
-    ]), [strings]);
+    ]), [
+        strings.fedNet,
+    ]);
 
     return (
         <SurgeCatalogueContainer

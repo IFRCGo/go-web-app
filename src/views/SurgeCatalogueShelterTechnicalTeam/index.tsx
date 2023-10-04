@@ -56,7 +56,18 @@ export function Component() {
                 caption: strings.shelterImageTenCaption,
             },
         ]),
-        [strings],
+        [
+            strings.shelterImageOneCaption,
+            strings.shelterImageTwoCaption,
+            strings.shelterImageThreeCaption,
+            strings.shelterImageFourCaption,
+            strings.shelterImageFiveCaption,
+            strings.shelterImageSixCaption,
+            strings.shelterImageSevenCaption,
+            strings.shelterImageEightCaption,
+            strings.shelterImageNineCaption,
+            strings.shelterImageTenCaption,
+        ],
     );
 
     return (

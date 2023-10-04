@@ -42,7 +42,15 @@ export function Component() {
                 caption: strings.washImageSevenCaption,
             },
         ]),
-        [strings],
+        [
+            strings.washImageOneCaption,
+            strings.washImageTwoCaption,
+            strings.washImageThreeCaption,
+            strings.washImageFourCaption,
+            strings.washImageFiveCaption,
+            strings.washImageSixCaption,
+            strings.washImageSevenCaption,
+        ],
     );
 
     return (

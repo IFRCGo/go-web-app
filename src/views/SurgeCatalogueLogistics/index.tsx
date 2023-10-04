@@ -112,7 +112,9 @@ export function Component() {
             external: true,
             withLinkIcon: true,
         },
-    ]), [strings]);
+    ]), [
+        strings.catalogueLogisticsStandardTitle,
+    ]);
 
     const standardsProducts: LinkData[] = useMemo(() => ([
         {
@@ -121,7 +123,9 @@ export function Component() {
             external: true,
             withLinkIcon: true,
         },
-    ]), [strings]);
+    ]), [
+        strings.catalogueLogisticsStandardProductsDetailLink,
+    ]);
 
     return (
         <SurgeCatalogueContainer

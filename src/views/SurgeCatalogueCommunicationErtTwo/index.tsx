@@ -26,7 +26,11 @@ export function Component() {
                 caption: strings.communicationErtTwoImageThree,
             },
         ]),
-        [strings],
+        [
+            strings.communicationErtTwoImageOne,
+            strings.communicationErtTwoImageTwo,
+            strings.communicationErtTwoImageThree,
+        ],
     );
 
     return (

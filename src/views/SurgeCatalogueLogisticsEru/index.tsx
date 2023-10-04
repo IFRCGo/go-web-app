@@ -53,7 +53,14 @@ export function Component() {
                 caption: strings.logisticsEmergencyImageElevenCaption,
             },
         ]),
-        [strings],
+        [
+            strings.logisticsEmergencyImageOneCaption,
+            strings.logisticsEmergencyImageTwoCaption,
+            strings.logisticsEmergencyImageThreeCaption,
+            strings.logisticsEmergencyImageNineCaption,
+            strings.logisticsEmergencyImageTenCaption,
+            strings.logisticsEmergencyImageElevenCaption,
+        ],
     );
 
     return (
