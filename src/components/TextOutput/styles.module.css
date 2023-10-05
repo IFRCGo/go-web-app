@@ -4,16 +4,12 @@
     gap: 0 var(--go-ui-spacing-sm);
 
     .label {
-        display: inline-flex;
-
         &.with-colon::after {
             content: ':';
         }
     }
 
     .value {
-        display: inline-flex;
-
         &.text-type {
             text-align: justify;
             white-space: pre-wrap;
