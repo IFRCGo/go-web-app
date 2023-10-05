@@ -45,6 +45,7 @@
         "drefFormUploadCoverImageDescription": "Upload a image for the cover page of the publicly published DREF application.",
         "drefFormDrefTypeTitle": "DREF Type",
         "drefFormClickEmergencyResponseFramework": "Click to view Emergency Response Framework",
-        "userListEmptyMessage": "The DREF Operational Update is not shared with anyone."
+        "userListEmptyMessage": "The DREF Operational Update is not shared with anyone.",
+        "numericDetails": "Numeric Details"
     }
 }
