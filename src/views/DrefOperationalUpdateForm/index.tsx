@@ -8,7 +8,10 @@ import {
 import {
     useParams,
 } from 'react-router-dom';
-import { ErrorWarningFillIcon } from '@ifrc-go/icons';
+import {
+    ErrorWarningFillIcon,
+    DownloadTwoLineIcon,
+} from '@ifrc-go/icons';
 import {
     useForm,
     removeNull,
@@ -32,6 +35,7 @@ import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectI
 import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage';
 import { type Props as ButtonProps } from '#components/Button';
 import DrefShareModal from '#components/domain/DrefShareModal';
+import DrefExportModal from '#components/domain/DrefExportModal';
 import {
     useRequest,
     useLazyRequest,
@@ -127,6 +131,10 @@ export function Component() {
     const [showShareModal, {
         setTrue: setShowShareModalTrue,
         setFalse: setShowShareModalFalse,
+    }] = useBooleanState(false);
+    const [showExportModal, {
+        setTrue: setShowExportModalTrue,
+        setFalse: setShowExportModalFalse,
     }] = useBooleanState(false);
     const lastModifiedAtRef = useRef<string | undefined>();
 
@@ -556,6 +564,12 @@ export function Component() {
         },
         [setShowShareModalTrue],
     );
+    const handleExportClick: NonNullable<ButtonProps<undefined>['onClick']> = useCallback(
+        () => {
+            setShowExportModalTrue();
+        },
+        [setShowExportModalTrue],
+    );
 
     const hasAnyWarning = isTruthyString(peopleTargetedWarning)
         || isTruthyString(operationTimeframeWarning)
@@ -587,13 +601,22 @@ export function Component() {
                 title={strings.formPageTitle}
                 heading={strings.formPageHeading}
                 actions={isTruthyString(opsUpdateId) && (
-                    <Button
-                        name={undefined}
-                        onClick={handleShareClick}
-                        disabled={isNotDefined(drefId)}
-                    >
-                        {strings.formShareButtonLabel}
-                    </Button>
+                    <>
+                        <Button
+                            name={undefined}
+                            onClick={handleShareClick}
+                            disabled={isNotDefined(drefId)}
+                        >
+                            {strings.formShareButtonLabel}
+                        </Button>
+                        <Button
+                            name={undefined}
+                            onClick={handleExportClick}
+                            icons={<DownloadTwoLineIcon />}
+                        >
+                            {strings.formExportLabel}
+                        </Button>
+                    </>
                 )}
                 info={!shouldHideForm && (
                     <TabList className={styles.tabList}>
@@ -786,6 +809,13 @@ export function Component() {
                         onCancel={setShowShareModalFalse}
                         onSuccess={setShowShareModalFalse}
                         drefId={drefId}
+                    />
+                )}
+                {showExportModal && isDefined(drefId) && (
+                    <DrefExportModal
+                        onCancel={setShowExportModalFalse}
+                        id={Number(drefId)}
+                        applicationType="DREF"
                     />
                 )}
             </Page>

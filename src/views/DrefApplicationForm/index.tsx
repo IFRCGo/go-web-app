@@ -17,6 +17,9 @@ import {
     isNotDefined,
     isTruthyString,
 } from '@togglecorp/fujs';
+import {
+    DownloadTwoLineIcon,
+} from '@ifrc-go/icons';
 
 import { type FieldReportItem as FieldReportSearchItem } from '#components/domain/FieldReportSearchSelectInput';
 import useRouting from '#hooks/useRouting';
@@ -34,6 +37,7 @@ import NonEnglishFormCreationMessage from '#components/domain/NonEnglishFormCrea
 import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import { type Props as ButtonProps } from '#components/Button';
 import DrefShareModal from '#components/domain/DrefShareModal';
+import DrefExportModal from '#components/domain/DrefExportModal';
 import {
     useRequest,
     useLazyRequest,
@@ -129,6 +133,10 @@ export function Component() {
     const [showShareModal, {
         setTrue: setShowShareModalTrue,
         setFalse: setShowShareModalFalse,
+    }] = useBooleanState(false);
+    const [showExportModal, {
+        setTrue: setShowExportModalTrue,
+        setFalse: setShowExportModalFalse,
     }] = useBooleanState(false);
     const lastModifiedAtRef = useRef<string | undefined>();
 
@@ -444,6 +452,13 @@ export function Component() {
         [setShowShareModalTrue],
     );
 
+    const handleExportClick: NonNullable<ButtonProps<undefined>['onClick']> = useCallback(
+        () => {
+            setShowExportModalTrue();
+        },
+        [setShowExportModalTrue],
+    );
+
     const nextStep = getNextStep(activeTab, 1, value.type_of_dref);
     const prevStep = getNextStep(activeTab, -1, value.type_of_dref);
     const saveDrefPending = createDrefPending || updateDrefPending;
@@ -472,12 +487,21 @@ export function Component() {
                 title={strings.formPageTitle}
                 heading={strings.formPageHeading}
                 actions={isDefined(drefId) && (
-                    <Button
-                        name={undefined}
-                        onClick={handleShareClick}
-                    >
-                        {strings.formShareButtonLabel}
-                    </Button>
+                    <>
+                        <Button
+                            name={undefined}
+                            onClick={handleShareClick}
+                        >
+                            {strings.formShareButtonLabel}
+                        </Button>
+                        <Button
+                            name={undefined}
+                            onClick={handleExportClick}
+                            icons={<DownloadTwoLineIcon />}
+                        >
+                            {strings.formExportLabel}
+                        </Button>
+                    </>
                 )}
                 info={!shouldHideForm && (
                     <TabList className={styles.tabList}>
@@ -647,6 +671,13 @@ export function Component() {
                         onCancel={setShowShareModalFalse}
                         onSuccess={setShowShareModalFalse}
                         drefId={Number(drefId)}
+                    />
+                )}
+                {showExportModal && (
+                    <DrefExportModal
+                        onCancel={setShowExportModalFalse}
+                        id={Number(drefId)}
+                        applicationType="DREF"
                     />
                 )}
             </Page>
