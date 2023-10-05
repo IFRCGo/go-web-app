@@ -238,6 +238,8 @@ export function Component() {
                     { params: { perId: response.id } },
                 );
             }
+            // Move the page position to top when moving on to next step
+            window.scrollTo(0, 0);
         },
         onFailure: ({
             value: {
