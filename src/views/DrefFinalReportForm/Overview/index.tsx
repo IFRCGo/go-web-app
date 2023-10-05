@@ -333,7 +333,7 @@ function Overview(props: Props) {
                     </div>
                 </InputSection>
                 <InputSection
-                    withoutTitleSection
+                    title={strings.numericDetails}
                     numPreferredColumns={2}
                 >
                     <NumberInput
@@ -404,7 +404,7 @@ function Overview(props: Props) {
                             <>
                                 {strings.finalReportPeopleTargeted}
                                 <Link
-                                    title={strings.drefFinalReportEmergencyResponseFramework}
+                                    title={strings.odrefFormClickEmergencyResponseFramework}
                                     href={peopleTargetedLink}
                                     external
                                 >

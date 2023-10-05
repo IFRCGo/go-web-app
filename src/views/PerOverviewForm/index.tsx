@@ -260,7 +260,6 @@ export function Component() {
 
     const handleSubmit = useCallback(
         (formValues: PartialOverviewFormFields) => {
-            formContentRef.current?.scrollIntoView();
             if (isDefined(perId)) {
                 updatePerOverview({
                     ...formValues,
@@ -278,7 +277,6 @@ export function Component() {
 
     const handleFinalSubmit = useCallback(
         (formValues: PartialOverviewFormFields) => {
-            formContentRef.current?.scrollIntoView();
             if (isDefined(perId)) {
                 updatePerOverview({
                     ...formValues,
@@ -295,7 +293,7 @@ export function Component() {
     );
 
     const handleFormError = useCallback(() => {
-        formContentRef.current?.scrollIntoView();
+        setTimeout(() => formContentRef.current?.scrollIntoView(), 200);
     }, []);
 
     const handleSetupPerProcess = useCallback(() => {
