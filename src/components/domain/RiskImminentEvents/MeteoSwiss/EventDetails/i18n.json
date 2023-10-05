@@ -2,12 +2,13 @@
     "namespace": "common",
     "strings": {
         "meteoSwissEconomicLossLabel": "Wind related direct economic damage",
-        "meteoSwissExposureLabel": "Estimated people exposed to windspeed above {windspeed}m/s",
+        "meteoSwissExposureLabel": "Estimated people exposed to windspeed above {windspeed}m/s. ({saffirSimpsonScale})",
         "meteoSwissimpactHeading": "Impact in all affected countries",
         "meteoSwissEstimatesNote": "These impact estimates are derived from a model and come with very high uncertainty. More information will be added soon.",
         "meteoSwissEventDescription": "{model} has forecasted a tropical cyclone on {updatedAt}. The tropical cyclone named {eventName} is forecasted to impact {countryName} from {eventDate}.",
-        "meteoSwissAuthoritativeMessage": "Please also consider {link}",
+        "meteoSwissAuthoritativeMessage": "Please also consider {link} and classification of {classificationLink}.",
         "meteoSwissAuthoritativeLinkLabel": "authoritative information about the hazard",
+        "meteoSwissTropicalStorm": "tropical storm",
         "meteoSwissEventDetailsStartedOnLabel": "Started on",
         "meteoSwissEventDetailsUpdatedAtLabel": "Updated at",
         "meteoSwissHazardName": "{hazardType} - {hazardName}",
@@ -15,6 +16,12 @@
         "beta": "beta",
         "impactLabel": "{label} {beta}",
         "usd": "USD",
-        "people": "People"
+        "people": "People",
+        "tropicalStormDescription": "equivalent to tropical storm or above",
+        "categoryOneDescription": "equivalent to a category 1 hurricane or above",
+        "categoryTwoDescription": "equivalent to a category 2 hurricane or above",
+        "categoryThreeDescription": "equivalent to a category 3 hurricane or above",
+        "categoryFourDescription": "equivalent to a category 4 hurricane or above",
+        "categoryFiveDescription": "equivalent to a category 5 hurricane or above"
     }
 }
