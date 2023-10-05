@@ -36,7 +36,13 @@ export function Component() {
                 caption: strings.livelihoodImageFiveCaption,
             },
         ]),
-        [strings],
+        [
+            strings.livelihoodImageOneCaption,
+            strings.livelihoodImageTwoCaption,
+            strings.livelihoodImageThreeCaption,
+            strings.livelihoodImageFourCaption,
+            strings.livelihoodImageFiveCaption,
+        ],
     );
 
     return (

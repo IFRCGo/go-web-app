@@ -38,12 +38,14 @@ import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectI
 import { type Props as ButtonProps } from '#components/Button';
 import DrefShareModal from '#components/domain/DrefShareModal';
 import DrefExportModal from '#components/domain/DrefExportModal';
+import { type User } from '#components/domain/UserSearchMultiSelectInput';
 import {
     useRequest,
     useLazyRequest,
     type GoApiResponse,
 } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
+import useInputState from '#hooks/useInputState';
 import useAlert from '#hooks/useAlert';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 import useBooleanState from '#hooks/useBooleanState';
@@ -125,11 +127,14 @@ export function Component() {
 
     const [activeTab, setActiveTab] = useState<TabKeys>('overview');
     const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
+    const [drefUsers, setDrefUsers] = useInputState<User[] | undefined | null>([]);
+    const currentLanguage = useCurrentLanguage();
+
     const [
         showObsoletePayloadModal,
         setShowObsoletePayloadModal,
     ] = useState(false);
-    const currentLanguage = useCurrentLanguage();
+
     const [showShareModal, {
         setTrue: setShowShareModalTrue,
         setFalse: setShowShareModalFalse,
@@ -405,6 +410,16 @@ export function Component() {
         },
     });
 
+    const {
+        retrigger: getDrefUsers,
+    } = useRequest({
+        url: '/api/v2/dref-share-user/{id}/',
+        pathVariables: { id: Number(drefId) },
+        onSuccess: (response) => {
+            setDrefUsers(response.users_details);
+        },
+    });
+
     const handleFormSubmit = useCallback(
         (modifiedAt?: string) => {
             formContentRef.current?.scrollIntoView();
@@ -458,6 +473,14 @@ export function Component() {
         },
         [setShowExportModalTrue],
     );
+
+    const handleUserShareSuccess = useCallback(() => {
+        setShowShareModalFalse();
+        getDrefUsers();
+    }, [
+        getDrefUsers,
+        setShowShareModalFalse,
+    ]);
 
     const nextStep = getNextStep(activeTab, 1, value.type_of_dref);
     const prevStep = getNextStep(activeTab, -1, value.type_of_dref);
@@ -590,6 +613,7 @@ export function Component() {
                                 setDistrictOptions={setDistrictOptions}
                                 fieldReportOptions={fieldReportOptions}
                                 setFieldReportOptions={setFieldReportOptions}
+                                drefUsers={drefUsers}
                             />
                         </TabPanel>
                         <TabPanel name="eventDetail">
@@ -669,7 +693,7 @@ export function Component() {
                 {showShareModal && (
                     <DrefShareModal
                         onCancel={setShowShareModalFalse}
-                        onSuccess={setShowShareModalFalse}
+                        onSuccess={handleUserShareSuccess}
                         drefId={Number(drefId)}
                     />
                 )}

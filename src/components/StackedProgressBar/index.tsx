@@ -41,6 +41,7 @@ function StackedProgressBar<VALUE>(props: Props<VALUE>) {
                     const percentage = (100 * datum.value) / total;
                     return (
                         <div
+                            key={datum.color}
                             className={styles.barInfo}
                             style={{ width: `${percentage}%` }}
                         >

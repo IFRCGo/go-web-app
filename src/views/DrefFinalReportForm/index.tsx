@@ -33,6 +33,7 @@ import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage'
 import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import DrefShareModal from '#components/domain/DrefShareModal';
 import DrefExportModal from '#components/domain/DrefExportModal';
+import { type User } from '#components/domain/UserSearchMultiSelectInput';
 import {
     useRequest,
     useLazyRequest,
@@ -48,6 +49,7 @@ import {
     NUM,
 } from '#utils/restRequest/error';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
+import useInputState from '#hooks/useInputState';
 
 import finalReportSchema, {
     type FinalReportRequestBody,
@@ -101,6 +103,7 @@ export function Component() {
 
     const [activeTab, setActiveTab] = useState<TabKeys>('overview');
     const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
+    const [drefUsers, setDrefUsers] = useInputState<User[] | undefined | null>([]);
     const [districtOptions, setDistrictOptions] = useState<
         DistrictItem[] | undefined | null
     >([]);
@@ -321,6 +324,16 @@ export function Component() {
         },
     });
 
+    const {
+        retrigger: getDrefUsers,
+    } = useRequest({
+        url: '/api/v2/dref-share-user/{id}/',
+        pathVariables: { id: Number(drefId) },
+        onSuccess: (response) => {
+            setDrefUsers(response.users_details);
+        },
+    });
+
     const handleFormSubmit = useCallback(
         (modifiedAt?: string) => {
             formContentRef.current?.scrollIntoView();
@@ -353,6 +366,14 @@ export function Component() {
         formContentRef.current?.scrollIntoView();
         setActiveTab(newTab);
     }, []);
+
+    const handleUserShareSuccess = useCallback(() => {
+        setShowShareModalFalse();
+        getDrefUsers();
+    }, [
+        getDrefUsers,
+        setShowShareModalFalse,
+    ]);
 
     const nextStep = getNextStep(activeTab, 1);
     const prevStep = getNextStep(activeTab, -1);
@@ -473,6 +494,7 @@ export function Component() {
                                 setFileIdToUrlMap={setFileIdToUrlMap}
                                 error={formError}
                                 disabled={disabled}
+                                drefUsers={drefUsers}
                                 districtOptions={districtOptions}
                                 setDistrictOptions={setDistrictOptions}
                             />
@@ -552,7 +574,7 @@ export function Component() {
                 {showShareModal && isDefined(drefId) && (
                     <DrefShareModal
                         onCancel={setShowShareModalFalse}
-                        onSuccess={setShowShareModalFalse}
+                        onSuccess={handleUserShareSuccess}
                         drefId={drefId}
                     />
                 )}

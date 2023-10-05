@@ -54,7 +54,18 @@ export function Component() {
                 caption: strings.eruReliefImageCaptionTen,
             },
         ]),
-        [strings],
+        [
+            strings.eruReliefImageCaptionOne,
+            strings.eruReliefImageCaptionTwo,
+            strings.eruReliefImageCaptionThree,
+            strings.eruReliefImageCaptionFour,
+            strings.eruReliefImageCaptionFive,
+            strings.eruReliefImageCaptionSix,
+            strings.eruReliefImageCaptionSeven,
+            strings.eruReliefImageCaptionEight,
+            strings.eruReliefImageCaptionNine,
+            strings.eruReliefImageCaptionTen,
+        ],
     );
 
     return (

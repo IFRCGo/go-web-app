@@ -46,7 +46,16 @@ export function Component() {
                 caption: strings.washImageEightCaption,
             },
         ]),
-        [strings],
+        [
+            strings.washImageOneCaption,
+            strings.washImageTwoCaption,
+            strings.washImageThreeCaption,
+            strings.washImageFourCaption,
+            strings.washImageFiveCaption,
+            strings.washImageSixCaption,
+            strings.washImageSevenCaption,
+            strings.washImageEightCaption,
+        ],
     );
 
     return (

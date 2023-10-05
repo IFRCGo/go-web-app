@@ -34,7 +34,13 @@ export function Component() {
                 caption: strings.cashAndVoucherAssistanceImageFive,
             },
         ]),
-        [strings],
+        [
+            strings.cashAndVoucherAssistanceImageOne,
+            strings.cashAndVoucherAssistanceImageTwo,
+            strings.cashAndVoucherAssistanceImageThree,
+            strings.cashAndVoucherAssistanceImageFour,
+            strings.cashAndVoucherAssistanceImageFive,
+        ],
     );
 
     return (

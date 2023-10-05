@@ -16,6 +16,7 @@
 
         .top-rated-component-content {
             display: grid;
+            flex-grow: 0;
             grid-gap: var(--go-ui-spacing-md);
             grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
 
@@ -26,22 +27,12 @@
             .top-rated-component {
                 border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
             }
-
-            .icon {
-                color: var(--go-ui-color-green);
-                font-size: var(--go-ui-height-icon-multiplier);
-            }
         }
 
         .priority-components-content {
-            display: grid;
-            grid-gap: var(--go-ui-spacing-sm) var(--go-ui-spacing-xl);
-            grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
-
-            .separator {
-                grid-column: 1 / -1;
-                background-color: var(--go-ui-color-separator);
-                height: var(--go-ui-width-separator-thin);
+            .heading {
+                border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+                padding: var(--go-ui-spacing-sm);
             }
         }
     }

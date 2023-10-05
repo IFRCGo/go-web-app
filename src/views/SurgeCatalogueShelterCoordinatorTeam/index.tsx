@@ -32,7 +32,12 @@ export function Component() {
                 caption: strings.shelterImageFourCaption,
             },
         ]),
-        [strings],
+        [
+            strings.shelterImageOneCaption,
+            strings.shelterImageTwoCaption,
+            strings.shelterImageThreeCaption,
+            strings.shelterImageFourCaption,
+        ],
     );
 
     return (

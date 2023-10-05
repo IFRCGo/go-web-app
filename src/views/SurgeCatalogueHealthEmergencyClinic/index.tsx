@@ -22,7 +22,10 @@ export function Component() {
                 caption: strings.emergencyClinicMobileClinic,
             },
         ]),
-        [strings],
+        [
+            strings.emergencyClinicMobileDistributing,
+            strings.emergencyClinicMobileClinic,
+        ],
     );
 
     return (

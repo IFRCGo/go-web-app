@@ -34,7 +34,13 @@ export function Component() {
                 caption: strings.basecampEruSmallImageFive,
             },
         ]),
-        [strings],
+        [
+            strings.basecampEruSmallImageOne,
+            strings.basecampEruSmallImageTwo,
+            strings.basecampEruSmallImageThree,
+            strings.basecampEruSmallImageFour,
+            strings.basecampEruSmallImageFive,
+        ],
     );
 
     return (

@@ -34,6 +34,7 @@ import Message from '#components/Message';
 import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage';
 import { type Props as ButtonProps } from '#components/Button';
+import { type User } from '#components/domain/UserSearchMultiSelectInput';
 import DrefShareModal from '#components/domain/DrefShareModal';
 import DrefExportModal from '#components/domain/DrefExportModal';
 import {
@@ -51,6 +52,7 @@ import {
     NUM,
 } from '#utils/restRequest/error';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
+import useInputState from '#hooks/useInputState';
 
 import opsUpdateSchema, {
     type OpsUpdateRequestBody,
@@ -120,6 +122,7 @@ export function Component() {
 
     const [activeTab, setActiveTab] = useState<TabKeys>('overview');
     const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
+    const [drefUsers, setDrefUsers] = useInputState<User[] | undefined | null>([]);
     const [
         showObsoletePayloadModal,
         setShowObsoletePayloadModal,
@@ -412,6 +415,16 @@ export function Component() {
         },
     });
 
+    const {
+        retrigger: getDrefUsers,
+    } = useRequest({
+        url: '/api/v2/dref-share-user/{id}/',
+        pathVariables: { id: Number(drefId) },
+        onSuccess: (response) => {
+            setDrefUsers(response.users_details);
+        },
+    });
+
     const handleFormSubmit = useCallback(
         (modifiedAt?: string) => {
             formContentRef.current?.scrollIntoView();
@@ -571,6 +584,14 @@ export function Component() {
         [setShowExportModalTrue],
     );
 
+    const handleUserShareSuccess = useCallback(() => {
+        setShowShareModalFalse();
+        getDrefUsers();
+    }, [
+        getDrefUsers,
+        setShowShareModalFalse,
+    ]);
+
     const hasAnyWarning = isTruthyString(peopleTargetedWarning)
         || isTruthyString(operationTimeframeWarning)
         || isTruthyString(budgetWarning)
@@ -727,6 +748,7 @@ export function Component() {
                                 error={formError}
                                 disabled={disabled}
                                 districtOptions={districtOptions}
+                                drefUsers={drefUsers}
                                 setDistrictOptions={setDistrictOptions}
                             />
                         </TabPanel>
@@ -807,7 +829,7 @@ export function Component() {
                 {showShareModal && isDefined(drefId) && (
                     <DrefShareModal
                         onCancel={setShowShareModalFalse}
-                        onSuccess={setShowShareModalFalse}
+                        onSuccess={handleUserShareSuccess}
                         drefId={drefId}
                     />
                 )}

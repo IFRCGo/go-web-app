@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { _cs } from '@togglecorp/fujs';
 import { DeleteBinFillIcon } from '@ifrc-go/icons';
+import { _cs, isDefined } from '@togglecorp/fujs';
 
 import Button from '#components/Button';
 import useTranslation from '#hooks/useTranslation';
@@ -14,7 +14,7 @@ interface Props {
     className?: string;
     userId: number;
     user: User;
-    onUserRemove: (item: number) => void;
+    onUserRemove?: (item: number) => void;
 }
 
 function UserItem(props: Props) {
@@ -37,15 +37,17 @@ function UserItem(props: Props) {
             <div className={styles.name}>
                 {userName}
             </div>
-            <Button
-                name={userId}
-                className={styles.removeButton}
-                onClick={onUserRemove}
-                variant="tertiary"
-                title={strings.removeUser}
-            >
-                <DeleteBinFillIcon />
-            </Button>
+            {isDefined(onUserRemove) && (
+                <Button
+                    name={userId}
+                    className={styles.removeButton}
+                    onClick={onUserRemove}
+                    variant="tertiary"
+                    title={strings.removeUser}
+                >
+                    <DeleteBinFillIcon />
+                </Button>
+            )}
         </div>
     );
 }
