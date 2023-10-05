@@ -18,14 +18,16 @@ import Link from '#components/Link';
 import Modal from '#components/Modal';
 import Message from '#components/Message';
 import DrefShareModal from '#components/domain/DrefShareModal';
+import DrefExportModal from '#components/domain/DrefExportModal';
 import { type components } from '#generated/types';
 import useBooleanState from '#hooks/useBooleanState';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import { useLazyRequest } from '#utils/restRequest';
-import { DREF_STATUS_IN_PROGRESS } from '#utils/constants';
+import {
+    DREF_STATUS_IN_PROGRESS,
+} from '#utils/constants';
 
-import DrefExportModal from './DrefExportModal';
 import { exportDrefAllocation } from './drefAllocationExport';
 import i18n from './i18n.json';
 import styles from './styles.module.css';

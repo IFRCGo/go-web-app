@@ -1,5 +1,5 @@
 {
-    "namespace": "accountMyFormsDref",
+    "namespace": "common",
     "strings": {
         "drefExportTitle": "Export DREF",
         "drefPreparingExport": "Preparing for export...",
