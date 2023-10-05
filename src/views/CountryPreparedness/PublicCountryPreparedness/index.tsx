@@ -168,6 +168,7 @@ function PublicCountryPreparedness(props: Props) {
                         (priorityComponent) => (
                             <Fragment key={priorityComponent.id}>
                                 <Heading
+                                    className={styles.heading}
                                     level={5}
                                 >
                                     {resolveToString(strings.publicPriorityComponentHeading, {
@@ -176,7 +177,6 @@ function PublicCountryPreparedness(props: Props) {
                                         componentName: priorityComponent.label,
                                     })}
                                 </Heading>
-                                <div className={styles.separator} />
                             </Fragment>
                         ),
                     )}

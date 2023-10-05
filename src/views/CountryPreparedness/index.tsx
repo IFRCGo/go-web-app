@@ -491,7 +491,6 @@ export function Component() {
                                 withInternalPadding
                                 icons={<CheckboxFillIcon className={styles.icon} />}
                                 withoutWrapInHeading
-                                spacing="cozy"
                             >
                                 {component.details.title}
                             </Container>
@@ -501,17 +500,18 @@ export function Component() {
             )}
             {hasPriorityComponents && (
                 <Container
-                    className={styles.settingResults}
+                    className={styles.priorityComponents}
                     heading={strings.priorityComponentToBeStrengthenedHeading}
-                    childrenContainerClassName={styles.ratingResultsContent}
+                    childrenContainerClassName={styles.priorityComponentsContent}
                     withHeaderBorder
                 >
                     {prioritizationStats.componentsToBeStrengthened.map(
                         (priorityComponent) => (
-                            <Fragment
+                            <div
+                                className={styles.priorityComponent}
                                 key={priorityComponent.id}
                             >
-                                <Heading level={5}>
+                                <Heading level={5} className={styles.heading}>
                                     {resolveToString(strings.priorityComponentHeading, {
                                         componentNumber: priorityComponent.num,
                                         componentLetter: priorityComponent.letter,
@@ -523,8 +523,7 @@ export function Component() {
                                     value={priorityComponent.rating?.value}
                                     totalValue={5}
                                 />
-                                <div className={styles.separator} />
-                            </Fragment>
+                            </div>
                         ),
                     )}
                 </Container>

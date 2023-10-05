@@ -62,6 +62,7 @@
 
         .top-rated-component-content {
             display: grid;
+            flex-grow: 0;
             grid-gap: var(--go-ui-spacing-md);
             grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
 
@@ -71,6 +72,10 @@
 
             .top-rated-component {
                 border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+
+                .component-name {
+                    flex-grow: 0;
+                }
             }
 
             .icon {
@@ -79,20 +84,26 @@
             }
         }
 
-        .setting-results {
-            .rating-results-content {
-                display: grid;
-                grid-gap: var(--go-ui-spacing-sm) var(--go-ui-spacing-xl);
-                grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+        .priority-components {
+            .priority-components-content {
+                display: flex;
+                flex-direction: column;
+                gap: var(--go-ui-spacing-sm);
 
-                .progress-bar {
-                    justify-content: center;
-                }
+                .priority-component {
+                    display: flex;
+                    align-items: baseline;
+                    border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+                    gap: var(--go-ui-spacing-sm);
+                    padding: var(--go-ui-spacing-sm);
 
-                .separator {
-                    grid-column: 1 / -1;
-                    background-color: var(--go-ui-color-separator);
-                    height: var(--go-ui-width-separator-thin);
+                    .heading {
+                        flex-basis: 50%;
+                    }
+
+                    .progress-bar {
+                        flex-grow: 1;
+                    }
                 }
             }
         }
@@ -104,6 +115,7 @@
                 display: grid;
                 grid-gap: var(--go-ui-spacing-sm) var(--go-ui-spacing-xl);
                 grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+
 
                 .separator {
                     grid-column: 1 / -1;
