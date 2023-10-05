@@ -34,6 +34,7 @@ import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import {
     getPointCirclePaint,
     getPointCircleHaloPaint,
+    adminFillLayerOptions,
 } from '#utils/map';
 import {
     COLOR_RED,
@@ -91,7 +92,8 @@ interface GeoJsonProps {
 }
 
 interface ClickedPoint {
-    feature: GeoJSON.Feature<GeoJSON.Point, GeoJsonProps>;
+    countryId: number,
+    countryName: string;
     lngLat: mapboxgl.LngLatLike;
 }
 
@@ -217,8 +219,12 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
         setClickedPointProperties,
     ] = useState<ClickedPoint | undefined>();
 
+    const projectCountryId = projectList.find(
+        (project) => project.project_country === clickedPointProperties?.countryId,
+    );
+
     const clickedPointCountry = useCountry({
-        id: Number(clickedPointProperties?.feature?.id ?? -1),
+        id: projectCountryId?.project_country ?? -1,
     });
 
     const iso3 = clickedPointCountry?.iso3;
@@ -280,10 +286,23 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
         [maxScaleValue],
     );
 
+    const handleCountryClick = useCallback(
+        (feature: mapboxgl.MapboxGeoJSONFeature, lngLat: mapboxgl.LngLat) => {
+            setClickedPointProperties({
+                countryId: feature.properties?.country_id,
+                countryName: feature.properties?.name,
+                lngLat,
+            });
+            return true;
+        },
+        [setClickedPointProperties],
+    );
+
     const handlePointClick = useCallback(
         (feature: mapboxgl.MapboxGeoJSONFeature, lngLat: mapboxgl.LngLat) => {
             setClickedPointProperties({
-                feature: feature as unknown as ClickedPoint['feature'],
+                countryId: feature.properties?.countryId,
+                countryName: feature.properties?.countryName,
                 lngLat,
             });
             return true;
@@ -301,7 +320,16 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
     return (
         <div className={_cs(styles.map, className)}>
             <div className={styles.mapWithLegend}>
-                <BaseMap>
+                <BaseMap
+                    baseLayers={(
+                        <MapLayer
+                            layerKey="admin-0"
+                            hoverable
+                            layerOptions={adminFillLayerOptions}
+                            onClick={handleCountryClick}
+                        />
+                    )}
+                >
                     <MapContainerWithDisclaimer
                         className={styles.mapContainer}
                         footer={(
@@ -390,36 +418,39 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
                         </MapSource>
                     )}
                     {/* eslint-disable-next-line max-len */}
-                    {clickedPointProperties?.lngLat && isDefined(clickedPointProperties.feature.id) && (
-                        <MapPopup
-                            coordinates={clickedPointProperties.lngLat}
-                            onCloseButtonClick={handlePointClose}
-                            heading={clickedPointProperties.feature.properties.countryName}
-                            childrenContainerClassName={styles.mapPopupContent}
-                        >
-                            {(clickedPointProjectsResponsePending
-                            || clickedPointProjectsResponse?.count === 0) && (
-                                <Message
-                                    pending={clickedPointProjectsResponsePending}
-                                    description={!clickedPointProjectsResponsePending && 'Data not available!'}
-                                    compact
-                                />
-                            )}
-                            {clickedPointProjectsResponse?.results?.map(
-                                (project) => (
-                                    <Link
-                                        className={styles.project}
-                                        key={project.id}
-                                        to="threeWProjectDetail"
-                                        urlParams={{ projectId: project.id }}
-                                        withLinkIcon
-                                    >
-                                        {project.name}
-                                    </Link>
-                                ),
-                            )}
-                        </MapPopup>
-                    )}
+                    {clickedPointProperties?.lngLat
+                        && isDefined(projectCountryId)
+                        && (
+                            <MapPopup
+                                coordinates={clickedPointProperties.lngLat}
+                                onCloseButtonClick={handlePointClose}
+                                heading={clickedPointProperties.countryName}
+                                childrenContainerClassName={styles.mapPopupContent}
+                            >
+                                {(clickedPointProjectsResponsePending
+                                  || clickedPointProjectsResponse?.count === 0)
+                                  && (
+                                      <Message
+                                          pending={clickedPointProjectsResponsePending}
+                                          description={!clickedPointProjectsResponsePending && 'Data not available!'}
+                                          compact
+                                      />
+                                  )}
+                                {clickedPointProjectsResponse?.results?.map(
+                                    (project) => (
+                                        <Link
+                                            className={styles.project}
+                                            key={project.id}
+                                            to="threeWProjectDetail"
+                                            urlParams={{ projectId: project.id }}
+                                            withLinkIcon
+                                        >
+                                            {project.name}
+                                        </Link>
+                                    ),
+                                )}
+                            </MapPopup>
+                        )}
                     {isDefined(bounds) && (
                         <MapBounds
                             duration={DURATION_MAP_ZOOM}

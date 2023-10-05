@@ -27,6 +27,7 @@ import {
     getPointCirclePaint,
     getPointCircleHaloPaint,
     pointColorMap,
+    adminFillLayerOptions,
 } from '#utils/map';
 import {
     COLOR_RED,
@@ -68,6 +69,7 @@ interface GeoJsonProps {
 
 interface ClickedPoint {
     feature: GeoJSON.Feature<GeoJSON.Point, GeoJsonProps>;
+    countryId: number;
     lngLat: mapboxgl.LngLatLike;
 }
 
@@ -218,7 +220,7 @@ function GlobalThreeWMap(props: Props) {
             }
 
             const clickedProjectItem = projectList?.find(
-                (projectItem) => projectItem.id === clickedPointProperties.feature.id,
+                (projectItem) => projectItem.id === clickedPointProperties.countryId,
             );
 
             if (isNotDefined(clickedProjectItem)) {
@@ -236,10 +238,23 @@ function GlobalThreeWMap(props: Props) {
         [clickedPointProperties, projectList],
     );
 
+    const handleCountryClick = useCallback(
+        (feature: mapboxgl.MapboxGeoJSONFeature, lngLat: mapboxgl.LngLat) => {
+            setClickedPointProperties({
+                feature: feature as unknown as ClickedPoint['feature'],
+                countryId: feature.properties?.country_id,
+                lngLat,
+            });
+            return true;
+        },
+        [setClickedPointProperties],
+    );
+
     const handlePointClick = useCallback(
         (feature: mapboxgl.MapboxGeoJSONFeature, lngLat: mapboxgl.LngLat) => {
             setClickedPointProperties({
                 feature: feature as unknown as ClickedPoint['feature'],
+                countryId: feature.properties?.countryId,
                 lngLat,
             });
             return true;
@@ -255,7 +270,16 @@ function GlobalThreeWMap(props: Props) {
     );
 
     return (
-        <BaseMap>
+        <BaseMap
+            baseLayers={(
+                <MapLayer
+                    layerKey="admin-0"
+                    hoverable
+                    layerOptions={adminFillLayerOptions}
+                    onClick={handleCountryClick}
+                />
+            )}
+        >
             <MapContainerWithDisclaimer
                 className={_cs(styles.mapContainer, className)}
                 footer={operationTypeOptions && (
@@ -354,8 +378,6 @@ function GlobalThreeWMap(props: Props) {
                             to="countriesThreeWLayout"
                             urlParams={{
                                 countryId: clickedPointProperties
-                                    .feature
-                                    .properties
                                     .countryId,
                             }}
                         >

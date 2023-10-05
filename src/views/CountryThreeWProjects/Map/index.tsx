@@ -4,6 +4,7 @@ import {
     useCallback,
 } from 'react';
 import { useOutletContext } from 'react-router-dom';
+import type { FillLayer } from 'mapbox-gl';
 import {
     _cs,
     isDefined,
@@ -34,6 +35,7 @@ import {
     getPointCirclePaint,
     getPointCircleHaloPaint,
     pointColorMap,
+    adminFillLayerOptions,
 } from '#utils/map';
 import {
     COLOR_RED,
@@ -65,7 +67,7 @@ interface GeoJsonProps {
 }
 
 interface ClickedPoint {
-    feature: GeoJSON.Feature<GeoJSON.Point, GeoJsonProps>;
+    districtId: number;
     lngLat: mapboxgl.LngLatLike;
 }
 
@@ -192,7 +194,7 @@ function CountryThreeWMap(props: Props) {
 
     const selectedDistrictProjectDetail = useMemo(
         () => {
-            const id = clickedPointProperties?.feature?.id;
+            const id = clickedPointProperties?.districtId;
             if (isNotDefined(id)) {
                 return undefined;
             }
@@ -234,7 +236,40 @@ function CountryThreeWMap(props: Props) {
         [districtList, districtDenormalizedProjectList],
     );
 
+    const districtIdList = useMemo(
+        () => districtList.map(
+            (district) => district.id,
+        ),
+        [districtList],
+    );
+
     const maxScaleValue = projectList?.length ?? 0;
+
+    const adminOneLabelSelectedLayerOptions = useMemo<Omit<FillLayer, 'id'>>(
+        () => ({
+            type: 'fill',
+            layout: { visibility: 'visible' },
+            filter: [
+                'in',
+                'district_id',
+                ...districtIdList,
+            ],
+        }),
+        [districtIdList],
+    );
+
+    const adminZeroHighlightLayerOptions = useMemo<Omit<FillLayer, 'id'>>(
+        () => ({
+            type: 'fill',
+            layout: { visibility: 'visible' },
+            filter: isDefined(countryResponse) ? [
+                '!in',
+                'country_id',
+                countryResponse.id,
+            ] : [],
+        }),
+        [countryResponse],
+    );
 
     const {
         redPointHaloCirclePaint,
@@ -249,10 +284,21 @@ function CountryThreeWMap(props: Props) {
         [maxScaleValue],
     );
 
+    const handleDistrictClick = useCallback(
+        (feature: mapboxgl.MapboxGeoJSONFeature, lngLat: mapboxgl.LngLat) => {
+            setClickedPointProperties({
+                districtId: feature.properties?.district_id,
+                lngLat,
+            });
+            return true;
+        },
+        [setClickedPointProperties],
+    );
+
     const handlePointClick = useCallback(
         (feature: mapboxgl.MapboxGeoJSONFeature, lngLat: mapboxgl.LngLat) => {
             setClickedPointProperties({
-                feature: feature as unknown as ClickedPoint['feature'],
+                districtId: feature.properties?.districtId,
                 lngLat,
             });
             return true;
@@ -270,7 +316,26 @@ function CountryThreeWMap(props: Props) {
     return (
         <div className={_cs(styles.map, className)}>
             <div className={styles.mapWithLegend}>
-                <BaseMap>
+                <BaseMap
+                    baseLayers={(
+                        <>
+                            <MapLayer
+                                layerKey="admin-0-highlight"
+                                layerOptions={adminZeroHighlightLayerOptions}
+                            />
+                            <MapLayer
+                                layerKey="admin-1-highlight"
+                                hoverable
+                                layerOptions={adminFillLayerOptions}
+                                onClick={handleDistrictClick}
+                            />
+                            <MapLayer
+                                layerKey="admin-1-label-selected"
+                                layerOptions={adminOneLabelSelectedLayerOptions}
+                            />
+                        </>
+                    )}
+                >
                     <MapContainerWithDisclaimer
                         className={styles.mapContainer}
                         footer={operationTypeOptions && operationTypeOptions.length > 0 && (

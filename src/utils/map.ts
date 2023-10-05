@@ -163,6 +163,9 @@ export const adminLabelOverrideOptions: Omit<SymbolLayer, 'id'> = {
 
 export const adminFillLayerOptions: Omit<FillLayer, 'id'> = {
     type: 'fill',
+    layout: {
+        visibility: 'visible',
+    },
     paint: {
         'fill-color': [
             'case',

@@ -154,7 +154,6 @@ function EmergencyMap(props: Props) {
                         />
                         <MapLayer
                             layerKey="admin-1-highlight"
-                            hoverable
                             layerOptions={adminOneHightlightLayerOptions}
                         />
                         <MapLayer
