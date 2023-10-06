@@ -135,10 +135,11 @@ function PerAssessmentSummary(props: Props) {
         areaResponses ?? [],
         (areaResponse) => areaResponse?.area ?? -1,
         (areaResponse) => {
-            // NOTE: do we take the average of only rated components or of all the
-            // components?
+            /*  NOTE: The calculation of the average rating is done omitting  null or
+             *  "0"(not - reviewed") component values
+             */
             const filteredComponents = areaResponse?.component_responses?.filter(
-                (component) => isDefined(component?.rating),
+                (component) => isDefined(component?.rating) && component.rating > 1,
             ) ?? [];
 
             if (filteredComponents.length === 0) {
