@@ -23,7 +23,7 @@ function chartPointSelector(chartPoint: ChartPoint) {
 
 const X_AXIS_HEIGHT = 50;
 const Y_AXIS_WIDTH = 90;
-const CHART_OFFSET = 16;
+const CHART_OFFSET = 20;
 
 const chartMargin = {
     left: Y_AXIS_WIDTH + CHART_OFFSET,

@@ -49,13 +49,15 @@ function StackedProgressBar<VALUE>(props: Props<VALUE>) {
                                 className={styles.value}
                                 value={datum.value}
                             />
-                            <NumberOutput
-                                className={styles.percentage}
-                                value={(100 * datum.value) / total}
-                                prefix="("
-                                suffix="%)"
-                                maximumFractionDigits={0}
-                            />
+                            {(percentage > 10) && (
+                                <NumberOutput
+                                    className={styles.percentage}
+                                    value={(100 * datum.value) / total}
+                                    prefix="("
+                                    suffix="%)"
+                                    maximumFractionDigits={0}
+                                />
+                            )}
                         </div>
                     );
                 })}
