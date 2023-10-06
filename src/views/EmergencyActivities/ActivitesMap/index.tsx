@@ -22,7 +22,6 @@ import useTranslation from '#hooks/useTranslation';
 import type { EmergencyOutletContext } from '#utils/outletContext';
 import {
     getCountryListBoundingBox,
-    adminLabelLayerOptions,
 } from '#utils/map';
 import {
     DURATION_MAP_ZOOM,
@@ -82,6 +81,26 @@ function ActivitiesMap(props: Props) {
         (value, key) => ({ district: key, count: value }),
     );
 
+    const districtIdList = useMemo(
+        () => emergencyProjectCountByDistrictList.map(
+            (list) => Number(list.district),
+        ),
+        [emergencyProjectCountByDistrictList],
+    );
+
+    const adminOneLabelSelectedLayerOptions = useMemo<Omit<FillLayer, 'id'>>(
+        () => ({
+            type: 'fill',
+            layout: { visibility: 'visible' },
+            filter: [
+                'in',
+                'district_id',
+                ...districtIdList,
+            ],
+        }),
+        [districtIdList],
+    );
+
     const adminOneHightlightLayerOptions = useMemo<Omit<FillLayer, 'id'>>(
         () => {
             if (isNotDefined((emergencyProjectCountByDistrictList))
@@ -134,12 +153,11 @@ function ActivitiesMap(props: Props) {
                         <>
                             <MapLayer
                                 layerKey="admin-1-highlight"
-                                hoverable
                                 layerOptions={adminOneHightlightLayerOptions}
                             />
                             <MapLayer
-                                layerKey="admin-1-label"
-                                layerOptions={adminLabelLayerOptions}
+                                layerKey="admin-1-label-selected"
+                                layerOptions={adminOneLabelSelectedLayerOptions}
                             />
                         </>
                     )}

@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from 'react';
+import { useMemo, useCallback, Fragment } from 'react';
 import {
     listToGroupList,
     mapToList,
@@ -300,7 +300,7 @@ export function Component() {
                 <div className={styles.regionList}>
                     {strings.emergencyViewAllReport}
                     {regionResponse?.results?.map((region, index) => (
-                        <>
+                        <Fragment key={region.region_name}>
                             {index !== 0 && '/ '}
                             <Link
                                 key={region.region_name}
@@ -309,7 +309,7 @@ export function Component() {
                             >
                                 {region.region_name}
                             </Link>
-                        </>
+                        </Fragment>
                     ))}
                 </div>
                 <div className={styles.footerDescription}>

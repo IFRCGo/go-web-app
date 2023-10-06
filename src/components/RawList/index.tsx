@@ -3,7 +3,7 @@ import { isNotDefined } from '@togglecorp/fujs';
 export type ListKey = string | number | boolean;
 
 export type Props<DATUM, KEY extends ListKey, RENDERER_PROPS> = {
-    data: DATUM[] | undefined;
+    data: DATUM[] | undefined | null;
     keySelector(datum: DATUM, index: number): KEY;
     renderer: React.ComponentType<RENDERER_PROPS>;
     rendererParams(key: KEY, datum: DATUM, index: number, data: DATUM[]): RENDERER_PROPS;

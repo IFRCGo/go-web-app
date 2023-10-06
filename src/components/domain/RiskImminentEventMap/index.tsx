@@ -278,7 +278,13 @@ function RiskImminentEventMap<
                 icon: <ForestFireIcon className={styles.icon} />,
             },
         ],
-        [strings],
+        [
+            strings.imminentEventsFlood,
+            strings.imminentEventsStorm,
+            strings.imminentEventsEarthquake,
+            strings.imminentEventsDrought,
+            strings.imminentEventsWildfire,
+        ],
     );
 
     return (

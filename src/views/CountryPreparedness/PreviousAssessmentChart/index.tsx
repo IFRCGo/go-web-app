@@ -76,22 +76,32 @@ function PreviousAssessmentCharts(props: Props) {
                 )}
                 {chartData.points.map(
                     (point) => (
-                        <circle
-                            className={styles.circle}
-                            key={point.key}
-                            cx={point.x}
-                            cy={point.y}
-                        >
-                            <title>
-                                {resolveToString(
-                                    strings.assessmentLabel,
-                                    {
-                                        xValue: point.xValue,
-                                        yValue: point.yValue ?? '-',
-                                    },
-                                )}
-                            </title>
-                        </circle>
+                        <g key={point.key}>
+                            <text
+                                className={styles.text}
+                                textAnchor="middle"
+                                dy={-15}
+                                x={point.x}
+                                y={point.y}
+                            >
+                                {Number(point.yValue?.toFixed(2)) ?? '-'}
+                            </text>
+                            <circle
+                                className={styles.circle}
+                                cx={point.x}
+                                cy={point.y}
+                            >
+                                <title>
+                                    {resolveToString(
+                                        strings.assessmentLabel,
+                                        {
+                                            xValue: point.xValue,
+                                            yValue: point.yValue ?? '-',
+                                        },
+                                    )}
+                                </title>
+                            </circle>
+                        </g>
                     ),
                 )}
             </svg>

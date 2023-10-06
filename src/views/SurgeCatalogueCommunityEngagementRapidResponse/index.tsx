@@ -34,7 +34,13 @@ export function Component() {
                 caption: strings.communityEngagementImageFive,
             },
         ]),
-        [strings],
+        [
+            strings.communityEngagementImageOne,
+            strings.communityEngagementImageTwo,
+            strings.communityEngagementImageThree,
+            strings.communityEngagementImageFour,
+            strings.communityEngagementImageFive,
+        ],
     );
 
     return (

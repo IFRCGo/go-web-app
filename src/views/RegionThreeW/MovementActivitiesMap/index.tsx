@@ -29,6 +29,7 @@ import { type RegionOutletContext } from '#utils/outletContext';
 import {
     getPointCirclePaint,
     getPointCircleHaloPaint,
+    adminFillLayerOptions,
 } from '#utils/map';
 import {
     COLOR_RED,
@@ -50,7 +51,8 @@ const sourceOption: mapboxgl.GeoJSONSourceRaw = {
 };
 
 interface ClickedPoint {
-    feature: GeoJSON.Feature<GeoJSON.Point, MovementActivityByCountry>;
+    countryId: number;
+    countryName: string;
     lngLat: mapboxgl.LngLatLike;
 }
 
@@ -130,14 +132,14 @@ function MovementActivitiesMap(props: Props) {
     const selectedCountry = useMemo(() => (
         movementActivitiesResponse
             ?.countries_count.find(
-                (country) => country.id === clickedPointProperties?.feature.properties.id,
+                (country) => country.id === clickedPointProperties?.countryId,
             )
-    ), [movementActivitiesResponse, clickedPointProperties?.feature.properties.id]);
+    ), [movementActivitiesResponse, clickedPointProperties?.countryId]);
 
     const activeNSinSelectedCountry = useMemo(() => movementActivitiesResponse
         ?.country_ns_sector_count.find(
-            (country) => country.id === clickedPointProperties?.feature.properties.id,
-        ), [movementActivitiesResponse, clickedPointProperties?.feature.properties.id]);
+            (country) => country.id === clickedPointProperties?.countryId,
+        ), [movementActivitiesResponse, clickedPointProperties?.countryId]);
 
     const { redPointHaloCirclePaint } = useMemo(
         () => ({
@@ -146,10 +148,23 @@ function MovementActivitiesMap(props: Props) {
         [maxScaleValue],
     );
 
+    const handleCountryClick = useCallback((
+        feature: mapboxgl.MapboxGeoJSONFeature,
+        lngLat: mapboxgl.LngLatLike,
+    ) => {
+        setClickedPointProperties({
+            countryId: feature.properties?.country_id,
+            countryName: feature.properties?.name,
+            lngLat,
+        });
+        return false;
+    }, [setClickedPointProperties]);
+
     const handlePointClick = useCallback(
         (feature: mapboxgl.MapboxGeoJSONFeature, lngLat: mapboxgl.LngLat) => {
             setClickedPointProperties({
-                feature: feature as unknown as ClickedPoint['feature'],
+                countryId: feature.properties?.id,
+                countryName: feature.properties?.name,
                 lngLat,
             });
             return true;
@@ -191,7 +206,16 @@ function MovementActivitiesMap(props: Props) {
     return (
         <div className={_cs(styles.map, className)}>
             <div className={styles.mapWithLegend}>
-                <BaseMap>
+                <BaseMap
+                    baseLayers={(
+                        <MapLayer
+                            layerKey="admin-0"
+                            hoverable
+                            layerOptions={adminFillLayerOptions}
+                            onClick={handleCountryClick}
+                        />
+                    )}
+                >
                     <MapContainerWithDisclaimer className={styles.mapContainer} />
                     {activitiesGeoJson && (
                         <MapSource
@@ -222,7 +246,7 @@ function MovementActivitiesMap(props: Props) {
                         bounds={countryBounds}
                     />
                     {/* eslint-disable-next-line max-len */}
-                    {clickedPointProperties?.lngLat && isDefined(clickedPointProperties.feature.id) && (
+                    {clickedPointProperties?.lngLat && isDefined(clickedPointProperties.countryId) && (
                         <MapPopup
                             className={styles.mapPopup}
                             coordinates={clickedPointProperties.lngLat}
@@ -231,10 +255,10 @@ function MovementActivitiesMap(props: Props) {
                             heading={(
                                 <Link
                                     to="countriesLayout"
-                                    urlParams={{ countryId: clickedPointProperties.feature.id }}
+                                    urlParams={{ countryId: clickedPointProperties.countryId }}
                                     withUnderline
                                 >
-                                    {clickedPointProperties.feature.properties.name}
+                                    {clickedPointProperties.countryName}
                                 </Link>
                             )}
                             childrenContainerClassName={styles.mapPopupContent}

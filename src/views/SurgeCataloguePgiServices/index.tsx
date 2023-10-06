@@ -30,7 +30,12 @@ export function Component() {
                 caption: strings.protectionImageFourCaption,
             },
         ]),
-        [strings],
+        [
+            strings.protectionImageOneCaption,
+            strings.protectionImageTwoCaption,
+            strings.protectionImageThreeCaption,
+            strings.protectionImageFourCaption,
+        ],
     );
 
     return (

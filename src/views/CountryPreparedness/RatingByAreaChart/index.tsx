@@ -23,7 +23,7 @@ function chartPointSelector(chartPoint: ChartPoint) {
 
 const X_AXIS_HEIGHT = 50;
 const Y_AXIS_WIDTH = 90;
-const CHART_OFFSET = 16;
+const CHART_OFFSET = 20;
 
 const chartMargin = {
     left: Y_AXIS_WIDTH + CHART_OFFSET,
@@ -134,19 +134,32 @@ function RatingByAreaChart(props: Props) {
                 )}
                 {points?.chart.map(
                     (point) => (
-                        <rect
-                            key={point.key}
-                            className={styles.rect}
-                            x={point.x + barGap}
-                            y={point.y}
-                            ry={barWidth / 2}
-                            width={barWidth}
-                            height={Math.max(chartBounds.height - point.y - chartMargin.bottom, 0)}
-                        >
-                            <title>
-                                {`${point.label}: ${point.value}`}
-                            </title>
-                        </rect>
+                        <g key={point.key}>
+                            <text
+                                className={styles.text}
+                                textAnchor="middle"
+                                dy={-10}
+                                dx={barWidth / 2}
+                                x={point.x + barGap}
+                                y={point.y}
+                            >
+                                {Number(point.value.toFixed(2)) ?? '-'}
+                            </text>
+                            <rect
+                                className={styles.rect}
+                                x={point.x + barGap}
+                                y={point.y}
+                                ry={barWidth / 2}
+                                width={barWidth}
+                                height={
+                                    Math.max(chartBounds.height - point.y - chartMargin.bottom, 0)
+                                }
+                            >
+                                <title>
+                                    {`${point.label}: ${point.value}`}
+                                </title>
+                            </rect>
+                        </g>
                     ),
                 )}
             </svg>

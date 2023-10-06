@@ -10,6 +10,10 @@
             fill: none;
         }
 
+        .text {
+            font-size: var(--go-ui-font-size-sm);
+        }
+
         .circle {
             fill: var(--go-ui-color-primary-red);
             r: 6;

@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 import { compareString, isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import BlockLoading from '#components/BlockLoading';
@@ -50,6 +50,32 @@ function EventDetails(props: Props) {
             hazardName: country_details?.name ?? hazard_name,
         },
     );
+
+    const getSaffirSimpsonScaleDescription = useCallback((windspeed: number) => {
+        if (windspeed < 33) {
+            return strings.tropicalStormDescription;
+        }
+        if (windspeed < 43) {
+            return strings.categoryOneDescription;
+        }
+        if (windspeed < 50) {
+            return strings.categoryTwoDescription;
+        }
+        if (windspeed < 59) {
+            return strings.categoryThreeDescription;
+        }
+        if (windspeed < 71) {
+            return strings.categoryFourDescription;
+        }
+        return strings.categoryFiveDescription;
+    }, [
+        strings.tropicalStormDescription,
+        strings.categoryOneDescription,
+        strings.categoryTwoDescription,
+        strings.categoryThreeDescription,
+        strings.categoryFourDescription,
+        strings.categoryFiveDescription,
+    ]);
 
     const impactList = useMemo(
         () => (
@@ -114,7 +140,10 @@ function EventDetails(props: Props) {
                         ninetyFivePercentValue,
                         label: resolveToString(
                             strings.meteoSwissExposureLabel,
-                            { windspeed },
+                            {
+                                windspeed,
+                                saffirSimpsonScale: getSaffirSimpsonScaleDescription(windspeed),
+                            },
                         ),
                         unit: strings.people,
                     };
@@ -129,6 +158,7 @@ function EventDetails(props: Props) {
             strings.usd,
             strings.meteoSwissExposureLabel,
             strings.people,
+            getSaffirSimpsonScaleDescription,
         ],
     );
 
@@ -240,6 +270,14 @@ function EventDetails(props: Props) {
                                         external
                                     >
                                         {strings.meteoSwissAuthoritativeLinkLabel}
+                                    </Link>
+                                ),
+                                classificationLink: (
+                                    <Link
+                                        href="https://community.wmo.int/en/classification-tropical-cyclones"
+                                        external
+                                    >
+                                        {strings.meteoSwissTropicalStorm}
                                     </Link>
                                 ),
                             },

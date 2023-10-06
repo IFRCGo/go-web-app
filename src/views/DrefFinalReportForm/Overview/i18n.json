@@ -2,6 +2,8 @@
     "namespace": "drefFinalReportForm",
     "strings": {
         "finalReportMainDonor": "Main Donors",
+        "drefOperationalShareApplicationLabel": "The DREF Final Report is shared with",
+        "drefOperationalShareApplicationDescription": "The users will be able to view, edit and add other users.",
         "finalReportTotalAllocation": "Total DREF Allocation",
         "finalReportPeopleTargeted": "Number of people targeted",
         "drefFormSharingHeading": "Sharing",
@@ -39,6 +41,7 @@
         "drefFormUploadCoverImageDescription": "Upload a image for the cover page of the publicly published DREF application.",
         "drefFormDrefTypeTitle": "DREF Type",
         "drefFormClickEmergencyResponseFramework": "Click to view Emergency Response Framework",
-        "drefFinalReportEmergencyResponseFramework": "Click to view Emergency Response Framework"
+        "userListEmptyMessage": "The DREF Final report is not shared with anyone.",
+        "numericDetails": "Numeric Details"
     }
 }

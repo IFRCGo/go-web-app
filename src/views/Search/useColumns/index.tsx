@@ -373,32 +373,32 @@ function useColumns(searchResponse: SearchResponse | undefined) {
     const columnMap = useMemo(
         () => ({
             reports: {
-                columns: getFieldReportColumns,
+                columns: getFieldReportColumns(),
                 keySelector: (item: FieldReportResult) => item.id,
                 data: searchResponse?.reports as FieldReportResult[],
             },
             emergencies: {
-                columns: getEmergencyColumns,
+                columns: getEmergencyColumns(),
                 keySelector: (item: EmergencyResult) => item.id,
                 data: searchResponse?.emergencies as EmergencyResult[],
             },
             projects: {
-                columns: getProjectColumns,
+                columns: getProjectColumns(),
                 keySelector: (item: ProjectResult) => item.id,
                 data: searchResponse?.projects,
             },
             rapid_response_deployments: {
-                columns: getRapidResponseDeploymentColumns,
+                columns: getRapidResponseDeploymentColumns(),
                 keySelector: (item: RapidResponseDeploymentResult) => item.id,
                 data: searchResponse?.rapid_response_deployments,
             },
             surge_alerts: {
-                columns: getSurgeAlertColumns,
+                columns: getSurgeAlertColumns(),
                 keySelector: (item: SurgeAlertResult) => item.id,
                 data: searchResponse?.surge_alerts,
             },
             surge_deployments: {
-                columns: getSurgeDeploymentColumns,
+                columns: getSurgeDeploymentColumns(),
                 keySelector: (item: SurgeDeploymentResult) => item.id,
                 data: searchResponse?.surge_deployments,
             },

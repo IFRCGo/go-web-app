@@ -238,6 +238,8 @@ export function Component() {
                     { params: { perId: response.id } },
                 );
             }
+            // Move the page position to top when moving on to next step
+            window.scrollTo(0, 0);
         },
         onFailure: ({
             value: {
@@ -260,7 +262,6 @@ export function Component() {
 
     const handleSubmit = useCallback(
         (formValues: PartialOverviewFormFields) => {
-            formContentRef.current?.scrollIntoView();
             if (isDefined(perId)) {
                 updatePerOverview({
                     ...formValues,
@@ -278,7 +279,6 @@ export function Component() {
 
     const handleFinalSubmit = useCallback(
         (formValues: PartialOverviewFormFields) => {
-            formContentRef.current?.scrollIntoView();
             if (isDefined(perId)) {
                 updatePerOverview({
                     ...formValues,
@@ -295,7 +295,7 @@ export function Component() {
     );
 
     const handleFormError = useCallback(() => {
-        formContentRef.current?.scrollIntoView();
+        setTimeout(() => formContentRef.current?.scrollIntoView(), 200);
     }, []);
 
     const handleSetupPerProcess = useCallback(() => {

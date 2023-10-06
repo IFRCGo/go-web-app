@@ -34,7 +34,13 @@ export function Component() {
                 caption: strings.washImageFiveCaption,
             },
         ]),
-        [strings],
+        [
+            strings.washImageOneCaption,
+            strings.washImageTwoCaption,
+            strings.washImageThreeCaption,
+            strings.washImageFourCaption,
+            strings.washImageFiveCaption,
+        ],
     );
 
     return (

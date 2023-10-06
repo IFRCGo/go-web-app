@@ -53,7 +53,14 @@ export function Component() {
                 caption: strings.logisticsEmergencyImageElevenCaption,
             },
         ]),
-        [strings],
+        [
+            strings.logisticsEmergencyImageOneCaption,
+            strings.logisticsEmergencyImageTwoCaption,
+            strings.logisticsEmergencyImageThreeCaption,
+            strings.logisticsEmergencyImageNineCaption,
+            strings.logisticsEmergencyImageTenCaption,
+            strings.logisticsEmergencyImageElevenCaption,
+        ],
     );
 
     return (
@@ -73,7 +80,6 @@ export function Component() {
                 <div>{strings.logisticsEmergencyServicesDescription}</div>
                 <ul>
                     <li>{strings.logisticsEmergencyServicesItemOne}</li>
-                    <li>{strings.logisticsEmergencyServicesItemTwo}</li>
                     <li>{strings.logisticsEmergencyServicesItemThree}</li>
                     <li>{strings.logisticsEmergencyServicesItemFour}</li>
                 </ul>
