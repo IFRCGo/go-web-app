@@ -47,6 +47,8 @@
         "specificationsCostLabel": "Cost (Indicative)",
         "specificationsCostValue": "CHF 300,000",
         "specificationsNationalSocietyLabel": "National societies providing this service",
-        "specificationsNationalSocietyValue": "Danish, Italian"
+        "specificationsNationalSocietyValue": "Danish, Italian",
+        "specificationsVariationOnConfiguration":  "Variation On Configuration",
+        "specificationsVariationOnConfigurationText": "Camp can be scaled up or down depending on the situation, within all the modules."
     }
 }

@@ -28,6 +28,7 @@
         "componentChartNotAvailableDescription": "Assessment has not been performed yet for current PER cycle!",
         "componentLimitedAccess": "Limited access!",
         "componentLimitedAccessDescription": "You do not have enough permission to view more details on this PER.",
-        "componentRequestSeeMore": "Request to see more"
+        "componentRequestSeeMore": "Request to see more",
+        "lastUpdatedLabel": "Last update"
     }
 }
