@@ -123,7 +123,7 @@ export function Component() {
 
     const heading = useMemo(
         () => resolveToComponent(
-            strings.allFlashUpdatesTitle,
+            strings.allFlashUpdatesHeading,
             {
                 numFlashUpdates: (
                     <NumberOutput
@@ -132,7 +132,7 @@ export function Component() {
                 ),
             },
         ),
-        [strings.allFlashUpdatesTitle, flashUpdateResponse],
+        [strings.allFlashUpdatesHeading, flashUpdateResponse],
     );
 
     return (

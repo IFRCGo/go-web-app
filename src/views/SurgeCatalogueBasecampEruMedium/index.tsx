@@ -129,6 +129,11 @@ export function Component() {
                     strongLabel
                 />
             </SurgeContentContainer>
+            <SurgeContentContainer
+                heading={strings.specificationsVariationOnConfiguration}
+            >
+                <div>{strings.specificationsVariationOnConfigurationText}</div>
+            </SurgeContentContainer>
         </SurgeCatalogueContainer>
     );
 }
