@@ -8,6 +8,61 @@
 
         .min-max-path {
             fill-opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .tooltip-line {
+            stroke: var(--go-ui-color-gray-60);
+            stroke-opacity: 0;
+            stroke-width: 1pt;
+            transition: var(--go-ui-duration-transition-medium) ease-in-out stroke-opacity;
+
+            &.hovered {
+                stroke-opacity: 1;
+            }
+        }
+
+        .tooltip-container {
+            visibility: hidden;
+            pointer-events: none;
+
+            &.hovered {
+                visibility: visible;
+            }
+
+            .tooltip {
+                display: flex;
+                flex-direction: column;
+                border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+                background-color: var(--go-ui-color-background);
+                padding: var(--go-ui-spacing-sm);
+                width: 100%;
+                height: 100%;
+            }
+
+        }
+
+        .rect {
+            visibility: hidden;
+            cursor: pointer;
+            fill-opacity: 0.5;
+            fill: var(--go-ui-color-black);
+            stroke-width: 2;
+            pointer-events: all;
+        }
+
+        .point {
+            --point-radius: 2pt;
+            --point-hover-radius: 3pt;
+            --point-outline-radius: 4pt;
+            --point-stroke-width: 2pt;
+            transition: var(--go-ui-duration-transition-medium) ease-in-out stroke-opacity;
+            visibility: hidden;
+            color: var(--go-ui-color-gray-50);
+
+            &.hovered {
+                visibility: visible;
+            }
         }
     }
 }
