@@ -374,6 +374,14 @@ export function Component() {
             heading={strings.nsPreparednessAndResponseCapacityHeading}
             headingLevel={2}
             withHeaderBorder
+            actions={(
+                <TextOutput
+                    label={strings.lastUpdatedLabel}
+                    value={processStatusResponse?.updated_at}
+                    valueType="date"
+                    strongValue
+                />
+            )}
         >
             <div className={styles.latestPerDetails}>
                 <TextOutput
