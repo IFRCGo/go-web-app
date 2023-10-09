@@ -59,7 +59,7 @@ export function Component() {
 
     const ceaServicesData: LinkData[] = [
         {
-            title: strings.ceaTitle,
+            title: strings.ceaLearnMore,
             to: 'surgeCatalogueCommunityEngagementRapidResponse',
             withLinkIcon: true,
         },

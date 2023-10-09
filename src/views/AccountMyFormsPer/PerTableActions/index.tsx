@@ -2,6 +2,7 @@ import {
     useCallback,
 } from 'react';
 import { isDefined, listToMap } from '@togglecorp/fujs';
+import { SearchLineIcon } from '@ifrc-go/icons';
 
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import Link from '#components/Link';
@@ -76,6 +77,7 @@ function PerTableActions(props: Props) {
                             type="link"
                             to="perOverviewForm"
                             urlParams={{ perId }}
+                            icons={<SearchLineIcon />}
                         >
                             {resolveToString(strings.tableActionEditLabel, { phaseDisplay: phaseMap?.[PER_PHASE_OVERVIEW] ?? '--' })}
                         </DropdownMenuItem>
@@ -84,6 +86,7 @@ function PerTableActions(props: Props) {
                             type="link"
                             to="perOverviewForm"
                             urlParams={{ perId }}
+                            icons={<SearchLineIcon />}
                         >
                             {resolveToString(strings.tableActionViewLabel, { phaseDisplay: phaseMap?.[PER_PHASE_OVERVIEW] ?? '--' })}
                         </DropdownMenuItem>
