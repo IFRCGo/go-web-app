@@ -282,6 +282,7 @@ function GlobalThreeWMap(props: Props) {
         >
             <MapContainerWithDisclaimer
                 className={_cs(styles.mapContainer, className)}
+                title={strings.mapNSOngoingProjects}
                 footer={operationTypeOptions && (
                     <div className={styles.legend}>
                         {operationTypeOptions.map((d) => (

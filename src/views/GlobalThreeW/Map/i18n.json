@@ -4,6 +4,7 @@
         "multipleTypesLegend": "Multiple types",
         "ongoingProjectsMap": "Ongoing Projects",
         "mapTargetedPopulation": "Targeted Population",
-        "mapTopProjectSectors": "Top Project Sectors"
+        "mapTopProjectSectors": "Top Project Sectors",
+        "mapNSOngoingProjects": "NS Ongoing Projects"
     }
 }

@@ -1,7 +1,7 @@
 {
     "namespace": "common",
     "strings": {
-        "footerAboutGo":"About Go",
+        "footerAboutGo":"About GO",
         "footerAboutGoDesc":"IFRC GO is a Red Cross Red Crescent platform to connect information on emergency needs with the right response.",
         "footerFindOutMore":"Find out more",
         "footerHelpfulLinks":"Helpful links",
