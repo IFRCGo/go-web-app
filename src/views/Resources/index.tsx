@@ -98,109 +98,7 @@ export function Component() {
                     headerDescription={strings.goUserAdministrativeGuide}
                     withHeaderBorder
                     withInternalPadding
-                    childrenContainerClassName={styles.guideList}
                 >
-                    {/* NOTE: We do not need to translate these links */}
-                    <Link
-                        href="https://github.com/IFRCGo/go-frontend/files/4415370/GoUserGuide_MediumRes.pdf"
-                        external
-                        icons={(
-                            <span className={styles.iconCircle}>
-                                EN
-                            </span>
-                        )}
-                        withLinkIcon
-                    >
-                        GO user guide
-                    </Link>
-                    <Link
-                        href="https://github.com/IFRCGo/go-frontend/files/4415371/GoAdminGuide_MediumRes.pdf"
-                        external
-                        icons={(
-                            <span className={styles.iconCircle}>
-                                EN
-                            </span>
-                        )}
-                        withLinkIcon
-                    >
-                        Administrative Guides
-                    </Link>
-                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                    <Link
-                        // FIXME: add link
-                        to={null}
-                        icons={(
-                            <span className={styles.iconCircle}>
-                                FR
-                            </span>
-                        )}
-                        withLinkIcon
-                    >
-                        Guides d&quot;Utilisation
-                    </Link>
-                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                    <Link
-                        // FIXME: add link
-                        to={null}
-                        icons={(
-                            <span className={styles.iconCircle}>
-                                FR
-                            </span>
-                        )}
-                        withLinkIcon
-                    >
-                        Guides Administratifs
-                    </Link>
-                    <Link
-                        href="https://drive.google.com/file/d/1FnmBm_8K52eTKWa8xWK52eebhgOz60SO/view"
-                        external
-                        icons={(
-                            <span className={styles.iconCircle}>
-                                ES
-                            </span>
-                        )}
-                        withLinkIcon
-                    >
-                        Guías de Usuario
-                    </Link>
-                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                    <Link
-                        // FIXME: add link
-                        href={null}
-                        external
-                        icons={(
-                            <span className={styles.iconCircle}>
-                                ES
-                            </span>
-                        )}
-                        withLinkIcon
-                    >
-                        Guías Administrativas
-                    </Link>
-                    <Link
-                        href="https://github.com/IFRCGo/go-frontend/files/4818646/GoUserGuide_MediumRes_AR.pdf.pdf"
-                        external
-                        icons={(
-                            <span className={styles.iconCircle}>
-                                AR
-                            </span>
-                        )}
-                        withLinkIcon
-                    >
-                        أدلة المستخدم
-                    </Link>
-                    <Link
-                        href="https://github.com/IFRCGo/go-frontend/files/4818648/GoAdminGuide_MediumRes_AR.pdf.pdf"
-                        external
-                        icons={(
-                            <span className={styles.iconCircle}>
-                                AR
-                            </span>
-                        )}
-                        withLinkIcon
-                    >
-                        أدلة إدارية
-                    </Link>
                 </Container>
                 <Container
                     className={styles.guideCard}
@@ -233,13 +131,6 @@ export function Component() {
                         {strings.goUserAnalytics}
                     </Link>
                     <Link
-                        href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ESX7S_-kp-FAuPP_yXIcLQkB6zE6t2hVhKxGgWbSXZXOFg?e=RsWNSa"
-                        external
-                        withLinkIcon
-                    >
-                        {strings.goInfoArchitecture}
-                    </Link>
-                    <Link
                         href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ea0TfruyRiZGhyGT3XCEnPMBxZSYqlwLLgEHx1VqeBT9Tg?e=nrpLmz"
                         external
                         withLinkIcon
@@ -247,26 +138,18 @@ export function Component() {
                         {strings.goWorkplan}
                     </Link>
                     <Link
-                        href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EUqbJHWGW8xLjFJgwG-x4GABfUD5UCS3DS6uwW74tufs9Q?e=HwsqbI"
-                        external
-                        withLinkIcon
-                    >
-                        {strings.goSystemAnalysis}
-                    </Link>
-                    <Link
-                        href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EUV7xJOyEZtDmecIH6uS9SIBwl3gv1cbxVjwS6m79gx7TQ?e=b2AgU3"
-                        external
-                        withLinkIcon
-                    >
-                        {strings.goUserStudies}
-                    </Link>
-
-                    <Link
                         href="https://ifrcgoproject.medium.com/information-saves-lives-scaling-data-analytics-in-the-ifrc-network-fd3686718f9c"
                         external
                         withLinkIcon
                     >
                         {strings.ifrcStrategicDirection}
+                    </Link>
+                    <Link
+                        href="https://go-wiki.ifrc.org"
+                        external
+                        withLinkIcon
+                    >
+                        {strings.visitGoWiki}
                     </Link>
                 </Container>
             </Container>
