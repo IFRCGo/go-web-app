@@ -38,13 +38,13 @@ import {
     COLOR_PRIMARY_RED,
 } from '#utils/constants';
 import { type RiskApiResponse } from '#utils/restRequest';
+import { resolveToString } from '#utils/translation';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 import FoodInsecurityChart from './FoodInsecurityChart';
 import WildfireChart from './WildfireChart';
 import CombinedChart from './CombinedChart';
-import { resolveToString } from '#utils/translation';
 
 type CountryRiskResponse = RiskApiResponse<'/api/v1/country-seasonal/'>;
 type RiskData = CountryRiskResponse[number];

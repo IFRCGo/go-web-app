@@ -12,9 +12,9 @@
 
         .legend-item {
             .color {
+                border-radius: 0;
                 width: 1rem;
                 height: var(--go-ui-width-separator-thin);
-                border-radius: 0;
             }
         }
     }
