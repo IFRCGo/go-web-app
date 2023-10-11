@@ -4,6 +4,7 @@
         "threeWMapLastUpdate": "Last Update",
         "threeWMapStatus": "Status",
         "threeWMapProgrammeType": "Programme Type",
-        "threeWMapBudget": "Budget"
+        "threeWMapBudget": "Budget",
+        "threeWMapTitle": "Projects in {countryName}"
     }
 }

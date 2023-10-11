@@ -30,6 +30,7 @@ import { type GoApiResponse } from '#utils/restRequest';
 import { type CountryOutletContext } from '#utils/outletContext';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useTranslation from '#hooks/useTranslation';
+import { resolveToString } from '#utils/translation';
 
 import {
     getPointCirclePaint,
@@ -338,6 +339,10 @@ function CountryThreeWMap(props: Props) {
                 >
                     <MapContainerWithDisclaimer
                         className={styles.mapContainer}
+                        title={resolveToString(
+                            strings.threeWMapTitle,
+                            { countryName: countryResponse?.name ?? '-' },
+                        )}
                         footer={operationTypeOptions && operationTypeOptions.length > 0 && (
                             <div className={styles.legend}>
                                 {operationTypeOptions.map((d) => (

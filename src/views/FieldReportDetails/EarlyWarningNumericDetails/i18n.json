@@ -1,7 +1,7 @@
 {
     "namespace": "fieldReportDetails",
     "strings": {
-        "earlyPotentiallyAffectedRCLabel": "Potentiall Affected (RC)",
+        "earlyPotentiallyAffectedRCLabel": "Potentially Affected (RC)",
         "earlyPotentiallyAffectedGovernmentLabel": "Potentially Affected (Government)",
         "earlyPotentiallyAffectedOtherLabel": "Potentially Affected (Other)",
         "earlyPeopleAtHighestRiskRcLabel": "People at Highest Risk (RC)",

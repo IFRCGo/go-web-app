@@ -53,7 +53,7 @@ const rootLayout = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'IFRC Go',
+        title: 'IFRC GO',
         visibility: 'anything',
     },
 });
