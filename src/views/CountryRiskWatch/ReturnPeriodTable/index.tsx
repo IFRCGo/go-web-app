@@ -80,7 +80,7 @@ function ReturnPeriodTable(props: Props) {
             ),
             createNumberColumn<TransformedReturnPeriodData, string | number>(
                 'numRiskOfDisplacement',
-                strings.returnPeriodTableReturnPeriodTitle,
+                strings.returnPeriodTableDisplacementTitle,
                 (item) => item.displacement,
                 {
                     headerInfoTitle: strings.returnPeriodTableDisplacementTitle,

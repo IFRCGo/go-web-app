@@ -18,6 +18,10 @@
             height: 100%;
         }
 
+        .y-axis-label {
+            font-size: var(--go-ui-font-size-sm);
+            fill: var(--go-ui-color-gray-80);
+        }
         .point {
             position: absolute;
             transform: translate(-50%, -50%);

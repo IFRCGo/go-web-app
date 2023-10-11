@@ -64,7 +64,7 @@ const validDisastersForChart: Record<number, boolean> = {
 
 const X_AXIS_HEIGHT = 32;
 const Y_AXIS_WIDTH = 48;
-const CHART_OFFSET = 10;
+const CHART_OFFSET = 15;
 
 const chartMargin = {
     left: Y_AXIS_WIDTH + CHART_OFFSET,
@@ -339,6 +339,15 @@ function HistoricalDataChart(props: Props) {
                 className={styles.chartContainer}
             >
                 <svg className={styles.svg}>
+                    <text
+                        className={styles.yAxisLabel}
+                        textAnchor="middle"
+                        transform={`translate(${(chartMargin.left - CHART_OFFSET) / 2},
+                            ${(chartBounds.height - chartMargin.bottom - chartMargin.top) / 2})
+                            rotate(-90)`}
+                    >
+                        {strings.peopleExposed}
+                    </text>
                     <ChartAxes
                         xAxisPoints={xAxisPoints}
                         yAxisPoints={yAxisPoints}
