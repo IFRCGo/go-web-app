@@ -244,18 +244,6 @@ function WildfireChart(props: Props) {
                     fill="none"
                     stroke={COLOR_PRIMARY_RED}
                 />
-                {points.current.map((point) => (
-                    <ChartPoint
-                        className={_cs(
-                            styles.point,
-                            (point.x === hoveredPointKey) && styles.hovered,
-                        )}
-                        key={point.x}
-                        x={point.x}
-                        y={point.y}
-                        hovered={point.x === hoveredPointKey}
-                    />
-                ))}
                 {points.average.map((point) => {
                     let x;
                     if (point.x + (290) > chartBounds.width) {
@@ -279,6 +267,7 @@ function WildfireChart(props: Props) {
                             <ChartPoint
                                 className={_cs(
                                     styles.point,
+                                    styles.averagePoint,
                                     (point.x === hoveredPointKey) && styles.hovered,
                                 )}
                                 key={point.x}
@@ -318,7 +307,7 @@ function WildfireChart(props: Props) {
                                         strongValue
                                     />
                                     <TextOutput
-                                        value={point.value}
+                                        value={point.current}
                                         label={resolveToString(strings.year, { currentYear })}
                                         valueType="number"
                                         strongValue
@@ -342,6 +331,19 @@ function WildfireChart(props: Props) {
                         </Fragment>
                     );
                 })}
+                {points.current.map((point) => (
+                    <ChartPoint
+                        className={_cs(
+                            styles.point,
+                            styles.currentPoint,
+                            (point.x === hoveredPointKey) && styles.hovered,
+                        )}
+                        key={point.x}
+                        x={point.x}
+                        y={point.y}
+                        hovered={point.x === hoveredPointKey}
+                    />
+                ))}
             </svg>
         </div>
     );
