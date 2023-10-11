@@ -4,7 +4,7 @@
         "aboutResourcesTitle": "IFRC GO - About",
         "aboutResources": "Resources",
         "resourcesDescription": "GO is a Red Cross Red Crescent platform to connect information on emergency needs with the right response.",
-        "goUserGuidance": "GO user guidance",
+        "goUserGuidance": "GO User Guidance",
         "goReferenceMaterial": "GO Reference Material",
         "goUserAdminGuide": "GO User and Administrative Guide",
         "goUserAdministrativeGuide": "User guides help to explain the different functions and features of GO. Administrator guides include also back-end functions aimed at people who are helping to manage the site.",
@@ -22,8 +22,8 @@
         "aboutSurgeServices": "IFRC Surge Services",
         "aboutGuidanceMaterial": "IFRC Guidance Material",
         "surgeEventTrainings": "Global Surge Event and Trainings",
-        "aboutSurgeEvents": "Global Surge events and trainings",
-        "aboutSurgeNetwork": "Surge IM network",
+        "aboutSurgeEvents": "Global Surge Events and Trainings",
+        "aboutSurgeNetwork": "Surge IM Network",
         "aboutCommunitySurveillance": "Community Based Surveillance",
         "aboutCashHub": "Cash Hub",
         "aboutCommunityHub": "Community Engagement Hub",
@@ -50,6 +50,7 @@
         "redCrossImageDanishAlt": "Visit Danish Red Cross Page",
         "vistPDCImageAlt": "Vist PDC",
         "visitUSAidImageAlt": "Visit US Aid",
-        "visitSwissImageAlt": "Visit Swiss Confederation"
+        "visitSwissImageAlt": "Visit Swiss Confederation",
+        "visitGoWiki": "GO Wiki"
     }
 }
