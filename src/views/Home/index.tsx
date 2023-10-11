@@ -163,7 +163,7 @@ export function Component() {
                 className={styles.keyFigure}
                 value={getPercentage(
                     aggregatedAppealResponse?.amount_funded,
-                    aggregatedAppealResponse?.amount_requested_dref_included,
+                    aggregatedAppealResponse?.amount_requested,
                 )}
                 suffix="%"
                 compactValue

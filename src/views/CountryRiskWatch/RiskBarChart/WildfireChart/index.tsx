@@ -1,8 +1,24 @@
-import { useMemo, useRef } from 'react';
-import { isDefined, listToGroupList, mapToList } from '@togglecorp/fujs';
+import {
+    Fragment,
+    useCallback,
+    useMemo,
+    useRef,
+    useState,
+} from 'react';
+import {
+    _cs,
+    isDefined,
+    listToGroupList,
+    mapToList,
+    bound,
+} from '@togglecorp/fujs';
+import { resolveToString } from '#utils/translation';
 
 import ChartAxes from '#components/ChartAxes';
+import ChartPoint from '#components/TimeSeriesChart/ChartPoint';
+import TextOutput from '#components/TextOutput';
 import useSizeTracking from '#hooks/useSizeTracking';
+import useTranslation from '#hooks/useTranslation';
 import { avgSafe, formatNumber } from '#utils/common';
 import {
     getDiscretePathDataList,
@@ -16,6 +32,7 @@ import {
 } from '#utils/constants';
 import { paths } from '#generated/riskTypes';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type GetCountryRisk = paths['/api/v1/country-seasonal/']['get'];
@@ -24,7 +41,7 @@ type RiskData = CountryRiskResponse[number];
 
 const X_AXIS_HEIGHT = 24;
 const Y_AXIS_WIDTH = 32;
-const CHART_OFFSET = 16;
+const CHART_OFFSET = 0;
 
 const chartMargin = {
     left: Y_AXIS_WIDTH + CHART_OFFSET,
@@ -52,9 +69,13 @@ interface Props {
     gwisData: RiskData['gwis'] | undefined;
 }
 
+const currentYear = new Date().getFullYear();
+
 function WildfireChart(props: Props) {
     const { gwisData } = props;
 
+    const strings = useTranslation(i18n);
+    const [hoveredPointKey, setHoveredPointKey] = useState<number | undefined>();
     const chartContainerRef = useRef<HTMLDivElement>(null);
     const chartBounds = useSizeTracking(chartContainerRef);
 
@@ -64,8 +85,6 @@ function WildfireChart(props: Props) {
                 gwisData?.filter((dataItem) => dataItem.dsr_type === 'monthly') ?? [],
                 (gwisItem) => gwisItem.month,
             );
-
-            const currentYear = new Date().getFullYear();
 
             const aggregatedList = mapToList(
                 monthGroupedData,
@@ -113,6 +132,10 @@ function WildfireChart(props: Props) {
                     // NOTE: offsetting to middle of the month
                     x: xScale(dataItem.month + 0.5),
                     y: yScale(dataItem.average),
+                    value: dataItem.average,
+                    current: dataItem.current,
+                    min: dataItem.min,
+                    max: dataItem.max,
                 }),
             );
 
@@ -132,6 +155,7 @@ function WildfireChart(props: Props) {
                 }),
             );
 
+            const widthDifference = xScale(1) - xScale(0);
             const minMaxPoints = [
                 ...minPoints,
                 ...[...maxPoints].reverse(),
@@ -142,6 +166,7 @@ function WildfireChart(props: Props) {
                     // NOTE: offsetting to middle of the month
                     x: xScale(dataItem.month + 0.5),
                     y: isDefined(dataItem.current) ? yScale(dataItem.current) : undefined,
+                    value: dataItem.current,
                 }),
             );
 
@@ -169,6 +194,7 @@ function WildfireChart(props: Props) {
             );
 
             return {
+                widthDifference,
                 average: averagePoints,
                 minMax: minMaxPoints,
                 current: currentPoints,
@@ -178,6 +204,15 @@ function WildfireChart(props: Props) {
         },
         [chartBounds, gwisData],
     );
+
+    const handleRectMouseEnter: React.MouseEventHandler<SVGRectElement> = useCallback((e) => {
+        const value = (e.target as HTMLElement).getAttribute('data-key');
+        setHoveredPointKey(value ? Number(value) : undefined);
+    }, []);
+
+    const handleRectMouseOut: React.MouseEventHandler<SVGRectElement> = useCallback(() => {
+        setHoveredPointKey(undefined);
+    }, []);
 
     return (
         <div
@@ -209,6 +244,106 @@ function WildfireChart(props: Props) {
                     fill="none"
                     stroke={COLOR_PRIMARY_RED}
                 />
+                {points.average.map((point) => {
+                    let x;
+                    if (point.x + (290) > chartBounds.width) {
+                        x = point.x - 290 - 30;
+                    } else {
+                        x = point.x + 30;
+                    }
+
+                    return (
+                        <Fragment key={point.x}>
+                            <line
+                                className={_cs(
+                                    styles.tooltipLine,
+                                    hoveredPointKey === point.x && styles.hovered,
+                                )}
+                                x1={point.x}
+                                y1={0}
+                                x2={point.x}
+                                y2={chartBounds.height - chartMargin.bottom + CHART_OFFSET}
+                            />
+                            <ChartPoint
+                                className={_cs(
+                                    styles.point,
+                                    styles.averagePoint,
+                                    (point.x === hoveredPointKey) && styles.hovered,
+                                )}
+                                key={point.x}
+                                x={point.x}
+                                y={point.y}
+                                hovered={point.x === hoveredPointKey}
+                            />
+                            <foreignObject
+                                className={_cs(
+                                    styles.tooltipContainer,
+                                    hoveredPointKey === point.x && styles.hovered,
+                                )}
+                                x={x}
+                                y={point.y + 80 > (chartBounds.height)
+                                    ? point.y - 80 : point.y}
+                                width={290}
+                                height={80}
+                            >
+                                <div
+                                    className={styles.tooltip}
+                                >
+                                    <TextOutput
+                                        value={resolveToString(
+                                            strings.minMaxValue,
+                                            {
+                                                min: point.min.toFixed(2),
+                                                max: point.max.toFixed(2),
+                                            },
+                                        )}
+                                        strongValue
+                                        label={resolveToString(strings.minMax, { currentYear })}
+                                    />
+                                    <TextOutput
+                                        value={point.value}
+                                        label={resolveToString(strings.average, { currentYear })}
+                                        valueType="number"
+                                        strongValue
+                                    />
+                                    <TextOutput
+                                        value={point.current}
+                                        label={resolveToString(strings.year, { currentYear })}
+                                        valueType="number"
+                                        strongValue
+                                    />
+                                </div>
+                            </foreignObject>
+                            <rect
+                                className={styles.rect}
+                                data-key={point.x}
+                                x={point.x - (points.widthDifference / 2)}
+                                y={CHART_OFFSET}
+                                width={points.widthDifference}
+                                height={bound(
+                                    chartBounds.height - chartMargin.bottom,
+                                    0,
+                                    chartBounds.height,
+                                )}
+                                onMouseEnter={handleRectMouseEnter}
+                                onMouseOut={handleRectMouseOut}
+                            />
+                        </Fragment>
+                    );
+                })}
+                {points.current.map((point) => (
+                    <ChartPoint
+                        className={_cs(
+                            styles.point,
+                            styles.currentPoint,
+                            (point.x === hoveredPointKey) && styles.hovered,
+                        )}
+                        key={point.x}
+                        x={point.x}
+                        y={point.y}
+                        hovered={point.x === hoveredPointKey}
+                    />
+                ))}
             </svg>
         </div>
     );

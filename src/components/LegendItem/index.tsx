@@ -4,6 +4,7 @@ import styles from './styles.module.css';
 
 interface Props {
     className?: string;
+    colorClassName?: string;
     label?: React.ReactNode;
     color?: string;
 }
@@ -11,6 +12,7 @@ interface Props {
 function LegendItem(props: Props) {
     const {
         className,
+        colorClassName,
         color,
         label,
     } = props;
@@ -19,7 +21,7 @@ function LegendItem(props: Props) {
         <div className={_cs(styles.legendElement, className)}>
             <div
                 style={{ backgroundColor: color }}
-                className={styles.color}
+                className={_cs(styles.color, colorClassName)}
             />
             <div className={styles.label}>
                 {label}

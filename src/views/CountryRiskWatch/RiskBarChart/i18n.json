@@ -5,6 +5,9 @@
         "riskBarChartFilterHazardPlaceholder": "All Hazard types",
         "riskBarChartRiskScoreLabel": "Risk Score",
         "riskBarChartExposureLabel": "People Exposed",
-        "riskBarChartDisplacementLabel": "People at Risk of Displacement"
+        "riskBarChartDisplacementLabel": "People at Risk of Displacement",
+        "currentYearTooltipLabel": "Year {currentYear}",
+        "averageTooltipLabel": "Average (2003-{currentYear})",
+        "minMaxLabel": "Min-Max (2003-{currentYear})"
     }
 }
