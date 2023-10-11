@@ -5,6 +5,7 @@
         "hazardFilterPlaceholder": "All Hazards",
         "peopleAffectedLabel": "People Affected",
         "fundedLabel": "Funding (CHF)",
-        "fundingCoverageLabel": "Funding Coverage"
+        "fundingCoverageLabel": "Funding Coverage",
+        "peopleExposed": "People Exposed / Affected"
     }
 }
