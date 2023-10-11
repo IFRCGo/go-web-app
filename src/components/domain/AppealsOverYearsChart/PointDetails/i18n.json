@@ -1,7 +1,7 @@
 {
     "namespace": "common",
     "strings": {
-        "timelineChartEmergencyAppealLabel":"EmergencyAppeals",
+        "timelineChartEmergencyAppealLabel":"Emergency Appeals",
         "timelineChartDrefLabel":"DREFs",
         "timelineChartAmountFundedLabel": "Amount Funded",
         "timelineChartPeopleTargetedLabel": "People Targeted"
