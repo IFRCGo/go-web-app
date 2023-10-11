@@ -47,6 +47,8 @@ const getFormattedKey = (dateFromProps: string | Date) => {
     return formatDate(date, 'yyyy-MM');
 };
 
+const currentDate = new Date();
+
 interface Props {
     regionId?: number;
     year: number;
@@ -59,6 +61,7 @@ function MonthlyChart(props: Props) {
         regionId,
         onBackButtonClick,
     } = props;
+
     const strings = useTranslation(i18n);
     const dateList = useMemo(
         () => {
@@ -151,9 +154,17 @@ function MonthlyChart(props: Props) {
         { year: year ?? '--' },
     );
     const chartValueSelector = useCallback(
-        (dataKey: DATA_KEY, date: Date) => (
-            combinedData?.[dataKey]?.[getFormattedKey(date)]?.count
-        ),
+        (dataKey: DATA_KEY, date: Date) => {
+            const value = combinedData?.[dataKey]?.[getFormattedKey(date)]?.count;
+            // NOTE: if there are missing values for a given month or year
+            // less then the current date we assume the value to be 0
+            // FIXME: This could be done in the aggregation logic of the server itself
+            if (isNotDefined(value) && date < currentDate) {
+                return 0;
+            }
+
+            return combinedData?.[dataKey]?.[getFormattedKey(date)]?.count;
+        },
         [combinedData],
     );
 
