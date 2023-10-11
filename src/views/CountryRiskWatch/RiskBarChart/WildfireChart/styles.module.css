@@ -56,13 +56,19 @@
             --point-hover-radius: 3pt;
             --point-outline-radius: 4pt;
             --point-stroke-width: 2pt;
-            transition: var(--go-ui-duration-transition-medium) ease-in-out stroke-opacity;
+            transition: var(--go-ui-duration-transition-fast) ease-in-out visibility;
             visibility: hidden;
-            color: var(--go-ui-color-gray-50);
 
             &.hovered {
                 visibility: visible;
             }
+        }
+
+        .average-point {
+            color: #011e41;
+        }
+        .current-point {
+            color: #f5333f;
         }
     }
 }

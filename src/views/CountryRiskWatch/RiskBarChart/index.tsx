@@ -32,6 +32,11 @@ import type {
     RiskMetric,
     RiskMetricOption,
 } from '#utils/domain/risk';
+import {
+    COLOR_LIGHT_GREY,
+    COLOR_PRIMARY_BLUE,
+    COLOR_PRIMARY_RED,
+} from '#utils/constants';
 import { type RiskApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -39,9 +44,12 @@ import styles from './styles.module.css';
 import FoodInsecurityChart from './FoodInsecurityChart';
 import WildfireChart from './WildfireChart';
 import CombinedChart from './CombinedChart';
+import { resolveToString } from '#utils/translation';
 
 type CountryRiskResponse = RiskApiResponse<'/api/v1/country-seasonal/'>;
 type RiskData = CountryRiskResponse[number];
+
+const currentYear = new Date().getFullYear();
 
 interface Props {
     pending: boolean;
@@ -263,6 +271,37 @@ function RiskBarChart(props: Props) {
                                 color={hazardTypeToColorMap[hazard.hazard_type]}
                             />
                         ),
+                    )}
+                    {selectedHazardType === 'WF' && (
+                        <>
+                            <LegendItem
+                                className={styles.legendItem}
+                                colorClassName={styles.color}
+                                label={resolveToString(
+                                    strings.currentYearTooltipLabel,
+                                    { currentYear },
+                                )}
+                                color={COLOR_PRIMARY_RED}
+                            />
+                            <LegendItem
+                                className={styles.legendItem}
+                                colorClassName={styles.color}
+                                label={resolveToString(
+                                    strings.averageTooltipLabel,
+                                    { currentYear },
+                                )}
+                                color={COLOR_PRIMARY_BLUE}
+                            />
+                            <LegendItem
+                                className={styles.legendItem}
+                                colorClassName={styles.color}
+                                label={resolveToString(
+                                    strings.minMaxLabel,
+                                    { currentYear },
+                                )}
+                                color={COLOR_LIGHT_GREY}
+                            />
+                        </>
                     )}
                 </div>
             )}
