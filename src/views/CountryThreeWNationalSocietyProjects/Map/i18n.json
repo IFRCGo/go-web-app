@@ -2,6 +2,7 @@
     "namespace": "countryThreeWNationalSocietyProjects",
     "strings": {
         "reportingNationalSociety": "Reporting NS",
-        "receivingCountry": "Receiving Country"
+        "receivingCountry": "Receiving Country",
+        "countryThreeWNSMapTitle": "{countryName} Projects"
     }
 }

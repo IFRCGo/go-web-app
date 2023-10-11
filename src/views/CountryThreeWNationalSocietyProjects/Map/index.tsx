@@ -3,6 +3,8 @@ import {
     useMemo,
     useCallback,
 } from 'react';
+import { useOutletContext } from 'react-router-dom';
+
 import {
     _cs,
     isDefined,
@@ -31,6 +33,8 @@ import MapPopup from '#components/MapPopup';
 import useCountryRaw, { Country } from '#hooks/domain/useCountryRaw';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
+import { CountryOutletContext } from '#utils/outletContext';
+import { resolveToString } from '#utils/translation';
 import {
     getPointCirclePaint,
     getPointCircleHaloPaint,
@@ -213,6 +217,9 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
 
     const strings = useTranslation(i18n);
     const countries = useCountryRaw();
+    const {
+        countryResponse,
+    } = useOutletContext<CountryOutletContext>();
 
     const [
         clickedPointProperties,
@@ -332,6 +339,10 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
                 >
                     <MapContainerWithDisclaimer
                         className={styles.mapContainer}
+                        title={resolveToString(
+                            strings.countryThreeWNSMapTitle,
+                            { countryName: countryResponse?.society_name ?? '-' },
+                        )}
                         footer={(
                             <div className={styles.legend}>
                                 <LegendItem
@@ -428,14 +439,15 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
                                 childrenContainerClassName={styles.mapPopupContent}
                             >
                                 {(clickedPointProjectsResponsePending
-                                  || clickedPointProjectsResponse?.count === 0)
-                                  && (
-                                      <Message
-                                          pending={clickedPointProjectsResponsePending}
-                                          description={!clickedPointProjectsResponsePending && 'Data not available!'}
-                                          compact
-                                      />
-                                  )}
+                                    || clickedPointProjectsResponse?.count === 0)
+                                    && (
+                                        <Message
+                                            pending={clickedPointProjectsResponsePending}
+                                            description={!clickedPointProjectsResponsePending && 'Data not available!'}
+                                            compact
+                                        />
+
+                                    )}
                                 {clickedPointProjectsResponse?.results?.map(
                                     (project) => (
                                         <Link
