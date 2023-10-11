@@ -99,6 +99,7 @@ export function Component() {
                     withHeaderBorder
                     withInternalPadding
                 >
+                    <div />
                 </Container>
                 <Container
                     className={styles.guideCard}
