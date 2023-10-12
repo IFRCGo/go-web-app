@@ -38,11 +38,17 @@
             }
         }
 
-        .ppp-iframe {
-            border: none;
-            /* background-color: var(--go-ui-color-gray-30); */
-            width: 100%;
-            height: 54rem;
+        .iframe-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .ppp-iframe {
+                border: none;
+                /* background-color: var(--go-ui-color-gray-30); */
+                width: 75%;
+                height: 54rem;
+            }
         }
     }
 }

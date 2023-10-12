@@ -352,6 +352,11 @@ function CountryThreeWMap(props: Props) {
                                         color={pointColorMap[d.key]}
                                     />
                                 ))}
+                                <LegendItem
+                                    key={OPERATION_TYPE_MULTI}
+                                    label={strings.multipleTypesLegend}
+                                    color={pointColorMap[OPERATION_TYPE_MULTI]}
+                                />
                             </div>
                         )}
                     />
