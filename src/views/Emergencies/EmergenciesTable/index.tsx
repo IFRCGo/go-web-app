@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { SortContext } from '#components/Table/useSorting';
-import { encodeDate } from '@togglecorp/fujs';
+import { encodeDate, max } from '@togglecorp/fujs';
 import Table from '#components/Table';
 import Container from '#components/Container';
 import {
@@ -32,6 +32,11 @@ thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 thirtyDaysAgo.setHours(0, 0, 0, 0);
 
 const keySelector = (item: EventListItem) => item.id;
+
+function getMostRecentAffectedValue(fieldReport: EventListItem['field_reports']) {
+    const latestReport = max(fieldReport, (item) => new Date(item.updated_at).getTime());
+    return latestReport?.num_affected;
+}
 
 function EventItemsTable() {
     const strings = useTranslation(i18n);
@@ -102,7 +107,7 @@ function EventItemsTable() {
             createNumberColumn<EventListItem, number>(
                 'num_affected',
                 strings.emergenciesTableAffected,
-                (item) => item?.num_affected,
+                (item) => item.num_affected ?? getMostRecentAffectedValue(item.field_reports),
                 { sortable: true },
             ),
             createCountryListColumn<EventListItem, number>(

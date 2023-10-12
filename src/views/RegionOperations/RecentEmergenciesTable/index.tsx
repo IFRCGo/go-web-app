@@ -1,6 +1,7 @@
 import {
     useMemo,
 } from 'react';
+import { max } from '@togglecorp/fujs';
 import { SortContext } from '#components/Table/useSorting';
 import Table from '#components/Table';
 import Container from '#components/Container';
@@ -30,6 +31,11 @@ type EventListItem = NonNullable<EventResponse['results']>[number];
 const thirtyDaysAgo = new Date();
 thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 thirtyDaysAgo.setHours(0, 0, 0, 0);
+
+function getMostRecentAffectedValue(fieldReport: EventListItem['field_reports']) {
+    const latestReport = max(fieldReport, (item) => new Date(item.updated_at).getTime());
+    return latestReport?.num_affected;
+}
 
 const keySelector = (item: EventListItem) => item.id;
 
@@ -97,7 +103,7 @@ function EventItemsTable(props: Props) {
             createNumberColumn<EventListItem, number>(
                 'num_affected',
                 strings.regionEmergenciesTableNumberAffected,
-                (item) => item.num_affected,
+                (item) => item.num_affected ?? getMostRecentAffectedValue(item.field_reports),
                 { sortable: true },
             ),
             createCountryListColumn<EventListItem, number>(

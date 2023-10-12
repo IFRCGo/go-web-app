@@ -5,6 +5,7 @@
         "threeWMapStatus": "Status",
         "threeWMapProgrammeType": "Programme Type",
         "threeWMapBudget": "Budget",
-        "threeWMapTitle": "Projects in {countryName}"
+        "threeWMapTitle": "Projects in {countryName}",
+        "multipleTypesLegend": "Multiple types"
     }
 }

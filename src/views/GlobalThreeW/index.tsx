@@ -294,6 +294,7 @@ export function Component() {
                     <Container
                         heading={strings.PPPMapTitle}
                         headerDescription={strings.PPPMapDescription}
+                        childrenContainerClassName={styles.iframeContent}
                         withHeaderBorder
                     >
                         <iframe
