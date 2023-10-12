@@ -41,7 +41,7 @@ import useAuth from '#hooks/domain/useAuth';
 import useTranslation from '#hooks/useTranslation';
 import { getUserName } from '#utils/domain/user';
 import { numericIdSelector } from '#utils/selectors';
-import { getPercentage } from '#utils/common';
+import { getPercentage, joinList } from '#utils/common';
 import useFilterState from '#hooks/useFilterState';
 import { resolveToString } from '#utils/translation';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
@@ -125,7 +125,7 @@ export function Component() {
         });
     }, [handleFullScreenChange]);
 
-    const infoBarElements = !pending && aggregatedAppealResponse && (
+    const keyFigures = !pending && aggregatedAppealResponse && (
         <>
             <KeyFigure
                 icon={<DrefIcon />}
@@ -202,22 +202,30 @@ export function Component() {
     );
 
     return (
-        <>
-            {isAuthenticated && (
-                <div>
+        <Page
+            title={strings.homeTitle}
+            className={styles.home}
+            heading={strings.homeHeading}
+            description={strings.homeDescription}
+            mainSectionClassName={styles.content}
+            infoContainerClassName={styles.keyFigureList}
+            info={(
+                <>
+                    {pending && <BlockLoading />}
+                    {!pending && keyFigures}
+                </>
+            )}
+            beforeHeaderContent={isAuthenticated && (
+                <>
                     <PageHeader
                         heading={resolveToString(
                             strings.homeUserNameHeading,
-                            {
-                                userName: getUserName(userResponse),
-                            },
+                            { userName: getUserName(userResponse) },
                         )}
                     />
-                    <PageContainer
-                        contentClassName={styles.greetingCard}
-                    >
+                    <PageContainer contentClassName={styles.userDashContent}>
                         <Container
-                            className={styles.operationsCard}
+                            className={styles.operationsFollowing}
                             heading={strings.homeOperationFollowingHeading}
                             withHeaderBorder
                             footerActions={(
@@ -228,6 +236,8 @@ export function Component() {
                                     onActivePageChange={setPage}
                                 />
                             )}
+                            withInternalPadding
+                            contentViewType="vertical"
                         >
                             <List
                                 className={styles.operationsList}
@@ -241,25 +251,31 @@ export function Component() {
                             />
                         </Container>
                         <Container
-                            className={styles.operationsCard}
+                            className={styles.quickLinks}
                             heading={strings.homeQuickLinksTitle}
-                            childrenContainerClassName={styles.quickCard}
+                            withInternalPadding
+                            withHeaderBorder
+                            contentViewType="vertical"
                         >
                             <TextOutput
                                 label={strings.homeYourCountryLabel}
-                                valueClassName={styles.regionCountryLinkContainer}
-                                value={userCountries?.map((country) => (
-                                    <Link
-                                        to="countriesLayout"
-                                        urlParams={{
-                                            countryId: country.country,
-                                        }}
-                                        key={country.country}
-                                        withLinkIcon
-                                    >
-                                        {country.country_name}
-                                    </Link>
-                                ))}
+                                value={userCountries && (
+                                    joinList(
+                                        userCountries.map((country) => (
+                                            <Link
+                                                to="countriesLayout"
+                                                urlParams={{
+                                                    countryId: country.country,
+                                                }}
+                                                key={country.country}
+                                                withUnderline
+                                            >
+                                                {country.country_name}
+                                            </Link>
+                                        )),
+                                        ', ',
+                                    )
+                                )}
                                 strongValue
                             />
                             <TextOutput
@@ -276,19 +292,21 @@ export function Component() {
                             />
                             <TextOutput
                                 label={strings.homeYourRegionLabel}
-                                valueClassName={styles.regionCountryLinkContainer}
-                                value={userRegions?.map((region) => (
-                                    <Link
-                                        key={region.region}
-                                        to="regionsLayout"
-                                        withLinkIcon
-                                        urlParams={{
-                                            regionId: region.region,
-                                        }}
-                                    >
-                                        {region.region_details.name}
-                                    </Link>
-                                ))}
+                                value={userRegions && (
+                                    joinList(
+                                        userRegions.map((region) => (
+                                            <Link
+                                                key={region.region}
+                                                to="regionsLayout"
+                                                urlParams={{ regionId: region.region }}
+                                                withUnderline
+                                            >
+                                                {region.region_details.name}
+                                            </Link>
+                                        )),
+                                        ', ',
+                                    )
+                                )}
                                 strongValue
                             />
                             <TextOutput
@@ -305,61 +323,47 @@ export function Component() {
                             />
                         </Container>
                     </PageContainer>
-                </div>
+                </>
             )}
-            <Page
-                title={strings.homeTitle}
-                className={styles.home}
-                heading={strings.homeHeading}
-                description={strings.homeDescription}
-                mainSectionClassName={styles.content}
-                infoContainerClassName={styles.keyFigureList}
-                info={(
-                    <>
-                        {pending && <BlockLoading />}
-                        {infoBarElements}
-                    </>
-                )}
+        >
+            <HighlightedOperations variant="global" />
+            <ActiveOperationMap
+                variant="global"
+                onPresentationModeButtonClick={handleFullScreenToggleClick}
+                bbox={undefined}
+            />
+            <AppealsTable variant="global" />
+            <AppealsOverYearsChart />
+            <div
+                className={_cs(presentationMode && styles.presentationMode)}
+                ref={containerRef}
             >
-                <HighlightedOperations variant="global" />
-                <ActiveOperationMap
-                    variant="global"
-                    onPresentationModeButtonClick={handleFullScreenToggleClick}
-                    bbox={undefined}
-                />
-                <AppealsTable variant="global" />
-                <AppealsOverYearsChart />
-                <div
-                    className={_cs(presentationMode && styles.presentationMode)}
-                    ref={containerRef}
-                >
-                    {presentationMode && (
-                        <Container
-                            heading={strings.fullScreenHeading}
-                            actions={(
-                                <IconButton
-                                    name={undefined}
-                                    onClick={handleFullScreenToggleClick}
-                                    title={strings.homeIconButtonLabel}
-                                    variant="secondary"
-                                    ariaLabel={strings.homeIconButtonLabel}
-                                >
-                                    <CloseLineIcon />
-                                </IconButton>
-                            )}
-                            headerDescriptionContainerClassName={styles.keyFigureList}
-                            headerDescription={infoBarElements}
-                        >
-                            <ActiveOperationMap
-                                variant="global"
-                                bbox={undefined}
-                                presentationMode
-                            />
-                        </Container>
-                    )}
-                </div>
-            </Page>
-        </>
+                {presentationMode && (
+                    <Container
+                        heading={strings.fullScreenHeading}
+                        actions={(
+                            <IconButton
+                                name={undefined}
+                                onClick={handleFullScreenToggleClick}
+                                title={strings.homeIconButtonLabel}
+                                variant="secondary"
+                                ariaLabel={strings.homeIconButtonLabel}
+                            >
+                                <CloseLineIcon />
+                            </IconButton>
+                        )}
+                        headerDescriptionContainerClassName={styles.keyFigureList}
+                        headerDescription={keyFigures}
+                    >
+                        <ActiveOperationMap
+                            variant="global"
+                            bbox={undefined}
+                            presentationMode
+                        />
+                    </Container>
+                )}
+            </div>
+        </Page>
     );
 }
 

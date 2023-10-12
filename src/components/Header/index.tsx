@@ -106,6 +106,7 @@ function Header(props: Props) {
         iconsContainerClassName,
         withoutWrap: !wrapHeadingContent,
         spacing,
+        variant: 'sm',
     });
 
     const gapSpacing = useSpacingTokens({

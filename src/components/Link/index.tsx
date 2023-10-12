@@ -106,6 +106,7 @@ export type Props<OMISSION extends string = never> = Omit<RouterLinkProps, 'to' 
     withLinkIcon?: boolean;
     withUnderline?: boolean;
     ellipsize?: boolean;
+    spacing?: ButtonFeatureProps['spacing'];
 }, OMISSION> & ({
     external?: never;
     to: keyof WrappedRoutes | undefined | null;
@@ -136,6 +137,7 @@ function Link(props: Props) {
         withLinkIcon,
         variant = 'tertiary',
         ellipsize,
+        spacing,
 
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         external,
@@ -178,6 +180,7 @@ function Link(props: Props) {
         variant,
         ellipsize,
         disabled,
+        spacing,
         actions: (isDefined(actions) || withLinkIcon) ? (
             <>
                 {actions}
