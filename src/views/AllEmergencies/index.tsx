@@ -2,7 +2,7 @@ import {
     useMemo,
     useCallback,
 } from 'react';
-import { isDefined } from '@togglecorp/fujs';
+import { isDefined, max } from '@togglecorp/fujs';
 import Papa from 'papaparse';
 import { saveAs } from 'file-saver';
 
@@ -46,6 +46,11 @@ type RegionListItem = NonNullable<RegionResponse['results']>[number];
 type EventResponse = GoApiResponse<'/api/v2/event/'>;
 type EventQueryParams = GoApiUrlQuery<'/api/v2/event/'>;
 type EventListItem = NonNullable<EventResponse['results']>[number];
+
+function getMostRecentAffectedValue(fieldReport: EventListItem['field_reports']) {
+    const latestReport = max(fieldReport, (item) => new Date(item.updated_at).getTime());
+    return latestReport?.num_affected;
+}
 
 const eventKeySelector = (item: EventListItem) => item.id;
 
@@ -117,7 +122,7 @@ export function Component() {
             createNumberColumn<EventListItem, number>(
                 'num_affected',
                 strings.allEmergenciesAffected,
-                (item) => item.num_affected,
+                (item) => item.num_affected ?? getMostRecentAffectedValue(item.field_reports),
                 { sortable: true },
             ),
             createCountryListColumn<EventListItem, number>(
