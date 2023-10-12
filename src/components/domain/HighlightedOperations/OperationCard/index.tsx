@@ -178,7 +178,6 @@ function OperationCard(props: Props) {
                     <Link
                         to="emergenciesLayout"
                         urlParams={{ emergencyId: id }}
-                        ellipsize
                     >
                         {strings.operationCardTargetedPopulation}
                     </Link>
@@ -194,7 +193,6 @@ function OperationCard(props: Props) {
                     <Link
                         to="emergencyReportsAndDocuments"
                         urlParams={{ emergencyId: id }}
-                        ellipsize
                     >
                         {strings.operationCardFunding}
                     </Link>

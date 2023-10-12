@@ -52,7 +52,6 @@ function OperationInfoCard(props: Props) {
                 // FIXME: Let's add a link
                 heading={name}
                 headingLevel={5}
-                ellipsizeHeading
                 spacing="none"
                 actions={(
                     <Button
