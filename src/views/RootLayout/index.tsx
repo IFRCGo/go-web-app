@@ -78,13 +78,13 @@ export function Component() {
             const stringMap = mapToMap(
                 listToGroupList(
                     response.strings,
-                    ({ key }) => key.split(':')[0],
+                    ({ page_name }) => page_name ?? 'common',
                 ),
                 (key) => key,
                 (values) => (
                     listToMap(
                         values,
-                        ({ key }) => key.split(':')[1],
+                        ({ key }) => key,
                         ({ value }) => value,
                     )
                 ),
