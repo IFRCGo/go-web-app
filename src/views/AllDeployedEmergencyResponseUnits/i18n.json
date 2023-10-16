@@ -1,12 +1,12 @@
 {
     "namespace": "allDeployedEmergencyResponseUnits",
     "strings": {
-        "containerHeading": "All Deployed Erus ({count})",
+        "containerHeading": "All Deployed ERUs ({count})",
         "failedToCreateExport": "Failed to generate export.",
         "eruTableName": "Owner",
         "eruTableType": "Type",
-        "eruFilterType": "Type of Eru",
-        "eruTableFilterTypePlaceholder": "All Eru Types",
+        "eruFilterType": "Type of ERU",
+        "eruTableFilterTypePlaceholder": "All ERU Types",
         "eruTablePersonnel": "Personnel Units",
         "eruTableEquipment":"Equipments Units",
         "eruTableCountry": "Country Deployed To",

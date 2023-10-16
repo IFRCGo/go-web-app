@@ -3,8 +3,8 @@
     "strings": {
         "nsPreparednessAndResponseCapacityHeading": "NS Preparedness and Response Capacity",
         "startDateLabel": "Start Date",
-        "perPhaseLabel": "Per Phase",
-        "perCycleLabel": "Per Cycle",
+        "perPhaseLabel": "PER Phase",
+        "perCycleLabel": "PER Cycle",
         "typeOfAssessmentLabel": "Type of Assessment",
         "focalPointNameLabel": "Focal Point",
         "focalPointEmailTitle": "Email",

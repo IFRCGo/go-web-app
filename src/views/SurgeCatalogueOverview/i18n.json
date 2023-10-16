@@ -1,7 +1,7 @@
 {
     "namespace": "surgeCatalogueOverview",
     "strings": {
-        "catalogueServiceTitle": "Catalogue of Surge Services",
+        "catalogueServiceTitle": "Catalogue of Surge services",
         "rapidResponseAndAssets": "Rapid Response Personnel and Assets",
         "coreCompetencyFramework": "Core Competency Framework for Surge Personnel",
         "rapidResponseAndAssetsDetailsTop": "Disasters and crisis can have devastating impacts on individuals and communities. The frequency, complexity and severity of impacts are likely to increase in the future due to factors such as climate change, displacement, conflict, rapid and unplanned urbanization, technological hazards and public health emergencies. At the same time, contexts are becoming more complex; countries experiencing disasters associated with natural hazards may simultaneously be affected by conflict or large-scale displacement. The International Federation of Red Cross and Red Crescent Societies (IFRC) and its member National Red Cross and Red Crescent Societies strive to reduce the impact of disasters. (extracted from DRM IFRC policy)",
