@@ -16,6 +16,7 @@ import {
     mapToList,
     mapToMap,
     isFalsyString,
+    isDefined,
 } from '@togglecorp/fujs';
 import { Outlet, useNavigation } from 'react-router-dom';
 
@@ -77,7 +78,17 @@ export function Component() {
         onSuccess: (response, { pages }) => {
             const stringMap = mapToMap(
                 listToGroupList(
-                    response.strings,
+                    response.strings?.map(({ value, page_name, ...otherArgs }) => {
+                        // NOTE: removing empty translations or translations without pages
+                        if (isFalsyString(value) || isFalsyString(page_name)) {
+                            return undefined;
+                        }
+                        return {
+                            value,
+                            page_name,
+                            ...otherArgs,
+                        };
+                    }).filter(isDefined),
                     ({ page_name }) => page_name ?? 'common',
                 ),
                 (key) => key,
