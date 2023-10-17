@@ -293,7 +293,10 @@ export function Component() {
                     </Container>
                     <Container
                         heading={strings.PPPMapTitle}
+                        headingClassName={styles.pppTitle}
+                        headerDescriptionContainerClassName={styles.pppDescription}
                         headerDescription={strings.PPPMapDescription}
+                        headingLevel={1}
                         childrenContainerClassName={styles.iframeContent}
                         withHeaderBorder
                     >

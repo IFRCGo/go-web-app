@@ -75,52 +75,58 @@
         }
 
         .dref-content-title {
-            color: #011e41;
+            color: var(--go-ui-color-primary-red);
             font-family: var(--pdf-font-heading);
             font-size: var(--go-ui-font-size-lg);
             font-weight: var(--go-ui-font-weight-bold);
         }
     }
 
-    .meta-section {
-        display: grid;
-        grid-gap: var(--go-ui-width-separator-md);
-        grid-template-columns: repeat(12, 1fr);
+    .image-section {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-lg);
 
-        .meta-item {
-            grid-column: span 3;
-            display: flex;
-            flex-direction: column;
-            background-color: var(--pdf-element-bg);
-            padding: var(--go-ui-spacing-xs);
-            break-inside: avoid;
-        }
+        .meta-section {
+            display: grid;
+            grid-gap: var(--go-ui-width-separator-md);
+            grid-template-columns: repeat(12, 1fr);
 
-        .yellow {
-            color: #ffc000;
-        }
+            .meta-item {
+                grid-column: span 3;
+                display: flex;
+                flex-direction: column;
+                background-color: var(--pdf-element-bg);
+                padding: var(--go-ui-spacing-xs);
+                break-inside: avoid;
+            }
 
-        .red {
-            color: #f40d11;
-        }
+            .yellow {
+                color: #ffc000;
+            }
 
-        .orange {
-            color: #ed7d31;
-        }
-        .people-targeted {
-            display: flex;
-            flex-direction: column;
-            background-color: var(--pdf-element-bg);
-            padding: var(--go-ui-spacing-sm);
-            grid-column: span 6;
-            break-inside: avoid;
-        }
+            .red {
+                color: #f40d11;
+            }
 
-        .targeted-areas {
-            background-color: var(--pdf-element-bg);
-            padding: var(--go-ui-spacing-sm);
-            grid-column: span 12;
-            break-inside: avoid;
+            .orange {
+                color: #ed7d31;
+            }
+            .people-targeted {
+                display: flex;
+                flex-direction: column;
+                background-color: var(--pdf-element-bg);
+                padding: var(--go-ui-spacing-sm);
+                grid-column: span 6;
+                break-inside: avoid;
+            }
+
+            .targeted-areas {
+                background-color: var(--pdf-element-bg);
+                padding: var(--go-ui-spacing-sm);
+                grid-column: span 12;
+                break-inside: avoid;
+            }
         }
     }
 

@@ -98,12 +98,12 @@ export function Component() {
     const lessonsLearnedDefined = isTruthyString(drefResponse?.lessons_learned?.trim());
     const showPreviousOperations = drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
         isDefined(drefResponse?.did_it_affect_same_area)
-            || isDefined(drefResponse?.did_it_affect_same_population)
-            || isDefined(drefResponse?.did_ns_respond)
-            || isDefined(drefResponse?.did_ns_request_fund)
-            || isTruthyString(drefResponse?.ns_request_text?.trim())
-            || isTruthyString(drefResponse?.dref_recurrent_text?.trim())
-            || lessonsLearnedDefined
+        || isDefined(drefResponse?.did_it_affect_same_population)
+        || isDefined(drefResponse?.did_ns_respond)
+        || isDefined(drefResponse?.did_ns_request_fund)
+        || isTruthyString(drefResponse?.ns_request_text?.trim())
+        || isTruthyString(drefResponse?.dref_recurrent_text?.trim())
+        || lessonsLearnedDefined
     );
 
     const ifrcActionsDefined = isTruthyString(drefResponse?.ifrc?.trim());
@@ -233,120 +233,122 @@ export function Component() {
                     </div>
                 </Header>
             </div>
-            <Image
-                imgElementClassName={styles.image}
-                src={drefResponse?.cover_image_file?.file}
-                caption={drefResponse?.cover_image_file?.caption}
-                captionClassName={styles.caption}
-            />
-            <div className={styles.metaSection}>
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.appealLabel}
-                    value={drefResponse?.appeal_code}
-                    strongValue
+            <div className={styles.imageSection}>
+                <Image
+                    imgElementClassName={styles.image}
+                    src={drefResponse?.cover_image_file?.file}
+                    caption={drefResponse?.cover_image_file?.caption}
+                    captionClassName={styles.caption}
                 />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.countryLabel}
-                    value={drefResponse?.country_details?.name}
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.hazardLabel}
-                    value={drefResponse?.disaster_type_details?.name}
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.typeOfDrefLabel}
-                    value={drefResponse?.type_of_dref_display}
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.crisisCategoryLabel}
-                    value={drefResponse?.disaster_category_display}
-                    valueClassName={_cs(
-                        drefResponse?.disaster_category_display
+                <div className={styles.metaSection}>
+                    <TextOutput
+                        className={styles.metaItem}
+                        label={strings.appealLabel}
+                        value={drefResponse?.appeal_code}
+                        strongValue
+                    />
+                    <TextOutput
+                        className={styles.metaItem}
+                        label={strings.countryLabel}
+                        value={drefResponse?.country_details?.name}
+                        strongValue
+                    />
+                    <TextOutput
+                        className={styles.metaItem}
+                        label={strings.hazardLabel}
+                        value={drefResponse?.disaster_type_details?.name}
+                        strongValue
+                    />
+                    <TextOutput
+                        className={styles.metaItem}
+                        label={strings.typeOfDrefLabel}
+                        value={drefResponse?.type_of_dref_display}
+                        strongValue
+                    />
+                    <TextOutput
+                        className={styles.metaItem}
+                        label={strings.crisisCategoryLabel}
+                        value={drefResponse?.disaster_category_display}
+                        valueClassName={_cs(
+                            drefResponse?.disaster_category_display
                             && colorMap[drefResponse.disaster_category_display],
-                    )}
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.eventOnsetLabel}
-                    value={drefResponse?.type_of_onset_display}
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.budget}
-                    label={strings.drefAllocationLabel}
-                    value={drefResponse?.amount_requested}
-                    valueType="number"
-                    prefix={strings.chfPrefix}
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.glideNumberLabel}
-                    value={drefResponse?.glide_code}
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.peopleAffectedLabel}
-                    value={drefResponse?.num_affected}
-                    valueType="number"
-                    suffix={strings.peopleSuffix}
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.budget}
-                    label={strings.peopleTargetedLabel}
-                    value={drefResponse?.total_targeted_population}
-                    suffix={strings.peopleSuffix}
-                    valueType="number"
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.operationStartDateLabel}
-                    value={drefResponse?.date_of_approval}
-                    valueType="date"
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.operationTimeframeLabel}
-                    value={drefResponse?.operation_timeframe}
-                    valueType="number"
-                    suffix={strings.monthsSuffix}
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.operationEndDateLabel}
-                    value={drefResponse?.end_date}
-                    valueType="date"
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.drefPublishedLabel}
-                    value={drefResponse?.publishing_date}
-                    valueType="date"
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.targetedAreas}
-                    label={strings.targetedAreasLabel}
-                    value={drefResponse?.district_details?.map(
-                        (district) => district.name,
-                    ).join(', ')}
-                    strongValue
-                />
+                        )}
+                        strongValue
+                    />
+                    <TextOutput
+                        className={styles.metaItem}
+                        label={strings.eventOnsetLabel}
+                        value={drefResponse?.type_of_onset_display}
+                        strongValue
+                    />
+                    <TextOutput
+                        className={styles.budget}
+                        label={strings.drefAllocationLabel}
+                        value={drefResponse?.amount_requested}
+                        valueType="number"
+                        prefix={strings.chfPrefix}
+                        strongValue
+                    />
+                    <TextOutput
+                        className={styles.metaItem}
+                        label={strings.glideNumberLabel}
+                        value={drefResponse?.glide_code}
+                        strongValue
+                    />
+                    <TextOutput
+                        className={styles.metaItem}
+                        label={strings.peopleAffectedLabel}
+                        value={drefResponse?.num_affected}
+                        valueType="number"
+                        suffix={strings.peopleSuffix}
+                        strongValue
+                    />
+                    <TextOutput
+                        className={styles.budget}
+                        label={strings.peopleTargetedLabel}
+                        value={drefResponse?.total_targeted_population}
+                        suffix={strings.peopleSuffix}
+                        valueType="number"
+                        strongValue
+                    />
+                    <TextOutput
+                        className={styles.metaItem}
+                        label={strings.operationStartDateLabel}
+                        value={drefResponse?.date_of_approval}
+                        valueType="date"
+                        strongValue
+                    />
+                    <TextOutput
+                        className={styles.metaItem}
+                        label={strings.operationTimeframeLabel}
+                        value={drefResponse?.operation_timeframe}
+                        valueType="number"
+                        suffix={strings.monthsSuffix}
+                        strongValue
+                    />
+                    <TextOutput
+                        className={styles.metaItem}
+                        label={strings.operationEndDateLabel}
+                        value={drefResponse?.end_date}
+                        valueType="date"
+                        strongValue
+                    />
+                    <TextOutput
+                        className={styles.metaItem}
+                        label={strings.drefPublishedLabel}
+                        value={drefResponse?.publishing_date}
+                        valueType="date"
+                        strongValue
+                    />
+                    <TextOutput
+                        className={styles.targetedAreas}
+                        label={strings.targetedAreasLabel}
+                        value={drefResponse?.district_details?.map(
+                            (district) => district.name,
+                        ).join(', ')}
+                        strongValue
+                    />
+                </div>
             </div>
             {showEventDescriptionSection && (
                 <Container
@@ -374,6 +376,18 @@ export function Component() {
                             </DescriptionText>
                         </Container>
                     )}
+                    {imagesFileDefined && drefResponse.images_file?.map(
+                        (imageFile) => (
+                            <Image
+                                imgElementClassName={styles.smallImage}
+                                captionClassName={styles.caption}
+                                key={imageFile.id}
+                                src={imageFile.file}
+                                alt={strings.imageFileAlt}
+                                caption={imageFile.caption}
+                            />
+                        ),
+                    )}
                     {anticipatoryActionsDefined && (
                         <Container
                             heading={strings.anticipatoryActionsHeading}
@@ -393,18 +407,6 @@ export function Component() {
                                 {drefResponse?.event_scope}
                             </DescriptionText>
                         </Container>
-                    )}
-                    {imagesFileDefined && drefResponse.images_file?.map(
-                        (imageFile) => (
-                            <Image
-                                imgElementClassName={styles.smallImage}
-                                captionClassName={styles.caption}
-                                key={imageFile.id}
-                                src={imageFile.file}
-                                alt={strings.imageFileAlt}
-                                caption={imageFile.caption}
-                            />
-                        ),
                     )}
                 </Container>
             )}
@@ -448,6 +450,13 @@ export function Component() {
                         label={strings.recurrentEventJustificationLabel}
                         value={drefResponse?.dref_recurrent_text}
                         valueType="text"
+                    />
+                    <TextOutput
+                        className={styles.lessonsLearned}
+                        label={strings.recurrentEventJustificationLabel}
+                        value={drefResponse?.dref_recurrent_text}
+                        valueType="text"
+                        strongLabel
                     />
                     {lessonsLearnedDefined && (
                         <TextOutput

@@ -38,6 +38,20 @@
             }
         }
 
+        .ppp-title {
+            display:flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .ppp-description {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
         .iframe-content {
             display: flex;
             align-items: center;
