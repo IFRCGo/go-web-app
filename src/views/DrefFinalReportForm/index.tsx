@@ -399,22 +399,33 @@ export function Component() {
                 className={styles.drefFinalReportForm}
                 title={strings.formPageTitle}
                 heading={strings.formPageHeading}
-                actions={isTruthyString(finalReportId) && (
+                actions={(
                     <>
+                        {isTruthyString(finalReportId) && (
+                            <>
+                                <Button
+                                    name={undefined}
+                                    onClick={setShowShareModalTrue}
+                                    disabled={isNotDefined(drefId)}
+                                >
+                                    {strings.formShareButtonLabel}
+                                </Button>
+                                <Button
+                                    name={undefined}
+                                    onClick={setShowExportModalTrue}
+                                    icons={<DownloadTwoLineIcon />}
+                                    disabled={isNotDefined(drefId)}
+                                >
+                                    {strings.formExportLabel}
+                                </Button>
+                            </>
+                        )}
                         <Button
                             name={undefined}
-                            onClick={setShowShareModalTrue}
-                            disabled={isNotDefined(drefId)}
+                            onClick={handleFormSubmit}
+                            disabled={disabled}
                         >
-                            {strings.formShareButtonLabel}
-                        </Button>
-                        <Button
-                            name={undefined}
-                            onClick={setShowExportModalTrue}
-                            icons={<DownloadTwoLineIcon />}
-                            disabled={isNotDefined(drefId)}
-                        >
-                            {strings.formExportLabel}
+                            {strings.formSaveButtonLabel}
                         </Button>
                     </>
                 )}
@@ -554,13 +565,6 @@ export function Component() {
                                     {strings.formContinueButtonLabel}
                                 </Button>
                             </div>
-                            <Button
-                                name={undefined}
-                                onClick={handleFormSubmit}
-                                disabled={activeTab !== 'submission' || disabled}
-                            >
-                                {strings.formSubmitButtonLabel}
-                            </Button>
                         </div>
                     </>
                 )}
