@@ -259,7 +259,6 @@ export function Component() {
                 // is_assessment_report,
                 ...otherValues
             } = removeNull(response);
-
             setValue({
                 ...otherValues,
                 planned_interventions: planned_interventions?.map(
@@ -621,21 +620,32 @@ export function Component() {
                 className={styles.drefOperationalUpdateForm}
                 title={strings.formPageTitle}
                 heading={strings.formPageHeading}
-                actions={isTruthyString(opsUpdateId) && (
+                actions={(
                     <>
+                        {isTruthyString(opsUpdateId) && (
+                            <>
+                                <Button
+                                    name={undefined}
+                                    onClick={handleShareClick}
+                                    disabled={isNotDefined(drefId)}
+                                >
+                                    {strings.formShareButtonLabel}
+                                </Button>
+                                <Button
+                                    name={undefined}
+                                    onClick={handleExportClick}
+                                    icons={<DownloadTwoLineIcon />}
+                                >
+                                    {strings.formExportLabel}
+                                </Button>
+                            </>
+                        )}
                         <Button
                             name={undefined}
-                            onClick={handleShareClick}
-                            disabled={isNotDefined(drefId)}
+                            onClick={handleFormSubmit}
+                            disabled={disabled}
                         >
-                            {strings.formShareButtonLabel}
-                        </Button>
-                        <Button
-                            name={undefined}
-                            onClick={handleExportClick}
-                            icons={<DownloadTwoLineIcon />}
-                        >
-                            {strings.formExportLabel}
+                            {strings.formSaveButtonLabel}
                         </Button>
                     </>
                 )}
@@ -809,13 +819,6 @@ export function Component() {
                                     {strings.formContinueButtonLabel}
                                 </Button>
                             </div>
-                            <Button
-                                name={undefined}
-                                onClick={handleFormSubmit}
-                                disabled={activeTab !== 'submission' || disabled}
-                            >
-                                {strings.formSubmitButtonLabel}
-                            </Button>
                         </div>
                     </>
                 )}

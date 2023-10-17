@@ -509,20 +509,31 @@ export function Component() {
                 className={styles.drefApplicationForm}
                 title={strings.formPageTitle}
                 heading={strings.formPageHeading}
-                actions={isDefined(drefId) && (
+                actions={(
                     <>
+                        {isDefined(drefId) && (
+                            <>
+                                <Button
+                                    name={undefined}
+                                    onClick={handleShareClick}
+                                >
+                                    {strings.formShareButtonLabel}
+                                </Button>
+                                <Button
+                                    name={undefined}
+                                    onClick={handleExportClick}
+                                    icons={<DownloadTwoLineIcon />}
+                                >
+                                    {strings.formExportLabel}
+                                </Button>
+                            </>
+                        )}
                         <Button
                             name={undefined}
-                            onClick={handleShareClick}
+                            onClick={handleFormSubmit}
+                            disabled={disabled}
                         >
-                            {strings.formShareButtonLabel}
-                        </Button>
-                        <Button
-                            name={undefined}
-                            onClick={handleExportClick}
-                            icons={<DownloadTwoLineIcon />}
-                        >
-                            {strings.formExportLabel}
+                            {strings.formSaveButtonLabel}
                         </Button>
                     </>
                 )}
@@ -673,13 +684,6 @@ export function Component() {
                                     {strings.formContinueButtonLabel}
                                 </Button>
                             </div>
-                            <Button
-                                name={undefined}
-                                onClick={handleFormSubmit}
-                                disabled={activeTab !== 'submission' || disabled}
-                            >
-                                {strings.formSubmitButtonLabel}
-                            </Button>
                         </div>
                     </>
                 )}

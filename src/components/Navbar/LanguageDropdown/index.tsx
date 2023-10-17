@@ -13,7 +13,7 @@ import styles from './styles.module.css';
 const languageNameMap: Record<Language, string> = {
     en: 'English',
     fr: 'Français',
-    es: 'Española',
+    es: 'Español',
     ar: 'عربي',
 };
 
