@@ -89,6 +89,8 @@ function DrefShareModal(props: Props) {
 
     return (
         <Modal
+            overlayClassName={styles.overlay}
+            modalContainerClassName={styles.modalContainer}
             className={styles.drefShareModal}
             heading={strings.drefShareTitle}
             headerDescription={strings.drefShareDescription}
