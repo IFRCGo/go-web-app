@@ -1,20 +1,29 @@
-.dref-share-modal {
+.overlay {
     display: flex;
-    flex-direction: column;
 
-    .content {
+    .modal-container {
         display: flex;
-        flex-direction: column;
-        gap: var(--go-ui-spacing-lg);
 
-        .user-list {
+        .dref-share-modal {
             display: flex;
-            flex-wrap: wrap;
-            gap: var(--go-ui-spacing-xs);
-        }
+            flex-direction: column;
+            min-height: 25rem;
 
-        .message {
-            flex-grow: 1;
+            .content {
+                display: flex;
+                flex-direction: column;
+                gap: var(--go-ui-spacing-lg);
+
+                .user-list {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: var(--go-ui-spacing-xs);
+                }
+
+                .message {
+                    flex-grow: 1;
+                }
+            }
         }
     }
 }

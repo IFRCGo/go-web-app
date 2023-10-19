@@ -29,6 +29,7 @@ function UserSearchMultiSelectInput<const NAME>(
 ) {
     const {
         className,
+        options,
         ...otherProps
     } = props;
 
@@ -40,7 +41,7 @@ function UserSearchMultiSelectInput<const NAME>(
         pending,
         response,
     } = useRequest({
-        skip: !dropdownShown,
+        skip: (debouncedSearchText?.length ?? 0) < 1 || !dropdownShown,
         url: '/api/v2/users/',
         query: {
             name: debouncedSearchText,
@@ -57,7 +58,8 @@ function UserSearchMultiSelectInput<const NAME>(
             keySelector={keySelector}
             labelSelector={getUserName}
             onSearchValueChange={setSearchText}
-            searchOptions={response?.results}
+            options={options}
+            searchOptions={response?.results ?? options}
             optionsPending={pending}
             totalOptionsCount={response?.count ?? 0}
             onShowDropdownChange={setShowDropdown}
