@@ -43,6 +43,22 @@
             display: flex;
             align-items: center;
             justify-content: flex-end;
+
+            .home-link {
+                display: inline-flex;
+                align-items: center;
+                transition: var(--go-ui-duration-transition-medium) background-color ease-in-out;
+                border-radius: var(--go-ui-border-radius-full);
+                background-color: var(--go-ui-color-primary-red);
+                padding: var(--go-ui-spacing-4xs) var(--go-ui-spacing-sm);
+                text-decoration: none;
+                color: var(--go-ui-color-white);
+
+                &:hover {
+                    background-color: var(--go-ui-color-red-hover);
+                    text-decoration: underline;
+                }
+            }
         }
     }
 }

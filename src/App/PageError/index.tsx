@@ -3,7 +3,6 @@ import { useRouteError } from 'react-router-dom';
 
 import useBooleanState from '#hooks/useBooleanState';
 import Button from '#components/Button';
-import Link from '#components/Link';
 
 import styles from './styles.module.css';
 
@@ -63,13 +62,13 @@ function PageError() {
                     )}
                 </div>
                 <div className={styles.footer}>
-                    <Link
-                        to="home"
-                        variant="primary"
+                    <a
+                        className={styles.homeLink}
+                        href="/"
                     >
                         {/* FIXME: use translations */}
                         Go back to homepage
-                    </Link>
+                    </a>
                 </div>
             </div>
         </div>
