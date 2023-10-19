@@ -334,20 +334,6 @@ function Navbar(props: Props) {
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                     type="link"
-                                    to={undefined}
-                                    variant="secondary"
-                                >
-                                    {strings.userMenuSubmitEAPActivation}
-                                </DropdownMenuItem>
-                                <DropdownMenuItem
-                                    type="link"
-                                    to={undefined}
-                                    variant="secondary"
-                                >
-                                    {strings.userMenuSubmitEAPFinalReport}
-                                </DropdownMenuItem>
-                                <DropdownMenuItem
-                                    type="link"
                                     to="flashUpdateFormNew"
                                     variant="secondary"
                                 >
