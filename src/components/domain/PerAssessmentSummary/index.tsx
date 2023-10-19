@@ -139,7 +139,9 @@ function PerAssessmentSummary(props: Props) {
              *  "0"(not - reviewed") component values
              */
             const filteredComponents = areaResponse?.component_responses?.filter(
-                (component) => isDefined(component?.rating) && component.rating > 1,
+                (component) => isDefined(component?.rating_details)
+                    && isDefined(component.rating_details.value)
+                    && component.rating_details?.value > 1,
             ) ?? [];
 
             if (filteredComponents.length === 0) {

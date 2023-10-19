@@ -191,9 +191,17 @@ export function Component() {
                 return total / list.length;
             }
 
+            /*  NOTE: The calculation of the average rating is done omitting  null or
+             *  "0"(not - reviewed") component values
+             */
+            const filteredComponents = componentList.filter(
+                (component) => isDefined(component)
+                    && isDefined(component.rating) && component.rating.value > 1,
+            );
+
             const ratingByArea = mapToList(
                 listToGroupList(
-                    componentList.filter((component) => isDefined(component.rating)),
+                    filteredComponents,
                     (component) => component.area.id,
                 ),
                 (groupedComponentList) => ({
@@ -207,7 +215,7 @@ export function Component() {
             ).filter(isDefined);
 
             const averageRating = getAverage(
-                componentList.map((component) => component.rating?.value),
+                filteredComponents.map((component) => component.rating?.value),
             );
 
             const ratingCounts = mapToList(
