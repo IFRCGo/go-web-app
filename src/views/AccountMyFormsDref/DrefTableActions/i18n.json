@@ -1,7 +1,7 @@
 {
     "namespace": "accountMyFormsDref",
     "strings": {
-        "dropdownActionApproveLabel": "Approve",
+        "dropdownActionApproveLabel": "Approved",
         "dropdownActionAllocationFormLabel": "Allocation Form",
         "dropdownActionAddOpsUpdateLabel": "Add Operational Update",
         "dropdownActionCreateFinalReportLabel": "Create Final Report",
