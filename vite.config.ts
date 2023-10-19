@@ -34,7 +34,7 @@ export default defineConfig(({ mode }) => {
             svgr(),
             reactSwc(),
             tsconfigPaths(),
-            webfontDownload(),
+            // webfontDownload(),
             validateEnv(envConfig),
             isProd ? compression() : undefined,
             isProd ? visualizer({ sourcemap: true }) : undefined,
