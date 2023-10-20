@@ -310,10 +310,7 @@ function SearchSelectInput<
             onClearButtonClick={handleClear}
             searchText={searchInputValue}
             onSearchTextChange={handleSearchValueChange}
-            dropdownShown={showDropdown && (
-                (isTruthyString(searchInputValue) && searchInputValue.length > 0)
-                || realOptions.length > 0
-            )}
+            dropdownShown={showDropdown}
             onDropdownShownChange={handleChangeDropdown}
             focused={focused}
             onFocusedChange={setFocused}

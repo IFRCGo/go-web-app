@@ -183,9 +183,11 @@ function SelectInputContainer<
             if (readOnly) {
                 return;
             }
-            handleShowDropdown();
+            if (options.length > 0) {
+                handleShowDropdown();
+            }
         },
-        [readOnly, handleShowDropdown],
+        [readOnly, handleShowDropdown, options],
     );
 
     const handlePopupBlur = useCallback(
