@@ -278,23 +278,23 @@ function KeywordSearchSelectInput() {
         );
     }, [navigate]);
 
-    const handleSearchInputEnter = useCallback(() => {
+    const handleSearchInputEnter = useCallback((text: string | undefined) => {
         // NOTE: We are not deliberately not using debouncedSearchText here
-        const searchStringSafe = searchText?.trim() ?? '';
+        const searchStringSafe = text?.trim() ?? '';
         if (searchStringSafe.length > 0) {
             navigate(
                 'search',
-                { search: `${KEY_URL_SEARCH}=${searchText}` },
+                { search: `${KEY_URL_SEARCH}=${text}` },
             );
         }
     }, [
-        searchText,
         navigate,
     ]);
 
     return (
         <SearchSelectInput
             // eslint-disable-next-line react/jsx-props-no-spreading
+            dropdownHidden={isNotDefined(searchText) || searchText.trim().length <= 0}
             name="keyword"
             options={undefined}
             value={undefined}
