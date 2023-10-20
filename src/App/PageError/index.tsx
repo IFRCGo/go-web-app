@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useRouteError } from 'react-router-dom';
 
 import useBooleanState from '#hooks/useBooleanState';
-import Button from '#components/Button';
+import Button, { useButtonFeatures } from '#components/Button';
 
 import styles from './styles.module.css';
 
@@ -24,6 +24,9 @@ function PageError() {
             toggle: toggleFullErrorVisibility,
         },
     ] = useBooleanState(false);
+    const {
+        className: containerClassName,
+    } = useButtonFeatures({});
 
     return (
         <div className={styles.pageError}>
@@ -62,8 +65,9 @@ function PageError() {
                     )}
                 </div>
                 <div className={styles.footer}>
+                    {/* NOTE: using the anchor element as it will refresh the page */}
                     <a
-                        className={styles.homeLink}
+                        className={containerClassName}
                         href="/"
                     >
                         {/* FIXME: use translations */}
