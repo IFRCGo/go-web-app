@@ -45,6 +45,7 @@ export type Props<
         ) => OPTION[];
         onSearchValueChange?: (value: string | undefined) => void;
         onShowDropdownChange?: (value: boolean) => void;
+        onEnterWithoutOption?: (value: string | undefined) => void;
 
         selectedOnTop: boolean;
     }, OMISSION>
@@ -74,6 +75,7 @@ export type Props<
         | 'hasValue'
         | 'hideOptionFilter'
         | 'onSelectAllButtonClick'
+        | 'onEnterWithoutOption'
         | OMISSION
     >
     & ({
@@ -211,10 +213,14 @@ function SearchSelectInput<
         if (onShowDropdownChange) {
             onShowDropdownChange(false);
         }
-        if (onEnterWithoutOption) {
-            onEnterWithoutOption();
+        setSearchInputValue(undefined);
+        if (onSearchValueChange) {
+            onSearchValueChange(undefined);
         }
-    }, [onShowDropdownChange, onEnterWithoutOption]);
+        if (onEnterWithoutOption) {
+            onEnterWithoutOption(searchInputValue);
+        }
+    }, [searchInputValue, onShowDropdownChange, onEnterWithoutOption, onSearchValueChange]);
 
     const handleChangeDropdown = useCallback(
         (myVal: boolean) => {

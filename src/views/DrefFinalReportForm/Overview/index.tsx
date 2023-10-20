@@ -404,7 +404,7 @@ function Overview(props: Props) {
                             <>
                                 {strings.finalReportPeopleTargeted}
                                 <Link
-                                    title={strings.odrefFormClickEmergencyResponseFramework}
+                                    title={strings.drefFormClickEmergencyResponseFramework}
                                     href={peopleTargetedLink}
                                     external
                                 >
