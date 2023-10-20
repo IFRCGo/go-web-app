@@ -41,6 +41,7 @@ function useBasicLayout(props: Props) {
         variant,
         mode: 'gap',
     });
+
     const innerGapSpacing = useSpacingTokens({
         spacing,
         variant,
