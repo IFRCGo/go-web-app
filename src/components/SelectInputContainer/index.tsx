@@ -63,6 +63,7 @@ export type SelectInputContainerProps<
         onClearButtonClick: () => void;
         onSelectAllButtonClick?: () => void;
         onEnterWithoutOption?: () => void;
+        dropdownHidden?: boolean;
     }, OMISSION>
         & Omit<InputContainerProps, 'input'>
     );
@@ -126,6 +127,7 @@ function SelectInputContainer<
         required,
         variant,
         errorOnTooltip,
+        dropdownHidden,
     } = props;
 
     const options = optionsFromProps ?? (emptyList as OPTION[]);
@@ -257,6 +259,8 @@ function SelectInputContainer<
         ? `${strings.infoMessageAnd} ${totalOptionsCount - optionsCount} ${strings.infoMessageMore}`
         : undefined;
 
+    const dropdownShownActual = dropdownShown && !dropdownHidden;
+
     return (
         <>
             <InputContainer
@@ -309,11 +313,11 @@ function SelectInputContainer<
                                 onClick={handleToggleDropdown}
                                 variant="tertiary"
                                 name={undefined}
-                                title={dropdownShown
+                                title={dropdownShownActual
                                     ? strings.buttonTitleClose
                                     : strings.buttonTitleOpen}
                             >
-                                {dropdownShown
+                                {dropdownShownActual
                                     ? <ArrowUpSmallFillIcon className={styles.icon} />
                                     : <ArrowDownSmallFillIcon className={styles.icon} />}
                             </Button>
@@ -338,7 +342,7 @@ function SelectInputContainer<
                     />
                 )}
             />
-            {dropdownShown && (
+            {dropdownShownActual && (
                 <Popup
                     elementRef={popupRef}
                     parentRef={inputSectionRef}

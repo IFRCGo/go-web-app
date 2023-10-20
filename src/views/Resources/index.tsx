@@ -94,15 +94,6 @@ export function Component() {
             >
                 <Container
                     className={styles.guideCard}
-                    heading={strings.goUserAdminGuide}
-                    headerDescription={strings.goUserAdministrativeGuide}
-                    withHeaderBorder
-                    withInternalPadding
-                >
-                    <div />
-                </Container>
-                <Container
-                    className={styles.guideCard}
                     heading={strings.goReferenceMaterial}
                     headerDescription={strings.goUserReferenceMaterial}
                     childrenContainerClassName={styles.guideList}
@@ -153,6 +144,7 @@ export function Component() {
                         {strings.visitGoWiki}
                     </Link>
                 </Container>
+                <div />
             </Container>
             <Container
                 headingLevel={2}

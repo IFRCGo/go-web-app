@@ -16,13 +16,9 @@ import {
     _cs,
     isDefined,
     isNotDefined,
-    unique,
 } from '@togglecorp/fujs';
 
-import PageContainer from '#components/PageContainer';
-import PageHeader from '#components/PageHeader';
 import Page from '#components/Page';
-import useUserMe from '#hooks/domain/useUserMe';
 import Container from '#components/Container';
 import IconButton from '#components/IconButton';
 import BlockLoading from '#components/BlockLoading';
@@ -32,41 +28,16 @@ import HighlightedOperations from '#components/domain/HighlightedOperations';
 import ActiveOperationMap from '#components/domain/ActiveOperationMap';
 import AppealsTable from '#components/domain/AppealsTable';
 import AppealsOverYearsChart from '#components/domain/AppealsOverYearsChart';
-import OperationListItem, { type Props as OperationListItemProps } from '#components/domain/OperationListItem';
-import List from '#components/List';
-import Pager from '#components/Pager';
-import TextOutput from '#components/TextOutput';
-import Link from '#components/Link';
-import useAuth from '#hooks/domain/useAuth';
 import useTranslation from '#hooks/useTranslation';
-import { getUserName } from '#utils/domain/user';
-import { numericIdSelector } from '#utils/selectors';
-import { getPercentage, joinList } from '#utils/common';
-import useFilterState from '#hooks/useFilterState';
-import { resolveToString } from '#utils/translation';
-import { useRequest, type GoApiResponse } from '#utils/restRequest';
+import { getPercentage } from '#utils/common';
+import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type OperationsResponse = GoApiResponse<'/api/v2/event/'>;
-
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-
-    const {
-        page,
-        setPage,
-        limit,
-        offset,
-    } = useFilterState<object>({
-        filter: {},
-        pageSize: 5,
-    });
-
-    const { isAuthenticated } = useAuth();
-    const userResponse = useUserMe();
 
     const {
         pending: aggregatedAppealPending,
@@ -75,24 +46,7 @@ export function Component() {
         url: '/api/v2/appeal/aggregated',
     });
 
-    const {
-        error: subscribedEventsResponseError,
-        response: subscribedEventsResponse,
-        pending: subscribedEventsResponsePending,
-        retrigger: updateSubscribedEventsResponse,
-    } = useRequest({
-        skip: !isAuthenticated,
-        url: '/api/v2/event/',
-        query: {
-            limit,
-            offset,
-            is_subscribed: true,
-        },
-        preserveResponse: true,
-    });
-
     const pending = aggregatedAppealPending;
-    const eventList = subscribedEventsResponse?.results;
 
     const [
         presentationMode,
@@ -179,28 +133,6 @@ export function Component() {
         </>
     );
 
-    const rendererParams = useCallback(
-        (
-            _: number,
-            operation: NonNullable<OperationsResponse['results']>[number],
-            i: number,
-            data: unknown[],
-        ): OperationListItemProps => ({
-            eventItem: operation,
-            updateSubscibedEvents: updateSubscribedEventsResponse,
-            isLastItem: i === (data.length - 1),
-        }),
-        [updateSubscribedEventsResponse],
-    );
-
-    const userCountries = userResponse?.user_countries_regions;
-    // FIXME: The typing of country should no non-nullabe in the server
-    // NOTE: Only showing unique regions
-    const userRegions = unique(
-        userCountries ?? [],
-        (item) => item.region_details.id,
-    );
-
     return (
         <Page
             title={strings.homeTitle}
@@ -213,116 +145,6 @@ export function Component() {
                 <>
                     {pending && <BlockLoading />}
                     {!pending && keyFigures}
-                </>
-            )}
-            beforeHeaderContent={isAuthenticated && (
-                <>
-                    <PageHeader
-                        heading={resolveToString(
-                            strings.homeUserNameHeading,
-                            { userName: getUserName(userResponse) },
-                        )}
-                    />
-                    <PageContainer contentClassName={styles.userDashContent}>
-                        <Container
-                            className={styles.operationsFollowing}
-                            heading={strings.homeOperationFollowingHeading}
-                            withHeaderBorder
-                            footerActions={(
-                                <Pager
-                                    activePage={page}
-                                    itemsCount={subscribedEventsResponse?.count ?? 0}
-                                    maxItemsPerPage={limit}
-                                    onActivePageChange={setPage}
-                                />
-                            )}
-                            withInternalPadding
-                            contentViewType="vertical"
-                        >
-                            <List
-                                className={styles.operationsList}
-                                data={eventList}
-                                pending={subscribedEventsResponsePending}
-                                errored={isDefined(subscribedEventsResponseError)}
-                                filtered={false}
-                                keySelector={numericIdSelector}
-                                renderer={OperationListItem}
-                                rendererParams={rendererParams}
-                            />
-                        </Container>
-                        <Container
-                            className={styles.quickLinks}
-                            heading={strings.homeQuickLinksTitle}
-                            withInternalPadding
-                            withHeaderBorder
-                            contentViewType="vertical"
-                        >
-                            <TextOutput
-                                label={strings.homeYourCountryLabel}
-                                value={userCountries && (
-                                    joinList(
-                                        userCountries.map((country) => (
-                                            <Link
-                                                to="countriesLayout"
-                                                urlParams={{
-                                                    countryId: country.country,
-                                                }}
-                                                key={country.country}
-                                                withUnderline
-                                            >
-                                                {country.country_name}
-                                            </Link>
-                                        )),
-                                        ', ',
-                                    )
-                                )}
-                                strongValue
-                            />
-                            <TextOutput
-                                label={strings.homeFieldReportLabel}
-                                value={(
-                                    <Link
-                                        to="fieldReportFormNew"
-                                        withLinkIcon
-                                    >
-                                        {strings.homeCreateFieldReport}
-                                    </Link>
-                                )}
-                                strongValue
-                            />
-                            <TextOutput
-                                label={strings.homeYourRegionLabel}
-                                value={userRegions && (
-                                    joinList(
-                                        userRegions.map((region) => (
-                                            <Link
-                                                key={region.region}
-                                                to="regionsLayout"
-                                                urlParams={{ regionId: region.region }}
-                                                withUnderline
-                                            >
-                                                {region.region_details.name}
-                                            </Link>
-                                        )),
-                                        ', ',
-                                    )
-                                )}
-                                strongValue
-                            />
-                            <TextOutput
-                                label={strings.homeFlashUpdateLabel}
-                                value={(
-                                    <Link
-                                        to="flashUpdateFormNew"
-                                        withLinkIcon
-                                    >
-                                        {strings.homeCreateFlashUpdate}
-                                    </Link>
-                                )}
-                                strongValue
-                            />
-                        </Container>
-                    </PageContainer>
                 </>
             )}
         >

@@ -27,6 +27,7 @@ export interface Props extends Omit<ContainerProps, 'withInternalPadding' | 'wit
     closeOnEscape?: boolean;
     onClose?: () => void;
     overlayClassName?: string;
+    modalContainerClassName?: string;
     size?: SizeType;
     withoutCloseButton?: boolean;
 }
@@ -43,6 +44,7 @@ function Modal(props: Props) {
         className,
         actions,
         childrenContainerClassName,
+        modalContainerClassName,
 
         ...containerProps
     } = props;
@@ -78,7 +80,7 @@ function Modal(props: Props) {
     return (
         <BodyOverlay className={_cs(styles.overlay, overlayClassName)}>
             <FocusOn
-                className={_cs(styles.modalContainer, sizeStyle)}
+                className={_cs(styles.modalContainer, modalContainerClassName, sizeStyle)}
                 onClickOutside={handleClickOutside}
                 onEscapeKey={handleEscape}
                 gapMode="padding"
