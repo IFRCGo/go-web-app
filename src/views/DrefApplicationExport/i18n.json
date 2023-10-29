@@ -7,6 +7,7 @@
         "hazardLabel": "Hazard",
         "typeOfDrefLabel": "Type of DREF",
         "drefExportReference": "Click here for reference",
+        "drefExportDownloadBudget": "Click here to download the budget file",
         "crisisCategoryLabel": "Crisis Category",
         "eventOnsetLabel": "Event Onset",
         "drefAllocationLabel": "DREF Allocation",
@@ -88,6 +89,6 @@
         "imageLogoIFRCAlt": "IFRC",
         "imageFileAlt": "image",
         "drefApplicationExportRisk": "Risk",
-        "drefApplicationExportMitigation": "Mitigation"
+        "drefApplicationExportMitigation": "Mitigation action"
     }
 }

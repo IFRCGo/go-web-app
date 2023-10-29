@@ -265,5 +265,6 @@ ul, ol, p {
 @media print {
     @page {
         size: portrait A4;
+        margin: 10mm;
     }
 }

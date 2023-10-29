@@ -136,3 +136,8 @@ export const VISIBILITY_RCRC_MOVEMENT = 1 satisfies Visibility;
 export const VISIBILITY_IFRC_SECRETARIAT = 2 satisfies Visibility;
 export const VISIBILITY_PUBLIC = 3 satisfies Visibility;
 export const VISIBILITY_IFRC_NS = 4 satisfies Visibility;
+
+export type DisasterCategory = components<'read'>['schemas']['DisasterCategoryEnum'];
+export const DISASTER_CATEGORY_YELLOW = 0 satisfies DisasterCategory;
+export const DISASTER_CATEGORY_ORANGE = 1 satisfies DisasterCategory;
+export const DISASTER_CATEGORY_RED = 2 satisfies DisasterCategory;
