@@ -1,0 +1,38 @@
+.image {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    page-break-inside: avoid;
+
+    .img-element {
+        width: 100%;
+        min-height: 20mm;
+        max-height: 140mm;
+    }
+
+    .img-error {
+        width: 100%;
+        min-height: 20mm;
+        max-height: 140mm;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--go-ui-color-text-light);
+        background-color: var(--go-ui-color-background);
+        border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+    }
+
+    &.errored {
+        .img-element {
+            visibility: hidden;
+            min-height: unset;
+            max-height: unset;
+            height: 0;
+        }
+    }
+
+    .caption {
+        background-color: var(--go-ui-color-background);
+        padding: var(--go-ui-spacing-xs);
+    }
+}

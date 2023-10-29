@@ -1,0 +1,37 @@
+.text-output {
+    &.default-variant {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0 var(--go-ui-spacing-sm);
+    }
+
+    .label {
+        &.with-colon::after {
+            content: ':';
+        }
+    }
+
+    .value {
+        &.text-type {
+            text-align: justify;
+            white-space: pre-wrap;
+        }
+    }
+
+    &.contents-variant {
+        display: contents;
+
+        .label,
+        .value {
+            background-color: var(--go-ui-color-background);
+            padding: var(--go-ui-spacing-xs);
+        }
+    }
+
+
+    .strong {
+        color: var(--go-ui-color-black);
+        font-weight: var(--go-ui-font-weight-semibold);
+    }
+}
+

@@ -1,72 +1,19 @@
 .dref-application-export {
-    --pdf-element-bg: var(--go-ui-color-gray-20);
-    --pdf-font-body: OpenSans, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    --pdf-font-heading: Montserrat, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    --pdf-color-heading: #011E41;
+    --pdf-element-bg: var(--go-ui-color-background);
 
-    display: flex;
-    flex-direction: column;
-    font-family: var(--pdf-font-body);
+    font-family: 'Open Sans', sans-serif;
     font-size: var(--go-ui-font-size-sm);
-    gap: var(--go-ui-spacing-2xl);
-
-    h1 {
-        font-family: var(--pdf-font-heading);
-        font-weight: var(--go-ui-font-weight-bold);
-    }
-    h2 {
-        color: var(--pdf-color-heading);
-    }
-    h1, h3 {
-        color: var(--go-ui-color-primary-red);
-        font-family: var(--pdf-font-heading);
-        font-weight: var(--go-ui-font-weight-bold);
-    }
-    h2, h4, h5, h6 {
-        font-family: var(--pdf-font-heading);
-        font-weight: var(--go-ui-font-weight-bold);
-    }
-
-    .text-output {
-        >* {
-            background-color: var(--go-ui-color-gray-20);
-            padding: var(--go-ui-spacing-xs);
-        }
-    }
-
-    .image {
-        max-height: 140mm;
-    }
-
-    .small-image {
-        max-height: 70mm;
-    }
-
-    .caption {
-        background-color: var(--go-ui-color-gray-20);
-        padding: var(--go-ui-spacing-2xs);
-        text-align: left;
-        font-weight: var(--go-ui-font-weight-semibold);
-    }
-
-    .yellow {
-        color: #ffc000;
-    }
-
-    .red {
-        color: #f40d11;
-    }
-
-    .orange {
-        color: #ed7d31;
-    }
 
     @media screen {
-        margin: var(--go-ui-spacing-2xl) auto;
+        margin: var(--go-ui-spacing-xl) auto;
         background-color: var(--go-ui-color-foreground);
-        padding: var(--go-ui-spacing-xl);
+        padding: 10mm;
         width: 210mm;
         min-height: 297mm;
+    }
+
+    .page-break {
+        break-before: page;
     }
 
     .page-title-section {
@@ -74,20 +21,13 @@
         justify-content: space-between;
         text-align: right;
 
-        .main-heading {
-            display: block;
-            text-transform: uppercase;
-            color: var(--go-ui-color-primary-red);
-        }
-
         .ifrc-logo {
             width: 6rem;
             height: 6rem;
         }
 
         .dref-content-title {
-            color: #011e41;
-            font-family: var(--pdf-font-heading);
+            color: var(--go-ui-color-primary-blue);
             font-size: var(--go-ui-font-size-lg);
             font-weight: var(--go-ui-font-weight-bold);
         }
@@ -104,6 +44,18 @@
             background-color: var(--pdf-element-bg);
             padding: var(--go-ui-spacing-sm);
             break-inside: avoid;
+
+            .yellow {
+                color: #ffc000;
+            }
+
+            .red {
+                color: #f40d11;
+            }
+
+            .orange {
+                color: #ed7d31;
+            }
         }
 
         .budget {
@@ -123,249 +75,147 @@
         }
     }
 
-    .event-description-section {
-        break-before: page;
-
-        .content {
-            display: flex;
-            flex-direction: column;
-            gap: var(--go-ui-spacing-xl);
-        }
+    .event-images {
+        display: grid;
+        grid-gap: var(--go-ui-spacing-sm);
+        grid-template-columns: repeat(auto-fit, minmax(50mm, 1fr));
     }
 
-    .previous-operation-section {
-        .content {
-            display: grid;
-            grid-gap: var(--go-ui-width-separator-md);
-            grid-template-columns: 1fr 1fr;
-        }
+    .previous-operations-content {
+        display: grid;
+        grid-gap: var(--go-ui-width-separator-md);
+        grid-template-columns: 1fr 1fr;
 
         .lessons-learned {
             grid-column: span 2;
             background-color: var(--pdf-element-bg);
-            padding: var(--go-ui-spacing-lg);
-            gap: var(--go-ui-spacing-lg);
+            padding: var(--go-ui-spacing-sm);
+            gap: var(--go-ui-spacing-sm);
         }
     }
 
-    .other-actions-section,
-    .movement-partners-actions-section,
-    .ns-actions-section {
-        .content {
-            display: grid;
-            grid-gap: var(--go-ui-width-separator-md);
-            grid-template-columns: 1fr 2fr;
+    .other-actions-content,
+    .movement-partners-actions-content,
+    .ns-actions-content {
+        display: grid;
+        grid-gap: var(--go-ui-width-separator-md);
+        grid-template-columns: 1fr 2fr;
+    }
+
+    .icrc-actions-content {
+        background-color: var(--pdf-element-bg);
+        padding: var(--go-ui-spacing-xs);
+    }
+
+    .needs-identified-heading {
+        display: flex;
+        align-items: center;
+        gap: var(--go-ui-spacing-sm);
+
+        .icon {
+            width: 3rem;
+            height: 3rem;
         }
     }
 
-    .icrc-actions-section {
-        .content {
+    .needs-identified-description {
+        margin-bottom: var(--go-ui-spacing-lg);
+    }
+
+    .target-population-content {
+        display: grid;
+        grid-gap: var(--go-ui-width-separator-md);
+        grid-template-columns: 2fr 1fr 2fr 1fr;
+        page-break-inside: avoid;
+
+        .disabilities-population {
+            grid-column: span 2;
+            padding: var(--go-ui-spacing-xs);
+        }
+
+        .empty-block {
+            grid-column: span 2;
             background-color: var(--pdf-element-bg);
-            padding: var(--go-ui-spacing-lg);
+        }
+
+        .total-targeted-population-value {
+            color: var(--go-ui-color-primary-red);
+            grid-column: span 3;
         }
     }
 
-    .needs-identified-section {
-        .content {
-            display: flex;
-            flex-direction: column;
-            gap: var(--go-ui-spacing-xl);
+    .risk-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: var(--go-ui-width-separator-md);
 
-            .heading-section {
-                align-items: center;
+        .risk,
+        .mitigation {
+            background-color: var(--pdf-element-bg);
+            padding: var(--go-ui-spacing-xs);
+        }
 
-                .icon {
-                    width: 4rem;
-                    height: 4rem;
-                }
-            }
+        .risk-title,
+        .mitigation-title {
+            background-color: var(--pdf-element-bg);
+            padding: var(--go-ui-spacing-xs);
+            font-weight: var(--go-ui-font-weight-bold);
         }
     }
 
-    .targeting-strategy-section,
-    .operational-strategy-section {
-        .content {
-            display: flex;
-            flex-direction: column;
-            gap: var(--go-ui-spacing-xl);
+    .planned-intervention-heading {
+        display: flex;
+        align-items: center;
+
+        .icon {
+            width: 3rem;
+            height: 3rem;
         }
     }
 
-    .target-population-section {
-        .content {
-            display: grid;
-            grid-gap: var(--go-ui-width-separator-md);
-            grid-template-columns: 2fr 1fr 1fr 1fr;
+    .planned-intervention-meta-details {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: var(--go-ui-spacing-2xs);
+    }
 
-            .left {
-                display: grid;
-                grid-gap: var(--go-ui-width-separator-md);
-                grid-template-columns: 2fr 1fr;
-                grid-column: span 2;
-            }
-            .right {
-                display: grid;
-                grid-gap: var(--go-ui-width-separator-md);
-                grid-template-columns: 1fr 1fr;
-                grid-template-rows: 1fr 1fr 1fr 1fr;
-                grid-column: span 2;
+    .planned-intervention-indicators {
+        display: grid;
+        grid-template-columns: 5fr 3fr;
+        grid-gap: var(--go-ui-width-separator-sm);
 
-                .disabilities {
-                    >* {
-                        grid-row: 2 span;
-                    }
-                }
-            }
-            .total-targeted-population-value {
-                grid-column: span 3;
-                color: var(--go-ui-color-primary-red);
-            }
+        .title-label,
+        .target-label {
+            background-color: var(--go-ui-color-element-background);
+            padding: var(--go-ui-spacing-sm);
+            font-weight: var(--go-ui-font-weight-semibold);
+        }
 
-            .total-targeted-population-label {
-                grid-column: span 1;
-            }
+        .title,
+        .target {
+            background-color: var(--go-ui-color-element-background);
+            padding: var(--go-ui-spacing-sm);
         }
     }
 
-    .risk-and-security-considerations-section {
-        .content {
-            display: flex;
-            flex-direction: column;
-            gap: var(--go-ui-spacing-xl);
-
-            .risk-heading {
-                background-color: var(--go-ui-color-gray-20);
-                padding: var(--go-ui-spacing-xs);
-                color: var(--go-ui-color-primary-red);
-            }
-
-            .risk-list {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                grid-gap: var(--go-ui-width-separator-md);
-
-                .risk,
-                .mitigation {
-                    background-color: var(--pdf-element-bg);
-                    padding: var(--go-ui-spacing-xs);
-                    break-inside: avoid;
-                }
-
-                .risk-title,
-                .mitigation-title {
-                    background-color: var(--pdf-element-bg);
-                    padding: var(--go-ui-spacing-xs);
-                    font-weight: var(--go-ui-font-weight-semibold);
-                    break-inside: avoid;
-                }
-            }
-
-            .description {
-                background-color: var(--go-ui-color-gray-20);
-                padding: var(--go-ui-spacing-xs);
-            }
-        }
+    .download-icon {
+        font-size: var(--go-ui-height-icon-multiplier);
     }
 
-    .planned-intervention-section {
-        .content {
-            display: flex;
-            flex-direction: column;
-            gap: var(--go-ui-spacing-lg);
-
-            .planned-intervention {
-                background-color: var(--pdf-element-bg);
-
-                .intervention-heading {
-                    color: var(--pdf-color-heading);
-                }
-
-                .meta-details {
-                    display: grid;
-                    width: 50%;
-                    grid-template-columns: 1fr 1fr;
-                    grid-gap: var(--go-ui-spacing-2xs);
-
-                    .text-output {
-                        >* {
-                            background-color: var(--go-ui-color-element-background);
-                        }
-                    }
-                }
-
-                .heading-section {
-                    align-items: center;
-
-                    .icon {
-                        width: 4rem;
-                        height: 4rem;
-                    }
-                }
-
-                .planned-intervention-content {
-                    display: flex;
-                    flex-direction: column;
-                    gap: var(--go-ui-spacing-lg);
-
-                    .indicators-content {
-                        display: grid;
-                        grid-template-columns: 5fr 3fr;
-                        grid-gap: var(--go-ui-width-separator-sm);
-
-                        .title-label,
-                        .target-label {
-                            background-color: var(--go-ui-color-element-background);
-                            padding: var(--go-ui-spacing-sm);
-                            font-weight: var(--go-ui-font-weight-semibold);
-                        }
-
-                        .title,
-                        .target {
-                            background-color: var(--go-ui-color-element-background);
-                            padding: var(--go-ui-spacing-sm);
-                        }
-                    }
-                }
-            }
-        }
+    .budget-file-preview {
+        height: 240mm;
+        object-fit: contain;
+        object-position: top center;
+        max-height: unset;
     }
 
-    .about-support-services-section {
-        .content {
-            display: flex;
-            flex-direction: column;
-            gap: var(--go-ui-spacing-2xl);
-        }
-    }
+    .contact-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-xs);
 
-    .budget-overview-section {
-        break-before: page;
-
-        .download-icon {
-            font-size: 2rem;
-        }
-
-        .content {
-            .budget-file-preview {
-                width: 100%;
-                height: 220mm;
-                object-fit: contain;
-                object-position: top center;
-            }
-        }
-    }
-
-    .contact-information-section {
-        break-before: page;
-
-        .content {
-            display: flex;
-            flex-direction: column;
-            gap: var(--go-ui-spacing-xs);
-
-            .contact-person-label {
-                color: var(--go-ui-color-primary-red);
-            }
+        .contact-person-label {
+            color: var(--go-ui-color-primary-red);
         }
     }
 }
