@@ -37,6 +37,7 @@
         "userMenuSubmit3WProject":"Submit 3W Project",
         "userMenuRespondLabel":"Respond",
         "userMenuEmergencies":"Emergencies",
+        "userMenuEmergenciesDescription": "Follow currently ongoing emergencies, as well as access the list of previous emergencies or IFRC-led operations.",
         "userMenuEarlyWarning":"Early Warning",
         "userMenuDrefProcess":"DREF Process ",
         "userMenuSurgeDeployments":"Surge/Deployments",

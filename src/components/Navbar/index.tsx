@@ -293,7 +293,7 @@ function Navbar(props: Props) {
                                 className={styles.optionDetail}
                             >
                                 <div className={styles.description}>
-                                    {strings.userMenuSurgeDeployments}
+                                    {strings.userMenuEmergenciesDescription}
                                 </div>
                                 <DropdownMenuItem
                                     type="link"
