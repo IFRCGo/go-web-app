@@ -18,7 +18,7 @@ import {
     isTruthyString,
 } from '@togglecorp/fujs';
 import {
-    DownloadTwoLineIcon,
+    DownloadTwoLineIcon, ShareLineIcon,
 } from '@ifrc-go/icons';
 
 import { type FieldReportItem as FieldReportSearchItem } from '#components/domain/FieldReportSearchSelectInput';
@@ -516,6 +516,8 @@ export function Component() {
                                 <Button
                                     name={undefined}
                                     onClick={handleShareClick}
+                                    variant="secondary"
+                                    icons={<ShareLineIcon />}
                                 >
                                     {strings.formShareButtonLabel}
                                 </Button>
@@ -523,6 +525,7 @@ export function Component() {
                                     name={undefined}
                                     onClick={handleExportClick}
                                     icons={<DownloadTwoLineIcon />}
+                                    variant="secondary"
                                 >
                                     {strings.formExportLabel}
                                 </Button>

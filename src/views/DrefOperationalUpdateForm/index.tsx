@@ -11,6 +11,7 @@ import {
 import {
     ErrorWarningFillIcon,
     DownloadTwoLineIcon,
+    ShareLineIcon,
 } from '@ifrc-go/icons';
 import {
     useForm,
@@ -628,6 +629,8 @@ export function Component() {
                                     name={undefined}
                                     onClick={handleShareClick}
                                     disabled={isNotDefined(drefId)}
+                                    icons={<ShareLineIcon />}
+                                    variant="secondary"
                                 >
                                     {strings.formShareButtonLabel}
                                 </Button>
@@ -635,6 +638,7 @@ export function Component() {
                                     name={undefined}
                                     onClick={handleExportClick}
                                     icons={<DownloadTwoLineIcon />}
+                                    variant="secondary"
                                 >
                                     {strings.formExportLabel}
                                 </Button>
