@@ -18,7 +18,7 @@ import {
     isTruthyString,
 } from '@togglecorp/fujs';
 import {
-    DownloadTwoLineIcon,
+    DownloadTwoLineIcon, ShareLineIcon,
 } from '@ifrc-go/icons';
 
 import Page from '#components/Page';
@@ -407,6 +407,8 @@ export function Component() {
                                     name={undefined}
                                     onClick={setShowShareModalTrue}
                                     disabled={isNotDefined(drefId)}
+                                    variant="secondary"
+                                    icons={<ShareLineIcon />}
                                 >
                                     {strings.formShareButtonLabel}
                                 </Button>
@@ -414,7 +416,7 @@ export function Component() {
                                     name={undefined}
                                     onClick={setShowExportModalTrue}
                                     icons={<DownloadTwoLineIcon />}
-                                    disabled={isNotDefined(drefId)}
+                                    variant="secondary"
                                 >
                                     {strings.formExportLabel}
                                 </Button>
