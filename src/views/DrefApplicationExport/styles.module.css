@@ -46,15 +46,15 @@
             break-inside: avoid;
 
             .yellow {
-                color: #ffc000;
+                color: var(--go-ui-color-yellow);
             }
 
             .red {
-                color: #f40d11;
+                color: var(--go-ui-color-red);
             }
 
             .orange {
-                color: #ed7d31;
+                color: var(--go-ui-color-orange);
             }
         }
 
@@ -105,6 +105,13 @@
     .icrc-actions-content {
         background-color: var(--pdf-element-bg);
         padding: var(--go-ui-spacing-xs);
+    }
+
+    .other-actions-major-coordination-mechanism {
+        grid-column: span 2;
+        padding: var(--go-ui-spacing-xs);
+        background-color: var(--pdf-element-bg);
+        gap: var(--go-ui-spacing-xs);
     }
 
     .needs-identified-heading {
@@ -166,17 +173,12 @@
     .planned-intervention-heading {
         display: flex;
         align-items: center;
+        gap: var(--go-ui-spacing-sm);
 
         .icon {
             width: 3rem;
             height: 3rem;
         }
-    }
-
-    .planned-intervention-meta-details {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-gap: var(--go-ui-spacing-2xs);
     }
 
     .planned-intervention-indicators {
@@ -196,10 +198,6 @@
             background-color: var(--go-ui-color-element-background);
             padding: var(--go-ui-spacing-sm);
         }
-    }
-
-    .download-icon {
-        font-size: var(--go-ui-height-icon-multiplier);
     }
 
     .budget-file-preview {

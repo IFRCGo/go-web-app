@@ -10,9 +10,9 @@ import {
 import Container from '#components/printable/Container';
 import TextOutput, { type Props as TextOutputProps } from '#components/printable/TextOutput';
 import Image from '#components/printable/Image';
-import Link from '#components/Link';
 import Heading from '#components/printable/Heading';
-import DescriptionText from '#components/domain/DescriptionText';
+import DescriptionText from '#components/printable/DescriptionText';
+import Link from '#components/Link';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import {
@@ -369,59 +369,59 @@ export function Component() {
             {showEventDescriptionSection && (
                 <>
                     <div className={styles.pageBreak} />
-                    <Container
-                        heading={strings.eventDescriptionSectionHeading}
-                        headingLevel={2}
-                    >
+                    <Heading level={2}>
+                        {strings.eventDescriptionSectionHeading}
+                    </Heading>
+                    {isTruthyString(drefResponse?.event_map_file?.file) && (
                         <Container>
                             <Image
                                 src={drefResponse?.event_map_file?.file}
                                 caption={drefResponse?.event_map_file?.caption}
                             />
                         </Container>
-                        {eventDescriptionDefined && (
-                            <Container
-                                heading={drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
-                                    ? strings.situationUpdateSectionHeading
-                                    : strings.whatWhereWhenSectionHeading}
-                            >
-                                <DescriptionText>
-                                    {drefResponse?.event_description}
-                                </DescriptionText>
-                            </Container>
-                        )}
-                        {imagesFileDefined && (
-                            <Container childrenContainerClassName={styles.eventImages}>
-                                {drefResponse.images_file?.map(
-                                    (imageFile) => (
-                                        <Image
-                                            key={imageFile.id}
-                                            src={imageFile.file}
-                                            caption={imageFile.caption}
-                                        />
-                                    ),
-                                )}
-                            </Container>
-                        )}
-                        {anticipatoryActionsDefined && (
-                            <Container
-                                heading={strings.anticipatoryActionsHeading}
-                            >
-                                <DescriptionText>
-                                    {drefResponse?.anticipatory_actions}
-                                </DescriptionText>
-                            </Container>
-                        )}
-                        {eventScopeDefined && (
-                            <Container
-                                heading={strings.scopeAndScaleSectionHeading}
-                            >
-                                <DescriptionText>
-                                    {drefResponse?.event_scope}
-                                </DescriptionText>
-                            </Container>
-                        )}
-                    </Container>
+                    )}
+                    {eventDescriptionDefined && (
+                        <Container
+                            heading={drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
+                                ? strings.situationUpdateSectionHeading
+                                : strings.whatWhereWhenSectionHeading}
+                        >
+                            <DescriptionText>
+                                {drefResponse?.event_description}
+                            </DescriptionText>
+                        </Container>
+                    )}
+                    {imagesFileDefined && (
+                        <Container childrenContainerClassName={styles.eventImages}>
+                            {drefResponse.images_file?.map(
+                                (imageFile) => (
+                                    <Image
+                                        key={imageFile.id}
+                                        src={imageFile.file}
+                                        caption={imageFile.caption}
+                                    />
+                                ),
+                            )}
+                        </Container>
+                    )}
+                    {anticipatoryActionsDefined && (
+                        <Container
+                            heading={strings.anticipatoryActionsHeading}
+                        >
+                            <DescriptionText>
+                                {drefResponse?.anticipatory_actions}
+                            </DescriptionText>
+                        </Container>
+                    )}
+                    {eventScopeDefined && (
+                        <Container
+                            heading={strings.scopeAndScaleSectionHeading}
+                        >
+                            <DescriptionText>
+                                {drefResponse?.event_scope}
+                            </DescriptionText>
+                        </Container>
+                    )}
                 </>
             )}
             {showPreviousOperations && (
@@ -560,11 +560,13 @@ export function Component() {
                         />
                     )}
                     {majorCoordinationMechanismDefined && (
-                        <BlockTextOutput
+                        <TextOutput
+                            className={styles.otherActionsMajorCoordinationMechanism}
                             label={strings.majorCoordinationMechanismLabel}
                             value={drefResponse?.major_coordination_mechanism}
                             valueType="text"
                             strongLabel
+                            withoutLabelColon
                         />
                     )}
                 </Container>
@@ -775,15 +777,11 @@ export function Component() {
                                     <img
                                         className={styles.icon}
                                         src={plannedIntervention.image_url}
-                                        alt={strings.imageFileAlt}
+                                        alt=""
                                     />
                                     {plannedIntervention.title_display}
                                 </Heading>
-                                <Container
-                                    childrenContainerClassName={
-                                        styles.plannedInterventionMetaDetails
-                                    }
-                                >
+                                <Container>
                                     <TextOutput
                                         label={strings.budgetLabel}
                                         value={plannedIntervention.budget}
@@ -800,7 +798,7 @@ export function Component() {
                                 </Container>
                                 <Container
                                     heading={strings.indicatorsHeading}
-                                    headingLevel={4}
+                                    headingLevel={5}
                                     childrenContainerClassName={
                                         styles.plannedInterventionIndicators
                                     }
@@ -824,7 +822,7 @@ export function Component() {
                                 </Container>
                                 <Container
                                     heading={strings.priorityActionsHeading}
-                                    headingLevel={4}
+                                    headingLevel={5}
                                 >
                                     <DescriptionText>
                                         {plannedIntervention.description}
@@ -960,7 +958,6 @@ export function Component() {
                                 strongLabel
                             />
                         )}
-                        {/* FIXME: Add references */}
                     </Container>
                     <Link
                         to="emergencies"
