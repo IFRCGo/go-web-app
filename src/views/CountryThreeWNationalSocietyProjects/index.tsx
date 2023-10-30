@@ -129,7 +129,7 @@ export function Component() {
         ongoingProjectBudget,
         programmeTypeStats,
         projectStatusTypeStats,
-        activeNSCount,
+        countryCountWithNSProjects,
     } = useMemo(() => {
         const projectsOngoing = filteredProjectList
             .filter((p) => p.status === PROJECT_STATUS_ONGOING);
@@ -164,7 +164,7 @@ export function Component() {
             (d, k) => ({ label: String(k), value: d.length }),
         );
 
-        const numberOfActiveNS = unique(projectsOngoing, (d) => d.reporting_ns).length;
+        const numCountriesWithNSProjects = unique(projectsOngoing, (d) => d.project_country).length;
 
         return {
             ongoingProjects: projectsOngoing,
@@ -172,7 +172,7 @@ export function Component() {
             ongoingProjectBudget: ongoingBudget,
             programmeTypeStats: programmeTypes,
             projectStatusTypeStats: projectStatusTypes,
-            activeNSCount: numberOfActiveNS,
+            countryCountWithNSProjects: numCountriesWithNSProjects,
         };
     }, [filteredProjectList]);
 
@@ -286,8 +286,8 @@ export function Component() {
         projectListResponse?.count,
     ]);
 
-    const showCard1 = activeNSCount > 0 || targetedPopulation > 0;
-    const showCard2 = projectList.length > 0 || programmeTypeStats.length > 0;
+    const showCard1 = countryCountWithNSProjects > 0 || targetedPopulation > 0;
+    const showCard2 = filteredProjectList.length > 0 || programmeTypeStats.length > 0;
     const showCard3 = ongoingProjectBudget > 0 || projectStatusTypeStats.length > 0;
 
     const showCardsSection = showCard1 || showCard2 || showCard3;
@@ -301,7 +301,7 @@ export function Component() {
                         <div className={styles.keyFigureCard}>
                             <KeyFigure
                                 className={styles.keyFigure}
-                                value={activeNSCount}
+                                value={countryCountWithNSProjects}
                                 label={strings.activeDeploymentsTitle}
                                 labelClassName={styles.keyFigureDescription}
                             />
@@ -319,7 +319,7 @@ export function Component() {
                         <div className={styles.keyFigureCard}>
                             <KeyFigure
                                 className={styles.keyFigure}
-                                value={projectList.length}
+                                value={filteredProjectList.length}
                                 label={strings.totalProjectsTitle}
                                 labelClassName={styles.keyFigureDescription}
                             />
