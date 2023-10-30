@@ -72,6 +72,19 @@ export function Component() {
         },
     });
 
+    // FIXME: show surge tab for the emergency if there is surge alerts to it
+    // This could be done by adding surge alert count to the emergency instance API in future
+    const {
+        response: surgeAlertsResponse,
+    } = useRequest({
+        url: '/api/v2/surge_alert/',
+        preserveResponse: true,
+        query: {
+            limit: 5,
+            event: Number(emergencyId),
+        },
+    });
+
     const {
         pending: addSubscriptionPending,
         trigger: triggerAddSubscription,
@@ -180,6 +193,9 @@ export function Component() {
         }),
         [emergencyResponse, emergencyAdditionalTabs],
     );
+
+    const showSurgeTab = (surgeAlertsResponse?.count ?? 0) > 0
+        || (emergencyResponse?.active_deployments ?? 0) > 0;
 
     return (
         <Page
@@ -298,18 +314,22 @@ export function Component() {
                 >
                     {strings.emergencyTabReports}
                 </NavigationTab>
-                <NavigationTab
-                    to="emergencyActivities"
-                    urlParams={{ emergencyId }}
-                >
-                    {strings.emergencyTabActivities}
-                </NavigationTab>
-                <NavigationTab
-                    to="emergencySurge"
-                    urlParams={{ emergencyId }}
-                >
-                    {strings.emergencyTabSurge}
-                </NavigationTab>
+                {(emergencyResponse?.response_activity_count ?? 0) > 0 && (
+                    <NavigationTab
+                        to="emergencyActivities"
+                        urlParams={{ emergencyId }}
+                    >
+                        {strings.emergencyTabActivities}
+                    </NavigationTab>
+                )}
+                {(showSurgeTab) && (
+                    <NavigationTab
+                        to="emergencySurge"
+                        urlParams={{ emergencyId }}
+                    >
+                        {strings.emergencyTabSurge}
+                    </NavigationTab>
+                )}
                 {emergencyAdditionalTabs.map((tab) => (
                     <NavigationTab
                         key={tab.routeName}
