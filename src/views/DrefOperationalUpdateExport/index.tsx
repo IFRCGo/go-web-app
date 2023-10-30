@@ -1,5 +1,5 @@
 import { Fragment, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, ScrollRestoration } from 'react-router-dom';
 import {
     _cs,
     isDefined,
@@ -7,28 +7,45 @@ import {
     isTruthyString,
 } from '@togglecorp/fujs';
 
-import Container from '#components/Container';
-import Image from '#components/Image';
-import Header from '#components/Header';
+import Container from '#components/printable/Container';
+import TextOutput, { type Props as TextOutputProps } from '#components/printable/TextOutput';
+import Image from '#components/printable/Image';
+import Heading from '#components/printable/Heading';
+import DescriptionText from '#components/printable/DescriptionText';
+
 import Link from '#components/Link';
-import TextOutput from '#components/TextOutput';
-import DescriptionText from '#components/domain/DescriptionText';
-import BlockTextOutput from '#components/domain/BlockTextOutput';
 import NumberOutput from '#components/NumberOutput';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
-import { DREF_TYPE_ASSESSMENT, DREF_TYPE_IMMINENT } from '#utils/constants';
+import {
+    DISASTER_CATEGORY_ORANGE,
+    DISASTER_CATEGORY_RED,
+    DISASTER_CATEGORY_YELLOW,
+    DREF_TYPE_ASSESSMENT,
+    DREF_TYPE_IMMINENT,
+    DisasterCategory,
+} from '#utils/constants';
 
 import ifrcLogo from '#assets/icons/ifrc-square.png';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-const colorMap: Record<string, string | undefined> = {
-    Yellow: styles.yellow,
-    Orange: styles.orange,
-    Red: styles.red,
-    Text: undefined,
+function BlockTextOutput(props: TextOutputProps & { variant?: never, withoutLabelColon?: never }) {
+    return (
+        <TextOutput
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...props}
+            variant="contents"
+            withoutLabelColon
+        />
+    );
+}
+
+const colorMap: Record<DisasterCategory, string> = {
+    [DISASTER_CATEGORY_YELLOW]: styles.yellow,
+    [DISASTER_CATEGORY_ORANGE]: styles.orange,
+    [DISASTER_CATEGORY_RED]: styles.red,
 };
 
 // eslint-disable-next-line import/prefer-default-export
@@ -175,8 +192,6 @@ export function Component() {
         || pmerDefined
         || communicationDefined;
 
-    // const showBudgetOverviewSection = isTruthyString(drefResponse?.budget_file_details?.file);
-
     const nsContactText = [
         drefResponse?.national_society_contact_name,
         drefResponse?.national_society_contact_title,
@@ -220,29 +235,34 @@ export function Component() {
 
     return (
         <div className={styles.drefOperationalUpdateExport}>
-            <div className={styles.pageTitleSection}>
+            <ScrollRestoration />
+            <Container childrenContainerClassName={styles.pageTitleSection}>
                 <img
                     className={styles.ifrcLogo}
                     src={ifrcLogo}
-                    alt={strings.drefOperationalImageAlt}
+                    alt={strings.imageLogoIFRCAlt}
                 />
-                <Header
-                    heading={strings.exportTitle}
-                    headingLevel={1}
-                    spacing="compact"
-                >
+                <div>
+                    <Heading level={1}>
+                        {strings.exportTitle}
+                    </Heading>
                     <div className={styles.drefContentTitle}>
                         {drefResponse?.title}
                     </div>
-                </Header>
-            </div>
-            <Image
-                imgElementClassName={styles.image}
-                src={drefResponse?.cover_image_file?.file}
-                caption={drefResponse?.cover_image_file?.caption}
-                captionClassName={styles.caption}
-            />
-            <div className={styles.metaSection}>
+                </div>
+            </Container>
+            {isDefined(drefResponse)
+                && isDefined(drefResponse.cover_image_file)
+                && isDefined(drefResponse.cover_image_file.file)
+                && (
+                    <Container>
+                        <Image
+                            src={drefResponse?.cover_image_file?.file}
+                            caption={drefResponse?.cover_image_file?.caption}
+                        />
+                    </Container>
+                )}
+            <Container childrenContainerClassName={styles.metaSection}>
                 <TextOutput
                     className={styles.metaItem}
                     label={strings.appealLabel}
@@ -262,19 +282,12 @@ export function Component() {
                     label={strings.crisisCategoryLabel}
                     value={drefResponse?.disaster_category_display}
                     valueClassName={_cs(
-                        drefResponse?.disaster_category_display
-                            && colorMap[drefResponse.disaster_category_display],
+                        isDefined(drefResponse)
+                            && isDefined(drefResponse.disaster_category)
+                            && colorMap[drefResponse.disaster_category],
                     )}
                     strongValue
                 />
-                {/*
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.countryLabel}
-                    value={drefResponse?.country_details?.name}
-                    strongValue
-                />
-                */}
                 <TextOutput
                     className={styles.metaItem}
                     label={strings.hazardLabel}
@@ -287,14 +300,6 @@ export function Component() {
                     value={drefResponse?.glide_code}
                     strongValue
                 />
-                {/*
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.typeOfDrefLabel}
-                    value={drefResponse?.type_of_dref_display}
-                    strongValue
-                />
-                */}
                 <TextOutput
                     className={styles.metaItem}
                     label={strings.peopleAffectedLabel}
@@ -340,7 +345,7 @@ export function Component() {
                     strongValue
                 />
                 <TextOutput
-                    className={styles.metaItem}
+                    className={styles.additionalAllocation}
                     label={strings.additionalAllocationRequestedLabel}
                     value={drefResponse?.additional_allocation}
                     valueType="number"
@@ -354,47 +359,48 @@ export function Component() {
                     ).join(', ')}
                     strongValue
                 />
-            </div>
+            </Container>
             {showEventDescriptionSection && (
-                <Container
-                    heading={strings.eventDescriptionSectionHeading}
-                    className={styles.eventDescriptionSection}
-                    headingLevel={2}
-                    childrenContainerClassName={styles.content}
-                >
-                    <Image
-                        imgElementClassName={styles.image}
-                        captionClassName={styles.caption}
-                        src={drefResponse?.event_map_file?.file}
-                        caption={drefResponse?.event_map_file?.caption}
-                    />
+                <>
+                    <div className={styles.pageBreak} />
+                    <Heading level={2}>
+                        {strings.eventDescriptionSectionHeading}
+                    </Heading>
+                    {isTruthyString(drefResponse?.event_map_file?.file) && (
+                        <Container>
+                            <Image
+                                src={drefResponse?.event_map_file?.file}
+                                caption={drefResponse?.event_map_file?.caption}
+                            />
+                        </Container>
+                    )}
                     {eventDescriptionDefined && (
                         <Container
                             heading={drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
                                 ? strings.situationUpdateSectionHeading
                                 : strings.whatWhereWhenSectionHeading}
-                            spacing="compact"
                         >
                             <DescriptionText>
                                 {drefResponse?.event_description}
                             </DescriptionText>
                         </Container>
                     )}
-                    {imagesFileDefined && drefResponse.images_file?.map(
-                        (imageFile) => (
-                            <Image
-                                imgElementClassName={styles.smallImage}
-                                captionClassName={styles.caption}
-                                key={imageFile.id}
-                                src={imageFile.file}
-                                caption={imageFile.caption}
-                            />
-                        ),
+                    {imagesFileDefined && (
+                        <Container childrenContainerClassName={styles.eventImages}>
+                            {drefResponse.images_file?.map(
+                                (imageFile) => (
+                                    <Image
+                                        key={imageFile.id}
+                                        src={imageFile.file}
+                                        caption={imageFile.caption}
+                                    />
+                                ),
+                            )}
+                        </Container>
                     )}
                     {anticipatoryActionsDefined && (
                         <Container
                             heading={strings.anticipatoryActionsHeading}
-                            spacing="compact"
                         >
                             <DescriptionText>
                                 {drefResponse?.anticipatory_actions}
@@ -404,66 +410,57 @@ export function Component() {
                     {eventScopeDefined && (
                         <Container
                             heading={strings.scopeAndScaleSectionHeading}
-                            spacing="compact"
                         >
                             <DescriptionText>
                                 {drefResponse?.event_scope}
                             </DescriptionText>
                         </Container>
                     )}
-                </Container>
+                </>
             )}
             {showSummaryOfChangesSection && (
                 <Container
                     heading={strings.summaryOfChangesSectionHeading}
-                    className={styles.summaryOfChangesSection}
-                    childrenContainerClassName={styles.content}
+                    childrenContainerClassName={styles.summaryOfChangesContent}
                     headingLevel={2}
                 >
                     <BlockTextOutput
-                        className={styles.textOutput}
                         label={strings.changingTimeFrameLabel}
                         value={drefResponse?.changing_timeframe_operation}
                         valueType="boolean"
                         strongValue
                     />
                     <BlockTextOutput
-                        className={styles.textOutput}
                         label={strings.changingStrategyLabel}
                         value={drefResponse?.changing_operation_strategy}
                         valueType="boolean"
                         strongValue
                     />
                     <BlockTextOutput
-                        className={styles.textOutput}
                         label={strings.changingTargetPopulationLabel}
                         value={drefResponse?.changing_target_population_of_operation}
                         valueType="boolean"
                         strongValue
                     />
                     <BlockTextOutput
-                        className={styles.textOutput}
                         label={strings.changingLocationLabel}
                         value={drefResponse?.changing_geographic_location}
                         valueType="boolean"
                         strongValue
                     />
                     <BlockTextOutput
-                        className={styles.textOutput}
                         label={strings.changingBudgetLabel}
                         value={drefResponse?.changing_budget}
                         valueType="boolean"
                         strongValue
                     />
                     <BlockTextOutput
-                        className={styles.textOutput}
                         label={strings.secondAllocationLabel}
                         value={drefResponse?.request_for_second_allocation}
                         valueType="boolean"
                         strongValue
                     />
                     <BlockTextOutput
-                        className={styles.textOutput}
                         label={strings.eventMaterializedLabel}
                         value={drefResponse?.has_forecasted_event_materialize}
                         valueType="boolean"
@@ -490,28 +487,28 @@ export function Component() {
                 </Container>
             )}
             {showNsActionsSection && (
-                <Container
-                    heading={strings.currentNationalSocietyActionsHeading}
-                    className={styles.nsActionsSection}
-                    childrenContainerClassName={styles.content}
-                    headingLevel={2}
-                >
-                    {nsActionImagesDefined && drefResponse?.photos_file?.map(
-                        (nsActionImage) => (
-                            <Image
-                                captionClassName={styles.caption}
-                                key={nsActionImage.id}
-                                src={nsActionImage.file}
-                                caption={nsActionImage.caption}
-                            />
-                        ),
+                <>
+                    <Heading level={2}>
+                        {strings.currentNationalSocietyActionsHeading}
+                    </Heading>
+                    {nsActionImagesDefined && (
+                        <Container childrenContainerClassName={styles.nsActionsImages}>
+                            {drefResponse?.photos_file?.map(
+                                (nsActionImage) => (
+                                    <Image
+                                        key={nsActionImage.id}
+                                        src={nsActionImage.file}
+                                        caption={nsActionImage.caption}
+                                    />
+                                ),
+                            )}
+                        </Container>
                     )}
                     {nsActionsDefined && (
-                        <div className={styles.actions}>
+                        <Container childrenContainerClassName={styles.nsActionsList}>
                             {drefResponse?.national_society_actions?.map(
                                 (nsAction) => (
                                     <BlockTextOutput
-                                        className={styles.textOutput}
                                         key={nsAction.id}
                                         label={nsAction.title_display}
                                         value={nsAction.description}
@@ -520,20 +517,18 @@ export function Component() {
                                     />
                                 ),
                             )}
-                        </div>
+                        </Container>
                     )}
-                </Container>
+                </>
             )}
             {showMovementPartnersActionsSection && (
                 <Container
                     heading={strings.movementPartnersActionsHeading}
-                    className={styles.movementPartnersActionsSection}
-                    childrenContainerClassName={styles.content}
+                    childrenContainerClassName={styles.movementPartnersActionsContent}
                     headingLevel={2}
                 >
                     {ifrcActionsDefined && (
                         <BlockTextOutput
-                            className={styles.textOutput}
                             label={strings.secretariatLabel}
                             value={drefResponse?.ifrc}
                             valueType="text"
@@ -542,7 +537,6 @@ export function Component() {
                     )}
                     {partnerNsActionsDefined && (
                         <BlockTextOutput
-                            className={styles.textOutput}
                             label={strings.participatingNsLabel}
                             value={drefResponse?.partner_national_society}
                             valueType="text"
@@ -554,8 +548,7 @@ export function Component() {
             {icrcActionsDefined && (
                 <Container
                     heading={strings.icrcActionsHeading}
-                    className={styles.icrcActionsSection}
-                    childrenContainerClassName={styles.content}
+                    childrenContainerClassName={styles.icrcActionsContent}
                     headingLevel={2}
                 >
                     <DescriptionText>
@@ -566,13 +559,11 @@ export function Component() {
             {showOtherActorsActionsSection && (
                 <Container
                     heading={strings.otherActionsHeading}
-                    className={styles.otherActionsSection}
-                    childrenContainerClassName={styles.content}
+                    childrenContainerClassName={styles.otherActionsContent}
                     headingLevel={2}
                 >
                     {governmentRequestedAssistanceDefined && (
                         <BlockTextOutput
-                            className={styles.textOutput}
                             label={strings.governmentRequestedAssistanceLabel}
                             value={drefResponse?.government_requested_assistance}
                             valueType="boolean"
@@ -581,7 +572,6 @@ export function Component() {
                     )}
                     {nationalAuthoritiesDefined && (
                         <BlockTextOutput
-                            className={styles.textOutput}
                             label={strings.nationalAuthoritiesLabel}
                             value={drefResponse?.national_authorities}
                             valueType="text"
@@ -590,7 +580,6 @@ export function Component() {
                     )}
                     {unOrOtherActorDefined && (
                         <BlockTextOutput
-                            className={styles.textOutput}
                             label={strings.unOrOtherActorsLabel}
                             value={drefResponse?.un_or_other_actor}
                             valueType="text"
@@ -598,65 +587,56 @@ export function Component() {
                         />
                     )}
                     {majorCoordinationMechanismDefined && (
-                        <BlockTextOutput
-                            className={_cs(styles.textOutput, styles.majorCoordination)}
+                        <TextOutput
+                            className={styles.otherActionsMajorCoordinationMechanism}
                             label={strings.majorCoordinationMechanismLabel}
                             value={drefResponse?.major_coordination_mechanism}
                             valueType="text"
                             strongLabel
+                            withoutLabelColon
                         />
                     )}
                 </Container>
             )}
             {showNeedsIdentifiedSection && (
-                <Container
-                    heading={strings.needsIdentifiedSectionHeading}
-                    headingLevel={2}
-                    className={styles.needsIdentifiedSection}
-                    childrenContainerClassName={styles.content}
-                >
+                <>
+                    <Heading level={2}>
+                        {strings.needsIdentifiedSectionHeading}
+                    </Heading>
                     {needsIdentifiedDefined && drefResponse?.needs_identified?.map(
                         (identifiedNeed) => (
-                            <Container
-                                key={identifiedNeed.id}
-                                heading={identifiedNeed.title_display}
-                                headingSectionClassName={styles.headingSection}
-                                spacing="compact"
-                                icons={(
+                            <Fragment key={identifiedNeed.id}>
+                                <Heading className={styles.needsIdentifiedHeading}>
                                     <img
                                         className={styles.icon}
                                         src={identifiedNeed.image_url}
                                         alt={strings.drefOperationalImageAlt}
                                     />
-                                )}
-                            >
-                                <DescriptionText>
+                                    {identifiedNeed.title_display}
+                                </Heading>
+                                <DescriptionText className={styles.needsIdentifiedDescription}>
                                     {identifiedNeed.description}
                                 </DescriptionText>
-                            </Container>
+                            </Fragment>
                         ),
                     )}
                     {identifiedGapsDefined && (
-                        <Container
-                            heading={strings.identifiedGapsHeading}
-                            spacing="compact"
-                        >
-                            {drefResponse?.identified_gaps}
+                        <Container heading={strings.identifiedGapsHeading}>
+                            <DescriptionText>
+                                {drefResponse?.identified_gaps}
+                            </DescriptionText>
                         </Container>
                     )}
-                </Container>
+                </>
             )}
             {showOperationStrategySection && (
-                <Container
-                    heading={strings.operationalStrategySectionHeading}
-                    headingLevel={2}
-                    className={styles.operationalStrategySection}
-                    childrenContainerClassName={styles.content}
-                >
+                <>
+                    <Heading level={2}>
+                        {strings.operationalStrategySectionHeading}
+                    </Heading>
                     {operationObjectiveDefined && (
                         <Container
                             heading={strings.overallObjectiveHeading}
-                            spacing="compact"
                         >
                             <DescriptionText>
                                 {drefResponse?.operation_objective}
@@ -666,26 +646,22 @@ export function Component() {
                     {responseStrategyDefined && (
                         <Container
                             heading={strings.operationStragegyHeading}
-                            spacing="compact"
                         >
                             <DescriptionText>
                                 {drefResponse?.response_strategy}
                             </DescriptionText>
                         </Container>
                     )}
-                </Container>
+                </>
             )}
             {showTargetingStrategySection && (
-                <Container
-                    heading={strings.targetingStrategySectionHeading}
-                    headingLevel={2}
-                    className={styles.targetingStrategySection}
-                    childrenContainerClassName={styles.content}
-                >
+                <>
+                    <Heading level={2}>
+                        {strings.targetingStrategySectionHeading}
+                    </Heading>
                     {peopleAssistedDefined && (
                         <Container
                             heading={strings.peopleAssistedHeading}
-                            spacing="compact"
                         >
                             <DescriptionText>
                                 {drefResponse?.people_assisted}
@@ -695,116 +671,90 @@ export function Component() {
                     {selectionCriteriaDefined && (
                         <Container
                             heading={strings.selectionCriteriaHeading}
-                            spacing="compact"
                         >
                             <DescriptionText>
                                 {drefResponse?.selection_criteria}
                             </DescriptionText>
                         </Container>
                     )}
-                </Container>
+                </>
             )}
-            {/* TODO: check if this section is also optional */}
             <Container
                 heading={strings.targetPopulationSectionHeading}
                 headingLevel={2}
-                className={styles.targetPopulationSection}
-                childrenContainerClassName={styles.content}
+                childrenContainerClassName={styles.targetPopulationContent}
             >
-                <div className={styles.left}>
-                    {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
-                        <>
-                            <BlockTextOutput
-                                className={styles.textOutput}
-                                labelClassName={styles.categoryLabel}
-                                label={strings.womenLabel}
-                                value={drefResponse?.women}
-                                valueType="number"
-                                strongValue
-                            />
-                            <BlockTextOutput
-                                className={styles.textOutput}
-                                label={strings.girlsLabel}
-                                value={drefResponse?.girls}
-                                valueType="number"
-                                strongValue
-                                labelClassName={styles.categoryLabel}
-                            />
-                            <BlockTextOutput
-                                className={styles.textOutput}
-                                label={strings.menLabel}
-                                value={drefResponse?.men}
-                                valueType="number"
-                                strongValue
-                                labelClassName={styles.categoryLabel}
-                            />
-                            <BlockTextOutput
-                                className={styles.textOutput}
-                                label={strings.boysLabel}
-                                value={drefResponse?.boys}
-                                valueType="number"
-                                strongValue
-                                labelClassName={styles.categoryLabel}
-                            />
-                        </>
-                    )}
-                </div>
-                <div className={styles.right}>
+                {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
                     <BlockTextOutput
-                        className={styles.textOutput}
-                        label={strings.ruralLabel}
-                        value={isDefined(drefResponse?.people_per_local)
-                            ? Number(drefResponse?.people_per_local)
-                            : undefined}
-                        valueType="number"
-                        suffix="%"
-                        strongValue
-                    />
-                    <BlockTextOutput
-                        className={_cs(styles.textOutput, styles.ruralUrban)}
-                        label={strings.urbanLabel}
-                        value={isDefined(drefResponse?.people_per_urban)
-                            ? Number(drefResponse?.people_per_urban)
-                            : undefined}
-                        suffix="%"
+                        label={strings.womenLabel}
+                        value={drefResponse?.women}
                         valueType="number"
                         strongValue
                     />
-                    <BlockTextOutput
-                        className={_cs(styles.textOutput, styles.disabilities)}
-                        label={strings.peopleWithDisabilitesLabel}
-                        value={isDefined(drefResponse?.disability_people_per)
-                            ? Number(drefResponse?.disability_people_per)
-                            : undefined}
-                        labelClassName={styles.disabilityLabel}
-                        valueClassName={styles.disabilityValue}
-                        suffix="%"
-                        valueType="number"
-                        strongValue
-                    />
-                </div>
+                )}
                 <BlockTextOutput
-                    className={styles.textOutput}
+                    label={strings.ruralLabel}
+                    value={drefResponse?.people_per_local}
+                    valueType="number"
+                    suffix="%"
+                    strongValue
+                />
+                {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
+                    <BlockTextOutput
+                        label={strings.girlsLabel}
+                        value={drefResponse?.girls}
+                        valueType="number"
+                        strongValue
+                    />
+                )}
+                <BlockTextOutput
+                    label={strings.urbanLabel}
+                    value={drefResponse?.people_per_urban}
+                    suffix="%"
+                    valueType="number"
+                    strongValue
+                />
+                {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
+                    <BlockTextOutput
+                        label={strings.menLabel}
+                        value={drefResponse?.men}
+                        valueType="number"
+                        strongValue
+                    />
+                )}
+                <BlockTextOutput
+                    className={styles.disabilitiesPopulation}
+                    label={strings.peopleWithDisabilitesLabel}
+                    value={drefResponse?.disability_people_per}
+                    suffix="%"
+                    valueType="number"
+                    strongValue
+                />
+                {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
+                    <BlockTextOutput
+                        label={strings.boysLabel}
+                        value={drefResponse?.boys}
+                        valueType="number"
+                        strongValue
+                    />
+                )}
+                <div className={styles.emptyBlock} />
+                <BlockTextOutput
                     label={strings.targetedPopulationLabel}
                     value={drefResponse?.total_targeted_population}
-                    labelClassName={styles.totalTargetedPopulationLabel}
                     valueClassName={styles.totalTargetedPopulationValue}
                     valueType="number"
                     strongValue
                 />
             </Container>
             {showRiskAndSecuritySection && (
-                <Container
-                    heading={strings.riskAndSecuritySectionHeading}
-                    headingLevel={2}
-                    className={styles.riskAndSecurityConsiderationsSection}
-                    childrenContainerClassName={styles.content}
-                >
+                <>
+                    <Heading level={2}>
+                        {strings.riskAndSecuritySectionHeading}
+                    </Heading>
                     {riskSecurityDefined && (
                         <Container
                             heading={strings.riskSecurityHeading}
-                            spacing="compact"
-                            headingClassName={styles.riskHeading}
                             childrenContainerClassName={styles.riskList}
                             headingLevel={6}
                         >
@@ -817,12 +767,12 @@ export function Component() {
                             {drefResponse?.risk_security?.map(
                                 (riskSecurity) => (
                                     <Fragment key={riskSecurity.id}>
-                                        <div className={styles.risk}>
+                                        <DescriptionText className={styles.risk}>
                                             {riskSecurity.risk}
-                                        </div>
-                                        <div className={styles.mitigation}>
+                                        </DescriptionText>
+                                        <DescriptionText className={styles.mitigation}>
                                             {riskSecurity.mitigation}
-                                        </div>
+                                        </DescriptionText>
                                     </Fragment>
                                 ),
                             )}
@@ -831,9 +781,7 @@ export function Component() {
                     {riskSecurityConcernDefined && (
                         <Container
                             heading={strings.safetyConcernHeading}
-                            spacing="compact"
                             headingLevel={6}
-                            headingClassName={styles.riskHeading}
                         >
                             <DescriptionText
                                 className={styles.description}
@@ -842,60 +790,45 @@ export function Component() {
                             </DescriptionText>
                         </Container>
                     )}
-                </Container>
+                </>
             )}
             {plannedInterventionDefined && (
-                <Container
-                    heading={strings.plannedInterventionSectionHeading}
-                    headingLevel={2}
-                    className={styles.plannedInterventionSection}
-                    childrenContainerClassName={styles.content}
-                >
+                <>
+                    <Heading level={2}>
+                        {strings.plannedInterventionSectionHeading}
+                    </Heading>
                     {drefResponse?.planned_interventions?.map(
                         (plannedIntervention) => (
-                            <Container
-                                key={plannedIntervention.id}
-                                className={styles.plannedIntervention}
-                                icons={(
+                            <Fragment key={plannedIntervention.id}>
+                                <Heading className={styles.plannedInterventionHeading}>
                                     <img
                                         className={styles.icon}
                                         src={plannedIntervention.image_url}
-                                        alt={strings.drefOperationalOtherImageAlt}
+                                        alt=""
                                     />
-                                )}
-                                headingSectionClassName={styles.headingSection}
-                                headingClassName={styles.interventionHeading}
-                                heading={plannedIntervention.title_display}
-                                actionsContainerClassName={styles.metaDetails}
-                                withoutWrapInHeading
-                                actions={(
-                                    <>
-                                        <BlockTextOutput
-                                            className={styles.textOutput}
-                                            label={strings.targetedPersonsLabel}
-                                            value={plannedIntervention.person_targeted}
-                                            valueType="number"
-                                            strongLabel
-                                        />
-                                        <BlockTextOutput
-                                            className={styles.textOutput}
-                                            label={strings.budgetLabel}
-                                            value={plannedIntervention.budget}
-                                            valueType="number"
-                                            prefix={strings.chfPrefix}
-                                            strongLabel
-                                        />
-                                    </>
-                                )}
-                                withInternalPadding
-                                withHeaderBorder
-                                childrenContainerClassName={styles.plannedInterventionContent}
-                            >
+                                    {plannedIntervention.title_display}
+                                </Heading>
+                                <Container>
+                                    <TextOutput
+                                        label={strings.budgetLabel}
+                                        value={plannedIntervention.budget}
+                                        valueType="number"
+                                        prefix={strings.chfPrefix}
+                                        strongLabel
+                                    />
+                                    <TextOutput
+                                        label={strings.targetedPersonsLabel}
+                                        value={plannedIntervention.person_targeted}
+                                        valueType="number"
+                                        strongLabel
+                                    />
+                                </Container>
                                 <Container
                                     heading={strings.indicatorsHeading}
-                                    headingLevel={4}
-                                    spacing="compact"
-                                    childrenContainerClassName={styles.indicatorsContent}
+                                    headingLevel={5}
+                                    childrenContainerClassName={
+                                        styles.plannedInterventionIndicators
+                                    }
                                 >
                                     <div className={styles.titleLabel}>
                                         {strings.indicatorTitleLabel}
@@ -924,31 +857,29 @@ export function Component() {
                                         ),
                                     )}
                                 </Container>
-                                <Container
-                                    heading={strings.progressTowardsOutcomeHeading}
-                                    headingLevel={4}
-                                    spacing="compact"
-                                >
-                                    <DescriptionText>
-                                        {plannedIntervention.progress_towards_outcome}
-                                    </DescriptionText>
-                                </Container>
-                            </Container>
+                                {isTruthyString(plannedIntervention.progress_towards_outcome) && (
+                                    <Container
+                                        heading={strings.progressTowardsOutcomeHeading}
+                                        headingLevel={5}
+                                    >
+                                        <DescriptionText>
+                                            {plannedIntervention.progress_towards_outcome}
+                                        </DescriptionText>
+                                    </Container>
+                                )}
+                            </Fragment>
                         ),
                     )}
-                </Container>
+                </>
             )}
             {showAboutSupportServicesSection && (
-                <Container
-                    heading={strings.aboutSupportServicesSectionHeading}
-                    headingLevel={2}
-                    className={styles.aboutSupportServicesSection}
-                    childrenContainerClassName={styles.content}
-                >
+                <>
+                    <Heading level={2}>
+                        {strings.aboutSupportServicesSectionHeading}
+                    </Heading>
                     {humanResourceDefined && (
                         <Container
                             heading={strings.humanResourcesHeading}
-                            spacing="compact"
                         >
                             <DescriptionText>
                                 {drefResponse?.human_resource}
@@ -958,7 +889,6 @@ export function Component() {
                     {surgePersonnelDeployedDefined && (
                         <Container
                             heading={strings.surgePersonnelDeployedHeading}
-                            spacing="compact"
                         >
                             <DescriptionText>
                                 {drefResponse?.surge_personnel_deployed}
@@ -968,7 +898,6 @@ export function Component() {
                     {logisticCapacityOfNsDefined && (
                         <Container
                             heading={strings.logisticCapacityHeading}
-                            spacing="compact"
                         >
                             <DescriptionText>
                                 {drefResponse?.logistic_capacity_of_ns}
@@ -978,7 +907,6 @@ export function Component() {
                     {pmerDefined && (
                         <Container
                             heading={strings.pmerHeading}
-                            spacing="compact"
                         >
                             <DescriptionText>
                                 {drefResponse?.pmer}
@@ -988,46 +916,24 @@ export function Component() {
                     {communicationDefined && (
                         <Container
                             heading={strings.communicationHeading}
-                            spacing="compact"
                         >
                             <DescriptionText>
                                 {drefResponse?.communication}
                             </DescriptionText>
                         </Container>
                     )}
-                </Container>
+                </>
             )}
-            {/* FIXME: confirm if budget overview section is needed here */}
-            {/* showBudgetOverviewSection && (
-                <Container
-                    heading={strings.budgetOverSectionHeading}
-                    headingLevel={2}
-                    className={styles.budgetOverviewSection}
-                    childrenContainerClassName={styles.content}
-                    actions={(
-                        <Link
-                            to={drefResponse?.budget_file_details?.file}
-                        >
-                            <DownloadLineIcon className={styles.downloadIcon} />
-                        </Link>
-                    )}
-                >
-                    <img
-                        className={styles.budgetFilePreview}
-                        src={drefResponse?.budget_file_preview}
-                        alt=""
-                    />
-                </Container>
-            ) */}
             {showContactsSection && (
                 <>
-                    <Container
-                        className={styles.contactInformationSection}
-                        childrenContainerClassName={styles.content}
-                        heading={strings.contactInformationSectionHeading}
-                        headingLevel={2}
-                        headerDescription={strings.contactInformationSectionDescription}
-                    >
+                    <div className={styles.pageBreak} />
+                    <Heading level={2}>
+                        {strings.contactInformationSectionHeading}
+                    </Heading>
+                    <Container>
+                        {strings.contactInformationSectionDescription}
+                    </Container>
+                    <Container childrenContainerClassName={styles.contactList}>
                         {nsContactDefined && (
                             <TextOutput
                                 labelClassName={styles.contactPersonLabel}
