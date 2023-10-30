@@ -131,6 +131,7 @@ export function Component() {
             (appeal) => appeal.amount_requested,
         ),
     );
+
     const funding = sumSafe(
         emergencyResponse?.appeals.map(
             (appeal) => appeal.amount_funded,
@@ -252,27 +253,34 @@ export function Component() {
             infoContainerClassName={styles.keyFigureList}
             info={(
                 <>
-                    <KeyFigure
-                        icon={<TargetedPopulationIcon />}
-                        className={styles.keyFigure}
-                        value={peopleTargeted}
-                        compactValue
-                        label={strings.emergencyPeopleTargetedLabel}
-                    />
-                    <KeyFigure
-                        icon={<FundingIcon />}
-                        className={styles.keyFigure}
-                        value={fundingRequirements}
-                        compactValue
-                        label={strings.emergencyFundingRequirementsLabel}
-                    />
-                    <KeyFigure
-                        icon={<FundingCoverageIcon />}
-                        className={styles.keyFigure}
-                        value={funding}
-                        compactValue
-                        label={strings.emergencyFundingLabel}
-                    />
+                    {isDefined(peopleTargeted) && (
+                        <KeyFigure
+                            icon={<TargetedPopulationIcon />}
+                            className={styles.keyFigure}
+                            value={peopleTargeted}
+                            compactValue
+                            label={strings.emergencyPeopleTargetedLabel}
+                        />
+                    )}
+                    {isDefined(fundingRequirements) && (
+                        <KeyFigure
+                            icon={<FundingIcon />}
+                            className={styles.keyFigure}
+                            value={fundingRequirements}
+                            compactValue
+                            label={strings.emergencyFundingRequirementsLabel}
+                        />
+
+                    )}
+                    {isDefined(funding) && (
+                        <KeyFigure
+                            icon={<FundingCoverageIcon />}
+                            className={styles.keyFigure}
+                            value={funding}
+                            compactValue
+                            label={strings.emergencyFundingLabel}
+                        />
+                    )}
                 </>
             )}
             contentOriginalLanguage={emergencyResponse?.translation_module_original_language}
