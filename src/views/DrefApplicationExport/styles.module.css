@@ -109,8 +109,8 @@
 
     .other-actions-major-coordination-mechanism {
         grid-column: span 2;
-        padding: var(--go-ui-spacing-xs);
         background-color: var(--pdf-element-bg);
+        padding: var(--go-ui-spacing-xs);
         gap: var(--go-ui-spacing-xs);
     }
 

@@ -583,7 +583,7 @@ export function Component() {
                                     <img
                                         className={styles.icon}
                                         src={identifiedNeed.image_url}
-                                        alt={strings.imageFileAlt}
+                                        alt=""
                                     />
                                     {identifiedNeed.title_display}
                                 </Heading>

@@ -87,7 +87,6 @@
         "focalPointContactHeading": "IFRC focal point for the emergency",
         "mediaContactHeading": "Media Contact",
         "imageLogoIFRCAlt": "IFRC",
-        "imageFileAlt": "image",
         "drefApplicationExportRisk": "Risk",
         "drefApplicationExportMitigation": "Mitigation action"
     }
