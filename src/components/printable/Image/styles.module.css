@@ -1,0 +1,44 @@
+.image {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-width-separator-md);
+    margin: 0;
+    page-break-inside: avoid;
+
+    .img-element {
+        flex-grow: 1;
+        background-color: var(--go-ui-color-background);
+        width: 100%;
+        min-height: 20mm;
+        max-height: 120mm;
+        object-position: center center;
+        object-fit: contain;
+    }
+
+    .img-error {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+        background-color: var(--go-ui-color-background);
+        width: 100%;
+        min-height: 20mm;
+        max-height: 140mm;
+        color: var(--go-ui-color-text-light);
+    }
+
+    &.errored {
+        .img-element {
+            visibility: hidden;
+            height: 0;
+            min-height: unset;
+            max-height: unset;
+        }
+    }
+
+    .caption {
+        flex-shrink: 0;
+        background-color: var(--go-ui-color-background);
+        padding: var(--go-ui-spacing-xs);
+    }
+}

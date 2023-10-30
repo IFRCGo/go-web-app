@@ -140,6 +140,7 @@
     &.dropdown-item {
         display: flex;
         width: 100%;
+        text-align: left;
         --border-radius: unset;
         --padding: var(--go-ui-spacing-sm) var(--go-ui-spacing-lg);
 

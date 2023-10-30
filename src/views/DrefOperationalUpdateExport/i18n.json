@@ -2,6 +2,7 @@
     "namespace": "drefOperationalUpdateExport",
     "strings": {
         "exportTitle": "DREF Operational Update",
+        "imageLogoIFRCAlt": "IFRC",
         "appealLabel": "Appeal",
         "countryLabel": "Country",
         "hazardLabel": "Hazard",
@@ -39,7 +40,7 @@
 
         "currentNationalSocietyActionsHeading": "Current National Society Actions",
         "movementPartnersActionsHeading": "IFRC Network Actions Related To The Current Event",
-        "drefExportReference": "Click here for reference",
+        "drefExportReference": "Click here for the reference",
         "secretariatLabel": "Secretariat",
         "participatingNsLabel": "Participating National Societies",
         "icrcActionsHeading": "ICRC Actions Related To The Current Event",
@@ -93,6 +94,6 @@
         "drefOperationalImageAlt": "IFRC",
         "drefOperationalOtherImageAlt": "Image",
         "drefOperationalRisk": "Risk",
-        "drefOperationalMitigation": "Mitigation"
+        "drefOperationalMitigation": "Mitigation action"
     }
 }
