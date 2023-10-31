@@ -459,9 +459,11 @@ export function Component() {
                         value={drefResponse?.ns_request_text}
                         valueType="text"
                     />
-                    <BlockTextOutput
+                    <TextOutput
+                        className={styles.recurrentEventJustification}
                         label={strings.recurrentEventJustificationLabel}
                         value={drefResponse?.dref_recurrent_text}
+                        strongLabel
                         valueType="text"
                     />
                     {lessonsLearnedDefined && (

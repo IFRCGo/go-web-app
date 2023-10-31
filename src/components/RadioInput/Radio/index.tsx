@@ -10,15 +10,16 @@ import useBasicLayout from '#hooks/useBasicLayout';
 import styles from './styles.module.css';
 
 export interface Props<N, IN> {
-  className?: string;
-  inputName?: IN;
-  label?: React.ReactNode;
-  description?: React.ReactNode;
-  name: N;
-  onClick: (name: N) => void;
-  value: boolean;
-  disabled?: boolean;
-  readOnly?: boolean;
+    className?: string;
+    inputName?: IN;
+    label?: React.ReactNode;
+    description?: React.ReactNode;
+    name: N;
+    onClick: (name: N) => void;
+    value: boolean;
+    disabled?: boolean;
+    readOnly?: boolean;
+    actions?: React.ReactNode;
 }
 
 function Radio<N, IN>(props: Props<N, IN>) {
@@ -32,6 +33,7 @@ function Radio<N, IN>(props: Props<N, IN>) {
         onClick,
         disabled,
         readOnly,
+        actions,
     } = props;
 
     const handleClick = React.useCallback(() => {
@@ -49,6 +51,7 @@ function Radio<N, IN>(props: Props<N, IN>) {
         ) : (
             <CheckboxBlankCircleLineIcon className={styles.icon} />
         ),
+        actions,
         childrenContainerClassName: styles.content,
         children: (
             <>

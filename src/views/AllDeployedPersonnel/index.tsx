@@ -138,7 +138,7 @@ export function Component() {
                 { sortable: true },
             ),
             createLinkColumn<PersonnelTableItem, number>(
-                'deployment',
+                'country_to',
                 strings.personnelTableDeployedTo,
                 (item) => item.country_to?.name,
                 (item) => ({
@@ -148,7 +148,7 @@ export function Component() {
                 { sortable: true },
             ),
             createLinkColumn<PersonnelTableItem, number>(
-                'deployment',
+                'event_deployed_to',
                 strings.personnelTableEmergency,
                 (item) => item.deployment?.event_deployed_to?.name,
                 (item) => ({

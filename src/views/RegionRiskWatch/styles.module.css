@@ -5,6 +5,5 @@
 
     .wiki-link {
         align-self: flex-end;
-        font-size: var(--go-ui-font-size-3xl);
     }
 }
