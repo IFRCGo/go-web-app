@@ -19,6 +19,9 @@ interface Perms {
     isDrefRegionalCoordinator: (regionId: number | undefined) => boolean,
     isRegionAdmin: (regionId: number | undefined) => boolean,
     isCountryAdmin: (countryId: number | undefined) => boolean,
+    isRegionPerAdmin: (regionId: number | undefined) => boolean,
+    isCountryPerAdmin: (countryId: number | undefined) => boolean,
+    isPerAdmin: boolean,
     isIfrcAdmin: boolean,
     isSuperUser: boolean,
 }
@@ -2537,6 +2540,10 @@ const newPerOverviewForm = customWrapRoute({
     context: {
         title: 'New PER Overview',
         visibility: 'is-authenticated',
+        permissions: ({
+            isSuperUser,
+            isPerAdmin,
+        }) => isSuperUser || isPerAdmin,
     },
 });
 

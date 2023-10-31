@@ -36,6 +36,7 @@ import useTranslation from '#hooks/useTranslation';
 import useAlertContext from '#hooks/useAlert';
 import { useLazyRequest, useRequest, type GoApiResponse } from '#utils/restRequest';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import useUserMe from '#hooks/domain/useUserMe';
 import { PER_PHASE_OVERVIEW, PER_PHASE_ASSESSMENT } from '#utils/domain/per';
 import type { PerProcessOutletContext } from '#utils/outletContext';
 import {
@@ -73,6 +74,7 @@ export function Component() {
         refetchStatusResponse,
     } = useOutletContext<PerProcessOutletContext>();
     const { per_overviewassessmentmethods } = useGlobalEnums();
+    const userMe = useUserMe();
 
     const formContentRef = useRef<ElementRef<'div'>>(null);
     const isSettingUpProcess = useRef(false);
@@ -407,6 +409,10 @@ export function Component() {
                         error={getErrorString(error?.country)}
                         readOnly={partialReadonlyMode}
                         disabled={disabled}
+                        regions={!userMe?.is_superuser
+                            ? userMe?.is_per_admin_for_regions : undefined}
+                        countries={!userMe?.is_superuser
+                            ? userMe?.is_per_admin_for_countries : undefined}
                         autoFocus
                     />
                 </InputSection>

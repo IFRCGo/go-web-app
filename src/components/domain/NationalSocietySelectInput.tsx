@@ -2,6 +2,7 @@ import type { Props as SelectInputProps } from '#components/SelectInput';
 import SelectInput from '#components/SelectInput';
 import { numericIdSelector } from '#utils/selectors';
 import useNationalSociety, { NationalSociety } from '#hooks/domain/useNationalSociety';
+import { isDefined } from '@togglecorp/fujs';
 
 function countrySocietyNameSelector(country: NationalSociety) {
     return country.society_name;
@@ -19,6 +20,8 @@ type Props<NAME> = SelectInputProps<
     name: NAME;
     onChange: (newValue: number | undefined, name: NAME) => void;
     value: number | undefined | null;
+    regions?: number[];
+    countries?: number[];
 }
 
 function NationalSocietySelectInput<const NAME>(props: Props<NAME>) {
@@ -27,10 +30,22 @@ function NationalSocietySelectInput<const NAME>(props: Props<NAME>) {
         name,
         onChange,
         value,
+        regions,
+        countries,
         ...otherProps
     } = props;
 
+    console.warn('regions', regions, countries);
     const nationalSocieties = useNationalSociety();
+    let options: NationalSociety[] = nationalSocieties;
+
+    if (isDefined(regions) || isDefined(countries)) {
+        options = nationalSocieties
+            ?.filter((nationalSociety) => (
+                (isDefined(nationalSociety.region) && (regions?.includes(nationalSociety.region)))
+                || countries?.includes(nationalSociety.id)
+            ));
+    }
 
     return (
         <SelectInput
@@ -38,7 +53,7 @@ function NationalSocietySelectInput<const NAME>(props: Props<NAME>) {
             {...otherProps}
             className={className}
             name={name}
-            options={nationalSocieties}
+            options={options}
             keySelector={numericIdSelector}
             labelSelector={countrySocietyNameSelector}
             value={value}
