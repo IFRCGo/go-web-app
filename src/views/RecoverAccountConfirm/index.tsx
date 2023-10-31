@@ -30,7 +30,7 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 interface FormFields {
-    newPassword?: string;
+    new_password?: string;
     confirmPassword?: string;
 }
 
@@ -55,7 +55,7 @@ function getPasswordMatchCondition(referenceVal: string | undefined) {
 const formSchema: FormSchema = {
     fields: (value): FormSchemaFields => {
         let baseSchema = {
-            newPassword: {
+            new_password: {
                 required: true,
                 requiredValidation: requiredStringCondition,
             },
@@ -63,14 +63,14 @@ const formSchema: FormSchema = {
         baseSchema = addCondition(
             baseSchema,
             value,
-            ['newPassword'],
+            ['new_password'],
             ['confirmPassword'],
             (val) => ({
                 confirmPassword: {
                     required: true,
                     requiredValidation: requiredStringCondition,
                     forceValue: undefinedValue,
-                    validations: [getPasswordMatchCondition(val?.newPassword)],
+                    validations: [getPasswordMatchCondition(val?.new_password)],
                 },
             }),
         );
@@ -98,7 +98,7 @@ export function Component() {
         pending,
     } = useLazyRequest({
         method: 'POST',
-        url: '/change_password',
+        url: '/change_recover_password',
         body: (body: ChangePasswordRequestBody) => body,
         onSuccess: () => {
             navigate('login');
@@ -129,7 +129,7 @@ export function Component() {
     const handleChangePassword = useCallback(
         (formValues: FormFields) => {
             requestPasswordRecovery({
-                new_password: formValues.newPassword,
+                new_password: formValues.new_password,
                 token,
                 username,
             } as ChangePasswordRequestBody);
@@ -160,11 +160,11 @@ export function Component() {
                     withFallbackError
                 />
                 <PasswordInput
-                    name="newPassword"
+                    name="new_password"
                     label={strings.newPassword}
-                    value={formValue.newPassword}
+                    value={formValue.new_password}
                     onChange={setFieldValue}
-                    error={fieldError?.newPassword}
+                    error={fieldError?.new_password}
                     disabled={pending}
                     withAsterisk
                     autoFocus
