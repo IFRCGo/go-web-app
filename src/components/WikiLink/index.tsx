@@ -1,4 +1,5 @@
 import { WikiHelpSectionLineIcon } from '@ifrc-go/icons';
+import { _cs } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
 import type { Props as LinkProps } from '#components/Link';
@@ -7,7 +8,6 @@ import useTranslation from '#hooks/useTranslation';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-import { _cs } from '@togglecorp/fujs';
 
 type Props<OMISSION extends string = never> = Omit<LinkProps, 'to' | OMISSION> & {
     icons?: React.ReactNode;
