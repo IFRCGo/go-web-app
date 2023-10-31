@@ -86,6 +86,7 @@
         grid-gap: var(--go-ui-width-separator-md);
         grid-template-columns: 1fr 1fr;
 
+        .recurrent-event-justification,
         .lessons-learned {
             grid-column: span 2;
             background-color: var(--pdf-element-bg);
