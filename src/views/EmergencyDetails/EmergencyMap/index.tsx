@@ -129,10 +129,12 @@ function EmergencyMap(props: Props) {
     const legendOptions = useMemo(
         () => ([
             {
+                key: 0,
                 label: strings.affectedCountry,
                 color: COLOR_LIGHT_GREY,
             },
             {
+                key: 1,
                 label: strings.affectedProvince,
                 color: COLOR_RED,
             },
@@ -169,7 +171,7 @@ function EmergencyMap(props: Props) {
                         <div className={styles.footer}>
                             {legendOptions.map((legendItem) => (
                                 <div
-                                    key={legendItem.label}
+                                    key={legendItem.key}
                                     className={styles.legendItem}
                                 >
                                     <div

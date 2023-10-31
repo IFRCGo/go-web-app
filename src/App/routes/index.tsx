@@ -1,4 +1,6 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet, useParams } from 'react-router-dom';
+import { isDefined } from '@togglecorp/fujs';
+
 import {
     wrapRoute,
     unwrapRoute,
@@ -14,6 +16,8 @@ import { Component as RootLayout } from '#views/RootLayout';
 
 import Auth from '../Auth';
 import PageError from '../PageError';
+
+import SmartNavigate from './SmartNavigate';
 
 interface Perms {
     isDrefRegionalCoordinator: (regionId: number | undefined) => boolean,
@@ -179,10 +183,18 @@ const regionIndex = customWrapRoute({
     index: true,
     component: {
         eagerLoad: true,
-        render: Navigate,
+        render: SmartNavigate,
         props: {
             to: 'operations' satisfies DefaultRegionsChild,
             replace: true,
+            hashToRouteMap: {
+                '#operations': 'operations',
+                '#3w': 'three-w',
+                '#risk-watch': 'risk-watch',
+                '#regional-profile': 'profile',
+                '#preparedness': 'preparedness',
+                '#additional-info': 'additional-info',
+            },
         },
     },
     context: {
@@ -335,10 +347,18 @@ const countryIndex = customWrapRoute({
     index: true,
     component: {
         eagerLoad: true,
-        render: Navigate,
+        render: SmartNavigate,
         props: {
             to: 'operations' satisfies DefaultCountriesChild,
             replace: true,
+            hashToRouteMap: {
+                '#3w': 'three-w',
+                '#operations': 'operations',
+                '#risk-watch': 'risk-watch',
+                '#preparedness': 'preparedness',
+                '#country-plan': 'plan',
+                '#additional': 'additional-info',
+            },
         },
     },
     context: {
@@ -533,10 +553,16 @@ const emergencyIndex = customWrapRoute({
     index: true,
     component: {
         eagerLoad: true,
-        render: Navigate,
+        render: SmartNavigate,
         props: {
             to: 'details' satisfies DefaultEmergenciesChild,
             replace: true,
+            hashToRouteMap: {
+                '#details': 'details',
+                '#reports': 'reports',
+                '#activities': 'activities',
+                '#surge': 'surge',
+            },
         },
     },
     context: {
@@ -872,7 +898,7 @@ const surgeCatalogueCashRapidResponse = customWrapRoute({
 
 const surgeCatalogueCommunityEngagement = customWrapRoute({
     parent: surgeCatalogueLayout,
-    path: 'community',
+    path: 'community-engagement',
     component: {
         render: () => import('#views/SurgeCatalogueCommunityEngagement'),
         props: {},
@@ -1788,10 +1814,16 @@ const preparednessIndex = customWrapRoute({
     index: true,
     component: {
         eagerLoad: true,
-        render: Navigate,
+        render: SmartNavigate,
         props: {
             to: 'global-summary' satisfies DefaultPreparednessChild,
             replace: true,
+            hashToRouteMap: {
+                '#global-summary': 'global-summary',
+                '#global-performance': 'global-performance',
+                '#resources-catalogue': 'resources-catalogue',
+                '#operational-learning': 'operational-learning',
+            },
         },
     },
     context: {
@@ -2034,10 +2066,17 @@ const accountIndex = customWrapRoute({
     index: true,
     component: {
         eagerLoad: true,
-        render: Navigate,
+        render: SmartNavigate,
         props: {
             to: 'details' satisfies DefaultAccountChild,
             replace: true,
+            hashToRouteMap: {
+                '#account-information': 'details',
+                '#notifications': 'notifications',
+                '#per-forms': 'my-forms/per',
+                '#my-dref-applications': 'my-forms/dref',
+                '#three-w-forms': 'my-forms/three-w',
+            },
         },
     },
     context: {
@@ -2331,7 +2370,7 @@ const allSurgeAlerts = customWrapRoute({
 
 const allDeployedPersonnel = customWrapRoute({
     parent: rootLayout,
-    path: 'personnel/all',
+    path: 'deployed-personnels/all',
     component: {
         render: () => import('#views/AllDeployedPersonnel'),
         props: {},
@@ -2345,7 +2384,7 @@ const allDeployedPersonnel = customWrapRoute({
 
 const allDeployedEmergencyResponseUnits = customWrapRoute({
     parent: rootLayout,
-    path: 'eru/all',
+    path: 'deployed-erus/all',
     component: {
         render: () => import('#views/AllDeployedEmergencyResponseUnits'),
         props: {},
@@ -2603,6 +2642,140 @@ const perWorkPlanForm = customWrapRoute({
     },
 });
 
+// Redirect Routes
+
+// eslint-disable-next-line react-refresh/only-export-components
+function DeploymentNavigate() {
+    const params = useParams<{ surgeId: string }>();
+
+    const deploymentRouteMap: Record<string, MyOutputNonIndexRouteObject<ExtendedProps>> = {
+        overview: surgeOverview,
+        'operational-toolbox': surgeOperationalToolbox,
+        personnel: allDeployedPersonnel,
+        erus: allDeployedEmergencyResponseUnits,
+    };
+
+    const newRoute = isDefined(params.surgeId)
+        ? deploymentRouteMap[params.surgeId]
+        : undefined;
+
+    const path = isDefined(newRoute)
+        ? newRoute.absoluteForwardPath
+        : surgeOverview.absoluteForwardPath;
+
+    return (
+        <Navigate
+            to={path}
+            replace
+        />
+    );
+}
+
+const deploymentOthers = customWrapRoute({
+    parent: rootLayout,
+    path: 'deployments/:surgeId/*',
+    component: {
+        eagerLoad: true,
+        render: DeploymentNavigate,
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Catalogue of surge services',
+        visibility: 'anything',
+    },
+});
+
+const deploymentCatalogueLayout = customWrapRoute({
+    parent: rootLayout,
+    path: 'deployments/catalogue',
+    component: {
+        eagerLoad: true,
+        render: () => <Outlet />,
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Catalogue of surge services',
+        visibility: 'anything',
+    },
+});
+
+// eslint-disable-next-line react-refresh/only-export-components
+function DeploymentCatalogueNavigate() {
+    const params = useParams<{ catalogueId: string }>();
+
+    const catalogueRouteMap: Record<string, MyOutputNonIndexRouteObject<ExtendedProps>> = {
+        overview: surgeCatalogueOverview,
+        emergency: surgeCatalogueEmergencyNeedsAssessment,
+        basecamp: surgeCatalogueBasecamp,
+        cash: surgeCatalogueCash,
+        community: surgeCatalogueCommunityEngagement,
+        communications: surgeCatalogueCommunication,
+        health: surgeCatalogueHealth,
+        infoMgt: surgeCatalogueInformationManagement,
+        informationTech: surgeCatalogueInformationTechnology,
+        livelihoods: surgeCatalogueLivelihood,
+        logistics: surgeCatalogueLogistics,
+        operations: surgeCatalogueOperationsManagement,
+        protection: surgeCataloguePgi,
+        planning: surgeCataloguePmer,
+        relief: surgeCatalogueRelief,
+        security: surgeCatalogueSecurity,
+        shelter: surgeCatalogueShelter,
+        water: surgeCatalogueWash,
+        other: surgeCatalogueOther,
+    };
+
+    const newRoute = isDefined(params.catalogueId)
+        ? catalogueRouteMap[params.catalogueId]
+        : undefined;
+
+    const path = isDefined(newRoute)
+        ? newRoute.absoluteForwardPath
+        : surgeCatalogueOverview.absoluteForwardPath;
+
+    return (
+        <Navigate
+            to={path}
+            replace
+        />
+    );
+}
+
+const deploymentCatalogueIndex = customWrapRoute({
+    parent: deploymentCatalogueLayout,
+    index: true,
+    component: {
+        eagerLoad: true,
+        render: Navigate,
+        props: {
+            to: '/surge/catalogue',
+            replace: true,
+        },
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Catalogue of surge services',
+        visibility: 'anything',
+    },
+});
+
+const deploymentCatalogueChildren = customWrapRoute({
+    parent: deploymentCatalogueLayout,
+    path: ':catalogueId',
+    component: {
+        eagerLoad: true,
+        render: DeploymentCatalogueNavigate,
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Catalogue of surge services',
+        visibility: 'anything',
+    },
+});
+
 const wrappedRoutes = {
     fourHundredFour,
     rootLayout,
@@ -2785,6 +2958,11 @@ const wrappedRoutes = {
     surgeCatalogueOtherRecovery,
     surgeCatalogueOtherGreenResponse,
 
+    // Redirect routes
+    deploymentCatalogueLayout,
+    deploymentCatalogueIndex,
+    deploymentCatalogueChildren,
+    deploymentOthers,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));

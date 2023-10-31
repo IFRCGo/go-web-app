@@ -1,5 +1,8 @@
 import { type ReactElement, Fragment } from 'react';
-import { Navigate, useParams } from 'react-router-dom';
+import {
+    Navigate,
+    useParams,
+} from 'react-router-dom';
 
 import useAuth from '#hooks/domain/useAuth';
 import FourHundredThree from '#components/FourHundredThree';
