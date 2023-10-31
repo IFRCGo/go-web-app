@@ -1,8 +1,9 @@
+import { isDefined } from '@togglecorp/fujs';
+
 import type { Props as SelectInputProps } from '#components/SelectInput';
 import SelectInput from '#components/SelectInput';
 import { numericIdSelector } from '#utils/selectors';
 import useNationalSociety, { NationalSociety } from '#hooks/domain/useNationalSociety';
-import { isDefined } from '@togglecorp/fujs';
 
 function countrySocietyNameSelector(country: NationalSociety) {
     return country.society_name;
@@ -35,7 +36,6 @@ function NationalSocietySelectInput<const NAME>(props: Props<NAME>) {
         ...otherProps
     } = props;
 
-    console.warn('regions', regions, countries);
     const nationalSocieties = useNationalSociety();
     let options: NationalSociety[] = nationalSocieties;
 

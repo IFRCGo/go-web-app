@@ -39,6 +39,7 @@
 
 .popup {
     .description {
+
         display: inline;
         .description-content {
             display: flex;

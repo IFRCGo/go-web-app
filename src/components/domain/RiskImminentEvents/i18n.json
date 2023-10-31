@@ -16,6 +16,11 @@
         "gdacsDescription": "Click {here} for more information about the model and its inputs.",
         "meteoSwissTitle": "Source: MeteoSwiss",
         "meteoSwissDescriptionOne": "This impact estimates are produced by MeteoSwiss HydroMet Impact Outlook. © 2022 MeteoSwiss. All Rights reserved.",
-        "meteoSwissDescriptionTwo": "Disclaimer: HydroMet Impact Outlook is in a pilot phase. MeteoSwiss makes no warranty with respect to the correctness or completeness of this information. This information does not replace the advice and guidance provided by the official meteorological and hydrological services for these regions. For further information click {here}."
+        "meteoSwissDescriptionTwo": "Disclaimer: HydroMet Impact Outlook is in a pilot phase. MeteoSwiss makes no warranty with respect to the correctness or completeness of this information. This information does not replace the advice and guidance provided by the official meteorological and hydrological services for these regions. For further information click {here}.",
+        "imminentEventsFlood": "Flood",
+        "imminentEventsStorm": "Storm",
+        "imminentEventsEarthquake": "Earthquake",
+        "imminentEventsDrought": "Drought",
+        "imminentEventsWildfire": "Wildfire"
     }
 }
