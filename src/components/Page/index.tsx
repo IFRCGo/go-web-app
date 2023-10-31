@@ -100,9 +100,11 @@ function Page(props: Props) {
                         )}
                     </div>
                 )}
-            <PageContainer>
-                {beforeHeaderContent}
-            </PageContainer>
+            {beforeHeaderContent && (
+                <PageContainer>
+                    {beforeHeaderContent}
+                </PageContainer>
+            )}
             {isNotDefined(blockingContent) && showPageContainer && (
                 <PageHeader
                     className={_cs(

@@ -30,6 +30,7 @@ export function Component() {
     return (
         <div className={styles.regionRiskWatch}>
             <WikiLink
+                className={styles.wikiLink}
                 href="user_guide/risk_module"
             />
             <NavigationTabList variant="secondary">

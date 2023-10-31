@@ -7,16 +7,19 @@ import useTranslation from '#hooks/useTranslation';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+import { _cs } from '@togglecorp/fujs';
 
 type Props<OMISSION extends string = never> = Omit<LinkProps, 'to' | OMISSION> & {
     icons?: React.ReactNode;
     href: string | undefined | null;
+    className?: string;
 }
 
 function WikiLink<N extends string>(props: Props<N>) {
     const {
         icons,
         href,
+        className,
         ...otherProps
     } = props;
 
@@ -25,7 +28,7 @@ function WikiLink<N extends string>(props: Props<N>) {
 
     return (
         <Link
-            className={styles.wikiIcon}
+            className={_cs(styles.wikiLink, className)}
             href={`https://go-wiki.ifrc.org/${lang}/${href}`}
             title={strings.goWikiLabel}
             icons={icons}
