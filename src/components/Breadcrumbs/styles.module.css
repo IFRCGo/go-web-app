@@ -8,16 +8,10 @@
 
         &:not(:last-child) {
             color: var(--go-ui-color-gray-70);
-            font-weight: var(--go-ui-font-weight-light);
-            :hover {
-                text-decoration: underline;
-                color: var(--go-ui-color-primary-red);
-            }
         }
 
         &:last-child {
             color: var(--go-ui-color-black);
-            font-weight: var(--go-ui-font-weight-semibold);
         }
     }
 

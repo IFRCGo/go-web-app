@@ -312,7 +312,7 @@ export function Component() {
                         </Fragment>
                     ))}
                 </div>
-                <div className={styles.footerDescription}>
+                <div>
                     {strings.emergencyPerformanceProblems}
                 </div>
             </div>
