@@ -57,9 +57,5 @@
             display: flex;
             gap: var(--go-ui-spacing-xs);
         }
-
-        .footer-description {
-            font-style: italic;
-        }
     }
 }
