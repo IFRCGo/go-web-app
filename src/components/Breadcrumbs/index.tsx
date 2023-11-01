@@ -49,7 +49,10 @@ function Breadcrumbs(props: BreadcrumbsProps) {
     );
 
     return (
-        <nav className={_cs(className, styles.breadcrumbs)} aria-label="breadcrumb">
+        <nav
+            className={_cs(styles.breadcrumbs, className)}
+            aria-label="breadcrumb"
+        >
             {items}
         </nav>
     );

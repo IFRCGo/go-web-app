@@ -203,14 +203,10 @@ export function Component() {
             title={strings.emergencyPageTitle}
             breadCrumbs={(
                 <Breadcrumbs>
-                    <Link
-                        to="home"
-                    >
+                    <Link to="home">
                         {strings.home}
                     </Link>
-                    <Link
-                        to="emergencies"
-                    >
+                    <Link to="emergencies">
                         {strings.emergencies}
                     </Link>
                     <Link

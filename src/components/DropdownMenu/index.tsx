@@ -121,8 +121,8 @@ function DropdownMenu(props: Props) {
                     <>
                         {actions}
                         {!withoutDropdownIcon && (showDropdown
-                            ? <ArrowUpSmallFillIcon />
-                            : <ArrowDownSmallFillIcon />
+                            ? <ArrowUpSmallFillIcon className={styles.dropdownIcon} />
+                            : <ArrowDownSmallFillIcon className={styles.dropdownIcon} />
                         )}
                     </>
                 ) : undefined}
