@@ -49,6 +49,7 @@ function PageHeader(props: Props) {
             <Container
                 className={styles.container}
                 icons={breadCrumbs}
+                iconsContainerClassName={styles.breadcrumbsContainer}
                 actions={(actions || wikiLink) && (
                     <>
                         {actions}

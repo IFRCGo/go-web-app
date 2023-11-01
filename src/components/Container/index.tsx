@@ -45,6 +45,7 @@ export interface Props {
     headingLevel?: HeadingProps['level'],
     headingSectionClassName?: string;
     icons?: React.ReactNode;
+    iconsContainerClassName?: string;
     numPreferredGridContentColumns?: NumColumn;
     spacing?: SpacingType;
     withGridViewInFilter?: boolean;
@@ -83,6 +84,7 @@ function Container(props: Props) {
         headingLevel,
         headingSectionClassName,
         icons,
+        iconsContainerClassName,
         numPreferredGridContentColumns = 2,
         spacing = 'default',
         withGridViewInFilter = false,
@@ -143,6 +145,7 @@ function Container(props: Props) {
                     heading={heading}
                     headingLevel={headingLevel}
                     icons={icons}
+                    iconsContainerClassName={iconsContainerClassName}
                     childrenContainerClassName={headerDescriptionContainerClassName}
                     headingSectionClassName={headingSectionClassName}
                     headingClassName={headingClassName}
