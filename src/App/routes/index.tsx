@@ -611,6 +611,8 @@ const emergencyIndex = customWrapRoute({
                 '#activities': 'activities',
                 '#surge': 'surge',
             },
+            // TODO: make this typesafe
+            forwardUnmatchedHashTo: 'additional-info',
         },
     },
     context: {
@@ -670,6 +672,7 @@ const emergencySurge = customWrapRoute({
     },
 });
 
+// TODO: remove this route
 const emergencyAdditionalInfoOne = customWrapRoute({
     parent: emergenciesLayout,
     path: 'additional-info-1',
@@ -684,6 +687,7 @@ const emergencyAdditionalInfoOne = customWrapRoute({
         visibility: 'anything',
     },
 });
+// TODO: remove this route
 const emergencyAdditionalInfoTwo = customWrapRoute({
     parent: emergenciesLayout,
     path: 'additional-info-2',
@@ -698,6 +702,7 @@ const emergencyAdditionalInfoTwo = customWrapRoute({
         visibility: 'anything',
     },
 });
+// TODO: remove this route
 const emergencyAdditionalInfoThree = customWrapRoute({
     parent: emergenciesLayout,
     path: 'additional-info-3',
@@ -709,6 +714,19 @@ const emergencyAdditionalInfoThree = customWrapRoute({
     },
     context: {
         title: 'Emergency Additional Tab 3',
+        visibility: 'anything',
+    },
+});
+
+const emergencyAdditionalInfo = customWrapRoute({
+    parent: emergenciesLayout,
+    path: 'additional-info/:tabId?',
+    component: {
+        render: () => import('#views/EmergencyAdditionalTab'),
+        props: {},
+    },
+    context: {
+        title: 'Emergency Additional Info Tab',
         visibility: 'anything',
     },
 });
@@ -2975,6 +2993,7 @@ const wrappedRoutes = {
     emergencyAdditionalInfoOne,
     emergencyAdditionalInfoTwo,
     emergencyAdditionalInfoThree,
+    emergencyAdditionalInfo,
     surgeLayout,
     surgeOverview,
     surgeOperationalToolbox,
