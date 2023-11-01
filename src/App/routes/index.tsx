@@ -1,6 +1,12 @@
-import { Navigate, Outlet, useParams } from 'react-router-dom';
+import {
+    Navigate,
+    Outlet,
+    generatePath,
+    useParams,
+} from 'react-router-dom';
 import { isDefined, isTruthyString } from '@togglecorp/fujs';
 
+import { Component as RootLayout } from '#views/RootLayout';
 import {
     wrapRoute,
     unwrapRoute,
@@ -11,8 +17,18 @@ import type {
     MyOutputIndexRouteObject,
     MyOutputNonIndexRouteObject,
 } from '#utils/routes';
-
-import { Component as RootLayout } from '#views/RootLayout';
+import {
+    COUNTRY_AFRICA_REGION,
+    COUNTRY_AMERICAS_REGION,
+    COUNTRY_ASIA_REGION,
+    COUNTRY_EUROPE_REGION,
+    COUNTRY_MENA_REGION,
+    REGION_AFRICA,
+    REGION_AMERICAS,
+    REGION_ASIA,
+    REGION_EUROPE,
+    REGION_MENA,
+} from '#utils/constants';
 
 import Auth from '../Auth';
 import PageError from '../PageError';
@@ -342,24 +358,56 @@ const countriesLayout = customWrapRoute({
     },
 });
 
-const countryIndex = customWrapRoute({
-    parent: countriesLayout,
-    index: true,
-    component: {
-        eagerLoad: true,
-        render: SmartNavigate,
-        props: {
-            to: 'operations' satisfies DefaultCountriesChild,
-            replace: true,
-            hashToRouteMap: {
+// eslint-disable-next-line react-refresh/only-export-components
+function CountryNavigate() {
+    const params = useParams<{ countryId: string }>();
+    const countryIdToRegionIdMap: Record<number, number> = {
+        [COUNTRY_AFRICA_REGION]: REGION_AFRICA,
+        [COUNTRY_AMERICAS_REGION]: REGION_AMERICAS,
+        [COUNTRY_ASIA_REGION]: REGION_ASIA,
+        [COUNTRY_EUROPE_REGION]: REGION_EUROPE,
+        [COUNTRY_MENA_REGION]: REGION_MENA,
+    };
+
+    const countryId = isTruthyString(params.countryId) ? parseInt(params.countryId, 10) : undefined;
+    const regionId = isDefined(countryId) ? countryIdToRegionIdMap[countryId] : undefined;
+
+    if (isDefined(regionId)) {
+        const regionPath = generatePath(
+            regionIndex.absoluteForwardPath,
+            { regionId },
+        );
+        return (
+            <Navigate
+                to={regionPath}
+                replace
+            />
+        );
+    }
+
+    return (
+        <SmartNavigate
+            to={'operations' satisfies DefaultCountriesChild}
+            replace
+            hashToRouteMap={{
                 '#3w': 'three-w',
                 '#operations': 'operations',
                 '#risk-watch': 'risk-watch',
                 '#preparedness': 'preparedness',
                 '#country-plan': 'plan',
                 '#additional': 'additional-info',
-            },
-        },
+            }}
+        />
+    );
+}
+
+const countryIndex = customWrapRoute({
+    parent: countriesLayout,
+    index: true,
+    component: {
+        eagerLoad: true,
+        render: CountryNavigate,
+        props: {},
     },
     context: {
         title: 'Country',
