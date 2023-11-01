@@ -42,15 +42,11 @@
     --go-ui-line-height-sm: 1.375;
     --go-ui-line-height-md: 1.5;
 
-    --go-ui-font-weight-thin: 100;
-    --go-ui-font-weight-extra-light: 200;
     --go-ui-font-weight-light: 300;
     --go-ui-font-weight-normal: 400;
     --go-ui-font-weight-medium: 500;
     --go-ui-font-weight-semibold: 600;
     --go-ui-font-weight-bold: 700;
-    --go-ui-font-weight-extrabold: 800;
-    --go-ui-font-weight-black: 900;
 
     --go-ui-width-screen-sm: 640px;
     --go-ui-width-screen-md: 768px;
@@ -266,5 +262,9 @@ ul, ol, p {
     @page {
         size: portrait A4;
         margin: 10mm;
+    }
+
+    body {
+        font-family: 'Open Sans', sans-serif;
     }
 }
