@@ -141,3 +141,15 @@ export type DisasterCategory = components<'read'>['schemas']['DisasterCategoryEn
 export const DISASTER_CATEGORY_YELLOW = 0 satisfies DisasterCategory;
 export const DISASTER_CATEGORY_ORANGE = 1 satisfies DisasterCategory;
 export const DISASTER_CATEGORY_RED = 2 satisfies DisasterCategory;
+
+export const COUNTRY_AMERICAS_REGION = 282;
+export const COUNTRY_ASIA_REGION = 283;
+export const COUNTRY_AFRICA_REGION = 285;
+export const COUNTRY_EUROPE_REGION = 286;
+export const COUNTRY_MENA_REGION = 287;
+export type Region = components<'read'>['schemas']['ApiRegionNameEnum'];
+export const REGION_AFRICA = 0;
+export const REGION_AMERICAS = 1;
+export const REGION_ASIA = 2;
+export const REGION_EUROPE = 3;
+export const REGION_MENA = 4;

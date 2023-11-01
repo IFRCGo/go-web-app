@@ -9,7 +9,12 @@ import {
     AppealsTwoIcon,
     PencilFillIcon,
 } from '@ifrc-go/icons';
-import { isDefined, isNotDefined, isTruthyString } from '@togglecorp/fujs';
+import {
+    isDefined,
+    isNotDefined,
+    isTruthyString,
+    isFalsyString,
+} from '@togglecorp/fujs';
 
 import { resolveUrl } from '#utils/resolveUrl';
 import BlockLoading from '#components/BlockLoading';
@@ -99,6 +104,19 @@ export function Component() {
                 <Message
                     title={strings.countryLoadingErrorMessage}
                     description={countryResponseError.value?.messageForNotification}
+                />
+            </Page>
+        );
+    }
+
+    if (isDefined(countryResponse) && isFalsyString(countryResponse.iso3)) {
+        return (
+            <Page
+                title={pageTitle}
+                className={styles.country}
+            >
+                <Message
+                    title={strings.countryLoadingErrorMessage}
                 />
             </Page>
         );
