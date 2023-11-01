@@ -2,6 +2,7 @@ import Page from '#components/Page';
 import Container from '#components/Container';
 import Link from '#components/Link';
 import useTranslation from '#hooks/useTranslation';
+import { useRequest } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
 
 import arcLogo from '#assets/icons/arc_logo.png';
@@ -22,38 +23,12 @@ import VideoList from './VideoList';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-// FIXME: region names can be used from the enum context
-const contacts = [
-    {
-        email: 'Elly.MULAHA@ifrc.org',
-        name: 'Elly NANDASABA MULAHA',
-        extent: 'Africa Region',
-    },
-    {
-        email: 'luis.fanovich@ifrc.org',
-        name: 'Luis FANOVICH',
-        extent: 'America Region',
-    },
-    {
-        email: 'dedi.jundai@ifrc.org',
-        name: 'Dedi JUNADI',
-        extent: 'Asia Pacific Region',
-    },
-    {
-        email: 'anssi.anonen@ifrc.org',
-        name: 'Anssi ANONEN',
-        extent: 'Europe Region',
-    },
-    {
-        email: 'ahmad.aljamal@ifrc.org',
-        name: 'Ahmad AL JAMAL',
-        extent: 'MENA Region',
-    },
-];
-
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
+    const { response: contactsResponse } = useRequest({
+        url: '/api/v2/main_contact/',
+    });
 
     const contactDescription = resolveToComponent(
         strings.aboutFurtherInfo,
@@ -266,7 +241,7 @@ export function Component() {
                 headerDescription={contactDescription}
                 childrenContainerClassName={styles.contactsList}
             >
-                {contacts.map((contact) => (
+                {contactsResponse?.results?.map((contact) => (
                     <div
                         className={styles.contact}
                         key={contact.extent}
