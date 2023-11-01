@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useRouteError } from 'react-router-dom';
 
 import useBooleanState from '#hooks/useBooleanState';
-import Button, { useButtonFeatures } from '#components/Button';
+import Button from '#components/Button';
+import Link from '#components/Link';
 
 import styles from './styles.module.css';
 
@@ -24,9 +25,15 @@ function PageError() {
             toggle: toggleFullErrorVisibility,
         },
     ] = useBooleanState(false);
-    const {
-        className: containerClassName,
-    } = useButtonFeatures({});
+
+    const handleReloadButtonClick = useCallback(
+        () => {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            window.location.reload(true);
+        },
+        [],
+    );
 
     return (
         <div className={styles.pageError}>
@@ -66,13 +73,21 @@ function PageError() {
                 </div>
                 <div className={styles.footer}>
                     {/* NOTE: using the anchor element as it will refresh the page */}
-                    <a
-                        className={containerClassName}
+                    <Link
                         href="/"
+                        external
+                        variant="secondary"
                     >
                         {/* FIXME: use translations */}
                         Go back to homepage
-                    </a>
+                    </Link>
+                    <Button
+                        name={undefined}
+                        onClick={handleReloadButtonClick}
+                    >
+                        {/* FIXME: use translations */}
+                        Reload
+                    </Button>
                 </div>
             </div>
         </div>
