@@ -24,9 +24,7 @@ import useBooleanState from '#hooks/useBooleanState';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import { useLazyRequest } from '#utils/restRequest';
-import {
-    DREF_STATUS_IN_PROGRESS,
-} from '#utils/constants';
+import { DREF_STATUS_IN_PROGRESS } from '#utils/constants';
 
 import { exportDrefAllocation } from './drefAllocationExport';
 import i18n from './i18n.json';
@@ -42,7 +40,7 @@ export interface Props {
     applicationType: 'DREF' | 'OPS_UPDATE' | 'FINAL_REPORT';
     canAddOpsUpdate: boolean;
     canCreateFinalReport: boolean;
-    isUserRegionCoordinator?: boolean;
+    hasPermissionToApprove?: boolean;
 
     onPublishSuccess?: () => void;
 }
@@ -55,7 +53,7 @@ function DrefTableActions(props: Props) {
         applicationType,
         canAddOpsUpdate,
         canCreateFinalReport,
-        isUserRegionCoordinator,
+        hasPermissionToApprove,
         onPublishSuccess,
     } = props;
 
@@ -358,7 +356,7 @@ function DrefTableActions(props: Props) {
 
     const canDownloadAllocation = (applicationType === 'DREF' || applicationType === 'OPS_UPDATE');
 
-    const canApprove = status === DREF_STATUS_IN_PROGRESS && isUserRegionCoordinator;
+    const canApprove = status === DREF_STATUS_IN_PROGRESS && hasPermissionToApprove;
 
     const disabled = fetchingDref
         || fetchingOpsUpdate
