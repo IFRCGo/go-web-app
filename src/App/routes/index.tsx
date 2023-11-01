@@ -1282,7 +1282,7 @@ const surgeCatalogueInformationManagementGenevaSupport = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Information Management Support- Geneva',
+        title: 'Information Management Support - Geneva',
         visibility: 'anything',
     },
 });
