@@ -1,5 +1,10 @@
 import { useCallback, useContext, useMemo } from 'react';
-import { _cs, isDefined } from '@togglecorp/fujs';
+import {
+    _cs,
+    isFalsyString,
+    isNotDefined,
+    isTruthyString,
+} from '@togglecorp/fujs';
 import {
     matchPath,
     NavLink,
@@ -19,8 +24,10 @@ interface Props {
     children?: React.ReactNode;
     stepCompleted?: boolean;
     title?: string;
-    parentRoute?: boolean;
     disabled?: boolean;
+
+    parentRoute?: boolean;
+    matchParam?: string;
 
     to: keyof WrappedRoutes | undefined | null;
 
@@ -39,8 +46,9 @@ function NavigationTab(props: Props) {
         className,
         title,
         stepCompleted,
-        parentRoute = false,
         disabled: disabledFromProps,
+        parentRoute = false,
+        matchParam,
     } = props;
 
     const {
@@ -71,13 +79,42 @@ function NavigationTab(props: Props) {
         }
     }, [disabled]);
 
-    const isActive = isDefined(to) && matchPath(
-        {
-            // eslint-disable-next-line react/destructuring-assignment
-            path: routes[to].absolutePath,
-            end: !parentRoute,
+    const matchParamValue = isTruthyString(matchParam)
+        ? urlParams?.[matchParam]
+        : undefined;
+
+    const isActive = useMemo(
+        () => {
+            if (isNotDefined(to)) {
+                return false;
+            }
+
+            const match = matchPath(
+                {
+                    // eslint-disable-next-line react/destructuring-assignment
+                    path: routes[to].absolutePath,
+                    end: !parentRoute,
+                },
+                location.pathname,
+            );
+
+            if (isNotDefined(match)) {
+                return false;
+            }
+
+            if (isTruthyString(matchParam)) {
+                const paramValue = match.params[matchParam];
+
+                if (isFalsyString(paramValue)) {
+                    return false;
+                }
+
+                return matchParamValue === paramValue;
+            }
+
+            return true;
         },
-        location.pathname,
+        [to, routes, location.pathname, matchParam, parentRoute, matchParamValue],
     );
 
     const linkClassName = useMemo(

@@ -32,6 +32,7 @@ export function Component() {
     }
 
     // FIXME: Add a wrapper around navigate
+    // We can also use generatePath
     return (
         <Navigate to={`/emergencies/${emergencyResponse?.id}`} replace />
     );
