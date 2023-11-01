@@ -245,7 +245,7 @@ function ActiveDrefTable(props: Props) {
                         applicationType,
                         canAddOpsUpdate,
                         canCreateFinalReport,
-                        isUserRegionCoordinator: isRegionCoordinator,
+                        hasPermissionToApprove: isRegionCoordinator || userMe?.is_superuser,
                         onPublishSuccess: refetchActiveDref,
                     };
                 },
@@ -260,6 +260,7 @@ function ActiveDrefTable(props: Props) {
             strings.activeDrefTableTypeOfDrefHeading,
             strings.activeDrefTableStatusHeading,
             latestDrefToOriginalMap,
+            userMe,
             userRegionCoordinatorMap,
             refetchActiveDref,
         ],

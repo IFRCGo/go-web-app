@@ -9,22 +9,28 @@ type RouteKey = string;
 
 interface Props extends NavigateProps {
     hashToRouteMap: Record<string, RouteKey>;
+    forwardUnmatchedHashTo?: string;
 }
 
 function SmartNavigate(props: Props) {
     const {
         hashToRouteMap,
+        forwardUnmatchedHashTo,
         ...navigateProps
     } = props;
+
     const location = useLocation();
     const newRoute = isTruthyString(location.hash)
-        ? hashToRouteMap[location.hash]
+        ? (hashToRouteMap[location.hash] ?? forwardUnmatchedHashTo)
         : undefined;
 
     if (isDefined(newRoute)) {
         return (
             <Navigate
-                to={newRoute}
+                to={{
+                    pathname: newRoute,
+                    hash: location.hash,
+                }}
                 replace
             />
         );

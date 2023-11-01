@@ -51,5 +51,6 @@
 
     .forward-icon {
         font-size: var(--go-ui-height-icon-multiplier);
+        margin-inline-start: -0.3em;
     }
 }

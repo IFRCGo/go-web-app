@@ -160,28 +160,41 @@ export function Component() {
             return [];
         }
 
-        const tabOneTitle = emergencyResponse.tab_one_title || 'Tab One';
-        const tabTwoTitle = emergencyResponse.tab_two_title || 'Tab Two';
-        const tabThreeTitle = emergencyResponse.tab_three_title || 'Tab Three';
+        const tabOneTitle = emergencyResponse.tab_one_title || 'Additional Info 1';
+        const tabTwoTitle = emergencyResponse.tab_two_title || 'Additional Info 2';
+        const tabThreeTitle = emergencyResponse.tab_three_title || 'Additional Info 3';
+
+        function toKebabCase(str: string) {
+            return str.toLocaleLowerCase().split(' ').join('-');
+        }
 
         return [
             {
                 name: tabOneTitle,
+                tabId: toKebabCase(tabOneTitle),
                 routeName: 'emergencyAdditionalInfoOne' as const,
                 infoPageId: 1 as const,
-                snippets: emergencySnippetResponse.results.filter((snippet) => snippet.tab === 1),
+                snippets: emergencySnippetResponse.results.filter(
+                    (snippet) => snippet.tab === 1,
+                ),
             },
             {
                 name: tabTwoTitle,
+                tabId: toKebabCase(tabTwoTitle),
                 routeName: 'emergencyAdditionalInfoTwo' as const,
                 infoPageId: 2 as const,
-                snippets: emergencySnippetResponse.results.filter((snippet) => snippet.tab === 2),
+                snippets: emergencySnippetResponse.results.filter(
+                    (snippet) => snippet.tab === 2,
+                ),
             },
             {
                 name: tabThreeTitle,
+                tabId: toKebabCase(tabThreeTitle),
                 routeName: 'emergencyAdditionalInfoThree' as const,
                 infoPageId: 3 as const,
-                snippets: emergencySnippetResponse.results.filter((snippet) => snippet.tab === 3),
+                snippets: emergencySnippetResponse.results.filter(
+                    (snippet) => snippet.tab === 3,
+                ),
             },
         ].filter((tabInfo) => tabInfo.snippets.length > 0);
     }, [emergencyResponse, emergencySnippetResponse]);
@@ -203,14 +216,10 @@ export function Component() {
             title={strings.emergencyPageTitle}
             breadCrumbs={(
                 <Breadcrumbs>
-                    <Link
-                        to="home"
-                    >
+                    <Link to="home">
                         {strings.home}
                     </Link>
-                    <Link
-                        to="emergencies"
-                    >
+                    <Link to="emergencies">
                         {strings.emergencies}
                     </Link>
                     <Link
@@ -332,11 +341,13 @@ export function Component() {
                 )}
                 {emergencyAdditionalTabs.map((tab) => (
                     <NavigationTab
-                        key={tab.routeName}
-                        to={tab.routeName}
+                        key={tab.tabId}
+                        to="emergencyAdditionalInfo"
                         urlParams={{
                             emergencyId,
+                            tabId: tab.tabId,
                         }}
+                        matchParam="tabId"
                     >
                         {tab.name}
                     </NavigationTab>

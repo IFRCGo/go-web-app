@@ -152,6 +152,7 @@ function EventItemsTable(props: Props) {
         <Container
             className={styles.recentEmergenciesTable}
             heading={heading}
+            withHeaderBorder
             actions={(
                 <Link
                     to="allEmergencies"

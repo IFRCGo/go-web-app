@@ -9,6 +9,7 @@ type Snippets = EmergencySnippetsResponse['results'];
 
 interface EmergencyAdditionalTabs {
     name: string;
+    tabId: string;
     infoPageId: 1 | 2 | 3;
     routeName: string;
     snippets: Snippets;

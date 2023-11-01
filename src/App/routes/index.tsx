@@ -1,6 +1,12 @@
-import { Navigate, Outlet, useParams } from 'react-router-dom';
-import { isDefined } from '@togglecorp/fujs';
+import {
+    Navigate,
+    Outlet,
+    generatePath,
+    useParams,
+} from 'react-router-dom';
+import { isDefined, isTruthyString } from '@togglecorp/fujs';
 
+import { Component as RootLayout } from '#views/RootLayout';
 import {
     wrapRoute,
     unwrapRoute,
@@ -11,8 +17,18 @@ import type {
     MyOutputIndexRouteObject,
     MyOutputNonIndexRouteObject,
 } from '#utils/routes';
-
-import { Component as RootLayout } from '#views/RootLayout';
+import {
+    COUNTRY_AFRICA_REGION,
+    COUNTRY_AMERICAS_REGION,
+    COUNTRY_ASIA_REGION,
+    COUNTRY_EUROPE_REGION,
+    COUNTRY_MENA_REGION,
+    REGION_AFRICA,
+    REGION_AMERICAS,
+    REGION_ASIA,
+    REGION_EUROPE,
+    REGION_MENA,
+} from '#utils/constants';
 
 import Auth from '../Auth';
 import PageError from '../PageError';
@@ -342,24 +358,56 @@ const countriesLayout = customWrapRoute({
     },
 });
 
-const countryIndex = customWrapRoute({
-    parent: countriesLayout,
-    index: true,
-    component: {
-        eagerLoad: true,
-        render: SmartNavigate,
-        props: {
-            to: 'operations' satisfies DefaultCountriesChild,
-            replace: true,
-            hashToRouteMap: {
+// eslint-disable-next-line react-refresh/only-export-components
+function CountryNavigate() {
+    const params = useParams<{ countryId: string }>();
+    const countryIdToRegionIdMap: Record<number, number> = {
+        [COUNTRY_AFRICA_REGION]: REGION_AFRICA,
+        [COUNTRY_AMERICAS_REGION]: REGION_AMERICAS,
+        [COUNTRY_ASIA_REGION]: REGION_ASIA,
+        [COUNTRY_EUROPE_REGION]: REGION_EUROPE,
+        [COUNTRY_MENA_REGION]: REGION_MENA,
+    };
+
+    const countryId = isTruthyString(params.countryId) ? parseInt(params.countryId, 10) : undefined;
+    const regionId = isDefined(countryId) ? countryIdToRegionIdMap[countryId] : undefined;
+
+    if (isDefined(regionId)) {
+        const regionPath = generatePath(
+            regionIndex.absoluteForwardPath,
+            { regionId },
+        );
+        return (
+            <Navigate
+                to={regionPath}
+                replace
+            />
+        );
+    }
+
+    return (
+        <SmartNavigate
+            to={'operations' satisfies DefaultCountriesChild}
+            replace
+            hashToRouteMap={{
                 '#3w': 'three-w',
                 '#operations': 'operations',
                 '#risk-watch': 'risk-watch',
                 '#preparedness': 'preparedness',
                 '#country-plan': 'plan',
                 '#additional': 'additional-info',
-            },
-        },
+            }}
+        />
+    );
+}
+
+const countryIndex = customWrapRoute({
+    parent: countriesLayout,
+    index: true,
+    component: {
+        eagerLoad: true,
+        render: CountryNavigate,
+        props: {},
     },
     context: {
         title: 'Country',
@@ -563,6 +611,8 @@ const emergencyIndex = customWrapRoute({
                 '#activities': 'activities',
                 '#surge': 'surge',
             },
+            // TODO: make this typesafe
+            forwardUnmatchedHashTo: 'additional-info',
         },
     },
     context: {
@@ -622,6 +672,7 @@ const emergencySurge = customWrapRoute({
     },
 });
 
+// TODO: remove this route
 const emergencyAdditionalInfoOne = customWrapRoute({
     parent: emergenciesLayout,
     path: 'additional-info-1',
@@ -636,6 +687,7 @@ const emergencyAdditionalInfoOne = customWrapRoute({
         visibility: 'anything',
     },
 });
+// TODO: remove this route
 const emergencyAdditionalInfoTwo = customWrapRoute({
     parent: emergenciesLayout,
     path: 'additional-info-2',
@@ -650,6 +702,7 @@ const emergencyAdditionalInfoTwo = customWrapRoute({
         visibility: 'anything',
     },
 });
+// TODO: remove this route
 const emergencyAdditionalInfoThree = customWrapRoute({
     parent: emergenciesLayout,
     path: 'additional-info-3',
@@ -661,6 +714,19 @@ const emergencyAdditionalInfoThree = customWrapRoute({
     },
     context: {
         title: 'Emergency Additional Tab 3',
+        visibility: 'anything',
+    },
+});
+
+const emergencyAdditionalInfo = customWrapRoute({
+    parent: emergenciesLayout,
+    path: 'additional-info/:tabId?',
+    component: {
+        render: () => import('#views/EmergencyAdditionalTab'),
+        props: {},
+    },
+    context: {
+        title: 'Emergency Additional Info Tab',
         visibility: 'anything',
     },
 });
@@ -1191,30 +1257,32 @@ const surgeCatalogueInformationManagementRolesResponsibility = customWrapRoute({
     },
 });
 
-const surgeCatalogueInformationManagementSupport = customWrapRoute({
+// TODO: update view name
+const surgeCatalogueInformationManagementRegionalOfficeSupport = customWrapRoute({
     parent: surgeCatalogueLayout,
-    path: 'information-management/support',
+    path: 'information-management/regional-office-support',
     component: {
         render: () => import('#views/SurgeCatalogueInformationManagementSupport'),
         props: {},
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Information Management Support',
+        title: 'Information Management Support - Regional Office',
         visibility: 'anything',
     },
 });
 
-const surgeCatalogueInformationManagementOperationSupport = customWrapRoute({
+// TODO: update view name
+const surgeCatalogueInformationManagementGenevaSupport = customWrapRoute({
     parent: surgeCatalogueLayout,
-    path: 'information-management/operation-support',
+    path: 'information-management/geneva-support',
     component: {
         render: () => import('#views/SurgeCatalogueInformationManagementOperationSupport'),
         props: {},
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Information Management Support for Operations',
+        title: 'Information Management Support - Geneva',
         visibility: 'anything',
     },
 });
@@ -2703,9 +2771,14 @@ const deploymentCatalogueLayout = customWrapRoute({
 
 // eslint-disable-next-line react-refresh/only-export-components
 function DeploymentCatalogueNavigate() {
-    const params = useParams<{ catalogueId: string }>();
+    const params = useParams<{
+        catalogueId: string,
+        subCatalogueId: string,
+    }>();
 
-    const catalogueRouteMap: Record<string, MyOutputNonIndexRouteObject<ExtendedProps>> = {
+    type WrappedRoute = MyOutputNonIndexRouteObject<ExtendedProps>;
+
+    const catalogueRouteMap: Record<string, WrappedRoute> = {
         overview: surgeCatalogueOverview,
         emergency: surgeCatalogueEmergencyNeedsAssessment,
         basecamp: surgeCatalogueBasecamp,
@@ -2727,13 +2800,114 @@ function DeploymentCatalogueNavigate() {
         other: surgeCatalogueOther,
     };
 
-    const newRoute = isDefined(params.catalogueId)
+    const subCatalogueRouteMap: Record<string, Record<string, WrappedRoute>> = {
+        emergency: {
+            'assessment-cell': surgeCatalogueEmergencyNeedsAssessmentCell,
+        },
+        basecamp: {
+            'eru-base-camp-small': surgeCatalogueBasecampEruSmall,
+            'eru-base-camp-medium': surgeCatalogueBasecampEruMedium,
+            'eru-base-camp-large': surgeCatalogueBasecampEruLarge,
+            'facility-management': surgeCatalogueBasecampFacilityManagement,
+        },
+        cash: {
+            cva: surgeCatalogueCashRapidResponse,
+        },
+        community: {
+            'community-engagement-and-accountability': surgeCatalogueCommunityEngagementRapidResponse,
+        },
+        communications: {
+            'communications-emergency-response-tool-cert-3': surgeCatalogueCommunicationErtThree,
+            'communications-emergency-response-tool-cert-2': surgeCatalogueCommunicationErtTwo,
+            'communications-emergency-response-tool-cert-1': surgeCatalogueCommunicationErtOne,
+        },
+        health: {
+            'eru-pss-module': surgeCatalogueHealthEruPsychosocialSupport,
+            'community-case-management-of-malnutrition-ccmm': surgeCatalogueHealthCommunityManagementMalnutrition,
+            'safe-and-dignified-burials': surgeCatalogueHealthSafeDignifiedBurials,
+            'community-based-surveillance-cbs': surgeCatalogueHealthCommunityBasedSurveillance,
+            'community-case-management-of-cholera-ccmc': surgeCatalogueHealthCommunityCaseManagementChlorea,
+            'eru-cholera-treatment-center': surgeCatalogueHealthEruChloreaTreatment,
+            'emergency-mobile-clinic': surgeCatalogueHealthEmergencyClinic,
+            'maternal-newborn-health-clinic': surgeCatalogueHealthMaternalNewbornClinic,
+            'surgical-surge': surgeCatalogueHealthEruSurgical,
+            'eru-red-cross-red-crescent-emergency-hospital': surgeCatalogueHealthEruHospital,
+            'eru-red-cross-red-crescent-emergency-clinic': surgeCatalogueHealthEruClinic,
+        },
+        infoMgt: {
+            // NOTE: sims was probably replace with link to its site
+            // 'surge-information-management-support-sims': ,
+            'roles-and-resps': surgeCatalogueInformationManagementRolesResponsibility,
+            'im-support-for-op': surgeCatalogueInformationManagementRegionalOfficeSupport,
+            'ifrc-geneva-im': surgeCatalogueInformationManagementGenevaSupport,
+            'composition-of-im-res': surgeCatalogueInformationManagementComposition,
+            'Satellite-imagery': surgeCatalogueInformationManagementSatelliteImagery,
+        },
+        informationTech: {
+            'eru-it-telecom': surgeCatalogueInformationTechnologyEruItTelecom,
+        },
+        livelihoods: {
+            'livelihoods-and-basic-needs': surgeCatalogueLivelihoodServices,
+        },
+        logistics: {
+            'lpscm-for-national-societies': surgeCatalogueLogisticsLpscmNs,
+            'logistics-eru': surgeCatalogueLogisticsEru,
+        },
+        operations: {
+            'head-of-emergency-operations-heops': surgeCatalogueOperationManagementHeops,
+        },
+        protection: {
+            'protection-gender-and-inclusion': surgeCataloguePgiServices,
+        },
+        planning: {
+            'real-time-evaluation-rte-and-guidance': surgeCataloguePmerRealTimeEvaluation,
+            'emergency-plan-of-action-epoa-monitoring-evaluation-plan': surgeCataloguePmerEmergencyPlanAction,
+        },
+        relief: {
+            'eru-relief': surgeCatalogueReliefEru,
+        },
+        security: {
+            'security-management': surgeCatalogueSecurityManagement,
+        },
+        shelter: {
+            'stt-shelter-technical-team': surgeCatalogueShelterTechnicalTeam,
+            'sct-shelter-coordination-team': surgeCatalogueShelterCoordinatorTeam,
+        },
+        water: {
+            'household-water-treatment-and-safe-storage-hwts': surgeCatalogueWashHwts,
+            'water-supply-rehabilitation-wsr': surgeCatalogueWashWaterSupplyRehabilitation,
+            'm40-eru': surgeCatalogueWashKitM40Eru,
+            'msm20-eru': surgeCatalogueWashKitMsm20Eru,
+            'm15-eru': surgeCatalogueWashKitM15Eru,
+            'kit-5': surgeCatalogueWashKit5,
+            'kit-2': surgeCatalogueWashKit2,
+        },
+        other: {
+            'civil-military-relations': surgeCatalogueOtherCivilMilitaryRelations,
+            'disaster-risk-reduction-drr': surgeCatalogueOtherDisasterRiskReduction,
+            'human-resources': surgeCatalogueOtherHumanResources,
+            'international-disaster-response-law': surgeCatalogueOtherInternationalDisasterResponseLaw,
+            migration: surgeCatalogueOtherMigration,
+            'national-society-development': surgeCatalogueOtherNationalSocietyDevelopment,
+            'partnership-and-resource-development': surgeCatalogueOtherPartnershipResourceDevelopment,
+            'preparedness-for-effective-response-per': surgeCatalogueOtherPreparednessEffectiveResponse,
+            recovery: surgeCatalogueOtherRecovery,
+            greenresponse: surgeCatalogueOtherGreenResponse,
+        },
+    };
+
+    const newCatalogueRoute = isTruthyString(params.catalogueId)
         ? catalogueRouteMap[params.catalogueId]
         : undefined;
 
-    const path = isDefined(newRoute)
-        ? newRoute.absoluteForwardPath
-        : surgeCatalogueOverview.absoluteForwardPath;
+    const newSubCatalogueRoute = isTruthyString(params.catalogueId)
+        && isTruthyString(params.subCatalogueId)
+        ? subCatalogueRouteMap[params.catalogueId]?.[params.subCatalogueId]
+        : undefined;
+
+    const path = newSubCatalogueRoute?.absoluteForwardPath
+        ?? newCatalogueRoute?.absoluteForwardPath
+        ?? surgeCatalogueOverview.absoluteForwardPath;
 
     return (
         <Navigate
@@ -2763,7 +2937,7 @@ const deploymentCatalogueIndex = customWrapRoute({
 
 const deploymentCatalogueChildren = customWrapRoute({
     parent: deploymentCatalogueLayout,
-    path: ':catalogueId',
+    path: ':catalogueId/:subCatalogueId?',
     component: {
         eagerLoad: true,
         render: DeploymentCatalogueNavigate,
@@ -2819,6 +2993,7 @@ const wrappedRoutes = {
     emergencyAdditionalInfoOne,
     emergencyAdditionalInfoTwo,
     emergencyAdditionalInfoThree,
+    emergencyAdditionalInfo,
     surgeLayout,
     surgeOverview,
     surgeOperationalToolbox,
@@ -2914,8 +3089,10 @@ const wrappedRoutes = {
     surgeCatalogueInformationManagement,
     surgeCatalogueInformationManagementSatelliteImagery,
     surgeCatalogueInformationManagementRolesResponsibility,
-    surgeCatalogueInformationManagementSupport,
-    surgeCatalogueInformationManagementOperationSupport,
+    // eslint-disable-next-line max-len
+    surgeCatalogueInformationManagementSupport: surgeCatalogueInformationManagementRegionalOfficeSupport,
+    // eslint-disable-next-line max-len
+    surgeCatalogueInformationManagementOperationSupport: surgeCatalogueInformationManagementGenevaSupport,
     surgeCatalogueInformationManagementComposition,
     surgeCatalogueInformationTechnology,
     surgeCataloguePmer,

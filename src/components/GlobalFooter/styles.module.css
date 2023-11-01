@@ -9,7 +9,7 @@
 
         .section {
             display: flex;
-            flex-basis: 10rem;
+            flex-basis: 12rem;
             flex-direction: column;
             flex-grow: 1;
             gap: var(--go-ui-spacing-lg);
