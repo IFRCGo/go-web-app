@@ -1,10 +1,16 @@
+import { useContext } from 'react';
 import {
+    Navigate,
+    generatePath,
+    useLocation,
     useOutletContext,
     useParams,
 } from 'react-router-dom';
+import { isDefined } from '@togglecorp/fujs';
 
 import { type EmergencyOutletContext } from '#utils/outletContext';
 import HtmlOutput from '#components/HtmlOutput';
+import RouteContext from '#contexts/route';
 
 import styles from './styles.module.css';
 
@@ -15,16 +21,39 @@ interface Props {
 // eslint-disable-next-line import/prefer-default-export
 export function Component(props: Props) {
     const urlParams = useParams<{ tabId: string }>();
+    const location = useLocation();
+    const routes = useContext(RouteContext);
     const { infoPageId } = props;
     const { emergencyAdditionalTabs } = useOutletContext<EmergencyOutletContext>();
 
     const additionalTab = emergencyAdditionalTabs?.find(
         (tab) => tab.infoPageId === infoPageId
-            || urlParams.tabId === tab.tabId,
+            || urlParams.tabId === tab.tabId
+            || location.hash === `#${tab.tabId}`,
     );
 
+    if (isDefined(additionalTab) && `#${additionalTab.tabId}` === location.hash) {
+        const newPath = generatePath(
+            // eslint-disable-next-line react/destructuring-assignment
+            routes.emergencyAdditionalInfo.absoluteForwardPath,
+            {
+                ...urlParams,
+                tabId: additionalTab.tabId,
+            },
+        );
+
+        return (
+            <Navigate
+                to={newPath}
+                replace
+            />
+        );
+    }
+
     return (
-        <div className={styles.additionalTab}>
+        <div
+            className={styles.additionalTab}
+        >
             {additionalTab?.snippets?.map((snippet) => (
                 <HtmlOutput
                     key={snippet.id}
