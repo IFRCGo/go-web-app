@@ -16,6 +16,7 @@ import {
 } from '@togglecorp/fujs';
 
 import Button from '#components/Button';
+import BlockLoading from '#components/BlockLoading';
 import Container from '#components/Container';
 import Heading from '#components/Heading';
 import KeyFigure from '#components/KeyFigure';
@@ -196,7 +197,7 @@ export function Component() {
              */
             const filteredComponents = componentList.filter(
                 (component) => isDefined(component)
-                    && isDefined(component.rating) && component.rating.value > 1,
+                    && isDefined(component.rating) && component.rating.value !== 0,
             );
 
             const ratingByArea = mapToList(
@@ -335,15 +336,25 @@ export function Component() {
         && perOptionsResponse
         && perFormAreaResponse;
 
-    const pending = pendingLatestPerResponse
-        || formAnswerPending
+    const pending = formAnswerPending
         || perOptionsPending
         || perFormAreaPending
         || perProcessStatusPending
         || assessmentResponsePending
         || prioritizationResponsePending;
 
-    if (isNotDefined(countryId) || (!pending && isDefined(latestPerResponseError))) {
+    if (pendingLatestPerResponse) {
+        return (
+            <Message
+                className={styles.pendingMessage}
+                pending
+                description={strings.componentFetchingData}
+            />
+        );
+    }
+
+    if (isNotDefined(countryId)
+        || (!pendingLatestPerResponse && isDefined(latestPerResponseError))) {
         return (
             <Message
                 className={styles.countryPreparedness}
@@ -361,16 +372,6 @@ export function Component() {
                 icon={<AnalysisIcon />}
                 title={strings.nsPreparednessAndResponseCapacityHeading}
                 description={strings.componentMessagePERDataNotAvailable}
-            />
-        );
-    }
-
-    if (pending) {
-        return (
-            <Message
-                className={styles.pendingMessage}
-                pending
-                description={strings.componentFetchingData}
             />
         );
     }
@@ -434,6 +435,9 @@ export function Component() {
                     </Link>
                 </div>
             </div>
+            {pending && (
+                <BlockLoading className={styles.pendingMessage} />
+            )}
             {hasRatingCounts && (
                 <Container
                     heading={strings.perAssessmentHeading}
@@ -480,7 +484,7 @@ export function Component() {
                     />
                 </Container>
             )}
-            {hasPrevAssessments && (
+            {!pending && hasPrevAssessments && (
                 <Container
                     heading={strings.NSResponseHeading}
                     withHeaderBorder
@@ -581,7 +585,7 @@ export function Component() {
                     )}
                 </Container>
             )}
-            {!limitedAccess && !hasAssessmentStats && (
+            {!pending && !limitedAccess && !hasAssessmentStats && (
                 <Message
                     className={styles.emptyMessage}
                     icon={<AnalyzingIcon />}
@@ -589,7 +593,7 @@ export function Component() {
                     description={strings.componentChartNotAvailableDescription}
                 />
             )}
-            {limitedAccess && (
+            {!pending && limitedAccess && (
                 <div className={styles.limitedAccess}>
                     <PublicCountryPreparedness perId={perId} />
                     <Message
