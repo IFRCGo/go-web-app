@@ -141,7 +141,7 @@ function PerAssessmentSummary(props: Props) {
             const filteredComponents = areaResponse?.component_responses?.filter(
                 (component) => isDefined(component?.rating_details)
                     && isDefined(component.rating_details.value)
-                    && component.rating_details?.value > 1,
+                    && component.rating_details?.value !== 0,
             ) ?? [];
 
             if (filteredComponents.length === 0) {
