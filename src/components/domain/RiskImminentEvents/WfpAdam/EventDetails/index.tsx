@@ -10,7 +10,7 @@ import Link from '#components/Link';
 import BlockLoading from '#components/BlockLoading';
 import Container from '#components/Container';
 import TextOutput from '#components/TextOutput';
-import { maxSafe, roundSafe } from '#utils/common';
+import { getPercentage, maxSafe, roundSafe } from '#utils/common';
 import { type RiskApiResponse } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
 import { isValidFeatureCollection, isValidPointFeature } from '#utils/domain/risk';
@@ -173,7 +173,7 @@ function EventDetails(props: Props) {
                                 key={point.id}
                                 className={styles.bar}
                                 // FIXME: Use percent function
-                                style={{ height: `${100 * (point.windSpeed / maxWindSpeed)}%` }}
+                                style={{ height: `${getPercentage(point.windSpeed, maxWindSpeed)}%` }}
                                 title={resolveToString(
                                     strings.wfpEventDetailsKm,
                                     {

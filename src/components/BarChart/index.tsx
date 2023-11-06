@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { _cs, isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import NumberOutput from '#components/NumberOutput';
+import { getPercentage } from '#utils/common';
 
 import styles from './styles.module.css';
 
@@ -81,7 +82,7 @@ function BarChart<D>(props: Props<D>) {
                                 className={styles.bar}
                                 style={{
                                     // FIXME: use percent function
-                                    width: `${100 * (datum.value / maxValueSafe)}%`,
+                                    width: `${getPercentage(datum.value, maxValueSafe)}%`,
                                 }}
                             />
                         </div>

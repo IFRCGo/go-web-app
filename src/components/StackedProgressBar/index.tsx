@@ -2,7 +2,7 @@ import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import NumberOutput from '#components/NumberOutput';
-import { sumSafe } from '#utils/common';
+import { getPercentage, sumSafe } from '#utils/common';
 
 import styles from './styles.module.css';
 
@@ -37,8 +37,7 @@ function StackedProgressBar<VALUE>(props: Props<VALUE>) {
         <div className={_cs(styles.stackedBarChart, className)}>
             <div className={styles.barInfoContainer}>
                 {renderingData.map((datum) => {
-                    // FIXME: use percent function
-                    const percentage = (100 * datum.value) / total;
+                    const percentage = getPercentage(datum.value, total);
                     return (
                         <div
                             key={datum.color}
@@ -52,7 +51,7 @@ function StackedProgressBar<VALUE>(props: Props<VALUE>) {
                             {(percentage > 10) && (
                                 <NumberOutput
                                     className={styles.percentage}
-                                    value={(100 * datum.value) / total}
+                                    value={getPercentage(datum.value, total)}
                                     prefix="("
                                     suffix="%)"
                                     maximumFractionDigits={0}
@@ -69,7 +68,7 @@ function StackedProgressBar<VALUE>(props: Props<VALUE>) {
                         className={styles.bar}
                         style={{
                             // FIXME: Use progress function
-                            width: `${(100 * datum.value) / total}%`,
+                            width: `${getPercentage(datum.value, total)}%`,
                             backgroundColor: datum.color,
                         }}
                     />
