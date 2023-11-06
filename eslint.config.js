@@ -1,10 +1,8 @@
 import { FlatCompat } from '@eslint/eslintrc';
 import js from '@eslint/js';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import process from 'process';
 
-const filename = fileURLToPath(import.meta.url);
-const dirname = path.dirname(filename);
+const dirname = process.cwd();
 
 const compat = new FlatCompat({
     baseDirectory: dirname,
@@ -13,6 +11,7 @@ const compat = new FlatCompat({
 
 const appConfigs = compat.config({
     env: {
+        node: true,
         browser: true,
         es2020: true,
     },
