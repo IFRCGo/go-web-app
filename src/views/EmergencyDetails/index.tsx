@@ -158,7 +158,13 @@ export function Component() {
                                 className={styles.keyFigure}
                                 // FIXME: fix typing in server (medium priority)
                                 // FIXME: Rounding this because it was previously rounded
-                                value={Math.round(Number.parseFloat(keyFigure.number))}
+                                value={Math.round(
+                                    Number.parseInt(
+                                        // Removing commas from the value
+                                        keyFigure.number.replace(/[^\d.-]/g, ''),
+                                        10,
+                                    ),
+                                )}
                                 label={keyFigure.deck}
                                 description={resolveToString(
                                     strings.sourceLabel,

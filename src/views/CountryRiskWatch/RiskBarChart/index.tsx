@@ -6,7 +6,9 @@ import {
     isDefined,
     isFalsyString,
     isNotDefined,
+    listToGroupList,
     listToMap,
+    unique,
 } from '@togglecorp/fujs';
 
 import Container from '#components/Container';
@@ -19,7 +21,6 @@ import { stringLabelSelector } from '#utils/selectors';
 import {
     getDataWithTruthyHazardType,
     getFiRiskDataItem,
-    getWfRiskDataItem,
     hasSomeDefinedValue,
     hazardTypeToColorMap,
     riskMetricKeySelector,
@@ -102,15 +103,6 @@ function RiskBarChart(props: Props) {
         ],
     );
 
-    const fiRiskDataItem = useMemo(
-        () => getFiRiskDataItem(seasonalRiskData?.ipc_displacement_data),
-        [seasonalRiskData],
-    );
-    const wfRiskDataItem = useMemo(
-        () => getWfRiskDataItem(seasonalRiskData?.gwis),
-        [seasonalRiskData],
-    );
-
     const selectedRiskMetricDetail = useMemo(
         () => riskMetricOptions.find(
             (option) => option.key === selectedRiskMetric,
@@ -118,19 +110,21 @@ function RiskBarChart(props: Props) {
         [selectedRiskMetric, riskMetricOptions],
     );
 
-    const hazardTypeList = useMemo(
+    const data = useMemo(
         () => {
             if (isNotDefined(seasonalRiskData)) {
-                return [];
+                return undefined;
             }
 
             const {
                 idmc,
+                ipc_displacement_data,
                 raster_displacement_data,
+                gwis_seasonal,
                 inform_seasonal,
             } = seasonalRiskData;
 
-            const displacementData = idmc?.map(
+            const displacement = idmc?.map(
                 (dataItem) => {
                     if (!hasSomeDefinedValue(dataItem)) {
                         return undefined;
@@ -139,7 +133,15 @@ function RiskBarChart(props: Props) {
                     return getDataWithTruthyHazardType(dataItem);
                 },
             ).filter(isDefined) ?? [];
-            const exposureData = [
+
+            const groupedIpc = Object.values(
+                listToGroupList(
+                    ipc_displacement_data ?? [],
+                    (ipcDataItem) => ipcDataItem.country,
+                ),
+            );
+
+            const exposure = [
                 ...raster_displacement_data?.map(
                     (dataItem) => {
                         if (!hasSomeDefinedValue(dataItem)) {
@@ -149,43 +151,88 @@ function RiskBarChart(props: Props) {
                         return getDataWithTruthyHazardType(dataItem);
                     },
                 ) ?? [],
-                fiRiskDataItem,
+                ...groupedIpc.map(getFiRiskDataItem),
             ].filter(isDefined);
 
-            const riskScoreData = [
-                ...inform_seasonal?.map(
-                    (dataItem) => {
-                        if (!hasSomeDefinedValue(dataItem)) {
-                            return undefined;
-                        }
+            const riskScore = unique(
+                [
+                    ...inform_seasonal?.map(
+                        (dataItem) => {
+                            if (!hasSomeDefinedValue(dataItem)) {
+                                return undefined;
+                            }
 
-                        return getDataWithTruthyHazardType(dataItem);
-                    },
-                ) ?? [],
-                wfRiskDataItem,
-            ].filter(isDefined);
+                            return getDataWithTruthyHazardType(dataItem);
+                        },
+                    ) ?? [],
+                    ...gwis_seasonal?.map(
+                        (dataItem) => {
+                            if (!hasSomeDefinedValue(dataItem)) {
+                                return undefined;
+                            }
 
-            const availableHazards: { [key in HazardType]?: string } = {
-                ...listToMap(
-                    exposureData,
-                    (item) => item.hazard_type,
-                    (item) => item.hazard_type_display,
-                ),
-                ...listToMap(
-                    displacementData,
-                    (item) => item.hazard_type,
-                    (item) => item.hazard_type_display,
-                ),
-                ...listToMap(
-                    riskScoreData,
-                    (item) => item.hazard_type,
-                    (item) => item.hazard_type_display,
-                ),
+                            return getDataWithTruthyHazardType(dataItem);
+                        },
+                    ) ?? [],
+                ].filter(isDefined),
+                (item) => `${item.country_details.iso3}-${item.hazard_type}`,
+            );
+
+            return {
+                displacement,
+                exposure,
+                riskScore,
             };
+        },
+        [seasonalRiskData],
+    );
 
-            return selectedRiskMetricDetail.applicableHazards.map(
+    const availableHazards: { [key in HazardType]?: string } | undefined = useMemo(
+        () => {
+            if (isNotDefined(data)) {
+                return undefined;
+            }
+
+            if (selectedRiskMetric === 'exposure') {
+                return {
+                    ...listToMap(
+                        data.exposure,
+                        (item) => item.hazard_type,
+                        (item) => item.hazard_type_display,
+                    ),
+                };
+            }
+
+            if (selectedRiskMetric === 'displacement') {
+                return {
+                    ...listToMap(
+                        data.displacement,
+                        (item) => item.hazard_type,
+                        (item) => item.hazard_type_display,
+                    ),
+                };
+            }
+
+            if (selectedRiskMetric === 'riskScore') {
+                return {
+                    ...listToMap(
+                        data.riskScore,
+                        (item) => item.hazard_type,
+                        (item) => item.hazard_type_display,
+                    ),
+                };
+            }
+
+            return undefined;
+        },
+        [data, selectedRiskMetric],
+    );
+
+    const hazardTypeOptions = useMemo(
+        () => (
+            selectedRiskMetricDetail.applicableHazards.map(
                 (hazardType) => {
-                    const hazard_type_display = availableHazards[hazardType];
+                    const hazard_type_display = availableHazards?.[hazardType];
                     if (isFalsyString(hazard_type_display)) {
                         return undefined;
                     }
@@ -195,22 +242,22 @@ function RiskBarChart(props: Props) {
                         hazard_type_display,
                     };
                 },
-            ).filter(isDefined);
-        },
-        [seasonalRiskData, fiRiskDataItem, wfRiskDataItem, selectedRiskMetricDetail],
+            ).filter(isDefined)
+        ),
+        [availableHazards, selectedRiskMetricDetail],
     );
 
     const hazardListForDisplay = useMemo(
         () => {
             if (isNotDefined(selectedHazardType)) {
-                return hazardTypeList;
+                return hazardTypeOptions;
             }
 
-            return hazardTypeList.filter(
+            return hazardTypeOptions.filter(
                 (hazardType) => hazardType.hazard_type === selectedHazardType,
             );
         },
-        [selectedHazardType, hazardTypeList],
+        [selectedHazardType, hazardTypeOptions],
     );
 
     return (
@@ -218,7 +265,7 @@ function RiskBarChart(props: Props) {
             heading={strings.riskBarChartTitle}
             className={styles.riskBarChart}
             withHeaderBorder
-            filtersContainerClassName={styles.filters}
+            withGridViewInFilter
             filters={(
                 <>
                     <SelectInput
@@ -232,7 +279,7 @@ function RiskBarChart(props: Props) {
                     />
                     <SelectInput
                         name={undefined}
-                        options={hazardTypeList}
+                        options={hazardTypeOptions}
                         placeholder={strings.riskBarChartFilterHazardPlaceholder}
                         keySelector={hazardTypeKeySelector}
                         labelSelector={hazardTypeLabelSelector}

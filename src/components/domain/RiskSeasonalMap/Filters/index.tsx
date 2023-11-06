@@ -114,22 +114,20 @@ function Filters(props: Props) {
                 onChange={handleChange}
                 withSelectAll
             />
-            {value.riskMetric === 'riskScore' && (
-                <div className={styles.riskScoreAdditionalOptions}>
-                    <Checkbox
-                        name="normalizeByPopulation"
-                        label={strings.riskNormalize}
-                        value={value.normalizeByPopulation}
-                        onChange={handleChange}
-                    />
-                    <Checkbox
-                        name="includeCopingCapacity"
-                        label={strings.riskCopingCapacity}
-                        value={value.includeCopingCapacity}
-                        onChange={handleChange}
-                    />
-                </div>
-            )}
+            <div className={styles.riskScoreAdditionalOptions}>
+                <Checkbox
+                    name="normalizeByPopulation"
+                    label={strings.riskNormalize}
+                    value={value.normalizeByPopulation}
+                    onChange={handleChange}
+                />
+                <Checkbox
+                    name="includeCopingCapacity"
+                    label={strings.riskCopingCapacity}
+                    value={value.includeCopingCapacity}
+                    onChange={handleChange}
+                />
+            </div>
         </div>
     );
 }
