@@ -1,7 +1,7 @@
 {
     "namespace": "accountMyFormsDref",
     "strings": {
-        "activeDrefTitle": "Active DREF Operations",
+        "activeDrefTitle": "Completed DREF Operations",
         "activeDrefTableCreatedHeading": "Created",
         "activeDrefTableAppealCodeHeading": "Appeal code",
         "activeDrefTableTitleHeading": "Title",

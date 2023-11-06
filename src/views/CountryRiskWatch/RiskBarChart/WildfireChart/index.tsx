@@ -39,8 +39,8 @@ type GetCountryRisk = paths['/api/v1/country-seasonal/']['get'];
 type CountryRiskResponse = GetCountryRisk['responses']['200']['content']['application/json'];
 type RiskData = CountryRiskResponse[number];
 
-const X_AXIS_HEIGHT = 24;
-const Y_AXIS_WIDTH = 32;
+const X_AXIS_HEIGHT = 32;
+const Y_AXIS_WIDTH = 48;
 const CHART_OFFSET = 0;
 
 const chartMargin = {
@@ -220,6 +220,15 @@ function WildfireChart(props: Props) {
             ref={chartContainerRef}
         >
             <svg className={styles.svg}>
+                <text
+                    className={styles.yAxisLabel}
+                    textAnchor="middle"
+                    transform={`translate(${(chartMargin.left - CHART_OFFSET) / 3},
+                            ${(chartBounds.height - chartMargin.bottom - chartMargin.top) / 2})
+                            rotate(-90)`}
+                >
+                    {strings.monthlySeverityRating}
+                </text>
                 <ChartAxes
                     xAxisPoints={points.xAxis}
                     yAxisPoints={points.yAxis}
