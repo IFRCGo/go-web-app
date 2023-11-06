@@ -584,11 +584,11 @@ export function Component() {
                         drefId={drefId}
                     />
                 )}
-                {showExportModal && (
+                {showExportModal && isDefined(finalReportId) && (
                     <DrefExportModal
                         onCancel={setShowExportModalFalse}
-                        id={Number(drefId)}
-                        applicationType="DREF"
+                        id={Number(finalReportId)}
+                        applicationType="FINAL_REPORT"
                     />
                 )}
             </Page>
