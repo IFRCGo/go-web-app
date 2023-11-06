@@ -7,8 +7,9 @@
     .key-figure-list {
         display: grid;
         grid-gap: var(--go-ui-spacing-md);
-        grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(18rem, max-content));
         align-content: center;
+        justify-content: center;
 
         .key-figure {
             border-radius: var(--go-ui-border-radius-lg);

@@ -1,4 +1,3 @@
-import { resolve } from 'url';
 import { _cs } from '@togglecorp/fujs';
 import {
     SocialMediumIcon,
@@ -12,7 +11,8 @@ import Link from '#components/Link';
 import PageContainer from '#components/PageContainer';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToComponent } from '#utils/translation';
-import { adminUrl, appVersion, appCommitHash } from '#config';
+import { api, appVersion, appCommitHash } from '#config';
+import { resolveUrl } from '#utils/resolveUrl';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -96,7 +96,7 @@ function GlobalFooter(props: Props) {
                         {strings.footerOpenSourceCode}
                     </Link>
                     <Link
-                        href={resolve(adminUrl, 'docs')}
+                        href={resolveUrl(api, 'docs')}
                         external
                     >
                         {strings.footerApiDocumentation}
