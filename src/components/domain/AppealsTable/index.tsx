@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { _cs, isDefined } from '@togglecorp/fujs';
+import { _cs } from '@togglecorp/fujs';
 
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse, GoApiUrlQuery } from '#utils/restRequest';
@@ -20,6 +20,7 @@ import useTranslation from '#hooks/useTranslation';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import useFilterState from '#hooks/useFilterState';
+import { getPercentage } from '#utils/common';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -141,9 +142,10 @@ function AppealsTable(props: Props) {
                 strings.appealsTableFundedAmount,
                 // FIXME: use progress function
                 (item) => (
-                    isDefined(item.amount_funded) && isDefined(item.amount_requested)
-                        ? 100 * (item.amount_funded / item.amount_requested)
-                        : 0
+                    getPercentage(
+                        item.amount_funded,
+                        item.amount_requested,
+                    )
                 ),
                 { sortable: true },
             ),

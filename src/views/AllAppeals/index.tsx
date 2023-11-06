@@ -16,13 +16,12 @@ import {
 } from '#components/Table/ColumnShortcuts';
 import { SortContext } from '#components/Table/useSorting';
 import Pager from '#components/Pager';
-import useTranslation from '#hooks/useTranslation';
-import useUrlSearchState from '#hooks/useUrlSearchState';
-import { resolveToComponent } from '#utils/translation';
 import ExportButton from '#components/domain/ExportButton';
 import NumberOutput from '#components/NumberOutput';
-import useAlert from '#hooks/useAlert';
-import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
+import CountrySelectInput from '#components/domain/CountrySelectInput';
+import RegionSelectInput from '#components/domain/RegionSelectInput';
+import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
+import DateInput from '#components/DateInput';
 import {
     useRequest,
     type GoApiResponse,
@@ -30,10 +29,12 @@ import {
 } from '#utils/restRequest';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useFilterState from '#hooks/useFilterState';
-import CountrySelectInput from '#components/domain/CountrySelectInput';
-import RegionSelectInput from '#components/domain/RegionSelectInput';
-import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
-import DateInput from '#components/DateInput';
+import useTranslation from '#hooks/useTranslation';
+import useUrlSearchState from '#hooks/useUrlSearchState';
+import useAlert from '#hooks/useAlert';
+import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
+import { getPercentage } from '#utils/common';
+import { resolveToComponent } from '#utils/translation';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -219,9 +220,10 @@ export function Component() {
                 strings.allAppealsFundedAmount,
                 // FIXME: use progress function
                 (item) => (
-                    isDefined(item.amount_funded) && isDefined(item.amount_requested)
-                        ? 100 * (item.amount_funded / item.amount_requested)
-                        : 0
+                    getPercentage(
+                        item.amount_funded,
+                        item.amount_requested,
+                    )
                 ),
                 {
                     sortable: true,

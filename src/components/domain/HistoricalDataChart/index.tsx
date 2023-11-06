@@ -27,7 +27,12 @@ import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
 import { numericIdSelector, stringNameSelector } from '#utils/selectors';
 import { getPrettyBreakableBounds, getScaleFunction } from '#utils/chart';
-import { formatNumber, getNumberOfDaysInMonth, sumSafe } from '#utils/common';
+import {
+    formatNumber,
+    getNumberOfDaysInMonth,
+    getPercentage,
+    sumSafe,
+} from '#utils/common';
 import {
     COLOR_HAZARD_CYCLONE,
     COLOR_HAZARD_DROUGHT,
@@ -373,7 +378,7 @@ function HistoricalDataChart(props: Props) {
 
                         const coverage = requested === 0
                             ? undefined
-                            : 100 * (funded / requested);
+                            : getPercentage(funded, requested);
 
                         return (
                             <div

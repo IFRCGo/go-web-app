@@ -13,7 +13,7 @@ import {
 } from '#components/Table/ColumnShortcuts';
 import SeverityIndicator from '#components/domain/SeverityIndicator';
 import useTranslation from '#hooks/useTranslation';
-import { getDuration } from '#utils/common';
+import { getDuration, getPercentage } from '#utils/common';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import DistrictNameOutput from './DistrictNameOutput';
@@ -67,8 +67,9 @@ function useColumns(searchResponse: SearchResponse | undefined) {
         createProgressColumn<EmergencyResult, number>(
             'funding_coverage',
             strings.searchEmergencyTableFundingCoverage,
-            (emergency) => 100 * (
-                Number(emergency.funding_coverage) / Number(emergency.funding_requirements)
+            (emergency) => getPercentage(
+                Number(emergency.funding_coverage),
+                Number(emergency.funding_requirements),
             ),
         ),
         createCountryListColumn<EmergencyResult, number>(

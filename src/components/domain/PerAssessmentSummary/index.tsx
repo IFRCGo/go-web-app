@@ -15,7 +15,7 @@ import NumberOutput from '#components/NumberOutput';
 import StackedProgressBar from '#components/StackedProgressBar';
 import TextOutput from '#components/TextOutput';
 import useTranslation from '#hooks/useTranslation';
-import { sumSafe } from '#utils/common';
+import { getPercentage, sumSafe } from '#utils/common';
 import { resolveToString } from '#utils/translation';
 import { type GoApiResponse } from '#utils/restRequest';
 
@@ -252,8 +252,7 @@ function PerAssessmentSummary(props: Props) {
                                 <div
                                     className={styles.filledBar}
                                     style={{
-                                        // FIXME: Use percent function
-                                        height: `${(100 * (rating.rating ?? 0)) / (averageRatingByAreaList.length ?? 1)}%`,
+                                        height: `${getPercentage(rating.rating, averageRatingByAreaList.length)}%`,
                                     }}
                                 />
                             </div>
