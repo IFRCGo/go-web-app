@@ -46,6 +46,7 @@ import {
     type RiskMetricOption,
     getExposureRiskCategory,
     getDisplacementRiskCategory,
+    RiskMetric,
 } from '#utils/domain/risk';
 import { useRiskRequest } from '#utils/restRequest';
 import { formatNumber, maxSafe, sumSafe } from '#utils/common';
@@ -71,7 +72,7 @@ import styles from './styles.module.css';
 const defaultFilterValue: FilterValue = {
     months: [],
     countries: [],
-    riskMetric: 'exposure',
+    riskMetric: 'riskScore',
     hazardTypes: [],
     normalizeByPopulation: false,
     includeCopingCapacity: false,
@@ -272,28 +273,37 @@ function RiskSeasonalMap(props: Props) {
         ],
     );
 
-    const availableHazards: { [key in HazardType]?: string } | undefined = useMemo(
+    const availableHazards: Record<
+        RiskMetric,
+        { [key in HazardType]?: string }
+    > | undefined = useMemo(
         () => {
             if (isNotDefined(data)) {
                 return undefined;
             }
 
             return {
-                ...listToMap(
-                    data.exposure,
-                    (item) => item.hazard_type,
-                    (item) => item.hazard_type_display,
-                ),
-                ...listToMap(
-                    data.displacement,
-                    (item) => item.hazard_type,
-                    (item) => item.hazard_type_display,
-                ),
-                ...listToMap(
-                    data.riskScore,
-                    (item) => item.hazard_type,
-                    (item) => item.hazard_type_display,
-                ),
+                exposure: {
+                    ...listToMap(
+                        data.exposure,
+                        (item) => item.hazard_type,
+                        (item) => item.hazard_type_display,
+                    ),
+                },
+                displacement: {
+                    ...listToMap(
+                        data.displacement,
+                        (item) => item.hazard_type,
+                        (item) => item.hazard_type_display,
+                    ),
+                },
+                riskScore: {
+                    ...listToMap(
+                        data.riskScore,
+                        (item) => item.hazard_type,
+                        (item) => item.hazard_type_display,
+                    ),
+                },
             };
         },
         [data],
@@ -303,7 +313,13 @@ function RiskSeasonalMap(props: Props) {
         defaultFilterValue,
         (newValue, oldValue) => {
             // We only apply side effect when risk metric is changed
-            if (newValue.riskMetric === oldValue.riskMetric || isNotDefined(availableHazards)) {
+            if (newValue.riskMetric === oldValue.riskMetric) {
+                return newValue;
+            }
+
+            const availableHazardsForSelectedRiskMetric = availableHazards?.[newValue.riskMetric];
+
+            if (isNotDefined(availableHazardsForSelectedRiskMetric)) {
                 return newValue;
             }
 
@@ -317,7 +333,7 @@ function RiskSeasonalMap(props: Props) {
 
             const newHazardTypeOptions = selectedRiskMetricDetail.applicableHazards.map(
                 (hazardType) => {
-                    const hazard_type_display = availableHazards[hazardType];
+                    const hazard_type_display = availableHazardsForSelectedRiskMetric[hazardType];
                     if (isFalsyString(hazard_type_display)) {
                         return undefined;
                     }
@@ -341,12 +357,16 @@ function RiskSeasonalMap(props: Props) {
     // NOTE: setting default values
     useEffect(
         () => {
-            if (isNotDefined(availableHazards) || isNotDefined(countryList)) {
+            if (
+                isNotDefined(availableHazards)
+                || isNotDefined(availableHazards.riskScore)
+                || isNotDefined(countryList)
+            ) {
                 return;
             }
 
             const riskMetric = riskMetricOptions.find(
-                (option) => option.key === 'exposure',
+                (option) => option.key === 'riskScore',
             );
 
             if (isNotDefined(riskMetric)) {
@@ -355,7 +375,7 @@ function RiskSeasonalMap(props: Props) {
 
             const newHazardTypeOptions = riskMetric.applicableHazards.map(
                 (hazardType) => {
-                    const hazard_type_display = availableHazards[hazardType];
+                    const hazard_type_display = availableHazards.riskScore[hazardType];
                     if (isFalsyString(hazard_type_display)) {
                         return undefined;
                     }
@@ -373,7 +393,7 @@ function RiskSeasonalMap(props: Props) {
                 countries: countryList.map((country) => country.iso3),
                 riskMetric: riskMetric.key,
                 hazardTypes: riskMetric.applicableHazards.filter(
-                    (hazardType) => isDefined(availableHazards[hazardType]),
+                    (hazardType) => isDefined(availableHazards[riskMetric.key]?.[hazardType]),
                 ),
                 months: [new Date().getMonth()],
                 normalizeByPopulation: false,
@@ -394,55 +414,79 @@ function RiskSeasonalMap(props: Props) {
                     if (
                         isNotDefined(item.country_details)
                         || isFalsyString(item.country_details.iso3)
-                        || isNotDefined(item.lcc)
                     ) {
                         return undefined;
                     }
 
                     return {
-                        ...item,
+                        iso3: item.country_details.iso3,
                         lcc: item.lcc,
-                        country_details: {
-                            ...item.country_details,
-                            iso3: item.country_details.iso3,
-                        },
+                        population_in_thousands: item.population_in_thousands,
                     };
                 },
             ).filter(isDefined);
 
-            const lcc = listToMap(
+            const populationListSafe = riskScoreList.map(
+                (item) => (
+                    isDefined(item.population_in_thousands)
+                        ? {
+                            iso3: item.iso3,
+                            population_in_thousands: item.population_in_thousands,
+                        } : undefined
+                ),
+            ).filter(isDefined);
+
+            const maxPopulation = maxSafe(
+                populationListSafe.map(
+                    (item) => item.population_in_thousands,
+                ),
+            ) ?? 1;
+
+            const populationFactorMap = listToMap(
+                populationListSafe,
+                (result) => result.iso3,
+                (result) => result.population_in_thousands / maxPopulation,
+            );
+
+            const populationMap = listToMap(
                 riskScoreList,
-                (item) => item.country_details.iso3,
+                (result) => result.iso3,
+                (result) => result.population_in_thousands,
+            );
+
+            const lccListSafe = riskScoreList.map(
+                (item) => (
+                    isDefined(item.lcc)
+                        ? {
+                            iso3: item.iso3,
+                            lcc: item.lcc,
+                        } : undefined
+                ),
+            ).filter(isDefined);
+
+            const maxLcc = maxSafe(
+                lccListSafe.map(
+                    (item) => item.lcc,
+                ),
+            ) ?? 10;
+
+            const lccMap = listToMap(
+                lccListSafe,
+                (item) => item.iso3,
                 (item) => item.lcc,
             );
 
-            const population = listToMap(
-                riskScoreResponse.results.map(
-                    (item) => {
-                        // FIXME: reuse validation for country
-                        if (
-                            isNotDefined(item.country_details)
-                            || isFalsyString(item.country_details.iso3)
-                        ) {
-                            return undefined;
-                        }
-
-                        return {
-                            ...item,
-                            country_details: {
-                                ...item.country_details,
-                                iso3: item.country_details.iso3,
-                            },
-                        };
-                    },
-                ).filter(isDefined),
-                (item) => item.country_details.iso3,
-                (item) => (item.population_in_thousands ?? 0) * 1000,
+            const lccFactorMap = listToMap(
+                lccListSafe,
+                (item) => item.iso3,
+                (item) => item.lcc / maxLcc,
             );
 
             return {
-                lcc,
-                population,
+                lcc: lccMap,
+                population: populationMap,
+                populationFactor: populationFactorMap,
+                lccFactor: lccFactorMap,
             };
         },
         [riskScoreResponse],
@@ -529,6 +573,10 @@ function RiskSeasonalMap(props: Props) {
 
                                 const newValue = filters.riskMetric === 'riskScore'
                                     ? riskScoreToCategory(
+                                        // NOTE: Risk Scores are multiplited
+                                        // by vulnerability (from server)
+                                        // So, dividing by 10 to
+                                        // correct the range (0 - 100 -> 0 - 10)
                                         item.hazard_type === 'WF' ? value : (value / 10),
                                         item.hazard_type,
                                     ) : value;
@@ -544,6 +592,26 @@ function RiskSeasonalMap(props: Props) {
                                     riskCategory = getDisplacementRiskCategory(newValue);
                                 } else if (filters.riskMetric === 'riskScore') {
                                     riskCategory = newValue;
+                                }
+
+                                if (filters.normalizeByPopulation) {
+                                    const populationFactor = mappings?.populationFactor[
+                                        item.country_details.iso3
+                                    ];
+
+                                    if (isDefined(riskCategory) && isDefined(populationFactor)) {
+                                        riskCategory *= populationFactor;
+                                    }
+                                }
+
+                                if (filters.includeCopingCapacity) {
+                                    const lccFactor = mappings?.lccFactor[
+                                        item.country_details.iso3
+                                    ];
+
+                                    if (isDefined(riskCategory) && isDefined(lccFactor)) {
+                                        riskCategory *= lccFactor;
+                                    }
                                 }
 
                                 if (isNotDefined(riskCategory)) {
@@ -628,18 +696,9 @@ function RiskSeasonalMap(props: Props) {
                     'max',
                 );
 
-                const maxPopulation = maxSafe(
-                    filters.countries.map(
-                        (iso3) => mappings?.population[iso3.toLowerCase()],
-                    ).filter(isDefined),
-                );
+                return transformedData;
 
-                const maxLackOfCopingCapacity = maxSafe(
-                    filters.countries.map(
-                        (iso3) => mappings?.lcc[iso3.toLowerCase()],
-                    ).filter(isDefined),
-                );
-
+                /*
                 return transformedData?.map(
                     (item) => {
                         let newNormalizedValue = item.normalizedValue;
@@ -670,6 +729,7 @@ function RiskSeasonalMap(props: Props) {
                         };
                     },
                 ).sort((a, b) => compareNumber(a.totalValue, b.totalValue, -1));
+                */
             }
 
             return undefined;

@@ -1,21 +1,8 @@
 .risk-bar-chart {
-    .filters {
-        display: grid;
-        grid-gap: var(--go-ui-spacing-md);
-        grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
-    }
-
     .legend {
         display: flex;
         gap: var(--go-ui-spacing-md);
-        padding: var(--go-ui-spacing-lg);
-
-        .legend-item {
-            .color {
-                border-radius: 0;
-                width: 1rem;
-                height: var(--go-ui-width-separator-thin);
-            }
-        }
+        background-color: var(--go-ui-color-background);
+        padding: var(--go-ui-spacing-sm) var(--go-ui-spacing-md);
     }
 }

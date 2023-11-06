@@ -105,7 +105,6 @@ function FoodInsecurityChart(props: Props) {
             );
 
             const yearKeys = Object.keys(yearGroupedData);
-            const currentYear = new Date().getFullYear();
             const predictionYear = yearKeys.length === 0
                 ? undefined
                 : yearKeys[yearKeys.length - 1];
@@ -129,7 +128,11 @@ function FoodInsecurityChart(props: Props) {
                         (item) => (isDefined(item) ? yScale(item) : undefined),
                     );
 
-                    const date = new Date(currentYear, monthKey, 1);
+                    const dates = mapToMap(
+                        value,
+                        (key) => key,
+                        (_, year) => new Date(+year, monthKey, 1),
+                    );
 
                     return {
                         key: monthKey,
@@ -137,7 +140,7 @@ function FoodInsecurityChart(props: Props) {
                         xStart: xScale(monthKey),
                         y,
                         value,
-                        date,
+                        dates,
                     };
                 },
             );
@@ -186,7 +189,8 @@ function FoodInsecurityChart(props: Props) {
     const xAxisTickSelector = useCallback(
         (chartPoint: (typeof chartData)['points'][number]) => ({
             x: chartPoint.xStart,
-            label: xAxisFormatter(chartPoint.date),
+            // Year and date doesn't matter here
+            label: xAxisFormatter(new Date(2000, chartPoint.key, 1)),
         }),
         [],
     );
@@ -268,7 +272,7 @@ function FoodInsecurityChart(props: Props) {
                                                     ? COLOR_PRIMARY_RED : colors[i]}
                                             >
                                                 <title>
-                                                    {`${localeFormatDate(point.date)}: ${formatNumber(point.value[year])}`}
+                                                    {`${localeFormatDate(point.dates[year])}: ${formatNumber(point.value[year])}`}
                                                 </title>
                                             </circle>
                                         );
