@@ -12,6 +12,7 @@ import {
     populateFormat,
     breakFormat,
     randomString,
+    bound,
 } from '@togglecorp/fujs';
 import { type Language } from '#contexts/language';
 import type { GoApiResponse } from '#utils/restRequest';
@@ -77,12 +78,20 @@ export function roundSafe(value: number | undefined | null): number | undefined 
     return Math.round(value);
 }
 
-export function getPercentage(value: number, total: number) {
+export function getPercentage(
+    value: number | null | undefined,
+    total: number | null | undefined,
+    isBounded = true,
+) {
     if (isNotDefined(value) || isNotDefined(total) || total === 0) {
         return 0;
     }
 
-    return (value * 100) / total;
+    const percentage = (value * 100) / total;
+
+    return isBounded
+        ? bound(percentage, 0, 100)
+        : percentage;
 }
 
 function getNumberListSafe(list: UnsafeNumberList) {
