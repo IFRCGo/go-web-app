@@ -49,7 +49,7 @@ export function Component() {
                             <KeyFigure
                                 className={styles.keyFigure}
                                 icon={<ClinicIcon />}
-                                value={surgeAggregatedResponse.deployment_this_year}
+                                value={surgeAggregatedResponse.deployments_this_year}
                                 label={strings.deploymentsThisYearTitle}
                             />
                         </>
