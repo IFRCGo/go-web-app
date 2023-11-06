@@ -840,11 +840,11 @@ export function Component() {
                         drefId={drefId}
                     />
                 )}
-                {showExportModal && isDefined(drefId) && (
+                {showExportModal && isDefined(opsUpdateId) && (
                     <DrefExportModal
                         onCancel={setShowExportModalFalse}
-                        id={Number(drefId)}
-                        applicationType="DREF"
+                        id={Number(opsUpdateId)}
+                        applicationType="OPS_UPDATE"
                     />
                 )}
             </Page>
