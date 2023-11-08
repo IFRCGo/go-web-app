@@ -19,6 +19,18 @@ export function Component() {
             withLinkIcon: true,
         },
         {
+            title: strings.catalogueLogisticsDeputySupplyChainCoordinator,
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EWBCntZoaDNDnXxHgLGqvLQBkHTO2hAV2OLPk4QJNbcYow',
+            external: true,
+            withLinkIcon: true,
+        },
+        {
+            title: strings.catalogueLogisticsMobilisationOfficer,
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ea7AHGC3QQJEtSNhELN-PHMBRotlp4b9neev2QX5TQgFPQ',
+            external: true,
+            withLinkIcon: true,
+        },
+        {
             title: strings.catalogueLogisticsSupplyERUTeamLeader,
             href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EfcAEr1nBFFNk3QP8ua2jgsBBaDL0_NuHQOFg7BZupd_PA',
             external: true,
