@@ -26,18 +26,10 @@ export function Component() {
                 <ul>
                     <li>
                         <Link
-                            href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EXZPVgHffW9Dludcn9HZlaABn4Ppg37CGuoGgeGjOxKkVw"
+                            href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Edaaenk6m4NKs_umF3XKdIQBST4a5xaQxmmYqJk9cNrSiw"
                             external
                         >
                             {strings.otherLinkOne}
-                        </Link>
-                    </li>
-                    <li>
-                        <Link
-                            href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EVOb9psRxttGmVi3i3u89IABALc8e0x1Lm7_eU8UkvLgLw"
-                            external
-                        >
-                            {strings.otherLinkTwo}
                         </Link>
                     </li>
                 </ul>
