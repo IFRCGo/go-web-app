@@ -95,12 +95,17 @@ export default function SurgeTable(props: Props) {
                 'duration',
                 strings.surgeAlertDuration,
                 (item) => {
-                    if (isNotDefined(item.created_at) || isNotDefined(item.end)) {
+                    if (isNotDefined(item.start) || isNotDefined(item.end)) {
                         return undefined;
                     }
 
-                    const alertDate = new Date(item.created_at);
+                    const alertDate = new Date(item.start);
                     const deadline = new Date(item.end);
+
+                    if (alertDate > deadline) {
+                        return undefined;
+                    }
+
                     const duration = getDuration(alertDate, deadline);
 
                     return duration;
@@ -117,11 +122,11 @@ export default function SurgeTable(props: Props) {
                     const startDate = new Date(item.start);
                     const nowMs = new Date().getTime();
 
-                    const duration = startDate.getTime() < nowMs
+                    const start = startDate.getTime() < nowMs
                         ? strings.emergencySurgeImmediately
                         : startDate.toLocaleString();
 
-                    return duration;
+                    return start;
                 },
             ),
             createStringColumn<SurgeListItem, number>(
