@@ -117,6 +117,7 @@ function ActiveDrefTable(props: Props) {
                 const opsUpdateList = operational_update_details;
                 return opsUpdateList[0];
             }
+
             return dref;
         },
         [],
