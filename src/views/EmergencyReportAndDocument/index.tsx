@@ -51,6 +51,7 @@ export function Component() {
     const { emergencyResponse } = useOutletContext<EmergencyOutletContext>();
     const {
         page: appealDocumentsPage,
+        offset: appealDocumentsOffset,
         setPage: setAppealDocumentsPage,
         limit: appealDocumentsLimit,
     } = useFilterState<object>({
@@ -93,7 +94,7 @@ export function Component() {
              */
             appeal: emergencyResponse.appeals.map((appeal) => appeal.id).filter(isDefined),
             limit: appealDocumentsLimit,
-            offset: appealDocumentsPage,
+            offset: appealDocumentsOffset,
         } : undefined,
     });
 
@@ -317,7 +318,7 @@ export function Component() {
                 <Container
                     heading={resolveToString(
                         strings.fieldReports,
-                        { count: emergencyResponse.field_reports.length },
+                        { count: emergencyResponse.field_reports.length ?? '--' },
                     )}
                     withHeaderBorder
                     footerActions={(
@@ -345,7 +346,7 @@ export function Component() {
                 <Container
                     heading={resolveToString(
                         strings.appealDocuments,
-                        { count: appealDocumentsResponse?.count },
+                        { count: appealDocumentsResponse?.count ?? '--' },
                     )}
                     withHeaderBorder
                     footerActions={(
