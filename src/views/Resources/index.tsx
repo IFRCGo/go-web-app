@@ -233,6 +233,13 @@ export function Component() {
                     >
                         {strings.aboutLearningPlatform}
                     </Link>
+                    <Link
+                        href="https://prddsgofilestorage.blob.core.windows.net/api/documents/cop28/COP28.pdf"
+                        external
+                        withLinkIcon
+                    >
+                        {strings.aboutCOP23Report}
+                    </Link>
                 </Container>
             </Container>
             <Container
