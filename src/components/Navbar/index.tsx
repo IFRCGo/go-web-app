@@ -19,9 +19,9 @@ import TabPanel from '#components/Tabs/TabPanel';
 
 import AuthenticatedUserDropdown from './AuthenticatedUserDropdown';
 import LangaugeDropdown from './LanguageDropdown';
+import CountryDropdown from './CountryDropdown';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-import CountryDropdown from './CountryDropdown';
 
 interface Props {
     className?: string;
@@ -135,6 +135,7 @@ function Navbar(props: Props) {
                         label={strings.userMenuPrepare}
                         variant="tertiary"
                         persistent
+                        preferredPopupWidth={56}
                     >
                         <Tabs
                             value={activePrepareOption}
@@ -252,6 +253,7 @@ function Navbar(props: Props) {
                         label={strings.userMenuRespondLabel}
                         variant="tertiary"
                         persistent
+                        preferredPopupWidth={56}
                     >
                         <Tabs
                             value={activeRespondOption}
@@ -398,6 +400,7 @@ function Navbar(props: Props) {
                         label={strings.userMenuLearnLabel}
                         variant="tertiary"
                         persistent
+                        preferredPopupWidth={56}
                     >
                         <Tabs
                             value={activeLearnOption}

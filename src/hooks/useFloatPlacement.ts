@@ -1,4 +1,4 @@
-import { bound, isNotDefined } from '@togglecorp/fujs';
+import { bound, isDefined, isNotDefined } from '@togglecorp/fujs';
 import { useState, useCallback, useEffect } from 'react';
 
 const ONE_REM = parseFloat(getComputedStyle(document.documentElement).fontSize);
@@ -43,7 +43,10 @@ const defaultPlacement: Placement = {
     bottom: 'unset',
 };
 
-function useFloatPlacement(parentRef: React.RefObject<HTMLElement | undefined>) {
+function useFloatPlacement(
+    parentRef: React.RefObject<HTMLElement | undefined>,
+    preferredWidth?: number,
+) {
     const [placements, setPlacements] = useState<{
         content: Placement,
         pointer: Placement,
@@ -78,7 +81,7 @@ function useFloatPlacement(parentRef: React.RefObject<HTMLElement | undefined>) 
         const parentCenterX = parentX + parentWidth / 2;
 
         const width = bound(
-            parentWidth,
+            isDefined(preferredWidth) ? preferredWidth * ONE_REM : parentWidth,
             MIN_WIDTH,
             maxWidth,
         );
@@ -87,13 +90,13 @@ function useFloatPlacement(parentRef: React.RefObject<HTMLElement | undefined>) 
         let x2 = parentCenterX + width / 2;
 
         if (x1 < minX) {
-            const diff = minX - x1;
+            const diff = minX - x1 - horizontalPadding;
             x1 = minX;
             x2 += diff;
         }
 
         if (x2 > maxX) {
-            const diff = x2 - maxX;
+            const diff = x2 - maxX - horizontalPadding;
             x2 = maxX;
             x1 -= diff;
         }
@@ -118,7 +121,7 @@ function useFloatPlacement(parentRef: React.RefObject<HTMLElement | undefined>) 
             width: `${x2 - x1}px`,
             orientation,
         });
-    }, [parentRef]);
+    }, [parentRef, preferredWidth]);
 
     useEffect(() => {
         calculatePlacement();

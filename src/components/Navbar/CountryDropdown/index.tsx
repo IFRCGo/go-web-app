@@ -102,6 +102,7 @@ function CountryDropdown() {
             variant="tertiary"
             popupClassName={styles.dropdown}
             persistent
+            preferredPopupWidth={56}
         >
             {isEmpty && (
                 <Message
@@ -176,6 +177,7 @@ function CountryDropdown() {
                                                 urlParams={{ countryId: id }}
                                                 variant="tertiary"
                                                 withLinkIcon
+                                                className={styles.countryLink}
                                             >
                                                 {name}
                                             </DropdownMenuItem>

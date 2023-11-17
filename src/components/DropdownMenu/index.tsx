@@ -21,6 +21,7 @@ import styles from './styles.module.css';
 export interface Props {
     className?: string;
     popupClassName?: string;
+    preferredPopupWidth?: number;
     children?: React.ReactNode;
     label?: React.ReactNode;
     activeClassName?: string;
@@ -50,6 +51,7 @@ function DropdownMenu(props: Props) {
         componentRef,
         elementRef: buttonRef = newButtonRef,
         persistent,
+        preferredPopupWidth,
     } = props;
 
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -135,6 +137,7 @@ function DropdownMenu(props: Props) {
                     elementRef={dropdownRef}
                     className={_cs(styles.dropdownContent, popupClassName)}
                     parentRef={buttonRef}
+                    preferredWidth={preferredPopupWidth}
                 >
                     {children}
                 </Popup>
