@@ -2,6 +2,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: var(--go-ui-spacing-md);
+    align-items: center;
 
     .legend {
         display: flex;
