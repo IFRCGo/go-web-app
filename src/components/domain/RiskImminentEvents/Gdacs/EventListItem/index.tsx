@@ -32,7 +32,7 @@ function EventListItem(props: Props) {
     return (
         <Header
             className={styles.eventListItem}
-            heading={hazard_name}
+            heading={hazard_name ?? '--'}
             headingLevel={5}
             actions={(
                 <Button
@@ -44,7 +44,7 @@ function EventListItem(props: Props) {
                     <ChevronRightLineIcon className={styles.icon} />
                 </Button>
             )}
-            spacing="compact"
+            spacing="condensed"
         >
             <TextOutput
                 label={strings.gdacsEventStartedOn}

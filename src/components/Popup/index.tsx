@@ -11,6 +11,7 @@ interface Props {
     elementRef?: React.RefObject<HTMLDivElement>;
     parentRef: React.RefObject<HTMLElement | undefined>;
     children?: React.ReactNode;
+    preferredWidth?: number;
 }
 
 function Popup(props: Props) {
@@ -20,6 +21,7 @@ function Popup(props: Props) {
         children,
         className,
         pointerClassName,
+        preferredWidth,
     } = props;
 
     const {
@@ -27,7 +29,7 @@ function Popup(props: Props) {
         pointer,
         width,
         orientation,
-    } = useFloatPlacement(parentRef);
+    } = useFloatPlacement(parentRef, preferredWidth);
 
     return (
         <Portal>
