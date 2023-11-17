@@ -1,8 +1,8 @@
 .pie-chart {
     display: flex;
+    align-items: center;
     flex-wrap: wrap;
     gap: var(--go-ui-spacing-md);
-    align-items: center;
 
     .legend {
         display: flex;
