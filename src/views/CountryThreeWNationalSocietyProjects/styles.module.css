@@ -23,8 +23,7 @@
 
             .separator {
                 flex-shrink: 0;
-                background-color: var(--go-ui-color-separator);
-                width: var(--go-ui-width-separator-sm);
+                border-left: var(--go-ui-width-separator-sm) solid var(--go-ui-color-separator);
             }
 
             .pie-chart-container {

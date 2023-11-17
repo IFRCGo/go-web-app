@@ -23,15 +23,17 @@
 
             .separator {
                 flex-shrink: 0;
-                background-color: var(--go-ui-color-separator);
-                width: var(--go-ui-width-separator-sm);
+                border-left: var(--go-ui-width-separator-sm) solid var(--go-ui-color-separator);
             }
 
-            .pie-chart {
+            .pie-chart-container {
                 flex-basis: 0;
                 flex-grow: 1;
-                flex-wrap: wrap;
-                justify-content: center;
+
+                .pie-chart {
+                    flex-wrap: wrap;
+                    justify-content: center;
+                }
             }
 
             .key-figure {
