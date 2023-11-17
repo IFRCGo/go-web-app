@@ -1,5 +1,4 @@
 import {
-    Fragment,
     useCallback,
     useMemo,
     useRef,
@@ -33,13 +32,13 @@ type CountryRiskResponse = RiskApiResponse<'/api/v1/country-seasonal/'>;
 type RiskData = CountryRiskResponse[number];
 
 const colors = [
-    '#cbcedb',
-    '#a9adbf',
-    '#878ea5',
-    '#676f8a',
-    '#475271',
-    '#283759',
-    '#011e41',
+    'var(--go-ui-color-gray-30)',
+    'var(--go-ui-color-gray-40)',
+    'var(--go-ui-color-gray-50)',
+    'var(--go-ui-color-gray-60)',
+    'var(--go-ui-color-gray-70)',
+    'var(--go-ui-color-gray-80)',
+    'var(--go-ui-color-gray-90)',
 ];
 
 const X_AXIS_HEIGHT = 24;
@@ -66,12 +65,25 @@ const localeFormatDate = (date: Date) => date.toLocaleString(
     },
 );
 
+const localeFormatMonth = (date: Date) => date.toLocaleString(
+    navigator.language,
+    { month: 'short' },
+);
+
+const currentYear = new Date().getFullYear();
+
 interface Props {
     ipcData: RiskData['ipc_displacement_data'] | undefined;
+    showHistoricalData?: boolean;
+    showProjection?: boolean;
 }
 
 function FoodInsecurityChart(props: Props) {
-    const { ipcData } = props;
+    const {
+        ipcData,
+        showHistoricalData,
+        showProjection,
+    } = props;
 
     const chartContainerRef = useRef<HTMLDivElement>(null);
     const chartBounds = useSizeTracking(chartContainerRef);
@@ -141,6 +153,7 @@ function FoodInsecurityChart(props: Props) {
                         y,
                         value,
                         dates,
+                        month: monthKey,
                     };
                 },
             );
@@ -161,10 +174,13 @@ function FoodInsecurityChart(props: Props) {
             const yearlyPathPoints = yearKeys.map(
                 (year) => ({
                     key: year,
+                    year,
                     points: chartPoints.map((point) => ({
+                        key: `${year}-${point.key}`,
                         x: point.x,
                         y: point.y[year],
                         v: point.value[year],
+                        date: point.dates[year],
                     })),
                 }),
             );
@@ -172,6 +188,8 @@ function FoodInsecurityChart(props: Props) {
             const averagePathPoints = chartPoints.map((point) => ({
                 x: point.x,
                 y: point.y.average,
+                value: point.value.average,
+                date: new Date(currentYear, point.month, 1),
             }));
 
             return {
@@ -206,6 +224,14 @@ function FoodInsecurityChart(props: Props) {
         [],
     );
 
+    const predictionPointData = chartData.yearlyPathPoints.find(
+        (pathPoints) => pathPoints.key === chartData.predictionYear,
+    );
+
+    const historicalPointsData = chartData.yearlyPathPoints.filter(
+        (pathPoints) => pathPoints.key !== chartData.predictionYear,
+    );
+
     return (
         <div
             className={styles.foodInsecurityChart}
@@ -221,7 +247,19 @@ function FoodInsecurityChart(props: Props) {
                     xAxisTickSelector={xAxisTickSelector}
                     yAxisTickSelector={yAxisTickSelector}
                 />
-                {chartData.yearlyPathPoints.map(
+                {showProjection && isDefined(predictionPointData) && (
+                    getDiscretePathDataList(predictionPointData.points)?.map(
+                        (discretePath) => (
+                            <path
+                                key={`prediction-${discretePath}`}
+                                className={styles.path}
+                                d={discretePath}
+                                stroke={COLOR_PRIMARY_RED}
+                            />
+                        ),
+                    )
+                )}
+                {showHistoricalData && historicalPointsData.map(
                     (pathPoints, i) => (
                         getDiscretePathDataList(pathPoints.points)?.map(
                             (discretePath) => (
@@ -229,8 +267,7 @@ function FoodInsecurityChart(props: Props) {
                                     className={styles.path}
                                     key={`${pathPoints.key}-${discretePath}`}
                                     d={discretePath}
-                                    stroke={pathPoints.key === chartData.predictionYear
-                                        ? COLOR_PRIMARY_RED : colors[i]}
+                                    stroke={colors[i]}
                                 />
                             ),
                         )
@@ -246,49 +283,64 @@ function FoodInsecurityChart(props: Props) {
                         />
                     ),
                 )}
-                {chartData.points.map(
+                {showProjection && predictionPointData?.points.map(
                     (point) => {
-                        if (isNotDefined(point.y.average)) {
+                        if (isNotDefined(point.y) || isNotDefined(point.x)) {
                             return null;
                         }
 
                         return (
-                            <Fragment key={point.key}>
-                                {chartData.yearKeys.map(
-                                    (year, i) => {
-                                        const y = point.y[year];
+                            <circle
+                                className={styles.averagePoint}
+                                cx={point.x}
+                                cy={point.y}
+                                fill={COLOR_PRIMARY_RED}
+                            >
+                                <title>
+                                    {`${localeFormatMonth(point.date)}: ${formatNumber(point.v)}`}
+                                </title>
+                            </circle>
+                        );
+                    },
+                )}
+                {showHistoricalData && historicalPointsData.map(
+                    (pointData, i) => (
+                        pointData.points.map(
+                            (point) => (
+                                isDefined(point.y) ? (
+                                    <circle
+                                        key={point.key}
+                                        className={styles.point}
+                                        cx={point.x}
+                                        cy={point.y}
+                                        stroke={colors[i]}
+                                    >
+                                        <title>
+                                            {`${localeFormatDate(point.date)}: ${formatNumber(point.v)}`}
+                                        </title>
+                                    </circle>
+                                ) : null
+                            ),
+                        )
+                    ),
+                )}
+                {chartData.averagePathPoints.map(
+                    (point) => {
+                        if (isNotDefined(point.y)) {
+                            return null;
+                        }
 
-                                        if (isNotDefined(y)) {
-                                            return null;
-                                        }
-
-                                        return (
-                                            <circle
-                                                key={year}
-                                                className={styles.point}
-                                                cx={point.x}
-                                                cy={y}
-                                                stroke={year === chartData.predictionYear
-                                                    ? COLOR_PRIMARY_RED : colors[i]}
-                                            >
-                                                <title>
-                                                    {`${localeFormatDate(point.dates[year])}: ${formatNumber(point.value[year])}`}
-                                                </title>
-                                            </circle>
-                                        );
-                                    },
-                                )}
-                                <circle
-                                    className={styles.averagePoint}
-                                    cx={point.x}
-                                    cy={point.y.average}
-                                    fill={COLOR_HAZARD_FOOD_INSECURITY}
-                                >
-                                    <title>
-                                        {formatNumber(point.value.average)}
-                                    </title>
-                                </circle>
-                            </Fragment>
+                        return (
+                            <circle
+                                className={styles.averagePoint}
+                                cx={point.x}
+                                cy={point.y}
+                                fill={COLOR_HAZARD_FOOD_INSECURITY}
+                            >
+                                <title>
+                                    {`${localeFormatMonth(point.date)}: ${formatNumber(point.value)}`}
+                                </title>
+                            </circle>
                         );
                     },
                 )}

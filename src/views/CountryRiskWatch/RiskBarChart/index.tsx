@@ -15,6 +15,7 @@ import Container from '#components/Container';
 import SelectInput from '#components/SelectInput';
 import BlockLoading from '#components/BlockLoading';
 import LegendItem from '#components/LegendItem';
+import Checkbox from '#components/Checkbox';
 import useInputState from '#hooks/useInputState';
 import useTranslation from '#hooks/useTranslation';
 import { stringLabelSelector } from '#utils/selectors';
@@ -69,6 +70,8 @@ function RiskBarChart(props: Props) {
         selectedHazardType,
         setSelectedHazardType,
     ] = useInputState<HazardType | undefined>(undefined);
+    const [showFiHistoricalData, setShowFiHistoricalData] = useInputState<boolean>(false);
+    const [showFiProjection, setShowFiProjection] = useInputState<boolean>(false);
 
     const handleRiskMetricChange = useCallback(
         (riskMetric: RiskMetric) => {
@@ -286,12 +289,30 @@ function RiskBarChart(props: Props) {
                         value={selectedHazardType}
                         onChange={setSelectedHazardType}
                     />
+                    {selectedHazardType === 'FI' && (
+                        <div className={styles.fiFilters}>
+                            <Checkbox
+                                name={undefined}
+                                value={showFiHistoricalData}
+                                onChange={setShowFiHistoricalData}
+                                label="Show historical data"
+                            />
+                            <Checkbox
+                                name={undefined}
+                                value={showFiProjection}
+                                onChange={setShowFiProjection}
+                                label="Show projections"
+                            />
+                        </div>
+                    )}
                 </>
             )}
         >
             {pending && <BlockLoading />}
             {!pending && selectedHazardType === 'FI' && (
                 <FoodInsecurityChart
+                    showHistoricalData={showFiHistoricalData}
+                    showProjection={showFiProjection}
                     ipcData={seasonalRiskData?.ipc_displacement_data}
                 />
             )}
