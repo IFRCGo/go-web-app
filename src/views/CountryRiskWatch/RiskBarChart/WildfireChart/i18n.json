@@ -4,6 +4,7 @@
         "average": "Average (2003 - {currentYear})",
         "year": "Year {currentYear}",
         "minMax": "Min-max (2003 - {currentYear})",
-        "minMaxValue": "{min} - {max}"
+        "minMaxValue": "{min} - {max}",
+        "monthlySeverityRating": "Monthly Severity Rating"
     }
 }
