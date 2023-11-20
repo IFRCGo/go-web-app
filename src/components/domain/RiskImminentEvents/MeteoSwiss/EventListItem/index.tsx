@@ -36,7 +36,7 @@ function EventListItem(props: Props) {
     return (
         <Header
             className={styles.eventListItem}
-            heading={hazardName}
+            heading={hazardName ?? '--'}
             headingLevel={5}
             actions={(
                 <Button
@@ -48,7 +48,7 @@ function EventListItem(props: Props) {
                     <ChevronRightLineIcon className={styles.icon} />
                 </Button>
             )}
-            spacing="compact"
+            spacing="condensed"
         >
             <TextOutput
                 label={strings.meteoSwissEventListStartedOn}

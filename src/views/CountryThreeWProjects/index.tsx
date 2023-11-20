@@ -385,6 +385,7 @@ export function Component() {
                             <Container
                                 heading={strings.programmeType}
                                 headingLevel={5}
+                                className={styles.pieChartContainer}
                             >
                                 <PieChart
                                     className={styles.pieChart}
@@ -412,6 +413,7 @@ export function Component() {
                             <Container
                                 heading={strings.projectStatus}
                                 headingLevel={5}
+                                className={styles.pieChartContainer}
                             >
                                 <PieChart
                                     className={styles.pieChart}

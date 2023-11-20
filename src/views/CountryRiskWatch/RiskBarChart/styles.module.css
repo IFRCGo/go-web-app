@@ -1,4 +1,12 @@
 .risk-bar-chart {
+    .fi-filters {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: var(--go-ui-spacing-md);
+        grid-column: span 2;
+    }
+
     .legend {
         display: flex;
         gap: var(--go-ui-spacing-md);
