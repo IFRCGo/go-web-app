@@ -60,12 +60,17 @@ function EventDetail(props: Props) {
                     heading={strings.drefFormPreviousOperations}
                     className={styles.previousOperations}
                     headerDescription={(
-                        <Link
-                            href={operationalLearningPlatformUrl}
-                            external
-                        >
+                        <div className={styles.learningPlatformLink}>
                             {strings.drefOperationalLearningPlatformLabel}
-                        </Link>
+                            <Link
+                                href={operationalLearningPlatformUrl}
+                                external
+                                withUnderline
+                                withLinkIcon
+                            >
+                                {strings.drefOperationalLearningPlatformLink}
+                            </Link>
+                        </div>
                     )}
                 >
                     <InputSection

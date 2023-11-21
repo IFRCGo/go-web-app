@@ -112,12 +112,12 @@ export function Component() {
     const lessonsLearnedDefined = isTruthyString(drefResponse?.lessons_learned?.trim());
     const showPreviousOperations = drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
         isDefined(drefResponse?.did_it_affect_same_area)
-            || isDefined(drefResponse?.did_it_affect_same_population)
-            || isDefined(drefResponse?.did_ns_respond)
-            || isDefined(drefResponse?.did_ns_request_fund)
-            || isTruthyString(drefResponse?.ns_request_text?.trim())
-            || isTruthyString(drefResponse?.dref_recurrent_text?.trim())
-            || lessonsLearnedDefined
+        || isDefined(drefResponse?.did_it_affect_same_population)
+        || isDefined(drefResponse?.did_ns_respond)
+        || isDefined(drefResponse?.did_ns_request_fund)
+        || isTruthyString(drefResponse?.ns_request_text?.trim())
+        || isTruthyString(drefResponse?.dref_recurrent_text?.trim())
+        || lessonsLearnedDefined
     );
 
     const ifrcActionsDefined = isTruthyString(drefResponse?.ifrc?.trim());
@@ -287,8 +287,8 @@ export function Component() {
                     value={drefResponse?.disaster_category_display}
                     valueClassName={_cs(
                         isDefined(drefResponse)
-                            && isDefined(drefResponse.disaster_category)
-                            && colorMap[drefResponse.disaster_category],
+                        && isDefined(drefResponse.disaster_category)
+                        && colorMap[drefResponse.disaster_category],
                     )}
                     strongValue
                 />
@@ -395,6 +395,15 @@ export function Component() {
                             />
                         </Container>
                     )}
+                    <Container
+                        heading={drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT
+                            && strings.dateWhenTheTriggerWasMetHeading
+                        }
+                    >
+                        <DescriptionText>
+                            {drefResponse?.event_date}
+                        </DescriptionText>
+                    </Container>
                     {eventDescriptionDefined && (
                         <Container
                             heading={drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
@@ -493,22 +502,38 @@ export function Component() {
                 </Container>
             )}
             {showNsAction && (
-                <Container
-                    heading={strings.currentNationalSocietyActionsHeading}
-                    childrenContainerClassName={styles.nsActionsContent}
-                    headingLevel={2}
-                >
-                    {drefResponse?.national_society_actions?.map(
-                        (nsAction) => (
-                            <BlockTextOutput
-                                key={nsAction.id}
-                                label={nsAction.title_display}
-                                value={nsAction.description}
-                                valueType="text"
-                                strongLabel
-                            />
-                        ),
-                    )}
+                <Container>
+                    <Container
+                        heading={strings.currentNationalSocietyActionsHeading}
+                        childrenContainerClassName={styles.nsActionsContent}
+                        headingLevel={2}
+                    >
+                        {drefResponse?.national_society_actions?.map(
+                            (nsAction) => (
+                                <BlockTextOutput
+                                    key={nsAction.id}
+                                    label={nsAction.title_display}
+                                    value={nsAction.description}
+                                    valueType="text"
+                                    strongLabel
+                                />
+                            ),
+                        )}
+                    </Container>
+                    <Container>
+                        {drefResponse?.ns_respond_date &&
+                            <Container
+                                heading={
+                                    drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
+                                        ? strings.nationalSocietyActionsHeading
+                                        : strings.drefFormNsResponseStarted}
+                            >
+                                <DescriptionText>
+                                    {drefResponse?.ns_respond_date}
+                                </DescriptionText>
+                            </Container>
+                        }
+                    </Container>
                 </Container>
             )}
             {showMovementPartnersActionsSection && (
@@ -590,12 +615,12 @@ export function Component() {
             )}
             {showNeedsIdentifiedSection && (
                 <>
-                    <Heading level={2}>
-                        {strings.needsIdentifiedSectionHeading}
-                    </Heading>
                     {needsIdentifiedDefined && drefResponse?.needs_identified?.map(
                         (identifiedNeed) => (
                             <Fragment key={identifiedNeed.id}>
+                                <Heading level={2}>
+                                    {strings.needsIdentifiedSectionHeading}
+                                </Heading>
                                 <Heading className={styles.needsIdentifiedHeading}>
                                     <img
                                         className={styles.icon}
