@@ -39,6 +39,8 @@
         "specifiedTriggerMetLabel": "Please explain how the operation is transitioning from Anticipatory to Response",
 
         "currentNationalSocietyActionsHeading": "Current National Society Actions",
+        "nationalSocietyActionsHeading": "National Society anticipatory actions started",
+        "drefFormNsResponseStarted": "Start date of National Society actions",
         "movementPartnersActionsHeading": "IFRC Network Actions Related To The Current Event",
         "drefExportReference": "Click here for the reference",
         "secretariatLabel": "Secretariat",

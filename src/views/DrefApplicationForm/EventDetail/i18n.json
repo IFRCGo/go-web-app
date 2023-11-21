@@ -26,7 +26,8 @@
         "drefFormUploadSupportingDocumentButtonLabel": "Upload document",
         "drefFormUploadSupportingDocumentDescription": "Here the National Society can upload documentation that substantiates their decision to launch this operation now. For example: seasonal outlooks, forecast information, reports from credible sources...etc.",
         "drefFormWhatWhereWhen": "What happened, where and when?",
-        "drefOperationalLearningPlatformLabel": "To access lessons from previous operations, please visit the DREF Operational Learning Platform",
+        "drefOperationalLearningPlatformLabel": "To access the Operational Learning Dashboard and check learnings for the country, click",
+        "drefOperationalLearningPlatformLink": "HERE",
         "drefFormSelectImages": "Select images"
     }
 }
