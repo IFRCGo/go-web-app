@@ -283,8 +283,8 @@ export function Component() {
                     value={drefResponse?.disaster_category_display}
                     valueClassName={_cs(
                         isDefined(drefResponse)
-                            && isDefined(drefResponse.disaster_category)
-                            && colorMap[drefResponse.disaster_category],
+                        && isDefined(drefResponse.disaster_category)
+                        && colorMap[drefResponse.disaster_category],
                     )}
                     strongValue
                 />
@@ -505,18 +505,36 @@ export function Component() {
                         </Container>
                     )}
                     {nsActionsDefined && (
-                        <Container childrenContainerClassName={styles.nsActionsList}>
-                            {drefResponse?.national_society_actions?.map(
-                                (nsAction) => (
-                                    <BlockTextOutput
-                                        key={nsAction.id}
-                                        label={nsAction.title_display}
-                                        value={nsAction.description}
-                                        valueType="text"
-                                        strongLabel
-                                    />
-                                ),
-                            )}
+                        <Container>
+                            <Container
+                                childrenContainerClassName={styles.nsActionsList}
+                            >
+                                {drefResponse?.national_society_actions?.map(
+                                    (nsAction) => (
+                                        <BlockTextOutput
+                                            key={nsAction.id}
+                                            label={nsAction.title_display}
+                                            value={nsAction.description}
+                                            valueType="text"
+                                            strongLabel
+                                        />
+                                    ),
+                                )}
+                            </Container>
+                            <Container>
+                                {drefResponse?.ns_respond_date &&
+                                    <Container
+                                        heading={
+                                            drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
+                                                ? strings.nationalSocietyActionsHeading
+                                                : strings.drefFormNsResponseStarted}
+                                    >
+                                        <DescriptionText>
+                                            {drefResponse?.ns_respond_date}
+                                        </DescriptionText>
+                                    </Container>
+                                }
+                            </Container>
                         </Container>
                     )}
                 </>
