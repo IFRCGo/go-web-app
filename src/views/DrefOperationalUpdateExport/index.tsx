@@ -283,8 +283,8 @@ export function Component() {
                     value={drefResponse?.disaster_category_display}
                     valueClassName={_cs(
                         isDefined(drefResponse)
-                        && isDefined(drefResponse.disaster_category)
-                        && colorMap[drefResponse.disaster_category],
+                            && isDefined(drefResponse.disaster_category)
+                            && colorMap[drefResponse.disaster_category],
                     )}
                     strongValue
                 />
