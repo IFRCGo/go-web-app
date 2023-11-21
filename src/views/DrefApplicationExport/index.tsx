@@ -382,8 +382,7 @@ export function Component() {
                     )}
                     <Container
                         heading={drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT
-                            && strings.dateWhenTheTriggerWasMetHeading
-                        }
+                            && strings.dateWhenTheTriggerWasMetHeading}
                     >
                         <DescriptionText>
                             {drefResponse?.event_date}
@@ -506,18 +505,19 @@ export function Component() {
                         )}
                     </Container>
                     <Container>
-                        {drefResponse?.ns_respond_date &&
+                        {drefResponse?.ns_respond_date && (
                             <Container
                                 heading={
                                     drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
                                         ? strings.nationalSocietyActionsHeading
-                                        : strings.drefFormNsResponseStarted}
+                                        : strings.drefFormNsResponseStarted
+                                }
                             >
                                 <DescriptionText>
                                     {drefResponse?.ns_respond_date}
                                 </DescriptionText>
                             </Container>
-                        }
+                        )}
                     </Container>
                 </Container>
             )}
