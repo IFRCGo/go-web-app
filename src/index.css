@@ -5,6 +5,7 @@
 
     --base-font-size: 0.875rem;
     --font-multiplier: 1.5;
+    --go-ui-dref-super-ticket-size: 0.688rem;
 
     --go-ui-font-size-2xs: calc(var(--base-font-size) * 0.625);
     --go-ui-font-size-xs: calc(var(--base-font-size) * 0.75);
