@@ -72,10 +72,11 @@ export function Component() {
 
     const outletContext = useMemo<CountryOutletContext>(
         () => ({
+            countryId,
             countryResponse,
             countryResponsePending,
         }),
-        [countryResponse, countryResponsePending],
+        [countryResponse, countryId, countryResponsePending],
     );
 
     const pending = countryResponsePending || aggregatedAppealPending;
@@ -250,35 +251,25 @@ export function Component() {
         >
             <NavigationTabList>
                 <NavigationTab
-                    to="countryOperations"
-                    urlParams={{ countryId }}
-                >
-                    {strings.countryOperationsTab}
-                </NavigationTab>
-                <NavigationTab
-                    to="countriesThreeWLayout"
+                    to="countryOngoingActivitiesLayout"
                     urlParams={{ countryId }}
                     parentRoute
                 >
-                    {strings.country3WTab}
+                    {strings.ongoingActivitiesTabTitle}
                 </NavigationTab>
                 <NavigationTab
-                    to="countryRiskWatch"
+                    to="countryNsOverviewLayout"
                     urlParams={{ countryId }}
+                    parentRoute
                 >
-                    {strings.countryRiskTab}
+                    {strings.nsOverviewTabTitle}
                 </NavigationTab>
                 <NavigationTab
-                    to="countryPreparedness"
+                    to="countryProfileLayout"
                     urlParams={{ countryId }}
+                    parentRoute
                 >
-                    {strings.countryPreparednessTab}
-                </NavigationTab>
-                <NavigationTab
-                    to="countryPlan"
-                    urlParams={{ countryId }}
-                >
-                    {strings.countryCountryPlanTab}
+                    {strings.countryProfileTabTitle}
                 </NavigationTab>
                 {hasAdditionalInfoData && (
                     <NavigationTab
