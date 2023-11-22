@@ -22,6 +22,7 @@ export interface EmergencyOutletContext {
 
 export type CountryResponse = GoApiResponse<'/api/v2/country/{id}/'>
 export interface CountryOutletContext {
+    countryId: string | undefined;
     countryResponse: CountryResponse | undefined;
     countryResponsePending: boolean;
 }
