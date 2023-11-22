@@ -9,12 +9,18 @@
         "countryKeyFiguresAppealsFunding":"Funding Coverage",
         "countryKeyFiguresTargetPop":"Targeted Population",
         "countryKeyFiguresCountryPlan":"Active Country Plan",
+
+        "ongoingActivitiesTabTitle": "Ongoing Activities",
+        "nsOverviewTabTitle": "National Society Overview",
+        "countryProfileTabTitle": "Country Profile",
+        "countryAdditionalInfoTab":"Additional Info",
+
         "countryOperationsTab":"Operations",
         "country3WTab":"3W",
         "countryPreparednessTab":"Preparedness",
-        "countryAdditionalInfoTab":"Additional Info",
         "countryCountryPlanTab":"Country Plan",
         "countryRiskTab": "Risk Watch",
+
         "countryKeyFiguresDrefTitle": "DREF",
         "countryKeyFiguresDrefDescription": "These are small to medium scale emergency operations funded through the Disaster Relief Emergency Fund (DREF).The DREF provides immediate financial support to National Red Cross and Red Crescent Societies, enabling them to carry out their unique role as first responders after a disaster.",
         "countryKeyFiguresActiveAppealsTitle": "Emergency Appeal",
