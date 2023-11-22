@@ -84,12 +84,12 @@ export function useLink(props: {
         return { disabled: true, to: undefined };
     }
 
+    const disabled = (route.visibility === 'is-authenticated' && !isAuthenticated)
+        || (route.visibility === 'is-not-authenticated' && isAuthenticated)
+        || (route.permissions && !route.permissions(perms, props.urlParams));
+
     return {
-        disabled: (
-            (route.visibility === 'is-authenticated' && !isAuthenticated)
-            || (route.visibility === 'is-not-authenticated' && isAuthenticated)
-            || (route.permissions && !route.permissions(perms, props.urlParams))
-        ),
+        disabled,
         to: resolvedPath,
     };
 }

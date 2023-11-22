@@ -1,0 +1,9 @@
+{
+    "namespace": "countryNsOverview",
+    "strings": {
+        "nsActivitiesTabTitle": "NS Activities",
+        "contextAndStructureTabTitle": "Context and Structure",
+        "strategicPrioritiesTabTitle": "Strategic Priorities",
+        "capacityTabTitle": "Capacity"
+    }
+}
