@@ -112,12 +112,12 @@ export function Component() {
     const lessonsLearnedDefined = isTruthyString(drefResponse?.lessons_learned?.trim());
     const showPreviousOperations = drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
         isDefined(drefResponse?.did_it_affect_same_area)
-            || isDefined(drefResponse?.did_it_affect_same_population)
-            || isDefined(drefResponse?.did_ns_respond)
-            || isDefined(drefResponse?.did_ns_request_fund)
-            || isTruthyString(drefResponse?.ns_request_text?.trim())
-            || isTruthyString(drefResponse?.dref_recurrent_text?.trim())
-            || lessonsLearnedDefined
+        || isDefined(drefResponse?.did_it_affect_same_population)
+        || isDefined(drefResponse?.did_ns_respond)
+        || isDefined(drefResponse?.did_ns_request_fund)
+        || isTruthyString(drefResponse?.ns_request_text?.trim())
+        || isTruthyString(drefResponse?.dref_recurrent_text?.trim())
+        || lessonsLearnedDefined
     );
 
     const ifrcActionsDefined = isTruthyString(drefResponse?.ifrc?.trim());
@@ -287,8 +287,8 @@ export function Component() {
                     value={drefResponse?.disaster_category_display}
                     valueClassName={_cs(
                         isDefined(drefResponse)
-                            && isDefined(drefResponse.disaster_category)
-                            && colorMap[drefResponse.disaster_category],
+                        && isDefined(drefResponse.disaster_category)
+                        && colorMap[drefResponse.disaster_category],
                     )}
                     strongValue
                 />
@@ -809,6 +809,13 @@ export function Component() {
                                     {plannedIntervention.title_display}
                                 </Heading>
                                 <Container>
+                                    <TextOutput
+                                        label={strings.drefAllocationLabel}
+                                        value={drefResponse?.amount_requested}
+                                        valueType="number"
+                                        prefix={strings.chfPrefix}
+                                        strongLabel
+                                    />
                                     <TextOutput
                                         label={strings.budgetLabel}
                                         value={plannedIntervention.budget}
