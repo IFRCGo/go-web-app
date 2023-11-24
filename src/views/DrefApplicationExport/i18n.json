@@ -92,6 +92,8 @@
         "mediaContactHeading": "Media Contact",
         "imageLogoIFRCAlt": "IFRC",
         "drefApplicationExportRisk": "Risk",
-        "drefApplicationExportMitigation": "Mitigation action"
+        "drefApplicationExportMitigation": "Mitigation action",
+        "drefApplicationSupportingDocumentation": "Supporting Documentation",
+        "drefAssessmentReportLink": "Assessment Report"
     }
 }
