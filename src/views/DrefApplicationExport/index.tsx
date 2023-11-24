@@ -430,6 +430,15 @@ export function Component() {
                             </DescriptionText>
                         </Container>
                     )}
+                    {drefResponse?.supporting_document_details?.file && (
+                        <Link
+                            href={drefResponse?.supporting_document_details?.file}
+                            external
+                            withUnderline
+                        >
+                            {strings.drefApplicationSupportingDocumentation}
+                        </Link>
+                    )}
                 </>
             )}
             {showPreviousOperations && (
@@ -627,6 +636,13 @@ export function Component() {
                             </DescriptionText>
                         </Container>
                     )}
+                    <Link
+                        href={drefResponse?.assessment_report_details?.file}
+                        external
+                        withUnderline
+                    >
+                        {strings.drefAssessmentReportLink}
+                    </Link>
                 </>
             )}
             {showOperationStrategySection && (
