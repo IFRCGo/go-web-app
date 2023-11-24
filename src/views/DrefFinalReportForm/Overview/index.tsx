@@ -49,10 +49,6 @@ import styles from './styles.module.css';
 import i18n from './i18n.json';
 
 const disasterCategoryLink = 'https://www.ifrc.org/sites/default/files/2021-07/IFRC%20Emergency%20Response%20Framework%20-%202017.pdf';
-const totalPopulationRiskImminentLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
-const totalPeopleAffectedSlowSuddenLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
-const peopleTargetedLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
-const peopleInNeedLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
 
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type DrefTypeOption = NonNullable<GlobalEnumsResponse['dref_dref_dref_type']>[number];
@@ -258,7 +254,7 @@ function Overview(props: Props) {
                                     ? strings.drefFormImminentDisasterCategoryLabel
                                     : strings.drefFormDisasterCategoryLabel}
                                 <Link
-                                    title={strings.drefFormClickEmergencyResponseFramework}
+                                    title={strings.drefFormClickEmergencyResponseFrameworkLabel}
                                     href={disasterCategoryLink}
                                     external
                                     variant="tertiary"
@@ -331,116 +327,6 @@ function Overview(props: Props) {
                             {strings.drefFormGenerateTitle}
                         </Button>
                     </div>
-                </InputSection>
-                <InputSection
-                    title={strings.numericDetails}
-                    numPreferredColumns={2}
-                >
-                    <NumberInput
-                        name="number_of_people_affected"
-                        label={value?.type_of_dref === TYPE_IMMINENT ? (
-                            <>
-                                {strings.drefFormRiskPeopleLabel}
-                                <Link
-                                    title={strings.drefFormClickEmergencyResponseFramework}
-                                    href={totalPopulationRiskImminentLink}
-                                    external
-                                >
-                                    <WikiHelpSectionLineIcon />
-                                </Link>
-                            </>
-                        ) : (
-                            <>
-                                {strings.drefFormPeopleAffected}
-                                <Link
-                                    title={strings.drefFormClickEmergencyResponseFramework}
-                                    href={totalPeopleAffectedSlowSuddenLink}
-                                    external
-                                >
-                                    <WikiHelpSectionLineIcon />
-                                </Link>
-                            </>
-                        )}
-                        value={value?.number_of_people_affected}
-                        onChange={setFieldValue}
-                        error={error?.number_of_people_affected}
-                        hint={(
-                            value?.type_of_dref === TYPE_IMMINENT
-                                ? strings.drefFormPeopleAffectedDescriptionImminent
-                                : strings.drefFormPeopleAffectedDescriptionSlowSudden
-                        )}
-                        disabled={disabled}
-                    />
-                    <NumberInput
-                        label={(
-                            <>
-                                {
-                                    value?.type_of_dref === TYPE_IMMINENT
-                                        ? strings.drefFormEstimatedPeopleInNeed
-                                        : strings.drefFormPeopleInNeed
-                                }
-                                <Link
-                                    title={strings.drefFormClickEmergencyResponseFramework}
-                                    href={peopleInNeedLink}
-                                    external
-                                >
-                                    <WikiHelpSectionLineIcon />
-                                </Link>
-                            </>
-                        )}
-                        name="people_in_need"
-                        value={value?.people_in_need}
-                        onChange={setFieldValue}
-                        error={error?.people_in_need}
-                        hint={(
-                            value?.type_of_dref === TYPE_IMMINENT
-                                ? strings.drefFormPeopleInNeedDescriptionImminent
-                                : strings.drefFormPeopleInNeedDescriptionSlowSudden
-                        )}
-                        disabled={disabled}
-                    />
-                    <NumberInput
-                        label={(
-                            <>
-                                {strings.finalReportPeopleTargeted}
-                                <Link
-                                    title={strings.drefFormClickEmergencyResponseFramework}
-                                    href={peopleTargetedLink}
-                                    external
-                                >
-                                    <WikiHelpSectionLineIcon />
-                                </Link>
-                            </>
-                        )}
-                        name="number_of_people_targeted"
-                        value={value.number_of_people_targeted}
-                        onChange={setFieldValue}
-                        error={error?.number_of_people_targeted}
-                        hint={strings.drefFormPeopleTargetedDescription}
-                        disabled={disabled}
-                    />
-                    <NumberInput
-                        label={(
-                            <>
-                                {strings.drefFormPeopleTargeted}
-                                <Link
-                                    title={strings.drefFormClickEmergencyResponseFramework}
-                                    href={peopleTargetedLink}
-                                    external
-                                >
-                                    <WikiHelpSectionLineIcon />
-                                </Link>
-                            </>
-                        )}
-                        name="num_assisted"
-                        value={value?.num_assisted}
-                        onChange={setFieldValue}
-                        error={error?.num_assisted}
-                        hint={strings.drefFormPeopleTargetedDescription}
-                        disabled={disabled}
-                    />
-                    {/* NOTE: Empty div to preserve the layout */}
-                    <div />
                 </InputSection>
                 <InputSection
                     title={strings.finalReportTotalAllocation}

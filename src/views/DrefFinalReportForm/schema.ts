@@ -138,8 +138,6 @@ const schema: FinalReportFormSchema = {
                 required: true,
                 requiredValidation: requiredStringCondition,
             },
-            num_assisted: { validations: [positiveIntegerCondition] },
-            people_in_need: { validations: [positiveIntegerCondition] },
             event_map_file: {
                 fields: (): EventMapFileFields => ({
                     client_id: {},
@@ -154,12 +152,6 @@ const schema: FinalReportFormSchema = {
                     caption: {},
                 }),
             },
-            number_of_people_affected: {
-                validations: [positiveIntegerCondition],
-            },
-            number_of_people_targeted: {
-                validations: [positiveIntegerCondition],
-            },
             total_dref_allocation: {},
             main_donors: {
                 validations: [max500CharCondition],
@@ -169,7 +161,10 @@ const schema: FinalReportFormSchema = {
             financial_report_description: {},
 
             // EVENT DETAILS
-
+            number_of_people_affected: {
+                validations: [positiveIntegerCondition],
+            },
+            people_in_need: { validations: [positiveIntegerCondition] },
             event_description: {},
             images_file: {
                 keySelector: (image_file) => image_file.client_id,
@@ -182,7 +177,10 @@ const schema: FinalReportFormSchema = {
                 }),
                 validations: [lessThanEqualToTwoImagesCondition],
             },
-
+            number_of_people_targeted: {
+                validations: [positiveIntegerCondition],
+            },
+            num_assisted: { validations: [positiveIntegerCondition] },
             // ACTIONS
 
             ifrc: {},
