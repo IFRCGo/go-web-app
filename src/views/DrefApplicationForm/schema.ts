@@ -139,12 +139,12 @@ const schema: DrefFormSchema = {
                 required: true,
                 requiredValidation: requiredStringCondition,
             },
-            num_affected: { validations: [positiveIntegerCondition] },
-            num_assisted: { validations: [positiveIntegerCondition] },
             amount_requested: { validations: [positiveNumberCondition] },
             field_report: {}, // This value is set from CopyFieldReportSection
 
             // EVENT DETAILS
+            num_affected: { validations: [positiveIntegerCondition] },
+            num_assisted: { validations: [positiveIntegerCondition] },
 
             // none
 
@@ -205,7 +205,6 @@ const schema: DrefFormSchema = {
         );
 
         const overviewDrefTypeRelatedFields = [
-            'people_in_need',
             'emergency_appeal_planned',
             'event_map_file',
             'cover_image_file',
@@ -221,7 +220,6 @@ const schema: DrefFormSchema = {
             overviewDrefTypeRelatedFields,
             (val): OverviewDrefTypeRelatedFields => {
                 const conditionalFields: OverviewDrefTypeRelatedFields = {
-                    people_in_need: { forceValue: nullValue },
                     emergency_appeal_planned: { forceValue: nullValue },
                     event_map_file: { forceValue: nullValue }, // NOTE: check if this works
                     cover_image_file: { forceValue: nullValue },
@@ -231,7 +229,6 @@ const schema: DrefFormSchema = {
                 }
                 return {
                     ...conditionalFields,
-                    people_in_need: { validations: [positiveIntegerCondition] },
                     emergency_appeal_planned: {},
                     event_map_file: {
                         fields: (): EventMapFileFields => ({
@@ -254,6 +251,7 @@ const schema: DrefFormSchema = {
         // EVENT DETAILS
 
         const eventDetailDrefTypeRelatedFields = [
+            'people_in_need',
             'did_it_affect_same_area',
             'did_it_affect_same_population',
             'did_ns_respond',
@@ -278,6 +276,7 @@ const schema: DrefFormSchema = {
             eventDetailDrefTypeRelatedFields,
             (val): EventDetailDrefTypeRelatedFields => {
                 let conditionalFields: EventDetailDrefTypeRelatedFields = {
+                    people_in_need: { forceValue: nullValue },
                     did_it_affect_same_area: { forceValue: nullValue },
                     did_it_affect_same_population: { forceValue: nullValue },
                     did_ns_respond: { forceValue: nullValue },
@@ -304,6 +303,7 @@ const schema: DrefFormSchema = {
                         did_ns_request_fund: {},
                         lessons_learned: {},
                         event_scope: {},
+                        people_in_need: { validations: [positiveIntegerCondition] },
                     };
                 }
 
