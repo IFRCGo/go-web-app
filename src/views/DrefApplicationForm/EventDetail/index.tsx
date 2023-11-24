@@ -84,39 +84,45 @@ function EventDetail(props: Props) {
                             disabled={disabled}
                         />
                     </InputSection>
-                    <InputSection
-                        title={strings.drefFormAffectedthePopulationTitle}
-                    >
-                        <BooleanInput
-                            name="did_it_affect_same_population"
-                            value={value.did_it_affect_same_population}
-                            onChange={setFieldValue}
-                            error={error?.did_it_affect_same_population}
-                            disabled={disabled}
-                        />
-                    </InputSection>
-                    <InputSection
-                        title={strings.drefFormNsRespond}
-                    >
-                        <BooleanInput
-                            name="did_ns_respond"
-                            value={value.did_ns_respond}
-                            onChange={setFieldValue}
-                            error={error?.did_ns_respond}
-                            disabled={disabled}
-                        />
-                    </InputSection>
-                    <InputSection
-                        title={strings.drefFormNsRequestFund}
-                    >
-                        <BooleanInput
-                            name="did_ns_request_fund"
-                            value={value.did_ns_request_fund}
-                            onChange={setFieldValue}
-                            error={error?.did_ns_request_fund}
-                            disabled={disabled}
-                        />
-                    </InputSection>
+                    {value.did_it_affect_same_area && (
+                        <InputSection
+                            title={strings.drefFormAffectedThePopulationTitle}
+                        >
+                            <BooleanInput
+                                name="did_it_affect_same_population"
+                                value={value.did_it_affect_same_population}
+                                onChange={setFieldValue}
+                                error={error?.did_it_affect_same_population}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                    )}
+                    {value.did_it_affect_same_population && (
+                        <InputSection
+                            title={strings.drefFormNsRespond}
+                        >
+                            <BooleanInput
+                                name="did_ns_respond"
+                                value={value.did_ns_respond}
+                                onChange={setFieldValue}
+                                error={error?.did_ns_respond}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                    )}
+                    {value.did_ns_respond && (
+                        <InputSection
+                            title={strings.drefFormNsRequestFund}
+                        >
+                            <BooleanInput
+                                name="did_ns_request_fund"
+                                value={value.did_ns_request_fund}
+                                onChange={setFieldValue}
+                                error={error?.did_ns_request_fund}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                    )}
                     {value.did_ns_request_fund && (
                         <InputSection
                             title={strings.drefFormNsFundingDetail}

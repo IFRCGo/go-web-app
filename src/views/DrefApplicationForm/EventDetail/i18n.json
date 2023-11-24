@@ -1,7 +1,7 @@
 {
     "namespace": "drefApplicationForm",
     "strings": {
-        "drefFormAffectedthePopulationTitle": "Did it affect the same population groups?",
+        "drefFormAffectedThePopulationTitle": "Did it affect the same population groups?",
         "drefFormAffectSameArea": "Has a similar event affected the same area(s) in the last 3 years?",
         "drefFormApproximateDateOfImpact": "Approximate date of impact",
         "drefFormDescriptionEvent": "Description of the Event",
