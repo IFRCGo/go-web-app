@@ -3,12 +3,15 @@ import {
     type EntriesAsList,
     getErrorObject,
 } from '@togglecorp/toggle-form';
+import { WikiHelpSectionLineIcon } from '@ifrc-go/icons';
 
 import Container from '#components/Container';
 import InputSection from '#components/InputSection';
 import BooleanInput from '#components/BooleanInput';
 import TextArea from '#components/TextArea';
 import DateInput from '#components/DateInput';
+import NumberInput from '#components/NumberInput';
+import Link from '#components/Link';
 import useTranslation from '#hooks/useTranslation';
 import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaptionInput';
 
@@ -32,6 +35,11 @@ interface Props {
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
     disabled?: boolean;
 }
+
+const totalPopulationRiskImminentLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
+const totalPeopleAffectedSlowSuddenLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
+const peopleTargetedLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
+const peopleInNeedLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
 
 function EventDetail(props: Props) {
     const strings = useTranslation(i18n);
@@ -193,6 +201,98 @@ function EventDetail(props: Props) {
                         />
                     </InputSection>
                 )}
+                <InputSection
+                    title={strings.numericDetails}
+                    numPreferredColumns={2}
+                >
+                    <NumberInput
+                        name="number_of_people_affected"
+                        label={value?.type_of_dref === TYPE_IMMINENT ? (
+                            <>
+                                {strings.drefFormRiskPeopleLabel}
+                                <Link
+                                    title={strings.drefFormClickEmergencyResponseFramework}
+                                    href={totalPopulationRiskImminentLink}
+                                    external
+                                >
+                                    <WikiHelpSectionLineIcon />
+                                </Link>
+                            </>
+                        ) : (
+                            <>
+                                {strings.drefFormPeopleAffected}
+                                <Link
+                                    title={strings.drefFormClickEmergencyResponseFramework}
+                                    href={totalPeopleAffectedSlowSuddenLink}
+                                    external
+                                >
+                                    <WikiHelpSectionLineIcon />
+                                </Link>
+                            </>
+                        )}
+                        value={value?.number_of_people_affected}
+                        onChange={setFieldValue}
+                        error={error?.number_of_people_affected}
+                        hint={(
+                            value?.type_of_dref === TYPE_IMMINENT
+                                ? strings.drefFormPeopleAffectedDescriptionImminent
+                                : strings.drefFormPeopleAffectedDescriptionSlowSudden
+                        )}
+                        disabled={disabled}
+                    />
+                    {value?.type_of_dref !== TYPE_LOAN && (
+                        <NumberInput
+                            label={(
+                                <>
+                                    {
+                                        value?.type_of_dref === TYPE_IMMINENT
+                                            ? strings.drefFormEstimatedPeopleInNeed
+                                            : strings.drefFormPeopleInNeed
+                                    }
+                                    <Link
+                                        title={strings.drefFormClickEmergencyResponseFramework}
+                                        href={peopleInNeedLink}
+                                        external
+                                    >
+                                        <WikiHelpSectionLineIcon />
+                                    </Link>
+                                </>
+                            )}
+                            name="people_in_need"
+                            value={value?.people_in_need}
+                            onChange={setFieldValue}
+                            error={error?.people_in_need}
+                            hint={(
+                                value?.type_of_dref === TYPE_IMMINENT
+                                    ? strings.drefFormPeopleInNeedDescriptionImminent
+                                    : strings.drefFormPeopleInNeedDescriptionSlowSudden
+                            )}
+                            disabled={disabled}
+                        />
+                    )}
+                    <NumberInput
+                        label={(
+                            <>
+                                {strings.drefFormPeopleTargeted}
+                                <Link
+                                    title={strings.drefFormClickEmergencyResponseFramework}
+                                    href={peopleTargetedLink}
+                                    external
+                                >
+                                    <WikiHelpSectionLineIcon />
+                                </Link>
+                            </>
+                        )}
+                        name="number_of_people_targeted"
+                        value={value?.number_of_people_targeted}
+                        onChange={setFieldValue}
+                        error={error?.number_of_people_targeted}
+                        hint={strings.drefFormPeopleTargetedDescription}
+                        disabled={disabled}
+                    />
+                    {/* NOTE: Empty div to preserve the layout */}
+                    <div />
+                </InputSection>
                 {value.type_of_dref !== TYPE_LOAN && (
                     <InputSection
                         title={
