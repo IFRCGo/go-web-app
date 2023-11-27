@@ -327,6 +327,7 @@ export function Component() {
                     label={strings.operationStartDateLabel}
                     value={drefResponse?.new_operational_start_date}
                     valueType="date"
+                    format="dd-MM-yyyy"
                     strongValue
                 />
                 <TextOutput
@@ -334,6 +335,7 @@ export function Component() {
                     label={strings.operationEndDateLabel}
                     value={drefResponse?.new_operational_end_date}
                     valueType="date"
+                    format="dd-MM-yyyy"
                     strongValue
                 />
                 <TextOutput
