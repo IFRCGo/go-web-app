@@ -333,6 +333,7 @@ export function Component() {
                     label={strings.operationStartDateLabel}
                     value={drefResponse?.date_of_approval}
                     valueType="date"
+                    format="dd-MM-yyyy"
                     strongValue
                 />
                 <TextOutput
@@ -348,12 +349,14 @@ export function Component() {
                     label={strings.operationEndDateLabel}
                     value={drefResponse?.end_date}
                     valueType="date"
+                    format="dd-MM-yyyy"
                     strongValue
                 />
                 <TextOutput
                     className={styles.metaItem}
                     label={strings.drefPublishedLabel}
                     value={drefResponse?.publishing_date}
+                    format="dd-MM-yyyy"
                     valueType="date"
                     strongValue
                 />
