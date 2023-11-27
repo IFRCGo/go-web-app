@@ -10,6 +10,7 @@ import {
 } from 'react-router-dom';
 import mapboxgl from 'mapbox-gl';
 import { isDefined, unique } from '@togglecorp/fujs';
+import * as Sentry from '@sentry/react';
 
 import UserContext, { UserAuth, UserContextProps } from '#contexts/user';
 import AlertContext, { AlertParams, AlertContextProps } from '#contexts/alert';
@@ -44,11 +45,11 @@ const requestContextValue = {
     transformResponse: processGoResponse,
     transformError: processGoError,
 };
-
-const router = createBrowserRouter(unwrappedRoutes);
+const sentryCreateBrowserRouter = Sentry.wrapCreateBrowserRouter(createBrowserRouter);
+const router = sentryCreateBrowserRouter(unwrappedRoutes);
 mapboxgl.accessToken = mbtoken;
 
-function App() {
+function Application() {
     // ALERTS
 
     const [alerts, setAlerts] = useState<AlertParams[]>([]);
@@ -242,4 +243,5 @@ function App() {
     );
 }
 
+const App = Sentry.withProfiler(Application);
 export default App;
