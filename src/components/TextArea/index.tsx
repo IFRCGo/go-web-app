@@ -5,7 +5,7 @@ import InputContainer, { Props as InputContainerProps } from '../InputContainer'
 import RawTextArea, { Props as RawTextAreaProps } from '../RawTextArea';
 
 const BULLET = '•';
-const KEY_ENTER = 'ENTER';
+const KEY_ENTER = 'Enter';
 
 type InheritedProps<N> = (Omit<InputContainerProps, 'input'> & Omit<RawTextAreaProps<N>, 'type'>);
 export interface Props<T> extends InheritedProps<T> {
