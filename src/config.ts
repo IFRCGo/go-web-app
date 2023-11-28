@@ -6,12 +6,13 @@ const {
     APP_RISK_API_ENDPOINT,
     APP_TINY_API_KEY,
     APP_SHOW_ENV_BANNER,
-    APP_SENTRY_DSN,
-    APP_SENTRY_TRACES_SAMPLE_RATE,
-    APP_SENTRY_NORMALIZE_DEPTH,
     APP_TITLE,
     APP_COMMIT_HASH,
     APP_VERSION,
+    APP_SENTRY_DSN,
+    APP_SENTRY_TRACES_SAMPLE_RATE,
+    APP_SENTRY_REPLAYS_SESSION_SAMPLE_RATE,
+    APP_SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE,
 } = import.meta.env;
 
 export const environment = APP_ENVIRONMENT;
@@ -27,5 +28,6 @@ export const showEnvBanner = APP_SHOW_ENV_BANNER;
 export const riskApi = APP_RISK_API_ENDPOINT;
 export const tinyApiKey = APP_TINY_API_KEY;
 export const sentryAppDsn = APP_SENTRY_DSN;
-export const sentryTraceSampleRate = APP_SENTRY_TRACES_SAMPLE_RATE;
-export const sentryNormalizeDepth = APP_SENTRY_NORMALIZE_DEPTH;
+export const sentryTracesSampleRate = APP_SENTRY_TRACES_SAMPLE_RATE;
+export const sentryReplaysSessionSampleRate = APP_SENTRY_REPLAYS_SESSION_SAMPLE_RATE;
+export const sentryReplaysOnErrorSampleRate = APP_SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE;
