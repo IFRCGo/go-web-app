@@ -27,16 +27,6 @@
         "drefFormAddRegion": "Region/Province",
         "drefFormTitle": "DREF Title",
         "drefFormGenerateTitle": "Generate title",
-        "drefFormRiskPeopleLabel": "Total population at risk",
-        "drefFormPeopleAffected": "Total affected population",
-        "drefFormPeopleAffectedDescriptionImminent": "Includes all those whose lives and livelihoods are at risk as a direct result of the shock or stress.",
-        "drefFormPeopleAffectedDescriptionSlowSudden": "People Affected include all those whose lives and livelihoods have been impacted as a direct result of the shock or stress.",
-        "drefFormEstimatedPeopleInNeed": "Estimated people in need (Optional)",
-        "drefFormPeopleInNeed": "People in need (Optional)",
-        "drefFormPeopleInNeedDescriptionImminent": "Include all those whose physical security, basic rights, dignity, living conditions or livelihoods are threatened or have been disrupted, and whose current level of access to basic services, goods and social protection will be inadequate to re-establish normal living conditions without additional assistance",
-        "drefFormPeopleInNeedDescriptionSlowSudden": "People in Need (PIN) are those members whose physical security, basic rights, dignity, living conditions or livelihoods are threatened or have been disrupted, and whose current level of access to basic services, goods and social protection is inadequate to re-establish normal living conditions without additional assistance.",
-        "drefFormPeopleTargeted": "Number of people targeted",
-        "drefFormPeopleTargetedDescription": "Include all those whose the National Society is aiming or planning to assist",
         "drefFormEmergencyAppealPlanned": "Emergency appeal planned",
         "drefFormUploadMap": "Upload map",
         "drefFormUploadMapDescription": "Add a map highlighting the targeted areas for this operation, it will be used for the publicly published DREF application.",
@@ -44,8 +34,7 @@
         "drefFormUploadCoverImage": "Cover image",
         "drefFormUploadCoverImageDescription": "Upload a image for the cover page of the publicly published DREF application.",
         "drefFormDrefTypeTitle": "DREF Type",
-        "drefFormClickEmergencyResponseFramework": "Click to view Emergency Response Framework",
-        "userListEmptyMessage": "The DREF Operational Update is not shared with anyone.",
-        "numericDetails": "Numeric Details"
+        "drefFormClickEmergencyResponseFrameworkLabel": "Click to view Emergency Response Framework",
+        "userListEmptyMessage": "The DREF Operational Update is not shared with anyone."
     }
 }

@@ -3,3 +3,8 @@
     flex-direction: column;
     gap: var(--go-ui-spacing-2xl);
 }
+
+.learning-platform-link {
+    display: flex;
+    gap: var(--go-ui-spacing-2xs);
+}

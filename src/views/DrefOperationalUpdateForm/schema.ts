@@ -144,13 +144,13 @@ const schema: OpsUpdateFormSchema = {
                 required: true,
                 requiredValidation: requiredStringCondition,
             },
-            number_of_people_targeted: { validations: [positiveIntegerCondition] },
-            number_of_people_affected: { validations: [positiveIntegerCondition] },
             additional_allocation: { validations: [positiveIntegerCondition] },
             dref_allocated_so_far: {},
             total_dref_allocation: {},
 
             // EVENT DETAILS
+            number_of_people_affected: { validations: [positiveIntegerCondition] },
+            number_of_people_targeted: { validations: [positiveIntegerCondition] },
 
             // none
 
@@ -203,7 +203,6 @@ const schema: OpsUpdateFormSchema = {
         );
 
         const overviewDrefTypeRelatedFields = [
-            'people_in_need',
             'emergency_appeal_planned',
             'event_map_file',
             'cover_image_file',
@@ -221,7 +220,6 @@ const schema: OpsUpdateFormSchema = {
             overviewDrefTypeRelatedFields,
             (val): OverviewDrefTypeRelatedFields => {
                 const conditionalFields: OverviewDrefTypeRelatedFields = {
-                    people_in_need: { forceValue: nullValue },
                     emergency_appeal_planned: { forceValue: nullValue },
                     event_map_file: { forceValue: nullValue },
                     cover_image_file: { forceValue: nullValue },
@@ -237,7 +235,6 @@ const schema: OpsUpdateFormSchema = {
                 }
                 return {
                     ...conditionalFields,
-                    people_in_need: { validations: [positiveIntegerCondition] },
                     emergency_appeal_planned: {},
                     event_map_file: {
                         fields: (): EventMapFileFields => ({
@@ -266,6 +263,7 @@ const schema: OpsUpdateFormSchema = {
             'event_date',
             'event_description',
             'images_file',
+            'people_in_need',
 
             'summary_of_change',
             'changing_timeframe_operation',
@@ -293,6 +291,7 @@ const schema: OpsUpdateFormSchema = {
                     event_date: { forceValue: nullValue },
                     event_description: { forceValue: nullValue },
                     images_file: { forceValue: [] },
+                    people_in_need: { forceValue: nullValue },
 
                     summary_of_change: { forceValue: nullValue },
                     changing_timeframe_operation: { forceValue: nullValue },
@@ -311,6 +310,7 @@ const schema: OpsUpdateFormSchema = {
                     conditionalFields = {
                         ...conditionalFields,
                         event_scope: {},
+                        people_in_need: { validations: [positiveIntegerCondition] },
                     };
                 }
 
