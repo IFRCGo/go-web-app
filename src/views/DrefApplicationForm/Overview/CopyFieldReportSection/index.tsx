@@ -110,6 +110,9 @@ function CopyFieldReportSection(props: Props) {
                 );
             }));
 
+            const government_assistance = value?.government_requested_assistance
+                ?? fieldReportResponse.request_assistance;
+
             const num_affected = value?.num_affected
                 ?? fieldReportResponse.num_affected
                 ?? fieldReportResponse.gov_num_affected
@@ -119,8 +122,6 @@ function CopyFieldReportSection(props: Props) {
                 ?? fieldReportResponse.actions_taken?.find((a) => a.organization === 'PNS')?.summary;
             const ifrc = value?.ifrc
                 ?? fieldReportResponse.actions_taken?.find((a) => a.organization === 'FDRN')?.summary;
-            const icrc = value?.icrc
-                ?? fieldReportResponse.actions_taken?.find((a) => a.organization === 'NTLS')?.summary;
 
             let {
                 national_society_contact_name,
@@ -210,7 +211,7 @@ function CopyFieldReportSection(props: Props) {
             setFieldValue(num_affected, 'num_affected');
             setFieldValue(partner_national_society, 'partner_national_society');
             setFieldValue(ifrc, 'ifrc');
-            setFieldValue(icrc, 'icrc');
+            setFieldValue(government_assistance, 'government_requested_assistance');
 
             // set field_report_option and districts
 
