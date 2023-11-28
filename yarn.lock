@@ -7759,6 +7759,11 @@ vite-plugin-compression2@^0.9.1:
   dependencies:
     "@rollup/pluginutils" "^5.0.2"
 
+vite-plugin-radar@^0.9.1:
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/vite-plugin-radar/-/vite-plugin-radar-0.9.1.tgz#1ee8866cb2f2275f3eb56bfe49fea82bbdd673d2"
+  integrity sha512-stnb+LxeEKobcesXW2JA0OdCaBRgR/zZwN6ACXZf1gF9MNR689aiK5UlgTVmrpUnEcPucO9U0M0WHnuM6NXPsA==
+
 vite-plugin-svgr@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/vite-plugin-svgr/-/vite-plugin-svgr-3.2.0.tgz#920375aaf6635091c9ac8e467825f92d32544476"

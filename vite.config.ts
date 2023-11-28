@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import webfontDownload from 'vite-plugin-webfont-dl';
 import reactSwc from '@vitejs/plugin-react-swc';
@@ -7,7 +7,8 @@ import { compression } from 'vite-plugin-compression2';
 import checker from 'vite-plugin-checker';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { ValidateEnv as validateEnv } from '@julr/vite-plugin-validate-env';
-import svgr from "vite-plugin-svgr";
+import { VitePluginRadar } from 'vite-plugin-radar'
+import svgr from 'vite-plugin-svgr';
 
 import envConfig from './env';
 
@@ -16,10 +17,12 @@ const commitHash = execSync('git rev-parse --short HEAD').toString();
 
 export default defineConfig(({ mode }) => {
     const isProd = mode === 'production';
+    const env = loadEnv(mode, process.cwd(), '')
+
     return {
         define: {
             'import.meta.env.APP_COMMIT_HASH': JSON.stringify(commitHash),
-            'import.meta.env.APP_VERSION': JSON.stringify(process.env.npm_package_version),
+            'import.meta.env.APP_VERSION': JSON.stringify(env.npm_package_version),
         },
         plugins: [
             isProd ? checker({
@@ -38,6 +41,11 @@ export default defineConfig(({ mode }) => {
             validateEnv(envConfig),
             isProd ? compression() : undefined,
             isProd ? visualizer({ sourcemap: true }) : undefined,
+            VitePluginRadar({
+                analytics: {
+                    id: env.APP_GOOGLE_ANALYTICS_ID,
+                },
+            })
         ],
         css: {
             devSourcemap: isProd,
