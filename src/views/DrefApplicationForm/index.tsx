@@ -35,7 +35,6 @@ import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage'
 import FormFailedToLoadMessage from '#components/domain/FormFailedToLoadMessage';
 import NonEnglishFormCreationMessage from '#components/domain/NonEnglishFormCreationMessage';
 import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
-import { type Props as ButtonProps } from '#components/Button';
 import DrefShareModal from '#components/domain/DrefShareModal';
 import DrefExportModal from '#components/domain/DrefExportModal';
 import { type User } from '#components/domain/UserSearchMultiSelectInput';
@@ -413,6 +412,7 @@ export function Component() {
     const {
         retrigger: getDrefUsers,
     } = useRequest({
+        skip: isNotDefined(drefId),
         url: '/api/v2/dref-share-user/{id}/',
         pathVariables: { id: Number(drefId) },
         onSuccess: (response) => {
@@ -460,20 +460,6 @@ export function Component() {
         setActiveTab(newTab);
     }, []);
 
-    const handleShareClick: NonNullable<ButtonProps<undefined>['onClick']> = useCallback(
-        () => {
-            setShowShareModalTrue();
-        },
-        [setShowShareModalTrue],
-    );
-
-    const handleExportClick: NonNullable<ButtonProps<undefined>['onClick']> = useCallback(
-        () => {
-            setShowExportModalTrue();
-        },
-        [setShowExportModalTrue],
-    );
-
     const handleUserShareSuccess = useCallback(() => {
         setShowShareModalFalse();
         getDrefUsers();
@@ -515,7 +501,7 @@ export function Component() {
                             <>
                                 <Button
                                     name={undefined}
-                                    onClick={handleShareClick}
+                                    onClick={setShowShareModalTrue}
                                     variant="secondary"
                                     icons={<ShareLineIcon />}
                                 >
@@ -523,7 +509,7 @@ export function Component() {
                                 </Button>
                                 <Button
                                     name={undefined}
-                                    onClick={handleExportClick}
+                                    onClick={setShowExportModalTrue}
                                     icons={<DownloadTwoLineIcon />}
                                     variant="secondary"
                                 >
@@ -697,7 +683,7 @@ export function Component() {
                         onCancelButtonClick={setShowObsoletePayloadModal}
                     />
                 )}
-                {showShareModal && (
+                {showShareModal && isDefined(drefId) && (
                     <DrefShareModal
                         onCancel={setShowShareModalFalse}
                         onSuccess={handleUserShareSuccess}
