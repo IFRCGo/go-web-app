@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import { isDefined } from '@togglecorp/fujs';
+import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import Button from '#components/Button';
 import List from '#components/List';
@@ -58,6 +58,7 @@ function DrefShareModal(props: Props) {
         pending: getPending,
         // response: usersResponse,
     } = useRequest({
+        skip: isNotDefined(drefId),
         url: '/api/v2/dref-share-user/{id}/',
         pathVariables: { id: drefId },
         onSuccess: (response) => {

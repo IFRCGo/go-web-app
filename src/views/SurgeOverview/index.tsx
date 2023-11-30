@@ -30,6 +30,7 @@ const getFormattedKey = (dateFromProps: string | Date) => {
 // FIXME: use a separate utility
 const oneYearAgo = new Date();
 oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+oneYearAgo.setDate(1);
 oneYearAgo.setMonth(oneYearAgo.getMonth() + 1);
 oneYearAgo.setHours(0, 0, 0, 0);
 
