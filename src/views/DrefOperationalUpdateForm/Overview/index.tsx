@@ -4,6 +4,9 @@ import {
     type Dispatch,
 } from 'react';
 import {
+    useLocation,
+} from 'react-router-dom';
+import {
     type Error,
     getErrorObject,
     getErrorString,
@@ -14,20 +17,22 @@ import {
 } from '@togglecorp/fujs';
 import { WikiHelpSectionLineIcon } from '@ifrc-go/icons';
 
+import BooleanInput from '#components/BooleanInput';
+import Button from '#components/Button';
 import Container from '#components/Container';
 import InputSection from '#components/InputSection';
-import Button from '#components/Button';
-import TextInput from '#components/TextInput';
-import SelectInput from '#components/SelectInput';
-import NumberInput from '#components/NumberInput';
 import Link from '#components/Link';
-import BooleanInput from '#components/BooleanInput';
+import Modal from '#components/Modal';
+import NumberInput from '#components/NumberInput';
+import SelectInput from '#components/SelectInput';
+import TextInput from '#components/TextInput';
 import useTranslation from '#hooks/useTranslation';
 import { type GoApiResponse } from '#utils/restRequest';
 import {
     stringValueSelector,
 } from '#utils/selectors';
 import { sumSafe } from '#utils/common';
+import useBooleanState from '#hooks/useBooleanState';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useCountry from '#hooks/domain/useCountry';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
@@ -97,6 +102,7 @@ function Overview(props: Props) {
         setDistrictOptions,
         drefUsers,
     } = props;
+    const { state } = useLocation();
 
     const strings = useTranslation(i18n);
     const {
@@ -108,6 +114,13 @@ function Overview(props: Props) {
     const countryOptions = useCountry();
 
     const disasterTypes = useDisasterType();
+
+    const [
+        showChangeDrefTypeModal,
+        {
+            setFalse: setShowChangeDrefTypeModalFalse,
+        },
+    ] = useBooleanState(true);
 
     const handleTypeOfOnsetChange = useCallback((
         typeOfOnset: OnsetTypeOption['key'] | undefined,
@@ -149,6 +162,11 @@ function Overview(props: Props) {
         [setFieldValue],
     );
 
+    const handleChangeToResponse = useCallback(() => {
+        setFieldValue(2, 'type_of_dref');
+        setShowChangeDrefTypeModalFalse();
+    }, [setFieldValue, setShowChangeDrefTypeModalFalse]);
+
     const handleGenerateTitleButtonClick = useCallback(
         () => {
             const countryName = countryOptions?.find(
@@ -180,6 +198,26 @@ function Overview(props: Props) {
 
     return (
         <div className={styles.operationOverview}>
+            {state?.isNewOpsUpdate
+                && showChangeDrefTypeModal
+                && (value?.type_of_dref === 0 || value?.type_of_dref === 1) && (
+                <Modal
+                    size="sm"
+                    heading={strings.changeToResponseHeading}
+                    onClose={setShowChangeDrefTypeModalFalse}
+                    footerActions={(
+                        <Button
+                            name={undefined}
+                            onClick={handleChangeToResponse}
+                        >
+                            {strings.yesLabel}
+                        </Button>
+                    )}
+                    className={styles.flashUpdateShareModal}
+                >
+                    {strings.isDrefChangingToResponse}
+                </Modal>
+            )}
             <Container
                 heading={strings.drefFormSharingHeading}
                 childrenContainerClassName={styles.content}
