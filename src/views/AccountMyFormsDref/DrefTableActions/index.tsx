@@ -246,6 +246,7 @@ function DrefTableActions(props: Props) {
             navigate(
                 'drefOperationalUpdateForm',
                 { params: { opsUpdateId: response.id } },
+                { state: { isNewOpsUpdate: true } },
             );
         },
         onFailure: ({
