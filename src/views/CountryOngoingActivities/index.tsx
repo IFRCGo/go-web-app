@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { Outlet, useOutletContext } from 'react-router-dom';
 
 import NavigationTab from '#components/NavigationTab';
@@ -10,9 +11,26 @@ import styles from './styles.module.css';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const { countryId, countryResponse } = useOutletContext<CountryOutletContext>();
+    const {
+        countryId,
+        countryResponse,
+        countryResponsePending,
+    } = useOutletContext<CountryOutletContext>();
+
     const strings = useTranslation(i18n);
 
+    const outletContext = useMemo<CountryOutletContext>(
+        () => ({
+            countryId,
+            countryResponse,
+            countryResponsePending,
+        }),
+        [
+            countryId,
+            countryResponse,
+            countryResponsePending,
+        ],
+    );
     return (
         <div className={styles.countryOngoingActivities}>
             <NavigationTabList variant="secondary">
@@ -35,7 +53,7 @@ export function Component() {
                     {strings.threeWProjectsTabTitle}
                 </NavigationTab>
             </NavigationTabList>
-            <Outlet context={{ countryResponse }} />
+            <Outlet context={outletContext} />
         </div>
     );
 }
