@@ -1,6 +1,11 @@
 {
     "namespace": "countryOngoingActivitiesThreeWActivities",
     "strings": {
-        "pageTitle": "Country Ongoing 3W Activities"
+        "pageTitle": "Country Ongoing 3W Activities",
+        "uniqueEruAndNationalSocietyCount": "Active National Societies / ERUs",
+        "peopleInNeedReached": "Services Provided to People in Need",
+        "peopleReachedTooltip": "The figure displayed here is a sum of all individual services or interventions delivered as part of this emergency operation to people in need. Some people may have received more than one service or intervention.",
+        "uniqueSectorCount": "Sectors",
+        "totalActivities": "Total Activities"
     }
 }
