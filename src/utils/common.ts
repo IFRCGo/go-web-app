@@ -374,16 +374,12 @@ export function formatNumber(
 }
 
 export function formatDate(
-    value: string | Date | number,
-    format: string,
-): string;
-export function formatDate(
     value: null | undefined,
-    format: string,
+    format?: string,
 ): undefined;
 export function formatDate(
-    value: string | Date | number | null | undefined,
-    format: string,
+    value: Date | string | number,
+    format?: string,
 ): string | undefined;
 export function formatDate(
     value: Date | string | number | null | undefined,
@@ -400,6 +396,37 @@ export function formatDate(
         return undefined;
     }
 
+    const formattedValueList = populateFormat(breakFormat(format), date);
+    // const formattedDate = formattedValueList.find((d) => d.type === 'date');
+
+    const formattedDate = formattedValueList.map((valueItem) => valueItem.value).join('');
+
+    // return formattedDate?.value;
+    return formattedDate;
+}
+
+// Converts dates to the encoded string for the inputs
+export function encodeDate(
+    value: null | undefined,
+): undefined;
+export function encodeDate(
+    value: Date | string | number,
+): string | undefined;
+export function encodeDate(
+    value: Date | string | number | null | undefined,
+) {
+    if (isNotDefined(value)) {
+        return undefined;
+    }
+
+    const date = new Date(value);
+
+    // Check if valid date
+    if (Number.isNaN(date.getTime())) {
+        return undefined;
+    }
+
+    const format = 'yyyy-MM-dd';
     const formattedValueList = populateFormat(breakFormat(format), date);
     // const formattedDate = formattedValueList.find((d) => d.type === 'date');
 
@@ -466,8 +493,8 @@ export function getMonthList() {
     return monthKeyList.map(
         (monthKey) => {
             const date = new Date();
-            date.setMonth(monthKey);
             date.setDate(1);
+            date.setMonth(monthKey);
             date.setHours(0, 0, 0, 0);
 
             return {
@@ -616,4 +643,28 @@ export function toDateTimeString(value: string | undefined) {
         return new Date(value).toISOString();
     }
     return new Date(`${value}T00:00:00`).toISOString();
+}
+
+// Add number of months to the date, sets the date to the end of the month
+export function addNumMonthsToDate(
+    date: string | Date | undefined,
+    numMonths: number | undefined,
+) {
+    if (isNotDefined(date) || isNotDefined(numMonths)) {
+        return undefined;
+    }
+
+    const dateSafe = new Date(date);
+    if (Number.isNaN(dateSafe)) {
+        return undefined;
+    }
+
+    dateSafe.setDate(1);
+    dateSafe.setMonth(
+        dateSafe.getMonth() + numMonths + 1,
+    );
+    dateSafe.setDate(0);
+    dateSafe.setHours(0, 0, 0, 0);
+
+    return dateSafe;
 }

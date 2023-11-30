@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { isDefined, isNotDefined } from '@togglecorp/fujs';
+import { isDefined } from '@togglecorp/fujs';
 import {
     type Error,
     type EntriesAsList,
@@ -12,35 +12,13 @@ import TextInput from '#components/TextInput';
 import DateInput from '#components/DateInput';
 import NumberInput from '#components/NumberInput';
 import useTranslation from '#hooks/useTranslation';
-import { formatDate } from '#utils/common';
+import { addNumMonthsToDate, encodeDate } from '#utils/common';
 
 import { TYPE_LOAN } from '../common';
 import { type PartialOpsUpdate } from '../schema';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-function calculateEndDate(
-    startDate: string | undefined,
-    duration: number | undefined,
-) {
-    if (isNotDefined(startDate) || isNotDefined(duration)) {
-        return undefined;
-    }
-    const approvalDate = new Date(startDate);
-    if (Number.isNaN(approvalDate)) {
-        return undefined;
-    }
-    // FIXME: use a separate utility
-    approvalDate.setMonth(
-        approvalDate.getMonth() + duration + 1,
-    );
-    approvalDate.setDate(0);
-    approvalDate.setHours(0, 0, 0, 0);
-
-    // NOTE: need to change the data type
-    return formatDate(approvalDate, 'yyyy-MM-dd');
-}
 
 type Value = PartialOpsUpdate;
 
@@ -66,12 +44,12 @@ function Submission(props: Props) {
     const handleTotalOperationTimeframeChange = useCallback(
         (val: number | undefined, name: 'total_operation_timeframe') => {
             setFieldValue(val, name);
-            const endDate = calculateEndDate(
+            const endDate = addNumMonthsToDate(
                 value.new_operational_start_date,
                 val,
             );
             if (isDefined(endDate)) {
-                setFieldValue(endDate, 'new_operational_end_date');
+                setFieldValue(encodeDate(endDate), 'new_operational_end_date');
             }
         },
         [setFieldValue, value.new_operational_start_date],
@@ -80,12 +58,12 @@ function Submission(props: Props) {
     const handleNewOperationalStartDate = useCallback(
         (val: string | undefined, name: 'new_operational_start_date') => {
             setFieldValue(val, name);
-            const endDate = calculateEndDate(
+            const endDate = addNumMonthsToDate(
                 val,
                 value.total_operation_timeframe,
             );
             if (isDefined(endDate)) {
-                setFieldValue(endDate, 'new_operational_end_date');
+                setFieldValue(encodeDate(endDate), 'new_operational_end_date');
             }
         },
         [setFieldValue, value.total_operation_timeframe],
