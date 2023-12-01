@@ -143,6 +143,10 @@ function PossibleEarlyActionTable(props: Props) {
         },
     });
 
+    if (!filtered && possibleEarlyActionResponse?.count === 0) {
+        return null;
+    }
+
     return (
         <Container
             className={styles.possibleEarlyActionTable}
