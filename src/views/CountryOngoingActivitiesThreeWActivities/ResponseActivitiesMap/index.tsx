@@ -52,10 +52,7 @@ function ResponseActivitiesMap(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
-    const {
-        // countryId,
-        countryResponse,
-    } = useOutletContext<CountryOutletContext>();
+    const { countryResponse } = useOutletContext<CountryOutletContext>();
 
     const bounds = useMemo(
         () => (countryResponse ? getBbox(countryResponse?.bbox) : undefined),
@@ -153,23 +150,23 @@ function ResponseActivitiesMap(props: Props) {
                         footer={(
                             <div className={styles.legend}>
                                 <div className={styles.label}>
-                                    {strings.numberOfProjects}
+                                    {strings.countryResponseActivitiesNumberOfProjects}
                                 </div>
                                 <LegendItem
                                     color={COLOR_SEVERITY_LOW}
-                                    label={strings.severityLow}
+                                    label={strings.countryResponseActivitiesSeverityLow}
                                 />
                                 <LegendItem
                                     color={COLOR_SEVERITY_MEDIUM}
-                                    label={strings.severityMedium}
+                                    label={strings.countryResponseActivitiesSeverityMedium}
                                 />
                                 <LegendItem
                                     color={COLOR_SEVERITY_HIGH}
-                                    label={strings.severityHigh}
+                                    label={strings.countryResponseActivitiesSeverityHigh}
                                 />
                                 <LegendItem
                                     color={COLOR_SEVERITY_SEVERE}
-                                    label={strings.severitySevere}
+                                    label={strings.countryResponseActivitiesSeveritySevere}
                                 />
                             </div>
                         )}
