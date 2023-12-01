@@ -10,9 +10,10 @@ import Link from '#components/Link';
 import BlockLoading from '#components/BlockLoading';
 import Container from '#components/Container';
 import TextOutput from '#components/TextOutput';
+import Tooltip from '#components/Tooltip';
+import useTranslation from '#hooks/useTranslation';
 import { getPercentage, maxSafe, roundSafe } from '#utils/common';
 import { type RiskApiResponse } from '#utils/restRequest';
-import useTranslation from '#hooks/useTranslation';
 import { isValidFeatureCollection, isValidPointFeature } from '#utils/domain/risk';
 import { resolveToString } from '#utils/translation';
 
@@ -167,23 +168,33 @@ function EventDetails(props: Props) {
             {stormPoints && stormPoints.length > 0 && isDefined(maxWindSpeed) && (
                 /* TODO: use proper svg charts */
                 <div className={styles.windSpeedChart}>
-                    {stormPoints.map(
-                        (point) => (
-                            <div
-                                key={point.id}
-                                className={styles.bar}
-                                // FIXME: Use percent function
-                                style={{ height: `${getPercentage(point.windSpeed, maxWindSpeed)}%` }}
-                                title={resolveToString(
-                                    strings.wfpEventDetailsKm,
-                                    {
-                                        point: point.windSpeed,
-                                        pontDate: point.date.toLocaleString(),
-                                    },
-                                )}
-                            />
-                        ),
-                    )}
+                    <div className={styles.barListContainer}>
+                        {stormPoints.map(
+                            (point) => (
+                                <div
+                                    key={point.id}
+                                    className={styles.barContainer}
+                                >
+                                    <Tooltip
+                                        description={resolveToString(
+                                            strings.wfpEventDetailsKm,
+                                            {
+                                                point: point.windSpeed ?? '--',
+                                                pointDate: point.date.toLocaleString() ?? '--',
+                                            },
+                                        )}
+                                    />
+                                    <div
+                                        style={{ height: `${getPercentage(point.windSpeed, maxWindSpeed)}%` }}
+                                        className={styles.bar}
+                                    />
+                                </div>
+                            ),
+                        )}
+                    </div>
+                    <div className={styles.chartLabel}>
+                        {strings.wfpChartLabel}
+                    </div>
                 </div>
             )}
             {isDefined(eventDetails)
