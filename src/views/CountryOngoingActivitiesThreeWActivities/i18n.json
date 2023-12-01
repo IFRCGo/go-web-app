@@ -1,8 +1,6 @@
 {
     "namespace": "countryOngoingActivitiesThreeWActivities",
     "strings": {
-        "pageTitle": "Country Ongoing 3W Activities",
-
         "addThreeWActivity": "Add 3W Activity",
         "chartDescription": "The data represents the added projects and may not reflect all of the ongoing projects.",
         "uniqueEruAndNationalSocietyCount": "Active National Societies / ERUs",
@@ -22,6 +20,7 @@
         "emergencyProjectPeopleReached": "Services Provided to People in Need",
         "responseActivities": "Response Activities",
         "activitiesBySector": "Activities by Sector",
-        "dataNotAvailable": "No Activities"
+        "dataNotAvailable": "No Activities",
+        "threeWViewAllActivityLabel": "View all Activities"
     }
 }
