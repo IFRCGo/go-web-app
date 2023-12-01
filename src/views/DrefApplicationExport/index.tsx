@@ -372,6 +372,18 @@ export function Component() {
                     <Heading level={2}>
                         {strings.eventDescriptionSectionHeading}
                     </Heading>
+                    {isDefined(drefResponse)
+                        && drefResponse.type_of_dref === DREF_TYPE_IMMINENT
+                        && isTruthyString(drefResponse.event_text) && (
+                        <Container
+                            heading={strings.approximateDateOfImpactHeading}
+                            headingLevel={3}
+                        >
+                            <DescriptionText>
+                                {drefResponse.event_text}
+                            </DescriptionText>
+                        </Container>
+                    )}
                     {isTruthyString(drefResponse?.event_map_file?.file) && (
                         <Container>
                             <Image
