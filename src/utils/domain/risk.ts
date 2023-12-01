@@ -77,7 +77,7 @@ export interface RiskDataItem {
     annual_average?: number | null,
 }
 
-export const monthNumberToNameMap: Record<number, keyof RiskDataItem> = {
+const monthToKeyMap: Record<number, keyof RiskDataItem> = {
     0: 'january',
     1: 'february',
     2: 'march',
@@ -90,6 +90,10 @@ export const monthNumberToNameMap: Record<number, keyof RiskDataItem> = {
     9: 'october',
     10: 'november',
     11: 'december',
+};
+
+export const monthNumberToNameMap: Record<number, keyof RiskDataItem> = {
+    ...monthToKeyMap,
     // FIXME: we should not have these different
     // class of data into same list
     12: 'annual_average',
@@ -100,8 +104,42 @@ export function getValueForSelectedMonths(
     riskDataItem: RiskDataItem | undefined,
     aggregationMode: 'sum' | 'max' = 'sum',
 ) {
-    if (isNotDefined(selectedMonths)) {
-        return riskDataItem?.annual_average ?? undefined;
+    let annualValue;
+
+    if (aggregationMode === 'sum') {
+        annualValue = sumSafe([
+            riskDataItem?.january,
+            riskDataItem?.february,
+            riskDataItem?.march,
+            riskDataItem?.april,
+            riskDataItem?.may,
+            riskDataItem?.june,
+            riskDataItem?.july,
+            riskDataItem?.august,
+            riskDataItem?.september,
+            riskDataItem?.october,
+            riskDataItem?.november,
+            riskDataItem?.december,
+        ]);
+    } else if (aggregationMode === 'max') {
+        annualValue = maxSafe([
+            riskDataItem?.january,
+            riskDataItem?.february,
+            riskDataItem?.march,
+            riskDataItem?.april,
+            riskDataItem?.may,
+            riskDataItem?.june,
+            riskDataItem?.july,
+            riskDataItem?.august,
+            riskDataItem?.september,
+            riskDataItem?.october,
+            riskDataItem?.november,
+            riskDataItem?.december,
+        ]);
+    }
+
+    if (isNotDefined(selectedMonths) || selectedMonths[12] === true) {
+        return riskDataItem?.annual_average ?? annualValue ?? undefined;
     }
 
     const monthKeys = Object.keys(
@@ -269,7 +307,7 @@ export function riskScoreToCategory(
     score: number | undefined | null,
     hazardType: HazardType,
 ) {
-    if (isNotDefined(score) || score <= 0) {
+    if (isNotDefined(score) || score < 0) {
         return undefined;
     }
 
