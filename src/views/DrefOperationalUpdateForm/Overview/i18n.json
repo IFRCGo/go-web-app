@@ -33,11 +33,11 @@
         "drefFormUploadCoverImage": "Cover image",
         "drefFormUploadCoverImageDescription": "Upload a image for the cover page of the publicly published DREF application.",
         "drefFormDrefTypeTitle": "DREF Type",
-        "drefFormClickEmergencyResponseFramework": "Click to view Emergency Response Framework",
+        "drefFormClickEmergencyResponseFrameworkLabel": "Click to view Emergency Response Framework",
         "userListEmptyMessage": "The DREF Operational Update is not shared with anyone.",
-        "numericDetails": "Numeric Details",
-        "isDrefChangingToResponse": "Is DREF changing to Response?",
-        "yesLabel": "Yes, change to Response",
+        "isDrefChangingToResponse": "Is this DREF changing to Response?",
+        "yesLabel": "Yes, change it to Response",
+        "noLabel": "No",
         "changeToResponseHeading": "Change DREF Type"
     }
 }

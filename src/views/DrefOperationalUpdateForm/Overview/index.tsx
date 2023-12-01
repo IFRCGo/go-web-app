@@ -53,7 +53,9 @@ import {
     DISASTER_FLASH_FLOOD,
     TYPE_IMMINENT,
     TYPE_LOAN,
+    TYPE_RESPONSE,
     ONSET_SUDDEN,
+    TYPE_ASSESSMENT,
 } from '../common';
 import { type PartialOpsUpdate } from '../schema';
 import styles from './styles.module.css';
@@ -163,7 +165,7 @@ function Overview(props: Props) {
     );
 
     const handleChangeToResponse = useCallback(() => {
-        setFieldValue(2, 'type_of_dref');
+        setFieldValue(TYPE_RESPONSE, 'type_of_dref');
         setShowChangeDrefTypeModalFalse();
     }, [setFieldValue, setShowChangeDrefTypeModalFalse]);
 
@@ -200,18 +202,28 @@ function Overview(props: Props) {
         <div className={styles.operationOverview}>
             {state?.isNewOpsUpdate
                 && showChangeDrefTypeModal
-                && (value?.type_of_dref === 0 || value?.type_of_dref === 1) && (
+                && (value?.type_of_dref === TYPE_IMMINENT
+                || value?.type_of_dref === TYPE_ASSESSMENT) && (
                 <Modal
                     size="sm"
                     heading={strings.changeToResponseHeading}
                     onClose={setShowChangeDrefTypeModalFalse}
                     footerActions={(
-                        <Button
-                            name={undefined}
-                            onClick={handleChangeToResponse}
-                        >
-                            {strings.yesLabel}
-                        </Button>
+                        <>
+                            <Button
+                                name={undefined}
+                                variant="secondary"
+                                onClick={setShowChangeDrefTypeModalFalse}
+                            >
+                                {strings.noLabel}
+                            </Button>
+                            <Button
+                                name={undefined}
+                                onClick={handleChangeToResponse}
+                            >
+                                {strings.yesLabel}
+                            </Button>
+                        </>
                     )}
                     className={styles.flashUpdateShareModal}
                 >
