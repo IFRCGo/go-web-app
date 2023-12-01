@@ -1,12 +1,19 @@
 import { useMemo } from 'react';
 import { useOutletContext } from 'react-router-dom';
-import { compareNumber, isDefined, isNotDefined } from '@togglecorp/fujs';
+import {
+    compareNumber,
+    isDefined,
+    isNotDefined,
+    mapToList,
+} from '@togglecorp/fujs';
 
 import PieChart from '#components/PieChart';
 import BlockLoading from '#components/BlockLoading';
 import Container from '#components/Container';
 import KeyFigure from '#components/KeyFigure';
 import InfoPopup from '#components/InfoPopup';
+import Pager from '#components/Pager';
+import Message from '#components/Message';
 
 import useTranslation from '#hooks/useTranslation';
 import useFilterState from '#hooks/useFilterState';
@@ -19,9 +26,11 @@ import {
     stringTitleSelector,
 } from '#utils/selectors';
 
-import { type FilterValue } from '#views/EmergencyActivities/Filters';
+import Filters, { type FilterValue } from '#views/EmergencyActivities/Filters';
 import useEmergencyProjectStats from '#views/EmergencyActivities/useEmergencyProjectStats';
+import ActivityDetail from '#views/EmergencyActivities/ActivityDetail';
 
+import ResponseActivitiesMap from './ResponseActivitiesMap';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -98,7 +107,14 @@ export function Component() {
     const strings = useTranslation(i18n);
 
     const {
+        rawFilter,
         filter: filters,
+        setFilter: setFilters,
+        page: activePage,
+        setPage: setActivePage,
+        filtered: isFiltered,
+        limit,
+        offset,
     } = useFilterState<FilterValue>({
         filter: {
             reporting_ns: [],
@@ -130,8 +146,10 @@ export function Component() {
     );
 
     const {
+        emergencyProjectCountByDistrict,
         emergencyProjectCountListBySector,
         emergencyProjectCountListByStatus,
+        sectorGroupedEmergencyProjects,
         peopleReached,
         uniqueEruCount,
         uniqueNsCount,
@@ -148,6 +166,25 @@ export function Component() {
     const aggreatedProjectCountListByStatus = useMemo(() => (
         getAggregatedValues(emergencyProjectCountListByStatus)
     ), [emergencyProjectCountListByStatus]);
+
+    const paginatedEmergencyProjectList = useMemo(() => (
+        filteredProjectList.slice(offset, offset + limit)
+    ), [filteredProjectList, offset, limit]);
+
+    const sectorGroupedEmergencyProjectList = useMemo(() => (
+        mapToList(
+            sectorGroupedEmergencyProjects,
+            (value, key) => ({
+                sector: key,
+                projects: value.projects,
+                sectorDetails: value.sectorDetails,
+            }),
+        )
+    ), [sectorGroupedEmergencyProjects]);
+
+    const noActivitiesBySector = (isNotDefined(sectorGroupedEmergencyProjectList)
+        || (isDefined(sectorGroupedEmergencyProjectList)
+            && (sectorGroupedEmergencyProjectList.length < 1)));
 
     return (
         <div className={styles.threewActivities}>
@@ -209,6 +246,53 @@ export function Component() {
                         </div>
                     </div>
                 )}
+            </Container>
+            <Container
+                className={styles.responseActivities}
+                childrenContainerClassName={styles.content}
+                heading={strings.responseActivities}
+                withHeaderBorder
+                filters={(
+                    <Filters
+                        value={rawFilter}
+                        onChange={setFilters}
+                    />
+                )}
+                footerActions={(
+                    <Pager
+                        activePage={activePage}
+                        onActivePageChange={setActivePage}
+                        itemsCount={filteredProjectList.length}
+                        maxItemsPerPage={ITEM_PER_PAGE}
+                    />
+                )}
+            >
+                <ResponseActivitiesMap
+                    emergencyProjectCountByDistrict={emergencyProjectCountByDistrict}
+                    sidebarContent={(
+                        <Container
+                            className={styles.sidebar}
+                            heading={strings.activitiesBySector}
+                            withInternalPadding
+                            childrenContainerClassName={styles.sidebarContent}
+                        >
+                            {noActivitiesBySector && (
+                                <Message
+                                    title={strings.dataNotAvailable}
+                                    compact
+                                />
+                            )}
+                            {/* FIXME: use List, add pending, filtered state */}
+                            {sectorGroupedEmergencyProjectList.map((sectorGroupedProject) => (
+                                <ActivityDetail
+                                    key={sectorGroupedProject.sector}
+                                    sectorDetails={sectorGroupedProject.sectorDetails}
+                                    projects={sectorGroupedProject.projects}
+                                />
+                            ))}
+                        </Container>
+                    )}
+                />
             </Container>
         </div>
     );
