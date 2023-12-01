@@ -1,10 +1,10 @@
 {
-    "namespace": "emergencyActivities",
+    "namespace": "countryResponseActivities",
     "strings": {
-        "severityLow": "Less than 2",
-        "severityMedium": "2 to 4",
-        "severityHigh": "5 to 9",
-        "severitySevere": "10 or more",
-        "numberOfProjects": "Number of Projects"
+        "countryResponseActivitiesSeverityLow": "Less than 2",
+        "countryResponseActivitiesSeverityMedium": "2 to 4",
+        "countryResponseActivitiesSeverityHigh": "5 to 9",
+        "countryResponseActivitiesSeveritySevere": "10 or more",
+        "countryResponseActivitiesNumberOfProjects": "Number of Projects"
     }
 }
