@@ -24,6 +24,7 @@
         "wfpExposed90": "Exposed (90km/h)",
         "wfpExposed120": "Exposed (120km/h)",
         "wfpFloodArea": "Flood Area",
-        "wfpFloodCropland": "Flood Cropland"
+        "wfpFloodCropland": "Flood Cropland",
+        "wfpChartLabel": "Windspeed over time"
     }
 }

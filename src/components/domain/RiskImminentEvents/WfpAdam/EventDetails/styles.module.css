@@ -6,15 +6,42 @@
 
         .wind-speed-chart {
             display: flex;
-            align-items: flex-end;
-            justify-content: space-around;
-            height: 10rem;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-xs);
 
-            .bar {
-                border-top-left-radius: 2pt;
-                border-top-right-radius: 2pt;
-                background-color: var(--go-ui-color-primary-red);
-                width: 4pt;
+            .bar-list-container {
+                display: flex;
+                align-items: stretch;
+                height: 10rem;
+
+                .bar-container {
+                    display: flex;
+                    align-items: flex-end;
+                    flex-basis: 0;
+                    flex-grow: 1;
+                    justify-content: center;
+                    transition: var(--go-ui-duration-transition-medium) background-color ease-in-out;
+                    border-top-left-radius: 2pt;
+                    border-top-right-radius: 2pt;
+                    background-color: transparent;
+
+                    .bar {
+                        background-color: var(--go-ui-color-primary-red);
+                        width: 4pt;
+                        height: 100%;
+                    }
+
+                    &:hover {
+                        background-color: var(--go-ui-color-background-hover);
+                    }
+                }
+            }
+
+            .chart-label {
+                text-align: center;
+                color: var(--go-ui-color-text-light);
+                font-size: var(--go-ui-font-size-sm);
+                font-weight: var(--go-ui-font-weight-medium);
             }
         }
 
