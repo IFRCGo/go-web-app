@@ -1,12 +1,13 @@
 import { useMemo } from 'react';
 import { useParams, useOutletContext } from 'react-router-dom';
-import { isDefined } from '@togglecorp/fujs';
+import { isDefined, isNotDefined, mapToList } from '@togglecorp/fujs';
 import getBbox from '@turf/bbox';
 
 import Container from '#components/Container';
 import Link from '#components/Link';
 import RiskImminentEvents from '#components/domain/RiskImminentEvents';
 import HistoricalDataChart from '#components/domain/HistoricalDataChart';
+import BlockLoading from '#components/BlockLoading';
 import useTranslation from '#hooks/useTranslation';
 import useInputState from '#hooks/useInputState';
 import type { CountryOutletContext } from '#utils/outletContext';
@@ -43,6 +44,35 @@ export function Component() {
         },
     });
 
+    const {
+        pending: pendingImminentEventCounts,
+        response: imminentEventCountsResponse,
+    } = useRiskRequest({
+        apiType: 'risk',
+        url: '/api/v1/country-imminent-counts/',
+        query: {
+            iso3: countryResponse?.iso3?.toLowerCase(),
+        },
+    });
+
+    const hasImminentEvents = useMemo(
+        () => {
+            if (isNotDefined(imminentEventCountsResponse)) {
+                return false;
+            }
+
+            const eventCounts = mapToList(
+                imminentEventCountsResponse,
+                (value) => value,
+            ).filter(isDefined).filter(
+                (value) => value > 0,
+            );
+
+            return eventCounts.length > 0;
+        },
+        [imminentEventCountsResponse],
+    );
+
     // NOTE: we always get 1 child in the response
     const riskResponse = countryRiskResponse?.[0];
     const bbox = useMemo(
@@ -52,7 +82,10 @@ export function Component() {
 
     return (
         <div className={styles.countryRiskWatch}>
-            {countryResponse && isDefined(countryResponse.iso3) && (
+            {pendingImminentEventCounts && (
+                <BlockLoading />
+            )}
+            {hasImminentEvents && isDefined(countryResponse) && isDefined(countryResponse.iso3) && (
                 <RiskImminentEvents
                     variant="country"
                     iso3={countryResponse.iso3}
