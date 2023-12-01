@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
 import { _cs } from '@togglecorp/fujs';
-import { formatDate } from '#utils/common';
+import { DateLike, formatDate } from '#utils/common';
 
 import styles from './styles.module.css';
 
 export interface Props {
     className?: string;
-    value?: string | number | null;
+    value: DateLike | undefined | null;
     format?: string;
     invalidText?: React.ReactNode;
 }

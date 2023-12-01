@@ -7,21 +7,13 @@ import {
     randomString,
 } from '@togglecorp/fujs';
 
-import DateOutput from '#components/DateOutput';
-import { type Props as DateOutputProps } from '#components/DateOutput';
-import DateRangeOutput from '#components/DateRangeOutput';
-import { type Props as DateRangeOutputProps } from '#components/DateRangeOutput';
-import NumberOutput from '#components/NumberOutput';
-import { type Props as NumberOutputProps } from '#components/NumberOutput';
-import BooleanOutput from '#components/BooleanOutput';
-import { type Props as BooleanOutputProps } from '#components/BooleanOutput';
-import ProgressBar from '#components/ProgressBar';
-import { type Props as ProgressBarProps } from '#components/ProgressBar';
-import ReducedListDisplay, {
-    Props as ReducedListDisplayProps,
-} from '#components/ReducedListDisplay';
-import { type Props as LinkProps } from '#components/Link';
-import Link from '#components/Link';
+import DateOutput, { type Props as DateOutputProps } from '#components/DateOutput';
+import DateRangeOutput, { type Props as DateRangeOutputProps } from '#components/DateRangeOutput';
+import NumberOutput, { type Props as NumberOutputProps } from '#components/NumberOutput';
+import BooleanOutput, { type Props as BooleanOutputProps } from '#components/BooleanOutput';
+import ProgressBar, { type Props as ProgressBarProps } from '#components/ProgressBar';
+import ReducedListDisplay, { Props as ReducedListDisplayProps } from '#components/ReducedListDisplay';
+import Link, { type Props as LinkProps } from '#components/Link';
 import { numericIdSelector } from '#utils/selectors';
 import { type GoApiResponse } from '#utils/restRequest';
 
@@ -38,6 +30,8 @@ import { type ExpandButtonProps } from './ExpandButton';
 import ExpansionIndicator from './ExpansionIndicator';
 import { type Props as ExpansionIndicatorProps } from './ExpansionIndicator';
 import CountryLink from './CountryLink';
+import TimelineItem, { type Props as TimelineItemProps } from './TimelineItem';
+import TimelineHeader, { type Props as TimelineHeaderProps } from './TimelineHeader';
 
 import type { Props as CountryLinkProps } from './CountryLink';
 import RegionLink from './RegionLink';
@@ -383,10 +377,10 @@ export function createExpandColumn<D, K>(
     return item;
 }
 
-export function createExpansionIndicatorColumn<D, K>(
+export function createExpansionIndicatorColumn<DATUM, KEY>(
     isExpanded?: boolean,
 ) {
-    const item: Column<D, K, ExpansionIndicatorProps, HeaderCellProps> = {
+    const item: Column<DATUM, KEY, ExpansionIndicatorProps, HeaderCellProps> = {
         id: randomString(),
         title: '',
         headerCellRenderer: HeaderCell,
@@ -417,14 +411,14 @@ export function createExpansionIndicatorColumn<D, K>(
     return item;
 }
 
-export function createElementColumn<DATA, KEY, ELEMENT_PROPS>(
+export function createElementColumn<DATUM, KEY, ELEMENT_PROPS>(
     id: string,
     title: string,
     renderer: React.ComponentType<ELEMENT_PROPS>,
-    rendererParams: (key: KEY, datum: DATA) => ELEMENT_PROPS,
-    options?: Options<DATA, KEY, ELEMENT_PROPS, HeaderCellProps>,
+    rendererParams: (key: KEY, datum: DATUM) => ELEMENT_PROPS,
+    options?: Options<DATUM, KEY, ELEMENT_PROPS, HeaderCellProps>,
 ) {
-    const item: Column<DATA, KEY, ELEMENT_PROPS, HeaderCellProps> = {
+    const item: Column<DATUM, KEY, ELEMENT_PROPS, HeaderCellProps> = {
         id,
         title,
         headerCellRenderer: HeaderCell,
@@ -446,12 +440,50 @@ export function createElementColumn<DATA, KEY, ELEMENT_PROPS>(
     return item;
 }
 
-export function createActionColumn<D, K>(
+export function createTimelineColumn<DATUM, KEY>(
     id: string,
-    rendererParams: (datum: D) => TableActionsProps,
-    options?: Options<D, K, TableActionsProps, HeaderCellProps>,
+    dateRange: {
+        start: Date,
+        end: Date,
+    } | undefined,
+    rendererParams: (datum: DATUM) => Omit<TimelineItemProps, 'dateRange'>,
+    options?: Options<DATUM, KEY, TableActionsProps, HeaderCellProps>,
 ) {
-    const item: Column<D, K, TableActionsProps, HeaderCellProps> = {
+    const item: Column<DATUM, KEY, TimelineItemProps, TimelineHeaderProps> = {
+        id,
+        title: '',
+        headerCellRenderer: TimelineHeader,
+        headerCellRendererParams: {
+            dateRange,
+            sortable: options?.sortable,
+        },
+        cellRenderer: TimelineItem,
+        cellRendererParams: (_, datum) => ({
+            dateRange,
+            ...rendererParams(datum),
+        }),
+        headerContainerClassName: options?.headerContainerClassName,
+        cellRendererClassName: options?.cellRendererClassName,
+        columnClassName: options?.columnClassName,
+        headerCellRendererClassName: options?.headerCellRendererClassName,
+        cellContainerClassName: _cs(
+            options?.cellContainerClassName,
+            styles.timelineCellContainer,
+        ),
+        columnWidth: options?.columnWidth,
+        columnStretch: options?.columnStretch,
+        columnStyle: options?.columnStyle,
+    };
+
+    return item;
+}
+
+export function createActionColumn<DATUM, KEY>(
+    id: string,
+    rendererParams: (datum: DATUM) => TableActionsProps,
+    options?: Options<DATUM, KEY, TableActionsProps, HeaderCellProps>,
+) {
+    const item: Column<DATUM, KEY, TableActionsProps, HeaderCellProps> = {
         id,
         title: '',
         headerCellRenderer: HeaderCell,

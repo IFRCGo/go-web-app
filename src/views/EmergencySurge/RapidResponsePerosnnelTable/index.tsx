@@ -2,6 +2,8 @@ import {
     useMemo,
     useCallback,
 } from 'react';
+import { isDefined, isNotDefined } from '@togglecorp/fujs';
+
 import useTranslation from '#hooks/useTranslation';
 import {
     type GoApiResponse,
@@ -14,15 +16,21 @@ import {
 } from '#components/Table/useSorting';
 import {
     createStringColumn,
-    createDateColumn,
     createLinkColumn,
+    createTimelineColumn,
 } from '#components/Table/ColumnShortcuts';
 import Table from '#components/Table';
 import Link from '#components/Link';
 import { numericIdSelector } from '#utils/selectors';
 import useFilterState from '#hooks/useFilterState';
+import {
+    isValidDate,
+    maxSafe,
+    minSafe,
+} from '#utils/common';
 
 import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 type PersonnelTableItem = NonNullable<GoApiResponse<'/api/v2/personnel/'>['results']>[number];
 const now = new Date().toISOString();
@@ -70,13 +78,57 @@ export default function RapidResponsePersonnelTable(props: Props) {
         },
     });
 
+    const dateRange = useMemo(
+        () => {
+            if (
+                isNotDefined(personnelResponse)
+                    || isNotDefined(personnelResponse.results)
+                    || personnelResponse.results.length === 0
+            ) {
+                return undefined;
+            }
+
+            const startDateList = personnelResponse.results.map(
+                ({ start_date }) => (
+                    isValidDate(start_date)
+                        ? new Date(start_date).getTime()
+                        : undefined
+                ),
+            ).filter(isDefined);
+
+            const endDateList = personnelResponse.results.map(
+                ({ end_date }) => (
+                    isValidDate(end_date)
+                        ? new Date(end_date).getTime()
+                        : undefined
+                ),
+            ).filter(isDefined);
+
+            const start = minSafe([...startDateList, ...endDateList]);
+            const end = maxSafe([...startDateList, ...endDateList]);
+
+            if (isNotDefined(start) || isNotDefined(end)) {
+                return undefined;
+            }
+
+            return {
+                start: new Date(start),
+                end: new Date(end),
+            };
+        },
+        [personnelResponse],
+    );
+
     const columns = useMemo(
         () => ([
             createStringColumn<PersonnelTableItem, number>(
                 'role',
                 strings.personnelTablePosition,
                 (item) => item.role,
-                { sortable: true },
+                {
+                    sortable: true,
+                    columnClassName: styles.role,
+                },
             ),
             createStringColumn<PersonnelTableItem, number>(
                 'type',
@@ -110,17 +162,14 @@ export default function RapidResponsePersonnelTable(props: Props) {
                 (item) => item.name,
                 { sortable: true },
             ),
-            createDateColumn<PersonnelTableItem, number>(
-                'start_date',
-                strings.personnelTableStartDate,
-                (item) => item.start_date,
-                { sortable: true },
-            ),
-            createDateColumn<PersonnelTableItem, number>(
-                'end_date',
-                strings.personnelTableEndDate,
-                (item) => item.end_date,
-                { sortable: true },
+            createTimelineColumn<PersonnelTableItem, number>(
+                'timeline',
+                dateRange,
+                (item) => ({
+                    startDate: item.start_date,
+                    endDate: item.end_date,
+                }),
+                { columnClassName: styles.timeline },
             ),
         ]),
         [
@@ -129,14 +178,14 @@ export default function RapidResponsePersonnelTable(props: Props) {
             strings.personnelTableDeployedParty,
             strings.personnelTableDeployedTo,
             strings.personnelTableName,
-            strings.personnelTableStartDate,
-            strings.personnelTableEndDate,
             getTypeName,
+            dateRange,
         ],
     );
 
     return (
         <Container
+            className={styles.rapidResponsePersonnelTable}
             heading={strings.rapidResponseTitle}
             withHeaderBorder
             actions={(
