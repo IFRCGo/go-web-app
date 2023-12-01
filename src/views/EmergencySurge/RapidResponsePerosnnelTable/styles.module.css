@@ -1,0 +1,11 @@
+.rapid-response-personnel-table {
+    .role {
+        width: 25rem;
+        min-width: 15rem;
+    }
+
+    .timeline {
+        min-width: 25rem;
+    }
+}
+

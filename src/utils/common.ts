@@ -373,16 +373,10 @@ export function formatNumber(
     return newValue;
 }
 
+export type DateLike = string | number | Date;
+
 export function formatDate(
-    value: null | undefined,
-    format?: string,
-): undefined;
-export function formatDate(
-    value: Date | string | number,
-    format?: string,
-): string | undefined;
-export function formatDate(
-    value: Date | string | number | null | undefined,
+    value: DateLike | null | undefined,
     format = DEFAULT_DATE_FORMAT,
 ) {
     if (isNotDefined(value)) {
@@ -667,4 +661,20 @@ export function addNumMonthsToDate(
     dateSafe.setHours(0, 0, 0, 0);
 
     return dateSafe;
+}
+
+export function isValidDate<T extends DateLike>(
+    value: T | null | undefined,
+): value is T {
+    if (isNotDefined(value)) {
+        return false;
+    }
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+        return false;
+    }
+
+    return true;
 }

@@ -6,7 +6,7 @@ export interface BaseHeader {
     name: string;
     index: number;
 
-    title?: string;
+    title?: React.ReactNode;
 }
 
 export interface BaseCell {
