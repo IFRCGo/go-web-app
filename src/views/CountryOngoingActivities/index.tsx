@@ -31,6 +31,7 @@ export function Component() {
             countryResponsePending,
         ],
     );
+
     return (
         <div className={styles.countryOngoingActivities}>
             <NavigationTabList variant="secondary">
