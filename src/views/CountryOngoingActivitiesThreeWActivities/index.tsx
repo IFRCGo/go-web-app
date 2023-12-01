@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import {
     compareNumber,
@@ -6,6 +6,9 @@ import {
     isNotDefined,
     mapToList,
 } from '@togglecorp/fujs';
+import Papa from 'papaparse';
+import { saveAs } from 'file-saver';
+import { InformationLineIcon } from '@ifrc-go/icons';
 
 import PieChart from '#components/PieChart';
 import BlockLoading from '#components/BlockLoading';
@@ -14,6 +17,16 @@ import KeyFigure from '#components/KeyFigure';
 import InfoPopup from '#components/InfoPopup';
 import Pager from '#components/Pager';
 import Message from '#components/Message';
+import ExportButton from '#components/domain/ExportButton';
+import Table from '#components/Table';
+import Link from '#components/Link';
+import {
+    createDateColumn,
+    createElementColumn,
+    createListDisplayColumn,
+    createNumberColumn,
+    createStringColumn,
+} from '#components/Table/ColumnShortcuts';
 
 import useTranslation from '#hooks/useTranslation';
 import useFilterState from '#hooks/useFilterState';
@@ -21,14 +34,22 @@ import { useRequest } from '#utils/restRequest';
 import { type GoApiResponse } from '#utils/restRequest';
 import { CountryOutletContext } from '#utils/outletContext';
 import { sumSafe } from '#utils/common';
+import useAlert from '#hooks/useAlert';
+import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import {
     numericCountSelector,
+    numericIdSelector,
     stringTitleSelector,
 } from '#utils/selectors';
 
 import Filters, { type FilterValue } from '#views/EmergencyActivities/Filters';
-import useEmergencyProjectStats from '#views/EmergencyActivities/useEmergencyProjectStats';
+import useEmergencyProjectStats, {
+    getPeopleReached,
+} from '#views/EmergencyActivities/useEmergencyProjectStats';
 import ActivityDetail from '#views/EmergencyActivities/ActivityDetail';
+import ActivityActions, {
+    type Props as ActivityActionsProps,
+} from '#views/EmergencyActivities/ActivityActions';
 
 import ResponseActivitiesMap from './ResponseActivitiesMap';
 import i18n from './i18n.json';
@@ -36,6 +57,7 @@ import styles from './styles.module.css';
 
 type EmergencyProjectResponse = GoApiResponse<'/api/v2/emergency-project/'>;
 type EmergencyProject = NonNullable<EmergencyProjectResponse['results']>[number];
+type DistrictDetails = EmergencyProject['districts_details'][number];
 
 type ProjectKey = 'reporting_ns' | 'deployed_eru' | 'status' | 'country' | 'districts';
 type FilterKey = ProjectKey | 'sector';
@@ -79,6 +101,10 @@ function filterEmergencyProjects(
     ));
 }
 
+function DistrictNameOutput({ districtName }: { districtName: string }) {
+    return districtName;
+}
+
 function getAggregatedValues(values: { title: string, count: number }[]) {
     const sortedValues = [...values].sort((a, b) => compareNumber(b.count, a.count));
 
@@ -103,7 +129,7 @@ function getAggregatedValues(values: { title: string, count: number }[]) {
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const { countryId } = useOutletContext<CountryOutletContext>();
+    const { countryId, countryResponse } = useOutletContext<CountryOutletContext>();
     const strings = useTranslation(i18n);
 
     const {
@@ -133,12 +159,51 @@ export function Component() {
     } = useRequest({
         url: '/api/v2/emergency-project/',
         preserveResponse: true,
-        skip: (isNotDefined(countryId)),
+        skip: isNotDefined(countryId),
         query: isDefined(countryId) ? {
             country: [Number(countryId)],
             limit: 9999,
         } : undefined,
     });
+    const alert = useAlert();
+
+    const [
+        pendingExport,
+        progress,
+        triggerExportStart,
+    ] = useRecursiveCsvExport({
+        onFailure: () => {
+            alert.show(
+                strings.failedToCreateExport,
+                { variant: 'danger' },
+            );
+        },
+        onSuccess: (data) => {
+            const unparseData = Papa.unparse(data);
+            const blob = new Blob(
+                [unparseData],
+                { type: 'text/csv' },
+            );
+            saveAs(blob, `${countryResponse?.name}-emergency-activities.csv`);
+        },
+    });
+
+    const handleExportClick = useCallback(() => {
+        if (!emergencyProjectListResponse?.count || !countryId) {
+            return;
+        }
+        triggerExportStart(
+            '/api/v2/emergency-project/',
+            emergencyProjectListResponse.count,
+            {
+                country: [Number(countryId)],
+            },
+        );
+    }, [
+        triggerExportStart,
+        countryId,
+        emergencyProjectListResponse?.count,
+    ]);
 
     const filteredProjectList = filterEmergencyProjects(
         emergencyProjectListResponse?.results ?? [],
@@ -159,11 +224,11 @@ export function Component() {
         filteredProjectList,
     );
 
-    const aggreatedProjectCountListBySector = useMemo(() => (
+    const aggregatedProjectCountListBySector = useMemo(() => (
         getAggregatedValues(emergencyProjectCountListBySector)
     ), [emergencyProjectCountListBySector]);
 
-    const aggreatedProjectCountListByStatus = useMemo(() => (
+    const aggregatedProjectCountListByStatus = useMemo(() => (
         getAggregatedValues(emergencyProjectCountListByStatus)
     ), [emergencyProjectCountListByStatus]);
 
@@ -182,13 +247,104 @@ export function Component() {
         )
     ), [sectorGroupedEmergencyProjects]);
 
+    const columns = useMemo(
+        () => ([
+            createStringColumn<EmergencyProject, number>(
+                'national_society_eru',
+                strings.emergencyProjectNationalSociety,
+                (item) => (
+                    item.activity_lead === 'deployed_eru'
+                        ? item.deployed_eru_details
+                            ?.eru_owner_details
+                            ?.national_society_country_details
+                            ?.society_name
+                        : item.reporting_ns_details?.society_name
+                ),
+            ),
+            createStringColumn<EmergencyProject, number>(
+                'title',
+                strings.emergencyProjectTitle,
+                (item) => item.title,
+            ),
+            createDateColumn<EmergencyProject, number>(
+                'start_date',
+                strings.emergencyProjectStartDate,
+                (item) => item.start_date,
+            ),
+            createStringColumn<EmergencyProject, number>(
+                'country',
+                strings.emergencyProjectCountry,
+                (item) => item.country_details?.name,
+            ),
+            createListDisplayColumn<
+                EmergencyProject,
+                number,
+                DistrictDetails,
+                { districtName: string }
+            >(
+                'districts',
+                strings.emergencyProjectDistrict,
+                (activity) => ({
+                    list: activity.districts_details,
+                    renderer: DistrictNameOutput,
+                    rendererParams: (districtDetail) => ({ districtName: districtDetail.name }),
+                    keySelector: (districtDetail) => districtDetail.id,
+                }),
+            ),
+            createStringColumn<EmergencyProject, number>(
+                'status',
+                strings.emergencyProjectStatus,
+                (item) => item.status_display,
+            ),
+            createNumberColumn<EmergencyProject, number>(
+                'people_reached',
+                strings.emergencyProjectPeopleReached,
+                (item) => getPeopleReached(item),
+            ),
+            createElementColumn<EmergencyProject, number, ActivityActionsProps>(
+                'actions',
+                '',
+                ActivityActions,
+                (_, item) => ({
+                    activityId: item.id,
+                    className: styles.activityActions,
+                }),
+            ),
+        ]),
+        [
+            strings.emergencyProjectNationalSociety,
+            strings.emergencyProjectTitle,
+            strings.emergencyProjectStartDate,
+            strings.emergencyProjectCountry,
+            strings.emergencyProjectDistrict,
+            strings.emergencyProjectStatus,
+            strings.emergencyProjectPeopleReached,
+        ],
+    );
     const noActivitiesBySector = (isNotDefined(sectorGroupedEmergencyProjectList)
         || (isDefined(sectorGroupedEmergencyProjectList)
             && (sectorGroupedEmergencyProjectList.length < 1)));
 
     return (
         <div className={styles.threewActivities}>
-            <Container>
+            <Container
+                withHeaderBorder
+                footerContent={(
+                    <div className={styles.chartDescription}>
+                        <InformationLineIcon className={styles.icon} />
+                        {strings.chartDescription}
+                    </div>
+                )}
+                actions={(
+                    <Link
+                        variant="secondary"
+                        title={strings.addThreeWActivity}
+                        to="newThreeWActivity"
+                    >
+                        {strings.addThreeWActivity}
+                    </Link>
+                )}
+            >
                 {emergencyProjectListResponsePending && <BlockLoading />}
                 {!emergencyProjectListResponsePending && (
                     <div className={styles.keyFigureCardList}>
@@ -218,7 +374,7 @@ export function Component() {
                             />
                             <PieChart
                                 className={styles.pieChart}
-                                data={aggreatedProjectCountListBySector}
+                                data={aggregatedProjectCountListBySector}
                                 valueSelector={numericCountSelector}
                                 labelSelector={stringTitleSelector}
                                 keySelector={stringTitleSelector}
@@ -235,7 +391,7 @@ export function Component() {
                             />
                             <PieChart
                                 className={styles.pieChart}
-                                data={aggreatedProjectCountListByStatus}
+                                data={aggregatedProjectCountListByStatus}
                                 valueSelector={numericCountSelector}
                                 labelSelector={stringTitleSelector}
                                 keySelector={stringTitleSelector}
@@ -257,6 +413,16 @@ export function Component() {
                         value={rawFilter}
                         onChange={setFilters}
                     />
+                )}
+                actions={(
+                    <Link
+                        to="allThreeWActivity"
+                        withLinkIcon
+                        withUnderline
+                        urlSearch={`country=${countryId}`}
+                    >
+                        {strings.threeWViewAllActivityLabel}
+                    </Link>
                 )}
                 footerActions={(
                     <Pager
@@ -282,7 +448,6 @@ export function Component() {
                                     compact
                                 />
                             )}
-                            {/* FIXME: use List, add pending, filtered state */}
                             {sectorGroupedEmergencyProjectList.map((sectorGroupedProject) => (
                                 <ActivityDetail
                                     key={sectorGroupedProject.sector}
@@ -293,6 +458,24 @@ export function Component() {
                         </Container>
                     )}
                 />
+                <Container
+                    actions={(
+                        <ExportButton
+                            onClick={handleExportClick}
+                            progress={progress}
+                            pendingExport={pendingExport}
+                            totalCount={emergencyProjectListResponse?.count}
+                        />
+                    )}
+                >
+                    <Table
+                        filtered={isFiltered}
+                        pending={emergencyProjectListResponsePending}
+                        data={paginatedEmergencyProjectList}
+                        columns={columns}
+                        keySelector={numericIdSelector}
+                    />
+                </Container>
             </Container>
         </div>
     );
