@@ -14,6 +14,7 @@ import {
 import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
 import BlockLoading from '#components/BlockLoading';
+import Message from '#components/Message';
 import Container from '#components/Container';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToString } from '#utils/translation';
@@ -136,123 +137,136 @@ export function Component() {
         },
     });
 
+    const hasStrengthComponents = isDefined(strengthComponents) && strengthComponents.length > 0;
+    const hasPrioritizedComponents = isDefined(prioritizationResponse)
+        && isDefined(prioritizationResponse.prioritized_action_responses)
+        && prioritizationResponse.prioritized_action_responses.length > 0;
+    const perContentsDefined = hasStrengthComponents || hasPrioritizedComponents;
+
+    const hasCountryPlan = countryResponse?.has_country_plan;
+
     return (
         <div className={styles.countryNsOverviewStrategicPriorities}>
-            {perPending && (
+            {(perPending || countryPlanPending) && (
                 <BlockLoading />
             )}
-            <Container
-                className={styles.countryNsOverviewStrategicPriorities}
-                heading={strings.nsStrategicPrioritiesHeading}
-                withHeaderBorder
-            >
-                {countryPlanPending && (
-                    <BlockLoading />
-                )}
-                {isDefined(countryPlanResponse) && (
-                    <div className={styles.countryPlan}>
-                        <div className={styles.downloadLinksAndKeyFigures}>
-                            <div className={styles.countryPlanDownloadLink}>
-                                {isDefined(countryPlanResponse.public_plan_file) && (
-                                    <Link
-                                        variant="secondary"
-                                        href={countryPlanResponse.public_plan_file}
-                                        external
-                                        className={styles.downloadLink}
-                                        icons={<DownloadLineIcon className={styles.icon} />}
-                                    >
-                                        {resolveToString(
-                                            strings.countryPlanDownloadPlan,
-                                            { countryName: countryResponse?.name ?? '--' },
-                                        )}
-                                    </Link>
-                                )}
-                                {isTruthyString(countryPlanResponse.internal_plan_file) && (
-                                    <Link
-                                        variant="secondary"
-                                        href={countryPlanResponse.internal_plan_file}
-                                        external
-                                        className={styles.downloadLink}
-                                        icons={<DownloadLineIcon className={styles.icon} />}
-                                    >
-                                        {resolveToString(
-                                            strings.countryPlanDownloadPlanInternal,
-                                            { countryName: countryResponse?.name ?? '--' },
-                                        )}
-                                    </Link>
-                                )}
-                            </div>
-                            <div className={styles.keyFigures}>
-                                <KeyFigure
-                                    className={styles.keyFigure}
-                                    value={countryPlanResponse.requested_amount}
-                                    label={strings.countryPlanKeyFigureRequestedAmount}
-                                    compactValue
-                                />
-                                <KeyFigure
-                                    className={styles.keyFigure}
-                                    value={countryPlanResponse.people_targeted}
-                                    label={strings.countryPlanPeopleTargeted}
-                                    compactValue
-                                />
-                            </div>
-                        </div>
-                        <StrategicPrioritiesTable
-                            className={styles.strategicPriorityTable}
-                            priorityData={countryPlanResponse.strategic_priorities}
-                        />
-                    </div>
-                )}
-            </Container>
-            {isDefined(strengthComponents) && (
+            {!hasCountryPlan && !perContentsDefined && (
+                <Message
+                    title={strings.notAvailableMessage}
+                />
+            )}
+            {hasCountryPlan && isDefined(countryPlanResponse) && (
                 <Container
-                    heading={strings.strengthsHeading}
+                    childrenContainerClassName={styles.countryPlanContent}
+                    heading={strings.nsStrategicPrioritiesHeading}
                     withHeaderBorder
-                    contentViewType="grid"
-                    numPreferredGridContentColumns={5}
                 >
-                    {strengthComponents?.map(
-                        (strengthComponent) => (
-                            <Container
-                                heading={strengthComponent?.component_details.title}
-                                headingLevel={5}
-                                key={strengthComponent.component}
-                                withHeaderBorder
-                                withInternalPadding
-                                icons={<CheckboxFillIcon className={styles.icon} />}
-                                withoutWrapInHeading
-                                className={styles.strengthComponent}
-                            >
-                                {strengthComponent?.rating_details.title}
-                            </Container>
-                        ),
-                    )}
+                    <div className={styles.downloadLinksAndKeyFigures}>
+                        <div className={styles.countryPlanDownloadLink}>
+                            {isDefined(countryPlanResponse.public_plan_file) && (
+                                <Link
+                                    variant="secondary"
+                                    href={countryPlanResponse.public_plan_file}
+                                    external
+                                    className={styles.downloadLink}
+                                    icons={<DownloadLineIcon className={styles.icon} />}
+                                >
+                                    {resolveToString(
+                                        strings.countryPlanDownloadPlan,
+                                        { countryName: countryResponse?.name ?? '--' },
+                                    )}
+                                </Link>
+                            )}
+                            {isTruthyString(countryPlanResponse.internal_plan_file) && (
+                                <Link
+                                    variant="secondary"
+                                    href={countryPlanResponse.internal_plan_file}
+                                    external
+                                    className={styles.downloadLink}
+                                    icons={<DownloadLineIcon className={styles.icon} />}
+                                >
+                                    {resolveToString(
+                                        strings.countryPlanDownloadPlanInternal,
+                                        { countryName: countryResponse?.name ?? '--' },
+                                    )}
+                                </Link>
+                            )}
+                        </div>
+                        <div className={styles.keyFigures}>
+                            <KeyFigure
+                                className={styles.keyFigure}
+                                value={countryPlanResponse.requested_amount}
+                                label={strings.countryPlanKeyFigureRequestedAmount}
+                                compactValue
+                            />
+                            <KeyFigure
+                                className={styles.keyFigure}
+                                value={countryPlanResponse.people_targeted}
+                                label={strings.countryPlanPeopleTargeted}
+                                compactValue
+                            />
+                        </div>
+                    </div>
+                    <StrategicPrioritiesTable
+                        className={styles.strategicPriorityTable}
+                        priorityData={countryPlanResponse.strategic_priorities}
+                    />
                 </Container>
             )}
-            {isDefined(prioritizationResponse) && (
-                <Container
-                    heading={strings.keyDevelopmentPrioritiesHeading}
-                    withHeaderBorder
-                    contentViewType="grid"
-                    numPreferredGridContentColumns={5}
-                >
-                    {prioritizationResponse?.prioritized_action_responses?.map(
-                        (prioritizedAction) => (
-                            <Container
-                                key={prioritizedAction.id}
-                                heading={prioritizedAction.component_details.title}
-                                headingLevel={5}
-                                withHeaderBorder
-                                withInternalPadding
-                                icons={<CheckboxFillIcon className={styles.icon} />}
-                                withoutWrapInHeading
-                                className={styles.priorityComponent}
-                            >
-                                {componentMap?.[prioritizedAction.component]?.rating_details?.title}
-                            </Container>
-                        ),
+            {perContentsDefined && (
+                <div className={styles.perComponents}>
+                    {hasStrengthComponents && (
+                        <Container
+                            heading={strings.strengthsHeading}
+                            withHeaderBorder
+                            contentViewType="grid"
+                            numPreferredGridContentColumns={5}
+                        >
+                            {strengthComponents?.map(
+                                (strengthComponent) => (
+                                    <Container
+                                        heading={strengthComponent?.component_details.title}
+                                        headingLevel={5}
+                                        key={strengthComponent.component}
+                                        withHeaderBorder
+                                        withInternalPadding
+                                        icons={<CheckboxFillIcon className={styles.icon} />}
+                                        withoutWrapInHeading
+                                        className={styles.strengthComponent}
+                                    >
+                                        {strengthComponent?.rating_details.title}
+                                    </Container>
+                                ),
+                            )}
+                        </Container>
                     )}
-                </Container>
+                    {hasPrioritizedComponents && (
+                        <Container
+                            heading={strings.keyDevelopmentPrioritiesHeading}
+                            withHeaderBorder
+                            contentViewType="grid"
+                            numPreferredGridContentColumns={5}
+                        >
+                            {prioritizationResponse?.prioritized_action_responses?.map(
+                                (prioritizedAction) => (
+                                    <Container
+                                        key={prioritizedAction.id}
+                                        heading={prioritizedAction.component_details.title}
+                                        headingLevel={5}
+                                        withHeaderBorder
+                                        withInternalPadding
+                                        icons={<CheckboxFillIcon className={styles.icon} />}
+                                        withoutWrapInHeading
+                                        className={styles.priorityComponent}
+                                    >
+                                        {componentMap?.[
+                                            prioritizedAction.component]?.rating_details?.title}
+                                    </Container>
+                                ),
+                            )}
+                        </Container>
+                    )}
+                </div>
             )}
         </div>
     );
