@@ -27,6 +27,8 @@
         "explanationBubbleEAP":"Early Action Protocol Activation",
         "explanationBubbleMultiple":"Multiple types",
         "explanationBubbleDeployments":"Deployments",
-        "downloadMapTitle": "Ongoing operations"
+        "downloadMapTitle": "Ongoing operations",
+        "operationMapProvinces": "Provinces",
+        "clearFilters": "Clear Filters"
     }
 }
