@@ -1009,7 +1009,7 @@ function RiskSeasonalMap(props: Props) {
                             >
                                 <Link
                                     className={styles.name}
-                                    to="countryRiskWatch"
+                                    to="countryProfileSeasonalRisks"
                                     urlParams={{ countryId }}
                                 >
                                     {dataItem.country_details.name}
