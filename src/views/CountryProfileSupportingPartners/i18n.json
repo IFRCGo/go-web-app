@@ -1,8 +1,6 @@
 {
     "namespace": "countryProfileSupportingPartners",
     "strings": {
-        "countryPlanMembershipCoordinationTableTitle": "Membership Coordination",
-        "countryPlanNameOfPNS": "Name of Partner National Society",
-        "countryPlanNoDataMessage": "No data to display"
+        "gotoIfrcLinkLabel": "Goto IFRC"
     }
 }
