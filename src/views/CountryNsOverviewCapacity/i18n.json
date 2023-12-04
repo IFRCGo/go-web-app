@@ -2,6 +2,9 @@
     "namespace": "countryNsOverviewCapacity",
     "strings": {
         "nsPreparednessHeading": "NS Preparedness and Response Capcity",
-        "nsPreparednessDescription": "The National Society Preparedness for an Effective Response (PER) Approach interact with National Societies' processes in a structured way to contribute to their preparedness and response capacities"
+        "nsPreparednessDescription": "The National Society Preparedness for an Effective Response (PER) Approach interact with National Societies' processes in a structured way to contribute to their preparedness and response capacities",
+        "perCycleHeading": "Cycle {cycle}: {countryName} PER process",
+        "perPhaseLabel": "PER phase",
+        "perAssessmentDateLabel": "Assessment date"
     }
 }
