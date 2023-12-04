@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 
-import Container from '#components/Container';
 import useTranslation from '#hooks/useTranslation';
 import Table from '#components/Table';
 import { createNumberColumn, createStringColumn } from '#components/Table/ColumnShortcuts';
@@ -46,19 +45,14 @@ function StrategicPrioritiesTable(props: Props) {
     );
 
     return (
-        <Container
+        <Table
             className={className}
-            heading={strings.countryPlanStrategicPrioritiesTableHeading}
-            withHeaderBorder
-        >
-            <Table
-                filtered={false}
-                pending={false}
-                data={priorityData}
-                columns={columns}
-                keySelector={numericIdSelector}
-            />
-        </Container>
+            filtered={false}
+            pending={false}
+            data={priorityData}
+            columns={columns}
+            keySelector={numericIdSelector}
+        />
     );
 }
 
