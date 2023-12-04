@@ -1,6 +1,8 @@
 {
     "namespace": "countryOngoingActivitiesEmergencies",
     "strings": {
-        "pageTitle": "Country Ongoing Emergencies"
+        "pageTitle": "Country Ongoing Emergencies",
+        "fullScreenHeading": "IFRC Disaster Response and Preparedness",
+        "countryCloseButton": "Close"
     }
 }
