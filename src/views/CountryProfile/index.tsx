@@ -39,7 +39,7 @@ export function Component() {
                     to="countryProfileSeasonalRisks"
                     urlParams={{ countryId }}
                 >
-                    {strings.seasonalRisksTabTitle}
+                    {strings.riskWatchTabTitle}
                 </NavigationTab>
             </NavigationTabList>
             <Outlet context={outletContext} />
