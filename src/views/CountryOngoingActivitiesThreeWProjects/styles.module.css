@@ -4,6 +4,12 @@
     padding: var(--go-ui-spacing-2xl) 0;
     gap: var(--go-ui-spacing-2xl);
 
+    .content {
+        display: grid;
+        grid-gap: var(--go-ui-spacing-md);
+    }
+
+
     .key-figure-card-list {
         display: grid;
         grid-gap: var(--go-ui-spacing-md);
