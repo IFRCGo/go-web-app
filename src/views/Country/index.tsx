@@ -283,55 +283,6 @@ export function Component() {
             <Outlet
                 context={outletContext}
             />
-            {isDefined(countryResponse) && (
-                <div className={styles.links}>
-                    {isTruthyString(countryResponse.fdrs) && (
-                        <Link
-                            href={`https://data.ifrc.org/FDRS/national-society/${countryResponse.fdrs}`}
-                            external
-                            withLinkIcon
-                        >
-                            {strings.nationalSocietyPageOnFDRS}
-                        </Link>
-                    )}
-                    {isTruthyString(countryResponse.url_ifrc) && (
-                        <Link
-                            href={countryResponse.url_ifrc}
-                            external
-                            withLinkIcon
-                        >
-                            {resolveToString(
-                                strings.countryOnIFRC,
-                                { countryName: countryResponse?.name ?? '-' },
-                            )}
-                        </Link>
-                    )}
-                    {isTruthyString(countryResponse.iso3) && (
-                        <Link
-                            href={`https://reliefweb.int/country/${countryResponse.iso3}`}
-                            external
-                            withLinkIcon
-                        >
-                            {resolveToString(
-                                strings.countryOnReliefWeb,
-                                { countryName: countryResponse?.name ?? '-' },
-                            )}
-                        </Link>
-                    )}
-                    {isTruthyString(countryResponse.society_url) && (
-                        <Link
-                            href={countryResponse?.society_url}
-                            external
-                            withLinkIcon
-                        >
-                            {resolveToString(
-                                strings.countryRCHomepage,
-                                { countryName: countryResponse?.name ?? '-' },
-                            )}
-                        </Link>
-                    )}
-                </div>
-            )}
         </Page>
     );
 }

@@ -1,6 +1,10 @@
 {
     "namespace": "countryNsOverviewContextAndStructure",
     "strings": {
-        "pageTitle": "Country NS Context and Structure"
+        "keyLinksHeading": "Key Links",
+        "nationalSocietyPageOnFDRS": "National Society Page on FRDS",
+        "countryOnIFRC": "{countryName} on IFRC.org",
+        "countryOnReliefWeb": "{countryName} on reliefweb.int",
+        "countryRCHomepage": "{countryName} RC Homepage"
     }
 }
