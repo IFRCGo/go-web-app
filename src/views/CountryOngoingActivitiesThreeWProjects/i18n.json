@@ -1,6 +1,30 @@
 {
     "namespace": "countryOngoingActivitiesThreeWProjects",
     "strings": {
-        "pageTitle": "Country 3W Projects"
+        "addThreeWProject": "Add 3W Project",
+        "activeDeploymentsTitle": "Activities in Countries",
+        "targetedPopulationTitle": "Targeted Population",
+        "failedToCreateExport": "Failed to generate export.",
+        "totalProjectsTitle": "Total Projects",
+        "ongoingProjectBudgetTitle": "Total Budget (CHF) for Ongoing Projects",
+        "threeWOngoingProjectsTitle": "All Projects",
+        "viewAllProjects": "View All Projects",
+        "threeWInCountryMapSidebarTitle": "Projects by Province",
+        "provinceProjects": "{provinceName} ({numProjects} Projects)",
+        "otherProjects": "Others ({numProjects} Projects)",
+        "projectEdit": "Edit Project",
+        "localNSProjects": "Local Projects by NS ({count})",
+        "threeWTableNS": "National Society",
+        "threeWTableProjectName": "Project Name",
+        "threeWTableSector": "Sector",
+        "threeWTableTotalBudget": "Total Budget",
+        "threeWTableProgrammeType": "Programme Type",
+        "threeWTableDisasterType": "Disaster Type",
+        "threeWTablePeopleTargeted": "People Targeted",
+        "threeWTablePeopleReached": "Services Provided to People in Need",
+        "otherNSProjects": "Projects by Other NS ({count})",
+        "programmeType": "Programme Type",
+        "projectStatus": "Project Status",
+        "countryThreeWDataNotAvailable": "Data not available!"
     }
 }
