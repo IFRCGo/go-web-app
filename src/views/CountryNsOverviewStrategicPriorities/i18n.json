@@ -1,6 +1,12 @@
 {
     "namespace": "countryNsOverviewStrategicPriorities",
     "strings": {
-        "pageTitle": "Country NS Strategic Priorities"
+        "countryPlanTitle": "{countryName} Country Plan",
+        "countryPlanNoCountryPlan": "This country hasn't published any Country Plan yet!",
+        "countryPlanPeopleTargeted": "People Targeted",
+        "countryPlanLoadFailureMessage": "Failed to load the Country Plan!",
+        "countryPlanDownloadPlan": "{countryName} Country Plan",
+        "countryPlanDownloadPlanInternal": "{countryName} Internal Plan",
+        "countryPlanKeyFigureRequestedAmount": "Federation-Wide Requested Amount (CHF)"
     }
 }

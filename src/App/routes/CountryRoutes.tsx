@@ -418,19 +418,6 @@ const countryPreparedness = customWrapRoute({
     },
 });
 
-const countryPlan = customWrapRoute({
-    parent: countriesLayout,
-    path: 'plan',
-    component: {
-        render: () => import('#views/CountryPlan'),
-        props: {},
-    },
-    context: {
-        title: 'Country Plan',
-        visibility: 'anything',
-    },
-});
-
 const countryAdditionalInfo = customWrapRoute({
     parent: countriesLayout,
     path: 'additional-info',
@@ -478,5 +465,4 @@ export default {
     countryThreeWIndex,
     countryRiskWatch,
     countryPreparedness,
-    countryPlan,
 };
