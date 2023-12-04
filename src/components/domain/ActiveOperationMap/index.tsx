@@ -19,30 +19,36 @@ import {
 } from '@togglecorp/re-map';
 import {
     ArtboardLineIcon,
+    CloseLineIcon,
 } from '@ifrc-go/icons';
 
 import BaseMap from '#components/domain/BaseMap';
-import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
-import RadioInput from '#components/RadioInput';
 import Button from '#components/Button';
 import Container from '#components/Container';
-import Link from '#components/Link';
-import LegendItem from '#components/LegendItem';
-import MapPopup from '#components/MapPopup';
-import TextOutput from '#components/TextOutput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
+import LegendItem from '#components/LegendItem';
+import Link from '#components/Link';
+import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
+import MapPopup from '#components/MapPopup';
+import MultiSelectInput from '#components/MultiSelectInput';
+import RadioInput from '#components/RadioInput';
 import SelectInput from '#components/SelectInput';
+import TextOutput from '#components/TextOutput';
+import useFilterState from '#hooks/useFilterState';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useInputState from '#hooks/useInputState';
-import useFilterState from '#hooks/useFilterState';
 import { useRequest } from '#utils/restRequest';
 import type { GoApiUrlQuery, GoApiResponse } from '#utils/restRequest';
+import {
+    numericIdSelector,
+    stringNameSelector,
+} from '#utils/selectors';
 import {
     adminFillLayerOptions,
 } from '#utils/map';
 import { resolveToComponent } from '#utils/translation';
 import useTranslation from '#hooks/useTranslation';
-import { sumSafe } from '#utils/common';
+import { hasSomeDefinedValue, sumSafe } from '#utils/common';
 import useCountryRaw from '#hooks/domain/useCountryRaw';
 import { DEFAULT_MAP_PADDING, DURATION_MAP_ZOOM } from '#utils/constants';
 import DateInput from '#components/DateInput';
@@ -99,6 +105,8 @@ interface ClickedPoint {
     lngLat: mapboxgl.LngLatLike;
 }
 
+type DistrictListItem = NonNullable<GoApiResponse<'/api/v2/district/'>['results']>[number];
+
 type BaseProps = {
     className?: string;
     onPresentationModeButtonClick?: () => void;
@@ -106,6 +114,11 @@ type BaseProps = {
     bbox: LngLatBoundsLike | undefined;
 }
 
+type CountryProps = {
+    variant: 'country';
+    countryId: number;
+    districtList: DistrictListItem[];
+}
 type RegionProps = {
     variant: 'region';
     regionId: number;
@@ -115,7 +128,7 @@ type GlobalProps = {
     variant: 'global';
 }
 
-type Props = BaseProps & (RegionProps | GlobalProps);
+type Props = BaseProps & (RegionProps | GlobalProps | CountryProps);
 
 function ActiveOperationMap(props: Props) {
     const {
@@ -127,12 +140,15 @@ function ActiveOperationMap(props: Props) {
     } = props;
 
     const {
-        rawFilter,
         filter,
-        setFilterField,
+        filtered,
         limit,
+        rawFilter,
+        setFilter,
+        setFilterField,
     } = useFilterState<{
         appeal?: AppealTypeOption['key'],
+        district?: number[],
         displacement?: number,
         startDateAfter?: string,
         startDateBefore?: string,
@@ -143,6 +159,11 @@ function ActiveOperationMap(props: Props) {
 
     // eslint-disable-next-line react/destructuring-assignment
     const regionId = variant === 'region' ? props.regionId : undefined;
+    // eslint-disable-next-line react/destructuring-assignment
+    const countryId = variant === 'country' ? props.countryId : undefined;
+    // eslint-disable-next-line react/destructuring-assignment
+    const districtList = variant === 'country' ? props.districtList : undefined;
+
     const query = useMemo<AppealQueryParams>(
         () => {
             const baseQuery: AppealQueryParams = {
@@ -160,10 +181,12 @@ function ActiveOperationMap(props: Props) {
 
             return {
                 ...baseQuery,
-                region: regionId,
+                region: regionId ? [regionId] : undefined,
+                country: countryId ? [countryId] : undefined,
+                district: hasSomeDefinedValue(filter.district) ? filter.district : undefined,
             };
         },
-        [variant, regionId, filter, limit],
+        [variant, regionId, filter, limit, countryId],
     );
 
     const [
@@ -319,6 +342,10 @@ function ActiveOperationMap(props: Props) {
         [setClickedPointProperties],
     );
 
+    const handleClearFiltersButtonclick = useCallback(() => {
+        setFilter({});
+    }, [setFilter]);
+
     const popupDetails = clickedPointProperties
         ? countryGroupedAppeal[clickedPointProperties.feature.properties.iso3]
         : undefined;
@@ -344,6 +371,17 @@ function ActiveOperationMap(props: Props) {
                         onChange={setFilterField}
                         value={rawFilter.startDateBefore}
                     />
+                    {variant === 'country' && (
+                        <MultiSelectInput
+                            name="district"
+                            label={strings.operationMapProvinces}
+                            options={districtList}
+                            value={rawFilter.district}
+                            keySelector={numericIdSelector}
+                            labelSelector={stringNameSelector}
+                            onChange={setFilterField}
+                        />
+                    )}
                     <SelectInput
                         placeholder={strings.operationFilterTypePlaceholder}
                         label={strings.operationType}
@@ -361,6 +399,17 @@ function ActiveOperationMap(props: Props) {
                         value={rawFilter.displacement}
                         onChange={setFilterField}
                     />
+                    <div className={styles.clearButton}>
+                        <Button
+                            name={undefined}
+                            icons={<CloseLineIcon />}
+                            onClick={handleClearFiltersButtonclick}
+                            variant="tertiary"
+                            disabled={!filtered}
+                        >
+                            {strings.clearFilters}
+                        </Button>
+                    </div>
                 </>
             )}
             actions={!presentationMode && (
