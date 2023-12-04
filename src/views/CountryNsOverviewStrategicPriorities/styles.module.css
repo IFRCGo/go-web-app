@@ -4,6 +4,24 @@
     gap: var(--go-ui-spacing-2xl);
     padding: var(--go-ui-spacing-2xl) 0;
 
+    .strength-component {
+        border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+
+        .icon {
+            color: var(--go-ui-color-green);
+            font-size: var(--go-ui-height-icon-multiplier);
+        }
+    }
+
+    .priority-component {
+        border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+
+        .icon {
+            color: var(--go-ui-color-red);
+            font-size: var(--go-ui-height-icon-multiplier);
+        }
+    }
+
     .country-plan {
         display: flex;
         flex-wrap: wrap;
@@ -24,6 +42,7 @@
                     box-shadow: var(--go-ui-box-shadow-md);
                 }
             }
+
             .country-plan-download-link {
                 display: flex;
                 flex-shrink: unset;
