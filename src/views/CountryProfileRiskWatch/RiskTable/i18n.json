@@ -1,5 +1,6 @@
 {
-    "namespace": "countryRiskWatch",
+    "oldNamespace": "countryRiskWatch",
+    "namespace": "countryProfileRiskWatch",
     "strings": {
         "riskScoreVeryHighLabel": "Very high",
         "riskScoreHighLabel": "High",

@@ -310,9 +310,9 @@ const countryProfilePreviousEvents = customWrapRoute({
 
 const countryProfileSeasonalRisks = customWrapRoute({
     parent: countryProfileLayout,
-    path: 'seasonal-risks',
+    path: 'risk-watch',
     component: {
-        render: () => import('#views/CountryProfileSeasonalRisks'),
+        render: () => import('#views/CountryProfileRiskWatch'),
         props: {},
     },
     context: {
@@ -392,19 +392,6 @@ const countryThreeWNationalSocietyProjects = customWrapRoute({
     },
 });
 
-const countryRiskWatch = customWrapRoute({
-    parent: countriesLayout,
-    path: 'risk-watch',
-    component: {
-        render: () => import('#views/CountryRiskWatch'),
-        props: {},
-    },
-    context: {
-        title: 'Country Risk Watch',
-        visibility: 'anything',
-    },
-});
-
 const countryPreparedness = customWrapRoute({
     parent: countriesLayout,
     path: 'preparedness',
@@ -463,6 +450,5 @@ export default {
     countryThreeWProjects,
     countryThreeWNationalSocietyProjects,
     countryThreeWIndex,
-    countryRiskWatch,
     countryPreparedness,
 };
