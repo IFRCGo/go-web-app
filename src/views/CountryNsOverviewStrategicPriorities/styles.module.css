@@ -1,33 +1,38 @@
-.country-plan {
+.country-ns-overview-strategic-priorities {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-2xl);
     padding: var(--go-ui-spacing-2xl) 0;
 
-    .country-plan-download-link {
+    .country-plan {
         display: flex;
-        flex-shrink: unset;
         flex-wrap: wrap;
-        gap: var(--go-ui-spacing-lg);
+        gap: var(--go-ui-spacing-2xl);
 
-        .icon {
-            font-size: var(--go-ui-height-icon-multiplier);
-        }
-    }
-
-    .content {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: var(--go-ui-spacing-3xl);
-        justify-content: space-evenly;
-        padding: var(--go-ui-spacing-md) 0;
-
-        .key-figures {
+        .download-links-and-key-figures {
             display: flex;
-            gap: var(--go-ui-spacing-md);
+            flex-direction: column;
+            gap: var(--go-ui-spacing-lg);
 
-            .key-figure {
-                flex-basis: 16rem;
-                border-radius: var(--go-ui-border-radius-lg);
-                box-shadow: var(--go-ui-box-shadow-md);
+            .key-figures {
+                display: flex;
+                gap: var(--go-ui-spacing-md);
+
+                .key-figure {
+                    flex-basis: 16rem;
+                    border-radius: var(--go-ui-border-radius-lg);
+                    box-shadow: var(--go-ui-box-shadow-md);
+                }
+            }
+            .country-plan-download-link {
+                display: flex;
+                flex-shrink: unset;
+                flex-wrap: wrap;
+                gap: var(--go-ui-spacing-lg);
+
+                .icon {
+                    font-size: var(--go-ui-height-icon-multiplier);
+                }
             }
         }
 

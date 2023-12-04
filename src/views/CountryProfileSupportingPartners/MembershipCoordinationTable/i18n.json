@@ -1,0 +1,7 @@
+{
+    "namespace": "countryProfileSupportingPartners",
+    "strings": {
+        "membershipCoordinationTableTitle": "Membership Coordination",
+        "membershipCoordinationTableNameOfPNS": "Name of Partner National Society"
+    }
+}
