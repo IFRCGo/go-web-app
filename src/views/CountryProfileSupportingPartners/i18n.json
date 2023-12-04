@@ -1,6 +1,8 @@
 {
     "namespace": "countryProfileSupportingPartners",
     "strings": {
-        "pageTitle": "Country Profile Supporting Partners"
+        "countryPlanMembershipCoordinationTableTitle": "Membership Coordination",
+        "countryPlanNameOfPNS": "Name of Partner National Society",
+        "countryPlanNoDataMessage": "No data to display"
     }
 }
