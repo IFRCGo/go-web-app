@@ -11,9 +11,8 @@ import styles from './styles.module.css';
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const outletContext = useOutletContext<CountryOutletContext>();
-    const { countryId } = outletContext;
-
     const strings = useTranslation(i18n);
+    const { countryId } = outletContext;
 
     return (
         <div className={styles.countryOngoingActivities}>
