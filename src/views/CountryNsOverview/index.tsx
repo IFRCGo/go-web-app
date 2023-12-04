@@ -10,7 +10,8 @@ import styles from './styles.module.css';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const { countryId } = useOutletContext<CountryOutletContext>();
+    const outletContext = useOutletContext<CountryOutletContext>();
+    const { countryId } = outletContext;
     const strings = useTranslation(i18n);
 
     return (
@@ -41,7 +42,7 @@ export function Component() {
                     {strings.capacityTabTitle}
                 </NavigationTab>
             </NavigationTabList>
-            <Outlet />
+            <Outlet context={outletContext} />
         </div>
     );
 }
