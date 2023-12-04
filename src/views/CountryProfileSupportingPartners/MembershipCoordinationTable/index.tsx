@@ -38,6 +38,7 @@ function Icon(props: IconProps) {
 
 interface Props {
     className?: string;
+    pending?: boolean;
     membershipData: GetCountryPlanResponse['membership_coordinations'] | undefined;
 }
 
@@ -45,6 +46,7 @@ function MembershipCoordinationTable(props: Props) {
     const {
         className,
         membershipData,
+        pending = false,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -124,7 +126,7 @@ function MembershipCoordinationTable(props: Props) {
             withHeaderBorder
         >
             <Table
-                pending={false}
+                pending={pending}
                 filtered={false}
                 className={styles.membershipCoordinationTable}
                 data={tableData.nationalSocieties}

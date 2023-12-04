@@ -13,7 +13,6 @@ import { useRequest } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
 
 import StrategicPrioritiesTable from './StrategicPrioritiesTable';
-import MembershipCoordinationTable from './MembershipCoordinationTable';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -113,10 +112,6 @@ export function Component() {
                         <StrategicPrioritiesTable
                             className={styles.strategicPriorityTable}
                             priorityData={countryPlanResponse.strategic_priorities}
-                        />
-                        <MembershipCoordinationTable
-                            className={styles.membershipCoordinationTable}
-                            membershipData={countryPlanResponse.membership_coordinations}
                         />
                     </div>
                 </>
