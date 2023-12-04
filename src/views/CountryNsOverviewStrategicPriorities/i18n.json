@@ -7,6 +7,7 @@
         "countryPlanDownloadPlanInternal": "{countryName} Internal Plan",
         "countryPlanKeyFigureRequestedAmount": "Federation-Wide Requested Amount (CHF)",
         "strengthsHeading": "Strengths (PER process)",
-        "keyDevelopmentPrioritiesHeading": "Key Development Priorities (PER process)"
+        "keyDevelopmentPrioritiesHeading": "Key Development Priorities (PER process)",
+        "notAvailableMessage": "Strategic priorities not available!"
     }
 }

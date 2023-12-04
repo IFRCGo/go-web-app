@@ -2,21 +2,22 @@ import { useOutletContext } from 'react-router-dom';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import Container from '#components/Container';
+import TextOutput from '#components/TextOutput';
+import Link from '#components/Link';
+import Message from '#components/Message';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
+import { resolveToString } from '#utils/translation';
 
 import { type CountryOutletContext } from '#utils/outletContext';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-import TextOutput from '#components/TextOutput';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const {
-        countryId,
-        countryResponse,
-    } = useOutletContext<CountryOutletContext>();
+    const { countryId } = useOutletContext<CountryOutletContext>();
+
     const strings = useTranslation(i18n);
 
     const {
@@ -31,48 +32,71 @@ export function Component() {
         },
     });
 
+    const hasPer = isDefined(countryStatusResponse)
+        && isDefined(countryStatusResponse.results)
+        && countryStatusResponse.results.length > 0;
+
     return (
         <div className={styles.countryNsOverviewCapacity}>
-            {isDefined(countryStatusResponse)
-                && isDefined(countryStatusResponse.results)
-                && countryStatusResponse.results.length > 0
-                && (
-                    <Container
-                        heading={strings.nsPreparednessHeading}
-                        headerDescription={strings.nsPreparednessDescription}
-                        withHeaderBorder
-                        contentViewType="grid"
-                        numPreferredGridContentColumns={3}
+            <Container
+                heading={strings.nsPreparednessHeading}
+                headerDescription={strings.nsPreparednessDescription}
+                withHeaderBorder
+                contentViewType="grid"
+                numPreferredGridContentColumns={3}
+                actions={(
+                    <Link
+                        to="newPerOverviewForm"
+                        variant="primary"
                     >
-                        {countryStatusResponse.results.map(
-                            (perProcess) => (
-                                <Container
-                                    key={perProcess.id}
-                                    heading={`Cycle ${perProcess.assessment_number}: ${countryResponse?.name} PER process`}
-                                    headingLevel={4}
-                                    withInternalPadding
-                                >
-                                    <TextOutput
-                                        label="PER phase"
-                                        value={perProcess.phase_display}
-                                    />
-                                    <TextOutput
-                                        label="Assessment date"
-                                        value={perProcess.date_of_assessment}
-                                    />
-                                    <TextOutput
-                                        label="Type of Assessment"
-                                        value="-"
-                                    />
-                                    <TextOutput
-                                        label="PER focal point"
-                                        value="-"
-                                    />
-                                </Container>
-                            ),
-                        )}
-                    </Container>
+                        Start PER Process
+                    </Link>
                 )}
+            >
+                {!hasPer && (
+                    <Message
+                        // TODO: add appropriate message
+                        title="Data not available!"
+                    />
+                )}
+                {hasPer && countryStatusResponse?.results?.map(
+                    (perProcess) => (
+                        <Container
+                            key={perProcess.id}
+                            heading={
+                                resolveToString(
+                                    strings.perCycleHeading,
+                                    {
+                                        cycle: perProcess.assessment_number,
+                                        countryName: perProcess.country_details.name,
+                                    },
+                                )
+                            }
+                            headingLevel={4}
+                            withInternalPadding
+                            className={styles.perCycleItem}
+                            actions={(
+                                <Link
+                                    to="countryPreparedness"
+                                    urlParams={{ countryId }}
+                                    variant="secondary"
+                                >
+                                    View
+                                </Link>
+                            )}
+                        >
+                            <TextOutput
+                                label={strings.perPhaseLabel}
+                                value={perProcess.phase_display}
+                            />
+                            <TextOutput
+                                label={strings.perAssessmentDateLabel}
+                                value={perProcess.date_of_assessment}
+                            />
+                        </Container>
+                    ),
+                )}
+            </Container>
         </div>
     );
 }
