@@ -22,6 +22,7 @@ export function Component() {
                     heading={strings.keyLinksHeading}
                     className={styles.keyLinks}
                     withHeaderBorder
+                    childrenContainerClassName={styles.keyLinksContent}
                 >
                     {isTruthyString(countryResponse.fdrs) && (
                         <Link
