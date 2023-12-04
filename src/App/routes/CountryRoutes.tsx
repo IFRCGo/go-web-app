@@ -385,19 +385,6 @@ const countryThreeWIndex = customWrapRoute({
     },
 });
 
-const countryThreeWProjects = customWrapRoute({
-    parent: countriesThreeWLayout,
-    path: 'projects' satisfies DefaultCountryThreeWChild,
-    component: {
-        render: () => import('#views/CountryThreeWProjects'),
-        props: {},
-    },
-    context: {
-        title: 'Country 3W Projects',
-        visibility: 'anything',
-    },
-});
-
 const countryThreeWNationalSocietyProjects = customWrapRoute({
     parent: countriesThreeWLayout,
     path: 'ns-projects',
