@@ -64,7 +64,7 @@ function Filters(props: Props) {
         <div className={_cs(styles.filters, className)}>
             <MultiSelectInput
                 name="project_country"
-                placeholder={strings.threeWFilterReportingNs}
+                placeholder={strings.nSFilterReportingNs}
                 options={countries}
                 value={value.project_country}
                 keySelector={numericIdSelector}
@@ -74,7 +74,7 @@ function Filters(props: Props) {
             />
             <MultiSelectInput
                 name="operation_type"
-                placeholder={strings.threeWFilterOperationTypes}
+                placeholder={strings.nSFilterOperationTypes}
                 options={projectOperationTypeOptions}
                 value={value.operation_type}
                 keySelector={numericKeySelector}
@@ -84,7 +84,7 @@ function Filters(props: Props) {
             />
             <MultiSelectInput
                 name="programme_type"
-                placeholder={strings.threeWFilterProgrammeTypes}
+                placeholder={strings.nSFilterProgrammeTypes}
                 options={programmeTypeOptions}
                 value={value.programme_type}
                 keySelector={numericKeySelector}
@@ -94,7 +94,7 @@ function Filters(props: Props) {
             />
             <MultiSelectInput
                 name="primary_sector"
-                placeholder={strings.threeWFilterSectors}
+                placeholder={strings.nSFilterSectors}
                 options={primarySectorResponse}
                 value={value.primary_sector}
                 keySelector={numericKeySelector}
@@ -104,7 +104,7 @@ function Filters(props: Props) {
             />
             <MultiSelectInput
                 name="secondary_sectors"
-                placeholder={strings.threeWFilterTags}
+                placeholder={strings.nSFilterTags}
                 options={secondarySectorResponse}
                 value={value.secondary_sectors}
                 keySelector={numericKeySelector}
