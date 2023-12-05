@@ -340,18 +340,18 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
                     <MapContainerWithDisclaimer
                         className={styles.mapContainer}
                         title={resolveToString(
-                            strings.countryThreeWNSMapTitle,
+                            strings.countryNSMapTitle,
                             { countryName: countryResponse?.society_name ?? '-' },
                         )}
                         footer={(
                             <div className={styles.legend}>
                                 <LegendItem
                                     color={COLOR_BLUE}
-                                    label={strings.reportingNationalSociety}
+                                    label={strings.countryNSReportingNationalSociety}
                                 />
                                 <LegendItem
                                     color={COLOR_RED}
-                                    label={strings.receivingCountry}
+                                    label={strings.countryNSReceivingCountry}
                                 />
                             </div>
                         )}
