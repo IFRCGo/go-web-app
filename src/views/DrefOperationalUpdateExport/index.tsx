@@ -12,6 +12,7 @@ import TextOutput, { type Props as TextOutputProps } from '#components/printable
 import Image from '#components/printable/Image';
 import Heading from '#components/printable/Heading';
 import DescriptionText from '#components/printable/DescriptionText';
+import DateOutput from '#components/DateOutput';
 
 import Link from '#components/Link';
 import NumberOutput from '#components/NumberOutput';
@@ -493,6 +494,22 @@ export function Component() {
                     <Heading level={2}>
                         {strings.currentNationalSocietyActionsHeading}
                     </Heading>
+                    <Container>
+                        {drefResponse?.ns_respond_date && (
+                            <Container
+                                heading={
+                                    drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
+                                        ? strings.nationalSocietyActionsHeading
+                                        : strings.drefFormNsResponseStarted
+                                }
+                            >
+                                <DateOutput
+                                    value={drefResponse?.ns_respond_date}
+                                    format="dd-MM-yyyy"
+                                />
+                            </Container>
+                        )}
+                    </Container>
                     {nsActionImagesDefined && (
                         <Container childrenContainerClassName={styles.nsActionsImages}>
                             {drefResponse?.photos_file?.map(
@@ -521,21 +538,6 @@ export function Component() {
                                             strongLabel
                                         />
                                     ),
-                                )}
-                            </Container>
-                            <Container>
-                                {drefResponse?.ns_respond_date && (
-                                    <Container
-                                        heading={
-                                            drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
-                                                ? strings.nationalSocietyActionsHeading
-                                                : strings.drefFormNsResponseStarted
-                                        }
-                                    >
-                                        <DescriptionText>
-                                            {drefResponse?.ns_respond_date}
-                                        </DescriptionText>
-                                    </Container>
                                 )}
                             </Container>
                         </Container>

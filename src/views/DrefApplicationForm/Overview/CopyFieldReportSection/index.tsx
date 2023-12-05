@@ -110,8 +110,9 @@ function CopyFieldReportSection(props: Props) {
                 );
             }));
 
-            const government_assistance = value?.government_requested_assistance
-                ?? fieldReportResponse.request_assistance;
+            // NOTE: default value is false initially
+            const government_assistance = fieldReportResponse.request_assistance
+                ?? value?.government_requested_assistance;
 
             const num_affected = value?.num_affected
                 ?? fieldReportResponse.num_affected
