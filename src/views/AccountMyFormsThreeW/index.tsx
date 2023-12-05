@@ -171,7 +171,7 @@ export function Component(props: Props) {
                 strings.threeWTableCountry,
                 (item) => item.project_country_detail?.name,
                 (item) => ({
-                    to: 'countryThreeWProjects',
+                    to: 'countryOngoingActivitiesThreeWProjects',
                     urlParams: { countryId: item.project_country },
                 }),
             ),
