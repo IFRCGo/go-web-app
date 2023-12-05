@@ -61,12 +61,24 @@ export async function exportDrefAllocation(exportData: ExportData) {
         extension: 'png',
     });
     const worksheet = workbook.addWorksheet(`${name} DREF Allocation`, {
+        properties: {
+            defaultRowHeight: 20,
+        },
         pageSetup: {
             paperSize: 9,
             showGridLines: false,
             fitToPage: true,
+            margins: {
+                left: 0.25,
+                right: 0.25,
+                top: 0.25,
+                bottom: 0.25,
+                header: 1,
+                footer: 1,
+            },
         },
     });
+
     const borderStyles: Partial<xlsx.Borders> = {
         top: { style: 'thin' },
         left: { style: 'thin' },
@@ -662,6 +674,10 @@ export async function exportDrefAllocation(exportData: ExportData) {
     worksheet.eachRow({ includeEmpty: false }, (row) => {
         row.eachCell({ includeEmpty: false }, (cell) => {
             cell.border = borderStyles; // eslint-disable-line no-param-reassign
+            if (!cell.font?.size) {
+                // eslint-disable-next-line no-param-reassign
+                cell.font = Object.assign(cell.font || {}, { size: 12 });
+            }
         });
     });
 
