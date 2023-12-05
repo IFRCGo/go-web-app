@@ -76,13 +76,12 @@ export function Component() {
                     withInternalPadding
                 >
                     <Link
-                        href="https://go-user-library.ifrc.org/"
+                        href="https://go-wiki.ifrc.org"
                         external
                         withLinkIcon
                     >
-                        {strings.aboutGoUserLibrary}
+                        {strings.visitGoWiki}
                     </Link>
-
                     <Link
                         href="https://ifrcgoproject.medium.com/"
                         external
@@ -98,7 +97,7 @@ export function Component() {
                         {strings.goUserAnalytics}
                     </Link>
                     <Link
-                        href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ea0TfruyRiZGhyGT3XCEnPMBxZSYqlwLLgEHx1VqeBT9Tg?e=nrpLmz"
+                        href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EWuCMne44ipEvbSHud6H38oB7mba_gaJxtwHelN909FEgg?e=uIdBu5"
                         external
                         withLinkIcon
                     >
@@ -112,11 +111,11 @@ export function Component() {
                         {strings.ifrcStrategicDirection}
                     </Link>
                     <Link
-                        href="https://go-wiki.ifrc.org"
+                        href="https://go-user-library.ifrc.org/"
                         external
                         withLinkIcon
                     >
-                        {strings.visitGoWiki}
+                        {strings.aboutGoUserLibrary}
                     </Link>
                 </Container>
                 <div />
