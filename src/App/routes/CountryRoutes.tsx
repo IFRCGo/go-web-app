@@ -453,7 +453,6 @@ export default {
     // TODO: following routes should be removed
     countryOperations,
     countriesThreeWLayout,
-    countryThreeWProjects,
     countryThreeWNationalSocietyProjects,
     countryThreeWIndex,
     countryPreparedness,
