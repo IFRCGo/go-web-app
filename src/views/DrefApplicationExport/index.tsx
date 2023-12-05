@@ -1,5 +1,4 @@
-import { Fragment, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Fragment, useState } from 'react'; import { useParams } from 'react-router-dom';
 import {
     _cs,
     isDefined,
@@ -13,6 +12,7 @@ import Image from '#components/printable/Image';
 import Heading from '#components/printable/Heading';
 import DescriptionText from '#components/printable/DescriptionText';
 import Link from '#components/Link';
+import DateOutput from '#components/DateOutput';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import {
@@ -399,9 +399,10 @@ export function Component() {
                         heading={drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT
                             && strings.dateWhenTheTriggerWasMetHeading}
                     >
-                        <DescriptionText>
-                            {drefResponse?.event_date}
-                        </DescriptionText>
+                        <DateOutput
+                            value={drefResponse?.event_date}
+                            format="dd-MM-yyyy"
+                        />
                     </Container>
                     {eventDescriptionDefined && (
                         <Container
@@ -510,11 +511,27 @@ export function Component() {
                 </Container>
             )}
             {showNsAction && (
-                <Container>
+                <Container
+                    heading={strings.currentNationalSocietyActionsHeading}
+                    childrenContainerClassName={styles.nsActionContainer}
+                    headingLevel={2}
+                >
                     <Container
-                        heading={strings.currentNationalSocietyActionsHeading}
+                        heading={
+                            drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
+                                ? strings.nationalSocietyActionsHeading
+                                : strings.drefFormNsResponseStarted
+                        }
+                    >
+                        {drefResponse?.ns_respond_date && (
+                            <DateOutput
+                                value={drefResponse?.ns_respond_date}
+                                format="dd-MM-yyyy"
+                            />
+                        )}
+                    </Container>
+                    <Container
                         childrenContainerClassName={styles.nsActionsContent}
-                        headingLevel={2}
                     >
                         {drefResponse?.national_society_actions?.map(
                             (nsAction) => (
@@ -526,21 +543,6 @@ export function Component() {
                                     strongLabel
                                 />
                             ),
-                        )}
-                    </Container>
-                    <Container>
-                        {drefResponse?.ns_respond_date && (
-                            <Container
-                                heading={
-                                    drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
-                                        ? strings.nationalSocietyActionsHeading
-                                        : strings.drefFormNsResponseStarted
-                                }
-                            >
-                                <DescriptionText>
-                                    {drefResponse?.ns_respond_date}
-                                </DescriptionText>
-                            </Container>
                         )}
                     </Container>
                 </Container>
