@@ -42,7 +42,6 @@ import {
     stringTitleSelector,
 } from '#utils/selectors';
 
-import Filters, { type FilterValue } from '#views/EmergencyActivities/Filters';
 import useEmergencyProjectStats, {
     getPeopleReached,
 } from '#views/EmergencyActivities/useEmergencyProjectStats';
@@ -52,6 +51,7 @@ import ActivityActions, {
 } from '#views/EmergencyActivities/ActivityActions';
 
 import ResponseActivitiesMap from './ResponseActivitiesMap';
+import Filters, { type FilterValue } from './Filters';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -131,6 +131,7 @@ function getAggregatedValues(values: { title: string, count: number }[]) {
 export function Component() {
     const { countryId, countryResponse } = useOutletContext<CountryOutletContext>();
     const strings = useTranslation(i18n);
+    const alert = useAlert();
 
     const {
         rawFilter,
@@ -147,7 +148,6 @@ export function Component() {
             deployed_eru: [],
             sector: [],
             status: [],
-            country: [],
             districts: [],
         },
         pageSize: ITEM_PER_PAGE,
@@ -165,7 +165,6 @@ export function Component() {
             limit: 9999,
         } : undefined,
     });
-    const alert = useAlert();
 
     const [
         pendingExport,
@@ -321,6 +320,7 @@ export function Component() {
             strings.emergencyProjectPeopleReached,
         ],
     );
+
     const noActivitiesBySector = (isNotDefined(sectorGroupedEmergencyProjectList)
         || (isDefined(sectorGroupedEmergencyProjectList)
             && (sectorGroupedEmergencyProjectList.length < 1)));
@@ -408,10 +408,12 @@ export function Component() {
                 childrenContainerClassName={styles.content}
                 heading={strings.responseActivities}
                 withHeaderBorder
+                withGridViewInFilter
                 filters={(
                     <Filters
                         value={rawFilter}
                         onChange={setFilters}
+                        countryId={countryId}
                     />
                 )}
                 actions={(

@@ -1,0 +1,11 @@
+{
+    "namespace": "countryOngoingActivitiesThreeWActivitiesFilter",
+    "strings": {
+        "countryThreeWActivityFilterReportingNs": "National Society",
+        "countryThreeWActivityFilterEru": "ERU",
+        "countryThreeWActivityFilterSector": "Sector",
+        "countryThreeWActivityFilterStatus": "Status",
+        "countryThreeWActivityFilterCountry": "Country",
+        "countryThreeWActivityFilterDistrict": "Region/Province"
+    }
+}
