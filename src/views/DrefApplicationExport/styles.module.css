@@ -90,6 +90,7 @@
         .lessons-learned {
             grid-column: span 2;
             background-color: var(--pdf-element-bg);
+
             padding: var(--go-ui-spacing-sm);
             gap: var(--go-ui-spacing-sm);
         }
@@ -216,6 +217,11 @@
         .contact-person-label {
             color: var(--go-ui-color-primary-red);
         }
+    }
+
+    .ns-actions-container {
+        display: grid;
+        grid-gap: var(--go-ui-width-separator-md);
     }
 }
 
