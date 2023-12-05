@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 import {
     isDefined,
     isNotDefined,
@@ -9,6 +9,8 @@ import {
 import {
     useOutletContext,
 } from 'react-router-dom';
+import Papa from 'papaparse';
+import { saveAs } from 'file-saver';
 import { AddFillIcon } from '@ifrc-go/icons';
 
 import BlockLoading from '#components/BlockLoading';
@@ -16,6 +18,7 @@ import Container from '#components/Container';
 import ExpandableContainer from '#components/ExpandableContainer';
 import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
+import ExportButton from '#components/domain/ExportButton';
 import Message from '#components/Message';
 import PieChart from '#components/PieChart';
 import Table from '#components/Table';
@@ -28,6 +31,8 @@ import {
 import ProjectActions, { Props as ProjectActionsProps } from '#components/domain/ProjectActions';
 import useTranslation from '#hooks/useTranslation';
 import useFilterState from '#hooks/useFilterState';
+import useAlert from '#hooks/useAlert';
+import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import { PROJECT_STATUS_ONGOING } from '#utils/constants';
 import {
     resolveToString,
@@ -42,7 +47,7 @@ import {
     stringLabelSelector,
 } from '#utils/selectors';
 
-import Filter, { FilterValue } from '../CountryThreeWNationalSocietyProjects/Filters';
+import Filter, { FilterValue } from './Filters';
 import Map from './Map';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -89,6 +94,7 @@ function filterProjects(projectList: Project[], filters: Partial<Record<ProjectK
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
+    const alert = useAlert();
 
     const {
         countryResponse,
@@ -259,6 +265,44 @@ export function Component() {
 
     const countryIdList = Object.keys(countryGroupedProjects);
 
+    const [
+        pendingExport,
+        progress,
+        triggerExportStart,
+    ] = useRecursiveCsvExport({
+        onFailure: () => {
+            alert.show(
+                strings.nSFailedToCreateExport,
+                { variant: 'danger' },
+            );
+        },
+        onSuccess: (data) => {
+            const unparseData = Papa.unparse(data);
+            const blob = new Blob(
+                [unparseData],
+                { type: 'text/csv' },
+            );
+            saveAs(blob, `${countryResponse?.name}-data-export.csv`);
+        },
+    });
+
+    const handleExportClick = useCallback(() => {
+        if (!projectListResponse?.count) {
+            return;
+        }
+        triggerExportStart(
+            '/api/v2/project/',
+            projectListResponse?.count,
+            {
+                reporting_ns: isDefined(countryResponse) ? [countryResponse.id] : undefined,
+            },
+        );
+    }, [
+        countryResponse,
+        triggerExportStart,
+        projectListResponse?.count,
+    ]);
+
     const showCard1 = countryCountWithNSProjects > 0 || targetedPopulation > 0;
     const showCard2 = filteredProjectList.length > 0 || programmeTypeStats.length > 0;
     const showCard3 = ongoingProjectBudget > 0 || projectStatusTypeStats.length > 0;
@@ -370,6 +414,14 @@ export function Component() {
                     <Filter
                         value={rawFilter}
                         onChange={setFilterField}
+                    />
+                )}
+                actions={(
+                    <ExportButton
+                        onClick={handleExportClick}
+                        progress={progress}
+                        pendingExport={pendingExport}
+                        totalCount={projectListResponse?.count}
                     />
                 )}
             >
