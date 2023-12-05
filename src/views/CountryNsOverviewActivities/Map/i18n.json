@@ -1,8 +1,9 @@
 {
-    "namespace": "countryThreeWNationalSocietyProjects",
+    "oldNamespace": "countryThreeWNationalSocietyProjects",
+    "namespace": "countryNsOverviewActivities",
     "strings": {
-        "reportingNationalSociety": "Reporting NS",
-        "receivingCountry": "Receiving Country",
-        "countryThreeWNSMapTitle": "{countryName} Projects"
+        "countryNSReportingNationalSociety": "Reporting NS",
+        "countryNSReceivingCountry": "Receiving Country",
+        "countryNSMapTitle": "{countryName} Projects"
     }
 }

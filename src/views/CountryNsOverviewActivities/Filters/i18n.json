@@ -1,11 +1,12 @@
 {
-    "namespace": "countryThreeWNationalSocietyProjects",
+    "oldNamespace": "countryThreeWNationalSocietyProjects",
+    "namespace": "countryNsOverviewActivities",
     "strings": {
-        "threeWFilterReportingNs": "Receiving Countries",
-        "threeWFilterProgrammeTypes": "Programme Types",
-        "threeWFilterSectors": "Sectors",
-        "threeWFilterTags": "Tags",
-        "threeWFilterProvinces": "Provinces",
-        "threeWFilterOperationTypes": "Project Types"
+        "nSFilterReportingNs": "Receiving Countries",
+        "nSFilterProgrammeTypes": "Programme Types",
+        "nSFilterSectors": "Sectors",
+        "nSFilterTags": "Tags",
+        "nSFilterProvinces": "Provinces",
+        "nSFilterOperationTypes": "Project Types"
     }
 }
