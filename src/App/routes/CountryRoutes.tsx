@@ -385,19 +385,6 @@ const countryThreeWIndex = customWrapRoute({
     },
 });
 
-const countryThreeWNationalSocietyProjects = customWrapRoute({
-    parent: countriesThreeWLayout,
-    path: 'ns-projects',
-    component: {
-        render: () => import('#views/CountryThreeWNationalSocietyProjects'),
-        props: {},
-    },
-    context: {
-        title: 'Country 3W National Society Projects',
-        visibility: 'anything',
-    },
-});
-
 const countryPreparedness = customWrapRoute({
     parent: countriesLayout,
     path: 'preparedness',
@@ -453,7 +440,6 @@ export default {
     // TODO: following routes should be removed
     countryOperations,
     countriesThreeWLayout,
-    countryThreeWNationalSocietyProjects,
     countryThreeWIndex,
     countryPreparedness,
 };
