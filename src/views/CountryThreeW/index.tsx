@@ -51,15 +51,6 @@ export function Component() {
         >
             <NavigationTabList variant="secondary">
                 <NavigationTab
-                    to="countryThreeWProjects"
-                    urlParams={{ countryId }}
-                >
-                    {resolveToString(
-                        strings.countryThreeWProjectsTab,
-                        { countryName: countryResponse?.name ?? '-' },
-                    )}
-                </NavigationTab>
-                <NavigationTab
                     to="countryThreeWNationalSocietyProjects"
                     urlParams={{ countryId }}
                 >
