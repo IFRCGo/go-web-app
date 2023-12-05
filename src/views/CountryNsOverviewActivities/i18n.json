@@ -1,6 +1,28 @@
 {
     "namespace": "countryNsOverviewActivities",
     "strings": {
-        "pageTitle": "Country NS Activities"
+        "countriesNSWork": "Countries where International work is ongoing",
+        "nSTargetedPopulationTitle": "Targeted Population",
+        "nSTotalProjectsTitle": "Total Projects",
+        "nSFundingRequirementsTitle": "Funding Requirements (CHF)",
+        "nsInternationalWorkTitle": "NS International Work",
+        "nSAllProjects": "All Projects",
+        "nSProjectByCountryTitle": "Projects By Country",
+        "nSCountryProjects": "{countryName} ({numProjects} Projects)",
+        "nSTableCountries": "Countries",
+        "nSStartDate": "Start-End Dates",
+        "nSTableProjectName": "Project Name",
+        "nSTableSector": "Project Sector",
+        "nSTableTotalBudget": "Total Budget",
+        "nSTableDisasterType": "Disaster Type",
+        "nSTablePeopleTargeted": "People Targeted",
+        "nSTablePeopleReached": "People Reached",
+        "nsInternationalWorkHeading": "NS International Work ({count})",
+        "nSProgrammeType": "Programme Type",
+        "nSContactPerson": "Contact Person",
+        "nSProjectStatus": "Project Status",
+        "nSProjectDataNotAvailable": "Data not available!",
+        "addNSActivity": "Add NS Activity",
+        "nSActivityDescription": "The following data displays the International activities of the National Society which includes emergency or non-emergency related projects and programmes. The displayed data is based on reporting and may not be fully indicative of all the activities."
     }
 }
