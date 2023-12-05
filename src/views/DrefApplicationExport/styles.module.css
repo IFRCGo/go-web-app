@@ -218,10 +218,4 @@
             color: var(--go-ui-color-primary-red);
         }
     }
-
-    .ns-actions-container {
-        display: grid;
-        grid-gap: var(--go-ui-width-separator-md);
-    }
 }
-
