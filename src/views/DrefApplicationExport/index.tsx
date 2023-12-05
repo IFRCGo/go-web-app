@@ -1,4 +1,5 @@
-import { Fragment, useState } from 'react'; import { useParams } from 'react-router-dom';
+import { Fragment, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import {
     _cs,
     isDefined,
@@ -395,15 +396,17 @@ export function Component() {
                             />
                         </Container>
                     )}
-                    <Container
-                        heading={drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT
-                            && strings.dateWhenTheTriggerWasMetHeading}
-                    >
-                        <DateOutput
-                            value={drefResponse?.event_date}
-                            format="dd-MM-yyyy"
-                        />
-                    </Container>
+                    {isDefined(drefResponse?.end_date) && (
+                        <Container
+                            heading={drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT
+                                && strings.dateWhenTheTriggerWasMetHeading}
+                        >
+                            <DateOutput
+                                value={drefResponse?.event_date}
+                                format="dd-MM-yyyy"
+                            />
+                        </Container>
+                    )}
                     {eventDescriptionDefined && (
                         <Container
                             heading={drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
@@ -511,25 +514,24 @@ export function Component() {
                 </Container>
             )}
             {showNsAction && (
-                <Container
-                    heading={strings.currentNationalSocietyActionsHeading}
-                    childrenContainerClassName={styles.nsActionContainer}
-                    headingLevel={2}
-                >
-                    <Container
-                        heading={
-                            drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
-                                ? strings.nationalSocietyActionsHeading
-                                : strings.drefFormNsResponseStarted
-                        }
-                    >
-                        {drefResponse?.ns_respond_date && (
+                <>
+                    <Heading level={2}>
+                        {strings.currentNationalSocietyActionsHeading}
+                    </Heading>
+                    {drefResponse?.ns_respond_date && (
+                        <Container
+                            heading={
+                                drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
+                                    ? strings.nationalSocietyActionsHeading
+                                    : strings.drefFormNsResponseStarted
+                            }
+                        >
                             <DateOutput
                                 value={drefResponse?.ns_respond_date}
                                 format="dd-MM-yyyy"
                             />
-                        )}
-                    </Container>
+                        </Container>
+                    )}
                     <Container
                         childrenContainerClassName={styles.nsActionsContent}
                     >
@@ -545,7 +547,7 @@ export function Component() {
                             ),
                         )}
                     </Container>
-                </Container>
+                </>
             )}
             {showMovementPartnersActionsSection && (
                 <Container
