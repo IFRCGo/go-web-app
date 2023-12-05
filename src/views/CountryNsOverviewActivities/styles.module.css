@@ -1,0 +1,108 @@
+.country-threeW-national-society-projects {
+    display: flex;
+    flex-direction: column;
+    padding: var(--go-ui-spacing-2xl) 0;
+    gap: var(--go-ui-spacing-2xl);
+
+    .ns-activity-description {
+        display: flex;
+
+        .description {
+            text-align: center;
+        }
+
+        .start-dummy-content,
+        .end-dummy-content {
+            align-self: flex-end;
+            flex-grow: 1;
+            width: 12%;
+        }
+
+        .add-ns-activity {
+            display: flex;
+            flex-shrink: 0;
+        }
+    }
+
+    .key-figure-card-list {
+        display: grid;
+        grid-gap: var(--go-ui-spacing-md);
+        grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+
+        @media screen and (max-width: 30rem) {
+            grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+        }
+
+        .key-figure-card {
+            display: flex;
+            gap: var(--go-ui-spacing-md);
+            border-radius: var(--go-ui-border-radius-lg);
+            box-shadow: var(--go-ui-box-shadow-md);
+            background-color: var(--go-ui-color-white);
+            padding: var(--go-ui-spacing-md);
+
+            .separator {
+                flex-shrink: 0;
+                border-left: var(--go-ui-width-separator-sm) solid var(--go-ui-color-separator);
+            }
+
+            .pie-chart-container {
+                flex-basis: 0;
+                flex-grow: 1;
+
+                .pie-chart {
+                    flex-wrap: wrap;
+                    justify-content: center;
+                }
+            }
+
+            .key-figure {
+                flex-basis: 0;
+                flex-grow: 1;
+                padding: 0;
+
+                .key-figure-description {
+                    font-size: var(--go-ui-font-size-sm);
+                }
+            }
+        }
+    }
+
+    .ongoing-projects {
+        overflow: auto;
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-xl);
+        }
+
+        .sidebar {
+            height: 100%;
+            overflow: auto;
+
+            .sidebar-content {
+                overflow: auto;
+
+                .projects-in-country {
+                    display: flex;
+                    flex-direction: column;
+                    gap: var(--go-ui-spacing-sm);
+
+                    .project-in-country-item {
+                        display: flex;
+
+                        .name {
+                            flex-grow: 1;
+                        }
+
+                        .action {
+                            flex-shrink: 0;
+                            font-size: var(--go-ui-height-icon-multiplier);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
