@@ -1,132 +1,126 @@
+import { useOutletContext } from 'react-router-dom';
 import {
-    useCallback,
-    useState,
-    useEffect,
-    useRef,
-} from 'react';
+    DrefIcon,
+    AppealsIcon,
+    FundingIcon,
+    FundingCoverageIcon,
+    TargetedPopulationIcon,
+} from '@ifrc-go/icons';
 import {
-    _cs,
     isDefined,
     isNotDefined,
 } from '@togglecorp/fujs';
-import { useParams, useOutletContext } from 'react-router-dom';
 import getBbox from '@turf/bbox';
-import {
-    CloseLineIcon,
-} from '@ifrc-go/icons';
 
-import AppealsTable from '#components/domain/AppealsTable';
+import BlockLoading from '#components/BlockLoading';
+import InfoPopup from '#components/InfoPopup';
+import HighlightedOperations from '#components/domain/HighlightedOperations';
 import ActiveOperationMap from '#components/domain/ActiveOperationMap';
-import Container from '#components/Container';
-import IconButton from '#components/IconButton';
+import KeyFigure from '#components/KeyFigure';
 import useTranslation from '#hooks/useTranslation';
-import { CountryOutletContext } from '#utils/outletContext';
+import { type CountryOutletContext } from '#utils/outletContext';
+import { getPercentage } from '#utils/common';
 import { useRequest } from '#utils/restRequest';
-import type { GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type District = NonNullable<GoApiResponse<'/api/v2/district/'>['results']>[number];
-const emptyDistrictList: District[] = [];
-
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-    const { countryId } = useParams<{ countryId: string }>();
-    const { countryResponse } = useOutletContext<CountryOutletContext>();
-
-    const bbox = countryResponse ? getBbox(countryResponse.bbox) : undefined;
-
-    const [
-        presentationMode,
-        setFullScreenMode,
-    ] = useState(false);
-
-    const containerRef = useRef<HTMLDivElement>(null);
 
     const {
-        response: districtListResponse,
+        countryId,
+        countryResponse,
+    } = useOutletContext<CountryOutletContext>();
+
+    const {
+        pending: aggregatedAppealPending,
+        response: aggregatedAppealResponse,
     } = useRequest({
-        skip: isNotDefined(countryResponse?.id),
-        url: '/api/v2/district/',
-        query: {
-            country: countryResponse?.id,
-            limit: 9999,
-        },
+        skip: isNotDefined(countryId),
+        url: '/api/v2/appeal/aggregated',
+        query: { country: Number(countryId) },
     });
 
-    const districtList = districtListResponse?.results ?? emptyDistrictList;
-
-    const handleFullScreenChange = useCallback(() => {
-        setFullScreenMode(isDefined(document.fullscreenElement));
-    }, [setFullScreenMode]);
-
-    const handleFullScreenToggleClick = useCallback(() => {
-        if (isNotDefined(containerRef.current)) {
-            return;
-        }
-        const { current: viewerContainer } = containerRef;
-        if (!presentationMode && isDefined(viewerContainer?.requestFullscreen)) {
-            viewerContainer?.requestFullscreen();
-        } else if (presentationMode && isDefined(document.exitFullscreen)) {
-            document.exitFullscreen();
-        }
-    }, [presentationMode]);
-
-    useEffect(() => {
-        document.addEventListener('fullscreenchange', handleFullScreenChange);
-
-        return (() => {
-            document.removeEventListener('fullscreenchange', handleFullScreenChange);
-        });
-    }, [handleFullScreenChange]);
+    const bbox = isDefined(countryResponse) ? getBbox(countryResponse.bbox) : undefined;
 
     return (
-        <div className={styles.countryOperations}>
-            <ActiveOperationMap
-                variant="country"
-                onPresentationModeButtonClick={handleFullScreenToggleClick}
-                countryId={Number(countryId)}
-                districtList={districtList}
-                bbox={bbox}
-            />
-            <AppealsTable
-                variant="country"
-                countryId={Number(countryId)}
-                districtList={districtList}
-            />
-            <div
-                className={_cs(presentationMode && styles.presentationMode)}
-                ref={containerRef}
-            >
-                {presentationMode && (
-                    <Container
-                        heading={strings.fullScreenHeading}
-                        actions={(
-                            <IconButton
-                                name={undefined}
-                                onClick={handleFullScreenToggleClick}
-                                title={strings.countryCloseButton}
-                                variant="secondary"
-                                ariaLabel={strings.countryCloseButton}
-                            >
-                                <CloseLineIcon />
-                            </IconButton>
-                        )}
-                        headerDescriptionContainerClassName={styles.keyFigureList}
-                    >
-                        <ActiveOperationMap
-                            variant="country"
-                            onPresentationModeButtonClick={handleFullScreenToggleClick}
-                            countryId={Number(countryId)}
-                            districtList={districtList}
-                            bbox={bbox}
-                            presentationMode
-                        />
-                    </Container>
-                )}
+        <div
+            className={styles.countryOngoingActivitiesEmergencies}
+        >
+            {aggregatedAppealPending && <BlockLoading />}
+            <div>
+                {strings.countryOngoingActivitiesEmergenciesDescription}
             </div>
+            {!aggregatedAppealPending && aggregatedAppealResponse && (
+                <div className={styles.keyFigureList}>
+                    <KeyFigure
+                        icon={<DrefIcon />}
+                        className={styles.keyFigure}
+                        value={aggregatedAppealResponse.active_drefs}
+                        info={(
+                            <InfoPopup
+                                title={strings.countryOngoingActivitiesKeyFiguresDrefTitle}
+                                description={strings.countryOngoingActivitiesKeyFiguresDref}
+                            />
+                        )}
+                        label={strings.countryOngoingActivitiesDREFOperations}
+                    />
+                    <KeyFigure
+                        icon={<AppealsIcon />}
+                        className={styles.keyFigure}
+                        value={aggregatedAppealResponse.active_appeals}
+                        info={(
+                            <InfoPopup
+                                title={strings.countryOngoingActivitiesKeyFiguresAppealsTitle}
+                                description={
+                                    strings.countryOngoingActivitiesFigureAppealDescription
+                                }
+                            />
+                        )}
+                        label={strings.countryOngoingActivitiesKeyFiguresActiveAppeals}
+                    />
+                    <KeyFigure
+                        icon={<TargetedPopulationIcon />}
+                        className={styles.keyFigure}
+                        value={aggregatedAppealResponse.target_population}
+                        compactValue
+                        label={strings.countryOngoingActivitiesKeyFiguresTargetPop}
+                    />
+                    <KeyFigure
+                        icon={<FundingIcon />}
+                        className={styles.keyFigure}
+                        value={aggregatedAppealResponse?.amount_requested_dref_included}
+                        compactValue
+                        label={strings.countryOngoingActivitiesKeyFiguresBudget}
+                    />
+                    <KeyFigure
+                        icon={<FundingCoverageIcon />}
+                        className={styles.keyFigure}
+                        value={getPercentage(
+                            aggregatedAppealResponse?.amount_funded,
+                            aggregatedAppealResponse?.amount_requested,
+                        )}
+                        suffix="%"
+                        compactValue
+                        label={strings.countryOngoingActivitiesKeyFiguresAppealsFunding}
+                    />
+                </div>
+            )}
+            {isDefined(countryId) && (
+                <HighlightedOperations
+                    variant="country"
+                    countryId={Number(countryId)}
+                />
+            )}
+            {isDefined(countryId) && (
+                <ActiveOperationMap
+                    variant="country"
+                    countryId={Number(countryId)}
+                    bbox={bbox}
+                />
+            )}
         </div>
     );
 }

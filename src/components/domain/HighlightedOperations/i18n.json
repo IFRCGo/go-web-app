@@ -2,7 +2,9 @@
     "namespace": "common",
     "strings": {
         "highlightedOperationsTitle": "Highlighted Operations",
+        "highlightedOperationsCountryTitle": "Emergencies in last 30 days",
         "highlightedOperationsViewAllInRegion":"View all Emergencies in this Region",
+        "highlightedOperationsViewAllInCountry":"View all Emergencies in this Country",
         "highlightedOperationsViewAll":"View all Emergencies"
     }
 }
