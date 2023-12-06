@@ -1,11 +1,18 @@
-import { useMemo } from 'react';
-import { _cs } from '@togglecorp/fujs';
+import { useMemo, useCallback } from 'react';
+import { _cs, isDefined } from '@togglecorp/fujs';
+import { CloseLineIcon } from '@ifrc-go/icons';
 
-import { useRequest } from '#utils/restRequest';
-import type { GoApiResponse, GoApiUrlQuery } from '#utils/restRequest';
-import Table from '#components/Table';
-import SelectInput from '#components/SelectInput';
+import Button from '#components/Button';
 import Container from '#components/Container';
+import DateInput from '#components/DateInput';
+import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
+import MultiSelectInput from '#components/MultiSelectInput';
+import Pager from '#components/Pager';
+import SelectInput from '#components/SelectInput';
+import Table from '#components/Table';
+import useFilterState from '#hooks/useFilterState';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import useTranslation from '#hooks/useTranslation';
 import {
     createStringColumn,
     createNumberColumn,
@@ -14,13 +21,13 @@ import {
     createProgressColumn,
 } from '#components/Table/ColumnShortcuts';
 import { SortContext } from '#components/Table/useSorting';
-import Pager from '#components/Pager';
-import DateInput from '#components/DateInput';
-import useTranslation from '#hooks/useTranslation';
-import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
-import useFilterState from '#hooks/useFilterState';
-import { getPercentage } from '#utils/common';
+import { useRequest } from '#utils/restRequest';
+import type { GoApiResponse, GoApiUrlQuery } from '#utils/restRequest';
+import { hasSomeDefinedValue, getPercentage } from '#utils/common';
+import {
+    numericIdSelector,
+    stringNameSelector,
+} from '#utils/selectors';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -31,6 +38,7 @@ type AppealListItem = NonNullable<AppealResponse['results']>[number];
 
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type AppealTypeOption = NonNullable<GlobalEnumsResponse['api_appeal_type']>[number];
+type DistrictListItem = NonNullable<GoApiResponse<'/api/v2/district/'>['results']>[number];
 
 const appealKeySelector = (option: AppealListItem) => option.id;
 const appealTypeKeySelector = (option: AppealTypeOption) => option.key;
@@ -39,6 +47,11 @@ const appealTypeLabelSelector = (option: AppealTypeOption) => option.value;
 const now = new Date().toISOString();
 type BaseProps = {
     className?: string;
+}
+type CountryProps = {
+    variant: 'country';
+    countryId: number;
+    districtList: DistrictListItem[];
 }
 
 type RegionProps = {
@@ -50,7 +63,7 @@ type GlobalProps = {
     variant: 'global';
 }
 
-type Props = BaseProps & (RegionProps | GlobalProps);
+type Props = BaseProps & (RegionProps | GlobalProps | CountryProps);
 
 function AppealsTable(props: Props) {
     const {
@@ -59,18 +72,20 @@ function AppealsTable(props: Props) {
     } = props;
 
     const {
-        sortState,
-        ordering,
-        page,
-        setPage,
         filter,
-        rawFilter,
         filtered,
-        setFilterField,
         limit,
         offset,
+        ordering,
+        page,
+        rawFilter,
+        setFilter,
+        setFilterField,
+        setPage,
+        sortState,
     } = useFilterState<{
         appeal?: AppealTypeOption['key'],
+        district?: number[],
         displacement?: number,
         startDateAfter?: string,
         startDateBefore?: string,
@@ -81,9 +96,17 @@ function AppealsTable(props: Props) {
 
     const strings = useTranslation(i18n);
     const { api_appeal_type: appealTypeOptions } = useGlobalEnums();
-    //
+
+    const handleClearFiltersButtonclick = useCallback(() => {
+        setFilter({});
+    }, [setFilter]);
+
     // eslint-disable-next-line react/destructuring-assignment
     const regionId = variant === 'region' ? props.regionId : undefined;
+    // eslint-disable-next-line react/destructuring-assignment
+    const countryId = variant === 'country' ? props.countryId : undefined;
+    // eslint-disable-next-line react/destructuring-assignment
+    const districtList = variant === 'country' ? props.districtList : undefined;
 
     const columns = useMemo(
         () => ([
@@ -158,8 +181,19 @@ function AppealsTable(props: Props) {
                     urlParams: { countryId: item.country.id },
                 }),
             ),
-        ]),
+            variant !== 'country'
+                ? createLinkColumn<AppealListItem, string>(
+                    'country',
+                    strings.appealsTableCountry,
+                    (item) => item.country.name,
+                    (item) => ({
+                        to: 'countriesLayout',
+                        urlParams: { countryId: item.country.id },
+                    }),
+                ) : undefined,
+        ].filter(isDefined)),
         [
+            variant,
             strings.appealsTableStartDate,
             strings.appealsTableType,
             strings.appealsTableCode,
@@ -179,6 +213,7 @@ function AppealsTable(props: Props) {
                 ordering,
                 atype: filter.appeal,
                 dtype: filter.displacement,
+                district: hasSomeDefinedValue(filter.district) ? filter.district : undefined,
                 end_date__gt: now,
                 start_date__gte: filter.startDateAfter,
                 start_date__lte: filter.startDateBefore,
@@ -190,17 +225,16 @@ function AppealsTable(props: Props) {
 
             return {
                 ...baseQuery,
-                region: regionId,
+                country: countryId ? [countryId] : undefined,
+                region: regionId ? [regionId] : undefined,
             };
         },
         [
             variant,
+            countryId,
             regionId,
             ordering,
-            filter.appeal,
-            filter.displacement,
-            filter.startDateAfter,
-            filter.startDateBefore,
+            filter,
             limit,
             offset,
         ],
@@ -218,6 +252,8 @@ function AppealsTable(props: Props) {
     return (
         <Container
             className={_cs(styles.appealsTable, className)}
+            filtersContainerClassName={styles.filters}
+            childrenContainerClassName={styles.content}
             filters={(
                 <>
                     <DateInput
@@ -232,6 +268,18 @@ function AppealsTable(props: Props) {
                         onChange={setFilterField}
                         value={rawFilter.startDateBefore}
                     />
+                    {variant === 'country' && (
+                        <MultiSelectInput
+                            name="district"
+                            placeholder={strings.appealsTableFilterDistrictPlaceholder}
+                            label={strings.appealsTableProvinces}
+                            options={districtList}
+                            value={rawFilter.district}
+                            keySelector={numericIdSelector}
+                            labelSelector={stringNameSelector}
+                            onChange={setFilterField}
+                        />
+                    )}
                     <SelectInput
                         placeholder={strings.appealsTableFilterTypePlaceholder}
                         label={strings.appealsTableType}
@@ -249,9 +297,19 @@ function AppealsTable(props: Props) {
                         value={rawFilter.displacement}
                         onChange={setFilterField}
                     />
+                    <div className={styles.clearButton}>
+                        <Button
+                            name={undefined}
+                            icons={<CloseLineIcon />}
+                            onClick={handleClearFiltersButtonclick}
+                            variant="tertiary"
+                            disabled={!filtered}
+                        >
+                            {strings.appealsTableClearFilters}
+                        </Button>
+                    </div>
                 </>
             )}
-            withGridViewInFilter
             footerActions={(
                 <Pager
                     activePage={page}
