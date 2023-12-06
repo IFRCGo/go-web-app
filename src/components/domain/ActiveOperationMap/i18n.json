@@ -5,6 +5,7 @@
         "presentationModeButton":"Presentation Mode",
         "operationMapViewAll":"View all Operations",
         "operationMapViewAllInRegion":"View all Operations in this Region",
+        "operationMapViewAllInCountry": "View all Operations in this Country",
         "operationPopoverPeopleAffected":"People Targeted",
         "operationPopoverAmountRequested":"Amount Requested (CHF)",
         "operationPopoverAmountFunded":"Amount Funded (CHF)",
