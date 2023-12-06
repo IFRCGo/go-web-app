@@ -43,12 +43,12 @@ function useRouting() {
 
     const goBack = useCallback(
         (
-            fallbackPath: keyof WrappedRoutes,
-            options?: {
+            fallbackPath: keyof WrappedRoutes = 'home',
+            options: {
                 params?: UrlParams,
                 search?: string,
                 hash?: string,
-            },
+            } = {},
         ) => {
             if (historyEntryExist) {
                 navigateFromLib(-1);

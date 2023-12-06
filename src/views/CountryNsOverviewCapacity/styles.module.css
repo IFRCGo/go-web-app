@@ -4,6 +4,10 @@
     gap: var(--go-ui-spacing-2xl);
     padding: var(--go-ui-spacing-2xl) 0;
 
+    .empty-message {
+        grid-column: -1 / 1;
+    }
+
     .per-cycle-item {
         border-radius: var(--go-ui-box-shadow-lg);
         box-shadow: var(--go-ui-box-shadow-md);

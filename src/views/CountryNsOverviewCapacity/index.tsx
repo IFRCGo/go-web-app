@@ -55,6 +55,7 @@ export function Component() {
             >
                 {!hasPer && (
                     <Message
+                        className={styles.emptyMessage}
                         // TODO: add appropriate message
                         title="Data not available!"
                     />
@@ -78,7 +79,10 @@ export function Component() {
                             actions={(
                                 <Link
                                     to="countryPreparedness"
-                                    urlParams={{ countryId }}
+                                    urlParams={{
+                                        countryId,
+                                        perId: perProcess.id,
+                                    }}
                                     variant="secondary"
                                 >
                                     View
