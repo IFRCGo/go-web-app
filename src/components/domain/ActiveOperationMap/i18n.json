@@ -29,6 +29,7 @@
         "explanationBubbleDeployments":"Deployments",
         "downloadMapTitle": "Ongoing operations",
         "operationMapProvinces": "Provinces",
-        "clearFilters": "Clear Filters"
+        "operationMapClearFilters": "Clear Filters",
+        "operationFilterDistrictPlaceholder": "All Provinces"
     }
 }
