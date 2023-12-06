@@ -131,5 +131,3 @@ export function Component() {
         </div>
     );
 }
-
-Component.displayName = 'CountryOngoingActivitiesEmergencies';
