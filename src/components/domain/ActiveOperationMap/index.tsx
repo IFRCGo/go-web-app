@@ -316,6 +316,31 @@ function ActiveOperationMap(props: Props) {
         [countryResponse, countryGroupedAppeal],
     );
 
+    const allAppealsType = useMemo(() => {
+        if (isDefined(countryId)) {
+            return {
+                searchParam: `country=${countryId}`,
+                title: strings.operationMapViewAllInCountry,
+            };
+        }
+        if (isDefined(regionId)) {
+            return {
+                searchParam: `region=${regionId}`,
+                title: strings.operationMapViewAllInRegion,
+            };
+        }
+        return {
+            searchParam: undefined,
+            title: strings.operationMapViewAll,
+        };
+    }, [
+        countryId,
+        regionId,
+        strings.operationMapViewAllInCountry,
+        strings.operationMapViewAllInRegion,
+        strings.operationMapViewAll,
+    ]);
+
     const heading = resolveToComponent(
         strings.activeOperationsTitle,
         { numAppeals: appealResponse?.count ?? '--' },
@@ -412,13 +437,11 @@ function ActiveOperationMap(props: Props) {
             actions={!presentationMode && (
                 <Link
                     to="allAppeals"
-                    urlSearch={isDefined(regionId) ? `region=${regionId}` : undefined}
+                    urlSearch={allAppealsType.searchParam}
                     withLinkIcon
                     withUnderline
                 >
-                    {variant === 'region'
-                        ? strings.operationMapViewAllInRegion
-                        : strings.operationMapViewAll}
+                    {allAppealsType.title}
                 </Link>
             )}
         >
