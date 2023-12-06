@@ -15,6 +15,7 @@ import {
     CloseLineIcon,
 } from '@ifrc-go/icons';
 
+import AppealsTable from '#components/domain/AppealsTable';
 import ActiveOperationMap from '#components/domain/ActiveOperationMap';
 import Container from '#components/Container';
 import IconButton from '#components/IconButton';
@@ -89,6 +90,11 @@ export function Component() {
                 countryId={Number(countryId)}
                 districtList={districtList}
                 bbox={bbox}
+            />
+            <AppealsTable
+                variant="country"
+                countryId={Number(countryId)}
+                districtList={districtList}
             />
             <div
                 className={_cs(presentationMode && styles.presentationMode)}
