@@ -23,6 +23,7 @@ import BaseMap from '#components/domain/BaseMap';
 import Button from '#components/Button';
 import Container from '#components/Container';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
+import DistrictSearchMultiSelectInput, { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import LegendItem from '#components/LegendItem';
 import Link from '#components/Link';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
@@ -63,7 +64,6 @@ import {
     APPEAL_TYPE_MULTIPLE,
 } from './utils';
 import styles from './styles.module.css';
-import DistrictSearchMultiSelectInput, { DistrictItem } from '../DistrictSearchMultiSelectInput';
 
 type AppealQueryParams = GoApiUrlQuery<'/api/v2/appeal/'>;
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
