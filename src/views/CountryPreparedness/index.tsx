@@ -1,10 +1,9 @@
-import { Fragment, useMemo } from 'react';
+import { Fragment, useCallback, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import {
-    AnalysisIcon,
     AnalyzingIcon,
+    ArrowLeftLineIcon,
     CheckboxFillIcon,
-    CloseCircleLineIcon,
 } from '@ifrc-go/icons';
 import {
     compareNumber,
@@ -36,6 +35,7 @@ import {
     stringLabelSelector,
     stringTitleSelector,
 } from '#utils/selectors';
+import useRouting from '#hooks/useRouting';
 
 import PreviousAssessmentCharts from './PreviousAssessmentChart';
 import PublicCountryPreparedness from './PublicCountryPreparedness';
@@ -59,25 +59,27 @@ function primaryRedColorShadeSelector(_: unknown, i: number) {
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-    const { countryId } = useParams<{ countryId: string }>();
+    const { perId, countryId } = useParams<{ perId: string, countryId: string }>();
+    // const { countryId } = useParams<{ countryId: string }>();
 
     const {
         pending: pendingLatestPerResponse,
         response: latestPerResponse,
-        error: latestPerResponseError,
+        // error: latestPerResponseError,
     } = useRequest({
         skip: isNotDefined(countryId),
         url: '/api/v2/latest-per-overview/',
         query: { country_id: Number(countryId) },
     });
 
-    const countryHasNoPer = latestPerResponse?.results?.length === 0;
+    // const countryHasNoPer = latestPerResponse?.results?.length === 0;
 
     // FIXME: add feature on server (low priority)
     // we get a list form the server because we are using a filter on listing api
-    const perId = latestPerResponse?.results?.[0]?.id;
+    // const perId = latestPerResponse?.results?.[0]?.id;
+
     const latestPerOverview = latestPerResponse?.results?.[0];
-    const prevAssessmentRatings = latestPerResponse?.results?.[0]?.assessment_ratings;
+    const prevAssessmentRatings = latestPerOverview?.assessment_ratings;
 
     const {
         pending: formAnswerPending,
@@ -108,9 +110,20 @@ export function Component() {
     } = useRequest({
         skip: isNotDefined(perId),
         url: '/api/v2/per-process-status/{id}/',
-        pathVariables: {
+        pathVariables: isDefined(perId) ? {
             id: Number(perId),
-        },
+        } : undefined,
+    });
+
+    const {
+        pending: overviewPending,
+        response: overviewResponse,
+    } = useRequest({
+        skip: isNotDefined(perId),
+        url: '/api/v2/per-overview/{id}/',
+        pathVariables: isDefined(perId) ? {
+            id: Number(perId),
+        } : undefined,
     });
 
     const {
@@ -337,7 +350,15 @@ export function Component() {
         [prioritizationResponse, assessmentStats],
     );
 
-    const hasPer = isDefined(latestPerResponse);
+    const { goBack } = useRouting();
+    const handleBackButtonClick = useCallback(() => {
+        goBack();
+    }, [goBack]);
+
+    const hasPer = isDefined(perId);
+    // const hasPrevAssessments = true;
+
+    // const hasPer = isDefined(latestPerResponse);
     const limitedAccess = hasPer && isNotDefined(processStatusResponse);
 
     const hasAssessmentStats = hasPer && isDefined(assessmentStats);
@@ -355,12 +376,15 @@ export function Component() {
         && perFormAreaResponse;
 
     const pending = formAnswerPending
+        || pendingLatestPerResponse
         || perOptionsPending
         || perFormAreaPending
         || perProcessStatusPending
+        || overviewPending
         || assessmentResponsePending
         || prioritizationResponsePending;
 
+    /*
     if (pendingLatestPerResponse) {
         return (
             <Message
@@ -393,6 +417,7 @@ export function Component() {
             />
         );
     }
+    */
 
     return (
         <Container
@@ -409,11 +434,21 @@ export function Component() {
                     strongValue
                 />
             )}
+            icons={(
+                <Button
+                    name={undefined}
+                    onClick={handleBackButtonClick}
+                    variant="tertiary"
+                    title={strings.goBackButtonTitle}
+                >
+                    <ArrowLeftLineIcon className={styles.backIcon} />
+                </Button>
+            )}
         >
             <div className={styles.latestPerDetails}>
                 <TextOutput
                     label={strings.startDateLabel}
-                    value={latestPerOverview?.date_of_assessment}
+                    value={overviewResponse?.date_of_assessment}
                     valueType="date"
                     strongValue
                 />
@@ -424,23 +459,23 @@ export function Component() {
                 />
                 <TextOutput
                     label={strings.focalPointNameLabel}
-                    value={latestPerOverview?.ns_focal_point_name}
+                    value={overviewResponse?.ns_focal_point_name}
                     strongValue
                 />
                 <TextOutput
                     label={strings.perCycleLabel}
-                    value={latestPerOverview?.assessment_number}
+                    value={overviewResponse?.assessment_number}
                     valueType="number"
                     strongValue
                 />
                 <TextOutput
                     label={strings.typeOfAssessmentLabel}
-                    value={latestPerOverview?.type_of_assessment?.name}
+                    value={overviewResponse?.type_of_assessment_details?.name}
                     strongValue
                 />
                 <TextOutput
                     label={strings.focalPointEmailTitle}
-                    value={latestPerOverview?.ns_focal_point_email}
+                    value={overviewResponse?.ns_focal_point_email}
                     strongValue
                 />
                 <div className={styles.contactContainer}>
@@ -611,9 +646,9 @@ export function Component() {
                     description={strings.componentChartNotAvailableDescription}
                 />
             )}
-            {!pending && limitedAccess && (
+            {!pending && limitedAccess && isDefined(perId) && (
                 <div className={styles.limitedAccess}>
-                    <PublicCountryPreparedness perId={perId} />
+                    <PublicCountryPreparedness perId={Number(perId)} />
                     <Message
                         title={strings.componentLimitedAccess}
                         description={strings.componentLimitedAccessDescription}
