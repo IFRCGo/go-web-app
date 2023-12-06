@@ -39,18 +39,6 @@ function VideoList() {
         },
         {
             id: 5,
-            embedId: 'https://www.youtube.com/embed/adBR-U26XZs',
-            heading: strings.videoCarouselHeadingFieldReport,
-            description: strings.videoCarouselSubHeadingFieldReport,
-        },
-        {
-            id: 6,
-            embedId: 'https://www.youtube.com/embed/JAQ_yixX57A',
-            heading: strings.videoCarouselHeadingPER,
-            description: strings.videoCarouselSubHeadingPER,
-        },
-        {
-            id: 7,
             embedId: 'https://www.youtube.com/embed/wEz70tcwWx8',
             heading: strings.videoCarouselHeadingSubscribe,
             description: strings.videoCarouselSubHeadingSubscribe,
