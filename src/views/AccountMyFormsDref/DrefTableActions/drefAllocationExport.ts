@@ -60,7 +60,7 @@ export async function exportDrefAllocation(exportData: ExportData) {
         buffer,
         extension: 'png',
     });
-    const worksheet = workbook.addWorksheet(`${name} DREF Allocation`, {
+    const worksheet = workbook.addWorksheet('DREF Allocation', {
         properties: {
             defaultRowHeight: 20,
         },
