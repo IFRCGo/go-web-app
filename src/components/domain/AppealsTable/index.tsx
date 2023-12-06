@@ -1,11 +1,11 @@
-import { useMemo, useCallback } from 'react';
+import { useMemo, useCallback, useState } from 'react';
 import { _cs, isDefined } from '@togglecorp/fujs';
 
 import Button from '#components/Button';
 import Container from '#components/Container';
 import DateInput from '#components/DateInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
-import MultiSelectInput from '#components/MultiSelectInput';
+import DistrictSearchMultiSelectInput, { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import Pager from '#components/Pager';
 import SelectInput from '#components/SelectInput';
 import Table from '#components/Table';
@@ -23,10 +23,6 @@ import { SortContext } from '#components/Table/useSorting';
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse, GoApiUrlQuery } from '#utils/restRequest';
 import { hasSomeDefinedValue, getPercentage } from '#utils/common';
-import {
-    numericIdSelector,
-    stringNameSelector,
-} from '#utils/selectors';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -37,7 +33,6 @@ type AppealListItem = NonNullable<AppealResponse['results']>[number];
 
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type AppealTypeOption = NonNullable<GlobalEnumsResponse['api_appeal_type']>[number];
-type DistrictListItem = NonNullable<GoApiResponse<'/api/v2/district/'>['results']>[number];
 
 const appealKeySelector = (option: AppealListItem) => option.id;
 const appealTypeKeySelector = (option: AppealTypeOption) => option.key;
@@ -50,7 +45,6 @@ type BaseProps = {
 type CountryProps = {
     variant: 'country';
     countryId: number;
-    districtList: DistrictListItem[];
 }
 
 type RegionProps = {
@@ -104,8 +98,8 @@ function AppealsTable(props: Props) {
     const regionId = variant === 'region' ? props.regionId : undefined;
     // eslint-disable-next-line react/destructuring-assignment
     const countryId = variant === 'country' ? props.countryId : undefined;
-    // eslint-disable-next-line react/destructuring-assignment
-    const districtList = variant === 'country' ? props.districtList : undefined;
+
+    const [districtOptions, setDistrictOptions] = useState<DistrictItem[] | null | undefined>();
 
     const columns = useMemo(
         () => ([
@@ -259,15 +253,15 @@ function AppealsTable(props: Props) {
                         value={rawFilter.startDateBefore}
                     />
                     {variant === 'country' && (
-                        <MultiSelectInput
+                        <DistrictSearchMultiSelectInput
                             name="district"
                             placeholder={strings.appealsTableFilterDistrictPlaceholder}
                             label={strings.appealsTableProvinces}
-                            options={districtList}
                             value={rawFilter.district}
-                            keySelector={numericIdSelector}
-                            labelSelector={stringNameSelector}
+                            options={districtOptions}
+                            onOptionsChange={setDistrictOptions}
                             onChange={setFilterField}
+                            countryId={countryId}
                         />
                     )}
                     <SelectInput
