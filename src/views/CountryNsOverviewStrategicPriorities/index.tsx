@@ -7,8 +7,9 @@ import {
 import {
     isDefined,
     isNotDefined,
-    listToMap,
+    // listToMap,
     isTruthyString,
+    compareNumber,
 } from '@togglecorp/fujs';
 
 import KeyFigure from '#components/KeyFigure';
@@ -66,6 +67,7 @@ export function Component() {
         },
     });
 
+    /*
     const {
         pending: prioritizationResponsePending,
         response: prioritizationResponse,
@@ -76,12 +78,14 @@ export function Component() {
             id: Number(processStatusResponse?.prioritization),
         },
     });
+    */
 
     const perPending = assessmentResponsePending
         || perProcessStatusPending
-        || prioritizationResponsePending
+        // || prioritizationResponsePending
         || latestPerPending;
 
+    /*
     const componentMap = useMemo(
         () => {
             if (isNotDefined(assessmentResponse)) {
@@ -102,26 +106,48 @@ export function Component() {
         },
         [assessmentResponse],
     );
+    */
 
     const strengthComponents = useMemo(
         () => {
-            if (isNotDefined(assessmentResponse)) {
+            if (
+                isNotDefined(assessmentResponse)
+                    || isNotDefined(assessmentResponse.area_responses)
+            ) {
                 return undefined;
             }
 
-            const componentResponses = assessmentResponse.area_responses?.map(
+            const componentResponses = assessmentResponse.area_responses.map(
                 (areaResponse) => (
                     areaResponse.component_responses
                 ),
-            ).flat().filter(isDefined);
-
-            const STRENGTH_THRESHOLD = 4.5;
-
-            return componentResponses?.filter(
-                (componentResponse) => isDefined(componentResponse)
-                    && isDefined(componentResponse.rating)
-                    && componentResponse.rating >= STRENGTH_THRESHOLD,
+            ).flat().filter(isDefined).sort(
+                (a, b) => compareNumber(a.rating_details.value, b.rating_details.value, -1),
             );
+
+            return componentResponses.slice(0, 5);
+        },
+        [assessmentResponse],
+    );
+
+    const keyDevelopmentComponents = useMemo(
+        () => {
+            if (
+                isNotDefined(assessmentResponse)
+                    || isNotDefined(assessmentResponse.area_responses)
+            ) {
+                return undefined;
+            }
+
+            const componentResponses = assessmentResponse.area_responses.map(
+                (areaResponse) => (
+                    areaResponse.component_responses
+                ),
+            ).flat().filter(isDefined).sort(
+                (a, b) => compareNumber(a.rating_details.value, b.rating_details.value),
+            );
+
+            return componentResponses.slice(0, 5);
         },
         [assessmentResponse],
     );
@@ -138,10 +164,9 @@ export function Component() {
     });
 
     const hasStrengthComponents = isDefined(strengthComponents) && strengthComponents.length > 0;
-    const hasPrioritizedComponents = isDefined(prioritizationResponse)
-        && isDefined(prioritizationResponse.prioritized_action_responses)
-        && prioritizationResponse.prioritized_action_responses.length > 0;
-    const perContentsDefined = hasStrengthComponents || hasPrioritizedComponents;
+    const hasKeyDevelopmentComponents = isDefined(keyDevelopmentComponents)
+        && keyDevelopmentComponents.length > 0;
+    const perContentsDefined = hasStrengthComponents || hasKeyDevelopmentComponents;
 
     const hasCountryPlan = countryResponse?.has_country_plan;
 
@@ -240,27 +265,26 @@ export function Component() {
                             )}
                         </Container>
                     )}
-                    {hasPrioritizedComponents && (
+                    {hasKeyDevelopmentComponents && (
                         <Container
                             heading={strings.keyDevelopmentPrioritiesHeading}
                             withHeaderBorder
                             contentViewType="grid"
                             numPreferredGridContentColumns={5}
                         >
-                            {prioritizationResponse?.prioritized_action_responses?.map(
-                                (prioritizedAction) => (
+                            {keyDevelopmentComponents?.map(
+                                (keyDevelopmentComponent) => (
                                     <Container
-                                        key={prioritizedAction.id}
-                                        heading={prioritizedAction.component_details.title}
+                                        heading={keyDevelopmentComponent?.component_details.title}
                                         headingLevel={5}
+                                        key={keyDevelopmentComponent.component}
                                         withHeaderBorder
                                         withInternalPadding
                                         icons={<CheckboxFillIcon className={styles.icon} />}
                                         withoutWrapInHeading
                                         className={styles.priorityComponent}
                                     >
-                                        {componentMap?.[
-                                            prioritizedAction.component]?.rating_details?.title}
+                                        {keyDevelopmentComponent?.rating_details.title}
                                     </Container>
                                 ),
                             )}
