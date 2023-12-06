@@ -1,18 +1,18 @@
-.country-operations {
+.country-ongoing-activities-emergencies {
     display: flex;
     flex-direction: column;
     gap: var(--go-ui-spacing-2xl);
-    padding: var(--go-ui-spacing-2xl) 0;
-}
-
-.presentation-mode {
-    background-color: var(--go-ui-color-background);
-    padding: var(--go-ui-spacing-2xl);
-    width: 96vw;
 
     .key-figure-list {
         display: grid;
         grid-gap: var(--go-ui-spacing-md);
         grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+
+        .key-figure {
+            border-radius: var(--go-ui-border-radius-lg);
+            box-shadow: var(--go-ui-box-shadow-md);
+            background-color: var(--go-ui-color-white);
+            height: 100%;
+        }
     }
 }
