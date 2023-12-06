@@ -110,7 +110,10 @@ export function Component() {
                 (item) => item.country_details?.name,
                 (item) => ({
                     to: 'countryPreparedness',
-                    urlParams: { countryId: item.country },
+                    urlParams: {
+                        countryId: item.country,
+                        perId: item.id,
+                    },
                 }),
             ),
             createDateColumn<PerProcessStatusItem, number>(
