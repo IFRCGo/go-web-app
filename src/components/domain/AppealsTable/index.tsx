@@ -1,6 +1,5 @@
 import { useMemo, useCallback } from 'react';
 import { _cs, isDefined } from '@togglecorp/fujs';
-import { CloseLineIcon } from '@ifrc-go/icons';
 
 import Button from '#components/Button';
 import Container from '#components/Container';
@@ -252,8 +251,8 @@ function AppealsTable(props: Props) {
     return (
         <Container
             className={_cs(styles.appealsTable, className)}
-            filtersContainerClassName={styles.filters}
             childrenContainerClassName={styles.content}
+            withGridViewInFilter
             filters={(
                 <>
                     <DateInput
@@ -297,12 +296,11 @@ function AppealsTable(props: Props) {
                         value={rawFilter.displacement}
                         onChange={setFilterField}
                     />
-                    <div className={styles.clearButton}>
+                    <div>
                         <Button
                             name={undefined}
-                            icons={<CloseLineIcon />}
                             onClick={handleClearFiltersButtonclick}
-                            variant="tertiary"
+                            variant="secondary"
                             disabled={!filtered}
                         >
                             {strings.appealsTableClearFilters}
