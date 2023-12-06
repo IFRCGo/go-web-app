@@ -27,6 +27,11 @@ type BaseProps = {
     className?: string;
 }
 
+type CountryProps = {
+    variant: 'country';
+    countryId: number;
+}
+
 type RegionProps = {
     variant: 'region';
     regionId: number;
@@ -36,7 +41,7 @@ type GlobalProps = {
     variant: 'global';
 }
 
-type Props = BaseProps & (RegionProps | GlobalProps);
+type Props = BaseProps & (CountryProps | RegionProps | GlobalProps);
 
 function HighlightedOperations(props: Props) {
     const {
@@ -49,10 +54,25 @@ function HighlightedOperations(props: Props) {
     // eslint-disable-next-line react/destructuring-assignment
     const regionId = variant === 'region' ? props.regionId : undefined;
 
+    // eslint-disable-next-line react/destructuring-assignment
+    const countryId = variant === 'country' ? props.countryId : undefined;
+
     const query = useMemo<EventQueryParams>(
         () => {
             if (variant === 'global') {
                 return { is_featured: true };
+            }
+
+            if (variant === 'country') {
+                const thirtyDaysAgo = new Date();
+                thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+                thirtyDaysAgo.setHours(0, 0, 0, 0);
+
+                return {
+                    countries__in: countryId,
+                    disaster_start_date__gte: thirtyDaysAgo.toISOString(),
+                    ordering: '-disaster_start_date',
+                };
             }
 
             return {
@@ -60,7 +80,7 @@ function HighlightedOperations(props: Props) {
                 regions__in: regionId,
             };
         },
-        [variant, regionId],
+        [variant, regionId, countryId],
     );
 
     const {
@@ -97,21 +117,49 @@ function HighlightedOperations(props: Props) {
 
     const featuredEmergencies = featuredEmergencyResponse?.results;
 
+    const urlSearch = useMemo(
+        () => {
+            if (variant === 'country') {
+                return `countryId=${countryId}`;
+            }
+
+            if (variant === 'region') {
+                return `regionId=${regionId}`;
+            }
+
+            return undefined;
+        },
+        [regionId, countryId, variant],
+    );
+
+    const viewAllLabel = useMemo(
+        () => {
+            if (variant === 'country') {
+                return strings.highlightedOperationsViewAllInCountry;
+            }
+
+            if (variant === 'region') {
+                return strings.highlightedOperationsViewAllInRegion;
+            }
+
+            return strings.highlightedOperationsViewAll;
+        },
+        [variant, strings],
+    );
+
     return (
         <Container
             className={className}
             withHeaderBorder
-            heading={strings.highlightedOperationsTitle}
+            heading={variant === 'country' ? strings.highlightedOperationsCountryTitle : strings.highlightedOperationsTitle}
             actions={(
                 <Link
                     to="allEmergencies"
-                    urlSearch={variant === 'region' ? `region=${regionId}` : undefined}
+                    urlSearch={urlSearch}
                     withLinkIcon
                     withUnderline
                 >
-                    {variant === 'region'
-                        ? strings.highlightedOperationsViewAllInRegion
-                        : strings.highlightedOperationsViewAll}
+                    {viewAllLabel}
                 </Link>
             )}
         >

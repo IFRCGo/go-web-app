@@ -27,7 +27,6 @@ import LegendItem from '#components/LegendItem';
 import Link from '#components/Link';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import MapPopup from '#components/MapPopup';
-import MultiSelectInput from '#components/MultiSelectInput';
 import RadioInput from '#components/RadioInput';
 import SelectInput from '#components/SelectInput';
 import TextOutput from '#components/TextOutput';
@@ -36,10 +35,6 @@ import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useInputState from '#hooks/useInputState';
 import { useRequest } from '#utils/restRequest';
 import type { GoApiUrlQuery, GoApiResponse } from '#utils/restRequest';
-import {
-    numericIdSelector,
-    stringNameSelector,
-} from '#utils/selectors';
 import {
     adminFillLayerOptions,
 } from '#utils/map';
@@ -68,6 +63,7 @@ import {
     APPEAL_TYPE_MULTIPLE,
 } from './utils';
 import styles from './styles.module.css';
+import DistrictSearchMultiSelectInput, { DistrictItem } from '../DistrictSearchMultiSelectInput';
 
 type AppealQueryParams = GoApiUrlQuery<'/api/v2/appeal/'>;
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
@@ -102,8 +98,6 @@ interface ClickedPoint {
     lngLat: mapboxgl.LngLatLike;
 }
 
-type DistrictListItem = NonNullable<GoApiResponse<'/api/v2/district/'>['results']>[number];
-
 type BaseProps = {
     className?: string;
     onPresentationModeButtonClick?: () => void;
@@ -114,7 +108,6 @@ type BaseProps = {
 type CountryProps = {
     variant: 'country';
     countryId: number;
-    districtList: DistrictListItem[];
 }
 type RegionProps = {
     variant: 'region';
@@ -159,7 +152,6 @@ function ActiveOperationMap(props: Props) {
     // eslint-disable-next-line react/destructuring-assignment
     const countryId = variant === 'country' ? props.countryId : undefined;
     // eslint-disable-next-line react/destructuring-assignment
-    const districtList = variant === 'country' ? props.districtList : undefined;
 
     const query = useMemo<AppealQueryParams>(
         () => {
@@ -372,6 +364,8 @@ function ActiveOperationMap(props: Props) {
         ? countryGroupedAppeal[clickedPointProperties.feature.properties.iso3]
         : undefined;
 
+    const [districtOptions, setDistrictOptions] = useState<DistrictItem[] | null | undefined>();
+
     return (
         <Container
             className={_cs(styles.activeOperationMap, className)}
@@ -394,15 +388,15 @@ function ActiveOperationMap(props: Props) {
                         value={rawFilter.startDateBefore}
                     />
                     {variant === 'country' && (
-                        <MultiSelectInput
+                        <DistrictSearchMultiSelectInput
                             name="district"
                             placeholder={strings.operationFilterDistrictPlaceholder}
                             label={strings.operationMapProvinces}
-                            options={districtList}
                             value={rawFilter.district}
-                            keySelector={numericIdSelector}
-                            labelSelector={stringNameSelector}
+                            options={districtOptions}
+                            onOptionsChange={setDistrictOptions}
                             onChange={setFilterField}
+                            countryId={countryId}
                         />
                     )}
                     <SelectInput
