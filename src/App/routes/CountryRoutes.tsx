@@ -256,6 +256,19 @@ const countryNsOverviewCapacity = customWrapRoute({
     },
 });
 
+const countryPreparedness = customWrapRoute({
+    parent: countriesLayout,
+    path: 'ns-overview/per/:perId',
+    component: {
+        render: () => import('#views/CountryPreparedness'),
+        props: {},
+    },
+    context: {
+        title: 'Country Preparedness',
+        visibility: 'anything',
+    },
+});
+
 type DefaultCountryProfileChild = 'overview';
 const countryProfileLayout = customWrapRoute({
     parent: countriesLayout,
@@ -385,19 +398,6 @@ const countryThreeWIndex = customWrapRoute({
     },
 });
 
-const countryPreparedness = customWrapRoute({
-    parent: countriesLayout,
-    path: 'preparedness',
-    component: {
-        render: () => import('#views/CountryPreparedness'),
-        props: {},
-    },
-    context: {
-        title: 'Country Preparedness',
-        visibility: 'anything',
-    },
-});
-
 const countryAdditionalInfo = customWrapRoute({
     parent: countriesLayout,
     path: 'additional-info',
@@ -427,6 +427,7 @@ export default {
     countryNsOverviewContextAndStructure,
     countryNsOverviewStrategicPriorities,
     countryNsOverviewCapacity,
+    countryPreparedness,
 
     countryProfileLayout,
     countryProfileIndex,
@@ -441,5 +442,4 @@ export default {
     countryOperations,
     countriesThreeWLayout,
     countryThreeWIndex,
-    countryPreparedness,
 };
