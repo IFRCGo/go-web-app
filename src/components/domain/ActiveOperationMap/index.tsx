@@ -169,6 +169,7 @@ function ActiveOperationMap(props: Props) {
             const baseQuery: AppealQueryParams = {
                 atype: filter.appeal,
                 dtype: filter.displacement,
+                district: hasSomeDefinedValue(filter.district) ? filter.district : undefined,
                 end_date__gt: now,
                 start_date__gte: filter.startDateAfter,
                 start_date__lte: filter.startDateBefore,
@@ -183,7 +184,6 @@ function ActiveOperationMap(props: Props) {
                 ...baseQuery,
                 region: regionId ? [regionId] : undefined,
                 country: countryId ? [countryId] : undefined,
-                district: hasSomeDefinedValue(filter.district) ? filter.district : undefined,
             };
         },
         [variant, regionId, filter, limit, countryId],
@@ -374,6 +374,7 @@ function ActiveOperationMap(props: Props) {
                     {variant === 'country' && (
                         <MultiSelectInput
                             name="district"
+                            placeholder={strings.operationFilterDistrictPlaceholder}
                             label={strings.operationMapProvinces}
                             options={districtList}
                             value={rawFilter.district}
@@ -407,7 +408,7 @@ function ActiveOperationMap(props: Props) {
                             variant="tertiary"
                             disabled={!filtered}
                         >
-                            {strings.clearFilters}
+                            {strings.operationMapClearFilters}
                         </Button>
                     </div>
                 </>
