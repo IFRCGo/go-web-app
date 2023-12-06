@@ -4,14 +4,17 @@
         "appealsTableStartDate": "Start Date",
         "appealsTableStartDateAfter": "Start After",
         "appealsTableStartDateBefore": "Start Before",
-        "appealsTableType": "Type of Appeal",
-        "appealsTableCode": "Code",
-        "appealsTableOperation": "Operation",
+        "appealsTableType": "Appeal Type",
+        "appealsTableCode": "Appeal Code",
+        "appealsTableOperation": "Active Operation",
         "appealsTableDisastertype": "Disaster Type",
-        "appealsTableRequestedAmount": "Requested Amount",
-        "appealsTableFundedAmount": "Funding",
+        "appealsTableRequestedAmount": "Funding Requirements",
+        "appealsTableFundedAmount": "Funding Coverage",
         "appealsTableCountry": "Country",
         "appealsTableFilterTypePlaceholder": "All Appeal Types",
-        "appealsTableFilterDisastersPlaceholder": "All Disaster Types"
+        "appealsTableFilterDisastersPlaceholder": "All Disaster Types",
+        "appealsTableClearFilters": "Clear Filters",
+        "appealsTableFilterDistrictPlaceholder": "All Provinces",
+        "appealsTableProvinces": "Provinces"
     }
 }
