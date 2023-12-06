@@ -17,10 +17,7 @@ import {
     MapLayer,
     MapBounds,
 } from '@togglecorp/re-map';
-import {
-    ArtboardLineIcon,
-    CloseLineIcon,
-} from '@ifrc-go/icons';
+import { ArtboardLineIcon } from '@ifrc-go/icons';
 
 import BaseMap from '#components/domain/BaseMap';
 import Button from '#components/Button';
@@ -355,8 +352,8 @@ function ActiveOperationMap(props: Props) {
             className={_cs(styles.activeOperationMap, className)}
             heading={!presentationMode && heading}
             withHeaderBorder={!presentationMode}
-            filtersContainerClassName={styles.filters}
             childrenContainerClassName={styles.content}
+            withGridViewInFilter
             filters={!presentationMode && (
                 <>
                     <DateInput
@@ -400,12 +397,11 @@ function ActiveOperationMap(props: Props) {
                         value={rawFilter.displacement}
                         onChange={setFilterField}
                     />
-                    <div className={styles.clearButton}>
+                    <div>
                         <Button
                             name={undefined}
-                            icons={<CloseLineIcon />}
                             onClick={handleClearFiltersButtonclick}
-                            variant="tertiary"
+                            variant="secondary"
                             disabled={!filtered}
                         >
                             {strings.operationMapClearFilters}
