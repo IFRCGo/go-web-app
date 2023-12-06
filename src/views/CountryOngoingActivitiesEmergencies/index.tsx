@@ -16,6 +16,7 @@ import BlockLoading from '#components/BlockLoading';
 import InfoPopup from '#components/InfoPopup';
 import HighlightedOperations from '#components/domain/HighlightedOperations';
 import ActiveOperationMap from '#components/domain/ActiveOperationMap';
+import AppealsTable from '#components/domain/AppealsTable';
 import KeyFigure from '#components/KeyFigure';
 import useTranslation from '#hooks/useTranslation';
 import { type CountryOutletContext } from '#utils/outletContext';
@@ -119,6 +120,12 @@ export function Component() {
                     variant="country"
                     countryId={Number(countryId)}
                     bbox={bbox}
+                />
+            )}
+            {isDefined(countryId) && (
+                <AppealsTable
+                    variant="country"
+                    countryId={Number(countryId)}
                 />
             )}
         </div>
