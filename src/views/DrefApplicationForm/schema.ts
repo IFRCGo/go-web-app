@@ -161,6 +161,7 @@ const schema: DrefFormSchema = {
             // none
 
             // OPERATION
+            targeting_strategy_support_file: {},
 
             // none
 
@@ -189,8 +190,8 @@ const schema: DrefFormSchema = {
             regional_focal_point_phone_number: {},
         };
 
+        // Note: Section below include conditional form element only
         // OVERVIEW
-
         formFields = addCondition(
             formFields,
             formValue,
@@ -278,6 +279,7 @@ const schema: DrefFormSchema = {
             DrefFormSchemaFields,
             typeof eventDetailDrefTypeRelatedFields[number]
         >;
+
         formFields = addCondition(
             formFields,
             formValue,

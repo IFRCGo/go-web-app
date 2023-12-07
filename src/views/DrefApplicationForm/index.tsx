@@ -209,7 +209,6 @@ export function Component() {
                         }
                     });
                 }
-
                 if (
                     response.disaster_category_analysis_details
                     && response.disaster_category_analysis_details.file
@@ -217,6 +216,14 @@ export function Component() {
                     newMap[
                         response.disaster_category_analysis_details.id
                     ] = response.disaster_category_analysis_details.file;
+                }
+                if (
+                    response.targeting_strategy_support_file_details
+                    && response.targeting_strategy_support_file_details.file
+                ) {
+                    newMap[
+                        response.targeting_strategy_support_file_details.id
+                    ] = response.targeting_strategy_support_file_details.file;
                 }
 
                 return newMap;

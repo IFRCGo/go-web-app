@@ -263,6 +263,22 @@ function Operation(props: Props) {
                         disabled={disabled}
                     />
                 </InputSection>
+                <InputSection title={strings.drefFormUploadTargetingSupportingDocument}>
+                    <GoSingleFileInput
+                        name="targeting_strategy_support_file"
+                        accept=".pdf, .docx, .pptx"
+                        fileIdToUrlMap={fileIdToUrlMap}
+                        onChange={setFieldValue}
+                        url="/api/v2/dref-files/"
+                        value={value.targeting_strategy_support_file}
+                        error={error?.targeting_strategy_support_file}
+                        setFileIdToUrlMap={setFileIdToUrlMap}
+                        clearable
+                        disabled={disabled}
+                    >
+                        {strings.drefFormUploadTargetingDocumentButtonLabel}
+                    </GoSingleFileInput>
+                </InputSection>
             </Container>
             <Container
                 heading={strings.drefFormAssistedPopulation}

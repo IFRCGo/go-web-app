@@ -50,6 +50,8 @@
         "drefFormLogisticCapacityOfNsDescription": "Will it be for replenishment or for distribution? If for distribution, how long is the tendering expected to take? For Cash and Voucher Assistance, what is the status of the Financial Service Provider?",
         "drefFormMen": "Men",
         "drefFormTotalTargeted": "Total targeted population is different from that in Operation Overview",
-        "drefFormTotalTargetedPopulation": "Total targeted population is not equal to sum of other population fields"
+        "drefFormTotalTargetedPopulation": "Total targeted population is not equal to sum of other population fields",
+        "drefFormUploadTargetingSupportingDocument": "Upload any additional support document (Optional)",
+        "drefFormUploadTargetingDocumentButtonLabel": "Upload document"
     }
 }
