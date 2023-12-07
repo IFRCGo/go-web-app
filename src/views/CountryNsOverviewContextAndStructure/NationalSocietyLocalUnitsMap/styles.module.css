@@ -1,0 +1,20 @@
+.national-society-local-units-map {
+    .clear-button {
+        display: flex;
+        align-items: center;
+    }
+
+    .map-container {
+        height: 40rem;
+    }
+}
+
+.popup-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-md);
+
+    .local-unit-info {
+        font-size: var(--go-ui-font-size-sm);
+    }
+}
