@@ -209,6 +209,16 @@ export function Component() {
                         }
                     });
                 }
+
+                if (
+                    response.disaster_category_analysis_details
+                    && response.disaster_category_analysis_details.file
+                ) {
+                    newMap[
+                        response.disaster_category_analysis_details.id
+                    ] = response.disaster_category_analysis_details.file;
+                }
+
                 return newMap;
             });
         },
@@ -237,6 +247,7 @@ export function Component() {
                 cover_image_file,
                 images_file,
                 source_information,
+                disaster_category_analysis_file,
                 ...otherValues
             } = removeNull(response);
             setValue({
@@ -258,6 +269,9 @@ export function Component() {
                     ? injectClientId(cover_image_file)
                     : undefined,
                 images_file: images_file?.map(injectClientId),
+                disaster_category_analysis_file: isDefined(disaster_category_analysis_file)
+                    ? injectClientId(disaster_category_analysis_file)
+                    : undefined,
             });
 
             setDistrictOptions(response.district_details);

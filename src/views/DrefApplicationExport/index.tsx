@@ -463,6 +463,17 @@ export function Component() {
                     strongValue
                 />
             </Container>
+            {drefResponse?.disaster_category_analysis_details?.file && (
+                <Container>
+                    <Link
+                        href={drefResponse?.disaster_category_analysis_details?.file}
+                        external
+                        withUnderline
+                    >
+                        {strings.crisisCategorySupportingDocumentLabel}
+                    </Link>
+                </Container>
+            )}
             {showEventDescriptionSection && (
                 <>
                     <div className={styles.pageBreak} />
