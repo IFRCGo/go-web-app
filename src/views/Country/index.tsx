@@ -6,12 +6,6 @@ import {
 } from 'react-router-dom';
 import { useContext, useMemo } from 'react';
 import {
-    DrefIcon,
-    AppealsIcon,
-    FundingIcon,
-    FundingCoverageIcon,
-    TargetedPopulationIcon,
-    AppealsTwoIcon,
     PencilFillIcon,
 } from '@ifrc-go/icons';
 import {
@@ -22,10 +16,7 @@ import {
 } from '@togglecorp/fujs';
 
 import { resolveUrl } from '#utils/resolveUrl';
-import BlockLoading from '#components/BlockLoading';
 import Breadcrumbs from '#components/Breadcrumbs';
-import InfoPopup from '#components/InfoPopup';
-import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
 import Message from '#components/Message';
 import NavigationTab from '#components/NavigationTab';
@@ -38,7 +29,6 @@ import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import { type CountryOutletContext } from '#utils/outletContext';
 import { resolveToString } from '#utils/translation';
-import { getPercentage } from '#utils/common';
 import { countryIdToRegionIdMap, isCountryIdRegion } from '#utils/domain/country';
 import { adminUrl } from '#config';
 import RouteContext from '#contexts/route';
@@ -89,8 +79,6 @@ export function Component() {
         }),
         [countryResponse, countryId, countryResponsePending],
     );
-
-    const pending = countryResponsePending || aggregatedAppealPending;
 
     const additionalInfoTabName = isTruthyString(countryResponse?.additional_tab_name)
         ? countryResponse?.additional_tab_name
@@ -195,76 +183,6 @@ export function Component() {
                     </Link>
                 )
             }
-            infoContainerClassName={styles.keyFigureList}
-            info={(
-                <>
-                    {pending && <BlockLoading />}
-                    {!pending && aggregatedAppealResponse && (
-                        <>
-                            <KeyFigure
-                                icon={<DrefIcon />}
-                                className={styles.keyFigure}
-                                value={aggregatedAppealResponse.active_drefs}
-                                info={(
-                                    <InfoPopup
-                                        title={strings.countryKeyFiguresDrefTitle}
-                                        description={strings.countryKeyFiguresDrefDescription}
-                                    />
-                                )}
-                                label={strings.countryKeyFiguresActiveDrefs}
-                            />
-                            <KeyFigure
-                                icon={<AppealsIcon />}
-                                className={styles.keyFigure}
-                                value={aggregatedAppealResponse.active_appeals}
-                                info={(
-                                    <InfoPopup
-                                        title={strings.countryKeyFiguresActiveAppealsTitle}
-                                        description={
-                                            strings.countryKeyFigureActiveAppealDescription
-                                        }
-                                    />
-                                )}
-                                label={strings.countryKeyFiguresActiveAppeals}
-                            />
-                            <KeyFigure
-                                icon={<FundingIcon />}
-                                className={styles.keyFigure}
-                                value={aggregatedAppealResponse?.amount_requested_dref_included}
-                                compactValue
-                                label={strings.countryKeyFiguresBudget}
-                            />
-                            <KeyFigure
-                                icon={<FundingCoverageIcon />}
-                                className={styles.keyFigure}
-                                value={getPercentage(
-                                    aggregatedAppealResponse?.amount_funded,
-                                    aggregatedAppealResponse?.amount_requested,
-                                )}
-                                suffix="%"
-                                compactValue
-                                label={strings.countryKeyFiguresAppealsFunding}
-                            />
-                            <KeyFigure
-                                icon={<TargetedPopulationIcon />}
-                                className={styles.keyFigure}
-                                value={aggregatedAppealResponse.target_population}
-                                compactValue
-                                label={strings.countryKeyFiguresTargetPop}
-                            />
-                            {countryResponse?.has_country_plan && (
-                                <KeyFigure
-                                    icon={<AppealsTwoIcon />}
-                                    className={styles.keyFigure}
-                                    value={1}
-                                    compactValue
-                                    label={strings.countryKeyFiguresCountryPlan}
-                                />
-                            )}
-                        </>
-                    )}
-                </>
-            )}
             actions={isAuthenticated && (
                 <Link
                     external
