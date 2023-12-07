@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
     _cs,
@@ -14,6 +14,7 @@ import Heading from '#components/printable/Heading';
 import DescriptionText from '#components/printable/DescriptionText';
 import Link from '#components/Link';
 import DateOutput from '#components/DateOutput';
+import { components } from '#generated/types';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import {
@@ -29,6 +30,10 @@ import ifrcLogo from '#assets/icons/ifrc-square.png';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+type PlannedIntervention = components<'read'>['schemas']['PlannedIntervention'];
+type IdentifiedNeedsAndGaps = components<'read'>['schemas']['IdentifiedNeed'];
+type NsActions = components<'read'>['schemas']['NationalSocietyAction'];
 
 function BlockTextOutput(props: TextOutputProps & { variant?: never, withoutLabelColon?: never }) {
     return (
@@ -46,6 +51,58 @@ const colorMap: Record<DisasterCategory, string> = {
     [DISASTER_CATEGORY_ORANGE]: styles.orange,
     [DISASTER_CATEGORY_RED]: styles.red,
 };
+
+const plannedInterventionSortedList = [
+    'shelter_housing_and_settlements',
+    'livelihoods_and_basic_needs',
+    'multi-purpose_cash',
+    'health',
+    'water_sanitation_and_hygiene',
+    'protection_gender_and_inclusion',
+    'education',
+    'migration',
+    'risk_reduction_climate_adaptation_and_recovery_',
+    'community_engagement_and_accountability',
+    'environmental_sustainability',
+    'coordination_and_partnerships',
+    'secretariat_services',
+    'national_society_strengthening',
+] satisfies (PlannedIntervention['title'])[];
+
+const identifiedNeedsAndGapsSortedList = [
+    'shelter_housing_and_settlements',
+    'livelihoods_and_basic_needs',
+    'multi_purpose_cash_grants',
+    'health',
+    'water_sanitation_and_hygiene',
+    'protection_gender_and_inclusion',
+    'education',
+    'migration',
+    'risk_reduction_climate_adaptation_and_recovery',
+    'community_engagement_and _accountability',
+    'environment_sustainability ',
+] satisfies (IdentifiedNeedsAndGaps['title'])[];
+
+const nsActionsSortedList = [
+    'shelter_housing_and_settlements',
+    'livelihoods_and_basic_needs',
+    'multi-purpose_cash',
+    'health',
+    'water_sanitation_and_hygiene',
+    'protection_gender_and_inclusion',
+    'education',
+    'migration',
+    'risk_reduction_climate_adaptation_and_recovery',
+    'community_engagement_and _accountability',
+    'environment_sustainability ',
+    'coordination',
+    'national_society_readiness',
+    'assessment',
+    'resource_mobilization',
+    'activation_of_contingency_plans',
+    'national_society_eoc',
+    'other',
+] satisfies (NsActions['title'])[];
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -96,6 +153,30 @@ export function Component() {
         },
     });
 
+    const sortedPlannedInterventions = useMemo(
+        () => drefResponse?.planned_interventions?.sort((a, b) => (
+            // eslint-disable-next-line max-len
+            plannedInterventionSortedList.indexOf(a.title) - plannedInterventionSortedList.indexOf(b.title)
+        )),
+        [drefResponse?.planned_interventions],
+    );
+
+    const sortedIdentifiedNeedsAndGaps = useMemo(
+        () => drefResponse?.needs_identified?.sort((a, b) => (
+            // eslint-disable-next-line max-len
+            identifiedNeedsAndGapsSortedList.indexOf(a.title) - identifiedNeedsAndGapsSortedList.indexOf(b.title)
+        )),
+        [drefResponse?.identified_gaps],
+    );
+
+    const sortedNsActions = useMemo(
+        () => drefResponse?.national_society_actions?.sort((a, b) => (
+            // eslint-disable-next-line max-len
+            nsActionsSortedList.indexOf(a.title) - nsActionsSortedList.indexOf(b.title)
+        )),
+        [drefResponse?.national_society_actions],
+    );
+
     const eventDescriptionDefined = isTruthyString(drefResponse?.event_description?.trim());
     const eventScopeDefined = drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT
         && isTruthyString(drefResponse?.event_scope?.trim());
@@ -127,7 +208,8 @@ export function Component() {
 
     const showNsAction = isDefined(drefResponse)
         && isDefined(drefResponse.national_society_actions)
-        && drefResponse.national_society_actions.length > 0;
+        && drefResponse.national_society_actions.length > 0
+        && isDefined(sortedNsActions);
 
     const icrcActionsDefined = isTruthyString(drefResponse?.icrc?.trim());
 
@@ -148,7 +230,9 @@ export function Component() {
         && isTruthyString(drefResponse?.identified_gaps?.trim());
     const needsIdentifiedDefined = isDefined(drefResponse)
         && isDefined(drefResponse.needs_identified)
-        && drefResponse.needs_identified.length > 0;
+        && drefResponse.needs_identified.length > 0
+        && isDefined(sortedIdentifiedNeedsAndGaps);
+
     const showNeedsIdentifiedSection = isDefined(drefResponse)
         && drefResponse.type_of_dref !== DREF_TYPE_ASSESSMENT
         && (identifiedGapsDefined || needsIdentifiedDefined);
@@ -169,7 +253,8 @@ export function Component() {
 
     const plannedInterventionDefined = isDefined(drefResponse)
         && isDefined(drefResponse.planned_interventions)
-        && drefResponse.planned_interventions.length > 0;
+        && drefResponse.planned_interventions.length > 0
+        && isDefined(sortedPlannedInterventions);
 
     const humanResourceDefined = isTruthyString(drefResponse?.human_resource?.trim());
     const surgePersonnelDeployedDefined = isTruthyString(
@@ -232,7 +317,6 @@ export function Component() {
         || projectManagerContactDefined
         || focalPointContactDefined
         || mediaContactDefined;
-
     return (
         <div className={styles.drefApplicationExport}>
             <Container childrenContainerClassName={styles.pageTitleSection}>
@@ -574,7 +658,7 @@ export function Component() {
                     <Container
                         childrenContainerClassName={styles.nsActionsContent}
                     >
-                        {drefResponse?.national_society_actions?.map(
+                        {sortedNsActions?.map(
                             (nsAction) => (
                                 <BlockTextOutput
                                     key={nsAction.id}
@@ -667,12 +751,12 @@ export function Component() {
             )}
             {showNeedsIdentifiedSection && (
                 <>
-                    {needsIdentifiedDefined && drefResponse?.needs_identified?.map(
+                    <Heading level={2}>
+                        {strings.needsIdentifiedSectionHeading}
+                    </Heading>
+                    {needsIdentifiedDefined && sortedIdentifiedNeedsAndGaps?.map(
                         (identifiedNeed) => (
                             <Fragment key={identifiedNeed.id}>
-                                <Heading level={2}>
-                                    {strings.needsIdentifiedSectionHeading}
-                                </Heading>
                                 <Heading className={styles.needsIdentifiedHeading}>
                                     <img
                                         className={styles.icon}
@@ -871,74 +955,72 @@ export function Component() {
                     <Heading level={2}>
                         {strings.plannedInterventionSectionHeading}
                     </Heading>
-                    {drefResponse?.planned_interventions?.map(
-                        (plannedIntervention) => (
-                            <Fragment key={plannedIntervention.id}>
-                                <Heading className={styles.plannedInterventionHeading}>
-                                    <img
-                                        className={styles.icon}
-                                        src={plannedIntervention.image_url}
-                                        alt=""
-                                    />
-                                    {plannedIntervention.title_display}
-                                </Heading>
-                                <Container>
-                                    <TextOutput
-                                        label={strings.drefAllocationLabel}
-                                        value={drefResponse?.amount_requested}
-                                        valueType="number"
-                                        prefix={strings.chfPrefix}
-                                        strongLabel
-                                    />
-                                    <TextOutput
-                                        label={strings.budgetLabel}
-                                        value={plannedIntervention.budget}
-                                        valueType="number"
-                                        prefix={strings.chfPrefix}
-                                        strongLabel
-                                    />
-                                    <TextOutput
-                                        label={strings.targetedPersonsLabel}
-                                        value={plannedIntervention.person_targeted}
-                                        valueType="number"
-                                        strongLabel
-                                    />
-                                </Container>
-                                <Container
-                                    heading={strings.indicatorsHeading}
-                                    headingLevel={5}
-                                    childrenContainerClassName={
-                                        styles.plannedInterventionIndicators
-                                    }
-                                >
-                                    <div className={styles.titleLabel}>
-                                        {strings.indicatorTitleLabel}
-                                    </div>
-                                    <div className={styles.targetLabel}>
-                                        {strings.indicatorTargetLabel}
-                                    </div>
-                                    {plannedIntervention.indicators?.map(
-                                        (indicator) => (
-                                            <BlockTextOutput
-                                                key={indicator.id}
-                                                label={indicator.title}
-                                                value={indicator.target}
-                                                valueType="number"
-                                            />
-                                        ),
-                                    )}
-                                </Container>
-                                <Container
-                                    heading={strings.priorityActionsHeading}
-                                    headingLevel={5}
-                                >
-                                    <DescriptionText>
-                                        {plannedIntervention.description}
-                                    </DescriptionText>
-                                </Container>
-                            </Fragment>
-                        ),
-                    )}
+                    {sortedPlannedInterventions?.map((plannedIntervention) => (
+                        <Fragment key={plannedIntervention.id}>
+                            <Heading className={styles.plannedInterventionHeading}>
+                                <img
+                                    className={styles.icon}
+                                    src={plannedIntervention.image_url}
+                                    alt=""
+                                />
+                                {plannedIntervention.title_display}
+                            </Heading>
+                            <Container>
+                                <TextOutput
+                                    label={strings.drefAllocationLabel}
+                                    value={drefResponse?.amount_requested}
+                                    valueType="number"
+                                    prefix={strings.chfPrefix}
+                                    strongLabel
+                                />
+                                <TextOutput
+                                    label={strings.budgetLabel}
+                                    value={plannedIntervention.budget}
+                                    valueType="number"
+                                    prefix={strings.chfPrefix}
+                                    strongLabel
+                                />
+                                <TextOutput
+                                    label={strings.targetedPersonsLabel}
+                                    value={plannedIntervention.person_targeted}
+                                    valueType="number"
+                                    strongLabel
+                                />
+                            </Container>
+                            <Container
+                                heading={strings.indicatorsHeading}
+                                headingLevel={5}
+                                childrenContainerClassName={
+                                    styles.plannedInterventionIndicators
+                                }
+                            >
+                                <div className={styles.titleLabel}>
+                                    {strings.indicatorTitleLabel}
+                                </div>
+                                <div className={styles.targetLabel}>
+                                    {strings.indicatorTargetLabel}
+                                </div>
+                                {plannedIntervention.indicators?.map(
+                                    (indicator) => (
+                                        <BlockTextOutput
+                                            key={indicator.id}
+                                            label={indicator.title}
+                                            value={indicator.target}
+                                            valueType="number"
+                                        />
+                                    ),
+                                )}
+                            </Container>
+                            <Container
+                                heading={strings.priorityActionsHeading}
+                                headingLevel={5}
+                            >
+                                <DescriptionText>
+                                    {plannedIntervention.description}
+                                </DescriptionText>
+                            </Container>
+                        </Fragment>
+                    ))}
                 </>
             )}
             {showAboutSupportServicesSection && (
