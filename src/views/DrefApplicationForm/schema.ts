@@ -141,6 +141,7 @@ const schema: DrefFormSchema = {
             disaster_type: {},
             type_of_onset: { required: true },
             disaster_category: {},
+            disaster_category_analysis: {},
             country: {},
             district: { defaultValue: [] },
             title: {
