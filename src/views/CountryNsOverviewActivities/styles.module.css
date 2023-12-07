@@ -1,28 +1,7 @@
 .country-threeW-national-society-projects {
     display: flex;
     flex-direction: column;
-    padding: var(--go-ui-spacing-2xl) 0;
     gap: var(--go-ui-spacing-2xl);
-
-    .ns-activity-description {
-        display: flex;
-
-        .description {
-            text-align: center;
-        }
-
-        .start-dummy-content,
-        .end-dummy-content {
-            align-self: flex-end;
-            flex-grow: 1;
-            width: 12%;
-        }
-
-        .add-ns-activity {
-            display: flex;
-            flex-shrink: 0;
-        }
-    }
 
     .key-figure-card-list {
         display: grid;
