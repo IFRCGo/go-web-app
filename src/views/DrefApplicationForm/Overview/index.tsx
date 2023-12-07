@@ -264,21 +264,22 @@ function Overview(props: Props) {
                             disabled={disabled}
                             withAsterisk
                         />
-                        {(value?.disaster_type === DISASTER_FIRE
-                          || value?.disaster_type === DISASTER_FLASH_FLOOD
-                          || value?.disaster_type === DISASTER_FLOOD)
-                              ? (
-                                  <BooleanInput
-                                      name="is_man_made_event"
-                                      label={strings.drefFormManMadeEvent}
-                                      value={value?.is_man_made_event}
-                                      onChange={setFieldValue}
-                                      error={error?.is_man_made_event}
-                                      disabled={disabled}
-                                  />
-                              ) : (
-                                  <div />
-                              )}
+                        {(
+                            value?.disaster_type === DISASTER_FIRE
+                            || value?.disaster_type === DISASTER_FLASH_FLOOD
+                            || value?.disaster_type === DISASTER_FLOOD) ? (
+                                <BooleanInput
+                                    name="is_man_made_event"
+                                    label={strings.drefFormManMadeEvent}
+                                    value={value?.is_man_made_event}
+                                    onChange={setFieldValue}
+                                    error={error?.is_man_made_event}
+                                    disabled={disabled}
+                                />
+                            ) : (
+                                <div />
+                            )}
+
                         <SelectInput
                             name="disaster_category"
                             label={(

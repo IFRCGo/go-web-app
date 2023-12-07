@@ -166,7 +166,7 @@ export function Component() {
             // eslint-disable-next-line max-len
             identifiedNeedsAndGapsSortedList.indexOf(a.title) - identifiedNeedsAndGapsSortedList.indexOf(b.title)
         )),
-        [drefResponse?.identified_gaps],
+        [drefResponse?.needs_identified],
     );
 
     const sortedNsActions = useMemo(
@@ -243,7 +243,12 @@ export function Component() {
 
     const peopleAssistedDefined = isTruthyString(drefResponse?.people_assisted?.trim());
     const selectionCriteriaDefined = isTruthyString(drefResponse?.selection_criteria?.trim());
-    const showTargetingStrategySection = peopleAssistedDefined || selectionCriteriaDefined;
+    const targetingStrategySupportingDocumentDefined = isDefined(
+        drefResponse?.targeting_strategy_support_file_details,
+    );
+    const showTargetingStrategySection = peopleAssistedDefined
+    || selectionCriteriaDefined
+    || targetingStrategySupportingDocumentDefined;
 
     const riskSecurityDefined = isDefined(drefResponse)
         && isDefined(drefResponse.risk_security)
@@ -849,6 +854,17 @@ export function Component() {
                             <DescriptionText>
                                 {drefResponse?.selection_criteria}
                             </DescriptionText>
+                        </Container>
+                    )}
+                    {targetingStrategySupportingDocumentDefined && (
+                        <Container>
+                            <Link
+                                href={drefResponse?.targeting_strategy_support_file_details?.file}
+                                external
+                                withUnderline
+                            >
+                                {strings.targetingStrategySupportingDocument}
+                            </Link>
                         </Container>
                     )}
                 </>

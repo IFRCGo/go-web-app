@@ -99,6 +99,7 @@
         "SourceInformationSectionHeading": "Source Information",
         "sourceInformationSourceNameTitle": "Source Name",
         "sourceInformationSourceLinkTitle": "Source Link",
-        "crisisCategorySupportingDocumentLabel": "Crisis Category Supporting Document"
+        "crisisCategorySupportingDocumentLabel": "Crisis Category Supporting Document",
+        "targetingStrategySupportingDocument": "Targeting Strategy Supporting Document"
     }
 }
