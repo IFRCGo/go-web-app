@@ -98,6 +98,7 @@
         "drefAssessmentReportLink": "Assessment Report",
         "SourceInformationSectionHeading": "Source Information",
         "sourceInformationSourceNameTitle": "Source Name",
-        "sourceInformationSourceLinkTitle": "Source Link"
+        "sourceInformationSourceLinkTitle": "Source Link",
+        "crisisCategorySupportingDocumentLabel": "Crisis Category Supporting Document"
     }
 }
