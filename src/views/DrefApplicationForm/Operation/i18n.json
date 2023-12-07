@@ -18,6 +18,7 @@
         "drefFormRiskSecurityPotentialRisk": "Please indicate about potential operational risk for this operations and mitigation actions",
         "drefFormRiskSecurityPotentialRiskDescription": "Please consider any possible challenges to conduct the assessment, any possible limitations in getting the information required and overall risk to the implementation",
         "drefFormRiskSecuritySafetyConcern": "Please indicate any security and safety concerns for this operation",
+        "drefFormRiskSecurityHasChildRiskCompleted": "Has the child safeguarding risk analysis assessment been completed?",
         "drefFormSelectionCriteria": "Explain the selection criteria for the targeted population",
         "drefFormSelectionCriteriaDescription": "Explain the rational and logic behind which groups are being targeted and why and address vulnerable groups",
         "drefFormSupportServices": "About Support Services",

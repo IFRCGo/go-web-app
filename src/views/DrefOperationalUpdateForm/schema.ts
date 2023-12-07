@@ -553,6 +553,7 @@ const schema: OpsUpdateFormSchema = {
             'planned_interventions',
             'human_resource',
             'is_surge_personnel_deployed',
+            'has_child_safeguarding_risk_analysis_assessment',
         ] as const;
         type OperationDrefTypeRelatedFields = Pick<
             OpsUpdateFormSchemaFields,
@@ -636,6 +637,7 @@ const schema: OpsUpdateFormSchema = {
                         }),
                     },
                     risk_security_concern: {},
+                    has_child_safeguarding_risk_analysis_assessment: {},
                     budget_file: {},
                     planned_interventions: {
                         keySelector: (n) => n.client_id,

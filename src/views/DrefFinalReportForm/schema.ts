@@ -235,6 +235,7 @@ const schema: FinalReportFormSchema = {
                 }),
             },
             risk_security_concern: {},
+            has_child_safeguarding_risk_analysis_assessment: {},
             planned_interventions: {
                 keySelector: (n) => n.client_id,
                 member: () => ({

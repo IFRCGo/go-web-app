@@ -580,6 +580,7 @@ const schema: DrefFormSchema = {
             'displaced_people',
             'risk_security',
             'risk_security_concern',
+            'has_child_safeguarding_risk_analysis_assessment',
             'budget_file',
             'planned_interventions',
             'human_resource',
@@ -670,6 +671,7 @@ const schema: DrefFormSchema = {
                         }),
                     },
                     risk_security_concern: {},
+                    has_child_safeguarding_risk_analysis_assessment: {},
                     budget_file: {},
                     planned_interventions: {
                         keySelector: (n) => n.client_id,
