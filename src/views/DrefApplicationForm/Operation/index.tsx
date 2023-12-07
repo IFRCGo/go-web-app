@@ -425,6 +425,16 @@ function Operation(props: Props) {
                         disabled={disabled}
                     />
                 </InputSection>
+                <InputSection
+                    title={strings.drefFormRiskSecurityHasChildRiskCompleted}
+                >
+                    <BooleanInput
+                        name="has_child_safeguarding_risk_analysis_assessment"
+                        value={value.has_child_safeguarding_risk_analysis_assessment}
+                        onChange={setFieldValue}
+                        error={error?.has_child_safeguarding_risk_analysis_assessment}
+                    />
+                </InputSection>
             </Container>
             <Container
                 heading={strings.drefFormPlannedIntervention}
