@@ -73,6 +73,7 @@
         "riskAndSecuritySectionHeading": "Risk and Security Considerations",
         "riskSecurityHeading": "Please indicate about potential operation risk for this operations and mitigation actions",
         "safetyConcernHeading": "Please indicate any security and safety concerns for this operation",
+        "hasChildRiskCompleted": "Has the child safeguarding risk analysis assessment been completed?",
         "plannedInterventionSectionHeading": "Planned Intervention",
         "targetedPersonsLabel": "Targeted Persons",
         "budgetLabel": "Budget",

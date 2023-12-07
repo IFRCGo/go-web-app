@@ -62,6 +62,7 @@
         "riskLabel": "Risk",
         "mitigationLabel": "Mitigation action",
         "safetyConcernHeading": "Please indicate any security and safety concerns for this operation",
+        "hasChildRiskCompleted": "Has the child safeguarding risk analysis assessment been completed?",
         "interventionSectionHeading": "Implementation",
         "targetedPersonsLabel": "Targeted Persons",
         "assistedPersonsLabel": "Assisted Persons",

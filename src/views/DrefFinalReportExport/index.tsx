@@ -149,7 +149,12 @@ export function Component() {
         && isDefined(drefResponse.risk_security)
         && drefResponse.risk_security.length > 0;
     const riskSecurityConcernDefined = isTruthyString(drefResponse?.risk_security_concern?.trim());
-    const showRiskAndSecuritySection = riskSecurityDefined || riskSecurityConcernDefined;
+    const hasChildrenSafeguardingDefined = isDefined(
+        drefResponse?.has_child_safeguarding_risk_analysis_assessment,
+    );
+    const showRiskAndSecuritySection = riskSecurityDefined
+    || riskSecurityConcernDefined
+    || hasChildrenSafeguardingDefined;
 
     const plannedInterventionDefined = isDefined(drefResponse)
         && isDefined(drefResponse.planned_interventions)
@@ -663,6 +668,17 @@ export function Component() {
                             >
                                 {drefResponse?.risk_security_concern}
                             </DescriptionText>
+                        </Container>
+                    )}
+                    {hasChildrenSafeguardingDefined && (
+                        <Container>
+                            <BlockTextOutput
+                                label={strings.hasChildRiskCompleted}
+                                // eslint-disable-next-line max-len
+                                value={drefResponse?.has_child_safeguarding_risk_analysis_assessment}
+                                valueType="boolean"
+                                strongLabel
+                            />
                         </Container>
                     )}
                 </>
