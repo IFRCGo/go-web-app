@@ -22,7 +22,6 @@ import ExportButton from '#components/domain/ExportButton';
 import Message from '#components/Message';
 import PieChart from '#components/PieChart';
 import Table from '#components/Table';
-import Page from '#components/Page';
 import {
     createDateRangeColumn,
     createElementColumn,
@@ -235,11 +234,10 @@ export function Component() {
         createStringColumn<Project, number>(
             'contact',
             strings.nSContactPerson,
-            (item) => (
-                `${item.reporting_ns_contact_name}
-                ,
-                ${item.reporting_ns_contact_email}`
-            ),
+            (item) => ([
+                item.reporting_ns_contact_name,
+                item.reporting_ns_contact_email,
+            ].filter(isDefined).join(', ')),
         ),
         createElementColumn<Project, number, ProjectActionsProps>(
             'actions',
@@ -311,9 +309,10 @@ export function Component() {
     const showCardsSection = showCard1 || showCard2 || showCard3;
 
     return (
-        <Page
-            mainSectionClassName={styles.countryThreeWNationalSocietyProjects}
-            description={strings.nSActivityDescription}
+        <Container
+            childrenContainerClassName={styles.countryThreeWNationalSocietyProjects}
+            headerDescription={strings.nSActivityDescription}
+            headerDescriptionContainerClassName={styles.nsActivityDescription}
             actions={(
                 <Link
                     to="newThreeWActivity"
@@ -324,88 +323,84 @@ export function Component() {
                 </Link>
             )}
         >
-            <Container
-                childrenContainerClassName={styles.keyFigureCardList}
-            >
-                {projectListPending && <BlockLoading />}
-                {!projectListPending && showCardsSection && (
-                    <>
-                        {showCard1 && (
-                            <div className={styles.keyFigureCard}>
-                                <KeyFigure
-                                    className={styles.keyFigure}
-                                    value={countryCountWithNSProjects}
-                                    label={strings.countriesNSWork}
-                                    labelClassName={styles.keyFigureDescription}
+            {projectListPending && <BlockLoading />}
+            {!projectListPending && showCardsSection && (
+                <div className={styles.keyFigureCardList}>
+                    {showCard1 && (
+                        <div className={styles.keyFigureCard}>
+                            <KeyFigure
+                                className={styles.keyFigure}
+                                value={countryCountWithNSProjects}
+                                label={strings.countriesNSWork}
+                                labelClassName={styles.keyFigureDescription}
+                            />
+                            <div className={styles.separator} />
+                            <KeyFigure
+                                className={styles.keyFigure}
+                                value={targetedPopulation}
+                                label={strings.nSTargetedPopulationTitle}
+                                labelClassName={styles.keyFigureDescription}
+                                compactValue
+                            />
+                        </div>
+                    )}
+                    {showCard2 && (
+                        <div className={styles.keyFigureCard}>
+                            <KeyFigure
+                                className={styles.keyFigure}
+                                value={filteredProjectList.length}
+                                label={strings.nSTotalProjectsTitle}
+                                labelClassName={styles.keyFigureDescription}
+                            />
+                            <div className={styles.separator} />
+                            <Container
+                                heading={strings.nSProgrammeType}
+                                headingLevel={5}
+                                className={styles.pieChartContainer}
+                            >
+                                <PieChart
+                                    className={styles.pieChart}
+                                    data={programmeTypeStats}
+                                    valueSelector={numericValueSelector}
+                                    labelSelector={stringLabelSelector}
+                                    keySelector={stringLabelSelector}
+                                    colors={primaryRedColorShades}
+                                    pieRadius={40}
+                                    chartPadding={10}
                                 />
-                                <div className={styles.separator} />
-                                <KeyFigure
-                                    className={styles.keyFigure}
-                                    value={targetedPopulation}
-                                    label={strings.nSTargetedPopulationTitle}
-                                    labelClassName={styles.keyFigureDescription}
-                                    compactValue
+                            </Container>
+                        </div>
+                    )}
+                    {showCard3 && (
+                        <div className={styles.keyFigureCard}>
+                            <KeyFigure
+                                className={styles.keyFigure}
+                                value={ongoingProjectBudget}
+                                label={strings.nSFundingRequirementsTitle}
+                                labelClassName={styles.keyFigureDescription}
+                                compactValue
+                            />
+                            <div className={styles.separator} />
+                            <Container
+                                heading={strings.nSProjectStatus}
+                                headingLevel={5}
+                                className={styles.pieChartContainer}
+                            >
+                                <PieChart
+                                    className={styles.pieChart}
+                                    data={projectStatusTypeStats}
+                                    valueSelector={numericValueSelector}
+                                    labelSelector={stringLabelSelector}
+                                    keySelector={stringLabelSelector}
+                                    colors={primaryRedColorShades}
+                                    pieRadius={40}
+                                    chartPadding={10}
                                 />
-                            </div>
-                        )}
-                        {showCard2 && (
-                            <div className={styles.keyFigureCard}>
-                                <KeyFigure
-                                    className={styles.keyFigure}
-                                    value={filteredProjectList.length}
-                                    label={strings.nSTotalProjectsTitle}
-                                    labelClassName={styles.keyFigureDescription}
-                                />
-                                <div className={styles.separator} />
-                                <Container
-                                    heading={strings.nSProgrammeType}
-                                    headingLevel={5}
-                                    className={styles.pieChartContainer}
-                                >
-                                    <PieChart
-                                        className={styles.pieChart}
-                                        data={programmeTypeStats}
-                                        valueSelector={numericValueSelector}
-                                        labelSelector={stringLabelSelector}
-                                        keySelector={stringLabelSelector}
-                                        colors={primaryRedColorShades}
-                                        pieRadius={40}
-                                        chartPadding={10}
-                                    />
-                                </Container>
-                            </div>
-                        )}
-                        {showCard3 && (
-                            <div className={styles.keyFigureCard}>
-                                <KeyFigure
-                                    className={styles.keyFigure}
-                                    value={ongoingProjectBudget}
-                                    label={strings.nSFundingRequirementsTitle}
-                                    labelClassName={styles.keyFigureDescription}
-                                    compactValue
-                                />
-                                <div className={styles.separator} />
-                                <Container
-                                    heading={strings.nSProjectStatus}
-                                    headingLevel={5}
-                                    className={styles.pieChartContainer}
-                                >
-                                    <PieChart
-                                        className={styles.pieChart}
-                                        data={projectStatusTypeStats}
-                                        valueSelector={numericValueSelector}
-                                        labelSelector={stringLabelSelector}
-                                        keySelector={stringLabelSelector}
-                                        colors={primaryRedColorShades}
-                                        pieRadius={40}
-                                        chartPadding={10}
-                                    />
-                                </Container>
-                            </div>
-                        )}
-                    </>
-                )}
-            </Container>
+                            </Container>
+                        </div>
+                    )}
+                </div>
+            )}
             <Container
                 className={styles.ongoingProjects}
                 childrenContainerClassName={styles.content}
@@ -522,7 +517,7 @@ export function Component() {
                     keySelector={numericIdSelector}
                 />
             </Container>
-        </Page>
+        </Container>
     );
 }
 
