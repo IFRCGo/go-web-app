@@ -1,9 +1,10 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useMemo } from 'react';
 import { useParams, ScrollRestoration } from 'react-router-dom';
 import {
     _cs,
     isDefined,
     isFalsyString,
+    isNotDefined,
     isTruthyString,
 } from '@togglecorp/fujs';
 
@@ -26,11 +27,16 @@ import {
     DREF_TYPE_IMMINENT,
     DisasterCategory,
 } from '#utils/constants';
+import { components } from '#generated/types';
 
 import ifrcLogo from '#assets/icons/ifrc-square.png';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+type PlannedIntervention = components<'read'>['schemas']['PlannedIntervention'];
+type IdentifiedNeedsAndGaps = components<'read'>['schemas']['IdentifiedNeed'];
+type NsActions = components<'read'>['schemas']['NationalSocietyAction'];
 
 function BlockTextOutput(props: TextOutputProps & { variant?: never, withoutLabelColon?: never }) {
     return (
@@ -47,6 +53,58 @@ const colorMap: Record<DisasterCategory, string> = {
     [DISASTER_CATEGORY_YELLOW]: styles.yellow,
     [DISASTER_CATEGORY_ORANGE]: styles.orange,
     [DISASTER_CATEGORY_RED]: styles.red,
+};
+
+const plannedInterventionSortedList: Record<NonNullable<PlannedIntervention['title']>, number> = {
+    shelter_housing_and_settlements: 1,
+    livelihoods_and_basic_needs: 2,
+    multi_purpose_cash: 3,
+    health: 4,
+    water_sanitation_and_hygiene: 5,
+    protection_gender_and_inclusion: 6,
+    education: 7,
+    migration_and_displacement: 8,
+    risk_reduction_climate_adaptation_and_recovery: 9,
+    community_engagement_and_accountability: 10,
+    environmental_sustainability: 11,
+    coordination_and_partnerships: 12,
+    secretariat_services: 13,
+    national_society_strengthening: 14,
+};
+
+const identifiedNeedsAndGapsSortedList: Record<NonNullable<IdentifiedNeedsAndGaps['title']>, number> = {
+    shelter_housing_and_settlements: 1,
+    livelihoods_and_basic_needs: 2,
+    multi_purpose_cash_grants: 3,
+    health: 4,
+    water_sanitation_and_hygiene: 5,
+    protection_gender_and_inclusion: 6,
+    education: 7,
+    migration_and_displacement: 8,
+    risk_reduction_climate_adaptation_and_recovery: 9,
+    community_engagement_and_accountability: 10,
+    environment_sustainability: 11,
+};
+
+const nsActionsSortedList: Record<NsActions['title'], number> = {
+    shelter_housing_and_settlements: 1,
+    livelihoods_and_basic_needs: 2,
+    multi_purpose_cash: 3,
+    health: 4,
+    water_sanitation_and_hygiene: 5,
+    protection_gender_and_inclusion: 6,
+    education: 7,
+    migration_and_displacement: 8,
+    risk_reduction_climate_adaptation_and_recovery: 9,
+    community_engagement_and_accountability: 10,
+    environment_sustainability: 11,
+    coordination: 12,
+    national_society_readiness: 13,
+    assessment: 14,
+    resource_mobilization: 15,
+    activation_of_contingency_plans: 16,
+    national_society_eoc: 17,
+    other: 18,
 };
 
 // eslint-disable-next-line import/prefer-default-export
@@ -96,6 +154,60 @@ export function Component() {
             setPreviewReady(true);
         },
     });
+
+    const filteredPlannedIntervention = useMemo(
+        () => drefResponse?.planned_interventions?.map((intervention) => {
+            if (isNotDefined(intervention.title)) {
+                return undefined;
+            }
+            return { ...intervention, title: intervention.title };
+        }).filter(isDefined),
+        [drefResponse?.planned_interventions],
+    );
+
+    const filteredIdentifiedNeedsAndGaps = useMemo(
+        () => drefResponse?.needs_identified?.map((need) => {
+            if (isNotDefined(need.title)) {
+                return undefined;
+            }
+            return { ...need, title: need.title };
+        }).filter(isDefined),
+        [drefResponse?.needs_identified],
+    );
+
+    const filteredNsActions = useMemo(
+        () => drefResponse?.national_society_actions?.map((nsAction) => {
+            if (isNotDefined(nsAction.title)) {
+                return undefined;
+            }
+            return { ...nsAction, title: nsAction.title };
+        }).filter(isDefined),
+        [drefResponse?.national_society_actions],
+    );
+
+    const sortedPlannedInterventions = useMemo(
+        () => filteredPlannedIntervention?.sort(
+            // eslint-disable-next-line max-len
+            (a, b) => plannedInterventionSortedList[a.title] - plannedInterventionSortedList[b.title],
+        ),
+        [filteredPlannedIntervention],
+    );
+
+    const sortedIdentifiedNeedsAndGaps = useMemo(
+        () => filteredIdentifiedNeedsAndGaps?.sort(
+            // eslint-disable-next-line max-len
+            (a, b) => identifiedNeedsAndGapsSortedList[a.title] - identifiedNeedsAndGapsSortedList[b.title],
+        ),
+        [filteredIdentifiedNeedsAndGaps],
+    );
+
+    const sortedNsActions = useMemo(
+        () => filteredNsActions?.sort((a, b) => (
+            // eslint-disable-next-line max-len
+            nsActionsSortedList[a.title] - nsActionsSortedList[b.title]
+        )),
+        [filteredNsActions],
+    );
 
     const eventDescriptionDefined = isTruthyString(drefResponse?.event_description?.trim());
     const eventScopeDefined = drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT
@@ -547,7 +659,7 @@ export function Component() {
                             <Container
                                 childrenContainerClassName={styles.nsActionsList}
                             >
-                                {drefResponse?.national_society_actions?.map(
+                                {sortedNsActions?.map(
                                     (nsAction) => (
                                         <BlockTextOutput
                                             key={nsAction.id}
@@ -645,7 +757,7 @@ export function Component() {
                     <Heading level={2}>
                         {strings.needsIdentifiedSectionHeading}
                     </Heading>
-                    {needsIdentifiedDefined && drefResponse?.needs_identified?.map(
+                    {needsIdentifiedDefined && sortedIdentifiedNeedsAndGaps?.map(
                         (identifiedNeed) => (
                             <Fragment key={identifiedNeed.id}>
                                 <Heading className={styles.needsIdentifiedHeading}>
@@ -850,7 +962,7 @@ export function Component() {
                     <Heading level={2}>
                         {strings.plannedInterventionSectionHeading}
                     </Heading>
-                    {drefResponse?.planned_interventions?.map(
+                    {sortedPlannedInterventions?.map(
                         (plannedIntervention) => (
                             <Fragment key={plannedIntervention.id}>
                                 <Heading className={styles.plannedInterventionHeading}>
