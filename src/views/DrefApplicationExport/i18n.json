@@ -94,6 +94,9 @@
         "drefApplicationExportRisk": "Risk",
         "drefApplicationExportMitigation": "Mitigation action",
         "drefApplicationSupportingDocumentation": "Supporting Documentation",
-        "drefAssessmentReportLink": "Assessment Report"
+        "drefAssessmentReportLink": "Assessment Report",
+        "SourceInformationSectionHeading": "Source Information",
+        "sourceInformationSourceNameTitle": "Source Name",
+        "sourceInformationSourceLinkTitle": "Source Link"
     }
 }

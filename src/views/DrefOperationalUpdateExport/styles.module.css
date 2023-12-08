@@ -68,6 +68,8 @@
         }
 
         .additional-allocation,
+        .reporting-timeframe-start-date,
+        .reporting-timeframe-end-date,
         .targeted-areas {
             display: flex;
             flex-direction: column;

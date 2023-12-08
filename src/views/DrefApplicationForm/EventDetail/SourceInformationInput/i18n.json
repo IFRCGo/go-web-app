@@ -1,0 +1,8 @@
+{
+    "namespace": "drefApplicationForm",
+    "strings": {
+        "sourceInformationNameLabel": "Sources of information (optional) name",
+        "sourceInformationLinkLabel": "Sources of information (optional) link",
+        "sourceInformationDeleteButton": "Delete Source Information"
+    }
+}

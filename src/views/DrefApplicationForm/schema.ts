@@ -9,6 +9,7 @@ import {
     nullValue,
     lessThanOrEqualToCondition,
     emailCondition,
+    urlCondition,
 } from '@togglecorp/toggle-form';
 import { isDefined } from '@togglecorp/fujs';
 import { type DeepReplace } from '#utils/common';
@@ -121,6 +122,7 @@ type ImageFileFields = ReturnType<ObjectSchema<NonNullable<PartialDref['images_f
 type NationalSocietyFields = ReturnType<ObjectSchema<NonNullable<PartialDref['national_society_actions']>[number], PartialDref>['fields']>;
 type NeedsIdentifiedFields = ReturnType<ObjectSchema<NonNullable<PartialDref['needs_identified']>[number], PartialDref>['fields']>;
 type RiskSecurityFields = ReturnType<ObjectSchema<NonNullable<PartialDref['risk_security']>[number], PartialDref>['fields']>;
+type SourceInformationFields = ReturnType<ObjectSchema<NonNullable<PartialDref['source_information']>[number], PartialDref>['fields']>;
 type PlannedInterventionFields = ReturnType<ObjectSchema<NonNullable<PartialDref['planned_interventions']>[number], PartialDref>['fields']>;
 type IndicatorFields = ReturnType<ObjectSchema<NonNullable<NonNullable<PartialDref['planned_interventions']>[number]['indicators']>[number], PartialDref>['fields']>;
 
@@ -145,7 +147,6 @@ const schema: DrefFormSchema = {
             // EVENT DETAILS
             num_affected: { validations: [positiveIntegerCondition] },
             num_assisted: { validations: [positiveIntegerCondition] },
-
             // none
 
             // ACTIONS
@@ -264,6 +265,7 @@ const schema: DrefFormSchema = {
             'event_date',
             'event_description',
             'images_file',
+            'source_information',
         ] as const;
         type EventDetailDrefTypeRelatedFields = Pick<
             DrefFormSchemaFields,
@@ -283,6 +285,7 @@ const schema: DrefFormSchema = {
                     did_ns_request_fund: { forceValue: nullValue },
                     lessons_learned: { forceValue: nullValue },
                     event_scope: { forceValue: nullValue },
+                    source_information: { forceValue: [] },
                     event_text: { forceValue: nullValue },
                     anticipatory_actions: { forceValue: nullValue },
                     supporting_document: { forceValue: nullValue },
@@ -325,6 +328,22 @@ const schema: DrefFormSchema = {
                     conditionalFields = {
                         ...conditionalFields,
                         event_description: {},
+                        source_information: {
+                            keySelector: (source) => source.client_id,
+                            member: () => ({
+                                fields: (): SourceInformationFields => ({
+                                    client_id: {},
+                                    source_name: {
+                                        required: true,
+                                        requiredValidation: requiredStringCondition,
+                                    },
+                                    source_link: {
+                                        required: true,
+                                        requiredValidation: urlCondition,
+                                    },
+                                }),
+                            }),
+                        },
                         images_file: {
                             keySelector: (image_file) => image_file.client_id,
                             member: () => ({
