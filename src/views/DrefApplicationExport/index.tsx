@@ -4,6 +4,7 @@ import {
     _cs,
     isDefined,
     isFalsyString,
+    isNotDefined,
     isTruthyString,
 } from '@togglecorp/fujs';
 
@@ -14,7 +15,6 @@ import Heading from '#components/printable/Heading';
 import DescriptionText from '#components/printable/DescriptionText';
 import Link from '#components/Link';
 import DateOutput from '#components/DateOutput';
-import { components } from '#generated/types';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import {
@@ -25,7 +25,7 @@ import {
     DREF_TYPE_IMMINENT,
     DisasterCategory,
 } from '#utils/constants';
-
+import { components } from '#generated/types';
 import ifrcLogo from '#assets/icons/ifrc-square.png';
 
 import i18n from './i18n.json';
@@ -52,57 +52,57 @@ const colorMap: Record<DisasterCategory, string> = {
     [DISASTER_CATEGORY_RED]: styles.red,
 };
 
-const plannedInterventionSortedList = [
-    'shelter_housing_and_settlements',
-    'livelihoods_and_basic_needs',
-    'multi-purpose_cash',
-    'health',
-    'water_sanitation_and_hygiene',
-    'protection_gender_and_inclusion',
-    'education',
-    'migration',
-    'risk_reduction_climate_adaptation_and_recovery_',
-    'community_engagement_and_accountability',
-    'environmental_sustainability',
-    'coordination_and_partnerships',
-    'secretariat_services',
-    'national_society_strengthening',
-] satisfies (PlannedIntervention['title'])[];
+const plannedInterventionSortedList: Record<NonNullable<PlannedIntervention['title']>, number> = {
+    shelter_housing_and_settlements: 1,
+    livelihoods_and_basic_needs: 2,
+    multi_purpose_cash: 3,
+    health: 4,
+    water_sanitation_and_hygiene: 5,
+    protection_gender_and_inclusion: 6,
+    education: 7,
+    migration_and_displacement: 8,
+    risk_reduction_climate_adaptation_and_recovery: 9,
+    community_engagement_and_accountability: 10,
+    environmental_sustainability: 11,
+    coordination_and_partnerships: 12,
+    secretariat_services: 13,
+    national_society_strengthening: 14,
+};
 
-const identifiedNeedsAndGapsSortedList = [
-    'shelter_housing_and_settlements',
-    'livelihoods_and_basic_needs',
-    'multi_purpose_cash_grants',
-    'health',
-    'water_sanitation_and_hygiene',
-    'protection_gender_and_inclusion',
-    'education',
-    'migration',
-    'risk_reduction_climate_adaptation_and_recovery',
-    'community_engagement_and _accountability',
-    'environment_sustainability ',
-] satisfies (IdentifiedNeedsAndGaps['title'])[];
+const identifiedNeedsAndGapsSortedList: Record<NonNullable<IdentifiedNeedsAndGaps['title']>, number> = {
+    shelter_housing_and_settlements: 1,
+    livelihoods_and_basic_needs: 2,
+    multi_purpose_cash_grants: 3,
+    health: 4,
+    water_sanitation_and_hygiene: 5,
+    protection_gender_and_inclusion: 6,
+    education: 7,
+    migration_and_displacement: 8,
+    risk_reduction_climate_adaptation_and_recovery: 9,
+    community_engagement_and_accountability: 10,
+    environment_sustainability: 11,
+};
 
-const nsActionsSortedList = [
-    'shelter_housing_and_settlements',
-    'livelihoods_and_basic_needs',
-    'multi-purpose_cash',
-    'health',
-    'water_sanitation_and_hygiene',
-    'protection_gender_and_inclusion',
-    'education',
-    'migration',
-    'risk_reduction_climate_adaptation_and_recovery',
-    'community_engagement_and _accountability',
-    'environment_sustainability ',
-    'coordination',
-    'national_society_readiness',
-    'assessment',
-    'resource_mobilization',
-    'activation_of_contingency_plans',
-    'national_society_eoc',
-    'other',
-] satisfies (NsActions['title'])[];
+const nsActionsSortedList: Record<NsActions['title'], number> = {
+    shelter_housing_and_settlements: 1,
+    livelihoods_and_basic_needs: 2,
+    multi_purpose_cash: 3,
+    health: 4,
+    water_sanitation_and_hygiene: 5,
+    protection_gender_and_inclusion: 6,
+    education: 7,
+    migration_and_displacement: 8,
+    risk_reduction_climate_adaptation_and_recovery: 9,
+    community_engagement_and_accountability: 10,
+    environment_sustainability: 11,
+    coordination: 12,
+    national_society_readiness: 13,
+    assessment: 14,
+    resource_mobilization: 15,
+    activation_of_contingency_plans: 16,
+    national_society_eoc: 17,
+    other: 18,
+};
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -153,28 +153,58 @@ export function Component() {
         },
     });
 
-    const sortedPlannedInterventions = useMemo(
-        () => drefResponse?.planned_interventions?.sort((a, b) => (
-            // eslint-disable-next-line max-len
-            plannedInterventionSortedList.indexOf(a.title) - plannedInterventionSortedList.indexOf(b.title)
-        )),
+    const filteredPlannedIntervention = useMemo(
+        () => drefResponse?.planned_interventions?.map((intervention) => {
+            if (isNotDefined(intervention.title)) {
+                return undefined;
+            }
+            return { ...intervention, title: intervention.title };
+        }).filter(isDefined),
         [drefResponse?.planned_interventions],
     );
 
-    const sortedIdentifiedNeedsAndGaps = useMemo(
-        () => drefResponse?.needs_identified?.sort((a, b) => (
-            // eslint-disable-next-line max-len
-            identifiedNeedsAndGapsSortedList.indexOf(a.title) - identifiedNeedsAndGapsSortedList.indexOf(b.title)
-        )),
+    const filteredIdentifiedNeedsAndGaps = useMemo(
+        () => drefResponse?.needs_identified?.map((need) => {
+            if (isNotDefined(need.title)) {
+                return undefined;
+            }
+            return { ...need, title: need.title };
+        }).filter(isDefined),
         [drefResponse?.needs_identified],
     );
 
-    const sortedNsActions = useMemo(
-        () => drefResponse?.national_society_actions?.sort((a, b) => (
-            // eslint-disable-next-line max-len
-            nsActionsSortedList.indexOf(a.title) - nsActionsSortedList.indexOf(b.title)
-        )),
+    const filteredNsActions = useMemo(
+        () => drefResponse?.national_society_actions?.map((nsAction) => {
+            if (isNotDefined(nsAction.title)) {
+                return undefined;
+            }
+            return { ...nsAction, title: nsAction.title };
+        }).filter(isDefined),
         [drefResponse?.national_society_actions],
+    );
+
+    const sortedPlannedInterventions = useMemo(
+        () => filteredPlannedIntervention?.sort(
+            // eslint-disable-next-line max-len
+            (a, b) => plannedInterventionSortedList[a.title] - plannedInterventionSortedList[b.title],
+        ),
+        [filteredPlannedIntervention],
+    );
+
+    const sortedIdentifiedNeedsAndGaps = useMemo(
+        () => filteredIdentifiedNeedsAndGaps?.sort(
+            // eslint-disable-next-line max-len
+            (a, b) => identifiedNeedsAndGapsSortedList[a.title] - identifiedNeedsAndGapsSortedList[b.title],
+        ),
+        [filteredIdentifiedNeedsAndGaps],
+    );
+
+    const sortedNsActions = useMemo(
+        () => filteredNsActions?.sort((a, b) => (
+            // eslint-disable-next-line max-len
+            nsActionsSortedList[a.title] - nsActionsSortedList[b.title]
+        )),
+        [filteredNsActions],
     );
 
     const eventDescriptionDefined = isTruthyString(drefResponse?.event_description?.trim());
