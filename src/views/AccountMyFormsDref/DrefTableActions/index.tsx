@@ -112,7 +112,7 @@ function DrefTableActions(props: Props) {
         ),
         onSuccess: (response) => {
             const exportData = {
-                allocationFor: 'DREF Operation',
+                allocationFor: response?.type_of_dref_display === 'Loan' ? 'Emergency Appeal' : 'DREF Operation',
                 appealManager: response?.ifrc_appeal_manager_name,
                 projectManager: response?.ifrc_project_manager_name,
                 affectedCountry: response?.country_details?.name,
