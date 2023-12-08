@@ -14,6 +14,8 @@
         "glideNumberLabel": "Glide Number",
         "peopleAffectedLabel": "People Affected",
         "peopleTargetedLabel": "People Targeted",
+        "reportingTimeframeStartDateLabel": "Reporting Timeframe Start Date",
+        "reportingTimeframeEndDateLabel": "Reporting Timeframe End Date",
         "peopleSuffix": " people",
         "operationStartDateLabel": "Operation Start Date",
         "operationTimeframeLabel": "Total Operating Timeframe",

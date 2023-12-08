@@ -186,6 +186,10 @@ export function Component() {
         || pmerDefined
         || communicationDefined;
 
+    const SourceInformationDefined = isDefined(drefResponse)
+        && isDefined(drefResponse.source_information)
+        && drefResponse.source_information.length > 0;
+
     const showBudgetOverview = isTruthyString(drefResponse?.budget_file_details?.file);
 
     const nsContactText = [
@@ -457,6 +461,41 @@ export function Component() {
                         >
                             {strings.drefApplicationSupportingDocumentation}
                         </Link>
+                    )}
+                    {SourceInformationDefined && (
+                        <Container
+                            heading={strings.SourceInformationSectionHeading}
+                            childrenContainerClassName={styles.sourceInformationList}
+                            headingLevel={3}
+                        >
+                            <div className={styles.nameTitle}>
+                                {strings.sourceInformationSourceNameTitle}
+                            </div>
+                            <div className={styles.linkTitle}>
+                                {strings.sourceInformationSourceLinkTitle}
+                            </div>
+                            {drefResponse?.source_information?.map(
+                                (source, index) => (
+                                    <Fragment key={source.id}>
+                                        <DescriptionText className={styles.name}>
+                                            <div className={styles.nameList}>
+                                                {`${index + 1}. ${source.source_name}`}
+                                            </div>
+                                        </DescriptionText>
+                                        <DescriptionText className={styles.link}>
+                                            <Link
+                                                href={source.source_link}
+                                                external
+                                                withUnderline
+                                            >
+                                                {source?.source_link}
+                                            </Link>
+                                        </DescriptionText>
+                                    </Fragment>
+                                ),
+                            )}
+
+                        </Container>
                     )}
                 </>
             )}
