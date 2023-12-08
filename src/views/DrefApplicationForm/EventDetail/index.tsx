@@ -1,9 +1,12 @@
+import { useCallback } from 'react';
 import {
     type Error,
     type EntriesAsList,
     getErrorObject,
+    useFormArray,
 } from '@togglecorp/toggle-form';
 import { WikiHelpSectionLineIcon } from '@ifrc-go/icons';
+import { randomString } from '@togglecorp/fujs';
 
 import { resolveUrl } from '#utils/resolveUrl';
 import Container from '#components/Container';
@@ -12,6 +15,8 @@ import TextInput from '#components/TextInput';
 import BooleanInput from '#components/BooleanInput';
 import TextArea from '#components/TextArea';
 import DateInput from '#components/DateInput';
+import NonFieldError from '#components/NonFieldError';
+import Button from '#components/Button';
 import useTranslation from '#hooks/useTranslation';
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
 import Link from '#components/Link';
@@ -26,10 +31,13 @@ import {
 } from '../common';
 import { type PartialDref } from '../schema';
 
+import SourceInformationInput from './SourceInformationInput';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type Value = PartialDref;
+type SourceInformationFormFields = NonNullable<PartialDref['source_information']>[number];
+
 interface Props {
     value: Value;
     setFieldValue: (...entries: EntriesAsList<Value>) => void;
@@ -57,6 +65,27 @@ function EventDetail(props: Props) {
     } = props;
 
     const error = getErrorObject(formError);
+
+    const {
+        setValue: onSourceInformationChange,
+        removeValue: onSourceInformationRemove,
+    } = useFormArray<'source_information', SourceInformationFormFields>(
+        'source_information',
+        setFieldValue,
+    );
+
+    const handleSourceInformationAdd = useCallback(() => {
+        const newSourceInformationItem: SourceInformationFormFields = {
+            client_id: randomString(),
+        };
+
+        setFieldValue(
+            (oldValue: SourceInformationFormFields[] | undefined) => (
+                [...(oldValue ?? []), newSourceInformationItem]
+            ),
+            'source_information' as const,
+        );
+    }, [setFieldValue]);
 
     const operationalLearningPlatformUrl = resolveUrl(window.location.origin, 'preparedness#operational-learning');
 
@@ -352,25 +381,6 @@ function EventDetail(props: Props) {
                         </GoSingleFileInput>
                     </InputSection>
                 )}
-                {value.type_of_dref !== TYPE_LOAN && (
-                    <InputSection
-                        title={strings.drefFormUploadPhotos}
-                        description={strings.drefFormUploadPhotosLimitation}
-                        contentSectionClassName={styles.imageInputContent}
-                    >
-                        <MultiImageWithCaptionInput
-                            label={strings.drefFormSelectImages}
-                            url="/api/v2/dref-files/multiple/"
-                            name="images_file"
-                            value={value.images_file}
-                            onChange={setFieldValue}
-                            fileIdToUrlMap={fileIdToUrlMap}
-                            setFileIdToUrlMap={setFileIdToUrlMap}
-                            error={getErrorObject(error?.images_file)}
-                            disabled={disabled}
-                        />
-                    </InputSection>
-                )}
                 {value.type_of_dref !== TYPE_ASSESSMENT && value.type_of_dref !== TYPE_LOAN && (
                     <InputSection
                         title={strings.drefFormScopeAndScaleEvent}
@@ -384,6 +394,54 @@ function EventDetail(props: Props) {
                             disabled={disabled}
                         />
                     </InputSection>
+                )}
+                {value.type_of_dref !== TYPE_LOAN && (
+                    <>
+                        <InputSection
+                            title={strings.drefFormSourceInformationTitle}
+                            description={strings.drefFormSourceInformationDescription}
+                        >
+                            <NonFieldError error={getErrorObject(error?.source_information)} />
+                            {value.source_information?.map((source, index) => (
+                                <SourceInformationInput
+                                    key={source.client_id}
+                                    index={index}
+                                    value={source}
+                                    onChange={onSourceInformationChange}
+                                    onRemove={onSourceInformationRemove}
+                                    error={getErrorObject(error?.risk_security)}
+                                    disabled={disabled}
+                                />
+                            ))}
+                            <div className={styles.actions}>
+                                <Button
+                                    name={undefined}
+                                    onClick={handleSourceInformationAdd}
+                                    variant="secondary"
+                                    disabled={disabled}
+                                >
+                                    {strings.drefFormSourceInformationAddButton}
+                                </Button>
+                            </div>
+                        </InputSection>
+                        <InputSection
+                            title={strings.drefFormUploadPhotos}
+                            description={strings.drefFormUploadPhotosLimitation}
+                            contentSectionClassName={styles.imageInputContent}
+                        >
+                            <MultiImageWithCaptionInput
+                                label={strings.drefFormSelectImages}
+                                url="/api/v2/dref-files/multiple/"
+                                name="images_file"
+                                value={value.images_file}
+                                onChange={setFieldValue}
+                                fileIdToUrlMap={fileIdToUrlMap}
+                                setFileIdToUrlMap={setFileIdToUrlMap}
+                                error={getErrorObject(error?.images_file)}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                    </>
                 )}
             </Container>
         </div>

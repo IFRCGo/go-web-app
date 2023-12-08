@@ -40,6 +40,9 @@
         "drefFormWhatWhereWhen": "What happened, where and when?",
         "drefOperationalLearningPlatformLabel": "To access the Operational Learning Dashboard and check learnings for the country, click",
         "drefOperationalLearningPlatformLink": "HERE",
-        "drefFormSelectImages": "Select images"
+        "drefFormSelectImages": "Select images",
+        "drefFormSourceInformationAddButton": "Add New Source Information",
+        "drefFormSourceInformationTitle": "Source Information",
+        "drefFormSourceInformationDescription": "Add the links and the name of the sources, the name will be shown in the export, as an hyperlink."
     }
 }

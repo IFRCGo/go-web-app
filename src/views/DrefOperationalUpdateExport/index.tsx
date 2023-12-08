@@ -284,8 +284,8 @@ export function Component() {
                     value={drefResponse?.disaster_category_display}
                     valueClassName={_cs(
                         isDefined(drefResponse)
-                            && isDefined(drefResponse.disaster_category)
-                            && colorMap[drefResponse.disaster_category],
+                        && isDefined(drefResponse.disaster_category)
+                        && colorMap[drefResponse.disaster_category],
                     )}
                     strongValue
                 />
@@ -345,6 +345,20 @@ export function Component() {
                     value={drefResponse?.total_operation_timeframe}
                     valueType="number"
                     suffix={strings.monthsSuffix}
+                    strongValue
+                />
+                <TextOutput
+                    className={styles.reportingTimeframeStartDate}
+                    label={strings.reportingTimeframeStartDateLabel}
+                    value={drefResponse?.reporting_start_date}
+                    valueType="date"
+                    strongValue
+                />
+                <TextOutput
+                    className={styles.reportingTimeframeEndDate}
+                    label={strings.reportingTimeframeEndDateLabel}
+                    value={drefResponse?.reporting_end_date}
+                    valueType="date"
                     strongValue
                 />
                 <TextOutput
