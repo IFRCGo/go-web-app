@@ -19,7 +19,6 @@
 
     &.secondary {
         display: flex;
-        padding: var(--go-ui-spacing-2xl) 0;
         overflow-x: auto;
 
         .content {

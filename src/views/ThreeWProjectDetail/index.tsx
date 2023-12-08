@@ -132,7 +132,7 @@ export function Component() {
                             label={strings.reportingNationalSocietyTitle}
                             value={isDefined(projectResponse?.reporting_ns_detail?.iso3) ? (
                                 <Link
-                                    to="countryThreeWNationalSocietyProjects"
+                                    to="countryNsOverviewActivities"
                                     urlParams={{
                                         countryId: projectResponse?.reporting_ns_detail.id,
                                     }}
