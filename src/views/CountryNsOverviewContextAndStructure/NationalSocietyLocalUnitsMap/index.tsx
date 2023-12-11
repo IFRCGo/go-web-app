@@ -62,21 +62,6 @@ type LocalUnitType = components<'read'>['schemas']['LocalUnitType'];
 
 const localUnitCodeSelector = (localUnit: LocalUnitType) => localUnit.code;
 
-const localUnitTypes: LocalUnitType[] = [
-    {
-        code: 1,
-        name: 'Administrative',
-    },
-    {
-        code: 2,
-        name: 'Health Care',
-    },
-    {
-        code: 3,
-        name: 'Emergency Response',
-    },
-];
-
 interface Validation {
     label: string;
 }
@@ -134,6 +119,13 @@ function NationalSocietyLocalUnitsMap(props: Props) {
             search: filter.search,
             country__iso3: isDefined(countryResponse?.iso3) ? countryResponse?.iso3 : undefined,
         },
+    });
+
+    const {
+        response: localUnitsOptionsResponse,
+        pending: localUnitsOptionsResponsePending,
+    } = useRequest({
+        url: '/api/v2/local-units/options/',
     });
 
     const localUnitsGeoJson = useMemo((): GeoJSON.FeatureCollection<GeoJSON.Geometry> => ({
@@ -236,7 +228,8 @@ function NationalSocietyLocalUnitsMap(props: Props) {
                         onChange={setFilterField}
                         keySelector={localUnitCodeSelector}
                         labelSelector={stringNameSelector}
-                        options={localUnitTypes}
+                        disabled={localUnitsOptionsResponsePending}
+                        options={localUnitsOptionsResponse?.type}
                     />
                     <SelectInput
                         placeholder={strings.localUnitsFilterValidatedPlaceholder}
