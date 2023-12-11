@@ -186,7 +186,7 @@ export function Component() {
         || pmerDefined
         || communicationDefined;
 
-    const SourceInformationDefined = isDefined(drefResponse)
+    const sourceInformationDefined = isDefined(drefResponse)
         && isDefined(drefResponse.source_information)
         && drefResponse.source_information.length > 0;
 
@@ -462,7 +462,7 @@ export function Component() {
                             {strings.drefApplicationSupportingDocumentation}
                         </Link>
                     )}
-                    {SourceInformationDefined && (
+                    {sourceInformationDefined && (
                         <Container
                             heading={strings.SourceInformationSectionHeading}
                             childrenContainerClassName={styles.sourceInformationList}
