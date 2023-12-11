@@ -1,7 +1,7 @@
 .national-society-local-units-map {
     .clear-button {
         display: flex;
-        align-items: center;
+        align-items: end;
     }
 
     .map-container {
