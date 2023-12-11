@@ -57,11 +57,13 @@ type InterventionResponse = NonNullable<DrefRequestBody['planned_interventions']
 type IndicatorResponse = NonNullable<InterventionResponse['indicators']>[number];
 type RiskSecurityResponse = NonNullable<DrefRequestBody['risk_security']>[number];
 type ImagesFileResponse = NonNullable<DrefRequestBody['images_file']>[number];
+type SourceInformationResponse = NonNullable<DrefRequestBody['source_information']>[number];
 
 type NeedIdentifiedFormFields = NeedIdentifiedResponse & { client_id: string };
 type NsActionFormFields = NsActionResponse & { client_id: string; }
 type InterventionFormFields = InterventionResponse & { client_id: string };
 type IndicatorFormFields = IndicatorResponse & { client_id: string };
+type SourceInformationFormFields = SourceInformationResponse & { client_id: string };
 
 type RiskSecurityFormFields = RiskSecurityResponse & { client_id: string; };
 type ImagesFileFormFields = ImagesFileResponse & { client_id: string };
@@ -81,31 +83,35 @@ type DrefFormFields = (
                         DeepReplace<
                             DeepReplace<
                                 DeepReplace<
-                                    DrefRequestBody,
-                                    NeedIdentifiedResponse,
-                                    NeedIdentifiedFormFields
+                                    DeepReplace<
+                                        DrefRequestBody,
+                                        NeedIdentifiedResponse,
+                                        NeedIdentifiedFormFields
+                                    >,
+                                    NsActionResponse,
+                                    NsActionFormFields
                                 >,
-                                NsActionResponse,
-                                NsActionFormFields
+                                InterventionResponse,
+                                InterventionFormFields
                             >,
-                            InterventionResponse,
-                            InterventionFormFields
+                            IndicatorResponse,
+                            IndicatorFormFields
                         >,
                         IndicatorResponse,
                         IndicatorFormFields
                     >,
-                    IndicatorResponse,
-                    IndicatorFormFields
+                    RiskSecurityResponse,
+                    RiskSecurityFormFields
                 >,
-                RiskSecurityResponse,
-                RiskSecurityFormFields
+                ImagesFileResponse,
+                ImagesFileFormFields
             >,
-            ImagesFileResponse,
-            ImagesFileFormFields
+            EventMapFileResponse,
+            EventMapFileFormField
         >,
-        EventMapFileResponse,
-        EventMapFileFormField
-    >
+    SourceInformationResponse,
+    SourceInformationFormFields
+>
 );
 
 export type PartialDref = PartialForm<
