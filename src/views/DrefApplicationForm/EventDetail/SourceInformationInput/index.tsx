@@ -27,7 +27,7 @@ interface Props {
     disabled?: boolean;
 }
 
-function SourceInformation(props: Props) {
+function SourceInformationInput(props: Props) {
     const {
         error: errorFromProps,
         onChange,
@@ -52,7 +52,7 @@ function SourceInformation(props: Props) {
         : undefined;
 
     return (
-        <div className={styles.riskSecurityInput}>
+        <div className={styles.sourceInformationInput}>
             <NonFieldError error={error} />
             <TextArea
                 className={styles.input}
@@ -88,4 +88,4 @@ function SourceInformation(props: Props) {
     );
 }
 
-export default SourceInformation;
+export default SourceInformationInput;
