@@ -409,7 +409,7 @@ function EventDetail(props: Props) {
                                     value={source}
                                     onChange={onSourceInformationChange}
                                     onRemove={onSourceInformationRemove}
-                                    error={getErrorObject(error?.risk_security)}
+                                    error={getErrorObject(error?.source_information)}
                                     disabled={disabled}
                                 />
                             ))}
