@@ -9,7 +9,7 @@ import { type components } from '#generated/types';
 import { type PartialDref } from './schema';
 
 export type TypeOfDrefEnum = components<'read'>['schemas']['TypeOfDrefEnum'];
-type TypeOfOnsetEnum = components<'read'>['schemas']['TypeOfOnsetEnum'];
+type TypeOfOnsetEnum = components<'read'>['schemas']['TypeValidatedEnum'];
 
 // export const ONSET_SLOW = 1 satisfies TypeOfOnsetEnum;
 export const ONSET_SUDDEN = 2 satisfies TypeOfOnsetEnum;

@@ -345,7 +345,7 @@ const schema: DrefFormSchema = {
                                     },
                                     source_link: {
                                         required: true,
-                                        requiredValidation: urlCondition,
+                                        validations: [urlCondition],
                                     },
                                 }),
                             }),
