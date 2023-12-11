@@ -7,9 +7,9 @@ import {
 import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
 import { randomString } from '@togglecorp/fujs';
 
-import NonFieldError from '#components/NonFieldError';
 import Button from '#components/Button';
-import TextArea from '#components/TextArea';
+import NonFieldError from '#components/NonFieldError';
+import TextInput from '#components/TextInput';
 import useTranslation from '#hooks/useTranslation';
 
 import { type PartialDref } from '../../schema';
@@ -54,7 +54,7 @@ function SourceInformationInput(props: Props) {
     return (
         <div className={styles.sourceInformationInput}>
             <NonFieldError error={error} />
-            <TextArea
+            <TextInput
                 className={styles.input}
                 label={strings.sourceInformationNameLabel}
                 name="source_name"
@@ -62,9 +62,8 @@ function SourceInformationInput(props: Props) {
                 error={error?.source_name}
                 onChange={onFieldChange}
                 disabled={disabled}
-                withAsterisk
             />
-            <TextArea
+            <TextInput
                 className={styles.input}
                 label={strings.sourceInformationLinkLabel}
                 name="source_link"
@@ -72,7 +71,6 @@ function SourceInformationInput(props: Props) {
                 error={error?.source_link}
                 onChange={onFieldChange}
                 disabled={disabled}
-                withAsterisk
             />
             <Button
                 className={styles.removeButton}
