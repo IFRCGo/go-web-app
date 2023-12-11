@@ -236,9 +236,9 @@ export function Component() {
                 event_map_file,
                 cover_image_file,
                 images_file,
+                source_information,
                 ...otherValues
             } = removeNull(response);
-
             setValue({
                 ...otherValues,
                 planned_interventions: planned_interventions?.map(
@@ -247,6 +247,7 @@ export function Component() {
                         indicators: intervention.indicators?.map(injectClientId),
                     }),
                 ),
+                source_information: source_information?.map(injectClientId),
                 needs_identified: needs_identified?.map(injectClientId),
                 national_society_actions: national_society_actions?.map(injectClientId),
                 risk_security: risk_security?.map(injectClientId),
