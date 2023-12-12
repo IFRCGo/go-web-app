@@ -102,6 +102,7 @@ function HeaderCell(props: HeaderCellProps) {
             </div>
             {infoTitle && infoDescription && (
                 <InfoPopup
+                    className={styles.infoPopupIcon}
                     title={infoTitle}
                     description={infoDescription}
                 />

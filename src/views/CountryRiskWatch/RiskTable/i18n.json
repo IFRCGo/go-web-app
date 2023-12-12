@@ -8,7 +8,7 @@
         "riskScoreVeryLowLabel": "Very low",
         "riskScoreNotApplicableLabel": "N/A",
         "riskTableHazardTypeTitle": "Hazard Type",
-        "riskTableInformTitle": "INFORM Risk Score",
+        "riskTableInformTitle": "Risk Score",
         "riskTableInformDescriptionP1": "These figures depict INFORM seasonal hazard exposure values for each country for each month on a five-point scale:",
         "riskTableInformDescriptionP2": "1: Very Low | 2: Low | 3: Medium | 4: High | 5: Very High.",
         "riskTableInformDescriptionP3": "More information on these values can be found {moreInfoLink}",

@@ -176,6 +176,7 @@ function RiskTable(props: Props) {
                 ),
                 {
                     headerInfoTitle: strings.riskTableInformTitle,
+                    // FIXME: add description for wildfire
                     headerInfoDescription: (
                         <div className={styles.informDescription}>
                             <div>
