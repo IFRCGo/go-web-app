@@ -5,6 +5,7 @@
 
     --base-font-size: 0.875rem;
     --go-ui-font-size-export: 0.6875rem;
+    --go-ui-export-page-margin: 10mm 10mm 16mm 10mm;
 
     --go-ui-font-size-2xs: calc(var(--base-font-size) * 0.625);
     --go-ui-font-size-xs: calc(var(--base-font-size) * 0.75);
@@ -261,7 +262,7 @@ ul, ol, p {
 @media print {
     @page {
         size: portrait A4;
-        margin: 10mm;
+        margin: var(--go-ui-export-page-margin);
     }
 
     body {
