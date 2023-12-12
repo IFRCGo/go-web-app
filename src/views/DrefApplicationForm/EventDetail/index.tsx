@@ -8,7 +8,6 @@ import {
 import { WikiHelpSectionLineIcon } from '@ifrc-go/icons';
 import { randomString } from '@togglecorp/fujs';
 
-import { resolveUrl } from '#utils/resolveUrl';
 import Container from '#components/Container';
 import InputSection from '#components/InputSection';
 import TextInput from '#components/TextInput';
@@ -17,11 +16,12 @@ import TextArea from '#components/TextArea';
 import DateInput from '#components/DateInput';
 import NonFieldError from '#components/NonFieldError';
 import Button from '#components/Button';
-import useTranslation from '#hooks/useTranslation';
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
-import Link from '#components/Link';
+import Link, { useLink } from '#components/Link';
 import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaptionInput';
 import NumberInput from '#components/NumberInput';
+import useTranslation from '#hooks/useTranslation';
+import { resolveToComponent } from '#utils/translation';
 
 import {
     TYPE_IMMINENT,
@@ -87,7 +87,48 @@ function EventDetail(props: Props) {
         );
     }, [setFieldValue]);
 
-    const operationalLearningPlatformUrl = resolveUrl(window.location.origin, 'preparedness#operational-learning');
+    const operationalLearningUrl = useLink({
+        to: 'preparednessGlobalOperational',
+        external: false,
+    });
+
+    const handleDidItAffectSafeAreaChange = useCallback(
+        (newValue: boolean | undefined) => {
+            setFieldValue(newValue, 'did_it_affect_same_area');
+            setFieldValue(undefined, 'did_it_affect_same_population');
+            setFieldValue(undefined, 'did_ns_respond');
+            setFieldValue(undefined, 'did_ns_request_fund');
+            setFieldValue(undefined, 'ns_request_text');
+        },
+        [setFieldValue],
+    );
+
+    const handleDidItAffectSamePopulationChange = useCallback(
+        (newValue: boolean | undefined) => {
+            setFieldValue(newValue, 'did_it_affect_same_population');
+            setFieldValue(undefined, 'did_ns_respond');
+            setFieldValue(undefined, 'did_ns_request_fund');
+            setFieldValue(undefined, 'ns_request_text');
+        },
+        [setFieldValue],
+    );
+
+    const handleDidNsRespondChange = useCallback(
+        (newValue: boolean | undefined) => {
+            setFieldValue(newValue, 'did_ns_respond');
+            setFieldValue(undefined, 'did_ns_request_fund');
+            setFieldValue(undefined, 'ns_request_text');
+        },
+        [setFieldValue],
+    );
+
+    const handleDidNsRequestFundChange = useCallback(
+        (newValue: boolean | undefined) => {
+            setFieldValue(newValue, 'did_ns_request_fund');
+            setFieldValue(undefined, 'ns_request_text');
+        },
+        [setFieldValue],
+    );
 
     return (
         <div className={styles.eventDetail}>
@@ -96,17 +137,21 @@ function EventDetail(props: Props) {
                     heading={strings.drefFormPreviousOperations}
                     className={styles.previousOperations}
                     headerDescription={(
-                        <div className={styles.learningPlatformLink}>
-                            {strings.drefOperationalLearningPlatformLabel}
-                            <Link
-                                href={operationalLearningPlatformUrl}
-                                external
-                                withUnderline
-                                withLinkIcon
-                            >
-                                {strings.drefOperationalLearningPlatformLink}
-                            </Link>
-                        </div>
+                        resolveToComponent(
+                            strings.drefOperationalLearningPlatformLabel,
+                            {
+                                clickHereLink: (
+                                    <Link
+                                        href={operationalLearningUrl.to}
+                                        external
+                                        withUnderline
+                                        withLinkIcon
+                                    >
+                                        {strings.clickHereLinkLabel}
+                                    </Link>
+                                ),
+                            },
+                        )
                     )}
                 >
                     <InputSection
@@ -115,7 +160,7 @@ function EventDetail(props: Props) {
                         <BooleanInput
                             name="did_it_affect_same_area"
                             value={value.did_it_affect_same_area}
-                            onChange={setFieldValue}
+                            onChange={handleDidItAffectSafeAreaChange}
                             error={error?.did_it_affect_same_area}
                             disabled={disabled}
                         />
@@ -127,7 +172,7 @@ function EventDetail(props: Props) {
                             <BooleanInput
                                 name="did_it_affect_same_population"
                                 value={value.did_it_affect_same_population}
-                                onChange={setFieldValue}
+                                onChange={handleDidItAffectSamePopulationChange}
                                 error={error?.did_it_affect_same_population}
                                 disabled={disabled}
                             />
@@ -140,7 +185,7 @@ function EventDetail(props: Props) {
                             <BooleanInput
                                 name="did_ns_respond"
                                 value={value.did_ns_respond}
-                                onChange={setFieldValue}
+                                onChange={handleDidNsRespondChange}
                                 error={error?.did_ns_respond}
                                 disabled={disabled}
                             />
@@ -153,7 +198,7 @@ function EventDetail(props: Props) {
                             <BooleanInput
                                 name="did_ns_request_fund"
                                 value={value.did_ns_request_fund}
-                                onChange={setFieldValue}
+                                onChange={handleDidNsRequestFundChange}
                                 error={error?.did_ns_request_fund}
                                 disabled={disabled}
                             />
@@ -245,6 +290,7 @@ function EventDetail(props: Props) {
                         name="num_affected"
                         label={value?.type_of_dref === TYPE_IMMINENT ? (
                             <>
+                                {/* FIXME: use string template */}
                                 {strings.drefFormRiskPeopleLabel}
                                 <Link
                                     title={strings.drefFormClickEmergencyResponseFramework}
@@ -256,6 +302,7 @@ function EventDetail(props: Props) {
                             </>
                         ) : (
                             <>
+                                {/* FIXME: use string template */}
                                 {strings.drefFormPeopleAffected}
                                 <Link
                                     title={strings.drefFormClickEmergencyResponseFramework}
@@ -280,6 +327,7 @@ function EventDetail(props: Props) {
                         <NumberInput
                             label={(
                                 <>
+                                    {/* FIXME: use string template */}
                                     {
                                         value?.type_of_dref === TYPE_IMMINENT
                                             ? strings.drefFormEstimatedPeopleInNeed
@@ -309,6 +357,7 @@ function EventDetail(props: Props) {
                     <NumberInput
                         label={(
                             <>
+                                {/* FIXME: use string template */}
                                 {strings.drefFormPeopleTargeted}
                                 <Link
                                     title={strings.drefFormClickEmergencyResponseFramework}
@@ -326,6 +375,7 @@ function EventDetail(props: Props) {
                         hint={strings.drefFormPeopleTargetedDescription}
                         disabled={disabled}
                     />
+                    {/* FIXME: use grid to fix the empty div issue */}
                     {/* NOTE: Empty div to preserve the layout */}
                     <div />
                 </InputSection>

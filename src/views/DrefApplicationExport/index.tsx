@@ -26,9 +26,9 @@ import {
     DisasterCategory,
 } from '#utils/constants';
 import {
-    identifiedNeedsAndGapsSortedList,
-    nsActionsSortedList,
-    plannedInterventionSortedList,
+    identifiedNeedsAndGapsOrder,
+    nsActionsOrder,
+    plannedInterventionOrder,
 } from '#utils/domain/dref';
 import ifrcLogo from '#assets/icons/ifrc-square.png';
 
@@ -101,58 +101,72 @@ export function Component() {
         },
     });
 
-    const filteredPlannedIntervention = useMemo(
-        () => drefResponse?.planned_interventions?.map((intervention) => {
-            if (isNotDefined(intervention.title)) {
+    const plannedInterventions = useMemo(
+        () => {
+            if (isNotDefined(drefResponse) || isNotDefined(drefResponse.planned_interventions)) {
                 return undefined;
             }
-            return { ...intervention, title: intervention.title };
-        }).filter(isDefined),
-        [drefResponse?.planned_interventions],
+
+            const { planned_interventions } = drefResponse;
+
+            return planned_interventions.map(
+                (intervention) => {
+                    if (isNotDefined(intervention.title)) {
+                        return undefined;
+                    }
+                    return { ...intervention, title: intervention.title };
+                },
+            ).filter(isDefined).sort(
+                (a, b) => plannedInterventionOrder[a.title] - plannedInterventionOrder[b.title],
+            );
+        },
+        [drefResponse],
     );
 
-    const filteredIdentifiedNeedsAndGaps = useMemo(
-        () => drefResponse?.needs_identified?.map((need) => {
-            if (isNotDefined(need.title)) {
+    const needsIdentified = useMemo(
+        () => {
+            if (isNotDefined(drefResponse) || isNotDefined(drefResponse.needs_identified)) {
                 return undefined;
             }
-            return { ...need, title: need.title };
-        }).filter(isDefined),
-        [drefResponse?.needs_identified],
+
+            const { needs_identified } = drefResponse;
+
+            return needs_identified.map(
+                (need) => {
+                    if (isNotDefined(need.title)) {
+                        return undefined;
+                    }
+
+                    return {
+                        ...need,
+                        title: need.title,
+                    };
+                },
+            ).filter(isDefined).sort((a, b) => (
+                identifiedNeedsAndGapsOrder[a.title] - identifiedNeedsAndGapsOrder[b.title]
+            ));
+        },
+        [drefResponse],
     );
 
-    const filteredNsActions = useMemo(
-        () => drefResponse?.national_society_actions?.map((nsAction) => {
-            if (isNotDefined(nsAction.title)) {
+    const nsActions = useMemo(
+        () => {
+            if (isNotDefined(drefResponse) || isNotDefined(drefResponse.needs_identified)) {
                 return undefined;
             }
-            return { ...nsAction, title: nsAction.title };
-        }).filter(isDefined),
-        [drefResponse?.national_society_actions],
-    );
 
-    const sortedPlannedInterventions = useMemo(
-        () => filteredPlannedIntervention?.sort(
-            // eslint-disable-next-line max-len
-            (a, b) => plannedInterventionSortedList[a.title] - plannedInterventionSortedList[b.title],
-        ),
-        [filteredPlannedIntervention],
-    );
+            const { national_society_actions } = drefResponse;
 
-    const sortedIdentifiedNeedsAndGaps = useMemo(
-        () => filteredIdentifiedNeedsAndGaps?.sort(
-            // eslint-disable-next-line max-len
-            (a, b) => identifiedNeedsAndGapsSortedList[a.title] - identifiedNeedsAndGapsSortedList[b.title],
-        ),
-        [filteredIdentifiedNeedsAndGaps],
-    );
-
-    const sortedNsActions = useMemo(
-        () => filteredNsActions?.sort((a, b) => (
-            // eslint-disable-next-line max-len
-            nsActionsSortedList[a.title] - nsActionsSortedList[b.title]
-        )),
-        [filteredNsActions],
+            return national_society_actions?.map((nsAction) => {
+                if (isNotDefined(nsAction.title)) {
+                    return undefined;
+                }
+                return { ...nsAction, title: nsAction.title };
+            }).filter(isDefined).sort((a, b) => (
+                nsActionsOrder[a.title] - nsActionsOrder[b.title]
+            ));
+        },
+        [drefResponse],
     );
 
     const eventDescriptionDefined = isTruthyString(drefResponse?.event_description?.trim());
@@ -187,7 +201,7 @@ export function Component() {
     const showNsAction = isDefined(drefResponse)
         && isDefined(drefResponse.national_society_actions)
         && drefResponse.national_society_actions.length > 0
-        && isDefined(sortedNsActions);
+        && isDefined(nsActions);
 
     const icrcActionsDefined = isTruthyString(drefResponse?.icrc?.trim());
 
@@ -209,11 +223,15 @@ export function Component() {
     const needsIdentifiedDefined = isDefined(drefResponse)
         && isDefined(drefResponse.needs_identified)
         && drefResponse.needs_identified.length > 0
-        && isDefined(sortedIdentifiedNeedsAndGaps);
+        && isDefined(needsIdentified);
+
+    const assessmentReportDefined = isDefined(drefResponse)
+        && isDefined(drefResponse.assessment_report_details)
+        && isDefined(drefResponse.assessment_report_details.file);
 
     const showNeedsIdentifiedSection = isDefined(drefResponse)
         && drefResponse.type_of_dref !== DREF_TYPE_ASSESSMENT
-        && (identifiedGapsDefined || needsIdentifiedDefined);
+        && (identifiedGapsDefined || needsIdentifiedDefined || assessmentReportDefined);
 
     const operationObjectiveDefined = isTruthyString(drefResponse?.operation_objective?.trim());
     const responseStrategyDefined = isTruthyString(drefResponse?.response_strategy?.trim());
@@ -242,7 +260,7 @@ export function Component() {
     const plannedInterventionDefined = isDefined(drefResponse)
         && isDefined(drefResponse.planned_interventions)
         && drefResponse.planned_interventions.length > 0
-        && isDefined(sortedPlannedInterventions);
+        && isDefined(plannedInterventions);
 
     const humanResourceDefined = isTruthyString(drefResponse?.human_resource?.trim());
     const surgePersonnelDeployedDefined = isTruthyString(
@@ -409,8 +427,6 @@ export function Component() {
                     className={styles.metaItem}
                     label={strings.operationStartDateLabel}
                     value={drefResponse?.date_of_approval}
-                    valueType="date"
-                    format="dd-MM-yyyy"
                     strongValue
                 />
                 <TextOutput
@@ -426,14 +442,12 @@ export function Component() {
                     label={strings.operationEndDateLabel}
                     value={drefResponse?.end_date}
                     valueType="date"
-                    format="dd-MM-yyyy"
                     strongValue
                 />
                 <TextOutput
                     className={styles.metaItem}
                     label={strings.drefPublishedLabel}
                     value={drefResponse?.publishing_date}
-                    format="dd-MM-yyyy"
                     valueType="date"
                     strongValue
                 />
@@ -490,7 +504,6 @@ export function Component() {
                         >
                             <DateOutput
                                 value={drefResponse?.event_date}
-                                format="dd-MM-yyyy"
                             />
                         </Container>
                     )}
@@ -537,13 +550,15 @@ export function Component() {
                         </Container>
                     )}
                     {drefResponse?.supporting_document_details?.file && (
-                        <Link
-                            href={drefResponse?.supporting_document_details?.file}
-                            external
-                            withUnderline
-                        >
-                            {strings.drefApplicationSupportingDocumentation}
-                        </Link>
+                        <Container>
+                            <Link
+                                href={drefResponse?.supporting_document_details?.file}
+                                external
+                                withUnderline
+                            >
+                                {strings.drefApplicationSupportingDocumentation}
+                            </Link>
+                        </Container>
                     )}
                     {sourceInformationDefined && (
                         <Container
@@ -650,14 +665,13 @@ export function Component() {
                         >
                             <DateOutput
                                 value={drefResponse?.ns_respond_date}
-                                format="dd-MM-yyyy"
                             />
                         </Container>
                     )}
                     <Container
                         childrenContainerClassName={styles.nsActionsContent}
                     >
-                        {sortedNsActions?.map(
+                        {nsActions?.map(
                             (nsAction) => (
                                 <BlockTextOutput
                                     key={nsAction.id}
@@ -753,7 +767,7 @@ export function Component() {
                     <Heading level={2}>
                         {strings.needsIdentifiedSectionHeading}
                     </Heading>
-                    {needsIdentifiedDefined && sortedIdentifiedNeedsAndGaps?.map(
+                    {needsIdentifiedDefined && needsIdentified?.map(
                         (identifiedNeed) => (
                             <Fragment key={identifiedNeed.id}>
                                 <Heading className={styles.needsIdentifiedHeading}>
@@ -777,13 +791,17 @@ export function Component() {
                             </DescriptionText>
                         </Container>
                     )}
-                    <Link
-                        href={drefResponse?.assessment_report_details?.file}
-                        external
-                        withUnderline
-                    >
-                        {strings.drefAssessmentReportLink}
-                    </Link>
+                    {assessmentReportDefined && (
+                        <Container>
+                            <Link
+                                href={drefResponse?.assessment_report_details?.file}
+                                external
+                                withUnderline
+                            >
+                                {strings.drefAssessmentReportLink}
+                            </Link>
+                        </Container>
+                    )}
                 </>
             )}
             {showOperationStrategySection && (
@@ -976,7 +994,7 @@ export function Component() {
                     <Heading level={2}>
                         {strings.plannedInterventionSectionHeading}
                     </Heading>
-                    {sortedPlannedInterventions?.map((plannedIntervention) => (
+                    {plannedInterventions?.map((plannedIntervention) => (
                         <Fragment key={plannedIntervention.id}>
                             <Heading className={styles.plannedInterventionHeading}>
                                 <img
