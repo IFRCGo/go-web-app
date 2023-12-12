@@ -14,7 +14,7 @@ export interface Props {
 function DateOutput(props: Props) {
     const {
         value,
-        format = 'yyyy-MM-dd',
+        format,
         className,
         invalidText,
     } = props;

@@ -24,7 +24,7 @@ import useBooleanState from '#hooks/useBooleanState';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import { useLazyRequest } from '#utils/restRequest';
-import { DREF_STATUS_IN_PROGRESS } from '#utils/constants';
+import { DREF_STATUS_IN_PROGRESS, DREF_TYPE_IMMINENT, DREF_TYPE_LOAN } from '#utils/constants';
 
 import { exportDrefAllocation } from './drefAllocationExport';
 import i18n from './i18n.json';
@@ -79,13 +79,15 @@ function DrefTableActions(props: Props) {
         ),
         onSuccess: (response) => {
             const exportData = {
-                allocationFor: response?.type_of_dref_display === 'Loan' ? 'Emergency Appeal' : 'DREF Operation',
+                // FIXME: use translations
+                allocationFor: response?.type_of_dref === DREF_TYPE_LOAN ? 'Emergency Appeal' : 'DREF Operation',
                 appealManager: response?.ifrc_appeal_manager_name,
                 projectManager: response?.ifrc_project_manager_name,
                 affectedCountry: response?.country_details?.name,
                 name: response?.title,
                 disasterType: response?.disaster_type_details?.name,
-                responseType: response?.type_of_dref_display === 'Imminent' ? 'Imminent Crisis' : response?.type_of_onset_display,
+                // FIXME: use translations
+                responseType: response?.type_of_dref === DREF_TYPE_IMMINENT ? 'Imminent Crisis' : response?.type_of_onset_display,
                 noOfPeopleTargeted: response?.num_assisted,
                 nsRequestDate: response?.ns_request_date,
                 disasterStartDate: response?.event_date,
@@ -93,7 +95,8 @@ function DrefTableActions(props: Props) {
                 allocationRequested: response?.amount_requested,
                 previousAllocation: undefined,
                 totalDREFAllocation: response?.amount_requested,
-                toBeAllocatedFrom: response?.type_of_dref_display === 'Imminent' ? 'Anticipatory Pillar' : 'Response Pillar',
+                // FIXME: use translations
+                toBeAllocatedFrom: response?.type_of_dref === DREF_TYPE_IMMINENT ? 'Anticipatory Pillar' : 'Response Pillar',
                 focalPointName: response?.regional_focal_point_name,
             };
             exportDrefAllocation(exportData);

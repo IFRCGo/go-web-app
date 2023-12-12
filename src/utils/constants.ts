@@ -92,6 +92,8 @@ export const DREF_STATUS_IN_PROGRESS = 0 satisfies DrefStatus;
 type TypeOfDrefEnum = components<'read'>['schemas']['TypeOfDrefEnum'];
 export const DREF_TYPE_IMMINENT = 0 satisfies TypeOfDrefEnum;
 export const DREF_TYPE_ASSESSMENT = 1 satisfies TypeOfDrefEnum;
+export const DREF_TYPE_RESPONSE = 2 satisfies TypeOfDrefEnum;
+export const DREF_TYPE_LOAN = 3 satisfies TypeOfDrefEnum;
 
 // Subscriptions
 type SubscriptionRecordTypeEnum = components<'read'>['schemas']['RtypeEnum'];

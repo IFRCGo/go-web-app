@@ -2,7 +2,7 @@
     --pdf-element-bg: var(--go-ui-color-background);
 
     font-family: 'Open Sans', sans-serif;
-    font-size: var(--go-ui-dref-super-ticket-size);
+    font-size: var(--go-ui-font-size-export);
 
     @media screen {
         margin: var(--go-ui-spacing-xl) auto;

@@ -284,6 +284,7 @@ function Overview(props: Props) {
                             name="disaster_category"
                             label={(
                                 <>
+                                    {/* FIXME: use string template */}
                                     {value?.type_of_dref === TYPE_IMMINENT
 
                                         ? strings.drefFormImminentDisasterCategoryLabel
