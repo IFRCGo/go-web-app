@@ -291,6 +291,7 @@ function FoodInsecurityChart(props: Props) {
 
                         return (
                             <circle
+                                key={point.key}
                                 className={styles.averagePoint}
                                 cx={point.x}
                                 cy={point.y}
@@ -332,6 +333,7 @@ function FoodInsecurityChart(props: Props) {
 
                         return (
                             <circle
+                                key={point.x}
                                 className={styles.averagePoint}
                                 cx={point.x}
                                 cy={point.y}

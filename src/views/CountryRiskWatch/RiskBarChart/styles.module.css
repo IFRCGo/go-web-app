@@ -5,6 +5,10 @@
         flex-wrap: wrap;
         gap: var(--go-ui-spacing-md);
         grid-column: span 2;
+
+        @media screen and (max-width: 40rem) {
+            grid-column: unset;
+        }
     }
 
     .legend {
