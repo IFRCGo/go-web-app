@@ -105,19 +105,18 @@
             }
         }
     }
-    .popup-content {
-        display: flex;
-        flex-direction: column;
-        gap: var(--go-ui-spacing-md);
+}
 
-        .popup-appeal {
-            gap: var(--go-ui-spacing-xs);
+.tooltip-hazard-indicator {
+    display: flex;
+    align-items: center;
+    width: 1rem;
+    height: 1.2rem;
 
-            .popup-appeal-detail {
-                display: flex;
-                flex-direction: column;
-                font-size: var(--go-ui-font-size-sm);
-            }
-        }
+    .color {
+        flex-shrink: 0;
+        border-radius: 0.3rem;
+        width: 0.6rem;
+        height: 0.6rem;
     }
 }
