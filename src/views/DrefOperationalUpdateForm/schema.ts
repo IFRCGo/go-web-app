@@ -589,6 +589,7 @@ const schema: OpsUpdateFormSchema = {
                     planned_interventions: { forceValue: [] },
                     human_resource: { forceValue: nullValue },
                     is_surge_personnel_deployed: { forceValue: nullValue },
+                    has_child_safeguarding_risk_analysis_assessment: { forceValue: nullValue },
                 };
                 if (val?.type_of_dref === TYPE_LOAN) {
                     return conditionalFields;
