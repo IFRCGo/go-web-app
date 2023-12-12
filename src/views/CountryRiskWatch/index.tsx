@@ -5,7 +5,7 @@ import getBbox from '@turf/bbox';
 
 import Container from '#components/Container';
 import Link from '#components/Link';
-import RiskImminentEvents from '#components/domain/RiskImminentEvents';
+import RiskImminentEvents, { type ImminentEventSource } from '#components/domain/RiskImminentEvents';
 import HistoricalDataChart from '#components/domain/HistoricalDataChart';
 import BlockLoading from '#components/BlockLoading';
 import useTranslation from '#hooks/useTranslation';
@@ -73,6 +73,40 @@ export function Component() {
         [imminentEventCountsResponse],
     );
 
+    const defaultImminentEventSource = useMemo<ImminentEventSource | undefined>(
+        () => {
+            if (isNotDefined(imminentEventCountsResponse)) {
+                return undefined;
+            }
+
+            const {
+                pdc,
+                adam,
+                gdacs,
+                meteoswiss,
+            } = imminentEventCountsResponse;
+
+            if (isDefined(pdc) && pdc > 0) {
+                return 'pdc';
+            }
+
+            if (isDefined(adam) && adam > 0) {
+                return 'wfpAdam';
+            }
+
+            if (isDefined(gdacs) && gdacs > 0) {
+                return 'gdacs';
+            }
+
+            if (isDefined(meteoswiss) && meteoswiss > 0) {
+                return 'meteoSwiss';
+            }
+
+            return undefined;
+        },
+        [imminentEventCountsResponse],
+    );
+
     // NOTE: we always get 1 child in the response
     const riskResponse = countryRiskResponse?.[0];
     const bbox = useMemo(
@@ -91,6 +125,7 @@ export function Component() {
                     iso3={countryResponse.iso3}
                     title={countryResponse.name}
                     bbox={bbox}
+                    defaultSource={defaultImminentEventSource}
                 />
             )}
             <Container

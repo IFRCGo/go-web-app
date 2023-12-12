@@ -27,13 +27,14 @@ import MeteoSwiss from './MeteoSwiss';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type ActiveView = 'pdc' | 'wfpAdam' | 'gdacs' | 'meteoSwiss';
+export type ImminentEventSource = 'pdc' | 'wfpAdam' | 'gdacs' | 'meteoSwiss';
 type HazardType = components<'read'>['schemas']['HazardTypeEnum'];
 
 type BaseProps = {
     className?: string;
     title: React.ReactNode;
     bbox: LngLatBoundsLike | undefined;
+    defaultSource?: ImminentEventSource;
 }
 
 type Props = BaseProps & ({
@@ -47,8 +48,12 @@ type Props = BaseProps & ({
 })
 
 function RiskImminentEvents(props: Props) {
-    const [activeView, setActiveView] = useState<ActiveView>('pdc');
-    const { className, ...otherProps } = props;
+    const {
+        className,
+        defaultSource = 'pdc',
+        ...otherProps
+    } = props;
+    const [activeView, setActiveView] = useState<ImminentEventSource>(defaultSource);
 
     const strings = useTranslation(i18n);
 
@@ -75,7 +80,7 @@ function RiskImminentEvents(props: Props) {
         [activeView],
     );
 
-    const handleRadioClick = useCallback((key: ActiveView) => {
+    const handleRadioClick = useCallback((key: ImminentEventSource) => {
         setActiveView(key);
     }, []);
 
