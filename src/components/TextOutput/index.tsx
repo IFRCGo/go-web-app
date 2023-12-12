@@ -65,7 +65,7 @@ function TextOutput(props: Props) {
     } = props;
 
     const { value: propValue } = props;
-    let valueComponent: React.ReactNode = propValue || invalidText;
+    let valueComponent: React.ReactNode = invalidText;
 
     if (otherProps.valueType === 'number') {
         valueComponent = (
@@ -91,6 +91,8 @@ function TextOutput(props: Props) {
                 invalidText={invalidText}
             />
         );
+    } else if (!(propValue instanceof Date)) {
+        valueComponent = propValue || invalidText;
     }
 
     return (

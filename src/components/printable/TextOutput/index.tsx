@@ -3,6 +3,7 @@ import { _cs } from '@togglecorp/fujs';
 import NumberOutput, { Props as NumberOutputProps } from '#components/NumberOutput';
 import BooleanOutput, { Props as BooleanOutputProps } from '#components/BooleanOutput';
 import DateOutput, { Props as DateOutputProps } from '#components/DateOutput';
+import { DEFAULT_PRINT_DATE_FORMAT } from '#utils/constants';
 
 import styles from './styles.module.css';
 
@@ -59,7 +60,7 @@ function TextOutput(props: Props) {
     } = props;
 
     const { value: propValue } = props;
-    let valueComponent: React.ReactNode = propValue || invalidText;
+    let valueComponent: React.ReactNode = invalidText;
 
     if (otherProps.valueType === 'number') {
         valueComponent = (
@@ -75,6 +76,7 @@ function TextOutput(props: Props) {
                 // eslint-disable-next-line react/jsx-props-no-spreading
                 {...otherProps}
                 invalidText={invalidText}
+                format={DEFAULT_PRINT_DATE_FORMAT}
             />
         );
     } else if (otherProps.valueType === 'boolean') {
@@ -85,6 +87,8 @@ function TextOutput(props: Props) {
                 invalidText={invalidText}
             />
         );
+    } else if (!(propValue instanceof Date)) {
+        valueComponent = propValue || invalidText;
     }
 
     return (
