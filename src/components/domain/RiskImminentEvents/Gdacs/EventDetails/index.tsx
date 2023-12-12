@@ -103,42 +103,6 @@ function EventDetails(props: Props) {
             )}
         >
             {pending && <BlockLoading />}
-            {isDefined(eventDetails?.url) && (
-                <Container
-                    heading={strings.usefulLinksHeading}
-                    headingLevel={5}
-                    childrenContainerClassName={styles.usefulLinksContent}
-                    spacing="compact"
-                >
-                    {isDefined(eventDetails?.url.details) && (
-                        <Link
-                            href={eventDetails?.url.details}
-                            external
-                            withLinkIcon
-                        >
-                            {strings.eventMoreDetailsLink}
-                        </Link>
-                    )}
-                    {isDefined(eventDetails?.url.geometry) && (
-                        <Link
-                            href={eventDetails?.url.geometry}
-                            external
-                            withLinkIcon
-                        >
-                            {strings.eventGeometryLink}
-                        </Link>
-                    )}
-                    {isDefined(eventDetails?.url.report) && (
-                        <Link
-                            href={eventDetails?.url.report}
-                            external
-                            withLinkIcon
-                        >
-                            {strings.eventReportLink}
-                        </Link>
-                    )}
-                </Container>
-            )}
             <div className={styles.eventDetails}>
                 {isDefined(eventDetails?.source) && (
                     <TextOutput
@@ -190,6 +154,18 @@ function EventDetails(props: Props) {
                     />
                 )}
             </div>
+            {isDefined(eventDetails)
+                && isDefined(eventDetails.url)
+                && isDefined(eventDetails.url.report)
+                && (
+                    <Link
+                        href={eventDetails?.url.report}
+                        external
+                        withLinkIcon
+                    >
+                        {strings.eventMoreDetailsLink}
+                    </Link>
+                )}
         </Container>
     );
 }
