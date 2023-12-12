@@ -7,7 +7,7 @@
     @media screen {
         margin: var(--go-ui-spacing-xl) auto;
         background-color: var(--go-ui-color-foreground);
-        padding: 10mm;
+        padding: var(--go-ui-export-page-margin);
         width: 210mm;
         min-height: 297mm;
     }
