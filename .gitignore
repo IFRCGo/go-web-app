@@ -33,3 +33,7 @@ tsconfig.tsbuildinfo
 
 stats.html
 generated/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

@@ -26,7 +26,8 @@
         "test:coverage": "vitest run --coverage",
         "surge:deploy": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); branch=$(echo $branch  | tr ./ -); cp build/index.html build/200.html; surge -p build/ -d https://ifrc-go-$branch.surge.sh",
         "surge:teardown": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); branch=$(echo $branch  | tr ./ -); surge teardown https://ifrc-go-$branch.surge.sh",
-        "postinstall": "patch-package"
+        "postinstall": "patch-package",
+        "test:e2e": "dotenv playwright test"
     },
     "dependencies": {
         "@ifrc-go/icons": "^1.2.0",
@@ -53,6 +54,7 @@
     "devDependencies": {
         "@eslint/eslintrc": "^2.0.3",
         "@julr/vite-plugin-validate-env": "^0.2.2",
+        "@playwright/test": "^1.40.1",
         "@types/file-saver": "^2.0.5",
         "@types/html2canvas": "^1.0.0",
         "@types/mapbox-gl": "^1.13.0",

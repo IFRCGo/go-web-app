@@ -7,3 +7,11 @@ services:
       - .:/code
     ports:
       - '3000:3000'
+  playwright:
+    init: true
+    image: mcr.microsoft.com/playwright:v1.40.0-jammy
+    command: sh -c 'cd /home/pwuser && npx -y playwright@1.40.0 run-server --port 3001'
+    volumes:
+      - .:/code
+    ports:
+      - '3001:3001'
