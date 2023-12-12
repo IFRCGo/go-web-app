@@ -27,8 +27,8 @@ import {
     DisasterCategory,
 } from '#utils/constants';
 import {
-    identifiedNeedsAndGapsSortedList,
-    plannedInterventionSortedList,
+    identifiedNeedsAndGapsOrder,
+    plannedInterventionOrder,
 } from '#utils/domain/dref';
 
 import ifrcLogo from '#assets/icons/ifrc-square.png';
@@ -124,7 +124,7 @@ export function Component() {
     const sortedPlannedInterventions = useMemo(
         () => filteredPlannedIntervention?.sort(
             // eslint-disable-next-line max-len
-            (a, b) => plannedInterventionSortedList[a.title] - plannedInterventionSortedList[b.title],
+            (a, b) => plannedInterventionOrder[a.title] - plannedInterventionOrder[b.title],
         ),
         [filteredPlannedIntervention],
     );
@@ -132,7 +132,7 @@ export function Component() {
     const sortedIdentifiedNeedsAndGaps = useMemo(
         () => filteredIdentifiedNeedsAndGaps?.sort(
             // eslint-disable-next-line max-len
-            (a, b) => identifiedNeedsAndGapsSortedList[a.title] - identifiedNeedsAndGapsSortedList[b.title],
+            (a, b) => identifiedNeedsAndGapsOrder[a.title] - identifiedNeedsAndGapsOrder[b.title],
         ),
         [filteredIdentifiedNeedsAndGaps],
     );
@@ -345,7 +345,6 @@ export function Component() {
                     label={strings.operationStartDateLabel}
                     value={drefResponse?.operation_start_date}
                     valueType="date"
-                    format="dd-MM-yyyy"
                     strongValue
                 />
                 <TextOutput
@@ -353,7 +352,6 @@ export function Component() {
                     label={strings.operationEndDateLabel}
                     value={drefResponse?.operation_end_date}
                     valueType="date"
-                    format="dd-MM-yyyy"
                     strongValue
                 />
                 <TextOutput

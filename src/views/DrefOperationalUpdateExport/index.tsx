@@ -28,9 +28,9 @@ import {
     DisasterCategory,
 } from '#utils/constants';
 import {
-    identifiedNeedsAndGapsSortedList,
-    nsActionsSortedList,
-    plannedInterventionSortedList,
+    identifiedNeedsAndGapsOrder,
+    nsActionsOrder,
+    plannedInterventionOrder,
 } from '#utils/domain/dref';
 
 import ifrcLogo from '#assets/icons/ifrc-square.png';
@@ -136,7 +136,7 @@ export function Component() {
     const sortedPlannedInterventions = useMemo(
         () => filteredPlannedIntervention?.sort(
             // eslint-disable-next-line max-len
-            (a, b) => plannedInterventionSortedList[a.title] - plannedInterventionSortedList[b.title],
+            (a, b) => plannedInterventionOrder[a.title] - plannedInterventionOrder[b.title],
         ),
         [filteredPlannedIntervention],
     );
@@ -144,7 +144,7 @@ export function Component() {
     const sortedIdentifiedNeedsAndGaps = useMemo(
         () => filteredIdentifiedNeedsAndGaps?.sort(
             // eslint-disable-next-line max-len
-            (a, b) => identifiedNeedsAndGapsSortedList[a.title] - identifiedNeedsAndGapsSortedList[b.title],
+            (a, b) => identifiedNeedsAndGapsOrder[a.title] - identifiedNeedsAndGapsOrder[b.title],
         ),
         [filteredIdentifiedNeedsAndGaps],
     );
@@ -152,7 +152,7 @@ export function Component() {
     const sortedNsActions = useMemo(
         () => filteredNsActions?.sort((a, b) => (
             // eslint-disable-next-line max-len
-            nsActionsSortedList[a.title] - nsActionsSortedList[b.title]
+            nsActionsOrder[a.title] - nsActionsOrder[b.title]
         )),
         [filteredNsActions],
     );
@@ -393,7 +393,6 @@ export function Component() {
                     label={strings.operationStartDateLabel}
                     value={drefResponse?.new_operational_start_date}
                     valueType="date"
-                    format="dd-MM-yyyy"
                     strongValue
                 />
                 <TextOutput
@@ -401,7 +400,6 @@ export function Component() {
                     label={strings.operationEndDateLabel}
                     value={drefResponse?.new_operational_end_date}
                     valueType="date"
-                    format="dd-MM-yyyy"
                     strongValue
                 />
                 <TextOutput
@@ -584,7 +582,6 @@ export function Component() {
                             >
                                 <DateOutput
                                     value={drefResponse?.ns_respond_date}
-                                    format="dd-MM-yyyy"
                                 />
                             </Container>
                         )}

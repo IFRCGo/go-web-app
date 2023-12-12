@@ -1,10 +1,12 @@
 import { components } from '#generated/types';
 
 type PlannedIntervention = components<'read'>['schemas']['PlannedIntervention'];
-type IdentifiedNeedsAndGaps = components<'read'>['schemas']['IdentifiedNeed'];
+type PlannedInterventionTitle = NonNullable<PlannedIntervention['title']>;
+type IdentifiedNeeds = components<'read'>['schemas']['IdentifiedNeed'];
+type IdentifiedNeedsTitle = NonNullable<IdentifiedNeeds['title']>;
 type NsActions = components<'read'>['schemas']['NationalSocietyAction'];
 
-const plannedInterventionSortedList: Record<NonNullable<PlannedIntervention['title']>, number> = {
+export const plannedInterventionOrder: Record<PlannedInterventionTitle, number> = {
     shelter_housing_and_settlements: 1,
     livelihoods_and_basic_needs: 2,
     multi_purpose_cash: 3,
@@ -21,7 +23,7 @@ const plannedInterventionSortedList: Record<NonNullable<PlannedIntervention['tit
     national_society_strengthening: 14,
 };
 
-const identifiedNeedsAndGapsSortedList: Record<NonNullable<IdentifiedNeedsAndGaps['title']>, number> = {
+export const identifiedNeedsAndGapsOrder: Record<IdentifiedNeedsTitle, number> = {
     shelter_housing_and_settlements: 1,
     livelihoods_and_basic_needs: 2,
     multi_purpose_cash_grants: 3,
@@ -35,7 +37,7 @@ const identifiedNeedsAndGapsSortedList: Record<NonNullable<IdentifiedNeedsAndGap
     environment_sustainability: 11,
 };
 
-const nsActionsSortedList: Record<NsActions['title'], number> = {
+export const nsActionsOrder: Record<NsActions['title'], number> = {
     shelter_housing_and_settlements: 1,
     livelihoods_and_basic_needs: 2,
     multi_purpose_cash: 3,
@@ -54,10 +56,4 @@ const nsActionsSortedList: Record<NsActions['title'], number> = {
     activation_of_contingency_plans: 16,
     national_society_eoc: 17,
     other: 18,
-};
-
-export {
-    plannedInterventionSortedList,
-    identifiedNeedsAndGapsSortedList,
-    nsActionsSortedList,
 };

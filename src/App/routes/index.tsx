@@ -1942,6 +1942,7 @@ const preparednessGlobalCatalogue = customWrapRoute({
     },
 });
 
+// FIXME: update name to `preparednessOperationalLearning`
 const preparednessGlobalOperational = customWrapRoute({
     parent: preparednessLayout,
     path: 'operational-learning',
