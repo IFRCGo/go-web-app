@@ -2,10 +2,7 @@
     "namespace": "common",
     "strings": {
         "eventStartOnLabel": "Started on",
-        "usefulLinksHeading": "Useful links:",
         "eventMoreDetailsLink": "More Details",
-        "eventGeometryLink": "Geometry",
-        "eventReportLink": "Report",
         "eventSourceLabel": "Source",
         "eventDeathLabel": "Estimated deaths",
         "eventDisplacedLabel": "Estimated number of people displaced",
