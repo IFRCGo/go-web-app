@@ -1,6 +1,7 @@
 import { type components } from '#generated/types';
 
-export const DEFAULT_DATE_FORMAT = 'dd-MM-yyyy';
+export const DEFAULT_DATE_FORMAT = 'yyyy-MM-dd';
+export const DEFAULT_PRINT_DATE_FORMAT = 'dd-MM-yyyy';
 
 // Alert
 
