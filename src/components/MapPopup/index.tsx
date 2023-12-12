@@ -47,7 +47,7 @@ function MapPopup(props: Props) {
                 // eslint-disable-next-line react/jsx-props-no-spreading
                 {...containerProps}
                 className={styles.container}
-                ellipsizeHeading
+                withoutWrapInHeading
                 childrenContainerClassName={_cs(styles.content, childrenContainerClassName)}
                 withHeaderBorder
                 withInternalPadding

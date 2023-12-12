@@ -64,6 +64,8 @@ import {
     COLOR_DARK_GREY,
 } from '#utils/constants';
 import BaseMap from '#components/domain/BaseMap';
+import Message from '#components/Message';
+import Tooltip from '#components/Tooltip';
 
 import Filters, { type FilterValue } from './Filters';
 import i18n from './i18n.json';
@@ -78,9 +80,91 @@ const defaultFilterValue: FilterValue = {
     includeCopingCapacity: false,
 };
 
-type BaseProps = {
-    className?: string;
-    bbox: LngLatBoundsLike | undefined;
+interface TooltipContentProps {
+    selectedRiskMetric: RiskMetric,
+    valueListByHazard: {
+        value: number;
+        riskCategory: number;
+        hazard_type: HazardType;
+        hazard_type_display: string;
+    }[];
+}
+
+function TooltipContent(props: TooltipContentProps) {
+    const {
+        selectedRiskMetric,
+        valueListByHazard,
+    } = props;
+
+    const strings = useTranslation(i18n);
+    const riskCategoryToLabelMap: Record<number, string> = useMemo(
+        () => ({
+            [CATEGORY_RISK_VERY_LOW]: strings.riskCategoryVeryLow,
+            [CATEGORY_RISK_LOW]: strings.riskCategoryLow,
+            [CATEGORY_RISK_MEDIUM]: strings.riskCategoryMedium,
+            [CATEGORY_RISK_HIGH]: strings.riskCategoryHigh,
+            [CATEGORY_RISK_VERY_HIGH]: strings.riskCategoryVeryHigh,
+        }),
+        [
+            strings.riskCategoryVeryLow,
+            strings.riskCategoryLow,
+            strings.riskCategoryMedium,
+            strings.riskCategoryHigh,
+            strings.riskCategoryVeryHigh,
+        ],
+    );
+
+    const riskMetricLabelMap: Record<RiskMetric, string> = {
+        riskScore: strings.riskScoreOptionLabel,
+        displacement: strings.peopleAtRiskOptionLabel,
+        exposure: strings.peopleExposedOptionLabel,
+    };
+
+    return valueListByHazard.map(
+        ({
+            hazard_type_display,
+            hazard_type,
+            riskCategory,
+            value,
+        }) => (
+            <Container
+                key={hazard_type}
+                heading={hazard_type_display}
+                headingLevel={5}
+                spacing="condensed"
+                icons={(
+                    <div className={styles.tooltipHazardIndicator}>
+                        <div
+                            className={styles.color}
+                            // eslint-disable-next-line max-len
+                            style={{ backgroundColor: hazardTypeToColorMap[hazard_type] }}
+                        />
+                    </div>
+                )}
+            >
+                <TextOutput
+                    label={strings.riskScoreOptionLabel}
+                    strongValue
+                    value={riskCategoryToLabelMap[riskCategory]}
+                />
+                {selectedRiskMetric !== 'riskScore' && (
+                    <TextOutput
+                        label={riskMetricLabelMap[selectedRiskMetric]}
+                        strongValue
+                        value={formatNumber(Math.ceil(value), { maximumFractionDigits: 0 })}
+                    />
+                )}
+            </Container>
+        ),
+    );
+}
+
+const RISK_LOW_COLOR = '#c7d3e0';
+const RISK_HIGH_COLOR = '#f5333f';
+
+interface ClickedPoint {
+    feature: GeoJSON.Feature<GeoJSON.Point, GeoJsonProps>;
+    lngLat: mapboxgl.LngLatLike;
 }
 
 interface GeoJsonProps {
@@ -96,6 +180,11 @@ interface GeoJsonProps {
     region_id: number;
 }
 
+type BaseProps = {
+    className?: string;
+    bbox: LngLatBoundsLike | undefined;
+}
+
 type Props = BaseProps & ({
     variant: 'global';
     regionId?: never;
@@ -103,14 +192,6 @@ type Props = BaseProps & ({
     variant: 'region';
     regionId: number;
 });
-
-interface ClickedPoint {
-    feature: GeoJSON.Feature<GeoJSON.Point, GeoJsonProps>;
-    lngLat: mapboxgl.LngLatLike;
-}
-
-const RISK_LOW_COLOR = '#c7d3e0';
-const RISK_HIGH_COLOR = '#f5333f';
 
 function RiskSeasonalMap(props: Props) {
     const {
@@ -164,8 +245,10 @@ function RiskSeasonalMap(props: Props) {
         apiType: 'risk',
         url: '/api/v1/risk-score/',
         query: variant === 'region'
-            ? { region: regionId }
-            : undefined,
+            ? {
+                region: regionId,
+                limit: 9999,
+            } : { limit: 9999 },
     });
 
     // NOTE: We get single element as array in response
@@ -600,7 +683,7 @@ function RiskSeasonalMap(props: Props) {
                                     ];
 
                                     if (isDefined(riskCategory) && isDefined(populationFactor)) {
-                                        riskCategory *= populationFactor;
+                                        riskCategory = Math.ceil(riskCategory * populationFactor);
                                     }
                                 }
 
@@ -610,7 +693,7 @@ function RiskSeasonalMap(props: Props) {
                                     ];
 
                                     if (isDefined(riskCategory) && isDefined(lccFactor)) {
-                                        riskCategory *= lccFactor;
+                                        riskCategory = Math.ceil(riskCategory * lccFactor);
                                     }
                                 }
 
@@ -632,6 +715,9 @@ function RiskSeasonalMap(props: Props) {
                         const maxValue = maxSafe(valueListByHazard.map(({ value }) => value));
                         const sum = sumSafe(valueListByHazard.map(({ value }) => value));
                         const maxRiskCategory = maxSafe(
+                            valueListByHazard.map(({ riskCategory }) => riskCategory),
+                        );
+                        const riskCategorySum = sumSafe(
                             valueListByHazard.map(({ riskCategory }) => riskCategory),
                         );
 
@@ -658,6 +744,7 @@ function RiskSeasonalMap(props: Props) {
                             totalValue,
                             maxValue,
                             riskCategory: maxRiskCategory,
+                            riskCategorySum,
                             valueListByHazard: normalizedValueListByHazard,
                             country_details: firstItem.country_details,
                         };
@@ -675,7 +762,7 @@ function RiskSeasonalMap(props: Props) {
                         normalizedValue: item.totalValue / maxValue,
                         maxValue,
                     }),
-                ).sort((a, b) => compareNumber(a.totalValue, b.totalValue, -1));
+                ).sort((a, b) => compareNumber(a.riskCategorySum, b.riskCategorySum, -1));
             }
 
             if (filters.riskMetric === 'displacement') {
@@ -697,39 +784,6 @@ function RiskSeasonalMap(props: Props) {
                 );
 
                 return transformedData;
-
-                /*
-                return transformedData?.map(
-                    (item) => {
-                        let newNormalizedValue = item.normalizedValue;
-                        let newTotalValue = item.totalValue;
-
-                        if (filters.normalizeByPopulation
-                            && isDefined(maxPopulation)
-                            && maxPopulation > 0
-                        ) {
-                            const population = mappings?.population[item.iso3] ?? 0;
-                            newNormalizedValue *= (population / maxPopulation);
-                            newTotalValue *= (population / maxPopulation);
-                        }
-
-                        if (filters.includeCopingCapacity
-                            && isDefined(maxLackOfCopingCapacity)
-                            && maxLackOfCopingCapacity > 0
-                        ) {
-                            const lcc = mappings?.lcc[item.iso3] ?? 0;
-                            newNormalizedValue *= (lcc / maxLackOfCopingCapacity);
-                            newTotalValue *= (lcc / maxLackOfCopingCapacity);
-                        }
-
-                        return {
-                            ...item,
-                            totalValue: newTotalValue,
-                            normalizedValue: newNormalizedValue,
-                        };
-                    },
-                ).sort((a, b) => compareNumber(a.totalValue, b.totalValue, -1));
-                */
             }
 
             return undefined;
@@ -762,7 +816,7 @@ function RiskSeasonalMap(props: Props) {
                                 item.country_details.iso3.toUpperCase(),
                                 [
                                     'interpolate',
-                                    ['exponential', 1],
+                                    ['linear'],
                                     ['number', item.riskCategory],
                                     CATEGORY_RISK_VERY_LOW,
                                     COLOR_LIGHT_BLUE,
@@ -785,23 +839,6 @@ function RiskSeasonalMap(props: Props) {
         [filteredData],
     );
 
-    const riskCategoryToLabelMap: Record<number, string> = useMemo(
-        () => ({
-            [CATEGORY_RISK_VERY_LOW]: strings.riskCategoryVeryLow,
-            [CATEGORY_RISK_LOW]: strings.riskCategoryLow,
-            [CATEGORY_RISK_MEDIUM]: strings.riskCategoryMedium,
-            [CATEGORY_RISK_HIGH]: strings.riskCategoryHigh,
-            [CATEGORY_RISK_VERY_HIGH]: strings.riskCategoryVeryHigh,
-        }),
-        [
-            strings.riskCategoryVeryLow,
-            strings.riskCategoryLow,
-            strings.riskCategoryMedium,
-            strings.riskCategoryHigh,
-            strings.riskCategoryVeryHigh,
-        ],
-    );
-
     const handleCountryClick = useCallback(
         (feature: mapboxgl.MapboxGeoJSONFeature, lngLat: mapboxgl.LngLat) => {
             setClickedPointProperties({
@@ -822,8 +859,8 @@ function RiskSeasonalMap(props: Props) {
 
     const riskPopupValue = useMemo(() => (
         filteredData?.find(
-            (filter) => filter.iso3
-            === clickedPointProperties?.feature.properties.iso3.toLowerCase(),
+            (filter) => filter.iso3 === clickedPointProperties
+                ?.feature.properties.iso3.toLowerCase(),
         )
     ), [filteredData, clickedPointProperties]);
 
@@ -932,20 +969,10 @@ function RiskSeasonalMap(props: Props) {
                         contentViewType="vertical"
                         childrenContainerClassName={styles.popupContent}
                     >
-                        {riskPopupValue.valueListByHazard.map((hazard) => (
-                            <Container
-                                key={hazard.hazard_type}
-                                heading={hazard.hazard_type_display}
-                                headingLevel={5}
-                                className={styles.popupAppeal}
-                                childrenContainerClassName={styles.popupAppealDetail}
-                            >
-                                <TextOutput
-                                    value={riskCategoryToLabelMap[hazard.riskCategory]}
-                                    label={strings.riskPopupLabel}
-                                />
-                            </Container>
-                        ))}
+                        <TooltipContent
+                            selectedRiskMetric={filters.riskMetric}
+                            valueListByHazard={riskPopupValue.valueListByHazard}
+                        />
                     </MapPopup>
                 )}
             </BaseMap>
@@ -959,6 +986,12 @@ function RiskSeasonalMap(props: Props) {
                 contentViewType="vertical"
             >
                 {dataPending && <BlockLoading />}
+                {!dataPending && (isNotDefined(filteredData) || filteredData?.length === 0) && (
+                    <Message
+                        // FIXME: add translations
+                        title="Data not available for selected filters"
+                    />
+                )}
                 {/* FIXME: use List */}
                 {!dataPending && filteredData?.map(
                     (dataItem) => {
@@ -984,13 +1017,11 @@ function RiskSeasonalMap(props: Props) {
                                 <div className={styles.track}>
                                     {dataItem.valueListByHazard.map(
                                         ({
-                                            normalizedValue,
-                                            value,
                                             hazard_type,
-                                            hazard_type_display,
+                                            riskCategory,
                                         }) => {
                                             // eslint-disable-next-line max-len
-                                            const percentage = 100 * normalizedValue * dataItem.normalizedValue;
+                                            const percentage = (100 * riskCategory) / (5 * filters.hazardTypes.length);
 
                                             if (percentage < 1) {
                                                 return null;
@@ -999,7 +1030,6 @@ function RiskSeasonalMap(props: Props) {
                                             return (
                                                 <div
                                                     className={styles.bar}
-                                                    title={`${hazard_type_display}: ${filters.riskMetric === 'riskScore' ? riskCategoryToLabelMap[value] : formatNumber(value)}`}
                                                     key={hazard_type}
                                                     style={{
                                                         width: `${percentage}%`,
@@ -1012,6 +1042,16 @@ function RiskSeasonalMap(props: Props) {
                                         },
                                     )}
                                 </div>
+                                <Tooltip
+                                    title={dataItem.country_details.name}
+                                    className={styles.barChartTooltip}
+                                    description={(
+                                        <TooltipContent
+                                            selectedRiskMetric={filters.riskMetric}
+                                            valueListByHazard={dataItem.valueListByHazard}
+                                        />
+                                    )}
+                                />
                             </div>
                         );
                     },
