@@ -125,7 +125,7 @@ function AppealsTable(props: Props) {
             createStringColumn<AppealListItem, string>(
                 'dtype',
                 strings.appealsTableDisastertype,
-                (item) => item.dtype.name,
+                (item) => item.dtype?.name,
                 { sortable: true },
             ),
             createNumberColumn<AppealListItem, string>(
@@ -152,7 +152,7 @@ function AppealsTable(props: Props) {
             createLinkColumn<AppealListItem, string>(
                 'country',
                 strings.appealsTableCountry,
-                (item) => item.country.name,
+                (item) => item.country?.name,
                 (item) => ({
                     to: 'countriesLayout',
                     urlParams: { countryId: item.country.id },

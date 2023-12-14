@@ -5,7 +5,6 @@
 
     --base-font-size: 0.875rem;
     --go-ui-font-size-export: 0.6875rem;
-    --go-ui-export-page-margin: 10mm 10mm 16mm 10mm;
 
     --go-ui-font-size-2xs: calc(var(--base-font-size) * 0.625);
     --go-ui-font-size-xs: calc(var(--base-font-size) * 0.75);
@@ -227,6 +226,8 @@
     --go-ui-page-header-description-width-max: var(--go-ui-width-content-max);
     --go-ui-page-width-max: 90rem;
     --mapbox-icon-width: 88px;
+
+    --go-ui-export-page-margin: 10mm 10mm 16mm 10mm;
 }
 
 * {
@@ -262,7 +263,7 @@ ul, ol, p {
 @media print {
     @page {
         size: portrait A4;
-        margin: var(--go-ui-export-page-margin);
+        margin: 10mm 10mm 16mm 10mm;
     }
 
     body {

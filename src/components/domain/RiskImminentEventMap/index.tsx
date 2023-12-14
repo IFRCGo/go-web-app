@@ -339,6 +339,7 @@ function RiskImminentEventMap<
                         keySelector={keySelector}
                         renderer={listItemRenderer}
                         rendererParams={eventListRendererParams}
+                        emptyMessage={strings.emptyImminentEventMessage}
                     />
                 )}
                 {isDefined(activeEvent) && (
