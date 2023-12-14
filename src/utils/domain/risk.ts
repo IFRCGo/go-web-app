@@ -228,7 +228,7 @@ export function getAverageIpcData(uniqueData: IpcData) {
     );
 
     const monthlyValueList = Object.values(ipcRiskDataItem ?? {});
-    const annual_average = avgSafe(monthlyValueList);
+    const annual_average = sumSafe(monthlyValueList);
 
     return {
         ...ipcRiskDataItem,
