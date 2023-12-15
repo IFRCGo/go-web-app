@@ -4,9 +4,19 @@
     gap: var(--go-ui-spacing-2xl);
 
     .national-society-detail {
-        display: flex;
-        justify-content: space-between;
-        gap: var(--go-ui-spacing-xl);
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+        grid-gap: var(--go-ui-spacing-lg);
+
+        .map {
+            grid-column: auto / span 2;
+        }
+
+        .directory {
+            @media screen and (max-width: 60rem) {
+                grid-column: 1 / -1;
+            }
+        }
     }
 
     .key-links-content {

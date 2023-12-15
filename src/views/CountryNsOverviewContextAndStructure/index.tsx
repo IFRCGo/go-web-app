@@ -20,8 +20,8 @@ export function Component() {
     return (
         <div className={styles.countryNsOverviewContextAndStructure}>
             <div className={styles.nationalSocietyDetail}>
-                <NationalSocietyLocalUnitsMap />
-                <NationalSocietyDirectory />
+                <NationalSocietyLocalUnitsMap className={styles.map} />
+                <NationalSocietyDirectory className={styles.directory} />
             </div>
             {isDefined(countryResponse) && (
                 <Container
