@@ -122,7 +122,7 @@ export function Component() {
                     areaResponse.component_responses
                 ),
             ).flat().filter(isDefined).sort(
-                (a, b) => compareNumber(a.rating_details.value, b.rating_details.value, -1),
+                (a, b) => compareNumber(a?.rating_details?.value, b?.rating_details?.value, -1),
             );
 
             return componentResponses.slice(0, 5);
@@ -144,7 +144,7 @@ export function Component() {
                     areaResponse.component_responses
                 ),
             ).flat().filter(isDefined).sort(
-                (a, b) => compareNumber(a.rating_details.value, b.rating_details.value),
+                (a, b) => compareNumber(a?.rating_details?.value, b?.rating_details?.value),
             );
 
             return componentResponses.slice(0, 5);
@@ -259,7 +259,7 @@ export function Component() {
                                         withoutWrapInHeading
                                         className={styles.strengthComponent}
                                     >
-                                        {strengthComponent?.rating_details.title}
+                                        {strengthComponent?.rating_details?.title}
                                     </Container>
                                 ),
                             )}
@@ -284,7 +284,7 @@ export function Component() {
                                         withoutWrapInHeading
                                         className={styles.priorityComponent}
                                     >
-                                        {keyDevelopmentComponent?.rating_details.title}
+                                        {keyDevelopmentComponent?.rating_details?.title}
                                     </Container>
                                 ),
                             )}
