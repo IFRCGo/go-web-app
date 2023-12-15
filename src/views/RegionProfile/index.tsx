@@ -25,7 +25,7 @@ export function Component() {
                     icon={<RedCrossNationalSocietyIcon />}
                     className={styles.keyFigure}
                     value={Number(regionResponse?.national_society_count)}
-                    description="Source: IFRC"
+                    description={strings.regionalProfileSource}
                     compactValue
                     label={
                         resolveToString(
