@@ -1,0 +1,15 @@
+.emergency-alerts-table {
+    .table {
+        min-height: 0;
+
+        .publication-date {
+            width: 0%;
+            min-width: 9rem;
+        }
+    }
+
+    .footer-content {
+        display: flex;
+        justify-content: flex-end;
+    }
+}
