@@ -5,7 +5,6 @@ import TextOutput from '#components/TextOutput';
 import Link from '#components/Link';
 import useTranslation from '#hooks/useTranslation';
 import { type CountryOutletContext } from '#utils/outletContext';
-import { resolveToString } from '#utils/translation';
 
 import styles from './styles.module.css';
 import i18n from './i18n.json';
@@ -33,17 +32,19 @@ function NationalSocietyDirectory() {
                     ))}
                 </div>
                 <div className={styles.nationalSocietySource}>
-                    <Link
-                        variant="tertiary"
-                        href={countryResponse?.society_url}
-                        external
-                        withUnderline
-                    >
-                        {resolveToString(
-                            strings.countryNSDirectorySource,
-                            { sourceLink: countryResponse?.society_name },
+                    <TextOutput
+                        label={strings.countryNSDirectorySource}
+                        value={(
+                            <Link
+                                variant="tertiary"
+                                href={countryResponse?.society_url}
+                                external
+                                withUnderline
+                            >
+                                {countryResponse?.society_name}
+                            </Link>
                         )}
-                    </Link>
+                    />
                 </div>
             </>
         </Container>
