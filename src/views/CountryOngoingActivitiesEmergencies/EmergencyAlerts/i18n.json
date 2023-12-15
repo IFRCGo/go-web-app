@@ -1,0 +1,13 @@
+{
+    "namespace": "emergencyAlerts",
+    "strings": {
+        "emergencyAlertsTableTitle": "Emergency Alerts In The Last 30 Days",
+        "emergencyAlertsTablePublicationDate": "Date",
+        "emergencyAlertsDisasterType": "Alert",
+        "emergencyAlertsTableDisasterDescription": "Description",
+        "emergencyAlertsTableExposedPopulation": "Exposed Population",
+        "emergencyAlertsTableExposedCountries": "Affected Countries",
+        "emergencyAlertsTableSource": "Source",
+        "emergencyAlertsTableGdacs": "GDACS"
+    }
+}

@@ -25,6 +25,7 @@ import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+import EmergencyAlertsTable from './EmergencyAlerts';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -125,6 +126,11 @@ export function Component() {
             {isDefined(countryId) && (
                 <AppealsTable
                     variant="country"
+                    countryId={Number(countryId)}
+                />
+            )}
+            {isDefined(countryId) && (
+                <EmergencyAlertsTable
                     countryId={Number(countryId)}
                 />
             )}
