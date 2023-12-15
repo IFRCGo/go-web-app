@@ -2,6 +2,6 @@
     "namespace": "CountryNSDirectory",
     "strings": {
         "countryNSDirectoryTitle": "NS Directory",
-        "countryNSDirectorySource": "Source: {sourceLink}"
+        "countryNSDirectorySource": "Source"
     }
 }
