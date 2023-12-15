@@ -8,6 +8,7 @@ import { type CountryOutletContext } from '#utils/outletContext';
 import { resolveToString } from '#utils/translation';
 
 import NationalSocietyLocalUnitsMap from './NationalSocietyLocalUnitsMap';
+import NationalSocietyDirectory from './NationalSocietyDirectory';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -18,7 +19,10 @@ export function Component() {
 
     return (
         <div className={styles.countryNsOverviewContextAndStructure}>
-            <NationalSocietyLocalUnitsMap />
+            <div className={styles.nationalSocietyDetail}>
+                <NationalSocietyLocalUnitsMap />
+                <NationalSocietyDirectory />
+            </div>
             {isDefined(countryResponse) && (
                 <Container
                     heading={strings.keyLinksHeading}
