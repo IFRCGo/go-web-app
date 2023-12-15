@@ -1,0 +1,19 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      eslint:
+        patterns:
+          - "*eslint*"
+      vite:
+        patterns:
+          - "*vite*"
+      postcss:
+        patterns:
+          - "*postcss*"
+      stylelint:
+        patterns:
+          - "*stylelint*"
