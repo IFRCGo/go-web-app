@@ -3,6 +3,12 @@
     flex-direction: column;
     gap: var(--go-ui-spacing-2xl);
 
+    .national-society-detail {
+        display: flex;
+        justify-content: space-between;
+        gap: var(--go-ui-spacing-xl);
+    }
+
     .key-links-content {
         display: flex;
         flex-wrap: wrap;
