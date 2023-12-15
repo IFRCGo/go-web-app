@@ -1,5 +1,5 @@
 {
-    "namespace": "CountryNSDirectory",
+    "namespace": "countryNSDirectory",
     "strings": {
         "countryNSDirectoryTitle": "NS Directory",
         "countryNSDirectorySource": "Source"
