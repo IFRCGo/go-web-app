@@ -13,6 +13,7 @@ import i18n from './i18n.json';
 interface Props {
     className?: string;
 }
+
 function NationalSocietyDirectory(props: Props) {
     const { className } = props;
     const strings = useTranslation(i18n);
