@@ -11,6 +11,7 @@ import NationalSocietyContacts from './NationalSocietyContacts';
 import NationalSocietyDirectory from './NationalSocietyDirectory';
 import NationalSocietyLocalUnitsMap from './NationalSocietyLocalUnitsMap';
 
+import NationalSocietyDirectoryInitiatives from './NsDirectoryInitiatives';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -80,6 +81,7 @@ export function Component() {
                     )}
                 </Container>
             )}
+            <NationalSocietyDirectoryInitiatives />
         </div>
     );
 }
