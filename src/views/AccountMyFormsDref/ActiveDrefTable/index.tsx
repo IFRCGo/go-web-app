@@ -69,8 +69,8 @@ function ActiveDrefTable(props: Props) {
             offset,
             limit,
             // FIXME server should accept country
-            country: filter.country,
-            type_of_dref: filter.type_of_dref,
+            country: isDefined(filter.country) ? [filter.country] : undefined,
+            type_of_dref: isDefined(filter.type_of_dref) ? [filter.type_of_dref] : undefined,
             disaster_type: filter.disaster_type,
             appeal_code: filter.appeal_code,
         },

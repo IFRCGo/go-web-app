@@ -174,56 +174,77 @@ export function Component() {
                     ...prevMap,
                 };
 
+                const {
+                    supporting_document_details,
+                    assessment_report_details,
+                    event_map_file,
+                    cover_image_file,
+                    images_file,
+                    disaster_category_analysis_details,
+                    targeting_strategy_support_file_details,
+                    budget_file_details,
+                } = response;
+
                 if (
-                    response.supporting_document_details
-                    && response.supporting_document_details.file
+                    supporting_document_details
+                    && supporting_document_details.file
                 ) {
                     newMap[
-                        response.supporting_document_details.id
-                    ] = response.supporting_document_details.file;
+                        supporting_document_details.id
+                    ] = supporting_document_details.file;
                 }
+
                 if (
-                    response.assessment_report_details
-                    && response.assessment_report_details.file
+                    assessment_report_details
+                    && assessment_report_details.file
                 ) {
                     newMap[
-                        response.assessment_report_details.id
-                    ] = response.assessment_report_details.file;
+                        assessment_report_details.id
+                    ] = assessment_report_details.file;
                 }
+
                 if (
-                    response.event_map_file
-                    && response.event_map_file.file
+                    event_map_file
+                    && event_map_file.file
                 ) {
-                    newMap[response.event_map_file.id] = response.event_map_file.file;
+                    newMap[event_map_file.id] = event_map_file.file;
                 }
+
                 if (
-                    response.cover_image_file
-                    && response.cover_image_file.file
+                    cover_image_file
+                    && cover_image_file.file
                 ) {
-                    newMap[response.cover_image_file.id] = response.cover_image_file.file;
+                    newMap[cover_image_file.id] = cover_image_file.file;
                 }
-                if ((response.images_file?.length ?? 0) > 0) {
-                    response.images_file?.forEach((img) => {
+
+                if ((images_file?.length ?? 0) > 0) {
+                    images_file?.forEach((img) => {
                         if (isDefined(img.file)) {
                             newMap[img.id] = img.file;
                         }
                     });
                 }
+
                 if (
-                    response.disaster_category_analysis_details
-                    && response.disaster_category_analysis_details.file
+                    disaster_category_analysis_details
+                    && disaster_category_analysis_details.file
                 ) {
                     newMap[
-                        response.disaster_category_analysis_details.id
-                    ] = response.disaster_category_analysis_details.file;
+                        disaster_category_analysis_details.id
+                    ] = disaster_category_analysis_details.file;
                 }
+
                 if (
-                    response.targeting_strategy_support_file_details
-                    && response.targeting_strategy_support_file_details.file
+                    targeting_strategy_support_file_details
+                    && targeting_strategy_support_file_details.file
                 ) {
                     newMap[
-                        response.targeting_strategy_support_file_details.id
-                    ] = response.targeting_strategy_support_file_details.file;
+                        targeting_strategy_support_file_details.id
+                    ] = targeting_strategy_support_file_details.file;
+                }
+
+                if (budget_file_details && budget_file_details.file) {
+                    newMap[budget_file_details.id] = budget_file_details.file;
                 }
 
                 return newMap;
@@ -254,7 +275,6 @@ export function Component() {
                 cover_image_file,
                 images_file,
                 source_information,
-                disaster_category_analysis_file,
                 ...otherValues
             } = removeNull(response);
             setValue({
@@ -276,9 +296,6 @@ export function Component() {
                     ? injectClientId(cover_image_file)
                     : undefined,
                 images_file: images_file?.map(injectClientId),
-                disaster_category_analysis_file: isDefined(disaster_category_analysis_file)
-                    ? injectClientId(disaster_category_analysis_file)
-                    : undefined,
             });
 
             setDistrictOptions(response.district_details);

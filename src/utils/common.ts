@@ -17,7 +17,7 @@ import {
 import { type Language } from '#contexts/language';
 import type { GoApiResponse } from '#utils/restRequest';
 
-import { DEFAULT_DATE_FORMAT } from './constants';
+import { DEFAULT_DATE_FORMAT, KEY_DATE_FORMAT } from './constants';
 
 export type UnsafeNumberList = Maybe<Maybe<number>[]>;
 
@@ -677,4 +677,11 @@ export function isValidDate<T extends DateLike>(
     }
 
     return true;
+}
+
+export function getFormattedDateKey(dateLike: DateLike) {
+    const date = formatDate(dateLike, KEY_DATE_FORMAT);
+
+    // FIXME: we should throw error in case of undefined
+    return date ?? '??';
 }

@@ -37,7 +37,7 @@ interface FormFields {
 const defaultFormValue: FormFields = {
 };
 
-type ChangePasswordRequestBody = GoApiBody<'/change_password', 'POST'>;
+type ChangeRecoverPasswordRequestBody = GoApiBody<'/change_recover_password', 'POST'>;
 type FormSchema = ObjectSchema<FormFields>;
 type FormSchemaFields = ReturnType<FormSchema['fields']>;
 
@@ -99,7 +99,7 @@ export function Component() {
     } = useLazyRequest({
         method: 'POST',
         url: '/change_recover_password',
-        body: (body: ChangePasswordRequestBody) => body,
+        body: (body: ChangeRecoverPasswordRequestBody) => body,
         onSuccess: () => {
             navigate('login');
             alert.show(
@@ -132,7 +132,7 @@ export function Component() {
                 new_password: formValues.new_password,
                 token,
                 username,
-            } as ChangePasswordRequestBody);
+            } as ChangeRecoverPasswordRequestBody);
         },
         [requestPasswordRecovery, token, username],
     );

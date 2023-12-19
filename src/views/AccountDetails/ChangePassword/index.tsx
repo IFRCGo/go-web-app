@@ -1,4 +1,4 @@
-import { useCallback, useContext, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import {
     useForm,
     ObjectSchema,
@@ -21,7 +21,6 @@ import NonFieldError from '#components/NonFieldError';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import { GoApiBody, useLazyRequest } from '#utils/restRequest';
-import UserContext from '#contexts/user';
 import { transformObjectError } from '#utils/restRequest/error';
 
 import i18n from './i18n.json';
@@ -46,7 +45,6 @@ function ChangePasswordModal(props: Props) {
 
     const strings = useTranslation(i18n);
     const alert = useAlert();
-    const { userAuth } = useContext(UserContext);
 
     const getPasswordMatchCondition = useCallback((referenceVal: string | undefined) => {
         function passwordMatchCondition(val: string | undefined) {
@@ -64,9 +62,7 @@ function ChangePasswordModal(props: Props) {
         {
             fields: (value): FormSchemaFields => {
                 let fields: FormSchemaFields = {
-                    username: {},
-                    token: {},
-                    password: {
+                    old_password: {
                         required: true,
                         requiredValidation: requiredStringCondition,
                     },
@@ -139,14 +135,11 @@ function ChangePasswordModal(props: Props) {
     });
 
     const handleConfirmPasswordChange = useCallback((formValues: PartialFormValue) => {
-        // FIXME: We should not pass username and token to server
         const passwordFormValues = {
             ...formValues,
-            username: userAuth?.username,
-            token: userAuth?.token,
         };
         updatePassword(passwordFormValues as PasswordChangeRequestBody);
-    }, [userAuth, updatePassword]);
+    }, [updatePassword]);
 
     const handleSubmitPassword = createSubmitHandler(
         validate,
@@ -189,12 +182,12 @@ function ChangePasswordModal(props: Props) {
                 withFallbackError
             />
             <TextInput
-                name="password"
+                name="old_password"
                 type="password"
                 label={strings.oldPasswordInputLabel}
-                value={formValue.password}
+                value={formValue.old_password}
                 onChange={setFieldValue}
-                error={fieldError?.password}
+                error={fieldError?.old_password}
                 disabled={updatePasswordPending}
                 withAsterisk
                 autoFocus
