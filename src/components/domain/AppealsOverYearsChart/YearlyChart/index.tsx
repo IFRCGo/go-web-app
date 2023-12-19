@@ -5,16 +5,16 @@ import {
     isNotDefined,
     isDefined,
 } from '@togglecorp/fujs';
-import { useRequest } from '#utils/restRequest';
 
 import BlockLoading from '#components/BlockLoading';
 import Container from '#components/Container';
 import TimeSeriesChart from '#components/TimeSeriesChart';
 import Button from '#components/Button';
 import Message from '#components/Message';
+import { useRequest } from '#utils/restRequest';
 import { getDatesSeparatedByYear } from '#utils/chart';
+import { getFormattedDateKey } from '#utils/common';
 import useTranslation from '#hooks/useTranslation';
-import { formatDate } from '#utils/common';
 
 import PointDetails from '../PointDetails';
 
@@ -30,11 +30,6 @@ const dataKeys: DATA_KEY[] = [
     'dref',
     'emergencyAppeal',
 ];
-
-const getFormattedKey = (dateFromProps: string | Date) => {
-    const date = new Date(dateFromProps);
-    return formatDate(date, 'yyyy-MM');
-};
 
 // FIXME: use a separate utility
 const now = new Date();
@@ -65,7 +60,7 @@ function YearlyChart(props: Props) {
     const strings = useTranslation(i18n);
 
     const [activePointKey, setActivePointKey] = useState<string>(
-        () => getFormattedKey(dateList[dateList.length - 1]),
+        () => getFormattedDateKey(dateList[dateList.length - 1]),
     );
 
     const queryParams = {
@@ -113,12 +108,12 @@ function YearlyChart(props: Props) {
 
             const drefData = listToMap(
                 monthlyDrefResponse,
-                (appeal) => getFormattedKey(appeal.timespan),
+                (appeal) => getFormattedDateKey(appeal.timespan),
             );
 
             const emergencyAppealData = listToMap(
                 monthlyEmergencyAppealResponse,
-                (appeal) => getFormattedKey(appeal.timespan),
+                (appeal) => getFormattedDateKey(appeal.timespan),
             );
 
             const data = {
@@ -133,7 +128,7 @@ function YearlyChart(props: Props) {
 
     const dateListWithData = listToMap(
         dateList,
-        (date) => getFormattedKey(date),
+        (date) => getFormattedDateKey(date),
         (date, key) => ({
             date,
             dref: combinedData?.dref?.[key],
@@ -144,7 +139,7 @@ function YearlyChart(props: Props) {
     const activePointData = activePointKey ? dateListWithData[activePointKey] : undefined;
     const chartValueSelector = useCallback(
         (dataKey: DATA_KEY, date: Date) => (
-            combinedData?.[dataKey]?.[getFormattedKey(date)]?.count
+            combinedData?.[dataKey]?.[getFormattedDateKey(date)]?.count
         ),
         [combinedData],
     );

@@ -210,19 +210,37 @@ export function Component() {
                     areaNum: groupedComponentList[0].area.area_num,
                     title: groupedComponentList[0].area.title,
                     value: getAverage(
-                        groupedComponentList.map((component) => component.rating?.value),
+                        groupedComponentList.map(
+                            (component) => (
+                                isDefined(component.rating)
+                                    ? component.rating.value
+                                    : undefined
+                            ),
+                        ).filter(isDefined),
                     ),
                 }),
             ).filter(isDefined);
 
             const averageRating = getAverage(
-                filteredComponents.map((component) => component.rating?.value),
+                filteredComponents.map(
+                    (component) => (
+                        isDefined(component.rating)
+                            ? component.rating.value
+                            : undefined
+                    ),
+                ).filter(isDefined),
             );
 
             const ratingCounts = mapToList(
                 listToGroupList(
-                    componentList.filter((component) => isDefined(component.rating)),
-                    (component) => component.rating?.value,
+                    componentList.map(
+                        (component) => (
+                            isDefined(component.rating)
+                                ? { ...component, rating: component.rating }
+                                : undefined
+                        ),
+                    ).filter(isDefined),
+                    (component) => component.rating.value,
                 ),
                 (ratingList) => ({
                     id: ratingList[0].rating?.id,
@@ -540,7 +558,7 @@ export function Component() {
                                 </Heading>
                                 <ProgressBar
                                     className={styles.progressBar}
-                                    value={priorityComponent.rating?.value}
+                                    value={priorityComponent.rating?.value ?? 0}
                                     totalValue={5}
                                 />
                             </div>
@@ -568,7 +586,7 @@ export function Component() {
                                     })}
                                 </Heading>
                                 <ProgressBar
-                                    value={component.rating?.value}
+                                    value={component.rating?.value ?? 0}
                                     totalValue={5}
                                     title={(
                                         isDefined(component.rating)

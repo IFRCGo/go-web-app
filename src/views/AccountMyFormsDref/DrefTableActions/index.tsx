@@ -23,7 +23,7 @@ import { type components } from '#generated/types';
 import useBooleanState from '#hooks/useBooleanState';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
-import { useLazyRequest } from '#utils/restRequest';
+import { GoApiBody, useLazyRequest } from '#utils/restRequest';
 import { DREF_STATUS_IN_PROGRESS, DREF_TYPE_IMMINENT, DREF_TYPE_LOAN } from '#utils/constants';
 
 import { exportDrefAllocation } from './drefAllocationExport';
@@ -237,6 +237,9 @@ function DrefTableActions(props: Props) {
         },
     });
 
+    // FIXME: the type should be fixed on the server
+    type OpsUpdateRequestBody = GoApiBody<'/api/v2/dref-op-update/', 'POST'>;
+
     const {
         trigger: createOpsUpdate,
         pending: createOpsUpdatePending,
@@ -244,7 +247,7 @@ function DrefTableActions(props: Props) {
         method: 'POST',
         url: '/api/v2/dref-op-update/',
         // FIXME: the type should be fixed on the server
-        body: (drefId: number) => ({ dref: drefId }),
+        body: (drefId: number) => ({ dref: drefId } as OpsUpdateRequestBody),
         onSuccess: (response) => {
             navigate(
                 'drefOperationalUpdateForm',
@@ -265,6 +268,8 @@ function DrefTableActions(props: Props) {
         },
     });
 
+    // FIXME: the type should be fixed on the server
+    type FinalReportRequestBody = GoApiBody<'/api/v2/dref-final-report/', 'POST'>;
     const {
         trigger: createFinalReport,
         pending: createFinalReportPending,
@@ -272,7 +277,7 @@ function DrefTableActions(props: Props) {
         method: 'POST',
         url: '/api/v2/dref-final-report/',
         // FIXME: the type should be fixed on the server
-        body: (drefId: number) => ({ dref: drefId }),
+        body: (drefId: number) => ({ dref: drefId } as FinalReportRequestBody),
         onSuccess: (response) => {
             navigate(
                 'drefFinalReportForm',

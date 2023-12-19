@@ -8,8 +8,8 @@ import TimeSeriesChart from '#components/TimeSeriesChart';
 import Button from '#components/Button';
 import { getDatesSeparatedByMonths } from '#utils/chart';
 import { resolveToComponent } from '#utils/translation';
+import { getFormattedDateKey } from '#utils/common';
 import useTranslation from '#hooks/useTranslation';
-import { formatDate } from '#utils/common';
 
 import PointDetails from '../PointDetails';
 
@@ -17,6 +17,7 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 // FIXME: these must be a constant defined somewhere else
+// with satisfies
 const APPEAL_TYPE_DREF = 0;
 const APPEAL_TYPE_EMERGENCY = 1;
 
@@ -41,11 +42,6 @@ const dateFormatter = new Intl.DateTimeFormat(
     navigator.language,
     { month: 'long' },
 );
-
-const getFormattedKey = (dateFromProps: string | Date) => {
-    const date = new Date(dateFromProps);
-    return formatDate(date, 'yyyy-MM');
-};
 
 const currentDate = new Date();
 
@@ -73,7 +69,7 @@ function MonthlyChart(props: Props) {
     );
 
     const [activePointKey, setActivePointKey] = useState<string>(
-        () => getFormattedKey(dateList[0]),
+        () => getFormattedDateKey(dateList[0]),
     );
 
     const query = {
@@ -120,12 +116,12 @@ function MonthlyChart(props: Props) {
 
             const drefData = listToMap(
                 monthlyDrefResponse,
-                (appeal) => getFormattedKey(appeal.timespan),
+                (appeal) => getFormattedDateKey(appeal.timespan),
             );
 
             const emergencyAppealData = listToMap(
                 monthlyEmergencyAppealResponse,
-                (appeal) => getFormattedKey(appeal.timespan),
+                (appeal) => getFormattedDateKey(appeal.timespan),
             );
 
             const data = {
@@ -140,7 +136,7 @@ function MonthlyChart(props: Props) {
 
     const dateListWithData = listToMap(
         dateList,
-        (date) => getFormattedKey(date),
+        (date) => getFormattedDateKey(date),
         (date, key) => ({
             date,
             dref: combinedData?.dref?.[key],
@@ -155,7 +151,7 @@ function MonthlyChart(props: Props) {
     );
     const chartValueSelector = useCallback(
         (dataKey: DATA_KEY, date: Date) => {
-            const value = combinedData?.[dataKey]?.[getFormattedKey(date)]?.count;
+            const value = combinedData?.[dataKey]?.[getFormattedDateKey(date)]?.count;
             // NOTE: if there are missing values for a given month or year
             // less then the current date we assume the value to be 0
             // FIXME: This could be done in the aggregation logic of the server itself
@@ -163,7 +159,7 @@ function MonthlyChart(props: Props) {
                 return 0;
             }
 
-            return combinedData?.[dataKey]?.[getFormattedKey(date)]?.count;
+            return combinedData?.[dataKey]?.[getFormattedDateKey(date)]?.count;
         },
         [combinedData],
     );

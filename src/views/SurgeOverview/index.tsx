@@ -5,9 +5,9 @@ import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import BarChart from '#components/BarChart';
 import TimeSeriesChart from '#components/TimeSeriesChart';
-import { getDatesSeparatedByMonths } from '#utils/chart';
 import { type GoApiResponse } from '#utils/restRequest';
-import { formatDate } from '#utils/common';
+import { getDatesSeparatedByMonths } from '#utils/chart';
+import { getFormattedDateKey } from '#utils/common';
 
 import SurgeMap from './SurgeMap';
 import SurgeAlertsTable from './SurgeAlertsTable';
@@ -21,11 +21,6 @@ type GetDeploymentsByNationalSocietyResponse = GoApiResponse<'/api/v2/deployment
 type DeploymentsByNationalSociety = GetDeploymentsByNationalSocietyResponse[number];
 
 const timeSeriesDataKeys = ['deployments'];
-
-const getFormattedKey = (dateFromProps: string | Date) => {
-    const date = new Date(dateFromProps);
-    return formatDate(date, 'yyyy-MM');
-};
 
 // FIXME: use a separate utility
 const oneYearAgo = new Date();
@@ -81,8 +76,11 @@ export function Component() {
     );
 
     const timeSeriesValueSelector = useCallback(
-        (_: string, date: Date) => deploymentsByMonth?.find((deployment) => (
-            getFormattedKey(deployment.date) === getFormattedKey(date)))?.count ?? 0,
+        (_: string, date: Date) => deploymentsByMonth?.find(
+            (deployment) => (
+                getFormattedDateKey(deployment.date) === getFormattedDateKey(date)
+            ),
+        )?.count ?? 0,
         [deploymentsByMonth],
     );
 

@@ -791,6 +791,8 @@ function RiskSeasonalMap(props: Props) {
         [data, filters, mappings],
     );
 
+    const MAX_RISK_SCORE = CATEGORY_RISK_VERY_HIGH;
+
     // NOTE: we need to generate the layerOptions because we cannot use MapState
     // The id in the vector tile does not match the id in GO
     // We also cannot use promoteId as it is a non-managed mapbox source
@@ -1021,7 +1023,7 @@ function RiskSeasonalMap(props: Props) {
                                             riskCategory,
                                         }) => {
                                             // eslint-disable-next-line max-len
-                                            const percentage = (100 * riskCategory) / (5 * filters.hazardTypes.length);
+                                            const percentage = (100 * riskCategory) / (MAX_RISK_SCORE * filters.hazardTypes.length);
 
                                             if (percentage < 1) {
                                                 return null;

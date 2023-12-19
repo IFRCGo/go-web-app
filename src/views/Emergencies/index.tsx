@@ -26,7 +26,7 @@ import usePermissions from '#hooks/domain/usePermissions';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import { getDatesSeparatedByMonths } from '#utils/chart';
-import { sumSafe, formatDate } from '#utils/common';
+import { sumSafe, getFormattedDateKey } from '#utils/common';
 
 import Map from './Map';
 import FieldReportTable from './FieldReportsTable';
@@ -34,11 +34,6 @@ import EmergenciesTable from './EmergenciesTable';
 import FlashUpdateTable from './FlashUpdatesTable';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-const getFormattedKey = (dateFromProps: string | Date) => {
-    const date = new Date(dateFromProps);
-    return formatDate(date, 'yyyy-MM');
-};
 
 function timeseriesChartClassNameSelector() {
     return styles.eventsChart;
@@ -202,14 +197,14 @@ export function Component() {
         () => (
             listToMap(
                 aggregateEventResponse ?? [],
-                (aggregate) => getFormattedKey(aggregate.timespan),
+                (aggregate) => getFormattedDateKey(aggregate.timespan),
             )
         ),
         [aggregateEventResponse],
     );
 
     const timeSeriesValueSelector = useCallback(
-        (_: string, date: Date) => aggregateDataMap[getFormattedKey(date)]?.count ?? 0,
+        (_: string, date: Date) => aggregateDataMap[getFormattedDateKey(date)]?.count ?? 0,
         [aggregateDataMap],
     );
 
