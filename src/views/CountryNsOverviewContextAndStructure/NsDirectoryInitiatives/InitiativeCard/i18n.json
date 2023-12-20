@@ -1,5 +1,5 @@
 {
-    "namespace": "initiativeListItem",
+    "namespace": "initiativeCard",
     "strings": {
         "initiativeFundNameTitle": "Fund Name",
         "initiativeYearApprovedTitle": "Year Approved",

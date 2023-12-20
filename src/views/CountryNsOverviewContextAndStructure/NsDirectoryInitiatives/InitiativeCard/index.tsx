@@ -3,35 +3,25 @@ import { _cs } from '@togglecorp/fujs';
 import Container from '#components/Container';
 import TextOutput from '#components/TextOutput';
 import useTranslation from '#hooks/useTranslation';
+import { GoApiResponse } from '#utils/restRequest';
 
 import styles from './styles.module.css';
 import i18n from './i18n.json';
 
+type CountryResponse = NonNullable<GoApiResponse<'/api/v2/country/{id}/'>>
 interface Props {
     className?: string;
-    id: number;
-    allocation: number | null | undefined;
-    categories: string[] | null | undefined;
-    fund_type: string | null | undefined;
-    funding_period: number | null | undefined;
-    title: string | null | undefined;
-    year: string | null | undefined;
+    initiative: NonNullable<CountryResponse['initiatives']>[number];
 }
 
-function InitiativeListItem(props: Props) {
+function InitiativeCard(props: Props) {
     const {
         className,
-        id,
-        allocation,
-        categories,
-        fund_type,
-        funding_period,
-        title,
-        year,
+        initiative,
     } = props;
 
     const strings = useTranslation(i18n);
-    const categoriesItem = categories?.join(', ');
+    const categories = initiative.categories?.join(', ');
 
     return (
         <Container
@@ -40,54 +30,50 @@ function InitiativeListItem(props: Props) {
             headingLevel={4}
             withInternalPadding
             withHeaderBorder
-            withoutWrapInHeading
             // TODO: Verify Fund Name and and Fund Type
             headerDescription={(
                 <TextOutput
                     label={strings.initiativeFundNameTitle}
-                    value={fund_type}
+                    value={initiative.fund_type}
                     valueType="text"
                     strongLabel
                 />
             )}
         >
-            <div
-                className={styles.figure}
-                key={id}
-            >
+            <div className={styles.figure}>
                 <TextOutput
                     label={strings.initiativeYearApprovedTitle}
-                    value={year}
+                    value={initiative.year}
                     valueType="text"
                     strongValue
                 />
                 <TextOutput
                     label={strings.initiativeTitle}
-                    value={title}
+                    value={initiative.title}
                     valueType="text"
                     strongValue
                 />
                 <TextOutput
                     label={strings.initiativeFundingTypeTitle}
-                    value={fund_type}
+                    value={initiative.fund_type}
                     valueType="text"
                     strongValue
                 />
                 <TextOutput
                     label={strings.initiativeCategoriesTitle}
-                    value={categoriesItem}
+                    value={categories}
                     strongValue
                 />
                 <div className={styles.separator} />
                 <TextOutput
                     label={strings.initiativeAllocationTitle}
-                    value={allocation}
+                    value={initiative.allocation}
                     valueType="number"
                     strongValue
                 />
                 <TextOutput
                     label={strings.initiativeFundingPeriodTitle}
-                    value={`${funding_period} ${strings.initiativeMonthsSuffix}`}
+                    value={`${initiative.funding_period} ${strings.initiativeMonthsSuffix}`}
                     valueType="text"
                     strongValue
                 />
@@ -96,4 +82,4 @@ function InitiativeListItem(props: Props) {
     );
 }
 
-export default InitiativeListItem;
+export default InitiativeCard;
