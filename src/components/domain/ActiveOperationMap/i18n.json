@@ -1,7 +1,7 @@
 {
     "namespace": "common",
     "strings": {
-        "activeOperationsTitle":"Active Operations ({numAppeals})",
+        "activeOperationsTitle":"Active Operations Map ({numAppeals})",
         "presentationModeButton":"Presentation Mode",
         "operationMapViewAll":"View all Operations",
         "operationMapViewAllInRegion":"View all Operations in this Region",
