@@ -230,7 +230,9 @@ function Actions(props: Props) {
                         />
                     </InputSection>
                 )}
-                <InputSection>
+                <InputSection
+                    title=" "
+                >
                     <MultiImageWithCaptionInput
                         name="photos_file"
                         url="/api/v2/dref-files/multiple/"
@@ -242,20 +244,23 @@ function Actions(props: Props) {
                         label={strings.operationalUpdateCurrentNsImageLabel}
                         disabled={disabled}
                     />
-                    <div className={styles.addNsActionContainer}>
-                        <SelectInput
-                            className={styles.input}
-                            label={strings.drefFormNationalSocietiesActionsLabel}
-                            name={undefined}
-                            options={filteredNsActionOptions}
-                            value={selectedNsAction}
-                            keySelector={nsActionKeySelector}
-                            labelSelector={stringValueSelector}
-                            onChange={setSelectedNsAction}
-                            disabled={disabled}
-                        />
+                </InputSection>
+                <InputSection
+                    numPreferredColumns={2}
+                    title=" "
+                >
+                    <SelectInput
+                        label={strings.drefFormNationalSocietiesActionsLabel}
+                        name={undefined}
+                        options={filteredNsActionOptions}
+                        value={selectedNsAction}
+                        keySelector={nsActionKeySelector}
+                        labelSelector={stringValueSelector}
+                        onChange={setSelectedNsAction}
+                        disabled={disabled}
+                    />
+                    <div className={styles.addButtonContainer}>
                         <Button
-                            className={styles.action}
                             variant="secondary"
                             name={selectedNsAction}
                             onClick={handleNsActionAddButtonClick}
@@ -401,7 +406,7 @@ function Actions(props: Props) {
                 >
                     {/* NOTE: Only when RESPONSE */}
                     {value?.type_of_dref !== TYPE_IMMINENT && (
-                        <InputSection>
+                        <InputSection title=" ">
                             <GoSingleFileInput
                                 name="assessment_report"
                                 accept=".pdf, .docx, .pptx"
@@ -418,21 +423,22 @@ function Actions(props: Props) {
                             </GoSingleFileInput>
                         </InputSection>
                     )}
-                    <InputSection>
-                        <div className={styles.addNeedContainer}>
-                            <SelectInput
-                                className={styles.input}
-                                label={strings.drefFormActionFieldsLabel}
-                                name={undefined}
-                                onChange={setSelectedNeed}
-                                keySelector={needOptionKeySelector}
-                                labelSelector={stringValueSelector}
-                                options={filteredNeedOptions}
-                                value={selectedNeed}
-                                disabled={disabled}
-                            />
+                    <InputSection
+                        title=" "
+                        numPreferredColumns={2}
+                    >
+                        <SelectInput
+                            label={strings.drefFormActionFieldsLabel}
+                            name={undefined}
+                            onChange={setSelectedNeed}
+                            keySelector={needOptionKeySelector}
+                            labelSelector={stringValueSelector}
+                            options={filteredNeedOptions}
+                            value={selectedNeed}
+                            disabled={disabled}
+                        />
+                        <div className={styles.addButtonContainer}>
                             <Button
-                                className={styles.action}
                                 variant="secondary"
                                 name={selectedNeed}
                                 onClick={handleNeedAddButtonClick}

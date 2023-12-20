@@ -64,8 +64,9 @@ export default defineConfig(({ mode }) => {
             sourcemap: isProd,
             rollupOptions: {
                 output: {
-                    chunkFileNames: 'chunk-[name].[hash].js',
-                    entryFileNames: 'entry-[name].[hash].js',
+                    chunkFileNames: `${env.npm_package_version}/chunk-[name].[hash].js`,
+                    entryFileNames: `${env.npm_package_version}/entry-[name].[hash].js`,
+                    assetFileNames: `${env.npm_package_version}/asset-[name]-[hash].[ext]`,
                     manualChunks: {
                         'mapbox-gl': ['mapbox-gl'],
                         'exceljs': ['exceljs'],

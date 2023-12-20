@@ -7,6 +7,7 @@
         "countryLabel": "Country",
         "hazardLabel": "Hazard",
         "typeOfDrefLabel": "Type of DREF",
+        "drefExportDownloadBudget": "Click here to download the budget file",
         "crisisCategoryLabel": "Crisis Category",
         "eventOnsetLabel": "Event Onset",
         "drefAllocationLabel": "Total DREF Allocation",

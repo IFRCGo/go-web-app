@@ -418,6 +418,7 @@ export function Component() {
     const {
         retrigger: getDrefUsers,
     } = useRequest({
+        skip: isNotDefined(drefId),
         url: '/api/v2/dref-share-user/{id}/',
         pathVariables: { id: Number(drefId) },
         onSuccess: (response) => {

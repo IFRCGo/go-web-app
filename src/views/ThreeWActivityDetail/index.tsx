@@ -94,19 +94,7 @@ export function Component() {
         _: number,
         data: ActivityItem,
     ): ActivityListItemProps => ({
-        maleCount: data.male_count,
-        femaleCount: data.female_count,
-        peopleCount: data.people_count,
-        householdCount: data.household_count,
-        peopleHouseholds: data.people_households,
-        title: data.action_details?.title,
-        customAction: data.custom_action,
-        sectorDetails: data.sector_details?.title,
-        activityDetails: data.action_details?.title,
-        customSupply: data.custom_supplies,
-        activitySupply: data.supplies,
-        isSimplifiedReport: data.is_simplified_report,
-
+        activityItem: data,
         supplyMapping,
     }), [supplyMapping]);
 
