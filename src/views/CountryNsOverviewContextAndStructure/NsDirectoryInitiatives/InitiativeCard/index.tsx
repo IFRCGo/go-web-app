@@ -28,7 +28,6 @@ function InitiativeCard(props: Props) {
             className={_cs(styles.initiativeCard, className)}
             childrenContainerClassName={styles.figures}
             headingLevel={4}
-            withInternalPadding
             withHeaderBorder
             // TODO: Verify Fund Name and and Fund Type
             headerDescription={(
@@ -36,48 +35,51 @@ function InitiativeCard(props: Props) {
                     label={strings.initiativeFundNameTitle}
                     value={initiative.fund_type}
                     valueType="text"
-                    strongLabel
+                    strongValue
                 />
             )}
+            footerContent={(
+                <div className={styles.footerContent}>
+                    <div className={styles.separator} />
+                    <TextOutput
+                        label={strings.initiativeAllocationTitle}
+                        value={initiative.allocation}
+                        valueType="number"
+                        strongValue
+                    />
+                    <TextOutput
+                        label={strings.initiativeFundingPeriodTitle}
+                        value={`${initiative.funding_period} ${strings.initiativeMonthsSuffix}`}
+                        valueType="text"
+                        strongValue
+                    />
+                </div>
+            )}
         >
-            <div className={styles.figure}>
-                <TextOutput
-                    label={strings.initiativeYearApprovedTitle}
-                    value={initiative.year}
-                    valueType="text"
-                    strongValue
-                />
-                <TextOutput
-                    label={strings.initiativeTitle}
-                    value={initiative.title}
-                    valueType="text"
-                    strongValue
-                />
-                <TextOutput
-                    label={strings.initiativeFundingTypeTitle}
-                    value={initiative.fund_type}
-                    valueType="text"
-                    strongValue
-                />
-                <TextOutput
-                    label={strings.initiativeCategoriesTitle}
-                    value={categories}
-                    strongValue
-                />
-                <div className={styles.separator} />
-                <TextOutput
-                    label={strings.initiativeAllocationTitle}
-                    value={initiative.allocation}
-                    valueType="number"
-                    strongValue
-                />
-                <TextOutput
-                    label={strings.initiativeFundingPeriodTitle}
-                    value={`${initiative.funding_period} ${strings.initiativeMonthsSuffix}`}
-                    valueType="text"
-                    strongValue
-                />
-            </div>
+            <TextOutput
+                label={strings.initiativeYearApprovedTitle}
+                value={initiative.year}
+                valueType="text"
+                strongValue
+            />
+            <TextOutput
+                label={strings.initiativeTitle}
+                value={initiative.title}
+                valueType="text"
+                strongValue
+            />
+            <TextOutput
+                label={strings.initiativeFundingTypeTitle}
+                value={initiative.fund_type}
+                valueType="text"
+                strongValue
+            />
+            <TextOutput
+                label={strings.initiativeCategoriesTitle}
+                value={categories}
+                valueType="text"
+                strongValue
+            />
         </Container>
     );
 }
