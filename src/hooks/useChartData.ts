@@ -1,168 +1,224 @@
-import {
-    useEffect,
-    useMemo,
-    useRef,
-} from 'react';
-import { isDefined, listToMap, compareNumber } from '@togglecorp/fujs';
+import { useMemo } from 'react';
+import { isDefined } from '@togglecorp/fujs';
 
-import { getBounds, getScaleFunction } from '#utils/chart';
+import {
+    type Bounds,
+    type Rect,
+    getBounds,
+    getIntervals,
+    getScaleFunction,
+    ChartScale,
+} from '#utils/chart';
 import { formatNumber } from '#utils/common';
 
 import useSizeTracking from '#hooks/useSizeTracking';
 
 type Key = string | number;
 
-const X_AXIS_HEIGHT = 24;
-const Y_AXIS_WIDTH = 32;
-const CHART_PADDING = 16;
-
-type ChartMargin = {
-    left: number;
-    top: number;
-    right: number;
-    bottom: number;
+type CategoricalOptions<DATUM> = {
+    type: 'categorical',
+    xAxisLabelSelector: (d: DATUM) => React.ReactNode,
+    numXAxisTicks?: never;
 }
 
-type ChartOptions<T> = {
-    keySelector: (datum: T, index: number) => Key;
-    xValueSelector: (datum: T, index: number) => number;
-    yValueSelector: (datum: T, index: number) => number | undefined;
-    xAxisHeight?: number;
-    yAxisWidth?: number;
-    maxYValue?: number;
-    chartPadding?: number;
-    xAxisLabelFormatter?: (
-        datum: T,
-        size: { width: number; height: number },
-        index: number,
-    ) => React.ReactNode;
+type NumericOptions = {
+    type: 'numeric';
+    xAxisLabelSelector: (d: number) => React.ReactNode;
+    numXAxisTicks?: number;
 }
 
-function useChartData<T>(
-    data: Array<T>,
-    containerRef: React.RefObject<HTMLElement>,
-    options: ChartOptions<T>,
+type TemporalOptions = {
+    type: 'temporal',
+    xAxisLabelSelector: (d: number) => React.ReactNode,
+    numXAxisTicks?: number;
+}
+
+interface BaseChartOptions<DATUM> {
+    containerRef: React.RefObject<HTMLElement>;
+    chartOffset: Rect;
+    chartMargin: Rect;
+    chartPadding: Rect;
+    keySelector: (d: DATUM, index: number) => Key;
+    xValueSelector: (d: DATUM, index: number) => number;
+    yValueSelector: (d: DATUM, index: number) => number;
+    yAxisLabelSelector?: (value: number, index: number) => React.ReactNode;
+    yAxisScale?: ChartScale;
+    xDomain?: Bounds;
+    yDomain?: Bounds;
+    numYAxisTicks?: number;
+    yAxisStartsFromZero?: boolean;
+}
+
+export type ChartOptions<DATUM> = BaseChartOptions<DATUM> & (
+    CategoricalOptions<DATUM> | NumericOptions | TemporalOptions
+);
+
+function useChartData<DATUM>(
+    data: DATUM[] | undefined | null,
+    options: ChartOptions<DATUM>,
 ) {
-    const optionsRef = useRef(options);
-    const chartBounds = useSizeTracking(containerRef);
+    const {
+        type,
+        xAxisLabelSelector,
+        yAxisLabelSelector,
+        keySelector,
+        xValueSelector,
+        yValueSelector,
+        containerRef,
+        chartOffset,
+        chartMargin,
+        chartPadding,
+        xDomain,
+        yDomain,
+        numXAxisTicks = 12,
+        numYAxisTicks = 6,
+        yAxisScale,
+        yAxisStartsFromZero,
+    } = options;
 
-    useEffect(
-        () => {
-            optionsRef.current = options;
-        },
-        [options],
+    const chartSize = useSizeTracking(containerRef);
+
+    const xValues = useMemo(
+        () => data?.map(xValueSelector) ?? [],
+        [data, xValueSelector],
+    );
+    const yValues = useMemo(
+        () => data?.map(yValueSelector) ?? [],
+        [data, yValueSelector],
     );
 
-    const chartData = useMemo(
+    const xDataBounds = useMemo(
+        () => xDomain ?? getBounds(xValues),
+        [xValues, xDomain],
+    );
+    const yDataBounds = useMemo(
         () => {
-            const {
-                keySelector,
-                xValueSelector,
-                yValueSelector,
-                xAxisHeight = X_AXIS_HEIGHT,
-                yAxisWidth = Y_AXIS_WIDTH,
-                chartPadding = CHART_PADDING,
-                xAxisLabelFormatter,
-                maxYValue,
-            } = optionsRef.current;
+            if (isDefined(yDomain)) {
+                return yDomain;
+            }
 
-            const chartMargin: ChartMargin = {
-                left: yAxisWidth + chartPadding,
-                top: chartPadding,
-                right: chartPadding,
-                bottom: xAxisHeight + chartPadding,
+            const bounds = getBounds(yValues);
+
+            if (!yAxisStartsFromZero) {
+                return bounds;
+            }
+
+            return {
+                ...bounds,
+                min: 0,
             };
+        },
+        [yValues, yDomain, yAxisStartsFromZero],
+    );
 
-            const dataByKey = listToMap(
-                data,
-                keySelector,
-            );
+    // eslint-disable-next-line max-len
+    const horizontalGap = (chartSize.width - chartOffset.left - chartMargin.left - chartPadding.left) / (numXAxisTicks + 2);
 
-            // NOTE: sorting the x axis value
-            const dataPoints = data.map(
-                (datum, i) => ({
-                    xValue: xValueSelector(datum, i),
-                    yValue: yValueSelector(datum, i),
-                    key: keySelector(datum, i),
-                }),
-            ).sort((foo, bar) => compareNumber(foo.xValue, bar.xValue));
+    const xScaleFn = useMemo(
+        () => getScaleFunction(
+            xDataBounds,
+            { min: 0, max: chartSize.width },
+            {
+                start: chartOffset.left + chartMargin.left + chartPadding.left + horizontalGap / 2,
+                end: chartOffset.right + chartMargin.right + chartPadding.right + horizontalGap / 2,
+            },
+        ),
+        [xDataBounds, chartOffset, chartMargin, chartSize, chartPadding, horizontalGap],
+    );
 
-            const xValues = dataPoints.map((datum) => datum.xValue);
-            const yValues = dataPoints.map((datum) => datum.yValue);
+    const yScaleFn = useMemo(
+        () => getScaleFunction(
+            yDataBounds,
+            { min: 0, max: chartSize.height },
+            {
+                start: chartOffset.top + chartMargin.top + chartPadding.top,
+                end: chartOffset.bottom + chartMargin.bottom + chartPadding.bottom,
+            },
+            true,
+            yAxisScale,
+        ),
+        [yDataBounds, chartOffset, chartMargin, chartSize, chartPadding, yAxisScale],
+    );
 
-            const xScale = getScaleFunction(
-                getBounds(xValues),
-                { min: 0, max: chartBounds.width },
-                { start: chartMargin.left, end: chartMargin.right },
-            );
+    const dataPoints = useMemo(
+        () => data?.map(
+            (datum, i) => ({
+                originalData: datum,
+                key: keySelector(datum, i),
+                x: xScaleFn(xValues[i]),
+                y: yScaleFn(yValues[i]),
+            }),
+        ) ?? [],
+        [data, keySelector, xScaleFn, yScaleFn, xValues, yValues],
+    );
 
-            const yDataBounds = isDefined(maxYValue)
-                ? { min: 0, max: maxYValue }
-                : getBounds(yValues, { min: 0, max: Infinity });
-            const yScale = getScaleFunction(
-                yDataBounds,
-                { min: 0, max: chartBounds.height },
-                { start: chartMargin.top, end: chartMargin.bottom },
-                true,
-            );
+    const yAxisTicks = useMemo(
+        () => getIntervals(
+            yDataBounds,
+            numYAxisTicks,
+        ).map((tick, i) => ({
+            y: yScaleFn(tick),
+            label: yAxisLabelSelector
+                ? yAxisLabelSelector(tick, i)
+                : formatNumber(tick, { compact: true, maximumFractionDigits: 0 }) ?? '',
+        })),
+        [yDataBounds, yScaleFn, numYAxisTicks, yAxisLabelSelector],
+    );
 
-            const points = dataPoints.map(
-                (datum) => ({
-                    ...datum,
-                    x: xScale(datum.xValue),
-                    y: isDefined(datum.yValue) ? yScale(datum.yValue) : undefined,
-                }),
-            );
+    const xAxisTicks = useMemo(
+        () => {
+            if (type === 'numeric') {
+                const intervals = getIntervals(
+                    xDataBounds,
+                    numXAxisTicks,
+                );
 
-            const numYAxisPoints = 6;
-            const diff = yDataBounds.max / (numYAxisPoints - 1);
-            const yAxisTicks = yDataBounds.max === 0
-                ? []
-                : Array.from(Array(numYAxisPoints).keys()).map(
-                    (key) => {
-                        const value = diff * key;
+                return intervals.map(
+                    (tick) => ({
+                        key: tick,
+                        x: xScaleFn(tick),
+                        label: xAxisLabelSelector(tick),
+                    }),
+                );
+            }
+
+            if (type === 'temporal') {
+                const intervals = getIntervals(
+                    xDataBounds,
+                    numXAxisTicks,
+                );
+
+                return intervals.map(
+                    (tick) => {
+                        const timestamp = Math.round(tick);
+
                         return {
-                            y: yScale(value),
-                            label: formatNumber(value, { compact: true, maximumFractionDigits: 0 }) ?? '',
+                            key: tick,
+                            x: xScaleFn(timestamp),
+                            label: xAxisLabelSelector(timestamp),
                         };
                     },
                 );
+            }
 
-            const xAxisTickWidth = Math.max(
-                (chartBounds.width - chartMargin.right - chartMargin.left)
-                / points.length,
-                0,
-            );
-
-            const xAxisTicks = points.map(
-                (point, i) => ({
-                    key: point.key,
-                    x: point.x,
-                    label: xAxisLabelFormatter
-                        ? xAxisLabelFormatter(
-                            dataByKey[point.key],
-                            { width: xAxisTickWidth, height: xAxisHeight },
-                            i,
-                        ) : point.xValue,
+            return dataPoints.map(
+                (dataPoint) => ({
+                    key: dataPoint.key,
+                    x: dataPoint.x,
+                    label: xAxisLabelSelector(dataPoint.originalData),
                 }),
-            ).filter(isDefined);
-
-            return {
-                points,
-                xAxisTicks,
-                yAxisTicks,
-                chartMargin,
-                innerOffset: chartPadding,
-                // xAxisTickSelector: (axisPoint: typeof xAxisTicks[number]) => axisPoint.x,
-                // yAxisTickSelector: (axisPoint: typeof yAxisTicks[number]) => axisPoint.y,
-            };
+            );
         },
-        [data, chartBounds],
+        [dataPoints, xAxisLabelSelector, type, xDataBounds, xScaleFn, numXAxisTicks],
     );
 
     return {
-        chartData,
-        chartBounds,
+        dataPoints,
+        xAxisTicks,
+        yAxisTicks,
+        chartSize,
+        yScaleFn,
+        xScaleFn,
     };
 }
 

@@ -10,6 +10,7 @@ interface Props {
     className?: string;
     title?: React.ReactNode;
     description?: React.ReactNode;
+    preferredWidth?: number;
 }
 
 function Tooltip(props: Props) {
@@ -17,6 +18,7 @@ function Tooltip(props: Props) {
         className,
         title,
         description,
+        preferredWidth,
     } = props;
 
     const [hasParentRef, setHasParentRef] = useState(false);
@@ -75,6 +77,7 @@ function Tooltip(props: Props) {
                     className={_cs(styles.tooltipContent, className)}
                     parentRef={parentRef as React.RefObject<HTMLElement>}
                     pointerClassName={styles.pointer}
+                    preferredWidth={preferredWidth}
                 >
                     <Container
                         heading={title}
