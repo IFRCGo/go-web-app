@@ -7,10 +7,10 @@ import useTranslation from '#hooks/useTranslation';
 import { type CountryOutletContext } from '#utils/outletContext';
 import { resolveToString } from '#utils/translation';
 
-import NationalSocietyContacts from './NationalSocietyContacts';
-import NationalSocietyDirectory from './NationalSocietyDirectory';
 import NationalSocietyLocalUnitsMap from './NationalSocietyLocalUnitsMap';
 import NationalSocietyDirectoryInitiatives from './NsDirectoryInitiatives';
+import NationalSocietyDirectory from './NationalSocietyDirectory';
+import NationalSocietyContacts from './NationalSocietyContacts';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
