@@ -4,6 +4,20 @@ export const DEFAULT_DATE_FORMAT = 'yyyy-MM-dd';
 export const DEFAULT_PRINT_DATE_FORMAT = 'dd-MM-yyyy';
 export const KEY_DATE_FORMAT = 'yyyy-MM';
 
+export const defaultChartMargin = {
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+};
+
+export const defaultChartPadding = {
+    top: 10,
+    right: 10,
+    bottom: 10,
+    left: 10,
+};
+
 // Alert
 
 export const DURATION_DEFAULT_ALERT_DISMISS = 4500;

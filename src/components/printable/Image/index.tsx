@@ -9,7 +9,7 @@ import {
 import styles from './styles.module.css';
 
 interface Props {
-    src?: string;
+    src: string | null | undefined;
     alt?: string;
     caption?: React.ReactNode;
     imgElementClassName?: string;
