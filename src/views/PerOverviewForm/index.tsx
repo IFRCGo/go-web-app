@@ -18,7 +18,7 @@ import { isNotDefined, isDefined, listToMap } from '@togglecorp/fujs';
 
 import useRouting from '#hooks/useRouting';
 import { transformObjectError } from '#utils/restRequest/error';
-import Portal from '#components/Portal';
+import Portalapi/v2/country-document from '#components/Portal';
 import Button from '#components/Button';
 import Container from '#components/Container';
 import InputSection from '#components/InputSection';
