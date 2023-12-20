@@ -3,6 +3,18 @@ import { isCallable } from '@togglecorp/toggle-form';
 import { maxSafe, minSafe, splitList } from '#utils/common';
 import type { UnsafeNumberList } from '#utils/common';
 
+export interface Size {
+    width: number;
+    height: number;
+}
+
+export interface Rect {
+    top: number;
+    right: number;
+    bottom: number;
+    left: number;
+}
+
 export interface Point {
     x: number;
     y: number;
@@ -13,9 +25,9 @@ export interface Bounds {
     max: number;
 }
 
-type Scale = 'linear' | 'exponential' | 'log10' | 'sqrt' | 'cbrt';
+export type ChartScale = 'linear' | 'exponential' | 'log10' | 'sqrt' | 'cbrt';
 // TODO: Add test
-function scaleNormalizedValue(normalizedValue: number, type: Scale) {
+function scaleNormalizedValue(normalizedValue: number, type: ChartScale) {
     if (type === 'exponential') {
         return Math.exp(normalizedValue) / Math.exp(1);
     }
@@ -48,7 +60,7 @@ export function getScaleFunction(
         end: number,
     },
     inverted = false,
-    scale: Scale = 'linear',
+    scale: ChartScale = 'linear',
 ) {
     const rangeSize = (range.max - range.min) - (offset.start + offset.end);
     const domainSize = domain.max - domain.min;
@@ -72,9 +84,12 @@ export function getScaleFunction(
 // TODO: Add test
 export function getBounds(numList: UnsafeNumberList, bounds?: Bounds) {
     if (isNotDefined(numList) || numList.length === 0) {
+        const min = bounds?.min ?? 0;
+        const max = bounds?.max ?? (min + 1);
+
         return {
-            min: bounds?.min ?? 0,
-            max: bounds?.max ?? 0,
+            min,
+            max,
         };
     }
 
@@ -83,10 +98,12 @@ export function getBounds(numList: UnsafeNumberList, bounds?: Bounds) {
         newList = [...numList, bounds.min, bounds.max];
     }
 
-    return {
-        min: minSafe(newList) ?? 0,
-        max: maxSafe(newList) ?? 0,
+    const min = minSafe(newList) ?? 0;
+    const max = maxSafe(newList) ?? (min + 5);
 
+    return {
+        min,
+        max: max === min ? min + 5 : max,
     };
 }
 
@@ -356,4 +373,18 @@ export function getColorScaleFunction(
 
         return modifyHexSL(color, s, l);
     };
+}
+
+export function getIntervals(bounds: Bounds, numPoints: number) {
+    const diff = (bounds.max - bounds.min) / (numPoints - 1);
+    const ticks = bounds.max === 0
+        ? []
+        : Array.from(Array(numPoints).keys()).map(
+            (key) => {
+                const tick = bounds.min + diff * key;
+                return tick;
+            },
+        );
+
+    return ticks;
 }

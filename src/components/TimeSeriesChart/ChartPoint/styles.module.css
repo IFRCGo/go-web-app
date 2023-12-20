@@ -31,4 +31,12 @@
             r: var(--point-outline-radius);
         }
     }
+
+    &.hoverable {
+        &:hover {
+            .point {
+                fill: currentColor;
+            }
+        }
+    }
 }

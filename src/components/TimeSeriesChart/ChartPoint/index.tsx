@@ -5,18 +5,22 @@ import styles from './styles.module.css';
 interface Props {
     className?: string;
     hovered?: boolean;
+    hoverable?: boolean;
     active?: boolean;
     x: number | undefined;
     y: number | undefined;
+    children?: React.ReactNode;
 }
 
 function ChartPoint(props: Props) {
     const {
         className,
         hovered,
+        hoverable,
         active,
         x,
         y,
+        children,
     } = props;
 
     if (isNotDefined(x) || isNotDefined(y)) {
@@ -24,7 +28,13 @@ function ChartPoint(props: Props) {
     }
 
     return (
-        <g className={_cs(styles.chartPoint, className)}>
+        <g
+            className={_cs(
+                styles.chartPoint,
+                hoverable && styles.hoverable,
+                className,
+            )}
+        >
             <circle
                 className={_cs(
                     styles.pointOutline,
@@ -42,6 +52,7 @@ function ChartPoint(props: Props) {
                 cx={x}
                 cy={y}
             />
+            {children}
         </g>
     );
 }

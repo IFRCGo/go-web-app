@@ -12,12 +12,14 @@ import {
 } from '@togglecorp/fujs';
 
 import ChartAxes from '#components/ChartAxes';
-import useSizeTracking from '#hooks/useSizeTracking';
+import Tooltip from '#components/Tooltip';
+import TextOutput from '#components/TextOutput';
 import useTranslation from '#hooks/useTranslation';
-import { getScaleFunction } from '#utils/chart';
+import DateOutput from '#components/DateOutput';
+import NumberOutput from '#components/NumberOutput';
+import useChartData, { ChartOptions } from '#hooks/useChartData';
 import {
     getDataWithTruthyHazardType,
-    getValueForSelectedMonths,
     monthNumberToNameMap,
     getFiRiskDataItem,
     getWfRiskDataItem,
@@ -25,7 +27,6 @@ import {
     riskScoreToCategory,
     RiskMetricOption,
 } from '#utils/domain/risk';
-import { formatNumber } from '#utils/common';
 import { type components } from '#generated/riskTypes';
 import {
     CATEGORY_RISK_HIGH,
@@ -33,6 +34,8 @@ import {
     CATEGORY_RISK_MEDIUM,
     CATEGORY_RISK_VERY_HIGH,
     CATEGORY_RISK_VERY_LOW,
+    defaultChartMargin,
+    defaultChartPadding,
 } from '#utils/constants';
 import { type RiskApiResponse } from '#utils/restRequest';
 
@@ -58,10 +61,18 @@ const selectedMonths = {
     11: true,
 };
 
-const xAxisFormatter = (date: Date) => date.toLocaleString(
-    navigator.language,
-    { month: 'short' },
-);
+const today = new Date();
+
+const X_AXIS_HEIGHT = 24;
+const Y_AXIS_WIDTH = 56;
+const BAR_GAP = 2;
+
+const chartOffset = {
+    left: Y_AXIS_WIDTH,
+    top: 10,
+    right: 0,
+    bottom: X_AXIS_HEIGHT,
+};
 
 interface Props {
     riskData: RiskData | undefined;
@@ -83,21 +94,6 @@ function CombinedChart(props: Props) {
     const strings = useTranslation(i18n);
 
     const containerRef = useRef<HTMLDivElement>(null);
-    const chartBounds = useSizeTracking(containerRef);
-
-    const X_AXIS_HEIGHT = 24;
-    const Y_AXIS_WIDTH = selectedRiskMetricDetail.key === 'riskScore' ? 72 : 48;
-    const CHART_OFFSET = 10;
-
-    const chartMargin = useMemo(
-        () => ({
-            left: Y_AXIS_WIDTH + CHART_OFFSET,
-            top: CHART_OFFSET * 2,
-            right: CHART_OFFSET,
-            bottom: X_AXIS_HEIGHT + CHART_OFFSET,
-        }),
-        [X_AXIS_HEIGHT, Y_AXIS_WIDTH, CHART_OFFSET],
-    );
 
     const riskCategoryToLabelMap: Record<number, string> = useMemo(
         () => ({
@@ -203,69 +199,8 @@ function CombinedChart(props: Props) {
         [selectedRiskData, selectedHazardType],
     );
 
-    const maxValue = useMemo(
+    const hazardData = useMemo(
         () => {
-            const maxValueList = Object.values(filteredRiskData ?? {}).map(
-                (riskDataItem) => (
-                    getValueForSelectedMonths(
-                        selectedMonths,
-                        riskDataItem,
-                        'max',
-                    ) ?? 0
-                ),
-            );
-
-            if (maxValueList.length === 0) {
-                return 0;
-            }
-
-            return Math.max(...maxValueList);
-        },
-        [filteredRiskData],
-    );
-
-    const yScale = useMemo(
-        () => getScaleFunction(
-            { min: 0, max: maxValue },
-            { min: 0, max: chartBounds.height },
-            { start: chartMargin.top, end: chartMargin.bottom },
-            true,
-            selectedRiskMetricDetail.key === 'riskScore' ? 'linear' : 'cbrt',
-        ),
-        [chartBounds, maxValue, selectedRiskMetricDetail, chartMargin],
-    );
-
-    const yAxisPoints = useMemo(
-        () => {
-            if (maxValue === 0) {
-                return [];
-            }
-
-            const numYAxisPoints = 6;
-            const diff = maxValue / (numYAxisPoints - 1);
-
-            return Array.from(Array(numYAxisPoints).keys()).map(
-                (key) => {
-                    const value = diff * key;
-                    return {
-                        key,
-                        dataValue: value,
-                        value: yScale(value),
-                    };
-                },
-            );
-        },
-        [maxValue, yScale],
-    );
-
-    const chartData = useMemo(
-        () => {
-            const xScale = getScaleFunction(
-                { min: 0, max: 12 },
-                { min: 0, max: chartBounds.width },
-                { start: chartMargin.left, end: chartMargin.right },
-            );
-
             const monthKeys = Object.keys(selectedMonths) as unknown as (
                 keyof typeof selectedMonths
             )[];
@@ -277,21 +212,13 @@ function CombinedChart(props: Props) {
                 monthKeys.map(
                     (monthKey) => {
                         const month = monthNumberToNameMap[monthKey];
-                        const x = xScale(monthKey);
                         const value = listToMap(
                             hazardKeysFromSelectedRisk,
                             (hazardKey) => hazardKey,
                             (hazardKey) => (filteredRiskData?.[hazardKey]?.[month] ?? 0),
                         );
-                        const y = mapToMap(
-                            value,
-                            (hazardKey) => hazardKey,
-                            (hazardValue) => yScale(hazardValue),
-                        );
 
                         return {
-                            x,
-                            y,
                             value,
                             month,
                             date: new Date(currentYear, monthKey, 1),
@@ -300,38 +227,80 @@ function CombinedChart(props: Props) {
                 )
             );
         },
-        [filteredRiskData, chartBounds, yScale, chartMargin],
+        [filteredRiskData],
     );
 
-    const xAxisTickSelector = useCallback(
-        (chartPoint: (typeof chartData)[number]) => ({
-            x: chartPoint.x,
-            y: chartBounds.height - CHART_OFFSET,
-            label: xAxisFormatter(chartPoint.date),
+    const yAxisLabelSelector = useCallback(
+        (value: number) => {
+            if (selectedRiskMetricDetail.key === 'riskScore') {
+                return riskCategoryToLabelMap[value];
+            }
+
+            return (
+                <NumberOutput
+                    value={value}
+                    compact
+                    maximumFractionDigits={0}
+                />
+            );
+        },
+        [riskCategoryToLabelMap, selectedRiskMetricDetail.key],
+    );
+
+    const chartOptions = useMemo<ChartOptions<typeof hazardData[number]>>(
+        () => ({
+            containerRef,
+            chartMargin: defaultChartMargin,
+            chartPadding: defaultChartPadding,
+            chartOffset,
+            type: 'numeric',
+            keySelector: (datum) => datum.month,
+            xValueSelector: (datum) => (
+                datum.date.getMonth()
+            ),
+            yValueSelector: (datum) => Math.max(...Object.values(datum.value)),
+            xAxisLabelSelector: (month) => new Date(today.getFullYear(), month, 1).toLocaleString(
+                navigator.language,
+                { month: 'short' },
+            ),
+            yAxisLabelSelector,
+            xDomain: {
+                min: 0,
+                max: 11,
+            },
+            yAxisScale: selectedRiskMetricDetail.key === 'riskScore' ? 'linear' : 'cbrt',
+            yAxisStartsFromZero: true,
         }),
-        [chartBounds],
+        [yAxisLabelSelector, selectedRiskMetricDetail.key],
     );
 
-    const yAxisTickSelector = useCallback(
-        (chartPoint: (typeof yAxisPoints)[number]) => ({
-            x: Y_AXIS_WIDTH,
-            y: chartPoint.value,
-            label: selectedRiskMetricDetail?.key === 'riskScore'
-                ? riskCategoryToLabelMap[chartPoint.dataValue]
-                : formatNumber(
-                    chartPoint.dataValue,
-                    { compact: true, maximumFractionDigits: 0 },
-                ),
-        }),
-        [Y_AXIS_WIDTH, selectedRiskMetricDetail, riskCategoryToLabelMap],
+    const {
+        dataPoints,
+        chartSize,
+        xAxisTicks,
+        yAxisTicks,
+        yScaleFn,
+    } = useChartData(
+        hazardData,
+        chartOptions,
     );
 
-    // TODO: improve the bar sizes
-    const maxBarWidth = ((chartBounds.width - chartMargin.right - chartMargin.left) / 12);
-    const barMonthPadding = (maxBarWidth * 0.1) / 2;
-    const barGap = 2;
-    const numHazards = hazardListForDisplay.length || 1;
-    const barWidth = maxBarWidth / numHazards - barMonthPadding - barGap;
+    function getChartHeight(y: number) {
+        return isDefined(y)
+            ? Math.max(
+                chartSize.height
+                    - y
+                    - defaultChartPadding.bottom
+                    - defaultChartMargin.bottom
+                    - chartOffset.bottom,
+                0,
+            ) : 0;
+    }
+
+    const xAxisDiff = xAxisTicks.length > 1
+        ? xAxisTicks[1].x - xAxisTicks[0].x
+        : 0;
+    const barGap = Math.min(BAR_GAP, xAxisDiff / 30);
 
     return (
         <div
@@ -340,48 +309,74 @@ function CombinedChart(props: Props) {
         >
             <svg className={styles.svg}>
                 <ChartAxes
-                    xAxisPoints={chartData}
-                    yAxisPoints={yAxisPoints}
-                    chartBounds={chartBounds}
-                    chartMargin={chartMargin}
-                    chartOffset={CHART_OFFSET}
-                    xAxisTickSelector={xAxisTickSelector}
-                    yAxisTickSelector={yAxisTickSelector}
+                    xAxisPoints={xAxisTicks}
+                    yAxisPoints={yAxisTicks}
+                    chartSize={chartSize}
+                    chartMargin={defaultChartMargin}
+                    xAxisHeight={X_AXIS_HEIGHT}
+                    yAxisWidth={Y_AXIS_WIDTH}
                 />
-                {chartData.map(
+                {dataPoints.map(
                     (datum) => (
-                        <Fragment key={datum.month}>
+                        <Fragment key={datum.key}>
                             {hazardListForDisplay.map(
-                                ({ hazard_type: hazard, hazard_type_display }, i) => (
-                                    <rect
-                                        key={hazard}
-                                        x={datum.x
-                                            + (barWidth + barGap) * i
-                                            + barMonthPadding}
-                                        y={datum.y[hazard] ?? 0}
-                                        width={Math.max(barWidth, 0)}
-                                        height={(
-                                            isDefined(datum.y[hazard])
-                                                ? Math.max(
-                                                    chartBounds.height
-                                                        - (datum.y[hazard] ?? 0)
-                                                        - chartMargin.bottom,
-                                                    0,
-                                                ) : 0
-                                        )}
-                                        fill={hazardTypeToColorMap[hazard]}
-                                    >
-                                        {selectedRiskMetricDetail.key === 'riskScore' ? (
-                                            <title>
-                                                {`${hazard_type_display}: ${riskCategoryToLabelMap[datum.value[hazard]]}`}
-                                            </title>
-                                        ) : (
-                                            <title>
-                                                {`${hazard_type_display}: ${formatNumber(datum.value[hazard], { maximumFractionDigits: 0 })}`}
-                                            </title>
-                                        )}
-                                    </rect>
-                                ),
+                                ({ hazard_type: hazard, hazard_type_display }, hazardIndex) => {
+                                    const value = datum.originalData.value[hazard];
+                                    const y = yScaleFn(value);
+                                    const height = getChartHeight(y);
+
+                                    const offsetX = barGap;
+                                    const numItems = hazardListForDisplay.length;
+
+                                    const width = Math.max(
+                                        // eslint-disable-next-line max-len
+                                        (xAxisDiff / numItems) - offsetX * 2 - barGap * (numItems - 1),
+                                        0,
+                                    );
+                                    // eslint-disable-next-line max-len
+                                    const x = (datum.x - xAxisDiff / 2) + offsetX + (width + barGap) * hazardIndex;
+
+                                    return (
+                                        <rect
+                                            key={hazard}
+                                            x={x}
+                                            y={y}
+                                            width={width}
+                                            height={height}
+                                            fill={hazardTypeToColorMap[hazard]}
+                                        >
+                                            <Tooltip
+                                                title={hazard_type_display}
+                                                description={(
+                                                    <>
+                                                        <DateOutput
+                                                            value={datum.originalData.date}
+                                                            format="yyyy MMM"
+                                                        />
+                                                        {selectedRiskMetricDetail.key === 'riskScore' ? (
+                                                            <TextOutput
+                                                                // FIXME: use strings
+                                                                label="Risk score"
+                                                                // eslint-disable-next-line max-len
+                                                                value={riskCategoryToLabelMap[value]}
+                                                                strongValue
+                                                            />
+                                                        ) : (
+                                                            <TextOutput
+                                                                // eslint-disable-next-line max-len
+                                                                label={selectedRiskMetricDetail.label}
+                                                                value={value}
+                                                                valueType="number"
+                                                                maximumFractionDigits={0}
+                                                                strongValue
+                                                            />
+                                                        )}
+                                                    </>
+                                                )}
+                                            />
+                                        </rect>
+                                    );
+                                },
                             )}
                         </Fragment>
                     ),

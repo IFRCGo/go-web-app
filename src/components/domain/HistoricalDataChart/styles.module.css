@@ -10,7 +10,6 @@
 
     .chart-container {
         position: relative;
-        background-color: var(--go-ui-color-background);
         height: 20rem;
 
         .svg {
@@ -18,12 +17,11 @@
             height: 100%;
         }
 
-        .y-axis-label {
-            font-size: var(--go-ui-font-size-sm);
-            fill: var(--go-ui-color-gray-80);
-        }
         .point {
+            display: flex;
             position: absolute;
+            align-items: center;
+            justify-content: center;
             transform: translate(-50%, -50%);
             opacity: var(--go-ui-opacity-chart-point);
             border-radius: 50%;
@@ -44,6 +42,7 @@
     .legend {
         display: flex;
         flex-wrap: wrap;
+        background-color: var(--go-ui-color-background);
         gap: var(--go-ui-spacing-xs) var(--go-ui-spacing-md);
         padding: var(--go-ui-spacing-md);
 
@@ -64,8 +63,4 @@
             }
         }
     }
-}
-
-.pop-up {
-    padding: 0;
 }

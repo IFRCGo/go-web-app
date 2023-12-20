@@ -13,6 +13,7 @@ interface Props<D> {
     valueSelector: (datum: D) => number | null | undefined;
     labelSelector: (datum: D) => React.ReactNode;
     maxValue?: number;
+    maxRows?: number;
 }
 
 function BarChart<D>(props: Props<D>) {
@@ -23,6 +24,7 @@ function BarChart<D>(props: Props<D>) {
         labelSelector,
         keySelector,
         maxValue: maxValueFromProps,
+        maxRows = 5,
     } = props;
 
     const renderingData = useMemo(
@@ -40,9 +42,9 @@ function BarChart<D>(props: Props<D>) {
                     label: labelSelector(datum),
                 };
                 // FIXME: use compareNumber
-            }).filter(isDefined).sort((a, b) => b.value - a.value).slice(0, 5) ?? []
+            }).filter(isDefined).sort((a, b) => b.value - a.value).slice(0, maxRows) ?? []
         ),
-        [data, keySelector, valueSelector, labelSelector],
+        [data, keySelector, valueSelector, labelSelector, maxRows],
     );
 
     // NOTE: we do not need to check if Math.max will be Infinity as the render

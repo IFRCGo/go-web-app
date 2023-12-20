@@ -532,7 +532,7 @@ export function Component() {
                 >
                     <RatingByAreaChart
                         ratingOptions={perOptionsResponse.componentratings}
-                        formAreaOptions={perFormAreaResponse.results}
+                        // formAreaOptions={perFormAreaResponse.results}
                         data={assessmentStats.ratingByArea}
                     />
                 </Container>
