@@ -1,21 +1,15 @@
 {
     "namespace": "countryOngoingActivitiesEmergencies",
     "strings": {
-        "fullScreenHeading": "IFRC Disaster Response and Preparedness",
-        "countryCloseButton": "Close",
         "countryOngoingActivitiesDREFOperations": "Active DREF Operations",
-        "countryOngoingActivitiesKeyFiguresDrefTitle": "DREF",
-        "countryOngoingActivitiesKeyFiguresDref": "These are small to medium scale emergency operations funded through the Disaster Relief Emergency Fund (DREF).The DREF provides immediate financial support to National Red Cross and Red Crescent Societies, enabling them to carry out their unique role as first responders after a disaster.",
-        "countryOngoingActivitiesKeyFiguresAppealsTitle": "Emergency Appeal",
+        "countryOngoingActivitiesEmergenciesDescription": "The following data displays the current and ongoing emergencies within the country that are reported by the National Societies and partners. The displayed data is based on reporting and may not be fully indicative of all the activities.",
         "countryOngoingActivitiesFigureAppealDescription": "These are medium to large scale emergency operations funded through a public appeal for funds.",
         "countryOngoingActivitiesKeyFiguresActiveAppeals": "Active Emergency Appeals",
-        "countryOngoingActivitiesKeyFiguresTargetPop": "Targeted Population",
-        "countryOngoingActivitiesKeyFiguresBudget": "Funding Requirements (CHF)",
         "countryOngoingActivitiesKeyFiguresAppealsFunding": "Funding Coverage",
-        "countryOngoingActivitiesEditCountryLink": "Edit Country",
-        "countryOngoingActivitiesEmergenciesDescription": "The following data displays the current and ongoing emergencies within the country that are reported by the National Societies and partners. The displayed data is based on reporting and may not be fully indicative of all the activities.",
-        "countryOngoingActivitiesTitle": "Active Emergencies",
-        "countryOngoingActivitiesViewAll":"View all Emergencies in this Country",
-        "countryOngoingActivitiesViewAllInRegion": "View all Emergencies in this Region"
+        "countryOngoingActivitiesKeyFiguresAppealsTitle": "Emergency Appeal",
+        "countryOngoingActivitiesKeyFiguresBudget": "Funding Requirements (CHF)",
+        "countryOngoingActivitiesKeyFiguresDref": "These are small to medium scale emergency operations funded through the Disaster Relief Emergency Fund (DREF).The DREF provides immediate financial support to National Red Cross and Red Crescent Societies, enabling them to carry out their unique role as first responders after a disaster.",
+        "countryOngoingActivitiesKeyFiguresTargetPop": "Targeted Population",
+        "countryOngoingActivitiesKeyFiguresDrefTitle": "DREF"
     }
 }
