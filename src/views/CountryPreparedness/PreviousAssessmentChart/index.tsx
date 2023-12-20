@@ -1,8 +1,7 @@
 import { ElementRef, useRef } from 'react';
 
 import useChartData from '#hooks/useChartData';
-import ChartAxisX from '#components/ChartAxisX';
-import ChartAxisY from '#components/ChartAxisY';
+import ChartAxes from '#components/ChartAxes';
 import useTranslation from '#hooks/useTranslation';
 import { formatDate } from '#utils/common';
 import { type GoApiResponse } from '#utils/restRequest';
@@ -15,6 +14,31 @@ import styles from './styles.module.css';
 type LatestPerResponse = GoApiResponse<'/api/v2/latest-per-overview/'>;
 type PreviousRatings = NonNullable<LatestPerResponse['results']>[number]['assessment_ratings'];
 
+const X_AXIS_HEIGHT = 20;
+const Y_AXIS_WIDTH = 20;
+const DEFAULT_CHART_MARGIN = 40;
+
+const chartMargin = {
+    left: DEFAULT_CHART_MARGIN,
+    top: DEFAULT_CHART_MARGIN,
+    right: DEFAULT_CHART_MARGIN,
+    bottom: DEFAULT_CHART_MARGIN,
+};
+
+const chartPadding = {
+    left: 20,
+    top: 10,
+    right: 20,
+    bottom: 10,
+};
+
+const chartOffset = {
+    left: Y_AXIS_WIDTH,
+    top: 0,
+    right: 0,
+    bottom: X_AXIS_HEIGHT,
+};
+
 interface Props {
     data: PreviousRatings;
 }
@@ -26,14 +50,21 @@ function PreviousAssessmentCharts(props: Props) {
     const containerRef = useRef<ElementRef<'div'>>(null);
 
     const {
-        chartBounds,
-        chartData,
+        dataPoints,
+        xAxisTicks,
+        yAxisTicks,
+        chartSize,
     } = useChartData(
         data,
-        containerRef,
         {
+            containerRef,
+            chartOffset,
+            chartMargin,
+            chartPadding,
+            keySelector: (datum) => datum.assessment_number,
             xValueSelector: (datum) => datum.assessment_number,
-            xAxisLabelFormatter: (datum) => resolveToString(
+            type: 'categorical',
+            xAxisLabelSelector: (datum) => resolveToString(
                 strings.cycleLabel,
                 {
                     assessmentNumber: datum.assessment_number,
@@ -41,8 +72,6 @@ function PreviousAssessmentCharts(props: Props) {
                 },
             ),
             yValueSelector: (datum) => datum.average_rating ?? 0,
-            keySelector: (datum) => datum.assessment_number,
-            maxYValue: 5,
         },
     );
 
@@ -52,29 +81,25 @@ function PreviousAssessmentCharts(props: Props) {
             ref={containerRef}
         >
             <svg className={styles.svg}>
-                <ChartAxisX
-                    chartBounds={chartBounds}
-                    chartMargin={chartData.chartMargin}
-                    chartInnerOffset={chartData.innerOffset}
-                    ticks={chartData.xAxisTicks}
+                <ChartAxes
+                    xAxisPoints={xAxisTicks}
+                    yAxisPoints={yAxisTicks}
+                    chartSize={chartSize}
+                    chartMargin={chartMargin}
+                    xAxisHeight={X_AXIS_HEIGHT}
+                    yAxisWidth={Y_AXIS_WIDTH}
                 />
-                <ChartAxisY
-                    chartBounds={chartBounds}
-                    chartMargin={chartData.chartMargin}
-                    chartInnerOffset={chartData.innerOffset}
-                    ticks={chartData.yAxisTicks}
-                />
-                {chartData.points && (
+                {dataPoints && (
                     <path
                         // NOTE: only drawing first path
                         // FIXME: we cannot guarantee that the array will have
                         // at least one element
-                        d={getDiscretePathDataList(chartData.points)[0]}
+                        d={getDiscretePathDataList(dataPoints)[0]}
                         fill="none"
                         className={styles.path}
                     />
                 )}
-                {chartData.points.map(
+                {dataPoints.map(
                     (point) => (
                         <g key={point.key}>
                             <text
@@ -84,7 +109,7 @@ function PreviousAssessmentCharts(props: Props) {
                                 x={point.x}
                                 y={point.y}
                             >
-                                {Number(point.yValue?.toFixed(2)) ?? '-'}
+                                {Number(point.originalData.average_rating?.toFixed(2)) ?? '-'}
                             </text>
                             <circle
                                 className={styles.circle}
@@ -95,8 +120,8 @@ function PreviousAssessmentCharts(props: Props) {
                                     {resolveToString(
                                         strings.assessmentLabel,
                                         {
-                                            xValue: point.xValue,
-                                            yValue: point.yValue ?? '-',
+                                            xValue: point.originalData.assessment_number,
+                                            yValue: point.originalData.average_rating ?? '-',
                                         },
                                     )}
                                 </title>

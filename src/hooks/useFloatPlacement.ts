@@ -3,7 +3,7 @@ import { useState, useCallback, useEffect } from 'react';
 
 const ONE_REM = parseFloat(getComputedStyle(document.documentElement).fontSize);
 // px
-const MIN_WIDTH = 15 * ONE_REM;
+const MIN_WIDTH = 16 * ONE_REM;
 const VERTICAL_OFFSET = 0.5 * ONE_REM;
 
 type Orientation = {
