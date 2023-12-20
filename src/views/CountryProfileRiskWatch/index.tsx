@@ -6,7 +6,6 @@ import getBbox from '@turf/bbox';
 import Container from '#components/Container';
 import Link from '#components/Link';
 import RiskImminentEvents, { type ImminentEventSource } from '#components/domain/RiskImminentEvents';
-import HistoricalDataChart from '#components/domain/HistoricalDataChart';
 import BlockLoading from '#components/BlockLoading';
 import useTranslation from '#hooks/useTranslation';
 import useInputState from '#hooks/useInputState';
@@ -181,12 +180,8 @@ export function Component() {
             <ReturnPeriodTable
                 data={riskResponse?.return_period_data}
             />
-            <HistoricalDataChart
-                variant="country"
-                countryId={Number(countryId)}
-            />
         </Container>
     );
 }
 
-Component.displayName = 'CountryRiskWatch';
+Component.displayName = 'CountryProfileRiskWatch';

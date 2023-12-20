@@ -81,7 +81,7 @@ function AppealOperationTable(props: Props) {
             limit,
             offset,
             ordering,
-            country: countryId,
+            country: [countryId],
             dtype: filter.dType,
             start_date__gte: filter.startDateAfter,
             start_date__lte: filter.startDateBefore,

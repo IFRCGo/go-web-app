@@ -1,5 +1,4 @@
 import {
-    useCallback,
     useMemo,
     useRef,
 } from 'react';
@@ -7,24 +6,23 @@ import {
     isDefined,
     isNotDefined,
     listToGroupList,
-    listToMap,
-    mapToMap,
+    mapToList,
 } from '@togglecorp/fujs';
 
 import ChartAxes from '#components/ChartAxes';
-import useSizeTracking from '#hooks/useSizeTracking';
-import { formatNumber, maxSafe } from '#utils/common';
+import useChartData from '#hooks/useChartData';
+import { avgSafe } from '#utils/common';
+import { getPrioritizedIpcData } from '#utils/domain/risk';
+import { getDiscretePathDataList } from '#utils/chart';
 import {
-    getAverageIpcData,
-    getPrioritizedIpcData,
-    monthNumberToNameMap,
-} from '#utils/domain/risk';
-import { getDiscretePathDataList, getScaleFunction } from '#utils/chart';
-import {
-    COLOR_HAZARD_FOOD_INSECURITY,
-    COLOR_PRIMARY_RED,
+    defaultChartMargin,
+    defaultChartPadding,
 } from '#utils/constants';
 import { type RiskApiResponse } from '#utils/restRequest';
+
+import ChartPoint from '#components/TimeSeriesChart/ChartPoint';
+import Tooltip from '#components/Tooltip';
+import TextOutput from '#components/TextOutput';
 
 import styles from './styles.module.css';
 
@@ -43,34 +41,97 @@ const colors = [
 
 const X_AXIS_HEIGHT = 24;
 const Y_AXIS_WIDTH = 48;
-const CHART_OFFSET = 16;
 
-const chartMargin = {
-    left: Y_AXIS_WIDTH + CHART_OFFSET,
-    top: CHART_OFFSET,
-    right: CHART_OFFSET,
-    bottom: X_AXIS_HEIGHT + CHART_OFFSET,
+const chartOffset = {
+    left: Y_AXIS_WIDTH,
+    top: 10,
+    right: 0,
+    bottom: X_AXIS_HEIGHT,
 };
 
-const xAxisFormatter = (date: Date) => date.toLocaleString(
-    navigator.language,
-    { month: 'short' },
-);
-
-const localeFormatDate = (date: Date) => date.toLocaleString(
-    navigator.language,
-    {
-        year: 'numeric',
-        month: 'short',
-    },
-);
-
-const localeFormatMonth = (date: Date) => date.toLocaleString(
-    navigator.language,
-    { month: 'short' },
-);
-
 const currentYear = new Date().getFullYear();
+
+type FiChartPointProps = {
+    dataPoint: {
+        originalData: {
+            year?: number;
+            month: number;
+            analysis_date?: string;
+            total_displacement: number;
+        },
+        key: number | string;
+        x: number;
+        y: number;
+    };
+};
+function FiChartPoint(props: FiChartPointProps) {
+    const {
+        dataPoint: {
+            x,
+            y,
+            originalData,
+        },
+    } = props;
+
+    const title = useMemo(
+        () => {
+            const {
+                year,
+                month,
+            } = originalData;
+
+            if (isDefined(year)) {
+                return new Date(year, month - 1, 1).toLocaleString(
+                    navigator.language,
+                    {
+                        year: 'numeric',
+                        month: 'long',
+                    },
+                );
+            }
+
+            const formattedMonth = new Date(currentYear, month - 1, 1).toLocaleString(
+                navigator.language,
+                { month: 'long' },
+            );
+
+            // FIXME: use translations
+            return `Average for ${formattedMonth}`;
+        },
+        [originalData],
+    );
+
+    return (
+        <ChartPoint
+            className={styles.point}
+            x={x}
+            y={y}
+        >
+            <Tooltip
+                title={title}
+                description={(
+                    <>
+                        {isDefined(originalData.analysis_date) && (
+                            <TextOutput
+                                // FIXME: use translations
+                                label="Analysis date"
+                                value={originalData.analysis_date}
+                                valueType="date"
+                            />
+                        )}
+                        <TextOutput
+                            // FIXME: use translations
+                            label="People Exposed"
+                            value={originalData.total_displacement}
+                            valueType="number"
+                            maximumFractionDigits={0}
+                        />
+                    </>
+                )}
+            />
+        </ChartPoint>
+    );
+}
 
 interface Props {
     ipcData: RiskData['ipc_displacement_data'] | undefined;
@@ -86,150 +147,117 @@ function FoodInsecurityChart(props: Props) {
     } = props;
 
     const chartContainerRef = useRef<HTMLDivElement>(null);
-    const chartBounds = useSizeTracking(chartContainerRef);
+    const uniqueData = useMemo(
+        () => getPrioritizedIpcData(ipcData ?? []),
+        [ipcData],
+    );
 
-    const chartData = useMemo(
+    const {
+        dataPoints,
+        chartSize,
+        xAxisTicks,
+        yAxisTicks,
+        yScaleFn,
+    } = useChartData(
+        uniqueData,
+        {
+            containerRef: chartContainerRef,
+            chartMargin: defaultChartMargin,
+            chartPadding: defaultChartPadding,
+            chartOffset,
+            type: 'numeric',
+            keySelector: (datum) => datum.month,
+            xValueSelector: (datum) => (
+                datum.month - 1
+            ),
+            yValueSelector: (datum) => datum.total_displacement,
+            xAxisLabelSelector: (month) => new Date(currentYear, month, 1).toLocaleString(
+                navigator.language,
+                { month: 'short' },
+            ),
+            xDomain: {
+                min: 0,
+                max: 11,
+            },
+            yAxisStartsFromZero: true,
+        },
+    );
+
+    const latestProjectionYear = useMemo(
         () => {
-            const uniqueData = getPrioritizedIpcData(ipcData ?? []);
-            const averageDataItem = getAverageIpcData(uniqueData);
-            const maxValue = maxSafe(uniqueData.map((item) => item.total_displacement)) ?? 0;
-
-            const xScale = getScaleFunction(
-                { min: 0, max: 12 },
-                { min: 0, max: chartBounds.width },
-                { start: chartMargin.left, end: chartMargin.right },
+            const projectionData = uniqueData.filter(
+                (fiData) => fiData.estimation_type !== 'current',
+            ).map(
+                (fiData) => fiData.year,
             );
 
-            const yScale = getScaleFunction(
-                { min: 0, max: maxValue },
-                { min: 0, max: chartBounds.height },
-                { start: chartMargin.top, end: chartMargin.bottom },
-                true,
-            );
+            return Math.max(...projectionData);
+        },
+        [uniqueData],
+    );
 
-            const yearGroupedData = mapToMap(
-                listToGroupList(
-                    uniqueData,
-                    (item) => item.year,
+    const historicalPointsDataList = useMemo(
+        () => {
+            const yearGroupedDataPoints = listToGroupList(
+                dataPoints.filter(
+                    (pathPoints) => pathPoints.originalData.year !== latestProjectionYear,
                 ),
-                (year) => year,
-                (ipcDataList) => getAverageIpcData(ipcDataList),
+                (dataPoint) => dataPoint.originalData.year,
             );
 
-            const yearKeys = Object.keys(yearGroupedData);
-            const predictionYear = yearKeys.length === 0
-                ? undefined
-                : yearKeys[yearKeys.length - 1];
-
-            const chartPoints = Array.from(Array(12).keys()).map(
-                (monthKey) => {
-                    const month = monthNumberToNameMap[monthKey];
-                    const average = averageDataItem[month] ?? 0;
-
-                    const value = listToMap(
-                        yearKeys,
-                        (year) => year,
-                        (year) => yearGroupedData?.[Number(year)]?.[month],
-                    );
-
-                    value.average = average;
-
-                    const y = mapToMap(
-                        value,
-                        (key) => key,
-                        (item) => (isDefined(item) ? yScale(item) : undefined),
-                    );
-
-                    const dates = mapToMap(
-                        value,
-                        (key) => key,
-                        (_, year) => new Date(+year, monthKey, 1),
-                    );
-
-                    return {
-                        key: monthKey,
-                        x: xScale(monthKey + 0.5),
-                        xStart: xScale(monthKey),
-                        y,
-                        value,
-                        dates,
-                        month: monthKey,
-                    };
-                },
-            );
-
-            const numYAxisPoints = 6;
-            const diff = maxValue / (numYAxisPoints - 1);
-            const yAxisPoints = Array.from(Array(numYAxisPoints).keys()).map(
-                (key) => {
-                    const value = diff * key;
-                    return {
-                        key,
-                        dataValue: value,
-                        value: yScale(value),
-                    };
-                },
-            );
-
-            const yearlyPathPoints = yearKeys.map(
-                (year) => ({
-                    key: year,
-                    year,
-                    points: chartPoints.map((point) => ({
-                        key: `${year}-${point.key}`,
-                        x: point.x,
-                        y: point.y[year],
-                        v: point.value[year],
-                        date: point.dates[year],
-                    })),
+            return mapToList(
+                yearGroupedDataPoints,
+                (list, key) => ({
+                    key,
+                    list,
                 }),
             );
-
-            const averagePathPoints = chartPoints.map((point) => ({
-                x: point.x,
-                y: point.y.average,
-                value: point.value.average,
-                date: new Date(currentYear, point.month, 1),
-            }));
-
-            return {
-                points: chartPoints,
-                predictionYear,
-                yAxisPoints,
-                yearlyPathPoints,
-                averagePathPoints,
-                yearKeys,
-            };
         },
-        [chartBounds, ipcData],
+        [latestProjectionYear, dataPoints],
     );
 
-    const xAxisTickSelector = useCallback(
-        (chartPoint: (typeof chartData)['points'][number]) => ({
-            x: chartPoint.xStart,
-            // Year and date doesn't matter here
-            label: xAxisFormatter(new Date(2000, chartPoint.key, 1)),
-        }),
-        [],
+    const averagePointsData = useMemo(
+        () => {
+            const monthGroupedDataPoints = listToGroupList(
+                dataPoints,
+                (dataPoint) => dataPoint.originalData.month,
+            );
+
+            return mapToList(
+                monthGroupedDataPoints,
+                (list, month) => {
+                    const averageDisplacement = avgSafe(
+                        list.map(
+                            (fiData) => fiData.originalData.total_displacement,
+                        ),
+                    );
+
+                    if (isNotDefined(averageDisplacement)) {
+                        return undefined;
+                    }
+
+                    return {
+                        key: month,
+                        x: list[0].x,
+                        y: yScaleFn(averageDisplacement),
+                        originalData: {
+                            total_displacement: averageDisplacement,
+                            month: Number(month),
+                        },
+                    };
+                },
+            ).filter(isDefined);
+        },
+        [dataPoints, yScaleFn],
     );
 
-    const yAxisTickSelector = useCallback(
-        (chartPoint: (typeof chartData)['yAxisPoints'][number]) => ({
-            y: chartPoint.value,
-            label: formatNumber(
-                chartPoint.dataValue,
-                { compact: true, maximumFractionDigits: 0 },
-            ),
-        }),
-        [],
-    );
-
-    const predictionPointData = chartData.yearlyPathPoints.find(
-        (pathPoints) => pathPoints.key === chartData.predictionYear,
-    );
-
-    const historicalPointsData = chartData.yearlyPathPoints.filter(
-        (pathPoints) => pathPoints.key !== chartData.predictionYear,
+    const predictionPointsData = useMemo(
+        () => (
+            dataPoints.filter(
+                (pathPoints) => pathPoints.originalData.year === latestProjectionYear,
+            )
+        ),
+        [dataPoints, latestProjectionYear],
     );
 
     return (
@@ -239,113 +267,82 @@ function FoodInsecurityChart(props: Props) {
         >
             <svg className={styles.svg}>
                 <ChartAxes
-                    xAxisPoints={chartData.points}
-                    yAxisPoints={chartData.yAxisPoints}
-                    chartBounds={chartBounds}
-                    chartMargin={chartMargin}
-                    chartOffset={CHART_OFFSET}
-                    xAxisTickSelector={xAxisTickSelector}
-                    yAxisTickSelector={yAxisTickSelector}
+                    xAxisPoints={xAxisTicks}
+                    yAxisPoints={yAxisTicks}
+                    chartSize={chartSize}
+                    chartMargin={defaultChartMargin}
+                    xAxisHeight={X_AXIS_HEIGHT}
+                    yAxisWidth={Y_AXIS_WIDTH}
                 />
-                {showProjection && isDefined(predictionPointData) && (
-                    getDiscretePathDataList(predictionPointData.points)?.map(
-                        (discretePath) => (
-                            <path
-                                key={`prediction-${discretePath}`}
-                                className={styles.path}
-                                d={discretePath}
-                                stroke={COLOR_PRIMARY_RED}
-                            />
-                        ),
-                    )
+                {showHistoricalData && historicalPointsDataList.map(
+                    (historicalPointsData, i) => (
+                        <g
+                            className={styles.historicalData}
+                            key={historicalPointsData.key}
+                            style={{
+                                color: colors[i],
+                            }}
+                        >
+                            {getDiscretePathDataList(historicalPointsData.list).map(
+                                (discretePath) => (
+                                    <path
+                                        key={discretePath}
+                                        className={styles.path}
+                                        d={discretePath}
+                                    />
+                                ),
+                            )}
+                            {historicalPointsData.list.map(
+                                (pointData) => (
+                                    <FiChartPoint
+                                        dataPoint={pointData}
+                                        key={pointData.key}
+                                    />
+                                ),
+                            )}
+                        </g>
+                    ),
                 )}
-                {showHistoricalData && historicalPointsData.map(
-                    (pathPoints, i) => (
-                        getDiscretePathDataList(pathPoints.points)?.map(
+                {showProjection && (
+                    <g className={styles.prediction}>
+                        {getDiscretePathDataList(predictionPointsData).map(
                             (discretePath) => (
                                 <path
+                                    key={discretePath}
                                     className={styles.path}
-                                    key={`${pathPoints.key}-${discretePath}`}
                                     d={discretePath}
-                                    stroke={colors[i]}
                                 />
                             ),
-                        )
-                    ),
-                )}
-                {getDiscretePathDataList(chartData.averagePathPoints)?.map(
-                    (discretePath) => (
-                        <path
-                            key={discretePath}
-                            className={styles.averagePath}
-                            d={discretePath}
-                            stroke={COLOR_HAZARD_FOOD_INSECURITY}
-                        />
-                    ),
-                )}
-                {showProjection && predictionPointData?.points.map(
-                    (point) => {
-                        if (isNotDefined(point.y) || isNotDefined(point.x)) {
-                            return null;
-                        }
-
-                        return (
-                            <circle
-                                key={point.key}
-                                className={styles.averagePoint}
-                                cx={point.x}
-                                cy={point.y}
-                                fill={COLOR_PRIMARY_RED}
-                            >
-                                <title>
-                                    {`${localeFormatMonth(point.date)}: ${formatNumber(point.v)}`}
-                                </title>
-                            </circle>
-                        );
-                    },
-                )}
-                {showHistoricalData && historicalPointsData.map(
-                    (pointData, i) => (
-                        pointData.points.map(
-                            (point) => (
-                                isDefined(point.y) ? (
-                                    <circle
-                                        key={point.key}
-                                        className={styles.point}
-                                        cx={point.x}
-                                        cy={point.y}
-                                        stroke={colors[i]}
-                                    >
-                                        <title>
-                                            {`${localeFormatDate(point.date)}: ${formatNumber(point.v)}`}
-                                        </title>
-                                    </circle>
-                                ) : null
+                        )}
+                        {predictionPointsData.map(
+                            (pointData) => (
+                                <FiChartPoint
+                                    key={pointData.key}
+                                    dataPoint={pointData}
+                                />
                             ),
-                        )
-                    ),
+                        )}
+                    </g>
                 )}
-                {chartData.averagePathPoints.map(
-                    (point) => {
-                        if (isNotDefined(point.y)) {
-                            return null;
-                        }
-
-                        return (
-                            <circle
-                                key={point.x}
-                                className={styles.averagePoint}
-                                cx={point.x}
-                                cy={point.y}
-                                fill={COLOR_HAZARD_FOOD_INSECURITY}
-                            >
-                                <title>
-                                    {`${localeFormatMonth(point.date)}: ${formatNumber(point.value)}`}
-                                </title>
-                            </circle>
-                        );
-                    },
-                )}
+                <g className={styles.average}>
+                    {getDiscretePathDataList(averagePointsData).map(
+                        (discretePath) => (
+                            <path
+                                key={discretePath}
+                                className={styles.path}
+                                d={discretePath}
+                            />
+                        ),
+                    )}
+                    {averagePointsData.map(
+                        (pointData) => (
+                            <FiChartPoint
+                                key={pointData.key}
+                                dataPoint={pointData}
+                            />
+                        ),
+                    )}
+                </g>
             </svg>
         </div>
     );

@@ -11,9 +11,9 @@ import useTranslation from '#hooks/useTranslation';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-export type SizeType = 'sm' | 'md' | 'lg' | 'xl' | 'full' | 'auto';
+export type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full' | 'auto';
 
-const sizeToStyleMap: Record<SizeType, string> = {
+const sizeToStyleMap: Record<ModalSize, string> = {
     sm: styles.sizeSm,
     md: styles.sizeMd,
     lg: styles.sizeLg,
@@ -28,7 +28,7 @@ export interface Props extends Omit<ContainerProps, 'withInternalPadding' | 'wit
     onClose?: () => void;
     overlayClassName?: string;
     modalContainerClassName?: string;
-    size?: SizeType;
+    size?: ModalSize;
     withoutCloseButton?: boolean;
 }
 
