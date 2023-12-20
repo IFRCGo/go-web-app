@@ -10,8 +10,8 @@ import { resolveToString } from '#utils/translation';
 import NationalSocietyContacts from './NationalSocietyContacts';
 import NationalSocietyDirectory from './NationalSocietyDirectory';
 import NationalSocietyLocalUnitsMap from './NationalSocietyLocalUnitsMap';
-
 import NationalSocietyDirectoryInitiatives from './NsDirectoryInitiatives';
+
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -26,6 +26,7 @@ export function Component() {
                 <NationalSocietyLocalUnitsMap className={styles.map} />
                 <NationalSocietyDirectory className={styles.directory} />
             </div>
+            <NationalSocietyDirectoryInitiatives />
             <NationalSocietyContacts />
             {isDefined(countryResponse) && (
                 <Container
@@ -81,7 +82,6 @@ export function Component() {
                     )}
                 </Container>
             )}
-            <NationalSocietyDirectoryInitiatives />
         </div>
     );
 }
