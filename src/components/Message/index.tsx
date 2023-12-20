@@ -1,4 +1,4 @@
-import { _cs } from '@togglecorp/fujs';
+import { _cs, isDefined } from '@togglecorp/fujs';
 
 import Spinner from '#components/Spinner';
 
@@ -8,13 +8,18 @@ type MessageVariant = 'info' | 'error';
 
 export interface Props {
     className?: string;
-    pending?: boolean;
     variant?: MessageVariant;
     icon?: React.ReactNode;
-    title?: React.ReactNode;
-    description?: React.ReactNode;
     actions?: React.ReactNode;
     compact?: boolean;
+
+    pending?: boolean;
+    title?: React.ReactNode;
+    description?: React.ReactNode;
+
+    errored?: boolean;
+    erroredTitle?: React.ReactNode;
+    erroredDescription?: React.ReactNode;
 }
 
 function Message(props: Props) {
@@ -27,7 +32,13 @@ function Message(props: Props) {
         description,
         actions,
         compact = false,
+        errored,
+        erroredTitle,
+        erroredDescription,
     } = props;
+
+    const showTitle = errored ? isDefined(erroredTitle) : isDefined(title);
+    const showDescription = errored ? isDefined(erroredDescription) : isDefined(description);
 
     return (
         <div
@@ -44,12 +55,12 @@ function Message(props: Props) {
                     {!pending && icon}
                 </div>
             )}
-            {title && (
+            {showTitle && (
                 <div className={styles.title}>
-                    {title}
+                    {errored ? erroredTitle : title}
                 </div>
             )}
-            {description && (
+            {showDescription && (
                 <div className={styles.description}>
                     {description}
                 </div>

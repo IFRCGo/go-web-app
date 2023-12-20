@@ -1,6 +1,8 @@
 {
     "namespace": "countryProfilePreviousEvents",
     "strings": {
-        "pageTitle": "Country Profile Previous Events"
+        "emergenciesByDisasterTypeHeading": "Emergencies by disaster type",
+        "emergenciesOverMonthHeading": "Emergencies over month",
+        "dataLoadFailureMessage": "Failed to load data!"
     }
 }

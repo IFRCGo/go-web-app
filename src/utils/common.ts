@@ -482,7 +482,7 @@ export function getCurrentMonthYear() {
     return formatDate(now, 'MM/yyyy');
 }
 
-export function getMonthList() {
+export function getMonthList(monthOption: Intl.DateTimeFormatOptions['month'] = 'long') {
     const monthKeyList = Array.from(Array(12).keys());
     return monthKeyList.map(
         (monthKey) => {
@@ -495,7 +495,7 @@ export function getMonthList() {
                 key: monthKey,
                 label: date.toLocaleString(
                     navigator.language,
-                    { month: 'long' },
+                    { month: monthOption },
                 ),
             };
         },

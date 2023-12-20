@@ -1,144 +1,214 @@
-import { Fragment } from 'react';
+import React, { Fragment, useCallback, useRef } from 'react';
 import { isDefined } from '@togglecorp/fujs';
+
+import { Size, type Rect } from '#utils/chart';
 
 import styles from './styles.module.css';
 
+type Key = string | number;
+
 interface TickX {
+    key: Key;
     x: number;
-    label: number | string | undefined;
+    label: React.ReactNode;
 }
 
 interface TickY {
     y: number;
-    label: number | string | undefined;
+    label: React.ReactNode;
 }
 
-interface Props<X, Y> {
-    xAxisPoints: X[];
-    yAxisPoints: Y[];
-    chartOffset: number;
-    chartMargin: {
-        top: number;
-        right: number;
-        bottom: number;
-        left: number;
-    };
-    xAxisTickSelector: (dataPoint: X) => TickX;
-    yAxisTickSelector: (dataPoint: Y) => TickY;
-    chartBounds: {
-        width: number;
-        height: number;
-    };
-    boundRectsShown?: boolean,
+interface Props {
+    xAxisPoints: TickX[];
+    yAxisPoints: TickY[];
+    chartMargin: Rect;
+    xAxisHeight: number;
+    yAxisWidth: number;
+    chartSize: Size;
+    xAxisAlignment?: 'left' | 'right' | 'center',
+    tooltipSelector?: (key: Key, i: number) => React.ReactNode;
+    onHover?: (key: Key | undefined, i: number | undefined) => void;
+    yAxisLabel?: React.ReactNode;
 }
 
-function ChartAxes<X, Y>(props: Props<X, Y>) {
+function ChartAxes(props: Props) {
     const {
         xAxisPoints,
         yAxisPoints,
-        xAxisTickSelector,
-        yAxisTickSelector,
         chartMargin,
-        chartOffset,
-        chartBounds,
-        boundRectsShown: showBoundRects,
+        xAxisHeight,
+        yAxisWidth,
+        chartSize,
+        xAxisAlignment = 'left',
+        tooltipSelector,
+        onHover,
+        yAxisLabel,
     } = props;
 
-    const xAxisTickWidth = Math.max(
-        Math.abs((chartBounds.width - chartMargin.right - chartMargin.left) / xAxisPoints.length),
-        30,
-    );
+    const hoverOutTimeoutRef = useRef<number | undefined>();
+
     const yAxisTickHeight = Math.max(
-        (chartBounds.height - chartMargin.top - chartMargin.bottom) / yAxisPoints.length,
+        (chartSize.height - chartMargin.top - chartMargin.bottom) / yAxisPoints.length,
+        0,
+    );
+
+    const getMouseOverHandler = useCallback(
+        (key: Key, i: number) => {
+            if (!onHover) {
+                return undefined;
+            }
+
+            return () => {
+                window.clearTimeout(hoverOutTimeoutRef.current);
+                onHover(key, i);
+            };
+        },
+        [onHover],
+    );
+
+    const handleMouseOut = useCallback(
+        () => {
+            if (onHover) {
+                window.clearTimeout(hoverOutTimeoutRef.current);
+                hoverOutTimeoutRef.current = window.setTimeout(
+                    () => {
+                        // FIXME: check if component still mounted
+                        onHover(undefined, undefined);
+                    },
+                    200,
+                );
+            }
+        },
+        [onHover],
+    );
+
+    function getLineX(startX: number, endX: number) {
+        if (xAxisAlignment === 'left') {
+            return startX;
+        }
+
+        if (xAxisAlignment === 'right') {
+            return endX;
+        }
+
+        return (endX + startX) / 2;
+    }
+
+    if (xAxisPoints.length < 2) {
+        return null;
+    }
+
+    const xAxisDiff = Math.max(
+        xAxisPoints[1].x - xAxisPoints[0].x,
         0,
     );
 
     return (
-        <g>
-            {yAxisPoints.map((pointData) => {
-                const tick = yAxisTickSelector(pointData);
-
-                return (
-                    <Fragment key={tick.y}>
+        <g className={styles.chartAxes}>
+            {isDefined(yAxisLabel) && (
+                <foreignObject
+                    x={0}
+                    y={chartSize.height - 20}
+                    width={chartSize.height}
+                    height={20}
+                    className={styles.yAxisLabelContainer}
+                    style={{ transformOrigin: `0 ${chartSize.height - 20}px` }}
+                >
+                    <div className={styles.yAxisLabel}>
+                        {yAxisLabel}
+                    </div>
+                </foreignObject>
+            )}
+            <g>
+                {yAxisPoints.map((pointData) => (
+                    <Fragment key={pointData.y}>
                         <line
                             className={styles.xAxisGridLine}
-                            x1={chartMargin.left}
-                            y1={tick.y}
-                            x2={chartBounds.width - chartMargin.right}
-                            y2={tick.y}
+                            x1={chartMargin.left + yAxisWidth}
+                            y1={pointData.y}
+                            x2={chartSize.width - chartMargin.right}
+                            y2={pointData.y}
                         />
                         <foreignObject
-                            x={chartOffset}
-                            y={tick.y - yAxisTickHeight / 2}
-                            width={chartMargin.left - chartOffset}
+                            x={chartMargin.left}
+                            y={pointData.y - yAxisTickHeight / 2}
+                            width={yAxisWidth}
                             height={yAxisTickHeight}
                         >
                             <div
                                 className={styles.yAxisTickText}
                                 style={{
-                                    width: chartMargin.left - chartOffset,
+                                    width: yAxisWidth,
                                     height: yAxisTickHeight,
                                 }}
-                                title={isDefined(tick.label) ? String(tick.label) : undefined}
+                                title={typeof pointData.label === 'string' ? String(pointData.label) : undefined}
                             >
-                                {tick.label}
+                                {pointData.label}
                             </div>
                         </foreignObject>
                     </Fragment>
-                );
-            })}
-            {xAxisPoints.map((pointData, i) => {
-                const tick = xAxisTickSelector(pointData);
-                const nextTickX = i === (xAxisPoints.length - 1)
-                    ? (chartBounds.width - chartMargin.right)
-                    : xAxisTickSelector(xAxisPoints[i + 1]).x;
+                ))}
+            </g>
+            <g>
+                {xAxisPoints.map((pointData, i) => {
+                    const tick = pointData;
 
-                const rectX1 = tick.x;
-                const rectX2 = nextTickX;
+                    const startX = tick.x;
+                    const endX = tick.x + xAxisDiff;
 
-                const y = chartBounds.height - chartMargin.bottom;
+                    const x = getLineX(startX, endX);
+                    const y = chartSize.height - chartMargin.bottom - xAxisHeight;
 
-                return (
-                    <Fragment key={tick.x}>
-                        <line
-                            className={styles.yAxisGridLine}
-                            x1={tick.x}
-                            y1={chartMargin.top}
-                            x2={tick.x}
-                            y2={y}
-                        />
-                        <foreignObject
-                            x={tick.x}
-                            y={y}
-                            width={xAxisTickWidth}
-                            height={chartMargin.bottom - chartOffset}
-                            style={{
-                                transformOrigin: `${tick.x}px ${y}px`,
-                            }}
-                        >
-                            <div
-                                className={styles.xAxisTickText}
-                                style={{
-                                    width: xAxisTickWidth,
-                                    height: chartMargin.bottom - chartOffset,
-                                }}
-                                title={isDefined(tick.label) ? String(tick.label) : undefined}
-                            >
-                                {tick.label}
-                            </div>
-                        </foreignObject>
-                        {showBoundRects && (
-                            <rect
-                                x={rectX1}
-                                width={rectX2 - rectX1}
-                                y={chartMargin.top}
-                                height={y - chartMargin.top}
-                                className={styles.boundRect}
+                    const xTickLabel = x - xAxisDiff / 2;
+                    const xTickWidth = xAxisDiff;
+
+                    return (
+                        <Fragment key={tick.x}>
+                            <line
+                                className={styles.yAxisGridLine}
+                                x1={x}
+                                y1={chartMargin.top}
+                                x2={x}
+                                y2={y}
                             />
-                        )}
-                    </Fragment>
-                );
-            })}
+                            <foreignObject
+                                className={styles.xAxisTick}
+                                x={xTickLabel}
+                                y={y}
+                                width={xTickWidth}
+                                height={xAxisHeight}
+                                style={{
+                                    transformOrigin: `${xTickLabel}px ${y}px`,
+                                }}
+                            >
+                                <div
+                                    className={styles.xAxisTickText}
+                                    style={{
+                                        width: xTickWidth,
+                                        height: xAxisHeight,
+                                    }}
+                                    title={typeof tick.label === 'string' ? String(tick.label) : undefined}
+                                >
+                                    {tick.label}
+                                </div>
+                            </foreignObject>
+                            {(isDefined(tooltipSelector) || isDefined(onHover)) && (
+                                <rect
+                                    x={startX - xTickWidth / 2}
+                                    width={xTickWidth}
+                                    y={chartMargin.top}
+                                    height={Math.max(y - chartMargin.top, 0)}
+                                    className={styles.boundRect}
+                                    onMouseOver={getMouseOverHandler(tick.key, i)}
+                                    onMouseOut={handleMouseOut}
+                                >
+                                    {tooltipSelector?.(tick.key, i)}
+                                </rect>
+                            )}
+                        </Fragment>
+                    );
+                })}
+            </g>
         </g>
     );
 }

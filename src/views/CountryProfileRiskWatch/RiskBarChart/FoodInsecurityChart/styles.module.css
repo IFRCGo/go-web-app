@@ -6,24 +6,29 @@
         height: 100%;
 
         .point {
-            r: 5;
-            stroke-width: 2;
-            fill: var(--go-ui-color-white);
-        }
-
-        .average-point {
-            r: 7;
+            color: currentColor;
         }
 
         .path {
             fill: none;
             stroke-width: 2;
-            opacity: 0.7;
+            stroke: currentColor;
         }
 
-        .average-path {
-            fill: none;
-            stroke-width: 3;
+        .historical-data {
+            opacity: 0.6;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+
+        .prediction {
+            color: var(--go-ui-color-primary-red);
+        }
+
+        .average {
+            color: var(--go-ui-color-hazard-fi);
         }
     }
 }
