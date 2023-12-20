@@ -258,6 +258,8 @@ export function Component() {
         || pmerDefined
         || communicationDefined;
 
+    const showBudgetOverview = isTruthyString(drefResponse?.budget_file_details?.file);
+
     const nsContactText = [
         drefResponse?.national_society_contact_name,
         drefResponse?.national_society_contact_title,
@@ -1032,6 +1034,29 @@ export function Component() {
                             </DescriptionText>
                         </Container>
                     )}
+                </>
+            )}
+            {showBudgetOverview && (
+                <>
+                    <div className={styles.pageBreak} />
+                    <Container
+                        heading={strings.budgetOverSectionHeading}
+                        headingLevel={2}
+                    >
+                        <Image
+                            imgElementClassName={styles.budgetFilePreview}
+                            src={drefResponse?.budget_file_preview}
+                        />
+                    </Container>
+                    <Container>
+                        <Link
+                            href={drefResponse?.budget_file_details?.file}
+                            external
+                            withUnderline
+                        >
+                            {strings.drefExportDownloadBudget}
+                        </Link>
+                    </Container>
                 </>
             )}
             {showContactsSection && (

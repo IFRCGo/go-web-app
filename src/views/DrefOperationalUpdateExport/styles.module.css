@@ -214,6 +214,13 @@
         }
     }
 
+    .budget-file-preview {
+        height: 240mm;
+        object-fit: contain;
+        object-position: top center;
+        max-height: unset;
+    }
+
     .contact-list {
         display: flex;
         flex-direction: column;

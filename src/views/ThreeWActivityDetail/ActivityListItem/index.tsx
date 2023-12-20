@@ -3,27 +3,16 @@ import { isDefined } from '@togglecorp/fujs';
 import TextOutput from '#components/TextOutput';
 import Container from '#components/Container';
 import useTranslation from '#hooks/useTranslation';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+type ProjectItem = NonNullable<GoApiResponse<'/api/v2/emergency-project/'>['results']>[number];
+type ActivityItem = NonNullable<ProjectItem['activities']>[number];
+
 export type Props = {
-    maleCount: number | null | undefined;
-    femaleCount: number | null | undefined;
-    peopleCount: number | null | undefined;
-    householdCount: number | null | undefined;
-    title: string | null | undefined;
-    customAction: string | null | undefined;
-    sectorDetails: string | null | undefined;
-    peopleHouseholds: 'people' | 'households' | null | undefined;
-    customSupply: {
-        [key: string]: number;
-    };
-    activitySupply: {
-        [key: string]: number;
-    } | undefined;
-    activityDetails: string | null | undefined;
-    isSimplifiedReport: boolean | null | undefined;
+    activityItem: ActivityItem;
 
     supplyMapping: {
         [key: number]: { id: number, title: string };
@@ -32,26 +21,30 @@ export type Props = {
 
 function ActivityListItem(props: Props) {
     const {
-        maleCount,
-        femaleCount,
-        peopleCount,
-        householdCount,
-        peopleHouseholds,
-        title,
-        sectorDetails,
-        customAction,
-        customSupply,
-        activitySupply,
-        activityDetails,
-        isSimplifiedReport,
+        activityItem,
         supplyMapping,
     } = props;
+
     const strings = useTranslation(i18n);
+
+    const {
+        action_details,
+        custom_action,
+        custom_supplies,
+        female_count,
+        household_count,
+        is_simplified_report,
+        male_count,
+        people_count,
+        people_households,
+        sector_details,
+        supplies,
+    } = activityItem;
 
     return (
         <Container
             className={styles.activityList}
-            heading={title ?? customAction}
+            heading={action_details?.title ?? custom_action}
             headingLevel={4}
             childrenContainerClassName={styles.actionContent}
             spacing="condensed"
@@ -59,52 +52,52 @@ function ActivityListItem(props: Props) {
             <div className={styles.activityDetails}>
                 <TextOutput
                     label={strings.emergencySector}
-                    value={sectorDetails}
+                    value={sector_details?.title}
                     strongLabel
                 />
                 <p>
-                    {activityDetails}
+                    {action_details.title}
                 </p>
-                {isSimplifiedReport && peopleHouseholds === 'people' && (
+                {is_simplified_report && people_households === 'people' && (
                     <>
-                        {(isDefined(maleCount) || isDefined(femaleCount)) && (
+                        {(isDefined(male_count) || isDefined(female_count)) && (
                             <>
                                 <TextOutput
                                     label={strings.emergencyMale}
-                                    value={maleCount}
+                                    value={male_count}
                                     strongLabel
                                 />
                                 <TextOutput
                                     label={strings.emergencyFemale}
-                                    value={femaleCount}
+                                    value={female_count}
                                     strongLabel
                                 />
                             </>
                         )}
                         <TextOutput
                             label={strings.emergencyTotalPeople}
-                            value={peopleCount}
+                            value={people_count}
                             strongLabel
                         />
                     </>
                 )}
-                {peopleHouseholds === 'households' && (
+                {people_households === 'households' && (
                     <TextOutput
                         label={strings.emergencyTotalHouseholds}
-                        value={householdCount}
+                        value={household_count}
                         strongLabel
                     />
                 )}
             </div>
             {/* TODO: only show if action type and not cash type */}
-            {isDefined(activitySupply) && Object.keys(activitySupply).length > 0 && (
+            {isDefined(supplies) && Object.keys(supplies).length > 0 && (
                 <Container
                     childrenContainerClassName={styles.supplyContent}
                     heading={strings.emergencySupplies}
                     headingLevel={5}
                     spacing="none"
                 >
-                    {Object.entries(activitySupply).map(([supply, value]) => (
+                    {Object.entries(supplies).map(([supply, value]) => (
                         <TextOutput
                             key={supply}
                             label={supplyMapping?.[Number(supply)]?.title}
@@ -114,14 +107,14 @@ function ActivityListItem(props: Props) {
                 </Container>
             )}
             {/* TODO: only show if custom type or action type and not cash type */}
-            {Object.keys(customSupply).length > 0 && (
+            {Object.keys(custom_supplies).length > 0 && (
                 <Container
                     childrenContainerClassName={styles.supplyContent}
                     heading={strings.emergencyCustomSupplies}
                     headingLevel={5}
                     spacing="none"
                 >
-                    {Object.entries(customSupply).map(([supply, value]) => (
+                    {Object.entries(custom_supplies).map(([supply, value]) => (
                         <TextOutput
                             key={supply}
                             label={supply}

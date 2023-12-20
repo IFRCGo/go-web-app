@@ -43,6 +43,10 @@
 
     &.primary,
     &.secondary {
+        .children {
+            text-align: center;
+        }
+
         &.no-spacing {
             --padding: 0;
         }
