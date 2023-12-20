@@ -7,7 +7,7 @@ import {
 import useAuth from '#hooks/domain/useAuth';
 import FourHundredThree from '#components/FourHundredThree';
 import usePermissions from '#hooks/domain/usePermissions';
-import { type ExtendedProps } from './routes';
+import { type ExtendedProps } from './routes/common';
 
 interface Props {
     children: ReactElement,

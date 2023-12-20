@@ -1,35 +1,24 @@
-import { useMemo, useRef } from 'react';
-import { isNotDefined } from '@togglecorp/fujs';
+import { ElementRef, useRef } from 'react';
+import { listToMap } from '@togglecorp/fujs';
 
-import { type GoApiResponse } from '#utils/restRequest';
 import ChartAxes from '#components/ChartAxes';
-import useSizeTracking from '#hooks/useSizeTracking';
-import { getScaleFunction } from '#utils/chart';
+import useChartData from '#hooks/useChartData';
+import { defaultChartMargin, defaultChartPadding } from '#utils/constants';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import styles from './styles.module.css';
 
 type PerOptionsResponse = GoApiResponse<'/api/v2/per-options/'>;
-type PerFormAreaResponse = GoApiResponse<'/api/v2/per-formarea/'>;
-
-interface ChartPoint {
-    x: number;
-    y: number;
-    label: string | undefined;
-}
-
-function chartPointSelector(chartPoint: ChartPoint) {
-    return chartPoint;
-}
+// type PerFormAreaResponse = GoApiResponse<'/api/v2/per-formarea/'>;
 
 const X_AXIS_HEIGHT = 50;
 const Y_AXIS_WIDTH = 90;
-const CHART_OFFSET = 20;
 
-const chartMargin = {
-    left: Y_AXIS_WIDTH + CHART_OFFSET,
-    top: CHART_OFFSET,
-    right: CHART_OFFSET,
-    bottom: X_AXIS_HEIGHT + CHART_OFFSET,
+const chartOffset = {
+    left: Y_AXIS_WIDTH,
+    top: 10,
+    right: 30,
+    bottom: X_AXIS_HEIGHT,
 };
 
 interface Props {
@@ -40,78 +29,46 @@ interface Props {
         value: number;
     }[] | undefined;
     ratingOptions: PerOptionsResponse['componentratings'] | undefined;
-    formAreaOptions: PerFormAreaResponse['results'] | undefined;
+    // formAreaOptions: PerFormAreaResponse['results'] | undefined;
 }
 
 function RatingByAreaChart(props: Props) {
     const {
         data,
         ratingOptions,
-        formAreaOptions,
+        // formAreaOptions,
     } = props;
 
-    const containerRef = useRef<HTMLDivElement>(null);
-    const chartBounds = useSizeTracking(containerRef);
+    const containerRef = useRef<ElementRef<'div'>>(null);
+    const ratingTitleMap = listToMap(
+        ratingOptions,
+        (option) => option.value,
+        (option) => option.title,
+    );
 
-    const points = useMemo(
-        () => {
-            if (isNotDefined(data) || data.length === 0) {
-                return undefined;
-            }
-
-            const xScale = getScaleFunction(
-                { min: 0, max: 5 },
-                { min: 0, max: chartBounds.width },
-                { start: chartMargin.left, end: chartMargin.right },
-            );
-
-            const yScale = getScaleFunction(
-                { min: 0, max: 5 },
-                { min: 0, max: chartBounds.height },
-                { start: chartMargin.top, end: chartMargin.bottom },
-                true,
-            );
-
-            const xAxisPoints = formAreaOptions?.map(
-                (areaOption, i) => ({
-                    x: xScale(i),
-                    y: Math.max(chartBounds.height - chartMargin.bottom, 0),
-                    label: areaOption.title,
-                }),
-            ) ?? [];
-
-            const yAxisPoints = ratingOptions?.map(
-                (option, i) => ({
-                    x: 0,
-                    y: yScale(i),
-                    label: option.title,
-                }),
-            ) ?? [];
-
-            const chartPoints = data.map(
-                (datum, i) => ({
-                    key: i,
-                    x: xScale(i),
-                    y: yScale(datum.value),
-                    label: datum.title,
-                    value: datum.value,
-                }),
-            );
-
-            return {
-                chart: chartPoints,
-                xAxis: xAxisPoints,
-                yAxis: yAxisPoints,
-            };
+    const {
+        dataPoints,
+        chartSize,
+        xAxisTicks,
+        yAxisTicks,
+    } = useChartData(
+        data,
+        {
+            containerRef,
+            chartOffset,
+            chartMargin: defaultChartMargin,
+            chartPadding: defaultChartPadding,
+            keySelector: (datum) => datum.id,
+            xValueSelector: (datum) => datum.areaNum ?? 0,
+            yValueSelector: (datum) => datum.value,
+            xAxisLabelSelector: (datum) => datum.title,
+            yAxisLabelSelector: (rating) => ratingTitleMap?.[rating],
+            type: 'categorical',
+            yDomain: { min: 0, max: 5 },
         },
-        [data, chartBounds, ratingOptions, formAreaOptions],
     );
 
     const barWidth = 10;
-
-    const maxBarWidth = ((chartBounds.width - chartMargin.right - chartMargin.left) / 5);
-    // const barWidth = Math.max(maxBarWidth * 0.6, 10);
-    const barGap = (maxBarWidth - barWidth) / 2;
 
     return (
         <div
@@ -119,46 +76,43 @@ function RatingByAreaChart(props: Props) {
             ref={containerRef}
         >
             <svg className={styles.svg}>
-                {points && (
-                    // FIXME: we should also check that points has at least one
-                    // element
-                    <ChartAxes
-                        xAxisPoints={points.xAxis}
-                        yAxisPoints={points.yAxis}
-                        chartOffset={CHART_OFFSET}
-                        chartMargin={chartMargin}
-                        chartBounds={chartBounds}
-                        xAxisTickSelector={chartPointSelector}
-                        yAxisTickSelector={chartPointSelector}
-                    />
-                )}
-                {points?.chart.map(
+                <ChartAxes
+                    xAxisHeight={X_AXIS_HEIGHT}
+                    yAxisWidth={Y_AXIS_WIDTH}
+                    xAxisPoints={xAxisTicks}
+                    yAxisPoints={yAxisTicks}
+                    chartMargin={defaultChartMargin}
+                    chartSize={chartSize}
+                />
+                {dataPoints.map(
                     (point) => (
                         <g key={point.key}>
-                            <text
-                                className={styles.text}
-                                textAnchor="middle"
-                                dy={-10}
-                                dx={barWidth / 2}
-                                x={point.x + barGap}
-                                y={point.y}
-                            >
-                                {Number(point.value.toFixed(2)) ?? '-'}
-                            </text>
+                            {point.originalData.value !== 0 && (
+                                <text
+                                    className={styles.text}
+                                    textAnchor="middle"
+                                    dy={-10}
+                                    dx={barWidth / 2}
+                                    x={point.x - barWidth / 2}
+                                    y={point.y}
+                                >
+                                    {Number(point.originalData.value.toFixed(2)) ?? '-'}
+                                </text>
+                            )}
                             <rect
                                 className={styles.rect}
-                                x={point.x + barGap}
+                                x={point.x - barWidth / 2}
                                 y={point.y}
                                 ry={barWidth / 2}
                                 width={barWidth}
                                 height={
-                                    Math.max(chartBounds.height - point.y - chartMargin.bottom, 0)
+                                    Math.max(
+                                        // eslint-disable-next-line max-len
+                                        chartSize.height - point.y - defaultChartMargin.bottom - chartOffset.bottom,
+                                        0,
+                                    )
                                 }
-                            >
-                                <title>
-                                    {`${point.label}: ${point.value}`}
-                                </title>
-                            </rect>
+                            />
                         </g>
                     ),
                 )}
