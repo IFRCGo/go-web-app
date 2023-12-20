@@ -6,16 +6,16 @@ import Grid from '#components/Grid';
 import useTranslation from '#hooks/useTranslation';
 import { type CountryOutletContext } from '#utils/outletContext';
 
-import InitiativeListItem from './InitiativeCard';
+import InitiativeCard from './InitiativeCard';
 import i18n from './i18n.json';
 
 interface Props {
     className?: string;
 }
 
-type CountryListItem = NonNullable<NonNullable<CountryOutletContext['countryResponse']>['initiatives']>[number];
+type CountryInitiative = NonNullable<NonNullable<CountryOutletContext['countryResponse']>['initiatives']>[number];
 
-const keySelector = (country: CountryListItem) => country.id;
+const keySelector = (initiative: CountryInitiative) => initiative.id;
 
 function NationalSocietyDirectoryInitiatives(props: Props) {
     const { className } = props;
@@ -24,25 +24,18 @@ function NationalSocietyDirectoryInitiatives(props: Props) {
     const { countryResponse } = useOutletContext<CountryOutletContext>();
 
     const rendererParams = useCallback(
-        (_: number, data: CountryListItem) => ({
-            id: data.id,
-            allocation: data?.allocation,
-            categories: data?.categories,
-            fund_type: data?.fund_type,
-            funding_period: data?.funding_period,
-            title: data?.title,
-            year: data?.year,
+        (_: number, data: CountryInitiative) => ({
+            initiative: data,
         }),
         [],
     );
 
     return (
         <Container
-            heading={strings.countryNSDirectoryInitiativesTitle}
+            heading={strings.nSDirectoryInitiativesTitle}
             // TODO: Add Contacts link in description
-            headerDescription={strings.countryNSDirectoryInitiativesDescription}
+            headerDescription={strings.nSDirectoryInitiativesDescription}
             withHeaderBorder
-            withInternalPadding
         >
             <Grid
                 className={className}
@@ -51,7 +44,7 @@ function NationalSocietyDirectoryInitiatives(props: Props) {
                 errored={false}
                 filtered={false}
                 keySelector={keySelector}
-                renderer={InitiativeListItem}
+                renderer={InitiativeCard}
                 rendererParams={rendererParams}
                 numPreferredColumns={3}
             />
