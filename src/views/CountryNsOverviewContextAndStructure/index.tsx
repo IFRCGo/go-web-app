@@ -7,10 +7,11 @@ import useTranslation from '#hooks/useTranslation';
 import { type CountryOutletContext } from '#utils/outletContext';
 import { resolveToString } from '#utils/translation';
 
-import NationalSocietyLocalUnitsMap from './NationalSocietyLocalUnitsMap';
-import NationalSocietyDirectoryInitiatives from './NsDirectoryInitiatives';
-import NationalSocietyDirectory from './NationalSocietyDirectory';
 import NationalSocietyContacts from './NationalSocietyContacts';
+import NationalSocietyDirectory from './NationalSocietyDirectory';
+import NationalSocietyDirectoryInitiatives from './NsDirectoryInitiatives';
+import NationalSocietyKeyDocuments from './NationalSocietyKeyDocuments';
+import NationalSocietyLocalUnitsMap from './NationalSocietyLocalUnitsMap';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -28,6 +29,7 @@ export function Component() {
             </div>
             <NationalSocietyDirectoryInitiatives />
             <NationalSocietyContacts />
+            <NationalSocietyKeyDocuments />
             {isDefined(countryResponse) && (
                 <Container
                     heading={strings.keyLinksHeading}
