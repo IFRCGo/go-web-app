@@ -120,11 +120,11 @@ function HighlightedOperations(props: Props) {
     const urlSearch = useMemo(
         () => {
             if (variant === 'country') {
-                return `countryId=${countryId}`;
+                return `country=${countryId}`;
             }
 
             if (variant === 'region') {
-                return `regionId=${regionId}`;
+                return `region=${regionId}`;
             }
 
             return undefined;
