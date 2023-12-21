@@ -4,7 +4,7 @@ import { _cs } from '@togglecorp/fujs';
 
 import Container from '#components/Container';
 import Table from '#components/Table';
-import { createStringColumn } from '#components/Table/ColumnShortcuts';
+import { createStringColumn, createLinkColumn } from '#components/Table/ColumnShortcuts';
 import useTranslation from '#hooks/useTranslation';
 import { type CountryOutletContext } from '#utils/outletContext';
 import { numericIdSelector } from '#utils/selectors';
@@ -28,39 +28,43 @@ function NationalSocietyContacts(props: Props) {
         () => ([
             createStringColumn<CountryListItem, number>(
                 'name',
-                strings.nSContactName,
+                '',
                 (item) => item.name,
+                {
+                    cellContainerClassName: styles.name,
+                    cellRendererClassName: styles.name,
+                },
             ),
             createStringColumn<CountryListItem, number>(
                 'title',
-                strings.nSContactTitle,
+                '',
                 (item) => item.title,
             ),
-            createStringColumn<CountryListItem, number>(
+            createLinkColumn<CountryListItem, number>(
                 'email',
-                strings.nSContactEmail,
+                '',
                 (item) => item.email,
+                (item) => ({
+                    href: `mailto:${item.email}`,
+                    external: true,
+                }),
             ),
         ]),
-        [
-            strings.nSContactName,
-            strings.nSContactTitle,
-            strings.nSContactEmail,
-        ],
+        [],
     );
 
     return (
         <Container
-            className={_cs(className, styles.nationalSocietyContactTable)}
-            childrenContainerClassName={styles.content}
+            className={_cs(className, styles.nationalSocietyContactsTable)}
             heading={strings.nSContactsTitle}
             withHeaderBorder
         >
             <Table
                 className={styles.table}
-                filtered={false}
-                data={contacts}
                 columns={columns}
+                data={contacts}
+                filtered={false}
+                headersHidden
                 keySelector={numericIdSelector}
                 pending={false}
             />
