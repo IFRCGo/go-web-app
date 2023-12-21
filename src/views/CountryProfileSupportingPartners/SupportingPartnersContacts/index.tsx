@@ -4,23 +4,25 @@ import { _cs } from '@togglecorp/fujs';
 
 import Container from '#components/Container';
 import Table from '#components/Table';
-import { createStringColumn } from '#components/Table/ColumnShortcuts';
 import useTranslation from '#hooks/useTranslation';
-import { type CountryOutletContext } from '#utils/outletContext';
+import { createStringColumn, createLinkColumn } from '#components/Table/ColumnShortcuts';
 import { numericIdSelector } from '#utils/selectors';
+import { type CountryOutletContext } from '#utils/outletContext';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+type ContactListItem = NonNullable<NonNullable<CountryOutletContext['countryResponse']>['contacts']>[number];
+
 interface Props {
     className?: string;
 }
+
 function SupportingPartnersContacts(props: Props) {
     const { className } = props;
     const strings = useTranslation(i18n);
 
     const { countryResponse } = useOutletContext<CountryOutletContext>();
-    type ContactListItem = NonNullable<NonNullable<CountryOutletContext['countryResponse']>['contacts']>[number];
 
     const columns = useMemo(
         () => ([
@@ -28,16 +30,23 @@ function SupportingPartnersContacts(props: Props) {
                 'name',
                 '',
                 (item) => item.name,
+                {
+                    cellRendererClassName: styles.name,
+                },
             ),
             createStringColumn<ContactListItem, number>(
                 'title',
                 '',
                 (item) => item.title,
             ),
-            createStringColumn<ContactListItem, number>(
+            createLinkColumn<ContactListItem, number>(
                 'email',
                 '',
                 (item) => item.email,
+                (item) => ({
+                    href: `mailto:${item.email}`,
+                    external: true,
+                }),
             ),
         ]),
         [],
