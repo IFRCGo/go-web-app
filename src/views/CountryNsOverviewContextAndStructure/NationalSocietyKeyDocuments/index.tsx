@@ -1,21 +1,36 @@
+import { useCallback } from 'react';
 import { useOutletContext } from 'react-router-dom';
-import { DownloadFillIcon, SearchLineIcon } from '@ifrc-go/icons';
-import { listToGroupList, mapToList } from '@togglecorp/fujs';
+import { SearchLineIcon } from '@ifrc-go/icons';
+import {
+    isNotDefined,
+    listToGroupList,
+    mapToList,
+    isDefined,
+} from '@togglecorp/fujs';
 
 import Container from '#components/Container';
 import DateInput from '#components/DateInput';
+import Grid from '#components/Grid';
 import TextInput from '#components/TextInput';
-import Link from '#components/Link';
-import useTranslation from '#hooks/useTranslation';
 import useFilterState from '#hooks/useFilterState';
+import useTranslation from '#hooks/useTranslation';
 import { GoApiResponse, useRequest } from '#utils/restRequest';
 import { CountryOutletContext } from '#utils/outletContext';
 
+import DocumentListCard from './DocumentListCard';
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 type GetKeyDocumentResponse = GoApiResponse<'/api/v2/country-document/'>;
-export type KeyDocumentItem = NonNullable<GetKeyDocumentResponse['results']>[number];
+type KeyDocumentItem = NonNullable<GetKeyDocumentResponse['results']>[number];
+
+interface GroupedDocuments {
+    label: string;
+    documents: KeyDocumentItem[];
+}
+
+function groupedDocumentsListKeySelector(groupedDocuments: GroupedDocuments) {
+    return groupedDocuments.label;
+}
 
 function NationalSocietyKeyDocuments() {
     const strings = useTranslation(i18n);
@@ -24,6 +39,7 @@ function NationalSocietyKeyDocuments() {
     const {
         filter,
         rawFilter,
+        filtered,
         setFilterField,
     } = useFilterState<{
         searchText?: string,
@@ -34,35 +50,40 @@ function NationalSocietyKeyDocuments() {
     });
     const {
         response: documentResponse,
+        pending: documentResponsePending,
+        error: documentResponseError,
     } = useRequest({
         url: '/api/v2/country-document/',
+        skip: isNotDefined(countryId),
         query: {
-            country: Number(countryId),
+            country: isDefined(countryId) ? Number(countryId) : undefined,
             search: filter.searchText,
-            year__lte: filter.startDateAfter,
-            year__gte: filter.startDateBefore,
+            year__gte: filter.startDateAfter,
+            year__lte: filter.startDateBefore,
         },
         preserveResponse: true,
     });
 
-    const documents = documentResponse?.results ?? [];
-
     const groupedDocumentsByType = (
         listToGroupList(
-            documents,
+            documentResponse?.results,
             (item) => item.document_type,
             (item) => item,
-        ) ?? {}
+        )
     );
-    const documentsMapList = mapToList(
+
+    const groupedDocumentsList = mapToList(
         groupedDocumentsByType,
-        (d, k) => ({ label: k, value: d }),
+        (documents, documentType) => ({ label: documentType, documents }),
     );
+
+    const rendererParams = useCallback((label: string, groupedDocuments: GroupedDocuments) => ({
+        label,
+        documents: groupedDocuments.documents,
+    }), []);
 
     return (
         <Container
-            className={styles.nationalSocietyDocuments}
-            childrenContainerClassName={styles.nsKey}
             heading={strings.nSSocietyKeyDocumentsTitle}
             withHeaderBorder
             withGridViewInFilter
@@ -91,30 +112,16 @@ function NationalSocietyKeyDocuments() {
                 </>
             )}
         >
-            {documentsMapList.map((document) => (
-                <Container
-                    className={styles.nsKeyDocuments}
-                    childrenContainerClassName={styles.nsDocuments}
-                    key={document.label}
-                    heading={document.label}
-                    withHeaderBorder
-                >
-                    {document.value.map((doc) => (
-                        <div className={styles.document}>
-                            <div>{doc?.name}</div>
-                            <div>{doc?.year}</div>
-                            <Link
-                                className={styles.downloadLink}
-                                href={doc?.url}
-                                external
-                                variant="tertiary"
-                            >
-                                <DownloadFillIcon className={styles.icon} />
-                            </Link>
-                        </div>
-                    ))}
-                </Container>
-            ))}
+            <Grid
+                data={groupedDocumentsList}
+                pending={documentResponsePending}
+                errored={isDefined(documentResponseError)}
+                filtered={filtered}
+                keySelector={groupedDocumentsListKeySelector}
+                renderer={DocumentListCard}
+                rendererParams={rendererParams}
+                numPreferredColumns={3}
+            />
         </Container>
     );
 }
