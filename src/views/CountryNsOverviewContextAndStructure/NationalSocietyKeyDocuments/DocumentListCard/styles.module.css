@@ -1,0 +1,12 @@
+.document-list-card {
+    border-radius: var(--go-ui-border-radius-sm);
+    box-shadow: var(--go-ui-box-shadow-md);
+
+    .document {
+        .date {
+            width: 0%;
+            min-width: 9rem;
+        }
+    }
+}
+
