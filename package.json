@@ -47,7 +47,7 @@
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-focus-on": "^3.8.1",
-        "react-router-dom": "^6.18.0",
+        "react-router-dom": "^6.21.1",
         "sanitize-html": "^2.10.0"
     },
     "devDependencies": {
