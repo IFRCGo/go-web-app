@@ -217,6 +217,7 @@ function NationalSocietyLocalUnitsMap(props: Props) {
             className={_cs(styles.nationalSocietyLocalUnitsMap, className)}
             heading={strings.localUnitsMapTitle}
             withGridViewInFilter
+            withHeaderBorder
             childrenContainerClassName={styles.content}
             filters={(
                 <>
