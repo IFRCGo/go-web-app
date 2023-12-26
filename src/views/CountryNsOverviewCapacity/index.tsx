@@ -8,8 +8,9 @@ import Message from '#components/Message';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import { resolveToString } from '#utils/translation';
-
 import { type CountryOutletContext } from '#utils/outletContext';
+
+import CountryNSCapacityStrengthening from './CountryNSCapacityStrengthening';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -38,6 +39,7 @@ export function Component() {
 
     return (
         <div className={styles.countryNsOverviewCapacity}>
+            <CountryNSCapacityStrengthening />
             <Container
                 heading={strings.nsPreparednessHeading}
                 headerDescription={strings.nsPreparednessDescription}
