@@ -7,6 +7,7 @@ import useTranslation from '#hooks/useTranslation';
 import { type CountryOutletContext } from '#utils/outletContext';
 import { resolveToString } from '#utils/translation';
 
+import NationalSocietyIndicators from './NationalSocietyIndicators';
 import NationalSocietyContacts from './NationalSocietyContacts';
 import NationalSocietyDirectory from './NationalSocietyDirectory';
 import NationalSocietyDirectoryInitiatives from './NsDirectoryInitiatives';
@@ -23,6 +24,7 @@ export function Component() {
 
     return (
         <div className={styles.countryNsOverviewContextAndStructure}>
+            <NationalSocietyIndicators />
             <div className={styles.nationalSocietyDetail}>
                 <NationalSocietyLocalUnitsMap className={styles.map} />
                 <NationalSocietyDirectory className={styles.directory} />
