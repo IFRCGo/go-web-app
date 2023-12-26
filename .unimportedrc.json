@@ -2,6 +2,10 @@
     "entry": ["./src/index.tsx"],
     "ignorePatterns": ["**/node_modules/**", "build/**", "**/parked/**"],
     "ignoreUnimported": ["**/*.d.ts", "**/*.test.*"],
+    "ignoreUnresolved": [
+        "#assets/content/operational_timeline_title.svg?react",
+        "#assets/content/operational_timeline_body.svg?react"
+    ],
     "ignoreUnused": ["@tinymce/tinymce-react"],
     "extensions": [".ts", ".js", ".tsx", ".jsx"],
     "aliases": {
