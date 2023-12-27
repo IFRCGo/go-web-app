@@ -2,12 +2,12 @@
     "namespace": "nationalSocietyIndicators",
     "strings": {
         "nationalSocietyIndicatorsTitle": "National Society Indicators",
-        "nationalSocietyFoundedDateLabel": "Founded Date",
+        "nationalSocietyFoundedDateLabel": "Date Founded",
         "nationalSocietyTrainedInFirstAidLabel": "Trained in first Aid",
-        "nationalSocietyIncomeLabel": "Income(CHF)",
+        "nationalSocietyIncomeLabel": "Income (CHF)",
         "nationalSocietyVolunteersLabel": "Volunteers",
-        "nationalSocietyExpendituresLabel": "Expenditures",
-        "nationalSocietyYouthYearLabel": "Youth 6-29 yrs",
-        "nationalSocietyBranchesLabel": "Branches"
+        "nationalSocietyExpendituresLabel": "Expenditures (CHF)",
+        "nationalSocietyBranchesLabel": "Branches",
+        "nationalSocietyStaffLabel": "Staff"
     }
 }
