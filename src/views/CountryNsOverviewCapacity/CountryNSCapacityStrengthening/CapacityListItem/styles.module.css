@@ -1,0 +1,4 @@
+.capacity-item {
+    border-radius: var(--go-ui-box-shadow-lg);
+    box-shadow: var(--go-ui-box-shadow-md);
+}
