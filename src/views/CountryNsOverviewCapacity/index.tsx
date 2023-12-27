@@ -1,6 +1,7 @@
 import { useOutletContext } from 'react-router-dom';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
+import BlockLoading from '#components/BlockLoading';
 import Container from '#components/Container';
 import TextOutput from '#components/TextOutput';
 import Link from '#components/Link';
@@ -22,7 +23,7 @@ export function Component() {
     const strings = useTranslation(i18n);
 
     const {
-        // pending: countryStatusPending,
+        pending: countryStatusPending,
         response: countryStatusResponse,
     } = useRequest({
         skip: isNotDefined(countryId),
@@ -40,6 +41,7 @@ export function Component() {
     return (
         <div className={styles.countryNsOverviewCapacity}>
             <CountryNSCapacityStrengthening />
+            {countryStatusPending && <BlockLoading className={styles.loading} />}
             <Container
                 heading={strings.nsPreparednessHeading}
                 headerDescription={strings.nsPreparednessDescription}
@@ -51,7 +53,7 @@ export function Component() {
                         to="newPerOverviewForm"
                         variant="primary"
                     >
-                        Start PER Process
+                        {strings.perStartPerProcess}
                     </Link>
                 )}
             >
@@ -87,7 +89,7 @@ export function Component() {
                                     }}
                                     variant="secondary"
                                 >
-                                    View
+                                    {strings.perViewLink}
                                 </Link>
                             )}
                         >
