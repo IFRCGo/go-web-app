@@ -29,44 +29,13 @@ function NationalSocietyIndicators() {
     });
 
     const staffValue = sumSafe([
-        indicatorResponse?.female_staff_age_18_29,
-        indicatorResponse?.female_staff_age_18_49,
-        indicatorResponse?.female_staff_age_30_39,
-        indicatorResponse?.female_staff_age_40_49,
-        indicatorResponse?.female_staff_age_50_59,
-        indicatorResponse?.female_staff_age_60_69,
-        indicatorResponse?.female_staff_age_70_79,
-        indicatorResponse?.female_staff_age_80,
-        indicatorResponse?.male_staff_age_18_29,
-        indicatorResponse?.male_staff_age_18_49,
-        indicatorResponse?.male_staff_age_30_39,
-        indicatorResponse?.male_staff_age_40_49,
-        indicatorResponse?.male_staff_age_50_59,
-        indicatorResponse?.male_staff_age_60_69,
-        indicatorResponse?.male_staff_age_70_79,
-        indicatorResponse?.male_staff_age_80,
+        indicatorResponse?.female_staff_total,
+        indicatorResponse?.male_staff_total,
     ]);
 
     const volunteersValue = sumSafe([
-        indicatorResponse?.male_volunteer_age_6_12,
-        indicatorResponse?.male_volunteer_age_13_17,
-        indicatorResponse?.male_volunteer_age_18_49,
-        indicatorResponse?.male_volunteer_age_30_39,
-        indicatorResponse?.male_volunteer_age_40_49,
-        indicatorResponse?.male_volunteer_age_50_59,
-        indicatorResponse?.male_volunteer_age_60_69,
-        indicatorResponse?.male_volunteer_age_70_79,
-        indicatorResponse?.male_volunteer_age_80,
-        indicatorResponse?.female_volunteer_age_6_12,
-        indicatorResponse?.female_volunteer_age_13_17,
-        indicatorResponse?.female_volunteer_age_18_29,
-        indicatorResponse?.female_volunteer_age_18_49,
-        indicatorResponse?.female_volunteer_age_30_39,
-        indicatorResponse?.female_volunteer_age_40_49,
-        indicatorResponse?.female_volunteer_age_50_59,
-        indicatorResponse?.female_volunteer_age_60_69,
-        indicatorResponse?.female_volunteer_age_70_79,
-        indicatorResponse?.female_volunteer_age_80,
+        indicatorResponse?.male_volunteer_total,
+        indicatorResponse?.female_volunteer_total,
     ]);
 
     return (
