@@ -8,8 +8,9 @@
         grid-column: -1 / 1;
     }
 
-    .capacity-item {
-        border-radius: var(--go-ui-box-shadow-lg);
-        box-shadow: var(--go-ui-box-shadow-md);
+    .capacity-list-container {
+        display: grid;
+        grid-gap: var(--go-ui-spacing-md);
+        grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
     }
 }
