@@ -4,7 +4,7 @@ import { _cs } from '@togglecorp/fujs';
 
 import Container from '#components/Container';
 import Table from '#components/Table';
-import { createStringColumn } from '#components/Table/ColumnShortcuts';
+import { createLinkColumn, createStringColumn } from '#components/Table/ColumnShortcuts';
 import useTranslation from '#hooks/useTranslation';
 import { type CountryOutletContext } from '#utils/outletContext';
 import { numericIdSelector } from '#utils/selectors';
@@ -20,33 +20,36 @@ function NationalSocietyContacts(props: Props) {
     const strings = useTranslation(i18n);
 
     const { countryResponse } = useOutletContext<CountryOutletContext>();
-    type CountryListItem = NonNullable<NonNullable<CountryOutletContext['countryResponse']>['contacts']>[number];
+    type ContactListItem = NonNullable<NonNullable<CountryOutletContext['countryResponse']>['contacts']>[number];
 
     const contacts = countryResponse?.contacts;
 
     const columns = useMemo(
         () => ([
-            createStringColumn<CountryListItem, number>(
+            createStringColumn<ContactListItem, number>(
                 'name',
-                strings.nSContactName,
+                '',
                 (item) => item.name,
+                {
+                    cellRendererClassName: styles.name,
+                },
             ),
-            createStringColumn<CountryListItem, number>(
+            createStringColumn<ContactListItem, number>(
                 'title',
-                strings.nSContactTitle,
+                '',
                 (item) => item.title,
             ),
-            createStringColumn<CountryListItem, number>(
+            createLinkColumn<ContactListItem, number>(
                 'email',
-                strings.nSContactEmail,
+                '',
                 (item) => item.email,
+                (item) => ({
+                    href: `mailto:${item.email}`,
+                    external: true,
+                }),
             ),
         ]),
-        [
-            strings.nSContactName,
-            strings.nSContactTitle,
-            strings.nSContactEmail,
-        ],
+        [],
     );
 
     return (
@@ -63,6 +66,7 @@ function NationalSocietyContacts(props: Props) {
                 columns={columns}
                 keySelector={numericIdSelector}
                 pending={false}
+                headersHidden
             />
         </Container>
     );
