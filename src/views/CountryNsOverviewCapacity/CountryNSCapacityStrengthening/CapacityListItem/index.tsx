@@ -29,7 +29,6 @@ function CapacityListItem(props: Props) {
 
     return (
         <Container
-            key={capacity.id}
             className={styles.capacityItem}
             heading={
                 `${capacity.assessment_type_display.toUpperCase()}
