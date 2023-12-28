@@ -29,25 +29,24 @@ function CountryNSCapacityStrengthening() {
     );
 
     return (
-        <div className={styles.countryNsCapacityStrengthening}>
-            <Container
-                heading={strings.countryNsCapacityStrengtheningHeading}
-                headerDescription={strings.countryNsCapacityStrengtheningDescription}
-                withHeaderBorder
-            >
-                <List
-                    className={styles.capacityListContainer}
-                    errored={false}
-                    pending={false}
-                    filtered={false}
-                    data={countryResponse?.capacity}
-                    keySelector={capacityKeySelector}
-                    renderer={CapacityListItem}
-                    rendererParams={rendererParams}
-                    compact
-                />
-            </Container>
-        </div>
+        <Container
+            className={styles.countryNsCapacityStrengthening}
+            heading={strings.countryNsCapacityStrengtheningHeading}
+            headerDescription={strings.countryNsCapacityStrengtheningDescription}
+            withHeaderBorder
+        >
+            <List
+                className={styles.capacityListContainer}
+                errored={false}
+                pending={false}
+                filtered={false}
+                data={countryResponse?.capacity}
+                keySelector={capacityKeySelector}
+                renderer={CapacityListItem}
+                rendererParams={rendererParams}
+                compact
+            />
+        </Container>
     );
 }
 
