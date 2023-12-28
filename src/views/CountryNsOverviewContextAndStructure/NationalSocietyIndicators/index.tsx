@@ -5,8 +5,8 @@ import BlockLoading from '#components/BlockLoading';
 import Container from '#components/Container';
 import TextOutput from '#components/TextOutput';
 import useTranslation from '#hooks/useTranslation';
-import { sumSafe } from '#utils/common';
 import { type CountryOutletContext } from '#utils/outletContext';
+import { sumSafe } from '#utils/common';
 import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -28,14 +28,15 @@ function NationalSocietyIndicators() {
         },
     });
 
-    const staffValue = sumSafe([
-        indicatorResponse?.female_staff_total,
-        indicatorResponse?.male_staff_total,
-    ]);
-
-    const volunteersValue = sumSafe([
-        indicatorResponse?.male_volunteer_total,
-        indicatorResponse?.female_volunteer_total,
+    const youthValue = sumSafe([
+        indicatorResponse?.male_volunteer_age_6_12,
+        indicatorResponse?.male_volunteer_age_13_17,
+        indicatorResponse?.male_volunteer_age_18_29,
+        indicatorResponse?.female_volunteer_age_6_12,
+        indicatorResponse?.female_volunteer_age_13_17,
+        indicatorResponse?.female_volunteer_age_18_29,
+        indicatorResponse?.female_staff_age_18_29,
+        indicatorResponse?.male_staff_age_18_29,
     ]);
 
     return (
@@ -68,7 +69,13 @@ function NationalSocietyIndicators() {
                 />
                 <TextOutput
                     label={strings.nationalSocietyVolunteersLabel}
-                    value={volunteersValue}
+                    value={indicatorResponse?.volunteer_total}
+                    valueType="number"
+                    strongValue
+                />
+                <TextOutput
+                    label={strings.nationalSocietyYouthLabel}
+                    value={youthValue}
                     valueType="number"
                     strongValue
                 />
@@ -86,7 +93,7 @@ function NationalSocietyIndicators() {
                 />
                 <TextOutput
                     label={strings.nationalSocietyStaffLabel}
-                    value={staffValue}
+                    value={indicatorResponse?.staff_total}
                     valueType="number"
                     strongValue
                 />
