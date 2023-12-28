@@ -1,16 +1,85 @@
-import CountryPageEmptyMessage from '#components/domain/CountryPageEmptyMessage';
+import { useOutletContext } from 'react-router-dom';
+import { isDefined, isNotDefined } from '@togglecorp/fujs';
+
+import BlockLoading from '#components/BlockLoading';
+import Container from '#components/Container';
+import TextOutput from '#components/TextOutput';
 import useTranslation from '#hooks/useTranslation';
+import { type CountryOutletContext } from '#utils/outletContext';
+import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
 
+    const { countryId } = useOutletContext<CountryOutletContext>();
+
+    const {
+        pending: indicatorPending,
+        response: indicatorResponse,
+    } = useRequest({
+        url: '/api/v2/country/{id}/databank/',
+        skip: isNotDefined(countryId),
+        pathVariables: isDefined(countryId) ? {
+            id: Number(countryId),
+        } : undefined,
+    });
+
     return (
-        <CountryPageEmptyMessage
-            title={strings.pageTitle}
-        />
+        <Container
+            className={styles.countryIndicators}
+            childrenContainerClassName={styles.indicatorContent}
+            heading={strings.countryIndicatorsTitle}
+            headingLevel={4}
+            withHeaderBorder
+        >
+            {indicatorPending && <BlockLoading className={styles.loading} />}
+            <TextOutput
+                label={strings.countryIndicatorsPopulationLabel}
+                value={indicatorResponse?.population}
+                valueType="number"
+                strongValue
+            />
+            <TextOutput
+                label={strings.countryIndicatorsUrbanPopulationLabel}
+                value={`${indicatorResponse?.urban_population} %`}
+                valueType="text"
+                strongValue
+            />
+            <TextOutput
+                label={strings.countryIndicatorsGDPLabel}
+                value={indicatorResponse?.gdp}
+                valueType="number"
+                strongValue
+            />
+            <TextOutput
+                label={strings.countryIndicatorsCapitaLabel}
+                value={indicatorResponse?.gnipc}
+                valueType="number"
+                strongValue
+            />
+            <TextOutput
+                label={strings.countryIndicatorsPovertyLabel}
+                value={`${indicatorResponse?.poverty} %`}
+                valueType="text"
+                strongValue
+            />
+            <TextOutput
+                label={strings.countryIndicatorsLifeExpectancyLabel}
+                value={indicatorResponse?.life_expectancy}
+                valueType="number"
+                strongValue
+            />
+            <TextOutput
+                label={strings.countryIndicatorsLiteracyLabel}
+                value={`${indicatorResponse?.literacy} %`}
+                valueType="text"
+                strongValue
+            />
+        </Container>
     );
 }
 
