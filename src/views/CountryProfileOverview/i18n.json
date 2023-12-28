@@ -1,6 +1,13 @@
 {
     "namespace": "countryProfileOverview",
     "strings": {
-        "pageTitle": "Country Profile Overview"
+        "countryIndicatorsTitle": "Country Key Indicators",
+        "countryIndicatorsPopulationLabel": "Population",
+        "countryIndicatorsUrbanPopulationLabel": "Urban Pop",
+        "countryIndicatorsGDPLabel": "GDP",
+        "countryIndicatorsPovertyLabel": "Poverty (%POP)",
+        "countryIndicatorsLifeExpectancyLabel": "Life Expectancy",
+        "countryIndicatorsLiteracyLabel": "Literacy",
+        "countryIndicatorsCapitaLabel": "GNI/Capita"
     }
 }
