@@ -1,8 +1,4 @@
 .country-ns-capacity-strengthening {
-    display: flex;
-    flex-direction: column;
-    gap: var(--go-ui-spacing-2xl);
-    padding: var(--go-ui-spacing-2xl) 0;
 
     .empty-message {
         grid-column: -1 / 1;
@@ -10,7 +6,7 @@
 
     .capacity-list-container {
         display: grid;
-        grid-gap: var(--go-ui-spacing-md);
+        grid-gap: var(--go-ui-spacing-lg);
         grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
     }
 }
