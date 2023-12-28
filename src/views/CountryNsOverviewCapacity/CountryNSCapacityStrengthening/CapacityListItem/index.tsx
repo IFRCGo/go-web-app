@@ -10,7 +10,7 @@ import useTranslation from '#hooks/useTranslation';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type CapacityItem= NonNullable<NonNullable<CountryOutletContext['countryResponse']>['capacity']>[number];
+type CapacityItem = NonNullable<NonNullable<CountryOutletContext['countryResponse']>['capacity']>[number];
 type AssessmentTypeEnum = components<'read'>['schemas']['AssessmentTypeEnum'];
 
 const TYPE_OCAC = 0 satisfies AssessmentTypeEnum;
@@ -31,8 +31,10 @@ function CapacityListItem(props: Props) {
         <Container
             key={capacity.id}
             className={styles.capacityItem}
-            heading={`${capacity.assessment_type_display.toUpperCase()}
-                        ${strings.countryNsCapacityAssessment}`}
+            heading={
+                `${capacity.assessment_type_display.toUpperCase()}
+                ${strings.capacityListItemAssessment}`
+            }
             headingLevel={4}
             contentViewType="grid"
             numPreferredGridContentColumns={3}
@@ -44,13 +46,13 @@ function CapacityListItem(props: Props) {
                     actions={<ArrowRightUpLineIcon />}
                     external
                 >
-                    {strings.countryNsCapacityViewDetails}
+                    {strings.capacityListItemViewDetails}
                 </Link>
             )}
         >
             {capacity?.assessment_type === TYPE_OCAC && (
                 <TextOutput
-                    label={strings.countryNsCapacityDateOfAssessment}
+                    label={strings.capacityListItemDateOfAssessment}
                     value={capacity?.submission_date}
                     valueType="date"
                     strongValue
@@ -58,7 +60,7 @@ function CapacityListItem(props: Props) {
             )}
             {capacity?.assessment_type === TYPE_BOCA && (
                 <TextOutput
-                    label={strings.countryNsCapacityBranchName}
+                    label={strings.capacityListItemBranchName}
                     value={capacity?.branch_name}
                     valueType="text"
                     strongValue
