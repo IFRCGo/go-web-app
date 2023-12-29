@@ -36,6 +36,7 @@ function CountryNsOrganisationalCapacity() {
             numPreferredGridContentColumns={2}
             withHeaderBorder
         >
+            {/* // TODO: Hide if there is null value for capacity */}
             <Container
                 className={styles.capacityCard}
                 childrenContainerClassName={styles.figures}
