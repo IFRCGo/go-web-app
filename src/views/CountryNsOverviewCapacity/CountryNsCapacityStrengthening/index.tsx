@@ -16,7 +16,7 @@ function capacityKeySelector(option: CapacityItem) {
     return option.id;
 }
 
-function CountryNSCapacityStrengthening() {
+function CountryNsCapacityStrengthening() {
     const strings = useTranslation(i18n);
 
     const { countryResponse } = useOutletContext<CountryOutletContext>();
@@ -50,4 +50,4 @@ function CountryNSCapacityStrengthening() {
     );
 }
 
-export default CountryNSCapacityStrengthening;
+export default CountryNsCapacityStrengthening;
