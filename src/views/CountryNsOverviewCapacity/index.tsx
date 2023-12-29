@@ -11,7 +11,8 @@ import { useRequest } from '#utils/restRequest';
 import { resolveToString } from '#utils/translation';
 import { type CountryOutletContext } from '#utils/outletContext';
 
-import CountryNSCapacityStrengthening from './CountryNSCapacityStrengthening';
+import CountryNsCapacityStrengthening from './CountryNsCapacityStrengthening';
+import CountryNsOrganisationalCapacity from './CountryNsOrganisationalCapacity';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -40,7 +41,8 @@ export function Component() {
 
     return (
         <div className={styles.countryNsOverviewCapacity}>
-            <CountryNSCapacityStrengthening />
+            <CountryNsOrganisationalCapacity />
+            <CountryNsCapacityStrengthening />
             {countryStatusPending && <BlockLoading className={styles.loading} />}
             <Container
                 heading={strings.nsPreparednessHeading}
