@@ -1,0 +1,10 @@
+{
+    "namespace": "countryNsOrganisationalCapacity",
+    "strings": {
+        "countryNsOrganisationalCapacityHeading": "Organisational Capacity",
+        "countryNsLeadershipCapacityLabel": "Leadership Capacity",
+        "countryNsYouthCapacityLabel": "Youth Capacity",
+        "countryNsVolunteerCapacityLabel": "Volunteer Capacity",
+        "countryNsFinancialCapacityLabel": "Financial Capacity"
+    }
+}
