@@ -29,14 +29,10 @@ function NationalSocietyIndicators() {
     });
 
     const youthValue = sumSafe([
-        indicatorResponse?.male_volunteer_age_6_12,
-        indicatorResponse?.male_volunteer_age_13_17,
-        indicatorResponse?.male_volunteer_age_18_29,
-        indicatorResponse?.female_volunteer_age_6_12,
-        indicatorResponse?.female_volunteer_age_13_17,
-        indicatorResponse?.female_volunteer_age_18_29,
-        indicatorResponse?.female_staff_age_18_29,
-        indicatorResponse?.male_staff_age_18_29,
+        indicatorResponse?.volunteer_age_6_12,
+        indicatorResponse?.volunteer_age_13_17,
+        indicatorResponse?.volunteer_age_18_29,
+        indicatorResponse?.staff_age_18_29,
     ]);
 
     return (
