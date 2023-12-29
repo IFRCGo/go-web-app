@@ -5,5 +5,17 @@
         .name {
             font-weight: var(--go-ui-font-weight-semibold);
         }
+
+        .caption {
+            margin: var(--go-ui-spacing-md) 0;
+            font-weight: var(--go-ui-font-weight-semibold);
+        }
+    }
+    .loading {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
     }
 }
