@@ -1,4 +1,5 @@
 import { useOutletContext } from 'react-router-dom';
+import { ArrowRightUpLineIcon } from '@ifrc-go/icons';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import BlockLoading from '#components/BlockLoading';
@@ -7,6 +8,7 @@ import TextOutput from '#components/TextOutput';
 import Link from '#components/Link';
 import Message from '#components/Message';
 import useTranslation from '#hooks/useTranslation';
+import { REGION_ASIA } from '#utils/constants';
 import { useRequest } from '#utils/restRequest';
 import { resolveToString } from '#utils/translation';
 import { type CountryOutletContext } from '#utils/outletContext';
@@ -19,7 +21,7 @@ import styles from './styles.module.css';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const { countryId } = useOutletContext<CountryOutletContext>();
+    const { countryId, countryResponse } = useOutletContext<CountryOutletContext>();
 
     const strings = useTranslation(i18n);
 
@@ -40,8 +42,24 @@ export function Component() {
         && countryStatusResponse.results.length > 0;
 
     return (
-        <div className={styles.countryNsOverviewCapacity}>
-            <CountryNsOrganisationalCapacity />
+        <Container
+            childrenContainerClassName={styles.countryNsOverviewCapacity}
+            headerDescription={strings.nSOverviewCapacityDescription}
+            headerDescriptionContainerClassName={styles.nsOverviewCapacity}
+            actions={(
+            // TODO: Add IFRC Evaluation Database Link
+                <Link
+                    to="home"
+                    variant="primary"
+                    actions={<ArrowRightUpLineIcon />}
+                >
+                    {strings.nsOverviewCapacityLink}
+                </Link>
+            )}
+        >
+            {countryResponse?.region === REGION_ASIA && (
+                <CountryNsOrganisationalCapacity />
+            )}
             <CountryNsCapacityStrengthening />
             {countryStatusPending && <BlockLoading className={styles.loading} />}
             <Container
@@ -107,7 +125,7 @@ export function Component() {
                     ),
                 )}
             </Container>
-        </div>
+        </Container>
     );
 }
 
