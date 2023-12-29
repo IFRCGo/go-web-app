@@ -1,0 +1,21 @@
+.chart-axis-y {
+    .y-axis-tick-text {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding: var(--go-ui-spacing-xs);
+        text-align: right;
+        word-break: break-word;
+        font-size: var(--go-ui-font-size-xs);
+    }
+
+    .axis-line {
+        stroke: var(--go-ui-color-gray-60);
+        stroke-dasharray: 4 4;
+        stroke-opacity: 0.5;
+
+        &.hovered {
+            stroke-opacity: 1;
+        }
+    }
+}

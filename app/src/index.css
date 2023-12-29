@@ -1,0 +1,40 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    @media screen {
+        margin: 0;
+        padding: 0;
+        scrollbar-gutter: stable;
+    }
+}
+
+body {
+    line-height: var(--go-ui-line-height-md);
+    color: var(--go-ui-color-text);
+    font-family: var(--go-ui-font-family-sans-serif);
+    font-size: var(--go-ui-font-size-md);
+    font-weight: var(--go-ui-font-weight-normal);
+
+    @media screen {
+        margin: 0;
+        background-color: var(--go-ui-color-background);
+        padding: 0;
+    }
+}
+
+ul, ol, p {
+    margin: 0;
+}
+
+@media print {
+    @page {
+        size: portrait A4;
+        margin: 10mm 10mm 16mm 10mm;
+    }
+
+    body {
+        font-family: 'Open Sans', sans-serif;
+    }
+}
