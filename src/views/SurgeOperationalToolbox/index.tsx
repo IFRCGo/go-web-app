@@ -7,8 +7,8 @@ import TextOutput from '#components/TextOutput';
 import Link from '#components/Link';
 import { resolveToComponent } from '#utils/translation';
 
-import { ReactComponent as OperationalTimelineTitle } from '#assets/content/operational_timeline_title.svg';
-import { ReactComponent as OperationalTimelineBody } from '#assets/content/operational_timeline_body.svg';
+import OperationalTimelineTitle from '#assets/content/operational_timeline_title.svg?react';
+import OperationalTimelineBody from '#assets/content/operational_timeline_body.svg?react';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
