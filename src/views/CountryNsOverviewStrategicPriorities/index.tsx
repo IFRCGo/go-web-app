@@ -112,7 +112,7 @@ export function Component() {
         () => {
             if (
                 isNotDefined(assessmentResponse)
-                    || isNotDefined(assessmentResponse.area_responses)
+                || isNotDefined(assessmentResponse.area_responses)
             ) {
                 return undefined;
             }
@@ -134,7 +134,7 @@ export function Component() {
         () => {
             if (
                 isNotDefined(assessmentResponse)
-                    || isNotDefined(assessmentResponse.area_responses)
+                || isNotDefined(assessmentResponse.area_responses)
             ) {
                 return undefined;
             }
@@ -171,7 +171,10 @@ export function Component() {
     const hasCountryPlan = countryResponse?.has_country_plan;
 
     return (
-        <div className={styles.countryNsOverviewStrategicPriorities}>
+        <Container
+            childrenContainerClassName={styles.countryNsOverviewStrategicPriorities}
+            headerDescription={strings.strategicPrioritiesDescription}
+        >
             {(perPending || countryPlanPending) && (
                 <BlockLoading />
             )}
@@ -292,7 +295,7 @@ export function Component() {
                     )}
                 </div>
             )}
-        </div>
+        </Container>
     );
 }
 

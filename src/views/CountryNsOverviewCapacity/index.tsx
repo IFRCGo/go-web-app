@@ -1,5 +1,4 @@
 import { useOutletContext } from 'react-router-dom';
-import { ArrowRightUpLineIcon } from '@ifrc-go/icons';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import BlockLoading from '#components/BlockLoading';

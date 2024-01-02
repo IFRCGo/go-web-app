@@ -21,6 +21,7 @@
         "responseActivities": "Response Activities",
         "activitiesBySector": "Activities by Sector",
         "dataNotAvailable": "No Activities",
-        "threeWViewAllActivityLabel": "View all Activities"
+        "threeWViewAllActivityLabel": "View all Activities",
+        "threeWActivityDescription": "The following data displays the current and ongoing emergencies within the country that are reported by the National Societies and partners. The displayed data is based on reporting and may not be fully indicative of all the activities."
     }
 }
