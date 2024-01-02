@@ -328,7 +328,7 @@ export function Component() {
     return (
         <div className={styles.threewActivities}>
             <Container
-                withHeaderBorder
+                headerDescription={strings.threeWActivityDescription}
                 footerContent={(
                     <div className={styles.chartDescription}>
                         <InformationLineIcon className={styles.icon} />

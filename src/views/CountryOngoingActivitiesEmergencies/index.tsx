@@ -5,6 +5,7 @@ import {
     FundingIcon,
     FundingCoverageIcon,
     TargetedPopulationIcon,
+    PencilFillIcon,
 } from '@ifrc-go/icons';
 import {
     isDefined,
@@ -17,15 +18,21 @@ import InfoPopup from '#components/InfoPopup';
 import HighlightedOperations from '#components/domain/HighlightedOperations';
 import ActiveOperationMap from '#components/domain/ActiveOperationMap';
 import AppealsTable from '#components/domain/AppealsTable';
+import Container from '#components/Container';
 import KeyFigure from '#components/KeyFigure';
+import Link from '#components/Link';
+import { adminUrl } from '#config';
 import useTranslation from '#hooks/useTranslation';
-import { type CountryOutletContext } from '#utils/outletContext';
+import useAuth from '#hooks/domain/useAuth';
 import { getPercentage } from '#utils/common';
+import { type CountryOutletContext } from '#utils/outletContext';
+import { resolveUrl } from '#utils/resolveUrl';
 import { useRequest } from '#utils/restRequest';
+
+import EmergencyAlertsTable from './EmergencyAlerts';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-import EmergencyAlertsTable from './EmergencyAlerts';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -35,6 +42,8 @@ export function Component() {
         countryId,
         countryResponse,
     } = useOutletContext<CountryOutletContext>();
+
+    const { isAuthenticated } = useAuth();
 
     const {
         pending: aggregatedAppealPending,
@@ -48,13 +57,21 @@ export function Component() {
     const bbox = isDefined(countryResponse) ? getBbox(countryResponse.bbox) : undefined;
 
     return (
-        <div
-            className={styles.countryOngoingActivitiesEmergencies}
+        <Container
+            childrenContainerClassName={styles.countryOngoingActivitiesEmergencies}
+            headerDescription={strings.countryOngoingActivitiesEmergenciesDescription}
+            actions={isAuthenticated && (
+                <Link
+                    external
+                    href={resolveUrl(adminUrl, `api/country/${countryId}/change/`)}
+                    variant="secondary"
+                    icons={<PencilFillIcon />}
+                >
+                    {strings.editCountryLink}
+                </Link>
+            )}
         >
             {aggregatedAppealPending && <BlockLoading />}
-            <div>
-                {strings.countryOngoingActivitiesEmergenciesDescription}
-            </div>
             {!aggregatedAppealPending && aggregatedAppealResponse && (
                 <div className={styles.keyFigureList}>
                     <KeyFigure
@@ -134,6 +151,6 @@ export function Component() {
                     countryId={Number(countryId)}
                 />
             )}
-        </div>
+        </Container>
     );
 }

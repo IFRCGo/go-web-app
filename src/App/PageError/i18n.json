@@ -1,0 +1,13 @@
+{
+    "namespace": "errorPage",
+    "strings": {
+        "errorPageIssueMessage": "Oops! Looks like we ran into some issue!",
+        "errorPageUnexpectedMessage": "Something unexpected happened!",
+        "errorPageHide": "Hide Error",
+        "errorPageShowError": "Show Full Error",
+        "errorPageStackTrace": "Stack trace not available",
+        "errorSeeDeveloperConsole": "See the developer console for more details",
+        "errorPageGoBack": "Go back to homepage",
+        "errorPageReload": "Reload"
+    }
+}
