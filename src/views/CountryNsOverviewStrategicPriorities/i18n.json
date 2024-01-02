@@ -8,6 +8,7 @@
         "countryPlanKeyFigureRequestedAmount": "Federation-Wide Requested Amount (CHF)",
         "strengthsHeading": "Strengths (PER process)",
         "keyDevelopmentPrioritiesHeading": "Key Development Priorities (PER process)",
-        "notAvailableMessage": "Strategic priorities not available!"
+        "notAvailableMessage": "Strategic priorities not available!",
+        "strategicPrioritiesDescription": "The following data highlights the focus areas the National Society, as well as the ongoing partnerships and support as applicable."
     }
 }

@@ -26,6 +26,7 @@
         "otherNSProjects": "Projects by Other NS ({count})",
         "programmeType": "Programme Type",
         "projectStatus": "Project Status",
-        "countryThreeWDataNotAvailable": "Data not available!"
+        "countryThreeWDataNotAvailable": "Data not available!",
+        "threeWProjectDescription": "The following data displays the ongoing programmes and projects within the country that are not linked to specific emergencies. The displayed data is based on reporting and may not be fully indicative of all the projects."
     }
 }
