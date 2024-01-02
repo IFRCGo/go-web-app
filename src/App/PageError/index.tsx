@@ -1,15 +1,18 @@
 import { useCallback, useEffect } from 'react';
 import { useRouteError } from 'react-router-dom';
 
-import useBooleanState from '#hooks/useBooleanState';
 import Button from '#components/Button';
 import Link from '#components/Link';
+import useBooleanState from '#hooks/useBooleanState';
+import useTranslation from '#hooks/useTranslation';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 function PageError() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const errorResponse = useRouteError() as unknown as any;
+    const strings = useTranslation(i18n);
 
     useEffect(
         () => {
@@ -40,33 +43,28 @@ function PageError() {
             <div className={styles.container}>
                 <div className={styles.content}>
                     <h1 className={styles.heading}>
-                        {/* FIXME: use translations */}
-                        Oops! Looks like we ran into some issue!
+                        {strings.errorPageIssueMessage}
                     </h1>
                     <div className={styles.message}>
-                        {/* FIXME: use translations */}
                         {errorResponse?.error?.message
                             ?? errorResponse?.message
-                            ?? 'Something unexpected happened!'}
+                            ?? strings.errorPageUnexpectedMessage}
                     </div>
                     <Button
                         name={undefined}
                         onClick={toggleFullErrorVisibility}
                         variant="tertiary"
                     >
-                        {/* FIXME: use translations */}
-                        {fullErrorVisible ? 'Hide Error' : 'Show Full Error'}
+                        {fullErrorVisible ? strings.errorPageHide : strings.errorPageShowError}
                     </Button>
                     {fullErrorVisible && (
                         <>
                             <div className={styles.stack}>
-                                {/* FIXME: use translations */}
                                 {errorResponse?.error?.stack
-                                    ?? errorResponse?.stack ?? 'Stack trace not available'}
+                                    ?? errorResponse?.stack ?? strings.errorPageStackTrace}
                             </div>
                             <div className={styles.actions}>
-                                {/* FIXME: use translations */}
-                                See the developer console for more details
+                                {strings.errorSeeDeveloperConsole}
                             </div>
                         </>
                     )}
@@ -78,15 +76,13 @@ function PageError() {
                         external
                         variant="secondary"
                     >
-                        {/* FIXME: use translations */}
-                        Go back to homepage
+                        {strings.errorPageGoBack}
                     </Link>
                     <Button
                         name={undefined}
                         onClick={handleReloadButtonClick}
                     >
-                        {/* FIXME: use translations */}
-                        Reload
+                        {strings.errorPageReload}
                     </Button>
                 </div>
             </div>

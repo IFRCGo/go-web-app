@@ -344,11 +344,12 @@ export function Component() {
         <Container
             className={styles.countryThreeWProjects}
             childrenContainerClassName={styles.content}
+            headerDescription={strings.threeWProjectDescription}
             actions={(
                 isDefined(userMe?.id) && (
                     <div className={styles.countryThreeWActions}>
                         <Link
-                            variant="primary"
+                            variant="secondary"
                             to="newThreeWProject"
                             state={{ reportingNsId: countryId }}
                         >
