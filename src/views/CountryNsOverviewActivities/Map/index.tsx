@@ -49,6 +49,7 @@ import {
 } from '#utils/constants';
 
 import useCountry from '#hooks/domain/useCountry';
+import TextOutput from '#components/TextOutput';
 import Message from '#components/Message';
 import Link from '#components/Link';
 import BaseMap from '#components/domain/BaseMap';
@@ -436,6 +437,13 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
                                 coordinates={clickedPointProperties.lngLat}
                                 onCloseButtonClick={handlePointClose}
                                 heading={clickedPointProperties.countryName}
+                                headerDescription={(
+                                    <TextOutput
+                                        value={projectList?.map((i) => i.modified_at)}
+                                        label="Last Updated"
+                                    // valueType="date"
+                                    />
+                                )}
                                 childrenContainerClassName={styles.mapPopupContent}
                             >
                                 {(clickedPointProjectsResponsePending

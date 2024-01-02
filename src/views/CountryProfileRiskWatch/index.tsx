@@ -115,7 +115,20 @@ export function Component() {
     );
 
     return (
-        <div className={styles.countryRiskWatch}>
+        <Container
+            childrenContainerClassName={styles.countryRiskWatch}
+            headerDescription={strings.riskWatchDescription}
+            actions={(
+                // TODO: Add a link for submit a Dref
+                <Link
+                    external
+                    href="/"
+                    variant="secondary"
+                >
+                    {strings.riskWatchSubmitDREF}
+                </Link>
+            )}
+        >
             {pendingImminentEventCounts && (
                 <BlockLoading />
             )}
@@ -182,7 +195,7 @@ export function Component() {
                 variant="country"
                 countryId={Number(countryId)}
             />
-        </div>
+        </Container>
     );
 }
 
