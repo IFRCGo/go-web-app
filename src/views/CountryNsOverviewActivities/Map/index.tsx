@@ -437,13 +437,6 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
                                 coordinates={clickedPointProperties.lngLat}
                                 onCloseButtonClick={handlePointClose}
                                 heading={clickedPointProperties.countryName}
-                                headerDescription={(
-                                    <TextOutput
-                                        value={projectList?.map((i) => i.modified_at)}
-                                        label="Last Updated"
-                                    // valueType="date"
-                                    />
-                                )}
                                 childrenContainerClassName={styles.mapPopupContent}
                             >
                                 {(clickedPointProjectsResponsePending
