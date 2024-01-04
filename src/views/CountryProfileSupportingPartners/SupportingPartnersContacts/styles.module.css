@@ -1,16 +1,24 @@
 .contacts-table {
-    .table {
-        min-height: 0;
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-lg);
 
-        .name {
-            font-weight: var(--go-ui-font-weight-semibold);
-        }
+        .table {
+            min-height: 0;
 
-        .caption {
-            margin: var(--go-ui-spacing-md) 0;
-            font-weight: var(--go-ui-font-weight-semibold);
+            .name {
+                font-weight: var(--go-ui-font-weight-semibold);
+            }
+
+            .caption {
+                display: flex;
+                padding: var(--go-ui-spacing-md) 0 var(--go-ui-spacing-sm);
+                font-weight: var(--go-ui-font-weight-semibold);
+            }
         }
     }
+
     .loading {
         position: absolute;
         top: 0;
