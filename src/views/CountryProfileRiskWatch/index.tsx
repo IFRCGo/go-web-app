@@ -118,16 +118,6 @@ export function Component() {
         <Container
             childrenContainerClassName={styles.countryRiskWatch}
             headerDescription={strings.riskWatchDescription}
-            actions={(
-                // TODO: Add a link for submit a Dref
-                <Link
-                    external
-                    href="/"
-                    variant="secondary"
-                >
-                    {strings.riskWatchSubmitDREF}
-                </Link>
-            )}
         >
             {pendingImminentEventCounts && (
                 <BlockLoading />
