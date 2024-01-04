@@ -1,3 +1,4 @@
+import { isDefined } from '@togglecorp/fujs';
 import { useOutletContext } from 'react-router-dom';
 
 import Container from '#components/Container';
@@ -12,67 +13,57 @@ function CountryNsOrganisationalCapacity() {
 
     const { countryResponse } = useOutletContext<CountryOutletContext>();
 
-    const leaderCapacity = countryResponse?.organizational_capacity.map(
-        (capacity) => capacity.leadership_capacity,
-    );
-
-    const youthCapacity = countryResponse?.organizational_capacity.map(
-        (capacity) => capacity.youth_capacity,
-    );
-
-    const volunteerCapacity = countryResponse?.organizational_capacity.map(
-        (capacity) => capacity.volunteer_capacity,
-    );
-
-    const financialCapacity = countryResponse?.organizational_capacity.map(
-        (capacity) => capacity.financial_capacity,
-    );
+    const [organizationalCapacity] = countryResponse?.organizational_capacity ?? [];
 
     return (
         <Container
             className={styles.organisationalCapacity}
             heading={strings.countryNsOrganisationalCapacityHeading}
+            childrenContainerClassName={styles.content}
             contentViewType="grid"
             numPreferredGridContentColumns={2}
             withHeaderBorder
         >
-            {/* // TODO: Hide if there is null value for capacity */}
-            <Container
-                className={styles.capacityCard}
-                childrenContainerClassName={styles.figures}
-                headingLevel={5}
-                withHeaderBorder
-                heading={strings.countryNsLeadershipCapacityLabel}
-            >
-                {leaderCapacity}
-            </Container>
-            <Container
-                className={styles.capacityCard}
-                childrenContainerClassName={styles.figures}
-                headingLevel={5}
-                withHeaderBorder
-                heading={strings.countryNsYouthCapacityLabel}
-            >
-                {youthCapacity}
-            </Container>
-            <Container
-                className={styles.capacityCard}
-                childrenContainerClassName={styles.figures}
-                headingLevel={5}
-                withHeaderBorder
-                heading={strings.countryNsVolunteerCapacityLabel}
-            >
-                {volunteerCapacity}
-            </Container>
-            <Container
-                className={styles.capacityCard}
-                childrenContainerClassName={styles.figures}
-                headingLevel={5}
-                withHeaderBorder
-                heading={strings.countryNsFinancialCapacityLabel}
-            >
-                {financialCapacity}
-            </Container>
+            {isDefined(organizationalCapacity?.leadership_capacity) && (
+                <Container
+                    className={styles.capacityCard}
+                    headingLevel={5}
+                    withHeaderBorder
+                    heading={strings.countryNsLeadershipCapacityLabel}
+                >
+                    {organizationalCapacity.leadership_capacity}
+                </Container>
+            )}
+            {isDefined(organizationalCapacity?.youth_capacity) && (
+                <Container
+                    className={styles.capacityCard}
+                    headingLevel={5}
+                    withHeaderBorder
+                    heading={strings.countryNsYouthCapacityLabel}
+                >
+                    {organizationalCapacity.youth_capacity}
+                </Container>
+            )}
+            {isDefined(organizationalCapacity?.volunteer_capacity) && (
+                <Container
+                    className={styles.capacityCard}
+                    headingLevel={5}
+                    withHeaderBorder
+                    heading={strings.countryNsVolunteerCapacityLabel}
+                >
+                    {organizationalCapacity.volunteer_capacity}
+                </Container>
+            )}
+            {isDefined(organizationalCapacity?.financial_capacity) && (
+                <Container
+                    className={styles.capacityCard}
+                    headingLevel={5}
+                    withHeaderBorder
+                    heading={strings.countryNsFinancialCapacityLabel}
+                >
+                    {organizationalCapacity.financial_capacity}
+                </Container>
+            )}
         </Container>
     );
 }

@@ -47,11 +47,11 @@ export function Component() {
             headerDescription={strings.nSOverviewCapacityDescription}
             headerDescriptionContainerClassName={styles.nsOverviewCapacity}
             actions={(
-            // TODO: Add IFRC Evaluation Database Link
                 <Link
-                    to="home"
+                    href="https://www.ifrc.org/evaluations/"
+                    external
+                    withLinkIcon
                     variant="primary"
-                    actions={<ArrowRightUpLineIcon />}
                 >
                     {strings.nsOverviewCapacityLink}
                 </Link>
