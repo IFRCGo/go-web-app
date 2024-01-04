@@ -23,9 +23,9 @@ function NationalSocietyIndicators() {
     } = useRequest({
         url: '/api/v2/country/{id}/databank/',
         skip: isNotDefined(countryId),
-        pathVariables: {
-            id: isDefined(countryId) ? Number(countryId) : undefined,
-        },
+        pathVariables: isDefined(countryId) ? {
+            id: Number(countryId),
+        } : undefined,
     });
 
     const youthValue = sumSafe([
@@ -44,62 +44,60 @@ function NationalSocietyIndicators() {
             withHeaderBorder
         >
             {indicatorPending && <BlockLoading className={styles.loading} />}
-            <div className={styles.indicatorDetails}>
-                <TextOutput
-                    label={strings.nationalSocietyFoundedDateLabel}
-                    value={indicatorResponse?.founded_date}
-                    valueType="date"
-                    strongValue
-                />
-                <TextOutput
-                    label={strings.nationalSocietyTrainedInFirstAidLabel}
-                    value={indicatorResponse?.trained_in_first_aid}
-                    valueType="number"
-                    strongValue
-                />
-                <TextOutput
-                    label={strings.nationalSocietyIncomeLabel}
-                    value={indicatorResponse?.income}
-                    valueType="number"
-                    strongValue
-                />
-                <TextOutput
-                    label={strings.nationalSocietyVolunteersLabel}
-                    value={indicatorResponse?.volunteer_total}
-                    valueType="number"
-                    strongValue
-                />
-                <TextOutput
-                    label={strings.nationalSocietyYouthLabel}
-                    value={youthValue}
-                    valueType="number"
-                    strongValue
-                />
-                <TextOutput
-                    label={strings.nationalSocietyExpendituresLabel}
-                    value={indicatorResponse?.expenditures}
-                    valueType="number"
-                    strongValue
-                />
-                <TextOutput
-                    label={strings.nationalSocietyBranchesLabel}
-                    value={indicatorResponse?.branches}
-                    valueType="number"
-                    strongValue
-                />
-                <TextOutput
-                    label={strings.nationalSocietyStaffLabel}
-                    value={indicatorResponse?.staff_total}
-                    valueType="number"
-                    strongValue
-                />
-                <TextOutput
-                    label={strings.nationalSocietyTrainedInFirstAidLabel}
-                    value={indicatorResponse?.trained_in_first_aid}
-                    valueType="number"
-                    strongValue
-                />
-            </div>
+            <TextOutput
+                label={strings.nationalSocietyFoundedDateLabel}
+                value={indicatorResponse?.founded_date}
+                valueType="date"
+                strongValue
+            />
+            <TextOutput
+                label={strings.nationalSocietyTrainedInFirstAidLabel}
+                value={indicatorResponse?.trained_in_first_aid}
+                valueType="number"
+                strongValue
+            />
+            <TextOutput
+                label={strings.nationalSocietyIncomeLabel}
+                value={indicatorResponse?.income}
+                valueType="number"
+                strongValue
+            />
+            <TextOutput
+                label={strings.nationalSocietyVolunteersLabel}
+                value={indicatorResponse?.volunteer_total}
+                valueType="number"
+                strongValue
+            />
+            <TextOutput
+                label={strings.nationalSocietyYouthLabel}
+                value={youthValue}
+                valueType="number"
+                strongValue
+            />
+            <TextOutput
+                label={strings.nationalSocietyExpendituresLabel}
+                value={indicatorResponse?.expenditures}
+                valueType="number"
+                strongValue
+            />
+            <TextOutput
+                label={strings.nationalSocietyBranchesLabel}
+                value={indicatorResponse?.branches}
+                valueType="number"
+                strongValue
+            />
+            <TextOutput
+                label={strings.nationalSocietyStaffLabel}
+                value={indicatorResponse?.staff_total}
+                valueType="number"
+                strongValue
+            />
+            <TextOutput
+                label={strings.nationalSocietyTrainedInFirstAidLabel}
+                value={indicatorResponse?.trained_in_first_aid}
+                valueType="number"
+                strongValue
+            />
         </Container>
     );
 }
