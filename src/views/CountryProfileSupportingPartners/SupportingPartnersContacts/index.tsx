@@ -34,8 +34,8 @@ function SupportingPartnersContacts(props: Props) {
     const { countryId } = useOutletContext<CountryOutletContext>();
 
     const {
-        pending: contactPending,
-        response: contactResponse,
+        pending: supportingPartnerPending,
+        response: supportingPartnerResponse,
     } = useRequest({
         url: '/api/v2/country-supporting-partner/',
         skip: isNotDefined(countryId),
@@ -44,25 +44,36 @@ function SupportingPartnersContacts(props: Props) {
         },
     });
 
-    const groupedBySupportingType = (
+    const partnersGroupedByType = (
         listToGroupList(
-            contactResponse?.results,
+            supportingPartnerResponse?.results,
             (item) => item.supporting_type_display,
             (item) => item,
-        ) ?? {}
+        )
     );
 
-    const groupedSupportingList = mapToList(
-        groupedBySupportingType,
-        (d, k) => ({ label: k, value: d }),
+    const groupedPartnersList = mapToList(
+        partnersGroupedByType,
+        (contacts, contactType) => ({ label: contactType, value: contacts }),
     );
 
     const columns = useMemo(
         () => ([
             createStringColumn<ContactListItem, number>(
-                'first_name',
+                'name',
                 '',
-                (item) => (`${item.first_name} ${item.last_name}`),
+                (item) => {
+                    if (isDefined(item.first_name) && isDefined(item.last_name)) {
+                        return `${item.first_name} ${item.last_name}`;
+                    }
+                    if (isDefined(item.first_name)) {
+                        return `${item.first_name}`;
+                    }
+                    if (isDefined(item.last_name)) {
+                        return `${item.last_name}`;
+                    }
+                    return null;
+                },
                 {
                     cellRendererClassName: styles.name,
                 },
@@ -77,7 +88,7 @@ function SupportingPartnersContacts(props: Props) {
                 '',
                 (item) => item.email,
                 (item) => ({
-                    href: `mailto:${item.email}`,
+                    href: isDefined(item.email) ? `mailto:${item.email}` : undefined,
                     external: true,
                 }),
             ),
@@ -92,14 +103,15 @@ function SupportingPartnersContacts(props: Props) {
             heading={strings.supportingPartnersContactsTitle}
             withHeaderBorder
         >
-            {contactPending && <BlockLoading className={styles.loading} />}
-            {groupedSupportingList?.map((support) => (
+            {supportingPartnerPending && <BlockLoading className={styles.loading} />}
+            {groupedPartnersList?.map((groupedPartner) => (
                 <Table
+                    key={groupedPartner.label}
                     className={styles.table}
-                    caption={support.label.toUpperCase()}
+                    caption={groupedPartner.label}
                     captionClassName={styles.caption}
                     columns={columns}
-                    data={support.value}
+                    data={groupedPartner.value}
                     headersHidden
                     filtered={false}
                     keySelector={numericIdSelector}
