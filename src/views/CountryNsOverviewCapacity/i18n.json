@@ -1,7 +1,7 @@
 {
     "namespace": "countryNsOverviewCapacity",
     "strings": {
-        "nsPreparednessHeading": "NS Preparedness and Response Capcity",
+        "nsPreparednessHeading": "NS Preparedness and Response Capacity",
         "nsPreparednessDescription": "The National Society Preparedness for an Effective Response (PER) Approach interact with National Societies' processes in a structured way to contribute to their preparedness and response capacities",
         "perCycleHeading": "Cycle {cycle}: {countryName} PER process",
         "perPhaseLabel": "PER phase",
@@ -9,6 +9,6 @@
         "perStartPerProcess": "Start PER Process",
         "perViewLink": "View",
         "nSOverviewCapacityDescription": "This following are various processes and assessment that the NS has done with IFRC that address National Society development, capacity, preparedness, and others.",
-        "nsOverviewCapacityLink": "IFRC Evaluations database"
+        "nsOverviewCapacityLink": "IFRC Evaluations Database"
     }
 }
