@@ -1,0 +1,28 @@
+.presence-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: var(--go-ui-spacing-md);
+
+    .ifrc-presence-item {
+        display: flex;
+        justify-content: space-between;
+        gap: var(--go-ui-spacing-md);
+    }
+
+    .presence-card {
+        border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+        border-radius:  var(--go-ui-border-radius-md);
+        padding: var(--go-ui-spacing-md);
+    }
+
+    .presence-card-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-sm);
+    }
+
+    .icrc-presence-item {
+        display: flex;
+        gap: var(--go-ui-spacing-xs);
+    }
+}
