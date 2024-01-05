@@ -460,7 +460,6 @@ export function Component() {
                     strongValue
                 />
             </Container>
-            
             {showEventDescriptionSection && (
                 <>
                     <div className={styles.pageBreak} />
@@ -468,16 +467,16 @@ export function Component() {
                         {strings.eventDescriptionSectionHeading}
                     </Heading>
                     {drefResponse?.disaster_category_analysis_details?.file && (
-                <Container>
-                    <Link
-                        href={drefResponse?.disaster_category_analysis_details?.file}
-                        external
-                        withUnderline
-                    >
-                        {strings.crisisCategorySupportingDocumentLabel}
-                    </Link>
-                </Container>
-            )}
+                        <Container>
+                            <Link
+                                href={drefResponse?.disaster_category_analysis_details?.file}
+                                external
+                                withUnderline
+                            >
+                                {strings.crisisCategorySupportingDocumentLabel}
+                            </Link>
+                        </Container>
+                    )}
                     {isDefined(drefResponse)
                         && drefResponse.type_of_dref === DREF_TYPE_IMMINENT
                         && isTruthyString(drefResponse.event_text) && (
@@ -835,6 +834,18 @@ export function Component() {
                     <Heading level={2}>
                         {strings.targetingStrategySectionHeading}
                     </Heading>
+                    {targetingStrategySupportingDocumentDefined && (
+                        <Container>
+                            <Link
+                                className={styles.targetingStrategyLink}
+                                href={drefResponse?.targeting_strategy_support_file_details?.file}
+                                external
+                                withUnderline
+                            >
+                                {strings.targetingStrategySupportingDocument}
+                            </Link>
+                        </Container>
+                    )}
                     {peopleAssistedDefined && (
                         <Container
                             heading={strings.peopleAssistedHeading}
@@ -851,17 +862,6 @@ export function Component() {
                             <DescriptionText>
                                 {drefResponse?.selection_criteria}
                             </DescriptionText>
-                        </Container>
-                    )}
-                    {targetingStrategySupportingDocumentDefined && (
-                        <Container>
-                            <Link
-                                href={drefResponse?.targeting_strategy_support_file_details?.file}
-                                external
-                                withUnderline
-                            >
-                                {strings.targetingStrategySupportingDocument}
-                            </Link>
                         </Container>
                     )}
                 </>
