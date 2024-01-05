@@ -355,27 +355,6 @@ function EventDetail(props: Props) {
                             disabled={disabled}
                         />
                     )}
-                    <NumberInput
-                        label={(
-                            <>
-                                {/* FIXME: use string template */}
-                                {strings.drefFormPeopleTargeted}
-                                <Link
-                                    title={strings.drefFormClickEmergencyResponseFramework}
-                                    href={peopleTargetedLink}
-                                    external
-                                >
-                                    <WikiHelpSectionLineIcon />
-                                </Link>
-                            </>
-                        )}
-                        name="num_assisted"
-                        value={value?.num_assisted}
-                        onChange={setFieldValue}
-                        error={error?.num_assisted}
-                        hint={strings.drefFormPeopleTargetedDescription}
-                        disabled={disabled}
-                    />
                     {/* FIXME: use grid to fix the empty div issue */}
                     {/* NOTE: Empty div to preserve the layout */}
                     <div />

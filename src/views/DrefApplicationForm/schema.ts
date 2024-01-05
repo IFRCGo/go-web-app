@@ -152,7 +152,7 @@ const schema: DrefFormSchema = {
 
             // EVENT DETAILS
             num_affected: { validations: [positiveIntegerCondition] },
-            num_assisted: { validations: [positiveIntegerCondition] },
+
             // none
 
             // ACTIONS
