@@ -42,6 +42,7 @@
         "drefFormEstimateResponse": "Estimate",
         "drefFormGirls": "Girls (under 18)",
         "drefFormInterventionsLabel": "Select the interventions that apply.",
+        "finalReportTotalAllocation": "Total DREF Allocation",
         "drefFormMen": "Men",
         "drefFinalReportTotalTargeted": "Total targeted population is not equal to sum of other population fields"
     }

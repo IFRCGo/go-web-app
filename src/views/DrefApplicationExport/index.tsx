@@ -243,8 +243,8 @@ export function Component() {
         drefResponse?.targeting_strategy_support_file_details,
     );
     const showTargetingStrategySection = peopleAssistedDefined
-    || selectionCriteriaDefined
-    || targetingStrategySupportingDocumentDefined;
+        || selectionCriteriaDefined
+        || targetingStrategySupportingDocumentDefined;
 
     const riskSecurityDefined = isDefined(drefResponse)
         && isDefined(drefResponse.risk_security)
@@ -254,8 +254,8 @@ export function Component() {
         drefResponse?.has_child_safeguarding_risk_analysis_assessment,
     );
     const showRiskAndSecuritySection = riskSecurityDefined
-    || riskSecurityConcernDefined
-    || hasChildrenSafeguardingDefined;
+        || riskSecurityConcernDefined
+        || hasChildrenSafeguardingDefined;
 
     const plannedInterventionDefined = isDefined(drefResponse)
         && isDefined(drefResponse.planned_interventions)
@@ -480,15 +480,15 @@ export function Component() {
                     {isDefined(drefResponse)
                         && drefResponse.type_of_dref === DREF_TYPE_IMMINENT
                         && isTruthyString(drefResponse.event_text) && (
-                        <Container
-                            heading={strings.approximateDateOfImpactHeading}
-                            headingLevel={3}
-                        >
-                            <DescriptionText>
-                                {drefResponse.event_text}
-                            </DescriptionText>
-                        </Container>
-                    )}
+                            <Container
+                                heading={strings.approximateDateOfImpactHeading}
+                                headingLevel={3}
+                            >
+                                <DescriptionText>
+                                    {drefResponse.event_text}
+                                </DescriptionText>
+                            </Container>
+                        )}
                     {isTruthyString(drefResponse?.event_map_file?.file) && (
                         <Container>
                             <Image
@@ -1190,8 +1190,9 @@ export function Component() {
                         )}
                     </Container>
                     <Link
-                        to="emergencies"
+                        href="/emergencies"
                         withUnderline
+                        external
                     >
                         {strings.drefExportReference}
                     </Link>

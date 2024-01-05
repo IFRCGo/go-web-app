@@ -328,18 +328,7 @@ function Overview(props: Props) {
                         </Button>
                     </div>
                 </InputSection>
-                <InputSection
-                    title={strings.finalReportTotalAllocation}
-                >
-                    <NumberInput
-                        name="total_dref_allocation"
-                        value={value.total_dref_allocation}
-                        error={error?.total_dref_allocation}
-                        onChange={undefined}
-                        readOnly
-                        disabled={disabled}
-                    />
-                </InputSection>
+
 
                 <InputSection
                     title={strings.drefFormUploadMap}

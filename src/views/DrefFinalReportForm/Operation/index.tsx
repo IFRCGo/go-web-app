@@ -102,7 +102,7 @@ function Operation(props: Props) {
     );
 
     const handleInterventionAddButtonClick = useCallback((title: PlannedInterventionOption['key'] | undefined) => {
-        const newInterventionItem : PlannedInterventionFormFields = {
+        const newInterventionItem: PlannedInterventionFormFields = {
             client_id: randomString(),
             title,
         };
@@ -450,6 +450,18 @@ function Operation(props: Props) {
                 heading={strings.drefFormPlannedIntervention}
                 className={styles.plannedIntervention}
             >
+                <InputSection
+                    title={strings.finalReportTotalAllocation}
+                >
+                    <NumberInput
+                        name="total_dref_allocation"
+                        value={value.total_dref_allocation}
+                        error={error?.total_dref_allocation}
+                        onChange={undefined}
+                        readOnly
+                        disabled={disabled}
+                    />
+                </InputSection>
                 <InputSection>
                     <div className={styles.interventionSelectionContainer}>
                         <SelectInput
