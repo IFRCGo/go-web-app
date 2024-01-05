@@ -136,14 +136,22 @@ export default function RapidResponsePersonnelTable(props: Props) {
                 (item) => getTypeName(item.type),
                 { sortable: true },
             ),
+            // NOTE:We don't have proper mapping for region
             createLinkColumn<PersonnelTableItem, number>(
                 'country_from',
                 strings.personnelTableDeployedParty,
                 (item) => item.country_from?.society_name,
-                (item) => ({
-                    to: 'countriesLayout',
-                    urlParams: { countryId: item.country_from?.id },
-                }),
+                (item) => {
+                    if (isDefined(item.country_from?.record_type === 3)) {
+                        return {
+                            to: undefined,
+                        };
+                    }
+                    return {
+                        to: 'countriesLayout',
+                        urlParams: { countryId: item.country_from?.id },
+                    };
+                },
                 { sortable: true },
             ),
             createLinkColumn<PersonnelTableItem, number>(

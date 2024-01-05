@@ -144,10 +144,6 @@ const schema: OpsUpdateFormSchema = {
                 required: true,
                 requiredValidation: requiredStringCondition,
             },
-            additional_allocation: { validations: [positiveIntegerCondition] },
-            dref_allocated_so_far: {},
-            total_dref_allocation: {},
-
             // EVENT DETAILS
             number_of_people_affected: { validations: [positiveIntegerCondition] },
             number_of_people_targeted: { validations: [positiveIntegerCondition] },
@@ -159,6 +155,9 @@ const schema: OpsUpdateFormSchema = {
             // none
 
             // OPERATION
+            dref_allocated_so_far: {},
+            additional_allocation: { validations: [positiveIntegerCondition] },
+            total_dref_allocation: {},
 
             // none
 

@@ -21,7 +21,6 @@ import TextInput from '#components/TextInput';
 import TextArea from '#components/TextArea';
 import SelectInput from '#components/SelectInput';
 import Link from '#components/Link';
-import NumberInput from '#components/NumberInput';
 import useTranslation from '#hooks/useTranslation';
 import { type GoApiResponse } from '#utils/restRequest';
 import {
@@ -328,19 +327,6 @@ function Overview(props: Props) {
                         </Button>
                     </div>
                 </InputSection>
-                <InputSection
-                    title={strings.finalReportTotalAllocation}
-                >
-                    <NumberInput
-                        name="total_dref_allocation"
-                        value={value.total_dref_allocation}
-                        error={error?.total_dref_allocation}
-                        onChange={undefined}
-                        readOnly
-                        disabled={disabled}
-                    />
-                </InputSection>
-
                 <InputSection
                     title={strings.drefFormUploadMap}
                     description={strings.drefFormUploadMapDescription}

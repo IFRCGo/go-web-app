@@ -102,7 +102,7 @@ function Operation(props: Props) {
     );
 
     const handleInterventionAddButtonClick = useCallback((title: PlannedInterventionOption['key'] | undefined) => {
-        const newInterventionItem : PlannedInterventionFormFields = {
+        const newInterventionItem: PlannedInterventionFormFields = {
             client_id: randomString(),
             title,
         };
@@ -178,6 +178,20 @@ function Operation(props: Props) {
         ),
         [interventionMap, plannedInterventionOptions],
     );
+
+    const handleAdditionalAllocationChange = useCallback((
+        additionalAllocation: number | undefined,
+        name: 'additional_allocation',
+    ) => {
+        setFieldValue(additionalAllocation, name);
+        setFieldValue(
+            sumSafe([
+                value.dref_allocated_so_far,
+                additionalAllocation,
+            ]),
+            'total_dref_allocation',
+        );
+    }, [setFieldValue, value.dref_allocated_so_far]);
 
     const handleRiskSecurityAdd = useCallback(() => {
         const newRiskSecurityItem: RiskSecurityFormFields = {
@@ -454,6 +468,44 @@ function Operation(props: Props) {
                     ))
                 )}
             >
+                <InputSection
+                    title={strings.drefOperationalUpdateAllocationSoFar}
+                    numPreferredColumns={2}
+                >
+                    <NumberInput
+                        name="dref_allocated_so_far"
+                        value={value.dref_allocated_so_far}
+                        onChange={undefined}
+                        error={error?.dref_allocated_so_far}
+                        disabled={disabled}
+                        readOnly
+                    />
+                </InputSection>
+                <InputSection
+                    title={strings.drefOperationalUpdateAdditionalAllocationRequested}
+                    numPreferredColumns={2}
+                >
+                    <NumberInput
+                        name="additional_allocation"
+                        value={value.additional_allocation}
+                        onChange={handleAdditionalAllocationChange}
+                        error={error?.additional_allocation}
+                        disabled={disabled}
+                    />
+                </InputSection>
+                <InputSection
+                    title={strings.drefOperationalUpdateTotalAllocation}
+                    numPreferredColumns={2}
+                >
+                    <NumberInput
+                        name="total_dref_allocation"
+                        value={value.total_dref_allocation}
+                        onChange={undefined}
+                        error={error?.total_dref_allocation}
+                        disabled={disabled}
+                        readOnly
+                    />
+                </InputSection>
                 <InputSection>
                     <GoSingleFileInput
                         accept=".pdf"

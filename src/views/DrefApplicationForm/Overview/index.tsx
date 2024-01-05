@@ -20,7 +20,6 @@ import InputSection from '#components/InputSection';
 import Button from '#components/Button';
 import TextInput from '#components/TextInput';
 import SelectInput from '#components/SelectInput';
-import NumberInput from '#components/NumberInput';
 import Link from '#components/Link';
 import BooleanInput from '#components/BooleanInput';
 import useTranslation from '#hooks/useTranslation';
@@ -381,18 +380,6 @@ function Overview(props: Props) {
                             {strings.drefFormGenerateTitle}
                         </Button>
                     </div>
-                </InputSection>
-                <InputSection
-                    title={strings.drefFormRequestAmount}
-                    numPreferredColumns={2}
-                >
-                    <NumberInput
-                        name="amount_requested"
-                        value={value?.amount_requested}
-                        onChange={setFieldValue}
-                        error={error?.amount_requested}
-                        disabled={disabled}
-                    />
                 </InputSection>
                 {value?.type_of_dref !== TYPE_LOAN && (
                     <InputSection
