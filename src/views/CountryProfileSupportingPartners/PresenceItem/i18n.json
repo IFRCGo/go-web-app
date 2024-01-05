@@ -1,0 +1,14 @@
+{
+    "namespace": "countryPresence",
+    "strings": {
+        "countryIFRCPresenceTitle": "IFRC Presence",
+        "countryIFRCPresenceHeadOfDelegation": "Head of delegation",
+        "countryIFRCLegalStatus": "IFRC Legal status",
+        "countryIFRCContact": "Office Contact information",
+        "countryIFRCDisasterLaw": "IFRC disaster law",
+        "countryICRCPresenceTitle": "ICRC Presence",
+        "countryICRCConfirmedPartner": "Confirmed partner for",
+        "countryICRCKeyOperations": "Key Operations",
+        "countryICRCWithin": "within {name}"
+    }
+}
