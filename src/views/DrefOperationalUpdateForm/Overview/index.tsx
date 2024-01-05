@@ -134,20 +134,6 @@ function Overview(props: Props) {
         }
     }, [setFieldValue]);
 
-    const handleAdditionalAllocationChange = useCallback((
-        additionalAllocation: number | undefined,
-        name: 'additional_allocation',
-    ) => {
-        setFieldValue(additionalAllocation, name);
-        setFieldValue(
-            sumSafe([
-                value.dref_allocated_so_far,
-                additionalAllocation,
-            ]),
-            'total_dref_allocation',
-        );
-    }, [setFieldValue, value.dref_allocated_so_far]);
-
     const handleNSChange = useCallback((nationalSociety: number | undefined) => {
         setFieldValue(nationalSociety, 'national_society');
         if (nationalSociety) {
@@ -203,33 +189,33 @@ function Overview(props: Props) {
             {state?.isNewOpsUpdate
                 && showChangeDrefTypeModal
                 && (value?.type_of_dref === TYPE_IMMINENT
-                || value?.type_of_dref === TYPE_ASSESSMENT) && (
-                <Modal
-                    size="sm"
-                    heading={strings.changeToResponseHeading}
-                    onClose={setShowChangeDrefTypeModalFalse}
-                    footerActions={(
-                        <>
-                            <Button
-                                name={undefined}
-                                variant="secondary"
-                                onClick={setShowChangeDrefTypeModalFalse}
-                            >
-                                {strings.noLabel}
-                            </Button>
-                            <Button
-                                name={undefined}
-                                onClick={handleChangeToResponse}
-                            >
-                                {strings.yesLabel}
-                            </Button>
-                        </>
-                    )}
-                    className={styles.flashUpdateShareModal}
-                >
-                    {strings.isDrefChangingToResponse}
-                </Modal>
-            )}
+                    || value?.type_of_dref === TYPE_ASSESSMENT) && (
+                    <Modal
+                        size="sm"
+                        heading={strings.changeToResponseHeading}
+                        onClose={setShowChangeDrefTypeModalFalse}
+                        footerActions={(
+                            <>
+                                <Button
+                                    name={undefined}
+                                    variant="secondary"
+                                    onClick={setShowChangeDrefTypeModalFalse}
+                                >
+                                    {strings.noLabel}
+                                </Button>
+                                <Button
+                                    name={undefined}
+                                    onClick={handleChangeToResponse}
+                                >
+                                    {strings.yesLabel}
+                                </Button>
+                            </>
+                        )}
+                        className={styles.flashUpdateShareModal}
+                    >
+                        {strings.isDrefChangingToResponse}
+                    </Modal>
+                )}
             <Container
                 heading={strings.drefFormSharingHeading}
                 childrenContainerClassName={styles.content}
@@ -417,44 +403,6 @@ function Overview(props: Props) {
                             {strings.drefFormGenerateTitle}
                         </Button>
                     </div>
-                </InputSection>
-                <InputSection
-                    title={strings.drefOperationalUpdateAllocationSoFar}
-                    numPreferredColumns={2}
-                >
-                    <NumberInput
-                        name="dref_allocated_so_far"
-                        value={value.dref_allocated_so_far}
-                        onChange={undefined}
-                        error={error?.dref_allocated_so_far}
-                        disabled={disabled}
-                        readOnly
-                    />
-                </InputSection>
-                <InputSection
-                    title={strings.drefOperationalUpdateAdditionalAllocationRequested}
-                    numPreferredColumns={2}
-                >
-                    <NumberInput
-                        name="additional_allocation"
-                        value={value.additional_allocation}
-                        onChange={handleAdditionalAllocationChange}
-                        error={error?.additional_allocation}
-                        disabled={disabled}
-                    />
-                </InputSection>
-                <InputSection
-                    title={strings.drefOperationalUpdateTotalAllocation}
-                    numPreferredColumns={2}
-                >
-                    <NumberInput
-                        name="total_dref_allocation"
-                        value={value.total_dref_allocation}
-                        onChange={undefined}
-                        error={error?.total_dref_allocation}
-                        disabled={disabled}
-                        readOnly
-                    />
                 </InputSection>
 
                 {value?.type_of_dref !== TYPE_LOAN && (

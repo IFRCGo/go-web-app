@@ -152,7 +152,6 @@ const schema: FinalReportFormSchema = {
                     caption: {},
                 }),
             },
-            total_dref_allocation: {},
             main_donors: {
                 validations: [max500CharCondition],
             },
@@ -193,7 +192,7 @@ const schema: FinalReportFormSchema = {
             has_national_society_conducted: {},
 
             // OPERATION
-
+            total_dref_allocation: {},
             operation_objective: {},
             response_strategy: {},
             people_assisted: {},
