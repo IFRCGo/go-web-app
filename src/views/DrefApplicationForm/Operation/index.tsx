@@ -102,7 +102,7 @@ function Operation(props: Props) {
     );
 
     const handleInterventionAddButtonClick = useCallback((title: PlannedInterventionOption['key'] | undefined) => {
-        const newInterventionItem : PlannedInterventionFormFields = {
+        const newInterventionItem: PlannedInterventionFormFields = {
             client_id: randomString(),
             title,
         };
@@ -471,6 +471,18 @@ function Operation(props: Props) {
                     >
                         {strings.drefFormBudgetTemplateUploadButtonLabel}
                     </GoSingleFileInput>
+                </InputSection>
+                <InputSection
+                    title={strings.drefFormRequestAmount}
+                    numPreferredColumns={2}
+                >
+                    <NumberInput
+                        name="amount_requested"
+                        value={value?.amount_requested}
+                        onChange={setFieldValue}
+                        error={error?.amount_requested}
+                        disabled={disabled}
+                    />
                 </InputSection>
                 <InputSection
                     description={!plannedBudgetMatchRequestedAmount && (

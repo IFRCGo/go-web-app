@@ -268,17 +268,17 @@ function Overview(props: Props) {
                             value?.disaster_type === DISASTER_FIRE
                             || value?.disaster_type === DISASTER_FLASH_FLOOD
                             || value?.disaster_type === DISASTER_FLOOD) ? (
-                                <BooleanInput
-                                    name="is_man_made_event"
-                                    label={strings.drefFormManMadeEvent}
-                                    value={value?.is_man_made_event}
-                                    onChange={setFieldValue}
-                                    error={error?.is_man_made_event}
-                                    disabled={disabled}
-                                />
-                            ) : (
-                                <div />
-                            )}
+                            <BooleanInput
+                                name="is_man_made_event"
+                                label={strings.drefFormManMadeEvent}
+                                value={value?.is_man_made_event}
+                                onChange={setFieldValue}
+                                error={error?.is_man_made_event}
+                                disabled={disabled}
+                            />
+                        ) : (
+                            <div />
+                        )}
 
                         <SelectInput
                             name="disaster_category"
@@ -381,18 +381,6 @@ function Overview(props: Props) {
                             {strings.drefFormGenerateTitle}
                         </Button>
                     </div>
-                </InputSection>
-                <InputSection
-                    title={strings.drefFormRequestAmount}
-                    numPreferredColumns={2}
-                >
-                    <NumberInput
-                        name="amount_requested"
-                        value={value?.amount_requested}
-                        onChange={setFieldValue}
-                        error={error?.amount_requested}
-                        disabled={disabled}
-                    />
                 </InputSection>
                 {value?.type_of_dref !== TYPE_LOAN && (
                     <InputSection
