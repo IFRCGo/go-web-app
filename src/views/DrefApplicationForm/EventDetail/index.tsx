@@ -24,10 +24,11 @@ import useTranslation from '#hooks/useTranslation';
 import { resolveToComponent } from '#utils/translation';
 
 import {
-    TYPE_IMMINENT,
-    TYPE_ASSESSMENT,
-    TYPE_LOAN,
     ONSET_SUDDEN,
+    TYPE_ASSESSMENT,
+    TYPE_IMMINENT,
+    TYPE_LOAN,
+    TYPE_RESPONSE,
 } from '../common';
 import { type PartialDref } from '../schema';
 
@@ -253,7 +254,7 @@ function EventDetail(props: Props) {
             <Container
                 heading={strings.drefFormDescriptionEvent}
             >
-                {value.type_of_dref === TYPE_IMMINENT ? (
+                {value.type_of_dref === TYPE_IMMINENT || value.type_of_dref === TYPE_RESPONSE ? (
                     <InputSection
                         title={strings.drefFormApproximateDateOfImpact}
                     >
