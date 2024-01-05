@@ -1,7 +1,7 @@
 {
     "namespace": "drefApplicationForm",
     "strings": {
-        "drefFormAddedByGeneva": "Added by Geneva",
+        "drefFormAddedByRegionalOffice": "Added by regional office",
         "drefFormAppealCode": "Appeal Code",
         "drefFormAppealCodeDescription": "Added by the regional PMER",
         "drefFormAppealManager": "IFRC Appeal Manager:",
