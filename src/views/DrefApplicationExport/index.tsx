@@ -460,7 +460,14 @@ export function Component() {
                     strongValue
                 />
             </Container>
-            {drefResponse?.disaster_category_analysis_details?.file && (
+            
+            {showEventDescriptionSection && (
+                <>
+                    <div className={styles.pageBreak} />
+                    <Heading level={2}>
+                        {strings.eventDescriptionSectionHeading}
+                    </Heading>
+                    {drefResponse?.disaster_category_analysis_details?.file && (
                 <Container>
                     <Link
                         href={drefResponse?.disaster_category_analysis_details?.file}
@@ -471,12 +478,6 @@ export function Component() {
                     </Link>
                 </Container>
             )}
-            {showEventDescriptionSection && (
-                <>
-                    <div className={styles.pageBreak} />
-                    <Heading level={2}>
-                        {strings.eventDescriptionSectionHeading}
-                    </Heading>
                     {isDefined(drefResponse)
                         && drefResponse.type_of_dref === DREF_TYPE_IMMINENT
                         && isTruthyString(drefResponse.event_text) && (
