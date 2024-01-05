@@ -1,7 +1,7 @@
 {
     "namespace": "drefApplicationForm",
     "strings": {
-        "drefFormAddedByRegionalOffice": "Added by regional office",
+        "drefFormAddedByRegionalOffice": "Added by Regional Office",
         "drefFormAppealCode": "Appeal Code",
         "drefFormAppealCodeDescription": "Added by the regional PMER",
         "drefFormAppealManager": "IFRC Appeal Manager:",
