@@ -1,6 +1,6 @@
 {
     "name": "go-web-app",
-    "version": "7.0.17",
+    "version": "7.0.18",
     "type": "module",
     "scripts": {
         "initialize:type": "mkdir -p generated/ && yarn initialize:type:go-api && yarn initialize:type:risk-api",
