@@ -1111,8 +1111,9 @@ export function Component() {
                         )}
                     </Container>
                     <Link
-                        to="emergencies"
+                        href="/emergencies"
                         withUnderline
+                        external
                     >
                         {strings.drefExportReference}
                     </Link>
