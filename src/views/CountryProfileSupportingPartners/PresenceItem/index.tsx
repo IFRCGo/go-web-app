@@ -15,7 +15,9 @@ function PresenceItem() {
     const strings = useTranslation(i18n);
 
     const { countryResponse } = useOutletContext<CountryOutletContext>();
-    const presence = countryResponse?.icrc_presence;
+    const icrcPresenceDetail = countryResponse?.icrc_presence;
+
+    const legalStatusLink = 'https://idp.ifrc.org/SSO/SAMLLogin?loginToSp=https://fednet.ifrc.org&returnUrl=https://fednet.ifrc.org/PageFiles/255835/List%20States%20with%20Defined%20Legal%20Status%2025.07.2023_ENG.pdf';
 
     return (
         <div className={styles.presenceList}>
@@ -29,9 +31,8 @@ function PresenceItem() {
                         label={strings.countryIFRCPresenceHeadOfDelegation}
                         value={undefined}
                     />
-                    {/* //TODO: Add status Link */}
                     <Link
-                        href="/"
+                        href={legalStatusLink}
                         external
                         variant="tertiary"
                         withUnderline
@@ -54,7 +55,7 @@ function PresenceItem() {
                     </Link>
                 </div>
             </Container>
-            {presence?.map((icrc) => (
+            {icrcPresenceDetail?.map((icrc) => (
                 <Container
                     className={styles.presenceCard}
                     heading={strings.countryICRCPresenceTitle}
