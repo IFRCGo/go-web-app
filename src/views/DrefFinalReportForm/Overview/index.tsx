@@ -328,8 +328,6 @@ function Overview(props: Props) {
                         </Button>
                     </div>
                 </InputSection>
-
-
                 <InputSection
                     title={strings.drefFormUploadMap}
                     description={strings.drefFormUploadMapDescription}

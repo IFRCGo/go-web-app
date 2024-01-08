@@ -144,9 +144,6 @@ const schema: OpsUpdateFormSchema = {
                 required: true,
                 requiredValidation: requiredStringCondition,
             },
-
-
-
             // EVENT DETAILS
             number_of_people_affected: { validations: [positiveIntegerCondition] },
             number_of_people_targeted: { validations: [positiveIntegerCondition] },

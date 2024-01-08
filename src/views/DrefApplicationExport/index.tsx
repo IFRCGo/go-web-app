@@ -480,15 +480,15 @@ export function Component() {
                     {isDefined(drefResponse)
                         && drefResponse.type_of_dref === DREF_TYPE_IMMINENT
                         && isTruthyString(drefResponse.event_text) && (
-                            <Container
-                                heading={strings.approximateDateOfImpactHeading}
-                                headingLevel={3}
-                            >
-                                <DescriptionText>
-                                    {drefResponse.event_text}
-                                </DescriptionText>
-                            </Container>
-                        )}
+                        <Container
+                            heading={strings.approximateDateOfImpactHeading}
+                            headingLevel={3}
+                        >
+                            <DescriptionText>
+                                {drefResponse.event_text}
+                            </DescriptionText>
+                        </Container>
+                    )}
                     {isTruthyString(drefResponse?.event_map_file?.file) && (
                         <Container>
                             <Image
@@ -1006,13 +1006,6 @@ export function Component() {
                                 {plannedIntervention.title_display}
                             </Heading>
                             <Container>
-                                <TextOutput
-                                    label={strings.drefAllocationLabel}
-                                    value={drefResponse?.amount_requested}
-                                    valueType="number"
-                                    prefix={strings.chfPrefix}
-                                    strongLabel
-                                />
                                 <TextOutput
                                     label={strings.budgetLabel}
                                     value={plannedIntervention.budget}

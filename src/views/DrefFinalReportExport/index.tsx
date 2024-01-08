@@ -194,8 +194,8 @@ export function Component() {
         drefResponse?.has_child_safeguarding_risk_analysis_assessment,
     );
     const showRiskAndSecuritySection = riskSecurityDefined
-    || riskSecurityConcernDefined
-    || hasChildrenSafeguardingDefined;
+        || riskSecurityConcernDefined
+        || hasChildrenSafeguardingDefined;
 
     const plannedInterventionDefined = isDefined(drefResponse)
         && isDefined(drefResponse.planned_interventions)
@@ -301,8 +301,8 @@ export function Component() {
                     value={drefResponse?.disaster_category_display}
                     valueClassName={_cs(
                         isDefined(drefResponse)
-                            && isDefined(drefResponse.disaster_category)
-                            && colorMap[drefResponse.disaster_category],
+                        && isDefined(drefResponse.disaster_category)
+                        && colorMap[drefResponse.disaster_category],
                     )}
                     strongValue
                 />
@@ -917,8 +917,9 @@ export function Component() {
                         )}
                     </Container>
                     <Link
-                        to="emergencies"
+                        href="/emergencies"
                         withUnderline
+                        external
                     >
                         {strings.drefExportReference}
                     </Link>
