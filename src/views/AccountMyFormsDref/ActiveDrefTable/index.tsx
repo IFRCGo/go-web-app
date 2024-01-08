@@ -234,7 +234,7 @@ function ActiveDrefTable(props: Props) {
                                 || (has_ops_update && unpublished_op_update_count === 0)
                         );
 
-                    const drefRegion = country_details.region;
+                    const drefRegion = country_details?.region;
                     const isRegionCoordinator = isDefined(drefRegion)
                         ? userRegionCoordinatorMap?.[drefRegion] ?? false
                         : false;
