@@ -7,7 +7,7 @@
         "countryIFRCContact": "Office Contact information",
         "countryIFRCDisasterLaw": "IFRC disaster law",
         "countryICRCPresenceTitle": "ICRC Presence",
-        "countryICRCConfirmedPartner": "Confirmed partner for",
+        "countryICRCConfirmedPartner": "Confirmed partner for {year}",
         "countryICRCKeyOperations": "Key Operations",
         "countryICRCWithin": "within {name}"
     }
