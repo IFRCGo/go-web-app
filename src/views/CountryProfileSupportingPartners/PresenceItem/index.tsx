@@ -31,7 +31,7 @@ function PresenceItem() {
                     />
                     {/* //TODO: Add status Link */}
                     <Link
-                        href={undefined}
+                        href="/"
                         external
                         variant="tertiary"
                         withUnderline
@@ -60,10 +60,10 @@ function PresenceItem() {
                     heading={strings.countryICRCPresenceTitle}
                     childrenContainerClassName={styles.presenceCardList}
                 >
-                    <div>
-                        {strings.countryICRCConfirmedPartner}
-                        {getCurrentMonthYear()}
-                    </div>
+                    {resolveToString(
+                        strings.countryICRCConfirmedPartner,
+                        { year: getCurrentMonthYear() },
+                    )}
                     <div className={styles.icrcPresenceItem}>
                         <Link
                             key={icrc.id}
