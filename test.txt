@@ -1,0 +1,94 @@
+On branch fix/dref-forms
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   package.json
+	modified:   src/App/PageError/index.tsx
+	modified:   src/App/index.tsx
+	modified:   src/App/routes/index.tsx
+	modified:   src/components/Link/index.tsx
+	modified:   src/components/domain/ActiveOperationMap/i18n.json
+	modified:   src/components/domain/ActiveOperationMap/index.tsx
+	modified:   src/components/domain/ActiveOperationMap/styles.module.css
+	modified:   src/components/domain/AppealsTable/i18n.json
+	modified:   src/components/domain/AppealsTable/index.tsx
+	modified:   src/components/domain/HighlightedOperations/i18n.json
+	modified:   src/components/domain/HighlightedOperations/index.tsx
+	modified:   src/components/domain/RiskSeasonalMap/index.tsx
+	modified:   src/hooks/useRouting.ts
+	modified:   src/utils/outletContext.ts
+	modified:   src/views/AccountMyFormsPer/index.tsx
+	modified:   src/views/AccountMyFormsThreeW/index.tsx
+	modified:   src/views/AllAppeals/index.tsx
+	modified:   src/views/Country/i18n.json
+	modified:   src/views/Country/index.tsx
+	modified:   src/views/CountryPlan/MembershipCoordinationTable/i18n.json
+	modified:   src/views/CountryPlan/MembershipCoordinationTable/index.tsx
+	modified:   src/views/CountryPlan/MembershipCoordinationTable/styles.module.css
+	modified:   src/views/CountryPlan/StrategicPrioritiesTable/i18n.json
+	modified:   src/views/CountryPlan/StrategicPrioritiesTable/index.tsx
+	modified:   src/views/CountryPlan/i18n.json
+	modified:   src/views/CountryPlan/index.tsx
+	modified:   src/views/CountryPlan/styles.module.css
+	modified:   src/views/CountryPreparedness/i18n.json
+	modified:   src/views/CountryPreparedness/index.tsx
+	modified:   src/views/CountryPreparedness/styles.module.css
+	modified:   src/views/CountryRiskWatch/MultiMonthSelectInput/i18n.json
+	modified:   src/views/CountryRiskWatch/MultiMonthSelectInput/index.tsx
+	modified:   src/views/CountryRiskWatch/MultiMonthSelectInput/styles.module.css
+	modified:   src/views/CountryRiskWatch/PossibleEarlyActionTable/i18n.json
+	modified:   src/views/CountryRiskWatch/PossibleEarlyActionTable/index.tsx
+	modified:   src/views/CountryRiskWatch/PossibleEarlyActionTable/styles.module.css
+	modified:   src/views/CountryRiskWatch/ReturnPeriodTable/i18n.json
+	modified:   src/views/CountryRiskWatch/ReturnPeriodTable/index.tsx
+	modified:   src/views/CountryRiskWatch/ReturnPeriodTable/styles.module.css
+	modified:   src/views/CountryRiskWatch/RiskBarChart/CombinedChart/i18n.json
+	modified:   src/views/CountryRiskWatch/RiskBarChart/CombinedChart/index.tsx
+	modified:   src/views/CountryRiskWatch/RiskBarChart/CombinedChart/styles.module.css
+	modified:   src/views/CountryRiskWatch/RiskBarChart/FoodInsecurityChart/index.tsx
+	modified:   src/views/CountryRiskWatch/RiskBarChart/FoodInsecurityChart/styles.module.css
+	modified:   src/views/CountryRiskWatch/RiskBarChart/WildfireChart/i18n.json
+	modified:   src/views/CountryRiskWatch/RiskBarChart/WildfireChart/index.tsx
+	modified:   src/views/CountryRiskWatch/RiskBarChart/WildfireChart/styles.module.css
+	modified:   src/views/CountryRiskWatch/RiskBarChart/i18n.json
+	modified:   src/views/CountryRiskWatch/RiskBarChart/index.tsx
+	modified:   src/views/CountryRiskWatch/RiskBarChart/styles.module.css
+	modified:   src/views/CountryRiskWatch/RiskTable/i18n.json
+	modified:   src/views/CountryRiskWatch/RiskTable/index.tsx
+	modified:   src/views/CountryRiskWatch/RiskTable/styles.module.css
+	modified:   src/views/CountryRiskWatch/i18n.json
+	modified:   src/views/CountryRiskWatch/index.tsx
+	modified:   src/views/CountryRiskWatch/styles.module.css
+	modified:   src/views/CountryThreeW/index.tsx
+	modified:   src/views/CountryThreeWNationalSocietyProjects/Filters/i18n.json
+	modified:   src/views/CountryThreeWNationalSocietyProjects/Filters/index.tsx
+	modified:   src/views/CountryThreeWNationalSocietyProjects/Filters/styles.module.css
+	modified:   src/views/CountryThreeWNationalSocietyProjects/Map/i18n.json
+	modified:   src/views/CountryThreeWNationalSocietyProjects/Map/index.tsx
+	modified:   src/views/CountryThreeWNationalSocietyProjects/Map/styles.module.css
+	modified:   src/views/CountryThreeWNationalSocietyProjects/i18n.json
+	modified:   src/views/CountryThreeWNationalSocietyProjects/index.tsx
+	modified:   src/views/CountryThreeWNationalSocietyProjects/styles.module.css
+	modified:   src/views/CountryThreeWProjects/Filters/i18n.json
+	modified:   src/views/CountryThreeWProjects/Filters/index.tsx
+	modified:   src/views/CountryThreeWProjects/Filters/styles.module.css
+	modified:   src/views/CountryThreeWProjects/Map/i18n.json
+	modified:   src/views/CountryThreeWProjects/Map/index.tsx
+	modified:   src/views/CountryThreeWProjects/Map/styles.module.css
+	modified:   src/views/CountryThreeWProjects/i18n.json
+	modified:   src/views/CountryThreeWProjects/index.tsx
+	modified:   src/views/CountryThreeWProjects/styles.module.css
+	modified:   src/views/DrefApplicationExport/index.tsx
+	modified:   src/views/DrefFinalReportExport/index.tsx
+	modified:   src/views/DrefFinalReportForm/Overview/index.tsx
+	modified:   src/views/DrefOperationalUpdateExport/index.tsx
+	modified:   src/views/DrefOperationalUpdateForm/schema.ts
+	modified:   src/views/RegionProfile/i18n.json
+	modified:   src/views/RegionProfile/index.tsx
+	modified:   src/views/ThreeWProjectDetail/index.tsx
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	test.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
