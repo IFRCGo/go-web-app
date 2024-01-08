@@ -3,6 +3,10 @@
     grid-template-columns: 1fr 1fr;
     grid-gap: var(--go-ui-spacing-md);
 
+    @media screen and (max-width: 40rem) {
+        grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+    }
+
     .ifrc-presence-item {
         display: flex;
         justify-content: space-between;
