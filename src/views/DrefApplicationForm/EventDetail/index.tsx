@@ -28,7 +28,6 @@ import {
     TYPE_ASSESSMENT,
     TYPE_LOAN,
     ONSET_SUDDEN,
-    TYPE_RESPONSE,
 } from '../common';
 import { type PartialDref } from '../schema';
 

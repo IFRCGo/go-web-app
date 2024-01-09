@@ -23,7 +23,6 @@ import {
     DISASTER_CATEGORY_YELLOW,
     DREF_TYPE_ASSESSMENT,
     DREF_TYPE_IMMINENT,
-    DREF_TYPE_RESPONSE,
     DisasterCategory,
 } from '#utils/constants';
 import {
