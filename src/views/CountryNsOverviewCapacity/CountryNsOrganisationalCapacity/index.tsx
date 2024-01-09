@@ -13,7 +13,7 @@ function CountryNsOrganisationalCapacity() {
 
     const { countryResponse } = useOutletContext<CountryOutletContext>();
 
-    const [organizationalCapacity] = countryResponse?.organizational_capacity ?? [];
+    const organizationalCapacity = countryResponse?.organizational_capacity;
 
     return (
         <Container
@@ -31,7 +31,7 @@ function CountryNsOrganisationalCapacity() {
                     withHeaderBorder
                     heading={strings.countryNsLeadershipCapacityLabel}
                 >
-                    {organizationalCapacity.leadership_capacity}
+                    {organizationalCapacity?.leadership_capacity}
                 </Container>
             )}
             {isDefined(organizationalCapacity?.youth_capacity) && (
@@ -41,7 +41,7 @@ function CountryNsOrganisationalCapacity() {
                     withHeaderBorder
                     heading={strings.countryNsYouthCapacityLabel}
                 >
-                    {organizationalCapacity.youth_capacity}
+                    {organizationalCapacity?.youth_capacity}
                 </Container>
             )}
             {isDefined(organizationalCapacity?.volunteer_capacity) && (
@@ -51,7 +51,7 @@ function CountryNsOrganisationalCapacity() {
                     withHeaderBorder
                     heading={strings.countryNsVolunteerCapacityLabel}
                 >
-                    {organizationalCapacity.volunteer_capacity}
+                    {organizationalCapacity?.volunteer_capacity}
                 </Container>
             )}
             {isDefined(organizationalCapacity?.financial_capacity) && (
@@ -61,7 +61,7 @@ function CountryNsOrganisationalCapacity() {
                     withHeaderBorder
                     heading={strings.countryNsFinancialCapacityLabel}
                 >
-                    {organizationalCapacity.financial_capacity}
+                    {organizationalCapacity?.financial_capacity}
                 </Container>
             )}
         </Container>
