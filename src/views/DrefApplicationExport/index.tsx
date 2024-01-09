@@ -23,6 +23,7 @@ import {
     DISASTER_CATEGORY_YELLOW,
     DREF_TYPE_ASSESSMENT,
     DREF_TYPE_IMMINENT,
+    DREF_TYPE_RESPONSE,
     DisasterCategory,
 } from '#utils/constants';
 import {
@@ -507,6 +508,7 @@ export function Component() {
                             />
                         </Container>
                     )}
+
                     {eventDescriptionDefined && (
                         <Container
                             heading={drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
