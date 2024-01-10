@@ -307,22 +307,29 @@ function Overview(props: Props) {
                             disabled={disabled}
                         />
                     </InputSection>
-                    <InputSection title={strings.drefFormUploadCrisisDocument}>
-                        <GoSingleFileInput
-                            name="disaster_category_analysis"
-                            accept=".pdf, .docx, .pptx"
-                            fileIdToUrlMap={fileIdToUrlMap}
-                            onChange={setFieldValue}
-                            url="/api/v2/dref-files/"
-                            value={value.disaster_category_analysis}
-                            error={error?.disaster_category_analysis}
-                            setFileIdToUrlMap={setFileIdToUrlMap}
-                            clearable
-                            disabled={disabled}
-                        >
-                            {strings.drefFormUploadDocumentButtonLabel}
-                        </GoSingleFileInput>
-                    </InputSection>
+                    {(
+                        value?.disaster_category === 1
+                        || value?.disaster_category === 2)
+                        ? (
+                            <InputSection title={strings.drefFormUploadCrisisDocument}>
+                                <GoSingleFileInput
+                                    name="disaster_category_analysis"
+                                    accept=".pdf, .docx, .pptx"
+                                    fileIdToUrlMap={fileIdToUrlMap}
+                                    onChange={setFieldValue}
+                                    url="/api/v2/dref-files/"
+                                    value={value.disaster_category_analysis}
+                                    error={error?.disaster_category_analysis}
+                                    setFileIdToUrlMap={setFileIdToUrlMap}
+                                    clearable
+                                    disabled={disabled}
+                                >
+                                    {strings.drefFormUploadDocumentButtonLabel}
+                                </GoSingleFileInput>
+                            </InputSection>
+                        ) : (
+                            <div />
+                        )}
                 </Container>
                 <InputSection
                     title={
