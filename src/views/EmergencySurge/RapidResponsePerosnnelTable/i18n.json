@@ -8,6 +8,7 @@
         "personnelTableType": "Type",
         "personnelTableDeployedTo": "Deploying To",
         "personnelTableDeployedParty": "Deploying Party",
-        "deployedPersonnelViewAll": "View All Deployed Personnel"
+        "deployedPersonnelViewAll": "View All Deployed Personnel",
+        "emergencySurgePartyNotFound": "sorry, this party has no one matching country to be shown"
     }
 }
