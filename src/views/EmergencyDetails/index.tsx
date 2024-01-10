@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import useTranslation from '#hooks/useTranslation';
-import { DownloadFillIcon } from '@ifrc-go/icons';
 import {
     compareDate,
     isDefined,
@@ -11,7 +10,6 @@ import {
     listToMap,
 } from '@togglecorp/fujs';
 
-import Button from '#components/Button';
 import Container from '#components/Container';
 import HtmlOutput from '#components/HtmlOutput';
 import KeyFigure from '#components/KeyFigure';
@@ -294,16 +292,6 @@ export function Component() {
                         className={styles.mapContainer}
                         heading={strings.emergencyMapTitle}
                         withHeaderBorder
-                        actions={(
-                            <Button
-                                variant="secondary"
-                                name={undefined}
-                                title={strings.exportMap}
-                                icons={(<DownloadFillIcon />)}
-                            >
-                                {strings.exportMap}
-                            </Button>
-                        )}
                     >
                         {emergencyResponse && (
                             <EmergencyMap
