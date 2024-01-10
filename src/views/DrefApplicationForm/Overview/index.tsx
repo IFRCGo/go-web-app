@@ -20,7 +20,6 @@ import InputSection from '#components/InputSection';
 import Button from '#components/Button';
 import TextInput from '#components/TextInput';
 import SelectInput from '#components/SelectInput';
-import NumberInput from '#components/NumberInput';
 import Link from '#components/Link';
 import BooleanInput from '#components/BooleanInput';
 import useTranslation from '#hooks/useTranslation';
@@ -268,17 +267,17 @@ function Overview(props: Props) {
                             value?.disaster_type === DISASTER_FIRE
                             || value?.disaster_type === DISASTER_FLASH_FLOOD
                             || value?.disaster_type === DISASTER_FLOOD) ? (
-                            <BooleanInput
-                                name="is_man_made_event"
-                                label={strings.drefFormManMadeEvent}
-                                value={value?.is_man_made_event}
-                                onChange={setFieldValue}
-                                error={error?.is_man_made_event}
-                                disabled={disabled}
-                            />
-                        ) : (
-                            <div />
-                        )}
+                                <BooleanInput
+                                    name="is_man_made_event"
+                                    label={strings.drefFormManMadeEvent}
+                                    value={value?.is_man_made_event}
+                                    onChange={setFieldValue}
+                                    error={error?.is_man_made_event}
+                                    disabled={disabled}
+                                />
+                            ) : (
+                                <div />
+                            )}
 
                         <SelectInput
                             name="disaster_category"
