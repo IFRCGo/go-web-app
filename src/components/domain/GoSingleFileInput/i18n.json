@@ -2,7 +2,6 @@
     "namespace": "common",
     "strings": {
         "failedUploadMessage": "Failed to upload the file!",
-        "oneFileSelected": "1 file selected",
         "removeFileButtonTitle": "Remove",
         "noFileSelected": "No file Selected"
     }

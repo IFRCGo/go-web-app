@@ -158,7 +158,7 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
                     href={selectedFileUrl}
                     external
                 >
-                    {strings.oneFileSelected}
+                    {selectedFileUrl.split('/').pop()}
                 </Link>
             ) : (
                 <div className={styles.emptyMessage}>
