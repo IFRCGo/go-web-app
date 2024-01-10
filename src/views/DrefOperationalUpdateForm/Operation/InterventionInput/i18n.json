@@ -1,7 +1,6 @@
 {
     "namespace": "drefOperationalUpdateForm",
     "strings": {
-        "drefOperationalUpdateAllocationSoFar": "Budget Allocated so far",
         "drefOperationalUpdateProgressTowardsOutcome": "Progress Towards Outcome",
         "drefOperationalUpdateIndicatorMaleLabel": "Male",
         "drefOperationalUpdateIndicatorFemaleLabel": "Female",

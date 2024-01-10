@@ -31,7 +31,6 @@ import { type GoApiResponse } from '#utils/restRequest';
 import {
     stringValueSelector,
 } from '#utils/selectors';
-import { sumSafe } from '#utils/common';
 import useBooleanState from '#hooks/useBooleanState';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useCountry from '#hooks/domain/useCountry';
@@ -189,33 +188,33 @@ function Overview(props: Props) {
             {state?.isNewOpsUpdate
                 && showChangeDrefTypeModal
                 && (value?.type_of_dref === TYPE_IMMINENT
-                    || value?.type_of_dref === TYPE_ASSESSMENT) && (
-                    <Modal
-                        size="sm"
-                        heading={strings.changeToResponseHeading}
-                        onClose={setShowChangeDrefTypeModalFalse}
-                        footerActions={(
-                            <>
-                                <Button
-                                    name={undefined}
-                                    variant="secondary"
-                                    onClick={setShowChangeDrefTypeModalFalse}
-                                >
-                                    {strings.noLabel}
-                                </Button>
-                                <Button
-                                    name={undefined}
-                                    onClick={handleChangeToResponse}
-                                >
-                                    {strings.yesLabel}
-                                </Button>
-                            </>
-                        )}
-                        className={styles.flashUpdateShareModal}
-                    >
-                        {strings.isDrefChangingToResponse}
-                    </Modal>
-                )}
+                || value?.type_of_dref === TYPE_ASSESSMENT) && (
+                <Modal
+                    size="sm"
+                    heading={strings.changeToResponseHeading}
+                    onClose={setShowChangeDrefTypeModalFalse}
+                    footerActions={(
+                        <>
+                            <Button
+                                name={undefined}
+                                variant="secondary"
+                                onClick={setShowChangeDrefTypeModalFalse}
+                            >
+                                {strings.noLabel}
+                            </Button>
+                            <Button
+                                name={undefined}
+                                onClick={handleChangeToResponse}
+                            >
+                                {strings.yesLabel}
+                            </Button>
+                        </>
+                    )}
+                    className={styles.flashUpdateShareModal}
+                >
+                    {strings.isDrefChangingToResponse}
+                </Modal>
+            )}
             <Container
                 heading={strings.drefFormSharingHeading}
                 childrenContainerClassName={styles.content}

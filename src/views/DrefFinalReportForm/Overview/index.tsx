@@ -21,7 +21,6 @@ import TextInput from '#components/TextInput';
 import TextArea from '#components/TextArea';
 import SelectInput from '#components/SelectInput';
 import Link from '#components/Link';
-import NumberInput from '#components/NumberInput';
 import useTranslation from '#hooks/useTranslation';
 import { type GoApiResponse } from '#utils/restRequest';
 import {
