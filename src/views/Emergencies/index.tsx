@@ -101,7 +101,7 @@ export function Component() {
         query: {
             model_type: 'event',
             unit: 'month',
-            start_date: encodeDate(oneYearAgo),
+            start_date: encodeDate(thirtyDaysAgo),
         } as never,
     });
 
