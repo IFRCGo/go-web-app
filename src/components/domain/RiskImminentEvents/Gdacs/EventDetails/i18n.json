@@ -9,6 +9,7 @@
         "eventPopulationLabel": "Population exposed",
         "eventPeopleAffectedLabel": "People affected",
         "eventImpactLabel": "Impact",
-        "eventSeverityLabel": "Severity"
+        "eventSeverityLabel": "Severity",
+        "eventAlertType": "Alert Type"
     }
 }

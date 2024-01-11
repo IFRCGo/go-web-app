@@ -20,6 +20,8 @@ interface GdacsEventDetails {
         iso3: string;
         countryname: string;
     }[];
+    alert_sent?: boolean;
+    alert_level?: 'Red' | 'Orange' | 'Green' | 'Cones' | null;
     alertlevel?: string;
     alertscore?: number;
     country?: string;
@@ -55,7 +57,6 @@ interface GdacsEventDetails {
         geometry?: string;
     },
 }
-
 interface GdacsPopulationExposure {
     death?: number;
     displaced?: number;
@@ -151,6 +152,12 @@ function EventDetails(props: Props) {
                     <TextOutput
                         label={strings.eventSeverityLabel}
                         value={eventDetails?.severitydata?.severitytext}
+                    />
+                )}
+                {isDefined(eventDetails?.alertlevel) && (
+                    <TextOutput
+                        label={strings.eventAlertType}
+                        value={eventDetails?.alertlevel}
                     />
                 )}
             </div>

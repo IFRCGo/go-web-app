@@ -35,6 +35,7 @@ type BaseProps = {
     title: React.ReactNode;
     bbox: LngLatBoundsLike | undefined;
     defaultSource?: ImminentEventSource;
+    alertType?:string;
 }
 
 type Props = BaseProps & ({
