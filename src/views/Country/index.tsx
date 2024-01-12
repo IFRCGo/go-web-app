@@ -62,15 +62,6 @@ export function Component() {
 
     const { isAuthenticated } = useAuth();
 
-    const {
-        pending: aggregatedAppealPending,
-        response: aggregatedAppealResponse,
-    } = useRequest({
-        skip: isNotDefined(countryId) || isRegion,
-        url: '/api/v2/appeal/aggregated',
-        query: { country: Number(countryId) },
-    });
-
     const outletContext = useMemo<CountryOutletContext>(
         () => ({
             countryId,
