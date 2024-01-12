@@ -45,7 +45,7 @@ export function Component() {
             />
             <TextOutput
                 label={strings.countryIndicatorsUrbanPopulationLabel}
-                value={`${indicatorResponse?.urban_population} %`}
+                value={isDefined(indicatorResponse?.urban_population) ? `${indicatorResponse?.urban_population} %` : undefined}
                 valueType="text"
                 strongValue
             />
@@ -63,7 +63,7 @@ export function Component() {
             />
             <TextOutput
                 label={strings.countryIndicatorsPovertyLabel}
-                value={`${indicatorResponse?.poverty} %`}
+                value={isDefined(indicatorResponse?.poverty) ? `${indicatorResponse?.poverty} %` : undefined}
                 valueType="text"
                 strongValue
             />
@@ -75,7 +75,7 @@ export function Component() {
             />
             <TextOutput
                 label={strings.countryIndicatorsLiteracyLabel}
-                value={`${indicatorResponse?.literacy} %`}
+                value={isDefined(indicatorResponse?.literacy) ? `${indicatorResponse?.literacy} %` : undefined}
                 valueType="text"
                 strongValue
             />
