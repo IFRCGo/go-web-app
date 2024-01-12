@@ -8,7 +8,7 @@ import { type CountryOutletContext } from '#utils/outletContext';
 
 import MembershipCoordinationTable from './MembershipCoordinationTable';
 import SupportingPartnersContacts from './SupportingPartnersContacts';
-import PresenceItem from './PresenceItem';
+import Presence from './Presence';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -44,7 +44,7 @@ export function Component() {
             >
                 {strings.gotoIfrcLinkLabel}
             </Link>
-            <PresenceItem />
+            <Presence />
             {countryResponse?.has_country_plan && (
                 <MembershipCoordinationTable
                     pending={countryPlanPending}
