@@ -1,7 +1,7 @@
 {
     "namespace": "common",
     "strings": {
-        "CopyErrorDetails": "Copy error details",
+        "alertCopyErrorDetails": "Copy error details",
         "closeButtonTitle": "Close"
     }
 }

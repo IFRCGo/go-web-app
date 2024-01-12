@@ -20,7 +20,6 @@ interface GdacsEventDetails {
         iso3: string;
         countryname: string;
     }[];
-    alert_sent?: boolean;
     alert_level?: 'Red' | 'Orange' | 'Green' | 'Cones' | null;
     alertlevel?: string;
     alertscore?: number;

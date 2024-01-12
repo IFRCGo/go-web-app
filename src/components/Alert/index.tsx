@@ -107,7 +107,6 @@ function Alert<N extends string>(props: Props<N>) {
                         onClick={handleCopyDebugMessageButtonClick}
                         variant="tertiary-on-dark"
                     >
-                        {/* FIXME: there is string in json file */}
                         {strings.alertCopyErrorDetails}
                     </Button>
                 </div>

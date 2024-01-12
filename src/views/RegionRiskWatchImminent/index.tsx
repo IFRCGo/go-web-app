@@ -4,6 +4,7 @@ import getBbox from '@turf/bbox';
 
 import RiskImminentEvents from '#components/domain/RiskImminentEvents';
 import { RegionOutletContext } from '#utils/outletContext';
+
 import styles from './styles.module.css';
 
 // TODO: Add historic data chart
@@ -16,6 +17,7 @@ export function Component() {
         () => (regionResponse ? getBbox(regionResponse.bbox) : undefined),
         [regionResponse],
     );
+    
     return (
         <div className={styles.regionImminentRiskWatch}>
             {regionResponse && (
