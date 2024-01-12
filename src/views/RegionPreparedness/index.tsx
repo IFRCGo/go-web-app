@@ -4,6 +4,8 @@ import { type RegionOutletContext, type RegionResponse } from '#utils/outletCont
 import HtmlOutput from '#components/HtmlOutput';
 import Container from '#components/Container';
 import List from '#components/List';
+import WikiLink from '#components/WikiLink';
+import Page from '#components/Page';
 
 import styles from './styles.module.css';
 
@@ -29,6 +31,11 @@ function Snippet(props: SnippetProps) {
             key={id}
             heading={title}
             withHeaderBorder
+            actions={(
+                <WikiLink
+                    href="user_guide/account"
+                />
+            )} 
         >
             <HtmlOutput
                 value={snippet}

@@ -8,10 +8,12 @@ import NavigationTab from '#components/NavigationTab';
 import NavigationTabList from '#components/NavigationTabList';
 import { resolveToComponent } from '#utils/translation';
 import useTranslation from '#hooks/useTranslation';
+import WikiLink from '#components/WikiLink';
 
 import i18n from './i18n.json';
 
 import styles from './styles.module.css';
+
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -30,6 +32,10 @@ export function Component() {
                 childrenContainerClassName={styles.approachContent}
                 actions={(
                     <>
+                        <WikiLink
+                            href=' https://go-wiki.ifrc.org/en/user_guide/Preparedness'
+                                
+                        />
                         <Link
                             href="mailto:PER.Team@ifrc.org"
                             external
@@ -37,11 +43,6 @@ export function Component() {
                         >
                             {strings.contactPerTeam}
                         </Link>
-                        {/* {strings.wikiJsLink?.length > 0 && (
-                            <WikiLink
-                                href=''
-                            />
-                        )} */}
                     </>
                 )}
             >
