@@ -31,11 +31,10 @@ import useTranslation from '#hooks/useTranslation';
 import useFilterState from '#hooks/useFilterState';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import { numericIdSelector } from '#utils/selectors';
-
+import WikiLink from '#components/WikiLink';
 import PerTableActions, { type Props as PerTableActionsProps } from './PerTableActions';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-import WikiLink from '#components/WikiLink';
 
 type AggregatedPerProcessStatusResponse = GoApiResponse<'/api/v2/aggregated-per-process-status/'>;
 type PerProcessStatusItem = NonNullable<AggregatedPerProcessStatusResponse['results']>[number];
@@ -207,22 +206,22 @@ export function Component() {
 
     return (
         <Container
-            actions={(
-                <WikiLink
-                    href=" https://go-wiki.ifrc.org/en/user_guide/Preparedness#register-or-update-a-per-process"
-                />
-            )}
             className={styles.accountPerForms}
             heading={strings.processStatusTitle}
             withHeaderBorder
-            /*actions={(
+            actions={(
+                <>
                     <Link
                         to="newPerOverviewForm"
                         variant="primary"
                     >
                         {strings.newProcessButtonLabel}
                     </Link>
-            )}*/
+                    <WikiLink
+                        href="https://go-wiki.ifrc.org/en/user_guide/Preparedness#register-or-update-a-per-process"
+                    />
+                </>
+            )}
             filtersContainerClassName={styles.filters}
             filters={(
                 <>

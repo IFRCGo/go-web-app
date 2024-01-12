@@ -13,8 +13,6 @@ import WikiLink from '#components/WikiLink';
 import i18n from './i18n.json';
 
 import styles from './styles.module.css';
-
-
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -32,10 +30,6 @@ export function Component() {
                 childrenContainerClassName={styles.approachContent}
                 actions={(
                     <>
-                        <WikiLink
-                            href=' https://go-wiki.ifrc.org/en/user_guide/Preparedness'
-                                
-                        />
                         <Link
                             href="mailto:PER.Team@ifrc.org"
                             external
@@ -43,6 +37,9 @@ export function Component() {
                         >
                             {strings.contactPerTeam}
                         </Link>
+                        <WikiLink
+                            href="https://go-wiki.ifrc.org/en/user_guide/Preparedness"
+                        />
                     </>
                 )}
             >

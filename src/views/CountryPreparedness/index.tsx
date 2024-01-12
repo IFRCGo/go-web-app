@@ -36,14 +36,12 @@ import {
     stringLabelSelector,
     stringTitleSelector,
 } from '#utils/selectors';
-
+import WikiLink from '#components/WikiLink';
 import PreviousAssessmentCharts from './PreviousAssessmentChart';
 import PublicCountryPreparedness from './PublicCountryPreparedness';
 import RatingByAreaChart from './RatingByAreaChart';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-import Actions from '#views/DrefOperationalUpdateForm/Actions';
-import { access } from 'fs';
 
 const primaryRedColorShades = [
     'var(--go-ui-color-red-90)',
@@ -404,12 +402,17 @@ export function Component() {
             headingLevel={2}
             withHeaderBorder
             actions={(
-                <TextOutput
-                    label={strings.lastUpdatedLabel}
-                    value={processStatusResponse?.updated_at}
-                    valueType="date"
-                    strongValue
-                />
+                <>
+                    <TextOutput
+                        label={strings.lastUpdatedLabel}
+                        value={processStatusResponse?.updated_at}
+                        valueType="date"
+                        strongValue
+                    />
+                    <WikiLink
+                        href="https://go-wiki.ifrc.org/en/user_guide/Preparedness#how-to-use-it"
+                    />
+                </>
             )}
         >
             <div className={styles.latestPerDetails}>
