@@ -4,7 +4,7 @@ import {
     useParams,
 } from 'react-router-dom';
 import { isDefined, isTruthyString } from '@togglecorp/fujs';
-mport { countryIdToRegionIdMap } from '#utils/domain/country';
+import { countryIdToRegionIdMap } from '#utils/domain/country';
 
 import Auth from '../Auth';
 import {
