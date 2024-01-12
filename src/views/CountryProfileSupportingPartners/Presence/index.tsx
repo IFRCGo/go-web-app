@@ -11,22 +11,22 @@ import { resolveToString } from '#utils/translation';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-function PresenceItem() {
+const legalStatusLink = 'https://idp.ifrc.org/SSO/SAMLLogin?loginToSp=https://fednet.ifrc.org&returnUrl=https://fednet.ifrc.org/PageFiles/255835/List%20States%20with%20Defined%20Legal%20Status%2025.07.2023_ENG.pdf';
+
+function Presence() {
     const strings = useTranslation(i18n);
 
     const { countryResponse } = useOutletContext<CountryOutletContext>();
-    const icrcPresenceDetail = countryResponse?.icrc_presence;
-
-    const legalStatusLink = 'https://idp.ifrc.org/SSO/SAMLLogin?loginToSp=https://fednet.ifrc.org&returnUrl=https://fednet.ifrc.org/PageFiles/255835/List%20States%20with%20Defined%20Legal%20Status%2025.07.2023_ENG.pdf';
 
     return (
-        <div className={styles.presenceList}>
+        <div className={styles.presence}>
             <Container
                 className={styles.presenceCard}
                 childrenContainerClassName={styles.presenceCardList}
                 heading={strings.countryIFRCPresenceTitle}
             >
                 <div className={styles.ifrcPresenceItem}>
+                    {/* //TODO: Add IFRC Delegation name */}
                     <TextOutput
                         label={strings.countryIFRCPresenceHeadOfDelegation}
                         value={undefined}
@@ -41,6 +41,7 @@ function PresenceItem() {
                     </Link>
                 </div>
                 <div className={styles.ifrcPresenceItem}>
+                    {/* //TODO: Add IFRC Delegation contact */}
                     <TextOutput
                         label={strings.countryIFRCContact}
                         value={undefined}
@@ -55,7 +56,7 @@ function PresenceItem() {
                     </Link>
                 </div>
             </Container>
-            {icrcPresenceDetail?.map((icrc) => (
+            {countryResponse?.icrc_presence && (
                 <Container
                     className={styles.presenceCard}
                     heading={strings.countryICRCPresenceTitle}
@@ -65,25 +66,27 @@ function PresenceItem() {
                         strings.countryICRCConfirmedPartner,
                         { year: getCurrentMonthYear() },
                     )}
-                    <div className={styles.icrcPresenceItem}>
-                        <Link
-                            key={icrc.id}
-                            href={icrc.url}
-                            external
-                            variant="tertiary"
-                            withUnderline
-                        >
-                            {strings.countryICRCKeyOperations}
-                        </Link>
-                        {resolveToString(
-                            strings.countryICRCWithin,
-                            { name: countryResponse?.name ?? '--' },
-                        )}
-                    </div>
+                    {countryResponse?.icrc_presence.key_operation && (
+                        <div className={styles.icrcPresenceItem}>
+                            <Link
+                                key={countryResponse?.icrc_presence.id}
+                                href={countryResponse?.icrc_presence.url}
+                                external
+                                variant="tertiary"
+                                withUnderline
+                            >
+                                {strings.countryICRCKeyOperations}
+                            </Link>
+                            {resolveToString(
+                                strings.countryICRCWithin,
+                                { name: countryResponse?.name ?? '--' },
+                            )}
+                        </div>
+                    )}
                 </Container>
-            ))}
+            )}
         </div>
     );
 }
 
-export default PresenceItem;
+export default Presence;
