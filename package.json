@@ -84,7 +84,7 @@
         "postcss-normalize": "^10.0.1",
         "postcss-preset-env": "^8.3.2",
         "postinstall-postinstall": "^2.1.0",
-        "rollup-plugin-visualizer": "^5.9.0",
+        "rollup-plugin-visualizer": "^5.12.0",
         "stylelint": "^15.6.1",
         "stylelint-config-concentric": "^2.0.2",
         "stylelint-config-recommended": "^12.0.0",
