@@ -36,7 +36,6 @@ type PersonnelTableItem = NonNullable<GoApiResponse<'/api/v2/personnel/'>['resul
 function keySelector(personnel: PersonnelTableItem) {
     return personnel.id;
 }
-const now = new Date().toISOString();
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -72,7 +71,6 @@ export function Component() {
         limit,
         offset,
         ordering,
-        end_date__gt: now,
         // FIXME: The server does not support date string
         start_date__gte: toDateTimeString(filter.startDateAfter),
         start_date__lte: toDateTimeString(filter.startDateBefore),
