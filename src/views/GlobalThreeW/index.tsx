@@ -300,7 +300,7 @@ export function Component() {
                         <iframe
                             title={strings.PPPMapTitle}
                             className={styles.pppIframe}
-                            src="https://public.tableau.com/views/PPPdashboard_16805965348010/1_OVERVIEW?:language=en-US&:display_count=n&:origin=viz_share_link?:embed=yes&:display_count=yes&:showVizHome=no&:toolbar=yes"
+                            src="https://public.tableau.com/views/PPPdashboard_16805965348010/1_Overview?:showVizHome=no&:embed=true:language=en-US&:origin=viz_share_link&:display_count=yes&:toolbar=yes"
                         />
                     </Container>
                 </>
