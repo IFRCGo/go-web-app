@@ -141,13 +141,15 @@ export default function RapidResponsePersonnelTable(props: Props) {
                 strings.personnelTableDeployedParty,
                 (item) => item.country_from?.society_name,
                 (item) => {
-                    if (item.country_from?.id) {
+                    if (isDefined(item.country_from?.record_type === 3)) {
                         return {
-                            to: 'countriesLayout',
-                            urlParams: { countryId: item.country_from?.id },
+                            to: undefined,
                         };
                     }
-                    return strings.emergencySurgePartyNotFound;
+                    return {
+                        to: 'countriesLayout',
+                        urlParams: { countryId: item.country_from?.id },
+                    };
                 },
                 { sortable: true },
             ),
@@ -183,7 +185,6 @@ export default function RapidResponsePersonnelTable(props: Props) {
             strings.personnelTableDeployedParty,
             strings.personnelTableDeployedTo,
             strings.personnelTableName,
-            strings.emergencySurgePartyNotFound,
             getTypeName,
             dateRange,
         ],
