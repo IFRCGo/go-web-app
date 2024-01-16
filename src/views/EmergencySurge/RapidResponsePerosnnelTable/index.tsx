@@ -183,6 +183,7 @@ export default function RapidResponsePersonnelTable(props: Props) {
             strings.personnelTableDeployedParty,
             strings.personnelTableDeployedTo,
             strings.personnelTableName,
+            strings.emergencySurgePartyNotFound,
             getTypeName,
             dateRange,
         ],
