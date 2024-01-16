@@ -140,15 +140,11 @@ export default function RapidResponsePersonnelTable(props: Props) {
                 'country_from',
                 strings.personnelTableDeployedParty,
                 (item) => item.country_from?.society_name,
-                (item) => {
-                    if (item.country_from?.id) {
-                        return {
-                            to: 'countriesLayout',
-                            urlParams: { countryId: item.country_from?.id },
-                        };
-                    }
-                    return strings.emergencySurgePartyNotFound;
-                },
+                (item) => ({
+                    to: 'countriesLayout',
+                    urlParams: { countryId: item.country_from?.id },
+                }),
+
                 { sortable: true },
             ),
             createLinkColumn<PersonnelTableItem, number>(
