@@ -30,6 +30,7 @@ import Table from '#components/Table';
 import DateInput from '#components/DateInput';
 import useFilterState from '#hooks/useFilterState';
 
+import { isDefined } from '@togglecorp/fujs';
 import i18n from './i18n.json';
 
 type PersonnelTableItem = NonNullable<GoApiResponse<'/api/v2/personnel/'>['results']>[number];
@@ -131,10 +132,17 @@ export function Component() {
                     item.country_from?.society_name
                     || item.country_from?.name
                 ),
-                (item) => ({
-                    to: 'countriesLayout',
-                    urlParams: { countryId: item.country_from?.id },
-                }),
+                (item) => {
+                    if (isDefined(item.country_from?.record_type === 3)) {
+                        return {
+                            to: undefined,
+                        };
+                    }
+                    return {
+                        to: 'countriesLayout',
+                        urlParams: { countryId: item.country_from?.id },
+                    };
+                },
                 { sortable: true },
             ),
             createLinkColumn<PersonnelTableItem, number>(
