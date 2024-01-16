@@ -507,7 +507,6 @@ export function Component() {
                             />
                         </Container>
                     )}
-
                     {eventDescriptionDefined && (
                         <Container
                             heading={drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
