@@ -123,6 +123,7 @@ export function Component() {
                 (item) => getTypeName(item.type),
                 { sortable: true },
             ),
+            // NOTE:We don't have proper mapping for region
             createLinkColumn<PersonnelTableItem, number>(
                 'country_from',
                 strings.personnelTableDeployingParty,
