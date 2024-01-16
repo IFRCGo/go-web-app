@@ -39,6 +39,8 @@
         }
 
         .iframe-content {
+            padding-right: 12%;
+            padding-left: 12%;
             .ppp-iframe {
                 border: none;
                 width: 100%;
