@@ -9,7 +9,7 @@ import {
 import KeyFigure from '#components/KeyFigure';
 import useTranslation from '#hooks/useTranslation';
 import SurgeTable from './SurgeTable';
-import RapidResponsePersonnelTable from './RapidResponsePerosnnelTable';
+import RapidResponsePersonnelTable from './RapidResponsePersonnelTable';
 import DeployedErusTable from './DeployedErusTable';
 
 import i18n from './i18n.json';
