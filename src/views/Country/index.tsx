@@ -1,5 +1,10 @@
-import { useParams, Outlet } from 'react-router-dom';
-import { useMemo } from 'react';
+import {
+    useParams,
+    Outlet,
+    Navigate,
+    generatePath,
+} from 'react-router-dom';
+import { useContext, useMemo } from 'react';
 import {
     DrefIcon,
     AppealsIcon,
@@ -34,7 +39,20 @@ import { useRequest } from '#utils/restRequest';
 import { type CountryOutletContext } from '#utils/outletContext';
 import { resolveToString } from '#utils/translation';
 import { getPercentage } from '#utils/common';
+import {
+    COUNTRY_AFRICA_REGION,
+    COUNTRY_AMERICAS_REGION,
+    COUNTRY_ASIA_REGION,
+    COUNTRY_EUROPE_REGION,
+    COUNTRY_MENA_REGION,
+    REGION_AFRICA,
+    REGION_AMERICAS,
+    REGION_ASIA,
+    REGION_EUROPE,
+    REGION_MENA,
+} from '#utils/constants';
 import { adminUrl } from '#config';
+import RouteContext from '#contexts/route';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -42,17 +60,26 @@ import styles from './styles.module.css';
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { countryId } = useParams<{ countryId: string }>();
+    const { regionIndex } = useContext(RouteContext);
 
     const strings = useTranslation(i18n);
     const country = useCountry({ id: Number(countryId) });
     const region = useRegion({ id: country?.region });
+
+    const numericCountryId = isDefined(countryId) ? Number(countryId) : undefined;
+
+    const isRegion = numericCountryId === COUNTRY_ASIA_REGION
+        || numericCountryId === COUNTRY_AFRICA_REGION
+        || numericCountryId === COUNTRY_AMERICAS_REGION
+        || numericCountryId === COUNTRY_EUROPE_REGION
+        || numericCountryId === COUNTRY_MENA_REGION;
 
     const {
         pending: countryResponsePending,
         response: countryResponse,
         error: countryResponseError,
     } = useRequest({
-        skip: isNotDefined(countryId),
+        skip: isNotDefined(countryId) || isRegion,
         url: '/api/v2/country/{id}/',
         pathVariables: {
             id: Number(countryId),
@@ -65,7 +92,7 @@ export function Component() {
         pending: aggregatedAppealPending,
         response: aggregatedAppealResponse,
     } = useRequest({
-        skip: isNotDefined(countryId),
+        skip: isNotDefined(countryId) || isRegion,
         url: '/api/v2/appeal/aggregated',
         query: { country: Number(countryId) },
     });
@@ -94,6 +121,30 @@ export function Component() {
         strings.countryPageTitle,
         { countryName: country?.name ?? strings.countryPageTitleFallbackCountry },
     );
+
+    if (isRegion) {
+        const countryIdToRegionIdMap: Record<number, number> = {
+            [COUNTRY_AFRICA_REGION]: REGION_AFRICA,
+            [COUNTRY_AMERICAS_REGION]: REGION_AMERICAS,
+            [COUNTRY_ASIA_REGION]: REGION_ASIA,
+            [COUNTRY_EUROPE_REGION]: REGION_EUROPE,
+            [COUNTRY_MENA_REGION]: REGION_MENA,
+        };
+
+        const regionId = countryIdToRegionIdMap[numericCountryId];
+
+        const regionPath = generatePath(
+            regionIndex.absoluteForwardPath,
+            { regionId },
+        );
+
+        return (
+            <Navigate
+                to={regionPath}
+                replace
+            />
+        );
+    }
 
     if (isDefined(countryResponseError)) {
         return (
