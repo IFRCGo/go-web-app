@@ -9,3 +9,8 @@
 .timeline-cell-container {
     position: relative;
 }
+
+.date-column {
+    width: 0%;
+    min-width: 7rem;
+}

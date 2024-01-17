@@ -22,7 +22,8 @@ import i18n from './i18n.json';
 
 type SurgeResponse = GoApiResponse<'/api/v2/surge_alert/'>;
 type SurgeListItem = NonNullable<SurgeResponse['results']>[number];
-const today = new Date().getTime();
+const now = new Date();
+const nowTimestamp = now.getTime();
 
 function getPositionString(alert: SurgeListItem) {
     if (isNotDefined(alert.molnix_id)) {
@@ -66,6 +67,10 @@ export default function SurgeTable(props: Props) {
             event: Number(emergencyId),
             limit,
             offset,
+
+            // NOTE: following filters are required
+            is_active: true,
+            end__gte: now.toISOString(),
         },
     });
 
@@ -74,7 +79,9 @@ export default function SurgeTable(props: Props) {
             if (alert.is_stood_down) {
                 return strings.surgeAlertStoodDown;
             }
-            const closed = isDefined(alert.end) ? new Date(alert.end).getTime() < today : undefined;
+            const closed = isDefined(alert.end)
+                ? new Date(alert.end).getTime() < nowTimestamp
+                : undefined;
             return closed ? strings.surgeAlertClosed : strings.surgeAlertOpen;
         },
         [
@@ -188,8 +195,9 @@ export default function SurgeTable(props: Props) {
                     to="allSurgeAlerts"
                     withLinkIcon
                     withUnderline
+                    urlSearch={isDefined(emergencyId) ? `event=${emergencyId}` : undefined}
                 >
-                    {strings.surgeAlertsViewAll}
+                    {strings.surgeAlertsViewAllForCurrentEmergency}
                 </Link>
             )}
             footerActions={(

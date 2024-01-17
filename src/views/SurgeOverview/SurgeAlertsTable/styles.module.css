@@ -2,11 +2,4 @@
     display: flex;
     flex-direction: column;
     gap: var(--go-ui-spacing-lg);
-
-    .table {
-        .created-at-date {
-            width: 0%;
-            min-width: 9rem;
-        }
-    }
 }

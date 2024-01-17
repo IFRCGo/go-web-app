@@ -244,7 +244,7 @@ export function createDateColumn<D, K>(
     } = {
         id,
         title,
-        columnClassName: options?.columnClassName,
+        columnClassName: _cs(options?.columnClassName, styles.dateColumn),
         headerCellRenderer: HeaderCell,
         headerCellRendererClassName: options?.headerCellRendererClassName,
         headerContainerClassName: options?.headerContainerClassName,

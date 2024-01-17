@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from 'react';
+import { useMemo, useCallback, useState } from 'react';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
 import Papa from 'papaparse';
 import { saveAs } from 'file-saver';
@@ -13,6 +13,8 @@ import {
     createDateColumn,
     createLinkColumn,
 } from '#components/Table/ColumnShortcuts';
+import NumberOutput from '#components/NumberOutput';
+import EventSearchSelectInput from '#components/domain/EventSearchSelectInput';
 import useTranslation from '#hooks/useTranslation';
 import useFilterState from '#hooks/useFilterState';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
@@ -21,6 +23,8 @@ import useAlert from '#hooks/useAlert';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import { numericIdSelector } from '#utils/selectors';
 import { getDuration } from '#utils/common';
+import CountrySelectInput from '#components/domain/CountrySelectInput';
+import useUrlSearchState from '#hooks/useUrlSearchState';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -28,8 +32,11 @@ import styles from './styles.module.css';
 type SurgeResponse = GoApiResponse<'/api/v2/surge_alert/'>;
 type SurgeListItem = NonNullable<SurgeResponse['results']>[number];
 
+type GetEventResponse = GoApiResponse<'/api/v2/event/mini/'>;
+export type EventItem = Pick<NonNullable<GetEventResponse['results']>[number], 'id' | 'name' | 'dtype'>;
+
 type TableKey = number;
-const today = new Date().getTime();
+const nowTimestamp = new Date().getTime();
 
 function getPositionString(alert: SurgeListItem) {
     if (isNotDefined(alert.molnix_id)) {
@@ -60,6 +67,68 @@ export function Component() {
         pageSize: 15,
     });
 
+    const [countryFilter, setCountryFilter] = useUrlSearchState<number | undefined>(
+        'country',
+        (searchValue) => {
+            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
+            return potentialValue;
+        },
+        (country) => country,
+    );
+
+    const [eventFilter, setEventFilter] = useUrlSearchState<number | undefined>(
+        'event',
+        (searchValue) => {
+            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
+            return potentialValue;
+        },
+        (country) => country,
+    );
+
+    const [eventOptions, setEventOptions] = useState<
+        EventItem[] | undefined | null
+    >([]);
+
+    useRequest({
+        skip: isNotDefined(eventFilter)
+            || (!!eventOptions?.find((event) => event.id === eventFilter)),
+        url: '/api/v2/event/{id}/',
+        pathVariables: isDefined(eventFilter) ? {
+            id: eventFilter,
+        } : undefined,
+        onSuccess: (response) => {
+            if (isNotDefined(response)) {
+                return;
+            }
+
+            const {
+                id,
+                dtype,
+                name,
+            } = response;
+
+            if (isNotDefined(id) || isNotDefined(dtype) || isNotDefined(name)) {
+                return;
+            }
+
+            const newOption = {
+                id,
+                dtype: {
+                    id: dtype,
+                    translation_module_original_language: 'en' as const,
+                    name: undefined,
+                    summary: undefined,
+                },
+                name,
+            };
+
+            setEventOptions((prevOptions) => ([
+                ...prevOptions ?? [],
+                newOption,
+            ]));
+        },
+    });
+
     const {
         response: surgeResponse,
         pending: surgeResponsePending,
@@ -69,6 +138,8 @@ export function Component() {
         query: {
             limit,
             offset,
+            event: eventFilter,
+            country: countryFilter,
         },
     });
 
@@ -78,8 +149,14 @@ export function Component() {
             if (surgeAlert.is_stood_down) {
                 return strings.surgeAlertStoodDown;
             }
-            const closed = isDefined(surgeAlert.end)
-                ? new Date(surgeAlert.end).getTime() < today : undefined;
+            const endDate = isDefined(surgeAlert.end)
+                ? new Date(surgeAlert.end)
+                : undefined;
+
+            const closed = isDefined(endDate)
+                ? endDate.getTime() < nowTimestamp
+                : false;
+
             return closed ? strings.surgeAlertClosed : strings.surgeAlertOpen;
         },
         [
@@ -216,7 +293,7 @@ export function Component() {
 
     const heading = resolveToComponent(
         strings.allSurgeAlertsHeading,
-        { numSurgeAlerts: surgeResponse?.count ?? '--' },
+        { numSurgeAlerts: <NumberOutput value={surgeResponse?.count} invalidText="--" /> },
     );
 
     return (
@@ -226,6 +303,29 @@ export function Component() {
             heading={heading}
         >
             <Container
+                withHeaderBorder
+                withGridViewInFilter
+                filters={(
+                    <>
+                        <CountrySelectInput
+                            name="country"
+                            label={strings.countryFilterLabel}
+                            placeholder={strings.defaultPlaceholder}
+                            value={countryFilter}
+                            onChange={setCountryFilter}
+                        />
+                        <EventSearchSelectInput
+                            name="event"
+                            label={strings.eventFilterLabel}
+                            placeholder={strings.defaultPlaceholder}
+                            value={eventFilter}
+                            onChange={setEventFilter}
+                            options={eventOptions}
+                            onOptionsChange={setEventOptions}
+                            countryId={countryFilter}
+                        />
+                    </>
+                )}
                 footerActions={(
                     <Pager
                         activePage={page}
