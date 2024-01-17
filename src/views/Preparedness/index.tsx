@@ -28,6 +28,7 @@ export function Component() {
                 heading={strings.preparednessApproachSection}
                 withHeaderBorder
                 childrenContainerClassName={styles.approachContent}
+                actionsContainerClassName={styles.actionsContainer}
                 actions={(
                     <>
                         <Link
@@ -38,7 +39,7 @@ export function Component() {
                             {strings.contactPerTeam}
                         </Link>
                         <WikiLink
-                            href="https://go-wiki.ifrc.org/en/user_guide/Preparedness"
+                            href="user_guide/Preparedness"
                         />
                     </>
                 )}

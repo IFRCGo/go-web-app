@@ -209,6 +209,7 @@ export function Component() {
             className={styles.accountPerForms}
             heading={strings.processStatusTitle}
             withHeaderBorder
+            actionsContainerClassName={styles.actionsContainer}
             actions={(
                 <>
                     <Link
@@ -218,7 +219,7 @@ export function Component() {
                         {strings.newProcessButtonLabel}
                     </Link>
                     <WikiLink
-                        href="https://go-wiki.ifrc.org/en/user_guide/Preparedness#register-or-update-a-per-process"
+                        href="user_guide/Preparedness#register-or-update-a-per-process"
                     />
                 </>
             )}

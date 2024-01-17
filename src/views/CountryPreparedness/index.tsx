@@ -399,6 +399,7 @@ export function Component() {
             className={styles.countryPreparedness}
             childrenContainerClassName={styles.preparednessContent}
             heading={strings.nsPreparednessAndResponseCapacityHeading}
+            actionsContainerClassName={styles.actionsContainer}
             headingLevel={2}
             withHeaderBorder
             actions={(
@@ -410,7 +411,7 @@ export function Component() {
                         strongValue
                     />
                     <WikiLink
-                        href="https://go-wiki.ifrc.org/en/user_guide/Preparedness#how-to-use-it"
+                        href="user_guide/Preparedness#how-to-use-it"
                     />
                 </>
             )}
