@@ -1,8 +1,7 @@
 {
     "namespace": "surgeOverview",
     "strings": {
-        "eruOwnersTableHeading": "National Societies",
-        "eruOwnersTableFilterReady": "Filter Ready ERUs",
+        "readinessTitle": "Ready ERUs by National Society ({count})",
         "eruOwnersTableFilterClear": "Reset Filters"
     }
 }

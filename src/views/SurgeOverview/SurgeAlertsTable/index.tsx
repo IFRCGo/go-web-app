@@ -29,7 +29,8 @@ const aMonthAgo = new Date();
 aMonthAgo.setMonth(aMonthAgo.getMonth() - 1);
 aMonthAgo.setHours(0, 0, 0, 0);
 
-const today = new Date().getTime();
+const today = new Date();
+const todayTimestamp = today.getTime();
 
 // If alert comes from Molnix, only show first part of message as position.
 function getPositionString(alert: SurgeAlertListItem) {
@@ -72,9 +73,12 @@ function SurgeAlertsTable() {
         query: {
             limit,
             offset,
-            is_active: true,
             created_at__gte: aMonthAgo.toISOString(),
             ordering,
+
+            // NOTE: following filters are required
+            is_active: true,
+            end__gte: today.toISOString(),
         },
     });
 
@@ -82,7 +86,7 @@ function SurgeAlertsTable() {
         if (alert.is_stood_down) {
             return strings.surgeAlertStoodDown;
         }
-        const closed = alert.end ? new Date(alert.end).getTime() < today : undefined;
+        const closed = alert.end ? new Date(alert.end).getTime() < todayTimestamp : undefined;
         if (closed) {
             return strings.surgeAlertClosed;
         }
@@ -98,10 +102,7 @@ function SurgeAlertsTable() {
             'created_at',
             strings.surgeAlertsTableAlertDate,
             (surgeAlert) => surgeAlert.created_at,
-            {
-                sortable: true,
-                columnClassName: styles.createdAtDate,
-            },
+            { sortable: true },
         ),
         createStringColumn<SurgeAlertListItem, number>(
             'duration',
@@ -205,7 +206,6 @@ function SurgeAlertsTable() {
             <SortContext.Provider value={sortState}>
                 <Table
                     pending={surgeAlertsPending}
-                    className={styles.table}
                     columns={columns}
                     keySelector={surgeAlertKeySelector}
                     data={surgeAlertsResponse?.results}

@@ -32,7 +32,7 @@ function PersonnelByEventTable() {
         offset,
     } = useFilterState<object>({
         filter: {},
-        pageSize: 25,
+        pageSize: 6,
     });
 
     const strings = useTranslation(i18n);

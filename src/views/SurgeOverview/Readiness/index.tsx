@@ -82,6 +82,10 @@ function Readiness() {
         <Container
             className={styles.eruOwnersTable}
             withHeaderBorder
+            heading={resolveToString(
+                strings.readinessTitle,
+                { count: eruOwnersResponse?.count ?? '--' },
+            )}
             footerActions={(
                 <Pager
                     activePage={page}
@@ -91,51 +95,40 @@ function Readiness() {
                 />
             )}
             childrenContainerClassName={styles.content}
-            filtersContainerClassName={styles.filters}
-            filters={(
-                <Container
-                    heading={strings.eruOwnersTableFilterReady}
-                    headingLevel={3}
-                    childrenContainerClassName={styles.filterContainer}
+            actions={(
+                <Button
+                    name={undefined}
+                    variant="secondary"
+                    onClick={handleClearFilter}
+                    disabled={!filtered}
                 >
-                    <CheckList
-                        listContainerClassName={styles.checklistContainer}
-                        name="selectedERUTypes"
-                        options={deployments_eru_type}
-                        value={rawFilter.selectedERUTypes}
-                        keySelector={emergencyResponseUnitTypeKeySelector}
-                        labelSelector={emergencyResponseUnitTypeLabelSelector}
-                        onChange={setFilterField}
-                    />
-                    <Button
-                        name={undefined}
-                        variant="secondary"
-                        onClick={handleClearFilter}
-                        disabled={!filtered}
-                    >
-                        {strings.eruOwnersTableFilterClear}
-                    </Button>
-                </Container>
+                    {strings.eruOwnersTableFilterClear}
+                </Button>
+            )}
+            withGridViewInFilter
+            filters={(
+                <CheckList
+                    className={styles.checklist}
+                    listContainerClassName={styles.checklistContainer}
+                    name="selectedERUTypes"
+                    options={deployments_eru_type}
+                    value={rawFilter.selectedERUTypes}
+                    keySelector={emergencyResponseUnitTypeKeySelector}
+                    labelSelector={emergencyResponseUnitTypeLabelSelector}
+                    onChange={setFilterField}
+                />
             )}
         >
-            <Container
-                heading={resolveToString(
-                    strings.eruOwnersTableHeading,
-                    { count: eruOwnersResponse?.count },
-                )}
-                headingLevel={3}
-            >
-                <Grid
-                    numPreferredColumns={3}
-                    data={eruOwnersResponse?.results}
-                    pending={eruOwnersPending}
-                    errored={isDefined(eruOwnersError)}
-                    filtered={filtered}
-                    keySelector={eruOwnerKeySelector}
-                    renderer={EmergencyResponseUnitOwnerCard}
-                    rendererParams={rendererParams}
-                />
-            </Container>
+            <Grid
+                numPreferredColumns={3}
+                data={eruOwnersResponse?.results}
+                pending={eruOwnersPending}
+                errored={isDefined(eruOwnersError)}
+                filtered={filtered}
+                keySelector={eruOwnerKeySelector}
+                renderer={EmergencyResponseUnitOwnerCard}
+                rendererParams={rendererParams}
+            />
         </Container>
     );
 }

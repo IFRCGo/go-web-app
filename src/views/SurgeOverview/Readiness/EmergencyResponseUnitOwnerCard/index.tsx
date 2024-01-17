@@ -71,7 +71,7 @@ function EmergencyResponseUnitOwnerCard(props: Props) {
             className={_cs(styles.emergencyResponseUnitOwnerCard, className)}
             withInternalPadding
             withHeaderBorder
-            spacing="comfortable"
+            spacing="default"
             heading={(
                 <Link
                     to="countriesLayout"

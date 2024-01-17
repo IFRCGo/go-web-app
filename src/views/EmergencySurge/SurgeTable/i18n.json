@@ -13,7 +13,7 @@
         "surgeAlertOpen": "Open",
         "surgeAlertClosed": "Closed",
         "surgeAlertStoodDown": "Stood down",
-        "surgeAlertsViewAll": "View All Surge Alerts",
+        "surgeAlertsViewAllForCurrentEmergency": "View all Surge Alerts for this Emergency",
         "emergencySurgeImmediately": "Immediately"
     }
 }
