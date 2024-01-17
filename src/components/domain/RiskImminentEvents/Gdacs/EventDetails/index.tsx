@@ -55,7 +55,6 @@ interface GdacsEventDetails {
         geometry?: string;
     },
 }
-
 interface GdacsPopulationExposure {
     death?: number;
     displaced?: number;
@@ -151,6 +150,12 @@ function EventDetails(props: Props) {
                     <TextOutput
                         label={strings.eventSeverityLabel}
                         value={eventDetails?.severitydata?.severitytext}
+                    />
+                )}
+                {isDefined(eventDetails?.alertlevel) && (
+                    <TextOutput
+                        label={strings.eventAlertType}
+                        value={eventDetails?.alertlevel}
                     />
                 )}
             </div>

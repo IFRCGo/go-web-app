@@ -2,6 +2,11 @@
     padding: var(--go-ui-spacing-2xl) 0;
     min-height: 40vh;
 
+    .actions-container {
+        display: flex;
+        align-items: center;
+    }
+
     .preparedness-content {
         display: grid;
         grid-gap: var(--go-ui-spacing-lg);

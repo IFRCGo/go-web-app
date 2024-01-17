@@ -7,6 +7,10 @@
         grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
     }
 
+    .actions-container {
+        display: flex;
+        align-items: center;
+    }
     .sub-cell {
         border-bottom: unset;
         background-color: var(--go-ui-color-gray-20);

@@ -31,7 +31,7 @@ import useTranslation from '#hooks/useTranslation';
 import useFilterState from '#hooks/useFilterState';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import { numericIdSelector } from '#utils/selectors';
-
+import WikiLink from '#components/WikiLink';
 import PerTableActions, { type Props as PerTableActionsProps } from './PerTableActions';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -209,13 +209,19 @@ export function Component() {
             className={styles.accountPerForms}
             heading={strings.processStatusTitle}
             withHeaderBorder
+            actionsContainerClassName={styles.actionsContainer}
             actions={(
-                <Link
-                    to="newPerOverviewForm"
-                    variant="primary"
-                >
-                    {strings.newProcessButtonLabel}
-                </Link>
+                <>
+                    <Link
+                        to="newPerOverviewForm"
+                        variant="primary"
+                    >
+                        {strings.newProcessButtonLabel}
+                    </Link>
+                    <WikiLink
+                        href="user_guide/Preparedness#register-or-update-a-per-process"
+                    />
+                </>
             )}
             filtersContainerClassName={styles.filters}
             filters={(

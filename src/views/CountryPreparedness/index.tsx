@@ -36,7 +36,7 @@ import {
     stringLabelSelector,
     stringTitleSelector,
 } from '#utils/selectors';
-
+import WikiLink from '#components/WikiLink';
 import PreviousAssessmentCharts from './PreviousAssessmentChart';
 import PublicCountryPreparedness from './PublicCountryPreparedness';
 import RatingByAreaChart from './RatingByAreaChart';
@@ -399,15 +399,21 @@ export function Component() {
             className={styles.countryPreparedness}
             childrenContainerClassName={styles.preparednessContent}
             heading={strings.nsPreparednessAndResponseCapacityHeading}
+            actionsContainerClassName={styles.actionsContainer}
             headingLevel={2}
             withHeaderBorder
             actions={(
-                <TextOutput
-                    label={strings.lastUpdatedLabel}
-                    value={processStatusResponse?.updated_at}
-                    valueType="date"
-                    strongValue
-                />
+                <>
+                    <TextOutput
+                        label={strings.lastUpdatedLabel}
+                        value={processStatusResponse?.updated_at}
+                        valueType="date"
+                        strongValue
+                    />
+                    <WikiLink
+                        href="user_guide/Preparedness#how-to-use-it"
+                    />
+                </>
             )}
         >
             <div className={styles.latestPerDetails}>

@@ -8,11 +8,11 @@ import NavigationTab from '#components/NavigationTab';
 import NavigationTabList from '#components/NavigationTabList';
 import { resolveToComponent } from '#utils/translation';
 import useTranslation from '#hooks/useTranslation';
+import WikiLink from '#components/WikiLink';
 
 import i18n from './i18n.json';
 
 import styles from './styles.module.css';
-
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -28,6 +28,7 @@ export function Component() {
                 heading={strings.preparednessApproachSection}
                 withHeaderBorder
                 childrenContainerClassName={styles.approachContent}
+                actionsContainerClassName={styles.actionsContainer}
                 actions={(
                     <>
                         <Link
@@ -37,11 +38,9 @@ export function Component() {
                         >
                             {strings.contactPerTeam}
                         </Link>
-                        {/* {strings.wikiJsLink?.length > 0 && (
-                            <WikiLink
-                                href=''
-                            />
-                        )} */}
+                        <WikiLink
+                            href="user_guide/Preparedness"
+                        />
                     </>
                 )}
             >
