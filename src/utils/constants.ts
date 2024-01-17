@@ -157,3 +157,10 @@ export const REGION_AMERICAS = 1;
 export const REGION_ASIA = 2;
 export const REGION_EUROPE = 3;
 export const REGION_MENA = 4;
+
+type CountryRecordTypeEnum = components<'read'>['schemas']['RecordTypeEnum'];
+export const COUNTRY_RECORD_TYPE_COUNTRY = 1 satisfies CountryRecordTypeEnum;
+export const COUNTRY_RECORD_TYPE_CLUSTER = 2 satisfies CountryRecordTypeEnum;
+export const COUNTRY_RECORD_TYPE_REGION = 3 satisfies CountryRecordTypeEnum;
+export const COUNTRY_RECORD_TYPE_COUNTRY_OFFICE = 4 satisfies CountryRecordTypeEnum;
+export const COUNTRY_RECORD_TYPE_REPRESENTATIVE_OFFICE = 5 satisfies CountryRecordTypeEnum;
