@@ -41,6 +41,10 @@ import DistrictSearchMultiSelectInput, {
 import UserItem from '#components/domain/DrefShareModal/UserItem';
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
 import useDisasterType from '#hooks/domain/useDisasterType';
+import {
+    DISASTER_CATEGORY_ORANGE,
+    DISASTER_CATEGORY_RED,
+} from '#utils/constants';
 
 import {
     DISASTER_FIRE,
@@ -308,8 +312,8 @@ function Overview(props: Props) {
                         />
                     </InputSection>
                     {(
-                        value?.disaster_category === 1
-                        || value?.disaster_category === 2)
+                        value?.disaster_category === DISASTER_CATEGORY_ORANGE
+                        || value?.disaster_category === DISASTER_CATEGORY_RED)
                         && (
                             <InputSection title={strings.drefFormUploadCrisisDocument}>
                                 <GoSingleFileInput
