@@ -2437,12 +2437,31 @@ const allSurgeAlerts = customWrapRoute({
     },
 });
 
+type AllDeployedPersonnelPath = 'deployed-personnels/all';
 const allDeployedPersonnel = customWrapRoute({
     parent: rootLayout,
-    path: 'deployed-personnels/all',
+    path: 'deployed-personnels/all' satisfies AllDeployedPersonnelPath,
     component: {
         render: () => import('#views/AllDeployedPersonnel'),
         props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'All Deployed Personnel',
+        visibility: 'anything',
+    },
+});
+
+const allDeployedPersonnelOld = customWrapRoute({
+    parent: rootLayout,
+    path: 'personnels/all',
+    component: {
+        eagerLoad: true,
+        render: Navigate,
+        props: {
+            to: 'deployed-personnels/all' satisfies AllDeployedPersonnelPath,
+            replace: true,
+        },
     },
     wrapperComponent: Auth,
     context: {
@@ -3033,6 +3052,7 @@ const wrappedRoutes = {
     allSurgeAlerts,
     allFlashUpdates,
     allDeployedPersonnel,
+    allDeployedPersonnelOld,
     allDeployedEmergencyResponseUnits,
     newDrefApplicationForm,
     drefApplicationForm,
