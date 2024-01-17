@@ -310,7 +310,7 @@ function Overview(props: Props) {
                     {(
                         value?.disaster_category === 1
                         || value?.disaster_category === 2)
-                        ? (
+                        && (
                             <InputSection title={strings.drefFormUploadCrisisDocument}>
                                 <GoSingleFileInput
                                     name="disaster_category_analysis"
@@ -327,8 +327,6 @@ function Overview(props: Props) {
                                     {strings.drefFormUploadDocumentButtonLabel}
                                 </GoSingleFileInput>
                             </InputSection>
-                        ) : (
-                            <div />
                         )}
                 </Container>
                 <InputSection
