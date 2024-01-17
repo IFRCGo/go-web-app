@@ -39,12 +39,14 @@
         }
 
         .iframe-content {
-            padding-right: 12%;
-            padding-left: 12%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
             .ppp-iframe {
                 border: none;
-                width: 100%;
-                height: 54rem;
+                width: 1050px;
+                height: 850px;
             }
         }
     }
