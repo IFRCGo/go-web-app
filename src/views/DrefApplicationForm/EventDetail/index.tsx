@@ -28,7 +28,6 @@ import {
     TYPE_ASSESSMENT,
     TYPE_IMMINENT,
     TYPE_LOAN,
-    TYPE_RESPONSE,
 } from '../common';
 import { type PartialDref } from '../schema';
 
@@ -253,7 +252,7 @@ function EventDetail(props: Props) {
             <Container
                 heading={strings.drefFormDescriptionEvent}
             >
-                {value.type_of_dref === TYPE_IMMINENT || value.type_of_dref === TYPE_RESPONSE ? (
+                {value.type_of_dref === TYPE_IMMINENT ? (
                     <InputSection
                         title={strings.drefFormApproximateDateOfImpact}
                     >
