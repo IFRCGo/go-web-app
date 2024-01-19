@@ -93,7 +93,7 @@ function Submission(props: Props) {
                         value={value.submission_to_geneva}
                         onChange={setFieldValue}
                         error={error?.submission_to_geneva}
-                        hint={strings.drefFormAddedByGeneva}
+                        hint={strings.drefFormAddedByRegionalOffice}
                         disabled={disabled}
                     />
                     <DateInput
@@ -102,7 +102,7 @@ function Submission(props: Props) {
                         value={value.date_of_approval}
                         onChange={handleDateOfApproval}
                         error={error?.date_of_approval}
-                        hint={strings.drefFormAddedByGeneva}
+                        hint={strings.drefFormAddedByRegionalOffice}
                         disabled={disabled}
                     />
                     <NumberInput
@@ -133,7 +133,7 @@ function Submission(props: Props) {
                             value={value.publishing_date}
                             onChange={setFieldValue}
                             error={error?.publishing_date}
-                            hint={strings.drefFormAddedByGeneva}
+                            hint={strings.drefFormAddedByRegionalOffice}
                             disabled={disabled}
                         />
                     )}
