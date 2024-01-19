@@ -34,10 +34,16 @@ type ComponentResponse = NonNullable<PrioritizationResponse['prioritized_action_
 
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type PerWorkPlanStatusOption = NonNullable<GlobalEnumsResponse['per_workplanstatus']>[number];
+type PerWorkPlanOrganizationTypeOption = NonNullable<GlobalEnumsResponse['per_supported_by_organization_type']>[number];
 
 function statusKeySelector(option: PerWorkPlanStatusOption) {
     return option.key;
 }
+function organizationTypeKeySelector(option:PerWorkPlanOrganizationTypeOption  ) {
+    return option.key;
+}
+
+
 
 interface Props {
     value?: Value;
@@ -61,6 +67,7 @@ function PrioritizedActionInput(props: Props) {
     } = props;
 
     const { per_workplanstatus } = useGlobalEnums();
+    const { per_supported_by_organization_type }=useGlobalEnums();
     const strings = useTranslation(i18n);
     const error = getErrorObject(formError);
 
@@ -115,16 +122,32 @@ function PrioritizedActionInput(props: Props) {
                 readOnly={readOnly}
                 disabled={disabled}
             />
-            <NationalSocietySelectInput
-                name="supported_by"
-                label={strings.componentSupportedByInputLabel}
-                placeholder={strings.componentSupportedByInputPlaceholder}
+            <SelectInput
+                name="supported_by_organization_type"
+                label={strings.componentSupportedByOrganizationInputLabel}
+                placeholder={strings.componentOrganizationInputPlaceholder}
+                options={per_supported_by_organization_type}
+                withAsterisk
                 onChange={onFieldChange}
-                value={value?.supported_by}
-                error={error?.supported_by}
+                keySelector={organizationTypeKeySelector}
+                labelSelector={stringValueSelector}
+                value={value?.supported_by_organization_type}
+                error={error?.supported_by_organization_type}
                 readOnly={readOnly}
                 disabled={disabled}
             />
+            {value?.supported_by_organization_type === 3 && (
+                <NationalSocietySelectInput
+                    name="supported_by"
+                    label={strings.componentSupportedByInputLabel}
+                    placeholder={strings.componentSupportedByInputPlaceholder}
+                    onChange={onFieldChange}
+                    value={value?.supported_by}
+                    error={error?.supported_by}
+                    readOnly={readOnly}
+                    disabled={disabled}
+                />
+            )}
             <SelectInput
                 name="status"
                 label={strings.componentStatusInputLabel}
