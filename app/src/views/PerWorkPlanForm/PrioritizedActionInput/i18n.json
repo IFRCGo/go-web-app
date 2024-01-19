@@ -6,6 +6,8 @@
         "componentSupportedByInputPlaceholder": "Select NS",
         "componentDueDateInputLabel": "Due date",
         "componentStatusInputLabel": "Status",
+        "componentSupportedByOrganizationInputLabel":"Supported by organization",
+        "componentOrganizationInputPlaceholder":"Organization type",
         "componentStatusInputPlaceholder": "Select",
         "componentHeading": "{componentNumber} ({componentLetter}). {componentTitle}",
         "componentHeadingOther": "{componentNumber}. {componentTitle}"
