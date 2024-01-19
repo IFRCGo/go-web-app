@@ -51,14 +51,14 @@ export function Component() {
             />
             <TextOutput
                 label={strings.countryIndicatorsGDPLabel}
-                value={indicatorResponse?.gdp}
-                valueType="number"
+                value={`${strings.countryIndicatorDollar}${indicatorResponse?.gdp}`}
+                valueType="text"
                 strongValue
             />
             <TextOutput
                 label={strings.countryIndicatorsCapitaLabel}
-                value={indicatorResponse?.gnipc}
-                valueType="number"
+                value={`${strings.countryIndicatorDollar}${indicatorResponse?.gnipc}`}
+                valueType="text"
                 strongValue
             />
             <TextOutput

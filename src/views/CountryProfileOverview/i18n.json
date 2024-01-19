@@ -8,6 +8,7 @@
         "countryIndicatorsPovertyLabel": "Poverty (%POP)",
         "countryIndicatorsLifeExpectancyLabel": "Life Expectancy",
         "countryIndicatorsLiteracyLabel": "Literacy",
-        "countryIndicatorsCapitaLabel": "GNI/Capita"
+        "countryIndicatorsCapitaLabel": "GNI/Capita",
+        "countryIndicatorDollar": "$"
     }
 }

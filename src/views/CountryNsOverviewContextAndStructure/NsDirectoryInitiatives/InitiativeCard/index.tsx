@@ -29,7 +29,6 @@ function InitiativeCard(props: Props) {
             childrenContainerClassName={styles.figures}
             headingLevel={4}
             withHeaderBorder
-            // TODO: Verify Fund Name and and Fund Type
             headerDescription={(
                 <TextOutput
                     label={strings.initiativeFundNameTitle}
@@ -65,12 +64,6 @@ function InitiativeCard(props: Props) {
             <TextOutput
                 label={strings.initiativeTitle}
                 value={initiative.title}
-                valueType="text"
-                strongValue
-            />
-            <TextOutput
-                label={strings.initiativeFundingTypeTitle}
-                value={initiative.fund_type}
                 valueType="text"
                 strongValue
             />

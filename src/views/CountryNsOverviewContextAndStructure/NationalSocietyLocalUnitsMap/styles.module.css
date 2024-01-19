@@ -2,7 +2,6 @@
 
     .clear-button {
         display: flex;
-        align-items: end;
     }
 
     .map-container {
