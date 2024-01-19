@@ -28,7 +28,6 @@ import {
     TYPE_ASSESSMENT,
     TYPE_IMMINENT,
     TYPE_LOAN,
-    TYPE_RESPONSE,
 } from '../common';
 import { type PartialDref } from '../schema';
 

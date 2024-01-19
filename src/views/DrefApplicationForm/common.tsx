@@ -16,7 +16,7 @@ export const ONSET_SUDDEN = 2 satisfies TypeOfOnsetEnum;
 
 export const TYPE_IMMINENT = 0 satisfies TypeOfDrefEnum;
 export const TYPE_ASSESSMENT = 1 satisfies TypeOfDrefEnum;
-export const TYPE_RESPONSE = 2 satisfies TypeOfDrefEnum;
+// export const TYPE_RESPONSE = 2 satisfies TypeOfDrefEnum;
 export const TYPE_LOAN = 3 satisfies TypeOfDrefEnum;
 
 // FIXME: identify a way to store disaster
