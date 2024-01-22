@@ -21,6 +21,7 @@ import NationalSocietySelectInput from '#components/domain/NationalSocietySelect
 import NonFieldError from '#components/NonFieldError';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { type GoApiResponse } from '#utils/restRequest';
+import { NATIONAL_SOCIETY } from '#utils/constants';
 
 import { type PartialWorkPlan } from '../schema';
 
@@ -39,12 +40,9 @@ type PerWorkPlanOrganizationTypeOption = NonNullable<GlobalEnumsResponse['per_su
 function statusKeySelector(option: PerWorkPlanStatusOption) {
     return option.key;
 }
-function organizationTypeKeySelector(option:PerWorkPlanOrganizationTypeOption  ) {
+function organizationTypeKeySelector(option:PerWorkPlanOrganizationTypeOption) {
     return option.key;
 }
-
-
-
 interface Props {
     value?: Value;
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
@@ -66,11 +64,9 @@ function PrioritizedActionInput(props: Props) {
         disabled,
     } = props;
 
-    const { per_workplanstatus } = useGlobalEnums();
-    const { per_supported_by_organization_type }=useGlobalEnums();
+    const { per_workplanstatus, per_supported_by_organization_type } = useGlobalEnums();
     const strings = useTranslation(i18n);
     const error = getErrorObject(formError);
-
     const onFieldChange = useFormObject(
         index,
         onChange,
@@ -136,7 +132,7 @@ function PrioritizedActionInput(props: Props) {
                 readOnly={readOnly}
                 disabled={disabled}
             />
-            {value?.supported_by_organization_type === 3 && (
+            {value?.supported_by_organization_type === NATIONAL_SOCIETY && (
                 <NationalSocietySelectInput
                     name="supported_by"
                     label={strings.componentSupportedByInputLabel}
