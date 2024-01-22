@@ -114,6 +114,7 @@ function EmergencyAlertsTable(props: Props) {
             childrenContainerClassName={styles.content}
             withGridViewInFilter
             footerContentClassName={styles.footerContent}
+            withHeaderBorder
             footerContent={(
                 <TextOutput
                     label={strings.emergencyAlertsTableSource}
