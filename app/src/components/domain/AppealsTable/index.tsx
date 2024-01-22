@@ -54,6 +54,8 @@ const appealTypeLabelSelector = (option: AppealTypeOption) => option.value;
 const now = new Date().toISOString();
 type BaseProps = {
     className?: string;
+    heading?: React.ReactNode;
+    withPastOperations?: boolean;
 }
 type CountryProps = {
     variant: 'country';
@@ -74,7 +76,9 @@ type Props = BaseProps & (RegionProps | GlobalProps | CountryProps);
 function AppealsTable(props: Props) {
     const {
         className,
+        heading,
         variant,
+        withPastOperations,
     } = props;
 
     const {
@@ -211,7 +215,7 @@ function AppealsTable(props: Props) {
                 atype: filter.appeal,
                 dtype: filter.displacement,
                 district: hasSomeDefinedValue(filter.district) ? filter.district : undefined,
-                end_date__gt: now,
+                end_date__gt: withPastOperations ? undefined : now,
                 start_date__gte: filter.startDateAfter,
                 start_date__lte: filter.startDateBefore,
             };
@@ -227,6 +231,7 @@ function AppealsTable(props: Props) {
             };
         },
         [
+            withPastOperations,
             variant,
             countryId,
             regionId,
@@ -251,6 +256,8 @@ function AppealsTable(props: Props) {
             className={_cs(styles.appealsTable, className)}
             childrenContainerClassName={styles.content}
             withGridViewInFilter
+            heading={heading}
+            withHeaderBorder={isDefined(heading)}
             filters={(
                 <>
                     <DateInput
@@ -294,7 +301,7 @@ function AppealsTable(props: Props) {
                         value={rawFilter.displacement}
                         onChange={setFilterField}
                     />
-                    <div>
+                    <div className={styles.filterActions}>
                         <Button
                             name={undefined}
                             onClick={handleClearFiltersButtonclick}
