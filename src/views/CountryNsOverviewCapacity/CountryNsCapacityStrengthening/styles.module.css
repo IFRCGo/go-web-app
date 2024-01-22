@@ -8,14 +8,11 @@
     }
 
     .capacity-list-container {
-        display: grid;
-        grid-gap: var(--go-ui-spacing-lg);
-        grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+        display: flex;
     }
 
     .capacity-item {
         border-radius: var(--go-ui-border-radius-md);
         box-shadow: var(--go-ui-box-shadow-md);
-        width: var(--go-ui-width-modal-sm);
     }
 }

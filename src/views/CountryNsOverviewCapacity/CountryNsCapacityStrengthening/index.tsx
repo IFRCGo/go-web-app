@@ -1,23 +1,20 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { ArrowRightUpLineIcon } from '@ifrc-go/icons';
 import {
     isDefined,
-    listToGroupList,
-    mapToList,
     unique,
 } from '@togglecorp/fujs';
 
 import Container from '#components/Container';
-import TextOutput from '#components/TextOutput';
-import List from '#components/List';
+import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
+import RawList from '#components/RawList';
 import useTranslation from '#hooks/useTranslation';
-import { components } from '#generated/types';
 import { CountryOutletContext } from '#utils/outletContext';
+import { components } from '#generated/types';
 
 import OCACListItem from './OCACListItem';
-import BOCAListItem from './BOCAListItem';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -44,26 +41,6 @@ function CountryNsCapacityStrengthening() {
         [],
     );
 
-    const bocaRendererParams = useCallback(
-        (_: number, capacity: CapacityItem) => ({
-            capacity,
-        }),
-        [],
-    );
-
-    const groupedBocaAssessmentByType = (
-        listToGroupList(
-            countryResponse?.capacity,
-            (item) => item.assessment_type,
-            (item) => item,
-        )
-    );
-
-    const groupedBocaList = mapToList(
-        groupedBocaAssessmentByType,
-        (boca, bocaType) => ({ count: boca.length, bocaType }),
-    );
-
     const ocacAssessments = countryResponse?.capacity?.filter(
         (item) => item.assessment_type === TYPE_OCAC,
     );
@@ -72,10 +49,11 @@ function CountryNsCapacityStrengthening() {
         (item) => item.assessment_type === TYPE_BOCA,
     );
 
-    const uniqueBocaItem = unique(bocaAssessments?.map((i) => i.branch_name));
-
-    const bocaAssessmentsTitle = countryResponse?.capacity.map((i) => i.assessment_type_display);
-    const uniqueBocaTitle = unique(bocaAssessmentsTitle);
+    const uniqueLocalUnits = unique(
+        bocaAssessments?.map(
+            (bocaAsssement) => bocaAsssement.branch_name,
+        ).filter(isDefined) ?? [],
+    );
 
     const fdrsLink = countryResponse?.fdrs;
 
@@ -84,30 +62,23 @@ function CountryNsCapacityStrengthening() {
             childrenContainerClassName={styles.countryNsCapacityStrengthening}
             heading={strings.countryNsCapacityStrengtheningHeading}
             headerDescription={strings.countryNsCapacityStrengtheningDescription}
+            contentViewType="grid"
+            numPreferredGridContentColumns={3}
             withHeaderBorder
         >
-            {isDefined(ocacAssessments) && (
-                <List
-                    className={styles.capacityListContainer}
-                    errored={false}
-                    pending={false}
-                    filtered={false}
+            {isDefined(ocacAssessments) && ocacAssessments.length > 0 && (
+                <RawList
                     data={ocacAssessments}
                     keySelector={capacityKeySelector}
                     renderer={OCACListItem}
                     rendererParams={ocacRendererParams}
-                    compact
                 />
             )}
-            {isDefined(bocaAssessments) && (
+            {isDefined(bocaAssessments) && bocaAssessments.length > 0 && (
                 <Container
                     className={styles.capacityItem}
-                    heading={
-                        `${uniqueBocaTitle}
-                    ${strings.capacityListItemAssessment}`
-                    }
+                    heading={strings.bocaAssessment}
                     headingLevel={4}
-                    contentViewType="grid"
                     withInternalPadding
                     actions={(
                         <Link
@@ -116,15 +87,15 @@ function CountryNsCapacityStrengthening() {
                             actions={<ArrowRightUpLineIcon />}
                             external
                         >
-                            View Details
+                            {strings.viewDetails}
                         </Link>
                     )}
                 >
-                    <TextOutput
-                        label="Branch"
-                        value={uniqueBocaItem.length}
-                        valueType="text"
-                        strongValue
+                    <KeyFigure
+                        className={styles.figure}
+                        value={uniqueLocalUnits.length}
+                        label={strings.localUnits}
+                        compactValue
                     />
                 </Container>
             )}

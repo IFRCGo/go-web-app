@@ -1,8 +1,0 @@
-{
-    "namespace": "countryNsCapacityStrengthening",
-    "strings": {
-        "capacityListItemBranchName": "Local units/branches",
-        "capacityListItemViewDetails": "View Details",
-        "capacityListItemAssessment": "Assessment"
-    }
-}
