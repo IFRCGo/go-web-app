@@ -94,7 +94,8 @@ export function useLink(props: {
     };
 }
 
-export type Props<OMISSION extends string = never> = Omit<RouterLinkProps, 'to' | OMISSION> & Omit<{
+export type CommonLinkProps<OMISSION extends string = never> = Omit<RouterLinkProps, 'to' | OMISSION> &
+Omit<{
     actions?: React.ReactNode;
     actionsContainerClassName?: string;
     disabled?: boolean;
@@ -107,21 +108,28 @@ export type Props<OMISSION extends string = never> = Omit<RouterLinkProps, 'to' 
     withUnderline?: boolean;
     ellipsize?: boolean;
     spacing?: ButtonFeatureProps['spacing'];
-}, OMISSION> & ({
+}, OMISSION>
+
+export type InternalLinkProps = {
     external?: never;
     to: keyof WrappedRoutes | undefined | null;
     urlParams?: UrlParams;
     urlSearch?: string;
     urlHash?: string;
     href?: never;
-} | {
+}
+
+export type ExternalLinkProps = {
     external: true;
     href: string | undefined | null;
     urlParams?: never;
     urlSearch?: never;
     urlHash?: never;
     to?: never;
-})
+}
+
+export type Props<OMISSION extends string = never> = CommonLinkProps<OMISSION>
+    & (InternalLinkProps | ExternalLinkProps)
 
 function Link(props: Props) {
     const {

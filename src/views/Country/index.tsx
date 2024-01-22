@@ -39,18 +39,7 @@ import { useRequest } from '#utils/restRequest';
 import { type CountryOutletContext } from '#utils/outletContext';
 import { resolveToString } from '#utils/translation';
 import { getPercentage } from '#utils/common';
-import {
-    COUNTRY_AFRICA_REGION,
-    COUNTRY_AMERICAS_REGION,
-    COUNTRY_ASIA_REGION,
-    COUNTRY_EUROPE_REGION,
-    COUNTRY_MENA_REGION,
-    REGION_AFRICA,
-    REGION_AMERICAS,
-    REGION_ASIA,
-    REGION_EUROPE,
-    REGION_MENA,
-} from '#utils/constants';
+import { countryIdToRegionIdMap, isCountryIdRegion } from '#utils/domain/country';
 import { adminUrl } from '#config';
 import RouteContext from '#contexts/route';
 
@@ -67,12 +56,7 @@ export function Component() {
     const region = useRegion({ id: country?.region });
 
     const numericCountryId = isDefined(countryId) ? Number(countryId) : undefined;
-
-    const isRegion = numericCountryId === COUNTRY_ASIA_REGION
-        || numericCountryId === COUNTRY_AFRICA_REGION
-        || numericCountryId === COUNTRY_AMERICAS_REGION
-        || numericCountryId === COUNTRY_EUROPE_REGION
-        || numericCountryId === COUNTRY_MENA_REGION;
+    const isRegion = isCountryIdRegion(numericCountryId);
 
     const {
         pending: countryResponsePending,
@@ -122,15 +106,7 @@ export function Component() {
         { countryName: country?.name ?? strings.countryPageTitleFallbackCountry },
     );
 
-    if (isRegion) {
-        const countryIdToRegionIdMap: Record<number, number> = {
-            [COUNTRY_AFRICA_REGION]: REGION_AFRICA,
-            [COUNTRY_AMERICAS_REGION]: REGION_AMERICAS,
-            [COUNTRY_ASIA_REGION]: REGION_ASIA,
-            [COUNTRY_EUROPE_REGION]: REGION_EUROPE,
-            [COUNTRY_MENA_REGION]: REGION_MENA,
-        };
-
+    if (isDefined(numericCountryId) && isRegion) {
         const regionId = countryIdToRegionIdMap[numericCountryId];
 
         const regionPath = generatePath(

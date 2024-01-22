@@ -151,12 +151,13 @@ export const COUNTRY_ASIA_REGION = 283;
 export const COUNTRY_AFRICA_REGION = 285;
 export const COUNTRY_EUROPE_REGION = 286;
 export const COUNTRY_MENA_REGION = 287;
-export type Region = components<'read'>['schemas']['ApiRegionNameEnum'];
-export const REGION_AFRICA = 0;
-export const REGION_AMERICAS = 1;
-export const REGION_ASIA = 2;
-export const REGION_EUROPE = 3;
-export const REGION_MENA = 4;
+
+export type Region = components<'read'>['schemas']['Key86cEnum'];
+export const REGION_AFRICA = 0 satisfies Region;
+export const REGION_AMERICAS = 1 satisfies Region;
+export const REGION_ASIA = 2 satisfies Region;
+export const REGION_EUROPE = 3 satisfies Region;
+export const REGION_MENA = 4 satisfies Region;
 
 type CountryRecordTypeEnum = components<'read'>['schemas']['RecordTypeEnum'];
 export const COUNTRY_RECORD_TYPE_COUNTRY = 1 satisfies CountryRecordTypeEnum;

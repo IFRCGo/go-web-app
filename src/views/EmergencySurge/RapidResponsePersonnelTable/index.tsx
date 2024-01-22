@@ -28,6 +28,8 @@ import {
     maxSafe,
     minSafe,
 } from '#utils/common';
+import { COUNTRY_RECORD_TYPE_REGION } from '#utils/constants';
+import { countryIdToRegionIdMap } from '#utils/domain/country';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -136,14 +138,34 @@ export default function RapidResponsePersonnelTable(props: Props) {
                 (item) => getTypeName(item.type),
                 { sortable: true },
             ),
+            // NOTE:We don't have proper mapping for region
             createLinkColumn<PersonnelTableItem, number>(
                 'country_from',
                 strings.personnelTableDeployedParty,
                 (item) => item.country_from?.society_name,
-                (item) => ({
-                    to: 'countriesLayout',
-                    urlParams: { countryId: item.country_from?.id },
-                }),
+                (item) => {
+                    if (isNotDefined(item.country_from)) {
+                        return { to: undefined };
+                    }
+
+                    const countryId = item.country_from.id;
+
+                    if (item.country_from.record_type === COUNTRY_RECORD_TYPE_REGION) {
+                        const regionId = isDefined(countryId)
+                            ? countryIdToRegionIdMap[countryId]
+                            : undefined;
+
+                        return {
+                            to: 'regionsLayout',
+                            urlParams: { regionId },
+                        };
+                    }
+
+                    return {
+                        to: 'countriesLayout',
+                        urlParams: { countryId },
+                    };
+                },
                 { sortable: true },
             ),
             createLinkColumn<PersonnelTableItem, number>(

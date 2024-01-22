@@ -4,31 +4,32 @@ import {
 } from 'react';
 import Papa from 'papaparse';
 import { saveAs } from 'file-saver';
+import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
-import { toDateTimeString } from '#utils/common';
-import useTranslation from '#hooks/useTranslation';
-import {
-    type GoApiResponse,
-    useRequest,
-} from '#utils/restRequest';
-import { resolveToComponent } from '#utils/translation';
 import Container from '#components/Container';
 import Pager from '#components/Pager';
 import Page from '#components/Page';
-import useAlert from '#hooks/useAlert';
+import { SortContext } from '#components/Table/useSorting';
 import ExportButton from '#components/domain/ExportButton';
-import {
-    SortContext,
-} from '#components/Table/useSorting';
+import Table from '#components/Table';
+import DateInput from '#components/DateInput';
 import {
     createStringColumn,
     createDateColumn,
     createLinkColumn,
 } from '#components/Table/ColumnShortcuts';
+import useAlert from '#hooks/useAlert';
+import useTranslation from '#hooks/useTranslation';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
-import Table from '#components/Table';
-import DateInput from '#components/DateInput';
 import useFilterState from '#hooks/useFilterState';
+import { toDateTimeString } from '#utils/common';
+import {
+    type GoApiResponse,
+    useRequest,
+} from '#utils/restRequest';
+import { resolveToComponent } from '#utils/translation';
+import { COUNTRY_RECORD_TYPE_REGION } from '#utils/constants';
+import { countryIdToRegionIdMap } from '#utils/domain/country';
 
 import i18n from './i18n.json';
 
@@ -122,6 +123,7 @@ export function Component() {
                 (item) => getTypeName(item.type),
                 { sortable: true },
             ),
+            // NOTE:We don't have proper mapping for region
             createLinkColumn<PersonnelTableItem, number>(
                 'country_from',
                 strings.personnelTableDeployingParty,
@@ -129,10 +131,29 @@ export function Component() {
                     item.country_from?.society_name
                     || item.country_from?.name
                 ),
-                (item) => ({
-                    to: 'countriesLayout',
-                    urlParams: { countryId: item.country_from?.id },
-                }),
+                (item) => {
+                    if (isNotDefined(item.country_from)) {
+                        return { to: undefined };
+                    }
+
+                    const countryId = item.country_from.id;
+
+                    if (item.country_from.record_type === COUNTRY_RECORD_TYPE_REGION) {
+                        const regionId = isDefined(countryId)
+                            ? countryIdToRegionIdMap[countryId]
+                            : undefined;
+
+                        return {
+                            to: 'regionsLayout',
+                            urlParams: { regionId },
+                        };
+                    }
+
+                    return {
+                        to: 'countriesLayout',
+                        urlParams: { countryId },
+                    };
+                },
                 { sortable: true },
             ),
             createLinkColumn<PersonnelTableItem, number>(

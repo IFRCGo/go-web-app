@@ -13,7 +13,7 @@ import TextOutput, { type Props as TextOutputProps } from '#components/printable
 import Image from '#components/printable/Image';
 import Heading from '#components/printable/Heading';
 import DescriptionText from '#components/printable/DescriptionText';
-import Link from '#components/Link';
+import Link from '#components/printable/Link';
 import DateOutput from '#components/DateOutput';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
@@ -243,8 +243,8 @@ export function Component() {
         drefResponse?.targeting_strategy_support_file_details,
     );
     const showTargetingStrategySection = peopleAssistedDefined
-    || selectionCriteriaDefined
-    || targetingStrategySupportingDocumentDefined;
+        || selectionCriteriaDefined
+        || targetingStrategySupportingDocumentDefined;
 
     const riskSecurityDefined = isDefined(drefResponse)
         && isDefined(drefResponse.risk_security)
@@ -254,8 +254,8 @@ export function Component() {
         drefResponse?.has_child_safeguarding_risk_analysis_assessment,
     );
     const showRiskAndSecuritySection = riskSecurityDefined
-    || riskSecurityConcernDefined
-    || hasChildrenSafeguardingDefined;
+        || riskSecurityConcernDefined
+        || hasChildrenSafeguardingDefined;
 
     const plannedInterventionDefined = isDefined(drefResponse)
         && isDefined(drefResponse.planned_interventions)
@@ -383,6 +383,8 @@ export function Component() {
                     valueClassName={_cs(
                         isDefined(drefResponse)
                         && isDefined(drefResponse.disaster_category)
+                        // FIXME: empty string in enum
+                        && drefResponse.disaster_category !== ''
                         && colorMap[drefResponse.disaster_category],
                     )}
                     strongValue
@@ -460,23 +462,19 @@ export function Component() {
                     strongValue
                 />
             </Container>
-            {drefResponse?.disaster_category_analysis_details?.file && (
-                <Container>
-                    <Link
-                        href={drefResponse?.disaster_category_analysis_details?.file}
-                        external
-                        withUnderline
-                    >
-                        {strings.crisisCategorySupportingDocumentLabel}
-                    </Link>
-                </Container>
-            )}
             {showEventDescriptionSection && (
                 <>
                     <div className={styles.pageBreak} />
                     <Heading level={2}>
                         {strings.eventDescriptionSectionHeading}
                     </Heading>
+                    {drefResponse?.disaster_category_analysis_details?.file && (
+                        <Container>
+                            <Link href={drefResponse?.disaster_category_analysis_details?.file}>
+                                {strings.crisisCategorySupportingDocumentLabel}
+                            </Link>
+                        </Container>
+                    )}
                     {isDefined(drefResponse)
                         && drefResponse.type_of_dref === DREF_TYPE_IMMINENT
                         && isTruthyString(drefResponse.event_text) && (
@@ -497,7 +495,7 @@ export function Component() {
                             />
                         </Container>
                     )}
-                    {isDefined(drefResponse?.end_date) && (
+                    {isDefined(drefResponse?.event_date) && (
                         <Container
                             heading={drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT
                                 && strings.dateWhenTheTriggerWasMetHeading}
@@ -551,11 +549,7 @@ export function Component() {
                     )}
                     {drefResponse?.supporting_document_details?.file && (
                         <Container>
-                            <Link
-                                href={drefResponse?.supporting_document_details?.file}
-                                external
-                                withUnderline
-                            >
+                            <Link href={drefResponse?.supporting_document_details?.file}>
                                 {strings.drefApplicationSupportingDocumentation}
                             </Link>
                         </Container>
@@ -581,11 +575,7 @@ export function Component() {
                                             </div>
                                         </DescriptionText>
                                         <DescriptionText className={styles.link}>
-                                            <Link
-                                                href={source.source_link}
-                                                external
-                                                withUnderline
-                                            >
+                                            <Link href={source.source_link}>
                                                 {source?.source_link}
                                             </Link>
                                         </DescriptionText>
@@ -793,11 +783,7 @@ export function Component() {
                     )}
                     {assessmentReportDefined && (
                         <Container>
-                            <Link
-                                href={drefResponse?.assessment_report_details?.file}
-                                external
-                                withUnderline
-                            >
+                            <Link href={drefResponse?.assessment_report_details?.file}>
                                 {strings.drefAssessmentReportLink}
                             </Link>
                         </Container>
@@ -834,6 +820,15 @@ export function Component() {
                     <Heading level={2}>
                         {strings.targetingStrategySectionHeading}
                     </Heading>
+                    {targetingStrategySupportingDocumentDefined && (
+                        <Container>
+                            <Link
+                                href={drefResponse?.targeting_strategy_support_file_details?.file}
+                            >
+                                {strings.targetingStrategySupportingDocument}
+                            </Link>
+                        </Container>
+                    )}
                     {peopleAssistedDefined && (
                         <Container
                             heading={strings.peopleAssistedHeading}
@@ -850,17 +845,6 @@ export function Component() {
                             <DescriptionText>
                                 {drefResponse?.selection_criteria}
                             </DescriptionText>
-                        </Container>
-                    )}
-                    {targetingStrategySupportingDocumentDefined && (
-                        <Container>
-                            <Link
-                                href={drefResponse?.targeting_strategy_support_file_details?.file}
-                                external
-                                withUnderline
-                            >
-                                {strings.targetingStrategySupportingDocument}
-                            </Link>
                         </Container>
                     )}
                 </>
@@ -1006,13 +990,6 @@ export function Component() {
                             </Heading>
                             <Container>
                                 <TextOutput
-                                    label={strings.drefAllocationLabel}
-                                    value={drefResponse?.amount_requested}
-                                    valueType="number"
-                                    prefix={strings.chfPrefix}
-                                    strongLabel
-                                />
-                                <TextOutput
                                     label={strings.budgetLabel}
                                     value={plannedIntervention.budget}
                                     valueType="number"
@@ -1127,11 +1104,7 @@ export function Component() {
                         />
                     </Container>
                     <Container>
-                        <Link
-                            href={drefResponse?.budget_file_details?.file}
-                            external
-                            withUnderline
-                        >
+                        <Link href={drefResponse?.budget_file_details?.file}>
                             {strings.drefExportDownloadBudget}
                         </Link>
                     </Container>
@@ -1188,10 +1161,7 @@ export function Component() {
                             />
                         )}
                     </Container>
-                    <Link
-                        to="emergencies"
-                        withUnderline
-                    >
+                    <Link href="/emergencies">
                         {strings.drefExportReference}
                     </Link>
                 </>

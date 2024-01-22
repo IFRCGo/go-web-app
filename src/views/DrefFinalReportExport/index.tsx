@@ -12,11 +12,11 @@ import Container from '#components/printable/Container';
 import TextOutput, { type Props as TextOutputProps } from '#components/printable/TextOutput';
 import Image from '#components/printable/Image';
 import Heading from '#components/printable/Heading';
+import Link from '#components/printable/Link';
 
 import DescriptionText from '#components/printable/DescriptionText';
 import NumberOutput from '#components/NumberOutput';
 import useTranslation from '#hooks/useTranslation';
-import Link from '#components/Link';
 import { useRequest } from '#utils/restRequest';
 import {
     DISASTER_CATEGORY_ORANGE,
@@ -194,8 +194,8 @@ export function Component() {
         drefResponse?.has_child_safeguarding_risk_analysis_assessment,
     );
     const showRiskAndSecuritySection = riskSecurityDefined
-    || riskSecurityConcernDefined
-    || hasChildrenSafeguardingDefined;
+        || riskSecurityConcernDefined
+        || hasChildrenSafeguardingDefined;
 
     const plannedInterventionDefined = isDefined(drefResponse)
         && isDefined(drefResponse.planned_interventions)
@@ -301,8 +301,10 @@ export function Component() {
                     value={drefResponse?.disaster_category_display}
                     valueClassName={_cs(
                         isDefined(drefResponse)
-                            && isDefined(drefResponse.disaster_category)
-                            && colorMap[drefResponse.disaster_category],
+                        && isDefined(drefResponse.disaster_category)
+                        // FIXME: empty string in enum
+                        && drefResponse.disaster_category !== ''
+                        && colorMap[drefResponse.disaster_category],
                     )}
                     strongValue
                 />
@@ -850,7 +852,6 @@ export function Component() {
                         <Container>
                             <Link
                                 href={drefResponse?.financial_report_details?.file}
-                                external
                             >
                                 {strings.downloadFinancialReport}
                             </Link>
@@ -917,8 +918,7 @@ export function Component() {
                         )}
                     </Container>
                     <Link
-                        to="emergencies"
-                        withUnderline
+                        href="/emergencies"
                     >
                         {strings.drefExportReference}
                     </Link>

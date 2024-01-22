@@ -24,10 +24,10 @@ import useTranslation from '#hooks/useTranslation';
 import { resolveToComponent } from '#utils/translation';
 
 import {
-    TYPE_IMMINENT,
-    TYPE_ASSESSMENT,
-    TYPE_LOAN,
     ONSET_SUDDEN,
+    TYPE_ASSESSMENT,
+    TYPE_IMMINENT,
+    TYPE_LOAN,
 } from '../common';
 import { type PartialDref } from '../schema';
 
@@ -52,7 +52,6 @@ function EventDetail(props: Props) {
 
     const totalPopulationRiskImminentLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
     const totalPeopleAffectedSlowSuddenLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
-    const peopleTargetedLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
     const peopleInNeedLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
 
     const {
@@ -354,27 +353,6 @@ function EventDetail(props: Props) {
                             disabled={disabled}
                         />
                     )}
-                    <NumberInput
-                        label={(
-                            <>
-                                {/* FIXME: use string template */}
-                                {strings.drefFormPeopleTargeted}
-                                <Link
-                                    title={strings.drefFormClickEmergencyResponseFramework}
-                                    href={peopleTargetedLink}
-                                    external
-                                >
-                                    <WikiHelpSectionLineIcon />
-                                </Link>
-                            </>
-                        )}
-                        name="num_assisted"
-                        value={value?.num_assisted}
-                        onChange={setFieldValue}
-                        error={error?.num_assisted}
-                        hint={strings.drefFormPeopleTargetedDescription}
-                        disabled={disabled}
-                    />
                     {/* FIXME: use grid to fix the empty div issue */}
                     {/* NOTE: Empty div to preserve the layout */}
                     <div />

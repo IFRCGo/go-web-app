@@ -5,12 +5,8 @@ import {
     isDefined,
     isNotDefined,
 } from '@togglecorp/fujs';
-import {
-    DownloadFillIcon,
-} from '@ifrc-go/icons';
 
 import BlockLoading from '#components/BlockLoading';
-import Button from '#components/Button';
 import Container from '#components/Container';
 import ExpandableContainer, {
     type Props as ExpandableContainerProps,
@@ -295,21 +291,12 @@ export function Component() {
                     />
                 )}
                 actions={(
-                    <>
-                        <Button
-                            variant="primary"
-                            name={undefined}
-                            icons={<DownloadFillIcon />}
-                        >
-                            {strings.export}
-                        </Button>
-                        <Link
-                            variant="secondary"
-                            to="newThreeWProject"
-                        >
-                            {strings.addThreeW}
-                        </Link>
-                    </>
+                    <Link
+                        variant="secondary"
+                        to="newThreeWProject"
+                    >
+                        {strings.addThreeW}
+                    </Link>
                 )}
             >
                 <MovementActivitiesMap

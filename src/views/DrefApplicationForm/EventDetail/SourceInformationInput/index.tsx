@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import {
     type ArrayError,
     useFormObject,
@@ -5,7 +6,7 @@ import {
     type SetValueArg,
 } from '@togglecorp/toggle-form';
 import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
-import { randomString } from '@togglecorp/fujs';
+import { isNotDefined, randomString } from '@togglecorp/fujs';
 
 import Button from '#components/Button';
 import NonFieldError from '#components/NonFieldError';
@@ -51,6 +52,31 @@ function SourceInformationInput(props: Props) {
         ? getErrorObject(errorFromProps?.[value.client_id])
         : undefined;
 
+    const handleSourceFieldChange = useCallback(
+        (newValue: string | undefined) => {
+            if (
+                isNotDefined(newValue)
+                || newValue.startsWith('http://')
+                || newValue.startsWith('https://')
+                || newValue === 'h'
+                || newValue === 'ht'
+                || newValue === 'htt'
+                || newValue === 'http'
+                || newValue === 'http:'
+                || newValue === 'http:/'
+                || newValue === 'https'
+                || newValue === 'https:'
+                || newValue === 'https:/'
+            ) {
+                onFieldChange(newValue, 'source_link');
+                return;
+            }
+
+            onFieldChange(`https://${newValue}`, 'source_link');
+        },
+        [onFieldChange],
+    );
+
     return (
         <div className={styles.sourceInformationInput}>
             <NonFieldError error={error} />
@@ -69,7 +95,7 @@ function SourceInformationInput(props: Props) {
                 name="source_link"
                 value={value.source_link}
                 error={error?.source_link}
-                onChange={onFieldChange}
+                onChange={handleSourceFieldChange}
                 disabled={disabled}
             />
             <Button

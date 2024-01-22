@@ -22,7 +22,6 @@
         "drefFormAddRegion": "Region/Province",
         "drefFormTitle": "DREF Title",
         "drefFormGenerateTitle": "Generate title",
-        "drefFormRequestAmount": "Requested Amount in CHF",
         "drefFormEmergencyAppealPlanned": "Emergency appeal planned",
         "drefFormUploadMap": "Upload map",
         "drefFormUploadMapDescription": "Add a map highlighting the targeted areas for this operation, it will be used for the publicly published DREF application.",

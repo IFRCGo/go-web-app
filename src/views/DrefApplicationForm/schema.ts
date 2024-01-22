@@ -109,9 +109,9 @@ type DrefFormFields = (
             EventMapFileResponse,
             EventMapFileFormField
         >,
-    SourceInformationResponse,
-    SourceInformationFormFields
->
+        SourceInformationResponse,
+        SourceInformationFormFields
+    >
 );
 
 export type PartialDref = PartialForm<
@@ -148,12 +148,11 @@ const schema: DrefFormSchema = {
                 required: true,
                 requiredValidation: requiredStringCondition,
             },
-            amount_requested: { validations: [positiveNumberCondition] },
             field_report: {}, // This value is set from CopyFieldReportSection
 
             // EVENT DETAILS
             num_affected: { validations: [positiveIntegerCondition] },
-            num_assisted: { validations: [positiveIntegerCondition] },
+
             // none
 
             // ACTIONS
@@ -162,6 +161,7 @@ const schema: DrefFormSchema = {
 
             // OPERATION
             targeting_strategy_support_file: {},
+            amount_requested: { validations: [positiveNumberCondition] },
 
             // none
 
@@ -379,8 +379,8 @@ const schema: DrefFormSchema = {
             (val): Pick<DrefFormSchemaFields, 'ns_request_text'> => {
                 if (
                     val?.type_of_dref !== TYPE_ASSESSMENT
-                        && val?.type_of_dref !== TYPE_LOAN
-                        && val?.did_ns_request_fund
+                    && val?.type_of_dref !== TYPE_LOAN
+                    && val?.did_ns_request_fund
                 ) {
                     return {
                         ns_request_text: {},
