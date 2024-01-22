@@ -1,4 +1,8 @@
 .appeals-table {
+    .filter-actions {
+        align-self: end;
+    }
+
     .table {
         .start-date {
             width: 0%;

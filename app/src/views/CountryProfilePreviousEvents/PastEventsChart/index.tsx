@@ -1,6 +1,5 @@
 import {
     type ElementRef,
-    useMemo,
     useRef,
 } from 'react';
 import {
@@ -12,7 +11,7 @@ import {
     Tooltip,
 } from '@ifrc-go/ui';
 import {
-    encodeDate,
+    _cs,
     isDefined,
     isNotDefined,
 } from '@togglecorp/fujs';
@@ -26,8 +25,6 @@ import { useRequest } from '#utils/restRequest';
 
 import styles from './styles.module.css';
 
-const today = new Date();
-
 const X_AXIS_HEIGHT = 20;
 const Y_AXIS_WIDTH = 40;
 
@@ -39,36 +36,35 @@ const chartOffset = {
 };
 
 interface Props {
+    className?: string;
     countryId: string | undefined;
+    startDate: string | undefined;
+    endDate: string | undefined;
 }
 
 function PastEventsChart(props: Props) {
     const {
+        className,
         countryId,
+        startDate,
+        endDate,
     } = props;
 
     const containerRef = useRef<ElementRef<'div'>>(null);
-
-    const startDate = useMemo(
-        () => {
-            const startOfThisYear = new Date(today.getFullYear(), 0, 1);
-            startOfThisYear.setHours(0, 0, 0, 0);
-            const tenYearsAgo = new Date(startOfThisYear.getFullYear() - 10, 0, 1);
-            tenYearsAgo.setHours(0, 0, 0, 0);
-
-            return encodeDate(tenYearsAgo);
-        },
-        [],
-    );
 
     const {
         // pending: historicalDisastersPending,
         response: historicalDisastersResponse,
     } = useRequest({
-        skip: isNotDefined(countryId) || isNotDefined(startDate),
+        skip: isNotDefined(countryId)
+            || isNotDefined(startDate)
+            || isNotDefined(endDate),
         url: '/api/v2/country/{id}/historical-disaster/',
         pathVariables: { id: countryId },
-        query: { start_date: startDate },
+        query: {
+            start_date: startDate,
+            end_date: endDate,
+        },
     });
 
     const {
@@ -105,7 +101,7 @@ function PastEventsChart(props: Props) {
         <Container
             // FIXME: use translations
             heading="Past events"
-            className={styles.pastEventsChart}
+            className={_cs(styles.pastEventsChart, className)}
             withHeaderBorder
         >
             <div
