@@ -13,9 +13,9 @@ import TextOutput, { type Props as TextOutputProps } from '#components/printable
 import Image from '#components/printable/Image';
 import Heading from '#components/printable/Heading';
 import DescriptionText from '#components/printable/DescriptionText';
-import DateOutput from '#components/DateOutput';
+import Link from '#components/printable/Link';
 
-import Link from '#components/Link';
+import DateOutput from '#components/DateOutput';
 import NumberOutput from '#components/NumberOutput';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
@@ -352,6 +352,8 @@ export function Component() {
                     valueClassName={_cs(
                         isDefined(drefResponse)
                         && isDefined(drefResponse.disaster_category)
+                        // FIXME: empty string in enum
+                        && drefResponse.disaster_category !== ''
                         && colorMap[drefResponse.disaster_category],
                     )}
                     strongValue
@@ -1051,8 +1053,6 @@ export function Component() {
                     <Container>
                         <Link
                             href={drefResponse?.budget_file_details?.file}
-                            external
-                            withUnderline
                         >
                             {strings.drefExportDownloadBudget}
                         </Link>
@@ -1110,11 +1110,7 @@ export function Component() {
                             />
                         )}
                     </Container>
-                    <Link
-                        href="/emergencies"
-                        withUnderline
-                        external
-                    >
+                    <Link href="/emergencies">
                         {strings.drefExportReference}
                     </Link>
                 </>

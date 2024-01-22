@@ -228,10 +228,4 @@
             color: var(--go-ui-color-primary-red);
         }
     }
-
-    .targeting-strategy-link {
-        color: var(--go-ui-color-blue);
-        font-size: var(--go-ui-font-size-md);
-    }
-    
 }
