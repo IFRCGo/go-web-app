@@ -38,7 +38,7 @@ export const workplanSchema: WorkPlanFormScheme = {
                     actions: {},
                     due_date: {},
                     supported_by_organization_type: {
-                        required:true,
+                        required: true,
                     },
                     supported_by: {},
                     status: {
