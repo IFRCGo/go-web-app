@@ -39,12 +39,14 @@ const chartOffset = {
 
 interface Props {
     startDate: string | undefined;
+    endDate: string | undefined;
     countryId: string | undefined;
 }
 
 function EmergenciesOverMonth(props: Props) {
     const {
         startDate,
+        endDate,
         countryId,
     } = props;
 
@@ -54,10 +56,15 @@ function EmergenciesOverMonth(props: Props) {
         // pending: disasterMonthlyCountPending,
         response: disasterMonthlyCountResponse,
     } = useRequest({
-        skip: isNotDefined(countryId) || isNotDefined(startDate),
+        skip: isNotDefined(countryId)
+            || isNotDefined(startDate)
+            || isNotDefined(endDate),
         url: '/api/v2/country/{id}/disaster-monthly-count/',
         pathVariables: { id: countryId },
-        query: { start_date: startDate },
+        query: {
+            start_date: startDate,
+            end_date: endDate,
+        },
     });
 
     const {
