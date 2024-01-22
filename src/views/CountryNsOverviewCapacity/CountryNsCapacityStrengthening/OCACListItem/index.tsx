@@ -5,17 +5,16 @@ import TextOutput from '#components/TextOutput';
 import Link from '#components/Link';
 import useTranslation from '#hooks/useTranslation';
 
-import { AssessmentTypeEnum, CapacityItem } from '../../CountryNsCapacityStrengthening';
+import { CapacityItem } from '../../CountryNsCapacityStrengthening';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
 
 interface Props {
     capacity: CapacityItem;
 }
 
-function CapacityListItem(props: Props) {
+function OCACListItem(props: Props) {
     const {
         capacity,
     } = props;
@@ -44,14 +43,14 @@ function CapacityListItem(props: Props) {
                 </Link>
             )}
         >
-                <TextOutput
-                    label={strings.capacityListItemDateOfAssessment}
-                    value={capacity?.submission_date}
-                    valueType="date"
-                    strongValue
-                />
+            <TextOutput
+                label={strings.capacityListItemDateOfAssessment}
+                value={capacity?.submission_date}
+                valueType="date"
+                strongValue
+            />
         </Container>
     );
 }
 
-export default CapacityListItem;
+export default OCACListItem;

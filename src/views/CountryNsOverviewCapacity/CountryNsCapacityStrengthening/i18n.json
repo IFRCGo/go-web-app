@@ -3,8 +3,6 @@
     "strings": {
         "countryNsCapacityStrengtheningHeading": "Capacity and Strengthening and Development Processes",
         "countryNsCapacityStrengtheningDescription": "Various assessment and processes that the NS has undergone through  IFRC.",
-        "capacityListItemBranchName": "Local units/branches",
-        "capacityListItemAssessment": "Assessment",
-        "capacityListItemViewDetails": "View Details"
+        "capacityListItemAssessment": "Assessment"
     }
 }
