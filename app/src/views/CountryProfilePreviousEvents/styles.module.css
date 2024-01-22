@@ -16,4 +16,8 @@
             flex-grow: 1;
         }
     }
+
+    .past-events {
+        grid-column: 1 / -1;
+    }
 }

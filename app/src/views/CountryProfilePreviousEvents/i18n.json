@@ -3,6 +3,12 @@
     "strings": {
         "emergenciesByDisasterTypeHeading": "Emergencies by disaster type",
         "emergenciesOverMonthHeading": "Emergencies over month",
-        "dataLoadFailureMessage": "Failed to load data!"
+        "previousOperationsHeading": "Previous Operations",
+        "dataLoadFailureMessage": "Failed to load data!",
+        "filterThisYearLabel": "This year",
+        "filterPastYearLabel": "Past year",
+        "filterLastTwoYearsLabel": "Last 2 years",
+        "filterLastFiveYearsLabel": "Last 5 years",
+        "filterLastTenYearsLabel": "Last 10 years"
     }
 }
