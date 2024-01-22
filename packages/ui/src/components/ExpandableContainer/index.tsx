@@ -90,6 +90,22 @@ function ExpandableContainer(props: Props) {
                 </>
             )}
             actionsContainerClassName={styles.actionsContainer}
+            footerActions={expanded && (
+                <Button
+                    variant="tertiary"
+                    name={undefined}
+                    onClick={toggleExpanded}
+                    title={expanded
+                        ? strings.expandableContainerCollapse
+                        : strings.expandableContainerExpand}
+                >
+                    {expanded ? (
+                        <ChevronUpLineIcon className={styles.icon} />
+                    ) : (
+                        <ChevronDownLineIcon className={styles.icon} />
+                    )}
+                </Button>
+            )}
         >
             {expanded && children}
         </Container>
