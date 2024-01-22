@@ -28,10 +28,10 @@ import {
     useRequest,
 } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
+import { COUNTRY_RECORD_TYPE_REGION } from '#utils/constants';
+import { countryIdToRegionIdMap } from '#utils/domain/country';
 
 import i18n from './i18n.json';
-import { COUNTRY_RECORD_TYPE_COUNTRY, COUNTRY_RECORD_TYPE_REGION } from '#utils/constants';
-import { countryIdToRegionIdMap } from '#utils/domain/country';
 
 type PersonnelTableItem = NonNullable<GoApiResponse<'/api/v2/personnel/'>['results']>[number];
 function keySelector(personnel: PersonnelTableItem) {

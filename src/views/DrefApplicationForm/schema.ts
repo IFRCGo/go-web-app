@@ -316,13 +316,13 @@ const schema: DrefFormSchema = {
                         lessons_learned: {},
                         event_scope: {},
                         people_in_need: { validations: [positiveIntegerCondition] },
-                        event_text: { validations: [max500CharCondition] },
                     };
                 }
 
                 if (val?.type_of_dref === TYPE_IMMINENT) {
                     conditionalFields = {
                         ...conditionalFields,
+                        event_text: { validations: [max500CharCondition] },
                         anticipatory_actions: {},
                         supporting_document: {},
                     };
