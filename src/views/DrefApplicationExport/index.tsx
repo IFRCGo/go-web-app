@@ -482,13 +482,17 @@ export function Component() {
                         </Container>
                     )}
                     {eventTextDefined && (
-                        <Container
-                            heading={strings.approximateDateOfImpactHeading}
-                            headingLevel={3}
-                        >
+                        <Container heading={strings.approximateDateOfImpactHeading}>
                             <DescriptionText>
                                 {drefResponse.event_text}
                             </DescriptionText>
+                        </Container>
+                    )}
+                    {eventDateDefined && (
+                        <Container heading={strings.dateWhenTheTriggerWasMetHeading}>
+                            <DateOutput
+                                value={drefResponse?.event_date}
+                            />
                         </Container>
                     )}
                     {isTruthyString(drefResponse?.event_map_file?.file) && (
@@ -496,13 +500,6 @@ export function Component() {
                             <Image
                                 src={drefResponse?.event_map_file?.file}
                                 caption={drefResponse?.event_map_file?.caption}
-                            />
-                        </Container>
-                    )}
-                    {eventDateDefined && (
-                        <Container heading={strings.dateWhenTheTriggerWasMetHeading}>
-                            <DateOutput
-                                value={drefResponse?.event_date}
                             />
                         </Container>
                     )}

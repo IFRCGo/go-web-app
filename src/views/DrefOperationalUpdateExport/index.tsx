@@ -163,12 +163,18 @@ export function Component() {
     const imagesFileDefined = isDefined(drefResponse)
         && isDefined(drefResponse.images_file)
         && drefResponse.images_file.length > 0;
+    const eventDateDefined = drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT
+        && isDefined(drefResponse?.event_date);
+    const eventTextDefined = drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
+        && isDefined(drefResponse?.event_text);
     const anticipatoryActionsDefined = drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
         && isTruthyString(drefResponse?.anticipatory_actions?.trim());
     const showEventDescriptionSection = eventDescriptionDefined
         || eventScopeDefined
         || imagesFileDefined
         || anticipatoryActionsDefined
+        || eventDateDefined
+        || eventTextDefined
         || isDefined(drefResponse?.event_map_file?.file);
 
     const ifrcActionsDefined = isTruthyString(drefResponse?.ifrc?.trim());
@@ -455,6 +461,20 @@ export function Component() {
                             <Image
                                 src={drefResponse?.event_map_file?.file}
                                 caption={drefResponse?.event_map_file?.caption}
+                            />
+                        </Container>
+                    )}
+                    {eventTextDefined && (
+                        <Container heading={strings.approximateDateOfImpactHeading}>
+                            <DescriptionText>
+                                {drefResponse.event_text}
+                            </DescriptionText>
+                        </Container>
+                    )}
+                    {eventDateDefined && (
+                        <Container heading={strings.dateWhenTheTriggerWasMetHeading}>
+                            <DateOutput
+                                value={drefResponse?.event_date}
                             />
                         </Container>
                     )}
