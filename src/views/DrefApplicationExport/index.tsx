@@ -177,10 +177,13 @@ export function Component() {
         && drefResponse.images_file.length > 0;
     const anticipatoryActionsDefined = drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
         && isTruthyString(drefResponse?.anticipatory_actions?.trim());
+    const eventDateDefined = drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT
+        && isDefined(drefResponse?.event_date);
     const showEventDescriptionSection = eventDescriptionDefined
         || eventScopeDefined
         || imagesFileDefined
         || anticipatoryActionsDefined
+        || eventDateDefined
         || isDefined(drefResponse?.event_map_file?.file);
 
     const lessonsLearnedDefined = isTruthyString(drefResponse?.lessons_learned?.trim());
@@ -495,11 +498,8 @@ export function Component() {
                             />
                         </Container>
                     )}
-                    {isDefined(drefResponse?.event_date) && (
-                        <Container
-                            heading={drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT
-                                && strings.dateWhenTheTriggerWasMetHeading}
-                        >
+                    {eventDateDefined && (
+                        <Container heading={strings.dateWhenTheTriggerWasMetHeading}>
                             <DateOutput
                                 value={drefResponse?.event_date}
                             />
