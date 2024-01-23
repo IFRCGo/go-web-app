@@ -396,7 +396,7 @@ export function Component() {
                             />
                         </Container>
                     )}
-                    {isDefined(drefResponse?.end_date) && (
+                    {isDefined(drefResponse?.event_date) && (
                         <Container
                             heading={drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT
                                 && strings.dateWhenTheTriggerWasMetHeading}
