@@ -14,6 +14,7 @@ import Image from '#components/printable/Image';
 import Heading from '#components/printable/Heading';
 import Link from '#components/printable/Link';
 
+import DateOutput from '#components/DateOutput';
 import DescriptionText from '#components/printable/DescriptionText';
 import NumberOutput from '#components/NumberOutput';
 import useTranslation from '#hooks/useTranslation';
@@ -25,6 +26,7 @@ import {
     DREF_TYPE_ASSESSMENT,
     DREF_TYPE_IMMINENT,
     DisasterCategory,
+    ONSET_SLOW,
 } from '#utils/constants';
 import {
     identifiedNeedsAndGapsOrder,
@@ -144,9 +146,15 @@ export function Component() {
     const imagesFileDefined = isDefined(drefResponse)
         && isDefined(drefResponse.images_file)
         && drefResponse.images_file.length > 0;
+    const eventDateDefined = drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT
+        && isDefined(drefResponse?.event_date);
+    const eventTextDefined = drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
+        && isDefined(drefResponse?.event_text);
     const showEventDescriptionSection = eventDescriptionDefined
         || eventScopeDefined
         || imagesFileDefined
+        || eventDateDefined
+        || eventTextDefined
         || isDefined(drefResponse?.event_map_file?.file);
 
     const ifrcActionsDefined = isTruthyString(drefResponse?.ifrc?.trim());
@@ -391,6 +399,24 @@ export function Component() {
                             <Image
                                 src={drefResponse?.event_map_file?.file}
                                 caption={drefResponse?.event_map_file?.caption}
+                            />
+                        </Container>
+                    )}
+                    {eventTextDefined && (
+                        <Container heading={strings.approximateDateOfImpactHeading}>
+                            <DescriptionText>
+                                {drefResponse.event_text}
+                            </DescriptionText>
+                        </Container>
+                    )}
+                    {eventDateDefined && (
+                        <Container
+                            heading={drefResponse?.type_of_onset === ONSET_SLOW
+                                ? strings.dateWhenTriggerWasMetHeading
+                                : strings.dateOfEventSlowHeading}
+                        >
+                            <DateOutput
+                                value={drefResponse?.event_date}
                             />
                         </Container>
                     )}

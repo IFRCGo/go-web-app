@@ -23,6 +23,7 @@ import {
     DISASTER_CATEGORY_YELLOW,
     DREF_TYPE_ASSESSMENT,
     DREF_TYPE_IMMINENT,
+    ONSET_SLOW,
     DisasterCategory,
 } from '#utils/constants';
 import {
@@ -179,11 +180,14 @@ export function Component() {
         && isTruthyString(drefResponse?.anticipatory_actions?.trim());
     const eventDateDefined = drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT
         && isDefined(drefResponse?.event_date);
+    const eventTextDefined = drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
+        && isDefined(drefResponse?.event_text);
     const showEventDescriptionSection = eventDescriptionDefined
         || eventScopeDefined
         || imagesFileDefined
         || anticipatoryActionsDefined
         || eventDateDefined
+        || eventTextDefined
         || isDefined(drefResponse?.event_map_file?.file);
 
     const lessonsLearnedDefined = isTruthyString(drefResponse?.lessons_learned?.trim());
@@ -478,16 +482,22 @@ export function Component() {
                             </Link>
                         </Container>
                     )}
-                    {isDefined(drefResponse)
-                        && drefResponse.type_of_dref === DREF_TYPE_IMMINENT
-                        && isTruthyString(drefResponse.event_text) && (
-                        <Container
-                            heading={strings.approximateDateOfImpactHeading}
-                            headingLevel={3}
-                        >
+                    {eventTextDefined && (
+                        <Container heading={strings.approximateDateOfImpactHeading}>
                             <DescriptionText>
                                 {drefResponse.event_text}
                             </DescriptionText>
+                        </Container>
+                    )}
+                    {eventDateDefined && (
+                        <Container
+                            heading={drefResponse?.type_of_onset === ONSET_SLOW
+                                ? strings.dateWhenTriggerWasMetHeading
+                                : strings.dateOfEventSlowHeading}
+                        >
+                            <DateOutput
+                                value={drefResponse?.event_date}
+                            />
                         </Container>
                     )}
                     {isTruthyString(drefResponse?.event_map_file?.file) && (
@@ -495,13 +505,6 @@ export function Component() {
                             <Image
                                 src={drefResponse?.event_map_file?.file}
                                 caption={drefResponse?.event_map_file?.caption}
-                            />
-                        </Container>
-                    )}
-                    {eventDateDefined && (
-                        <Container heading={strings.dateWhenTheTriggerWasMetHeading}>
-                            <DateOutput
-                                value={drefResponse?.event_date}
                             />
                         </Container>
                     )}
