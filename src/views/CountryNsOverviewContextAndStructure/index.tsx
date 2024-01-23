@@ -44,6 +44,7 @@ export function Component() {
                             href={`https://data.ifrc.org/FDRS/national-society/${countryResponse.fdrs}`}
                             external
                             withLinkIcon
+                            variant="primary"
                         >
                             {strings.nationalSocietyPageOnFDRS}
                         </Link>
@@ -53,6 +54,7 @@ export function Component() {
                             href={countryResponse.url_ifrc}
                             external
                             withLinkIcon
+                            variant="primary"
                         >
                             {resolveToString(
                                 strings.countryOnIFRC,
@@ -65,6 +67,7 @@ export function Component() {
                             href={`https://reliefweb.int/country/${countryResponse.iso3}`}
                             external
                             withLinkIcon
+                            variant="primary"
                         >
                             {resolveToString(
                                 strings.countryOnReliefWeb,
@@ -77,9 +80,23 @@ export function Component() {
                             href={countryResponse?.society_url}
                             external
                             withLinkIcon
+                            variant="primary"
                         >
                             {resolveToString(
                                 strings.countryRCHomepage,
+                                { countryName: countryResponse?.name ?? '-' },
+                            )}
+                        </Link>
+                    )}
+                    {isTruthyString(countryResponse.disaster_law_url) && (
+                        <Link
+                            href={countryResponse?.disaster_law_url}
+                            external
+                            withLinkIcon
+                            variant="primary"
+                        >
+                            {resolveToString(
+                                strings.countryDisasterLaw,
                                 { countryName: countryResponse?.name ?? '-' },
                             )}
                         </Link>

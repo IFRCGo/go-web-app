@@ -4,6 +4,7 @@ import { isDefined, isNotDefined } from '@togglecorp/fujs';
 import BlockLoading from '#components/BlockLoading';
 import Container from '#components/Container';
 import TextOutput from '#components/TextOutput';
+import Link from '#components/Link';
 import useTranslation from '#hooks/useTranslation';
 import { type CountryOutletContext } from '#utils/outletContext';
 import { sumSafe } from '#utils/common';
@@ -40,6 +41,16 @@ function NationalSocietyIndicators() {
             className={styles.nsIndicators}
             childrenContainerClassName={styles.indicatorContent}
             heading={strings.nationalSocietyIndicatorsTitle}
+            actions={(
+                <Link
+                    href="https://data.ifrc.org/FDRS/"
+                    external
+                    withLinkIcon
+                    variant="primary"
+                >
+                    {strings.goToFDRS}
+                </Link>
+            )}
             headingLevel={4}
             withHeaderBorder
         >
@@ -89,12 +100,6 @@ function NationalSocietyIndicators() {
             <TextOutput
                 label={strings.nationalSocietyStaffLabel}
                 value={indicatorResponse?.staff_total}
-                valueType="number"
-                strongValue
-            />
-            <TextOutput
-                label={strings.nationalSocietyTrainedInFirstAidLabel}
-                value={indicatorResponse?.trained_in_first_aid}
                 valueType="number"
                 strongValue
             />
