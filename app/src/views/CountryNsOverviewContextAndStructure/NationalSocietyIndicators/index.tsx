@@ -5,13 +5,13 @@ import {
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { sumSafe } from '@ifrc-go/ui/utils';
+import { sumSafe, type CountryOutletContext } from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
 } from '@togglecorp/fujs';
 
-import { type CountryOutletContext } from '#utils/outletContext';
+import Link from '#components/Link';
 import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -45,6 +45,16 @@ function NationalSocietyIndicators() {
             className={styles.nsIndicators}
             childrenContainerClassName={styles.indicatorContent}
             heading={strings.nationalSocietyIndicatorsTitle}
+            actions={(
+                <Link
+                    href="https://data.ifrc.org/FDRS/"
+                    external
+                    withLinkIcon
+                    variant="primary"
+                >
+                    {strings.goToFDRS}
+                </Link>
+            )}
             headingLevel={4}
             withHeaderBorder
         >
@@ -94,12 +104,6 @@ function NationalSocietyIndicators() {
             <TextOutput
                 label={strings.nationalSocietyStaffLabel}
                 value={indicatorResponse?.staff_total}
-                valueType="number"
-                strongValue
-            />
-            <TextOutput
-                label={strings.nationalSocietyTrainedInFirstAidLabel}
-                value={indicatorResponse?.trained_in_first_aid}
                 valueType="number"
                 strongValue
             />
