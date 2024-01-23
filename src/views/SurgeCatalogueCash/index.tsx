@@ -38,13 +38,13 @@ export function Component() {
     const roleProfiles: LinkData[] = [
         {
             title: strings.cashAndVoucherAssistanceCoordinator,
-            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EY4PZ_4Zt01AkY8aAyTD_84BJIYbk78-E9lu310swDYeZg',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EYpOCQjtEupNv_LJjCdl7EQBzCbjtwcqTyi9A8oVRirI9g',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.cashAndVoucherAssistanceOfficer,
-            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Eb-QC0lSSSVKkcqqGs1uER4BSlltRKy-prrfR0AAxg4cpQ',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ER8RknHrQGRMtPTGAgHnoksBWfanPFy6ZM2uzmApKFCtvw',
             external: true,
             withLinkIcon: true,
         },
