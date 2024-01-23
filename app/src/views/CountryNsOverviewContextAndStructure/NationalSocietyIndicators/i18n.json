@@ -9,6 +9,7 @@
         "nationalSocietyExpendituresLabel": "Expenditures (CHF)",
         "nationalSocietyBranchesLabel": "Branches",
         "nationalSocietyStaffLabel": "Staff",
-        "nationalSocietyYouthLabel": "Youth-6-29 yrs"
+        "nationalSocietyYouthLabel": "Youth-6-29 yrs",
+        "goToFDRS": "Go to FDRS"
     }
 }

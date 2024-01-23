@@ -3,11 +3,13 @@
     "strings": {
         "countryIndicatorsTitle": "Country Key Indicators",
         "countryIndicatorsPopulationLabel": "Population",
+        "countryIndicatorsPopulationUnder18Label": "Population under 18",
         "countryIndicatorsUrbanPopulationLabel": "Urban Pop",
         "countryIndicatorsGDPLabel": "GDP",
         "countryIndicatorsPovertyLabel": "Poverty (%POP)",
         "countryIndicatorsLifeExpectancyLabel": "Life Expectancy",
         "countryIndicatorsLiteracyLabel": "Literacy",
-        "countryIndicatorsCapitaLabel": "GNI/Capita"
+        "countryIndicatorsCapitaLabel": "GNI/Capita",
+        "countryIndicatorsGenderInequalityIndexLabel": "Gender Inequality index (GII)"
     }
 }
