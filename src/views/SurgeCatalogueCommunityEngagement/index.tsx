@@ -12,19 +12,13 @@ export function Component() {
     const roleProfiles: LinkData[] = [
         {
             title: strings.communityEngagementCoordinator,
-            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EXAstfnsq_pCm5CuEyvJvysBVi-gibREICY9z0SUdu2dTQ',
-            external: true,
-            withLinkIcon: true,
-        },
-        {
-            title: strings.communityEngagementAccountabilityOfficer,
-            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Eb48pk6Vcg1HgFH8ozFenTsB-xZemh857EM83RmEEshYUw',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EZVuH1YHpyhBmk4FqGvLjGwBzn3NrfPHQSbFJ6saNUUdeA',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.communityEngagementOfficer,
-            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EVvAq-WQHhBAn9sQ7cdrBQgB3lsiYM49ACcIStzrBO1KUA',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ES9FRfhJCYhBglzjsHm84pYBKlo6qMx-kyQILQntuTt5aw',
             external: true,
             withLinkIcon: true,
         },
@@ -33,7 +27,7 @@ export function Component() {
     const frameworkData: LinkData[] = [
         {
             title: strings.technicalFrameworkCEA,
-            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ee1IPzmxf_1BoQProDcc86oBacCbOpO2uycPa0Y5qoRElA',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Edrjy2fp-NpKslCklWup1BkBI_JykrE0ouEDwoysoekCyg',
             external: true,
             withLinkIcon: true,
         },
