@@ -26,6 +26,7 @@ import {
     DREF_TYPE_ASSESSMENT,
     DREF_TYPE_IMMINENT,
     DisasterCategory,
+    ONSET_SLOW,
 } from '#utils/constants';
 import {
     identifiedNeedsAndGapsOrder,
@@ -409,7 +410,11 @@ export function Component() {
                         </Container>
                     )}
                     {eventDateDefined && (
-                        <Container heading={strings.dateWhenTheTriggerWasMetHeading}>
+                        <Container
+                            heading={drefResponse?.type_of_onset === ONSET_SLOW
+                                ? strings.dateWhenTriggerWasMetHeading
+                                : strings.dateOfEventSlowHeading}
+                        >
                             <DateOutput
                                 value={drefResponse?.event_date}
                             />

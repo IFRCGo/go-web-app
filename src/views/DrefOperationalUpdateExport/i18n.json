@@ -30,7 +30,8 @@
         "anticipatoryActionsHeading": "Why your National Society is acting now and what criteria is used to launch this operation.",
         "scopeAndScaleSectionHeading": "Scope and Scale",
         "approximateDateOfImpactHeading": "Approximate date of impact",
-        "dateWhenTheTriggerWasMetHeading": "Date of event / Date when the trigger was met",
+        "dateOfEventSlowHeading": "Date of event",
+        "dateWhenTriggerWasMetHeading": "Date when the trigger was met",
 
         "summaryOfChangesSectionHeading": "Summary of Changes",
         "changingTimeFrameLabel":"Are you changing the timeframe of the operation",
