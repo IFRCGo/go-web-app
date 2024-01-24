@@ -334,7 +334,6 @@ export function Component() {
         );
         handler();
     }, [handleFormError, handleSubmit, validate, setError]);
-
     const error = getErrorObject(formError);
 
     const currentPerStep = statusResponse?.phase;
