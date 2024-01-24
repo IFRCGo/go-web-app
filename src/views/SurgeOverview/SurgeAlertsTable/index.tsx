@@ -73,7 +73,6 @@ function SurgeAlertsTable() {
         query: {
             limit,
             offset,
-            created_at__gte: aMonthAgo.toISOString(),
             ordering,
 
             // NOTE: following filters are required
