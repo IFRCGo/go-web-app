@@ -149,7 +149,7 @@ export function Component() {
     const eventDateDefined = drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT
         && isDefined(drefResponse?.event_date);
     const eventTextDefined = drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
-        && isDefined(drefResponse?.event_text);
+        && isTruthyString(drefResponse?.event_text?.trim());
     const showEventDescriptionSection = eventDescriptionDefined
         || eventScopeDefined
         || imagesFileDefined
