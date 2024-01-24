@@ -17,6 +17,7 @@ import {
     stringLabelSelector,
     stringNameSelector,
 } from '@ifrc-go/ui/utils';
+import getBbox from '@turf/bbox';
 import {
     _cs,
     isDefined,
@@ -27,19 +28,24 @@ import {
     MapLayer,
     MapSource,
 } from '@togglecorp/re-map';
-import getBbox from '@turf/bbox';
 import type {
     CircleLayer,
     CirclePaint,
     FillLayer,
 } from 'mapbox-gl';
 
+import { adminUrl } from '#config';
 import BaseMap from '#components/domain/BaseMap';
 import Link from '#components/Link';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import MapPopup from '#components/MapPopup';
+
 import { type components } from '#generated/types';
 import useFilterState from '#hooks/useFilterState';
+
+import useAuth from '#hooks/domain/useAuth';
+import { resolveUrl } from '#utils/resolveUrl';
+
 import {
     COLOR_RED,
     DEFAULT_MAP_PADDING,
@@ -87,7 +93,7 @@ function NationalSocietyLocalUnitsMap(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
-    const { countryResponse } = useOutletContext<CountryOutletContext>();
+    const { countryId, countryResponse } = useOutletContext<CountryOutletContext>();
     const [
         clickedPointProperties,
         setClickedPointProperties,
@@ -96,6 +102,8 @@ function NationalSocietyLocalUnitsMap(props: Props) {
     const countryBounds = useMemo(() => (
         countryResponse ? getBbox(countryResponse.bbox) : undefined
     ), [countryResponse]);
+
+    const { isAuthenticated } = useAuth();
 
     const {
         rawFilter,
@@ -222,9 +230,18 @@ function NationalSocietyLocalUnitsMap(props: Props) {
         <Container
             className={_cs(styles.nationalSocietyLocalUnitsMap, className)}
             heading={strings.localUnitsMapTitle}
+            childrenContainerClassName={styles.content}
             withGridViewInFilter
             withHeaderBorder
-            childrenContainerClassName={styles.content}
+            actions={isAuthenticated && (
+                <Link
+                    external
+                    href={resolveUrl(adminUrl, `api/country/${countryId}/change/`)}
+                    variant="secondary"
+                >
+                    {strings.editLocalUnitLink}
+                </Link>
+            )}
             filters={(
                 <>
                     <SelectInput
@@ -354,6 +371,24 @@ function NationalSocietyLocalUnitsMap(props: Props) {
                     </MapPopup>
                 )}
             </BaseMap>
+            <Container
+                className={styles.mapDetail}
+                childrenContainerClassName={styles.addressDetail}
+            >
+                <div className={styles.location}>
+                    <div>{countryResponse?.address_1}</div>
+                    <div>{countryResponse?.address_2}</div>
+                    <div>{countryResponse?.city_code}</div>
+                </div>
+                <Link
+                    href={`mailto:${countryResponse?.email ?? '-'}`}
+                    variant="tertiary"
+                    withUnderline
+                    external
+                >
+                    {countryResponse?.email}
+                </Link>
+            </Container>
         </Container>
     );
 }
