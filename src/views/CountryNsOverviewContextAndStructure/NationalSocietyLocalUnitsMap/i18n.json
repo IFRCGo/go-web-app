@@ -17,6 +17,7 @@
         "localUnitDetailType": "Type",
         "localUnitDetailFocalPerson": "Focal Person",
         "localUnitDetailEmail": "Email",
-        "localUnitsFilterClear": "Clear Filters"
+        "localUnitsFilterClear": "Clear Filters",
+        "editLocalUnitLink": "Add/ Edit local units"
     }
 }

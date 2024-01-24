@@ -30,8 +30,7 @@ export function Component() {
 
     const population = indicatorResponse?.population ?? 0;
     const populationUnder18 = population !== 0
-      ? ((indicatorResponse?.unicef_population_under_18 ?? 0) / population) * 100
-      : 0;
+        ? ((indicatorResponse?.unicef_population_under_18 ?? 0) / population) * 100 : 0;
     const formattedPopulationUnder18 = populationUnder18.toFixed(2);
 
     return (
