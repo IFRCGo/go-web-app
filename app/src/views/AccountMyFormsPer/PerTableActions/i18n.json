@@ -3,6 +3,7 @@
     "strings":{
         "tableActionEditLabel": "Edit {phaseDisplay}",
         "tableActionViewLabel": "View {phaseDisplay}",
-        "tableActionViewWorkPlan": "View Work Plan"
+        "tableActionViewWorkPlan": "View Work Plan",
+        "dropdownPerActionExportLabel": "Export"
     }
 }
