@@ -17,7 +17,6 @@
         "surgeAlertStatus": "Status",
         "surgeAlertOpen": "Open",
         "surgeAlertClosed": "Closed",
-        "surgeAlertStoodDown": "Stood down",
-        "surgeAlertImmediately": "Immediately"
+        "surgeAlertStoodDown": "Stood down"
     }
 }

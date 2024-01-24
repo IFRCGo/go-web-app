@@ -188,7 +188,7 @@ export function Component() {
                     return duration;
                 },
             ),
-            createStringColumn<SurgeListItem, TableKey>(
+            createDateColumn<SurgeListItem, TableKey>(
                 'start',
                 strings.surgeAlertStartDate,
                 (item) => {
@@ -200,7 +200,7 @@ export function Component() {
                     const nowMs = new Date().getTime();
 
                     const duration = startDate.getTime() < nowMs
-                        ? strings.surgeAlertImmediately
+                        ? item.closes
                         : startDate.toLocaleString();
 
                     return duration;
@@ -243,7 +243,6 @@ export function Component() {
             ),
         ]),
         [
-            strings.surgeAlertImmediately,
             strings.surgeAlertDate,
             strings.surgeAlertDuration,
             strings.surgeAlertStartDate,
