@@ -10,6 +10,7 @@ import {
 
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import Link from '#components/Link';
+import { api } from '#config';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import {
     PER_PHASE_ACTION,
@@ -18,6 +19,7 @@ import {
     PER_PHASE_PRIORITIZATION,
     PER_PHASE_WORKPLAN,
 } from '#utils/domain/per';
+import { resolveUrl } from '#utils/resolveUrl';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -110,6 +112,14 @@ function PerTableActions(props: Props) {
                             {resolveToString(strings.tableActionEditLabel, { phaseDisplay: phaseMap?.[PER_PHASE_PRIORITIZATION] ?? '--' })}
                         </DropdownMenuItem>
                     )}
+                    <DropdownMenuItem
+                        type="link"
+                        href={resolveUrl(api, `api/v2/export-per/${perId}`)}
+                        persist
+                        external
+                    >
+                        {strings.dropdownPerActionExportLabel}
+                    </DropdownMenuItem>
                 </>
             )}
         >
