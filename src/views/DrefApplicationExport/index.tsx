@@ -181,13 +181,13 @@ export function Component() {
     const eventDateDefined = drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT
         && isDefined(drefResponse?.event_date);
     const eventTextDefined = drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
-        && isDefined(drefResponse?.event_text);
+        && isTruthyString(drefResponse?.event_text?.trim());
     const showEventDescriptionSection = eventDescriptionDefined
         || eventScopeDefined
         || imagesFileDefined
         || anticipatoryActionsDefined
-        || eventDateDefined
         || eventTextDefined
+        || eventDateDefined
         || isDefined(drefResponse?.event_map_file?.file);
 
     const lessonsLearnedDefined = isTruthyString(drefResponse?.lessons_learned?.trim());
@@ -485,7 +485,7 @@ export function Component() {
                     {eventTextDefined && (
                         <Container heading={strings.approximateDateOfImpactHeading}>
                             <DescriptionText>
-                                {drefResponse.event_text}
+                                {drefResponse?.event_text}
                             </DescriptionText>
                         </Container>
                     )}
