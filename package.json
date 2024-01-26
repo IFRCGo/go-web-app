@@ -8,7 +8,8 @@
         "build:ui": "yarn workspace @ifrc-go/ui build",
         "build": "yarn build:ui && yarn workspace go-web-app build",
         "start:ui": "yarn workspace @ifrc-go/ui start",
-        "start:app": "yarn build:ui && yarn workspace go-web-app start"
+        "start:app": "yarn build:ui && yarn workspace go-web-app start",
+        "generate:type": "yarn workspace go-web-app generate:type"
     },
     "devDependencies": {
         "patch-package": "^8.0.0",
