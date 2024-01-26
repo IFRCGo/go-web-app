@@ -16,6 +16,7 @@
     },
     "workspaces": [
         "app",
-        "packages/ui"
+        "packages/ui",
+        "packages/go-ui-storybook"
     ]
 }
