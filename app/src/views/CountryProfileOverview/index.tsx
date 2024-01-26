@@ -56,14 +56,14 @@ export function Component() {
             />
             <TextOutput
                 label={strings.countryIndicatorsGDPLabel}
-                value={indicatorResponse?.gdp}
-                valueType="number"
+                value={isDefined(indicatorResponse?.gdp) ? `$ ${indicatorResponse?.gdp}` : undefined}
+                valueType="text"
                 strongValue
             />
             <TextOutput
                 label={strings.countryIndicatorsCapitaLabel}
-                value={indicatorResponse?.gnipc}
-                valueType="number"
+                value={isDefined(indicatorResponse?.gnipc) ? `$ ${indicatorResponse?.gnipc}` : undefined}
+                valueType="text"
                 strongValue
             />
             <TextOutput
