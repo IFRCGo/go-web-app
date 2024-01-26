@@ -6,8 +6,8 @@ import {
 import { useParams } from 'react-router-dom';
 import {
     Container,
-    NumberOutput,
     DateOutput,
+    NumberOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -27,9 +27,6 @@ import {
 
 import ifrcLogo from '#assets/icons/ifrc-square.png';
 import Link from '#components/printable/Link';
-
-import { useRequest } from '#utils/restRequest';
-
 import {
     DISASTER_CATEGORY_ORANGE,
     DISASTER_CATEGORY_RED,
@@ -43,6 +40,7 @@ import {
     identifiedNeedsAndGapsOrder,
     plannedInterventionOrder,
 } from '#utils/domain/dref';
+import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';

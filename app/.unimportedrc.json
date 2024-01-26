@@ -6,7 +6,7 @@
         "#assets/content/operational_timeline_title.svg?react",
         "#assets/content/operational_timeline_body.svg?react"
     ],
-    "ignoreUnused": ["@tinymce/tinymce-react"],
+    "ignoreUnused": ["@tinymce/tinymce-react", "@mapbox/mapbox-gl-draw"],
     "extensions": [".ts", ".js", ".tsx", ".jsx"],
     "aliases": {
         "#generated/*": ["./generated/*"],
