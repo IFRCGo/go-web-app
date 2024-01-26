@@ -2,19 +2,24 @@ import {
     Fragment,
     useCallback,
     useMemo,
+    useState,
 } from 'react';
 import { useParams } from 'react-router-dom';
 import {
     AnalyzingIcon,
     ArrowLeftLineIcon,
     CheckboxFillIcon,
+    DeleteBinLineIcon,
     DownloadFillIcon,
 } from '@ifrc-go/icons';
 import {
     BlockLoading,
     Button,
     Container,
+    DateOutput,
     Heading,
+    IconButton,
+    InputSection,
     KeyFigure,
     Message,
     PieChart,
@@ -42,13 +47,19 @@ import {
     listToMap,
     mapToList,
 } from '@togglecorp/fujs';
+import { removeNull } from '@togglecorp/toggle-form';
 
+import GoSingleFileInput from '#components/domain/GoSingleFileInput';
 import Link from '#components/Link';
 import PerExportModal from '#components/PerExportModal';
 import WikiLink from '#components/WikiLink';
 import useAuth from '#hooks/domain/useAuth';
+import useAlert from '#hooks/useAlert';
 import useRouting from '#hooks/useRouting';
-import { useRequest } from '#utils/restRequest';
+import {
+    useLazyRequest,
+    useRequest,
+} from '#utils/restRequest';
 
 import PreviousAssessmentCharts from './PreviousAssessmentChart';
 import PublicCountryPreparedness from './PublicCountryPreparedness';
@@ -70,12 +81,28 @@ function primaryRedColorShadeSelector(_: unknown, i: number) {
     return primaryRedColorShades[i];
 }
 
+interface Props{
+    disabled?: boolean;
+}
+
+function getFileNameFromUrl(urlString: string) {
+    const url = new URL(urlString);
+    const splits = url.pathname.split('/');
+    const document = splits[splits.length - 1];
+    return document;
+}
+
 // eslint-disable-next-line import/prefer-default-export
-export function Component() {
+export function Component(props:Props) {
+    const { disabled: disabledFromProps } = props;
+
+    const { isAuthenticated } = useAuth();
+    const alert = useAlert();
     const strings = useTranslation(i18n);
     const { perId, countryId } = useParams<{ perId: string, countryId: string }>();
-    // const { countryId } = useParams<{ countryId: string }>();
-    const { isAuthenticated } = useAuth();
+
+    const [fileId, setFileId] = useState<number | undefined>();
+    const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
 
     const {
         pending: pendingLatestPerResponse,
@@ -162,6 +189,43 @@ export function Component() {
             id: Number(processStatusResponse?.prioritization),
         },
     });
+
+    const {
+        pending: fetchUploadDocument,
+        error: UploadDocumentResponseError,
+        response: allFileResponse,
+        retrigger,
+    } = useRequest({
+        skip: isNotDefined(countryId),
+        url: '/api/v2/per-document-upload/',
+        query: { country: Number(countryId) },
+    });
+    const filesReponse = removeNull(allFileResponse?.results);
+
+    const { trigger } = useLazyRequest({
+        method: 'DELETE',
+        url: '/api/v2/per-document-upload/{id}/',
+        pathVariables: ({ id }) => ({ id }),
+        onSuccess: () => {
+            retrigger();
+            alert.show(
+                strings.relevantDocumentDeletedSuccessMessage,
+                { variant: 'success' },
+            );
+        },
+        onFailure: () => {
+            retrigger();
+            alert.show(
+                strings.relevantDocumentDeletedFailureMessage,
+                { variant: 'danger' },
+            );
+        },
+
+    });
+
+    const handleFileDelete = useCallback((id: number) => {
+        trigger({ id });
+    }, [trigger]);
 
     const formAnswerMap = useMemo(
         () => (
@@ -397,7 +461,11 @@ export function Component() {
         || perProcessStatusPending
         || overviewPending
         || assessmentResponsePending
-        || prioritizationResponsePending;
+        || prioritizationResponsePending
+        || fetchUploadDocument
+        || UploadDocumentResponseError;
+
+    const disabled = disabledFromProps;
 
     /*
     if (pendingLatestPerResponse) {
@@ -438,6 +506,10 @@ export function Component() {
         setTrue: setShowExportModalTrue,
         setFalse: setShowExportModalFalse,
     }] = useBooleanState(false);
+
+    const handleChange = useCallback((id: number | undefined) => {
+        setFileId(id);
+    }, []);
 
     return (
         <Container
@@ -579,7 +651,7 @@ export function Component() {
                     withHeaderBorder
                 >
                     <PreviousAssessmentCharts
-                        ratingOptions={perOptionsResponse.componentratings}
+                        ratingOptions={perOptionsResponse?.componentratings}
                         data={prevAssessmentRatings}
                     />
                 </Container>
@@ -700,14 +772,84 @@ export function Component() {
                     />
                 </div>
             )}
-            {showExportModal && (
+            {showExportModal && isDefined(perId) && (
                 <PerExportModal
                     onCancel={setShowExportModalFalse}
-                    id={Number(perId)}
-                    applicationType="PER"
+                    perId={perId}
                 />
             )}
+            <Container
+                heading={strings.relevantDocumentHeader}
+                className={styles.ratingResults}
+                withHeaderBorder
+            >
+                {countryId && (
+                    <InputSection className={styles.uploadInputSection}>
+                        <GoSingleFileInput
+                            name="country_ns_upload"
+                            accept=".pdf, .docx, .pptx"
+                            fileIdToUrlMap={fileIdToUrlMap}
+                            onChange={handleChange}
+                            url="/api/v2/per-document-upload/"
+                            value={fileId}
+                            setFileIdToUrlMap={setFileIdToUrlMap}
+                            clearable
+                            disabled={disabled
+                                || (isDefined(filesReponse)
+                                && filesReponse?.length >= 10)}
+                            countryId={countryId}
+                            retrigger={retrigger}
+                        >
+                            {strings.upload}
+
+                        </GoSingleFileInput>
+                        <div className={styles.disclaimer}>
+                            {strings.limitDisclaimer}
+                        </div>
+                    </InputSection>
+                )}
+                {(filesReponse && filesReponse?.length > 0) && (
+                    <Container withHeaderBorder>
+                        <div className={styles.relevantDocumentList}>
+                            {filesReponse?.map((file) => (
+                                <div className={styles.documentItem} key={countryId}>
+                                    <div
+                                        className={styles.file}
+                                    >
+                                        {getFileNameFromUrl(file.file).concat(', ')}
+                                        <DateOutput value={file.created_at} />
+                                    </div>
+                                    <div className={styles.actions}>
+                                        <Link
+                                            external
+                                            variant="tertiary"
+                                            download
+                                            className={styles.downloadIcon}
+                                            href={file.file}
+                                        >
+                                            <DownloadFillIcon />
+                                        </Link>
+                                        <IconButton
+                                            className={styles.removeButton}
+                                            name={file.id}
+                                            onClick={handleFileDelete}
+                                            title={strings.removeFileButtonTitle}
+                                            ariaLabel={strings.removeFileButtonTitle}
+                                            variant="tertiary"
+                                            spacing="none"
+                                            disabled={disabled}
+                                        >
+                                            <DeleteBinLineIcon />
+                                        </IconButton>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </Container>
+                )}
+            </Container>
         </Container>
     );
 }
+
 Component.displayName = 'CountryPreparedness';

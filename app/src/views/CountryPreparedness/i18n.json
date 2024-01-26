@@ -32,6 +32,12 @@
         "componentLimitedAccessDescription": "You do not have enough permission to view more details on this PER.",
         "componentRequestSeeMore": "Request to see more",
         "lastUpdatedLabel": "Last update",
-        "perExport": "Export"
+        "perExport": "Export",
+        "upload": "Upload",
+        "relevantDocumentHeader": "Relevant Documents",
+        "removeFileButtonTitle": "Remove",
+        "relevantDocumentDeletedSuccessMessage": "Document deleted successfully.",
+        "relevantDocumentDeletedFailureMessage": "Failed to delete document.",
+        "limitDisclaimer": "Note: You can only upload upto 10 documents."
     }
 }
