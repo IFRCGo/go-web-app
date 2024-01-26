@@ -25,12 +25,12 @@ const EXPORT_STATUS_COMPLETED = 1 satisfies ExportStatusEnum;
 const EXPORT_STATUS_ERRORED = 2 satisfies ExportStatusEnum;
 
 interface Props {
-    id: number;
+    perId: string;
     onCancel: () => void;
 }
 function PerExportModal(props: Props) {
     const {
-        id,
+        perId,
         onCancel,
     } = props;
 
@@ -40,17 +40,17 @@ function PerExportModal(props: Props) {
 
     const exportTriggerBody = useMemo(
         () => ({
-            export_id: id,
+            export_id: Number(perId),
             export_type: 'per' as const,
         }),
-        [id],
+        [perId],
     );
 
     const {
         pending: pendingExportTrigger,
         error: exportTriggerError,
     } = useRequest({
-        skip: isDefined(exportId) || isNotDefined(id),
+        skip: isDefined(exportId) || isNotDefined(perId),
         method: 'POST',
         useCurrentLanguageForMutation: true,
         url: '/api/v2/pdf-export/',
