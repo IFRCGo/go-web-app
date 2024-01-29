@@ -30,10 +30,13 @@ function Presence() {
                 heading={strings.countryIFRCPresenceTitle}
             >
                 <div className={styles.ifrcPresenceItem}>
-                    {/* //TODO: Add IFRC Delegation name */}
                     <TextOutput
                         label={strings.countryIFRCPresenceHeadOfDelegation}
-                        value={undefined}
+                        value={
+                            `${countryResponse?.country_delegation?.hod_first_name}
+                             ${countryResponse?.country_delegation?.hod_last_name}`
+                        }
+                        strongValue
                     />
                     <Link
                         href={legalStatusLink}
@@ -45,10 +48,10 @@ function Presence() {
                     </Link>
                 </div>
                 <div className={styles.ifrcPresenceItem}>
-                    {/* //TODO: Add IFRC Delegation contact */}
                     <TextOutput
                         label={strings.countryIFRCContact}
-                        value={undefined}
+                        value={countryResponse?.country_delegation?.hod_mobile_number}
+                        strongValue
                     />
                     <Link
                         href={countryResponse?.disaster_law_url}

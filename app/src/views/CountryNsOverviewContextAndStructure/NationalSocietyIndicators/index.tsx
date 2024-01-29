@@ -5,7 +5,10 @@ import {
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { sumSafe, type CountryOutletContext } from '@ifrc-go/ui/utils';
+import {
+    type CountryOutletContext,
+    sumSafe,
+} from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
