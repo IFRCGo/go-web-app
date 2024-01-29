@@ -65,7 +65,6 @@ export default function SurgeTable(props: Props) {
         preserveResponse: true,
         query: {
             event: Number(emergencyId),
-            is_active: true,
             limit,
             offset,
 
