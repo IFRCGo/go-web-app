@@ -2,6 +2,7 @@
     "namespace": "countryPreparedness",
     "strings": {
         "nsPreparednessAndResponseCapacityHeading": "NS Preparedness and Response Capacity",
+        "nsPreparednessAndResponseCapacityExport": "Export",
         "goBackButtonTitle": "Go back",
         "startDateLabel": "Start Date",
         "perPhaseLabel": "PER Phase",
@@ -30,6 +31,7 @@
         "componentLimitedAccess": "Limited access!",
         "componentLimitedAccessDescription": "You do not have enough permission to view more details on this PER.",
         "componentRequestSeeMore": "Request to see more",
-        "lastUpdatedLabel": "Last update"
+        "lastUpdatedLabel": "Last update",
+        "perExport": "Export"
     }
 }

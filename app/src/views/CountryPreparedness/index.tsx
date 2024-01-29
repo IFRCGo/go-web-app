@@ -8,6 +8,7 @@ import {
     AnalyzingIcon,
     ArrowLeftLineIcon,
     CheckboxFillIcon,
+    DownloadFillIcon,
 } from '@ifrc-go/icons';
 import {
     BlockLoading,
@@ -21,7 +22,10 @@ import {
     StackedProgressBar,
     TextOutput,
 } from '@ifrc-go/ui';
-import { useTranslation } from '@ifrc-go/ui/hooks';
+import {
+    useBooleanState,
+    useTranslation,
+} from '@ifrc-go/ui/hooks';
 import {
     numericCountSelector,
     numericIdSelector,
@@ -40,7 +44,9 @@ import {
 } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
+import PerExportModal from '#components/PerExportModal';
 import WikiLink from '#components/WikiLink';
+import useAuth from '#hooks/domain/useAuth';
 import useRouting from '#hooks/useRouting';
 import { useRequest } from '#utils/restRequest';
 
@@ -69,6 +75,7 @@ export function Component() {
     const strings = useTranslation(i18n);
     const { perId, countryId } = useParams<{ perId: string, countryId: string }>();
     // const { countryId } = useParams<{ countryId: string }>();
+    const { isAuthenticated } = useAuth();
 
     const {
         pending: pendingLatestPerResponse,
@@ -427,6 +434,11 @@ export function Component() {
     }
     */
 
+    const [showExportModal, {
+        setTrue: setShowExportModalTrue,
+        setFalse: setShowExportModalFalse,
+    }] = useBooleanState(false);
+
     return (
         <Container
             className={styles.countryPreparedness}
@@ -436,7 +448,7 @@ export function Component() {
             headingLevel={2}
             withHeaderBorder
             actions={(
-                <>
+                <div className={styles.perAction}>
                     <TextOutput
                         label={strings.lastUpdatedLabel}
                         value={processStatusResponse?.updated_at}
@@ -446,7 +458,17 @@ export function Component() {
                     <WikiLink
                         href="user_guide/Preparedness#how-to-use-it"
                     />
-                </>
+                    {isAuthenticated && (
+                        <Button
+                            name={undefined}
+                            onClick={setShowExportModalTrue}
+                            icons={<DownloadFillIcon />}
+                            variant="secondary"
+                        >
+                            {strings.perExport}
+                        </Button>
+                    )}
+                </div>
             )}
             icons={(
                 <Button
@@ -677,6 +699,13 @@ export function Component() {
                         )}
                     />
                 </div>
+            )}
+            {showExportModal && (
+                <PerExportModal
+                    onCancel={setShowExportModalFalse}
+                    id={Number(perId)}
+                    applicationType="PER"
+                />
             )}
         </Container>
     );

@@ -1,0 +1,84 @@
+.per-export {
+    --pdf-element-bg: var(--go-ui-color-background);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-md);
+    font-family: 'Open Sans', sans-serif;
+    font-size: var(--go-ui-font-size-export);
+
+    @media screen {
+        margin: var(--go-ui-spacing-xl) auto;
+        background-color: var(--go-ui-color-foreground);
+        padding: var(--go-ui-export-page-margin);
+        width: 210mm;
+        min-height: 297mm;
+    }
+    .page-break {
+        break-before: page;
+    }
+
+    .page-title-section {
+        display: flex;
+        justify-content: space-between;
+        text-align: right;
+
+        .ifrc-logo {
+            width: 6rem;
+            height: 6rem;
+        }
+    }
+
+    .pending-message {
+        grid-column: 1 / -1;
+    }
+
+    .meta-section {
+        display: grid;
+        grid-gap: var(--go-ui-width-separator-lg);
+        grid-template-columns: 1fr 1fr 1fr;
+        background-color: var(--pdf-element-bg);
+        padding: var(--go-ui-spacing-md);
+    }
+
+    .top-rated-component-content {
+        display: grid;
+        flex-grow: 0;
+        grid-gap: var(--go-ui-spacing-md);
+        grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+
+        @media screen and (max-width: 20rem) {
+            grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+        }
+
+        .top-rated-component {
+            border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+
+            .component-name {
+                flex-grow: 0;
+            }
+        }
+
+        .icon {
+            color: var(--go-ui-color-green);
+            font-size: var(--go-ui-height-icon-multiplier);
+        }
+    }
+    .rating-results {
+        grid-column: 1 / -1;
+
+        .rating-results-content {
+            display: grid;
+            grid-gap: var(--go-ui-spacing-sm) var(--go-ui-spacing-xl);
+            grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+
+
+            .separator {
+                grid-column: 1 / -1;
+                background-color: var(--go-ui-color-separator);
+                height: var(--go-ui-width-separator-thin);
+            }
+        }
+    }
+
+}
