@@ -188,22 +188,29 @@ export function Component() {
                     return duration;
                 },
             ),
-            createStringColumn<SurgeListItem, TableKey>(
+            createDateColumn<SurgeListItem, TableKey>(
                 'start',
                 strings.surgeAlertStartDate,
                 (item) => {
-                    if (isNotDefined(item.start)) {
-                        return undefined;
-                    }
-
-                    const startDate = new Date(item.start);
+                    const startDate = isDefined(item.start) ? new Date(item.start) : undefined;
+                    const endDate = isDefined(item.end) ? new Date(item.end) : undefined;
                     const nowMs = new Date().getTime();
 
-                    const duration = startDate.getTime() < nowMs
-                        ? strings.surgeAlertImmediately
-                        : startDate.toLocaleString();
+                    const closed = isDefined(item.end)
+                        ? new Date(item.end).getTime() < today : undefined;
 
-                    return duration;
+                    if (isDefined(endDate) && closed) {
+                        return endDate.toLocaleString();
+                    }
+
+                    if (isDefined(startDate)) {
+                        const dateStarted = startDate.getTime() < nowMs
+                            ? strings.surgeAlertImmediately
+                            : startDate.toLocaleString();
+
+                        return dateStarted;
+                    }
+                    return undefined;
                 },
             ),
             createStringColumn<SurgeListItem, TableKey>(
@@ -243,7 +250,6 @@ export function Component() {
             ),
         ]),
         [
-            strings.surgeAlertImmediately,
             strings.surgeAlertDate,
             strings.surgeAlertDuration,
             strings.surgeAlertStartDate,
