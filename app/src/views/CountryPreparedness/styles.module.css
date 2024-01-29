@@ -134,4 +134,10 @@
             grid-column: 1  / -1;
         }
     }
+
+    .per-action {
+        display: flex;
+        gap: var(--go-ui-spacing-md);
+        align-items: center;
+    }
 }

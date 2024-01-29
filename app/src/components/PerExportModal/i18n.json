@@ -1,0 +1,12 @@
+{
+    "namespace": "common",
+    "strings": {
+        "perExportTitle": "Export PER",
+        "perPreparingExport": "Preparing for export...",
+        "perWaitingExport": "Waiting for the export to complete...",
+        "perExportFailed": "Export failed",
+        "perExportSuccessfully":"Export completed successfully",
+        "perClickDownloadLink": "Click on the download link below!",
+        "perDownloadPDF": "Download PDF"
+    }
+}
