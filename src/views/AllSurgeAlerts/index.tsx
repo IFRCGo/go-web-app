@@ -197,7 +197,7 @@ export function Component() {
                     const nowMs = new Date().getTime();
 
                     const closed = isDefined(item.end)
-                        ? new Date(item.end).getTime() < today : undefined;
+                        ? new Date(item.end).getTime() < nowMs : undefined;
 
                     if (isDefined(endDate) && closed) {
                         return endDate.toLocaleString();
@@ -250,6 +250,7 @@ export function Component() {
             ),
         ]),
         [
+            strings.surgeAlertImmediately,
             strings.surgeAlertDate,
             strings.surgeAlertDuration,
             strings.surgeAlertStartDate,
