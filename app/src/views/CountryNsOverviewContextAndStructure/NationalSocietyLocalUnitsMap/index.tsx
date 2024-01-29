@@ -17,7 +17,6 @@ import {
     stringLabelSelector,
     stringNameSelector,
 } from '@ifrc-go/ui/utils';
-import getBbox from '@turf/bbox';
 import {
     _cs,
     isDefined,
@@ -28,30 +27,28 @@ import {
     MapLayer,
     MapSource,
 } from '@togglecorp/re-map';
+import getBbox from '@turf/bbox';
 import type {
     CircleLayer,
     CirclePaint,
     FillLayer,
 } from 'mapbox-gl';
 
-import { adminUrl } from '#config';
 import BaseMap from '#components/domain/BaseMap';
 import Link from '#components/Link';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import MapPopup from '#components/MapPopup';
-
+import { adminUrl } from '#config';
 import { type components } from '#generated/types';
-import useFilterState from '#hooks/useFilterState';
-
 import useAuth from '#hooks/domain/useAuth';
-import { resolveUrl } from '#utils/resolveUrl';
-
+import useFilterState from '#hooks/useFilterState';
 import {
     COLOR_RED,
     DEFAULT_MAP_PADDING,
     DURATION_MAP_ZOOM,
 } from '#utils/constants';
 import { type CountryOutletContext } from '#utils/outletContext';
+import { resolveUrl } from '#utils/resolveUrl';
 import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
