@@ -13,6 +13,7 @@
         "surgeAlertsTableEmergency": "Emergency",
         "surgeAlertsTableCountry": "Country",
         "surgeAlertsTableStatus": "Status",
-        "surgeAlertsViewAll": "View All Surge Alerts"
+        "surgeAlertsViewAll": "View All Surge Alerts",
+        "surgeAlertImmediately": "Immediately"
     }
 }
