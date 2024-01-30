@@ -20,9 +20,9 @@
         "drefFormRiskSecurityPotentialRiskDescription": "Please consider any possible challenges to conduct the assessment, any possible limitations in getting the information required and overall risk to the implementation",
         "drefFormRiskSecuritySafetyConcern": "Please indicate any security and safety concerns for this operation",
         "drefFormRiskSecurityHasChildRiskCompleted": "Has the child safeguarding risk analysis assessment been completed?",
-        "drefFormRiskSecurityHasChildRiskCompletedDescription":"The IFRC Child Safeguarding Risk Analysis helps Operations quickly identify and rate their key child safeguarding risks in order to reduce the risk of harm against children, as outlined as a requirement in the IFRC Child Safeguarding Policy. Here are the link to the tool and QandA",
+        "drefFormRiskSecurityHasChildRiskCompletedDescription":"The IFRC Child Safeguarding Risk Analysis helps Operations quickly identify and rate their key child safeguarding risks in order to reduce the risk of harm against children, as outlined as a requirement in the IFRC Child Safeguarding Policy. Here are the link to the tool and Q&A",
         "drefChildSafeguardingPolicyDescription":"Child Safeguarding Policy",
-        "drefChildSafeguardingRiskAnalysisDescription":"QandA Child Safeguarding Risk Analysis",
+        "drefChildSafeguardingRiskAnalysisDescription":"Q&A Child Safeguarding Risk Analysis",
         "drefFormSelectionCriteria": "Explain the selection criteria for the targeted population",
         "drefFormSelectionCriteriaDescription": "Explain the rational and logic behind which groups are being targeted and why and address vulnerable groups",
         "drefFormSupportServices": "About Support Services",
@@ -56,7 +56,6 @@
         "drefFormTotalTargeted": "Total targeted population is different from that in Operation Overview",
         "drefFormTotalTargetedPopulation": "Total targeted population is not equal to sum of other population fields",
         "drefFormUploadTargetingSupportingDocument": "Upload any additional support document (Optional)",
-        "drefFormUploadTargetingDocumentButtonLabel": "Upload document",
-        "newLink": "Form"
+        "drefFormUploadTargetingDocumentButtonLabel": "Upload document"
     }
 }
