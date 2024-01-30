@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import {
     type SetValueArg,
     useFormObject,
@@ -35,7 +36,7 @@ type PerWorkPlanOrganizationTypeOption = NonNullable<GlobalEnumsResponse['per_su
 function statusKeySelector(option: PerWorkPlanStatusOption) {
     return option.key;
 }
-function organizationTypeKeySelector(option:PerWorkPlanOrganizationTypeOption) {
+function organizationTypeKeySelector(option: PerWorkPlanOrganizationTypeOption) {
     return option.key;
 }
 interface Props {
@@ -69,6 +70,15 @@ function PrioritizedActionInput(props: Props) {
             component: component.id,
         }),
     );
+
+    const handleOrganizationTypeChange = useCallback((
+        organizationType: PerWorkPlanOrganizationTypeOption['key'] | undefined,
+    ) => {
+        onFieldChange(organizationType, 'supported_by_organization_type' as const);
+        if (organizationType !== NATIONAL_SOCIETY) {
+            onFieldChange(undefined, 'supported_by');
+        }
+    }, [onFieldChange]);
 
     return (
         <Container
@@ -118,8 +128,7 @@ function PrioritizedActionInput(props: Props) {
                 label={strings.componentSupportedByOrganizationInputLabel}
                 placeholder={strings.componentOrganizationInputPlaceholder}
                 options={per_supported_by_organization_type}
-                withAsterisk
-                onChange={onFieldChange}
+                onChange={handleOrganizationTypeChange}
                 keySelector={organizationTypeKeySelector}
                 labelSelector={stringValueSelector}
                 value={value?.supported_by_organization_type}
