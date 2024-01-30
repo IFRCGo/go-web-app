@@ -19,6 +19,7 @@ import { ErrorWarningFillIcon } from '@ifrc-go/icons';
 import NonFieldError from '#components/NonFieldError';
 import Button from '#components/Button';
 import Container from '#components/Container';
+import Link from '#components/Link';
 import InputSection from '#components/InputSection';
 import NumberInput from '#components/NumberInput';
 import SelectInput from '#components/SelectInput';
@@ -437,6 +438,23 @@ function Operation(props: Props) {
                 </InputSection>
                 <InputSection
                     title={strings.drefFormRiskSecurityHasChildRiskCompleted}
+                    description={(
+                        <>
+                            {strings.drefFormRiskSecurityHasChildRiskCompletedDescription}
+                            <Link
+                                href="https://www.pdc.org/wp-content/uploads/AIM-3-Fact-Sheet-Screen-1.pdf"
+                                external
+                            >
+                                {strings.drefChildSafeguardingPolicyDescription}
+                            </Link>
+                            <Link
+                                href="https://pgi.ifrc.org/resources/qa-child-safeguarding-risk-analysis-ifrc-programmes"
+                                external
+                            >
+                                {strings.drefChildSafeguardingRiskAnalysisDescription}
+                            </Link>
+                        </>
+                    )}
                 >
                     <BooleanInput
                         name="has_child_safeguarding_risk_analysis_assessment"
