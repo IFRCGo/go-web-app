@@ -24,6 +24,9 @@
         "finalReportPeopleTargeted": "Number of people targeted",
         "drefFormPeopleTargetedDescription": "Include all those whose the National Society is aiming or planning to assist",
         "drefFormPeopleTargeted": "Number of people targeted",
-        "drefFormPeopleInNeedDescriptionSlowSudden": "People in Need (PIN) are those members whose physical security, basic rights, dignity, living conditions or livelihoods are threatened or have been disrupted, and whose current level of access to basic services, goods and social protection is inadequate to re-establish normal living conditions without additional assistance."
+        "drefFormPeopleInNeedDescriptionSlowSudden": "People in Need (PIN) are those members whose physical security, basic rights, dignity, living conditions or livelihoods are threatened or have been disrupted, and whose current level of access to basic services, goods and social protection is inadequate to re-establish normal living conditions without additional assistance.",
+        "drefFormSourceInformationAddButton": "Add New Source Information",
+        "drefFormSourceInformationTitle": "Source Information",
+        "drefFormSourceInformationDescription": "Add the links and the name of the sources, the name will be shown in the export, as an hyperlink."
     }
 }
