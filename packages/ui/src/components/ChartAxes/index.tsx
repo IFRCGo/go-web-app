@@ -35,6 +35,7 @@ interface Props {
     xAxisAlignment?: 'left' | 'right' | 'center',
     tooltipSelector?: (key: Key, i: number) => React.ReactNode;
     onHover?: (key: Key | undefined, i: number | undefined) => void;
+    onClick?: (key: Key, i: number) => void;
     yAxisLabel?: React.ReactNode;
 }
 
@@ -49,6 +50,7 @@ function ChartAxes(props: Props) {
         xAxisAlignment = 'left',
         tooltipSelector,
         onHover,
+        onClick,
         yAxisLabel,
     } = props;
 
@@ -71,6 +73,19 @@ function ChartAxes(props: Props) {
             };
         },
         [onHover],
+    );
+
+    const getClickHandler = useCallback(
+        (key: Key, i: number) => {
+            if (!onClick) {
+                return undefined;
+            }
+
+            return () => {
+                onClick(key, i);
+            };
+        },
+        [onClick],
     );
 
     const handleMouseOut = useCallback(
@@ -101,14 +116,13 @@ function ChartAxes(props: Props) {
         return (endX + startX) / 2;
     }
 
-    if (xAxisPoints.length < 2) {
+    if (xAxisPoints.length === 0) {
         return null;
     }
 
-    const xAxisDiff = Math.max(
-        xAxisPoints[1].x - xAxisPoints[0].x,
-        0,
-    );
+    const xAxisDiff = xAxisPoints.length === 1
+        ? (chartSize.width - chartMargin.left - chartMargin.right) / 2
+        : Math.max(xAxisPoints[1].x - xAxisPoints[0].x, 0);
 
     return (
         <g className={styles.chartAxes}>
@@ -206,6 +220,7 @@ function ChartAxes(props: Props) {
                                     y={chartMargin.top}
                                     height={Math.max(y - chartMargin.top, 0)}
                                     className={styles.boundRect}
+                                    onClick={getClickHandler(tick.key, i)}
                                     onMouseOver={getMouseOverHandler(tick.key, i)}
                                     onMouseOut={handleMouseOut}
                                 >
