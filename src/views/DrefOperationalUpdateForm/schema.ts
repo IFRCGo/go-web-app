@@ -9,6 +9,7 @@ import {
     nullValue,
     lessThanOrEqualToCondition,
     emailCondition,
+    urlCondition,
 } from '@togglecorp/toggle-form';
 import { isDefined } from '@togglecorp/fujs';
 import { type DeepReplace } from '#utils/common';
@@ -57,11 +58,13 @@ type InterventionResponse = NonNullable<OpsUpdateRequestBody['planned_interventi
 type IndicatorResponse = NonNullable<InterventionResponse['indicators']>[number];
 type RiskSecurityResponse = NonNullable<OpsUpdateRequestBody['risk_security']>[number];
 type ImagesFileResponse = NonNullable<OpsUpdateRequestBody['images_file']>[number];
+type SourceInformationResponse = NonNullable<OpsUpdateRequestBody['source_information']>[number];
 
 type NeedIdentifiedFormFields = NeedIdentifiedResponse & { client_id: string };
 type NsActionFormFields = NsActionResponse & { client_id: string; }
 type InterventionFormFields = InterventionResponse & { client_id: string };
 type IndicatorFormFields = IndicatorResponse & { client_id: string };
+type SourceInformationFormFields = SourceInformationResponse & { client_id: string };
 
 type RiskSecurityFormFields = RiskSecurityResponse & { client_id: string; };
 type ImagesFileFormFields = ImagesFileResponse & { client_id: string };
@@ -81,30 +84,34 @@ type OpsUpdateFormFields = (
                         DeepReplace<
                             DeepReplace<
                                 DeepReplace<
-                                    OpsUpdateRequestBody,
-                                    NeedIdentifiedResponse,
-                                    NeedIdentifiedFormFields
+                                    DeepReplace<
+                                        OpsUpdateRequestBody,
+                                        NeedIdentifiedResponse,
+                                        NeedIdentifiedFormFields
+                                    >,
+                                    NsActionResponse,
+                                    NsActionFormFields
                                 >,
-                                NsActionResponse,
-                                NsActionFormFields
+                                InterventionResponse,
+                                InterventionFormFields
                             >,
-                            InterventionResponse,
-                            InterventionFormFields
+                            IndicatorResponse,
+                            IndicatorFormFields
                         >,
                         IndicatorResponse,
                         IndicatorFormFields
                     >,
-                    IndicatorResponse,
-                    IndicatorFormFields
+                    RiskSecurityResponse,
+                    RiskSecurityFormFields
                 >,
-                RiskSecurityResponse,
-                RiskSecurityFormFields
+                ImagesFileResponse,
+                ImagesFileFormFields
             >,
-            ImagesFileResponse,
-            ImagesFileFormFields
+            EventMapFileResponse,
+            EventMapFileFormField
         >,
-        EventMapFileResponse,
-        EventMapFileFormField
+        SourceInformationResponse,
+        SourceInformationFormFields
     >
 );
 
@@ -124,6 +131,7 @@ type ImageFileFields = ReturnType<ObjectSchema<NonNullable<PartialOpsUpdate['ima
 type NationalSocietyFields = ReturnType<ObjectSchema<NonNullable<PartialOpsUpdate['national_society_actions']>[number], PartialOpsUpdate>['fields']>;
 type NeedsIdentifiedFields = ReturnType<ObjectSchema<NonNullable<PartialOpsUpdate['needs_identified']>[number], PartialOpsUpdate>['fields']>;
 type RiskSecurityFields = ReturnType<ObjectSchema<NonNullable<PartialOpsUpdate['risk_security']>[number], PartialOpsUpdate>['fields']>;
+type SourceInformationFields = ReturnType<ObjectSchema<NonNullable<PartialOpsUpdate['source_information']>[number], PartialOpsUpdate>['fields']>;
 type PlannedInterventionFields = ReturnType<ObjectSchema<NonNullable<PartialOpsUpdate['planned_interventions']>[number], PartialOpsUpdate>['fields']>;
 type IndicatorFields = ReturnType<ObjectSchema<NonNullable<NonNullable<PartialOpsUpdate['planned_interventions']>[number]['indicators']>[number], PartialOpsUpdate>['fields']>;
 
@@ -272,6 +280,7 @@ const schema: OpsUpdateFormSchema = {
             'changing_geographic_location',
             'request_for_second_allocation',
             'has_forecasted_event_materialize',
+            'source_information',
         ] as const;
         type EventDetailDrefTypeRelatedFields = Pick<
             OpsUpdateFormSchemaFields,
@@ -285,6 +294,7 @@ const schema: OpsUpdateFormSchema = {
             (val): EventDetailDrefTypeRelatedFields => {
                 let conditionalFields: EventDetailDrefTypeRelatedFields = {
                     event_scope: { forceValue: nullValue },
+                    source_information: { forceValue: [] },
                     event_text: { forceValue: nullValue },
                     anticipatory_actions: { forceValue: nullValue },
                     event_date: { forceValue: nullValue },
@@ -330,6 +340,22 @@ const schema: OpsUpdateFormSchema = {
                     conditionalFields = {
                         ...conditionalFields,
                         event_description: {},
+                        source_information: {
+                            keySelector: (source) => source.client_id,
+                            member: () => ({
+                                fields: (): SourceInformationFields => ({
+                                    client_id: {},
+                                    source_name: {
+                                        required: true,
+                                        requiredValidation: requiredStringCondition,
+                                    },
+                                    source_link: {
+                                        required: true,
+                                        validations: [urlCondition],
+                                    },
+                                }),
+                            }),
+                        },
                         images_file: {
                             keySelector: (image_file) => image_file.client_id,
                             member: () => ({

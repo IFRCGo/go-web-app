@@ -10,6 +10,7 @@ import {
     nullValue,
     lessThanOrEqualToCondition,
     emailCondition,
+    urlCondition,
 } from '@togglecorp/toggle-form';
 import { isDefined } from '@togglecorp/fujs';
 import { type DeepReplace } from '#utils/common';
@@ -52,11 +53,13 @@ type InterventionResponse = NonNullable<FinalReportRequestBody['planned_interven
 type IndicatorResponse = NonNullable<InterventionResponse['indicators']>[number];
 type RiskSecurityResponse = NonNullable<FinalReportRequestBody['risk_security']>[number];
 type ImagesFileResponse = NonNullable<FinalReportRequestBody['images_file']>[number];
+type SourceInformationResponse = NonNullable<FinalReportRequestBody['source_information']>[number];
 
 type NeedIdentifiedFormFields = NeedIdentifiedResponse & { client_id: string };
 type NsActionFormFields = NsActionResponse & { client_id: string; }
 type InterventionFormFields = InterventionResponse & { client_id: string };
 type IndicatorFormFields = IndicatorResponse & { client_id: string };
+type SourceInformationFormFields = SourceInformationResponse & { client_id: string };
 
 type RiskSecurityFormFields = RiskSecurityResponse & { client_id: string; };
 type ImagesFileFormFields = ImagesFileResponse & { client_id: string };
@@ -76,30 +79,34 @@ type FinalReportFormFields = (
                         DeepReplace<
                             DeepReplace<
                                 DeepReplace<
-                                    FinalReportRequestBody,
-                                    NeedIdentifiedResponse,
-                                    NeedIdentifiedFormFields
+                                    DeepReplace<
+                                        FinalReportRequestBody,
+                                        NeedIdentifiedResponse,
+                                        NeedIdentifiedFormFields
+                                    >,
+                                    NsActionResponse,
+                                    NsActionFormFields
                                 >,
-                                NsActionResponse,
-                                NsActionFormFields
+                                InterventionResponse,
+                                InterventionFormFields
                             >,
-                            InterventionResponse,
-                            InterventionFormFields
+                            IndicatorResponse,
+                            IndicatorFormFields
                         >,
                         IndicatorResponse,
                         IndicatorFormFields
                     >,
-                    IndicatorResponse,
-                    IndicatorFormFields
+                    RiskSecurityResponse,
+                    RiskSecurityFormFields
                 >,
-                RiskSecurityResponse,
-                RiskSecurityFormFields
+                ImagesFileResponse,
+                ImagesFileFormFields
             >,
-            ImagesFileResponse,
-            ImagesFileFormFields
+            EventMapFileResponse,
+            EventMapFileFormField
         >,
-        EventMapFileResponse,
-        EventMapFileFormField
+        SourceInformationResponse,
+        SourceInformationFormFields
     >
 );
 
@@ -116,6 +123,7 @@ type CoverImageFileFields = ReturnType<ObjectSchema<PartialFinalReport['cover_im
 type ImageFileFields = ReturnType<ObjectSchema<NonNullable<PartialFinalReport['images_file']>[number], PartialFinalReport>['fields']>;
 type NeedsIdentifiedFields = ReturnType<ObjectSchema<NonNullable<PartialFinalReport['needs_identified']>[number], PartialFinalReport>['fields']>;
 type RiskSecurityFields = ReturnType<ObjectSchema<NonNullable<PartialFinalReport['risk_security']>[number], PartialFinalReport>['fields']>;
+type SourceInformationFields = ReturnType<ObjectSchema<NonNullable<PartialFinalReport['source_information']>[number], PartialFinalReport>['fields']>;
 type PlannedInterventionFields = ReturnType<ObjectSchema<NonNullable<PartialFinalReport['planned_interventions']>[number], PartialFinalReport>['fields']>;
 type IndicatorFields = ReturnType<ObjectSchema<NonNullable<NonNullable<PartialFinalReport['planned_interventions']>[number]['indicators']>[number], PartialFinalReport>['fields']>;
 
@@ -335,6 +343,7 @@ const schema: FinalReportFormSchema = {
         const eventDetailDrefTypeRelatedFields = [
             'event_text',
             'event_date',
+            'source_information',
         ] as const;
         type EventDetailDrefTypeRelatedFields = Pick<
             FinalReportFormSchemaFields,
@@ -349,6 +358,22 @@ const schema: FinalReportFormSchema = {
                 const conditionalFields: EventDetailDrefTypeRelatedFields = {
                     event_text: { forceValue: nullValue },
                     event_date: { forceValue: nullValue },
+                    source_information: {
+                        keySelector: (source) => source.client_id,
+                        member: () => ({
+                            fields: (): SourceInformationFields => ({
+                                client_id: {},
+                                source_name: {
+                                    required: true,
+                                    requiredValidation: requiredStringCondition,
+                                },
+                                source_link: {
+                                    required: true,
+                                    validations: [urlCondition],
+                                },
+                            }),
+                        }),
+                    },
                 };
 
                 if (val?.type_of_dref === TYPE_IMMINENT) {

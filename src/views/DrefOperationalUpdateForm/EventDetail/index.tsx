@@ -1,7 +1,10 @@
+import { useCallback } from 'react';
+import { randomString } from '@togglecorp/fujs';
 import {
     type Error,
     type EntriesAsList,
     getErrorObject,
+    useFormArray,
 } from '@togglecorp/toggle-form';
 import { WikiHelpSectionLineIcon } from '@ifrc-go/icons';
 
@@ -15,6 +18,9 @@ import Link from '#components/Link';
 import useTranslation from '#hooks/useTranslation';
 import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaptionInput';
 
+import NonFieldError from '#components/NonFieldError';
+import Button from '#components/Button';
+import SourceInformationInput from '#views/DrefApplicationForm/EventDetail/SourceInformationInput';
 import {
     TYPE_IMMINENT,
     TYPE_ASSESSMENT,
@@ -27,6 +33,8 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type Value = PartialOpsUpdate;
+type SourceInformationFormFields = NonNullable<PartialOpsUpdate['source_information']>[number];
+
 interface Props {
     value: Value;
     setFieldValue: (...entries: EntriesAsList<Value>) => void;
@@ -54,6 +62,27 @@ function EventDetail(props: Props) {
     } = props;
 
     const error = getErrorObject(formError);
+
+    const {
+        setValue: onSourceInformationChange,
+        removeValue: onSourceInformationRemove,
+    } = useFormArray<'source_information', SourceInformationFormFields>(
+        'source_information',
+        setFieldValue,
+    );
+
+    const handleSourceInformationAdd = useCallback(() => {
+        const newSourceInformationItem: SourceInformationFormFields = {
+            client_id: randomString(),
+        };
+
+        setFieldValue(
+            (oldValue: SourceInformationFormFields[] | undefined) => (
+                [...(oldValue ?? []), newSourceInformationItem]
+            ),
+            'source_information' as const,
+        );
+    }, [setFieldValue]);
 
     return (
         <div className={styles.eventDetail}>
@@ -355,6 +384,34 @@ function EventDetail(props: Props) {
                             error={error?.event_scope}
                             disabled={disabled}
                         />
+                    </InputSection>
+                )}
+                {value.type_of_dref !== TYPE_LOAN && (
+                    <InputSection
+                        title={strings.drefFormSourceInformationTitle}
+                        description={strings.drefFormSourceInformationDescription}
+                    >
+                        <NonFieldError error={getErrorObject(error?.source_information)} />
+                        {value.source_information?.map((source, index) => (
+                            <SourceInformationInput
+                                key={source.client_id}
+                                index={index}
+                                value={source}
+                                onChange={onSourceInformationChange}
+                                onRemove={onSourceInformationRemove}
+                                error={getErrorObject(error?.source_information)}
+                                disabled={disabled}
+                            />
+                        ))}
+                        <Button
+                            className={styles.actions}
+                            name={undefined}
+                            onClick={handleSourceInformationAdd}
+                            variant="secondary"
+                            disabled={disabled}
+                        >
+                            {strings.drefFormSourceInformationAddButton}
+                        </Button>
                     </InputSection>
                 )}
             </Container>
