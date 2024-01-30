@@ -170,12 +170,16 @@ export function Component() {
         && isDefined(drefResponse?.event_text?.trim());
     const anticipatoryActionsDefined = drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
         && isTruthyString(drefResponse?.anticipatory_actions?.trim());
+    const sourceInformationDefined = isDefined(drefResponse)
+        && isDefined(drefResponse?.source_information)
+        && drefResponse.source_information.length > 0;
     const showEventDescriptionSection = eventDescriptionDefined
         || eventScopeDefined
         || imagesFileDefined
         || anticipatoryActionsDefined
         || eventDateDefined
         || eventTextDefined
+        || sourceInformationDefined
         || isDefined(drefResponse?.event_map_file?.file);
 
     const ifrcActionsDefined = isTruthyString(drefResponse?.ifrc?.trim());
@@ -523,6 +527,40 @@ export function Component() {
                             <DescriptionText>
                                 {drefResponse?.event_scope}
                             </DescriptionText>
+                        </Container>
+                    )}
+                    {sourceInformationDefined && (
+                        <Container
+                            heading={strings.sourceInformationSectionHeading}
+                            childrenContainerClassName={styles.sourceInformationList}
+                            headingLevel={3}
+                        >
+                            <div className={styles.nameTitle}>
+                                {strings.sourceInformationSourceNameTitle}
+                            </div>
+                            <div className={styles.linkTitle}>
+                                {strings.sourceInformationSourceLinkTitle}
+                            </div>
+                            {drefResponse?.source_information?.map(
+                                (source, index) => (
+                                    <Fragment key={source.id}>
+                                        <DescriptionText className={styles.name}>
+                                            <div className={styles.nameList}>
+                                                {`${index + 1}. ${source.source_name}`}
+                                            </div>
+                                        </DescriptionText>
+                                        <DescriptionText className={styles.link}>
+                                            <Link
+                                                href={source.source_link}
+                                                external
+                                                withUnderline
+                                            >
+                                                {source?.source_link}
+                                            </Link>
+                                        </DescriptionText>
+                                    </Fragment>
+                                ),
+                            )}
                         </Container>
                     )}
                 </>

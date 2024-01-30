@@ -9,9 +9,9 @@ import {
     useParams,
 } from 'react-router-dom';
 import {
-    ErrorWarningFillIcon,
-    DownloadTwoLineIcon,
-    ShareLineIcon,
+    errorWarningFillIcon,
+    downloadTwoLineIcon,
+    shareLineIcon,
 } from '@ifrc-go/icons';
 import {
     useForm,

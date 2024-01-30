@@ -173,6 +173,9 @@ export function Component() {
     const eventDescriptionDefined = isTruthyString(drefResponse?.event_description?.trim());
     const eventScopeDefined = drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT
         && isTruthyString(drefResponse?.event_scope?.trim());
+    const sourceInformationDefined = isDefined(drefResponse)
+        && isDefined(drefResponse.source_information)
+    && drefResponse.source_information.length > 0;
     const imagesFileDefined = isDefined(drefResponse)
         && isDefined(drefResponse.images_file)
         && drefResponse.images_file.length > 0;
@@ -188,6 +191,7 @@ export function Component() {
         || anticipatoryActionsDefined
         || eventTextDefined
         || eventDateDefined
+        || sourceInformationDefined
         || isDefined(drefResponse?.event_map_file?.file);
 
     const lessonsLearnedDefined = isTruthyString(drefResponse?.lessons_learned?.trim());
@@ -283,10 +287,6 @@ export function Component() {
         || logisticCapacityOfNsDefined
         || pmerDefined
         || communicationDefined;
-
-    const sourceInformationDefined = isDefined(drefResponse)
-        && isDefined(drefResponse.source_information)
-        && drefResponse.source_information.length > 0;
 
     const showBudgetOverview = isTruthyString(drefResponse?.budget_file_details?.file);
 
@@ -559,7 +559,7 @@ export function Component() {
                     )}
                     {sourceInformationDefined && (
                         <Container
-                            heading={strings.SourceInformationSectionHeading}
+                            heading={strings.sourceInformationSectionHeading}
                             childrenContainerClassName={styles.sourceInformationList}
                             headingLevel={3}
                         >
