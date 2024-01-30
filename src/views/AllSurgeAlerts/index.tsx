@@ -194,17 +194,16 @@ export function Component() {
                 (item) => {
                     const startDate = isDefined(item.start) ? new Date(item.start) : undefined;
                     const endDate = isDefined(item.end) ? new Date(item.end) : undefined;
-                    const nowMs = new Date().getTime();
 
                     const closed = isDefined(item.end)
-                        ? new Date(item.end).getTime() < nowMs : undefined;
+                        ? new Date(item.end).getTime() < nowTimestamp : undefined;
 
                     if (isDefined(endDate) && closed) {
                         return endDate.toLocaleString();
                     }
 
                     if (isDefined(startDate)) {
-                        const dateStarted = startDate.getTime() < nowMs
+                        const dateStarted = startDate.getTime() < nowTimestamp
                             ? strings.surgeAlertImmediately
                             : startDate.toLocaleString();
 

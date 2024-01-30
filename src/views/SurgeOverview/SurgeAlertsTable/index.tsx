@@ -1,5 +1,5 @@
 import { useMemo, useCallback } from 'react';
-import { isNotDefined } from '@togglecorp/fujs';
+import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import Table from '#components/Table';
 import Link from '#components/Link';
@@ -23,11 +23,6 @@ type GetSurgeAlertResponse = GoApiResponse<'/api/v2/surge_alert/'>;
 type SurgeAlertListItem = NonNullable<GetSurgeAlertResponse['results']>[number];
 
 const surgeAlertKeySelector = (item: SurgeAlertListItem) => item.id;
-
-// FIXME: use a separate utility
-const aMonthAgo = new Date();
-aMonthAgo.setMonth(aMonthAgo.getMonth() - 1);
-aMonthAgo.setHours(0, 0, 0, 0);
 
 const today = new Date();
 const todayTimestamp = today.getTime();
@@ -121,7 +116,27 @@ function SurgeAlertsTable() {
         createDateColumn<SurgeAlertListItem, number>(
             'start',
             strings.surgeAlertsTableStartDate,
-            (surgeAlert) => surgeAlert.start,
+            (surgeAlert) => {
+                const startDate = isDefined(surgeAlert.start)
+                    ? new Date(surgeAlert.start) : undefined;
+                const endDate = isDefined(surgeAlert.end) ? new Date(surgeAlert.end) : undefined;
+
+                const closed = isDefined(surgeAlert.end)
+                    ? new Date(surgeAlert.end).getTime() < todayTimestamp : undefined;
+
+                if (isDefined(endDate) && closed) {
+                    return endDate.toLocaleString();
+                }
+
+                if (isDefined(startDate)) {
+                    const dateStarted = startDate.getTime() < todayTimestamp
+                        ? strings.surgeAlertImmediately
+                        : startDate.toLocaleString();
+
+                    return dateStarted;
+                }
+                return undefined;
+            },
         ),
         createStringColumn<SurgeAlertListItem, number>(
             'name',
@@ -162,6 +177,7 @@ function SurgeAlertsTable() {
         ),
     ]), [
         getStatus,
+        strings.surgeAlertImmediately,
         strings.surgeAlertsTableAlertDate,
         strings.surgeAlertsTableDuration,
         strings.surgeAlertsTableStartDate,
