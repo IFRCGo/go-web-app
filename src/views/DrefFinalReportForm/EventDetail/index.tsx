@@ -17,7 +17,7 @@ import Link from '#components/Link';
 import useTranslation from '#hooks/useTranslation';
 import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaptionInput';
 
-import SourceInformationInput from '#views/DrefApplicationForm/EventDetail/SourceInformationInput';
+import SourceInformationInput from '#components/domain/SourceInformationInput';
 import NonFieldError from '#components/NonFieldError';
 import Button from '#components/Button';
 import {

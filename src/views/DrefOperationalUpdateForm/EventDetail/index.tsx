@@ -20,7 +20,7 @@ import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaption
 
 import NonFieldError from '#components/NonFieldError';
 import Button from '#components/Button';
-import SourceInformationInput from '#views/DrefApplicationForm/EventDetail/SourceInformationInput';
+import SourceInformationInput from '#components/domain/SourceInformationInput';
 import {
     TYPE_IMMINENT,
     TYPE_ASSESSMENT,

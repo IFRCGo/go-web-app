@@ -22,6 +22,7 @@ import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaption
 import NumberInput from '#components/NumberInput';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToComponent } from '#utils/translation';
+import SourceInformationInput from '#components/domain/SourceInformationInput';
 
 import {
     ONSET_SUDDEN,
@@ -31,7 +32,6 @@ import {
 } from '../common';
 import { type PartialDref } from '../schema';
 
-import SourceInformationInput from './SourceInformationInput';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
