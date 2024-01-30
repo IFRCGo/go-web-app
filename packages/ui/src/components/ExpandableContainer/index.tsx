@@ -1,9 +1,12 @@
-import { useEffect, useRef, useCallback } from 'react';
+import {
+    useCallback,
+    useEffect,
+    useRef,
+} from 'react';
 import {
     ChevronDownLineIcon,
     ChevronUpLineIcon,
 } from '@ifrc-go/icons';
-
 import { _cs } from '@togglecorp/fujs';
 
 import Button from '#components/Button';
