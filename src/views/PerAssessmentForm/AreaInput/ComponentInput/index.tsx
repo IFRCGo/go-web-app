@@ -146,6 +146,7 @@ function ComponentInput(props: Props) {
                     labelSelector={ratingLabelSelector}
                 />
             )}
+            showExpandButtonAtBottom
             initiallyExpanded
         >
             <NonFieldError error={error} />

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { _cs } from '@togglecorp/fujs';
 import { ChevronDownLineIcon, ChevronUpLineIcon } from '@ifrc-go/icons';
 
@@ -13,6 +13,7 @@ import styles from './styles.module.css';
 export interface Props extends Omit<ContainerProps, 'withInternalPadding' | 'withoutWrapInHeading'> {
     initiallyExpanded?: boolean;
     onExpansionChange?: (isExpanded: boolean) => void;
+    showExpandButtonAtBottom?: boolean;
     componentRef?: React.MutableRefObject<{
         setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>;
     } | null>;
@@ -29,9 +30,11 @@ function ExpandableContainer(props: Props) {
         childrenContainerClassName,
         onExpansionChange,
         withHeaderBorder,
+        showExpandButtonAtBottom,
         ...otherProps
     } = props;
 
+    const containerRef = useRef<HTMLDivElement>(null);
     const strings = useTranslation(i18n);
 
     const [
@@ -56,10 +59,17 @@ function ExpandableContainer(props: Props) {
         }
     }, [componentRef, setExpanded]);
 
+    const handleExpansionToggle = useCallback(() => {
+        toggleExpanded();
+        if (containerRef) {
+            containerRef.current?.scrollIntoView();
+        }
+    }, [toggleExpanded]);
     return (
         <Container
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
+            containerRef={containerRef}
             className={_cs(styles.expandableContainer, className)}
             headerClassName={_cs(styles.header, headerClassName)}
             childrenContainerClassName={_cs(styles.content, childrenContainerClassName)}
@@ -86,11 +96,11 @@ function ExpandableContainer(props: Props) {
                 </>
             )}
             actionsContainerClassName={styles.actionsContainer}
-            footerActions={expanded && (
+            footerActions={showExpandButtonAtBottom && expanded && (
                 <Button
                     variant="tertiary"
                     name={undefined}
-                    onClick={toggleExpanded}
+                    onClick={handleExpansionToggle}
                     title={expanded
                         ? strings.expandableContainerCollapse
                         : strings.expandableContainerExpand}
