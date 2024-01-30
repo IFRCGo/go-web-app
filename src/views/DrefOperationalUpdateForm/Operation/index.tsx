@@ -31,7 +31,7 @@ import useTranslation from '#hooks/useTranslation';
 import { stringValueSelector } from '#utils/selectors';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { type GoApiResponse } from '#utils/restRequest';
-
+import Link from '#components/Link';
 import InterventionInput from './InterventionInput';
 import RiskSecurityInput from './RiskSecurityInput';
 import {
@@ -444,6 +444,23 @@ function Operation(props: Props) {
                 </InputSection>
                 <InputSection
                     title={strings.drefFormRiskSecurityHasChildRiskCompleted}
+                    description={(
+                        <>
+                            {strings.drefFormRiskSecurityHasChildRiskCompletedDescription}
+                            <Link
+                                href="https://www.pdc.org/wp-content/uploads/AIM-3-Fact-Sheet-Screen-1.pdf"
+                                external
+                            >
+                                {strings.drefChildSafeguardingPolicyDescription}
+                            </Link>
+                            <Link
+                                href="https://pgi.ifrc.org/resources/qa-child-safeguarding-risk-analysis-ifrc-programmes"
+                                external
+                            >
+                                {strings.drefChildSafeguardingRiskAnalysisDescription}
+                            </Link>
+                        </>
+                    )}
                 >
                     <BooleanInput
                         name="has_child_safeguarding_risk_analysis_assessment"
