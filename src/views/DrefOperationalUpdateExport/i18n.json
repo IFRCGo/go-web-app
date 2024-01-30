@@ -103,6 +103,9 @@
         "drefOperationalImageAlt": "IFRC",
         "drefOperationalOtherImageAlt": "Image",
         "drefOperationalRisk": "Risk",
-        "drefOperationalMitigation": "Mitigation action"
+        "drefOperationalMitigation": "Mitigation action",
+        "sourceInformationSectionHeading": "Source Information",
+        "sourceInformationSourceNameTitle": "Source Name",
+        "sourceInformationSourceLinkTitle": "Source Link"
     }
 }

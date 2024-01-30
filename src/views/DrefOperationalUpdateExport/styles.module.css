@@ -163,18 +163,28 @@
         }
     }
 
-    .risk-list {
+    .risk-list,
+    .source-information-list {
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-gap: var(--go-ui-width-separator-md);
 
         .risk,
+        .name,
+        .link,
         .mitigation {
             background-color: var(--pdf-element-bg);
             padding: var(--go-ui-spacing-xs);
         }
 
+        .name-list {
+            display: flex;
+            gap: var(--go-ui-spacing-sm);
+        }
+
         .risk-title,
+        .name-title,
+        .link-title,
         .mitigation-title {
             background-color: var(--pdf-element-bg);
             padding: var(--go-ui-spacing-xs);

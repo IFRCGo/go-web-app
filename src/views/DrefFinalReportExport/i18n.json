@@ -86,6 +86,9 @@
         "appealManagerContactHeading": "IFRC Appeal Manager",
         "projectManagerContactHeading": "IFRC Project Manager",
         "focalPointContactHeading": "IFRC focal point for the emergency",
-        "mediaContactHeading": "Media Contact"
+        "mediaContactHeading": "Media Contact",
+        "sourceInformationSectionHeading": "Source Information",
+        "sourceInformationSourceNameTitle": "Source Name",
+        "sourceInformationSourceLinkTitle": "Source Link"
     }
 }
