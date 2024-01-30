@@ -18,6 +18,7 @@ export interface Props<D> {
     labelSelector: (datum: D) => React.ReactNode;
     maxValue?: number;
     maxRows?: number;
+    compactValue?: boolean;
 }
 
 function BarChart<D>(props: Props<D>) {
@@ -29,6 +30,7 @@ function BarChart<D>(props: Props<D>) {
         keySelector,
         maxValue: maxValueFromProps,
         maxRows = 5,
+        compactValue,
     } = props;
 
     const renderingData = useMemo(
@@ -95,6 +97,7 @@ function BarChart<D>(props: Props<D>) {
                         <NumberOutput
                             className={styles.value}
                             value={datum.value}
+                            compact={compactValue}
                         />
                     </div>
                 );

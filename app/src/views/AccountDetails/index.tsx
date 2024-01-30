@@ -65,58 +65,58 @@ export function Component() {
                         </Button>
                     </>
                 )}
+                contentViewType="grid"
+                numPreferredGridContentColumns={3}
             >
-                <div className={styles.infoListContainer}>
-                    <TextOutput
-                        label={strings.usernameLabel}
-                        value={meResponse?.username}
-                        strongLabel
-                    />
-                    <TextOutput
-                        label={strings.fullNameLabel}
-                        strongLabel
-                        value={
-                            // FIXME: use helper from utils
-                            [meResponse?.first_name, meResponse?.last_name]
-                                .filter(isTruthyString).join(' ')
-                        }
-                    />
-                    <TextOutput
-                        label={strings.emailLabel}
-                        value={meResponse?.email}
-                        strongLabel
-                    />
-                    <TextOutput
-                        label={strings.phoneNumberLabel}
-                        value={meResponse?.profile?.phone_number}
-                        strongLabel
-                    />
-                    <TextOutput
-                        strongLabel
-                        label={strings.cityLabel}
-                        value={meResponse?.profile?.city}
-                    />
-                    <TextOutput
-                        label={strings.organizationLabel}
-                        value={meResponse?.profile?.org}
-                        strongLabel
-                    />
-                    <TextOutput
-                        label={strings.organizationTypeLabel}
-                        value={meResponse?.profile?.org_type}
-                        strongLabel
-                    />
-                    <TextOutput
-                        label={strings.departmentLabel}
-                        value={meResponse?.profile?.department}
-                        strongLabel
-                    />
-                    <TextOutput
-                        label={strings.positionLabel}
-                        value={meResponse?.profile?.position}
-                        strongLabel
-                    />
-                </div>
+                <TextOutput
+                    label={strings.usernameLabel}
+                    value={meResponse?.username}
+                    strongLabel
+                />
+                <TextOutput
+                    label={strings.fullNameLabel}
+                    strongLabel
+                    value={
+                        // FIXME: use helper from utils
+                        [meResponse?.first_name, meResponse?.last_name]
+                            .filter(isTruthyString).join(' ')
+                    }
+                />
+                <TextOutput
+                    label={strings.emailLabel}
+                    value={meResponse?.email}
+                    strongLabel
+                />
+                <TextOutput
+                    label={strings.phoneNumberLabel}
+                    value={meResponse?.profile?.phone_number}
+                    strongLabel
+                />
+                <TextOutput
+                    strongLabel
+                    label={strings.cityLabel}
+                    value={meResponse?.profile?.city}
+                />
+                <TextOutput
+                    label={strings.organizationLabel}
+                    value={meResponse?.profile?.org}
+                    strongLabel
+                />
+                <TextOutput
+                    label={strings.organizationTypeLabel}
+                    value={meResponse?.profile?.org_type}
+                    strongLabel
+                />
+                <TextOutput
+                    label={strings.departmentLabel}
+                    value={meResponse?.profile?.department}
+                    strongLabel
+                />
+                <TextOutput
+                    label={strings.positionLabel}
+                    value={meResponse?.profile?.position}
+                    strongLabel
+                />
             </Container>
             {showEditProfileModal && (
                 <EditAccountInfo

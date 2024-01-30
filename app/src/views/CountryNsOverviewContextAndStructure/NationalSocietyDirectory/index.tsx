@@ -4,7 +4,10 @@ import {
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { _cs } from '@togglecorp/fujs';
+import {
+    _cs,
+    isTruthyString,
+} from '@togglecorp/fujs';
 
 import Link from '#components/Link';
 import { type CountryOutletContext } from '#utils/outletContext';
@@ -44,15 +47,20 @@ function NationalSocietyDirectory(props: Props) {
                 />
             )}
             withHeaderBorder
+            contentViewType="vertical"
         >
             {directoryList?.map((directory) => (
-                <TextOutput
+                <div
                     key={directory.id}
-                    withoutLabelColon
-                    value={directory?.position}
-                    label={`${directory?.first_name} ${directory?.last_name}`}
-                    strongLabel
-                />
+                    className={styles.directory}
+                >
+                    <div className={styles.fullName}>
+                        {[directory?.first_name, directory?.last_name].filter(isTruthyString).join(' ')}
+                    </div>
+                    <div className={styles.position}>
+                        {directory?.position}
+                    </div>
+                </div>
             ))}
         </Container>
     );

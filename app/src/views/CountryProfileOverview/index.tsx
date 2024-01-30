@@ -42,10 +42,11 @@ export function Component() {
     return (
         <Container
             className={styles.countryIndicators}
-            childrenContainerClassName={styles.indicatorContent}
             heading={strings.countryIndicatorsTitle}
             headingLevel={4}
             withHeaderBorder
+            contentViewType="grid"
+            numPreferredGridContentColumns={3}
         >
             {indicatorPending && <BlockLoading className={styles.loading} />}
             <TextOutput

@@ -2,6 +2,7 @@
     .cell {
         padding: var(--go-ui-spacing-sm);
         overflow: hidden;
+        word-break: break-all;
     }
 
     &:hover {
