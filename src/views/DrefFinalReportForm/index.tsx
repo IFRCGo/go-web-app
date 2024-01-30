@@ -222,6 +222,7 @@ export function Component() {
                 cover_image_file,
                 images_file,
                 photos_file,
+                source_information,
                 ...otherValues
             } = removeNull(response);
 
@@ -245,6 +246,7 @@ export function Component() {
                     ? injectClientId(cover_image_file)
                     : undefined,
                 images_file: images_file?.map(injectClientId),
+                source_information: source_information?.map(injectClientId),
             });
 
             setDistrictOptions(response.district_details);
