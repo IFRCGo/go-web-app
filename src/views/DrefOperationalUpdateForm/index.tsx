@@ -9,9 +9,9 @@ import {
     useParams,
 } from 'react-router-dom';
 import {
-    errorWarningFillIcon,
-    downloadTwoLineIcon,
-    shareLineIcon,
+    ErrorWarningFillIcon,
+    DownloadTwoLineIcon,
+    ShareLineIcon,
 } from '@ifrc-go/icons';
 import {
     useForm,
@@ -253,6 +253,7 @@ export function Component() {
                 changing_budget,
                 request_for_second_allocation,
                 has_forecasted_event_materialize,
+                source_information,
                 // disability_people_per,
                 // people_per_urban,
                 // people_per_local,
@@ -292,6 +293,7 @@ export function Component() {
                 changing_budget: changing_budget ?? false,
                 request_for_second_allocation: request_for_second_allocation ?? false,
                 has_forecasted_event_materialize: has_forecasted_event_materialize ?? false,
+                source_information: source_information?.map(injectClientId),
             });
 
             setDistrictOptions(response.district_details);

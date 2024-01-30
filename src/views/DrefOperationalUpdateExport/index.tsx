@@ -552,8 +552,6 @@ export function Component() {
                                         <DescriptionText className={styles.link}>
                                             <Link
                                                 href={source.source_link}
-                                                external
-                                                withUnderline
                                             >
                                                 {source?.source_link}
                                             </Link>
