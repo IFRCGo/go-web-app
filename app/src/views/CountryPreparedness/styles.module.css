@@ -28,10 +28,6 @@
 
         .latest-per-details {
             display: grid;
-            border-radius: var(--go-ui-border-radius-lg);
-            box-shadow: var(--go-ui-box-shadow-md);
-            background-color: var(--go-ui-color-background);
-            padding: var(--go-ui-spacing-lg);
             grid-column: 1 / -1;
             grid-gap: var(--go-ui-spacing-md);
             grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));

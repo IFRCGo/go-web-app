@@ -1,17 +1,23 @@
+import { useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { Container } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToString } from '@ifrc-go/ui/utils';
 import {
+    compareNumber,
     isDefined,
+    isNotDefined,
     isTruthyString,
 } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
 import { type CountryOutletContext } from '#utils/outletContext';
+import { useRequest } from '#utils/restRequest';
 
 import NationalSocietyContacts from './NationalSocietyContacts';
 import NationalSocietyDirectory from './NationalSocietyDirectory';
+import NationalSocietyIncomeOverTime from './NationalSocietyIncomeOverTime';
+import NationalSocietyIncomeSourceBreakdown from './NationalSocietyIncomeSourceBreakdown';
 import NationalSocietyIndicators from './NationalSocietyIndicators';
 import NationalSocietyKeyDocuments from './NationalSocietyKeyDocuments';
 import NationalSocietyLocalUnitsMap from './NationalSocietyLocalUnitsMap';
@@ -22,12 +28,47 @@ import styles from './styles.module.css';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const { countryResponse } = useOutletContext<CountryOutletContext>();
+    const { countryId, countryResponse } = useOutletContext<CountryOutletContext>();
     const strings = useTranslation(i18n);
+    const [selectedYearForIncome, setSelectedYearForIncome] = useState(
+        () => new Date().getFullYear(),
+    );
+
+    const { response: databankResponse } = useRequest({
+        skip: isNotDefined(countryId),
+        url: '/api/v2/country/{id}/databank/',
+        pathVariables: isDefined(countryId) ? { id: Number(countryId) } : undefined,
+        onSuccess: (response) => {
+            if (response && response.fdrs_income && response.fdrs_income.length === 0) {
+                return;
+            }
+
+            const timestampList = response.fdrs_income.map(
+                ({ date }) => new Date(date).getTime(),
+            );
+
+            const sortedIncomeList = timestampList.sort(
+                (a, b) => compareNumber(a, b),
+            );
+
+            setSelectedYearForIncome(new Date(sortedIncomeList[0]).getFullYear());
+        },
+    });
 
     return (
         <div className={styles.countryNsOverviewContextAndStructure}>
-            <NationalSocietyIndicators />
+            <NationalSocietyIndicators databankResponse={databankResponse} />
+            <div className={styles.nsIncome}>
+                <NationalSocietyIncomeOverTime
+                    selectedYear={selectedYearForIncome}
+                    setSelectedYear={setSelectedYearForIncome}
+                    databankResponse={databankResponse}
+                />
+                <NationalSocietyIncomeSourceBreakdown
+                    selectedYear={selectedYearForIncome}
+                    databankResponse={databankResponse}
+                />
+            </div>
             <div className={styles.nationalSocietyDetail}>
                 <NationalSocietyLocalUnitsMap className={styles.map} />
                 <NationalSocietyDirectory className={styles.directory} />
