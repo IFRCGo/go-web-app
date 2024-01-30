@@ -13,7 +13,7 @@ import NonFieldError from '#components/NonFieldError';
 import TextInput from '#components/TextInput';
 import useTranslation from '#hooks/useTranslation';
 
-import { type PartialDref } from '../../schema';
+import { type PartialDref } from '#views/DrefApplicationForm/schema';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
