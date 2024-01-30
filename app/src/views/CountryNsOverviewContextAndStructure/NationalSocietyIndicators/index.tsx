@@ -1,52 +1,36 @@
-import { useOutletContext } from 'react-router-dom';
 import {
-    BlockLoading,
     Container,
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import {
-    type CountryOutletContext,
-    sumSafe,
-} from '@ifrc-go/ui/utils';
-import {
-    isDefined,
-    isNotDefined,
-} from '@togglecorp/fujs';
+import { sumSafe } from '@ifrc-go/ui/utils';
 
 import Link from '#components/Link';
-import { useRequest } from '#utils/restRequest';
+import { GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
-function NationalSocietyIndicators() {
+interface Props {
+    databankResponse: GoApiResponse<'/api/v2/country/{id}/databank/'> | undefined;
+}
+
+function NationalSocietyIndicators(props: Props) {
     const strings = useTranslation(i18n);
+    const { databankResponse } = props;
 
-    const { countryId } = useOutletContext<CountryOutletContext>();
-
-    const {
-        pending: indicatorPending,
-        response: indicatorResponse,
-    } = useRequest({
-        url: '/api/v2/country/{id}/databank/',
-        skip: isNotDefined(countryId),
-        pathVariables: isDefined(countryId) ? {
-            id: Number(countryId),
-        } : undefined,
-    });
+    if (!databankResponse) {
+        return null;
+    }
 
     const youthValue = sumSafe([
-        indicatorResponse?.volunteer_age_6_12,
-        indicatorResponse?.volunteer_age_13_17,
-        indicatorResponse?.volunteer_age_18_29,
-        indicatorResponse?.staff_age_18_29,
+        databankResponse?.volunteer_age_6_12,
+        databankResponse?.volunteer_age_13_17,
+        databankResponse?.volunteer_age_18_29,
+        databankResponse?.staff_age_18_29,
     ]);
 
     return (
         <Container
-            className={styles.nsIndicators}
-            childrenContainerClassName={styles.indicatorContent}
             heading={strings.nationalSocietyIndicatorsTitle}
             actions={(
                 <Link
@@ -60,29 +44,30 @@ function NationalSocietyIndicators() {
             )}
             headingLevel={4}
             withHeaderBorder
+            contentViewType="grid"
+            numPreferredGridContentColumns={3}
         >
-            {indicatorPending && <BlockLoading className={styles.loading} />}
             <TextOutput
                 label={strings.nationalSocietyFoundedDateLabel}
-                value={indicatorResponse?.founded_date}
+                value={databankResponse?.founded_date}
                 valueType="date"
                 strongValue
             />
             <TextOutput
                 label={strings.nationalSocietyTrainedInFirstAidLabel}
-                value={indicatorResponse?.trained_in_first_aid}
+                value={databankResponse?.trained_in_first_aid}
                 valueType="number"
                 strongValue
             />
             <TextOutput
                 label={strings.nationalSocietyIncomeLabel}
-                value={indicatorResponse?.income}
+                value={databankResponse?.income}
                 valueType="number"
                 strongValue
             />
             <TextOutput
                 label={strings.nationalSocietyVolunteersLabel}
-                value={indicatorResponse?.volunteer_total}
+                value={databankResponse?.volunteer_total}
                 valueType="number"
                 strongValue
             />
@@ -94,19 +79,25 @@ function NationalSocietyIndicators() {
             />
             <TextOutput
                 label={strings.nationalSocietyExpendituresLabel}
-                value={indicatorResponse?.expenditures}
+                value={databankResponse?.expenditures}
                 valueType="number"
                 strongValue
             />
             <TextOutput
                 label={strings.nationalSocietyBranchesLabel}
-                value={indicatorResponse?.branches}
+                value={databankResponse?.branches}
                 valueType="number"
                 strongValue
             />
             <TextOutput
                 label={strings.nationalSocietyStaffLabel}
-                value={indicatorResponse?.staff_total}
+                value={databankResponse?.staff_total}
+                valueType="number"
+                strongValue
+            />
+            <TextOutput
+                label={strings.nationalSocietyTrainedInFirstAidLabel}
+                value={databankResponse?.trained_in_first_aid}
                 valueType="number"
                 strongValue
             />

@@ -3,11 +3,11 @@ import {
     isNotDefined,
 } from '@togglecorp/fujs';
 
-import type { UnsafeNumberList } from '#utils/common';
 import {
     maxSafe,
     minSafe,
     splitList,
+    type UnsafeNumberList,
 } from '#utils/common';
 
 export type ChartScale = 'linear' | 'exponential' | 'log10' | 'sqrt' | 'cbrt';
@@ -389,6 +389,14 @@ export function getColorScaleFunction(
 }
 
 export function getIntervals(bounds: Bounds, numPoints: number) {
+    if (isNotDefined(numPoints) || numPoints === 0) {
+        return [];
+    }
+
+    if (numPoints === 1) {
+        return [bounds.min];
+    }
+
     const diff = (bounds.max - bounds.min) / (numPoints - 1);
     const ticks = bounds.max === 0
         ? []

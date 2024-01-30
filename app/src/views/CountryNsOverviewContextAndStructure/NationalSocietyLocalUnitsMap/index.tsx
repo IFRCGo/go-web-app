@@ -168,7 +168,7 @@ function NationalSocietyLocalUnitsMap(props: Props) {
                 '!in',
                 'country_id',
                 countryResponse.id,
-            ] : [],
+            ] : undefined,
         }),
         [countryResponse],
     );

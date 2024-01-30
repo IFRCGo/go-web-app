@@ -33,16 +33,16 @@ export function Component() {
                     {strings.supportingPartnersTabTitle}
                 </NavigationTab>
                 <NavigationTab
-                    to="countryProfilePreviousEvents"
-                    urlParams={{ countryId }}
-                >
-                    {strings.previousEventsTabTitle}
-                </NavigationTab>
-                <NavigationTab
                     to="countryProfileSeasonalRisks"
                     urlParams={{ countryId }}
                 >
                     {strings.riskWatchTabTitle}
+                </NavigationTab>
+                <NavigationTab
+                    to="countryProfilePreviousEvents"
+                    urlParams={{ countryId }}
+                >
+                    {strings.previousEventsTabTitle}
                 </NavigationTab>
             </NavigationTabList>
             <Outlet context={outletContext} />
