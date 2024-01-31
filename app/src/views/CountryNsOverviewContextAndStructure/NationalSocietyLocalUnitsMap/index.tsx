@@ -4,7 +4,11 @@ import {
     useState,
 } from 'react';
 import { useOutletContext } from 'react-router-dom';
-import { SearchLineIcon } from '@ifrc-go/icons';
+import {
+    LocationIcon,
+    MailIcon,
+    SearchLineIcon,
+} from '@ifrc-go/icons';
 import {
     Button,
     Container,
@@ -368,24 +372,49 @@ function NationalSocietyLocalUnitsMap(props: Props) {
                     </MapPopup>
                 )}
             </BaseMap>
-            <Container
-                className={styles.mapDetail}
-                childrenContainerClassName={styles.addressDetail}
-            >
-                <div className={styles.location}>
-                    <div>{countryResponse?.address_1}</div>
-                    <div>{countryResponse?.address_2}</div>
-                    <div>{countryResponse?.city_code}</div>
-                </div>
-                <Link
-                    href={`mailto:${countryResponse?.email ?? '-'}`}
-                    variant="tertiary"
-                    withUnderline
-                    external
+            {isDefined(countryResponse)
+                && (isDefined(countryResponse.address_1) || isDefined(countryResponse.email)) && (
+                <Container
+                    className={styles.mapDetail}
+                    childrenContainerClassName={styles.infoContainer}
                 >
-                    {countryResponse?.email}
-                </Link>
-            </Container>
+                    {isDefined(countryResponse) && isDefined(countryResponse.address_1) && (
+                        <TextOutput
+                            className={styles.info}
+                            labelClassName={styles.label}
+                            label={(
+                                <LocationIcon className={styles.icon} />
+                            )}
+                            withoutLabelColon
+                            value={(
+                                <>
+                                    <div>{countryResponse.address_1}</div>
+                                    <div>{countryResponse.address_2}</div>
+                                </>
+                            )}
+                        />
+                    )}
+                    {isDefined(countryResponse) && isDefined(countryResponse.email) && (
+                        <TextOutput
+                            className={styles.info}
+                            labelClassName={styles.label}
+                            label={(
+                                <MailIcon className={styles.icon} />
+                            )}
+                            withoutLabelColon
+                            value={(
+                                <Link
+                                    href={countryResponse.email}
+                                    withUnderline
+                                    external
+                                >
+                                    {countryResponse.email}
+                                </Link>
+                            )}
+                        />
+                    )}
+                </Container>
+            )}
         </Container>
     );
 }
