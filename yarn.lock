@@ -660,10 +660,10 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-2.0.1.tgz#e5211452df060fa8522b55c7b3c0c4d1981cb044"
   integrity sha512-dvuCeX5fC9dXgJn9t+X5atfmgQAzUOWqS1254Gh0m6i8wKd10ebXkfNKiRK+1GWi/yTvvLDHpoxLr0xxxeslWw==
 
-"@ifrc-go/icons@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@ifrc-go/icons/-/icons-1.2.0.tgz#413a49fc2c7acb66c80a83d29b347962d89426c9"
-  integrity sha512-zUeODc9Uq5xA9DLEWRt52U1fXdKE5/sPl6M3g5j8HuzUumVEilnxXc8gBXXSPpz/65MKMwLXqjlW8Ucp9eH3qQ==
+"@ifrc-go/icons@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@ifrc-go/icons/-/icons-1.3.1.tgz#c7f7d341ded5b17ed3be4916b134964e271413ee"
+  integrity sha512-2A15diRrETdPoAPIc0hVYYkvJ8ODxs8nYugFgTPPtV4pp2atgxkzu+E0xcEonLsD14bcrfKMnWZqPO7QLWA42Q==
 
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"

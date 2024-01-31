@@ -93,7 +93,7 @@ export function Component() {
                     )}
                     {isTruthyString(countryResponse.disaster_law_url) && (
                         <Link
-                            href={countryResponse?.disaster_law_url}
+                            href={countryResponse.disaster_law_url}
                             external
                             withLinkIcon
                             variant="primary"
