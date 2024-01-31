@@ -5,6 +5,7 @@ import {
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import { getPercentage } from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
@@ -33,10 +34,10 @@ export function Component() {
         } : undefined,
     });
 
-    const population = indicatorResponse?.population ?? 0;
-    const populationUnder18 = population !== 0
-        ? ((indicatorResponse?.unicef_population_under_18 ?? 0) / population) * 100 : 0;
-    const formattedPopulationUnder18 = populationUnder18.toFixed(2);
+    const populationUnder18Percent = getPercentage(
+        indicatorResponse?.unicef_population_under_18,
+        indicatorResponse?.population,
+    );
 
     return (
         <Container
@@ -55,32 +56,40 @@ export function Component() {
             />
             <TextOutput
                 label={strings.countryIndicatorsPopulationUnder18Label}
-                value={isDefined(formattedPopulationUnder18) ? `${formattedPopulationUnder18} %` : undefined}
-                valueType="text"
+                suffix=" %"
+                maximumFractionDigits={2}
+                value={populationUnder18Percent}
+                valueType="number"
                 strongValue
             />
             <TextOutput
                 label={strings.countryIndicatorsUrbanPopulationLabel}
-                value={isDefined(indicatorResponse?.urban_population) ? `${indicatorResponse?.urban_population} %` : undefined}
-                valueType="text"
+                suffix=" %"
+                value={indicatorResponse?.urban_population}
+                valueType="number"
                 strongValue
             />
             <TextOutput
                 label={strings.countryIndicatorsGDPLabel}
-                value={isDefined(indicatorResponse?.gdp) ? `$ ${indicatorResponse?.gdp}` : undefined}
-                valueType="text"
+                prefix="$"
+                maximumFractionDigits={0}
+                value={indicatorResponse?.gdp}
+                valueType="number"
                 strongValue
             />
             <TextOutput
                 label={strings.countryIndicatorsCapitaLabel}
-                value={isDefined(indicatorResponse?.gnipc) ? `$ ${indicatorResponse?.gnipc}` : undefined}
-                valueType="text"
+                prefix="$"
+                value={indicatorResponse?.gnipc}
+                valueType="number"
                 strongValue
             />
             <TextOutput
                 label={strings.countryIndicatorsPovertyLabel}
-                value={isDefined(indicatorResponse?.poverty) ? `${indicatorResponse?.poverty} %` : undefined}
-                valueType="text"
+                suffix=" %"
+                maximumFractionDigits={2}
+                value={indicatorResponse?.poverty}
+                valueType="number"
                 strongValue
             />
             <TextOutput
@@ -91,8 +100,10 @@ export function Component() {
             />
             <TextOutput
                 label={strings.countryIndicatorsLiteracyLabel}
-                value={isDefined(indicatorResponse?.literacy) ? `${indicatorResponse?.literacy} %` : undefined}
-                valueType="text"
+                suffix=" %"
+                maximumFractionDigits={2}
+                value={indicatorResponse?.literacy}
+                valueType="number"
                 strongValue
             />
             <TextOutput
