@@ -11,6 +11,7 @@ import {
     isNotDefined,
 } from '@togglecorp/fujs';
 
+import Link from '#components/Link';
 import { type CountryOutletContext } from '#utils/outletContext';
 import { useRequest } from '#utils/restRequest';
 
@@ -36,7 +37,7 @@ export function Component() {
 
     const populationUnder18Percent = getPercentage(
         indicatorResponse?.unicef_population_under_18,
-        indicatorResponse?.population,
+        indicatorResponse?.world_bank_population,
     );
 
     return (
@@ -47,11 +48,46 @@ export function Component() {
             withHeaderBorder
             contentViewType="grid"
             numPreferredGridContentColumns={3}
+            footerContentClassName={styles.footerContent}
+            footerContent={(
+                <TextOutput
+                    label={strings.sources}
+                    valueClassName={styles.links}
+                    value={(
+                        <>
+                            <Link
+                                variant="tertiary"
+                                href="https://data.worldbank.org"
+                                external
+                                withUnderline
+                            >
+                                {strings.dataBank}
+                            </Link>
+                            <Link
+                                variant="tertiary"
+                                href="https://sdmx.data.unicef.org/overview.html"
+                                external
+                                withUnderline
+                            >
+                                {strings.unicef}
+                            </Link>
+                            <Link
+                                variant="tertiary"
+                                href="https://hdr.undp.org/data-center"
+                                external
+                                withUnderline
+                            >
+                                {strings.hdr}
+                            </Link>
+                        </>
+                    )}
+                />
+            )}
         >
             {indicatorPending && <BlockLoading className={styles.loading} />}
             <TextOutput
                 label={strings.countryIndicatorsPopulationLabel}
-                value={indicatorResponse?.population}
+                value={indicatorResponse?.world_bank_population}
                 valueType="number"
                 strongValue
             />
@@ -66,7 +102,7 @@ export function Component() {
             <TextOutput
                 label={strings.countryIndicatorsUrbanPopulationLabel}
                 suffix=" %"
-                value={indicatorResponse?.urban_population}
+                value={indicatorResponse?.world_bank_urban_population_percentage}
                 valueType="number"
                 strongValue
             />
@@ -74,14 +110,15 @@ export function Component() {
                 label={strings.countryIndicatorsGDPLabel}
                 prefix="$"
                 maximumFractionDigits={0}
-                value={indicatorResponse?.gdp}
+                value={indicatorResponse?.world_bank_gdp}
                 valueType="number"
                 strongValue
             />
             <TextOutput
                 label={strings.countryIndicatorsCapitaLabel}
                 prefix="$"
-                value={indicatorResponse?.gnipc}
+                maximumFractionDigits={0}
+                value={indicatorResponse?.world_bank_gni}
                 valueType="number"
                 strongValue
             />
@@ -89,13 +126,13 @@ export function Component() {
                 label={strings.countryIndicatorsPovertyLabel}
                 suffix=" %"
                 maximumFractionDigits={2}
-                value={indicatorResponse?.poverty}
+                value={indicatorResponse?.world_bank_poverty_rate}
                 valueType="number"
                 strongValue
             />
             <TextOutput
                 label={strings.countryIndicatorsLifeExpectancyLabel}
-                value={indicatorResponse?.life_expectancy}
+                value={indicatorResponse?.world_bank_life_expectancy}
                 valueType="number"
                 strongValue
             />
@@ -103,7 +140,7 @@ export function Component() {
                 label={strings.countryIndicatorsLiteracyLabel}
                 suffix=" %"
                 maximumFractionDigits={2}
-                value={indicatorResponse?.literacy}
+                value={indicatorResponse?.world_bank_literacy_rate}
                 valueType="number"
                 strongValue
             />

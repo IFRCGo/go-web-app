@@ -10,6 +10,10 @@
         "countryIndicatorsLifeExpectancyLabel": "Life Expectancy",
         "countryIndicatorsLiteracyLabel": "Literacy",
         "countryIndicatorsCapitaLabel": "GNI/Capita",
-        "countryIndicatorsGenderInequalityIndexLabel": "Gender Inequality index (GII)"
+        "countryIndicatorsGenderInequalityIndexLabel": "Gender Inequality Index (GII)",
+        "sources": "Sources",
+        "dataBank": "The World Bank",
+        "unicef": "UNICEF",
+        "hdr": "HDR"
     }
 }

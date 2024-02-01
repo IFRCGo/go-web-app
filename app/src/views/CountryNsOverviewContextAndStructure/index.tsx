@@ -57,7 +57,9 @@ export function Component() {
 
     return (
         <div className={styles.countryNsOverviewContextAndStructure}>
-            <NationalSocietyIndicators databankResponse={databankResponse} />
+            <NationalSocietyIndicators
+                databankResponse={databankResponse}
+            />
             <div className={styles.nsIncome}>
                 <NationalSocietyIncomeOverTime
                     selectedYear={selectedYearForIncome}
