@@ -1,4 +1,7 @@
-import { _cs } from '@togglecorp/fujs';
+import {
+    _cs,
+    isDefined,
+} from '@togglecorp/fujs';
 
 import NumberOutput from '#components/NumberOutput';
 
@@ -8,9 +11,10 @@ export interface Props {
     className?: string;
     title?: React.ReactNode;
     description?: React.ReactNode;
-    value: number;
-    totalValue?: number;
+    value: number | undefined | null;
+    totalValue?: number | null | undefined;
     showPercentageInTitle?: boolean;
+    children?: React.ReactNode;
 }
 
 function ProgressBar(props: Props) {
@@ -18,10 +22,18 @@ function ProgressBar(props: Props) {
         className,
         title,
         description,
-        totalValue = 100,
-        value,
+        totalValue: totalValueUnsafe,
+        value: valueUnsafe,
         showPercentageInTitle,
+        children,
     } = props;
+
+    const value = isDefined(valueUnsafe)
+        ? valueUnsafe
+        : 0;
+    const totalValue = isDefined(totalValueUnsafe)
+        ? totalValueUnsafe
+        : 0;
 
     let percentage;
     if (totalValue === 0) {
@@ -56,6 +68,7 @@ function ProgressBar(props: Props) {
                     {description}
                 </div>
             )}
+            {children}
         </div>
     );
 }
