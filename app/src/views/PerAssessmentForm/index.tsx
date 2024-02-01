@@ -137,6 +137,47 @@ export function Component() {
     });
 
     const {
+        pending: componentPending,
+        response: componentResponse,
+    } = useRequest({
+        url: '/api/v2/per-formcomponent/',
+        query: {
+            limit: 9999,
+        },
+    });
+
+    const parentComponent: PerFormQuestionResponse['results'] = useMemo(() => {
+        const filteredParentComponent = componentResponse?.results?.filter(
+            (question) => question.is_parent === true,
+        );
+
+        return filteredParentComponent?.map((component) => (
+            {
+                answers: [],
+                component: {
+                    area: {
+                        area_num: component.area,
+                        title: '',
+                        id: component.area,
+                    },
+                    component_letter: component.component_letter,
+                    component_num: component.component_num,
+                    description: component.description,
+                    id: component.id,
+                    title: component.title,
+                    is_parent: component.is_parent,
+                },
+                description: null,
+                id: component.id,
+                question: '',
+                question_num: null,
+            }
+        ));
+    }, [componentResponse]);
+
+    console.log('here', parentComponent);
+
+    const {
         response: perOverviewResponse,
     } = useRequest({
         skip: isNotDefined(id),
@@ -294,8 +335,12 @@ export function Component() {
         }),
     );
 
+    const groupedParentQuestionResponse = useMemo(() => (
+        [...questionsResponse?.results ?? [], ...parentComponent ?? []]
+    ), [questionsResponse, parentComponent]);
+
     const areaIdGroupedQuestion = listToGroupList(
-        questionsResponse?.results ?? [],
+        groupedParentQuestionResponse ?? [],
         (question) => question.component.area.id,
     );
 
@@ -304,6 +349,8 @@ export function Component() {
         (question) => question.component.area.id,
         (question) => question.component.area.title,
     );
+
+    console.log('area', areaIdGroupedQuestion);
 
     const minArea = areas[0]?.area_num ?? 1;
     const maxArea = areas[areas.length - 1]?.area_num ?? areas.length;
@@ -324,6 +371,7 @@ export function Component() {
     const currentPerStep = statusResponse?.phase;
 
     const dataPending = questionsPending
+        || componentPending
         || perOptionsPending
         || fetchingPerAssessment
         || fetchingStatus;
