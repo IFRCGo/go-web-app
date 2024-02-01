@@ -12,16 +12,11 @@ import {
     Tooltip,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import {
-    getPathData,
-    sumSafe,
-} from '@ifrc-go/ui/utils';
+import { getPathData } from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
-    listToGroupList,
     listToMap,
-    mapToList,
 } from '@togglecorp/fujs';
 
 import useChartData from '#hooks/useChartData';
@@ -62,43 +57,40 @@ function NationalSocietyIncomeOverTime(props: Props) {
     const strings = useTranslation(i18n);
     const containerRef = useRef<ElementRef<'div'>>(null);
 
-    const incomeOverTimeByYear = useMemo(
-        () => {
-            const yearGrouppedMap = listToGroupList(
-                databankResponse?.fdrs_income ?? [],
-                ({ date }) => new Date(date).getFullYear(),
-            );
+    const annualIncome = databankResponse?.fdrs_annual_income?.map(
+        (income) => {
+            const {
+                date,
+                value,
+                ...other
+            } = income;
 
-            return mapToList(
-                yearGrouppedMap,
-                (list, year) => {
-                    const totalValue = sumSafe(list.map(({ value }) => value));
-                    if (isNotDefined(totalValue)) {
-                        return undefined;
-                    }
+            if (isNotDefined(date) || isNotDefined(value)) {
+                return undefined;
+            }
 
-                    return {
-                        year: Number(year),
-                        value: totalValue,
-                    };
-                },
-            ).filter(isDefined);
+            const dateObj = new Date(date);
+
+            if (Number.isNaN(dateObj.getTime())) {
+                return undefined;
+            }
+
+            return {
+                ...other,
+                date: dateObj,
+                value,
+            };
         },
-        [databankResponse],
-    );
+    ).filter(isDefined);
 
-    const valueByYear = useMemo(
-        () => listToMap(
-            incomeOverTimeByYear,
-            ({ year }) => year,
-            ({ value }) => value,
-        ),
-        [incomeOverTimeByYear],
+    const incomeByYear = listToMap(
+        annualIncome,
+        ({ date }) => date.getFullYear(),
     );
 
     const temporalDomain = useMemo(
         () => {
-            if (incomeOverTimeByYear.length === 0) {
+            if (isNotDefined(annualIncome) || annualIncome.length === 0) {
                 const now = new Date();
 
                 return {
@@ -107,8 +99,8 @@ function NationalSocietyIncomeOverTime(props: Props) {
                 };
             }
 
-            const minYear = incomeOverTimeByYear[0].year;
-            const maxYear = incomeOverTimeByYear[incomeOverTimeByYear.length - 1].year;
+            const minYear = annualIncome[0].date.getFullYear();
+            const maxYear = annualIncome[annualIncome.length - 1].date.getFullYear();
 
             const diff = maxYear - minYear;
             const minDiff = 2;
@@ -120,7 +112,7 @@ function NationalSocietyIncomeOverTime(props: Props) {
                 max: maxYear + Math.ceil(access / 2),
             };
         },
-        [incomeOverTimeByYear],
+        [annualIncome],
     );
 
     const {
@@ -129,15 +121,15 @@ function NationalSocietyIncomeOverTime(props: Props) {
         xAxisTicks,
         yAxisTicks,
     } = useChartData(
-        incomeOverTimeByYear,
+        annualIncome,
         {
             containerRef,
             chartPadding,
             chartMargin,
             chartOffset,
             type: 'numeric',
-            keySelector: (datum) => datum.year,
-            xValueSelector: (datum) => datum.year,
+            keySelector: (datum) => datum.date.getFullYear(),
+            xValueSelector: (datum) => datum.date.getFullYear(),
             xAxisLabelSelector: (year) => year,
             yValueSelector: (datum) => datum.value,
             yAxisStartsFromZero: true,
@@ -157,7 +149,7 @@ function NationalSocietyIncomeOverTime(props: Props) {
                 description={(
                     <TextOutput
                         label={strings.nsIncomeOverTimeTooltipTotalLabel}
-                        value={valueByYear[Number(year)]}
+                        value={incomeByYear?.[Number(year)].value}
                         suffix=" CHF"
                         valueType="number"
                         strongValue
@@ -165,7 +157,7 @@ function NationalSocietyIncomeOverTime(props: Props) {
                 )}
             />
         ),
-        [valueByYear, strings.nsIncomeOverTimeTooltipTotalLabel],
+        [incomeByYear, strings.nsIncomeOverTimeTooltipTotalLabel],
     );
 
     const handlePointClick = useCallback(

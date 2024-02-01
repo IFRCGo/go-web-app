@@ -39,11 +39,13 @@ export function Component() {
         url: '/api/v2/country/{id}/databank/',
         pathVariables: isDefined(countryId) ? { id: Number(countryId) } : undefined,
         onSuccess: (response) => {
-            if (response && response.fdrs_income && response.fdrs_income.length === 0) {
+            if (response && response.fdrs_annual_income
+                && response.fdrs_annual_income.length === 0
+            ) {
                 return;
             }
 
-            const timestampList = response.fdrs_income.map(
+            const timestampList = response.fdrs_annual_income.map(
                 ({ date }) => new Date(date).getTime(),
             );
 
@@ -66,10 +68,12 @@ export function Component() {
                     setSelectedYear={setSelectedYearForIncome}
                     databankResponse={databankResponse}
                 />
-                <NationalSocietyIncomeSourceBreakdown
-                    selectedYear={selectedYearForIncome}
-                    databankResponse={databankResponse}
-                />
+                {isDefined(countryId) && (
+                    <NationalSocietyIncomeSourceBreakdown
+                        selectedYear={selectedYearForIncome}
+                        countryId={Number(countryId)}
+                    />
+                )}
             </div>
             <div className={styles.nationalSocietyDetail}>
                 <NationalSocietyLocalUnitsMap className={styles.map} />
