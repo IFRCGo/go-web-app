@@ -27,6 +27,7 @@
         "drefOperationSelectDistrict": "Please select a different district when selected yes on changing geographic location",
         "drefOperationSelectLocation": "Please select yes on changing geographic location",
         "drefOperationTargetedPopulation": "Please select a different value for targeted population when selected yes on changing target population",
-        "drefOperationChangingTargetPopulation": "Please select yes on changing target population"
+        "drefOperationChangingTargetPopulation": "Please select yes on changing target population",
+        "drefFeedbackForm": "Provide Feedback on IFRC DREF"
     }
 }

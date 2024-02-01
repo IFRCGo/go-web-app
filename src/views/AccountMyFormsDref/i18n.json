@@ -2,6 +2,7 @@
     "namespace": "accountMyFormsDref",
     "strings": {
         "showCompletedButtonLabel": "Show completed DREFs",
-        "backToActiveButtonLabel": "Back to active DREFs"
+        "backToActiveButtonLabel": "Back to active DREFs",
+        "drefFeedbackForm": "Provide Feedback on IFRC DREF"
     }
 }

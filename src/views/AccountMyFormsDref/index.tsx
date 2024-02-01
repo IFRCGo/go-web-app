@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ChevronLeftLineIcon, ChevronRightLineIcon } from '@ifrc-go/icons';
 
 import Button from '#components/Button';
+import Link from '#components/Link';
 import useTranslation from '#hooks/useTranslation';
 
 import ActiveDrefTable from './ActiveDrefTable';
@@ -16,6 +17,17 @@ export function Component() {
 
     return (
         <div className={styles.accountDrefApplications}>
+            <div className={styles.drefFeedbackForm}>
+                <Link
+                    href="https://forms.office.com/pages/responsepage.aspx?id=5Tu1ok5zbE6rDdGE9g_ZFwFnyoRVgjpFtGr2viq4vX9UN0IwQ0NCQkpNSElDRVk1R1U3Q0tJV1I5VS4u"
+                    variant="tertiary"
+                    external
+                    withLinkIcon
+                    withUnderline
+                >
+                    {strings.drefFeedbackForm}
+                </Link>
+            </div>
             {currentView === 'active' && (
                 <ActiveDrefTable
                     actions={(
