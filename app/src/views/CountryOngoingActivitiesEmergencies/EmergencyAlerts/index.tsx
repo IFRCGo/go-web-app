@@ -129,6 +129,7 @@ function EmergencyAlertsTable(props: Props) {
                             title={strings.emergencyAlertsTableGdacs}
                             href="https://www.gdacs.org/alerts/"
                             external
+                            withUnderline
                             variant="tertiary"
                         >
                             {strings.emergencyAlertsTableGdacs}

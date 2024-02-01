@@ -10,6 +10,8 @@
         "nationalSocietyBranchesLabel": "Branches",
         "nationalSocietyStaffLabel": "Staff",
         "goToFDRS": "Go to FDRS",
-        "nationalSocietyYouthLabel": "Youth (6-29 yrs)"
+        "nationalSocietyYouthLabel": "Youth (6-29 yrs)",
+        "fdrs": "FDRS",
+        "source": "Source"
     }
 }
