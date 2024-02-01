@@ -78,6 +78,8 @@ function ComponentInput(props: Props) {
 
     const strings = useTranslation(i18n);
 
+    console.log('component', component, 'question', questions);
+
     const setFieldValue = useFormObject(
         index,
         onChange,
