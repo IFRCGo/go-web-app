@@ -9,6 +9,7 @@ import Link from '#components/Link';
 import { GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 interface Props {
     databankResponse: GoApiResponse<'/api/v2/country/{id}/databank/'> | undefined;
@@ -34,7 +35,7 @@ function NationalSocietyIndicators(props: Props) {
             heading={strings.nationalSocietyIndicatorsTitle}
             actions={(
                 <Link
-                    href="https://data.ifrc.org/FDRS/"
+                    href="https://data.ifrc.org/fdrs/"
                     external
                     withLinkIcon
                     variant="primary"
@@ -46,6 +47,22 @@ function NationalSocietyIndicators(props: Props) {
             withHeaderBorder
             contentViewType="grid"
             numPreferredGridContentColumns={3}
+            footerContentClassName={styles.footerContent}
+            footerContent={(
+                <TextOutput
+                    label={strings.source}
+                    value={(
+                        <Link
+                            variant="tertiary"
+                            href="https://data.ifrc.org/fdrs/"
+                            external
+                            withUnderline
+                        >
+                            {strings.fdrs}
+                        </Link>
+                    )}
+                />
+            )}
         >
             <TextOutput
                 label={strings.nationalSocietyFoundedDateLabel}
@@ -92,12 +109,6 @@ function NationalSocietyIndicators(props: Props) {
             <TextOutput
                 label={strings.nationalSocietyStaffLabel}
                 value={databankResponse?.staff_total}
-                valueType="number"
-                strongValue
-            />
-            <TextOutput
-                label={strings.nationalSocietyTrainedInFirstAidLabel}
-                value={databankResponse?.trained_in_first_aid}
                 valueType="number"
                 strongValue
             />
