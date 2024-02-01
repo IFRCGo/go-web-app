@@ -62,6 +62,8 @@ function AreaInput(props: Props) {
         disabled = false,
     } = props;
 
+    console.log('area-----', questions);
+
     const setFieldValue = useFormObject(
         index,
         onChange,
@@ -95,6 +97,8 @@ function AreaInput(props: Props) {
             questions: list,
         }),
     )), [componentGroupedQuestions]);
+
+    console.log('-------', componentGroupedQuestionList);
 
     const error = useMemo(
         () => getErrorObject(formError),
