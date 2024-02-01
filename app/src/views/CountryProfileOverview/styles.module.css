@@ -6,4 +6,14 @@
         width: 100%;
         height: 100%;
     }
+
+    .footer-content {
+        display: flex;
+        justify-content: flex-end;
+
+        .links {
+            display: flex;
+            gap: var(--go-ui-spacing-xs);
+        }
+    }
 }

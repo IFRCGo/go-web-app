@@ -237,7 +237,7 @@ function NationalSocietyLocalUnitsMap(props: Props) {
             actions={isAuthenticated && (
                 <Link
                     external
-                    href={resolveUrl(adminUrl, `api/country/${countryId}/change/`)}
+                    href={resolveUrl(adminUrl, `local_units/localunit/?country=${countryId}`)}
                     variant="secondary"
                 >
                     {strings.editLocalUnitLink}
