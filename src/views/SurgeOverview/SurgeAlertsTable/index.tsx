@@ -119,16 +119,14 @@ function SurgeAlertsTable() {
             (surgeAlert) => {
                 const startDate = isDefined(surgeAlert.start)
                     ? new Date(surgeAlert.start) : undefined;
-                const endDate = isDefined(surgeAlert.end) ? new Date(surgeAlert.end) : undefined;
-
                 const closed = isDefined(surgeAlert.end)
                     ? new Date(surgeAlert.end).getTime() < todayTimestamp : undefined;
 
-                if (isDefined(endDate) && closed) {
-                    return endDate.toLocaleString();
-                }
-
                 if (isDefined(startDate)) {
+                    if (closed) {
+                        return startDate.toLocaleString();
+                    }
+
                     const dateStarted = startDate.getTime() < todayTimestamp
                         ? strings.surgeAlertImmediately
                         : startDate.toLocaleString();
