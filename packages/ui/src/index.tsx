@@ -18,8 +18,14 @@ export type { Props as BarChartProps } from './components/BarChart';
 export { default as BarChart } from './components/BarChart';
 export type { Props as BlockLoadingProps } from './components/BlockLoading';
 export { default as BlockLoading } from './components/BlockLoading';
+
+// NOTE: Ovearlay needs to be exported before
+// BodyOverlay for styling to work properly
+// eslint-disable-next-line simple-import-sort/exports
+export { default as Overlay } from './components/Overlay';
 export type { Props as BodyOverlayProps } from './components/BodyOverlay';
 export { default as BodyOverlay } from './components/BodyOverlay';
+
 export { default as BooleanInput } from './components/BooleanInput';
 export type { Props as BooleanOutputProps } from './components/BooleanOutput';
 export { default as BooleanOutput } from './components/BooleanOutput';
@@ -84,7 +90,6 @@ export type { Props as NumberInputProps } from './components/NumberInput';
 export { default as NumberInput } from './components/NumberInput';
 export type { Props as NumberOutputProps } from './components/NumberOutput';
 export { default as NumberOutput } from './components/NumberOutput';
-export { default as Overlay } from './components/Overlay';
 export { default as PageContainer } from './components/PageContainer';
 export { default as PageHeader } from './components/PageHeader';
 export type { Props as PagerProps } from './components/Pager';
