@@ -130,6 +130,7 @@ export function Component() {
                     contentViewType="grid"
                     numPreferredGridContentColumns={2}
                     withGridViewInFilter
+                    spacing="relaxed"
                     filters={(
                         <SelectInput
                             name="timePeriod"
