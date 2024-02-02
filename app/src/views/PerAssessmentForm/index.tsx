@@ -175,8 +175,6 @@ export function Component() {
         ));
     }, [componentResponse]);
 
-    console.log('here', parentComponent);
-
     const {
         response: perOverviewResponse,
     } = useRequest({
@@ -349,8 +347,6 @@ export function Component() {
         (question) => question.component.area.id,
         (question) => question.component.area.title,
     );
-
-    console.log('area', areaIdGroupedQuestion);
 
     const minArea = areas[0]?.area_num ?? 1;
     const maxArea = areas[areas.length - 1]?.area_num ?? areas.length;
