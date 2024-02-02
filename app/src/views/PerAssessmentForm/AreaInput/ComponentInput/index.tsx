@@ -78,8 +78,6 @@ function ComponentInput(props: Props) {
 
     const strings = useTranslation(i18n);
 
-    console.log('component', component, 'question', questions);
-
     const setFieldValue = useFormObject(
         index,
         onChange,
@@ -115,6 +113,7 @@ function ComponentInput(props: Props) {
     );
 
     const componentNumber = component.component_num;
+    const isParentComponent = component.is_parent;
 
     if (isNotDefined(componentNumber)) {
         return null;
@@ -133,22 +132,25 @@ function ComponentInput(props: Props) {
             headingClassName={styles.heading}
             spacing="comfortable"
             headingDescriptionContainerClassName={styles.statusSelectionContainer}
+            isParent={!isParentComponent ?? false}
             headingDescription={(
-                <SelectInput
-                    readOnly={readOnly}
-                    className={styles.statusSelection}
-                    name="rating"
-                    value={value?.rating}
-                    error={error?.rating}
-                    onChange={setFieldValue}
-                    placeholder={readOnly
-                        ? strings.placeholderReviewedRating
-                        : strings.placeholderSelectRating}
-                    options={ratingOptions}
-                    disabled={disabled}
-                    keySelector={numericIdSelector}
-                    labelSelector={ratingLabelSelector}
-                />
+                !isParentComponent && (
+                    <SelectInput
+                        readOnly={readOnly}
+                        className={styles.statusSelection}
+                        name="rating"
+                        value={value?.rating}
+                        error={error?.rating}
+                        onChange={setFieldValue}
+                        placeholder={readOnly
+                            ? strings.placeholderReviewedRating
+                            : strings.placeholderSelectRating}
+                        options={ratingOptions}
+                        disabled={disabled}
+                        keySelector={numericIdSelector}
+                        labelSelector={ratingLabelSelector}
+                    />
+                )
             )}
             showExpandButtonAtBottom
             initiallyExpanded
@@ -174,15 +176,17 @@ function ComponentInput(props: Props) {
                     />
                 );
             })}
-            <TextArea
-                label={strings.notes}
-                name="notes"
-                value={value?.notes}
-                error={error?.notes}
-                onChange={setFieldValue}
-                disabled={disabled}
-                readOnly={readOnly}
-            />
+            {!isParentComponent && (
+                <TextArea
+                    label={strings.notes}
+                    name="notes"
+                    value={value?.notes}
+                    error={error?.notes}
+                    onChange={setFieldValue}
+                    disabled={disabled}
+                    readOnly={readOnly}
+                />
+            )}
             {epi_considerations && (
                 <InputSection
                     title={strings.epiConsiderationTitle}
