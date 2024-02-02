@@ -20,6 +20,7 @@ import styles from './styles.module.css';
 
 export interface Props extends Omit<ContainerProps, 'withInternalPadding' | 'withoutWrapInHeading'> {
     initiallyExpanded?: boolean;
+    isParent?: boolean;
     onExpansionChange?: (isExpanded: boolean) => void;
     showExpandButtonAtBottom?: boolean;
     componentRef?: React.MutableRefObject<{
@@ -35,6 +36,7 @@ function ExpandableContainer(props: Props) {
         initiallyExpanded = false,
         headerClassName,
         componentRef,
+        isParent = false,
         childrenContainerClassName,
         onExpansionChange,
         withHeaderBorder,
@@ -51,7 +53,7 @@ function ExpandableContainer(props: Props) {
             setValue: setExpanded,
             toggle: toggleExpanded,
         },
-    ] = useBooleanState(!!initiallyExpanded);
+    ] = useBooleanState(!!initiallyExpanded && !!isParent);
 
     useEffect(() => {
         if (onExpansionChange) {
@@ -87,20 +89,22 @@ function ExpandableContainer(props: Props) {
             actions={(
                 <>
                     {actions}
-                    <Button
-                        variant="tertiary"
-                        name={undefined}
-                        onClick={toggleExpanded}
-                        title={expanded
-                            ? strings.expandableContainerCollapse
-                            : strings.expandableContainerExpand}
-                    >
-                        {expanded ? (
-                            <ChevronUpLineIcon className={styles.icon} />
-                        ) : (
-                            <ChevronDownLineIcon className={styles.icon} />
-                        )}
-                    </Button>
+                    {isParent && (
+                        <Button
+                            variant="tertiary"
+                            name={undefined}
+                            onClick={toggleExpanded}
+                            title={expanded
+                                ? strings.expandableContainerCollapse
+                                : strings.expandableContainerExpand}
+                        >
+                            {expanded ? (
+                                <ChevronUpLineIcon className={styles.icon} />
+                            ) : (
+                                <ChevronDownLineIcon className={styles.icon} />
+                            )}
+                        </Button>
+                    )}
                 </>
             )}
             actionsContainerClassName={styles.actionsContainer}
@@ -121,7 +125,7 @@ function ExpandableContainer(props: Props) {
                 </Button>
             )}
         >
-            {expanded && children}
+            {(expanded) && children}
         </Container>
     );
 }
