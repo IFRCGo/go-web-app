@@ -1,19 +1,43 @@
-.country-indicators {
-    .loading {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+.country-profile-overview {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-2xl);
+
+    .seasonal-calendar-content {
+        background-image:
+            linear-gradient(to right, var(--go-ui-color-separator) var(--go-ui-width-separator-thin), transparent var(--go-ui-width-separator-thin)),
+            linear-gradient(to bottom, var(--go-ui-color-separator) var(--go-ui-width-separator-thin), transparent var(--go-ui-width-separator-thin));
+        background-size: calc(100% / 12);
+
+        .event-list {
+            display: grid;
+            border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+            padding: var(--go-ui-spacing-md) 0;
+            grid-template-columns: repeat(12, 1fr);
+            gap: var(--go-ui-spacing-3xs);
+
+            .month-name {
+                text-align: center;
+                font-size: var(--go-ui-font-size-sm);
+
+                @media screen and (max-width: 30rem) {
+                    transform: rotate(-30deg) translateX(-10%) translateY(20%);
+                    padding: 0;
+                    font-size: var(--go-ui-font-size-2xs);
+                }
+            }
+
+            .event {
+                padding: var(--go-ui-spacing-2xs) var(--go-ui-spacing-xs);
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                font-size: var(--go-ui-font-size-xs);
+            }
+        }
     }
 
-    .footer-content {
-        display: flex;
-        justify-content: flex-end;
-
-        .links {
-            display: flex;
-            gap: var(--go-ui-spacing-xs);
-        }
+    .legend-container {
+        flex-wrap: wrap;
     }
 }

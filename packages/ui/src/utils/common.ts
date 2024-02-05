@@ -436,6 +436,7 @@ export function encodeDate(
 export function splitList<X, Y>(
     list: (X | Y)[],
     splitPointSelector: (item: X | Y, i: number) => item is X,
+    includeBreakPointInResult = false,
 ): Y[][] {
     const breakpointIndices = list.map(
         (item, i) => (splitPointSelector(item, i) ? i : undefined),
@@ -449,7 +450,7 @@ export function splitList<X, Y>(
         (breakpointIndex, i) => {
             const prevIndex = i === 0
                 ? 0
-                : breakpointIndices[i - 1] + 1;
+                : breakpointIndices[i - 1] + (includeBreakPointInResult ? 0 : 1);
 
             if (prevIndex === breakpointIndex) {
                 return undefined;
