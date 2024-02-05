@@ -22,7 +22,6 @@ import i18n from './i18n.json';
 interface Props {
     selectedYear: number;
     countryId: number;
-    // databankResponse: GoApiResponse<'/api/v2/country/{id}/databank/'> | undefined;
 }
 
 function NationalSocietyIncomeSourceBreakdown(props: Props) {

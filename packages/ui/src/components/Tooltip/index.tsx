@@ -88,8 +88,8 @@ function Tooltip(props: Props) {
                 >
                     <Container
                         heading={title}
-                        childrenContainerClassName={styles.content}
                         withInternalPadding
+                        contentViewType="vertical"
                     >
                         {description}
                     </Container>
