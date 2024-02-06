@@ -26,6 +26,7 @@ type PerFormQuestionResponse = GoApiResponse<'/api/v2/per-formquestion/'>;
 
 type Value = NonNullable<PartialAssessment['area_responses']>[number];
 type PerFormQuestion = NonNullable<PerFormQuestionResponse['results']>[number];
+type QuestionGroups = GoApiResponse<'/api/v2/per-formquestion-group/'>;
 
 type PerFormArea = PerFormQuestion['component']['area'];
 
@@ -36,6 +37,7 @@ interface Props {
     value: Value;
     index: number | undefined;
     questions: PerFormQuestion[] | undefined;
+    questionGroups: QuestionGroups | undefined;
     area: PerFormArea;
     ratingOptions: PerOptionsResponse['componentratings'] | undefined;
     epi_considerations: boolean | null | undefined;
@@ -57,6 +59,7 @@ function AreaInput(props: Props) {
         ratingOptions,
         epi_considerations,
         urban_considerations,
+        questionGroups,
         climate_environmental_considerations,
         readOnly,
         disabled = false,
@@ -117,6 +120,7 @@ function AreaInput(props: Props) {
                     key={componentResponse.component.id}
                     component={componentResponse.component}
                     questions={componentResponse.questions}
+                    questionGroups={questionGroups}
                     index={componentResponseMapping[componentResponse.component.id]?.index}
                     value={componentResponseMapping[componentResponse.component.id]?.value}
                     error={componentInputError?.[componentResponse.component.id]}
