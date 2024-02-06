@@ -189,7 +189,7 @@ export function Component() {
                         {strings.aboutDisasterPreparednessCenter}
                     </Link>
                     <Link
-                        href="https://preparecenter.org/toolkit/data-playbook-toolkit/"
+                        href="https://preparecenter.org/toolkit/data-playbook-toolkit-v1/"
                         external
                         withLinkIcon
                     >
