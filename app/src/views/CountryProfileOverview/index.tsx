@@ -306,7 +306,7 @@ export function Component() {
                     />
                     <TextOutput
                         label={strings.countryIndicatorsLifeExpectancyLabel}
-                        value={databankResponse?.world_bank_life_expectancy}
+                        value={databankResponse?.life_expectancy}
                         valueType="number"
                         strongValue
                     />
