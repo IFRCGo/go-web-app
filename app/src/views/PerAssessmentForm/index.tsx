@@ -146,6 +146,16 @@ export function Component() {
         },
     });
 
+    const {
+        pending: questionGroupPending,
+        response: questionGroupResponse,
+    } = useRequest({
+        url: '/api/v2/per-formquestion-group/',
+        query: {
+            limit: 9999,
+        },
+    });
+
     const parentComponent: PerFormQuestionResponse['results'] = useMemo(() => {
         const filteredParentComponent = componentResponse?.results?.filter(
             (question) => question.is_parent === true,
@@ -170,6 +180,7 @@ export function Component() {
                 description: null,
                 id: component.id,
                 question: '',
+                question_group: null,
                 question_num: null,
             }
         ));
@@ -368,6 +379,7 @@ export function Component() {
 
     const dataPending = questionsPending
         || componentPending
+        || questionGroupPending
         || perOptionsPending
         || fetchingPerAssessment
         || fetchingStatus;
@@ -507,6 +519,7 @@ export function Component() {
                                         area={area}
                                         readOnly={readOnlyMode}
                                         questions={areaIdGroupedQuestion[area.id]}
+                                        questionGroups={questionGroupResponse}
                                         index={areaResponseMapping[area.id]?.index}
                                         value={areaResponseMapping[area.id]?.value}
                                         disabled={savePerPending}
