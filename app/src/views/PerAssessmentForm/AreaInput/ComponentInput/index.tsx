@@ -1,16 +1,23 @@
 import { useMemo } from 'react';
 import {
+    Container,
     ExpandableContainer,
     InputSection,
     SelectInput,
     TextArea,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { numericIdSelector } from '@ifrc-go/ui/utils';
+import {
+    minSafe,
+    numericIdSelector,
+} from '@ifrc-go/ui/utils';
 import {
     _cs,
+    compareNumber,
+    isDefined,
     isNotDefined,
     isTruthyString,
+    listToGroupList,
     listToMap,
 } from '@togglecorp/fujs';
 import {
@@ -35,6 +42,7 @@ type RatingOption = NonNullable<PerOptionsResponse['componentratings']>[number];
 
 type AreaResponse = NonNullable<PartialAssessment['area_responses']>[number]
 type Value = NonNullable<AreaResponse['component_responses']>[number];
+type QuestionGroups = GoApiResponse<'/api/v2/per-formquestion-group/'>;
 
 type PerFormQuestionResponse = GoApiResponse<'/api/v2/per-formquestion/'>;
 type PerFormQuestion = NonNullable<PerFormQuestionResponse['results']>[number];
@@ -53,6 +61,7 @@ interface Props {
     error: Error<Value> | undefined;
     disabled?: boolean;
     ratingOptions: PerOptionsResponse['componentratings'] | undefined;
+    questionGroups: QuestionGroups | undefined;
     epi_considerations: boolean | null | undefined;
     urban_considerations: boolean | null | undefined;
     climate_environmental_considerations: boolean | null | undefined;
@@ -73,6 +82,7 @@ function ComponentInput(props: Props) {
         disabled = false,
         urban_considerations,
         climate_environmental_considerations,
+        questionGroups,
         readOnly,
     } = props;
 
@@ -114,6 +124,44 @@ function ComponentInput(props: Props) {
 
     const componentNumber = component.component_num;
     const isParentComponent = component.is_parent;
+
+    const groupedQuestions = useMemo(() => (
+        listToGroupList(
+            questions,
+            (question) => (
+                isDefined(question.question_group)
+                    ? question.question_group
+                    : 'questions'),
+        )
+    ), [questions]);
+
+    const currentQuestionGroupByComponent = useMemo(() => {
+        const questionGroupByComponent = listToGroupList(
+            questionGroups?.results,
+            (group) => group?.component,
+        );
+
+        const currentQuestions = questionGroupByComponent?.[component.id];
+
+        if (isNotDefined(currentQuestions)) {
+            return undefined;
+        }
+
+        const sortedCurrentQuestions = [...currentQuestions ?? []].sort((a, b) => {
+            const aGroupedQuestions = groupedQuestions[a.id];
+            const aMinQuestion = minSafe(aGroupedQuestions.map(
+                (item) => item.question_num,
+            ));
+            const bGroupedQuestions = groupedQuestions[b.id];
+            const bMinQuestion = minSafe(bGroupedQuestions.map(
+                (item) => item.question_num,
+            ));
+
+            return compareNumber(aMinQuestion, bMinQuestion);
+        });
+
+        return sortedCurrentQuestions;
+    }, [questionGroups, component, groupedQuestions]);
 
     if (isNotDefined(componentNumber)) {
         return null;
@@ -157,7 +205,44 @@ function ComponentInput(props: Props) {
         >
             <NonFieldError error={error} />
             <NonFieldError error={questionInputError} />
-            {questions?.map((question) => {
+            {isDefined(currentQuestionGroupByComponent) && currentQuestionGroupByComponent?.map(
+                (group) => {
+                    const currentQuestions = groupedQuestions[group.id];
+                    if (isNotDefined(currentQuestions)) {
+                        return null;
+                    }
+                    return (
+                        <Container
+                            key={group.id}
+                            heading={group.title}
+                            headerDescription={group.description}
+                            withHeaderBorder
+                            childrenContainerClassName={styles.questionList}
+                        >
+                            {currentQuestions?.map((question) => {
+                                if (isNotDefined(question.question_num)) {
+                                    return null;
+                                }
+
+                                return (
+                                    <QuestionInput
+                                        componentNumber={componentNumber}
+                                        key={question.id}
+                                        question={question}
+                                        index={questionResponseMapping[question.id]?.index}
+                                        value={questionResponseMapping[question.id]?.value}
+                                        error={questionInputError?.[question.id]}
+                                        onChange={setQuestionValue}
+                                        disabled={disabled}
+                                        readOnly={readOnly}
+                                    />
+                                );
+                            })}
+                        </Container>
+                    );
+                },
+            )}
+            {isNotDefined(currentQuestionGroupByComponent) && questions?.map((question) => {
                 if (isNotDefined(question.question_num)) {
                     return null;
                 }
