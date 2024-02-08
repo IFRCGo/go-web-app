@@ -14,7 +14,7 @@ import {
 } from '#components/Table/ColumnShortcuts';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
-import { getDuration } from '#utils/common';
+import { getDuration, formatDate } from '#utils/common';
 import { numericIdSelector } from '#utils/selectors';
 import useFilterState from '#hooks/useFilterState';
 
@@ -79,8 +79,8 @@ export default function SurgeTable(props: Props) {
             if (alert.is_stood_down) {
                 return strings.surgeAlertStoodDown;
             }
-            const closed = isDefined(alert.end)
-                ? new Date(alert.end).getTime() < nowTimestamp
+            const closed = isDefined(alert.closes)
+                ? new Date(alert.closes).getTime() < nowTimestamp
                 : undefined;
             return closed ? strings.surgeAlertClosed : strings.surgeAlertOpen;
         },
@@ -94,9 +94,9 @@ export default function SurgeTable(props: Props) {
     const columns = useMemo(
         () => ([
             createDateColumn<SurgeListItem, number>(
-                'created_at',
+                'opens',
                 strings.surgeAlertDate,
-                (item) => item.created_at,
+                (item) => item.opens,
             ),
             createStringColumn<SurgeListItem, number>(
                 'duration',
@@ -106,14 +106,14 @@ export default function SurgeTable(props: Props) {
                         return undefined;
                     }
 
-                    const alertDate = new Date(item.start);
-                    const deadline = new Date(item.end);
+                    const startDate = new Date(item.start);
+                    const endDate = new Date(item.end);
 
-                    if (alertDate > deadline) {
+                    if (startDate > endDate) {
                         return undefined;
                     }
 
-                    const duration = getDuration(alertDate, deadline);
+                    const duration = getDuration(startDate, endDate);
 
                     return duration;
                 },
@@ -124,17 +124,17 @@ export default function SurgeTable(props: Props) {
                 (item) => {
                     const startDate = isDefined(item.start) ? new Date(item.start) : undefined;
 
-                    const closed = isDefined(item.end)
-                        ? new Date(item.end).getTime() < nowTimestamp : undefined;
+                    const closed = isDefined(item.closes)
+                        ? new Date(item.closes).getTime() < nowTimestamp : undefined;
 
                     if (isDefined(startDate)) {
                         if (closed) {
-                            return startDate.toLocaleString();
+                            return formatDate(startDate);
                         }
 
                         const dateStarted = startDate.getTime() < nowTimestamp
                             ? strings.emergencySurgeImmediately
-                            : startDate.toLocaleString();
+                            : formatDate(startDate);
 
                         return dateStarted;
                     }
