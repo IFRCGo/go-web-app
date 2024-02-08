@@ -4,7 +4,7 @@ import { isDefined, isNotDefined } from '@togglecorp/fujs';
 import Table from '#components/Table';
 import Link from '#components/Link';
 import Container from '#components/Container';
-import { getDuration } from '#utils/common';
+import { getDuration, formatDate } from '#utils/common';
 import {
     createDateColumn,
     createLinkColumn,
@@ -80,7 +80,7 @@ function SurgeAlertsTable() {
         if (alert.is_stood_down) {
             return strings.surgeAlertStoodDown;
         }
-        const closed = alert.end ? new Date(alert.end).getTime() < todayTimestamp : undefined;
+        const closed = alert.closes ? new Date(alert.closes).getTime() < todayTimestamp : undefined;
         if (closed) {
             return strings.surgeAlertClosed;
         }
@@ -93,43 +93,43 @@ function SurgeAlertsTable() {
 
     const columns = useMemo(() => ([
         createDateColumn<SurgeAlertListItem, number>(
-            'created_at',
+            'opens',
             strings.surgeAlertsTableAlertDate,
-            (surgeAlert) => surgeAlert.created_at,
-            { sortable: true },
+            (surgeAlert) => surgeAlert.opens,
+            { sortable: false },
         ),
         createStringColumn<SurgeAlertListItem, number>(
             'duration',
             strings.surgeAlertsTableDuration,
             (surgeAlert) => {
-                if (isNotDefined(surgeAlert.created_at) || isNotDefined(surgeAlert.end)) {
+                if (isNotDefined(surgeAlert.start) || isNotDefined(surgeAlert.end)) {
                     return '-';
                 }
 
-                const alertDate = new Date(surgeAlert.created_at);
-                const deadline = new Date(surgeAlert.end);
-                const duration = getDuration(alertDate, deadline);
+                const startDate = new Date(surgeAlert.start);
+                const endDate = new Date(surgeAlert.end);
+                const duration = getDuration(startDate, endDate);
 
                 return duration;
             },
         ),
-        createDateColumn<SurgeAlertListItem, number>(
+        createStringColumn<SurgeAlertListItem, number>(
             'start',
             strings.surgeAlertsTableStartDate,
             (surgeAlert) => {
                 const startDate = isDefined(surgeAlert.start)
                     ? new Date(surgeAlert.start) : undefined;
-                const closed = isDefined(surgeAlert.end)
-                    ? new Date(surgeAlert.end).getTime() < todayTimestamp : undefined;
+                const closed = isDefined(surgeAlert.closes)
+                    ? new Date(surgeAlert.closes).getTime() < todayTimestamp : undefined;
 
                 if (isDefined(startDate)) {
                     if (closed) {
-                        return startDate.toLocaleString();
+                        return formatDate(startDate);
                     }
 
                     const dateStarted = startDate.getTime() < todayTimestamp
                         ? strings.surgeAlertImmediately
-                        : startDate.toLocaleString();
+                        : formatDate(startDate);
 
                     return dateStarted;
                 }

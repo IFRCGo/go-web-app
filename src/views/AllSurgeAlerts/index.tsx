@@ -22,7 +22,7 @@ import { resolveToComponent } from '#utils/translation';
 import useAlert from '#hooks/useAlert';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import { numericIdSelector } from '#utils/selectors';
-import { getDuration } from '#utils/common';
+import { getDuration, formatDate } from '#utils/common';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import useUrlSearchState from '#hooks/useUrlSearchState';
 
@@ -149,12 +149,12 @@ export function Component() {
             if (surgeAlert.is_stood_down) {
                 return strings.surgeAlertStoodDown;
             }
-            const endDate = isDefined(surgeAlert.end)
-                ? new Date(surgeAlert.end)
+            const closesDate = isDefined(surgeAlert.closes)
+                ? new Date(surgeAlert.closes)
                 : undefined;
 
-            const closed = isDefined(endDate)
-                ? endDate.getTime() < nowTimestamp
+            const closed = isDefined(closesDate)
+                ? closesDate.getTime() < nowTimestamp
                 : false;
 
             return closed ? strings.surgeAlertClosed : strings.surgeAlertOpen;
@@ -169,41 +169,41 @@ export function Component() {
     const columns = useMemo(
         () => ([
             createDateColumn<SurgeListItem, TableKey>(
-                'created_at',
+                'opens',
                 strings.surgeAlertDate,
-                (item) => item.created_at,
+                (item) => item.opens,
             ),
             createStringColumn<SurgeListItem, TableKey>(
                 'duration',
                 strings.surgeAlertDuration,
                 (item) => {
-                    if (isNotDefined(item.created_at) || isNotDefined(item.end)) {
+                    if (isNotDefined(item.start) || isNotDefined(item.end)) {
                         return undefined;
                     }
 
-                    const alertDate = new Date(item.created_at);
-                    const deadline = new Date(item.end);
-                    const duration = getDuration(alertDate, deadline);
+                    const startDate = new Date(item.start);
+                    const endDate = new Date(item.end);
+                    const duration = getDuration(startDate, endDate);
 
                     return duration;
                 },
             ),
-            createDateColumn<SurgeListItem, TableKey>(
+            createStringColumn<SurgeListItem, TableKey>(
                 'start',
                 strings.surgeAlertStartDate,
                 (item) => {
                     const startDate = isDefined(item.start) ? new Date(item.start) : undefined;
-                    const closed = isDefined(item.end)
-                        ? new Date(item.end).getTime() < nowTimestamp : undefined;
+                    const closed = isDefined(item.closes)
+                        ? new Date(item.closes).getTime() < nowTimestamp : undefined;
 
                     if (isDefined(startDate)) {
                         if (closed) {
-                            return startDate.toLocaleString();
+                            return formatDate(startDate);
                         }
 
                         const dateStarted = startDate.getTime() < nowTimestamp
                             ? strings.surgeAlertImmediately
-                            : startDate.toLocaleString();
+                            : formatDate(startDate);
 
                         return dateStarted;
                     }
