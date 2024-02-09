@@ -12,11 +12,10 @@ import {
 } from '@ifrc-go/ui';
 import {
     _cs,
-    isDefined,
     isNotDefined,
 } from '@togglecorp/fujs';
 
-import useChartData from '#hooks/useChartData';
+import useTemporalChartData from '#hooks/useTemporalChartData';
 import {
     defaultChartMargin,
     defaultChartPadding,
@@ -67,33 +66,17 @@ function PastEventsChart(props: Props) {
         },
     });
 
-    const {
-        dataPoints,
-        xAxisTicks,
-        yAxisTicks,
-        chartSize,
-    } = useChartData(
-        historicalDisastersResponse?.filter(
-            (event) => isDefined(event.targeted_population),
-        ),
+    const chartData = useTemporalChartData(
+        historicalDisastersResponse,
         {
             containerRef,
             chartOffset,
             chartMargin: defaultChartMargin,
             chartPadding: defaultChartPadding,
             keySelector: (datum, i) => `${datum.date}-${i}`,
-            xValueSelector: (datum) => {
-                const date = new Date(datum.date);
-                return date.getTime();
-            },
-            type: 'temporal',
-            xAxisLabelSelector: (timestamp) => (
-                new Date(timestamp).toLocaleString(
-                    navigator.language,
-                    { year: 'numeric', month: 'short' },
-                )
-            ),
+            xValueSelector: (datum) => datum.date,
             yValueSelector: (datum) => datum.targeted_population,
+            yearlyChart: true,
         },
     );
 
@@ -109,26 +92,27 @@ function PastEventsChart(props: Props) {
                 ref={containerRef}
             >
                 <svg className={styles.svg}>
-                    {dataPoints.map(
-                        (dataPoint) => (
+                    {chartData.chartPoints.map(
+                        (chartPoint) => (
                             <ChartPoint
                                 className={styles.dataPoint}
-                                x={dataPoint.x}
-                                y={dataPoint.y}
-                                key={dataPoint.key}
+                                x={chartPoint.x}
+                                y={chartPoint.y}
+                                key={chartPoint.key}
                                 hoverable
                             >
                                 <Tooltip
-                                    title={dataPoint.originalData.disaster_name}
+                                    title={chartPoint.originalData.disaster_name}
                                     description={(
                                         <>
                                             <DateOutput
-                                                value={dataPoint.originalData.date}
+                                                value={chartPoint.originalData.date}
                                                 format="yyyy MMM"
                                             />
                                             <TextOutput
+                                                // FIXME: use translations
                                                 label="Targeted population"
-                                                value={dataPoint.originalData.targeted_population}
+                                                value={chartPoint.originalData.targeted_population}
                                                 valueType="number"
                                             />
                                         </>
@@ -138,9 +122,9 @@ function PastEventsChart(props: Props) {
                         ),
                     )}
                     <ChartAxes
-                        xAxisPoints={xAxisTicks}
-                        yAxisPoints={yAxisTicks}
-                        chartSize={chartSize}
+                        xAxisPoints={chartData.xAxisTicks}
+                        yAxisPoints={chartData.yAxisTicks}
+                        chartSize={chartData.chartSize}
                         chartMargin={defaultChartMargin}
                         xAxisHeight={X_AXIS_HEIGHT}
                         yAxisWidth={Y_AXIS_WIDTH}
