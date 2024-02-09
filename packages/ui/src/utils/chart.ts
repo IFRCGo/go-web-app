@@ -409,3 +409,29 @@ export function getIntervals(bounds: Bounds, numPoints: number) {
 
     return ticks;
 }
+
+export function getEvenlyDistributedExcess(excess: number) {
+    return {
+        left: Math.floor(excess / 2),
+        right: Math.ceil(excess / 2),
+    };
+}
+
+export function getEvenDistribution(min: number, max: number, distribution: number) {
+    const diff = max - min;
+
+    if (diff === 0) {
+        return {
+            left: Math.floor(distribution / 2),
+            right: Math.ceil(distribution / 2),
+        };
+    }
+
+    const remainder = diff % distribution;
+
+    const additional = remainder === 0
+        ? 0
+        : distribution - remainder;
+
+    return getEvenlyDistributedExcess(additional);
+}

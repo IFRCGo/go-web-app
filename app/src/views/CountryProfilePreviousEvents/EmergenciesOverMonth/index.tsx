@@ -22,6 +22,7 @@ import {
 import { useRequest } from '#utils/restRequest';
 
 import styles from './styles.module.css';
+import useTemporalChartData from '#hooks/useTemporalChartData';
 
 const currentYear = new Date().getFullYear();
 const firstDayOfYear = new Date(currentYear, 0, 1);
@@ -67,39 +68,22 @@ function EmergenciesOverMonth(props: Props) {
         },
     });
 
-    const {
-        dataPoints,
-        xAxisTicks,
-        yAxisTicks,
-        chartSize,
-    } = useChartData(
-        disasterMonthlyCountResponse?.filter(
-            (countItem) => isDefined(countItem.targeted_population),
-        ),
+    const chartData = useTemporalChartData(
+        disasterMonthlyCountResponse,
         {
             containerRef,
             chartOffset,
             chartMargin: defaultChartMargin,
             chartPadding: defaultChartPadding,
             keySelector: (datum, i) => `${datum.date}-${i}`,
-            xValueSelector: (datum) => {
-                const date = new Date(datum.date);
-                date.setFullYear(currentYear);
-                return date.getTime();
-            },
-            type: 'temporal',
-            xAxisLabelSelector: (timestamp) => (
-                new Date(timestamp).toLocaleString(
-                    navigator.language,
-                    { month: 'short' },
-                )
-            ),
+            xValueSelector: (datum) => datum.date,
             yValueSelector: (datum) => datum.targeted_population,
+            /*
             xDomain: {
                 min: firstDayOfYear.getTime(),
                 max: lastDayOfYear.getTime(),
             },
-            yAxisStartsFromZero: true,
+            */
         },
     );
 
@@ -109,7 +93,7 @@ function EmergenciesOverMonth(props: Props) {
             ref={containerRef}
         >
             <svg className={styles.svg}>
-                {dataPoints.map(
+                {chartData.chartPoints.map(
                     (dataPoint) => (
                         <ChartPoint
                             className={styles.dataPoint}
@@ -136,9 +120,9 @@ function EmergenciesOverMonth(props: Props) {
                     ),
                 )}
                 <ChartAxes
-                    xAxisPoints={xAxisTicks}
-                    yAxisPoints={yAxisTicks}
-                    chartSize={chartSize}
+                    xAxisPoints={chartData.xAxisTicks}
+                    yAxisPoints={chartData.yAxisTicks}
+                    chartSize={chartData.chartSize}
                     chartMargin={defaultChartMargin}
                     xAxisHeight={X_AXIS_HEIGHT}
                     yAxisWidth={Y_AXIS_WIDTH}
