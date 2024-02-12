@@ -4,6 +4,10 @@
     gap: var(--go-ui-spacing-2xs);
     color: var(--go-ui-color-primary-red);
 
+    .title {
+        color: var(--go-ui-color-text);
+    }
+
     .total {
         display: flex;
         flex-shrink: 0;

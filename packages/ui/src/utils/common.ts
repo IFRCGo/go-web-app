@@ -191,7 +191,7 @@ function suffix(num: number, suffixStr: string, skipZero: boolean) {
         return skipZero ? '' : '0';
     }
 
-    const formatter = Intl.NumberFormat(navigator.language, { notation: 'compact' });
+    const formatter = Intl.NumberFormat('default', { notation: 'compact' });
     return `${formatter.format(num)} ${suffixStr}${num !== 1 ? 's' : ''}`;
 }
 
@@ -304,6 +304,26 @@ export function isWhitelistedEmail(
         .includes(userMailDomain);
 }
 
+function getMaximumFractionDigits(value: number) {
+    if (value < 1000) {
+        return 2;
+    }
+
+    const formatter = new Intl.NumberFormat('default', { notation: 'compact' });
+    const formattedParts = formatter.formatToParts(value);
+    const fraction = formattedParts.find(({ type }) => type === 'fraction');
+
+    if (isNotDefined(fraction) || isFalsyString(fraction.value)) {
+        return 0;
+    }
+
+    if (Number(fraction.value) > 0.1) {
+        return 1;
+    }
+
+    return 0;
+}
+
 interface FormatNumberOptions {
     currency?: boolean;
     unit?: Intl.NumberFormatOptions['unit'];
@@ -336,8 +356,8 @@ export function formatNumber(
     const formattingOptions: Intl.NumberFormatOptions = {};
 
     if (isNotDefined(options)) {
-        formattingOptions.maximumFractionDigits = Math.abs(value) >= 1000 ? 0 : 2;
-        return new Intl.NumberFormat(undefined, formattingOptions).format(value);
+        formattingOptions.maximumFractionDigits = getMaximumFractionDigits(value);
+        return new Intl.NumberFormat('default', formattingOptions).format(value);
     }
 
     const {
@@ -367,7 +387,7 @@ export function formatNumber(
     if (isDefined(maximumFractionDigits)) {
         formattingOptions.maximumFractionDigits = maximumFractionDigits;
     } else {
-        formattingOptions.maximumFractionDigits = Math.abs(value) >= 1000 ? 0 : 2;
+        formattingOptions.maximumFractionDigits = getMaximumFractionDigits(value);
     }
 
     const newValue = new Intl.NumberFormat(language, formattingOptions)
@@ -498,7 +518,7 @@ export function getMonthList(monthOption: Intl.DateTimeFormatOptions['month'] = 
             return {
                 key: monthKey,
                 label: date.toLocaleString(
-                    navigator.language,
+                    'default',
                     { month: monthOption },
                 ),
             };

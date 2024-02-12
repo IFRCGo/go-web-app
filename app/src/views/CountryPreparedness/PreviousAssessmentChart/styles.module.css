@@ -8,22 +8,17 @@
         .path {
             stroke: var(--go-ui-color-primary-red);
             fill: none;
+            pointer-events: none;
         }
 
         .text {
             font-size: var(--go-ui-font-size-sm);
+            pointer-events: none;
         }
 
         .circle {
-            fill: var(--go-ui-color-primary-red);
-            r: 6;
-            stroke-width: 2;
-            stroke: transparent;
-            transition: var(--go-ui-duration-transition-medium) ease-in-out stroke;
-
-            &:hover {
-                stroke: var(--go-ui-color-primary-red);
-            }
+            color: var(--go-ui-color-primary-red);
+            pointer-events: none;
         }
     }
 }

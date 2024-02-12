@@ -14,7 +14,7 @@
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        padding: var(--go-ui-spacing-xs);
+        padding: 0 var(--go-ui-spacing-2xs);
         text-align: right;
         word-break: break-word;
         font-size: var(--go-ui-font-size-xs);
@@ -23,7 +23,7 @@
     .x-axis-tick {
         .x-axis-tick-text {
             transition: var(--go-ui-duration-transition-medium) ease-in-out transform;
-            padding: var(--go-ui-spacing-xs) 0;
+            padding: var(--go-ui-spacing-2xs) 0;
             text-align: center;
             word-break: break-word;
             font-size: var(--go-ui-font-size-xs);

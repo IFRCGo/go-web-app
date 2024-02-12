@@ -1,6 +1,7 @@
 import { useOutletContext } from 'react-router-dom';
 import {
     Container,
+    List,
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -11,9 +12,31 @@ import {
 
 import Link from '#components/Link';
 import { type CountryOutletContext } from '#utils/outletContext';
+import { GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+type DirectoryItem = GoApiResponse<'/api/v2/country/{id}/'>['directory'][number];
+
+interface NsDirectoryProps {
+    directory: DirectoryItem;
+}
+
+function NsDirectory(props: NsDirectoryProps) {
+    const { directory } = props;
+
+    return (
+        <div className={styles.directory}>
+            <div className={styles.fullName}>
+                {[directory?.first_name, directory?.last_name].filter(isTruthyString).join(' ')}
+            </div>
+            <div className={styles.position}>
+                {directory?.position}
+            </div>
+        </div>
+    );
+}
 
 interface Props {
     className?: string;
@@ -47,21 +70,18 @@ function NationalSocietyDirectory(props: Props) {
                 />
             )}
             withHeaderBorder
-            contentViewType="vertical"
         >
-            {directoryList?.map((directory) => (
-                <div
-                    key={directory.id}
-                    className={styles.directory}
-                >
-                    <div className={styles.fullName}>
-                        {[directory?.first_name, directory?.last_name].filter(isTruthyString).join(' ')}
-                    </div>
-                    <div className={styles.position}>
-                        {directory?.position}
-                    </div>
-                </div>
-            ))}
+            <List
+                className={styles.directoryList}
+                pending={false}
+                errored={false}
+                filtered={false}
+                data={directoryList}
+                keySelector={({ id }) => id}
+                renderer={NsDirectory}
+                rendererParams={(_, datum) => ({ directory: datum })}
+                compact
+            />
         </Container>
     );
 }
