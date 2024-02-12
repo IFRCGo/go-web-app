@@ -435,3 +435,51 @@ export function getEvenDistribution(min: number, max: number, distribution: numb
 
     return getEvenlyDistributedExcess(additional);
 }
+
+export function getChartDimensions({
+    chartMargin,
+    chartPadding,
+    xAxisHeight,
+    yAxisWidth,
+    chartSize,
+    numXAxisTicks,
+}: {
+    chartMargin: Rect;
+    chartPadding: Rect;
+    xAxisHeight: number;
+    yAxisWidth: number;
+    chartSize: Size;
+    numXAxisTicks: number;
+}) {
+    const initialLeftOffset = chartMargin.left + yAxisWidth + chartPadding.left;
+    const initialRightOffset = chartMargin.right + chartPadding.right;
+    const topOffset = chartMargin.top + chartPadding.top;
+    const bottomOffset = chartMargin.bottom + chartPadding.bottom + xAxisHeight;
+
+    const renderableDataAreaWidth = chartSize.width - initialLeftOffset - initialRightOffset;
+    const additionalHorizontalOffset = renderableDataAreaWidth / (numXAxisTicks + 2);
+
+    const dataAreaWidth = Math.max(
+        renderableDataAreaWidth - additionalHorizontalOffset,
+        0,
+    );
+    const leftOffset = initialLeftOffset + additionalHorizontalOffset / 2;
+    const rightOffset = initialRightOffset + additionalHorizontalOffset / 2;
+    const dataAreaHeight = Math.max(
+        chartSize.height - topOffset - bottomOffset,
+        0,
+    );
+
+    return {
+        dataAreaSize: {
+            width: dataAreaWidth,
+            height: dataAreaHeight,
+        },
+        dataAreaOffset: {
+            top: topOffset,
+            right: rightOffset,
+            bottom: bottomOffset,
+            left: leftOffset,
+        },
+    };
+}

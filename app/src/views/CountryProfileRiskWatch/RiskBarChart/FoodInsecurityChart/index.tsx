@@ -19,11 +19,7 @@ import {
     mapToList,
 } from '@togglecorp/fujs';
 
-import useChartData from '#hooks/useChartData';
-import {
-    defaultChartMargin,
-    defaultChartPadding,
-} from '#utils/constants';
+import useTemporalChartData from '#hooks/useTemporalChartData';
 import { getPrioritizedIpcData } from '#utils/domain/risk';
 import { type RiskApiResponse } from '#utils/restRequest';
 
@@ -42,16 +38,6 @@ const colors = [
     'var(--go-ui-color-gray-90)',
 ];
 
-const X_AXIS_HEIGHT = 24;
-const Y_AXIS_WIDTH = 48;
-
-const chartOffset = {
-    left: Y_AXIS_WIDTH,
-    top: 10,
-    right: 0,
-    bottom: X_AXIS_HEIGHT,
-};
-
 const currentYear = new Date().getFullYear();
 
 type FiChartPointProps = {
@@ -67,6 +53,7 @@ type FiChartPointProps = {
         y: number;
     };
 };
+
 function FiChartPoint(props: FiChartPointProps) {
     const {
         dataPoint: {
@@ -155,34 +142,15 @@ function FoodInsecurityChart(props: Props) {
         [ipcData],
     );
 
-    const {
-        dataPoints,
-        chartSize,
-        xAxisTicks,
-        yAxisTicks,
-        yScaleFn,
-    } = useChartData(
+    const chartData = useTemporalChartData(
         uniqueData,
         {
             containerRef: chartContainerRef,
-            chartMargin: defaultChartMargin,
-            chartPadding: defaultChartPadding,
-            chartOffset,
-            type: 'numeric',
-            keySelector: (datum) => datum.month,
-            xValueSelector: (datum) => (
-                datum.month - 1
-            ),
+            keySelector: (datum) => datum.id,
+            xValueSelector: (datum) => new Date(datum.year, datum.month - 1, 1),
             yValueSelector: (datum) => datum.total_displacement,
-            xAxisLabelSelector: (month) => new Date(currentYear, month, 1).toLocaleString(
-                navigator.language,
-                { month: 'short' },
-            ),
-            xDomain: {
-                min: 0,
-                max: 11,
-            },
-            yAxisStartsFromZero: true,
+            yValueStartsFromZero: true,
+            yearlyChart: true,
         },
     );
 
@@ -202,7 +170,7 @@ function FoodInsecurityChart(props: Props) {
     const historicalPointsDataList = useMemo(
         () => {
             const yearGroupedDataPoints = listToGroupList(
-                dataPoints.filter(
+                chartData.chartPoints.filter(
                     (pathPoints) => pathPoints.originalData.year !== latestProjectionYear,
                 ),
                 (dataPoint) => dataPoint.originalData.year,
@@ -216,13 +184,13 @@ function FoodInsecurityChart(props: Props) {
                 }),
             );
         },
-        [latestProjectionYear, dataPoints],
+        [latestProjectionYear, chartData.chartPoints],
     );
 
     const averagePointsData = useMemo(
         () => {
             const monthGroupedDataPoints = listToGroupList(
-                dataPoints,
+                chartData.chartPoints,
                 (dataPoint) => dataPoint.originalData.month,
             );
 
@@ -242,7 +210,7 @@ function FoodInsecurityChart(props: Props) {
                     return {
                         key: month,
                         x: list[0].x,
-                        y: yScaleFn(averageDisplacement),
+                        y: chartData.yScaleFn(averageDisplacement),
                         originalData: {
                             total_displacement: averageDisplacement,
                             month: Number(month),
@@ -251,16 +219,16 @@ function FoodInsecurityChart(props: Props) {
                 },
             ).filter(isDefined);
         },
-        [dataPoints, yScaleFn],
+        [chartData],
     );
 
     const predictionPointsData = useMemo(
         () => (
-            dataPoints.filter(
+            chartData.chartPoints.filter(
                 (pathPoints) => pathPoints.originalData.year === latestProjectionYear,
             )
         ),
-        [dataPoints, latestProjectionYear],
+        [chartData.chartPoints, latestProjectionYear],
     );
 
     return (
@@ -269,14 +237,7 @@ function FoodInsecurityChart(props: Props) {
             ref={chartContainerRef}
         >
             <svg className={styles.svg}>
-                <ChartAxes
-                    xAxisPoints={xAxisTicks}
-                    yAxisPoints={yAxisTicks}
-                    chartSize={chartSize}
-                    chartMargin={defaultChartMargin}
-                    xAxisHeight={X_AXIS_HEIGHT}
-                    yAxisWidth={Y_AXIS_WIDTH}
-                />
+                <ChartAxes chartData={chartData} />
                 {showHistoricalData && historicalPointsDataList.map(
                     (historicalPointsData, i) => (
                         <g

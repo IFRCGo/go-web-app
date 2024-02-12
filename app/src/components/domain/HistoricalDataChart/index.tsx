@@ -26,15 +26,14 @@ import {
     unique,
 } from '@togglecorp/fujs';
 
-import useChartData from '#hooks/useChartData';
 import useInputState from '#hooks/useInputState';
+import useTemporalChartData from '#hooks/useTemporalChartData';
 import {
     COLOR_HAZARD_CYCLONE,
     COLOR_HAZARD_DROUGHT,
     COLOR_HAZARD_FLOOD,
     COLOR_HAZARD_FOOD_INSECURITY,
-    defaultChartMargin,
-    defaultChartPadding,
+    DEFAULT_Y_AXIS_WIDTH_WITH_LABEL,
 } from '#utils/constants';
 import type { GoApiResponse } from '#utils/restRequest';
 import { useRequest } from '#utils/restRequest';
@@ -65,20 +64,6 @@ const validDisastersForChart: Record<number, boolean> = {
     [DISASTER_FOOD_INSECURITY]: true,
     [DISASTER_DROUGHT]: true,
 };
-
-const X_AXIS_HEIGHT = 32;
-const Y_AXIS_WIDTH = 64;
-
-const chartOffset = {
-    left: Y_AXIS_WIDTH,
-    top: 0,
-    right: 0,
-    bottom: X_AXIS_HEIGHT,
-};
-
-const currentYear = new Date().getFullYear();
-const firstDayOfYear = new Date(currentYear, 0, 1);
-const lastDayOfYear = new Date(currentYear, 11, 31);
 
 function isValidDisaster(
     disaster: PartialDisasterType | null | undefined,
@@ -193,36 +178,15 @@ function HistoricalDataChart(props: Props) {
         },
     ).filter(isDefined);
 
-    const {
-        dataPoints,
-        xAxisTicks,
-        yAxisTicks,
-        chartSize,
-    } = useChartData(
+    const chartData = useTemporalChartData(
         filteredEvents,
         {
             containerRef: chartContainerRef,
-            chartOffset,
-            chartMargin: defaultChartMargin,
-            chartPadding: defaultChartPadding,
             keySelector: (datum) => datum.id,
-            xValueSelector: (datum) => {
-                const date = new Date(datum.disaster_start_date);
-                date.setFullYear(currentYear);
-                return date.getTime();
-            },
-            type: 'temporal',
-            xAxisLabelSelector: (timestamp) => (
-                new Date(timestamp).toLocaleString(
-                    navigator.language,
-                    { month: 'short' },
-                )
-            ),
+            xValueSelector: (datum) => datum.disaster_start_date,
             yValueSelector: (datum) => datum.num_affected,
-            xDomain: {
-                min: firstDayOfYear.getTime(),
-                max: lastDayOfYear.getTime(),
-            },
+            yearlyChart: true,
+            yAxisWidth: DEFAULT_Y_AXIS_WIDTH_WITH_LABEL,
         },
     );
 
@@ -250,16 +214,11 @@ function HistoricalDataChart(props: Props) {
             >
                 <svg className={styles.svg}>
                     <ChartAxes
-                        xAxisPoints={xAxisTicks}
-                        yAxisPoints={yAxisTicks}
-                        chartSize={chartSize}
-                        chartMargin={defaultChartMargin}
-                        xAxisHeight={X_AXIS_HEIGHT}
-                        yAxisWidth={Y_AXIS_WIDTH}
+                        chartData={chartData}
                         yAxisLabel={strings.peopleExposed}
                     />
                 </svg>
-                {dataPoints?.map(
+                {chartData.chartPoints?.map(
                     (point) => {
                         const funded = sumSafe(
                             point.originalData.appeals.map(

@@ -26,11 +26,10 @@ import {
 } from '@togglecorp/fujs';
 
 import { paths } from '#generated/riskTypes';
-import useChartData from '#hooks/useChartData';
+import useTemporalChartData from '#hooks/useTemporalChartData';
 import {
     COLOR_PRIMARY_BLUE,
-    defaultChartMargin,
-    defaultChartPadding,
+    DEFAULT_Y_AXIS_WIDTH_WITH_LABEL,
 } from '#utils/constants';
 
 import i18n from './i18n.json';
@@ -39,16 +38,6 @@ import styles from './styles.module.css';
 type GetCountryRisk = paths['/api/v1/country-seasonal/']['get'];
 type CountryRiskResponse = GetCountryRisk['responses']['200']['content']['application/json'];
 type RiskData = CountryRiskResponse[number];
-
-const X_AXIS_HEIGHT = 32;
-const Y_AXIS_WIDTH = 48;
-
-const chartOffset = {
-    left: Y_AXIS_WIDTH,
-    top: 0,
-    right: 0,
-    bottom: X_AXIS_HEIGHT,
-};
 
 interface ChartPoint {
     x: number;
@@ -103,52 +92,36 @@ function WildfireChart(props: Props) {
         [gwisData],
     );
 
-    const {
-        dataPoints,
-        xAxisTicks,
-        yAxisTicks,
-        chartSize,
-        yScaleFn,
-    } = useChartData(
+    const chartData = useTemporalChartData(
         aggregatedList,
         {
             containerRef: chartContainerRef,
-            chartOffset,
-            chartMargin: defaultChartMargin,
-            chartPadding: defaultChartPadding,
-            type: 'numeric',
             keySelector: (datum) => datum.month,
-            xValueSelector: (datum) => datum.month,
+            xValueSelector: (datum) => datum.date,
             yValueSelector: (datum) => datum.maxValue,
-            xAxisLabelSelector: (month) => new Date(currentYear, month, 1).toLocaleString(
-                navigator.language,
-                { month: 'short' },
-            ),
-            xDomain: {
-                min: 0,
-                max: 11,
-            },
-            yAxisStartsFromZero: true,
+            yearlyChart: true,
+            yAxisWidth: DEFAULT_Y_AXIS_WIDTH_WITH_LABEL,
+            yValueStartsFromZero: true,
         },
     );
 
-    const minPoints = dataPoints.map(
+    const minPoints = chartData.chartPoints.map(
         (dataPoint) => ({
             ...dataPoint,
-            y: yScaleFn(dataPoint.originalData.min),
+            y: chartData.yScaleFn(dataPoint.originalData.min),
         }),
     );
 
-    const maxPoints = dataPoints.map(
+    const maxPoints = chartData.chartPoints.map(
         (dataPoint) => ({
             ...dataPoint,
-            y: yScaleFn(dataPoint.originalData.max),
+            y: chartData.yScaleFn(dataPoint.originalData.max),
         }),
     );
 
     const minMaxPoints = [...minPoints, ...[...maxPoints].reverse()];
 
-    const currentYearPoints = dataPoints.map(
+    const currentYearPoints = chartData.chartPoints.map(
         (dataPoint) => {
             if (isNotDefined(dataPoint.originalData.current)) {
                 return undefined;
@@ -156,15 +129,15 @@ function WildfireChart(props: Props) {
 
             return {
                 ...dataPoint,
-                y: yScaleFn(dataPoint.originalData.current),
+                y: chartData.yScaleFn(dataPoint.originalData.current),
             };
         },
     ).filter(isDefined);
 
-    const averagePoints = dataPoints.map(
+    const averagePoints = chartData.chartPoints.map(
         (dataPoint) => ({
             ...dataPoint,
-            y: yScaleFn(dataPoint.originalData.average),
+            y: chartData.yScaleFn(dataPoint.originalData.average),
         }),
     );
 
@@ -270,12 +243,7 @@ function WildfireChart(props: Props) {
                     )}
                 </g>
                 <ChartAxes
-                    xAxisPoints={xAxisTicks}
-                    yAxisPoints={yAxisTicks}
-                    chartMargin={defaultChartMargin}
-                    chartSize={chartSize}
-                    xAxisHeight={X_AXIS_HEIGHT}
-                    yAxisWidth={Y_AXIS_WIDTH}
+                    chartData={chartData}
                     tooltipSelector={tooltipSelector}
                     onHover={handleHover}
                     yAxisLabel={strings.monthlySeverityRating}
