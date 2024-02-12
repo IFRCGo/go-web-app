@@ -1,6 +1,4 @@
 .account-per-forms {
-    padding: var(--go-ui-spacing-2xl) 0;
-
     .filters {
         display: grid;
         grid-gap: var(--go-ui-spacing-md);

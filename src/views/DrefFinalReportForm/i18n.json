@@ -22,6 +22,6 @@
         "formLoadErrorHelpText": "Please make sure that the final report with given id exists and you have the permission to view it",
         "formBackButtonLabel": "Back",
         "formShareButtonLabel": "Share",
-        "drefFeedbackForm": "Provide Feedback on IFRC DREF"
+        "drefFeedbackForm": "Provide feedback on IFRC DREF"
     }
 }
