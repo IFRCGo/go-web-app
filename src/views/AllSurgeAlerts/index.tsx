@@ -25,6 +25,7 @@ import { numericIdSelector } from '#utils/selectors';
 import { getDuration, formatDate } from '#utils/common';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import useUrlSearchState from '#hooks/useUrlSearchState';
+import { SURGE_ALERT_STATUS_CLOSED } from '#utils/constants';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -71,6 +72,9 @@ export function Component() {
         'country',
         (searchValue) => {
             const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
+            if (potentialValue) {
+                setPage(0);
+            }
             return potentialValue;
         },
         (country) => country,
@@ -80,6 +84,9 @@ export function Component() {
         'event',
         (searchValue) => {
             const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
+            if (potentialValue) {
+                setPage(0);
+            }
             return potentialValue;
         },
         (country) => country,
@@ -140,31 +147,11 @@ export function Component() {
             offset,
             event: eventFilter,
             country: countryFilter,
+            ordering: 'status,opens',
         },
     });
 
     const alert = useAlert();
-    const getStatus = useCallback(
-        (surgeAlert: SurgeListItem) => {
-            if (surgeAlert.is_stood_down) {
-                return strings.surgeAlertStoodDown;
-            }
-            const closesDate = isDefined(surgeAlert.closes)
-                ? new Date(surgeAlert.closes)
-                : undefined;
-
-            const closed = isDefined(closesDate)
-                ? closesDate.getTime() < nowTimestamp
-                : false;
-
-            return closed ? strings.surgeAlertClosed : strings.surgeAlertOpen;
-        },
-        [
-            strings.surgeAlertStoodDown,
-            strings.surgeAlertClosed,
-            strings.surgeAlertOpen,
-        ],
-    );
 
     const columns = useMemo(
         () => ([
@@ -193,11 +180,9 @@ export function Component() {
                 strings.surgeAlertStartDate,
                 (item) => {
                     const startDate = isDefined(item.start) ? new Date(item.start) : undefined;
-                    const closed = isDefined(item.closes)
-                        ? new Date(item.closes).getTime() < nowTimestamp : undefined;
 
                     if (isDefined(startDate)) {
-                        if (closed) {
+                        if (item.status === SURGE_ALERT_STATUS_CLOSED) {
                             return formatDate(startDate);
                         }
 
@@ -243,7 +228,7 @@ export function Component() {
             createStringColumn<SurgeListItem, TableKey>(
                 'status',
                 strings.surgeAlertStatus,
-                (item) => getStatus(item),
+                (item) => item.status_display,
             ),
         ]),
         [
@@ -256,7 +241,6 @@ export function Component() {
             strings.surgeAlertEmergency,
             strings.surgeAlertCountry,
             strings.surgeAlertStatus,
-            getStatus,
         ],
     );
 

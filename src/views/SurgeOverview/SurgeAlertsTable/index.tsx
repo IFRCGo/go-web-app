@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from 'react';
+import { useMemo } from 'react';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import Table from '#components/Table';
@@ -15,6 +15,7 @@ import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import useFilterState from '#hooks/useFilterState';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
+import { SURGE_ALERT_STATUS_CLOSED } from '#utils/constants';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -76,21 +77,6 @@ function SurgeAlertsTable() {
         },
     });
 
-    const getStatus = useCallback((alert: SurgeAlertListItem) => {
-        if (alert.is_stood_down) {
-            return strings.surgeAlertStoodDown;
-        }
-        const closed = alert.closes ? new Date(alert.closes).getTime() < todayTimestamp : undefined;
-        if (closed) {
-            return strings.surgeAlertClosed;
-        }
-        return strings.surgeAlertOpen;
-    }, [
-        strings.surgeAlertClosed,
-        strings.surgeAlertOpen,
-        strings.surgeAlertStoodDown,
-    ]);
-
     const columns = useMemo(() => ([
         createDateColumn<SurgeAlertListItem, number>(
             'opens',
@@ -119,11 +105,9 @@ function SurgeAlertsTable() {
             (surgeAlert) => {
                 const startDate = isDefined(surgeAlert.start)
                     ? new Date(surgeAlert.start) : undefined;
-                const closed = isDefined(surgeAlert.closes)
-                    ? new Date(surgeAlert.closes).getTime() < todayTimestamp : undefined;
 
                 if (isDefined(startDate)) {
-                    if (closed) {
+                    if (surgeAlert.status === SURGE_ALERT_STATUS_CLOSED) {
                         return formatDate(startDate);
                     }
 
@@ -171,10 +155,9 @@ function SurgeAlertsTable() {
         createStringColumn<SurgeAlertListItem, number>(
             'status',
             strings.surgeAlertsTableStatus,
-            (surgeAlert) => getStatus(surgeAlert),
+            (surgeAlert) => surgeAlert.status_display,
         ),
     ]), [
-        getStatus,
         strings.surgeAlertImmediately,
         strings.surgeAlertsTableAlertDate,
         strings.surgeAlertsTableDuration,
