@@ -21,6 +21,7 @@
         "formLoadErrorDescription": "There was an error loading the DREF Final Report",
         "formLoadErrorHelpText": "Please make sure that the final report with given id exists and you have the permission to view it",
         "formBackButtonLabel": "Back",
-        "formShareButtonLabel": "Share"
+        "formShareButtonLabel": "Share",
+        "drefFeedbackForm": "Provide feedback on IFRC DREF"
     }
 }

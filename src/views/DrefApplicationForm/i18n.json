@@ -20,6 +20,7 @@
         "formLoadingMessage": "Loading DREF Application...",
         "formNotAvailableInNonEnglishMessage": "DREF Application is not available in the selected language!",
         "formEditNotAvailableInSelectedLanguageMessage": "DREF Application is not available for edit in the selected language!",
-        "formShareButtonLabel": "Share"
+        "formShareButtonLabel": "Share",
+        "drefFeedbackForm": "Provide feedback on IFRC DREF"
     }
 }

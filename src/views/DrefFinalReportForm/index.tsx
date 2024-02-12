@@ -21,6 +21,7 @@ import {
     DownloadTwoLineIcon, ShareLineIcon,
 } from '@ifrc-go/icons';
 
+import Link from '#components/Link';
 import Page from '#components/Page';
 import Tab from '#components/Tabs/Tab';
 import Tabs from '#components/Tabs';
@@ -402,6 +403,17 @@ export function Component() {
                 className={styles.drefFinalReportForm}
                 title={strings.formPageTitle}
                 heading={strings.formPageHeading}
+                description={(
+                    <Link
+                        href="https://forms.office.com/pages/responsepage.aspx?id=5Tu1ok5zbE6rDdGE9g_ZFwFnyoRVgjpFtGr2viq4vX9UN0IwQ0NCQkpNSElDRVk1R1U3Q0tJV1I5VS4u"
+                        variant="tertiary"
+                        external
+                        withLinkIcon
+                        withUnderline
+                    >
+                        {strings.drefFeedbackForm}
+                    </Link>
+                )}
                 actions={(
                     <>
                         {isTruthyString(finalReportId) && (
