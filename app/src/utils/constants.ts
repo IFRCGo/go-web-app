@@ -173,3 +173,10 @@ export const COUNTRY_RECORD_TYPE_REPRESENTATIVE_OFFICE = 5 satisfies CountryReco
 
 type SurgeAlertTypeEnum = components<'read'>['schemas']['Status1d2Enum'];
 export const SURGE_ALERT_STATUS_CLOSED = 2 satisfies SurgeAlertTypeEnum;
+
+export const NUM_X_AXIS_TICKS_MIN = 3;
+export const NUM_X_AXIS_TICKS_MAX = 12;
+
+export const DEFAULT_X_AXIS_HEIGHT = 26;
+export const DEFAULT_Y_AXIS_WIDTH = 46;
+export const DEFAULT_Y_AXIS_WIDTH_WITH_LABEL = 66;

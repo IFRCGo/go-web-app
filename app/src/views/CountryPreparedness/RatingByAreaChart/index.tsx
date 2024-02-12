@@ -5,27 +5,14 @@ import {
 import { ChartAxes } from '@ifrc-go/ui';
 import { listToMap } from '@togglecorp/fujs';
 
-import useChartData from '#hooks/useChartData';
-import {
-    defaultChartMargin,
-    defaultChartPadding,
-} from '#utils/constants';
+import useNumericChartData from '#hooks/useNumericChartData';
+import { defaultChartMargin } from '#utils/constants';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import styles from './styles.module.css';
 
 type PerOptionsResponse = GoApiResponse<'/api/v2/per-options/'>;
-// type PerFormAreaResponse = GoApiResponse<'/api/v2/per-formarea/'>;
-
-const X_AXIS_HEIGHT = 50;
-const Y_AXIS_WIDTH = 90;
-
-const chartOffset = {
-    left: Y_AXIS_WIDTH,
-    top: 10,
-    right: 30,
-    bottom: X_AXIS_HEIGHT,
-};
+type PerFormAreaResponse = GoApiResponse<'/api/v2/per-formarea/'>;
 
 interface Props {
     data: {
@@ -35,14 +22,14 @@ interface Props {
         value: number;
     }[] | undefined;
     ratingOptions: PerOptionsResponse['componentratings'] | undefined;
-    // formAreaOptions: PerFormAreaResponse['results'] | undefined;
+    formAreaOptions: PerFormAreaResponse['results'] | undefined;
 }
 
 function RatingByAreaChart(props: Props) {
     const {
         data,
         ratingOptions,
-        // formAreaOptions,
+        formAreaOptions,
     } = props;
 
     const containerRef = useRef<ElementRef<'div'>>(null);
@@ -52,25 +39,31 @@ function RatingByAreaChart(props: Props) {
         (option) => option.title,
     );
 
-    const {
-        dataPoints,
-        chartSize,
-        xAxisTicks,
-        yAxisTicks,
-    } = useChartData(
+    const formAreaMap = listToMap(
+        formAreaOptions,
+        (option) => option.area_num ?? '-',
+        (option) => option.title,
+    );
+
+    const chartData = useNumericChartData(
         data,
         {
             containerRef,
-            chartOffset,
-            chartMargin: defaultChartMargin,
-            chartPadding: defaultChartPadding,
+            chartMargin: {
+                ...defaultChartMargin,
+                top: 10,
+            },
             keySelector: (datum) => datum.id,
-            xValueSelector: (datum) => datum.areaNum ?? 0,
+            xValueSelector: (datum) => datum.areaNum,
             yValueSelector: (datum) => datum.value,
-            xAxisLabelSelector: (datum) => datum.title,
-            yAxisLabelSelector: (rating) => ratingTitleMap?.[rating],
-            type: 'categorical',
+            yAxisTickLabelSelector: (rating) => ratingTitleMap?.[rating],
+            xAxisTickLabelSelector: (areaNum) => formAreaMap?.[areaNum],
             yDomain: { min: 0, max: 5 },
+            numYAxisTicks: 6,
+            xDomain: { min: 1, max: 5 },
+            numXAxisTicks: 5,
+            yAxisWidth: 100,
+            xAxisHeight: 36,
         },
     );
 
@@ -83,14 +76,9 @@ function RatingByAreaChart(props: Props) {
         >
             <svg className={styles.svg}>
                 <ChartAxes
-                    xAxisHeight={X_AXIS_HEIGHT}
-                    yAxisWidth={Y_AXIS_WIDTH}
-                    xAxisPoints={xAxisTicks}
-                    yAxisPoints={yAxisTicks}
-                    chartMargin={defaultChartMargin}
-                    chartSize={chartSize}
+                    chartData={chartData}
                 />
-                {dataPoints.map(
+                {chartData.chartPoints.map(
                     (point) => (
                         <g key={point.key}>
                             {point.originalData.value !== 0 && (
@@ -113,8 +101,9 @@ function RatingByAreaChart(props: Props) {
                                 width={barWidth}
                                 height={
                                     Math.max(
-                                        // eslint-disable-next-line max-len
-                                        chartSize.height - point.y - defaultChartMargin.bottom - chartOffset.bottom,
+                                        chartData.dataAreaSize.height
+                                            - point.y
+                                            + chartData.dataAreaOffset.top,
                                         0,
                                     )
                                 }

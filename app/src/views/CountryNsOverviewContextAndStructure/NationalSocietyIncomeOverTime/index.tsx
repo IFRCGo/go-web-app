@@ -1,7 +1,6 @@
 import {
     ElementRef,
     useCallback,
-    useMemo,
     useRef,
 } from 'react';
 import {
@@ -12,34 +11,22 @@ import {
     Tooltip,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { getPathData } from '@ifrc-go/ui/utils';
+import {
+    getBounds,
+    getPathData,
+} from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
     listToMap,
 } from '@togglecorp/fujs';
 
-import useChartData from '#hooks/useChartData';
-import {
-    defaultChartMargin,
-    defaultChartPadding,
-} from '#utils/constants';
+import useNumericChartData from '#hooks/useNumericChartData';
+import { DEFAULT_Y_AXIS_WIDTH_WITH_LABEL } from '#utils/constants';
 import { GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-const chartPadding = defaultChartPadding;
-const chartMargin = defaultChartMargin;
-const X_AXIS_HEIGHT = 50;
-const Y_AXIS_WIDTH = 90;
-
-const chartOffset = {
-    left: Y_AXIS_WIDTH,
-    top: 10,
-    right: 30,
-    bottom: X_AXIS_HEIGHT,
-};
 
 interface Props {
     selectedYear: number;
@@ -88,57 +75,24 @@ function NationalSocietyIncomeOverTime(props: Props) {
         ({ date }) => date.getFullYear(),
     );
 
-    const temporalDomain = useMemo(
-        () => {
-            if (isNotDefined(annualIncome) || annualIncome.length === 0) {
-                const now = new Date();
+    const yearList = isDefined(incomeByYear)
+        ? Object.keys(incomeByYear).map((year) => Number(year))
+        : [];
 
-                return {
-                    min: now.getFullYear() - 1,
-                    max: now.getFullYear() + 1,
-                };
-            }
+    const xBounds = getBounds(yearList);
 
-            const minYear = annualIncome[0].date.getFullYear();
-            const maxYear = annualIncome[annualIncome.length - 1].date.getFullYear();
-
-            const diff = maxYear - minYear;
-            const minDiff = 2;
-
-            const access = minDiff > diff ? minDiff - diff : 0;
-
-            return {
-                min: minYear - Math.floor(access / 2),
-                max: maxYear + Math.ceil(access / 2),
-            };
-        },
-        [annualIncome],
-    );
-
-    const {
-        dataPoints,
-        chartSize,
-        xAxisTicks,
-        yAxisTicks,
-    } = useChartData(
+    const chartData = useNumericChartData(
         annualIncome,
         {
             containerRef,
-            chartPadding,
-            chartMargin,
-            chartOffset,
-            type: 'numeric',
             keySelector: (datum) => datum.date.getFullYear(),
             xValueSelector: (datum) => datum.date.getFullYear(),
-            xAxisLabelSelector: (year) => year,
             yValueSelector: (datum) => datum.value,
-            yAxisStartsFromZero: true,
-            xDomain: temporalDomain,
-            yAxisScale: 'cbrt',
-            numXAxisTicks: Math.max(
-                3,
-                (temporalDomain.max - temporalDomain.min) + 1,
-            ),
+            xAxisTickLabelSelector: (year) => year,
+            xDomain: xBounds,
+            numXAxisTicks: xBounds.max - xBounds.min + 1,
+            yValueStartsFromZero: true,
+            yAxisWidth: DEFAULT_Y_AXIS_WIDTH_WITH_LABEL,
         },
     );
 
@@ -183,9 +137,9 @@ function NationalSocietyIncomeOverTime(props: Props) {
                     <g className={styles.yearlyIncome}>
                         <path
                             className={styles.line}
-                            d={getPathData(dataPoints)}
+                            d={getPathData(chartData.chartPoints)}
                         />
-                        {dataPoints.map((dataPoint) => (
+                        {chartData.chartPoints.map((dataPoint) => (
                             <ChartPoint
                                 active={selectedYear === dataPoint.key}
                                 key={dataPoint.key}
@@ -195,13 +149,8 @@ function NationalSocietyIncomeOverTime(props: Props) {
                         ))}
                     </g>
                     <ChartAxes
+                        chartData={chartData}
                         yAxisLabel={strings.nsIncomeOverTimeChartAxisLabel}
-                        xAxisHeight={X_AXIS_HEIGHT}
-                        yAxisWidth={Y_AXIS_WIDTH}
-                        xAxisPoints={xAxisTicks}
-                        yAxisPoints={yAxisTicks}
-                        chartMargin={chartMargin}
-                        chartSize={chartSize}
                         tooltipSelector={tooltipSelector}
                         onClick={handlePointClick}
                     />

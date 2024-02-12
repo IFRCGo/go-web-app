@@ -10,29 +10,17 @@ import {
     TextOutput,
     Tooltip,
 } from '@ifrc-go/ui';
+import { getPercentage } from '@ifrc-go/ui/utils';
 import {
     _cs,
     isNotDefined,
 } from '@togglecorp/fujs';
 
 import useTemporalChartData from '#hooks/useTemporalChartData';
-import {
-    defaultChartMargin,
-    defaultChartPadding,
-} from '#utils/constants';
+import { DEFAULT_Y_AXIS_WIDTH_WITH_LABEL } from '#utils/constants';
 import { useRequest } from '#utils/restRequest';
 
 import styles from './styles.module.css';
-
-const X_AXIS_HEIGHT = 20;
-const Y_AXIS_WIDTH = 40;
-
-const chartOffset = {
-    left: Y_AXIS_WIDTH,
-    top: 0,
-    right: 0,
-    bottom: X_AXIS_HEIGHT,
-};
 
 interface Props {
     className?: string;
@@ -70,13 +58,11 @@ function PastEventsChart(props: Props) {
         historicalDisastersResponse,
         {
             containerRef,
-            chartOffset,
-            chartMargin: defaultChartMargin,
-            chartPadding: defaultChartPadding,
             keySelector: (datum, i) => `${datum.date}-${i}`,
             xValueSelector: (datum) => datum.date,
             yValueSelector: (datum) => datum.targeted_population,
             yearlyChart: true,
+            yAxisWidth: DEFAULT_Y_AXIS_WIDTH_WITH_LABEL,
         },
     );
 
@@ -92,6 +78,10 @@ function PastEventsChart(props: Props) {
                 ref={containerRef}
             >
                 <svg className={styles.svg}>
+                    <ChartAxes
+                        chartData={chartData}
+                        yAxisLabel="People Exposed / Affected"
+                    />
                     {chartData.chartPoints.map(
                         (chartPoint) => (
                             <ChartPoint
@@ -115,20 +105,28 @@ function PastEventsChart(props: Props) {
                                                 value={chartPoint.originalData.targeted_population}
                                                 valueType="number"
                                             />
+                                            <TextOutput
+                                                // FIXME: use translations
+                                                label="Amount requested"
+                                                value={chartPoint.originalData.amount_requested}
+                                                valueType="number"
+                                            />
+                                            <TextOutput
+                                                // FIXME: use translations
+                                                label="Amount funded"
+                                                value={getPercentage(
+                                                    chartPoint.originalData.amount_funded,
+                                                    chartPoint.originalData.amount_requested,
+                                                )}
+                                                valueType="number"
+                                                suffix="%"
+                                            />
                                         </>
                                     )}
                                 />
                             </ChartPoint>
                         ),
                     )}
-                    <ChartAxes
-                        xAxisPoints={chartData.xAxisTicks}
-                        yAxisPoints={chartData.yAxisTicks}
-                        chartSize={chartData.chartSize}
-                        chartMargin={defaultChartMargin}
-                        xAxisHeight={X_AXIS_HEIGHT}
-                        yAxisWidth={Y_AXIS_WIDTH}
-                    />
                 </svg>
             </div>
         </Container>
