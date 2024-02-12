@@ -4,9 +4,12 @@ import {
 } from 'react';
 import { useSizeTracking } from '@ifrc-go/ui/hooks';
 import {
+    Bounds,
+    ChartScale,
     DateLike,
     formatNumber,
     getBounds,
+    getChartDimensions,
     getEvenDistribution,
     getIntervals,
     getScaleFunction,
@@ -25,22 +28,31 @@ import {
     getNumberOfDays,
     getNumberOfMonths,
 } from '#utils/common';
+import {
+    DEFAULT_X_AXIS_HEIGHT,
+    DEFAULT_Y_AXIS_WIDTH,
+    defaultChartMargin,
+    defaultChartPadding,
+    NUM_X_AXIS_TICKS_MAX,
+    NUM_X_AXIS_TICKS_MIN,
+} from '#utils/constants';
 
 type TemporalResolution = 'year' | 'month' | 'day';
-
-const NUM_X_AXIS_TICKS_MIN = 3;
-const NUM_X_AXIS_TICKS_MAX = 12;
 
 interface CommonOptions<DATUM> {
     containerRef: React.RefObject<HTMLElement>;
     keySelector: (d: DATUM, index: number) => number | string;
     xValueSelector: (d: DATUM, index: number) => DateLike | undefined | null;
     yValueSelector: (d: DATUM, index: number) => number | undefined | null;
-    chartOffset: Rect;
-    chartMargin: Rect;
-    chartPadding: Rect;
+    xAxisHeight?: number;
+    yAxisWidth?: number;
+    chartMargin?: Rect;
+    chartPadding?: Rect;
     numYAxisTicks?: number;
-    yAxisLabelSelector?: (value: number, index: number) => React.ReactNode;
+    yAxisTickLabelSelector?: (value: number, index: number) => React.ReactNode;
+    yValueStartsFromZero?: boolean;
+    yScale?: ChartScale;
+    yDomain?: Bounds;
 }
 
 interface NonYearlyChartOptions {
@@ -67,13 +79,17 @@ function useTemporalChartData<DATUM>(data: DATUM[] | undefined | null, options: 
         yValueSelector,
         temporalResolution: temporalResolutionFromProps = 'auto',
         numXAxisTicks: numXAxisTicksFromProps = 'auto',
-        chartOffset,
-        chartMargin,
-        chartPadding,
+        yAxisWidth = DEFAULT_Y_AXIS_WIDTH,
+        xAxisHeight = DEFAULT_X_AXIS_HEIGHT,
+        chartMargin = defaultChartMargin,
+        chartPadding = defaultChartPadding,
         containerRef,
         numYAxisTicks = 6,
-        yAxisLabelSelector,
+        yAxisTickLabelSelector,
         yearlyChart = false,
+        yValueStartsFromZero,
+        yScale = 'linear',
+        yDomain,
     } = options;
 
     const chartSize = useSizeTracking(containerRef);
@@ -353,25 +369,27 @@ function useTemporalChartData<DATUM>(data: DATUM[] | undefined | null, options: 
         [chartDomain, temporalResolution],
     );
 
-    const initialLeftOffset = chartMargin.left + chartOffset.left + chartPadding.left;
-    const initialRightOffset = chartMargin.right + chartOffset.right + chartPadding.right;
-    const topOffset = chartMargin.top + chartOffset.top + chartPadding.top;
-    const bottomOffset = chartMargin.bottom + chartOffset.bottom + chartPadding.bottom;
-
-    const renderableDataAreaWidth = chartSize.width - initialLeftOffset - initialRightOffset;
-    const additionalHorizontalOffset = renderableDataAreaWidth / (numXAxisTicks + 2);
-
-    const dataAreaWidth = renderableDataAreaWidth - additionalHorizontalOffset;
-    const leftOffset = initialLeftOffset + additionalHorizontalOffset / 2;
-    const rightOffset = initialRightOffset + additionalHorizontalOffset / 2;
-    const dataAreaHeight = chartSize.height - topOffset - bottomOffset;
+    const {
+        dataAreaSize,
+        dataAreaOffset,
+    } = useMemo(
+        () => getChartDimensions({
+            chartSize,
+            chartMargin,
+            chartPadding,
+            xAxisHeight,
+            yAxisWidth,
+            numXAxisTicks,
+        }),
+        [chartSize, chartMargin, chartPadding, xAxisHeight, yAxisWidth, numXAxisTicks],
+    );
 
     const xAxisDomain = useMemo(
         () => {
             if (yearlyChart) {
                 return {
                     min: 0,
-                    max: 12,
+                    max: 11,
                 };
             }
 
@@ -401,12 +419,9 @@ function useTemporalChartData<DATUM>(data: DATUM[] | undefined | null, options: 
         () => getScaleFunction(
             xAxisDomain,
             { min: 0, max: chartSize.width },
-            {
-                start: leftOffset,
-                end: rightOffset,
-            },
+            { start: dataAreaOffset.left, end: dataAreaOffset.right },
         ),
-        [leftOffset, rightOffset, xAxisDomain, chartSize.width],
+        [dataAreaOffset, xAxisDomain, chartSize.width],
     );
 
     const xScaleFn = useCallback(
@@ -424,17 +439,36 @@ function useTemporalChartData<DATUM>(data: DATUM[] | undefined | null, options: 
         [xScaleFnRelative, getRelativeX, yearlyChart],
     );
 
-    const yValues = chartData.map(({ yValue }) => yValue);
-    const yAxisDomain = getBounds(yValues);
+    const yAxisDomain = useMemo(
+        () => {
+            if (isDefined(yDomain)) {
+                return yDomain;
+            }
+
+            const yValues = chartData.map(({ yValue }) => yValue);
+            const yBounds = getBounds(yValues);
+
+            if (yValueStartsFromZero) {
+                return {
+                    ...yBounds,
+                    min: 0,
+                };
+            }
+
+            return yBounds;
+        },
+        [chartData, yValueStartsFromZero, yDomain],
+    );
 
     const yScaleFn = useMemo(
         () => getScaleFunction(
             yAxisDomain,
             { min: 0, max: chartSize.height },
-            { start: topOffset, end: bottomOffset },
+            { start: dataAreaOffset.top, end: dataAreaOffset.bottom },
             true,
+            yScale,
         ),
-        [yAxisDomain, topOffset, bottomOffset, chartSize.height],
+        [yAxisDomain, dataAreaOffset, chartSize.height, yScale],
     );
 
     const chartPoints = useMemo(
@@ -553,11 +587,11 @@ function useTemporalChartData<DATUM>(data: DATUM[] | undefined | null, options: 
             numYAxisTicks,
         ).map((tick, i) => ({
             y: yScaleFn(tick),
-            label: yAxisLabelSelector
-                ? yAxisLabelSelector(tick, i)
+            label: yAxisTickLabelSelector
+                ? yAxisTickLabelSelector(tick, i)
                 : formatNumber(tick, { compact: true }) ?? '',
         })),
-        [yAxisDomain, yScaleFn, numYAxisTicks, yAxisLabelSelector],
+        [yAxisDomain, yScaleFn, numYAxisTicks, yAxisTickLabelSelector],
     );
 
     return useMemo(
@@ -568,18 +602,10 @@ function useTemporalChartData<DATUM>(data: DATUM[] | undefined | null, options: 
             chartSize,
             xScaleFn,
             yScaleFn,
-            dataAreaSize: {
-                width: dataAreaWidth,
-                height: dataAreaHeight,
-            },
-            dataAreaWidth,
-            dataAreaHeight,
-            dataAreaOffset: {
-                top: topOffset,
-                right: rightOffset,
-                bottom: bottomOffset,
-                left: leftOffset,
-            },
+            dataAreaSize,
+            dataAreaOffset,
+            xAxisHeight,
+            yAxisWidth,
             chartMargin,
             temporalResolution,
             numXAxisTicks,
@@ -591,15 +617,13 @@ function useTemporalChartData<DATUM>(data: DATUM[] | undefined | null, options: 
             chartSize,
             xScaleFn,
             yScaleFn,
+            dataAreaSize,
+            dataAreaOffset,
             chartMargin,
-            dataAreaWidth,
-            dataAreaHeight,
-            topOffset,
-            rightOffset,
-            bottomOffset,
-            leftOffset,
             temporalResolution,
             numXAxisTicks,
+            xAxisHeight,
+            yAxisWidth,
         ],
     );
 }

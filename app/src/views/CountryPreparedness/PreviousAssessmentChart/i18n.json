@@ -1,7 +1,8 @@
 {
     "namespace": "countryPreparedness",
     "strings": {
-        "cycleLabel": "Cycle {assessmentNumber} ({assessmentDate})",
-        "assessmentLabel": "Assessment: {xValue}, Rating: {yValue}"
+        "performanceTooltipCycleLabel": "Cycle",
+        "performanceTooltipAverageRatingLabel": "Average rating",
+        "performanceAxisTickLabel": "Cycle {cycle}"
     }
 }

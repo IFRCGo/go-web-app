@@ -1,83 +1,118 @@
 import {
     ElementRef,
+    useCallback,
+    useMemo,
     useRef,
 } from 'react';
-import { ChartAxes } from '@ifrc-go/ui';
+import {
+    ChartAxes,
+    ChartPoint,
+    DateOutput,
+    TextOutput,
+    Tooltip,
+} from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
-    formatDate,
+    formatNumber,
     getDiscretePathDataList,
     resolveToString,
 } from '@ifrc-go/ui/utils';
+import {
+    compareNumber,
+    isNotDefined,
+    listToMap,
+} from '@togglecorp/fujs';
 
-import useChartData from '#hooks/useChartData';
+import useNumericChartData from '#hooks/useNumericChartData';
+import { defaultChartMargin } from '#utils/constants';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+type PerOptionsResponse = GoApiResponse<'/api/v2/per-options/'>;
 type LatestPerResponse = GoApiResponse<'/api/v2/latest-per-overview/'>;
 type PreviousRatings = NonNullable<LatestPerResponse['results']>[number]['assessment_ratings'];
 
-const X_AXIS_HEIGHT = 20;
-const Y_AXIS_WIDTH = 20;
-const DEFAULT_CHART_MARGIN = 40;
-
-const chartMargin = {
-    left: DEFAULT_CHART_MARGIN,
-    top: DEFAULT_CHART_MARGIN,
-    right: DEFAULT_CHART_MARGIN,
-    bottom: DEFAULT_CHART_MARGIN,
-};
-
-const chartPadding = {
-    left: 20,
-    top: 10,
-    right: 20,
-    bottom: 10,
-};
-
-const chartOffset = {
-    left: Y_AXIS_WIDTH,
-    top: 0,
-    right: 0,
-    bottom: X_AXIS_HEIGHT,
-};
-
 interface Props {
     data: PreviousRatings;
+    ratingOptions: PerOptionsResponse['componentratings'] | undefined;
 }
 
 function PreviousAssessmentCharts(props: Props) {
     // FIXME: we need rating_display for average_rating
     const strings = useTranslation(i18n);
-    const { data } = props;
-    const containerRef = useRef<ElementRef<'div'>>(null);
 
     const {
-        dataPoints,
-        xAxisTicks,
-        yAxisTicks,
-        chartSize,
-    } = useChartData(
         data,
+        ratingOptions,
+    } = props;
+    const containerRef = useRef<ElementRef<'div'>>(null);
+    const ratingTitleMap = listToMap(
+        ratingOptions,
+        (option) => option.value,
+        (option) => option.title,
+    );
+
+    const chartData = useNumericChartData(
+        [...data].sort((a, b) => compareNumber(a.assessment_number, b.assessment_number)),
         {
             containerRef,
-            chartOffset,
-            chartMargin,
-            chartPadding,
+            chartMargin: {
+                ...defaultChartMargin,
+                top: 10,
+            },
             keySelector: (datum) => datum.assessment_number,
             xValueSelector: (datum) => datum.assessment_number,
-            type: 'categorical',
-            xAxisLabelSelector: (datum) => resolveToString(
-                strings.cycleLabel,
-                {
-                    assessmentNumber: datum.assessment_number,
-                    assessmentDate: formatDate(datum.date_of_assessment, 'yyyy') ?? '',
-                },
+            yValueSelector: (datum) => datum.average_rating,
+            yDomain: { min: 0, max: 5 },
+            numYAxisTicks: 6,
+            yAxisWidth: 100,
+            // FIXME: verify the logic for xDomain
+            xDomain: { min: 1, max: data.length },
+            numXAxisTicks: data.length,
+            yAxisTickLabelSelector: (rating) => ratingTitleMap?.[rating],
+            xAxisTickLabelSelector: (cycle) => resolveToString(
+                strings.performanceAxisTickLabel,
+                { cycle },
             ),
-            yValueSelector: (datum) => datum.average_rating ?? 0,
         },
+    );
+
+    const dataByAssessmentNumber = useMemo(
+        () => listToMap(data, ({ assessment_number }) => assessment_number),
+        [data],
+    );
+
+    const tooltipSelector = useCallback(
+        (key: number | string) => {
+            const datum = dataByAssessmentNumber[Number(key)];
+
+            if (isNotDefined(datum)) {
+                return null;
+            }
+
+            return (
+                <Tooltip
+                    title={<DateOutput value={datum.date_of_assessment} />}
+                    description={(
+                        <>
+                            <TextOutput
+                                label={strings.performanceTooltipCycleLabel}
+                                value={datum.assessment_number}
+                                valueType="number"
+                            />
+                            <TextOutput
+                                label={strings.performanceTooltipAverageRatingLabel}
+                                value={datum.average_rating}
+                                valueType="number"
+                            />
+                        </>
+                    )}
+                />
+            );
+        },
+        [dataByAssessmentNumber, strings],
     );
 
     return (
@@ -87,24 +122,20 @@ function PreviousAssessmentCharts(props: Props) {
         >
             <svg className={styles.svg}>
                 <ChartAxes
-                    xAxisPoints={xAxisTicks}
-                    yAxisPoints={yAxisTicks}
-                    chartSize={chartSize}
-                    chartMargin={chartMargin}
-                    xAxisHeight={X_AXIS_HEIGHT}
-                    yAxisWidth={Y_AXIS_WIDTH}
+                    chartData={chartData}
+                    tooltipSelector={tooltipSelector}
                 />
-                {dataPoints && (
+                {chartData.chartPoints.length > 0 && (
                     <path
                         // NOTE: only drawing first path
                         // FIXME: we cannot guarantee that the array will have
                         // at least one element
-                        d={getDiscretePathDataList(dataPoints)[0]}
+                        d={getDiscretePathDataList(chartData.chartPoints)[0]}
                         fill="none"
                         className={styles.path}
                     />
                 )}
-                {dataPoints.map(
+                {chartData.chartPoints.map(
                     (point) => (
                         <g key={point.key}>
                             <text
@@ -114,23 +145,13 @@ function PreviousAssessmentCharts(props: Props) {
                                 x={point.x}
                                 y={point.y}
                             >
-                                {Number(point.originalData.average_rating?.toFixed(2)) ?? '-'}
+                                {formatNumber(point.originalData.average_rating)}
                             </text>
-                            <circle
+                            <ChartPoint
                                 className={styles.circle}
-                                cx={point.x}
-                                cy={point.y}
-                            >
-                                <title>
-                                    {resolveToString(
-                                        strings.assessmentLabel,
-                                        {
-                                            xValue: point.originalData.assessment_number,
-                                            yValue: point.originalData.average_rating ?? '-',
-                                        },
-                                    )}
-                                </title>
-                            </circle>
+                                x={point.x}
+                                y={point.y}
+                            />
                         </g>
                     ),
                 )}

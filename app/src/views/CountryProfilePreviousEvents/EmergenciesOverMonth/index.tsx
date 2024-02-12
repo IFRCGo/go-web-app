@@ -9,34 +9,12 @@ import {
     TextOutput,
     Tooltip,
 } from '@ifrc-go/ui';
-import {
-    isDefined,
-    isNotDefined,
-} from '@togglecorp/fujs';
+import { isNotDefined } from '@togglecorp/fujs';
 
-import useChartData from '#hooks/useChartData';
-import {
-    defaultChartMargin,
-    defaultChartPadding,
-} from '#utils/constants';
+import useTemporalChartData from '#hooks/useTemporalChartData';
 import { useRequest } from '#utils/restRequest';
 
 import styles from './styles.module.css';
-import useTemporalChartData from '#hooks/useTemporalChartData';
-
-const currentYear = new Date().getFullYear();
-const firstDayOfYear = new Date(currentYear, 0, 1);
-const lastDayOfYear = new Date(currentYear, 11, 31);
-
-const X_AXIS_HEIGHT = 20;
-const Y_AXIS_WIDTH = 40;
-
-const chartOffset = {
-    left: Y_AXIS_WIDTH,
-    top: 0,
-    right: 0,
-    bottom: X_AXIS_HEIGHT,
-};
 
 interface Props {
     startDate: string | undefined;
@@ -72,18 +50,10 @@ function EmergenciesOverMonth(props: Props) {
         disasterMonthlyCountResponse,
         {
             containerRef,
-            chartOffset,
-            chartMargin: defaultChartMargin,
-            chartPadding: defaultChartPadding,
             keySelector: (datum, i) => `${datum.date}-${i}`,
             xValueSelector: (datum) => datum.date,
             yValueSelector: (datum) => datum.targeted_population,
-            /*
-            xDomain: {
-                min: firstDayOfYear.getTime(),
-                max: lastDayOfYear.getTime(),
-            },
-            */
+            yearlyChart: true,
         },
     );
 
@@ -120,12 +90,7 @@ function EmergenciesOverMonth(props: Props) {
                     ),
                 )}
                 <ChartAxes
-                    xAxisPoints={chartData.xAxisTicks}
-                    yAxisPoints={chartData.yAxisTicks}
-                    chartSize={chartData.chartSize}
-                    chartMargin={defaultChartMargin}
-                    xAxisHeight={X_AXIS_HEIGHT}
-                    yAxisWidth={Y_AXIS_WIDTH}
+                    chartData={chartData}
                 />
             </svg>
         </div>
