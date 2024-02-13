@@ -50,7 +50,6 @@ function SurgeAlertsTable() {
     const strings = useTranslation(i18n);
     const {
         sortState,
-        ordering,
         page,
         setPage,
         limit,
@@ -69,7 +68,9 @@ function SurgeAlertsTable() {
         query: {
             limit,
             offset,
-            ordering,
+
+            // FIXME: this should come from the useFilterState
+            ordering: 'status,-opens',
 
             // NOTE: following filters are required
             is_active: true,

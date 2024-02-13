@@ -28,7 +28,6 @@ import useUrlSearchState from '#hooks/useUrlSearchState';
 import { SURGE_ALERT_STATUS_CLOSED } from '#utils/constants';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 type SurgeResponse = GoApiResponse<'/api/v2/surge_alert/'>;
 type SurgeListItem = NonNullable<SurgeResponse['results']>[number];
@@ -43,6 +42,7 @@ function getPositionString(alert: SurgeListItem) {
     if (isNotDefined(alert.molnix_id)) {
         return alert.message;
     }
+
     return alert.message?.split(',')[0];
 }
 
@@ -147,7 +147,9 @@ export function Component() {
             offset,
             event: eventFilter,
             country: countryFilter,
-            ordering: 'status,opens',
+
+            // FIXME: this should come from the useFilterState
+            ordering: 'status,-opens',
         },
     });
 
@@ -286,7 +288,6 @@ export function Component() {
 
     return (
         <Page
-            className={styles.allSurgeAlerts}
             title={strings.allSurgeAlertsTitle}
             heading={heading}
         >

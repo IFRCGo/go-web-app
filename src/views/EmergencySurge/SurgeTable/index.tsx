@@ -68,6 +68,9 @@ export default function SurgeTable(props: Props) {
             limit,
             offset,
 
+            // FIXME: this should come from the useFilterState
+            ordering: 'status,-opens',
+
             // NOTE: following filters are required
             is_active: true,
             end__gte: now.toISOString(),
