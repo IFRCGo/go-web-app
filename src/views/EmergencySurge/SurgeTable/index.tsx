@@ -1,6 +1,5 @@
 import {
     useMemo,
-    useCallback,
 } from 'react';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
 import Container from '#components/Container';
@@ -17,6 +16,7 @@ import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import { getDuration, formatDate } from '#utils/common';
 import { numericIdSelector } from '#utils/selectors';
 import useFilterState from '#hooks/useFilterState';
+import { SURGE_ALERT_STATUS_CLOSED } from '#utils/constants';
 
 import i18n from './i18n.json';
 
@@ -74,23 +74,6 @@ export default function SurgeTable(props: Props) {
         },
     });
 
-    const getStatus = useCallback(
-        (alert: SurgeListItem) => {
-            if (alert.is_stood_down) {
-                return strings.surgeAlertStoodDown;
-            }
-            const closed = isDefined(alert.closes)
-                ? new Date(alert.closes).getTime() < nowTimestamp
-                : undefined;
-            return closed ? strings.surgeAlertClosed : strings.surgeAlertOpen;
-        },
-        [
-            strings.surgeAlertStoodDown,
-            strings.surgeAlertClosed,
-            strings.surgeAlertOpen,
-        ],
-    );
-
     const columns = useMemo(
         () => ([
             createDateColumn<SurgeListItem, number>(
@@ -124,11 +107,8 @@ export default function SurgeTable(props: Props) {
                 (item) => {
                     const startDate = isDefined(item.start) ? new Date(item.start) : undefined;
 
-                    const closed = isDefined(item.closes)
-                        ? new Date(item.closes).getTime() < nowTimestamp : undefined;
-
                     if (isDefined(startDate)) {
-                        if (closed) {
+                        if (item.status === SURGE_ALERT_STATUS_CLOSED) {
                             return formatDate(startDate);
                         }
 
@@ -174,7 +154,7 @@ export default function SurgeTable(props: Props) {
             createStringColumn<SurgeListItem, number>(
                 'status',
                 strings.surgeAlertStatus,
-                (item) => getStatus(item),
+                (item) => item.status_display,
             ),
         ]),
         [
@@ -187,7 +167,6 @@ export default function SurgeTable(props: Props) {
             strings.surgeAlertCountry,
             strings.surgeAlertStatus,
             strings.emergencySurgeImmediately,
-            getStatus,
         ],
     );
 

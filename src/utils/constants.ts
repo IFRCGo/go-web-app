@@ -168,3 +168,6 @@ export const COUNTRY_RECORD_TYPE_CLUSTER = 2 satisfies CountryRecordTypeEnum;
 export const COUNTRY_RECORD_TYPE_REGION = 3 satisfies CountryRecordTypeEnum;
 export const COUNTRY_RECORD_TYPE_COUNTRY_OFFICE = 4 satisfies CountryRecordTypeEnum;
 export const COUNTRY_RECORD_TYPE_REPRESENTATIVE_OFFICE = 5 satisfies CountryRecordTypeEnum;
+
+type SurgeAlertTypeEnum = components<'read'>['schemas']['Status1d2Enum'];
+export const SURGE_ALERT_STATUS_CLOSED = 2 satisfies SurgeAlertTypeEnum;

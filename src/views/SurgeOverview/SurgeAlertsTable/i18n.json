@@ -2,9 +2,6 @@
     "namespace": "surgeOverview",
     "strings": {
         "surgeAlertsTableHeading": "Open Surge Alerts",
-        "surgeAlertStoodDown": "Stood down",
-        "surgeAlertClosed": "Closed",
-        "surgeAlertOpen": "Open",
         "surgeAlertsTableAlertDate": "Alert Date",
         "surgeAlertsTableDuration": "Duration",
         "surgeAlertsTableStartDate": "Start Date",
