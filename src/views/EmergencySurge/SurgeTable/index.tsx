@@ -18,6 +18,7 @@ import { numericIdSelector } from '#utils/selectors';
 import useFilterState from '#hooks/useFilterState';
 import { SURGE_ALERT_STATUS_CLOSED } from '#utils/constants';
 
+import styles from './styles.module.css';
 import i18n from './i18n.json';
 
 type SurgeResponse = GoApiResponse<'/api/v2/surge_alert/'>;
@@ -123,6 +124,7 @@ export default function SurgeTable(props: Props) {
                     }
                     return undefined;
                 },
+                { cellRendererClassName: styles.startColumn },
             ),
             createStringColumn<SurgeListItem, number>(
                 'name',

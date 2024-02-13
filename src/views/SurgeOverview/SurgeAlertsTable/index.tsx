@@ -120,6 +120,7 @@ function SurgeAlertsTable() {
                 }
                 return undefined;
             },
+            { cellRendererClassName: styles.startColumn },
         ),
         createStringColumn<SurgeAlertListItem, number>(
             'name',

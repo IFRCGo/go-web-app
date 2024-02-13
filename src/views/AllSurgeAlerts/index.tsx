@@ -28,6 +28,7 @@ import useUrlSearchState from '#hooks/useUrlSearchState';
 import { SURGE_ALERT_STATUS_CLOSED } from '#utils/constants';
 
 import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 type SurgeResponse = GoApiResponse<'/api/v2/surge_alert/'>;
 type SurgeListItem = NonNullable<SurgeResponse['results']>[number];
@@ -196,6 +197,7 @@ export function Component() {
                     }
                     return undefined;
                 },
+                { cellRendererClassName: styles.startColumn },
             ),
             createStringColumn<SurgeListItem, TableKey>(
                 'name',
