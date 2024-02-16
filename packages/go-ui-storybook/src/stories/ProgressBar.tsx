@@ -5,10 +5,11 @@ import {
 
 interface ProgressBarProps extends PureProgressBarProps{}
 
-function WrappedButton(props: ProgressBarProps) {
+function WrappedProgressBar(props: ProgressBarProps) {
     return (
-        <PureProgressBar {...props} /> // eslint-disable-line react/jsx-props-no-spreading
+    // eslint-disable-next-line react/jsx-props-no-spreading
+        <PureProgressBar {...props} />
     );
 }
 
-export default WrappedButton;
+export default WrappedProgressBar;
