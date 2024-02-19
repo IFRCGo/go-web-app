@@ -6,7 +6,6 @@ import {
 } from 'react';
 import {
     ChartAxes,
-    DateOutput,
     NumberOutput,
     TextOutput,
     Tooltip,

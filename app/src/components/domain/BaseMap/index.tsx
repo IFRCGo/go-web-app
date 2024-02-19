@@ -26,6 +26,7 @@ type overrides = 'mapStyle' | 'mapOptions' | 'navControlShown' | 'navControlPosi
 type BaseMapProps = Omit<MapProps, overrides> & {
     baseLayers?: React.ReactNode;
     withDisclaimer?: boolean;
+    withoutLabel?: boolean;
 } & Partial<Pick<MapProps, overrides>>;
 
 const sourceOptions: mapboxgl.GeoJSONSourceRaw = {
@@ -66,6 +67,7 @@ function BaseMap(props: BaseMapProps) {
         navControlOptions,
         scaleControlShown,
         children,
+        withoutLabel = false,
         ...otherProps
     } = props;
 
@@ -125,16 +127,18 @@ function BaseMap(props: BaseMapProps) {
                 />
                 {baseLayers}
             </MapSource>
-            <MapSource
-                sourceKey="override-labels"
-                sourceOptions={sourceOptions}
-                geoJson={countryCentroidGeoJson}
-            >
-                <MapLayer
-                    layerKey="point-circle"
-                    layerOptions={adminLabelOverrideOptions}
-                />
-            </MapSource>
+            {!withoutLabel && (
+                <MapSource
+                    sourceKey="override-labels"
+                    sourceOptions={sourceOptions}
+                    geoJson={countryCentroidGeoJson}
+                >
+                    <MapLayer
+                        layerKey="point-circle"
+                        layerOptions={adminLabelOverrideOptions}
+                    />
+                </MapSource>
+            )}
             {children}
         </Map>
     );
