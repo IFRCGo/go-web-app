@@ -4,6 +4,7 @@ import {
     BlockLoading,
     Container,
     LegendItem,
+    Message,
     TextOutput,
     Tooltip,
 } from '@ifrc-go/ui';
@@ -28,6 +29,9 @@ import {
     GoApiResponse,
     useRequest,
 } from '#utils/restRequest';
+
+import ClimateChart from './ClimateChart';
+import PopulatioMap from './PopulationMap';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -69,50 +73,46 @@ function SeasonalCalendarEvent(props: SeasonalCalendarEventProps) {
         return null;
     }
 
-    return (
-        data.monthIndices.map(
-            ({ key, start, end }) => (
-                <div
-                    key={key}
-                    className={styles.event}
-                    style={{
-                        gridColumnStart: start,
-                        gridColumnEnd: end,
-                        backgroundColor: colorMap[event_type[0]],
-                    }}
-                >
-                    {data.label}
-                    <Tooltip
-                        title={data.label}
-                        description={(
-                            <>
-                                <TextOutput
-                                    strongLabel
-                                    label={strings.seasonalCalendarTooltipEventTypeLabel}
-                                    value={event_type}
-                                />
-                                <TextOutput
-                                    strongLabel
-                                    label={strings.seasonalCalendarTooltipEventLabel}
-                                    value={data.event?.join(', ')}
-                                />
-                                <TextOutput
-                                    strongLabel
-                                    label={strings.seasonalCalendarTooltipMonthsLabel}
-                                    value={data.month?.join(', ')}
-                                />
-                                <TextOutput
-                                    strongLabel
-                                    label={strings.seasonalCalendarTooltipSourceLabel}
-                                    value={data.source}
-                                />
-                            </>
-                        )}
-                    />
-                </div>
-            ),
-        )
-    );
+    return data.monthIndices.map(({ key, start, end }) => (
+        <div
+            key={key}
+            className={styles.event}
+            style={{
+                gridColumnStart: start,
+                gridColumnEnd: end,
+                backgroundColor: colorMap[event_type[0]],
+            }}
+        >
+            {data.label}
+            <Tooltip
+                title={data.label}
+                description={(
+                    <>
+                        <TextOutput
+                            strongLabel
+                            label={strings.seasonalCalendarTooltipEventTypeLabel}
+                            value={event_type}
+                        />
+                        <TextOutput
+                            strongLabel
+                            label={strings.seasonalCalendarTooltipEventLabel}
+                            value={data.event?.join(', ')}
+                        />
+                        <TextOutput
+                            strongLabel
+                            label={strings.seasonalCalendarTooltipMonthsLabel}
+                            value={data.month?.join(', ')}
+                        />
+                        <TextOutput
+                            strongLabel
+                            label={strings.seasonalCalendarTooltipSourceLabel}
+                            value={data.source}
+                        />
+                    </>
+                )}
+            />
+        </div>
+    ));
 }
 
 // eslint-disable-next-line import/prefer-default-export
@@ -190,10 +190,10 @@ export function Component() {
                         event_type,
                         month: orderedMonth,
                         monthIndices: discreteMonthIndices.map(
-                            (continuosList, i) => ({
+                            (continuousList, i) => ({
                                 key: i,
-                                start: continuosList[0],
-                                end: continuosList[continuosList.length - 1] + 1,
+                                start: continuousList[0],
+                                end: continuousList[continuousList.length - 1] + 1,
                             }),
                         ).sort((a, b) => compareNumber(a.start, b.start)),
                         startMonth: monthToOrderMap[orderedMonth[0]],
@@ -326,6 +326,22 @@ export function Component() {
                     />
                 </Container>
             )}
+            <Container
+                contentViewType="grid"
+                numPreferredGridContentColumns={2}
+                spacing="relaxed"
+            >
+                {isDefined(databankResponse) && (
+                    <PopulatioMap
+                        data={databankResponse.wb_population}
+                    />
+                )}
+                {isDefined(databankResponse) && (
+                    <ClimateChart
+                        data={databankResponse.key_climate}
+                    />
+                )}
+            </Container>
             {isDefined(databankResponse) && isDefined(databankResponse.acaps) && (
                 <Container
                     heading={strings.seasonalCalendarHeading}
@@ -353,6 +369,12 @@ export function Component() {
                             ),
                         )}
                     </div>
+                    {(isNotDefined(eventTypeGroupedData) || eventTypeGroupedData.length === 0) && (
+                        <Message
+                            // FIXME: use translation
+                            title="Data is not available!"
+                        />
+                    )}
                     {eventTypeGroupedData?.map(
                         ({ event_type, events }) => (
                             <div
