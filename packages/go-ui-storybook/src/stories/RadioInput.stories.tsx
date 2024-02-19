@@ -1,3 +1,4 @@
+import { useArgs } from '@storybook/preview-api';
 import type {
     Meta,
     StoryObj,
@@ -5,7 +6,7 @@ import type {
 
 import RadioInput from './RadioInput';
 
-const meta = {
+const meta: Meta<typeof RadioInput> = {
     title: 'Components/RadioInput',
     component: RadioInput,
     parameters: {
@@ -17,11 +18,12 @@ const meta = {
         },
     },
     tags: ['autodocs'],
-} satisfies Meta<typeof RadioInput>;
+};
 
 export default meta;
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof RadioInput>;
+
 interface Option {
     key: string;
     label: string;
@@ -38,9 +40,20 @@ export const Default:Story = {
     args: {
         name: 'radio-input',
         options,
-        value: 'option1',
         keySelector,
         labelSelector,
+        clearable: false,
+    },
+    render: function Component(args) {
+        const [{ value }, setArgs] = useArgs<{ value: string }>();
+
+        const onChange = (val: string) => {
+            setArgs({ value: val });
+        };
+
+        return (
+            <RadioInput {...args} onChange={onChange} value={value} />
+        );
     },
 };
 
