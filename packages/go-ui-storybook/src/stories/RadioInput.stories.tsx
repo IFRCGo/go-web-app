@@ -1,10 +1,15 @@
+import { RadioInputProps } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {
     Meta,
     StoryObj,
 } from '@storybook/react';
+import { isDefined } from '@togglecorp/fujs';
 
 import RadioInput from './RadioInput';
+
+type RadioInputSpecificProps = RadioInputProps<string, Option, string, never, never>;
+type Story = StoryObj<RadioInputSpecificProps>;
 
 const meta: Meta<typeof RadioInput> = {
     title: 'Components/RadioInput',
@@ -18,11 +23,38 @@ const meta: Meta<typeof RadioInput> = {
         },
     },
     tags: ['autodocs'],
+    decorators: [
+        function Component(_, ctx) {
+            const [
+                { value },
+                setArgs,
+            ] = useArgs<{ value: string | undefined }>();
+
+            // NOTE: We are casting args as props because of discriminated union
+            // used in RadionInputProps
+            const componentArgs = ctx.args as RadioInputSpecificProps;
+            const onChange = (val: string | undefined, name: string) => {
+                setArgs({ value: val });
+                if (componentArgs.clearable) {
+                    componentArgs.onChange(val, name);
+                } else if (isDefined(val)) {
+                    componentArgs.onChange(val, name);
+                }
+            };
+
+            return (
+                <RadioInput
+                    // eslint-disable-next-line react/jsx-props-no-spreading
+                    {...componentArgs}
+                    onChange={onChange}
+                    value={value}
+                />
+            );
+        },
+    ],
 };
 
 export default meta;
-
-type Story = StoryObj<typeof RadioInput>;
 
 interface Option {
     key: string;
@@ -31,6 +63,7 @@ interface Option {
 const options: Option[] = [
     { key: 'option1', label: 'Option 1' },
     { key: 'option2', label: 'Option 2' },
+    { key: 'option3', label: 'Option 3' },
 ];
 
 const keySelector = (o: Option) => o.key;
@@ -42,18 +75,6 @@ export const Default:Story = {
         options,
         keySelector,
         labelSelector,
-        clearable: false,
-    },
-    render: function Component(args) {
-        const [{ value }, setArgs] = useArgs<{ value: string }>();
-
-        const onChange = (val: string) => {
-            setArgs({ value: val });
-        };
-
-        return (
-            <RadioInput {...args} onChange={onChange} value={value} />
-        );
     },
 };
 
@@ -85,6 +106,6 @@ export const Error: Story = {
         options,
         keySelector,
         labelSelector,
-        error: 'This is an wrong',
+        error: <p>This is error</p>,
     },
 };
