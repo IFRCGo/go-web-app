@@ -36,7 +36,10 @@ import useDisasterType from '#hooks/domain/useDisasterType';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { type GoApiResponse } from '#utils/restRequest';
 
-import { TYPE_IMMINENT } from '../common';
+import {
+    TYPE_IMMINENT,
+    TYPE_LOAN,
+} from '../common';
 import { type PartialFinalReport } from '../schema';
 
 import i18n from './i18n.json';
@@ -130,6 +133,10 @@ function Overview(props: Props) {
         user,
     }), []);
 
+    const filteredTypeOfDrefOptions = (typeOfDrefOptions ?? []).filter(
+        (option) => option.key !== TYPE_LOAN,
+    );
+
     const error = getErrorObject(formError);
 
     return (
@@ -183,7 +190,7 @@ function Overview(props: Props) {
                     <SelectInput
                         name="type_of_dref"
                         label={strings.drefFormTypeOfDref}
-                        options={typeOfDrefOptions}
+                        options={filteredTypeOfDrefOptions}
                         keySelector={typeOfDrefKeySelector}
                         labelSelector={stringValueSelector}
                         onChange={setFieldValue}

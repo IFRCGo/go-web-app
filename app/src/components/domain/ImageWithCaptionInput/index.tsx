@@ -111,7 +111,7 @@ function ImageWithCaptionInput<const N extends string | number>(props: Props<N>)
             >
                 {label}
             </GoSingleFileInput>
-            {value?.id && (
+            {value?.id && isDefined(fileUrl) && (
                 <TextInput
                     className={styles.captionInput}
                     name="caption"
