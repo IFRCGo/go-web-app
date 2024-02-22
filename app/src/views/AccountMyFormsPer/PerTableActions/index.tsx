@@ -6,6 +6,7 @@ import { resolveToString } from '@ifrc-go/ui/utils';
 import {
     isDefined,
     listToMap,
+    isNotDefined,
 } from '@togglecorp/fujs';
 
 import DropdownMenuItem from '#components/DropdownMenuItem';
@@ -20,7 +21,8 @@ import {
     PER_PHASE_WORKPLAN,
 } from '#utils/domain/per';
 import { resolveUrl } from '#utils/resolveUrl';
-import { type GoApiResponse } from '#utils/restRequest';
+import { useLazyRequest, type GoApiResponse } from '#utils/restRequest';
+import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 
@@ -71,6 +73,26 @@ function PerTableActions(props: Props) {
         [],
     );
 
+    const {
+        pending,
+        trigger: triggerPerExcelExport,
+    } = useLazyRequest({
+        url: '/api/v2/export-per/{id}/',
+        other: () => {
+            return {};
+        },
+        pathVariables: isDefined(perId) ? {
+            id: String(perId),
+        } : undefined,
+        onSuccess: (response) => {
+            
+        }
+    });
+
+    const handleExportClick = useCallback(() => {
+        triggerPerExcelExport({});
+    }, [triggerPerExcelExport]);
+
     return (
         <TableActions
             extraActions={isDefined(phase) && (
@@ -113,10 +135,9 @@ function PerTableActions(props: Props) {
                         </DropdownMenuItem>
                     )}
                     <DropdownMenuItem
-                        type="link"
-                        href={resolveUrl(api, `api/v2/export-per/${perId}`)}
-                        persist
-                        external
+                        type="button"
+                        name="export"
+                        onClick={handleExportClick}
                     >
                         {strings.dropdownPerActionExportLabel}
                     </DropdownMenuItem>
