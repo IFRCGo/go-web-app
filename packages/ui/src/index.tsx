@@ -114,6 +114,7 @@ export type { Props as RawInputProps } from './components/RawInput';
 export { default as RawInput } from './components/RawInput';
 export type { Props as RawListProps } from './components/RawList';
 export { default as RawList } from './components/RawList';
+export type { ListKey } from './components/RawList';
 export type { Props as RawTextAreaProps } from './components/RawTextArea';
 export { default as RawTextArea } from './components/RawTextArea';
 export type { Props as ReducedListDisplayProps } from './components/ReducedListDisplay';
