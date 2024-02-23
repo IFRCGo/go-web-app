@@ -20,7 +20,7 @@ const meta: Meta<typeof HtmlOutput> = {
     },
     tags: ['autodocs'],
     argTypes: {},
-} satisfies Meta<typeof HtmlOutput>;
+};
 
 export default meta;
 
