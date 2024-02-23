@@ -11,7 +11,8 @@ function WrappedChecklist
 <KEY extends ListKey, NAME, OPTION extends object>(props: ChecklistProps<KEY, NAME, OPTION>) {
     return (
 
-        <PureChecklist {...props} /> // eslint-disable-line react/jsx-props-no-spreading
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        <PureChecklist {...props} />
     );
 }
 
