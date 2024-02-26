@@ -39,7 +39,7 @@
         "@togglecorp/toggle-request": "^1.0.0-beta.2",
         "@turf/bbox": "^6.5.0",
         "@turf/buffer": "^6.5.0",
-        "exceljs": "^4.3.0",
+        "exceljs": "^4.4.0",
         "file-saver": "^2.0.5",
         "html-to-image": "^1.11.11",
         "mapbox-gl": "^1.13.0",

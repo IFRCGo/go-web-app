@@ -3877,15 +3877,15 @@ esutils@^2.0.2:
   resolved "https://registry.yarnpkg.com/esutils/-/esutils-2.0.3.tgz#74d2eb4de0b8da1293711910d50775b9b710ef64"
   integrity sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==
 
-exceljs@^4.3.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/exceljs/-/exceljs-4.3.0.tgz#939bc0d4c59c200acadb7051be34d25c109853c4"
-  integrity sha512-hTAeo5b5TPvf8Z02I2sKIT4kSfCnOO2bCxYX8ABqODCdAjppI3gI9VYiGCQQYVcBaBSKlFDMKlAQRqC+kV9O8w==
+exceljs@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/exceljs/-/exceljs-4.4.0.tgz#cfb1cb8dcc82c760a9fc9faa9e52dadab66b0156"
+  integrity sha512-XctvKaEMaj1Ii9oDOqbW/6e1gXknSY4g/aLCDicOXqBE4M0nRWkUu0PTp++UPNzoFY12BNHMfs/VadKIS6llvg==
   dependencies:
     archiver "^5.0.0"
     dayjs "^1.8.34"
     fast-csv "^4.3.1"
-    jszip "^3.5.0"
+    jszip "^3.10.1"
     readable-stream "^3.6.0"
     saxes "^5.0.1"
     tmp "^0.2.0"
@@ -5123,7 +5123,7 @@ jsprim@^1.2.2:
     object.assign "^4.1.4"
     object.values "^1.1.6"
 
-jszip@^3.5.0:
+jszip@^3.10.1:
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.10.1.tgz#34aee70eb18ea1faec2f589208a157d1feb091c2"
   integrity sha512-xXDvecyTpGLrqFrvkrUSoxxfJI5AH7U8zxxtVclpsUtMCq4JQ290LY8AW5c7Ggnr/Y/oK+bQMbqK2qmtk3pN4g==
