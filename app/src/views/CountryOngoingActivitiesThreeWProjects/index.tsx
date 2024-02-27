@@ -351,9 +351,8 @@ export function Component() {
 
     return (
         <Container
-            className={styles.countryThreeWProjects}
-            childrenContainerClassName={styles.content}
-            headerDescription={strings.threeWProjectDescription}
+            className={styles.threeWProjects}
+            childrenContainerClassName={styles.countryThreeWProjects}
             actions={(
                 isDefined(userMe?.id) && (
                     <div className={styles.countryThreeWActions}>
@@ -368,6 +367,14 @@ export function Component() {
                 )
             )}
         >
+            {/* // FIXME: This should be handle by Container */}
+            <div className={styles.threeWProjectHeader}>
+                <div className={styles.dummy} />
+                <div className={styles.threeWProjectHeaderDescription}>
+                    {strings.threeWProjectDescription}
+                </div>
+                <div className={styles.dummy} />
+            </div>
             {projectListPending && <BlockLoading />}
             {!projectListPending && showCardsSection && (
                 <div className={styles.keyFigureCardList}>

@@ -1,13 +1,25 @@
-.country-three-w-projects {
-    display: flex;
-    flex-direction: column;
-    gap: var(--go-ui-spacing-2xl);
+.three-w-projects {
+    .country-three-w-projects {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-2xl);
 
-    .content {
-        display: grid;
-        grid-gap: var(--go-ui-spacing-md);
+        .three-w-project-header {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+
+            .dummy {
+                flex-grow: 1;
+                width: var(--go-ui-spacing-xs);
+            }
+
+            .three-w-project-header-description {
+                max-width: var(--go-ui-page-header-description-width-max);
+                text-align: center;
+            }
+        }
     }
-
 
     .key-figure-card-list {
         display: grid;

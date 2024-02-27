@@ -1,6 +1,6 @@
 {
     "namespace": "countryProfileSupportingPartners",
     "strings": {
-        "gotoIfrcLinkLabel": "Goto IFRC"
+        "gotoIfrcLinkLabel": "Go to IFRC.org"
     }
 }

@@ -1,18 +1,88 @@
-.country-ongoing-activities-emergencies {
+.country-ongoing-activities {
+    .ongoing-emergencies-header {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+
+        .dummy {
+            flex-grow: 1;
+            width: var(--go-ui-spacing-xs);
+        }
+
+        .ongoing-emergencies-header-description {
+            max-width: var(--go-ui-page-header-description-width-max);
+            text-align: center;
+        }
+    }
+
+    .country-ongoing-activities-emergencies {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-2xl);
+
+        .key-figure-list {
+            display: grid;
+            grid-gap: var(--go-ui-spacing-md);
+            grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+
+            .key-figure {
+                border-radius: var(--go-ui-border-radius-lg);
+                box-shadow: var(--go-ui-box-shadow-md);
+                background-color: var(--go-ui-color-white);
+                height: 100%;
+            }
+        }
+    }
+}
+
+.active-operation-map {
+    .content {
+        position: relative;
+
+        .presentation-mode-button {
+            position: absolute;
+            top: var(--go-ui-spacing-md);
+            left: var(--go-ui-spacing-md);
+        }
+    }
+
+    .map-container {
+        height: 40rem;
+    }
+
+    .footer {
+        display: flex;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        background-color: var(--go-ui-color-background);
+        padding: var(--go-ui-spacing-lg);
+        gap: var(--go-ui-spacing-md);
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--go-ui-spacing-xs) var(--go-ui-spacing-md);
+
+            .legend-item {
+                font-size: var(--go-ui-font-size-md);
+            }
+        }
+    }
+}
+
+.popup-content {
     display: flex;
     flex-direction: column;
-    gap: var(--go-ui-spacing-2xl);
+    gap: var(--go-ui-spacing-md);
 
-    .key-figure-list {
-        display: grid;
-        grid-gap: var(--go-ui-spacing-md);
-        grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    .popup-appeal {
+        gap: var(--go-ui-spacing-xs);
 
-        .key-figure {
-            border-radius: var(--go-ui-border-radius-lg);
-            box-shadow: var(--go-ui-box-shadow-md);
-            background-color: var(--go-ui-color-white);
-            height: 100%;
+        .popup-appeal-detail {
+            display: flex;
+            flex-direction: column;
+            font-size: var(--go-ui-font-size-sm);
         }
     }
 }

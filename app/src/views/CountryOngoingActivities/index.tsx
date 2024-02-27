@@ -26,12 +26,13 @@ export function Component() {
                 >
                     {strings.ongoingEmergenciesTabTitle}
                 </NavigationTab>
-                <NavigationTab
+                {/* Hide for now, as per the client./}
+                {/* <NavigationTab
                     to="countryOngoingActivitiesThreeWActivities"
                     urlParams={{ countryId }}
                 >
                     {strings.threeWActivitiesTabTitle}
-                </NavigationTab>
+                </NavigationTab> */}
                 <NavigationTab
                     to="countryOngoingActivitiesThreeWProjects"
                     urlParams={{ countryId }}
