@@ -6,7 +6,6 @@
         display: block;
         width: calc(100% - var(--go-ui-spacing-md) * 2);
         max-height: calc(100% - var(--go-ui-spacing-md) * 2);
-        overflow: auto;
         animation: slide-down var(--go-ui-duration-transition-medium) ease-in forwards;
 
         &.size-sm {
