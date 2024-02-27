@@ -124,8 +124,10 @@ export function Component() {
 
     return (
         <Container
+            className={styles.riskWatch}
             childrenContainerClassName={styles.countryRiskWatch}
             headerDescription={strings.riskWatchDescription}
+            headerDescriptionContainerClassName={styles.riskWatchDescription}
         >
             {pendingImminentEventCounts && (
                 <BlockLoading />

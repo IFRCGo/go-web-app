@@ -47,9 +47,10 @@ export function Component() {
 
     return (
         <Container
+            className={styles.nsOverviewCapacity}
             childrenContainerClassName={styles.countryNsOverviewCapacity}
             headerDescription={strings.nSOverviewCapacityDescription}
-            headerDescriptionContainerClassName={styles.nsOverviewCapacity}
+            headerDescriptionContainerClassName={styles.nsOverviewCapacityDescription}
             actions={(
                 <Link
                     href="https://www.ifrc.org/evaluations/"
