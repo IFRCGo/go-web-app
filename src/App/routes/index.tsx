@@ -1842,6 +1842,20 @@ const surgeCatalogueOtherGreenResponse = customWrapRoute({
     },
 });
 
+const surgeCatalogueOtherUAV = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'other/uav',
+    component: {
+        render: () => import('#views/SurgeCatalogueOtherUAV'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Uncrewed Aerial Vehicles (Drones)',
+        visibility: 'anything',
+    },
+});
+
 type DefaultPreparednessChild = 'global-summary';
 const preparednessLayout = customWrapRoute({
     parent: rootLayout,
@@ -2894,6 +2908,7 @@ function DeploymentCatalogueNavigate() {
             'preparedness-for-effective-response-per': surgeCatalogueOtherPreparednessEffectiveResponse,
             recovery: surgeCatalogueOtherRecovery,
             greenresponse: surgeCatalogueOtherGreenResponse,
+            uav: surgeCatalogueOtherUAV,
         },
     };
 
@@ -3136,6 +3151,7 @@ const wrappedRoutes = {
     surgeCatalogueOtherPreparednessEffectiveResponse,
     surgeCatalogueOtherRecovery,
     surgeCatalogueOtherGreenResponse,
+    surgeCatalogueOtherUAV,
 
     // Redirect routes
     deploymentCatalogueLayout,

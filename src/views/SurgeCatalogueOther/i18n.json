@@ -24,6 +24,8 @@
         "otherRecovery": "Recovery",
         "otherRecoveryDetail": "Supporting NS and Ops Management to ensure that recovery is considered early in the operation.",
         "otherGreen": "Green Response",
-        "otherGreenDetail": "Analyse the environmental context, identify environmental risks caused by the crisis, and the potential environmental impact of the response and recovery interventions."
+        "otherGreenDetail": "Analyse the environmental context, identify environmental risks caused by the crisis, and the potential environmental impact of the response and recovery interventions.",
+        "otherUAV": " Drones – Uncrewed Aerial Vehicles (UAV) Team",
+        "otherUAVDetail": "An Uncrewed Aerial Vehicle (UAV) Team, or colloquially a “Drone” Team, collects high quality, detailed aerial imagery for communications media, mapping, site survey, and situational awareness."
     }
 }

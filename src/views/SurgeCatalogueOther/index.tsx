@@ -89,6 +89,14 @@ export function Component() {
         },
     ];
 
+    const uavData: LinkData[] = [
+        {
+            title: strings.otherLearnMore,
+            to: 'surgeCatalogueOtherUAV',
+            withLinkIcon: true,
+        },
+    ];
+
     return (
         <SurgeCatalogueContainer
             heading={strings.otherTitle}
@@ -146,6 +154,11 @@ export function Component() {
                     title={strings.otherGreen}
                     data={greenData}
                     description={strings.otherGreenDetail}
+                />
+                <CatalogueInfoCard
+                    title={strings.otherUAV}
+                    data={uavData}
+                    description={strings.otherUAVDetail}
                 />
             </SurgeCardContainer>
         </SurgeCatalogueContainer>
