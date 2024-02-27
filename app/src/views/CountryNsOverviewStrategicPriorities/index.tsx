@@ -173,7 +173,9 @@ export function Component() {
 
     return (
         <Container
+            className={styles.strategicPriorities}
             childrenContainerClassName={styles.countryNsOverviewStrategicPriorities}
+            headerDescriptionContainerClassName={styles.strategicPrioritiesHeader}
             headerDescription={strings.strategicPrioritiesDescription}
         >
             {(perPending || countryPlanPending) && (

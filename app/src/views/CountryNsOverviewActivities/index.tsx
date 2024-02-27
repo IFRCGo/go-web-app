@@ -310,9 +310,8 @@ export function Component() {
 
     return (
         <Container
+            className={styles.nsActivity}
             childrenContainerClassName={styles.countryThreeWNationalSocietyProjects}
-            headerDescription={strings.nSActivityDescription}
-            headerDescriptionContainerClassName={styles.nsActivityDescription}
             actions={(
                 <Link
                     to="newThreeWActivity"
@@ -323,6 +322,14 @@ export function Component() {
                 </Link>
             )}
         >
+            {/* // FIXME: This should be handle by Container */}
+            <div className={styles.nsActivityHeader}>
+                <div className={styles.dummy} />
+                <div className={styles.nsActivityDescription}>
+                    {strings.nSActivityDescription}
+                </div>
+                <div className={styles.dummy} />
+            </div>
             {projectListPending && <BlockLoading />}
             {!projectListPending && showCardsSection && (
                 <div className={styles.keyFigureCardList}>
