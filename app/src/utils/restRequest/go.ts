@@ -22,6 +22,7 @@ import { type ResponseObjectError } from './error';
 
 const CONTENT_TYPE_JSON = 'application/json';
 const CONTENT_TYPE_CSV = 'text/csv';
+const CONTENT_TYPE_EXCEL = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 
 export type ResponseError = {
     status: number;
@@ -44,6 +45,7 @@ export interface AdditionalOptions {
     isCsvRequest?: boolean;
     enforceEnglishForQuery?: boolean;
     useCurrentLanguageForMutation?: boolean;
+    isExcelRequest?: boolean;
 }
 
 function transformError(
@@ -187,6 +189,7 @@ export const processGoOptions: GoContextInterface['transformOptions'] = (
     const {
         formData,
         isCsvRequest,
+        isExcelRequest,
         enforceEnglishForQuery = false,
         useCurrentLanguageForMutation = false,
     } = extraOptions;
@@ -201,14 +204,10 @@ export const processGoOptions: GoContextInterface['transformOptions'] = (
 
     if (method === 'GET') {
         // Query
-        defaultHeaders['Accept-Language'] = enforceEnglishForQuery
-            ? 'en'
-            : currentLanguage;
+        defaultHeaders['Accept-Language'] = enforceEnglishForQuery ? 'en' : currentLanguage;
     } else {
         // Mutation
-        defaultHeaders['Accept-Language'] = useCurrentLanguageForMutation
-            ? currentLanguage
-            : 'en';
+        defaultHeaders['Accept-Language'] = useCurrentLanguageForMutation ? currentLanguage : 'en';
     }
 
     if (formData) {
@@ -216,7 +215,6 @@ export const processGoOptions: GoContextInterface['transformOptions'] = (
         return {
             method,
             headers: {
-                Accept: 'application/json',
                 ...defaultHeaders,
                 ...headers,
             },
@@ -226,14 +224,24 @@ export const processGoOptions: GoContextInterface['transformOptions'] = (
     }
 
     const requestBody = body ? JSON.stringify(body) : undefined;
+
+    let contentType: string = CONTENT_TYPE_JSON;
+    if (isCsvRequest) {
+        contentType = CONTENT_TYPE_CSV;
+    } else if (isExcelRequest) {
+        contentType = CONTENT_TYPE_EXCEL;
+    }
+
+    const specificHeaders = {
+        Accept: contentType,
+        'Content-Type': contentType,
+    };
+
     return {
         method,
         headers: {
-            Accept: isCsvRequest ? CONTENT_TYPE_CSV : CONTENT_TYPE_JSON,
-            'Content-Type': isCsvRequest
-                ? 'text/csv; charset=utf-8'
-                : 'application/json; charset=utf-8',
             ...defaultHeaders,
+            ...specificHeaders,
             ...headers,
         },
         body: requestBody,
@@ -241,27 +249,36 @@ export const processGoOptions: GoContextInterface['transformOptions'] = (
     };
 };
 
+const isSuccessfulStatus = (status: number): boolean => status >= 200 && status < 300;
+
+const isContentTypeExcel = (res: Response): boolean => res.headers.get('content-type') === CONTENT_TYPE_EXCEL;
+
+const isContentTypeJson = (res: Response): boolean => res.headers.get('content-type') === CONTENT_TYPE_JSON;
+
+const isLoginRedirect = (url: string): boolean => new URL(url).pathname.includes('login');
+
 export const processGoResponse: GoContextInterface['transformResponse'] = async (
     res,
 ) => {
-    const originalResponse = res.clone();
-    const resText = await res.text();
-
-    if (res.redirected) {
-        const url = new URL(res.url);
-        if (url.pathname.includes('login')) {
-            throw Error('Redirected by server');
-        }
+    if (res.redirected && isLoginRedirect(res.url)) {
+        throw new Error('Redirected by server');
     }
 
-    if (res.status >= 200 && res.status < 300) {
-        if (res.headers.get('content-type') === CONTENT_TYPE_JSON) {
-            const json = JSON.parse(resText);
-            return json;
+    if (isSuccessfulStatus(res.status)) {
+        if (isContentTypeExcel(res)) {
+            return res.blob();
+        }
+
+        const resText = await res.text();
+        if (isContentTypeJson(res)) {
+            return JSON.parse(resText);
         }
 
         return resText;
     }
+
+    const originalResponse = res.clone();
+    const resText = await res.text();
 
     return {
         status: res.status,
