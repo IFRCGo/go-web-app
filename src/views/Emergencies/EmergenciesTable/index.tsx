@@ -65,12 +65,12 @@ function EventItemsTable() {
     const columns = useMemo(
         () => ([
             createDateColumn<EventListItem, number>(
-                'created_at',
+                'disaster_start_date',
                 strings.emergenciesTableDate,
-                (item) => item.created_at,
+                (item) => item.disaster_start_date,
                 {
                     sortable: true,
-                    columnClassName: styles.createdAt,
+                    columnClassName: styles.startDate,
                 },
             ),
             createLinkColumn<EventListItem, number>(
