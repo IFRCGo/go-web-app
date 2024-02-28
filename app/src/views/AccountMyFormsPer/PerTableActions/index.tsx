@@ -6,13 +6,13 @@ import { resolveToString } from '@ifrc-go/ui/utils';
 import {
     isDefined,
     listToMap,
-    isNotDefined,
 } from '@togglecorp/fujs';
 
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import Link from '#components/Link';
-import { api } from '#config';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import useAlert from '#hooks/useAlert';
+import { downloadFile } from '#utils/common';
 import {
     PER_PHASE_ACTION,
     PER_PHASE_ASSESSMENT,
@@ -20,9 +20,10 @@ import {
     PER_PHASE_PRIORITIZATION,
     PER_PHASE_WORKPLAN,
 } from '#utils/domain/per';
-import { resolveUrl } from '#utils/resolveUrl';
-import { useLazyRequest, type GoApiResponse } from '#utils/restRequest';
-import { useRequest } from '#utils/restRequest';
+import {
+    type GoApiResponse,
+    useLazyRequest,
+} from '#utils/restRequest';
 
 import i18n from './i18n.json';
 
@@ -33,6 +34,7 @@ export interface Props {
     phase: PerPhase;
     phaseDisplay: string | undefined;
     perId: number;
+    country: string;
 }
 
 function PerTableActions(props: Props) {
@@ -40,8 +42,10 @@ function PerTableActions(props: Props) {
         perId,
         phase,
         phaseDisplay,
+        country,
     } = props;
 
+    const alert = useAlert();
     const strings = useTranslation(i18n);
     const { per_perphases } = useGlobalEnums();
     const phaseMap = listToMap(
@@ -74,23 +78,34 @@ function PerTableActions(props: Props) {
     );
 
     const {
-        pending,
+        pending: exportPending,
         trigger: triggerPerExcelExport,
     } = useLazyRequest({
         url: '/api/v2/export-per/{id}/',
-        other: () => {
-            return {};
-        },
+        isExcelRequest: true,
         pathVariables: isDefined(perId) ? {
             id: String(perId),
         } : undefined,
         onSuccess: (response) => {
-            
-        }
+            try {
+                downloadFile(response as Blob, `${country}-per-${phaseDisplay}`, 'xlsx');
+            } catch (error) {
+                alert.show(
+                    strings.failureToDownloadMessage,
+                    { variant: 'danger' },
+                );
+            }
+        },
+        onFailure: () => {
+            alert.show(
+                strings.failureToExportMessage,
+                { variant: 'danger' },
+            );
+        },
     });
 
     const handleExportClick = useCallback(() => {
-        triggerPerExcelExport({});
+        triggerPerExcelExport(null);
     }, [triggerPerExcelExport]);
 
     return (
@@ -137,6 +152,7 @@ function PerTableActions(props: Props) {
                     <DropdownMenuItem
                         type="button"
                         name="export"
+                        disabled={exportPending}
                         onClick={handleExportClick}
                     >
                         {strings.dropdownPerActionExportLabel}
