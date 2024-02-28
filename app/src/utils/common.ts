@@ -96,3 +96,20 @@ export function getNumberOfMonths(start: Date, end: Date) {
     );
     return monthDiff;
 }
+
+export function downloadFile(
+    blob: Blob,
+    filename: string,
+    fileExtension: string,
+): void {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${filename}.${fileExtension}`;
+
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    URL.revokeObjectURL(url);
+}
