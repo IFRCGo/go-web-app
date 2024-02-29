@@ -227,7 +227,6 @@ function ActiveDrefTable(props: Props) {
                         has_ops_update,
                         has_final_report,
                         country_details,
-                        type_of_dref,
                     } = originalDref;
 
                     const canAddOpsUpdate = (is_published ?? false)
@@ -238,7 +237,7 @@ function ActiveDrefTable(props: Props) {
                     const canCreateFinalReport = !has_final_report
                         && (applicationType === 'DREF' || applicationType === 'OPS_UPDATE')
                         && (is_published ?? false)
-                        && (type_of_dref !== DREF_TYPE_LOAN)
+                        && (item.type_of_dref !== DREF_TYPE_LOAN)
                         && (
                             !has_ops_update
                                 || (has_ops_update && unpublished_op_update_count === 0)
