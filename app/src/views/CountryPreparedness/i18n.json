@@ -35,9 +35,6 @@
         "perExport": "Export",
         "upload": "Upload",
         "relevantDocumentHeader": "Relevant Documents",
-        "removeFileButtonTitle": "Remove",
-        "relevantDocumentDeletedSuccessMessage": "Document deleted successfully.",
-        "relevantDocumentDeletedFailureMessage": "Failed to delete document.",
         "limitDisclaimer": "Note: You can only upload upto 10 documents."
     }
 }

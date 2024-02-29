@@ -9,16 +9,14 @@ import {
     AnalyzingIcon,
     ArrowLeftLineIcon,
     CheckboxFillIcon,
-    DeleteBinLineIcon,
     DownloadFillIcon,
 } from '@ifrc-go/icons';
 import {
     BlockLoading,
     Button,
     Container,
-    DateOutput,
+    Grid,
     Heading,
-    IconButton,
     InputSection,
     KeyFigure,
     Message,
@@ -54,13 +52,13 @@ import Link from '#components/Link';
 import PerExportModal from '#components/PerExportModal';
 import WikiLink from '#components/WikiLink';
 import useAuth from '#hooks/domain/useAuth';
-import useAlert from '#hooks/useAlert';
 import useRouting from '#hooks/useRouting';
 import {
-    useLazyRequest,
+    type GoApiResponse,
     useRequest,
 } from '#utils/restRequest';
 
+import DocumentCard from './DocumentCard';
 import PreviousAssessmentCharts from './PreviousAssessmentChart';
 import PublicCountryPreparedness from './PublicCountryPreparedness';
 import RatingByAreaChart from './RatingByAreaChart';
@@ -68,6 +66,10 @@ import RatingByAreaChart from './RatingByAreaChart';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+type PerDocumentUploadResponse = GoApiResponse<'/api/v2/per-document-upload/'>;
+type PerDocumentListItem = NonNullable<PerDocumentUploadResponse['results']>[number];
+
+const MAX_PER_DOCUMENT_COUNT = 10;
 const primaryRedColorShades = [
     'var(--go-ui-color-red-90)',
     'var(--go-ui-color-red-70)',
@@ -81,23 +83,10 @@ function primaryRedColorShadeSelector(_: unknown, i: number) {
     return primaryRedColorShades[i];
 }
 
-interface Props{
-    disabled?: boolean;
-}
-
-function getFileNameFromUrl(urlString: string) {
-    const url = new URL(urlString);
-    const splits = url.pathname.split('/');
-    const document = splits[splits.length - 1];
-    return document;
-}
-
 // eslint-disable-next-line import/prefer-default-export
-export function Component(props:Props) {
-    const { disabled: disabledFromProps } = props;
-
+export function Component() {
     const { isAuthenticated } = useAuth();
-    const alert = useAlert();
+
     const strings = useTranslation(i18n);
     const { perId, countryId } = useParams<{ perId: string, countryId: string }>();
 
@@ -191,40 +180,17 @@ export function Component(props:Props) {
     });
 
     const {
-        pending: fetchUploadDocument,
-        error: UploadDocumentResponseError,
-        response: allFileResponse,
+        pending: perDocumentsPending,
+        error: perDocumentsError,
+        response: perDocumentsResponse,
         retrigger: refetchDocuments,
     } = useRequest({
         skip: isNotDefined(countryId),
         url: '/api/v2/per-document-upload/',
         query: { country: Number(countryId) },
     });
-    const filesReponse = removeNull(allFileResponse?.results);
 
-    const { trigger } = useLazyRequest({
-        method: 'DELETE',
-        url: '/api/v2/per-document-upload/{id}/',
-        pathVariables: ({ id }) => ({ id }),
-        onSuccess: () => {
-            refetchDocuments();
-            alert.show(
-                strings.relevantDocumentDeletedSuccessMessage,
-                { variant: 'success' },
-            );
-        },
-        onFailure: () => {
-            alert.show(
-                strings.relevantDocumentDeletedFailureMessage,
-                { variant: 'danger' },
-            );
-        },
-
-    });
-
-    const handleFileDelete = useCallback((id: number) => {
-        trigger({ id });
-    }, [trigger]);
+    const perDocuments = removeNull(perDocumentsResponse?.results);
 
     const formAnswerMap = useMemo(
         () => (
@@ -461,10 +427,7 @@ export function Component(props:Props) {
         || overviewPending
         || assessmentResponsePending
         || prioritizationResponsePending
-        || fetchUploadDocument
-        || UploadDocumentResponseError;
-
-    const disabled = disabledFromProps;
+        || perDocumentsPending;
 
     /*
     if (pendingLatestPerResponse) {
@@ -506,9 +469,10 @@ export function Component(props:Props) {
         setFalse: setShowExportModalFalse,
     }] = useBooleanState(false);
 
-    const handleChange = useCallback((id: number | undefined) => {
-        setFileId(id);
-    }, []);
+    const rendererParams = useCallback((_: number, perDocument: PerDocumentListItem) => ({
+        document: perDocument,
+        onDeleteSuccess: refetchDocuments,
+    }), [refetchDocuments]);
 
     return (
         <Container
@@ -779,7 +743,7 @@ export function Component(props:Props) {
             )}
             <Container
                 heading={strings.relevantDocumentHeader}
-                className={styles.ratingResults}
+                className={styles.relevantDocuments}
                 withHeaderBorder
             >
                 {countryId && isAuthenticated && (
@@ -788,14 +752,12 @@ export function Component(props:Props) {
                             name="country_ns_upload"
                             accept=".pdf, .docx, .pptx"
                             fileIdToUrlMap={fileIdToUrlMap}
-                            onChange={handleChange}
+                            onChange={setFileId}
                             url="/api/v2/per-document-upload/"
                             value={fileId}
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             clearable
-                            disabled={disabled
-                                || (isDefined(filesReponse)
-                                && filesReponse?.length >= 10)}
+                            disabled={(perDocumentsResponse?.count ?? 0) >= MAX_PER_DOCUMENT_COUNT}
                             countryId={countryId}
                             onSuccess={refetchDocuments}
                         >
@@ -807,44 +769,18 @@ export function Component(props:Props) {
                         </div>
                     </InputSection>
                 )}
-                {(filesReponse && filesReponse?.length > 0) && (
-                    <Container withHeaderBorder>
-                        <div className={styles.relevantDocumentList}>
-                            {filesReponse?.map((file) => (
-                                <div className={styles.documentItem} key={countryId}>
-                                    <div
-                                        className={styles.file}
-                                    >
-                                        {getFileNameFromUrl(file.file).concat(', ')}
-                                        <DateOutput value={file.created_at} />
-                                    </div>
-                                    <div className={styles.actions}>
-                                        <Link
-                                            external
-                                            variant="tertiary"
-                                            download
-                                            className={styles.downloadIcon}
-                                            href={file.file}
-                                        >
-                                            <DownloadFillIcon />
-                                        </Link>
-                                        <IconButton
-                                            className={styles.removeButton}
-                                            name={file.id}
-                                            onClick={handleFileDelete}
-                                            title={strings.removeFileButtonTitle}
-                                            ariaLabel={strings.removeFileButtonTitle}
-                                            variant="tertiary"
-                                            spacing="none"
-                                            disabled={disabled}
-                                        >
-                                            <DeleteBinLineIcon />
-                                        </IconButton>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </Container>
+                {(perDocuments && perDocuments?.length > 0) && (
+                    <Grid
+                        className={styles.perDocuments}
+                        data={perDocuments}
+                        pending={perDocumentsPending}
+                        errored={isDefined(perDocumentsError)}
+                        filtered={false}
+                        keySelector={numericIdSelector}
+                        renderer={DocumentCard}
+                        rendererParams={rendererParams}
+                        numPreferredColumns={3}
+                    />
                 )}
             </Container>
         </Container>
