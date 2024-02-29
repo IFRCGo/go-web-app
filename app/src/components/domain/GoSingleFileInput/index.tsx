@@ -42,7 +42,7 @@ export type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 
     error?: React.ReactNode;
     description?: React.ReactNode;
     countryId?: string | undefined | null;
-    retrigger?: () => void;
+    onSuccess?: () => void;
 }
 
 function GoSingleFileInput<T extends NameType>(props: Props<T>) {
@@ -67,7 +67,7 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
         error,
         description,
         countryId,
-        retrigger,
+        onSuccess,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -86,8 +86,8 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
         onSuccess: (response) => {
             const { id, file } = response;
             onChange(id, name);
-            if (isDefined(countryId) && retrigger) {
-                retrigger();
+            if (isDefined(countryId) && isDefined(onSuccess)) {
+                onSuccess();
             }
 
             if (isDefined(file) && setFileIdToUrlMap) {

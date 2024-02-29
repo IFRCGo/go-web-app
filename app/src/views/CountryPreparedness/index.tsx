@@ -194,7 +194,7 @@ export function Component(props:Props) {
         pending: fetchUploadDocument,
         error: UploadDocumentResponseError,
         response: allFileResponse,
-        retrigger,
+        retrigger: refetchDocuments,
     } = useRequest({
         skip: isNotDefined(countryId),
         url: '/api/v2/per-document-upload/',
@@ -207,14 +207,13 @@ export function Component(props:Props) {
         url: '/api/v2/per-document-upload/{id}/',
         pathVariables: ({ id }) => ({ id }),
         onSuccess: () => {
-            retrigger();
+            refetchDocuments();
             alert.show(
                 strings.relevantDocumentDeletedSuccessMessage,
                 { variant: 'success' },
             );
         },
         onFailure: () => {
-            retrigger();
             alert.show(
                 strings.relevantDocumentDeletedFailureMessage,
                 { variant: 'danger' },
@@ -783,7 +782,7 @@ export function Component(props:Props) {
                 className={styles.ratingResults}
                 withHeaderBorder
             >
-                {countryId && (
+                {countryId && isAuthenticated && (
                     <InputSection className={styles.uploadInputSection}>
                         <GoSingleFileInput
                             name="country_ns_upload"
@@ -798,7 +797,7 @@ export function Component(props:Props) {
                                 || (isDefined(filesReponse)
                                 && filesReponse?.length >= 10)}
                             countryId={countryId}
-                            retrigger={retrigger}
+                            onSuccess={refetchDocuments}
                         >
                             {strings.upload}
 
