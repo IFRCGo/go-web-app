@@ -1,0 +1,9 @@
+{
+    "namespace": "countryPreparedness",
+    "strings": {
+        "download": "Download",
+        "removeFileButtonTitle": "Remove",
+        "relevantDocumentDeletedSuccessMessage": "Document deleted successfully.",
+        "relevantDocumentDeletedFailureMessage": "Failed to delete the document."
+    }
+}
