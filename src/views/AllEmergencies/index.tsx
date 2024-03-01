@@ -80,9 +80,9 @@ export function Component() {
     const columns = useMemo(
         () => ([
             createDateColumn<EventListItem, number>(
-                'created_at',
+                'disaster_start_date',
                 strings.allEmergenciesDate,
-                (item) => item.created_at,
+                (item) => item.disaster_start_date,
                 {
                     sortable: true,
                     columnClassName: styles.createdAt,
