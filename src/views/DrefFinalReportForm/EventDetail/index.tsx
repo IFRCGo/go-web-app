@@ -186,7 +186,7 @@ function EventDetail(props: Props) {
                     <NumberInput
                         label={(
                             <>
-                                {strings.finalReportPeopleTargeted}
+                                {strings.drefFormPeopleTargeted}
                                 <Link
                                     title={strings.drefFormClickEmergencyResponseFramework}
                                     href={peopleTargetedLink}
@@ -200,13 +200,12 @@ function EventDetail(props: Props) {
                         value={value.number_of_people_targeted}
                         onChange={setFieldValue}
                         error={error?.number_of_people_targeted}
-                        hint={strings.drefFormPeopleTargetedDescription}
                         disabled={disabled}
                     />
                     <NumberInput
                         label={(
                             <>
-                                {strings.drefFormPeopleTargeted}
+                                {strings.drefFormPeopleAssisted}
                                 <Link
                                     title={strings.drefFormClickEmergencyResponseFramework}
                                     href={peopleTargetedLink}
@@ -220,7 +219,7 @@ function EventDetail(props: Props) {
                         value={value?.num_assisted}
                         onChange={setFieldValue}
                         error={error?.num_assisted}
-                        hint={strings.drefFormPeopleTargetedDescription}
+                        hint={strings.drefFormPeopleAssistedDescription}
                         disabled={disabled}
                     />
                     {/* NOTE: Empty div to preserve the layout */}

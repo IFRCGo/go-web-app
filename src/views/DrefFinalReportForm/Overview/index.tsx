@@ -42,6 +42,7 @@ import UserItem from '#components/domain/DrefShareModal/UserItem';
 
 import {
     TYPE_IMMINENT,
+    TYPE_LOAN,
 } from '../common';
 import { type PartialFinalReport } from '../schema';
 import styles from './styles.module.css';
@@ -135,6 +136,10 @@ function Overview(props: Props) {
         user,
     }), []);
 
+    const filteredTypeOfDrefOptions = (typeOfDrefOptions ?? []).filter(
+        (option) => option.key !== TYPE_LOAN,
+    );
+
     const error = getErrorObject(formError);
 
     return (
@@ -188,7 +193,7 @@ function Overview(props: Props) {
                     <SelectInput
                         name="type_of_dref"
                         label={strings.drefFormTypeOfDref}
-                        options={typeOfDrefOptions}
+                        options={filteredTypeOfDrefOptions}
                         keySelector={typeOfDrefKeySelector}
                         labelSelector={stringValueSelector}
                         onChange={setFieldValue}
