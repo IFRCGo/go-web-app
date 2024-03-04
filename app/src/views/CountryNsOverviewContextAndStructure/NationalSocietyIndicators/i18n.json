@@ -1,0 +1,29 @@
+{
+    "namespace": "nationalSocietyIndicators",
+    "strings": {
+        "nationalSocietyIndicatorsTitle": "National Society Indicators",
+        "nationalSocietyFoundedDateLabel": "Date Founded",
+        "nationalSocietyTrainedInFirstAidLabel": "Trained in first Aid",
+        "nationalSocietyIncomeLabel": "Income (CHF)",
+        "nationalSocietyVolunteersLabel": "Volunteers",
+        "nationalSocietyExpendituresLabel": "Expenditures (CHF)",
+        "nationalSocietyBranchesLabel": "Branches",
+        "nationalSocietyStaffLabel": "Staff",
+        "goToFDRS": "Go to FDRS",
+        "nationalSocietyYouthLabel": "Youth (6-29 yrs)",
+        "fdrs": "FDRS",
+        "source": "Source",
+        "volunteerTooltipMaleLabel": "Male Volunteers",
+        "volunteerTooltipFemaleLabel": "Female Volunteers",
+        "staffTooltipMaleLabel": "Male Volunteers",
+        "staffTooltipFemaleLabel": "Female Volunteers",
+        "totalLabel": "Total",
+        "ageLabel": "Age",
+        "maleLabel": "Male",
+        "femaleLabel": "Female",
+        "tooltipAgeLabel": "Age {ageRange}",
+        "staffModalHeading": "Staffs by Age and Gender",
+        "volunteerModalHeading": "Volunteers by Age and Gender",
+        "disaggregationNotAvailableMessage": "Disaggregation not available"
+    }
+}

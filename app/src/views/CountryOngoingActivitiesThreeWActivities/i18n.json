@@ -1,0 +1,27 @@
+{
+    "namespace": "countryOngoingActivitiesThreeWActivities",
+    "strings": {
+        "addThreeWActivity": "Add 3W Activity",
+        "chartDescription": "The data represents the added projects and may not reflect all of the ongoing projects.",
+        "uniqueEruAndNationalSocietyCount": "Active National Societies / ERUs",
+        "failedToCreateExport": "Failed to generate export.",
+        "peopleInNeedReached": "Services Provided to People in Need",
+        "peopleReachedTooltip": "The figure displayed here is a sum of all individual services or interventions delivered as part of this emergency operation to people in need. Some people may have received more than one service or intervention.",
+        "activitySectors": "Activity Sectors",
+        "uniqueSectorCount": "Sectors",
+        "totalActivities": "Total Activities",
+        "activityStatus": "Activity Status",
+        "emergencyProjectNationalSociety": "National Society / ERU",
+        "emergencyProjectTitle": "Title",
+        "emergencyProjectStartDate": "Start Date",
+        "emergencyProjectCountry": "Country",
+        "emergencyProjectDistrict": "Province / Region",
+        "emergencyProjectStatus": "Status",
+        "emergencyProjectPeopleReached": "Services Provided to People in Need",
+        "responseActivities": "Response Activities",
+        "activitiesBySector": "Activities by Sector",
+        "dataNotAvailable": "No Activities",
+        "threeWViewAllActivityLabel": "View all Activities",
+        "threeWActivityDescription": "The following data displays the current and ongoing emergencies within the country that are reported by the National Societies and partners. The displayed data is based on reporting and may not be fully indicative of all the activities."
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "namespace": "countryNsOverviewContextAndStructure",
+    "strings": {
+        "keyLinksHeading": "Key Links",
+        "nationalSocietyPageOnFDRS": "National Society Page on FDRS",
+        "countryOnIFRC": "{countryName} on IFRC.org",
+        "countryOnReliefWeb": "{countryName} on reliefweb.int",
+        "countryRCHomepage": "{countryName} RC Homepage",
+        "countryDisasterLaw": "IFRC Disaster Law for {countryName}"
+    }
+}

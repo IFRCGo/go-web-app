@@ -1,0 +1,11 @@
+{
+    "oldNamespace": "countryRiskWatch",
+    "namespace": "countryProfileRiskWatch",
+    "strings": {
+        "riskBarChartVeryLowLabel": "Very low",
+        "riskBarChartLowLabel": "Low",
+        "riskBarChartMediumLabel": "Medium",
+        "riskBarChartHighLabel": "High",
+        "riskBarChartVeryHighLabel": "Very high"
+    }
+}

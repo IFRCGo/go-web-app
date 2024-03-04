@@ -1,0 +1,18 @@
+.country-ns-capacity-strengthening {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-md);
+
+    .empty-message {
+        grid-column: -1 / 1;
+    }
+
+    .capacity-list-container {
+        display: flex;
+    }
+
+    .capacity-item {
+        border-radius: var(--go-ui-border-radius-md);
+        box-shadow: var(--go-ui-box-shadow-md);
+    }
+}

@@ -1,0 +1,7 @@
+{
+    "namespace": "nationalSocietyDirectory",
+    "strings": {
+        "countryNSDirectoryTitle": "NS Directory",
+        "countryNSDirectorySource": "Source"
+    }
+}

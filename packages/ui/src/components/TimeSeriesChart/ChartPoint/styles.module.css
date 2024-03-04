@@ -1,0 +1,42 @@
+.chart-point {
+    --point-radius: 4pt;
+    --point-hover-radius: 5pt;
+    --point-outline-radius: 7pt;
+    --point-stroke-width: 2pt;
+
+    .point {
+        r: var(--point-radius);
+        stroke: currentColor;
+        stroke-width: var(--point-stroke-width);
+        fill: var(--go-ui-color-white);
+        transition: var(--go-ui-duration-transition-medium) ease-in-out r, var(--go-ui-duration-transition-medium) ease-in-out fill;
+
+        &.active {
+            fill: currentColor;
+        }
+
+        &.hovered {
+            fill: currentColor;
+        }
+    }
+
+    .point-outline {
+        r: var(--point-radius);
+        stroke: currentColor;
+        stroke-width: var(--point-stroke-width);
+        fill: var(--go-ui-color-white);
+        transition: var(--go-ui-duration-transition-medium) ease-in-out r;
+
+        &.active {
+            r: var(--point-outline-radius);
+        }
+    }
+
+    &.hoverable {
+        &:hover {
+            .point {
+                fill: currentColor;
+            }
+        }
+    }
+}

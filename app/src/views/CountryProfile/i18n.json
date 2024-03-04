@@ -1,0 +1,9 @@
+{
+    "namespace": "countryProfile",
+    "strings": {
+        "overviewTabTitle": "Overview",
+        "supportingPartnersTabTitle": "Supporting Partners",
+        "previousEventsTabTitle": "Previous Events",
+        "riskWatchTabTitle": "Risk Watch"
+    }
+}

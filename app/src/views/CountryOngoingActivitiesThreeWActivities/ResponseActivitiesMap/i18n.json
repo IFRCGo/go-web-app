@@ -1,0 +1,10 @@
+{
+    "namespace": "countryResponseActivities",
+    "strings": {
+        "countryResponseActivitiesSeverityLow": "Less than 2",
+        "countryResponseActivitiesSeverityMedium": "2 to 4",
+        "countryResponseActivitiesSeverityHigh": "5 to 9",
+        "countryResponseActivitiesSeveritySevere": "10 or more",
+        "countryResponseActivitiesNumberOfProjects": "Number of Projects"
+    }
+}

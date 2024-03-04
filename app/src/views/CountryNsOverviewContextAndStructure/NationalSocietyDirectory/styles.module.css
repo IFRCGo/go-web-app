@@ -1,0 +1,23 @@
+.national-society-directory {
+    overflow-y: auto;
+
+    .content {
+        overflow-y: auto;
+
+        .directory-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-sm);
+
+            .directory {
+                .full-name {
+                    font-weight: var(--go-ui-font-weight-bold);
+                }
+
+                .position {
+                    color: var(--go-ui-color-text-light);
+                }
+            }
+        }
+    }
+}

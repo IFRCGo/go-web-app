@@ -1,0 +1,10 @@
+{
+    "namespace": "countryNsCapacityStrengthening",
+    "strings": {
+        "countryNsCapacityStrengtheningHeading": "Capacity and Strengthening and Development Processes",
+        "countryNsCapacityStrengtheningDescription": "Various assessment and processes that the NS has undergone through  IFRC.",
+        "bocaAssessment": "BOCA Assessment",
+        "localUnits": "Local Units / Branches",
+        "viewDetails": "View Details"
+    }
+}

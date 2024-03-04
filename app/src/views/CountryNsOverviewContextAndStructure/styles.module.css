@@ -1,0 +1,36 @@
+.country-ns-overview-context-and-structure {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-2xl);
+
+    .ns-income {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+        grid-gap: var(--go-ui-spacing-lg);
+    }
+
+    .national-society-detail {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+        align-items: start;
+        grid-gap: var(--go-ui-spacing-lg);
+
+        .map {
+            grid-column: auto / span 2;
+        }
+
+        .directory {
+            max-height: 50rem;
+
+            @media screen and (max-width: 60rem) {
+                grid-column: 1 / -1;
+            }
+        }
+    }
+
+    .key-links-content {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--go-ui-spacing-lg);
+    }
+}

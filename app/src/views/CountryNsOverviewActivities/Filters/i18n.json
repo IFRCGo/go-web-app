@@ -1,0 +1,12 @@
+{
+    "oldNamespace": "countryThreeWNationalSocietyProjects",
+    "namespace": "countryNsOverviewActivities",
+    "strings": {
+        "nSFilterReportingNs": "Receiving Countries",
+        "nSFilterProgrammeTypes": "Programme Types",
+        "nSFilterSectors": "Sectors",
+        "nSFilterTags": "Tags",
+        "nSFilterProvinces": "Provinces",
+        "nSFilterOperationTypes": "Project Types"
+    }
+}

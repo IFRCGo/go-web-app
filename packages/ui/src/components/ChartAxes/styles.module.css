@@ -1,0 +1,60 @@
+.chart-axes {
+    .y-axis-label-container {
+        transform: rotate(-90deg);
+
+        .y-axis-label {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .y-axis-tick-text {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 0 var(--go-ui-spacing-2xs);
+        text-align: right;
+        word-break: break-word;
+        font-size: var(--go-ui-font-size-xs);
+    }
+
+    .x-axis-tick {
+        .x-axis-tick-text {
+            transition: var(--go-ui-duration-transition-medium) ease-in-out transform;
+            padding: var(--go-ui-spacing-2xs) 0;
+            text-align: center;
+            word-break: break-word;
+            font-size: var(--go-ui-font-size-xs);
+
+            @media screen and (max-width: 30rem) {
+                transform: rotate(-30deg) translateX(-10%) translateY(20%);
+                padding: 0;
+                font-size: var(--go-ui-font-size-2xs);
+            }
+        }
+    }
+
+
+    .x-axis-grid-line,
+    .y-axis-grid-line {
+        stroke: var(--go-ui-color-gray-60);
+        stroke-dasharray: 4 4;
+        stroke-opacity: 0.5;
+
+        &.hovered {
+            stroke-opacity: 1;
+        }
+    }
+
+    .bound-rect {
+        fill: var(--go-ui-color-gray-60);
+        fill-opacity: 0;
+        transition: fill-opacity var(--go-ui-duration-transition-slow) ease-in-out;
+
+        &:hover {
+            fill-opacity: 0.2;
+        }
+    }
+}

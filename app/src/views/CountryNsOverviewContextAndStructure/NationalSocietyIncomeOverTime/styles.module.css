@@ -1,0 +1,20 @@
+.national-society-income-over-time {
+    .chart-container {
+        height: 24rem;
+
+        .svg {
+            width: 100%;
+            height: 100%;
+
+            .yearly-income {
+                color: var(--go-ui-color-primary-red);
+            }
+        }
+
+        .line {
+            stroke: currentColor;
+            stroke-width: 2pt;
+            fill: none;
+        }
+    }
+}

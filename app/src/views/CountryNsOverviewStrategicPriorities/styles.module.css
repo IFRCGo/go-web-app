@@ -1,0 +1,78 @@
+.strategic-priorities {
+    .strategic-priorities-header {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .country-ns-overview-strategic-priorities {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-2xl);
+
+        .per-components {
+            display: grid;
+            gap: var(--go-ui-spacing-lg);
+            grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+            align-items: start;
+
+            .strength-component {
+                border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+
+                .icon {
+                    color: var(--go-ui-color-green);
+                    font-size: var(--go-ui-height-icon-multiplier);
+                }
+            }
+
+            .priority-component {
+                border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+
+                .icon {
+                    color: var(--go-ui-color-red);
+                    font-size: var(--go-ui-height-icon-multiplier);
+                }
+            }
+        }
+
+        .country-plan-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--go-ui-spacing-2xl);
+
+            .download-links-and-key-figures {
+                display: flex;
+                flex-direction: column;
+                gap: var(--go-ui-spacing-lg);
+
+                .key-figures {
+                    display: flex;
+                    gap: var(--go-ui-spacing-md);
+
+                    .key-figure {
+                        flex-basis: 16rem;
+                        border-radius: var(--go-ui-border-radius-lg);
+                        box-shadow: var(--go-ui-box-shadow-md);
+                    }
+                }
+
+                .country-plan-download-link {
+                    display: flex;
+                    flex-shrink: unset;
+                    flex-wrap: wrap;
+                    gap: var(--go-ui-spacing-lg);
+
+                    .icon {
+                        font-size: var(--go-ui-height-icon-multiplier);
+                    }
+                }
+            }
+
+            .strategic-priority-table {
+                flex-grow: 1;
+                width: 50%;
+                overflow-x: auto;
+            }
+        }
+    }
+}

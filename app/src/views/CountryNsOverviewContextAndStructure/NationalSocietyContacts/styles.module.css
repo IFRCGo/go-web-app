@@ -1,0 +1,9 @@
+.national-society-contact-table {
+    .table {
+        min-height: 0;
+
+        .name {
+            font-weight: var(--go-ui-font-weight-semibold);
+        }
+    }
+}

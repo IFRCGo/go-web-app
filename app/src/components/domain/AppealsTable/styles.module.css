@@ -1,0 +1,20 @@
+.appeals-table {
+    .filter-actions {
+        align-self: end;
+    }
+
+    .table {
+        .start-date {
+            width: 0%;
+            min-width: 9rem;
+        }
+
+        .appeal-type {
+            width: 0%;
+        }
+
+        .code {
+            width: 0%;
+        }
+    }
+}

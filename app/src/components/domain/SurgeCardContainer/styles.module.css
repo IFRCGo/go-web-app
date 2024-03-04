@@ -1,0 +1,11 @@
+.surge-card-container {
+    .content {
+        display: grid;
+        grid-gap: var(--go-ui-spacing-md);
+        grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+
+        @media screen and (max-width: 40rem) {
+            grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+        }
+    }
+}

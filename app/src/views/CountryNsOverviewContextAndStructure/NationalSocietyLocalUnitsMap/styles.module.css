@@ -1,0 +1,56 @@
+.national-society-local-units-map {
+    .content {
+        position: relative;
+
+        .map-detail {
+            position: absolute;
+            bottom: var(--go-ui-spacing-2xl);
+            left: var(--go-ui-spacing-md);
+            border: var(--go-ui-width-separator-sm) solid var(--go-ui-color-gray-30);
+            border-radius: var(--go-ui-border-radius-md);
+            box-shadow: var(--go-ui-box-shadow-md);
+            background-color: var(--go-ui-color-white);
+            padding: var(--go-ui-spacing-sm);
+            width: 18rem;
+            overflow: auto;
+
+            .info-container {
+                display: flex;
+                flex-direction: column;
+                gap: var(--go-ui-spacing-md);
+
+                .info {
+                    flex-wrap: nowrap;
+
+                    .label {
+                        display: flex;
+                        align-items: center;
+                        flex-wrap: nowrap;
+                    }
+
+                    .icon {
+                        font-size: var(--go-ui-font-size-2xl);
+                    }
+                }
+            }
+        }
+    }
+    .clear-button {
+        display: flex;
+        align-items: flex-end;
+    }
+
+    .map-container {
+        height: 40rem;
+    }
+}
+
+.popup-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-md);
+
+    .local-unit-info {
+        font-size: var(--go-ui-font-size-sm);
+    }
+}

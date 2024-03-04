@@ -1,0 +1,10 @@
+{
+    "namespace": "common",
+    "strings": {
+        "highlightedOperationsTitle": "Highlighted Operations",
+        "highlightedOperationsCountryTitle": "Active Operations",
+        "highlightedOperationsViewAllInRegion":"View all Emergencies in this Region",
+        "highlightedOperationsViewAllInCountry":"View all Emergencies in this Country",
+        "highlightedOperationsViewAll":"View all Emergencies"
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "namespace": "regionProfile",
+    "strings": {
+        "regionalProfileNationalSocietyName": "National Society in",
+        "regionalProfileFundingAndOperationsDashboards": "Funding and Operations Dashboards",
+        "regionalProfileAdditionalLinks": "Additional Links",
+        "regionProfileContacts": "Contacts",
+        "regionalProfileNationalSocietyTitle": "National Society in {regionName}",
+        "regionalProfileSource": "Source: IFRC"
+    }
+}

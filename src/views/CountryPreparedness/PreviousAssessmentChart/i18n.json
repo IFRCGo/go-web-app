@@ -1,7 +1,0 @@
-{
-    "namespace": "countryPreparedness",
-    "strings": {
-        "cycleLabel": "Cycle {assessmentNumber} ({assessmentDate})",
-        "assessmentLabel": "Assessment: {xValue}, Rating: {yValue}"
-    }
-}

@@ -1,0 +1,7 @@
+{
+    "namespace": "nsDirectoryInitiatives",
+    "strings": {
+        "nSDirectoryInitiativesTitle": "NSD Initiatives",
+        "nSDirectoryInitiativesDescription": "The following data displays ongoing and implemented/closed Initiatives funded  by the different NSD funding mechanisms within the country, which are reported by the respective fund office. Contacts: CBF Office, NSIA Office, ESF Secretariat."
+    }
+}

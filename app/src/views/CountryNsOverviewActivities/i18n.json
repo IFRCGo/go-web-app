@@ -1,0 +1,29 @@
+{
+    "namespace": "countryNsOverviewActivities",
+    "strings": {
+        "countriesNSWork": "Countries where International work is ongoing",
+        "nSTargetedPopulationTitle": "Targeted Population",
+        "nSTotalProjectsTitle": "Total Projects",
+        "nSFundingRequirementsTitle": "Funding Requirements (CHF)",
+        "nsInternationalWorkTitle": "NS International Work",
+        "nSAllProjects": "All Projects",
+        "nSProjectByCountryTitle": "Projects By Country",
+        "nSCountryProjects": "{countryName} ({numProjects} Projects)",
+        "nSTableCountries": "Countries",
+        "nSStartDate": "Start-End Dates",
+        "nSTableProjectName": "Project Name",
+        "nSTableSector": "Project Sector",
+        "nSTableTotalBudget": "Total Budget",
+        "nSTableDisasterType": "Disaster Type",
+        "nSTablePeopleTargeted": "People Targeted",
+        "nSTablePeopleReached": "People Reached",
+        "nsInternationalWorkHeading": "NS International Work ({count})",
+        "nSProgrammeType": "Programme Type",
+        "nSContactPerson": "Contact Person",
+        "nSProjectStatus": "Project Status",
+        "nSProjectDataNotAvailable": "Data not available!",
+        "addNSActivity": "Add NS Activity",
+        "nSActivityDescription": "The following data displays the current and ongoing emergencies within the country that are reported by the National Societies and partners. The displayed data is based on reporting and may not be fully indicative of all activities.",
+        "nSFailedToCreateExport": "Failed to generate export."
+    }
+}

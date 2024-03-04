@@ -1,0 +1,24 @@
+{
+    "namespace": "countryProfileOverview",
+    "strings": {
+        "countryIndicatorsHeading": "Country Key Indicators",
+        "countryIndicatorsPopulationLabel": "Population",
+        "countryIndicatorsPopulationUnder18Label": "Population under 18",
+        "countryIndicatorsUrbanPopulationLabel": "Urban Pop",
+        "countryIndicatorsGDPLabel": "GDP",
+        "countryIndicatorsPovertyLabel": "Poverty (%POP)",
+        "countryIndicatorsLifeExpectancyLabel": "Life Expectancy",
+        "countryIndicatorsLiteracyLabel": "Literacy",
+        "countryIndicatorsCapitaLabel": "GNI/Capita",
+        "countryIndicatorsGenderInequalityIndexLabel": "Gender Inequality Index (GII)",
+        "sources": "Sources",
+        "dataBank": "The World Bank",
+        "unicef": "UNICEF",
+        "hdr": "HDR",
+        "seasonalCalendarHeading": "Seasonal Calendar",
+        "seasonalCalendarTooltipEventLabel": "Event",
+        "seasonalCalendarTooltipEventTypeLabel": "Event type",
+        "seasonalCalendarTooltipMonthsLabel": "Months",
+        "seasonalCalendarTooltipSourceLabel": "Source"
+    }
+}

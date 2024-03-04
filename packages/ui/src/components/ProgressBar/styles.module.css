@@ -1,0 +1,24 @@
+.progress-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-2xs);
+    color: var(--go-ui-color-primary-red);
+
+    .title {
+        color: var(--go-ui-color-text);
+    }
+
+    .total {
+        display: flex;
+        flex-shrink: 0;
+        border-radius: var(--go-ui-border-radius-md);
+        background-color: var(--go-ui-color-separator);
+        height: 0.5rem;
+
+        .progress {
+            transition: var(--go-ui-duration-transition-medium) width ease-in-out;
+            border-radius: var(--go-ui-border-radius-md);
+            background-color: currentColor;
+        }
+    }
+}
