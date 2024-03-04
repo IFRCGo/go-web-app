@@ -14,29 +14,12 @@ export function Component() {
 
     const imageList = useMemo(
         () => ([
-            {
-                src: 'https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/uav1.jpg',
-                caption: strings.uavImageOne,
-            },
-            {
-                src: 'https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/uav2.jpg',
-                caption: strings.uavImageTwo,
-            },
-            {
-                src: 'https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/uav3.jpg',
-                caption: strings.uavImageThree,
-            },
-            {
-                src: 'https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/uav4.jpg',
-                caption: strings.uavImageFour,
-            },
+            { src: 'https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/uav1.jpg' },
+            { src: 'https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/uav2.jpg' },
+            { src: 'https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/uav3.jpg' },
+            { src: 'https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/uav4.jpg' },
         ]),
-        [
-            strings.uavImageOne,
-            strings.uavImageTwo,
-            strings.uavImageThree,
-            strings.uavImageFour,
-        ],
+        [],
     );
 
     return (
