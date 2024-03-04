@@ -1,0 +1,32 @@
+{
+    "namespace": "surgeCatalogueOtherUAV",
+    "strings": {
+        "uavHeading": "Drones – Uncrewed Aerial Vehicles (UAV) Team",
+        "capacity": "Capacity",
+        "capacityDetails": "An Uncrewed Aerial Vehicle (UAV) Team, or colloquially a “Drone” Team, collects high quality, detailed aerial imagery for communications media, mapping, site survey, and situational awareness.",
+        "emergencyServices": "Emergency Services",
+        "emergencyServicesDetails": "A UAV deployment can be requested to support an operation for the following use-cases:",
+        "otherUAVEmergencyListItemOneBullet": "Media communications: ",
+        "otherUAVEmergencyListItemOne": "UAVs facilitate the targeted collection of digital aerial images and videos for use in media communications. Aerial imagery can serve as a broad and comprehensive tool to communicate the impact of certain disasters to a general audience. UAV collected imagery has a significant and timely impact with the media and broader public when used as a communication tool immediately post disaster.",
+        "otherUAVEmergencyListItemTwoBullet": "Mapping: ",
+        "otherUAVEmergencyListItemTwo": "UAVs can be used to systematically collect a large number of aerial images that can then be stitched together using processing software generating an operational field map. Mapping of affected areas can provide an important input for assessment and planning, as well as for establishing a baseline for recovery programs. Various limitations mean that mapping can cover smaller areas such as communities and will not cover an entire disaster-affected region.",
+        "otherUAVEmergencyListItemThreeBullet": "Site survey: ",
+        "otherUAVEmergencyListItemThree": "Baseline aerial mapping can be a key input to optimal planning of basecamp facilities, field hospitals, community latrines, distribution sites, water filtration installations and water distribution sites, etc. UAVs allow for rapid initial and ongoing site surveillance with minimal resources. ",
+        "otherUAVEmergencyListItemFourBullet": "Situational awareness: ",
+        "otherUAVEmergencyListItemFour": "UAVs facilitate immediate situational awareness as well as the ability to monitor evolving situations with limited risk to support staff. UAV technology can be utilized to scout safe routes and rapidly disseminate that information to a response team.",
+        "mustAllow": "Note that the laws and regulations in the receiving National Society’s country must allow for the operation of drones, and accepting of the credentials of any deployed personnel.",
+        "otherUAVPersonnel": "Personnel",
+        "otherUAVPersonnelDetails": "The minimum team consists of an individual acting as a combined UAV Team Lead (UTL) / Pilot in Command (PIC) in addition to a Safety Officer (SA). The SA may be staffed/provided by the receiving National Society. The UTL and PIC can be separate individuals",
+        "otherUAVstandardComponents": "Standard Components",
+        "otherUAVstandardComponentsListItemOne": "2x quadcopter drone systems (e.g. DJI or Autel camera drones) with extra batteries and spare parts to enable extended daily missions and equipment redundancy",
+        "otherUAVstandardComponentsListItemTwo": "Computer equipment for image processing and file storage/sharing",
+        "otherUAVspecifications": "Specifications",
+        "otherUAVcostHeader": "Cost (indicative)",
+        "otherUAVcost": "CHF 12,000 (approximately 4,000 per drone system and 4,000 for computer equipment)",
+        "otherUAVproviderHeader": "National societies providing this service",
+        "otherUAVprovider": "American Red Cross",
+        "rapidResponse": "Rapid Response Personnel Role Profile",
+        "rapidResponseDetail": "Details about the expectations for this specialty can be found in the Role Profile: {link}",
+        "otherLink": "Pilot in Command and UAV Team Lead"
+    }
+}
