@@ -13,29 +13,12 @@ export function Component() {
 
     const imageList = useMemo(
         () => ([
-            {
-                src: 'https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/uav1.jpg',
-                caption: strings.UAVImageOne,
-            },
-            {
-                src: 'https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/uav2.jpg',
-                caption: strings.UAVImageTwo,
-            },
-            {
-                src: 'https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/uav3.jpg',
-                caption: strings.UAVImageThree,
-            },
-            {
-                src: 'https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/uav4.jpg',
-                caption: strings.UAVImageFour,
-            },
+            { src: 'https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/uav1.jpg' },
+            { src: 'https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/uav2.jpg' },
+            { src: 'https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/uav3.jpg' },
+            { src: 'https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/uav4.jpg' },
         ]),
-        [
-            strings.UAVImageOne,
-            strings.UAVImageTwo,
-            strings.UAVImageThree,
-            strings.UAVImageFour,
-        ],
+        [],
     );
 
     return (
@@ -49,7 +32,6 @@ export function Component() {
             >
                 <div>{strings.capacityDetails}</div>
             </SurgeContentContainer>
-
             <SurgeContentContainer
                 heading={strings.emergencyServices}
             >
@@ -74,41 +56,43 @@ export function Component() {
                 </ul>
                 <div>{strings.mustAllow}</div>
             </SurgeContentContainer>
-
             <SurgeContentContainer
                 heading={strings.otherUAVPersonnel}
             >
                 <div>{strings.otherUAVPersonnelDetails}</div>
             </SurgeContentContainer>
-
             <SurgeContentContainer
-                heading={strings.otherUAVstandardComponents}
+                heading={strings.otherUAVStandardComponents}
             >
                 <ul>
                     <li>
-                        {strings.otherUAVstandardComponentsListItemOne}
+                        {strings.otherUAVStandardComponentsListItemOne}
                     </li>
                     <li>
-                        {strings.otherUAVstandardComponentsListItemTwo}
+                        {strings.otherUAVStandardComponentsListItemTwo}
                     </li>
                 </ul>
             </SurgeContentContainer>
-
             <SurgeContentContainer
-                heading={strings.otherUAVspecifications}
+                heading={strings.otherUAVSpecifications}
             >
                 <div>
-                    <strong>{strings.otherUAVcostHeader}</strong>
+                    <strong>{strings.otherUAVCostHeader}</strong>
                     <br />
-                    {strings.otherUAVcost}
+                    {strings.otherUAVCost}
                 </div>
                 <div>
-                    <strong>{strings.otherUAVproviderHeader}</strong>
-                    <br />
-                    {strings.otherUAVprovider}
+                    <strong>{strings.otherUAVProviderHeader}</strong>
+                    <ul>
+                        <li>
+                            {strings.otherUAVProviderAmericalRedCross}
+                        </li>
+                        <li>
+                            {strings.otherUAVProviderItalianRedCross}
+                        </li>
+                    </ul>
                 </div>
             </SurgeContentContainer>
-
             <SurgeContentContainer
                 heading={strings.rapidResponse}
             >
