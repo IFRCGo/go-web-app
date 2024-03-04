@@ -31,9 +31,8 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.capacity}
             >
-                <div>{strings.capacityDetails}</div>
+                {strings.capacityDetails}
             </SurgeContentContainer>
-
             <SurgeContentContainer
                 heading={strings.emergencyServices}
             >
@@ -58,59 +57,60 @@ export function Component() {
                 </ul>
                 <div>{strings.mustAllow}</div>
             </SurgeContentContainer>
-
             <SurgeContentContainer
                 heading={strings.otherUAVPersonnel}
             >
-                <div>{strings.otherUAVPersonnelDetails}</div>
+                {strings.otherUAVPersonnelDetails}
             </SurgeContentContainer>
-
             <SurgeContentContainer
-                heading={strings.otherUAVstandardComponents}
+                heading={strings.otherUAVStandardComponents}
             >
                 <ul>
                     <li>
-                        {strings.otherUAVstandardComponentsListItemOne}
+                        {strings.otherUAVStandardComponentsListItemOne}
                     </li>
                     <li>
-                        {strings.otherUAVstandardComponentsListItemTwo}
+                        {strings.otherUAVStandardComponentsListItemTwo}
                     </li>
                 </ul>
             </SurgeContentContainer>
-
             <SurgeContentContainer
-                heading={strings.otherUAVspecifications}
+                heading={strings.otherUAVSpecifications}
             >
                 <div>
-                    <strong>{strings.otherUAVcostHeader}</strong>
-                    <br />
-                    {strings.otherUAVcost}
+                    <strong>{strings.otherUAVCostHeader}</strong>
+                    <div>
+                        {strings.otherUAVCost}
+                    </div>
                 </div>
                 <div>
-                    <strong>{strings.otherUAVproviderHeader}</strong>
-                    <br />
-                    {strings.otherUAVprovider}
+                    <strong>{strings.otherUAVProviderHeader}</strong>
+                    <ul>
+                        <li>
+                            {strings.otherUAVProviderAmericalRedCross}
+                        </li>
+                        <li>
+                            {strings.otherUAVProviderItalianRedCross}
+                        </li>
+                    </ul>
                 </div>
             </SurgeContentContainer>
-
             <SurgeContentContainer
                 heading={strings.rapidResponse}
             >
-                <div>
-                    {resolveToComponent(
-                        strings.rapidResponseDetail,
-                        {
-                            link: (
-                                <Link
-                                    href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EVJrxE_3BpxOliHeThEBk_oB3nAcku47-5BxA-sXV2s8YQ"
-                                    external
-                                >
-                                    {strings.otherLink}
-                                </Link>
-                            ),
-                        },
-                    )}
-                </div>
+                {resolveToComponent(
+                    strings.rapidResponseDetail,
+                    {
+                        link: (
+                            <Link
+                                href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EVJrxE_3BpxOliHeThEBk_oB3nAcku47-5BxA-sXV2s8YQ"
+                                external
+                            >
+                                {strings.otherLink}
+                            </Link>
+                        ),
+                    },
+                )}
             </SurgeContentContainer>
         </SurgeCatalogueContainer>
     );
