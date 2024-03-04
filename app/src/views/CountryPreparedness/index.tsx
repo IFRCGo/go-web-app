@@ -51,7 +51,8 @@ import GoSingleFileInput from '#components/domain/GoSingleFileInput';
 import Link from '#components/Link';
 import PerExportModal from '#components/PerExportModal';
 import WikiLink from '#components/WikiLink';
-import useAuth from '#hooks/domain/useAuth';
+import useCountry from '#hooks/domain/useCountry';
+import usePermissions from '#hooks/domain/usePermissions';
 import useRouting from '#hooks/useRouting';
 import {
     type GoApiResponse,
@@ -85,10 +86,17 @@ function primaryRedColorShadeSelector(_: unknown, i: number) {
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const { isAuthenticated } = useAuth();
-
     const strings = useTranslation(i18n);
     const { perId, countryId } = useParams<{ perId: string, countryId: string }>();
+    const { isCountryPerAdmin, isSuperUser, isRegionPerAdmin } = usePermissions();
+
+    const countryDetails = useCountry({ id: Number(countryId) });
+
+    const hasPermission = (
+        isSuperUser
+        || isCountryPerAdmin(Number(countryId))
+        || isRegionPerAdmin(Number(countryDetails?.region))
+    );
 
     const [fileId, setFileId] = useState<number | undefined>();
     const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
@@ -493,7 +501,7 @@ export function Component() {
                     <WikiLink
                         href="user_guide/Preparedness#how-to-use-it"
                     />
-                    {isAuthenticated && (
+                    {hasPermission && (
                         <Button
                             name={undefined}
                             onClick={setShowExportModalTrue}
@@ -746,7 +754,7 @@ export function Component() {
                 className={styles.relevantDocuments}
                 withHeaderBorder
             >
-                {countryId && isAuthenticated && (
+                {countryId && hasPermission && (
                     <InputSection className={styles.uploadInputSection}>
                         <GoSingleFileInput
                             name="country_ns_upload"
