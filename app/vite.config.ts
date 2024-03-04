@@ -60,7 +60,7 @@ export default defineConfig(({ mode }) => {
             strictPort: true,
         },
         build: {
-            outDir: 'build',
+            outDir: '../build',
             sourcemap: isProd,
             rollupOptions: {
                 output: {
