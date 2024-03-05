@@ -5,6 +5,7 @@
     "private": true,
     "scripts": {
         "translatte": "ts-node scripts/translatte/main.ts",
+        "translatte:generate": "yarn translatte generate-migration ../translationMigrations ./src/**/i18n.json ../packages/ui/src/**/i18n.json",
         "initialize:type": "mkdir -p generated/ && yarn initialize:type:go-api && yarn initialize:type:risk-api",
         "initialize:type:go-api": "test -f ./generated/types.ts && true || cp types.stub.ts ./generated/types.ts",
         "initialize:type:risk-api": "test -f ./generated/riskTypes.ts && true || cp types.stub.ts ./generated/riskTypes.ts",
