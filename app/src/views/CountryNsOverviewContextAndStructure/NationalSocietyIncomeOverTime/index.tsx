@@ -103,7 +103,7 @@ function NationalSocietyIncomeOverTime(props: Props) {
                 description={(
                     <TextOutput
                         label={strings.nsIncomeOverTimeTooltipTotalLabel}
-                        value={incomeByYear?.[Number(year)].value}
+                        value={incomeByYear?.[Number(year)]?.value}
                         suffix=" CHF"
                         valueType="number"
                         strongValue
