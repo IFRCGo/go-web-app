@@ -9,6 +9,7 @@ import {
     TextOutput,
     Tooltip,
 } from '@ifrc-go/ui';
+import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     maxSafe,
     minSafe,
@@ -22,6 +23,7 @@ import {
 import useTemporalChartData from '#hooks/useTemporalChartData';
 import { GoApiResponse } from '#utils/restRequest';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 const NUM_Y_AXIS_TICKS = 5;
@@ -34,6 +36,8 @@ function ClimateChart(props: Props) {
     const {
         data,
     } = props;
+
+    const strings = useTranslation(i18n);
 
     const temperatureContainerRef = useRef<HTMLDivElement>(null);
     const precipitationContainerRef = useRef<HTMLDivElement>(null);
@@ -127,20 +131,17 @@ function ClimateChart(props: Props) {
                     description={(
                         <>
                             <TextOutput
-                                // FIXME: use translation
-                                label="Max"
+                                label={strings.climateChartMax}
                                 value={currentData.max_temp}
                                 valueType="number"
                             />
                             <TextOutput
-                                // FIXME: use translation
-                                label="Average"
+                                label={strings.climateChangeAverage}
                                 value={currentData.avg_temp}
                                 valueType="number"
                             />
                             <TextOutput
-                                // FIXME: use translation
-                                label="Min"
+                                label={strings.climateChangeMin}
                                 value={currentData.min_temp}
                                 valueType="number"
                             />
@@ -149,7 +150,12 @@ function ClimateChart(props: Props) {
                 />
             );
         },
-        [dataByMonth],
+        [
+            dataByMonth,
+            strings.climateChartMax,
+            strings.climateChangeAverage,
+            strings.climateChangeMin,
+        ],
     );
 
     const precipitationTooltipSelector = useCallback(
@@ -170,8 +176,7 @@ function ClimateChart(props: Props) {
                     title={currentData.month_display}
                     description={(
                         <TextOutput
-                            // FIXME: use translation
-                            label="Precipitation"
+                            label={strings.climateChangePrecipitation}
                             value={currentData.precipitation}
                             valueType="number"
                         />
@@ -179,7 +184,7 @@ function ClimateChart(props: Props) {
                 />
             );
         },
-        [dataByMonth],
+        [dataByMonth, strings.climateChangePrecipitation],
     );
 
     const barWidth = bound(
@@ -191,14 +196,12 @@ function ClimateChart(props: Props) {
     return (
         <Container
             className={styles.climateChart}
-            // FIXME: use translation
-            heading="Climate chart"
+            heading={strings.climateChangeChart}
             contentViewType="vertical"
             withHeaderBorder
         >
             <Container
-                // FIXME: use translation
-                heading="Temperature"
+                heading={strings.climateChartTemperature}
                 headingLevel={5}
             >
                 <div
@@ -233,8 +236,7 @@ function ClimateChart(props: Props) {
                 </div>
             </Container>
             <Container
-                // FIXME: use translation
-                heading="Precipitation"
+                heading={strings.climateChangePrecipitation}
                 headingLevel={5}
             >
                 <div
@@ -257,8 +259,8 @@ function ClimateChart(props: Props) {
                                     height={(
                                         Math.max(
                                             precipitationChartData.dataAreaSize.height
-                                                - chartPoint.y
-                                                + precipitationChartData.dataAreaOffset.top,
+                                            - chartPoint.y
+                                            + precipitationChartData.dataAreaOffset.top,
                                             0,
                                         )
                                     )}

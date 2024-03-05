@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { Container } from '@ifrc-go/ui';
+import { useTranslation } from '@ifrc-go/ui/hooks';
 import { maxSafe } from '@ifrc-go/ui/utils';
 import {
     isDefined,
@@ -30,6 +31,7 @@ import {
 } from '#utils/constants';
 import { GoApiResponse } from '#utils/restRequest';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 const DEFAULT_MAX_POPULATION = 1000000;
@@ -40,6 +42,8 @@ interface Props {
 
 function PopulatioMap(props: Props) {
     const { data } = props;
+    const strings = useTranslation(i18n);
+
     const countryData = useCountry({ id: data?.id ?? -1 });
 
     const bounds = (isDefined(countryData) && isDefined(countryData.bbox))
@@ -209,8 +213,7 @@ function PopulatioMap(props: Props) {
 
     return (
         <Container
-            // FIXME: use translation
-            heading="Population Map"
+            heading={strings.populationMapTitle}
             className={styles.populationMap}
             withHeaderBorder
         >

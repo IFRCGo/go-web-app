@@ -62,6 +62,7 @@ export function Component() {
                 </Link>
             )}
         >
+            {/* Data is currently under review, it will be include in the next version */}
             {countryResponse?.region === REGION_ASIA && (
                 <CountryNsOrganisationalCapacity />
             )}

@@ -371,8 +371,7 @@ export function Component() {
                     </div>
                     {(isNotDefined(eventTypeGroupedData) || eventTypeGroupedData.length === 0) && (
                         <Message
-                            // FIXME: use translation
-                            title="Data is not available!"
+                            title={strings.seasonalCalenderDataNotAvailable}
                         />
                     )}
                     {eventTypeGroupedData?.map(

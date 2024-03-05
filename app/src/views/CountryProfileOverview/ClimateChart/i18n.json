@@ -1,0 +1,11 @@
+{
+    "namespace": "countryClimateChart",
+    "strings": {
+        "climateChartMax": "Max",
+        "climateChangeAverage": "Average",
+        "climateChangeMin": "Min",
+        "climateChangePrecipitation": "Precipation totals (mm)",
+        "climateChangeChart": "Climate chart (Avg. country values)",
+        "climateChartTemperature": "Average min and max temperature (°C)"
+    }
+}
