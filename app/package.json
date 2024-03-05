@@ -24,7 +24,7 @@
         "lint:js": "eslint src",
         "lint:css": "stylelint \"./src/**/*.css\"",
         "lint:unused": "unimported",
-        "lint:translation": "node ./scripts/translator.js",
+        "lint:translation": "node ./scripts/lint-translations.js",
         "lint": "yarn lint:js && yarn lint:css && yarn lint:unused && yarn lint:translation",
         "test": "vitest",
         "test:coverage": "vitest run --coverage",
