@@ -32,7 +32,6 @@ function SmartNavigate(props: Props) {
             <Navigate
                 to={{
                     pathname: newRoute,
-                    hash: location.hash,
                 }}
                 replace
             />

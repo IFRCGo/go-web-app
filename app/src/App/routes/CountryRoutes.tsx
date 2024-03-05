@@ -34,9 +34,14 @@ const countriesLayout = customWrapRoute({
     },
 });
 
+interface Props {
+    to?: string;
+}
+
 // eslint-disable-next-line react-refresh/only-export-components
-function CountryNavigate() {
+function CountryNavigate(props: Props) {
     // FIXME: this function might not be necessary anymore
+    const { to } = props;
 
     const params = useParams<{ countryId: string }>();
 
@@ -56,12 +61,21 @@ function CountryNavigate() {
         );
     }
 
+    if (to) {
+        return (
+            <Navigate
+                to={generatePath(to, { countryId })}
+                replace
+            />
+        );
+    }
+
     return (
         <SmartNavigate
             to={'ongoing-activities' satisfies DefaultCountriesChild}
             replace
             hashToRouteMap={{
-                '#3w': 'three-w',
+                '#3w': 'three-w', // NOTE: we could use the new routes here too
                 '#operations': 'operations',
                 '#risk-watch': 'risk-watch',
                 '#preparedness': 'preparedness',
@@ -223,7 +237,7 @@ const countryNsOverviewStrategicPriorities = customWrapRoute({
         props: {},
     },
     context: {
-        title: 'Country NS Context and Structure',
+        title: 'Country NS Strategic Priorities',
         visibility: 'anything',
     },
 });
@@ -236,7 +250,7 @@ const countryNsOverviewCapacity = customWrapRoute({
         props: {},
     },
     context: {
-        title: 'Country NS Context and Structure',
+        title: 'Country NS Capacity',
         visibility: 'anything',
     },
 });
@@ -338,51 +352,6 @@ const countryProfileSeasonalRisks = customWrapRoute({
     },
 });
 
-const countryOperations = customWrapRoute({
-    parent: countriesLayout,
-    path: 'ongoing-activities' satisfies DefaultCountriesChild,
-    component: {
-        render: () => import('#views/CountryOperations'),
-        props: {},
-    },
-    context: {
-        title: 'Country Operations',
-        visibility: 'anything',
-    },
-});
-
-type DefaultCountryThreeWChild = 'projects';
-const countriesThreeWLayout = customWrapRoute({
-    parent: countriesLayout,
-    path: 'three-w',
-    forwardPath: 'projects' satisfies DefaultCountryThreeWChild,
-    component: {
-        render: () => import('#views/CountryThreeW'),
-        props: {},
-    },
-    context: {
-        title: 'Country 3W',
-        visibility: 'anything',
-    },
-});
-
-const countryThreeWIndex = customWrapRoute({
-    parent: countriesThreeWLayout,
-    index: true,
-    component: {
-        eagerLoad: true,
-        render: Navigate,
-        props: {
-            to: 'projects' satisfies DefaultCountryThreeWChild,
-            replace: true,
-        },
-    },
-    context: {
-        title: 'Country 3W',
-        visibility: 'anything',
-    },
-});
-
 const countryAdditionalInfo = customWrapRoute({
     parent: countriesLayout,
     path: 'additional-info',
@@ -392,6 +361,103 @@ const countryAdditionalInfo = customWrapRoute({
     },
     context: {
         title: 'Country Additional Info',
+        visibility: 'anything',
+    },
+});
+
+// Redirect routes
+const countryOperations = customWrapRoute({
+    parent: countriesLayout,
+    path: 'operations',
+    component: {
+        eagerLoad: true,
+        render: CountryNavigate,
+        props: {
+            to: countryOngoingActivitiesEmergencies.absolutePath,
+        },
+    },
+    context: {
+        title: 'Country Ongoing Activities Emergencies',
+        visibility: 'anything',
+    },
+});
+
+const countriesThreeW = customWrapRoute({
+    parent: countriesLayout,
+    path: 'three-w',
+    component: {
+        eagerLoad: true,
+        render: CountryNavigate,
+        props: {
+            to: countryOngoingActivitiesThreeWProjects.absolutePath,
+        },
+    },
+    context: {
+        title: 'Country 3W Projects',
+        visibility: 'anything',
+    },
+});
+
+const countriesThreeWProjects = customWrapRoute({
+    parent: countriesLayout,
+    path: 'three-w/projects',
+    component: {
+        eagerLoad: true,
+        render: CountryNavigate,
+        props: {
+            to: countryOngoingActivitiesThreeWProjects.absolutePath,
+        },
+    },
+    context: {
+        title: 'Country 3W Projects',
+        visibility: 'anything',
+    },
+});
+
+const countryRiskWatch = customWrapRoute({
+    parent: countriesLayout,
+    path: 'risk-watch',
+    component: {
+        eagerLoad: true,
+        render: CountryNavigate,
+        props: {
+            to: countryProfileSeasonalRisks.absolutePath,
+        },
+    },
+    context: {
+        title: 'Country Profile Seasonal Risks',
+        visibility: 'anything',
+    },
+});
+
+const countryPreparednessRedirect = customWrapRoute({
+    parent: countriesLayout,
+    path: 'preparedness',
+    component: {
+        eagerLoad: true,
+        render: CountryNavigate,
+        props: {
+            to: countryNsOverviewCapacity.absolutePath,
+        },
+    },
+    context: {
+        title: 'Country NS Capacity',
+        visibility: 'anything',
+    },
+});
+
+const countryPlan = customWrapRoute({
+    parent: countriesLayout,
+    path: 'plan',
+    component: {
+        eagerLoad: true,
+        render: CountryNavigate,
+        props: {
+            to: countryNsOverviewStrategicPriorities.absolutePath,
+        },
+    },
+    context: {
+        title: 'Country NS Strategic Priorities',
         visibility: 'anything',
     },
 });
@@ -423,8 +489,11 @@ export default {
 
     countryAdditionalInfo,
 
-    // TODO: following routes should be removed
+    // Redirects
     countryOperations,
-    countriesThreeWLayout,
-    countryThreeWIndex,
+    countriesThreeW,
+    countriesThreeWProjects,
+    countryRiskWatch,
+    countryPreparednessRedirect,
+    countryPlan,
 };

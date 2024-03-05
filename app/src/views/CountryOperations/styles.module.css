@@ -1,6 +1,0 @@
-.operation-content {
-    display: flex;
-    flex-direction: column;
-    padding: var(--go-ui-spacing-2xl) 0;
-    gap: var(--go-ui-spacing-2xl);
-}
