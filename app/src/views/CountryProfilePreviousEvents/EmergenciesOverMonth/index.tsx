@@ -9,11 +9,13 @@ import {
     TextOutput,
     Tooltip,
 } from '@ifrc-go/ui';
+import { useTranslation } from '@ifrc-go/ui/hooks';
 import { isNotDefined } from '@togglecorp/fujs';
 
 import useTemporalChartData from '#hooks/useTemporalChartData';
 import { useRequest } from '#utils/restRequest';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 interface Props {
@@ -28,6 +30,8 @@ function EmergenciesOverMonth(props: Props) {
         endDate,
         countryId,
     } = props;
+
+    const strings = useTranslation(i18n);
 
     const containerRef = useRef<ElementRef<'div'>>(null);
 
@@ -78,8 +82,7 @@ function EmergenciesOverMonth(props: Props) {
                                     <>
                                         <DateOutput value={dataPoint.originalData.date} />
                                         <TextOutput
-                                            // FIXME: use translation
-                                            label="Targeted population"
+                                            label={strings.emergenciesOverMonthTargetedPopulation}
                                             value={dataPoint.originalData.targeted_population}
                                             valueType="number"
                                         />

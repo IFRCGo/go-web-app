@@ -1,0 +1,8 @@
+{
+    "namespace": "foodInsecurityChart",
+    "strings": {
+        "foodInsecurityChartAverage": "Average for",
+        "foodInsecurityAnalysisDate": "Analysis date",
+        "foodInsecurityPeopleExposed": "People Exposed"
+    }
+}

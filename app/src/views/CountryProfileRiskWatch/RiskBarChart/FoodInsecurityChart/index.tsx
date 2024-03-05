@@ -8,6 +8,7 @@ import {
     TextOutput,
     Tooltip,
 } from '@ifrc-go/ui';
+import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     avgSafe,
     getDiscretePathDataList,
@@ -23,6 +24,7 @@ import useTemporalChartData from '#hooks/useTemporalChartData';
 import { getPrioritizedIpcData } from '#utils/domain/risk';
 import { type RiskApiResponse } from '#utils/restRequest';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type CountryRiskResponse = RiskApiResponse<'/api/v1/country-seasonal/'>;
@@ -62,6 +64,7 @@ function FiChartPoint(props: FiChartPointProps) {
             originalData,
         },
     } = props;
+    const strings = useTranslation(i18n);
 
     const title = useMemo(
         () => {
@@ -85,10 +88,9 @@ function FiChartPoint(props: FiChartPointProps) {
                 { month: 'long' },
             );
 
-            // FIXME: use translations
-            return `Average for ${formattedMonth}`;
+            return `${strings.foodInsecurityChartAverage} ${formattedMonth}`;
         },
-        [originalData],
+        [originalData, strings.foodInsecurityChartAverage],
     );
 
     return (
@@ -103,15 +105,13 @@ function FiChartPoint(props: FiChartPointProps) {
                     <>
                         {isDefined(originalData.analysis_date) && (
                             <TextOutput
-                                // FIXME: use translations
-                                label="Analysis date"
+                                label={strings.foodInsecurityAnalysisDate}
                                 value={originalData.analysis_date}
                                 valueType="date"
                             />
                         )}
                         <TextOutput
-                            // FIXME: use translations
-                            label="People Exposed"
+                            label={strings.foodInsecurityPeopleExposed}
                             value={originalData.total_displacement}
                             valueType="number"
                             maximumFractionDigits={0}

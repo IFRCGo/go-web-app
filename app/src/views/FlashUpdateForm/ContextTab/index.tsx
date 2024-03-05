@@ -187,7 +187,7 @@ function ContextTab(props: Props) {
                     name="hazard_type"
                     value={value.hazard_type}
                     // FIXME: use translations
-                    label="Disaster Type"
+                    label={strings.flashUpdateDisasterType}
                     onChange={onValueChange}
                     disabled={disabled}
                     // withAsterisk

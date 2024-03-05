@@ -32,7 +32,9 @@
         "summaryLabel": "Title",
         "fieldReportFormContextTitle": "Context",
         "fieldReportFormSearchTitle": "Search for existing emergency",
-        "fieldReportFormSearchDescription": "Type the name of the country you want to report on in the box above to begin the search."
+        "fieldReportFormSearchDescription": "Type the name of the country you want to report on in the box above to begin the search.",
+        "fieldPrefix": "Prefix",
+        "fieldReportFormSuffix": "Suffix"
     }
 }
 

@@ -10,6 +10,7 @@ import {
     TextOutput,
     Tooltip,
 } from '@ifrc-go/ui';
+import { useTranslation } from '@ifrc-go/ui/hooks';
 import { getPercentage } from '@ifrc-go/ui/utils';
 import {
     _cs,
@@ -20,6 +21,7 @@ import useTemporalChartData from '#hooks/useTemporalChartData';
 import { DEFAULT_Y_AXIS_WIDTH_WITH_LABEL } from '#utils/constants';
 import { useRequest } from '#utils/restRequest';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 interface Props {
@@ -37,6 +39,7 @@ function PastEventsChart(props: Props) {
         endDate,
     } = props;
 
+    const strings = useTranslation(i18n);
     const containerRef = useRef<ElementRef<'div'>>(null);
 
     const {
@@ -68,8 +71,7 @@ function PastEventsChart(props: Props) {
 
     return (
         <Container
-            // FIXME: use translations
-            heading="Past events"
+            heading={strings.pastEventsChartEvents}
             className={_cs(styles.pastEventsChart, className)}
             withHeaderBorder
         >
@@ -80,7 +82,7 @@ function PastEventsChart(props: Props) {
                 <svg className={styles.svg}>
                     <ChartAxes
                         chartData={chartData}
-                        yAxisLabel="People Exposed / Affected"
+                        yAxisLabel={strings.pastEventsPeopleExposed}
                     />
                     {chartData.chartPoints.map(
                         (chartPoint) => (
@@ -100,20 +102,17 @@ function PastEventsChart(props: Props) {
                                                 format="yyyy MMM"
                                             />
                                             <TextOutput
-                                                // FIXME: use translations
-                                                label="Targeted population"
+                                                label={strings.pastEventsTargetedPopulation}
                                                 value={chartPoint.originalData.targeted_population}
                                                 valueType="number"
                                             />
                                             <TextOutput
-                                                // FIXME: use translations
-                                                label="Amount requested"
+                                                label={strings.pastEventsAmountRequested}
                                                 value={chartPoint.originalData.amount_requested}
                                                 valueType="number"
                                             />
                                             <TextOutput
-                                                // FIXME: use translations
-                                                label="Amount funded"
+                                                label={strings.pastEventsAmountFunded}
                                                 value={getPercentage(
                                                     chartPoint.originalData.amount_funded,
                                                     chartPoint.originalData.amount_requested,

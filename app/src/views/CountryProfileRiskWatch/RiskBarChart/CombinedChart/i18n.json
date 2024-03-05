@@ -6,6 +6,7 @@
         "riskBarChartLowLabel": "Low",
         "riskBarChartMediumLabel": "Medium",
         "riskBarChartHighLabel": "High",
-        "riskBarChartVeryHighLabel": "Very high"
+        "riskVeryHighLabel": "Very high",
+        "riskScoreLabel": "Risk score"
     }
 }

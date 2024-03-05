@@ -303,8 +303,7 @@ function ContextFields(props: Props) {
             >
                 {prefixVisible && (
                     <TextInput
-                        // FIXME: use translations
-                        label={summaryVisible ? 'Prefix' : strings.titleSecondaryLabel}
+                        label={summaryVisible ? strings.fieldPrefix : strings.titleSecondaryLabel}
                         name={undefined}
                         value={titlePrefix}
                         // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -326,8 +325,7 @@ function ContextFields(props: Props) {
                 )}
                 {suffixVisible && (
                     <TextInput
-                        // FIXME: use translations
-                        label="Suffix"
+                        label={strings.fieldReportFormSuffix}
                         name={undefined}
                         value={titleSuffix}
                         // eslint-disable-next-line @typescript-eslint/no-empty-function

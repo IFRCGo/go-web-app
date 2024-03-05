@@ -90,14 +90,14 @@ function CombinedChart(props: Props) {
             [CATEGORY_RISK_LOW]: strings.riskBarChartLowLabel,
             [CATEGORY_RISK_MEDIUM]: strings.riskBarChartMediumLabel,
             [CATEGORY_RISK_HIGH]: strings.riskBarChartHighLabel,
-            [CATEGORY_RISK_VERY_HIGH]: strings.riskBarChartVeryHighLabel,
+            [CATEGORY_RISK_VERY_HIGH]: strings.riskVeryHighLabel,
         }),
         [
             strings.riskBarChartVeryLowLabel,
             strings.riskBarChartLowLabel,
             strings.riskBarChartMediumLabel,
             strings.riskBarChartHighLabel,
-            strings.riskBarChartVeryHighLabel,
+            strings.riskVeryHighLabel,
         ],
     );
 
@@ -309,8 +309,7 @@ function CombinedChart(props: Props) {
                                                         {datum.originalData.date.toLocaleDateString('default', { month: 'long' })}
                                                         {selectedRiskMetricDetail.key === 'riskScore' ? (
                                                             <TextOutput
-                                                                // FIXME: use strings
-                                                                label="Risk score"
+                                                                label={strings.riskScoreLabel}
                                                                 // eslint-disable-next-line max-len
                                                                 value={riskCategoryToLabelMap[value]}
                                                                 strongValue
