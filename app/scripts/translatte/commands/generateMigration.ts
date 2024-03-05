@@ -128,7 +128,7 @@ function generateMigration(
 async function generate(
     projectPath: string,
     migrationFilePath: string,
-    translationFileName: string,
+    translationFileName: string | string[],
     timestamp: number,
     dryRun: boolean | undefined,
 ) {
@@ -154,7 +154,10 @@ async function generate(
         }
     });
 
-    const translationFiles = await getTranslationFileNames(projectPath, [translationFileName]);
+    const translationFiles = await getTranslationFileNames(
+        projectPath,
+        Array.isArray(translationFileName) ? translationFileName : [translationFileName],
+    );
     const translations = await readTranslations(translationFiles);
     const fileState = translations.map((item) => ({
         ...item,
@@ -172,7 +175,7 @@ async function generate(
     const lastMigration = migrationFilesAttrs[migrationFilesAttrs.length - 1];
 
     const migrationContent: MigrationFileContent = {
-        parent: lastMigration.migrationName,
+        parent: lastMigration?.migrationName,
         actions: migrationActionItems,
     }
 
