@@ -277,6 +277,8 @@ const schema: DrefFormSchema = {
             'event_description',
             'images_file',
             'source_information',
+            'threshold_for_early_action',
+            'lead_time_for_early_action',
         ] as const;
         type EventDetailDrefTypeRelatedFields = Pick<
             DrefFormSchemaFields,
@@ -304,6 +306,8 @@ const schema: DrefFormSchema = {
                     event_date: { forceValue: nullValue },
                     event_description: { forceValue: nullValue },
                     images_file: { forceValue: [] },
+                    threshold_for_early_action: { forceValue: nullValue },
+                    lead_time_for_early_action: { forceValue: nullValue },
                 };
 
                 if (
@@ -328,6 +332,8 @@ const schema: DrefFormSchema = {
                         event_text: { validations: [max500CharCondition] },
                         anticipatory_actions: {},
                         supporting_document: {},
+                        threshold_for_early_action: {},
+                        lead_time_for_early_action: {},
                     };
                 } else {
                     conditionalFields = {

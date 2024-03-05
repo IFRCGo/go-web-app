@@ -374,20 +374,79 @@ function EventDetail(props: Props) {
                     </InputSection>
                 )}
                 {value.type_of_dref === TYPE_IMMINENT && (
+                    <>
+                        <InputSection
+                            title={strings.drefFormTargetCommunities}
+                            description={strings.drefFormTargetCommunitiesDescription}
+                        >
+                            <TextArea
+                                name="anticipatory_actions"
+                                onChange={setFieldValue}
+                                value={value.anticipatory_actions}
+                                error={error?.anticipatory_actions}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                        <InputSection
+                            title={strings.drefFormUploadSupportingDocument}
+                            description={strings.drefFormUploadSupportingDocumentDescription}
+                        >
+                            <GoSingleFileInput
+                                name="supporting_document"
+                                accept=".pdf, .docx, .pptx"
+                                fileIdToUrlMap={fileIdToUrlMap}
+                                onChange={setFieldValue}
+                                url="/api/v2/dref-files/"
+                                value={value.supporting_document}
+                                error={error?.supporting_document}
+                                setFileIdToUrlMap={setFileIdToUrlMap}
+                                clearable
+                                disabled={disabled}
+                            >
+                                {strings.drefFormUploadSupportingDocumentButtonLabel}
+                            </GoSingleFileInput>
+                        </InputSection>
+                        <InputSection
+                            title={strings.drefFormThresholdForEarlyActionLabel}
+                            description={strings.drefFormThresholdForEarlyActionDescription}
+                        >
+                            <TextArea
+                                name="threshold_for_early_action"
+                                onChange={setFieldValue}
+                                value={value.threshold_for_early_action}
+                                error={error?.threshold_for_early_action}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                        <InputSection
+                            title={strings.drefFormLeadTimeForEarlyActionLabel}
+                            description={strings.drefFormLeadTimeForEarlyActionDescription}
+                        >
+                            <TextArea
+                                name="lead_time_for_early_action"
+                                onChange={setFieldValue}
+                                value={value.lead_time_for_early_action}
+                                error={error?.lead_time_for_early_action}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                    </>
+                )}
+                {value.type_of_dref !== TYPE_ASSESSMENT && value.type_of_dref !== TYPE_LOAN && (
                     <InputSection
-                        title={strings.drefFormTargetCommunities}
-                        description={strings.drefFormTargetCommunitiesDescription}
+                        title={strings.drefFormScopeAndScaleEvent}
+                        description={strings.drefFormScopeAndScaleDescription}
                     >
                         <TextArea
-                            name="anticipatory_actions"
+                            name="event_scope"
                             onChange={setFieldValue}
-                            value={value.anticipatory_actions}
-                            error={error?.anticipatory_actions}
+                            value={value.event_scope}
+                            error={error?.event_scope}
                             disabled={disabled}
                         />
                     </InputSection>
                 )}
-                {value.type_of_dref === TYPE_IMMINENT && (
+                {value.type_of_dref !== TYPE_LOAN && (
                     <>
                         <InputSection
                             title={strings.drefFormUploadSupportingDocument}
