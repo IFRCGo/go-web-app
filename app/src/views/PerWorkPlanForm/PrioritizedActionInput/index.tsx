@@ -68,6 +68,7 @@ function PrioritizedActionInput(props: Props) {
     const { per_workplanstatus, per_supported_by_organization_type } = useGlobalEnums();
     const strings = useTranslation(i18n);
     const error = getErrorObject(formError);
+
     const onFieldChange = useFormObject(
         index,
         onChange,
@@ -79,11 +80,17 @@ function PrioritizedActionInput(props: Props) {
     const handleOrganizationTypeChange = useCallback((
         organizationType: PerWorkPlanOrganizationTypeOption['key'] | undefined,
     ) => {
-        onFieldChange(organizationType, 'supported_by_organization_type' as const);
-        if (organizationType !== NATIONAL_SOCIETY) {
-            onFieldChange(undefined, 'supported_by');
+        if (organizationType === NATIONAL_SOCIETY) {
+            onFieldChange(organizationType, 'supported_by_organization_type');
+        } else {
+            onChange((oldValue) => ({
+                component: component.id,
+                ...oldValue,
+                supported_by_organization_type: organizationType,
+                supported_by: undefined,
+            }), index);
         }
-    }, [onFieldChange]);
+    }, [onFieldChange, onChange, component.id, index]);
 
     return (
         <Container
