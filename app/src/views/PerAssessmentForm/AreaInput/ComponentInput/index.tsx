@@ -167,6 +167,180 @@ function ComponentInput(props: Props) {
         return null;
     }
 
+    const innerComponent = (
+        <>
+            <NonFieldError error={error} />
+            <NonFieldError error={questionInputError} />
+            {
+                isDefined(currentQuestionGroupByComponent) && currentQuestionGroupByComponent?.map(
+                    (group) => {
+                        const currentQuestions = groupedQuestions[group.id];
+                        if (isNotDefined(currentQuestions)) {
+                            return null;
+                        }
+                        return (
+                            <Container
+                                key={group.id}
+                                heading={group.title}
+                                headerDescription={group.description}
+                                withHeaderBorder
+                                childrenContainerClassName={styles.questionList}
+                            >
+                                {currentQuestions?.map((question) => {
+                                    if (isNotDefined(question.question_num)) {
+                                        return null;
+                                    }
+
+                                    return (
+                                        <QuestionInput
+                                            componentNumber={componentNumber}
+                                            key={question.id}
+                                            question={question}
+                                            index={questionResponseMapping[question.id]?.index}
+                                            value={questionResponseMapping[question.id]?.value}
+                                            error={questionInputError?.[question.id]}
+                                            onChange={setQuestionValue}
+                                            disabled={disabled}
+                                            readOnly={readOnly}
+                                        />
+                                    );
+                                })}
+                            </Container>
+                        );
+                    },
+                )
+            }
+            {
+                isNotDefined(currentQuestionGroupByComponent) && questions?.map((question) => {
+                    if (isNotDefined(question.question_num)) {
+                        return null;
+                    }
+
+                    return (
+                        <QuestionInput
+                            componentNumber={componentNumber}
+                            key={question.id}
+                            question={question}
+                            index={questionResponseMapping[question.id]?.index}
+                            value={questionResponseMapping[question.id]?.value}
+                            error={questionInputError?.[question.id]}
+                            onChange={setQuestionValue}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                        />
+                    );
+                })
+            }
+            {
+                !isParentComponent && (
+                    <TextArea
+                        label={strings.notes}
+                        name="notes"
+                        value={value?.notes}
+                        error={error?.notes}
+                        onChange={setFieldValue}
+                        disabled={disabled}
+                        readOnly={readOnly}
+                    />
+                )
+            }
+            {
+                epi_considerations && (
+                    <InputSection
+                        title={strings.epiConsiderationTitle}
+                        description={(
+                            <ul className={styles.description}>
+                                <li>
+                                    {strings.epiConsiderationDescriptionOne}
+                                </li>
+                                <li>
+                                    {strings.epiConsiderationDescriptionTwo}
+                                </li>
+                            </ul>
+                        )}
+                    >
+                        <TextArea
+                            name="epi_considerations"
+                            value={value?.epi_considerations}
+                            error={error?.epi_considerations}
+                            onChange={setFieldValue}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                        />
+                    </InputSection>
+                )
+            }
+            {
+                urban_considerations && (
+                    <InputSection
+                        title={strings.urbanConsiderationTitle}
+                        description={strings.urbanConsiderationDescription}
+                    >
+                        <TextArea
+                            name="urban_considerations"
+                            value={value?.urban_considerations}
+                            error={error?.urban_considerations}
+                            onChange={setFieldValue}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                        />
+                    </InputSection>
+                )
+            }
+            {
+                climate_environmental_considerations && (
+                    <InputSection
+                        title={strings.environmentConsiderationTitle}
+                        description={(
+                            <ul className={styles.description}>
+                                <li>
+                                    {strings.environmentConsiderationDescriptionOne}
+                                </li>
+                                <li>
+                                    {strings.environmentConsiderationDescriptionTwo}
+                                </li>
+                            </ul>
+                        )}
+                    >
+                        <TextArea
+                            name="climate_environmental_considerations"
+                            value={value?.climate_environmental_considerations}
+                            error={error?.climate_environmental_considerations}
+                            onChange={setFieldValue}
+                            disabled={disabled}
+                            readOnly={readOnly}
+                        />
+                    </InputSection>
+                )
+            }
+        </>
+    );
+
+    if (isParentComponent) {
+        return (
+            <Container
+                className={_cs(
+                    styles.nonExpandableComponentInput,
+                    styles.componentInput,
+                    className,
+                )}
+                key={component.id}
+                heading={isTruthyString(component.component_letter)
+                    ? `${component.component_num}(${component.component_letter}). ${component.title}`
+                    : `${component.component_num}. ${component.title}`}
+                childrenContainerClassName={styles.questionList}
+                headerDescription={component.description}
+                headingClassName={styles.heading}
+                withInternalPadding
+                withoutWrapInHeading
+                spacing="comfortable"
+                headingDescriptionContainerClassName={styles.statusSelectionContainer}
+            >
+                {innerComponent}
+            </Container>
+        );
+    }
+
     return (
         <ExpandableContainer
             className={_cs(styles.componentInput, className)}
@@ -180,161 +354,27 @@ function ComponentInput(props: Props) {
             headingClassName={styles.heading}
             spacing="comfortable"
             headingDescriptionContainerClassName={styles.statusSelectionContainer}
-            isParent={!isParentComponent ?? false}
             headingDescription={(
-                !isParentComponent && (
-                    <SelectInput
-                        readOnly={readOnly}
-                        className={styles.statusSelection}
-                        name="rating"
-                        value={value?.rating}
-                        error={error?.rating}
-                        onChange={setFieldValue}
-                        placeholder={readOnly
-                            ? strings.placeholderReviewedRating
-                            : strings.placeholderSelectRating}
-                        options={ratingOptions}
-                        disabled={disabled}
-                        keySelector={numericIdSelector}
-                        labelSelector={ratingLabelSelector}
-                    />
-                )
+                <SelectInput
+                    readOnly={readOnly}
+                    className={styles.statusSelection}
+                    name="rating"
+                    value={value?.rating}
+                    error={error?.rating}
+                    onChange={setFieldValue}
+                    placeholder={readOnly
+                        ? strings.placeholderReviewedRating
+                        : strings.placeholderSelectRating}
+                    options={ratingOptions}
+                    disabled={disabled}
+                    keySelector={numericIdSelector}
+                    labelSelector={ratingLabelSelector}
+                />
             )}
             showExpandButtonAtBottom
             initiallyExpanded
         >
-            <NonFieldError error={error} />
-            <NonFieldError error={questionInputError} />
-            {isDefined(currentQuestionGroupByComponent) && currentQuestionGroupByComponent?.map(
-                (group) => {
-                    const currentQuestions = groupedQuestions[group.id];
-                    if (isNotDefined(currentQuestions)) {
-                        return null;
-                    }
-                    return (
-                        <Container
-                            key={group.id}
-                            heading={group.title}
-                            headerDescription={group.description}
-                            withHeaderBorder
-                            childrenContainerClassName={styles.questionList}
-                        >
-                            {currentQuestions?.map((question) => {
-                                if (isNotDefined(question.question_num)) {
-                                    return null;
-                                }
-
-                                return (
-                                    <QuestionInput
-                                        componentNumber={componentNumber}
-                                        key={question.id}
-                                        question={question}
-                                        index={questionResponseMapping[question.id]?.index}
-                                        value={questionResponseMapping[question.id]?.value}
-                                        error={questionInputError?.[question.id]}
-                                        onChange={setQuestionValue}
-                                        disabled={disabled}
-                                        readOnly={readOnly}
-                                    />
-                                );
-                            })}
-                        </Container>
-                    );
-                },
-            )}
-            {isNotDefined(currentQuestionGroupByComponent) && questions?.map((question) => {
-                if (isNotDefined(question.question_num)) {
-                    return null;
-                }
-
-                return (
-                    <QuestionInput
-                        componentNumber={componentNumber}
-                        key={question.id}
-                        question={question}
-                        index={questionResponseMapping[question.id]?.index}
-                        value={questionResponseMapping[question.id]?.value}
-                        error={questionInputError?.[question.id]}
-                        onChange={setQuestionValue}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                    />
-                );
-            })}
-            {!isParentComponent && (
-                <TextArea
-                    label={strings.notes}
-                    name="notes"
-                    value={value?.notes}
-                    error={error?.notes}
-                    onChange={setFieldValue}
-                    disabled={disabled}
-                    readOnly={readOnly}
-                />
-            )}
-            {epi_considerations && (
-                <InputSection
-                    title={strings.epiConsiderationTitle}
-                    description={(
-                        <ul className={styles.description}>
-                            <li>
-                                {strings.epiConsiderationDescriptionOne}
-                            </li>
-                            <li>
-                                {strings.epiConsiderationDescriptionTwo}
-                            </li>
-                        </ul>
-                    )}
-                >
-                    <TextArea
-                        name="epi_considerations"
-                        value={value?.epi_considerations}
-                        error={error?.epi_considerations}
-                        onChange={setFieldValue}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                    />
-                </InputSection>
-            )}
-            {urban_considerations && (
-                <InputSection
-                    title={strings.urbanConsiderationTitle}
-                    description={strings.urbanConsiderationDescription}
-                >
-                    <TextArea
-                        name="urban_considerations"
-                        value={value?.urban_considerations}
-                        error={error?.urban_considerations}
-                        onChange={setFieldValue}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                    />
-                </InputSection>
-            )}
-            {climate_environmental_considerations && (
-                <InputSection
-                    title={strings.environmentConsiderationTitle}
-                    description={(
-                        <ul className={styles.description}>
-                            <li>
-                                {strings.environmentConsiderationDescriptionOne}
-                            </li>
-                            <li>
-                                {strings.environmentConsiderationDescriptionTwo}
-                            </li>
-                        </ul>
-                    )}
-                >
-                    <TextArea
-                        name="climate_environmental_considerations"
-                        value={value?.climate_environmental_considerations}
-                        error={error?.climate_environmental_considerations}
-                        onChange={setFieldValue}
-                        disabled={disabled}
-                        readOnly={readOnly}
-                    />
-                </InputSection>
-            )}
+            {innerComponent}
         </ExpandableContainer>
     );
 }
