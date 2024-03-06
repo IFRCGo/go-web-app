@@ -271,6 +271,56 @@ function Actions(props: Props) {
                         disabled={disabled}
                     />
                 ))}
+                {value.type_of_dref === TYPE_IMMINENT && (
+                    <>
+                        <InputSection
+                            title={strings.drefFormNSMandateLabel}
+                            description={strings.drefFormNSMandateDescription}
+                        >
+                            <TextArea
+                                name="ns_mandate"
+                                value={value.ns_mandate}
+                                onChange={setFieldValue}
+                                error={error?.ns_mandate}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                        <InputSection
+                            title={strings.drefFormNSEapsLabel}
+                            description={strings.drefFormNSEapsDescription}
+                        >
+                            <TextArea
+                                name="ns_eaps"
+                                value={value.ns_eaps}
+                                onChange={setFieldValue}
+                                error={error?.ns_eaps}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                        <InputSection
+                            title={strings.drefFormNSMitigatingMeasuresLabel}
+                        >
+                            <TextArea
+                                name="ns_mitigating_measures"
+                                value={value.ns_mitigating_measures}
+                                onChange={setFieldValue}
+                                error={error?.ns_mitigating_measures}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                        <InputSection
+                            title={strings.drefFormNsDisasterRiskReductionLabel}
+                        >
+                            <TextArea
+                                name="ns_disaster_risk_reduction"
+                                value={value.ns_disaster_risk_reduction}
+                                onChange={setFieldValue}
+                                error={error?.ns_disaster_risk_reduction}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                    </>
+                )}
             </Container>
             <Container
                 heading={strings.ifrcNetworkActionsHeading}
@@ -359,6 +409,34 @@ function Actions(props: Props) {
                         disabled={disabled}
                     />
                 </InputSection>
+                {value.type_of_dref === TYPE_IMMINENT && (
+                    <InputSection
+                        title={strings.drefFormAnyOtherActorLabel}
+                        description={strings.drefFormAnyOtherActorDescription}
+                    >
+                        <TextArea
+                            name="any_other_actor"
+                            onChange={setFieldValue}
+                            value={value.any_other_actor}
+                            error={error?.any_other_actor}
+                            disabled={disabled}
+                        />
+                        <GoSingleFileInput
+                            name="other_actor_file_details"
+                            accept=".pdf, .docx, .pptx"
+                            fileIdToUrlMap={fileIdToUrlMap}
+                            onChange={setFieldValue}
+                            url="/api/v2/dref-files/"
+                            value={value.other_actor_file_details}
+                            error={error?.other_actor_file_details}
+                            setFileIdToUrlMap={setFileIdToUrlMap}
+                            clearable
+                            disabled={disabled}
+                        >
+                            {strings.drefFormUploadOtherActorFileDetailsButtonLabel}
+                        </GoSingleFileInput>
+                    </InputSection>
+                )}
                 <InputSection
                     title={strings.drefFormCoordinationMechanism}
                 >

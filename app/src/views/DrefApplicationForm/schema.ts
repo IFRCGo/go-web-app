@@ -279,6 +279,12 @@ const schema: DrefFormSchema = {
             'source_information',
             'threshold_for_early_action',
             'lead_time_for_early_action',
+            'ns_mandate',
+            'ns_eaps',
+            'ns_mitigating_measures',
+            'ns_disaster_risk_reduction',
+            'any_other_actor',
+            'other_actor_file_details',
         ] as const;
         type EventDetailDrefTypeRelatedFields = Pick<
             DrefFormSchemaFields,
@@ -308,6 +314,12 @@ const schema: DrefFormSchema = {
                     images_file: { forceValue: [] },
                     threshold_for_early_action: { forceValue: nullValue },
                     lead_time_for_early_action: { forceValue: nullValue },
+                    ns_mandate: { forceValue: nullValue },
+                    ns_eaps: { forceValue: nullValue },
+                    ns_mitigating_measures: { forceValue: nullValue },
+                    ns_disaster_risk_reduction: { forceValue: nullValue },
+                    any_other_actor: { forceValue: nullValue },
+                    other_actor_file_details: { forceValue: [] },
                 };
 
                 if (
@@ -334,6 +346,12 @@ const schema: DrefFormSchema = {
                         supporting_document: {},
                         threshold_for_early_action: {},
                         lead_time_for_early_action: {},
+                        ns_mandate: {},
+                        ns_eaps: {},
+                        ns_mitigating_measures: {},
+                        ns_disaster_risk_reduction: {},
+                        any_other_actor: {},
+                        other_actor_file_details: {},
                     };
                 } else {
                     conditionalFields = {
@@ -689,36 +707,76 @@ const schema: DrefFormSchema = {
                     planned_interventions: {
                         keySelector: (n) => n.client_id,
                         member: () => ({
-                            fields: (): PlannedInterventionFields => ({
-                                client_id: {},
-                                title: {
-                                    required: true,
-                                    requiredValidation: requiredStringCondition,
-                                },
-                                budget: {
-                                    validations: [
-                                        positiveIntegerCondition,
-                                        lessThanOrEqualToCondition(MAX_INT_LIMIT),
-                                    ],
-                                },
-                                person_targeted: {
-                                    validations: [
-                                        positiveIntegerCondition,
-                                        lessThanOrEqualToCondition(MAX_INT_LIMIT),
-                                    ],
-                                },
-                                description: {},
-                                indicators: {
-                                    keySelector: (indicator) => indicator.client_id,
-                                    member: () => ({
-                                        fields: (): IndicatorFields => ({
-                                            client_id: {},
-                                            title: {},
-                                            target: { validations: [positiveNumberCondition] },
+                            fields: (plannedInterventionFormValue): PlannedInterventionFields => {
+                                let plannedInterventionFields: PlannedInterventionFields = {
+                                    client_id: {},
+                                    title: {
+                                        required: true,
+                                        requiredValidation: requiredStringCondition,
+                                    },
+                                    budget: {
+                                        validations: [
+                                            positiveIntegerCondition,
+                                            lessThanOrEqualToCondition(MAX_INT_LIMIT),
+                                        ],
+                                    },
+                                    person_targeted: {
+                                        validations: [
+                                            positiveIntegerCondition,
+                                            lessThanOrEqualToCondition(MAX_INT_LIMIT),
+                                        ],
+                                    },
+                                    description: {},
+                                    indicators: {
+                                        keySelector: (indicator) => indicator.client_id,
+                                        member: () => ({
+                                            fields: (): IndicatorFields => ({
+                                                client_id: {},
+                                                title: {},
+                                                target: { validations: [positiveNumberCondition] },
+                                            }),
                                         }),
-                                    }),
-                                },
-                            }),
+                                    },
+                                };
+
+                                const plannedInterventionConditionFields = [
+                                    'people_targeted_by_early_action',
+                                    'people_targeted_by_immediate_response',
+                                ] as const;
+                                type PlannedInterventionConditionFields = Pick<
+                                PlannedInterventionFields,
+                                typeof plannedInterventionConditionFields[number]
+                                >;
+
+                                plannedInterventionFields = addCondition(
+                                    plannedInterventionFields,
+                                    plannedInterventionFormValue,
+                                    [],
+                                    plannedInterventionConditionFields,
+                                    (): PlannedInterventionConditionFields => {
+                                        let imminentConditionalFields:
+                                            PlannedInterventionConditionFields = {
+                                                people_targeted_by_early_action: {
+                                                    forceValue: nullValue,
+                                                },
+                                                people_targeted_by_immediate_response: {
+                                                    forceValue: nullValue,
+                                                },
+                                            };
+                                        if (val?.type_of_dref === TYPE_IMMINENT) {
+                                            imminentConditionalFields = {
+                                                ...imminentConditionalFields,
+                                                people_targeted_by_immediate_response: {},
+                                                people_targeted_by_early_action: {},
+                                            };
+                                        }
+
+                                        return imminentConditionalFields;
+                                    },
+                                );
+
+                                return plannedInterventionFields;
+                            },
                         }),
                     },
                     human_resource: {},
@@ -783,6 +841,10 @@ const schema: DrefFormSchema = {
             'end_date',
             'publishing_date',
             'glide_code',
+            'ifrc_anticipatory_name',
+            'ifrc_anticipatory_email',
+            'ifrc_anticipatory_title',
+            'ifrc_anticipatory_phone_number',
         ] as const;
         type SubmissionDrefTypeRelatedFields = Pick<
             DrefFormSchemaFields,
@@ -810,7 +872,21 @@ const schema: DrefFormSchema = {
                     end_date: { forceValue: nullValue },
                     publishing_date: { forceValue: nullValue },
                     glide_code: { forceValue: nullValue },
+                    ifrc_anticipatory_name: { forceValue: nullValue },
+                    ifrc_anticipatory_email: { forceValue: nullValue },
+                    ifrc_anticipatory_title: { forceValue: nullValue },
+                    ifrc_anticipatory_phone_number: { forceValue: nullValue },
                 };
+
+                if (val?.type_of_dref === TYPE_IMMINENT) {
+                    return {
+                        ...baseSubmissionFields,
+                        ifrc_anticipatory_phone_number: {},
+                        ifrc_anticipatory_title: {},
+                        ifrc_anticipatory_email: {},
+                        ifrc_anticipatory_name: {},
+                    };
+                }
 
                 if (val?.type_of_dref !== TYPE_LOAN) {
                     return {

@@ -3,6 +3,8 @@
     "strings": {
         "drefFormInterventionBudgetLabel": "Budget",
         "drefFormInterventionPersonTargetedLabel": "Persons Targeted",
+        "drefFormPeopleTargetedEarlyActionLabel": "People targeted by early actions",
+        "drefFormPeopleTargetedImmediateResponse": "People targeted by immediate response",
         "drefFormListOfActivities": "List of Activities",
         "drefAddIndicatorButtonLabel": "Add Indicator",
         "drefFormIndicatorsLabel": "Indicators",
