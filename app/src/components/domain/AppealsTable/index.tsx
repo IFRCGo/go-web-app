@@ -173,7 +173,6 @@ function AppealsTable(props: Props) {
             createProgressColumn<AppealListItem, string>(
                 'amount_funded',
                 strings.appealsTableFundedAmount,
-                // FIXME: use progress function
                 (item) => (
                     getPercentage(
                         item.amount_funded,

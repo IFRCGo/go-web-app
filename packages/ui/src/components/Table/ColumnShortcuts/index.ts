@@ -84,7 +84,7 @@ export function createBooleanColumn<D, K>(
 export function createProgressColumn<D, K>(
     id: string,
     title: string,
-    accessor: (item: D) => number,
+    accessor: (item: D) => number | undefined,
     options?: Options<D, K, ProgressBarProps, HeaderCellProps>,
 ) {
     const item: Column<D, K, ProgressBarProps, HeaderCellProps> & {

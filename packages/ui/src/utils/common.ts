@@ -82,11 +82,40 @@ export function roundSafe(value: number | undefined | null): number | undefined 
 }
 
 export function getPercentage(
+    value: null | undefined,
+    total: null | undefined,
+    isBounded?: boolean,
+): undefined
+export function getPercentage(
+    value: number,
+    total: null | undefined,
+    isBounded?: boolean,
+): undefined
+export function getPercentage(
+    value: null | undefined,
+    total: number,
+    isBounded?: boolean,
+): undefined
+export function getPercentage(
+    value: number,
+    total: number,
+    isBounded?: boolean,
+): number
+export function getPercentage(
+    value: number | null | undefined,
+    total: number | null | undefined,
+    isBounded?: boolean,
+): number | undefined
+export function getPercentage(
     value: number | null | undefined,
     total: number | null | undefined,
     isBounded = true,
 ) {
-    if (isNotDefined(value) || isNotDefined(total) || total === 0) {
+    if (isNotDefined(value) || isNotDefined(total)) {
+        return undefined;
+    }
+
+    if (total === 0) {
         return 0;
     }
 
