@@ -479,7 +479,7 @@ export function Component() {
                             urlSearch={`country=${countryResponse?.id}`}
                             withLinkIcon
                         >
-                            {strings.viewAllOngoingProjects}
+                            {strings.viewAllProjects}
                         </Link>
                     </>
                 )}

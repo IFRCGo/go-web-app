@@ -379,7 +379,7 @@ function GlobalThreeWMap(props: Props) {
                     onCloseButtonClick={handlePointClose}
                     heading={(
                         <Link
-                            to="countriesThreeWLayout"
+                            to="countryOngoingActivitiesThreeWProjects"
                             urlParams={{
                                 countryId: clickedPointProperties
                                     .countryId,

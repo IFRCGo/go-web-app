@@ -257,7 +257,7 @@ function MovementActivitiesMap(props: Props) {
                             headingLevel={5}
                             heading={(
                                 <Link
-                                    to="countriesLayout"
+                                    to="countryOngoingActivitiesThreeWProjects"
                                     urlParams={{ countryId: clickedPointProperties.countryId }}
                                     withUnderline
                                 >

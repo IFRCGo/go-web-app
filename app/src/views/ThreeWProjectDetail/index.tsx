@@ -159,7 +159,7 @@ export function Component() {
                             value={(
                                 <Link
                                     withUnderline
-                                    to="countriesThreeWLayout"
+                                    to="countryOngoingActivitiesThreeWProjects"
                                     urlParams={{
                                         countryId: projectResponse?.project_country_detail.id,
                                     }}

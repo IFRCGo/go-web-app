@@ -193,7 +193,7 @@ export function Component() {
         title: (
             <div className={styles.countrySectorTitle}>
                 <Link
-                    to="countryThreeWIndex"
+                    to="countryOngoingActivitiesThreeWProjects"
                     urlParams={{ countryId: country.id }}
                 >
                     {country.name}
