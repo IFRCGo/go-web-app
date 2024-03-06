@@ -566,6 +566,7 @@ function Operation(props: Props) {
                         key={intervention.client_id}
                         index={i}
                         value={intervention}
+                        drefType={value.type_of_dref}
                         onChange={onInterventionChange}
                         onRemove={onInterventionRemove}
                         error={getErrorObject(error?.planned_interventions)}

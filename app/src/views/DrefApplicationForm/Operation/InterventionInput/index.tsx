@@ -22,6 +22,7 @@ import {
 } from '@togglecorp/toggle-form';
 
 import NonFieldError from '#components/NonFieldError';
+import { TYPE_IMMINENT } from '#views/DrefApplicationForm/common';
 
 import { type PartialDref } from '../../schema';
 import IndicatorInput from './IndicatorInput';
@@ -47,6 +48,7 @@ interface Props {
     index: number;
     titleMap: Record<string, string> | undefined;
     disabled?: boolean;
+    drefType: number | undefined;
 }
 
 function InterventionInput(props: Props) {
@@ -58,6 +60,7 @@ function InterventionInput(props: Props) {
         onRemove,
         titleMap,
         disabled,
+        drefType,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -111,6 +114,26 @@ function InterventionInput(props: Props) {
                         error={error?.budget}
                         disabled={disabled}
                     />
+                    {drefType === TYPE_IMMINENT && (
+                        <>
+                            <NumberInput
+                                label={strings.drefFormPeopleTargetedEarlyActionLabel}
+                                name="people_targeted_by_early_action"
+                                value={value.people_targeted_by_early_action}
+                                onChange={onFieldChange}
+                                error={error?.people_targeted_by_early_action}
+                                disabled={disabled}
+                            />
+                            <NumberInput
+                                label={strings.drefFormPeopleTargetedImmediateResponse}
+                                name="people_targeted_by_immediate_response"
+                                value={value.people_targeted_by_immediate_response}
+                                onChange={onFieldChange}
+                                error={error?.people_targeted_by_immediate_response}
+                                disabled={disabled}
+                            />
+                        </>
+                    )}
                     <NumberInput
                         label={strings.drefFormInterventionPersonTargetedLabel}
                         name="person_targeted"

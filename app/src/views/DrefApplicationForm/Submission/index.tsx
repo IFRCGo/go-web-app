@@ -18,7 +18,7 @@ import {
     getErrorObject,
 } from '@togglecorp/toggle-form';
 
-import { TYPE_LOAN } from '../common';
+import { TYPE_IMMINENT, TYPE_LOAN } from '../common';
 import { type PartialDref } from '../schema';
 
 import i18n from './i18n.json';
@@ -324,6 +324,45 @@ function Submission(props: Props) {
                             value={value.ifrc_emergency_phone_number}
                             onChange={setFieldValue}
                             error={error?.ifrc_emergency_phone_number}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                )}
+                {value?.type_of_dref === TYPE_IMMINENT && (
+                    <InputSection
+                        title={strings.drefFormIfrcAnticipatory}
+                        numPreferredColumns={2}
+                    >
+                        <TextInput
+                            label={strings.drefFormSubmissionNameLabel}
+                            name="ifrc_anticipatory_name"
+                            value={value.ifrc_anticipatory_name}
+                            onChange={setFieldValue}
+                            error={error?.ifrc_anticipatory_name}
+                            disabled={disabled}
+                        />
+                        <TextInput
+                            label={strings.drefFormSubmissionTitleLabel}
+                            name="ifrc_anticipatory_title"
+                            value={value.ifrc_anticipatory_title}
+                            onChange={setFieldValue}
+                            error={error?.ifrc_anticipatory_title}
+                            disabled={disabled}
+                        />
+                        <TextInput
+                            label={strings.drefFromSubmissionEmailLabel}
+                            name="ifrc_anticipatory_email"
+                            value={value.ifrc_anticipatory_email}
+                            onChange={setFieldValue}
+                            error={error?.ifrc_anticipatory_email}
+                            disabled={disabled}
+                        />
+                        <TextInput
+                            label={strings.drefFromSubmissionPhoneNumberLabel}
+                            name="ifrc_anticipatory_phone_number"
+                            value={value.ifrc_anticipatory_phone_number}
+                            onChange={setFieldValue}
+                            error={error?.ifrc_anticipatory_phone_number}
                             disabled={disabled}
                         />
                     </InputSection>
