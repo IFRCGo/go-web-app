@@ -9,7 +9,7 @@
         "totalProjectsTitle": "Total Projects",
         "ongoingProjectBudgetTitle": "Total Budget (CHF) for Ongoing Projects",
         "threeWOngoingProjectsTitle": "All Projects",
-        "viewAllProjects": "View All Projects",
+        "viewAllOngoingProjects": "View All Ongoing Projects",
         "threeWInCountryMapSidebarTitle": "Projects by Province",
         "provinceProjects": "{provinceName} ({numProjects} Projects)",
         "otherProjects": "Others ({numProjects} Projects)",
