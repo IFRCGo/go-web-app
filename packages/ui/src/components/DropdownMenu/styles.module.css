@@ -1,4 +1,6 @@
 .dropdown-menu {
+    align-items: center;
+
     .icons,
     .content,
     .actions {
