@@ -22,9 +22,11 @@ export { default as BlockLoading } from './components/BlockLoading';
 // NOTE: Ovearlay needs to be exported before
 // BodyOverlay for styling to work properly
 // eslint-disable-next-line simple-import-sort/exports
+export { default as Portal } from './components/Portal';
 export { default as Overlay } from './components/Overlay';
 export type { Props as BodyOverlayProps } from './components/BodyOverlay';
 export { default as BodyOverlay } from './components/BodyOverlay';
+export { default as Popup } from './components/Popup';
 
 export { default as BooleanInput } from './components/BooleanInput';
 export type { Props as BooleanOutputProps } from './components/BooleanOutput';
@@ -63,11 +65,8 @@ export { default as HtmlOutput } from './components/HtmlOutput';
 export type { Props as IconButtonProps } from './components/IconButton';
 export { default as IconButton } from './components/IconButton';
 export { default as Image } from './components/Image';
-export { default as InfoPopup } from './components/InfoPopup';
 export type { Props as InputContainerProps } from './components/InputContainer';
 export { default as InputContainer } from './components/InputContainer';
-export type { Props as InputErrorProps } from './components/InputError';
-export { default as InputError } from './components/InputError';
 export type { Props as InputHintProps } from './components/InputHint';
 export { default as InputHint } from './components/InputHint';
 export type { Props as InputLabelProps } from './components/InputLabel';
@@ -98,9 +97,10 @@ export { default as TopBanner } from './components/parked/TopBanner';
 export type { Props as PasswordInputProps } from './components/PasswordInput';
 export { default as PasswordInput } from './components/PasswordInput';
 export { default as PieChart } from './components/PieChart';
-export { default as Popup } from './components/Popup';
 export type { Props as PortalProps } from './components/Portal';
-export { default as Portal } from './components/Portal';
+export type { Props as InputErrorProps } from './components/InputError';
+export { default as InputError } from './components/InputError';
+export { default as InfoPopup } from './components/InfoPopup';
 export type { Props as ProgressBarProps } from './components/ProgressBar';
 export { default as ProgressBar } from './components/ProgressBar';
 export type { Props as RadioInputProps } from './components/RadioInput';
