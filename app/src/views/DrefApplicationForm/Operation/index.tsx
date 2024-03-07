@@ -213,6 +213,11 @@ function Operation(props: Props) {
             >
                 <InputSection
                     title={strings.drefFormObjectiveOperation}
+                    description={
+                        value?.type_of_dref === TYPE_IMMINENT
+                            ? strings.drefFormObjectiveOperationDescription
+                            : null
+                    }
                 >
                     <TextArea
                         name="operation_objective"
@@ -224,9 +229,22 @@ function Operation(props: Props) {
                     />
                 </InputSection>
                 <InputSection
-                    title={strings.drefFormResponseRationale}
-                    description={value?.type_of_dref === TYPE_ASSESSMENT
-                        && strings.drefFormResponseRationaleDescription}
+                    title={
+                        value.type_of_dref !== TYPE_IMMINENT
+                            ? strings.drefFormResponseRationale
+                            : strings.drefFormImminentRationale
+                    }
+                    description={
+                        (() => {
+                            if (value?.type_of_dref === TYPE_IMMINENT) {
+                                return strings.drefFormImminentRationalDescription;
+                            }
+                            if (value?.type_of_dref === TYPE_ASSESSMENT) {
+                                return strings.drefFormResponseRationaleDescription;
+                            }
+                            return null;
+                        })()
+                    }
                 >
                     <TextArea
                         name="response_strategy"
@@ -479,6 +497,9 @@ function Operation(props: Props) {
             <Container
                 heading={strings.drefFormPlannedIntervention}
                 className={styles.plannedIntervention}
+                headingDescription={value?.type_of_dref === TYPE_IMMINENT
+                    && strings.drefFormImminentPlannedInterventionDescription}
+
             >
                 <InputSection>
                     <GoSingleFileInput
@@ -558,6 +579,8 @@ function Operation(props: Props) {
             >
                 <InputSection
                     title={strings.drefFormHumanResourceDescription}
+                    description={value?.type_of_dref === TYPE_IMMINENT
+                        && strings.drefFormImminentHumanResourceDescription}
                 >
                     <TextArea
                         label={strings.drefFormOperationDescription}

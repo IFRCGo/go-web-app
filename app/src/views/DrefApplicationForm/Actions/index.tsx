@@ -194,7 +194,11 @@ function Actions(props: Props) {
         <div className={styles.actions}>
             <Container
                 className={styles.nationalSocietyActions}
-                headerDescription={strings.drefFormNationalSocietiesActionsDescription}
+                headerDescription={
+                    value?.type_of_dref !== TYPE_IMMINENT
+                        ? strings.drefFormNationalSocietiesActionsDescription
+                        : null
+                }
                 heading={strings.drefFormNationalSocietiesActions}
             >
                 <InputSection
@@ -320,17 +324,19 @@ function Actions(props: Props) {
                 heading={strings.drefFormNationalOtherActors}
                 className={styles.otherActors}
             >
-                <InputSection
-                    title={strings.drefFormInternationalAssistance}
-                >
-                    <BooleanInput
-                        name="government_requested_assistance"
-                        value={value.government_requested_assistance}
-                        onChange={setFieldValue}
-                        error={error?.government_requested_assistance}
-                        disabled={disabled}
-                    />
-                </InputSection>
+                {value?.type_of_dref !== TYPE_IMMINENT && (
+                    <InputSection
+                        title={strings.drefFormInternationalAssistance}
+                    >
+                        <BooleanInput
+                            name="government_requested_assistance"
+                            value={value.government_requested_assistance}
+                            onChange={setFieldValue}
+                            error={error?.government_requested_assistance}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                )}
                 <InputSection
                     title={strings.drefFormNationalAuthorities}
                 >
@@ -366,6 +372,19 @@ function Actions(props: Props) {
                         disabled={disabled}
                     />
                 </InputSection>
+                {value?.type_of_dref === TYPE_IMMINENT && (
+                    <InputSection
+                        title={strings.drefFormInternationalAssistance}
+                    >
+                        <BooleanInput
+                            name="government_requested_assistance"
+                            value={value.government_requested_assistance}
+                            onChange={setFieldValue}
+                            error={error?.government_requested_assistance}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                )}
                 {value.is_there_major_coordination_mechanism && (
                     <InputSection
                         description={strings.drefFormCoordinationMechanismDescription}
