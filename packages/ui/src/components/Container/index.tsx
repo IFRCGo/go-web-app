@@ -19,7 +19,7 @@ const numColumnToClassNameMap: Record<NumColumn, string> = {
 export interface Props {
     actions?: React.ReactNode;
     actionsContainerClassName?: string;
-    children: React.ReactNode;
+    children?: React.ReactNode;
     childrenContainerClassName?: string,
     className?: string;
     contentViewType?: 'grid' | 'vertical' | 'default';

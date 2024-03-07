@@ -167,8 +167,62 @@ function ComponentInput(props: Props) {
         return null;
     }
 
-    const innerComponent = (
-        <>
+    if (isParentComponent) {
+        return (
+            <Container
+                className={_cs(
+                    styles.nonExpandableComponentInput,
+                    styles.componentInput,
+                    className,
+                )}
+                key={component.id}
+                heading={isTruthyString(component.component_letter)
+                    ? `${component.component_num}(${component.component_letter}). ${component.title}`
+                    : `${component.component_num}. ${component.title}`}
+                childrenContainerClassName={styles.questionList}
+                headerDescription={component.description}
+                headingClassName={styles.heading}
+                withInternalPadding
+                withoutWrapInHeading
+                spacing="comfortable"
+                headingDescriptionContainerClassName={styles.statusSelectionContainer}
+            />
+        );
+    }
+
+    return (
+        <ExpandableContainer
+            className={_cs(styles.componentInput, className)}
+            key={component.id}
+            heading={isTruthyString(component.component_letter)
+                ? `${component.component_num}(${component.component_letter}). ${component.title}`
+                : `${component.component_num}. ${component.title}`}
+            childrenContainerClassName={styles.questionList}
+            withHeaderBorder
+            headerDescription={component.description}
+            headingClassName={styles.heading}
+            spacing="comfortable"
+            headingDescriptionContainerClassName={styles.statusSelectionContainer}
+            headingDescription={(
+                <SelectInput
+                    readOnly={readOnly}
+                    className={styles.statusSelection}
+                    name="rating"
+                    value={value?.rating}
+                    error={error?.rating}
+                    onChange={setFieldValue}
+                    placeholder={readOnly
+                        ? strings.placeholderReviewedRating
+                        : strings.placeholderSelectRating}
+                    options={ratingOptions}
+                    disabled={disabled}
+                    keySelector={numericIdSelector}
+                    labelSelector={ratingLabelSelector}
+                />
+            )}
+            showExpandButtonAtBottom
+            initiallyExpanded
+        >
             <NonFieldError error={error} />
             <NonFieldError error={questionInputError} />
             {
@@ -313,68 +367,6 @@ function ComponentInput(props: Props) {
                     </InputSection>
                 )
             }
-        </>
-    );
-
-    if (isParentComponent) {
-        return (
-            <Container
-                className={_cs(
-                    styles.nonExpandableComponentInput,
-                    styles.componentInput,
-                    className,
-                )}
-                key={component.id}
-                heading={isTruthyString(component.component_letter)
-                    ? `${component.component_num}(${component.component_letter}). ${component.title}`
-                    : `${component.component_num}. ${component.title}`}
-                childrenContainerClassName={styles.questionList}
-                headerDescription={component.description}
-                headingClassName={styles.heading}
-                withInternalPadding
-                withoutWrapInHeading
-                spacing="comfortable"
-                headingDescriptionContainerClassName={styles.statusSelectionContainer}
-            >
-                {innerComponent}
-            </Container>
-        );
-    }
-
-    return (
-        <ExpandableContainer
-            className={_cs(styles.componentInput, className)}
-            key={component.id}
-            heading={isTruthyString(component.component_letter)
-                ? `${component.component_num}(${component.component_letter}). ${component.title}`
-                : `${component.component_num}. ${component.title}`}
-            childrenContainerClassName={styles.questionList}
-            withHeaderBorder
-            headerDescription={component.description}
-            headingClassName={styles.heading}
-            spacing="comfortable"
-            headingDescriptionContainerClassName={styles.statusSelectionContainer}
-            headingDescription={(
-                <SelectInput
-                    readOnly={readOnly}
-                    className={styles.statusSelection}
-                    name="rating"
-                    value={value?.rating}
-                    error={error?.rating}
-                    onChange={setFieldValue}
-                    placeholder={readOnly
-                        ? strings.placeholderReviewedRating
-                        : strings.placeholderSelectRating}
-                    options={ratingOptions}
-                    disabled={disabled}
-                    keySelector={numericIdSelector}
-                    labelSelector={ratingLabelSelector}
-                />
-            )}
-            showExpandButtonAtBottom
-            initiallyExpanded
-        >
-            {innerComponent}
         </ExpandableContainer>
     );
 }
