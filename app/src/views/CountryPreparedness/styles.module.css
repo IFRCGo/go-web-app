@@ -113,20 +113,19 @@
             }
         }
 
-        .relevantDocumentHeader {
+        .relevant-document-header {
             display: flex;
             align-items: baseline;
             gap: var(--go-ui-spacing-sm);
             padding: var(--go-ui-spacing-sm);
 
-            .relevantDocumentFooter {
+            .relevant-document-footer {
                 border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
             }
 
-            .disclaimer{
-                padding: var(--go-ui-spacing-md); 
+            .disclaimer {
+                padding: var(--go-ui-spacing-md);
             }
-
         }
 
         .upload-input-section {

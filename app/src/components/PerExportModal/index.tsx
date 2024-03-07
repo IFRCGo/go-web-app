@@ -18,7 +18,7 @@ import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 
-type ExportStatusEnum = components<'read'>['schemas']['Status1d2Enum'];
+type ExportStatusEnum = components<'read'>['schemas']['ExportStatusEnum'];
 
 const EXPORT_STATUS_PENDING = 0 satisfies ExportStatusEnum;
 const EXPORT_STATUS_COMPLETED = 1 satisfies ExportStatusEnum;
@@ -41,7 +41,7 @@ function PerExportModal(props: Props) {
     const exportTriggerBody = useMemo(
         () => ({
             export_id: Number(perId),
-            export_type: 'per' as const,
+            export_type: 'per-process' as const,
         }),
         [perId],
     );
