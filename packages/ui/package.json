@@ -53,7 +53,7 @@
     },
     "dependencies": {
         "@togglecorp/fujs": "^2.1.1",
-        "react-focus-on": "^3.9.1",
+        "react-focus-on": "^3.9.2",
         "sanitize-html": "^2.11.0"
     },
     "peerDependencies": {
@@ -81,7 +81,7 @@
         "postcss-nested": "^6.0.1",
         "postcss-normalize": "^10.0.1",
         "postcss-preset-env": "^8.3.2",
-        "react-focus-on": "^3.9.1",
+        "react-focus-on": "^3.9.2",
         "sanitize-html": "^2.11.0",
         "stylelint": "^15.6.1",
         "stylelint-config-concentric": "^2.0.2",
