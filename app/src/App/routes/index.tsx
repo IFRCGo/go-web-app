@@ -1033,20 +1033,6 @@ const perProcessLayout = customWrapRoute({
     },
 });
 
-const perExport = customWrapRoute({
-    parent: rootLayout,
-    path: 'per-process/:perId/export',
-    component: {
-        render: () => import('#views/PerExport'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'PER Export',
-        visibility: 'is-authenticated',
-    },
-});
-
 const perProcessFormIndex = customWrapRoute({
     parent: perProcessLayout,
     index: true,
@@ -1218,7 +1204,6 @@ const wrappedRoutes = {
     perPrioritizationForm,
     perWorkPlanForm,
     threeWProjectDetail,
-    perExport,
     ...regionRoutes,
     ...countryRoutes,
     ...surgeRoutes,

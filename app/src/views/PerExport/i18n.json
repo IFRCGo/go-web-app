@@ -13,10 +13,11 @@
         "perExportAssessmentHeading": "PER Process Results",
         "perExportTotalBenchmarkSummaryHeading": "Total Benchmark Summary: ",
         "perExportAverageComponentRatingLabel": "Average Component Rating",
+        "componentsByArea": "Components by Area",
         "perNSResponseHeading":"NS Response Mechanism Performance",
         "perHighlightedTopRatedComponentHeading": "Highlighted Top Rated Components",
         "perComponentRatingResultsHeading": "Components Rating Results",
         "perPriorityComponentHeading": "Component {componentNumber} {componentLetter}: {componentName}",
-        "perComponent0NotReviewed": "0 - Not reviewed"
+        "perComponentNotReviewed": "0 - Not reviewed"
     }
 }

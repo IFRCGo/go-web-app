@@ -268,6 +268,20 @@ const countryPreparedness = customWrapRoute({
     },
 });
 
+const perExport = customWrapRoute({
+    parent: rootLayout,
+    path: 'countries/:countryId/per/:perId/export',
+    component: {
+        render: () => import('#views/PerExport'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'PER Export',
+        visibility: 'is-authenticated',
+    },
+});
+
 type DefaultCountryProfileChild = 'overview';
 const countryProfileLayout = customWrapRoute({
     parent: countriesLayout,
@@ -479,6 +493,7 @@ export default {
     countryNsOverviewStrategicPriorities,
     countryNsOverviewCapacity,
     countryPreparedness,
+    perExport,
 
     countryProfileLayout,
     countryProfileIndex,

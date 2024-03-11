@@ -4,10 +4,8 @@ import {
     useState,
 } from 'react';
 import { useParams } from 'react-router-dom';
-import { CheckboxFillIcon } from '@ifrc-go/icons';
 import {
     BlockLoading,
-    Container,
     KeyFigure,
     PieChart,
     ProgressBar,
@@ -15,6 +13,7 @@ import {
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
+    Container,
     DescriptionText,
     Heading,
     TextOutput,
@@ -194,14 +193,19 @@ export function Component() {
 
             const componentList = assessmentResponse.area_responses.flatMap(
                 (areaResponse) => (
-                    areaResponse.component_responses?.map(
-                        (componentResponse) => ({
-                            area: areaResponse.area_details,
-                            rating: componentResponse.rating_details,
-                            details: componentResponse.component_details,
-                            notes: componentResponse.notes,
-                        }),
-                    )
+                    areaResponse.component_responses
+                        ?.filter((componentResponses) => !(
+                            // NOTE: remove parent components from component list
+                            componentResponses.component_details.is_parent
+                        ))
+                        ?.map(
+                            (componentResponse) => ({
+                                area: areaResponse.area_details,
+                                rating: componentResponse.rating_details,
+                                details: componentResponse.component_details,
+                                notes: componentResponse.notes,
+                            }),
+                        )
                 ),
             ).filter(isDefined) ?? [];
 
@@ -341,7 +345,7 @@ export function Component() {
     const hasRatingCounts = hasAssessmentStats && assessmentStats.ratingCounts.length > 0;
     const hasAnswerCounts = hasAssessmentStats && assessmentStats.answerCounts.length > 0;
     const hasRatingsByArea = hasAssessmentStats && assessmentStats.ratingByArea.length > 0;
-    const hasPrevAssessments = prevAssessmentRatings && prevAssessmentRatings.length > 1;
+    const hasPrevAssessments = isDefined(prevAssessmentRatings) && prevAssessmentRatings.length > 1;
     const hasRatedComponents = hasAssessmentStats && assessmentStats.topRatedComponents.length > 0;
 
     const showComponentsByArea = hasRatingsByArea
@@ -443,26 +447,27 @@ export function Component() {
             {showComponentsByArea && (
                 <Container>
                     <Heading level={3}>
-                        {strings.perExportTotalBenchmarkSummaryHeading}
+                        {strings.componentsByArea}
                     </Heading>
                     <RatingByAreaChart
                         ratingOptions={perOptionsResponse.componentratings}
-                        // formAreaOptions={perFormAreaResponse.results}
+                        formAreaOptions={perFormAreaResponse.results}
                         data={assessmentStats.ratingByArea}
                     />
                 </Container>
             )}
-            <div className={styles.pageBreak} />
             {!pending && hasPrevAssessments && (
                 <Container>
                     <Heading level={3}>
                         {strings.perNSResponseHeading}
                     </Heading>
                     <PreviousAssessmentCharts
+                        ratingOptions={perOptionsResponse?.componentratings}
                         data={prevAssessmentRatings}
                     />
                 </Container>
             )}
+            <div className={styles.pageBreak} />
             {hasRatedComponents && (
                 <Container>
                     <Heading level={3}>
@@ -472,13 +477,8 @@ export function Component() {
                         (component) => (
                             <Container
                                 key={component.details.id}
-                                className={styles.topRatedComponent}
                                 heading={component.rating?.title}
                                 headingLevel={5}
-                                withHeaderBorder
-                                withInternalPadding
-                                icons={<CheckboxFillIcon className={styles.icon} />}
-                                withoutWrapInHeading
                             >
                                 {component.details.title}
                             </Container>
@@ -489,7 +489,6 @@ export function Component() {
             <div className={styles.pageBreak} />
             {hasRatedComponents && (
                 <Container
-                    className={styles.ratingResults}
                     childrenContainerClassName={styles.ratingResultsContent}
                 >
                     <Heading level={3}>
@@ -498,12 +497,13 @@ export function Component() {
                     {assessmentStats.topRatedComponents.map(
                         (component) => (
                             <Fragment
-                                key={component.details.id}
+                                key={`${component.details.id}-${component.details.component_num}-${component.details.component_letter}`}
                             >
                                 <Heading level={5}>
                                     {resolveToString(strings.perPriorityComponentHeading, {
                                         componentNumber: component.details.component_num,
-                                        componentLetter: component.details.component_letter,
+                                        componentLetter: component.details.component_letter
+                                            ?? '',
                                         componentName: component.details.title,
                                     })}
                                 </Heading>
@@ -513,7 +513,7 @@ export function Component() {
                                     title={(
                                         isDefined(component.rating)
                                             ? `${component.rating.value} - ${component.rating.title}`
-                                            : strings.perComponent0NotReviewed
+                                            : strings.perComponentNotReviewed
                                     )}
                                 />
                                 <DescriptionText>
@@ -525,7 +525,6 @@ export function Component() {
                     )}
                 </Container>
             )}
-            <div className={styles.pageBreak} />
             {previewReady && <div id="pdf-preview-ready" />}
         </div>
     );
