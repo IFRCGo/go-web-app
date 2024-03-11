@@ -25,7 +25,7 @@
         "componentFetchingData": "Fetching data...",
         "componentContactPERTeam": "Contact PER Team",
         "componentNotReviewed": "Not Reviewed",
-        "component0NotReviewed": "0 - Not reviewed",
+        "componentNotReviewed": "0 - Not reviewed",
         "componentChartNotAvailable": "Charts not available!",
         "componentChartNotAvailableDescription": "Assessment has not been performed yet for current PER cycle!",
         "componentLimitedAccess": "Limited access!",

@@ -26,11 +26,13 @@ const EXPORT_STATUS_ERRORED = 2 satisfies ExportStatusEnum;
 
 interface Props {
     perId: string;
+    countryId: string;
     onCancel: () => void;
 }
 function PerExportModal(props: Props) {
     const {
         perId,
+        countryId,
         onCancel,
     } = props;
 
@@ -41,9 +43,10 @@ function PerExportModal(props: Props) {
     const exportTriggerBody = useMemo(
         () => ({
             export_id: Number(perId),
-            export_type: 'per-process' as const,
+            export_type: 'per' as const,
+            per_country: Number(countryId),
         }),
-        [perId],
+        [perId, countryId],
     );
 
     const {

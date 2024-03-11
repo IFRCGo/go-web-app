@@ -706,7 +706,7 @@ export function Component() {
                                     title={(
                                         isDefined(component.rating)
                                             ? `${component.rating.value} - ${component.rating.title}`
-                                            : strings.component0NotReviewed
+                                            : strings.componentNotReviewed
                                     )}
                                 />
                                 <div>
@@ -743,10 +743,11 @@ export function Component() {
                     />
                 </div>
             )}
-            {showExportModal && isDefined(perId) && (
+            {showExportModal && isDefined(perId) && isDefined(countryId) && (
                 <PerExportModal
                     onCancel={setShowExportModalFalse}
                     perId={perId}
+                    countryId={countryId}
                 />
             )}
             <Container
