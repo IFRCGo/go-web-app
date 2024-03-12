@@ -15,6 +15,12 @@ export const migrationContent1: MigrationFileContent = {
         {
             "action": "add",
             "namespace": "login",
+            "key": "emailPlaceholder",
+            "value": "Email/Username*"
+        },
+        {
+            "action": "add",
+            "namespace": "login",
             "key": "passwordLabel",
             "value": "Password*"
         },
@@ -204,6 +210,7 @@ export const loginContent = {
     namespace: 'login',
     strings: {
         emailLabel: 'Email/Username',
+        emailPlaceholder: 'Email/Username*',
         passwordLabel: 'Password',
         loginButton: 'Login',
         header: 'If you are staff, member or volunteer of the Red Cross Red Crescent Movement (National Societies, the IFRC and the ICRC) login with you email and password.',
@@ -238,6 +245,20 @@ export const strings1: SourceFileContent = {
             page_name: 'login',
             language: 'np',
             value: '',
+        },
+        {
+            hash: '7257816a20f2dda660c44809235ea44a',
+            key: 'emailPlaceholder',
+            language: 'en',
+            page_name: 'login',
+            value: 'Email/Username*',
+        },
+        {
+           hash: '7257816a20f2dda660c44809235ea44a',
+           key: 'emailPlaceholder',
+           language: 'np',
+           page_name: 'login',
+           value: '',
         },
         {
             hash: 'd7d3cc6191dfa630aaa8bcf8d83d8a71',
@@ -488,6 +509,20 @@ export const strings2: SourceFileContent = {
             page_name: 'login',
             language: 'np',
             value: '',
+        },
+        {
+            hash: '7257816a20f2dda660c44809235ea44a',
+            key: 'emailPlaceholder',
+            language: 'en',
+            page_name: 'login',
+            value: 'Email/Username*',
+        },
+        {
+           hash: '7257816a20f2dda660c44809235ea44a',
+           key: 'emailPlaceholder',
+           language: 'np',
+           page_name: 'login',
+           value: '',
         },
         {
             hash: 'bc910f8bdf70f29374f496f05be0330c',

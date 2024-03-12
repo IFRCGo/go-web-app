@@ -100,7 +100,5 @@ testWithTmpDir('test applyMigrations with data in server', async ({ tmpdir }) =>
     ]);
     const newSourceFileContent = newSourceFiles[0].content;
 
-    console.log(newSourceFileContent);
-
     expect(newSourceFileContent).toEqual(strings2)
 });

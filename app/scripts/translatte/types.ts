@@ -15,6 +15,7 @@ export interface MigrationUpdateActionItem {
     action: 'update',
     key: string,
     namespace: string,
+    value?: string,
     newValue?: string,
     newKey?: string,
     newNamespace?: string,

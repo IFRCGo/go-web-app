@@ -8,6 +8,7 @@ import {
     listToMap,
     mapToList,
     unique,
+    difference,
 } from '@togglecorp/fujs';
 
 import {
@@ -24,45 +25,163 @@ export const glob = fg.glob;
 // Utilities
 
 export function oneOneMapping<T, K extends string | number>(
-    foo: T[],
-    bar: T[],
+    prevState: T[],
+    currentState: T[],
     keySelector: (item: T) => K,
-    validate: (foo: T, bar: T) => boolean,
+    validate: (prevStateItem: T, currentStateItem: T) => boolean,
 ) {
-    const fooKeys = new Set(foo.map(keySelector));
-    const barKeys = new Set(bar.map(keySelector));
-
-    const commonKeys = intersection(fooKeys, barKeys);
-
-    const fooMapping = listToMap(
-        foo,
+    const prevStateMapping = listToMap(
+        prevState,
         keySelector,
         (item) => item,
     );
-    const barMapping = listToMap(
-        bar,
+    const currentStateMapping = listToMap(
+        currentState,
         keySelector,
         (item) => item,
     );
 
-    const match = [...commonKeys].map((key): [T, T] => ([
-        fooMapping[key],
-        barMapping[key],
-    ]))
+    const prevStateKeySet = new Set(
+        Object.keys(prevStateMapping) as Array<keyof typeof prevStateMapping>
+    );
+    const currentStateKeySet = new Set(
+        Object.keys(currentStateMapping) as Array<keyof typeof currentStateMapping>,
+    );
 
-    const validMatch = match.filter(([fooItem, barItem]) => validate(fooItem, barItem));
-    const invalidMatch = match.filter(([fooItem, barItem]) => !validate(fooItem, barItem));
+    const commonKeySet = intersection(prevStateKeySet, currentStateKeySet);
+    const prevStateExclusiveKeySet = difference(prevStateKeySet, commonKeySet);
+    const currentStateExclusiveKeySet = difference(currentStateKeySet, commonKeySet);
+
+    const commonItems = [...commonKeySet].map(
+        (key) => ({
+            key,
+            prevStateItem: prevStateMapping[key],
+            currentStateItem: currentStateMapping[key],
+        })
+    )
+
+    const commonItemsMap = listToMap(
+        commonItems,
+        ({ key }) => key,
+    );
+
+    const validCommonItems = commonItems.filter(
+        ({ prevStateItem, currentStateItem }) => validate(prevStateItem, currentStateItem)
+    );
+
+    const validCommonItemsKeySet = new Set(
+        validCommonItems.map(({ key }) => key)
+    );
+
+    const invalidCommonItemsKeySet = difference(commonKeySet, validCommonItemsKeySet);
+    const invalidCommonItems = Array.from(invalidCommonItemsKeySet).map(
+        (key) => commonItemsMap[key],
+    );
 
     return {
-        match: validMatch,
-        leftRemainder: [
-            ...foo.filter((item) => !commonKeys.has(keySelector(item))),
-            ...invalidMatch.map(([fooItem]) => fooItem),
+        validCommonItems,
+        invalidCommonItems,
+        prevStateRemainder: [
+            ...Array.from(prevStateExclusiveKeySet).map((key) => prevStateMapping[key]),
+            // ...Array.from(invalidCommonItemsKeySet).map((key) => prevStateMapping[key]),
         ],
-        rightRemainder: [
-            ...bar.filter((item) => !commonKeys.has(keySelector(item))),
-            ...invalidMatch.map(([_, barItem]) => barItem),
+        currentStateRemainder: [
+            ...Array.from(currentStateExclusiveKeySet).map((key) => currentStateMapping[key]),
+            // ...Array.from(invalidCommonItemsKeySet).map((key) => currentStateMapping[key]),
         ],
+    };
+}
+
+export function oneOneMappingNonUnique<T, K extends string | number>(
+    prevState: T[],
+    currentState: T[],
+    keySelector: (item: T) => K,
+) {
+    const prevStateWithKey = prevState.map(
+        (item) => {
+            const key = keySelector(item);
+
+            return {
+                key,
+                item,
+            };
+        }
+    );
+
+    const currentStateWithKey = currentState.map(
+        (item) => {
+            const key = keySelector(item);
+
+            return {
+                key,
+                item,
+            };
+        }
+    );
+
+    const {
+        commonItems,
+        prevStateRemainder,
+        currentStateRemainder,
+    } = prevStateWithKey.reduce(
+        (acc, prevStateItem) => {
+            const matchIndex = acc.currentStateRemainder.findIndex(
+                ({ key }) => prevStateItem.key === key,
+            )
+
+            if (matchIndex === -1) {
+                return acc;
+            }
+
+            const prevStateMatchIndex = acc.prevStateRemainder.findIndex(
+                ({ key }) => prevStateItem.key === key,
+            );
+
+            if (prevStateMatchIndex === -1) {
+                return acc;
+            }
+
+            return {
+                commonItems: [
+                    ...acc.commonItems,
+                    {
+                        prevStateItem: prevStateItem,
+                        currentStateItem: acc.currentStateRemainder[matchIndex],
+                    },
+                ],
+                prevStateRemainder: [
+                    ...acc.prevStateRemainder.slice(0, prevStateMatchIndex),
+                    ...acc.prevStateRemainder.slice(prevStateMatchIndex + 1),
+                ],
+                currentStateRemainder: [
+                    ...acc.currentStateRemainder.slice(0, matchIndex),
+                    ...acc.currentStateRemainder.slice(matchIndex + 1),
+                ],
+            }
+        },
+        {
+            prevStateRemainder: [...prevStateWithKey],
+            commonItems: [] as {
+                prevStateItem: { key: K, item: T },
+                currentStateItem: { key: K, item: T },
+            }[],
+            currentStateRemainder: [...currentStateWithKey],
+        },
+    );
+
+    return {
+        commonItems: commonItems.map(
+            ({ prevStateItem, currentStateItem }) => ({
+                prevStateItem: prevStateItem.item,
+                currentStateItem: currentStateItem.item,
+            })
+        ),
+        prevStateRemainder: prevStateRemainder.map(
+            ({ item }) => item,
+        ),
+        currentStateRemainder: currentStateRemainder.map(
+            ({ item }) => item,
+        ),
     };
 }
 
