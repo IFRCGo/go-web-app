@@ -254,6 +254,8 @@ function EventDetail(props: Props) {
             <Container
                 heading={strings.drefFormDescriptionEvent}
             >
+                {/* Note :ApproximateDateOfImpact Field is not avaliable in Other dref types
+
                 {value.type_of_dref === TYPE_IMMINENT ? (
                     <InputSection
                         title={strings.drefFormApproximateDateOfImpact}
@@ -266,23 +268,22 @@ function EventDetail(props: Props) {
                             disabled={disabled}
                         />
                     </InputSection>
-                ) : (
-                    <InputSection
-                        title={(
-                            value.type_of_onset === ONSET_SUDDEN
-                                ? strings.drefFormEventDate
-                                : strings.drefFormSlowEventDate
-                        )}
-                    >
-                        <DateInput
-                            name="event_date"
-                            value={value.event_date}
-                            onChange={setFieldValue}
-                            error={error?.event_date}
-                            disabled={disabled}
-                        />
-                    </InputSection>
-                )}
+                ) : ( */}
+                <InputSection
+                    title={(
+                        value.type_of_onset === ONSET_SUDDEN
+                            ? strings.drefFormEventDate
+                            : strings.drefFormSlowEventDate
+                    )}
+                >
+                    <DateInput
+                        name="event_date"
+                        value={value.event_date}
+                        onChange={setFieldValue}
+                        error={error?.event_date}
+                        disabled={disabled}
+                    />
+                </InputSection>
                 <InputSection
                     title={strings.numericDetailsSectionTitle}
                     numPreferredColumns={2}
@@ -324,15 +325,11 @@ function EventDetail(props: Props) {
                         )}
                         disabled={disabled}
                     />
-                    {value?.type_of_dref !== TYPE_LOAN && (
+                    {value?.type_of_dref !== TYPE_IMMINENT && value?.type_of_dref !== TYPE_LOAN && (
                         <NumberInput
                             label={(
                                 <>
-                                    {
-                                        value?.type_of_dref === TYPE_IMMINENT
-                                            ? strings.drefFormEstimatedPeopleInNeed
-                                            : strings.drefFormPeopleInNeed
-                                    }
+                                    { strings.drefFormPeopleInNeed}
                                     <Link
                                         title={strings.drefFormClickEmergencyResponseFramework}
                                         href={peopleInNeedLink}
@@ -346,11 +343,7 @@ function EventDetail(props: Props) {
                             value={value?.people_in_need}
                             onChange={setFieldValue}
                             error={error?.people_in_need}
-                            hint={(
-                                value?.type_of_dref === TYPE_IMMINENT
-                                    ? strings.drefFormPeopleInNeedDescriptionImminent
-                                    : strings.drefFormPeopleInNeedDescriptionSlowSudden
-                            )}
+                            hint={(strings.drefFormPeopleInNeedDescriptionSlowSudden)}
                             disabled={disabled}
                         />
                     )}
