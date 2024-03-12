@@ -201,63 +201,61 @@ function Actions(props: Props) {
                 }
                 heading={strings.drefFormNationalSocietiesActions}
             >
-                <InputSection
-                    title={
-                        value?.type_of_dref !== TYPE_IMMINENT
-                            ? strings.drefFormDidNationalSocietyStartedSlow
-                            : strings.drefFormDidNationalSocietyStartedImminent
-                    }
-                >
-                    <BooleanInput
-                        name="did_national_society"
-                        onChange={setFieldValue}
-                        value={value?.did_national_society}
-                        error={error?.did_national_society}
-                        disabled={disabled}
-                    />
-                </InputSection>
-                {value.did_national_society && (
+                {value?.type_of_dref !== TYPE_IMMINENT && (
+                    <>
+                        <InputSection
+                            title={strings.drefFormDidNationalSocietyStartedSlow}
+                        >
+                            <BooleanInput
+                                name="did_national_society"
+                                onChange={setFieldValue}
+                                value={value?.did_national_society}
+                                error={error?.did_national_society}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                        {value.did_national_society && (
+                            <InputSection
+                                title={strings.drefFormNsResponseStarted}
+                            >
+                                <DateInput
+                                    name="ns_respond_date"
+                                    value={value.ns_respond_date}
+                                    onChange={setFieldValue}
+                                    error={error?.ns_respond_date}
+                                    disabled={disabled}
+                                />
+                            </InputSection>
+                        )}
+                    </>
+                )}
+                {value?.type_of_dref !== TYPE_IMMINENT && (
                     <InputSection
-                        title={
-                            value?.type_of_dref === TYPE_IMMINENT
-                                ? strings.drefFormNSAnticipatoryAction
-                                : strings.drefFormNsResponseStarted
-                        }
+                        numPreferredColumns={2}
+                        title=" "
                     >
-                        <DateInput
-                            name="ns_respond_date"
-                            value={value.ns_respond_date}
-                            onChange={setFieldValue}
-                            error={error?.ns_respond_date}
+                        <SelectInput
+                            label={strings.drefFormNationalSocietiesActionsLabel}
+                            name={undefined}
+                            options={filteredNsActionOptions}
+                            value={selectedNsAction}
+                            keySelector={nsActionKeySelector}
+                            labelSelector={stringValueSelector}
+                            onChange={setSelectedNsAction}
                             disabled={disabled}
                         />
+                        <div className={styles.addButtonContainer}>
+                            <Button
+                                variant="secondary"
+                                name={selectedNsAction}
+                                onClick={handleNsActionAddButtonClick}
+                                disabled={isNotDefined(selectedNsAction) || disabled}
+                            >
+                                {strings.drefFormAddButton}
+                            </Button>
+                        </div>
                     </InputSection>
                 )}
-                <InputSection
-                    numPreferredColumns={2}
-                    title=" "
-                >
-                    <SelectInput
-                        label={strings.drefFormNationalSocietiesActionsLabel}
-                        name={undefined}
-                        options={filteredNsActionOptions}
-                        value={selectedNsAction}
-                        keySelector={nsActionKeySelector}
-                        labelSelector={stringValueSelector}
-                        onChange={setSelectedNsAction}
-                        disabled={disabled}
-                    />
-                    <div className={styles.addButtonContainer}>
-                        <Button
-                            variant="secondary"
-                            name={selectedNsAction}
-                            onClick={handleNsActionAddButtonClick}
-                            disabled={isNotDefined(selectedNsAction) || disabled}
-                        >
-                            {strings.drefFormAddButton}
-                        </Button>
-                    </div>
-                </InputSection>
                 <NonFieldError
                     error={getErrorObject(error?.national_society_actions)}
                 />
