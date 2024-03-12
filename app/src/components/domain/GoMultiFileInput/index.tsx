@@ -37,7 +37,7 @@ interface FileUploadResult {
 const keySelector = (d: FileUploadResult) => d.id;
 const valueSelector = (d: FileUploadResult) => d.file;
 
-function getFileNameFromUrl(urlString: string) {
+export function getFileNameFromUrl(urlString: string) {
     const url = new URL(urlString);
     const splits = url.pathname.split('/');
     return splits[splits.length - 1];
