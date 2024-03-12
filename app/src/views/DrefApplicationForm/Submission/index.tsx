@@ -18,7 +18,10 @@ import {
     getErrorObject,
 } from '@togglecorp/toggle-form';
 
-import { TYPE_IMMINENT, TYPE_LOAN } from '../common';
+import {
+    TYPE_IMMINENT,
+    TYPE_LOAN,
+} from '../common';
 import { type PartialDref } from '../schema';
 
 import i18n from './i18n.json';

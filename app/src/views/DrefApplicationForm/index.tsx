@@ -280,6 +280,7 @@ export function Component() {
                 cover_image_file,
                 images_file,
                 source_information,
+                other_actor_file_file,
                 ...otherValues
             } = removeNull(response);
             setValue({
@@ -290,6 +291,7 @@ export function Component() {
                         indicators: intervention.indicators?.map(injectClientId),
                     }),
                 ),
+                other_actor_file_file: other_actor_file_file?.map(injectClientId),
                 source_information: source_information?.map(injectClientId),
                 needs_identified: needs_identified?.map(injectClientId),
                 national_society_actions: national_society_actions?.map(injectClientId),

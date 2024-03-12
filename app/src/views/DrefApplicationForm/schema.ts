@@ -60,6 +60,7 @@ type InterventionResponse = NonNullable<DrefRequestBody['planned_interventions']
 type IndicatorResponse = NonNullable<InterventionResponse['indicators']>[number];
 type RiskSecurityResponse = NonNullable<DrefRequestBody['risk_security']>[number];
 type ImagesFileResponse = NonNullable<DrefRequestBody['images_file']>[number];
+type OtherActorFileFileResponse = NonNullable<DrefRequestBody['other_actor_file_file']>[number];
 type SourceInformationResponse = NonNullable<DrefRequestBody['source_information']>[number];
 
 type NeedIdentifiedFormFields = NeedIdentifiedResponse & { client_id: string };
@@ -70,6 +71,7 @@ type SourceInformationFormFields = SourceInformationResponse & { client_id: stri
 
 type RiskSecurityFormFields = RiskSecurityResponse & { client_id: string; };
 type ImagesFileFormFields = ImagesFileResponse & { client_id: string };
+type OtherActorFileFileFormFields = OtherActorFileFileResponse & { client_id: string };
 
 type EventMapFileResponse = NonNullable<DrefRequestBody['event_map_file']>;
 type EventMapFileFormField = Omit<EventMapFileResponse, 'client_id'> & {
@@ -81,6 +83,7 @@ type DrefFormFields = (
     DeepReplace<
         DeepReplace<
             DeepReplace<
+    DeepReplace<
                 DeepReplace<
                     DeepReplace<
                         DeepReplace<
@@ -108,6 +111,9 @@ type DrefFormFields = (
                 >,
                 ImagesFileResponse,
                 ImagesFileFormFields
+                >,
+                OtherActorFileFileResponse,
+                OtherActorFileFileFormFields
             >,
             EventMapFileResponse,
             EventMapFileFormField
@@ -132,6 +138,7 @@ type NationalSocietyFields = ReturnType<ObjectSchema<NonNullable<PartialDref['na
 type NeedsIdentifiedFields = ReturnType<ObjectSchema<NonNullable<PartialDref['needs_identified']>[number], PartialDref>['fields']>;
 type RiskSecurityFields = ReturnType<ObjectSchema<NonNullable<PartialDref['risk_security']>[number], PartialDref>['fields']>;
 type SourceInformationFields = ReturnType<ObjectSchema<NonNullable<PartialDref['source_information']>[number], PartialDref>['fields']>;
+type OtherActorFileFileFields= ReturnType<ObjectSchema<NonNullable<PartialDref['other_actor_file_file']>[number], PartialDref>['fields']>;
 type PlannedInterventionFields = ReturnType<ObjectSchema<NonNullable<PartialDref['planned_interventions']>[number], PartialDref>['fields']>;
 type IndicatorFields = ReturnType<ObjectSchema<NonNullable<NonNullable<PartialDref['planned_interventions']>[number]['indicators']>[number], PartialDref>['fields']>;
 
@@ -284,7 +291,7 @@ const schema: DrefFormSchema = {
             'ns_mitigating_measures',
             'ns_disaster_risk_reduction',
             'any_other_actor',
-            'other_actor_file_details',
+            'other_actor_file_file',
         ] as const;
         type EventDetailDrefTypeRelatedFields = Pick<
             DrefFormSchemaFields,
@@ -319,7 +326,7 @@ const schema: DrefFormSchema = {
                     ns_mitigating_measures: { forceValue: nullValue },
                     ns_disaster_risk_reduction: { forceValue: nullValue },
                     any_other_actor: { forceValue: nullValue },
-                    other_actor_file_details: { forceValue: [] },
+                    other_actor_file_file: { forceValue: [] },
                 };
 
                 if (
@@ -351,7 +358,17 @@ const schema: DrefFormSchema = {
                         ns_mitigating_measures: {},
                         ns_disaster_risk_reduction: {},
                         any_other_actor: {},
-                        other_actor_file_details: {},
+                        other_actor_file_file: {
+                            keySelector: (actor) => actor.client_id,
+                            member: () => ({
+                                fields: (): OtherActorFileFileFields => ({
+                                    client_id: {},
+                                    id: { defaultValue: undefinedValue },
+                                    caption: {},
+                                }),
+                            }),
+
+                        },
                     };
                 } else {
                     conditionalFields = {

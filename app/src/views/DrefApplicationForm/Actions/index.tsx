@@ -26,6 +26,7 @@ import {
     useFormArray,
 } from '@togglecorp/toggle-form';
 
+import DrefMultiFileInput from '#components/domain/DrefMultiFileInput';
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
 import NonFieldError from '#components/NonFieldError';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
@@ -421,20 +422,17 @@ function Actions(props: Props) {
                             error={error?.any_other_actor}
                             disabled={disabled}
                         />
-                        <GoSingleFileInput
-                            name="other_actor_file_details"
-                            accept=".pdf, .docx, .pptx"
+                        <DrefMultiFileInput
+                            label={strings.drefFormUploadOtherActorFileDetailsButtonLabel}
+                            name="other_actor_file_file"
                             fileIdToUrlMap={fileIdToUrlMap}
                             onChange={setFieldValue}
-                            url="/api/v2/dref-files/"
-                            value={value.other_actor_file_details}
-                            error={error?.other_actor_file_details}
+                            url="/api/v2/dref-files/multiple/"
+                            value={value.other_actor_file_file}
+                            error={getErrorObject(error?.other_actor_file_file)}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            clearable
                             disabled={disabled}
-                        >
-                            {strings.drefFormUploadOtherActorFileDetailsButtonLabel}
-                        </GoSingleFileInput>
+                        />
                     </InputSection>
                 )}
                 <InputSection
