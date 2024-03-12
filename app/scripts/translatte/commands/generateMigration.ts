@@ -8,9 +8,14 @@ import {
     getTranslationFileNames,
     getMigrationFilesAttrs,
     readMigrations,
+    oneOneMappingNonUnique,
 } from '../utils';
 import { MigrationActionItem, MigrationFileContent } from '../types';
 import { merge } from './mergeMigrations';
+
+function getCombinedKey(key: string, namespace: string) {
+    return `${namespace}:${key}`;
+}
 
 type StateItem = {
     filename?: string;
@@ -24,96 +29,85 @@ function generateMigration(
     prevState: StateItem[],
     currentState: StateItem[],
 ): MigrationActionItem[] {
-    let unchangedPairs: [StateItem, StateItem][];
-    ({
-        match: unchangedPairs,
-        leftRemainder: prevState,
-        rightRemainder: currentState,
+    console.info('prevState length', prevState.length);
+    console.info('currentState length', currentState.length);
+    console.info('Total change', Math.abs(prevState.length - currentState.length));
+
+    const {
+        // Same, key, namespace and same value
+        validCommonItems: identicalStateItems,
+
+        // Same, key, namespace but different value
+        invalidCommonItems: valueUpdatedStateItems,
+
+        // items with different key or namespace or both
+        prevStateRemainder: potentiallyRemovedStateItems,
+
+        // items with different key or namespace or both
+        currentStateRemainder: potentiallyAddedStateItems,
     } = oneOneMapping(
         prevState,
         currentState,
-        (item) => `${item.namespace}:${item.key}`,
+        ({ key, namespace }) => getCombinedKey(key, namespace),
         (prev, current) => prev.value === current.value,
-    ));
+    );
 
-    console.info(`Unchaged strings: ${unchangedPairs.length}`)
+    console.info(`Unchaged strings: ${identicalStateItems.length}`)
+    console.info(`Value updated strings: ${valueUpdatedStateItems.length}`)
 
-    let updatedPairs: [StateItem, StateItem][];
-    ({
-        match: updatedPairs,
-        leftRemainder: prevState,
-        rightRemainder: currentState,
-    } = oneOneMapping(
-        prevState,
-        currentState,
-        (item) => `${item.namespace}:${item.key}`,
-        (prev, current) => prev.value !== current.value,
-    ));
+    console.info(`Potentially removed: ${potentiallyRemovedStateItems.length}`)
+    console.info(`Potentially added: ${potentiallyAddedStateItems.length}`)
 
-    console.info(`Updated value strings: ${updatedPairs.length}`)
+    const {
+        commonItems: namespaceUpdatedStateItems,
+        prevStateRemainder: potentiallyRemovedStateItemsAfterNamespaceChange,
+        currentStateRemainder: potentiallyAddedStateItemsAfterNamespaceChange,
+    } = oneOneMappingNonUnique(
+        potentiallyRemovedStateItems,
+        potentiallyAddedStateItems,
+        (item) => getCombinedKey(item.key, Md5.hashStr(item.value)),
+    );
 
-    let namespaceUpdatedPairs: [StateItem, StateItem][];
-    ({
-        match: namespaceUpdatedPairs,
-        leftRemainder: prevState,
-        rightRemainder: currentState,
-    } = oneOneMapping(
-        prevState,
-        currentState,
-        (item) => `${item.key}:${Md5.hashStr(item.value)}`,
-        (prev, current) => prev.namespace !== current.namespace,
-    ));
+    const {
+        commonItems: keyUpdatedStateItems,
+        prevStateRemainder: removedStateItems,
+        currentStateRemainder: addedStateItems,
+    } = oneOneMappingNonUnique(
+        potentiallyRemovedStateItemsAfterNamespaceChange,
+        potentiallyAddedStateItemsAfterNamespaceChange,
+        (item) => getCombinedKey(item.namespace, Md5.hashStr(item.value)),
+    );
 
-    console.info(`Updated namespace strings: ${namespaceUpdatedPairs.length}`)
-
-    let keyUpdatedPairs: [StateItem, StateItem][];
-    ({
-        match: keyUpdatedPairs,
-        leftRemainder: prevState,
-        rightRemainder: currentState,
-    } = oneOneMapping(
-        prevState,
-        currentState,
-        (item) => `${item.namespace}:${Md5.hashStr(item.value)}`,
-        (prev, current) => prev.key !== current.key,
-    ));
-
-    console.info(`Update key strings: ${keyUpdatedPairs.length}`)
-
-    const addedItems = currentState;
-    console.info(`Added strings: ${addedItems.length}`)
-
-    const removedItems = prevState;
-    console.info(`Removed strings: ${removedItems.length}`)
+    console.info(`Namespace updated strings: ${namespaceUpdatedStateItems.length}`)
+    console.info(`Added strings: ${addedStateItems.length}`)
+    console.info(`Removed strings: ${removedStateItems.length}`)
 
     return [
-        ...updatedPairs.map(([prev, current]) => ({
+        ...valueUpdatedStateItems.map(({ prevStateItem, currentStateItem }) => ({
             action: 'update' as const,
-            key: prev.key,
-            namespace: prev.namespace,
-            newValue: current.value,
+            key: prevStateItem.key,
+            namespace: prevStateItem.namespace,
+            newValue: currentStateItem.value,
         })),
-        ...namespaceUpdatedPairs.map(([prev, current]) => ({
+        ...namespaceUpdatedStateItems.map(({ prevStateItem, currentStateItem }) => ({
             action: 'update' as const,
-            key: prev.key,
-            namespace: prev.namespace,
-            // newKey: current.key,
-            newNamespace: current.namespace,
+            key: prevStateItem.key,
+            namespace: prevStateItem.namespace,
+            newNamespace: currentStateItem.namespace,
         })),
-        ...keyUpdatedPairs.map(([prev, current]) => ({
+        ...keyUpdatedStateItems.map(({ prevStateItem, currentStateItem }) => ({
             action: 'update' as const,
-            key: prev.key,
-            namespace: prev.namespace,
-            newKey: current.key,
-            // newNamespace: current.namespace,
+            key: prevStateItem.key,
+            newKey: currentStateItem.key,
+            namespace: prevStateItem.namespace,
         })),
-        ...addedItems.map((item) => ({
+        ...addedStateItems.map((item) => ({
             action: 'add' as const,
             key: item.key,
             namespace: item.namespace,
             value: item.value,
         })),
-        ...removedItems.map((item) => ({
+        ...removedStateItems.map((item) => ({
             action: 'remove' as const,
             key: item.key,
             namespace: item.namespace,
@@ -153,7 +147,6 @@ async function generate(
             value: item.value,
         }
     });
-
     const translationFiles = await getTranslationFileNames(
         projectPath,
         Array.isArray(translationFileName) ? translationFileName : [translationFileName],

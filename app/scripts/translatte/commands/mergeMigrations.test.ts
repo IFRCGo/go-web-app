@@ -30,6 +30,12 @@ test('Test merge migrations 1-5', () => {
         {
             "action": "add",
             "namespace": "login",
+            "key": "emailPlaceholder",
+            "value": "Email/Username*"
+        },
+        {
+            "action": "add",
+            "namespace": "login",
             "key": "passwordLabel",
             "value": "Password"
         },

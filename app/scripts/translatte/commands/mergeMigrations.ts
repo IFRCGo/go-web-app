@@ -33,7 +33,8 @@ function mergeMigrationActionItems(
     interface PrevMappings {
         [key: string]: MigrationActionItem,
     }
-    const prevMappings: PrevMappings = listToMap(
+
+    const prevCanonicalKeyMappings: PrevMappings = listToMap(
         prevMigrationActionItems,
         (item) => getCanonicalKey(item, { useNewKey: true }),
         (item) => item,
@@ -42,38 +43,45 @@ function mergeMigrationActionItems(
     interface NextMappings {
         [key: string]: MigrationActionItem | null,
     }
+
     const nextMappings = nextMigrationActionItems.reduce<NextMappings>(
         (acc, nextMigrationActionItem) => {
             const canonicalKey = getCanonicalKey(nextMigrationActionItem, { useNewKey: false })
-            const prevMigrationActionItem = prevMappings[canonicalKey];
 
-            if (!prevMigrationActionItem) {
+            const prevItemWithCanonicalKey = prevCanonicalKeyMappings[canonicalKey];
+            // const prevItemWithKey = prevKeyMappings[nextMigrationActionItem.key];
+
+            if (!prevItemWithCanonicalKey) {
                 return {
                     ...acc,
                     [canonicalKey]: nextMigrationActionItem,
                 };
             }
-            if (prevMigrationActionItem.action === 'add' && nextMigrationActionItem.action === 'add') {
+
+            if (prevItemWithCanonicalKey.action === 'add' && nextMigrationActionItem.action === 'add') {
                 throw `Action 'add' already exists for '${canonicalKey}'`;
             }
-            if (prevMigrationActionItem.action === 'add' && nextMigrationActionItem.action === 'remove') {
+            if (prevItemWithCanonicalKey.action === 'add' && nextMigrationActionItem.action === 'remove') {
                 return {
                     ...acc,
                     [canonicalKey]: null,
                 };
             }
-            if (prevMigrationActionItem.action === 'add' && nextMigrationActionItem.action === 'update') {
-                const newKey = nextMigrationActionItem.newKey ?? prevMigrationActionItem.key;
-                const newNamespace = nextMigrationActionItem.newNamespace ?? prevMigrationActionItem.namespace;
+            if (prevItemWithCanonicalKey.action === 'add' && nextMigrationActionItem.action === 'update') {
+                const newKey = nextMigrationActionItem.newKey
+                    ?? prevItemWithCanonicalKey.key;
+                const newNamespace = nextMigrationActionItem.newNamespace
+                    ?? prevItemWithCanonicalKey.namespace;
 
                 const newMigrationItem = removeUndefinedKeys<MigrationActionItem>({
                     action: 'add',
                     namespace: newNamespace,
                     key: newKey,
-                    value: nextMigrationActionItem.newValue ?? prevMigrationActionItem.value,
+                    value: nextMigrationActionItem.newValue
+                        ?? prevItemWithCanonicalKey.value,
                 });
-                const newCanonicalKey = getCanonicalKey(newMigrationItem, { useNewKey: true });
 
+                const newCanonicalKey = getCanonicalKey(newMigrationItem, { useNewKey: true });
                 if (acc[newCanonicalKey] !== undefined && acc[newCanonicalKey] !== null) {
                     throw `Action 'update' cannot be applied to '${newCanonicalKey}' as the key already exists`;
                 }
@@ -83,52 +91,52 @@ function mergeMigrationActionItems(
                     // Setting null so that we remove them on the mappings.
                     // No need to set null, if we have already overridden with other value
                     [canonicalKey]: acc[canonicalKey] === undefined || acc[canonicalKey] === null
-                        ? null
-                        : acc[canonicalKey],
+                            ? null
+                            : acc[canonicalKey],
                     [newCanonicalKey]: newMigrationItem,
                 }
             }
-            if (prevMigrationActionItem.action === 'remove' && nextMigrationActionItem.action === 'add') {
+            if (prevItemWithCanonicalKey.action === 'remove' && nextMigrationActionItem.action === 'add') {
                 return {
                     ...acc,
                     [canonicalKey]: removeUndefinedKeys<MigrationActionItem>({
                         action: 'update',
-                        namespace: prevMigrationActionItem.namespace,
-                        key: prevMigrationActionItem.key,
+                        namespace: prevItemWithCanonicalKey.namespace,
+                        key: prevItemWithCanonicalKey.key,
                         newValue: nextMigrationActionItem.value,
                     })
                 };
             }
-            if (prevMigrationActionItem.action === 'remove' && nextMigrationActionItem.action === 'remove') {
+            if (prevItemWithCanonicalKey.action === 'remove' && nextMigrationActionItem.action === 'remove') {
                 // pass
                 return acc;
             }
-            if (prevMigrationActionItem.action === 'remove' && nextMigrationActionItem.action === 'update') {
+            if (prevItemWithCanonicalKey.action === 'remove' && nextMigrationActionItem.action === 'update') {
                 throw `Action 'update' cannot be applied to '${canonicalKey}' after action 'remove'`;
             }
-            if (prevMigrationActionItem.action === 'update' && nextMigrationActionItem.action === 'add') {
+            if (prevItemWithCanonicalKey.action === 'update' && nextMigrationActionItem.action === 'add') {
                 throw `Action 'add' cannot be applied to '${canonicalKey}' after action 'update'`;
             }
-            if (prevMigrationActionItem.action === 'update' && nextMigrationActionItem.action === 'update') {
+            if (prevItemWithCanonicalKey.action === 'update' && nextMigrationActionItem.action === 'update') {
                 return {
                     ...acc,
                     [canonicalKey]: removeUndefinedKeys<MigrationActionItem>({
                         action: 'update',
-                        namespace: prevMigrationActionItem.namespace,
-                        key: prevMigrationActionItem.key,
-                        newNamespace: nextMigrationActionItem.newNamespace ?? prevMigrationActionItem.newNamespace,
-                        newKey: nextMigrationActionItem.newKey ?? prevMigrationActionItem.newKey,
-                        newValue: nextMigrationActionItem.newValue ?? prevMigrationActionItem.newValue,
+                        namespace: prevItemWithCanonicalKey.namespace,
+                        key: prevItemWithCanonicalKey.key,
+                        newNamespace: nextMigrationActionItem.newNamespace ?? prevItemWithCanonicalKey.newNamespace,
+                        newKey: nextMigrationActionItem.newKey ?? prevItemWithCanonicalKey.newKey,
+                        newValue: nextMigrationActionItem.newValue ?? prevItemWithCanonicalKey.newValue,
                     }),
                 };
             }
-            if (prevMigrationActionItem.action === 'update' && nextMigrationActionItem.action === 'remove') {
+            if (prevItemWithCanonicalKey.action === 'update' && nextMigrationActionItem.action === 'remove') {
                 return {
                     ...acc,
                     [canonicalKey]: removeUndefinedKeys<MigrationActionItem>({
                         action: 'remove',
-                        namespace: prevMigrationActionItem.namespace,
-                        key: prevMigrationActionItem.key,
+                        namespace: prevItemWithCanonicalKey.namespace,
+                        key: prevItemWithCanonicalKey.key,
                     }),
                 };
             }
@@ -138,7 +146,7 @@ function mergeMigrationActionItems(
     );
 
     const finalMappings = {
-        ...prevMappings,
+        ...prevCanonicalKeyMappings,
         ...nextMappings,
     };
 
