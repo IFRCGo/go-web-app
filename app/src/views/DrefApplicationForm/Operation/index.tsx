@@ -8,6 +8,7 @@ import {
     BooleanInput,
     Button,
     Container,
+    Heading,
     InputLabel,
     InputSection,
     NumberInput,
@@ -215,8 +216,7 @@ function Operation(props: Props) {
                     title={strings.drefFormObjectiveOperation}
                     description={
                         value?.type_of_dref === TYPE_IMMINENT
-                            ? strings.drefFormObjectiveOperationDescription
-                            : null
+                            && strings.drefFormObjectiveOperationDescription
                     }
                 >
                     <TextArea
@@ -265,26 +265,50 @@ function Operation(props: Props) {
                     description={strings.drefFormPeopleAssistedThroughOperationDescription}
                 >
                     <TextArea
-                        label={strings.drefFormOperationDescription}
+                        label={value.type_of_dref === TYPE_IMMINENT
+                            ? strings.drefPeopleAssistedLabel
+                            : strings.drefFormOperationDescription}
                         name="people_assisted"
                         onChange={setFieldValue}
                         value={value.people_assisted}
                         error={error?.people_assisted}
                         disabled={disabled}
                     />
+                    {value.type_of_dref === TYPE_IMMINENT && (
+                        <TextArea
+                            label={strings.drefTargetingExpectedImpactedPopulationLabel}
+                            name="targeting_expected_impacted_population"
+                            onChange={setFieldValue}
+                            value={value.targeting_expected_impacted_population}
+                            error={error?.targeting_expected_impacted_population}
+                            disabled={disabled}
+                        />
+                    )}
                 </InputSection>
                 <InputSection
                     title={strings.drefFormSelectionCriteria}
                     description={strings.drefFormSelectionCriteriaDescription}
                 >
                     <TextArea
-                        label={strings.drefFormOperationDescription}
+                        label={value.type_of_dref === TYPE_IMMINENT
+                            ? strings.drefFormSelectionCriteriaLabel
+                            : strings.drefFormOperationDescription}
                         name="selection_criteria"
                         onChange={setFieldValue}
                         value={value.selection_criteria}
                         error={error?.selection_criteria}
                         disabled={disabled}
                     />
+                    {value.type_of_dref === TYPE_IMMINENT && (
+                        <TextArea
+                            label={strings.drefFormSelectionCriteriaExpectedImpactedPopulationLabel}
+                            name="selection_criteria_expected_impacted_population"
+                            onChange={setFieldValue}
+                            value={value.selection_criteria_expected_impacted_population}
+                            error={error?.selection_criteria_expected_impacted_population}
+                            disabled={disabled}
+                        />
+                    )}
                 </InputSection>
                 <InputSection title={strings.drefFormUploadTargetingSupportingDocument}>
                     <GoSingleFileInput
@@ -318,6 +342,14 @@ function Operation(props: Props) {
                     ))
                 )}
             >
+                {value.type_of_dref === TYPE_IMMINENT && (
+                    <Heading
+                        level={4}
+                        className={styles.targetedPopulationHeading}
+                    >
+                        {strings.drefFormEarlyActionHeading}
+                    </Heading>
+                )}
                 <InputSection
                     title={strings.drefFormTargetedPopulation}
                     numPreferredColumns={2}
@@ -421,6 +453,113 @@ function Operation(props: Props) {
                         />
                     )}
                 </InputSection>
+                {value.type_of_dref === TYPE_IMMINENT && (
+                    <>
+                        <Heading
+                            className={styles.targetedPopulationHeading}
+                            level={4}
+                        >
+                            {strings.drefImmediateResponseActivitiesHeading}
+                        </Heading>
+                        <InputSection
+                            title={strings.drefFormTargetedPopulation}
+                            numPreferredColumns={2}
+                        >
+                            <NumberInput
+                                label={strings.drefFormWomen}
+                                name="immediate_women"
+                                value={value.immediate_women}
+                                onChange={setFieldValue}
+                                error={error?.immediate_women}
+                                disabled={disabled}
+                            />
+                            <NumberInput
+                                label={strings.drefFormMen}
+                                name="immediate_men"
+                                value={value.immediate_men}
+                                onChange={setFieldValue}
+                                error={error?.immediate_men}
+                                disabled={disabled}
+                            />
+                            <NumberInput
+                                label={strings.drefFormGirls}
+                                name="immediate_girls"
+                                value={value.immediate_girls}
+                                onChange={setFieldValue}
+                                error={error?.immediate_girls}
+                                disabled={disabled}
+                            />
+                            <NumberInput
+                                label={strings.drefFormBoys}
+                                name="immediate_boys"
+                                value={value.immediate_boys}
+                                onChange={setFieldValue}
+                                error={error?.immediate_boys}
+                                disabled={disabled}
+                            />
+                            <NumberInput
+                                label={strings.drefFormTotal}
+                                name="immediate_total_targeted_population"
+                                value={value.immediate_total_targeted_population}
+                                onChange={setFieldValue}
+                                error={error?.immediate_total_targeted_population}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                        <InputSection
+                            title={strings.drefFormEstimateResponse}
+                            numPreferredColumns={2}
+                        >
+                            <NumberInput
+                                label={strings.drefFormEstimatePeopleDisability}
+                                name="immediate_disability_people_per"
+                                value={value.immediate_disability_people_per}
+                                onChange={setFieldValue}
+                                error={error?.immediate_disability_people_per}
+                                disabled={disabled}
+                            />
+                            <div className={styles.urbanToRural}>
+                                <InputLabel>
+                                    {strings.drefFormEstimatedPercentage}
+                                </InputLabel>
+                                <div className={styles.inputs}>
+                                    <NumberInput
+                                        placeholder={strings.drefFormEstimatedUrban}
+                                        name="immediate_people_per_urban"
+                                        value={value.immediate_people_per_urban}
+                                        onChange={setFieldValue}
+                                        error={error?.immediate_people_per_urban}
+                                        disabled={disabled}
+                                    />
+                                    <NumberInput
+                                        placeholder={strings.drefFormEstimatedLocal}
+                                        name="immediate_people_per_local"
+                                        value={value.immediate_people_per_local}
+                                        onChange={setFieldValue}
+                                        error={error?.immediate_people_per_local}
+                                        disabled={disabled}
+                                    />
+                                </div>
+                            </div>
+                            <NumberInput
+                                label={strings.drefFormEstimatedDisplacedPeople}
+                                name="immediate_displaced_people"
+                                value={value.immediate_displaced_people}
+                                onChange={setFieldValue}
+                                error={error?.immediate_displaced_people}
+                                disabled={disabled}
+                            />
+                            <NumberInput
+                                label={strings.drefFormPeopleTargetedWithEarlyActions}
+                                name="immediate_people_targeted_with_early_actions"
+                                value={value.immediate_people_targeted_with_early_actions}
+                                onChange={setFieldValue}
+                                error={error?.immediate_people_targeted_with_early_actions}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                    </>
+                )}
             </Container>
             <Container
                 heading={strings.drefFormRiskSecurity}

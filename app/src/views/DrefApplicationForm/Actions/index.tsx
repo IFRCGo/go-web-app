@@ -197,8 +197,7 @@ function Actions(props: Props) {
                 className={styles.nationalSocietyActions}
                 headerDescription={
                     value?.type_of_dref !== TYPE_IMMINENT
-                        ? strings.drefFormNationalSocietiesActionsDescription
-                        : null
+                        && strings.drefFormNationalSocietiesActionsDescription
                 }
                 heading={strings.drefFormNationalSocietiesActions}
             >

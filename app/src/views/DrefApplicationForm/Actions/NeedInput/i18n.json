@@ -1,6 +1,8 @@
 {
     "namespace": "drefApplicationForm",
     "strings": {
-        "drefApplicationRemoveNeed": "Remove Need"
+        "drefApplicationRemoveNeed": "Remove Need",
+        "drefApplicationLabel": "Current needs of population at risk ",
+        "drefExpectedNeedLabel": "Expected needs for immediate assistance if the population is impacted."
     }
 }
