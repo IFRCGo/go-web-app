@@ -384,16 +384,16 @@ const countryOperations = customWrapRoute({
 
 const countriesThreeW = customWrapRoute({
     parent: countriesLayout,
-    path: 'three-w',
+    path: 'three-w/ns-projects',
     component: {
         eagerLoad: true,
         render: CountryNavigate,
         props: {
-            to: countryOngoingActivitiesThreeWProjects.absolutePath,
+            to: countryNsOverviewActivities.absolutePath,
         },
     },
     context: {
-        title: 'Country 3W Projects',
+        title: 'Country 3W Activities',
         visibility: 'anything',
     },
 });
