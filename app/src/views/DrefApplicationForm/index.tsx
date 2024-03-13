@@ -188,6 +188,7 @@ export function Component() {
                     disaster_category_analysis_details,
                     targeting_strategy_support_file_details,
                     budget_file_details,
+                    other_actor_file_file,
                 } = response;
 
                 if (
@@ -224,6 +225,14 @@ export function Component() {
 
                 if ((images_file?.length ?? 0) > 0) {
                     images_file?.forEach((img) => {
+                        if (isDefined(img.file)) {
+                            newMap[img.id] = img.file;
+                        }
+                    });
+                }
+
+                if ((other_actor_file_file?.length ?? 0) > 0) {
+                    other_actor_file_file?.forEach((img) => {
                         if (isDefined(img.file)) {
                             newMap[img.id] = img.file;
                         }

@@ -68,13 +68,23 @@ function NeedInput(props: Props) {
         >
             <NonFieldError error={error} />
             <TextArea
+                // FIXME Add condition with Type imminent
+                label={strings.drefApplicationLabel}
                 className={styles.descriptionInput}
                 name="description"
                 value={value.description}
                 onChange={onFieldChange}
                 error={error?.description}
                 disabled={disabled}
-                // withAsterisk
+            />
+            <TextArea
+                label={strings.drefExpectedNeedLabel}
+                className={styles.descriptionInput}
+                name="expected_need"
+                value={value.expected_need}
+                onChange={onFieldChange}
+                error={error?.expected_need}
+                disabled={disabled}
             />
             <Button
                 className={styles.removeButton}

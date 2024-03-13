@@ -83,34 +83,34 @@ type DrefFormFields = (
     DeepReplace<
         DeepReplace<
             DeepReplace<
-    DeepReplace<
                 DeepReplace<
                     DeepReplace<
                         DeepReplace<
                             DeepReplace<
                                 DeepReplace<
                                     DeepReplace<
-                                        DrefRequestBody,
-                                        NeedIdentifiedResponse,
-                                        NeedIdentifiedFormFields
+                                        DeepReplace<
+                                            DrefRequestBody,
+                                            NeedIdentifiedResponse,
+                                            NeedIdentifiedFormFields
+                                        >,
+                                        NsActionResponse,
+                                        NsActionFormFields
                                     >,
-                                    NsActionResponse,
-                                    NsActionFormFields
+                                    InterventionResponse,
+                                    InterventionFormFields
                                 >,
-                                InterventionResponse,
-                                InterventionFormFields
+                                IndicatorResponse,
+                                IndicatorFormFields
                             >,
                             IndicatorResponse,
                             IndicatorFormFields
                         >,
-                        IndicatorResponse,
-                        IndicatorFormFields
+                        RiskSecurityResponse,
+                        RiskSecurityFormFields
                     >,
-                    RiskSecurityResponse,
-                    RiskSecurityFormFields
-                >,
-                ImagesFileResponse,
-                ImagesFileFormFields
+                    ImagesFileResponse,
+                    ImagesFileFormFields
                 >,
                 OtherActorFileFileResponse,
                 OtherActorFileFileFormFields
@@ -586,6 +586,10 @@ const schema: DrefFormSchema = {
                                         required: true,
                                         requiredValidation: requiredStringCondition,
                                     },
+                                    expected_need: {
+                                        required: true,
+                                        requiredValidation: requiredStringCondition,
+                                    },
                                 }),
                             }),
                         },
@@ -619,12 +623,24 @@ const schema: DrefFormSchema = {
             'operation_objective',
             'response_strategy',
             'people_assisted',
+            'targeting_expected_impacted_population',
             'selection_criteria',
+            'selection_criteria_expected_impacted_population',
             'total_targeted_population',
             'disability_people_per',
             'people_per_urban',
             'people_per_local',
             'displaced_people',
+            'immediate_women',
+            'immediate_men',
+            'immediate_girls',
+            'immediate_boys',
+            'immediate_total_targeted_population',
+            'immediate_disability_people_per',
+            'immediate_people_per_urban',
+            'immediate_people_per_local',
+            'immediate_displaced_people',
+            'immediate_people_targeted_with_early_actions',
             'risk_security',
             'risk_security_concern',
             'has_child_safeguarding_risk_analysis_assessment',
@@ -655,7 +671,9 @@ const schema: DrefFormSchema = {
                     operation_objective: { forceValue: nullValue },
                     response_strategy: { forceValue: nullValue },
                     people_assisted: { forceValue: nullValue },
+                    targeting_expected_impacted_population: { forceValue: nullValue },
                     selection_criteria: { forceValue: nullValue },
+                    selection_criteria_expected_impacted_population: { forceValue: nullValue },
                     total_targeted_population: { forceValue: nullValue },
                     disability_people_per: { forceValue: nullValue },
                     people_per_urban: { forceValue: nullValue },
@@ -668,6 +686,17 @@ const schema: DrefFormSchema = {
                     human_resource: { forceValue: nullValue },
                     is_surge_personnel_deployed: { forceValue: nullValue },
                     has_child_safeguarding_risk_analysis_assessment: { forceValue: nullValue },
+                    immediate_women: { forceValue: nullValue },
+                    immediate_men: { forceValue: nullValue },
+                    immediate_girls: { forceValue: nullValue },
+                    immediate_boys: { forceValue: nullValue },
+                    immediate_total_targeted_population: { forceValue: nullValue },
+                    immediate_disability_people_per: { forceValue: nullValue },
+                    immediate_people_per_urban: { forceValue: nullValue },
+                    immediate_people_per_local: { forceValue: nullValue },
+                    immediate_displaced_people: { forceValue: nullValue },
+                    immediate_people_targeted_with_early_actions: { forceValue: nullValue },
+
                 };
                 if (val?.type_of_dref === TYPE_LOAN) {
                     return conditionalFields;
@@ -678,7 +707,9 @@ const schema: DrefFormSchema = {
                     operation_objective: {},
                     response_strategy: {},
                     people_assisted: {},
+                    targeting_expected_impacted_population: {},
                     selection_criteria: {},
+                    selection_criteria_expected_impacted_population: {},
                     total_targeted_population: { validations: [positiveIntegerCondition] },
                     disability_people_per: {
                         // FIXME: shouldn't these be integer?
@@ -814,6 +845,18 @@ const schema: DrefFormSchema = {
                 if (val?.type_of_dref === TYPE_IMMINENT) {
                     conditionalFields = {
                         ...conditionalFields,
+                        immediate_women: {},
+                        immediate_men: {},
+                        immediate_girls: {},
+                        immediate_boys: {},
+                        immediate_total_targeted_population: {},
+                        immediate_disability_people_per: {},
+                        immediate_people_per_urban: {},
+                        immediate_people_per_local: {},
+                        immediate_displaced_people: {},
+                        immediate_people_targeted_with_early_actions: {
+                            validations: [positiveIntegerCondition],
+                        },
                         people_targeted_with_early_actions: {
                             validations: [positiveIntegerCondition],
                         },
