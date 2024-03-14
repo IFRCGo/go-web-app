@@ -1,9 +1,20 @@
 {
     "namespace": "countryPreparedness",
     "strings": {
-        "publicComponentFetchingData": "Fetching data...",
+        "nsPreparednessAndResponseCapacityHeading": "NS Preparedness and Response Capacity",
         "publicHighlightedTopRatedComponentHeading": "Highlighted Top Rated Components",
         "publicPriorityComponentToBeStrengthenedHeading": "Priority Components To Be Strengthened",
-        "publicPriorityComponentHeading": "Component {componentNumber} {componentLetter}: {componentName}"
+        "publicPriorityComponentHeading": "Component {componentNumber} {componentLetter}: {componentName}",
+        "startDateLabel": "Start Date",
+        "perPhaseLabel": "PER Phase",
+        "perCycleLabel": "PER Cycle",
+        "typeOfAssessmentLabel": "Type of Assessment",
+        "focalPointNameLabel": "Focal Point",
+        "focalPointEmailTitle": "Email",
+        "lastUpdatedLabel": "Last update",
+        "goBackButtonTitle": "Go back",
+        "componentLimitedAccess": "Limited access!",
+        "componentLimitedAccessDescription": "You do not have enough permission to view more details on this PER.",
+        "componentRequestSeeMore": "Request to see more"
     }
 }

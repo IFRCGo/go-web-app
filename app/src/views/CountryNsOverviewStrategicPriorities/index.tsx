@@ -34,24 +34,23 @@ export function Component() {
     const strings = useTranslation(i18n);
 
     const {
-        pending: latestPerPending,
-        response: latestPerResponse,
-        // error: latestPerResponseError,
+        pending: publicPerStatsPending,
+        response: publicPerStatsResponse,
     } = useRequest({
         skip: isNotDefined(countryId),
-        url: '/api/v2/latest-per-overview/',
-        query: { country_id: Number(countryId) },
+        url: '/api/v2/public-per-stats/',
+        query: isDefined(countryId) ? { country: [Number(countryId)] } : undefined,
     });
 
-    // const countryHasNoPer = latestPerResponse?.results?.length === 0;
-    const perId = latestPerResponse?.results?.[0]?.id;
+    // NOTE: we assume the public-per-overview is ordered by assessment date
+    const perId = publicPerStatsResponse?.results?.[0]?.id;
 
     const {
         pending: perProcessStatusPending,
-        response: processStatusResponse,
+        response: perProcessStatusResponse,
     } = useRequest({
         skip: isNotDefined(perId),
-        url: '/api/v2/per-process-status/{id}/',
+        url: '/api/v2/public-per-process-status/{id}/',
         pathVariables: {
             id: Number(perId),
         },
@@ -61,53 +60,16 @@ export function Component() {
         pending: assessmentResponsePending,
         response: assessmentResponse,
     } = useRequest({
-        skip: isNotDefined(processStatusResponse?.assessment),
-        url: '/api/v2/per-assessment/{id}/',
+        skip: isNotDefined(perProcessStatusResponse?.assessment),
+        url: '/api/v2/public-per-assessment/{id}/',
         pathVariables: {
-            id: Number(processStatusResponse?.assessment),
+            id: Number(perProcessStatusResponse?.assessment),
         },
     });
-
-    /*
-    const {
-        pending: prioritizationResponsePending,
-        response: prioritizationResponse,
-    } = useRequest({
-        skip: isNotDefined(processStatusResponse?.prioritization),
-        url: '/api/v2/per-prioritization/{id}/',
-        pathVariables: {
-            id: Number(processStatusResponse?.prioritization),
-        },
-    });
-    */
 
     const perPending = assessmentResponsePending
         || perProcessStatusPending
-        // || prioritizationResponsePending
-        || latestPerPending;
-
-    /*
-    const componentMap = useMemo(
-        () => {
-            if (isNotDefined(assessmentResponse)) {
-                return undefined;
-            }
-
-            const componentResponses = assessmentResponse.area_responses?.map(
-                (areaResponse) => (
-                    areaResponse.component_responses
-                ),
-            ).flat().filter(isDefined);
-
-            return listToMap(
-                componentResponses,
-                (componentResponse) => componentResponse?.component,
-
-            );
-        },
-        [assessmentResponse],
-    );
-    */
+        || publicPerStatsPending;
 
     const strengthComponents = useMemo(
         () => {

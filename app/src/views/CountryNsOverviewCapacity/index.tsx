@@ -32,7 +32,7 @@ export function Component() {
         response: countryStatusResponse,
     } = useRequest({
         skip: isNotDefined(countryId),
-        url: '/api/v2/per-process-status/',
+        url: '/api/v2/public-per-process-status/',
         query: {
             country: isDefined(countryId) ? [Number(countryId)] : undefined,
             limit: 9999,

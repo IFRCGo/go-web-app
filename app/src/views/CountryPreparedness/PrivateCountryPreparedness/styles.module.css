@@ -1,10 +1,16 @@
-.country-preparedness {
+.private-country-preparedness {
     padding: var(--go-ui-spacing-2xl) 0;
     min-height: 40vh;
 
     .actions-container {
         display: flex;
         align-items: center;
+
+        .per-action {
+            display: flex;
+            gap: var(--go-ui-spacing-md);
+            align-items: center;
+        }
     }
 
     .back-icon {
@@ -26,7 +32,7 @@
             grid-column: 1 / -1;
         }
 
-        .latest-per-details {
+        .per-overview-details {
             display: grid;
             grid-column: 1 / -1;
             grid-gap: var(--go-ui-spacing-md);
@@ -113,25 +119,6 @@
             }
         }
 
-        .relevant-document-header {
-            display: flex;
-            align-items: baseline;
-            gap: var(--go-ui-spacing-sm);
-            padding: var(--go-ui-spacing-sm);
-
-            .relevant-document-footer {
-                border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
-            }
-
-            .disclaimer {
-                padding: var(--go-ui-spacing-md);
-            }
-        }
-
-        .upload-input-section {
-            gap: var(--go-ui-spacing-sm);
-        }
-
         .rating-results {
             grid-column: 1 / -1;
 
@@ -149,28 +136,16 @@
             }
         }
 
-        .limited-access {
-            grid-column: 1  / -1;
-        }
-
         .relevant-documents {
             grid-column: 1  / -1;
+
+            .upload-input-section {
+                gap: var(--go-ui-spacing-sm);
+            }
 
             .per-documents {
                 min-height: unset;
             }
         }
     }
-
-    .per-action {
-        display: flex;
-        gap: var(--go-ui-spacing-md);
-        align-items: center;
-    }
 }
-
-.removeButton {
-    font-size: var(--go-ui-font-size-md);
-}
-
-
