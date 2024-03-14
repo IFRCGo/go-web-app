@@ -31,11 +31,11 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type PerOptionsResponse = GoApiResponse<'/api/v2/per-options/'>;
-type LatestPerResponse = GoApiResponse<'/api/v2/latest-per-overview/'>;
-type PreviousRatings = NonNullable<LatestPerResponse['results']>[number]['assessment_ratings'];
+type PerStatsResponse = GoApiResponse<'/api/v2/per-stats/'>;
+type AssessmentRatings = NonNullable<PerStatsResponse['results']>[number]['assessment_ratings'];
 
 interface Props {
-    data: PreviousRatings;
+    data: AssessmentRatings;
     ratingOptions: PerOptionsResponse['componentratings'] | undefined;
 }
 

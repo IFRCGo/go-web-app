@@ -1,8 +1,7 @@
 {
-    "namespace": "countryPreparedness",
+    "namespace": "privateCountryPreparedness",
     "strings": {
         "nsPreparednessAndResponseCapacityHeading": "NS Preparedness and Response Capacity",
-        "nsPreparednessAndResponseCapacityExport": "Export",
         "goBackButtonTitle": "Go back",
         "startDateLabel": "Start Date",
         "perPhaseLabel": "PER Phase",
@@ -28,13 +27,10 @@
         "componentNotReviewed": "0 - Not reviewed",
         "componentChartNotAvailable": "Charts not available!",
         "componentChartNotAvailableDescription": "Assessment has not been performed yet for current PER cycle!",
-        "componentLimitedAccess": "Limited access!",
-        "componentLimitedAccessDescription": "You do not have enough permission to view more details on this PER.",
-        "componentRequestSeeMore": "Request to see more",
         "lastUpdatedLabel": "Last update",
         "perExport": "Export",
         "upload": "Upload",
         "relevantDocumentHeader": "Relevant Documents",
-        "limitDisclaimer": "Note: You can only upload upto 10 documents."
+        "uploadLimitDisclaimer": "Note: You can only upload upto 10 documents."
     }
 }
