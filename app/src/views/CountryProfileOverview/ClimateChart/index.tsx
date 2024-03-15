@@ -134,16 +134,19 @@ function ClimateChart(props: Props) {
                             <TextOutput
                                 label={strings.climateChartMax}
                                 value={currentData.max_temp}
+                                suffix=" °C"
                                 valueType="number"
                             />
                             <TextOutput
                                 label={strings.climateChangeAverage}
                                 value={currentData.avg_temp}
+                                suffix=" °C"
                                 valueType="number"
                             />
                             <TextOutput
                                 label={strings.climateChangeMin}
                                 value={currentData.min_temp}
+                                suffix=" °C"
                                 valueType="number"
                             />
                         </>
@@ -178,6 +181,7 @@ function ClimateChart(props: Props) {
                     description={(
                         <TextOutput
                             label={strings.climateChangePrecipitation}
+                            suffix=" mm"
                             value={currentData.precipitation}
                             valueType="number"
                         />

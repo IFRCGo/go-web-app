@@ -131,7 +131,7 @@ function NationalSocietyIncomeOverTime(props: Props) {
             withHeaderBorder
             footerActions={(
                 <TextOutput
-                    label={strings.source}
+                    label={strings.sourceLabel}
                     value={(
                         <Link
                             variant="tertiary"
@@ -139,7 +139,7 @@ function NationalSocietyIncomeOverTime(props: Props) {
                             external
                             withUnderline
                         >
-                            {strings.fdrs}
+                            {strings.sourceFDRS}
                         </Link>
                     )}
                 />
