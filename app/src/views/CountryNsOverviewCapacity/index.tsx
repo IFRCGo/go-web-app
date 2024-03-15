@@ -13,19 +13,17 @@ import {
 } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
-import { REGION_ASIA } from '#utils/constants';
 import { type CountryOutletContext } from '#utils/outletContext';
 import { useRequest } from '#utils/restRequest';
 
 import CountryNsCapacityStrengthening from './CountryNsCapacityStrengthening';
-import CountryNsOrganisationalCapacity from './CountryNsOrganisationalCapacity';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const { countryId, countryResponse } = useOutletContext<CountryOutletContext>();
+    const { countryId } = useOutletContext<CountryOutletContext>();
 
     const strings = useTranslation(i18n);
 
@@ -63,9 +61,10 @@ export function Component() {
             )}
         >
             {/* Data is currently under review, it will be include in the next version */}
-            {countryResponse?.region === REGION_ASIA && (
+            {/* Hide this section */}
+            {/* {countryResponse?.region === REGION_ASIA && (
                 <CountryNsOrganisationalCapacity />
-            )}
+            )} */}
             <CountryNsCapacityStrengthening />
             {countryStatusPending && <BlockLoading className={styles.loading} />}
             <Container
