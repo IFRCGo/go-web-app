@@ -4,10 +4,14 @@
         "actionInputHeading": "Additional action #{actionNumber}",
         "actionInputRemoveButtonLabel": "Remove",
         "actionInputActionsPlaceholder": "Enter actions",
-        "actionInputSupportedByLabel": "Supported by",
-        "actionInputSupportedByPlaceholder": "Select NS",
+        "actionInputSupportedByLabel": "Supporting by National society",
+        "actionInputSupportedByPlaceholder": "National society",
         "actionInputDueDateLabel": "Due date",
         "actionInputStatusLabel": "Status",
-        "actionInputStatusPlaceholder": "Select"
+        "actionSupportedByOrganizationInputLabel":"Supported by",
+        "actionOrganizationInputPlaceholder":"Select Ns",
+        "actionStatusInputPlaceholder": "Status"
+
+        
     }
 }
