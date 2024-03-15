@@ -10,6 +10,7 @@
         "drefFormActionDescription": "Description",
         "drefFormDidNationalSocietyStartedImminent": "Did the National Society started any anticipatory actions?",
         "drefFormDidNationalSocietyStartedSlow": "Has the National Society started any actions?",
+        "drefFormDidNationalSocietyStartedSlowResponse": "When did the National Society start responding?",
         "drefFormGapsInAssessment": "Any identified gaps/limitations in the assessment",
         "drefFormIcrc": "ICRC",
         "drefFormIcrcDescription": "Presence or not of ICRC in country, and support directly provided for this emergency response. Other programs and support provided outside of the scope of this emergency should not be indicated here.",
