@@ -92,7 +92,6 @@ import type {
 } from '#utils/restRequest';
 import { useRequest } from '#utils/restRequest';
 
-import EmergencyAlertsTable from './EmergencyAlerts';
 import Filters from './Filters';
 
 import i18n from './i18n.json';
@@ -734,11 +733,6 @@ export function Component(props: BaseProps) {
                         />
                     </SortContext.Provider>
                 </Container>
-            )}
-            {isDefined(countryId) && (
-                <EmergencyAlertsTable
-                    countryId={Number(countryId)}
-                />
             )}
         </Container>
     );
