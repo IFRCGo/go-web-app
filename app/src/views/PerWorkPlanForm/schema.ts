@@ -55,6 +55,7 @@ export const workplanSchema: WorkPlanFormScheme = {
                         requiredValidation: requiredStringCondition,
                     },
                     due_date: {},
+                    supported_by_organization_type: {},
                     supported_by: {},
                     status: {
                         required: true,

@@ -1,4 +1,7 @@
-import { useMemo } from 'react';
+import {
+    useCallback,
+    useMemo,
+} from 'react';
 import { DeleteBinLineIcon } from '@ifrc-go/icons';
 import {
     Button,
@@ -23,6 +26,7 @@ import {
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
 import NonFieldError from '#components/NonFieldError';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import { NATIONAL_SOCIETY } from '#utils/constants';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import { PartialWorkPlan } from '../schema';
@@ -34,8 +38,12 @@ type Value = NonNullable<PartialWorkPlan['additional_action_responses']>[number]
 
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type PerWorkPlanStatusOption = NonNullable<GlobalEnumsResponse['per_workplanstatus']>[number];
+type PerWorkPlanOrganizationTypeOption = NonNullable<GlobalEnumsResponse['per_supported_by_organization_type']>[number];
 
 function statusKeySelector(option: PerWorkPlanStatusOption) {
+    return option.key;
+}
+function organizationTypeKeySelector(option: PerWorkPlanOrganizationTypeOption) {
     return option.key;
 }
 
@@ -47,7 +55,7 @@ interface Props {
     onRemove: (index: number) => void;
     actionNumber: number;
     readOnly?: boolean;
-    disabled?: boolean;
+    disabled?: boolean
 }
 
 function AdditionalActionInput(props: Props) {
@@ -64,7 +72,7 @@ function AdditionalActionInput(props: Props) {
 
     const strings = useTranslation(i18n);
     const error = getErrorObject(formError);
-    const { per_workplanstatus } = useGlobalEnums();
+    const { per_workplanstatus, per_supported_by_organization_type } = useGlobalEnums();
 
     const defaultValue = useMemo(
         () => ({
@@ -78,6 +86,15 @@ function AdditionalActionInput(props: Props) {
         onChange,
         defaultValue,
     );
+
+    const handleOrganizationTypeChange = useCallback((
+        organizationType: PerWorkPlanOrganizationTypeOption['key'] | undefined,
+    ) => {
+        onFieldChange(organizationType, 'supported_by_organization_type' as const);
+        if (organizationType !== NATIONAL_SOCIETY) {
+            onFieldChange(undefined, 'supported_by');
+        }
+    }, [onFieldChange]);
 
     return (
         <Container
@@ -121,20 +138,35 @@ function AdditionalActionInput(props: Props) {
                 readOnly={readOnly}
                 disabled={disabled}
             />
-            <NationalSocietySelectInput
-                name="supported_by"
-                label={strings.actionInputSupportedByLabel}
-                placeholder={strings.actionInputSupportedByPlaceholder}
-                onChange={onFieldChange}
-                value={value?.supported_by}
-                error={error?.supported_by}
+            <SelectInput
+                name="supported_by_organization_type"
+                label={strings.actionSupportedByOrganizationInputLabel}
+                placeholder={strings.actionOrganizationInputPlaceholder}
+                options={per_supported_by_organization_type}
+                onChange={handleOrganizationTypeChange}
+                keySelector={organizationTypeKeySelector}
+                labelSelector={stringValueSelector}
+                value={value?.supported_by_organization_type}
+                error={error?.supported_by_organization_type}
                 readOnly={readOnly}
                 disabled={disabled}
             />
+            {value?.supported_by_organization_type === 3 && (
+                <NationalSocietySelectInput
+                    name="supported_by"
+                    label={strings.actionInputSupportedByLabel}
+                    placeholder={strings.actionInputSupportedByLabel}
+                    onChange={onFieldChange}
+                    value={value?.supported_by}
+                    error={error?.supported_by}
+                    readOnly={readOnly}
+                    disabled={disabled}
+                />
+            )}
             <SelectInput
                 name="status"
                 label={strings.actionInputStatusLabel}
-                placeholder={strings.actionInputStatusPlaceholder}
+                placeholder={strings.actionStatusInputPlaceholder}
                 options={per_workplanstatus}
                 withAsterisk
                 onChange={onFieldChange}
