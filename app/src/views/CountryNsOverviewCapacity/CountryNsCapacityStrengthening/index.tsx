@@ -5,6 +5,7 @@ import {
     Container,
     KeyFigure,
     RawList,
+    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -67,6 +68,21 @@ function CountryNsCapacityStrengthening() {
             contentViewType="grid"
             numPreferredGridContentColumns={3}
             withHeaderBorder
+            footerActions={(
+                <TextOutput
+                    label={strings.source}
+                    value={(
+                        <Link
+                            variant="tertiary"
+                            href="https://www.ifrc.org/"
+                            external
+                            withUnderline
+                        >
+                            {strings.ifrc}
+                        </Link>
+                    )}
+                />
+            )}
         >
             {isDefined(ocacAssessments) && ocacAssessments.length > 0 && (
                 <RawList

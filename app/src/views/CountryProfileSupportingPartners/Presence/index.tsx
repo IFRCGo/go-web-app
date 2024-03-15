@@ -32,6 +32,21 @@ function Presence() {
                 className={styles.presenceCard}
                 childrenContainerClassName={styles.presenceCardList}
                 heading={strings.countryIFRCPresenceTitle}
+                footerActions={(
+                    <TextOutput
+                        label={strings.source}
+                        value={(
+                            <Link
+                                variant="tertiary"
+                                href="https://www.icrc.org/"
+                                external
+                                withUnderline
+                            >
+                                {strings.icrc}
+                            </Link>
+                        )}
+                    />
+                )}
             >
                 <div className={styles.ifrcPresenceItem}>
                     <TextOutput
@@ -68,6 +83,21 @@ function Presence() {
                 className={styles.presenceCard}
                 heading={strings.countryICRCPresenceTitle}
                 childrenContainerClassName={styles.presenceCardList}
+                footerActions={(
+                    <TextOutput
+                        label={strings.source}
+                        value={(
+                            <Link
+                                variant="tertiary"
+                                href="https://www.icrc.org/"
+                                external
+                                withUnderline
+                            >
+                                {strings.icrc}
+                            </Link>
+                        )}
+                    />
+                )}
             >
                 {resolveToString(
                     strings.countryICRCConfirmedPartner,

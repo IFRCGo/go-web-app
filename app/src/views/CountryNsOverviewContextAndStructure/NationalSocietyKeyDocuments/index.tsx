@@ -6,6 +6,7 @@ import {
     DateInput,
     Grid,
     TextInput,
+    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -15,6 +16,7 @@ import {
     mapToList,
 } from '@togglecorp/fujs';
 
+import Link from '#components/Link';
 import useFilterState from '#hooks/useFilterState';
 import { CountryOutletContext } from '#utils/outletContext';
 import {
@@ -116,6 +118,21 @@ function NationalSocietyKeyDocuments() {
                         value={rawFilter.startDateBefore}
                     />
                 </>
+            )}
+            footerActions={(
+                <TextOutput
+                    label={strings.source}
+                    value={(
+                        <Link
+                            variant="tertiary"
+                            href="https://www.ifrc.org/"
+                            external
+                            withUnderline
+                        >
+                            {strings.ifrc}
+                        </Link>
+                    )}
+                />
             )}
         >
             <Grid

@@ -5,6 +5,8 @@
         "countryNsCapacityStrengtheningDescription": "Various assessment and processes that the NS has undergone through  IFRC.",
         "bocaAssessment": "BOCA Assessment",
         "localUnits": "Local Units / Branches",
-        "viewDetails": "View Details"
+        "viewDetails": "View Details",
+        "source": "Source",
+        "ifrc": "IFRC"
     }
 }

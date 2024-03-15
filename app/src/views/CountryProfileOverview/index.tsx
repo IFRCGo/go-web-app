@@ -347,6 +347,21 @@ export function Component() {
                     heading={strings.seasonalCalendarHeading}
                     childrenContainerClassName={styles.seasonalCalendarContent}
                     footerContentClassName={styles.legendContainer}
+                    footerActions={(
+                        <TextOutput
+                            label={strings.source}
+                            value={(
+                                <Link
+                                    variant="tertiary"
+                                    href="https://www.acaps.org/"
+                                    external
+                                    withUnderline
+                                >
+                                    {strings.acaps}
+                                </Link>
+                            )}
+                        />
+                    )}
                     footerContent={colorList.map(
                         ({ label, color }) => (
                             <LegendItem

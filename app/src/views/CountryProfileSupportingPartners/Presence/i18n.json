@@ -9,6 +9,8 @@
         "countryICRCPresenceTitle": "ICRC Presence",
         "countryICRCConfirmedPartner": "Confirmed partner for {year}",
         "countryICRCKeyOperations": "Key Operations",
-        "countryICRCWithin": "within {name}"
+        "countryICRCWithin": "within {name}",
+        "source": "Source",
+        "icrc": "ICRC"
     }
 }

@@ -21,6 +21,7 @@ import {
     listToMap,
 } from '@togglecorp/fujs';
 
+import Link from '#components/Link';
 import useNumericChartData from '#hooks/useNumericChartData';
 import { DEFAULT_Y_AXIS_WIDTH_WITH_LABEL } from '#utils/constants';
 import { GoApiResponse } from '#utils/restRequest';
@@ -128,6 +129,21 @@ function NationalSocietyIncomeOverTime(props: Props) {
             className={styles.nationalSocietyIncomeOverTime}
             heading={strings.nsIncomeOverTimeHeading}
             withHeaderBorder
+            footerActions={(
+                <TextOutput
+                    label={strings.source}
+                    value={(
+                        <Link
+                            variant="tertiary"
+                            href="https://data.ifrc.org/fdrs/"
+                            external
+                            withUnderline
+                        >
+                            {strings.fdrs}
+                        </Link>
+                    )}
+                />
+            )}
         >
             <div
                 className={styles.chartContainer}

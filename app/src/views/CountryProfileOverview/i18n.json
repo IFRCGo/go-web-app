@@ -20,6 +20,8 @@
         "seasonalCalendarTooltipEventTypeLabel": "Event type",
         "seasonalCalendarTooltipMonthsLabel": "Months",
         "seasonalCalendarTooltipSourceLabel": "Source",
-        "seasonalCalenderDataNotAvailable": "Data is not available!"
+        "seasonalCalenderDataNotAvailable": "Data is not available!",
+        "source": "Source",
+        "acaps": "ACAPS"
     }
 }

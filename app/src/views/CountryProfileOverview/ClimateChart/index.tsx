@@ -20,6 +20,7 @@ import {
     listToMap,
 } from '@togglecorp/fujs';
 
+import Link from '#components/Link';
 import useTemporalChartData from '#hooks/useTemporalChartData';
 import { GoApiResponse } from '#utils/restRequest';
 
@@ -199,6 +200,21 @@ function ClimateChart(props: Props) {
             heading={strings.climateChangeChart}
             contentViewType="vertical"
             withHeaderBorder
+            footerActions={(
+                <TextOutput
+                    label={strings.source}
+                    value={(
+                        <Link
+                            variant="tertiary"
+                            href="https://open-meteo.com/"
+                            external
+                            withUnderline
+                        >
+                            {strings.openMeteo}
+                        </Link>
+                    )}
+                />
+            )}
         >
             <Container
                 heading={strings.climateChartTemperature}

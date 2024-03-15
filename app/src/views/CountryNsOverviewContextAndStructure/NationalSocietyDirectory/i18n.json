@@ -2,6 +2,7 @@
     "namespace": "nationalSocietyDirectory",
     "strings": {
         "countryNSDirectoryTitle": "NS Directory",
-        "countryNSDirectorySource": "Source"
+        "countryNSDirectorySource": "Source",
+        "ifrc": "IFRC"
     }
 }

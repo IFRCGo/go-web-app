@@ -3,6 +3,7 @@ import {
     BarChart,
     Container,
     Message,
+    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -15,6 +16,7 @@ import {
     isNotDefined,
 } from '@togglecorp/fujs';
 
+import Link from '#components/Link';
 import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -62,6 +64,21 @@ function NationalSocietyIncomeSourceBreakdown(props: Props) {
                 )
             }
             withHeaderBorder
+            footerActions={(
+                <TextOutput
+                    label={strings.source}
+                    value={(
+                        <Link
+                            variant="tertiary"
+                            href="https://data.ifrc.org/fdrs/"
+                            external
+                            withUnderline
+                        >
+                            {strings.fdrs}
+                        </Link>
+                    )}
+                />
+            )}
         >
             {(isNotDefined(incomeListForSelectedYear)
                 || incomeListForSelectedYear.length === 0) && (
