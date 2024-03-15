@@ -3,9 +3,11 @@ import { useOutletContext } from 'react-router-dom';
 import {
     Container,
     Grid,
+    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
+import Link from '#components/Link';
 import { type CountryOutletContext } from '#utils/outletContext';
 
 import InitiativeCard from './InitiativeCard';
@@ -39,6 +41,21 @@ function NationalSocietyDirectoryInitiatives(props: Props) {
             // TODO: Add Contacts link in description
             headerDescription={strings.nSDirectoryInitiativesDescription}
             withHeaderBorder
+            footerActions={(
+                <TextOutput
+                    label={strings.source}
+                    value={(
+                        <Link
+                            variant="tertiary"
+                            href="https://www.ifrc.org/"
+                            external
+                            withUnderline
+                        >
+                            {strings.ifrc}
+                        </Link>
+                    )}
+                />
+            )}
         >
             <Grid
                 className={className}

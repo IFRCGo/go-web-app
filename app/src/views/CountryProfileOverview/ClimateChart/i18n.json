@@ -6,6 +6,8 @@
         "climateChangeMin": "Min",
         "climateChangePrecipitation": "Precipation totals (mm)",
         "climateChangeChart": "Climate chart (Avg. country values)",
-        "climateChartTemperature": "Average min and max temperature (°C)"
+        "climateChartTemperature": "Average min and max temperature (°C)",
+        "source": "Source",
+        "openMeteo": "Open-Meteo"
     }
 }

@@ -1,5 +1,8 @@
 import { useMemo } from 'react';
-import { Container } from '@ifrc-go/ui';
+import {
+    Container,
+    TextOutput,
+} from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { maxSafe } from '@ifrc-go/ui/utils';
 import {
@@ -18,6 +21,7 @@ import {
 } from 'mapbox-gl';
 
 import BaseMap from '#components/domain/BaseMap';
+import Link from '#components/Link';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import useCountry from '#hooks/domain/useCountry';
 import {
@@ -216,6 +220,21 @@ function PopulatioMap(props: Props) {
             heading={strings.populationMapTitle}
             className={styles.populationMap}
             withHeaderBorder
+            footerActions={(
+                <TextOutput
+                    label={strings.source}
+                    value={(
+                        <Link
+                            variant="tertiary"
+                            href="https://data.worldbank.org/"
+                            external
+                            withUnderline
+                        >
+                            {strings.worldBank}
+                        </Link>
+                    )}
+                />
+            )}
         >
             <BaseMap
                 withoutLabel

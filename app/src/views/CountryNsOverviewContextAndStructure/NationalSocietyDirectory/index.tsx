@@ -54,22 +54,22 @@ function NationalSocietyDirectory(props: Props) {
             className={_cs(className, styles.nationalSocietyDirectory)}
             childrenContainerClassName={styles.content}
             heading={strings.countryNSDirectoryTitle}
-            footerContent={(
+            withHeaderBorder
+            footerActions={(
                 <TextOutput
                     label={strings.countryNSDirectorySource}
                     value={(
                         <Link
                             variant="tertiary"
-                            href={countryResponse?.society_url}
+                            href="https://www.ifrc.org/"
                             external
                             withUnderline
                         >
-                            {countryResponse?.society_name}
+                            {strings.ifrc}
                         </Link>
                     )}
                 />
             )}
-            withHeaderBorder
         >
             <List
                 className={styles.directoryList}

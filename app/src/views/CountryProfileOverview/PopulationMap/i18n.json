@@ -1,6 +1,8 @@
 {
     "namespace": "populationMap",
     "strings": {
-        "populationMapTitle": "Population Map"
+        "populationMapTitle": "Population Map",
+        "source": "Source",
+        "worldBank": "The World Bank"
     }
 }

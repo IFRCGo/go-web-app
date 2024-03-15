@@ -3,6 +3,8 @@
     "strings": {
         "nsIncomeOverTimeHeading": "National Society Income Over Time",
         "nsIncomeOverTimeChartAxisLabel": "Income (CHF)",
-        "nsIncomeOverTimeTooltipTotalLabel": "Total"
+        "nsIncomeOverTimeTooltipTotalLabel": "Total",
+        "fdrs": "FDRS",
+        "source": "Source"
     }
 }

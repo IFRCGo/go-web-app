@@ -1,6 +1,8 @@
 {
     "namespace": "nationalSocietyKeyDocuments",
     "strings": {
-        "nSSocietyKeyDocumentsTitle": "Key Documents"
+        "nSSocietyKeyDocumentsTitle": "Key Documents",
+        "source": "Source",
+        "ifrc": "IFRC"
     }
 }
