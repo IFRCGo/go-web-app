@@ -4,7 +4,7 @@
         "nsIncomeOverTimeHeading": "National Society Income Over Time",
         "nsIncomeOverTimeChartAxisLabel": "Income (CHF)",
         "nsIncomeOverTimeTooltipTotalLabel": "Total",
-        "fdrs": "FDRS",
-        "source": "Source"
+        "sourceFDRS": "FDRS",
+        "sourceLabel": "Source"
     }
 }

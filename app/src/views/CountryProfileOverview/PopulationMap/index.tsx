@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import {
     Container,
+    NumberOutput,
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -40,8 +41,20 @@ import styles from './styles.module.css';
 
 const DEFAULT_MAX_POPULATION = 1000000;
 
+type PopulationData = GoApiResponse<'/api/v2/country/{id}/databank/'>['wb_population'] | undefined
 interface Props {
-    data: GoApiResponse<'/api/v2/country/{id}/databank/'>['wb_population'] | undefined;
+    data: PopulationData;
+}
+
+function getMaxPopulation(data: PopulationData) {
+    const districts = data?.districts.filter(
+        ({ population }) => isDefined(population),
+    );
+
+    const maxPopulation = maxSafe(
+        districts?.map(({ population }) => population),
+    );
+    return maxPopulation;
 }
 
 function PopulatioMap(props: Props) {
@@ -74,9 +87,7 @@ function PopulatioMap(props: Props) {
                 ({ population }) => isDefined(population),
             );
 
-            const maxPopulation = maxSafe(
-                districts.map(({ population }) => population),
-            ) ?? DEFAULT_MAX_POPULATION;
+            const maxPopulation = getMaxPopulation(data) ?? DEFAULT_MAX_POPULATION;
 
             if (districts.length === 0) {
                 return {
@@ -215,11 +226,34 @@ function PopulatioMap(props: Props) {
         [data],
     );
 
+    const maxPopulation = useMemo(() => (
+        getMaxPopulation(data) ?? DEFAULT_MAX_POPULATION
+    ), [data]);
+
     return (
         <Container
             heading={strings.populationMapTitle}
             className={styles.populationMap}
             withHeaderBorder
+            footerContent={(
+                <div className={styles.populationLegend}>
+                    <div className={styles.legendLabel}>{strings.populationLegendLabel}</div>
+                    <div className={styles.legendContent}>
+                        <div
+                            className={styles.populationGradient}
+                            style={{ background: `linear-gradient(90deg, ${COLOR_LIGHT_BLUE}, ${COLOR_PRIMARY_BLUE})` }}
+                        />
+                        <div className={styles.labelList}>
+                            <NumberOutput
+                                value={0}
+                            />
+                            <NumberOutput
+                                value={maxPopulation}
+                            />
+                        </div>
+                    </div>
+                </div>
+            )}
             footerActions={(
                 <TextOutput
                     label={strings.source}

@@ -1,7 +1,11 @@
 {
     "entry": ["./src/index.tsx"],
     "ignorePatterns": ["**/node_modules/**", "build/**", "**/parked/**"],
-    "ignoreUnimported": ["**/*.d.ts", "**/*.test.*"],
+    "ignoreUnimported": [
+        "**/*.d.ts",
+        "**/*.test.*",
+        "src/views/CountryNsOverviewCapacity/CountryNsOrganisationalCapacity/index.tsx"
+    ],
     "ignoreUnresolved": [
         "#assets/content/operational_timeline_title.svg?react",
         "#assets/content/operational_timeline_body.svg?react"

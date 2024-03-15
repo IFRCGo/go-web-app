@@ -4,7 +4,7 @@
         "climateChartMax": "Max",
         "climateChangeAverage": "Average",
         "climateChangeMin": "Min",
-        "climateChangePrecipitation": "Precipation totals (mm)",
+        "climateChangePrecipitation": "Precipation",
         "climateChangeChart": "Climate chart (Avg. country values)",
         "climateChartTemperature": "Average min and max temperature (°C)",
         "source": "Source",

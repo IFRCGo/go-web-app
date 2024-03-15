@@ -3,6 +3,7 @@
     "strings": {
         "populationMapTitle": "Population Map",
         "source": "Source",
-        "worldBank": "The World Bank"
+        "worldBank": "The World Bank",
+        "populationLegendLabel": "Population"
     }
 }
