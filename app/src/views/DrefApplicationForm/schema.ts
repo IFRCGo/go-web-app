@@ -58,6 +58,9 @@ type NeedIdentifiedResponse = NonNullable<DrefRequestBody['needs_identified']>[n
 type NsActionResponse = NonNullable<DrefRequestBody['national_society_actions']>[number];
 type InterventionResponse = NonNullable<DrefRequestBody['planned_interventions']>[number];
 type IndicatorResponse = NonNullable<InterventionResponse['indicators']>[number];
+type ReadinessResponse = NonNullable<InterventionResponse['readiness_block']>[number];
+type EarlyActionsResponse = NonNullable<InterventionResponse['early_action_block']>[number];
+type EarlyResponseResponse = NonNullable<InterventionResponse['early_action_block']>[number];
 type RiskSecurityResponse = NonNullable<DrefRequestBody['risk_security']>[number];
 type ImagesFileResponse = NonNullable<DrefRequestBody['images_file']>[number];
 type OtherActorFileFileResponse = NonNullable<DrefRequestBody['other_actor_file_file']>[number];
@@ -67,6 +70,9 @@ type NeedIdentifiedFormFields = NeedIdentifiedResponse & { client_id: string };
 type NsActionFormFields = NsActionResponse & { client_id: string; }
 type InterventionFormFields = InterventionResponse & { client_id: string };
 type IndicatorFormFields = IndicatorResponse & { client_id: string };
+type ReadinessFormFields = ReadinessResponse & { client_id: string };
+type EarlyActionsFormFields = EarlyActionsResponse & { client_id: string };
+type EarlyResponseFormFields = EarlyResponseResponse & { client_id: string };
 type SourceInformationFormFields = SourceInformationResponse & { client_id: string };
 
 type RiskSecurityFormFields = RiskSecurityResponse & { client_id: string; };
@@ -90,24 +96,32 @@ type DrefFormFields = (
                                 DeepReplace<
                                     DeepReplace<
                                         DeepReplace<
-                                            DrefRequestBody,
-                                            NeedIdentifiedResponse,
-                                            NeedIdentifiedFormFields
+                                            DeepReplace<
+                                                DeepReplace<
+                                                    DrefRequestBody,
+                                                    NeedIdentifiedResponse,
+                                                    NeedIdentifiedFormFields
+                                                    >,
+                                                NsActionResponse,
+                                                NsActionFormFields
+                                                >,
+                                            InterventionResponse,
+                                            InterventionFormFields
+                                            >,
+                                        EarlyActionsResponse,
+                                        EarlyActionsFormFields
                                         >,
-                                        NsActionResponse,
-                                        NsActionFormFields
-                                    >,
-                                    InterventionResponse,
-                                    InterventionFormFields
+                                    EarlyResponseResponse,
+                                    EarlyResponseFormFields
                                 >,
                                 IndicatorResponse,
                                 IndicatorFormFields
                             >,
-                            IndicatorResponse,
-                            IndicatorFormFields
+                            RiskSecurityResponse,
+                            RiskSecurityFormFields
                         >,
-                        RiskSecurityResponse,
-                        RiskSecurityFormFields
+                        ReadinessResponse,
+                        ReadinessFormFields
                     >,
                     ImagesFileResponse,
                     ImagesFileFormFields
@@ -141,6 +155,9 @@ type SourceInformationFields = ReturnType<ObjectSchema<NonNullable<PartialDref['
 type OtherActorFileFileFields= ReturnType<ObjectSchema<NonNullable<PartialDref['other_actor_file_file']>[number], PartialDref>['fields']>;
 type PlannedInterventionFields = ReturnType<ObjectSchema<NonNullable<PartialDref['planned_interventions']>[number], PartialDref>['fields']>;
 type IndicatorFields = ReturnType<ObjectSchema<NonNullable<NonNullable<PartialDref['planned_interventions']>[number]['indicators']>[number], PartialDref>['fields']>;
+type ReadinessBlockFields = ReturnType<ObjectSchema<NonNullable<NonNullable<PartialDref['planned_interventions']>[number]['readiness_block']>[number], PartialDref>['fields']>;
+type EarlyActionsBlockFields = ReturnType<ObjectSchema<NonNullable<NonNullable<PartialDref['planned_interventions']>[number]['early_action_block']>[number], PartialDref>['fields']>;
+type EarlyResponseBlockFields = ReturnType<ObjectSchema<NonNullable<NonNullable<PartialDref['planned_interventions']>[number]['early_response_block']>[number], PartialDref>['fields']>;
 
 const schema: DrefFormSchema = {
     fields: (formValue): DrefFormSchemaFields => {
@@ -775,6 +792,45 @@ const schema: DrefFormSchema = {
                                         ],
                                     },
                                     description: {},
+                                    early_action_block: {
+                                        keySelector: (early) => early.client_id,
+                                        member: () => ({
+                                            fields: (): EarlyActionsBlockFields => ({
+                                                client_id: {},
+                                                title: {},
+                                                timeframe: {
+                                                    validations: [positiveNumberCondition],
+                                                },
+                                            }),
+                                        }),
+
+                                    },
+                                    early_response_block: {
+                                        keySelector: (response) => response.client_id,
+                                        member: () => ({
+                                            fields: (): EarlyResponseBlockFields => ({
+                                                client_id: {},
+                                                title: {},
+                                                timeframe: {
+                                                    validations: [positiveNumberCondition],
+                                                },
+                                            }),
+                                        }),
+
+                                    },
+                                    readiness_block: {
+                                        keySelector: (readiness) => readiness.client_id,
+                                        member: () => ({
+                                            fields: (): ReadinessBlockFields => ({
+                                                client_id: {},
+                                                title: {},
+                                                timeframe: {
+                                                    validations: [positiveNumberCondition],
+                                                },
+                                            }),
+                                        }),
+
+                                    },
                                     indicators: {
                                         keySelector: (indicator) => indicator.client_id,
                                         member: () => ({

@@ -5,7 +5,6 @@ import {
     Container,
     InputSection,
     NumberInput,
-    TextArea,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -25,13 +24,19 @@ import NonFieldError from '#components/NonFieldError';
 import { TYPE_IMMINENT } from '#views/DrefApplicationForm/common';
 
 import { type PartialDref } from '../../schema';
+import EarlyActionsInput from './EarlyActionsInput';
+import EarlyResponseInput from './EarlyResponseInput';
 import IndicatorInput from './IndicatorInput';
+import ReadinessInput from './ReadinessInput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type PlannedInterventionFormFields = NonNullable<PartialDref['planned_interventions']>[number];
 type IndicatorFormFields = NonNullable<PlannedInterventionFormFields['indicators']>[number];
+type ReadinessFormFields = NonNullable<PlannedInterventionFormFields['readiness_block']>[number];
+type EarlyActionsFormFields = NonNullable<PlannedInterventionFormFields['early_action_block']>[number];
+type EarlyResponseFormFields = NonNullable<PlannedInterventionFormFields['early_response_block']>[number];
 
 const defaultInterventionValue: PlannedInterventionFormFields = {
     client_id: '-1',
@@ -76,6 +81,30 @@ function InterventionInput(props: Props) {
         : undefined;
 
     const {
+        setValue: onReadinessChange,
+        removeValue: onReadinessRemove,
+    } = useFormArray<'readiness_block', ReadinessFormFields>(
+        'readiness_block' as const,
+        onFieldChange,
+    );
+
+    const {
+        setValue: onEarlyActionsChange,
+        removeValue: onEarlyActionsRemove,
+    } = useFormArray<'early_action_block', EarlyActionsFormFields>(
+        'early_action_block' as const,
+        onFieldChange,
+    );
+
+    const {
+        setValue: onEarlyResponseChange,
+        removeValue: onEarlyResponseRemove,
+    } = useFormArray<'early_response_block', EarlyActionsFormFields>(
+        'early_response_block' as const,
+        onFieldChange,
+    );
+
+    const {
         setValue: onIndicatorChange,
         removeValue: onIndicatorRemove,
     } = useFormArray<'indicators', IndicatorFormFields>(
@@ -94,6 +123,54 @@ function InterventionInput(props: Props) {
                     [...(oldValue ?? []), newIndicatorItem]
                 ),
                 'indicators' as const,
+            );
+        },
+        [onFieldChange],
+    );
+
+    const handleReadinessAddButtonClick = useCallback(
+        () => {
+            const newReadinessItem: ReadinessFormFields = {
+                client_id: randomString(),
+            };
+
+            onFieldChange(
+                (oldValue: ReadinessFormFields[] | undefined) => (
+                    [...(oldValue ?? []), newReadinessItem]
+                ),
+                'readiness_block' as const,
+            );
+        },
+        [onFieldChange],
+    );
+
+    const handleEarlyActionsAddButtonClick = useCallback(
+        () => {
+            const newEarlyActionsItem: EarlyActionsFormFields = {
+                client_id: randomString(),
+            };
+
+            onFieldChange(
+                (oldValue: EarlyActionsFormFields[] | undefined) => (
+                    [...(oldValue ?? []), newEarlyActionsItem]
+                ),
+                'early_action_block' as const,
+            );
+        },
+        [onFieldChange],
+    );
+
+    const handleEarlyResponseAddButtonClick = useCallback(
+        () => {
+            const newEarlyResponseItem: EarlyResponseFormFields = {
+                client_id: randomString(),
+            };
+
+            onFieldChange(
+                (oldValue: EarlyResponseFormFields[] | undefined) => (
+                    [...(oldValue ?? []), newEarlyResponseItem]
+                ),
+                'early_response_block' as const,
             );
         },
         [onFieldChange],
@@ -158,15 +235,111 @@ function InterventionInput(props: Props) {
                 </Button>
             </div>
             <NonFieldError error={error} />
-            <TextArea
-                label={strings.drefFormListOfActivities}
-                name="description"
-                value={value.description}
-                onChange={onFieldChange}
-                error={error?.description}
-                disabled={disabled}
-                autoBullets
-            />
+            <Container
+                heading={strings.drefFormEarlyActionsLabel}
+                headingLevel={5}
+                footerIcons={(
+                    <Button
+                        variant="secondary"
+                        name={undefined}
+                        onClick={handleEarlyActionsAddButtonClick}
+                        disabled={disabled}
+                    >
+                        {strings.drefAddActivitiesButtonLabel}
+                    </Button>
+                )}
+            >
+                <NonFieldError error={getErrorObject(error?.readiness_block)} />
+                {value?.early_action_block?.map((early, i) => (
+                    <EarlyActionsInput
+                        key={early.client_id}
+                        index={i}
+                        value={early}
+                        onChange={onEarlyActionsChange}
+                        onRemove={onEarlyActionsRemove}
+                        error={getErrorObject(error?.early_action_block)}
+                        disabled={disabled}
+                    />
+                ))}
+                {(
+                    isNotDefined(value.early_action_block)
+                    || value.early_action_block.length === 0
+                ) && (
+                    <div className={styles.emptyMessage}>
+                        {strings.drefFormNoActivitiesMessage}
+                    </div>
+                )}
+            </Container>
+            <Container
+                heading={strings.drefFormEarlyResponseLabel}
+                headingLevel={5}
+                footerIcons={(
+                    <Button
+                        variant="secondary"
+                        name={undefined}
+                        onClick={handleEarlyResponseAddButtonClick}
+                        disabled={disabled}
+                    >
+                        {strings.drefAddActivitiesButtonLabel}
+                    </Button>
+                )}
+            >
+                <NonFieldError error={getErrorObject(error?.early_response_block)} />
+                {value?.early_response_block?.map((response, i) => (
+                    <EarlyResponseInput
+                        key={response.client_id}
+                        index={i}
+                        value={response}
+                        onChange={onEarlyResponseChange}
+                        onRemove={onEarlyResponseRemove}
+                        error={getErrorObject(error?.early_response_block)}
+                        disabled={disabled}
+                    />
+                ))}
+                {(
+                    isNotDefined(value.early_response_block)
+                    || value.early_response_block.length === 0
+                ) && (
+                    <div className={styles.emptyMessage}>
+                        {strings.drefFormNoActivitiesMessage}
+                    </div>
+                )}
+            </Container>
+            <Container
+                heading={strings.drefFormReadinessLabel}
+                headingLevel={5}
+                footerIcons={(
+                    <Button
+                        variant="secondary"
+                        name={undefined}
+                        onClick={handleReadinessAddButtonClick}
+                        disabled={disabled}
+                    >
+                        {strings.drefAddActivitiesButtonLabel}
+                    </Button>
+                )}
+            >
+                <NonFieldError error={getErrorObject(error?.readiness_block)} />
+                {value?.readiness_block?.map((readiness, i) => (
+                    <ReadinessInput
+                        key={readiness.client_id}
+                        index={i}
+                        value={readiness}
+                        onChange={onReadinessChange}
+                        onRemove={onReadinessRemove}
+                        error={getErrorObject(error?.readiness_block)}
+                        disabled={disabled}
+                    />
+                ))}
+                {(
+                    isNotDefined(value.readiness_block)
+                    || value.readiness_block.length === 0
+                ) && (
+                    <div className={styles.emptyMessage}>
+                        {strings.drefFormNoActivitiesMessage}
+                    </div>
+                )}
+            </Container>
             <Container
                 heading={strings.drefFormIndicatorsLabel}
                 headingLevel={5}

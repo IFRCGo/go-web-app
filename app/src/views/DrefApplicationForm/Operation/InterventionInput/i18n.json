@@ -7,8 +7,13 @@
         "drefFormPeopleTargetedImmediateResponse": "People targeted by immediate response",
         "drefFormListOfActivities": "List of Activities",
         "drefAddIndicatorButtonLabel": "Add Indicator",
+        "drefAddActivitiesButtonLabel": "Add Activities",
         "drefFormIndicatorsLabel": "Indicators",
+        "drefFormReadinessLabel": "Readiness",
+        "drefFormEarlyActionsLabel": "Early Actions",
+        "drefFormEarlyResponseLabel": "Early Response",
         "drefFormRemoveIntervention": "Remove Intervention",
-        "drefFormNoIndicatorMessage": "No indicators"
+        "drefFormNoIndicatorMessage": "No indicators",
+        "drefFormNoActivitiesMessage": "No activities"
     }
 }
