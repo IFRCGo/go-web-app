@@ -1,9 +1,12 @@
 import {
+    addCondition,
+    nullValue,
     ObjectSchema,
     PartialForm,
     requiredStringCondition,
 } from '@togglecorp/toggle-form';
 
+import { NATIONAL_SOCIETY } from '#utils/constants';
 import { type GoApiBody } from '#utils/restRequest';
 
 export type WorkPlanBody = GoApiBody<'/api/v2/per-work-plan/{id}/', 'PATCH'>;
@@ -33,34 +36,82 @@ export const workplanSchema: WorkPlanFormScheme = {
         prioritized_action_responses: {
             keySelector: (componentResponse) => componentResponse.component,
             member: () => ({
-                fields: (): PrioritizedActionResponseFields => ({
-                    component: {},
-                    actions: {},
-                    due_date: {},
-                    supported_by_organization_type: {},
-                    supported_by: {},
-                    status: {
-                        required: true,
-                    },
-                }),
+                fields: (prioritizedActionFormValue): PrioritizedActionResponseFields => {
+                    let prioritizedActionFormFields: PrioritizedActionResponseFields = {
+                        component: {},
+                        actions: {},
+                        due_date: {},
+                        supported_by_organization_type: {},
+                        supported_by: {},
+                        status: {
+                            required: true,
+                        },
+                    };
+                    prioritizedActionFormFields = addCondition(
+                        prioritizedActionFormFields,
+                        prioritizedActionFormValue,
+                        ['supported_by_organization_type'] as const,
+                        ['supported_by'] as const,
+                        (): Pick<PrioritizedActionResponseFields, 'supported_by'> => {
+                            if (prioritizedActionFormValue
+                                ?.supported_by_organization_type !== NATIONAL_SOCIETY
+                            ) {
+                                return {
+                                    supported_by: {
+                                        forceValue: nullValue,
+                                    },
+                                };
+                            }
+                            return {
+                                supported_by: {},
+                            };
+                        },
+                    );
+                    return prioritizedActionFormFields;
+                },
             }),
         },
         additional_action_responses: {
             keySelector: (customComponentResponse) => customComponentResponse.client_id,
             member: () => ({
-                fields: (): AdditionalActionResponseFields => ({
-                    client_id: {},
-                    actions: {
-                        required: true,
-                        requiredValidation: requiredStringCondition,
-                    },
-                    due_date: {},
-                    supported_by_organization_type: {},
-                    supported_by: {},
-                    status: {
-                        required: true,
-                    },
-                }),
+                fields: (additionalActionFormValue): AdditionalActionResponseFields => {
+                    let addtionalActionFormFields: AdditionalActionResponseFields = {
+                        client_id: {},
+                        actions: {
+                            required: true,
+                            requiredValidation: requiredStringCondition,
+                        },
+                        due_date: {},
+                        supported_by_organization_type: {},
+                        supported_by: {},
+                        status: {
+                            required: true,
+                        },
+                    };
+
+                    addtionalActionFormFields = addCondition(
+                        addtionalActionFormFields,
+                        additionalActionFormValue,
+                        ['supported_by_organization_type'] as const,
+                        ['supported_by'] as const,
+                        (): Pick<AdditionalActionResponseFields, 'supported_by'> => {
+                            if (additionalActionFormValue
+                                ?.supported_by_organization_type !== NATIONAL_SOCIETY
+                            ) {
+                                return {
+                                    supported_by: {
+                                        forceValue: nullValue,
+                                    },
+                                };
+                            }
+                            return {
+                                supported_by: {},
+                            };
+                        },
+                    );
+
+                    return addtionalActionFormFields;
+                },
             }),
         },
     }),

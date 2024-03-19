@@ -91,9 +91,9 @@ function AdditionalActionInput(props: Props) {
         organizationType: PerWorkPlanOrganizationTypeOption['key'] | undefined,
     ) => {
         onFieldChange(organizationType, 'supported_by_organization_type' as const);
-        if (organizationType !== NATIONAL_SOCIETY) {
-            onFieldChange(undefined, 'supported_by');
-        }
+        /* if (organizationType !== NATIONAL_SOCIETY) {
+*     onFieldChange(undefined, 'supported_by');
+* } */
     }, [onFieldChange]);
 
     return (
@@ -141,7 +141,9 @@ function AdditionalActionInput(props: Props) {
             <SelectInput
                 name="supported_by_organization_type"
                 label={strings.actionSupportedByOrganizationInputLabel}
-                placeholder={strings.actionOrganizationInputPlaceholder}
+                placeholder={
+                    strings.actionSupportedByOrganizationInputPlaceholder
+                }
                 options={per_supported_by_organization_type}
                 onChange={handleOrganizationTypeChange}
                 keySelector={organizationTypeKeySelector}
@@ -151,7 +153,7 @@ function AdditionalActionInput(props: Props) {
                 readOnly={readOnly}
                 disabled={disabled}
             />
-            {value?.supported_by_organization_type === 3 && (
+            {value?.supported_by_organization_type === NATIONAL_SOCIETY && (
                 <NationalSocietySelectInput
                     name="supported_by"
                     label={strings.actionInputSupportedByLabel}
