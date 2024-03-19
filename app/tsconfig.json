@@ -27,10 +27,15 @@
 
         /* Linting */
         "strict": true,
-        "types": ["vite-plugin-svgr/client"],
+        "types": ["vite-plugin-svgr/client", "node"],
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true
+    },
+    /* https://github.com/TypeStrong/ts-node/discussions/1781#discussioncomment-4677258 */
+    "ts-node": {
+        "esm": true,
+        "experimentalSpecifierResolution": "node"
     },
     "include": ["src", "env.ts"],
     "references": [{ "path": "./tsconfig.node.json" }]
