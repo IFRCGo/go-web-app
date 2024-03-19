@@ -38,11 +38,11 @@ function Presence() {
                         value={(
                             <Link
                                 variant="tertiary"
-                                href="https://www.icrc.org/"
+                                href="https://www.ifrc.org/"
                                 external
                                 withUnderline
                             >
-                                {strings.icrc}
+                                {strings.ifrc}
                             </Link>
                         )}
                     />

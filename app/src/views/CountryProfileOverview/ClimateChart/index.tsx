@@ -210,11 +210,11 @@ function ClimateChart(props: Props) {
                     value={(
                         <Link
                             variant="tertiary"
-                            href="https://open-meteo.com/"
+                            href="https://climateknowledgeportal.worldbank.org/"
                             external
                             withUnderline
                         >
-                            {strings.openMeteo}
+                            {strings.climateKnowledgePortal}
                         </Link>
                     )}
                 />

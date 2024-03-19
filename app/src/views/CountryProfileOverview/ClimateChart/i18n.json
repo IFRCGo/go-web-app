@@ -4,10 +4,10 @@
         "climateChartMax": "Max",
         "climateChangeAverage": "Average",
         "climateChangeMin": "Min",
-        "climateChangePrecipitation": "Precipation",
+        "climateChangePrecipitation": "Precipitation",
         "climateChangeChart": "Climate chart (Avg. country values)",
         "climateChartTemperature": "Average min and max temperature (°C)",
         "source": "Source",
-        "openMeteo": "Open-Meteo"
+        "climateKnowledgePortal": "The World Bank"
     }
 }
