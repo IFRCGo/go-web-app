@@ -1,6 +1,6 @@
 {
     "name": "go-web-app",
-    "version": "7.1.2",
+    "version": "7.1.3",
     "type": "module",
     "private": true,
     "scripts": {
