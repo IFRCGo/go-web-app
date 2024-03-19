@@ -1,0 +1,23 @@
+{
+    "namespace" : "perExport",
+    "strings": {
+        "perExportNSPreparedness": "NS Preparedness and Response Capacity",
+        "perImageLogoIFRCAlt": "IFRC",
+        "perExportTitle": "PER",
+        "perExportStartDateLabel": "Start Date",
+        "perExportPhaseLabel": "PER Phase",
+        "perExportFocalPointNameLabel": "Focal Point",
+        "perExportTypeOfAssessmentLabel": "Type of Assessment",
+        "perExportFocalPointEmailTitle": "Email",
+        "perExportCycleLabel": "PER Cycle",
+        "perExportAssessmentHeading": "PER Process Results",
+        "perExportTotalBenchmarkSummaryHeading": "Total Benchmark Summary: ",
+        "perExportAverageComponentRatingLabel": "Average Component Rating",
+        "componentsByArea": "Components by Area",
+        "perNSResponseHeading":"NS Response Mechanism Performance",
+        "perHighlightedTopRatedComponentHeading": "Highlighted Top Rated Components",
+        "perComponentRatingResultsHeading": "Components Rating Results",
+        "perPriorityComponentHeading": "Component {componentNumber} {componentLetter}: {componentName}",
+        "perComponentNotReviewed": "0 - Not reviewed"
+    }
+}

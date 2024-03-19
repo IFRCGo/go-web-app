@@ -1,10 +1,26 @@
 .public-country-preparedness {
     padding: var(--go-ui-spacing-xl) 0;
+    min-height: 40vh;
 
+    .actions-container {
+        display: flex;
+        align-items: center;
+
+        .per-action {
+            display: flex;
+            gap: var(--go-ui-spacing-md);
+            align-items: center;
+        }
+    }
+
+    .back-icon {
+        font-size: var(--go-ui-font-size-3xl);
+    }
     .preparedness-content {
         display: grid;
-        grid-gap: var(--go-ui-spacing-lg);
+        grid-gap: var(--go-ui-spacing-2xl);
         grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
+        padding: var(--go-ui-spacing-lg) 0;
 
         @media screen and (max-width: 40rem) {
             grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
@@ -12,6 +28,25 @@
 
         .pending-message {
             grid-column: 1 / -1;
+        }
+
+        .per-overview-details {
+            display: grid;
+            grid-column: 1 / -1;
+            grid-gap: var(--go-ui-spacing-md);
+            grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+
+            .contact-container {
+                display: flex;
+                align-items: flex-end;
+                justify-content: center;
+                grid-column: 1 / -1;
+                grid-row-end: span 4;
+            }
+
+            @media screen and (max-width: 30rem) {
+                grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+            }
         }
 
         .top-rated-component-content {
@@ -34,6 +69,10 @@
                 border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
                 padding: var(--go-ui-spacing-sm);
             }
+        }
+
+        .limited-access {
+            grid-column: 1 / -1;
         }
     }
 }

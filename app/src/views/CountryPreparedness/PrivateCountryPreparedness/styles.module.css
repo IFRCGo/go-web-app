@@ -1,10 +1,16 @@
-.country-preparedness {
+.private-country-preparedness {
     padding: var(--go-ui-spacing-2xl) 0;
     min-height: 40vh;
 
     .actions-container {
         display: flex;
         align-items: center;
+
+        .per-action {
+            display: flex;
+            gap: var(--go-ui-spacing-md);
+            align-items: center;
+        }
     }
 
     .back-icon {
@@ -26,7 +32,7 @@
             grid-column: 1 / -1;
         }
 
-        .latest-per-details {
+        .per-overview-details {
             display: grid;
             grid-column: 1 / -1;
             grid-gap: var(--go-ui-spacing-md);
@@ -130,8 +136,16 @@
             }
         }
 
-        .limited-access {
+        .relevant-documents {
             grid-column: 1  / -1;
+
+            .upload-input-section {
+                gap: var(--go-ui-spacing-sm);
+            }
+
+            .per-documents {
+                min-height: unset;
+            }
         }
     }
 }

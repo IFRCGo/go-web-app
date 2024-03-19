@@ -1,5 +1,5 @@
 {
-    "namespace": "countryPreparedness",
+    "namespace": "privateCountryPreparedness",
     "strings": {
         "nsPreparednessAndResponseCapacityHeading": "NS Preparedness and Response Capacity",
         "goBackButtonTitle": "Go back",
@@ -24,12 +24,13 @@
         "componentFetchingData": "Fetching data...",
         "componentContactPERTeam": "Contact PER Team",
         "componentNotReviewed": "Not Reviewed",
-        "component0NotReviewed": "0 - Not reviewed",
+        "componentNotReviewed": "0 - Not reviewed",
         "componentChartNotAvailable": "Charts not available!",
         "componentChartNotAvailableDescription": "Assessment has not been performed yet for current PER cycle!",
-        "componentLimitedAccess": "Limited access!",
-        "componentLimitedAccessDescription": "You do not have enough permission to view more details on this PER.",
-        "componentRequestSeeMore": "Request to see more",
-        "lastUpdatedLabel": "Last update"
+        "lastUpdatedLabel": "Last update",
+        "perExport": "Export",
+        "upload": "Upload",
+        "relevantDocumentHeader": "Relevant Documents",
+        "uploadLimitDisclaimer": "Note: You can only upload upto 10 documents."
     }
 }

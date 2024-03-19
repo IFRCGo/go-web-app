@@ -180,3 +180,9 @@ export const NUM_X_AXIS_TICKS_MAX = 12;
 export const DEFAULT_X_AXIS_HEIGHT = 26;
 export const DEFAULT_Y_AXIS_WIDTH = 46;
 export const DEFAULT_Y_AXIS_WIDTH_WITH_LABEL = 66;
+
+export type SupportedByOrganizationType = components<'read'>['schemas']['SupportedByOrganizationTypeEnum'];
+export const UN_ORGANIZATION = 0;
+export const PRIVATE_SECTOR = 1;
+export const GOVERNMENT = 2;
+export const NATIONAL_SOCIETY = 3;

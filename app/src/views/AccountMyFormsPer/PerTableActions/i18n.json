@@ -3,6 +3,9 @@
     "strings":{
         "tableActionEditLabel": "Edit {phaseDisplay}",
         "tableActionViewLabel": "View {phaseDisplay}",
-        "tableActionViewWorkPlan": "View Work Plan"
+        "tableActionViewWorkPlan": "View Work Plan",
+        "dropdownPerActionExportLabel": "Export",
+        "failureToExportMessage":"Failed to export the PER form. Please try again.",
+        "failureToDownloadMessage":"Failed to download the PER form. Please try again."
     }
 }

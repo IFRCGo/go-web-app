@@ -1204,7 +1204,6 @@ const wrappedRoutes = {
     perPrioritizationForm,
     perWorkPlanForm,
     threeWProjectDetail,
-
     ...regionRoutes,
     ...countryRoutes,
     ...surgeRoutes,

@@ -21,3 +21,8 @@
         padding: 0 0 0 var(--go-ui-spacing-md);
     }
 }
+
+.non-expandable-component-input {
+    border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+    background-color: var(--go-ui-color-foreground);
+}

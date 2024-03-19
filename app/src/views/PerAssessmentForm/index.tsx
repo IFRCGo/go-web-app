@@ -137,6 +137,56 @@ export function Component() {
     });
 
     const {
+        pending: componentPending,
+        response: componentResponse,
+    } = useRequest({
+        url: '/api/v2/per-formcomponent/',
+        query: {
+            limit: 9999,
+        },
+    });
+
+    const {
+        pending: questionGroupPending,
+        response: questionGroupResponse,
+    } = useRequest({
+        url: '/api/v2/per-formquestion-group/',
+        query: {
+            limit: 9999,
+        },
+    });
+
+    const parentComponent: PerFormQuestionResponse['results'] = useMemo(() => {
+        const filteredParentComponent = componentResponse?.results?.filter(
+            (question) => question.is_parent === true,
+        );
+
+        return filteredParentComponent?.map((component) => (
+            {
+                answers: [],
+                component: {
+                    area: {
+                        area_num: component.area,
+                        title: '',
+                        id: component.area,
+                    },
+                    component_letter: component.component_letter,
+                    component_num: component.component_num,
+                    description: component.description,
+                    id: component.id,
+                    title: component.title,
+                    is_parent: component.is_parent,
+                },
+                description: null,
+                id: component.id,
+                question: '',
+                question_group: null,
+                question_num: null,
+            }
+        ));
+    }, [componentResponse]);
+
+    const {
         response: perOverviewResponse,
     } = useRequest({
         skip: isNotDefined(id),
@@ -237,7 +287,7 @@ export function Component() {
             if (isNotDefined(assessmentId) || isNotDefined(perId)) {
                 // TODO: show proper error message to user
                 // eslint-disable-next-line no-console
-                console.error('assesment id not defined');
+                console.error('assessment id not defined');
                 return;
             }
             formContentRef.current?.scrollIntoView();
@@ -294,8 +344,12 @@ export function Component() {
         }),
     );
 
+    const groupedParentQuestionResponse = useMemo(() => (
+        [...questionsResponse?.results ?? [], ...parentComponent ?? []]
+    ), [questionsResponse, parentComponent]);
+
     const areaIdGroupedQuestion = listToGroupList(
-        questionsResponse?.results ?? [],
+        groupedParentQuestionResponse ?? [],
         (question) => question.component.area.id,
     );
 
@@ -324,6 +378,8 @@ export function Component() {
     const currentPerStep = statusResponse?.phase;
 
     const dataPending = questionsPending
+        || componentPending
+        || questionGroupPending
         || perOptionsPending
         || fetchingPerAssessment
         || fetchingStatus;
@@ -463,6 +519,7 @@ export function Component() {
                                         area={area}
                                         readOnly={readOnlyMode}
                                         questions={areaIdGroupedQuestion[area.id]}
+                                        questionGroups={questionGroupResponse}
                                         index={areaResponseMapping[area.id]?.index}
                                         value={areaResponseMapping[area.id]?.value}
                                         disabled={savePerPending}

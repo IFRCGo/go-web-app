@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import {
     Container,
     DateInput,
@@ -20,6 +21,7 @@ import {
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
 import NonFieldError from '#components/NonFieldError';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import { NATIONAL_SOCIETY } from '#utils/constants';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import { type PartialWorkPlan } from '../schema';
@@ -34,11 +36,14 @@ type ComponentResponse = NonNullable<PrioritizationResponse['prioritized_action_
 
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type PerWorkPlanStatusOption = NonNullable<GlobalEnumsResponse['per_workplanstatus']>[number];
+type PerWorkPlanOrganizationTypeOption = NonNullable<GlobalEnumsResponse['per_supported_by_organization_type']>[number];
 
 function statusKeySelector(option: PerWorkPlanStatusOption) {
     return option.key;
 }
-
+function organizationTypeKeySelector(option: PerWorkPlanOrganizationTypeOption) {
+    return option.key;
+}
 interface Props {
     value?: Value;
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
@@ -60,7 +65,7 @@ function PrioritizedActionInput(props: Props) {
         disabled,
     } = props;
 
-    const { per_workplanstatus } = useGlobalEnums();
+    const { per_workplanstatus, per_supported_by_organization_type } = useGlobalEnums();
     const strings = useTranslation(i18n);
     const error = getErrorObject(formError);
 
@@ -71,6 +76,21 @@ function PrioritizedActionInput(props: Props) {
             component: component.id,
         }),
     );
+
+    const handleOrganizationTypeChange = useCallback((
+        organizationType: PerWorkPlanOrganizationTypeOption['key'] | undefined,
+    ) => {
+        if (organizationType === NATIONAL_SOCIETY) {
+            onFieldChange(organizationType, 'supported_by_organization_type');
+        } else {
+            onChange((oldValue) => ({
+                component: component.id,
+                ...oldValue,
+                supported_by_organization_type: organizationType,
+                supported_by: undefined,
+            }), index);
+        }
+    }, [onFieldChange, onChange, component.id, index]);
 
     return (
         <Container
@@ -115,16 +135,31 @@ function PrioritizedActionInput(props: Props) {
                 readOnly={readOnly}
                 disabled={disabled}
             />
-            <NationalSocietySelectInput
-                name="supported_by"
-                label={strings.componentSupportedByInputLabel}
-                placeholder={strings.componentSupportedByInputPlaceholder}
-                onChange={onFieldChange}
-                value={value?.supported_by}
-                error={error?.supported_by}
+            <SelectInput
+                name="supported_by_organization_type"
+                label={strings.componentSupportedByOrganizationInputLabel}
+                placeholder={strings.componentOrganizationInputPlaceholder}
+                options={per_supported_by_organization_type}
+                onChange={handleOrganizationTypeChange}
+                keySelector={organizationTypeKeySelector}
+                labelSelector={stringValueSelector}
+                value={value?.supported_by_organization_type}
+                error={error?.supported_by_organization_type}
                 readOnly={readOnly}
                 disabled={disabled}
             />
+            {value?.supported_by_organization_type === NATIONAL_SOCIETY && (
+                <NationalSocietySelectInput
+                    name="supported_by"
+                    label={strings.componentSupportedByInputLabel}
+                    placeholder={strings.componentSupportedByInputPlaceholder}
+                    onChange={onFieldChange}
+                    value={value?.supported_by}
+                    error={error?.supported_by}
+                    readOnly={readOnly}
+                    disabled={disabled}
+                />
+            )}
             <SelectInput
                 name="status"
                 label={strings.componentStatusInputLabel}

@@ -1,4 +1,8 @@
-import { useEffect } from 'react';
+import {
+    useCallback,
+    useEffect,
+    useRef,
+} from 'react';
 import {
     ChevronDownLineIcon,
     ChevronUpLineIcon,
@@ -17,6 +21,7 @@ import styles from './styles.module.css';
 export interface Props extends Omit<ContainerProps, 'withInternalPadding' | 'withoutWrapInHeading'> {
     initiallyExpanded?: boolean;
     onExpansionChange?: (isExpanded: boolean) => void;
+    showExpandButtonAtBottom?: boolean;
     componentRef?: React.MutableRefObject<{
         setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>;
     } | null>;
@@ -33,9 +38,11 @@ function ExpandableContainer(props: Props) {
         childrenContainerClassName,
         onExpansionChange,
         withHeaderBorder,
+        showExpandButtonAtBottom,
         ...otherProps
     } = props;
 
+    const containerRef = useRef<HTMLDivElement>(null);
     const strings = useTranslation(i18n);
 
     const [
@@ -60,10 +67,17 @@ function ExpandableContainer(props: Props) {
         }
     }, [componentRef, setExpanded]);
 
+    const handleExpansionToggle = useCallback(() => {
+        toggleExpanded();
+        if (containerRef) {
+            containerRef.current?.scrollIntoView();
+        }
+    }, [toggleExpanded]);
     return (
         <Container
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
+            containerRef={containerRef}
             className={_cs(styles.expandableContainer, className)}
             headerClassName={_cs(styles.header, headerClassName)}
             childrenContainerClassName={_cs(styles.content, childrenContainerClassName)}
@@ -90,8 +104,24 @@ function ExpandableContainer(props: Props) {
                 </>
             )}
             actionsContainerClassName={styles.actionsContainer}
+            footerActions={showExpandButtonAtBottom && expanded && (
+                <Button
+                    variant="tertiary"
+                    name={undefined}
+                    onClick={handleExpansionToggle}
+                    title={expanded
+                        ? strings.expandableContainerCollapse
+                        : strings.expandableContainerExpand}
+                >
+                    {expanded ? (
+                        <ChevronUpLineIcon className={styles.icon} />
+                    ) : (
+                        <ChevronDownLineIcon className={styles.icon} />
+                    )}
+                </Button>
+            )}
         >
-            {expanded && children}
+            {(expanded) && children}
         </Container>
     );
 }

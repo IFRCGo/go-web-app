@@ -12,6 +12,7 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     _cs,
     isDefined,
+    isNotDefined,
 } from '@togglecorp/fujs';
 import { nonFieldError } from '@togglecorp/toggle-form';
 
@@ -23,7 +24,7 @@ import { transformObjectError } from '#utils/restRequest/error';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-export type SupportedPaths = '/api/v2/per-file/' | '/api/v2/dref-files/' | '/api/v2/flash-update-file/';
+export type SupportedPaths = '/api/v2/per-file/' | '/api/v2/dref-files/' | '/api/v2/flash-update-file/' | '/api/v2/per-document-upload/';
 
 export type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 'value' | 'onChange' | 'children'| 'inputRef'> & {
     actions?: React.ReactNode;
@@ -40,6 +41,8 @@ export type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 
     withoutPreview?: boolean;
     error?: React.ReactNode;
     description?: React.ReactNode;
+    countryId?: string | undefined | null;
+    onSuccess?: () => void;
 }
 
 function GoSingleFileInput<T extends NameType>(props: Props<T>) {
@@ -63,6 +66,8 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
         withoutPreview,
         error,
         description,
+        countryId,
+        onSuccess,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -77,10 +82,13 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
         method: 'POST',
         // FIXME: fix typing in server (low priority)
         // the server generated type for response and body is the same
-        body: (body: { file: File }) => body as never,
+        body: (body) => body as never,
         onSuccess: (response) => {
             const { id, file } = response;
             onChange(id, name);
+            if (isDefined(countryId) && isDefined(onSuccess)) {
+                onSuccess();
+            }
 
             if (isDefined(file) && setFileIdToUrlMap) {
                 setFileIdToUrlMap((oldMap) => {
@@ -115,10 +123,13 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
     });
 
     const handleChange = useCallback((file: File | undefined) => {
-        if (file) {
+        if (file && isNotDefined(countryId)) {
             triggerFileUpload({ file });
         }
-    }, [triggerFileUpload]);
+        if (file && isDefined(countryId)) {
+            triggerFileUpload({ country: Number(countryId), file });
+        }
+    }, [triggerFileUpload, countryId]);
 
     const disabled = disabledFromProps || pending || readOnly;
     const actions = (!readOnly && !disabled ? actionsFromProps : null);
@@ -144,7 +155,7 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
                 >
                     {children}
                 </RawFileInput>
-                {clearable && value && (
+                {clearable && value && isNotDefined(countryId) && (
                     <IconButton
                         className={styles.removeButton}
                         name={undefined}
