@@ -8,7 +8,7 @@ import ProgressBar from '#components/ProgressBar';
 
 import styles from './styles.module.css';
 
-interface Props {
+export interface Props {
     className?: string;
     children?: React.ReactNode;
     contentClassName?: string;

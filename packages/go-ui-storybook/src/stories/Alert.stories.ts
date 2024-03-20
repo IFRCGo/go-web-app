@@ -24,7 +24,7 @@ export const Info: Story = {
         name: 'info',
         title: 'Information',
         type: 'info',
-        description:'This is an information alert.'
+        description: 'This is an information alert.',
     },
 };
 
@@ -33,7 +33,7 @@ export const Success: Story = {
         name: 'success',
         title: 'Success',
         type: 'success',
-        description:'This is a Success alert.'
+        description: 'This is a Success alert.',
     },
 };
 
@@ -42,7 +42,7 @@ export const Warning : Story = {
         name: 'warning',
         title: 'Warning',
         type: 'warning',
-        description:'This is a warning alert.'
+        description: 'This is a warning alert.',
     },
 };
 
@@ -51,6 +51,6 @@ export const Danger : Story = {
         name: 'danger',
         title: 'Danger',
         type: 'danger',
-        description: 'This is a danger alert.'
+        description: 'This is a danger alert.',
     },
 };
