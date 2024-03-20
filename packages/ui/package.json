@@ -1,7 +1,7 @@
 {
     "name": "@ifrc-go/ui",
     "private": true,
-    "version": "0.0.1",
+    "version": "1.0.0",
     "type": "module",
     "license": "MIT",
     "author": {
@@ -52,6 +52,7 @@
         }
     },
     "dependencies": {
+        "@changesets/cli": "^2.27.1",
         "@togglecorp/fujs": "^2.1.1",
         "react-focus-on": "^3.9.1",
         "sanitize-html": "^2.11.0"
