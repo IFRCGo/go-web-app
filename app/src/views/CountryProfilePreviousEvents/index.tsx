@@ -19,8 +19,12 @@ import {
 } from '@togglecorp/fujs';
 
 import AppealsTable from '#components/domain/AppealsTable';
+import CountryKeyFigures from '#components/domain/CountryKeyFigures';
 import { type CountryOutletContext } from '#utils/outletContext';
-import { useRequest } from '#utils/restRequest';
+import {
+    GoApiResponse,
+    useRequest,
+} from '#utils/restRequest';
 
 import EmergenciesOverMonth from './EmergenciesOverMonth';
 import PastEventsChart from './PastEventsChart';
@@ -29,6 +33,19 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type TimePeriodKey = 'this-year' | 'past-year' | 'last-two-years' | 'last-five-years' | 'last-ten-years';
+type DisasterCountItem = GoApiResponse<'/api/v2/country/{id}/disaster-count/'>[number];
+
+function disasterIdSelector(item: DisasterCountItem) {
+    return item.disaster_id;
+}
+
+function disasterNameSelector(item: DisasterCountItem) {
+    return item.disaster_name;
+}
+
+function disasterCountSelector(item: DisasterCountItem) {
+    return item.count;
+}
 
 function timePeriodKeySelector({ key }: { key: TimePeriodKey }) {
     return key;
@@ -109,6 +126,20 @@ export function Component() {
         }) : undefined,
     });
 
+    const {
+        // pending: figurePending,
+        response: figureResponse,
+        // error: figureResponseError,
+    } = useRequest({
+        skip: isNotDefined(countryId) || isNotDefined(selectedTimePeriod),
+        url: '/api/v2/country/{id}/figure/',
+        pathVariables: { id: countryId },
+        query: isDefined(selectedTimePeriod) ? ({
+            start_date: encodeDate(selectedTimePeriod.startDate),
+            end_date: encodeDate(selectedTimePeriod.endDate),
+        }) : undefined,
+    });
+
     if (isNotDefined(selectedTimePeriod)) {
         return null;
     }
@@ -125,55 +156,63 @@ export function Component() {
                     erroredDescription={disasterCountError?.value.messageForNotification}
                 />
             )}
-            {!(disasterCountPending || isDefined(disasterCountError)) && (
-                <Container
-                    contentViewType="grid"
-                    numPreferredGridContentColumns={2}
-                    withGridViewInFilter
-                    spacing="relaxed"
-                    filters={(
-                        <SelectInput
-                            name="timePeriod"
-                            options={timePeriodOptions}
-                            value={selectedTimePeriodKey}
-                            onChange={setSelectedTimePeriodKey}
-                            keySelector={timePeriodKeySelector}
-                            labelSelector={stringLabelSelector}
-                            nonClearable
-                        />
+            <Container
+                contentViewType="grid"
+                numPreferredGridContentColumns={2}
+                withGridViewInFilter
+                spacing="relaxed"
+                filters={(
+                    <SelectInput
+                        name="timePeriod"
+                        options={timePeriodOptions}
+                        value={selectedTimePeriodKey}
+                        onChange={setSelectedTimePeriodKey}
+                        keySelector={timePeriodKeySelector}
+                        labelSelector={stringLabelSelector}
+                        nonClearable
+                    />
 
-                    )}
-                >
-                    <Container
-                        heading={strings.emergenciesByDisasterTypeHeading}
-                        withHeaderBorder
-                    >
-                        <BarChart
-                            data={disasterCountResponse}
-                            keySelector={(disasterCountItem) => disasterCountItem.disaster_name}
-                            labelSelector={(disasterCountItem) => disasterCountItem.disaster_name}
-                            valueSelector={(disasterCountItem) => disasterCountItem.count}
-                            maxRows={8}
-                        />
-                    </Container>
-                    <Container
-                        heading={strings.emergenciesOverMonthHeading}
-                        withHeaderBorder
-                    >
-                        <EmergenciesOverMonth
+                )}
+            >
+                {isDefined(figureResponse) && (
+                    <CountryKeyFigures
+                        className={styles.keyFigures}
+                        data={figureResponse}
+                    />
+                )}
+                {!(disasterCountPending || isDefined(disasterCountError)) && (
+                    <>
+                        <Container
+                            heading={strings.emergenciesByDisasterTypeHeading}
+                            withHeaderBorder
+                        >
+                            <BarChart
+                                data={disasterCountResponse}
+                                keySelector={disasterIdSelector}
+                                labelSelector={disasterNameSelector}
+                                valueSelector={disasterCountSelector}
+                                maxRows={8}
+                            />
+                        </Container>
+                        <Container
+                            heading={strings.emergenciesOverMonthHeading}
+                            withHeaderBorder
+                        >
+                            <EmergenciesOverMonth
+                                countryId={countryId}
+                                startDate={encodeDate(selectedTimePeriod.startDate)}
+                                endDate={encodeDate(selectedTimePeriod.endDate)}
+                            />
+                        </Container>
+                        <PastEventsChart
+                            className={styles.pastEvents}
                             countryId={countryId}
                             startDate={encodeDate(selectedTimePeriod.startDate)}
                             endDate={encodeDate(selectedTimePeriod.endDate)}
                         />
-                    </Container>
-                    <PastEventsChart
-                        className={styles.pastEvents}
-                        countryId={countryId}
-                        startDate={encodeDate(selectedTimePeriod.startDate)}
-                        endDate={encodeDate(selectedTimePeriod.endDate)}
-                    />
-                </Container>
-            )}
+                    </>
+                )}
+            </Container>
             {isDefined(countryId) && (
                 <AppealsTable
                     heading={strings.previousOperationsHeading}

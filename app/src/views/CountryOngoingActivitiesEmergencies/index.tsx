@@ -5,20 +5,13 @@ import {
 } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import {
-    AppealsIcon,
     ArtboardLineIcon,
-    DrefIcon,
-    FundingCoverageIcon,
-    FundingIcon,
     PencilFillIcon,
-    TargetedPopulationIcon,
 } from '@ifrc-go/icons';
 import {
     BlockLoading,
     Button,
     Container,
-    InfoPopup,
-    KeyFigure,
     LegendItem,
     Pager,
     RadioInput,
@@ -69,6 +62,7 @@ import {
     ScaleOption,
 } from '#components/domain/ActiveOperationMap/utils';
 import BaseMap from '#components/domain/BaseMap';
+import CountryKeyFigures from '#components/domain/CountryKeyFigures';
 import HighlightedOperations from '#components/domain/HighlightedOperations';
 import Link from '#components/Link';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
@@ -492,59 +486,9 @@ export function Component(props: BaseProps) {
             </div>
             {aggregatedAppealPending && <BlockLoading />}
             {!aggregatedAppealPending && aggregatedAppealResponse && (
-                <div className={styles.keyFigureList}>
-                    <KeyFigure
-                        icon={<DrefIcon />}
-                        className={styles.keyFigure}
-                        value={aggregatedAppealResponse.active_drefs}
-                        info={(
-                            <InfoPopup
-                                title={strings.countryOngoingActivitiesKeyFiguresDrefTitle}
-                                description={strings.countryOngoingActivitiesKeyFiguresDref}
-                            />
-                        )}
-                        label={strings.countryOngoingActivitiesDREFOperations}
-                    />
-                    <KeyFigure
-                        icon={<AppealsIcon />}
-                        className={styles.keyFigure}
-                        value={aggregatedAppealResponse.active_appeals}
-                        info={(
-                            <InfoPopup
-                                title={strings.countryOngoingActivitiesKeyFiguresAppealsTitle}
-                                description={
-                                    strings.countryOngoingActivitiesFigureAppealDescription
-                                }
-                            />
-                        )}
-                        label={strings.countryOngoingActivitiesKeyFiguresActiveAppeals}
-                    />
-                    <KeyFigure
-                        icon={<TargetedPopulationIcon />}
-                        className={styles.keyFigure}
-                        value={aggregatedAppealResponse.target_population}
-                        compactValue
-                        label={strings.countryOngoingActivitiesKeyFiguresTargetPop}
-                    />
-                    <KeyFigure
-                        icon={<FundingIcon />}
-                        className={styles.keyFigure}
-                        value={aggregatedAppealResponse?.amount_requested_dref_included}
-                        compactValue
-                        label={strings.countryOngoingActivitiesKeyFiguresBudget}
-                    />
-                    <KeyFigure
-                        icon={<FundingCoverageIcon />}
-                        className={styles.keyFigure}
-                        value={getPercentage(
-                            aggregatedAppealResponse?.amount_funded,
-                            aggregatedAppealResponse?.amount_requested,
-                        )}
-                        suffix="%"
-                        compactValue
-                        label={strings.countryOngoingActivitiesKeyFiguresAppealsFunding}
-                    />
-                </div>
+                <CountryKeyFigures
+                    data={aggregatedAppealResponse}
+                />
             )}
             {isDefined(countryId) && (
                 <HighlightedOperations

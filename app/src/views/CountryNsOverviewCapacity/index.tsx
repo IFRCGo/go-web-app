@@ -66,7 +66,7 @@ export function Component() {
                 <CountryNsOrganisationalCapacity />
             )} */}
             <CountryNsCapacityStrengthening />
-            {countryStatusPending && <BlockLoading className={styles.loading} />}
+            {countryStatusPending && <BlockLoading />}
             <Container
                 heading={strings.nsPreparednessHeading}
                 headerDescription={strings.nsPreparednessDescription}
