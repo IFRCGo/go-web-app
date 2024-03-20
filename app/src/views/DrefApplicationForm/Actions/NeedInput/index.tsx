@@ -15,6 +15,7 @@ import {
 } from '@togglecorp/toggle-form';
 
 import NonFieldError from '#components/NonFieldError';
+import { TYPE_IMMINENT } from '#views/DrefApplicationForm/common';
 
 import { type PartialDref } from '../../schema';
 
@@ -34,6 +35,7 @@ interface Props {
     index: number;
     titleDisplayMap: Record<string, string> | undefined;
     disabled?: boolean;
+    drefType: number | undefined;
 }
 
 function NeedInput(props: Props) {
@@ -45,6 +47,7 @@ function NeedInput(props: Props) {
         titleDisplayMap,
         onRemove,
         disabled,
+        drefType,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -67,19 +70,20 @@ function NeedInput(props: Props) {
             withAsteriskOnTitle
         >
             <NonFieldError error={error} />
-            <TextArea
-                // FIXME Add condition with Type imminent
-                label={strings.drefApplicationLabel}
-                className={styles.descriptionInput}
-                name="description"
-                value={value.description}
-                onChange={onFieldChange}
-                error={error?.description}
-                disabled={disabled}
-            />
+            {drefType === TYPE_IMMINENT && (
+                <TextArea
+                    label={strings.drefCurrentNeedsLabel}
+                    className={styles.needsTextAreaInput}
+                    name="description"
+                    value={value.description}
+                    onChange={onFieldChange}
+                    error={error?.description}
+                    disabled={disabled}
+                />
+            )}
             <TextArea
                 label={strings.drefExpectedNeedLabel}
-                className={styles.descriptionInput}
+                className={styles.needsTextAreaInput}
                 name="expected_need"
                 value={value.expected_need}
                 onChange={onFieldChange}

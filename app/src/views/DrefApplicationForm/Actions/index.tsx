@@ -537,6 +537,7 @@ function Actions(props: Props) {
                             index={i}
                             value={need}
                             onChange={onNeedChange}
+                            drefType={value.type_of_dref}
                             onRemove={onNeedRemove}
                             error={getErrorObject(error?.needs_identified)}
                             titleDisplayMap={needsIdenfiedTitleDisplayMap}
