@@ -22,6 +22,7 @@ import {
 } from '@togglecorp/toggle-form';
 
 import NonFieldError from '#components/NonFieldError';
+import { TYPE_RESPONSE } from '#views/DrefOperationalUpdateForm/common';
 
 import { type PartialOpsUpdate } from '../../schema';
 import IndicatorInput from './IndicatorInput';
@@ -46,6 +47,7 @@ interface Props {
     onRemove: (index: number) => void;
     index: number;
     titleMap: Record<string, string> | undefined;
+    drefType: number | undefined;
     disabled?: boolean;
 }
 
@@ -58,6 +60,7 @@ function InterventionInput(props: Props) {
         onRemove,
         titleMap,
         disabled,
+        drefType,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -112,6 +115,17 @@ function InterventionInput(props: Props) {
                         disabled={disabled}
                         withAsterisk
                     />
+                    {drefType === TYPE_RESPONSE && (
+                        <NumberInput
+                            label={strings.drefFormInterventionPeopleTargetedImmediateResponseLabel}
+                            name="people_targeted_by_immediate_response"
+                            value={value.people_targeted_by_immediate_response}
+                            onChange={onFieldChange}
+                            error={error?.people_targeted_by_immediate_response}
+                            disabled={disabled}
+                            withAsterisk
+                        />
+                    )}
                     <NumberInput
                         label={strings.drefFormInterventionPersonTargetedLabel}
                         name="person_targeted"
