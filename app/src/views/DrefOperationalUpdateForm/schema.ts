@@ -30,6 +30,7 @@ import {
     TYPE_ASSESSMENT,
     TYPE_IMMINENT,
     TYPE_LOAN,
+    TYPE_RESPONSE,
 } from './common';
 
 // FIXME: Do we need this limit?
@@ -671,52 +672,88 @@ const schema: OpsUpdateFormSchema = {
                     planned_interventions: {
                         keySelector: (n) => n.client_id,
                         member: () => ({
-                            fields: (): PlannedInterventionFields => ({
-                                client_id: {},
-                                title: {
-                                    required: true,
-                                    requiredValidation: requiredStringCondition,
-                                },
-                                budget: {
-                                    required: true,
-                                    validations: [
-                                        positiveIntegerCondition,
-                                        lessThanOrEqualToCondition(MAX_INT_LIMIT),
-                                    ],
-                                },
-                                person_targeted: {
-                                    required: true,
-                                    validations: [
-                                        positiveIntegerCondition,
-                                        lessThanOrEqualToCondition(MAX_INT_LIMIT),
-                                    ],
-                                },
-                                male: {
-                                    validations: [
-                                        positiveIntegerCondition,
-                                        lessThanOrEqualToCondition(MAX_INT_LIMIT),
-                                    ],
-                                },
-                                female: {
-                                    validations: [
-                                        positiveIntegerCondition,
-                                        lessThanOrEqualToCondition(MAX_INT_LIMIT),
-                                    ],
-                                },
-                                description: {},
-                                progress_towards_outcome: {},
-                                indicators: {
-                                    keySelector: (indicator) => indicator.client_id,
-                                    member: () => ({
-                                        fields: (): IndicatorFields => ({
-                                            client_id: {},
-                                            title: {},
-                                            target: { validations: [positiveNumberCondition] },
-                                            actual: { validations: [positiveNumberCondition] },
+                            fields: (plannedInterventionFormValue): PlannedInterventionFields => {
+                                let plannedInterventionFields: PlannedInterventionFields = {
+                                    client_id: {},
+                                    title: {
+                                        required: true,
+                                        requiredValidation: requiredStringCondition,
+                                    },
+                                    budget: {
+                                        required: true,
+                                        validations: [
+                                            positiveIntegerCondition,
+                                            lessThanOrEqualToCondition(MAX_INT_LIMIT),
+                                        ],
+                                    },
+                                    person_targeted: {
+                                        required: true,
+                                        validations: [
+                                            positiveIntegerCondition,
+                                            lessThanOrEqualToCondition(MAX_INT_LIMIT),
+                                        ],
+                                    },
+                                    male: {
+                                        validations: [
+                                            positiveIntegerCondition,
+                                            lessThanOrEqualToCondition(MAX_INT_LIMIT),
+                                        ],
+                                    },
+                                    female: {
+                                        validations: [
+                                            positiveIntegerCondition,
+                                            lessThanOrEqualToCondition(MAX_INT_LIMIT),
+                                        ],
+                                    },
+                                    description: {},
+                                    progress_towards_outcome: {},
+                                    indicators: {
+                                        keySelector: (indicator) => indicator.client_id,
+                                        member: () => ({
+                                            fields: (): IndicatorFields => ({
+                                                client_id: {},
+                                                title: {},
+                                                target: { validations: [positiveNumberCondition] },
+                                                actual: { validations: [positiveNumberCondition] },
+                                            }),
                                         }),
-                                    }),
-                                },
-                            }),
+                                    },
+                                };
+
+                                const plannedInterventionConditionFields = [
+                                    'people_targeted_by_early_action',
+                                    'people_targeted_by_immediate_response',
+                                ] as const;
+                                type PlannedInterventionConditionFields = Pick<
+                                PlannedInterventionFields,
+                                typeof plannedInterventionConditionFields[number]
+                                >;
+                                plannedInterventionFields = addCondition(
+                                    plannedInterventionFields,
+                                    plannedInterventionFormValue,
+                                    [],
+                                    plannedInterventionConditionFields,
+                                    (): PlannedInterventionConditionFields => {
+                                        let responseConditionalFields:
+                                            PlannedInterventionConditionFields = {
+                                                people_targeted_by_immediate_response: {
+                                                    forceValue: nullValue,
+                                                },
+                                            };
+
+                                        if (val?.type_of_dref === TYPE_RESPONSE) {
+                                            responseConditionalFields = {
+                                                ...responseConditionalFields,
+                                                people_targeted_by_immediate_response: {},
+                                            };
+                                        }
+
+                                        return responseConditionalFields;
+                                    },
+                                );
+
+                                return plannedInterventionFields;
+                            },
                         }),
                     },
                     human_resource: {},
