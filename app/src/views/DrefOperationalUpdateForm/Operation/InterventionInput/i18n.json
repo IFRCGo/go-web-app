@@ -6,6 +6,7 @@
         "drefOperationalUpdateIndicatorFemaleLabel": "Female",
         "drefFormInterventionBudgetLabel": "Budget",
         "drefFormInterventionPersonTargetedLabel": "Persons Targeted",
+        "drefFormInterventionPeopleTargetedImmediateResponseLabel": "People targeted by response",
         "drefFormListOfActivities": "List of Activities",
         "drefAddIndicatorButtonLabel": "Add Indicator",
         "drefFormIndicatorsLabel": "Indicators",
