@@ -670,7 +670,8 @@ function RiskSeasonalMap(props: Props) {
                                         // by vulnerability (from server)
                                         // So, dividing by 10 to
                                         // correct the range (0 - 100 -> 0 - 10)
-                                        item.hazard_type === 'WF' ? value : (value / 10),
+                                        // item.hazard_type === 'WF' ? value : (value / 10)
+                                        value,
                                         item.hazard_type,
                                     ) : value;
 
