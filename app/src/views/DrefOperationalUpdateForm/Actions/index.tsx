@@ -298,6 +298,56 @@ function Actions(props: Props) {
                         disabled={disabled}
                     />
                 ))}
+                {value.type_of_dref === TYPE_RESPONSE && (
+                    <>
+                        <InputSection
+                            title={strings.drefFormNSMandateLabel}
+                            description={strings.drefFormNSMandateDescription}
+                        >
+                            <TextArea
+                                name="ns_mandate"
+                                onChange={setFieldValue}
+                                value={value.ns_mandate}
+                                error={error?.ns_mandate}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                        <InputSection
+                            title={strings.drefFormNSEapsLabel}
+                            description={strings.drefFormNSEapsDescription}
+                        >
+                            <TextArea
+                                name="ns_eaps"
+                                onChange={setFieldValue}
+                                value={value.ns_eaps}
+                                error={error?.ns_eaps}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                        <InputSection
+                            title={strings.drefFormNSMitigatingMeasuresLabel}
+                        >
+                            <TextArea
+                                name="ns_mitigating_measures"
+                                onChange={setFieldValue}
+                                value={value.ns_mitigating_measures}
+                                error={error?.ns_mitigating_measures}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                        <InputSection
+                            title={strings.drefFormNsDisasterRiskReductionLabel}
+                        >
+                            <TextArea
+                                name="ns_disaster_risk_reduction"
+                                onChange={setFieldValue}
+                                value={value.ns_disaster_risk_reduction}
+                                error={error?.ns_disaster_risk_reduction}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                    </>
+                )}
             </Container>
             <Container
                 heading={strings.ifrcNetworkActionsHeading}

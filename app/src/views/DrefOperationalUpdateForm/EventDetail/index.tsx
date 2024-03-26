@@ -360,6 +360,34 @@ function EventDetail(props: Props) {
                         />
                     </InputSection>
                 )}
+                {value.type_of_dref === TYPE_RESPONSE && (
+                    <>
+                        <InputSection
+                            title={strings.drefFormThresholdForEarlyActionLabel}
+                            description={strings.drefFormThresholdForEarlyActionDescription}
+                        >
+                            <TextArea
+                                name="threshold_for_early_action"
+                                onChange={setFieldValue}
+                                value={value.threshold_for_early_action}
+                                error={error?.threshold_for_early_action}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                        <InputSection
+                            title={strings.drefFormLeadTimeForEarlyActionLabel}
+                            description={strings.drefFormLeadTimeForEarlyActionDescription}
+                        >
+                            <TextArea
+                                name="lead_time_for_early_action"
+                                onChange={setFieldValue}
+                                value={value.lead_time_for_early_action}
+                                error={error?.lead_time_for_early_action}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                    </>
+                )}
                 {value.type_of_dref !== TYPE_LOAN && (
                     <InputSection
                         title={strings.drefFormUploadPhotos}
