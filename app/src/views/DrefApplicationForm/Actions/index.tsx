@@ -445,19 +445,6 @@ function Actions(props: Props) {
                         disabled={disabled}
                     />
                 </InputSection>
-                {value?.type_of_dref === TYPE_IMMINENT && (
-                    <InputSection
-                        title={strings.drefFormInternationalAssistance}
-                    >
-                        <BooleanInput
-                            name="government_requested_assistance"
-                            value={value.government_requested_assistance}
-                            onChange={setFieldValue}
-                            error={error?.government_requested_assistance}
-                            disabled={disabled}
-                        />
-                    </InputSection>
-                )}
                 {value.is_there_major_coordination_mechanism && (
                     <InputSection
                         description={strings.drefFormCoordinationMechanismDescription}
@@ -468,6 +455,19 @@ function Actions(props: Props) {
                             onChange={setFieldValue}
                             value={value.major_coordination_mechanism}
                             error={error?.major_coordination_mechanism}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                )}
+                {value?.type_of_dref === TYPE_IMMINENT && (
+                    <InputSection
+                        title={strings.drefFormInternationalAssistance}
+                    >
+                        <BooleanInput
+                            name="government_requested_assistance"
+                            value={value.government_requested_assistance}
+                            onChange={setFieldValue}
+                            error={error?.government_requested_assistance}
                             disabled={disabled}
                         />
                     </InputSection>

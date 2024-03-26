@@ -9,6 +9,7 @@ import {
     Button,
     Container,
     Heading,
+    HtmlOutput,
     InputLabel,
     InputSection,
     NumberInput,
@@ -637,7 +638,11 @@ function Operation(props: Props) {
                 heading={strings.drefFormPlannedIntervention}
                 className={styles.plannedIntervention}
                 headingDescription={value?.type_of_dref === TYPE_IMMINENT
-                    && strings.drefFormImminentPlannedInterventionDescription}
+                    && (
+                        <HtmlOutput
+                            value={strings.drefFormImminentPlannedInterventionDescription}
+                        />
+                    )}
 
             >
                 <InputSection>
