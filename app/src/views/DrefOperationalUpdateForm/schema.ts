@@ -159,7 +159,6 @@ const schema: OpsUpdateFormSchema = {
             // EVENT DETAILS
             number_of_people_affected: { validations: [positiveIntegerCondition] },
             number_of_people_targeted: { validations: [positiveIntegerCondition] },
-
             // none
 
             // ACTIONS
@@ -275,7 +274,8 @@ const schema: OpsUpdateFormSchema = {
             'event_description',
             'images_file',
             'people_in_need',
-
+            'threshold_for_early_action',
+            'lead_time_for_early_action',
             'summary_of_change',
             'changing_timeframe_operation',
             'changing_operation_strategy',
@@ -305,7 +305,8 @@ const schema: OpsUpdateFormSchema = {
                     event_description: { forceValue: nullValue },
                     images_file: { forceValue: [] },
                     people_in_need: { forceValue: nullValue },
-
+                    threshold_for_early_action: { forceValue: nullValue },
+                    lead_time_for_early_action: { forceValue: nullValue },
                     summary_of_change: { forceValue: nullValue },
                     changing_timeframe_operation: { forceValue: nullValue },
                     changing_operation_strategy: { forceValue: nullValue },
@@ -337,6 +338,14 @@ const schema: OpsUpdateFormSchema = {
                     conditionalFields = {
                         ...conditionalFields,
                         event_date: {},
+                    };
+                }
+
+                if (val?.type_of_dref === TYPE_RESPONSE) {
+                    conditionalFields = {
+                        ...conditionalFields,
+                        threshold_for_early_action: {},
+                        lead_time_for_early_action: {},
                     };
                 }
 
@@ -454,6 +463,10 @@ const schema: OpsUpdateFormSchema = {
             'un_or_other_actor',
             'is_there_major_coordination_mechanism',
             'photos_file',
+            'ns_mandate',
+            'ns_eaps',
+            'ns_mitigating_measures',
+            'ns_disaster_risk_reduction',
         ] as const;
         type ActionsDrefTypeRelatedFields = Pick<
             OpsUpdateFormSchemaFields,
@@ -479,6 +492,10 @@ const schema: OpsUpdateFormSchema = {
                     national_authorities: { forceValue: nullValue },
                     un_or_other_actor: { forceValue: nullValue },
                     is_there_major_coordination_mechanism: { forceValue: nullValue },
+                    ns_mandate: { forceValue: nullValue },
+                    ns_eaps: { forceValue: nullValue },
+                    ns_mitigating_measures: { forceValue: nullValue },
+                    ns_disaster_risk_reduction: { forceValue: nullValue },
                 };
                 if (val?.type_of_dref === TYPE_LOAN) {
                     return conditionalFields;
@@ -521,6 +538,16 @@ const schema: OpsUpdateFormSchema = {
                     is_there_major_coordination_mechanism: {},
                     un_or_other_actor: {},
                 };
+
+                if (val?.type_of_dref === TYPE_RESPONSE) {
+                    conditionalFields = {
+                        ...conditionalFields,
+                        ns_mandate: {},
+                        ns_eaps: {},
+                        ns_mitigating_measures: {},
+                        ns_disaster_risk_reduction: {},
+                    };
+                }
                 if (val?.type_of_dref !== TYPE_ASSESSMENT) {
                     conditionalFields = {
                         ...conditionalFields,
