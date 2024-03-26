@@ -580,6 +580,7 @@ function Operation(props: Props) {
                         onRemove={onInterventionRemove}
                         error={getErrorObject(error?.planned_interventions)}
                         titleMap={interventionTitleMap}
+                        drefType={value.type_of_dref}
                         disabled={disabled}
                     />
                 ))}

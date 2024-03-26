@@ -3,6 +3,12 @@
     "strings": {
         "operationalUpdateCurrentNsImageLabel": "Add photos of National Society Operation",
         "drefFormActionFieldsLabel": "Select the needs that apply.",
+        "drefFormNSMandateLabel": "Does the National Society have the mandate to act before the impact of the hazard?",
+        "drefFormNSMandateDescription": "Why is the NS in a good position to anticipate the needs of at-risk population to avoid or reduce the negative impact of the disaster?",
+        "drefFormNSEapsLabel": "Does the National Society have EAPs or simplified EAPs active, triggered or under development?",
+        "drefFormNSEapsDescription": "Mention the hazards and status of the protocols",
+        "drefFormNSMitigatingMeasuresLabel": "Is the National Society implementing other mitigating measures through other sources of funds?",
+        "drefFormNsDisasterRiskReductionLabel":"Has the National Society implemented relevant Disaster Risk Reduction activities in the same geographical area that this plan builds upon?",
         "drefFormAssessmentReportUploadButtonLabel": "Upload assesment report",
         "drefFormAssessmentReportUploadLabel": "Assessment Report (Optional)",
         "drefFormCoordinationMechanism": "Are there major coordination mechanisms in place?",
