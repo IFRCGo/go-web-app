@@ -12,6 +12,7 @@ import {
 import {
     Button,
     Container,
+    List,
     SelectInput,
     TextInput,
     TextOutput,
@@ -39,7 +40,7 @@ import type {
 } from 'mapbox-gl';
 
 import BaseMap from '#components/domain/BaseMap';
-import Link from '#components/Link';
+import Link, { type Props as LinkProps } from '#components/Link';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import MapPopup from '#components/MapPopup';
 import { adminUrl } from '#config';
@@ -86,6 +87,10 @@ interface ClickedPoint {
 
 interface Props {
     className?: string;
+}
+
+function emailKeySelector(email: string) {
+    return email;
 }
 
 function NationalSocietyLocalUnitsMap(props: Props) {
@@ -225,6 +230,16 @@ function NationalSocietyLocalUnitsMap(props: Props) {
             setFilter({});
         },
         [setFilter],
+    );
+
+    const emailRendererParams = useCallback(
+        (_: string, email: string): LinkProps => ({
+            withUnderline: true,
+            external: true,
+            href: `mailto:${email}`,
+            children: email,
+        }),
+        [],
     );
 
     return (
@@ -403,13 +418,17 @@ function NationalSocietyLocalUnitsMap(props: Props) {
                             )}
                             withoutLabelColon
                             value={(
-                                <Link
-                                    href={countryResponse.email}
-                                    withUnderline
-                                    external
-                                >
-                                    {countryResponse.email}
-                                </Link>
+                                <List
+                                    data={countryResponse.email.filter(isDefined)}
+                                    renderer={Link}
+                                    rendererParams={emailRendererParams}
+                                    keySelector={emailKeySelector}
+                                    withoutMessage
+                                    compact
+                                    pending={false}
+                                    errored={false}
+                                    filtered={false}
+                                />
                             )}
                         />
                     )}
