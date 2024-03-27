@@ -298,6 +298,11 @@ export function Component() {
                     (intervention) => ({
                         ...injectClientId(intervention),
                         indicators: intervention.indicators?.map(injectClientId),
+                        readiness_block: intervention.readiness_block?.map(injectClientId),
+                        early_action_block: intervention.early_action_block?.map(injectClientId),
+                        early_response_block: intervention.early_response_block?.map(
+                            injectClientId,
+                        ),
                     }),
                 ),
                 other_actor_file_file: other_actor_file_file?.map(injectClientId),
@@ -365,6 +370,24 @@ export function Component() {
                         const [planned_intervention_index, index] = match;
                         // eslint-disable-next-line max-len
                         return value?.planned_interventions?.[planned_intervention_index]?.indicators?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['planned_interventions', NUM, 'readiness_block', NUM]);
+                    if (isDefined(match)) {
+                        const [planned_intervention_index, index] = match;
+                        // eslint-disable-next-line max-len
+                        return value?.planned_interventions?.[planned_intervention_index]?.readiness_block?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['planned_interventions', NUM, 'early_action_block', NUM]);
+                    if (isDefined(match)) {
+                        const [planned_intervention_index, index] = match;
+                        // eslint-disable-next-line max-len
+                        return value?.planned_interventions?.[planned_intervention_index]?.early_action_block?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['planned_interventions', NUM, 'early_response_block', NUM]);
+                    if (isDefined(match)) {
+                        const [planned_intervention_index, index] = match;
+                        // eslint-disable-next-line max-len
+                        return value?.planned_interventions?.[planned_intervention_index]?.early_response_block?.[index]?.client_id;
                     }
                     match = matchArray(locations, ['planned_interventions', NUM]);
                     if (isDefined(match)) {
@@ -443,6 +466,24 @@ export function Component() {
                         const [planned_intervention_index, index] = match;
                         // eslint-disable-next-line max-len
                         return value?.planned_interventions?.[planned_intervention_index]?.indicators?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['planned_interventions', NUM, 'readiness_block', NUM]);
+                    if (isDefined(match)) {
+                        const [planned_intervention_index, index] = match;
+                        // eslint-disable-next-line max-len
+                        return value?.planned_interventions?.[planned_intervention_index]?.readiness_block?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['planned_interventions', NUM, 'early_action_block', NUM]);
+                    if (isDefined(match)) {
+                        const [planned_intervention_index, index] = match;
+                        // eslint-disable-next-line max-len
+                        return value?.planned_interventions?.[planned_intervention_index]?.early_action_block?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['planned_interventions', NUM, 'early_response_block', NUM]);
+                    if (isDefined(match)) {
+                        const [planned_intervention_index, index] = match;
+                        // eslint-disable-next-line max-len
+                        return value?.planned_interventions?.[planned_intervention_index]?.early_response_block?.[index]?.client_id;
                     }
                     match = matchArray(locations, ['planned_interventions', NUM]);
                     if (isDefined(match)) {

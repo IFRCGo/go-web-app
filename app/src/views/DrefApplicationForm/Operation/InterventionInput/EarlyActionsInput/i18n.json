@@ -1,0 +1,8 @@
+{
+    "namespace": "drefApplicationForm",
+    "strings": {
+        "drefFormEarlyActionsTitleLabel": "Title",
+        "drefFormEarlyActionsTimeframeLabel": "Timeframe",
+        "drefEatlyActionsRemoveButtonLabel": "Remove"
+    }
+}
