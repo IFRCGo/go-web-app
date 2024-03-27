@@ -1,0 +1,6 @@
+.multi-file-input {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--go-ui-spacing-md);
+}

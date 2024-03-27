@@ -26,6 +26,7 @@ import {
     useFormArray,
 } from '@togglecorp/toggle-form';
 
+import DrefMultiFileInput from '#components/domain/DrefMultiFileInput';
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
 import NonFieldError from '#components/NonFieldError';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
@@ -194,66 +195,67 @@ function Actions(props: Props) {
         <div className={styles.actions}>
             <Container
                 className={styles.nationalSocietyActions}
-                headerDescription={strings.drefFormNationalSocietiesActionsDescription}
+                headerDescription={
+                    value?.type_of_dref !== TYPE_IMMINENT
+                        && strings.drefFormNationalSocietiesActionsDescription
+                }
                 heading={strings.drefFormNationalSocietiesActions}
             >
-                <InputSection
-                    title={
-                        value?.type_of_dref !== TYPE_IMMINENT
-                            ? strings.drefFormDidNationalSocietyStartedSlow
-                            : strings.drefFormDidNationalSocietyStartedImminent
-                    }
-                >
-                    <BooleanInput
-                        name="did_national_society"
-                        onChange={setFieldValue}
-                        value={value?.did_national_society}
-                        error={error?.did_national_society}
-                        disabled={disabled}
-                    />
-                </InputSection>
-                {value.did_national_society && (
+                {value?.type_of_dref !== TYPE_IMMINENT && (
+                    <>
+                        <InputSection
+                            title={strings.drefFormDidNationalSocietyStartedSlow}
+                        >
+                            <BooleanInput
+                                name="did_national_society"
+                                onChange={setFieldValue}
+                                value={value?.did_national_society}
+                                error={error?.did_national_society}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                        {value.did_national_society && (
+                            <InputSection
+                                title={strings.drefFormNsResponseStarted}
+                            >
+                                <DateInput
+                                    name="ns_respond_date"
+                                    value={value.ns_respond_date}
+                                    onChange={setFieldValue}
+                                    error={error?.ns_respond_date}
+                                    disabled={disabled}
+                                />
+                            </InputSection>
+                        )}
+                    </>
+                )}
+                {value?.type_of_dref !== TYPE_IMMINENT && (
                     <InputSection
-                        title={
-                            value?.type_of_dref === TYPE_IMMINENT
-                                ? strings.drefFormNSAnticipatoryAction
-                                : strings.drefFormNsResponseStarted
-                        }
+                        numPreferredColumns={2}
+                        title=" "
                     >
-                        <DateInput
-                            name="ns_respond_date"
-                            value={value.ns_respond_date}
-                            onChange={setFieldValue}
-                            error={error?.ns_respond_date}
+                        <SelectInput
+                            label={strings.drefFormNationalSocietiesActionsLabel}
+                            name={undefined}
+                            options={filteredNsActionOptions}
+                            value={selectedNsAction}
+                            keySelector={nsActionKeySelector}
+                            labelSelector={stringValueSelector}
+                            onChange={setSelectedNsAction}
                             disabled={disabled}
                         />
+                        <div className={styles.addButtonContainer}>
+                            <Button
+                                variant="secondary"
+                                name={selectedNsAction}
+                                onClick={handleNsActionAddButtonClick}
+                                disabled={isNotDefined(selectedNsAction) || disabled}
+                            >
+                                {strings.drefFormAddButton}
+                            </Button>
+                        </div>
                     </InputSection>
                 )}
-                <InputSection
-                    numPreferredColumns={2}
-                    title=" "
-                >
-                    <SelectInput
-                        label={strings.drefFormNationalSocietiesActionsLabel}
-                        name={undefined}
-                        options={filteredNsActionOptions}
-                        value={selectedNsAction}
-                        keySelector={nsActionKeySelector}
-                        labelSelector={stringValueSelector}
-                        onChange={setSelectedNsAction}
-                        disabled={disabled}
-                    />
-                    <div className={styles.addButtonContainer}>
-                        <Button
-                            variant="secondary"
-                            name={selectedNsAction}
-                            onClick={handleNsActionAddButtonClick}
-                            disabled={isNotDefined(selectedNsAction) || disabled}
-                        >
-                            {strings.drefFormAddButton}
-                        </Button>
-                    </div>
-                </InputSection>
                 <NonFieldError
                     error={getErrorObject(error?.national_society_actions)}
                 />
@@ -269,6 +271,56 @@ function Actions(props: Props) {
                         disabled={disabled}
                     />
                 ))}
+                {value.type_of_dref === TYPE_IMMINENT && (
+                    <>
+                        <InputSection
+                            title={strings.drefFormNSMandateLabel}
+                            description={strings.drefFormNSMandateDescription}
+                        >
+                            <TextArea
+                                name="ns_mandate"
+                                value={value.ns_mandate}
+                                onChange={setFieldValue}
+                                error={error?.ns_mandate}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                        <InputSection
+                            title={strings.drefFormNSEapsLabel}
+                            description={strings.drefFormNSEapsDescription}
+                        >
+                            <TextArea
+                                name="ns_eaps"
+                                value={value.ns_eaps}
+                                onChange={setFieldValue}
+                                error={error?.ns_eaps}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                        <InputSection
+                            title={strings.drefFormNSMitigatingMeasuresLabel}
+                        >
+                            <TextArea
+                                name="ns_mitigating_measures"
+                                value={value.ns_mitigating_measures}
+                                onChange={setFieldValue}
+                                error={error?.ns_mitigating_measures}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                        <InputSection
+                            title={strings.drefFormNsDisasterRiskReductionLabel}
+                        >
+                            <TextArea
+                                name="ns_disaster_risk_reduction"
+                                value={value.ns_disaster_risk_reduction}
+                                onChange={setFieldValue}
+                                error={error?.ns_disaster_risk_reduction}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                    </>
+                )}
             </Container>
             <Container
                 heading={strings.ifrcNetworkActionsHeading}
@@ -320,17 +372,19 @@ function Actions(props: Props) {
                 heading={strings.drefFormNationalOtherActors}
                 className={styles.otherActors}
             >
-                <InputSection
-                    title={strings.drefFormInternationalAssistance}
-                >
-                    <BooleanInput
-                        name="government_requested_assistance"
-                        value={value.government_requested_assistance}
-                        onChange={setFieldValue}
-                        error={error?.government_requested_assistance}
-                        disabled={disabled}
-                    />
-                </InputSection>
+                {value?.type_of_dref !== TYPE_IMMINENT && (
+                    <InputSection
+                        title={strings.drefFormInternationalAssistance}
+                    >
+                        <BooleanInput
+                            name="government_requested_assistance"
+                            value={value.government_requested_assistance}
+                            onChange={setFieldValue}
+                            error={error?.government_requested_assistance}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                )}
                 <InputSection
                     title={strings.drefFormNationalAuthorities}
                 >
@@ -355,6 +409,31 @@ function Actions(props: Props) {
                         disabled={disabled}
                     />
                 </InputSection>
+                {value.type_of_dref === TYPE_IMMINENT && (
+                    <InputSection
+                        title={strings.drefFormAnyOtherActorLabel}
+                        description={strings.drefFormAnyOtherActorDescription}
+                    >
+                        <TextArea
+                            name="any_other_actor"
+                            onChange={setFieldValue}
+                            value={value.any_other_actor}
+                            error={error?.any_other_actor}
+                            disabled={disabled}
+                        />
+                        <DrefMultiFileInput
+                            label={strings.drefFormUploadOtherActorFileDetailsButtonLabel}
+                            name="other_actor_file_file"
+                            fileIdToUrlMap={fileIdToUrlMap}
+                            onChange={setFieldValue}
+                            url="/api/v2/dref-files/multiple/"
+                            value={value.other_actor_file_file}
+                            error={getErrorObject(error?.other_actor_file_file)}
+                            setFileIdToUrlMap={setFileIdToUrlMap}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                )}
                 <InputSection
                     title={strings.drefFormCoordinationMechanism}
                 >
@@ -366,6 +445,19 @@ function Actions(props: Props) {
                         disabled={disabled}
                     />
                 </InputSection>
+                {value?.type_of_dref === TYPE_IMMINENT && (
+                    <InputSection
+                        title={strings.drefFormInternationalAssistance}
+                    >
+                        <BooleanInput
+                            name="government_requested_assistance"
+                            value={value.government_requested_assistance}
+                            onChange={setFieldValue}
+                            error={error?.government_requested_assistance}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                )}
                 {value.is_there_major_coordination_mechanism && (
                     <InputSection
                         description={strings.drefFormCoordinationMechanismDescription}
@@ -445,6 +537,7 @@ function Actions(props: Props) {
                             index={i}
                             value={need}
                             onChange={onNeedChange}
+                            drefType={value.type_of_dref}
                             onRemove={onNeedRemove}
                             error={getErrorObject(error?.needs_identified)}
                             titleDisplayMap={needsIdenfiedTitleDisplayMap}

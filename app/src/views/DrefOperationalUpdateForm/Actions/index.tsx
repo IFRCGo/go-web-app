@@ -35,6 +35,7 @@ import { type GoApiResponse } from '#utils/restRequest';
 import {
     TYPE_ASSESSMENT,
     TYPE_IMMINENT,
+    TYPE_RESPONSE,
 } from '../common';
 // FIXME: move common components together
 import { type PartialOpsUpdate } from '../schema';
@@ -192,6 +193,23 @@ function Actions(props: Props) {
         [nsActionOptions],
     );
 
+    const didNationalSocietyInputTitle = useMemo(() => {
+        if (value.type_of_dref === TYPE_RESPONSE) {
+            return strings.drefFormDidNationalSocietyStartedSlowResponse;
+        }
+
+        if (value.type_of_dref !== TYPE_IMMINENT) {
+            return strings.drefFormDidNationalSocietyStartedSlow;
+        }
+
+        return strings.drefFormDidNationalSocietyStartedImminent;
+    }, [
+        value.type_of_dref,
+        strings.drefFormDidNationalSocietyStartedSlow,
+        strings.drefFormDidNationalSocietyStartedSlowResponse,
+        strings.drefFormDidNationalSocietyStartedImminent,
+    ]);
+
     return (
         <div className={styles.actions}>
             <Container
@@ -200,11 +218,7 @@ function Actions(props: Props) {
                 heading={strings.drefFormNationalSocietiesActions}
             >
                 <InputSection
-                    title={
-                        value?.type_of_dref !== TYPE_IMMINENT
-                            ? strings.drefFormDidNationalSocietyStartedSlow
-                            : strings.drefFormDidNationalSocietyStartedImminent
-                    }
+                    title={didNationalSocietyInputTitle}
                 >
                     <BooleanInput
                         name="did_national_society"

@@ -23,12 +23,21 @@
         "drefFormNationalSocietiesActions": "Current National Society Actions",
         "drefFormNationalSocietiesActionsDescription": "Please indicate a description of the ongoing response with if possible: Branches involved, number of volunteers/staff involved in actions, assets deployed/distributed, number of people reach. Impact/added value of the NS in the response already ongoing.",
         "drefFormNationalSocietiesActionsLabel": "Select the actions that apply.",
+        "drefFormNSMandateLabel": "Does the National Society have the mandate to act before the impact of the hazard?",
+        "drefFormNSMandateDescription": "Why is the NS in a good position to anticipate the needs of at-risk population to avoid or reduce the negative impact of the disaster?",
+        "drefFormNSEapsLabel": "Does the National Society have EAPs or simplified EAPs active, triggered or under development?",
+        "drefFormNSEapsDescription": "Mention the hazards and status of the protocols",
+        "drefFormNSMitigatingMeasuresLabel": "Is the National Society implementing other mitigating measures through other sources of funds?",
+        "drefFormNsDisasterRiskReductionLabel":"Has the National Society implemented relevant Disaster Risk Reduction activities in the same geographical area that this plan builds upon?",
         "drefFormNeedsIdentified": "Needs (Gaps) Identified",
         "drefFormNSAnticipatoryAction": "National Society anticipatory actions started",
         "drefFormNsResponseStarted": "Start date of National Society actions",
         "drefFormPartnerNationalSociety": "Participating National Societies",
         "drefFormPartnerNationalSocietyDescription": "Briefly set out which PNS are present and give details of PNS contributions/roles on the ground and remotely for this specific operation",
         "drefFormUNorOtherActors": "UN or other actors",
+        "drefFormAnyOtherActorLabel": "Has any other actor in the country activated an early action protocol?",
+        "drefFormAnyOtherActorDescription": "add link(s) to relevant documentation/publication",
+        "drefFormUploadOtherActorFileDetailsButtonLabel": "Upload document",
         "drefFormAddButton": "Add"
     }
 }

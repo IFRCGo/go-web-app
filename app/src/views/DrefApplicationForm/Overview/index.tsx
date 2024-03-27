@@ -279,56 +279,59 @@ function Overview(props: Props) {
                             ) : (
                                 <div />
                             )}
-
-                        <SelectInput
-                            name="disaster_category"
-                            label={(
-                                <>
-                                    {/* FIXME: use string template */}
-                                    {value?.type_of_dref === TYPE_IMMINENT
-
-                                        ? strings.drefFormImminentDisasterCategoryLabel
-                                        : strings.drefFormDisasterCategoryLabel}
-                                    <Link
-                                        title={strings.drefFormClickEmergencyResponseFrameworkLabel}
-                                        href={disasterCategoryLink}
-                                        external
-                                        variant="tertiary"
-                                    >
-                                        <WikiHelpSectionLineIcon />
-                                    </Link>
-                                </>
-                            )}
-                            options={drefDisasterCategoryOptions}
-                            keySelector={disasterCategoryKeySelector}
-                            labelSelector={stringValueSelector}
-                            value={value?.disaster_category}
-                            onChange={setFieldValue}
-                            error={error?.disaster_category}
-                            disabled={disabled}
-                        />
-                    </InputSection>
-                    {(
-                        value?.disaster_category === DISASTER_CATEGORY_ORANGE
-                        || value?.disaster_category === DISASTER_CATEGORY_RED)
-                        && (
-                            <InputSection title={strings.drefFormUploadCrisisDocument}>
-                                <GoSingleFileInput
-                                    name="disaster_category_analysis"
-                                    accept=".pdf, .docx, .pptx"
-                                    fileIdToUrlMap={fileIdToUrlMap}
-                                    onChange={setFieldValue}
-                                    url="/api/v2/dref-files/"
-                                    value={value.disaster_category_analysis}
-                                    error={error?.disaster_category_analysis}
-                                    setFileIdToUrlMap={setFileIdToUrlMap}
-                                    clearable
-                                    disabled={disabled}
-                                >
-                                    {strings.drefFormUploadDocumentButtonLabel}
-                                </GoSingleFileInput>
-                            </InputSection>
+                        {value?.type_of_dref !== TYPE_IMMINENT && (
+                            <SelectInput
+                                name="disaster_category"
+                                label={(
+                                    <>
+                                        {strings.drefFormDisasterCategoryLabel}
+                                        <Link
+                                            // eslint-disable-next-line max-len
+                                            title={strings.drefFormClickEmergencyResponseFrameworkLabel}
+                                            href={disasterCategoryLink}
+                                            external
+                                            variant="tertiary"
+                                        >
+                                            <WikiHelpSectionLineIcon />
+                                        </Link>
+                                    </>
+                                )}
+                                options={drefDisasterCategoryOptions}
+                                keySelector={disasterCategoryKeySelector}
+                                labelSelector={stringValueSelector}
+                                value={value?.disaster_category}
+                                onChange={setFieldValue}
+                                error={error?.disaster_category}
+                                disabled={disabled}
+                            />
                         )}
+                    </InputSection>
+                    {value?.type_of_dref !== TYPE_IMMINENT && (
+                        // eslint-disable-next-line react/jsx-no-useless-fragment
+                        <>
+                            {(
+                                value?.disaster_category === DISASTER_CATEGORY_ORANGE
+                                || value?.disaster_category === DISASTER_CATEGORY_RED)
+                            && (
+                                <InputSection title={strings.drefFormUploadCrisisDocument}>
+                                    <GoSingleFileInput
+                                        name="disaster_category_analysis"
+                                        accept=".pdf, .docx, .pptx"
+                                        fileIdToUrlMap={fileIdToUrlMap}
+                                        onChange={setFieldValue}
+                                        url="/api/v2/dref-files/"
+                                        value={value.disaster_category_analysis}
+                                        error={error?.disaster_category_analysis}
+                                        setFileIdToUrlMap={setFileIdToUrlMap}
+                                        clearable
+                                        disabled={disabled}
+                                    >
+                                        {strings.drefFormUploadDocumentButtonLabel}
+                                    </GoSingleFileInput>
+                                </InputSection>
+                            )}
+                        </>
+                    )}
                 </Container>
                 <InputSection
                     title={
@@ -387,7 +390,7 @@ function Overview(props: Props) {
                         </Button>
                     </div>
                 </InputSection>
-                {value?.type_of_dref !== TYPE_LOAN && (
+                { value?.type_of_dref !== TYPE_IMMINENT && value?.type_of_dref !== TYPE_LOAN && (
                     <InputSection
                         title={strings.drefFormEmergencyAppealPlanned}
                     >

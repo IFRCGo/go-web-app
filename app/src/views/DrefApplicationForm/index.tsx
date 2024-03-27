@@ -188,6 +188,7 @@ export function Component() {
                     disaster_category_analysis_details,
                     targeting_strategy_support_file_details,
                     budget_file_details,
+                    other_actor_file_file,
                 } = response;
 
                 if (
@@ -224,6 +225,14 @@ export function Component() {
 
                 if ((images_file?.length ?? 0) > 0) {
                     images_file?.forEach((img) => {
+                        if (isDefined(img.file)) {
+                            newMap[img.id] = img.file;
+                        }
+                    });
+                }
+
+                if ((other_actor_file_file?.length ?? 0) > 0) {
+                    other_actor_file_file?.forEach((img) => {
                         if (isDefined(img.file)) {
                             newMap[img.id] = img.file;
                         }
@@ -280,6 +289,7 @@ export function Component() {
                 cover_image_file,
                 images_file,
                 source_information,
+                other_actor_file_file,
                 ...otherValues
             } = removeNull(response);
             setValue({
@@ -290,6 +300,7 @@ export function Component() {
                         indicators: intervention.indicators?.map(injectClientId),
                     }),
                 ),
+                other_actor_file_file: other_actor_file_file?.map(injectClientId),
                 source_information: source_information?.map(injectClientId),
                 needs_identified: needs_identified?.map(injectClientId),
                 national_society_actions: national_society_actions?.map(injectClientId),

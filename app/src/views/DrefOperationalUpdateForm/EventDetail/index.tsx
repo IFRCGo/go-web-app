@@ -28,6 +28,7 @@ import {
     TYPE_ASSESSMENT,
     TYPE_IMMINENT,
     TYPE_LOAN,
+    TYPE_RESPONSE,
 } from '../common';
 import { type PartialOpsUpdate } from '../schema';
 
@@ -278,7 +279,7 @@ function EventDetail(props: Props) {
                                     {
                                         value?.type_of_dref === TYPE_IMMINENT
                                             ? strings.drefFormEstimatedPeopleInNeed
-                                            : strings.drefFormPeopleInNeed
+                                            : strings.drefFormEstimatedPopulationAffected
                                     }
                                     <Link
                                         title={strings.drefFormClickEmergencyResponseFramework}
@@ -331,6 +332,10 @@ function EventDetail(props: Props) {
                                 ? strings.drefFormWhatWhereWhen
                                 : strings.drefFormImminentDisaster
                         }
+                        description={
+                            value.type_of_dref === TYPE_RESPONSE
+                            && strings.drefFormEventDescription
+                        }
                     >
                         <TextArea
                             name="event_description"
@@ -377,7 +382,9 @@ function EventDetail(props: Props) {
                 {value.type_of_dref !== TYPE_ASSESSMENT && value.type_of_dref !== TYPE_LOAN && (
                     <InputSection
                         title={strings.drefFormScopeAndScaleEvent}
-                        description={strings.drefFormScopeAndScaleDescription}
+                        description={value.type_of_dref === TYPE_RESPONSE
+                            ? strings.drefFormScopeAndScaleResponseDescription
+                            : strings.drefFormScopeAndScaleDescription}
                     >
                         <TextArea
                             name="event_scope"

@@ -22,6 +22,10 @@
         }
     }
 
+    .targeted_population_heading {
+        padding: var(--go-ui-spacing-md);
+    }
+
     .urban-to-rural {
         .inputs {
             display: flex;
