@@ -20,12 +20,17 @@
 
     .page-title-section {
         display: flex;
+        align-items: center;
         justify-content: space-between;
-        text-align: right;
 
         .ifrc-logo {
             width: 6rem;
             height: 6rem;
+        }
+        .country-name {
+            display: flex;
+            text-align: center;
+            font-size: var(--go-ui-font-size-2xl);
         }
     }
 
@@ -64,21 +69,18 @@
             font-size: var(--go-ui-height-icon-multiplier);
         }
     }
-    .rating-results {
-        grid-column: 1 / -1;
 
-        .rating-results-content {
-            display: grid;
-            grid-gap: var(--go-ui-spacing-sm) var(--go-ui-spacing-xl);
-            grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+    .rating-results-content {
+        display: grid;
+        grid-gap: var(--go-ui-spacing-sm) var(--go-ui-spacing-xl);
+        grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
 
-
-            .separator {
-                grid-column: 1 / -1;
-                background-color: var(--go-ui-color-separator);
-                height: var(--go-ui-width-separator-thin);
-            }
+        .rated-component {
+            display: flex;
+            flex-direction: column;
+            border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+            padding: var(--go-ui-spacing-sm) 0;
+            gap: var(--go-ui-spacing-sm);
         }
     }
-
 }

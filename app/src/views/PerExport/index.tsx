@@ -1,5 +1,4 @@
 import {
-    Fragment,
     useMemo,
     useState,
 } from 'react';
@@ -153,23 +152,26 @@ export function Component() {
     });
 
     const {
-        pending: pendingLatestPerResponse,
-        response: latestPerResponse,
-        // error: latestPerResponseError,
+        pending: pendingPerStatsResponse,
+        response: perStatsResponse,
+        // error: perStatsResponseError,
     } = useRequest({
         skip: isNotDefined(countryId),
-        url: '/api/v2/latest-per-overview/',
-        query: { country_id: Number(countryId) },
+        url: '/api/v2/per-stats/',
+        query: isDefined(countryId) && isDefined(perId) ? {
+            country: [Number(countryId)],
+            id: Number(perId),
+        } : undefined,
     });
 
-    // const countryHasNoPer = latestPerResponse?.results?.length === 0;
+    // const countryHasNoPer = perStatsResponse?.results?.length === 0;
 
     // FIXME: add feature on server (low priority)
     // we get a list form the server because we are using a filter on listing api
-    // const perId = latestPerResponse?.results?.[0]?.id;
+    // const perId = perStatsResponse?.results?.[0]?.id;
 
-    const latestPerOverview = latestPerResponse?.results?.[0];
-    const prevAssessmentRatings = latestPerOverview?.assessment_ratings;
+    const perOverview = perStatsResponse?.results?.[0];
+    const assessmentRatings = perOverview?.assessment_ratings;
 
     const formAnswerMap = useMemo(
         () => (
@@ -345,7 +347,7 @@ export function Component() {
     const hasRatingCounts = hasAssessmentStats && assessmentStats.ratingCounts.length > 0;
     const hasAnswerCounts = hasAssessmentStats && assessmentStats.answerCounts.length > 0;
     const hasRatingsByArea = hasAssessmentStats && assessmentStats.ratingByArea.length > 0;
-    const hasPrevAssessments = isDefined(prevAssessmentRatings) && prevAssessmentRatings.length > 1;
+    const hasAssessments = isDefined(assessmentRatings) && assessmentRatings.length > 1;
     const hasRatedComponents = hasAssessmentStats && assessmentStats.topRatedComponents.length > 0;
 
     const showComponentsByArea = hasRatingsByArea
@@ -353,7 +355,7 @@ export function Component() {
         && perFormAreaResponse;
 
     const pending = formAnswerPending
-        || pendingLatestPerResponse
+        || pendingPerStatsResponse
         || perOptionsPending
         || perFormAreaPending
         || perProcessStatusPending
@@ -368,6 +370,9 @@ export function Component() {
                     src={ifrcLogo}
                     alt={strings.perImageLogoIFRCAlt}
                 />
+                <Heading level={1} className={styles.countryName}>
+                    {perResponse?.country_details.name}
+                </Heading>
                 <Heading level={1}>
                     {strings.perExportTitle}
                 </Heading>
@@ -456,14 +461,14 @@ export function Component() {
                     />
                 </Container>
             )}
-            {!pending && hasPrevAssessments && (
+            {!pending && hasAssessments && (
                 <Container>
                     <Heading level={3}>
                         {strings.perNSResponseHeading}
                     </Heading>
                     <PreviousAssessmentCharts
                         ratingOptions={perOptionsResponse?.componentratings}
-                        data={prevAssessmentRatings}
+                        data={assessmentRatings}
                     />
                 </Container>
             )}
@@ -480,7 +485,7 @@ export function Component() {
                                 heading={component.rating?.title}
                                 headingLevel={5}
                             >
-                                {component.details.title}
+                                {`${component.details.component_num}${component.details.component_letter}: ${component.details.title}`}
                             </Container>
                         ),
                     )}
@@ -496,8 +501,9 @@ export function Component() {
                     </Heading>
                     {assessmentStats.topRatedComponents.map(
                         (component) => (
-                            <Fragment
+                            <div
                                 key={`${component.details.id}-${component.details.component_num}-${component.details.component_letter}`}
+                                className={styles.ratedComponent}
                             >
                                 <Heading level={5}>
                                     {resolveToString(strings.perPriorityComponentHeading, {
@@ -519,8 +525,7 @@ export function Component() {
                                 <DescriptionText>
                                     {component.notes}
                                 </DescriptionText>
-                                <div className={styles.separator} />
-                            </Fragment>
+                            </div>
                         ),
                     )}
                 </Container>
