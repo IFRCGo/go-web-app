@@ -23,7 +23,7 @@
         "nSProjectStatus": "Project Status",
         "nSProjectDataNotAvailable": "Data not available!",
         "addNSActivity": "Add NS Activity",
-        "nSActivityDescription": "The following data displays the current and ongoing emergencies within the country that are reported by the National Societies and partners. The displayed data is based on reporting and may not be fully indicative of all activities.",
+        "nSActivityDescription": "The following data displays the activities of the National Society which include emergency or non-emergency related projects, as well as ongoing and implemented/closed initiatives funded by the different NSD funding mechanisms. The displayed data is based on reporting and may not be fully indicative of all the activities.",
         "nSFailedToCreateExport": "Failed to generate export."
     }
 }

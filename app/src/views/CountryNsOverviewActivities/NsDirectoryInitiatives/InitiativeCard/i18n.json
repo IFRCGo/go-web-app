@@ -1,0 +1,12 @@
+{
+    "namespace": "initiativeCard",
+    "strings": {
+        "initiativeFundNameTitle": "Fund initiative name",
+        "initiativeFund": "Fund({fundType})",
+        "initiativeYearApprovedAndDuraton": "{yearApproved}({duration} months)",
+        "initiativeYearApprovedTitle": "Year Approved/Duration",
+        "initiativeTitle": "Initiative Title",
+        "initiativeCategoriesTitle": "Categories",
+        "initiativeAllocationTitle": "Allocation (CHF)"
+    }
+}
