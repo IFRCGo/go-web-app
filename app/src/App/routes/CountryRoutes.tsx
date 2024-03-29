@@ -255,6 +255,19 @@ const countryNsOverviewCapacity = customWrapRoute({
     },
 });
 
+const countryNsOverviewSupportingPartners = customWrapRoute({
+    parent: countryNsOverviewLayout,
+    path: 'supporting-partners',
+    component: {
+        render: () => import('#views/CountryNsOverviewSupportingPartners'),
+        props: {},
+    },
+    context: {
+        title: 'Country NS Supporting Partners',
+        visibility: 'anything',
+    },
+});
+
 const countryPreparedness = customWrapRoute({
     parent: countriesLayout,
     path: 'ns-overview/per/:perId',
@@ -323,19 +336,6 @@ const countryProfileOverview = customWrapRoute({
     },
     context: {
         title: 'Country Profile Overview',
-        visibility: 'anything',
-    },
-});
-
-const countryProfileSupportingPartners = customWrapRoute({
-    parent: countryProfileLayout,
-    path: 'supporting-partners',
-    component: {
-        render: () => import('#views/CountryProfileSupportingPartners'),
-        props: {},
-    },
-    context: {
-        title: 'Country Profile Supporting Partners',
         visibility: 'anything',
     },
 });
@@ -498,7 +498,7 @@ export default {
     countryProfileLayout,
     countryProfileIndex,
     countryProfileOverview,
-    countryProfileSupportingPartners,
+    countryNsOverviewSupportingPartners,
     countryProfilePreviousEvents,
     countryProfileSeasonalRisks,
 

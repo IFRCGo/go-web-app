@@ -17,6 +17,42 @@
         .per-cycle-item {
             border-radius: var(--go-ui-box-shadow-lg);
             box-shadow: var(--go-ui-box-shadow-md);
+
+            .figures {
+                display: flex;
+                justify-content: space-between;
+
+                .vertical_separator {
+                    flex-shrink: 0;
+                    border-left: var(--go-ui-width-separator-sm) solid var(--go-ui-color-separator);
+                }
+
+            }
+
+            .footer_figures {
+                display: flex;
+                flex-direction: column;
+                flex-grow: 1;
+
+                .separator {
+                    flex-shrink: 0;
+                    margin-bottom: var(--go-ui-spacing-sm);
+                    border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator)
+                }
+            }
         }
+
+        .phase_assessment_date_section {
+            align-self: center;
+
+            .phase_assessment_value {
+                font-weight: var(--go-ui-font-weight-bold);
+            }
+
+            .phase_assessment_label {
+                color: var(--go-ui-color-text-light);
+            }
+        }
+
     }
 }

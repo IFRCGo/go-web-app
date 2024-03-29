@@ -56,4 +56,4 @@ export function Component() {
     );
 }
 
-Component.displayName = 'CountryProfileSupportingPartners';
+Component.displayName = 'CountryNsOverviewSupportingPartners';

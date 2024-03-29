@@ -6,7 +6,10 @@ import {
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { resolveToString } from '@ifrc-go/ui/utils';
+import {
+    formatDate,
+    resolveToString,
+} from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
@@ -103,8 +106,19 @@ export function Component() {
                                 )
                             }
                             headingLevel={4}
+                            headerDescription={
+                                resolveToString(
+                                    strings.perCycleHeadingDescription,
+                                    {
+                                        updatedDate: formatDate(perProcess.updated_at),
+                                    },
+                                )
+                            }
+                            withHeaderBorder
                             withInternalPadding
                             className={styles.perCycleItem}
+                            childrenContainerClassName={styles.figures}
+                            footerContentClassName={styles.footerFigures}
                             actions={(
                                 <Link
                                     to="countryPreparedness"
@@ -117,15 +131,43 @@ export function Component() {
                                     {strings.perViewLink}
                                 </Link>
                             )}
+                            footerContent={(
+                                <>
+                                    <div className={styles.separator} />
+                                    <TextOutput
+                                        label={strings.perTypeOfAssessmentLabel}
+                                        value={perProcess.type_of_assessment_details.name}
+                                    />
+                                    <TextOutput
+                                        label={strings.perFocalPointLabel}
+                                        value={`${perProcess.ns_focal_point_name
+                                            ? perProcess.ns_focal_point_name
+                                            : '-'} | ${
+                                            perProcess.ns_focal_point_email
+                                                ? perProcess.ns_focal_point_email
+                                                : '-'}`}
+                                    />
+                                </>
+                            )}
+
                         >
-                            <TextOutput
-                                label={strings.perPhaseLabel}
-                                value={perProcess.phase_display}
-                            />
-                            <TextOutput
-                                label={strings.perAssessmentDateLabel}
-                                value={perProcess.date_of_assessment}
-                            />
+                            <div className={styles.phaseAssessmentDateSection}>
+                                <div className={styles.phaseAssessmentValue}>
+                                    {perProcess.phase_display}
+                                </div>
+                                <div className={styles.phaseAssessmentLabel}>
+                                    {strings.perPhaseLabel}
+                                </div>
+                            </div>
+                            <div className={styles.verticalSeparator} />
+                            <div className={styles.phaseAssessmentDateSection}>
+                                <div className={styles.phaseAssessmentValue}>
+                                    {perProcess.date_of_assessment}
+                                </div>
+                                <div className={styles.phaseAssessmentLabel}>
+                                    {strings.perAssessmentDateLabel}
+                                </div>
+                            </div>
                         </Container>
                     ),
                 )}
