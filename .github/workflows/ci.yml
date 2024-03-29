@@ -30,10 +30,10 @@ jobs:
       run:
         working-directory: packages/ui
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '18.x'
+          node-version: 20
           cache: 'yarn'
 
       - name: Install dependencies on UI library
@@ -62,10 +62,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ui]
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '18.x'
+          node-version: 20
           cache: 'yarn'
 
       - uses: actions/download-artifact@v4
@@ -86,10 +86,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ui]
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '18.x'
+          node-version: 20
           cache: 'yarn'
 
       - uses: actions/download-artifact@v4
@@ -110,10 +110,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ui]
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '18.x'
+          node-version: 20
           cache: 'yarn'
 
       - uses: actions/download-artifact@v4
@@ -134,10 +134,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ui]
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '18.x'
+          node-version: 20
           cache: 'yarn'
 
       - uses: actions/download-artifact@v4
@@ -158,10 +158,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ui]
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '18.x'
+          node-version: 20
           cache: 'yarn'
 
       - uses: actions/download-artifact@v4
@@ -182,10 +182,10 @@ jobs:
   #   name: Typecheck
   #   runs-on: ubuntu-latest
   #   steps:
-  #     - uses: actions/checkout@v3
-  #     - uses: actions/setup-node@v3
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/setup-node@v4
   #       with:
-  #         node-version: '18.x'
+  #         node-version: 20
   #         cache: 'yarn'
 
   #     - name: Install dependencies
@@ -199,10 +199,10 @@ jobs:
     needs: [lint, lint-css, test, ui]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '18.x'
+          node-version: 20
           cache: 'yarn'
 
       - uses: actions/download-artifact@v4
