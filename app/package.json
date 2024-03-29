@@ -14,6 +14,7 @@
         "prebuild": "yarn initialize:type",
         "start": "vite",
         "build": "vite build",
+        "preview": "vite preview",
         "generate:type": "yarn generate:type:go-api && yarn generate:type:risk-api",
         "generate:type:go-api": "dotenv -- cross-var openapi-typescript \"%APP_API_ENDPOINT%api-docs/\" -o ./generated/types.ts --alphabetize",
         "generate:type:risk-api": "dotenv -- cross-var openapi-typescript \"%APP_RISK_API_ENDPOINT%api-docs/\" -o ./generated/riskTypes.ts --alphabetize",
