@@ -95,7 +95,7 @@
         "stylelint-no-unused-selectors": "git+https://github.com/toggle-corp/stylelint-no-unused-selectors#e0831e1",
         "stylelint-value-no-unknown-custom-properties": "^4.0.0",
         "surge": "^0.23.1",
-        "typescript": "^5.0.4",
+        "typescript": "^5.4.3",
         "unimported": "1.28.0",
         "vite": "^5.0.10",
         "vite-plugin-checker": "^0.6.2",
