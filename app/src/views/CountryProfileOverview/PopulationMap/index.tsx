@@ -1,4 +1,8 @@
-import { useMemo } from 'react';
+import {
+    useCallback,
+    useMemo,
+    useState,
+} from 'react';
 import {
     Container,
     NumberOutput,
@@ -9,6 +13,7 @@ import { maxSafe } from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
+    listToMap,
 } from '@togglecorp/fujs';
 import {
     MapBounds,
@@ -24,6 +29,7 @@ import {
 import BaseMap from '#components/domain/BaseMap';
 import Link from '#components/Link';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
+import MapPopup from '#components/MapPopup';
 import useCountry from '#hooks/domain/useCountry';
 import {
     COLOR_BLACK,
@@ -46,6 +52,17 @@ interface Props {
     data: PopulationData;
 }
 
+interface DistrictProperties {
+    district_id: number;
+    country_id: number;
+    name: string;
+}
+
+interface ClickedPoint {
+    feature: GeoJSON.Feature<GeoJSON.Point, DistrictProperties>;
+    lngLat: mapboxgl.LngLatLike;
+}
+
 function getMaxPopulation(data: PopulationData) {
     const districts = data?.districts.filter(
         ({ population }) => isDefined(population),
@@ -59,6 +76,11 @@ function getMaxPopulation(data: PopulationData) {
 
 function PopulatioMap(props: Props) {
     const { data } = props;
+    const [
+        clickedPointProperties,
+        setClickedPointProperties,
+    ] = useState<ClickedPoint | undefined>();
+
     const strings = useTranslation(i18n);
 
     const countryData = useCountry({ id: data?.id ?? -1 });
@@ -66,6 +88,31 @@ function PopulatioMap(props: Props) {
     const bounds = (isDefined(countryData) && isDefined(countryData.bbox))
         ? getBbox(countryData?.bbox)
         : undefined;
+
+    const districtsMap = useMemo(() => (
+        listToMap(
+            data?.districts ?? [],
+            (district) => district.id ?? '<no-key>',
+        )
+    ), [data]);
+
+    const handleDistrictClick = useCallback((
+        feature: mapboxgl.MapboxGeoJSONFeature,
+        lngLat: mapboxgl.LngLatLike,
+    ) => {
+        setClickedPointProperties({
+            feature: feature as unknown as ClickedPoint['feature'],
+            lngLat,
+        });
+        return false;
+    }, []);
+
+    const handlePointClose = useCallback(
+        () => {
+            setClickedPointProperties(undefined);
+        },
+        [setClickedPointProperties],
+    );
 
     const districtFillOptions = useMemo<Omit<FillLayer, 'id'>>(
         () => {
@@ -189,8 +236,13 @@ function PopulatioMap(props: Props) {
                 type: 'line',
                 filter: ['==', ['get', 'country_iso3'], data.iso3.toUpperCase()],
                 paint: {
+                    'line-color': [
+                        'case',
+                        ['boolean', ['feature-state', 'hovered'], false],
+                        COLOR_DARK_GREY,
+                        COLOR_WHITE,
+                    ],
                     'line-opacity': 1,
-                    'line-color': COLOR_WHITE,
                 },
                 layout: {
                     visibility: 'visible',
@@ -229,6 +281,10 @@ function PopulatioMap(props: Props) {
     const maxPopulation = useMemo(() => (
         getMaxPopulation(data) ?? DEFAULT_MAX_POPULATION
     ), [data]);
+
+    const selectedDistrict = clickedPointProperties?.feature.properties.district_id
+        ? districtsMap[clickedPointProperties.feature.properties.district_id]
+        : undefined;
 
     return (
         <Container
@@ -288,6 +344,8 @@ function PopulatioMap(props: Props) {
                         <MapLayer
                             layerKey="admin-1-highlight"
                             layerOptions={districtFillOptions}
+                            hoverable
+                            onClick={handleDistrictClick}
                         />
                         <MapLayer
                             layerKey="admin-0-boundary-mask"
@@ -324,6 +382,26 @@ function PopulatioMap(props: Props) {
                     bounds={bounds}
                     padding={DEFAULT_MAP_PADDING}
                 />
+                {clickedPointProperties?.lngLat && selectedDistrict && (
+                    <MapPopup
+                        onCloseButtonClick={handlePointClose}
+                        coordinates={clickedPointProperties.lngLat}
+                        heading={clickedPointProperties.feature.properties.name}
+                    >
+                        <TextOutput
+                            label={strings.populationPopupYearLabel}
+                            value={selectedDistrict.year}
+                        />
+                        <TextOutput
+                            value={(
+                                <NumberOutput
+                                    value={selectedDistrict.population}
+                                />
+                            )}
+                            label={strings.populationLegendLabel}
+                        />
+                    </MapPopup>
+                )}
             </BaseMap>
         </Container>
     );

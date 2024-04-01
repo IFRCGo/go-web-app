@@ -4,6 +4,7 @@
         "populationMapTitle": "Population Map",
         "source": "Source",
         "worldBank": "The World Bank",
-        "populationLegendLabel": "Population"
+        "populationLegendLabel": "Population",
+        "populationPopupYearLabel": "Year"
     }
 }
