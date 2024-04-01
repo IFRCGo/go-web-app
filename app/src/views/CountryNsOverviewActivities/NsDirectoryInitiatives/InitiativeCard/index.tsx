@@ -1,5 +1,6 @@
 import {
     Container,
+    NumberOutput,
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -29,57 +30,53 @@ function InitiativeCard(props: Props) {
     return (
         <Container
             className={_cs(styles.initiativeCard, className)}
-            childrenContainerClassName={styles.figures}
+            childrenContainerClassName={styles.content}
             headingLevel={4}
             withHeaderBorder
-            heading={strings.initiativeFundNameTitle}
+            heading={initiative.title}
             headerDescription={resolveToString(
                 strings.initiativeFund,
                 {
                     fundType: initiative.fund_type,
                 },
             )}
+            footerClassName={styles.footer}
             footerContent={(
-                <div className={styles.footerContent}>
-                    <div className={styles.separator} />
-                    <TextOutput
-                        label={strings.initiativeTitle}
-                        value={initiative.title}
-                        valueType="text"
-                        strongValue
-                    />
-                    <TextOutput
-                        label={strings.initiativeCategoriesTitle}
-                        value={categories}
-                        valueType="text"
-                        strongValue
-                    />
-                </div>
+                <TextOutput
+                    label={strings.initiativeCategoriesTitle}
+                    value={categories}
+                    valueType="text"
+                    strongValue
+                    withoutLabelColon
+                />
             )}
         >
-            <div className={styles.yearAllocationSection}>
-                <div className={styles.yearAllocationValue}>
-                    {resolveToString(
-                        strings.initiativeYearApprovedAndDuraton,
-                        {
-                            yearApproved: initiative.year,
-                            duration: initiative.funding_period,
-                        },
-                    )}
-                </div>
-                <div className={styles.yearAllocationLabel}>
-                    {strings.initiativeYearApprovedTitle}
-                </div>
-            </div>
+            <TextOutput
+                className={styles.textOutput}
+                value={resolveToString(
+                    strings.initiativeYearApprovedAndDuration,
+                    {
+                        yearApproved: initiative.year,
+                        duration: initiative.funding_period,
+                    },
+                )}
+                description={strings.initiativeYearApprovedTitle}
+                valueType="text"
+                strongValue
+                withoutLabelColon
+            />
             <div className={styles.verticalSeparator} />
-            <div className={styles.yearAllocationSection}>
-                <div className={styles.yearAllocationValue}>
-                    {initiative.allocation}
-                </div>
-                <div className={styles.yearAllocationLabel}>
-                    {strings.initiativeAllocationTitle}
-                </div>
-            </div>
+            <TextOutput
+                className={styles.textOutput}
+                value={(
+                    <NumberOutput
+                        value={initiative.allocation}
+                    />
+                )}
+                description={strings.initiativeAllocationTitle}
+                strongValue
+                withoutLabelColon
+            />
         </Container>
     );
 }

@@ -113,7 +113,6 @@ export function createCountryListColumn<DATUM, KEY>(
         cellRenderer: ReducedListDisplay,
         cellRendererParams: (_, datum) => {
             const countryList = countryListSelector(datum);
-
             return {
                 list: countryList,
                 renderer: CountryLink,
