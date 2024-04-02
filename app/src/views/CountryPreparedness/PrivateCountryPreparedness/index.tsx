@@ -165,9 +165,12 @@ function PrivateCountryPreparedness() {
         response: perDocumentsResponse,
         retrigger: refetchDocuments,
     } = useRequest({
-        skip: isNotDefined(countryId),
+        skip: isNotDefined(countryId) || isNotDefined(perId),
         url: '/api/v2/per-document-upload/',
-        query: { country: Number(countryId) },
+        query: {
+            country: Number(countryId),
+            per: Number(perId),
+        },
     });
 
     const perDocuments = removeNull(perDocumentsResponse?.results);
@@ -419,6 +422,20 @@ function PrivateCountryPreparedness() {
         document: perDocument,
         onDeleteSuccess: refetchDocuments,
     }), [refetchDocuments]);
+
+    const documentUploadUrlQuery = useMemo(
+        () => {
+            if (isNotDefined(countryId) || isNotDefined(perId)) {
+                return undefined;
+            }
+
+            return {
+                country: countryId,
+                per: perId,
+            };
+        },
+        [countryId, perId],
+    );
 
     return (
         <Container
@@ -672,6 +689,7 @@ function PrivateCountryPreparedness() {
                             fileIdToUrlMap={fileIdToUrlMap}
                             onChange={setFileId}
                             url="/api/v2/per-document-upload/"
+                            urlQuery={documentUploadUrlQuery}
                             value={fileId}
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             clearable

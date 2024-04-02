@@ -36,6 +36,7 @@ export type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
     url: SupportedPaths;
+    urlQuery?: Record<string, string | number | boolean>;
     value: number | undefined | null;
     variant?: ButtonVariant;
     withoutPreview?: boolean;
@@ -61,6 +62,7 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
         fileIdToUrlMap,
         setFileIdToUrlMap,
         url,
+        urlQuery,
         value,
         variant = 'secondary',
         withoutPreview,
@@ -79,6 +81,7 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
     } = useLazyRequest({
         formData: true,
         url,
+        query: urlQuery,
         method: 'POST',
         // FIXME: fix typing in server (low priority)
         // the server generated type for response and body is the same
