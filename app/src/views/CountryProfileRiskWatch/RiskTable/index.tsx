@@ -213,6 +213,7 @@ function RiskTable(props: Props) {
                 (option) => getValueForSelectedMonths(
                     selectedMonths,
                     exposureRiskData[option.hazard_type],
+                    option.hazard_type === 'FI' ? 'max' : 'sum',
                 ),
                 {
                     headerInfoTitle: strings.riskTablePeopleExposedTitle,
