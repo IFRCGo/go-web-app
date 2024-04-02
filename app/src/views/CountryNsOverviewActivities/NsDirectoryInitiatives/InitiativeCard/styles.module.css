@@ -1,0 +1,25 @@
+.initiative-card {
+    border-radius: var(--go-ui-border-radius-lg);
+    box-shadow: var(--go-ui-box-shadow-md);
+    padding: var(--go-ui-spacing-md);
+
+    .footer {
+        border-top: var(--go-ui-width-separator-sm) solid var(--go-ui-color-separator);
+        padding-top: var(--go-ui-spacing-sm);
+    }
+
+    .content {
+        display: flex;
+        justify-content: space-between;
+
+        .text-output {
+            display: block;
+        }
+
+        .vertical-separator {
+            flex-shrink: 0;
+            border-left: var(--go-ui-width-separator-sm) solid var(--go-ui-color-separator);
+        }
+
+    }
+}

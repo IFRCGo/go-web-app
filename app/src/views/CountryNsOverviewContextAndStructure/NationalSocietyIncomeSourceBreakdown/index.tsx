@@ -17,6 +17,7 @@ import {
 } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
+import { type components } from '#generated/types';
 import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -24,6 +25,15 @@ import i18n from './i18n.json';
 interface Props {
     selectedYear: number;
     countryId: number;
+}
+type IncomeSource = components<'read'>['schemas']['FDRSIncome'];
+
+function incomeSourceLabelSelector(source: IncomeSource) {
+    return source.indicator_details.title;
+}
+
+function incomeSourceDescriptionSelector(source: IncomeSource) {
+    return source.indicator_details.description;
 }
 
 function NationalSocietyIncomeSourceBreakdown(props: Props) {
@@ -86,7 +96,8 @@ function NationalSocietyIncomeSourceBreakdown(props: Props) {
             )}
             <BarChart
                 data={incomeListForSelectedYear}
-                labelSelector={({ indicator_display }) => indicator_display}
+                labelSelector={incomeSourceLabelSelector}
+                labelDescriptionSelector={incomeSourceDescriptionSelector}
                 valueSelector={numericValueSelector}
                 keySelector={numericIdSelector}
                 maxRows={incomeListForSelectedYear?.length}

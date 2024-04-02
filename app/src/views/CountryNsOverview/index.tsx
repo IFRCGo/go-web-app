@@ -44,6 +44,12 @@ export function Component() {
                 >
                     {strings.capacityTabTitle}
                 </NavigationTab>
+                <NavigationTab
+                    to="countryNsOverviewSupportingPartners"
+                    urlParams={{ countryId }}
+                >
+                    {strings.supportingPartnersTabTitle}
+                </NavigationTab>
             </NavigationTabList>
             <Outlet context={outletContext} />
         </div>

@@ -6,7 +6,11 @@ import {
 } from '@togglecorp/fujs';
 
 import NumberOutput from '#components/NumberOutput';
-import { getPercentage } from '#utils/common';
+import Tooltip from '#components/Tooltip';
+import {
+    getPercentage,
+    hasSomeDefinedValue,
+} from '#utils/common';
 
 import styles from './styles.module.css';
 
@@ -16,6 +20,7 @@ export interface Props<D> {
     keySelector: (datum: D) => number | string;
     valueSelector: (datum: D) => number | null | undefined;
     labelSelector: (datum: D) => React.ReactNode;
+    labelDescriptionSelector?: (datum: D) => React.ReactNode;
     maxValue?: number;
     maxRows?: number;
     compactValue?: boolean;
@@ -27,6 +32,7 @@ function BarChart<D>(props: Props<D>) {
         data,
         valueSelector,
         labelSelector,
+        labelDescriptionSelector,
         keySelector,
         maxValue: maxValueFromProps,
         maxRows = 5,
@@ -46,11 +52,12 @@ function BarChart<D>(props: Props<D>) {
                     key: keySelector(datum),
                     value,
                     label: labelSelector(datum),
+                    labelDescription: labelDescriptionSelector?.(datum),
                 };
                 // FIXME: use compareNumber
             }).filter(isDefined).sort((a, b) => b.value - a.value).slice(0, maxRows) ?? []
         ),
-        [data, keySelector, valueSelector, labelSelector, maxRows],
+        [data, keySelector, valueSelector, labelSelector, labelDescriptionSelector, maxRows],
     );
 
     // NOTE: we do not need to check if Math.max will be Infinity as the render
@@ -84,6 +91,13 @@ function BarChart<D>(props: Props<D>) {
                             style={isStringLabel ? { fontSize } : undefined}
                         >
                             {datum.label}
+                            {isDefined(labelDescriptionSelector)
+                            && isDefined(datum.labelDescription)
+                            && hasSomeDefinedValue(datum.labelDescription) && (
+                                <Tooltip
+                                    description={datum.labelDescription}
+                                />
+                            )}
                         </div>
                         <div className={styles.barTrack}>
                             <div

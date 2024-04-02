@@ -27,12 +27,6 @@ export function Component() {
                     {strings.overviewTabTitle}
                 </NavigationTab>
                 <NavigationTab
-                    to="countryProfileSupportingPartners"
-                    urlParams={{ countryId }}
-                >
-                    {strings.supportingPartnersTabTitle}
-                </NavigationTab>
-                <NavigationTab
                     to="countryProfileSeasonalRisks"
                     urlParams={{ countryId }}
                 >
