@@ -1,8 +1,18 @@
 .ns-overview-capacity {
-    .ns-overview-capacity-description {
+    .ns-overview-capacity-header {
         display: flex;
         align-items: center;
         flex-direction: column;
+
+        .dummy {
+            flex-grow: 1;
+            width: var(--go-ui-spacing-xs);
+        }
+
+        .ns-overview-capacity-header-description {
+            max-width: var(--go-ui-page-header-description-width-max);
+            text-align: center;
+        }
     }
 
     .country-ns-overview-capacity {

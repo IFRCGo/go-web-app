@@ -137,9 +137,15 @@ export function Component() {
         <Container
             className={styles.strategicPriorities}
             childrenContainerClassName={styles.countryNsOverviewStrategicPriorities}
-            headerDescriptionContainerClassName={styles.strategicPrioritiesHeader}
-            headerDescription={strings.strategicPrioritiesDescription}
         >
+            {/* // FIXME: This should be handle by Container */}
+            <div className={styles.strategicPrioritiesHeader}>
+                <div className={styles.dummy} />
+                <div className={styles.strategicPrioritiesHeaderDescription}>
+                    {strings.strategicPrioritiesDescription}
+                </div>
+                <div className={styles.dummy} />
+            </div>
             {(perPending || countryPlanPending) && (
                 <BlockLoading />
             )}

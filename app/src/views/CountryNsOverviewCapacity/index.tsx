@@ -50,8 +50,6 @@ export function Component() {
         <Container
             className={styles.nsOverviewCapacity}
             childrenContainerClassName={styles.countryNsOverviewCapacity}
-            headerDescription={strings.nSOverviewCapacityDescription}
-            headerDescriptionContainerClassName={styles.nsOverviewCapacityDescription}
             actions={(
                 <Link
                     href="https://www.ifrc.org/evaluations/"
@@ -63,6 +61,14 @@ export function Component() {
                 </Link>
             )}
         >
+            {/* // FIXME: This should be handle by Container */}
+            <div className={styles.nsOverviewCapacityHeader}>
+                <div className={styles.dummy} />
+                <div className={styles.nsOverviewCapacityHeaderDescription}>
+                    {strings.nSOverviewCapacityDescription}
+                </div>
+                <div className={styles.dummy} />
+            </div>
             {/* Data is currently under review, it will be include in the next version */}
             {/* Hide this section */}
             {/* {countryResponse?.region === REGION_ASIA && (
@@ -142,10 +148,9 @@ export function Component() {
                                         label={strings.perFocalPointLabel}
                                         value={`${perProcess.ns_focal_point_name
                                             ? perProcess.ns_focal_point_name
-                                            : '-'} | ${
-                                            perProcess.ns_focal_point_email
-                                                ? perProcess.ns_focal_point_email
-                                                : '-'}`}
+                                            : '-'} | ${perProcess.ns_focal_point_email
+                                            ? perProcess.ns_focal_point_email
+                                            : '-'}`}
                                     />
                                 </>
                             )}
