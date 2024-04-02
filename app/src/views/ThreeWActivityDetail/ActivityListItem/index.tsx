@@ -58,7 +58,7 @@ function ActivityListItem(props: Props) {
                     strongLabel
                 />
                 <p>
-                    {action_details.title}
+                    {action_details?.title}
                 </p>
                 {is_simplified_report && people_households === 'people' && (
                     <>

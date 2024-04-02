@@ -13,7 +13,6 @@ import {
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     Container,
-    DescriptionText,
     Heading,
     TextOutput,
 } from '@ifrc-go/ui/printable';

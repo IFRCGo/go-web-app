@@ -60,9 +60,9 @@
             page-break-inside: avoid;
 
             .label {
-                font-weight: var(--go-ui-font-weight-semibold);
-                font-size: var(--go-ui-spacing-md);
                 margin-bottom: var(--go-ui-spacing-xs);
+                font-size: var(--go-ui-spacing-md);
+                font-weight: var(--go-ui-font-weight-semibold);
             }
         }
     }
@@ -79,8 +79,8 @@
             page-break-inside: avoid;
 
             .label {
-                font-weight: var(--go-ui-font-weight-semibold);
                 font-size: var(--go-ui-font-size-sm);
+                font-weight: var(--go-ui-font-weight-semibold);
             }
         }
     }
