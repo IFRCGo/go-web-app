@@ -380,10 +380,11 @@ export function Component() {
             {pending && (
                 <BlockLoading className={styles.pendingMessage} />
             )}
-            <Heading level={3}>
-                {strings.perExportNSPreparedness}
-            </Heading>
-            <Container childrenContainerClassName={styles.metaSection}>
+            <Container
+                childrenContainerClassName={styles.metaSection}
+                heading={strings.perExportNSPreparedness}
+                headingLevel={3}
+            >
                 <TextOutput
                     label={strings.perExportStartDateLabel}
                     value={perResponse?.date_of_assessment}
@@ -418,42 +419,47 @@ export function Component() {
                 />
             </Container>
             {hasRatingCounts && (
-                <Container>
-                    <Heading level={3}>
-                        {strings.perExportAssessmentHeading}
-                    </Heading>
+                <Container
+                    heading={strings.perExportAssessmentHeading}
+                    headingLevel={3}
+                >
                     <PieChart
                         data={assessmentStats.ratingCounts}
                         valueSelector={numericCountSelector}
                         labelSelector={stringTitleSelector}
                         keySelector={numericIdSelector}
                         colors={primaryRedColorShades}
+                        showPercentageInLegend
                     />
                 </Container>
             )}
             {hasAnswerCounts && (
-                <Container>
-                    <Heading level={3}>
-                        {strings.perExportTotalBenchmarkSummaryHeading}
-                    </Heading>
-                    <StackedProgressBar
-                        data={assessmentStats.answerCounts}
-                        valueSelector={numericCountSelector}
-                        labelSelector={stringLabelSelector}
-                        colorSelector={primaryRedColorShadeSelector}
-                    />
-                    <KeyFigure
-                        className={styles.keyFigure}
-                        value={assessmentStats?.averageRating}
-                        label={strings.perExportAverageComponentRatingLabel}
-                    />
-                </Container>
+                <>
+                    <Container
+                        heading={strings.perExportTotalBenchmarkSummaryHeading}
+                        headingLevel={3}
+                    >
+                        <StackedProgressBar
+                            data={assessmentStats.answerCounts}
+                            valueSelector={numericCountSelector}
+                            labelSelector={stringLabelSelector}
+                            colorSelector={primaryRedColorShadeSelector}
+                        />
+                    </Container>
+                    <Container>
+                        <KeyFigure
+                            className={styles.averageRatingKeyFigure}
+                            value={assessmentStats?.averageRating}
+                            label={strings.perExportAverageComponentRatingLabel}
+                        />
+                    </Container>
+                </>
             )}
             {showComponentsByArea && (
-                <Container>
-                    <Heading level={3}>
-                        {strings.componentsByArea}
-                    </Heading>
+                <Container
+                    heading={strings.componentsByArea}
+                    headingLevel={3}
+                >
                     <RatingByAreaChart
                         ratingOptions={perOptionsResponse.componentratings}
                         formAreaOptions={perFormAreaResponse.results}
@@ -462,10 +468,10 @@ export function Component() {
                 </Container>
             )}
             {!pending && hasAssessments && (
-                <Container>
-                    <Heading level={3}>
-                        {strings.perNSResponseHeading}
-                    </Heading>
+                <Container
+                    heading={strings.perNSResponseHeading}
+                    headingLevel={3}
+                >
                     <PreviousAssessmentCharts
                         ratingOptions={perOptionsResponse?.componentratings}
                         data={assessmentRatings}
@@ -474,19 +480,21 @@ export function Component() {
             )}
             <div className={styles.pageBreak} />
             {hasRatedComponents && (
-                <Container>
-                    <Heading level={3}>
-                        {strings.perHighlightedTopRatedComponentHeading}
-                    </Heading>
+                <Container
+                    heading={strings.perHighlightedTopRatedComponentHeading}
+                    headingLevel={3}
+                    childrenContainerClassName={styles.topRatedComponentContent}
+                >
                     {assessmentStats.topFiveRatedComponents.map(
                         (component) => (
-                            <Container
-                                key={component.details.id}
-                                heading={component.rating?.title}
-                                headingLevel={5}
-                            >
-                                {`${component.details.component_num}${component.details.component_letter}: ${component.details.title}`}
-                            </Container>
+                            <div className={styles.topRatedComponent}>
+                                <div className={styles.label}>
+                                    {component.rating?.title}
+                                </div>
+                                <div>
+                                    {`${component.details.component_num}${component.details.component_letter}: ${component.details.title}`}
+                                </div>
+                            </div>
                         ),
                     )}
                 </Container>
@@ -495,24 +503,23 @@ export function Component() {
             {hasRatedComponents && (
                 <Container
                     childrenContainerClassName={styles.ratingResultsContent}
+                    heading={strings.perComponentRatingResultsHeading}
+                    headingLevel={3}
                 >
-                    <Heading level={3}>
-                        {strings.perComponentRatingResultsHeading}
-                    </Heading>
                     {assessmentStats.topRatedComponents.map(
                         (component) => (
                             <div
                                 key={`${component.details.id}-${component.details.component_num}-${component.details.component_letter}`}
                                 className={styles.ratedComponent}
                             >
-                                <Heading level={5}>
+                                <div className={styles.label}>
                                     {resolveToString(strings.perPriorityComponentHeading, {
                                         componentNumber: component.details.component_num,
                                         componentLetter: component.details.component_letter
                                             ?? '',
                                         componentName: component.details.title,
                                     })}
-                                </Heading>
+                                </div>
                                 <ProgressBar
                                     value={component.rating?.value ?? 0}
                                     totalValue={5}
@@ -522,9 +529,9 @@ export function Component() {
                                             : strings.perComponentNotReviewed
                                     )}
                                 />
-                                <DescriptionText>
+                                <div>
                                     {component.notes}
-                                </DescriptionText>
+                                </div>
                             </div>
                         ),
                     )}

@@ -1,9 +1,6 @@
 .per-export {
     --pdf-element-bg: var(--go-ui-color-background);
 
-    display: flex;
-    flex-direction: column;
-    gap: var(--go-ui-spacing-md);
     font-family: 'Open Sans', sans-serif;
     font-size: var(--go-ui-font-size-export);
 
@@ -14,8 +11,13 @@
         width: 210mm;
         min-height: 297mm;
     }
+
     .page-break {
         break-before: page;
+    }
+
+    .average-rating-key-figure {
+        padding: 0;
     }
 
     .page-title-section {
@@ -49,38 +51,37 @@
     .top-rated-component-content {
         display: grid;
         flex-grow: 0;
-        grid-gap: var(--go-ui-spacing-md);
+        grid-gap: var(--go-ui-spacing-sm);
         grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-
-        @media screen and (max-width: 20rem) {
-            grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
-        }
 
         .top-rated-component {
             border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+            padding: var(--go-ui-spacing-sm);
+            page-break-inside: avoid;
 
-            .component-name {
-                flex-grow: 0;
+            .label {
+                font-weight: var(--go-ui-font-weight-semibold);
+                font-size: var(--go-ui-spacing-md);
+                margin-bottom: var(--go-ui-spacing-xs);
             }
-        }
-
-        .icon {
-            color: var(--go-ui-color-green);
-            font-size: var(--go-ui-height-icon-multiplier);
         }
     }
 
     .rating-results-content {
-        display: grid;
-        grid-gap: var(--go-ui-spacing-sm) var(--go-ui-spacing-xl);
-        grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-md);
 
         .rated-component {
-            display: flex;
-            flex-direction: column;
-            border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
-            padding: var(--go-ui-spacing-sm) 0;
-            gap: var(--go-ui-spacing-sm);
+            display: grid;
+            grid-gap: var(--go-ui-spacing-md);
+            grid-template-columns: 1fr 1fr 1fr;
+            page-break-inside: avoid;
+
+            .label {
+                font-weight: var(--go-ui-font-weight-semibold);
+                font-size: var(--go-ui-font-size-sm);
+            }
         }
     }
 }

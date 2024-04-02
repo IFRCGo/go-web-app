@@ -6,7 +6,12 @@ import {
 } from '@togglecorp/fujs';
 
 import LegendItem from '#components/LegendItem';
-import { sumSafe } from '#utils/common';
+import TextOutput from '#components/TextOutput';
+import Tooltip from '#components/Tooltip';
+import {
+    getPercentage,
+    sumSafe,
+} from '#utils/common';
 
 import styles from './styles.module.css';
 
@@ -73,6 +78,7 @@ interface Props<D> {
     colors: string[];
     pieRadius?: number;
     chartPadding?: number;
+    showPercentageInLegend?: boolean;
 }
 
 function PieChart<D>(props: Props<D>) {
@@ -86,6 +92,7 @@ function PieChart<D>(props: Props<D>) {
         pieRadius = DEFAULT_PIE_RADIUS,
         chartPadding = DEFAULT_CHART_PADDING,
         legendClassName,
+        showPercentageInLegend,
     } = props;
 
     const totalValue = sumSafe(data?.map((datum) => valueSelector(datum)));
@@ -108,6 +115,7 @@ function PieChart<D>(props: Props<D>) {
                     value,
                     label: labelSelector(datum),
                     startAngle: endAngle - currentAngle,
+                    percentage: getPercentage(value, totalValueSafe),
                     endAngle,
                 };
             }).filter(isDefined) ?? [];
@@ -132,9 +140,14 @@ function PieChart<D>(props: Props<D>) {
                             d={getPathData(pieRadius, datum.startAngle, datum.endAngle)}
                             fill={colors[i % colors.length]}
                         >
-                            <title>
-                                {`${datum.label}: ${datum.value}`}
-                            </title>
+                            <Tooltip
+                                description={(
+                                    <TextOutput
+                                        label={datum.label}
+                                        value={datum.value}
+                                    />
+                                )}
+                            />
                         </path>
                     ))}
                 </g>
@@ -144,7 +157,16 @@ function PieChart<D>(props: Props<D>) {
                     <LegendItem
                         className={styles.legendItem}
                         key={datum.key}
-                        label={datum.label}
+                        label={showPercentageInLegend ? (
+                            <TextOutput
+                                label={datum.label}
+                                value={datum.percentage}
+                                valueType="number"
+                                prefix="("
+                                suffix="%)"
+                                withoutLabelColon
+                            />
+                        ) : datum.label}
                         color={colors[i % colors.length]}
                     />
                 ))}
