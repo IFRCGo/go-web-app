@@ -369,7 +369,9 @@ function PrivateCountryPreparedness() {
                     letter: component.details.component_letter,
                     rating: component.rating,
                 }),
-            ).sort((a, b) => compareNumber(b.rating?.value ?? 0, a.rating?.value ?? 0));
+            ).sort(
+                (a, b) => compareNumber(b.rating?.value ?? 0, a.rating?.value ?? 0),
+            ).slice(0, 5);
 
             return {
                 componentsWithRating,

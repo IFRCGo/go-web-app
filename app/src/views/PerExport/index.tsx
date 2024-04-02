@@ -1,5 +1,4 @@
 import {
-    Fragment,
     useMemo,
     useState,
 } from 'react';
@@ -14,7 +13,6 @@ import {
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     Container,
-    DescriptionText,
     Heading,
     TextOutput,
 } from '@ifrc-go/ui/printable';
@@ -153,23 +151,26 @@ export function Component() {
     });
 
     const {
-        pending: pendingLatestPerResponse,
-        response: latestPerResponse,
-        // error: latestPerResponseError,
+        pending: pendingPerStatsResponse,
+        response: perStatsResponse,
+        // error: perStatsResponseError,
     } = useRequest({
         skip: isNotDefined(countryId),
-        url: '/api/v2/latest-per-overview/',
-        query: { country_id: Number(countryId) },
+        url: '/api/v2/per-stats/',
+        query: isDefined(countryId) && isDefined(perId) ? {
+            country: [Number(countryId)],
+            id: Number(perId),
+        } : undefined,
     });
 
-    // const countryHasNoPer = latestPerResponse?.results?.length === 0;
+    // const countryHasNoPer = perStatsResponse?.results?.length === 0;
 
     // FIXME: add feature on server (low priority)
     // we get a list form the server because we are using a filter on listing api
-    // const perId = latestPerResponse?.results?.[0]?.id;
+    // const perId = perStatsResponse?.results?.[0]?.id;
 
-    const latestPerOverview = latestPerResponse?.results?.[0];
-    const prevAssessmentRatings = latestPerOverview?.assessment_ratings;
+    const perOverview = perStatsResponse?.results?.[0];
+    const assessmentRatings = perOverview?.assessment_ratings;
 
     const formAnswerMap = useMemo(
         () => (
@@ -345,7 +346,7 @@ export function Component() {
     const hasRatingCounts = hasAssessmentStats && assessmentStats.ratingCounts.length > 0;
     const hasAnswerCounts = hasAssessmentStats && assessmentStats.answerCounts.length > 0;
     const hasRatingsByArea = hasAssessmentStats && assessmentStats.ratingByArea.length > 0;
-    const hasPrevAssessments = isDefined(prevAssessmentRatings) && prevAssessmentRatings.length > 1;
+    const hasAssessments = isDefined(assessmentRatings) && assessmentRatings.length > 1;
     const hasRatedComponents = hasAssessmentStats && assessmentStats.topRatedComponents.length > 0;
 
     const showComponentsByArea = hasRatingsByArea
@@ -353,7 +354,7 @@ export function Component() {
         && perFormAreaResponse;
 
     const pending = formAnswerPending
-        || pendingLatestPerResponse
+        || pendingPerStatsResponse
         || perOptionsPending
         || perFormAreaPending
         || perProcessStatusPending
@@ -368,6 +369,9 @@ export function Component() {
                     src={ifrcLogo}
                     alt={strings.perImageLogoIFRCAlt}
                 />
+                <Heading level={1} className={styles.countryName}>
+                    {perResponse?.country_details.name}
+                </Heading>
                 <Heading level={1}>
                     {strings.perExportTitle}
                 </Heading>
@@ -375,10 +379,11 @@ export function Component() {
             {pending && (
                 <BlockLoading className={styles.pendingMessage} />
             )}
-            <Heading level={3}>
-                {strings.perExportNSPreparedness}
-            </Heading>
-            <Container childrenContainerClassName={styles.metaSection}>
+            <Container
+                childrenContainerClassName={styles.metaSection}
+                heading={strings.perExportNSPreparedness}
+                headingLevel={3}
+            >
                 <TextOutput
                     label={strings.perExportStartDateLabel}
                     value={perResponse?.date_of_assessment}
@@ -413,42 +418,47 @@ export function Component() {
                 />
             </Container>
             {hasRatingCounts && (
-                <Container>
-                    <Heading level={3}>
-                        {strings.perExportAssessmentHeading}
-                    </Heading>
+                <Container
+                    heading={strings.perExportAssessmentHeading}
+                    headingLevel={3}
+                >
                     <PieChart
                         data={assessmentStats.ratingCounts}
                         valueSelector={numericCountSelector}
                         labelSelector={stringTitleSelector}
                         keySelector={numericIdSelector}
                         colors={primaryRedColorShades}
+                        showPercentageInLegend
                     />
                 </Container>
             )}
             {hasAnswerCounts && (
-                <Container>
-                    <Heading level={3}>
-                        {strings.perExportTotalBenchmarkSummaryHeading}
-                    </Heading>
-                    <StackedProgressBar
-                        data={assessmentStats.answerCounts}
-                        valueSelector={numericCountSelector}
-                        labelSelector={stringLabelSelector}
-                        colorSelector={primaryRedColorShadeSelector}
-                    />
-                    <KeyFigure
-                        className={styles.keyFigure}
-                        value={assessmentStats?.averageRating}
-                        label={strings.perExportAverageComponentRatingLabel}
-                    />
-                </Container>
+                <>
+                    <Container
+                        heading={strings.perExportTotalBenchmarkSummaryHeading}
+                        headingLevel={3}
+                    >
+                        <StackedProgressBar
+                            data={assessmentStats.answerCounts}
+                            valueSelector={numericCountSelector}
+                            labelSelector={stringLabelSelector}
+                            colorSelector={primaryRedColorShadeSelector}
+                        />
+                    </Container>
+                    <Container>
+                        <KeyFigure
+                            className={styles.averageRatingKeyFigure}
+                            value={assessmentStats?.averageRating}
+                            label={strings.perExportAverageComponentRatingLabel}
+                        />
+                    </Container>
+                </>
             )}
             {showComponentsByArea && (
-                <Container>
-                    <Heading level={3}>
-                        {strings.componentsByArea}
-                    </Heading>
+                <Container
+                    heading={strings.componentsByArea}
+                    headingLevel={3}
+                >
                     <RatingByAreaChart
                         ratingOptions={perOptionsResponse.componentratings}
                         formAreaOptions={perFormAreaResponse.results}
@@ -456,32 +466,34 @@ export function Component() {
                     />
                 </Container>
             )}
-            {!pending && hasPrevAssessments && (
-                <Container>
-                    <Heading level={3}>
-                        {strings.perNSResponseHeading}
-                    </Heading>
+            {!pending && hasAssessments && (
+                <Container
+                    heading={strings.perNSResponseHeading}
+                    headingLevel={3}
+                >
                     <PreviousAssessmentCharts
                         ratingOptions={perOptionsResponse?.componentratings}
-                        data={prevAssessmentRatings}
+                        data={assessmentRatings}
                     />
                 </Container>
             )}
             <div className={styles.pageBreak} />
             {hasRatedComponents && (
-                <Container>
-                    <Heading level={3}>
-                        {strings.perHighlightedTopRatedComponentHeading}
-                    </Heading>
+                <Container
+                    heading={strings.perHighlightedTopRatedComponentHeading}
+                    headingLevel={3}
+                    childrenContainerClassName={styles.topRatedComponentContent}
+                >
                     {assessmentStats.topFiveRatedComponents.map(
                         (component) => (
-                            <Container
-                                key={component.details.id}
-                                heading={component.rating?.title}
-                                headingLevel={5}
-                            >
-                                {component.details.title}
-                            </Container>
+                            <div className={styles.topRatedComponent}>
+                                <div className={styles.label}>
+                                    {component.rating?.title}
+                                </div>
+                                <div>
+                                    {`${component.details.component_num}${component.details.component_letter}: ${component.details.title}`}
+                                </div>
+                            </div>
                         ),
                     )}
                 </Container>
@@ -490,23 +502,23 @@ export function Component() {
             {hasRatedComponents && (
                 <Container
                     childrenContainerClassName={styles.ratingResultsContent}
+                    heading={strings.perComponentRatingResultsHeading}
+                    headingLevel={3}
                 >
-                    <Heading level={3}>
-                        {strings.perComponentRatingResultsHeading}
-                    </Heading>
                     {assessmentStats.topRatedComponents.map(
                         (component) => (
-                            <Fragment
+                            <div
                                 key={`${component.details.id}-${component.details.component_num}-${component.details.component_letter}`}
+                                className={styles.ratedComponent}
                             >
-                                <Heading level={5}>
+                                <div className={styles.label}>
                                     {resolveToString(strings.perPriorityComponentHeading, {
                                         componentNumber: component.details.component_num,
                                         componentLetter: component.details.component_letter
                                             ?? '',
                                         componentName: component.details.title,
                                     })}
-                                </Heading>
+                                </div>
                                 <ProgressBar
                                     value={component.rating?.value ?? 0}
                                     totalValue={5}
@@ -516,11 +528,10 @@ export function Component() {
                                             : strings.perComponentNotReviewed
                                     )}
                                 />
-                                <DescriptionText>
+                                <div>
                                     {component.notes}
-                                </DescriptionText>
-                                <div className={styles.separator} />
-                            </Fragment>
+                                </div>
+                            </div>
                         ),
                     )}
                 </Container>

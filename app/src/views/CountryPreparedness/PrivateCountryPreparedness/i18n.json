@@ -23,7 +23,6 @@
         "componentMessagePERDataNotAvailable": "PER data not available for this Country yet!",
         "componentFetchingData": "Fetching data...",
         "componentContactPERTeam": "Contact PER Team",
-        "componentNotReviewed": "Not Reviewed",
         "componentNotReviewed": "0 - Not reviewed",
         "componentChartNotAvailable": "Charts not available!",
         "componentChartNotAvailableDescription": "Assessment has not been performed yet for current PER cycle!",
