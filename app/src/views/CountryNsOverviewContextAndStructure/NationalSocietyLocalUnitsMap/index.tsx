@@ -26,6 +26,7 @@ import {
     _cs,
     isDefined,
     isNotDefined,
+    isTruthyString,
 } from '@togglecorp/fujs';
 import {
     MapBounds,
@@ -62,6 +63,10 @@ import styles from './styles.module.css';
 const basePointPaint: CirclePaint = {
     'circle-radius': 5,
     'circle-color': COLOR_RED,
+    'circle-opacity': 0.6,
+    'circle-stroke-color': COLOR_RED,
+    'circle-stroke-width': 1,
+    'circle-stroke-opacity': 1,
 };
 
 const basePointLayerOptions: Omit<CircleLayer, 'id'> = {
@@ -234,6 +239,7 @@ function NationalSocietyLocalUnitsMap(props: Props) {
 
     const emailRendererParams = useCallback(
         (_: string, email: string): LinkProps => ({
+            className: styles.email,
             withUnderline: true,
             external: true,
             href: `mailto:${email}`,
@@ -340,7 +346,9 @@ function NationalSocietyLocalUnitsMap(props: Props) {
                                 external
                                 withLinkIcon
                             >
-                                {selectedLocalUnitDetail.english_branch_name}
+                                {isTruthyString(selectedLocalUnitDetail.english_branch_name)
+                                    ? selectedLocalUnitDetail.english_branch_name
+                                    : selectedLocalUnitDetail.local_branch_name}
                             </Link>
                         )}
                         childrenContainerClassName={styles.popupContent}
@@ -357,7 +365,8 @@ function NationalSocietyLocalUnitsMap(props: Props) {
                             className={styles.localUnitInfo}
                             label={strings.localUnitDetailAddress}
                             strongLabel
-                            value={selectedLocalUnitDetail.address_en}
+                            value={selectedLocalUnitDetail.address_en
+                                ?? selectedLocalUnitDetail.address_loc}
                         />
                         <TextOutput
                             className={styles.localUnitInfo}
@@ -369,7 +378,8 @@ function NationalSocietyLocalUnitsMap(props: Props) {
                             className={styles.localUnitInfo}
                             label={strings.localUnitDetailFocalPerson}
                             strongLabel
-                            value={selectedLocalUnitDetail.focal_person_en}
+                            value={selectedLocalUnitDetail.focal_person_en
+                                ?? selectedLocalUnitDetail.focal_person_loc}
                         />
                         <TextOutput
                             className={styles.localUnitInfo}
