@@ -12,6 +12,7 @@ import {
 import {
     Button,
     Container,
+    List,
     SelectInput,
     TextInput,
     TextOutput,
@@ -25,6 +26,7 @@ import {
     _cs,
     isDefined,
     isNotDefined,
+    isTruthyString,
 } from '@togglecorp/fujs';
 import {
     MapBounds,
@@ -39,7 +41,7 @@ import type {
 } from 'mapbox-gl';
 
 import BaseMap from '#components/domain/BaseMap';
-import Link from '#components/Link';
+import Link, { type Props as LinkProps } from '#components/Link';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import MapPopup from '#components/MapPopup';
 import { adminUrl } from '#config';
@@ -61,6 +63,10 @@ import styles from './styles.module.css';
 const basePointPaint: CirclePaint = {
     'circle-radius': 5,
     'circle-color': COLOR_RED,
+    'circle-opacity': 0.6,
+    'circle-stroke-color': COLOR_RED,
+    'circle-stroke-width': 1,
+    'circle-stroke-opacity': 1,
 };
 
 const basePointLayerOptions: Omit<CircleLayer, 'id'> = {
@@ -86,6 +92,10 @@ interface ClickedPoint {
 
 interface Props {
     className?: string;
+}
+
+function emailKeySelector(email: string) {
+    return email;
 }
 
 function NationalSocietyLocalUnitsMap(props: Props) {
@@ -227,6 +237,17 @@ function NationalSocietyLocalUnitsMap(props: Props) {
         [setFilter],
     );
 
+    const emailRendererParams = useCallback(
+        (_: string, email: string): LinkProps => ({
+            className: styles.email,
+            withUnderline: true,
+            external: true,
+            href: `mailto:${email}`,
+            children: email,
+        }),
+        [],
+    );
+
     return (
         <Container
             className={_cs(styles.nationalSocietyLocalUnitsMap, className)}
@@ -325,7 +346,9 @@ function NationalSocietyLocalUnitsMap(props: Props) {
                                 external
                                 withLinkIcon
                             >
-                                {selectedLocalUnitDetail.english_branch_name}
+                                {isTruthyString(selectedLocalUnitDetail.english_branch_name)
+                                    ? selectedLocalUnitDetail.english_branch_name
+                                    : selectedLocalUnitDetail.local_branch_name}
                             </Link>
                         )}
                         childrenContainerClassName={styles.popupContent}
@@ -342,7 +365,8 @@ function NationalSocietyLocalUnitsMap(props: Props) {
                             className={styles.localUnitInfo}
                             label={strings.localUnitDetailAddress}
                             strongLabel
-                            value={selectedLocalUnitDetail.address_en}
+                            value={selectedLocalUnitDetail.address_en
+                                ?? selectedLocalUnitDetail.address_loc}
                         />
                         <TextOutput
                             className={styles.localUnitInfo}
@@ -354,7 +378,8 @@ function NationalSocietyLocalUnitsMap(props: Props) {
                             className={styles.localUnitInfo}
                             label={strings.localUnitDetailFocalPerson}
                             strongLabel
-                            value={selectedLocalUnitDetail.focal_person_en}
+                            value={selectedLocalUnitDetail.focal_person_en
+                                ?? selectedLocalUnitDetail.focal_person_loc}
                         />
                         <TextOutput
                             className={styles.localUnitInfo}
@@ -403,13 +428,17 @@ function NationalSocietyLocalUnitsMap(props: Props) {
                             )}
                             withoutLabelColon
                             value={(
-                                <Link
-                                    href={countryResponse.email}
-                                    withUnderline
-                                    external
-                                >
-                                    {countryResponse.email}
-                                </Link>
+                                <List
+                                    data={countryResponse.email.filter(isDefined)}
+                                    renderer={Link}
+                                    rendererParams={emailRendererParams}
+                                    keySelector={emailKeySelector}
+                                    withoutMessage
+                                    compact
+                                    pending={false}
+                                    errored={false}
+                                    filtered={false}
+                                />
                             )}
                         />
                     )}
