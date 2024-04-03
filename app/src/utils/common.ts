@@ -1,11 +1,16 @@
 import {
     compareNumber,
+    isDefined,
     isNotDefined,
+    isTruthyString,
 } from '@togglecorp/fujs';
 
+import { type components } from '#generated/types';
 import type { GoApiResponse } from '#utils/restRequest';
 
 type SearchResponse = GoApiResponse<'/api/v1/search/'>;
+
+type PerComponent = Pick<components<'read'>['schemas']['FormComponent'], 'title' | 'component_letter' | 'component_num'>;
 
 type SearchResponseKeys = keyof SearchResponse;
 // eslint-disable-next-line import/prefer-default-export
@@ -74,4 +79,12 @@ export function downloadFile(
     document.body.removeChild(a);
 
     URL.revokeObjectURL(url);
+}
+
+export function getFormattedComponentName(component: PerComponent): string {
+    const { component_num, component_letter, title } = component;
+
+    const prefix = [component_num, component_letter].filter(isDefined).join(' ').trim();
+
+    return `${prefix} : ${title}`;
 }

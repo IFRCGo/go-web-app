@@ -19,7 +19,6 @@ import {
 import {
     numericCountSelector,
     numericIdSelector,
-    resolveToString,
     stringLabelSelector,
     stringTitleSelector,
     sumSafe,
@@ -35,6 +34,7 @@ import {
 } from '@togglecorp/fujs';
 
 import ifrcLogo from '#assets/icons/ifrc-square.png';
+import { getFormattedComponentName } from '#utils/common';
 import { useRequest } from '#utils/restRequest';
 
 import PreviousAssessmentCharts from '../CountryPreparedness/PreviousAssessmentChart';
@@ -491,7 +491,7 @@ export function Component() {
                                     {component.rating?.title}
                                 </div>
                                 <div>
-                                    {`${component.details.component_num}${component.details.component_letter}: ${component.details.title}`}
+                                    {getFormattedComponentName(component.details)}
                                 </div>
                             </div>
                         ),
@@ -512,12 +512,7 @@ export function Component() {
                                 className={styles.ratedComponent}
                             >
                                 <div className={styles.label}>
-                                    {resolveToString(strings.perPriorityComponentHeading, {
-                                        componentNumber: component.details.component_num,
-                                        componentLetter: component.details.component_letter
-                                            ?? '',
-                                        componentName: component.details.title,
-                                    })}
+                                    {getFormattedComponentName(component.details)}
                                 </div>
                                 <ProgressBar
                                     value={component.rating?.value ?? 0}
