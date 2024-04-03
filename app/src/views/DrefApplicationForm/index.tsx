@@ -77,6 +77,7 @@ import Submission from './Submission';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+import DrefImportButton from './DrefImportButton';
 
 type GetDrefResponse = GoApiResponse<'/api/v2/dref/{id}/'>;
 
@@ -572,6 +573,9 @@ export function Component() {
                 )}
                 actions={(
                     <>
+                        {isNotDefined(drefId) && (
+                            <DrefImportButton />
+                        )}
                         {isDefined(drefId) && (
                             <>
                                 <Button
