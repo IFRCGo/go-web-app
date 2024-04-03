@@ -340,7 +340,10 @@ export function Component() {
 
     const sortedFormComponents = useMemo(
         () => (
-            [...formComponentResponse?.results ?? []].sort(
+            [...formComponentResponse?.results?.filter(
+                // NOTE:  filter out parent components
+                (formComponent) => !formComponent.is_parent,
+            ) ?? []].sort(
                 (a, b) => {
                     if (sortBy === 'rating') {
                         const ratingA = assessmentComponentResponseMap
