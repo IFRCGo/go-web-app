@@ -148,14 +148,6 @@ export function Component() {
 
     return (
         <div className={styles.countryProfilePreviousEvents}>
-            {(disasterCountPending || isDefined(disasterCountError)) && (
-                <Message
-                    pending={disasterCountPending}
-                    errored={isDefined(disasterCountError)}
-                    erroredTitle={strings.dataLoadFailureMessage}
-                    erroredDescription={disasterCountError?.value.messageForNotification}
-                />
-            )}
             <Container
                 contentViewType="grid"
                 numPreferredGridContentColumns={2}
@@ -171,13 +163,21 @@ export function Component() {
                         labelSelector={stringLabelSelector}
                         nonClearable
                     />
-
                 )}
             >
                 {isDefined(figureResponse) && (
                     <CountryKeyFigures
                         className={styles.keyFigures}
                         data={figureResponse}
+                    />
+                )}
+                {(disasterCountPending || isDefined(disasterCountError)) && (
+                    <Message
+                        className={styles.message}
+                        pending={disasterCountPending}
+                        errored={isDefined(disasterCountError)}
+                        erroredTitle={strings.dataLoadFailureMessage}
+                        erroredDescription={disasterCountError?.value.messageForNotification}
                     />
                 )}
                 {!(disasterCountPending || isDefined(disasterCountError)) && (
@@ -204,15 +204,12 @@ export function Component() {
                                 endDate={encodeDate(selectedTimePeriod.endDate)}
                             />
                         </Container>
-                        <PastEventsChart
-                            className={styles.pastEvents}
-                            countryId={countryId}
-                            startDate={encodeDate(selectedTimePeriod.startDate)}
-                            endDate={encodeDate(selectedTimePeriod.endDate)}
-                        />
                     </>
                 )}
             </Container>
+            <PastEventsChart
+                countryId={countryId}
+            />
             {isDefined(countryId) && (
                 <AppealsTable
                     heading={strings.previousOperationsHeading}

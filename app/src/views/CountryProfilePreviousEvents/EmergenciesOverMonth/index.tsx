@@ -58,6 +58,7 @@ function EmergenciesOverMonth(props: Props) {
             xValueSelector: (datum) => datum.date,
             yValueSelector: (datum) => datum.targeted_population,
             yearlyChart: true,
+            yValueStartsFromZero: true,
         },
     );
 

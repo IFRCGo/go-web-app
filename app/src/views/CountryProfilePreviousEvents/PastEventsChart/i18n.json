@@ -5,6 +5,8 @@
         "pastEventsPeopleExposed": "People Exposed / Affected",
         "pastEventsTargetedPopulation": "Targeted population",
         "pastEventsAmountRequested": "Amount requested",
-        "pastEventsAmountFunded": "Amount funded"
+        "pastEventsAmountFunded": "Amount funded",
+        "filterLastFiveYearsLabel": "Last 5 years",
+        "filterLastTenYearsLabel": "Last 10 years"
     }
 }

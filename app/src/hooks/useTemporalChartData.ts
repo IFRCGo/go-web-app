@@ -12,7 +12,10 @@ import {
     getChartDimensions,
     getEvenDistribution,
     getIntervals,
+    getNumberOfDays,
+    getNumberOfMonths,
     getScaleFunction,
+    getTemporalDiff,
     maxSafe,
     minSafe,
     Rect,
@@ -24,10 +27,6 @@ import {
     isNotDefined,
 } from '@togglecorp/fujs';
 
-import {
-    getNumberOfDays,
-    getNumberOfMonths,
-} from '#utils/common';
 import {
     DEFAULT_X_AXIS_HEIGHT,
     DEFAULT_Y_AXIS_WIDTH,
@@ -147,24 +146,13 @@ function useTemporalChartData<DATUM>(data: DATUM[] | undefined | null, options: 
         [chartData],
     );
 
-    const temporalDiff = useMemo<Record<TemporalResolution, number> | undefined>(
+    const dataTemporalDiff = useMemo<Record<TemporalResolution, number> | undefined>(
         () => {
             if (isNotDefined(dataDomain)) {
                 return undefined;
             }
 
-            const minDate = new Date(dataDomain.min);
-            const maxDate = new Date(dataDomain.max);
-
-            const yearsDiff = maxDate.getFullYear() - minDate.getFullYear();
-            const monthsDiff = getNumberOfMonths(minDate, maxDate);
-            const daysDiff = getNumberOfDays(minDate, maxDate);
-
-            return {
-                year: yearsDiff,
-                month: monthsDiff,
-                day: daysDiff,
-            };
+            return getTemporalDiff(dataDomain.min, dataDomain.max);
         },
         [dataDomain],
     );
@@ -175,26 +163,33 @@ function useTemporalChartData<DATUM>(data: DATUM[] | undefined | null, options: 
                 return 'month';
             }
 
-            if (temporalResolutionFromProps !== 'auto') {
+            if (
+                temporalResolutionFromProps !== 'auto'
+                    && (
+                        temporalResolutionFromProps === 'day'
+                            || temporalResolutionFromProps === 'month'
+                            || temporalResolutionFromProps === 'year'
+                    )
+            ) {
                 return temporalResolutionFromProps;
             }
 
             // NOTE: revisit
-            if (isNotDefined(temporalDiff)) {
+            if (isNotDefined(dataTemporalDiff)) {
                 return 'day';
             }
 
-            if (temporalDiff.year > NUM_X_AXIS_TICKS_MIN) {
+            if (dataTemporalDiff.year > NUM_X_AXIS_TICKS_MIN) {
                 return 'year';
             }
 
-            if (temporalDiff.month > NUM_X_AXIS_TICKS_MIN) {
+            if (dataTemporalDiff.month > NUM_X_AXIS_TICKS_MIN) {
                 return 'month';
             }
 
             return 'day';
         },
-        [temporalDiff, temporalResolutionFromProps, yearlyChart],
+        [dataTemporalDiff, temporalResolutionFromProps, yearlyChart],
     );
 
     const numXAxisTicks = useMemo(
@@ -207,11 +202,11 @@ function useTemporalChartData<DATUM>(data: DATUM[] | undefined | null, options: 
                 return bound(numXAxisTicksFromProps, NUM_X_AXIS_TICKS_MIN, NUM_X_AXIS_TICKS_MAX);
             }
 
-            if (isNotDefined(temporalDiff)) {
+            if (isNotDefined(dataTemporalDiff)) {
                 return NUM_X_AXIS_TICKS_MIN;
             }
 
-            const currentDiff = temporalDiff[temporalResolution];
+            const currentDiff = dataTemporalDiff[temporalResolution] + 2;
 
             if (currentDiff <= NUM_X_AXIS_TICKS_MIN) {
                 return NUM_X_AXIS_TICKS_MIN;
@@ -230,7 +225,7 @@ function useTemporalChartData<DATUM>(data: DATUM[] | undefined | null, options: 
                     return {
                         numTicks,
                         offset,
-                        rank: numTicks / (offset + 5),
+                        rank: numTicks / (offset + 3),
                     };
                 },
             );
@@ -245,7 +240,7 @@ function useTemporalChartData<DATUM>(data: DATUM[] | undefined | null, options: 
                 NUM_X_AXIS_TICKS_MAX,
             );
         },
-        [numXAxisTicksFromProps, temporalDiff, temporalResolution, yearlyChart],
+        [numXAxisTicksFromProps, dataTemporalDiff, temporalResolution, yearlyChart],
     );
 
     const chartDomain = useMemo(
@@ -259,7 +254,7 @@ function useTemporalChartData<DATUM>(data: DATUM[] | undefined | null, options: 
                 };
             }
 
-            if (isNotDefined(dataDomain)) {
+            if (isNotDefined(dataDomain) || isNotDefined(dataTemporalDiff)) {
                 const now = new Date();
 
                 if (temporalResolution === 'year') {
@@ -313,20 +308,23 @@ function useTemporalChartData<DATUM>(data: DATUM[] | undefined | null, options: 
             }
 
             if (temporalResolution === 'month') {
-                const maxMonth = maxDataDate.getFullYear() * 12
-                    + maxDataDate.getMonth();
-                const minMonth = minDataDate.getFullYear() * 12
-                    + minDataDate.getMonth();
-
                 const { left, right } = getEvenDistribution(
-                    minMonth,
-                    maxMonth,
+                    0,
+                    dataTemporalDiff.month,
                     numXAxisTicks,
                 );
 
                 return {
-                    min: new Date(minDataDate.getFullYear(), minDataDate.getMonth() - left, 1),
-                    max: new Date(maxDataDate.getFullYear(), minDataDate.getMonth() + right, 1),
+                    min: new Date(
+                        minDataDate.getFullYear(),
+                        minDataDate.getMonth() - left,
+                        1,
+                    ),
+                    max: new Date(
+                        maxDataDate.getFullYear(),
+                        maxDataDate.getMonth() + right,
+                        1,
+                    ),
                 };
             }
 
@@ -344,24 +342,32 @@ function useTemporalChartData<DATUM>(data: DATUM[] | undefined | null, options: 
                 ),
                 max: new Date(
                     maxDataDate.getFullYear(),
-                    minDataDate.getMonth(),
-                    minDataDate.getDate() + right,
+                    maxDataDate.getMonth(),
+                    maxDataDate.getDate() + right,
                 ),
             };
         },
-        [temporalResolution, dataDomain, numXAxisTicks, yearlyChart],
+        [temporalResolution, dataDomain, numXAxisTicks, yearlyChart, dataTemporalDiff],
+    );
+
+    const chartTemporalDiff = useMemo<Record<TemporalResolution, number>>(
+        () => getTemporalDiff(chartDomain.min, chartDomain.max),
+        [chartDomain],
     );
 
     const getRelativeX = useCallback(
         (dateLike: DateLike) => {
             const date = new Date(dateLike);
+            const monthDiff = getNumberOfMonths(chartDomain.min, date);
 
             if (temporalResolution === 'year') {
-                return date.getFullYear() - chartDomain.min.getFullYear();
+                const yearDiff = date.getFullYear() - chartDomain.min.getFullYear();
+
+                return yearDiff + (monthDiff - yearDiff * 12) / 12;
             }
 
             if (temporalResolution === 'month') {
-                return getNumberOfMonths(chartDomain.min, date);
+                return monthDiff;
             }
 
             return getNumberOfDays(chartDomain.min, date);
@@ -393,6 +399,13 @@ function useTemporalChartData<DATUM>(data: DATUM[] | undefined | null, options: 
                 };
             }
 
+            if (isNotDefined(dataTemporalDiff)) {
+                return {
+                    min: 0,
+                    max: numXAxisTicks,
+                };
+            }
+
             if (temporalResolution === 'year') {
                 return {
                     min: 0,
@@ -412,7 +425,7 @@ function useTemporalChartData<DATUM>(data: DATUM[] | undefined | null, options: 
                 max: getNumberOfDays(chartDomain.min, chartDomain.max),
             };
         },
-        [chartDomain, temporalResolution, yearlyChart],
+        [chartDomain, temporalResolution, yearlyChart, dataTemporalDiff, numXAxisTicks],
     );
 
     const xScaleFnRelative = useMemo(
@@ -449,15 +462,30 @@ function useTemporalChartData<DATUM>(data: DATUM[] | undefined | null, options: 
             const yBounds = getBounds(yValues);
 
             if (yValueStartsFromZero) {
+                const { left, right } = getEvenDistribution(
+                    0,
+                    yBounds.max,
+                    numYAxisTicks,
+                );
+
                 return {
-                    ...yBounds,
                     min: 0,
+                    max: yBounds.max + left + right,
                 };
             }
 
-            return yBounds;
+            const { left, right } = getEvenDistribution(
+                yBounds.min,
+                yBounds.max,
+                numYAxisTicks,
+            );
+
+            return {
+                min: yBounds.min - left,
+                max: yBounds.max + right,
+            };
         },
-        [chartData, yValueStartsFromZero, yDomain],
+        [chartData, yValueStartsFromZero, yDomain, numYAxisTicks],
     );
 
     const yScaleFn = useMemo(
@@ -484,15 +512,7 @@ function useTemporalChartData<DATUM>(data: DATUM[] | undefined | null, options: 
 
     const xAxisTicks = useMemo(
         () => {
-            let diff: number;
-
-            if (yearlyChart) {
-                diff = 12;
-            } else if (isNotDefined(temporalResolution) || isNotDefined(temporalDiff)) {
-                diff = numXAxisTicks;
-            } else {
-                diff = temporalDiff[temporalResolution];
-            }
+            const diff = yearlyChart ? 12 : chartTemporalDiff[temporalResolution];
 
             const step = Math.max(Math.ceil(diff / numXAxisTicks), 1);
             const ticks = Array.from(Array(numXAxisTicks).keys()).map(
@@ -524,7 +544,7 @@ function useTemporalChartData<DATUM>(data: DATUM[] | undefined | null, options: 
                 return ticks.map((tick) => ({
                     key: tick,
                     x: xScaleFnRelative(tick),
-                    label: tick,
+                    label: chartDomain.min.getFullYear() + tick,
                 }));
             }
 
@@ -574,10 +594,10 @@ function useTemporalChartData<DATUM>(data: DATUM[] | undefined | null, options: 
         [
             numXAxisTicks,
             temporalResolution,
-            temporalDiff,
             chartDomain.min,
             xScaleFnRelative,
             yearlyChart,
+            chartTemporalDiff,
         ],
     );
 

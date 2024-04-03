@@ -59,44 +59,6 @@ export function getSortedTopItemsInList<DATUM>(
     return [...topN, otherItem];
 }
 
-export function incrementDate(date: Date, days = 1) {
-    const newDate = new Date(date);
-    newDate.setDate(date.getDate() + days);
-    newDate.setHours(0, 0, 0, 0);
-    return newDate;
-}
-
-export function incrementMonth(date: Date, months = 1) {
-    const newDate = new Date(date);
-    newDate.setDate(1);
-    newDate.setMonth(date.getMonth() + months);
-    newDate.setHours(0, 0, 0, 0);
-    return newDate;
-}
-
-export function getNumberOfDays(start: Date, end: Date) {
-    const startDate = new Date(start);
-    startDate.setHours(0, 0, 0, 0);
-
-    const endDate = new Date(end);
-    endDate.setHours(0, 0, 0, 0);
-
-    let numDays = 0;
-    for (let i = startDate; i < endDate; i = incrementDate(i)) {
-        numDays += 1;
-    }
-
-    return numDays;
-}
-
-export function getNumberOfMonths(start: Date, end: Date) {
-    const monthDiff = Math.abs(
-        ((12 * end.getFullYear()) + end.getMonth())
-        - ((12 * start.getFullYear()) + start.getMonth()),
-    );
-    return monthDiff;
-}
-
 export function downloadFile(
     blob: Blob,
     filename: string,
