@@ -29,9 +29,11 @@ function generateMigration(
     prevState: StateItem[],
     currentState: StateItem[],
 ): MigrationActionItem[] {
+    /*
     console.info('prevState length', prevState.length);
     console.info('currentState length', currentState.length);
     console.info('Total change', Math.abs(prevState.length - currentState.length));
+    */
 
     const {
         // Same, key, namespace and same value

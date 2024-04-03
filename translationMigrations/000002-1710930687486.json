@@ -1,0 +1,3100 @@
+{
+    "parent": "000001-1709620038524.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "appealsTableClearFilters",
+            "namespace": "common",
+            "value": "Clear Filters"
+        },
+        {
+            "action": "add",
+            "key": "appealsTableFilterDistrictPlaceholder",
+            "namespace": "common",
+            "value": "All Provinces"
+        },
+        {
+            "action": "add",
+            "key": "appealsTableProvinces",
+            "namespace": "common",
+            "value": "Provinces"
+        },
+        {
+            "action": "add",
+            "key": "highlightedOperationsCountryTitle",
+            "namespace": "common",
+            "value": "Active Operations"
+        },
+        {
+            "action": "add",
+            "key": "highlightedOperationsViewAllInCountry",
+            "namespace": "common",
+            "value": "View all Emergencies in this Country"
+        },
+        {
+            "action": "add",
+            "key": "operationFilterDistrictPlaceholder",
+            "namespace": "common",
+            "value": "All Provinces"
+        },
+        {
+            "action": "add",
+            "key": "operationMapClearFilters",
+            "namespace": "common",
+            "value": "Clear Filters"
+        },
+        {
+            "action": "add",
+            "key": "operationMapProvinces",
+            "namespace": "common",
+            "value": "Provinces"
+        },
+        {
+            "action": "add",
+            "key": "operationMapViewAllInCountry",
+            "namespace": "common",
+            "value": "View all Operations in this Country"
+        },
+        {
+            "action": "update",
+            "key": "activeOperationsTitle",
+            "namespace": "common",
+            "newValue": "Active Operations Map ({numAppeals})"
+        },
+        {
+            "action": "update",
+            "key": "appealsTableCode",
+            "namespace": "common",
+            "newValue": "Appeal Code"
+        },
+        {
+            "action": "update",
+            "key": "appealsTableFundedAmount",
+            "namespace": "common",
+            "newValue": "Funding Coverage"
+        },
+        {
+            "action": "update",
+            "key": "appealsTableOperation",
+            "namespace": "common",
+            "newValue": "Active Operation"
+        },
+        {
+            "action": "update",
+            "key": "appealsTableRequestedAmount",
+            "namespace": "common",
+            "newValue": "Funding Requirements"
+        },
+        {
+            "action": "update",
+            "key": "appealsTableType",
+            "namespace": "common",
+            "newValue": "Appeal Type"
+        },
+        {
+            "action": "add",
+            "key": "countryProfileTabTitle",
+            "namespace": "country",
+            "value": "Country Profile"
+        },
+        {
+            "action": "add",
+            "key": "nsOverviewTabTitle",
+            "namespace": "country",
+            "value": "National Society Overview"
+        },
+        {
+            "action": "add",
+            "key": "ongoingActivitiesTabTitle",
+            "namespace": "country",
+            "value": "Ongoing Activities"
+        },
+        {
+            "action": "remove",
+            "key": "nationalSocietyPageOnFDRS",
+            "namespace": "country"
+        },
+        {
+            "action": "update",
+            "key": "countryOnIFRC",
+            "namespace": "country",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "countryOnReliefWeb",
+            "namespace": "country",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "countryRCHomepage",
+            "namespace": "country",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "add",
+            "key": "climateChangeAverage",
+            "namespace": "countryClimateChart",
+            "value": "Average"
+        },
+        {
+            "action": "add",
+            "key": "climateChangeChart",
+            "namespace": "countryClimateChart",
+            "value": "Climate chart (Avg. country values)"
+        },
+        {
+            "action": "add",
+            "key": "climateChangeMin",
+            "namespace": "countryClimateChart",
+            "value": "Min"
+        },
+        {
+            "action": "add",
+            "key": "climateChangePrecipitation",
+            "namespace": "countryClimateChart",
+            "value": "Precipation"
+        },
+        {
+            "action": "add",
+            "key": "climateChartMax",
+            "namespace": "countryClimateChart",
+            "value": "Max"
+        },
+        {
+            "action": "add",
+            "key": "climateChartTemperature",
+            "namespace": "countryClimateChart",
+            "value": "Average min and max temperature (°C)"
+        },
+        {
+            "action": "add",
+            "key": "openMeteo",
+            "namespace": "countryClimateChart",
+            "value": "Open-Meteo"
+        },
+        {
+            "action": "add",
+            "key": "source",
+            "namespace": "countryClimateChart",
+            "value": "Source"
+        },
+        {
+            "action": "add",
+            "key": "bocaAssessment",
+            "namespace": "countryNsCapacityStrengthening",
+            "value": "BOCA Assessment"
+        },
+        {
+            "action": "add",
+            "key": "capacityListItemAssessment",
+            "namespace": "countryNsCapacityStrengthening",
+            "value": "Assessment"
+        },
+        {
+            "action": "add",
+            "key": "capacityListItemDateOfAssessment",
+            "namespace": "countryNsCapacityStrengthening",
+            "value": "Date of Assessment"
+        },
+        {
+            "action": "add",
+            "key": "capacityListItemViewDetails",
+            "namespace": "countryNsCapacityStrengthening",
+            "value": "View Details"
+        },
+        {
+            "action": "add",
+            "key": "countryNsCapacityStrengtheningDescription",
+            "namespace": "countryNsCapacityStrengthening",
+            "value": "Various assessment and processes that the NS has undergone through  IFRC."
+        },
+        {
+            "action": "add",
+            "key": "countryNsCapacityStrengtheningHeading",
+            "namespace": "countryNsCapacityStrengthening",
+            "value": "Capacity and Strengthening and Development Processes"
+        },
+        {
+            "action": "add",
+            "key": "ifrc",
+            "namespace": "countryNsCapacityStrengthening",
+            "value": "IFRC"
+        },
+        {
+            "action": "add",
+            "key": "localUnits",
+            "namespace": "countryNsCapacityStrengthening",
+            "value": "Local Units / Branches"
+        },
+        {
+            "action": "add",
+            "key": "source",
+            "namespace": "countryNsCapacityStrengthening",
+            "value": "Source"
+        },
+        {
+            "action": "add",
+            "key": "viewDetails",
+            "namespace": "countryNsCapacityStrengthening",
+            "value": "View Details"
+        },
+        {
+            "action": "add",
+            "key": "countryNsFinancialCapacityLabel",
+            "namespace": "countryNsOrganisationalCapacity",
+            "value": "Financial Capacity"
+        },
+        {
+            "action": "add",
+            "key": "countryNsLeadershipCapacityLabel",
+            "namespace": "countryNsOrganisationalCapacity",
+            "value": "Leadership Capacity"
+        },
+        {
+            "action": "add",
+            "key": "countryNsOrganisationalCapacityHeading",
+            "namespace": "countryNsOrganisationalCapacity",
+            "value": "Organisational Capacity"
+        },
+        {
+            "action": "add",
+            "key": "countryNsVolunteerCapacityLabel",
+            "namespace": "countryNsOrganisationalCapacity",
+            "value": "Volunteer Capacity"
+        },
+        {
+            "action": "add",
+            "key": "countryNsYouthCapacityLabel",
+            "namespace": "countryNsOrganisationalCapacity",
+            "value": "Youth Capacity"
+        },
+        {
+            "action": "add",
+            "key": "capacityTabTitle",
+            "namespace": "countryNsOverview",
+            "value": "Capacity"
+        },
+        {
+            "action": "add",
+            "key": "contextAndStructureTabTitle",
+            "namespace": "countryNsOverview",
+            "value": "Context and Structure"
+        },
+        {
+            "action": "add",
+            "key": "nsActivitiesTabTitle",
+            "namespace": "countryNsOverview",
+            "value": "NS Activities"
+        },
+        {
+            "action": "add",
+            "key": "strategicPrioritiesTabTitle",
+            "namespace": "countryNsOverview",
+            "value": "Strategic Priorities"
+        },
+        {
+            "action": "add",
+            "key": "addNSActivity",
+            "namespace": "countryNsOverviewActivities",
+            "value": "Add NS Activity"
+        },
+        {
+            "action": "add",
+            "key": "countriesNSWork",
+            "namespace": "countryNsOverviewActivities",
+            "value": "Countries where International work is ongoing"
+        },
+        {
+            "action": "add",
+            "key": "countryNSMapTitle",
+            "namespace": "countryNsOverviewActivities",
+            "value": "{countryName} Projects"
+        },
+        {
+            "action": "add",
+            "key": "countryNSReceivingCountry",
+            "namespace": "countryNsOverviewActivities",
+            "value": "Receiving Country"
+        },
+        {
+            "action": "add",
+            "key": "countryNSReportingNationalSociety",
+            "namespace": "countryNsOverviewActivities",
+            "value": "Reporting NS"
+        },
+        {
+            "action": "add",
+            "key": "nSActivityDescription",
+            "namespace": "countryNsOverviewActivities",
+            "value": "The following data displays the current and ongoing emergencies within the country that are reported by the National Societies and partners. The displayed data is based on reporting and may not be fully indicative of all activities."
+        },
+        {
+            "action": "add",
+            "key": "nSAllProjects",
+            "namespace": "countryNsOverviewActivities",
+            "value": "All Projects"
+        },
+        {
+            "action": "add",
+            "key": "nSContactPerson",
+            "namespace": "countryNsOverviewActivities",
+            "value": "Contact Person"
+        },
+        {
+            "action": "add",
+            "key": "nSCountryProjects",
+            "namespace": "countryNsOverviewActivities",
+            "value": "{countryName} ({numProjects} Projects)"
+        },
+        {
+            "action": "add",
+            "key": "nSFailedToCreateExport",
+            "namespace": "countryNsOverviewActivities",
+            "value": "Failed to generate export."
+        },
+        {
+            "action": "add",
+            "key": "nSFilterOperationTypes",
+            "namespace": "countryNsOverviewActivities",
+            "value": "Project Types"
+        },
+        {
+            "action": "add",
+            "key": "nSFilterProgrammeTypes",
+            "namespace": "countryNsOverviewActivities",
+            "value": "Programme Types"
+        },
+        {
+            "action": "add",
+            "key": "nSFilterProvinces",
+            "namespace": "countryNsOverviewActivities",
+            "value": "Provinces"
+        },
+        {
+            "action": "add",
+            "key": "nSFilterReportingNs",
+            "namespace": "countryNsOverviewActivities",
+            "value": "Receiving Countries"
+        },
+        {
+            "action": "add",
+            "key": "nSFilterSectors",
+            "namespace": "countryNsOverviewActivities",
+            "value": "Sectors"
+        },
+        {
+            "action": "add",
+            "key": "nSFilterTags",
+            "namespace": "countryNsOverviewActivities",
+            "value": "Tags"
+        },
+        {
+            "action": "add",
+            "key": "nSFundingRequirementsTitle",
+            "namespace": "countryNsOverviewActivities",
+            "value": "Funding Requirements (CHF)"
+        },
+        {
+            "action": "add",
+            "key": "nsInternationalWorkHeading",
+            "namespace": "countryNsOverviewActivities",
+            "value": "NS International Work ({count})"
+        },
+        {
+            "action": "add",
+            "key": "nsInternationalWorkTitle",
+            "namespace": "countryNsOverviewActivities",
+            "value": "NS International Work"
+        },
+        {
+            "action": "add",
+            "key": "nSProgrammeType",
+            "namespace": "countryNsOverviewActivities",
+            "value": "Programme Type"
+        },
+        {
+            "action": "add",
+            "key": "nSProjectByCountryTitle",
+            "namespace": "countryNsOverviewActivities",
+            "value": "Projects By Country"
+        },
+        {
+            "action": "add",
+            "key": "nSProjectDataNotAvailable",
+            "namespace": "countryNsOverviewActivities",
+            "value": "Data not available!"
+        },
+        {
+            "action": "add",
+            "key": "nSProjectStatus",
+            "namespace": "countryNsOverviewActivities",
+            "value": "Project Status"
+        },
+        {
+            "action": "add",
+            "key": "nSStartDate",
+            "namespace": "countryNsOverviewActivities",
+            "value": "Start-End Dates"
+        },
+        {
+            "action": "add",
+            "key": "nSTableCountries",
+            "namespace": "countryNsOverviewActivities",
+            "value": "Countries"
+        },
+        {
+            "action": "add",
+            "key": "nSTableDisasterType",
+            "namespace": "countryNsOverviewActivities",
+            "value": "Disaster Type"
+        },
+        {
+            "action": "add",
+            "key": "nSTablePeopleReached",
+            "namespace": "countryNsOverviewActivities",
+            "value": "People Reached"
+        },
+        {
+            "action": "add",
+            "key": "nSTablePeopleTargeted",
+            "namespace": "countryNsOverviewActivities",
+            "value": "People Targeted"
+        },
+        {
+            "action": "add",
+            "key": "nSTableProjectName",
+            "namespace": "countryNsOverviewActivities",
+            "value": "Project Name"
+        },
+        {
+            "action": "add",
+            "key": "nSTableSector",
+            "namespace": "countryNsOverviewActivities",
+            "value": "Project Sector"
+        },
+        {
+            "action": "add",
+            "key": "nSTableTotalBudget",
+            "namespace": "countryNsOverviewActivities",
+            "value": "Total Budget"
+        },
+        {
+            "action": "add",
+            "key": "nSTargetedPopulationTitle",
+            "namespace": "countryNsOverviewActivities",
+            "value": "Targeted Population"
+        },
+        {
+            "action": "add",
+            "key": "nSTotalProjectsTitle",
+            "namespace": "countryNsOverviewActivities",
+            "value": "Total Projects"
+        },
+        {
+            "action": "add",
+            "key": "nSOverviewCapacityDescription",
+            "namespace": "countryNsOverviewCapacity",
+            "value": "The following are various processes and assessment that the NS has done with IFRC that address National Society development, capacity, preparedness, and others."
+        },
+        {
+            "action": "add",
+            "key": "nsOverviewCapacityLink",
+            "namespace": "countryNsOverviewCapacity",
+            "value": "IFRC Evaluations Database"
+        },
+        {
+            "action": "add",
+            "key": "nsPreparednessDescription",
+            "namespace": "countryNsOverviewCapacity",
+            "value": "The National Society Preparedness for an Effective Response (PER) Approach interact with National Societies' processes in a structured way to contribute to their preparedness and response capacities"
+        },
+        {
+            "action": "add",
+            "key": "nsPreparednessHeading",
+            "namespace": "countryNsOverviewCapacity",
+            "value": "NS Preparedness and Response Capacity"
+        },
+        {
+            "action": "add",
+            "key": "perAssessmentDateLabel",
+            "namespace": "countryNsOverviewCapacity",
+            "value": "Assessment date"
+        },
+        {
+            "action": "add",
+            "key": "perCycleHeading",
+            "namespace": "countryNsOverviewCapacity",
+            "value": "Cycle {cycle}: {countryName} PER process"
+        },
+        {
+            "action": "add",
+            "key": "perPhaseLabel",
+            "namespace": "countryNsOverviewCapacity",
+            "value": "PER phase"
+        },
+        {
+            "action": "add",
+            "key": "perStartPerProcess",
+            "namespace": "countryNsOverviewCapacity",
+            "value": "Start PER Process"
+        },
+        {
+            "action": "add",
+            "key": "perViewLink",
+            "namespace": "countryNsOverviewCapacity",
+            "value": "View"
+        },
+        {
+            "action": "add",
+            "key": "countryDisasterLaw",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "IFRC Disaster Law for {countryName}"
+        },
+        {
+            "action": "add",
+            "key": "fdrs",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "FDRS"
+        },
+        {
+            "action": "add",
+            "key": "incomeSourceBreakdownHeading",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Income Source Breakdown for {year}"
+        },
+        {
+            "action": "add",
+            "key": "incomeSourceBreakdownNotAvailableMessage",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Data not available for selected year"
+        },
+        {
+            "action": "add",
+            "key": "keyLinksHeading",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Key Links"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyPageOnFDRS",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "National Society Page on FDRS"
+        },
+        {
+            "action": "add",
+            "key": "nsIncomeOverTimeChartAxisLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Income (CHF)"
+        },
+        {
+            "action": "add",
+            "key": "nsIncomeOverTimeHeading",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "National Society Income Over Time"
+        },
+        {
+            "action": "add",
+            "key": "nsIncomeOverTimeTooltipTotalLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Total"
+        },
+        {
+            "action": "add",
+            "key": "source",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Source"
+        },
+        {
+            "action": "add",
+            "key": "sourceFDRS",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "FDRS"
+        },
+        {
+            "action": "add",
+            "key": "sourceLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Source"
+        },
+        {
+            "action": "add",
+            "key": "keyDevelopmentPrioritiesHeading",
+            "namespace": "countryNsOverviewStrategicPriorities",
+            "value": "Key Development Priorities (PER process)"
+        },
+        {
+            "action": "add",
+            "key": "notAvailableMessage",
+            "namespace": "countryNsOverviewStrategicPriorities",
+            "value": "Strategic priorities not available!"
+        },
+        {
+            "action": "add",
+            "key": "nsStrategicPrioritiesHeading",
+            "namespace": "countryNsOverviewStrategicPriorities",
+            "value": "NS Strategic Priorities"
+        },
+        {
+            "action": "add",
+            "key": "strategicPrioritiesDescription",
+            "namespace": "countryNsOverviewStrategicPriorities",
+            "value": "The following data highlights the focus areas the National Society, as well as the ongoing partnerships and support as applicable."
+        },
+        {
+            "action": "add",
+            "key": "strengthsHeading",
+            "namespace": "countryNsOverviewStrategicPriorities",
+            "value": "Strengths (PER process)"
+        },
+        {
+            "action": "add",
+            "key": "ongoingEmergenciesTabTitle",
+            "namespace": "countryOngoingActivities",
+            "value": "Ongoing Emergencies"
+        },
+        {
+            "action": "add",
+            "key": "threeWActivitiesTabTitle",
+            "namespace": "countryOngoingActivities",
+            "value": "3W Activities"
+        },
+        {
+            "action": "add",
+            "key": "threeWProjectsTabTitle",
+            "namespace": "countryOngoingActivities",
+            "value": "3W Projects"
+        },
+        {
+            "action": "add",
+            "key": "appealsTableClearFilters",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Clear Filters"
+        },
+        {
+            "action": "add",
+            "key": "appealsTableCode",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Appeal Code"
+        },
+        {
+            "action": "add",
+            "key": "appealsTableFilterDistrictPlaceholder",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "All Provinces"
+        },
+        {
+            "action": "add",
+            "key": "appealsTableFilterTypePlaceholder",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "All Appeal Types"
+        },
+        {
+            "action": "add",
+            "key": "appealsTableFundedAmount",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Funding Coverage"
+        },
+        {
+            "action": "add",
+            "key": "appealsTableOperation",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Active Operation"
+        },
+        {
+            "action": "add",
+            "key": "appealsTableProvinces",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Provinces"
+        },
+        {
+            "action": "add",
+            "key": "appealsTableRequestedAmount",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Funding Requirements"
+        },
+        {
+            "action": "add",
+            "key": "appealsTableStartDateAfter",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Start After"
+        },
+        {
+            "action": "add",
+            "key": "appealsTableStartDateBefore",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Start Before"
+        },
+        {
+            "action": "add",
+            "key": "appealsTableType",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Appeal Type"
+        },
+        {
+            "action": "add",
+            "key": "countryOngoingActiveOperationsTitle",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Active Operations Map ({numAppeals})"
+        },
+        {
+            "action": "add",
+            "key": "countryOngoingActivitiesDREFOperations",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Active DREF Operations"
+        },
+        {
+            "action": "add",
+            "key": "countryOngoingActivitiesEmergenciesDescription",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "The following data displays the current and ongoing emergencies within the country that are reported by the National Societies and partners. The displayed data is based on reporting and may not be fully indicative of all the activities."
+        },
+        {
+            "action": "add",
+            "key": "countryOngoingActivitiesFigureAppealDescription",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "These are medium to large scale emergency operations funded through a public appeal for funds."
+        },
+        {
+            "action": "add",
+            "key": "countryOngoingActivitiesKeyFiguresActiveAppeals",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Active Emergency Appeals"
+        },
+        {
+            "action": "add",
+            "key": "countryOngoingActivitiesKeyFiguresAppealsFunding",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Funding Coverage"
+        },
+        {
+            "action": "add",
+            "key": "countryOngoingActivitiesKeyFiguresAppealsTitle",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Emergency Appeal"
+        },
+        {
+            "action": "add",
+            "key": "countryOngoingActivitiesKeyFiguresBudget",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Funding Requirements (CHF)"
+        },
+        {
+            "action": "add",
+            "key": "countryOngoingActivitiesKeyFiguresDref",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "These are small to medium scale emergency operations funded through the Disaster Relief Emergency Fund (DREF).The DREF provides immediate financial support to National Red Cross and Red Crescent Societies, enabling them to carry out their unique role as first responders after a disaster."
+        },
+        {
+            "action": "add",
+            "key": "countryOngoingActivitiesKeyFiguresDrefTitle",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "DREF"
+        },
+        {
+            "action": "add",
+            "key": "countryOngoingActivitiesKeyFiguresTargetPop",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Targeted Population"
+        },
+        {
+            "action": "add",
+            "key": "downloadMapTitle",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Ongoing operations"
+        },
+        {
+            "action": "add",
+            "key": "editCountryLink",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Edit Country"
+        },
+        {
+            "action": "add",
+            "key": "explanationBubbleAmountLabel",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "IFRC financial requirements"
+        },
+        {
+            "action": "add",
+            "key": "explanationBubbleDref",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "DREF"
+        },
+        {
+            "action": "add",
+            "key": "explanationBubbleEAP",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Early Action Protocol Activation"
+        },
+        {
+            "action": "add",
+            "key": "explanationBubbleEmergencyAppeal",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Emergency appeal"
+        },
+        {
+            "action": "add",
+            "key": "explanationBubbleMultiple",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Multiple types"
+        },
+        {
+            "action": "add",
+            "key": "explanationBubblePopulationLabel",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "# of people targeted"
+        },
+        {
+            "action": "add",
+            "key": "explanationBubbleScalePoints",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Scale points by"
+        },
+        {
+            "action": "add",
+            "key": "operationAmountRequested",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Amount Requested (CHF)"
+        },
+        {
+            "action": "add",
+            "key": "operationMapViewAll",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "View all Operations"
+        },
+        {
+            "action": "add",
+            "key": "operationMapViewAllInCountry",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "View all Operations in this Country"
+        },
+        {
+            "action": "add",
+            "key": "operationPopoverAmountFunded",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Amount Funded (CHF)"
+        },
+        {
+            "action": "add",
+            "key": "operationPopoverEmpty",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "No Current Operations"
+        },
+        {
+            "action": "add",
+            "key": "operationPopoverPeopleAffected",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "People Targeted"
+        },
+        {
+            "action": "add",
+            "key": "presentationModeButton",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Presentation Mode"
+        },
+        {
+            "action": "add",
+            "key": "appealsTableCode",
+            "namespace": "countryOngoingActivitiesEmergenciesFilters",
+            "value": "Appeal Code"
+        },
+        {
+            "action": "add",
+            "key": "appealsTableDisastertype",
+            "namespace": "countryOngoingActivitiesEmergenciesFilters",
+            "value": "Disaster Type"
+        },
+        {
+            "action": "add",
+            "key": "appealsTableFilterDisastersPlaceholder",
+            "namespace": "countryOngoingActivitiesEmergenciesFilters",
+            "value": "All Disaster Types"
+        },
+        {
+            "action": "add",
+            "key": "appealsTableFilterTypePlaceholder",
+            "namespace": "countryOngoingActivitiesEmergenciesFilters",
+            "value": "All Appeal Types"
+        },
+        {
+            "action": "add",
+            "key": "appealsTableFundedAmount",
+            "namespace": "countryOngoingActivitiesEmergenciesFilters",
+            "value": "Funding Coverage"
+        },
+        {
+            "action": "add",
+            "key": "appealsTableOperation",
+            "namespace": "countryOngoingActivitiesEmergenciesFilters",
+            "value": "Active Operation"
+        },
+        {
+            "action": "add",
+            "key": "appealsTableRequestedAmount",
+            "namespace": "countryOngoingActivitiesEmergenciesFilters",
+            "value": "Funding Requirements"
+        },
+        {
+            "action": "add",
+            "key": "appealsTableStartDate",
+            "namespace": "countryOngoingActivitiesEmergenciesFilters",
+            "value": "Start Date"
+        },
+        {
+            "action": "add",
+            "key": "appealsTableStartDateAfter",
+            "namespace": "countryOngoingActivitiesEmergenciesFilters",
+            "value": "Start After"
+        },
+        {
+            "action": "add",
+            "key": "appealsTableStartDateBefore",
+            "namespace": "countryOngoingActivitiesEmergenciesFilters",
+            "value": "Start Before"
+        },
+        {
+            "action": "add",
+            "key": "appealsTableType",
+            "namespace": "countryOngoingActivitiesEmergenciesFilters",
+            "value": "Appeal Type"
+        },
+        {
+            "action": "add",
+            "key": "operationMapClearFilters",
+            "namespace": "countryOngoingActivitiesEmergenciesFilters",
+            "value": "Clear Filters"
+        },
+        {
+            "action": "add",
+            "key": "activitiesBySector",
+            "namespace": "countryOngoingActivitiesThreeWActivities",
+            "value": "Activities by Sector"
+        },
+        {
+            "action": "add",
+            "key": "activitySectors",
+            "namespace": "countryOngoingActivitiesThreeWActivities",
+            "value": "Activity Sectors"
+        },
+        {
+            "action": "add",
+            "key": "activityStatus",
+            "namespace": "countryOngoingActivitiesThreeWActivities",
+            "value": "Activity Status"
+        },
+        {
+            "action": "add",
+            "key": "addThreeWActivity",
+            "namespace": "countryOngoingActivitiesThreeWActivities",
+            "value": "Add 3W Activity"
+        },
+        {
+            "action": "add",
+            "key": "chartDescription",
+            "namespace": "countryOngoingActivitiesThreeWActivities",
+            "value": "The data represents the added projects and may not reflect all of the ongoing projects."
+        },
+        {
+            "action": "add",
+            "key": "dataNotAvailable",
+            "namespace": "countryOngoingActivitiesThreeWActivities",
+            "value": "No Activities"
+        },
+        {
+            "action": "add",
+            "key": "emergencyProjectCountry",
+            "namespace": "countryOngoingActivitiesThreeWActivities",
+            "value": "Country"
+        },
+        {
+            "action": "add",
+            "key": "emergencyProjectDistrict",
+            "namespace": "countryOngoingActivitiesThreeWActivities",
+            "value": "Province / Region"
+        },
+        {
+            "action": "add",
+            "key": "emergencyProjectNationalSociety",
+            "namespace": "countryOngoingActivitiesThreeWActivities",
+            "value": "National Society / ERU"
+        },
+        {
+            "action": "add",
+            "key": "emergencyProjectPeopleReached",
+            "namespace": "countryOngoingActivitiesThreeWActivities",
+            "value": "Services Provided to People in Need"
+        },
+        {
+            "action": "add",
+            "key": "emergencyProjectStartDate",
+            "namespace": "countryOngoingActivitiesThreeWActivities",
+            "value": "Start Date"
+        },
+        {
+            "action": "add",
+            "key": "emergencyProjectStatus",
+            "namespace": "countryOngoingActivitiesThreeWActivities",
+            "value": "Status"
+        },
+        {
+            "action": "add",
+            "key": "emergencyProjectTitle",
+            "namespace": "countryOngoingActivitiesThreeWActivities",
+            "value": "Title"
+        },
+        {
+            "action": "add",
+            "key": "peopleInNeedReached",
+            "namespace": "countryOngoingActivitiesThreeWActivities",
+            "value": "Services Provided to People in Need"
+        },
+        {
+            "action": "add",
+            "key": "peopleReachedTooltip",
+            "namespace": "countryOngoingActivitiesThreeWActivities",
+            "value": "The figure displayed here is a sum of all individual services or interventions delivered as part of this emergency operation to people in need. Some people may have received more than one service or intervention."
+        },
+        {
+            "action": "add",
+            "key": "responseActivities",
+            "namespace": "countryOngoingActivitiesThreeWActivities",
+            "value": "Response Activities"
+        },
+        {
+            "action": "add",
+            "key": "threeWActivityDescription",
+            "namespace": "countryOngoingActivitiesThreeWActivities",
+            "value": "The following data displays the current and ongoing emergencies within the country that are reported by the National Societies and partners. The displayed data is based on reporting and may not be fully indicative of all the activities."
+        },
+        {
+            "action": "add",
+            "key": "threeWViewAllActivityLabel",
+            "namespace": "countryOngoingActivitiesThreeWActivities",
+            "value": "View all Activities"
+        },
+        {
+            "action": "add",
+            "key": "totalActivities",
+            "namespace": "countryOngoingActivitiesThreeWActivities",
+            "value": "Total Activities"
+        },
+        {
+            "action": "add",
+            "key": "uniqueEruAndNationalSocietyCount",
+            "namespace": "countryOngoingActivitiesThreeWActivities",
+            "value": "Active National Societies / ERUs"
+        },
+        {
+            "action": "add",
+            "key": "uniqueSectorCount",
+            "namespace": "countryOngoingActivitiesThreeWActivities",
+            "value": "Sectors"
+        },
+        {
+            "action": "add",
+            "key": "countryThreeWActivityFilterCountry",
+            "namespace": "countryOngoingActivitiesThreeWActivitiesFilter",
+            "value": "Country"
+        },
+        {
+            "action": "add",
+            "key": "countryThreeWActivityFilterDistrict",
+            "namespace": "countryOngoingActivitiesThreeWActivitiesFilter",
+            "value": "Region/Province"
+        },
+        {
+            "action": "add",
+            "key": "countryThreeWActivityFilterEru",
+            "namespace": "countryOngoingActivitiesThreeWActivitiesFilter",
+            "value": "ERU"
+        },
+        {
+            "action": "add",
+            "key": "countryThreeWActivityFilterReportingNs",
+            "namespace": "countryOngoingActivitiesThreeWActivitiesFilter",
+            "value": "National Society"
+        },
+        {
+            "action": "add",
+            "key": "countryThreeWActivityFilterSector",
+            "namespace": "countryOngoingActivitiesThreeWActivitiesFilter",
+            "value": "Sector"
+        },
+        {
+            "action": "add",
+            "key": "countryThreeWActivityFilterStatus",
+            "namespace": "countryOngoingActivitiesThreeWActivitiesFilter",
+            "value": "Status"
+        },
+        {
+            "action": "add",
+            "key": "activeDeploymentsTitle",
+            "namespace": "countryOngoingActivitiesThreeWProjects",
+            "value": "Activities in Countries"
+        },
+        {
+            "action": "add",
+            "key": "threeWProjectDescription",
+            "namespace": "countryOngoingActivitiesThreeWProjects",
+            "value": "The following data displays the ongoing programmes and projects within the country that are not linked to specific emergencies. The displayed data is based on reporting and may not be fully indicative of all the projects."
+        },
+        {
+            "action": "add",
+            "key": "viewAllProjects",
+            "namespace": "countryOngoingActivitiesThreeWProjects",
+            "value": "View all Projects in this Country"
+        },
+        {
+            "action": "remove",
+            "key": "appealsTableAllOperationsLinkLabel",
+            "namespace": "countryOperations"
+        },
+        {
+            "action": "remove",
+            "key": "appealsTableCode",
+            "namespace": "countryOperations"
+        },
+        {
+            "action": "remove",
+            "key": "appealsTableCountry",
+            "namespace": "countryOperations"
+        },
+        {
+            "action": "remove",
+            "key": "appealsTableEmergency",
+            "namespace": "countryOperations"
+        },
+        {
+            "action": "remove",
+            "key": "appealsTableFilterStartAfter",
+            "namespace": "countryOperations"
+        },
+        {
+            "action": "remove",
+            "key": "appealsTableFilterStartBefore",
+            "namespace": "countryOperations"
+        },
+        {
+            "action": "remove",
+            "key": "appealsTableFundedAmount",
+            "namespace": "countryOperations"
+        },
+        {
+            "action": "remove",
+            "key": "appealsTableHeading",
+            "namespace": "countryOperations"
+        },
+        {
+            "action": "remove",
+            "key": "appealsTableLink",
+            "namespace": "countryOperations"
+        },
+        {
+            "action": "remove",
+            "key": "appealsTableName",
+            "namespace": "countryOperations"
+        },
+        {
+            "action": "remove",
+            "key": "appealsTableRequestedAmount",
+            "namespace": "countryOperations"
+        },
+        {
+            "action": "remove",
+            "key": "appealsTableStatus",
+            "namespace": "countryOperations"
+        },
+        {
+            "action": "remove",
+            "key": "appealsTableType",
+            "namespace": "countryOperations"
+        },
+        {
+            "action": "remove",
+            "key": "emergenciesTableAffected",
+            "namespace": "countryOperations"
+        },
+        {
+            "action": "remove",
+            "key": "emergenciesTableAllEmergenciesLinkLabel",
+            "namespace": "countryOperations"
+        },
+        {
+            "action": "remove",
+            "key": "emergenciesTableDisasterType",
+            "namespace": "countryOperations"
+        },
+        {
+            "action": "remove",
+            "key": "emergenciesTableFilterDisastersPlaceholder",
+            "namespace": "countryOperations"
+        },
+        {
+            "action": "remove",
+            "key": "emergenciesTableFilterStartAfter",
+            "namespace": "countryOperations"
+        },
+        {
+            "action": "remove",
+            "key": "emergenciesTableFilterStartBefore",
+            "namespace": "countryOperations"
+        },
+        {
+            "action": "remove",
+            "key": "emergenciesTableGlide",
+            "namespace": "countryOperations"
+        },
+        {
+            "action": "remove",
+            "key": "emergenciesTableHeading",
+            "namespace": "countryOperations"
+        },
+        {
+            "action": "remove",
+            "key": "emergenciesTableName",
+            "namespace": "countryOperations"
+        },
+        {
+            "action": "remove",
+            "key": "emergenciesTableRequestedAmount",
+            "namespace": "countryOperations"
+        },
+        {
+            "action": "remove",
+            "key": "emergenciesTableStartDate",
+            "namespace": "countryOperations"
+        },
+        {
+            "action": "update",
+            "key": "appealsTableDisastertype",
+            "namespace": "countryOperations",
+            "newNamespace": "countryOngoingActivitiesEmergencies"
+        },
+        {
+            "action": "update",
+            "key": "appealsTableFilterDisastersPlaceholder",
+            "namespace": "countryOperations",
+            "newNamespace": "countryOngoingActivitiesEmergencies"
+        },
+        {
+            "action": "update",
+            "key": "appealsTableStartDate",
+            "namespace": "countryOperations",
+            "newNamespace": "countryOngoingActivitiesEmergencies"
+        },
+        {
+            "action": "remove",
+            "key": "countryPlanLoadFailureMessage",
+            "namespace": "countryPlan"
+        },
+        {
+            "action": "remove",
+            "key": "countryPlanMembershipCoordinationTableTitle",
+            "namespace": "countryPlan"
+        },
+        {
+            "action": "remove",
+            "key": "countryPlanNameOfPNS",
+            "namespace": "countryPlan"
+        },
+        {
+            "action": "remove",
+            "key": "countryPlanNoCountryPlan",
+            "namespace": "countryPlan"
+        },
+        {
+            "action": "remove",
+            "key": "countryPlanTitle",
+            "namespace": "countryPlan"
+        },
+        {
+            "action": "update",
+            "key": "countryPlanDownloadPlan",
+            "namespace": "countryPlan",
+            "newNamespace": "countryNsOverviewStrategicPriorities"
+        },
+        {
+            "action": "update",
+            "key": "countryPlanDownloadPlanInternal",
+            "namespace": "countryPlan",
+            "newNamespace": "countryNsOverviewStrategicPriorities"
+        },
+        {
+            "action": "update",
+            "key": "countryPlanKeyFigureRequestedAmount",
+            "namespace": "countryPlan",
+            "newNamespace": "countryNsOverviewStrategicPriorities"
+        },
+        {
+            "action": "update",
+            "key": "countryPlanPeopleTargeted",
+            "namespace": "countryPlan",
+            "newNamespace": "countryNsOverviewStrategicPriorities"
+        },
+        {
+            "action": "add",
+            "key": "goBackButtonTitle",
+            "namespace": "countryPreparedness",
+            "value": "Go back"
+        },
+        {
+            "action": "add",
+            "key": "performanceAxisTickLabel",
+            "namespace": "countryPreparedness",
+            "value": "Cycle {cycle}"
+        },
+        {
+            "action": "add",
+            "key": "performanceTooltipAverageRatingLabel",
+            "namespace": "countryPreparedness",
+            "value": "Average rating"
+        },
+        {
+            "action": "add",
+            "key": "performanceTooltipCycleLabel",
+            "namespace": "countryPreparedness",
+            "value": "Cycle"
+        },
+        {
+            "action": "remove",
+            "key": "assessmentLabel",
+            "namespace": "countryPreparedness"
+        },
+        {
+            "action": "remove",
+            "key": "cycleLabel",
+            "namespace": "countryPreparedness"
+        },
+        {
+            "action": "add",
+            "key": "countryICRCConfirmedPartner",
+            "namespace": "countryPresence",
+            "value": "Confirmed partner for {year}"
+        },
+        {
+            "action": "add",
+            "key": "countryICRCKeyOperations",
+            "namespace": "countryPresence",
+            "value": "Key Operations"
+        },
+        {
+            "action": "add",
+            "key": "countryICRCPresenceTitle",
+            "namespace": "countryPresence",
+            "value": "ICRC Presence"
+        },
+        {
+            "action": "add",
+            "key": "countryICRCWithin",
+            "namespace": "countryPresence",
+            "value": "within {name}"
+        },
+        {
+            "action": "add",
+            "key": "countryIFRCContact",
+            "namespace": "countryPresence",
+            "value": "Office contact information"
+        },
+        {
+            "action": "add",
+            "key": "countryIFRCDisasterLaw",
+            "namespace": "countryPresence",
+            "value": "IFRC disaster law"
+        },
+        {
+            "action": "add",
+            "key": "countryIFRCLegalStatus",
+            "namespace": "countryPresence",
+            "value": "IFRC legal status"
+        },
+        {
+            "action": "add",
+            "key": "countryIFRCPresenceHeadOfDelegation",
+            "namespace": "countryPresence",
+            "value": "Head of delegation"
+        },
+        {
+            "action": "add",
+            "key": "countryIFRCPresenceTitle",
+            "namespace": "countryPresence",
+            "value": "IFRC Presence"
+        },
+        {
+            "action": "add",
+            "key": "icrc",
+            "namespace": "countryPresence",
+            "value": "ICRC"
+        },
+        {
+            "action": "add",
+            "key": "source",
+            "namespace": "countryPresence",
+            "value": "Source"
+        },
+        {
+            "action": "add",
+            "key": "overviewTabTitle",
+            "namespace": "countryProfile",
+            "value": "Overview"
+        },
+        {
+            "action": "add",
+            "key": "previousEventsTabTitle",
+            "namespace": "countryProfile",
+            "value": "Previous Events"
+        },
+        {
+            "action": "add",
+            "key": "riskWatchTabTitle",
+            "namespace": "countryProfile",
+            "value": "Risk Watch"
+        },
+        {
+            "action": "add",
+            "key": "supportingPartnersTabTitle",
+            "namespace": "countryProfile",
+            "value": "Supporting Partners"
+        },
+        {
+            "action": "add",
+            "key": "acaps",
+            "namespace": "countryProfileOverview",
+            "value": "ACAPS"
+        },
+        {
+            "action": "add",
+            "key": "countryIndicatorsCapitaLabel",
+            "namespace": "countryProfileOverview",
+            "value": "GNI/Capita"
+        },
+        {
+            "action": "add",
+            "key": "countryIndicatorsGDPLabel",
+            "namespace": "countryProfileOverview",
+            "value": "GDP"
+        },
+        {
+            "action": "add",
+            "key": "countryIndicatorsGenderInequalityIndexLabel",
+            "namespace": "countryProfileOverview",
+            "value": "Gender Inequality Index (GII)"
+        },
+        {
+            "action": "add",
+            "key": "countryIndicatorsHeading",
+            "namespace": "countryProfileOverview",
+            "value": "Country Key Indicators"
+        },
+        {
+            "action": "add",
+            "key": "countryIndicatorsLifeExpectancyLabel",
+            "namespace": "countryProfileOverview",
+            "value": "Life Expectancy"
+        },
+        {
+            "action": "add",
+            "key": "countryIndicatorsLiteracyLabel",
+            "namespace": "countryProfileOverview",
+            "value": "Literacy"
+        },
+        {
+            "action": "add",
+            "key": "countryIndicatorsPopulationLabel",
+            "namespace": "countryProfileOverview",
+            "value": "Population"
+        },
+        {
+            "action": "add",
+            "key": "countryIndicatorsPopulationUnder18Label",
+            "namespace": "countryProfileOverview",
+            "value": "Population under 18"
+        },
+        {
+            "action": "add",
+            "key": "countryIndicatorsPovertyLabel",
+            "namespace": "countryProfileOverview",
+            "value": "Poverty (%POP)"
+        },
+        {
+            "action": "add",
+            "key": "countryIndicatorsUrbanPopulationLabel",
+            "namespace": "countryProfileOverview",
+            "value": "Urban Pop"
+        },
+        {
+            "action": "add",
+            "key": "dataBank",
+            "namespace": "countryProfileOverview",
+            "value": "The World Bank"
+        },
+        {
+            "action": "add",
+            "key": "hdr",
+            "namespace": "countryProfileOverview",
+            "value": "HDR"
+        },
+        {
+            "action": "add",
+            "key": "seasonalCalendarHeading",
+            "namespace": "countryProfileOverview",
+            "value": "Seasonal Calendar"
+        },
+        {
+            "action": "add",
+            "key": "seasonalCalendarTooltipEventLabel",
+            "namespace": "countryProfileOverview",
+            "value": "Event"
+        },
+        {
+            "action": "add",
+            "key": "seasonalCalendarTooltipEventTypeLabel",
+            "namespace": "countryProfileOverview",
+            "value": "Event type"
+        },
+        {
+            "action": "add",
+            "key": "seasonalCalendarTooltipMonthsLabel",
+            "namespace": "countryProfileOverview",
+            "value": "Months"
+        },
+        {
+            "action": "add",
+            "key": "seasonalCalendarTooltipSourceLabel",
+            "namespace": "countryProfileOverview",
+            "value": "Source"
+        },
+        {
+            "action": "add",
+            "key": "seasonalCalenderDataNotAvailable",
+            "namespace": "countryProfileOverview",
+            "value": "Data is not available!"
+        },
+        {
+            "action": "add",
+            "key": "source",
+            "namespace": "countryProfileOverview",
+            "value": "Source"
+        },
+        {
+            "action": "add",
+            "key": "sources",
+            "namespace": "countryProfileOverview",
+            "value": "Sources"
+        },
+        {
+            "action": "add",
+            "key": "unicef",
+            "namespace": "countryProfileOverview",
+            "value": "UNICEF"
+        },
+        {
+            "action": "add",
+            "key": "dataLoadFailureMessage",
+            "namespace": "countryProfilePreviousEvents",
+            "value": "Failed to load data!"
+        },
+        {
+            "action": "add",
+            "key": "emergenciesByDisasterTypeHeading",
+            "namespace": "countryProfilePreviousEvents",
+            "value": "Emergencies by disaster type"
+        },
+        {
+            "action": "add",
+            "key": "emergenciesOverMonthHeading",
+            "namespace": "countryProfilePreviousEvents",
+            "value": "Emergencies over month"
+        },
+        {
+            "action": "add",
+            "key": "filterLastFiveYearsLabel",
+            "namespace": "countryProfilePreviousEvents",
+            "value": "Last 5 years"
+        },
+        {
+            "action": "add",
+            "key": "filterLastTenYearsLabel",
+            "namespace": "countryProfilePreviousEvents",
+            "value": "Last 10 years"
+        },
+        {
+            "action": "add",
+            "key": "filterLastTwoYearsLabel",
+            "namespace": "countryProfilePreviousEvents",
+            "value": "Last 2 years"
+        },
+        {
+            "action": "add",
+            "key": "filterPastYearLabel",
+            "namespace": "countryProfilePreviousEvents",
+            "value": "Past year"
+        },
+        {
+            "action": "add",
+            "key": "filterThisYearLabel",
+            "namespace": "countryProfilePreviousEvents",
+            "value": "This year"
+        },
+        {
+            "action": "add",
+            "key": "previousOperationsHeading",
+            "namespace": "countryProfilePreviousEvents",
+            "value": "Previous Operations"
+        },
+        {
+            "action": "add",
+            "key": "riskScoreLabel",
+            "namespace": "countryProfileRiskWatch",
+            "value": "Risk score"
+        },
+        {
+            "action": "add",
+            "key": "riskVeryHighLabel",
+            "namespace": "countryProfileRiskWatch",
+            "value": "Very high"
+        },
+        {
+            "action": "add",
+            "key": "riskWatchDescription",
+            "namespace": "countryProfileRiskWatch",
+            "value": "The following dataset displays information about the modeled impact of specific forecasted or detected natural hazards."
+        },
+        {
+            "action": "add",
+            "key": "gotoIfrcLinkLabel",
+            "namespace": "countryProfileSupportingPartners",
+            "value": "Go to IFRC.org"
+        },
+        {
+            "action": "add",
+            "key": "membershipCoordinationTableNameOfPNS",
+            "namespace": "countryProfileSupportingPartners",
+            "value": "Name of Partner National Society"
+        },
+        {
+            "action": "add",
+            "key": "membershipCoordinationTableTitle",
+            "namespace": "countryProfileSupportingPartners",
+            "value": "Membership Coordination"
+        },
+        {
+            "action": "add",
+            "key": "countryResponseActivitiesNumberOfProjects",
+            "namespace": "countryResponseActivities",
+            "value": "Number of Projects"
+        },
+        {
+            "action": "add",
+            "key": "countryResponseActivitiesSeverityHigh",
+            "namespace": "countryResponseActivities",
+            "value": "5 to 9"
+        },
+        {
+            "action": "add",
+            "key": "countryResponseActivitiesSeverityLow",
+            "namespace": "countryResponseActivities",
+            "value": "Less than 2"
+        },
+        {
+            "action": "add",
+            "key": "countryResponseActivitiesSeverityMedium",
+            "namespace": "countryResponseActivities",
+            "value": "2 to 4"
+        },
+        {
+            "action": "add",
+            "key": "countryResponseActivitiesSeveritySevere",
+            "namespace": "countryResponseActivities",
+            "value": "10 or more"
+        },
+        {
+            "action": "remove",
+            "key": "riskBarChartVeryHighLabel",
+            "namespace": "countryRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "average",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "averageTooltipLabel",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "currentYearTooltipLabel",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "eapDescription",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "eapDownloadButtonLabel",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "eapHeading",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "earlyActionTableDateTitle",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "earlyActionTableEvidenceTitle",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "earlyActionTableFilterHazardTypePlaceholder",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "earlyActionTableFilterSectorPlaceholder",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "earlyActionTableHazardTitle",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "earlyActionTableHeading",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "earlyActionTableImpactTitle",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "earlyActionTableLocationTitle",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "earlyActionTableOrganisationTitle",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "earlyActionTablePossibleActionTitle",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "earlyActionTablePurposeTitle",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "earlyActionTableSectorTitle",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "minMax",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "minMaxLabel",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "minMaxValue",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "monthlySeverityRating",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "multiMonthYearlyAverage",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "returnPeriodTableDisplacementDescription",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "returnPeriodTableDisplacementSource",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "returnPeriodTableDisplacementTitle",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "returnPeriodTableEconomicLossesDescription",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "returnPeriodTableEconomicLossesSource",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "returnPeriodTableEconomicLossesTitle",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "returnPeriodTableHeading",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "returnPeriodTableReturnPeriodTitle",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "riskBarChartDisplacementLabel",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "riskBarChartExposureLabel",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "riskBarChartFilterHazardPlaceholder",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "riskBarChartHighLabel",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "riskBarChartLowLabel",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "riskBarChartMediumLabel",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "riskBarChartRiskScoreLabel",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "riskBarChartTitle",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "riskBarChartVeryLowLabel",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "risksByMonthDescription",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "risksByMonthHeading",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "riskScoreHighLabel",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "riskScoreLowLabel",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "riskScoreMediumLabel",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "riskScoreNotApplicableLabel",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "riskScoreVeryHighLabel",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "riskScoreVeryLowLabel",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "riskTableDisplacementDescription",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "riskTableDisplacementTitle",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "riskTableHazardTypeTitle",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "riskTableInformDescriptionHereLabel",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "riskTableInformDescriptionP1",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "riskTableInformDescriptionP2",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "riskTableInformDescriptionP3",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "riskTableInformTitle",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "riskTablePeopleExposedDescription",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "riskTablePeopleExposedTitle",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "year",
+            "namespace": "countryRiskWatch",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "remove",
+            "key": "countryThreeWNationalSocietyProjectsTab",
+            "namespace": "countryThreeW"
+        },
+        {
+            "action": "remove",
+            "key": "countryThreeWProjectsTab",
+            "namespace": "countryThreeW"
+        },
+        {
+            "action": "update",
+            "key": "addThreeWProject",
+            "namespace": "countryThreeW",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "remove",
+            "key": "activeDeploymentsTitle",
+            "namespace": "countryThreeWNationalSocietyProjects"
+        },
+        {
+            "action": "remove",
+            "key": "countryProjects",
+            "namespace": "countryThreeWNationalSocietyProjects"
+        },
+        {
+            "action": "remove",
+            "key": "countryThreeWNSMapTitle",
+            "namespace": "countryThreeWNationalSocietyProjects"
+        },
+        {
+            "action": "remove",
+            "key": "projectDataNotAvailable",
+            "namespace": "countryThreeWNationalSocietyProjects"
+        },
+        {
+            "action": "remove",
+            "key": "projects",
+            "namespace": "countryThreeWNationalSocietyProjects"
+        },
+        {
+            "action": "remove",
+            "key": "receivingCountry",
+            "namespace": "countryThreeWNationalSocietyProjects"
+        },
+        {
+            "action": "remove",
+            "key": "reportingNationalSociety",
+            "namespace": "countryThreeWNationalSocietyProjects"
+        },
+        {
+            "action": "remove",
+            "key": "threeWFilterOperationTypes",
+            "namespace": "countryThreeWNationalSocietyProjects"
+        },
+        {
+            "action": "remove",
+            "key": "threeWFilterProgrammeTypes",
+            "namespace": "countryThreeWNationalSocietyProjects"
+        },
+        {
+            "action": "remove",
+            "key": "threeWFilterProvinces",
+            "namespace": "countryThreeWNationalSocietyProjects"
+        },
+        {
+            "action": "remove",
+            "key": "threeWFilterReportingNs",
+            "namespace": "countryThreeWNationalSocietyProjects"
+        },
+        {
+            "action": "remove",
+            "key": "threeWFilterSectors",
+            "namespace": "countryThreeWNationalSocietyProjects"
+        },
+        {
+            "action": "remove",
+            "key": "threeWFilterTags",
+            "namespace": "countryThreeWNationalSocietyProjects"
+        },
+        {
+            "action": "remove",
+            "key": "threeWNSCountryMapSidebarTitle",
+            "namespace": "countryThreeWNationalSocietyProjects"
+        },
+        {
+            "action": "remove",
+            "key": "threeWTableReceivingCountry",
+            "namespace": "countryThreeWNationalSocietyProjects"
+        },
+        {
+            "action": "remove",
+            "key": "viewAllProjects",
+            "namespace": "countryThreeWNationalSocietyProjects"
+        },
+        {
+            "action": "update",
+            "key": "failedToCreateExport",
+            "namespace": "countryThreeWNationalSocietyProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "ongoingProjectBudgetTitle",
+            "namespace": "countryThreeWNationalSocietyProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "otherNSProjects",
+            "namespace": "countryThreeWNationalSocietyProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "programmeType",
+            "namespace": "countryThreeWNationalSocietyProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "projectStatus",
+            "namespace": "countryThreeWNationalSocietyProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "targetedPopulationTitle",
+            "namespace": "countryThreeWNationalSocietyProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "threeWOngoingProjectsTitle",
+            "namespace": "countryThreeWNationalSocietyProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "threeWTableDisasterType",
+            "namespace": "countryThreeWNationalSocietyProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "threeWTablePeopleReached",
+            "namespace": "countryThreeWNationalSocietyProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "threeWTablePeopleTargeted",
+            "namespace": "countryThreeWNationalSocietyProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "threeWTableProgrammeType",
+            "namespace": "countryThreeWNationalSocietyProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "threeWTableProjectName",
+            "namespace": "countryThreeWNationalSocietyProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "threeWTableSector",
+            "namespace": "countryThreeWNationalSocietyProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "threeWTableTotalBudget",
+            "namespace": "countryThreeWNationalSocietyProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "totalProjectsTitle",
+            "namespace": "countryThreeWNationalSocietyProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "remove",
+            "key": "activeDeploymentsTitle",
+            "namespace": "countryThreeWProjects"
+        },
+        {
+            "action": "remove",
+            "key": "ongoingProjectBudgetTitle",
+            "namespace": "countryThreeWProjects"
+        },
+        {
+            "action": "remove",
+            "key": "otherNSProjects",
+            "namespace": "countryThreeWProjects"
+        },
+        {
+            "action": "remove",
+            "key": "programmeType",
+            "namespace": "countryThreeWProjects"
+        },
+        {
+            "action": "remove",
+            "key": "projectStatus",
+            "namespace": "countryThreeWProjects"
+        },
+        {
+            "action": "remove",
+            "key": "targetedPopulationTitle",
+            "namespace": "countryThreeWProjects"
+        },
+        {
+            "action": "remove",
+            "key": "threeWOngoingProjectsTitle",
+            "namespace": "countryThreeWProjects"
+        },
+        {
+            "action": "remove",
+            "key": "threeWTableDisasterType",
+            "namespace": "countryThreeWProjects"
+        },
+        {
+            "action": "remove",
+            "key": "threeWTablePeopleReached",
+            "namespace": "countryThreeWProjects"
+        },
+        {
+            "action": "remove",
+            "key": "threeWTablePeopleTargeted",
+            "namespace": "countryThreeWProjects"
+        },
+        {
+            "action": "remove",
+            "key": "threeWTableProgrammeType",
+            "namespace": "countryThreeWProjects"
+        },
+        {
+            "action": "remove",
+            "key": "threeWTableProjectName",
+            "namespace": "countryThreeWProjects"
+        },
+        {
+            "action": "remove",
+            "key": "threeWTableSector",
+            "namespace": "countryThreeWProjects"
+        },
+        {
+            "action": "remove",
+            "key": "threeWTableTotalBudget",
+            "namespace": "countryThreeWProjects"
+        },
+        {
+            "action": "remove",
+            "key": "totalProjectsTitle",
+            "namespace": "countryThreeWProjects"
+        },
+        {
+            "action": "remove",
+            "key": "viewAllProjects",
+            "namespace": "countryThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "countryThreeWDataNotAvailable",
+            "namespace": "countryThreeWProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "failedToCreateExport",
+            "namespace": "countryThreeWProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWActivities"
+        },
+        {
+            "action": "update",
+            "key": "localNSProjects",
+            "namespace": "countryThreeWProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "otherProjects",
+            "namespace": "countryThreeWProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "projectEdit",
+            "namespace": "countryThreeWProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "provinceProjects",
+            "namespace": "countryThreeWProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "threeWInCountryMapSidebarTitle",
+            "namespace": "countryThreeWProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "threeWTableNS",
+            "namespace": "countryThreeWProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "add",
+            "key": "emergenciesOverMonthTargetedPopulation",
+            "namespace": "emergenciesOverMonth",
+            "value": "Targeted population"
+        },
+        {
+            "action": "add",
+            "key": "errorPageGoBack",
+            "namespace": "errorPage",
+            "value": "Go back to homepage"
+        },
+        {
+            "action": "add",
+            "key": "errorPageHide",
+            "namespace": "errorPage",
+            "value": "Hide Error"
+        },
+        {
+            "action": "add",
+            "key": "errorPageIssueMessage",
+            "namespace": "errorPage",
+            "value": "Oops! Looks like we ran into some issue!"
+        },
+        {
+            "action": "add",
+            "key": "errorPageReload",
+            "namespace": "errorPage",
+            "value": "Reload"
+        },
+        {
+            "action": "add",
+            "key": "errorPageShowError",
+            "namespace": "errorPage",
+            "value": "Show Full Error"
+        },
+        {
+            "action": "add",
+            "key": "errorPageStackTrace",
+            "namespace": "errorPage",
+            "value": "Stack trace not available"
+        },
+        {
+            "action": "add",
+            "key": "errorPageUnexpectedMessage",
+            "namespace": "errorPage",
+            "value": "Something unexpected happened!"
+        },
+        {
+            "action": "add",
+            "key": "errorSeeDeveloperConsole",
+            "namespace": "errorPage",
+            "value": "See the developer console for more details"
+        },
+        {
+            "action": "add",
+            "key": "fieldPrefix",
+            "namespace": "fieldReportForm",
+            "value": "Prefix"
+        },
+        {
+            "action": "add",
+            "key": "fieldReportFormSuffix",
+            "namespace": "fieldReportForm",
+            "value": "Suffix"
+        },
+        {
+            "action": "add",
+            "key": "flashUpdateDisasterType",
+            "namespace": "flashUpdateForm",
+            "value": "Disaster Type"
+        },
+        {
+            "action": "add",
+            "key": "foodInsecurityAnalysisDate",
+            "namespace": "foodInsecurityChart",
+            "value": "Analysis date"
+        },
+        {
+            "action": "add",
+            "key": "foodInsecurityChartAverage",
+            "namespace": "foodInsecurityChart",
+            "value": "Average for"
+        },
+        {
+            "action": "add",
+            "key": "foodInsecurityPeopleExposed",
+            "namespace": "foodInsecurityChart",
+            "value": "People Exposed"
+        },
+        {
+            "action": "add",
+            "key": "initiativeAllocationTitle",
+            "namespace": "initiativeCard",
+            "value": "Allocation CHF"
+        },
+        {
+            "action": "add",
+            "key": "initiativeCategoriesTitle",
+            "namespace": "initiativeCard",
+            "value": "Categories"
+        },
+        {
+            "action": "add",
+            "key": "initiativeFundingPeriodTitle",
+            "namespace": "initiativeCard",
+            "value": "Funding Period"
+        },
+        {
+            "action": "add",
+            "key": "initiativeFundNameTitle",
+            "namespace": "initiativeCard",
+            "value": "Fund Name"
+        },
+        {
+            "action": "add",
+            "key": "initiativeMonthsSuffix",
+            "namespace": "initiativeCard",
+            "value": "months"
+        },
+        {
+            "action": "add",
+            "key": "initiativeTitle",
+            "namespace": "initiativeCard",
+            "value": "Initiative Title"
+        },
+        {
+            "action": "add",
+            "key": "initiativeYearApprovedTitle",
+            "namespace": "initiativeCard",
+            "value": "Year Approved"
+        },
+        {
+            "action": "add",
+            "key": "nSContactEmail",
+            "namespace": "nationalSocietyContacts",
+            "value": "Email"
+        },
+        {
+            "action": "add",
+            "key": "nSContactName",
+            "namespace": "nationalSocietyContacts",
+            "value": "Name"
+        },
+        {
+            "action": "add",
+            "key": "nSContactsTitle",
+            "namespace": "nationalSocietyContacts",
+            "value": "National Society Contacts"
+        },
+        {
+            "action": "add",
+            "key": "nSContactTitle",
+            "namespace": "nationalSocietyContacts",
+            "value": "Title"
+        },
+        {
+            "action": "add",
+            "key": "countryNSDirectorySource",
+            "namespace": "nationalSocietyDirectory",
+            "value": "Source"
+        },
+        {
+            "action": "add",
+            "key": "countryNSDirectoryTitle",
+            "namespace": "nationalSocietyDirectory",
+            "value": "NS Directory"
+        },
+        {
+            "action": "add",
+            "key": "ifrc",
+            "namespace": "nationalSocietyDirectory",
+            "value": "IFRC"
+        },
+        {
+            "action": "add",
+            "key": "ageLabel",
+            "namespace": "nationalSocietyIndicators",
+            "value": "Age"
+        },
+        {
+            "action": "add",
+            "key": "disaggregationNotAvailableMessage",
+            "namespace": "nationalSocietyIndicators",
+            "value": "Disaggregation not available"
+        },
+        {
+            "action": "add",
+            "key": "fdrs",
+            "namespace": "nationalSocietyIndicators",
+            "value": "FDRS"
+        },
+        {
+            "action": "add",
+            "key": "femaleLabel",
+            "namespace": "nationalSocietyIndicators",
+            "value": "Female"
+        },
+        {
+            "action": "add",
+            "key": "goToFDRS",
+            "namespace": "nationalSocietyIndicators",
+            "value": "Go to FDRS"
+        },
+        {
+            "action": "add",
+            "key": "maleLabel",
+            "namespace": "nationalSocietyIndicators",
+            "value": "Male"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyBranchesLabel",
+            "namespace": "nationalSocietyIndicators",
+            "value": "Branches"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyExpendituresLabel",
+            "namespace": "nationalSocietyIndicators",
+            "value": "Expenditures (CHF)"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyFoundedDateLabel",
+            "namespace": "nationalSocietyIndicators",
+            "value": "Date Founded"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyIncomeLabel",
+            "namespace": "nationalSocietyIndicators",
+            "value": "Income (CHF)"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyIndicatorsTitle",
+            "namespace": "nationalSocietyIndicators",
+            "value": "National Society Indicators"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyStaffLabel",
+            "namespace": "nationalSocietyIndicators",
+            "value": "Staff"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyTrainedInFirstAidLabel",
+            "namespace": "nationalSocietyIndicators",
+            "value": "Trained in first Aid"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyVolunteersLabel",
+            "namespace": "nationalSocietyIndicators",
+            "value": "Volunteers"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyYouthLabel",
+            "namespace": "nationalSocietyIndicators",
+            "value": "Youth (6-29 yrs)"
+        },
+        {
+            "action": "add",
+            "key": "source",
+            "namespace": "nationalSocietyIndicators",
+            "value": "Source"
+        },
+        {
+            "action": "add",
+            "key": "staffModalHeading",
+            "namespace": "nationalSocietyIndicators",
+            "value": "Staffs by Age and Gender"
+        },
+        {
+            "action": "add",
+            "key": "staffTooltipFemaleLabel",
+            "namespace": "nationalSocietyIndicators",
+            "value": "Female Volunteers"
+        },
+        {
+            "action": "add",
+            "key": "staffTooltipMaleLabel",
+            "namespace": "nationalSocietyIndicators",
+            "value": "Male Volunteers"
+        },
+        {
+            "action": "add",
+            "key": "tooltipAgeLabel",
+            "namespace": "nationalSocietyIndicators",
+            "value": "Age {ageRange}"
+        },
+        {
+            "action": "add",
+            "key": "totalLabel",
+            "namespace": "nationalSocietyIndicators",
+            "value": "Total"
+        },
+        {
+            "action": "add",
+            "key": "volunteerModalHeading",
+            "namespace": "nationalSocietyIndicators",
+            "value": "Volunteers by Age and Gender"
+        },
+        {
+            "action": "add",
+            "key": "volunteerTooltipFemaleLabel",
+            "namespace": "nationalSocietyIndicators",
+            "value": "Female Volunteers"
+        },
+        {
+            "action": "add",
+            "key": "volunteerTooltipMaleLabel",
+            "namespace": "nationalSocietyIndicators",
+            "value": "Male Volunteers"
+        },
+        {
+            "action": "add",
+            "key": "ifrc",
+            "namespace": "nationalSocietyKeyDocuments",
+            "value": "IFRC"
+        },
+        {
+            "action": "add",
+            "key": "nSSocietyKeyDocumentsTitle",
+            "namespace": "nationalSocietyKeyDocuments",
+            "value": "Key Documents"
+        },
+        {
+            "action": "add",
+            "key": "source",
+            "namespace": "nationalSocietyKeyDocuments",
+            "value": "Source"
+        },
+        {
+            "action": "add",
+            "key": "editLocalUnitLink",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "value": "Add/Edit Local Units"
+        },
+        {
+            "action": "add",
+            "key": "localUnitDetailAddress",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "value": "Address"
+        },
+        {
+            "action": "add",
+            "key": "localUnitDetailAddressValue",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "value": "{address}, {city}, {country}"
+        },
+        {
+            "action": "add",
+            "key": "localUnitDetailEmail",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "value": "Email"
+        },
+        {
+            "action": "add",
+            "key": "localUnitDetailFocalPerson",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "value": "Focal Person"
+        },
+        {
+            "action": "add",
+            "key": "localUnitDetailLastUpdate",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "value": "Last Updated"
+        },
+        {
+            "action": "add",
+            "key": "localUnitDetailPhoneNumber",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "value": "Phone Number"
+        },
+        {
+            "action": "add",
+            "key": "localUnitDetailType",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "value": "Type"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsFilterClear",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "value": "Clear Filters"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsFilterSearchLabel",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "value": "Search"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsFilterSearchPlaceholderLabel",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "value": "Search Local Units"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsFilterTypeLabel",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "value": "Type"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsFilterTypePlaceholder",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "value": "Type (All)"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsFilterValidatedLabel",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "value": "Validation"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsFilterValidatedPlaceholder",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "value": "Validation (All)"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsMapTitle",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "value": "NS Local Units"
+        },
+        {
+            "action": "add",
+            "key": "notValidated",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "value": "Not Validated"
+        },
+        {
+            "action": "add",
+            "key": "validated",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "value": "Validated"
+        },
+        {
+            "action": "add",
+            "key": "ifrc",
+            "namespace": "nsDirectoryInitiatives",
+            "value": "IFRC"
+        },
+        {
+            "action": "add",
+            "key": "nSDirectoryInitiativesDescription",
+            "namespace": "nsDirectoryInitiatives",
+            "value": "The following data displays ongoing and implemented/closed Initiatives funded  by the different NSD funding mechanisms within the country, which are reported by the respective fund office. Contacts: CBF Office, NSIA Office, ESF Secretariat."
+        },
+        {
+            "action": "add",
+            "key": "nSDirectoryInitiativesTitle",
+            "namespace": "nsDirectoryInitiatives",
+            "value": "NSD Initiatives"
+        },
+        {
+            "action": "add",
+            "key": "source",
+            "namespace": "nsDirectoryInitiatives",
+            "value": "Source"
+        },
+        {
+            "action": "add",
+            "key": "pastEventsAmountFunded",
+            "namespace": "pastEventsChart",
+            "value": "Amount funded"
+        },
+        {
+            "action": "add",
+            "key": "pastEventsAmountRequested",
+            "namespace": "pastEventsChart",
+            "value": "Amount requested"
+        },
+        {
+            "action": "add",
+            "key": "pastEventsChartEvents",
+            "namespace": "pastEventsChart",
+            "value": "Past events"
+        },
+        {
+            "action": "add",
+            "key": "pastEventsPeopleExposed",
+            "namespace": "pastEventsChart",
+            "value": "People Exposed / Affected"
+        },
+        {
+            "action": "add",
+            "key": "pastEventsTargetedPopulation",
+            "namespace": "pastEventsChart",
+            "value": "Targeted population"
+        },
+        {
+            "action": "add",
+            "key": "populationLegendLabel",
+            "namespace": "populationMap",
+            "value": "Population"
+        },
+        {
+            "action": "add",
+            "key": "populationMapTitle",
+            "namespace": "populationMap",
+            "value": "Population Map"
+        },
+        {
+            "action": "add",
+            "key": "source",
+            "namespace": "populationMap",
+            "value": "Source"
+        },
+        {
+            "action": "add",
+            "key": "worldBank",
+            "namespace": "populationMap",
+            "value": "The World Bank"
+        },
+        {
+            "action": "add",
+            "key": "regionalProfileSource",
+            "namespace": "regionProfile",
+            "value": "Source: IFRC"
+        },
+        {
+            "action": "add",
+            "key": "supportingPartnersContactsTitle",
+            "namespace": "supportingPartnersContacts",
+            "value": "Contacts"
+        },
+        {
+            "action": "add",
+            "key": "otherUAV",
+            "namespace": "surgeCatalogueOther",
+            "value": " Drones – Uncrewed Aerial Vehicles (UAV) Team"
+        },
+        {
+            "action": "add",
+            "key": "otherUAVDetail",
+            "namespace": "surgeCatalogueOther",
+            "value": "An Uncrewed Aerial Vehicle (UAV) Team, or colloquially a “Drone” Team, collects high quality, detailed aerial imagery for communications media, mapping, site survey, and situational awareness."
+        },
+        {
+            "action": "add",
+            "key": "capacity",
+            "namespace": "surgeCatalogueOtherUAV",
+            "value": "Capacity"
+        },
+        {
+            "action": "add",
+            "key": "capacityDetails",
+            "namespace": "surgeCatalogueOtherUAV",
+            "value": "An Uncrewed Aerial Vehicle (UAV) Team, or colloquially a “Drone” Team, collects high quality, detailed aerial imagery for communications media, mapping, site survey, and situational awareness."
+        },
+        {
+            "action": "add",
+            "key": "emergencyServices",
+            "namespace": "surgeCatalogueOtherUAV",
+            "value": "Emergency Services"
+        },
+        {
+            "action": "add",
+            "key": "emergencyServicesDetails",
+            "namespace": "surgeCatalogueOtherUAV",
+            "value": "A UAV deployment can be requested to support an operation for the following use-cases:"
+        },
+        {
+            "action": "add",
+            "key": "mustAllow",
+            "namespace": "surgeCatalogueOtherUAV",
+            "value": "Note that the laws and regulations in the receiving National Society’s country must allow for the operation of drones, and accepting of the credentials of any deployed personnel."
+        },
+        {
+            "action": "add",
+            "key": "otherLink",
+            "namespace": "surgeCatalogueOtherUAV",
+            "value": "Pilot in Command and UAV Team Lead"
+        },
+        {
+            "action": "add",
+            "key": "otherUAVCost",
+            "namespace": "surgeCatalogueOtherUAV",
+            "value": "CHF 12,000 (approximately 4,000 per drone system and 4,000 for computer equipment)"
+        },
+        {
+            "action": "add",
+            "key": "otherUAVCostHeader",
+            "namespace": "surgeCatalogueOtherUAV",
+            "value": "Cost (indicative)"
+        },
+        {
+            "action": "add",
+            "key": "otherUAVEmergencyListItemFour",
+            "namespace": "surgeCatalogueOtherUAV",
+            "value": "UAVs facilitate immediate situational awareness as well as the ability to monitor evolving situations with limited risk to support staff. UAV technology can be utilized to scout safe routes and rapidly disseminate that information to a response team."
+        },
+        {
+            "action": "add",
+            "key": "otherUAVEmergencyListItemFourBullet",
+            "namespace": "surgeCatalogueOtherUAV",
+            "value": "Situational awareness: "
+        },
+        {
+            "action": "add",
+            "key": "otherUAVEmergencyListItemOne",
+            "namespace": "surgeCatalogueOtherUAV",
+            "value": "UAVs facilitate the targeted collection of digital aerial images and videos for use in media communications. Aerial imagery can serve as a broad and comprehensive tool to communicate the impact of certain disasters to a general audience. UAV collected imagery has a significant and timely impact with the media and broader public when used as a communication tool immediately post disaster."
+        },
+        {
+            "action": "add",
+            "key": "otherUAVEmergencyListItemOneBullet",
+            "namespace": "surgeCatalogueOtherUAV",
+            "value": "Media communications: "
+        },
+        {
+            "action": "add",
+            "key": "otherUAVEmergencyListItemThree",
+            "namespace": "surgeCatalogueOtherUAV",
+            "value": "Baseline aerial mapping can be a key input to optimal planning of basecamp facilities, field hospitals, community latrines, distribution sites, water filtration installations and water distribution sites, etc. UAVs allow for rapid initial and ongoing site surveillance with minimal resources. "
+        },
+        {
+            "action": "add",
+            "key": "otherUAVEmergencyListItemThreeBullet",
+            "namespace": "surgeCatalogueOtherUAV",
+            "value": "Site survey: "
+        },
+        {
+            "action": "add",
+            "key": "otherUAVEmergencyListItemTwo",
+            "namespace": "surgeCatalogueOtherUAV",
+            "value": "UAVs can be used to systematically collect a large number of aerial images that can then be stitched together using processing software generating an operational field map. Mapping of affected areas can provide an important input for assessment and planning, as well as for establishing a baseline for recovery programs. Various limitations mean that mapping can cover smaller areas such as communities and will not cover an entire disaster-affected region."
+        },
+        {
+            "action": "add",
+            "key": "otherUAVEmergencyListItemTwoBullet",
+            "namespace": "surgeCatalogueOtherUAV",
+            "value": "Mapping: "
+        },
+        {
+            "action": "add",
+            "key": "otherUAVPersonnel",
+            "namespace": "surgeCatalogueOtherUAV",
+            "value": "Personnel"
+        },
+        {
+            "action": "add",
+            "key": "otherUAVPersonnelDetails",
+            "namespace": "surgeCatalogueOtherUAV",
+            "value": "The minimum team consists of an individual acting as a combined UAV Team Lead (UTL) / Pilot in Command (PIC) in addition to a Safety Officer (SA). The SA may be staffed/provided by the receiving National Society. The UTL and PIC can be separate individuals"
+        },
+        {
+            "action": "add",
+            "key": "otherUAVProviderAmericalRedCross",
+            "namespace": "surgeCatalogueOtherUAV",
+            "value": "American Red Cross"
+        },
+        {
+            "action": "add",
+            "key": "otherUAVProviderHeader",
+            "namespace": "surgeCatalogueOtherUAV",
+            "value": "National societies providing this service"
+        },
+        {
+            "action": "add",
+            "key": "otherUAVProviderItalianRedCross",
+            "namespace": "surgeCatalogueOtherUAV",
+            "value": "Italian Red Cross"
+        },
+        {
+            "action": "add",
+            "key": "otherUAVSpecifications",
+            "namespace": "surgeCatalogueOtherUAV",
+            "value": "Specifications"
+        },
+        {
+            "action": "add",
+            "key": "otherUAVStandardComponents",
+            "namespace": "surgeCatalogueOtherUAV",
+            "value": "Standard Components"
+        },
+        {
+            "action": "add",
+            "key": "otherUAVStandardComponentsListItemOne",
+            "namespace": "surgeCatalogueOtherUAV",
+            "value": "2x quadcopter drone systems (e.g. DJI or Autel camera drones) with extra batteries and spare parts to enable extended daily missions and equipment redundancy"
+        },
+        {
+            "action": "add",
+            "key": "otherUAVStandardComponentsListItemTwo",
+            "namespace": "surgeCatalogueOtherUAV",
+            "value": "Computer equipment for image processing and file storage/sharing"
+        },
+        {
+            "action": "add",
+            "key": "rapidResponse",
+            "namespace": "surgeCatalogueOtherUAV",
+            "value": "Rapid Response Personnel Role Profile"
+        },
+        {
+            "action": "add",
+            "key": "rapidResponseDetail",
+            "namespace": "surgeCatalogueOtherUAV",
+            "value": "Details about the expectations for this specialty can be found in the Role Profile: {link}"
+        },
+        {
+            "action": "add",
+            "key": "uavHeading",
+            "namespace": "surgeCatalogueOtherUAV",
+            "value": "Drones – Uncrewed Aerial Vehicles (UAV) Team"
+        }
+    ]
+}

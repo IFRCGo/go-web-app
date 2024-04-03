@@ -4,8 +4,8 @@ import {
     readTranslations,
 } from '../utils';
 
-async function lint(projectPath: string, translationFileName: string) {
-    const fileNames = await getTranslationFileNames(projectPath, [translationFileName]);
+async function lint(projectPath: string, translationFileName: string[]) {
+    const fileNames = await getTranslationFileNames(projectPath, translationFileName);
     const translations = await readTranslations(fileNames);
 
     const namespaces = new Set(translations.map((item) => item.namespace));

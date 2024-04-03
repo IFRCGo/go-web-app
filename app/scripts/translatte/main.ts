@@ -18,7 +18,7 @@ yargs(hideBin(process.argv))
     .usage('$0 <cmd> [args]')
     .demandCommand(1)
     .command(
-        'lint <TRANSLATION_FILE>',
+        'lint <TRANSLATION_FILE..>',
         'Lint i18n.json files for duplicated strings',
         (yargs) => {
             yargs.positional('TRANSLATION_FILE', {
@@ -27,7 +27,7 @@ yargs(hideBin(process.argv))
             });
         },
         async (argv) => {
-            await lint(currentDir, argv.TRANSLATION_FILE as string);
+            await lint(currentDir, argv.TRANSLATION_FILE as string[]);
         },
     )
     .command(
