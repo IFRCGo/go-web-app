@@ -466,18 +466,21 @@ export function getChartDimensions({
 }) {
     const initialLeftOffset = chartMargin.left + yAxisWidth + chartPadding.left;
     const initialRightOffset = chartMargin.right + chartPadding.right;
+
     const topOffset = chartMargin.top + chartPadding.top;
     const bottomOffset = chartMargin.bottom + chartPadding.bottom + xAxisHeight;
 
     const renderableDataAreaWidth = chartSize.width - initialLeftOffset - initialRightOffset;
-    const additionalHorizontalOffset = renderableDataAreaWidth / (numXAxisTicks + 2);
+    const additionalHorizontalOffset = renderableDataAreaWidth / (numXAxisTicks + 1);
 
     const dataAreaWidth = Math.max(
-        renderableDataAreaWidth - additionalHorizontalOffset,
+        additionalHorizontalOffset * (numXAxisTicks - 1),
         0,
     );
-    const leftOffset = initialLeftOffset + additionalHorizontalOffset / 2;
-    const rightOffset = initialRightOffset + additionalHorizontalOffset / 2;
+
+    const leftOffset = initialLeftOffset + additionalHorizontalOffset;
+    const rightOffset = initialRightOffset + additionalHorizontalOffset;
+
     const dataAreaHeight = Math.max(
         chartSize.height - topOffset - bottomOffset,
         0,

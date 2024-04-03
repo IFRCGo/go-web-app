@@ -39,6 +39,7 @@ interface Props {
     onHover?: (key: Key | undefined, i: number | undefined) => void;
     onClick?: (key: Key, i: number) => void;
     yAxisLabel?: React.ReactNode;
+    yAxisLabelWidth?: number;
 }
 
 function ChartAxes(props: Props) {
@@ -56,6 +57,7 @@ function ChartAxes(props: Props) {
         onHover,
         onClick,
         yAxisLabel,
+        yAxisLabelWidth = 20,
     } = props;
 
     const hoverOutTimeoutRef = useRef<number | undefined>();
@@ -110,9 +112,6 @@ function ChartAxes(props: Props) {
     }
 
     const xAxisDiff = dataAreaSize.width / xAxisTicks.length;
-
-    // TODO: make it dynamic maybe?
-    const yAxisLabelWidth = 20;
 
     const yAxisAreaX1 = chartMargin.left;
     const yAxisAreaX2 = chartMargin.left + yAxisWidth;
