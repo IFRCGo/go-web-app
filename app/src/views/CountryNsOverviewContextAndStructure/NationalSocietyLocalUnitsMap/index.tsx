@@ -398,7 +398,7 @@ function NationalSocietyLocalUnitsMap(props: Props) {
                 )}
             </BaseMap>
             {isDefined(countryResponse)
-                && (isDefined(countryResponse.address_1) || isDefined(countryResponse.email)) && (
+                && (isDefined(countryResponse.address_1) || isDefined(countryResponse.emails)) && (
                 <Container
                     className={styles.mapDetail}
                     childrenContainerClassName={styles.infoContainer}
@@ -419,7 +419,7 @@ function NationalSocietyLocalUnitsMap(props: Props) {
                             )}
                         />
                     )}
-                    {isDefined(countryResponse) && isDefined(countryResponse.email) && (
+                    {isDefined(countryResponse) && isDefined(countryResponse.emails) && (
                         <TextOutput
                             className={styles.info}
                             labelClassName={styles.label}
@@ -429,7 +429,7 @@ function NationalSocietyLocalUnitsMap(props: Props) {
                             withoutLabelColon
                             value={(
                                 <List
-                                    data={countryResponse.email.filter(isDefined)}
+                                    data={countryResponse.emails.filter(isDefined)}
                                     renderer={Link}
                                     rendererParams={emailRendererParams}
                                     keySelector={emailKeySelector}

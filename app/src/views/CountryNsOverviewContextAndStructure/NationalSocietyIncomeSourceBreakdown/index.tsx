@@ -52,13 +52,14 @@ function NationalSocietyIncomeSourceBreakdown(props: Props) {
     const incomeListForSelectedYear = useMemo(
         () => countryIncomeResponse?.results?.filter(
             ({ date }) => new Date(date).getFullYear() === selectedYear,
-        ).map(({ value, ...other }) => {
-            if (isNotDefined(value) || value <= 0) {
+        ).map(({ value, indicator_details, ...other }) => {
+            if (isNotDefined(value) || value <= 0 || isNotDefined(indicator_details)) {
                 return undefined;
             }
 
             return {
                 ...other,
+                indicator_details,
                 value,
             };
         }).filter(isDefined),
