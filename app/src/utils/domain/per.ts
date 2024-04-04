@@ -7,6 +7,7 @@ import { type components } from '#generated/types';
 import { type GoApiResponse } from '#utils/restRequest';
 
 type PerPhase = components<'read'>['schemas']['PhaseEnum'];
+type PerComponent = Pick<components<'read'>['schemas']['FormComponent'], 'title' | 'component_letter' | 'component_num'>;
 
 export const PER_PHASE_OVERVIEW = 1 satisfies PerPhase;
 export const PER_PHASE_ASSESSMENT = 2 satisfies PerPhase;
@@ -34,4 +35,12 @@ export function getCurrentPerProcessStep(status: PerProcessStatusResponse | unde
     }
 
     return PER_PHASE_OVERVIEW;
+}
+
+export function getFormattedComponentName(component: PerComponent): string {
+    const { component_num, component_letter, title } = component;
+
+    const prefix = [component_num, component_letter].filter(isDefined).join(' ').trim();
+
+    return `${prefix} : ${title}`;
 }

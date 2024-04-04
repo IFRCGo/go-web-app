@@ -14,7 +14,6 @@ import {
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { resolveToString } from '@ifrc-go/ui/utils';
 import {
     compareNumber,
     isDefined,
@@ -24,6 +23,7 @@ import {
 import Link from '#components/Link';
 import WikiLink from '#components/WikiLink';
 import useRouting from '#hooks/useRouting';
+import { getFormattedComponentName } from '#utils/domain/per';
 import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -251,10 +251,10 @@ function PublicCountryPreparedness() {
                                     className={styles.heading}
                                     level={5}
                                 >
-                                    {resolveToString(strings.publicPriorityComponentHeading, {
-                                        componentNumber: priorityComponent.componentNumber,
-                                        componentLetter: priorityComponent.componentLetter,
-                                        componentName: priorityComponent.label,
+                                    {getFormattedComponentName({
+                                        component_num: priorityComponent.componentNumber,
+                                        component_letter: priorityComponent.componentLetter,
+                                        title: priorityComponent.label,
                                     })}
                                 </Heading>
                             </Fragment>

@@ -17,7 +17,6 @@
         "perNSResponseHeading":"NS Response Mechanism Performance",
         "perHighlightedTopRatedComponentHeading": "Highlighted Top Rated Components",
         "perComponentRatingResultsHeading": "Components Rating Results",
-        "perPriorityComponentHeading": "Component {componentNumber} {componentLetter}: {componentName}",
         "perComponentNotReviewed": "0 - Not reviewed"
     }
 }

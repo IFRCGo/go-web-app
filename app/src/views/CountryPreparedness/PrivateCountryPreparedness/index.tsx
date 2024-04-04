@@ -32,7 +32,6 @@ import {
 import {
     numericCountSelector,
     numericIdSelector,
-    resolveToString,
     stringLabelSelector,
     stringTitleSelector,
     sumSafe,
@@ -51,6 +50,7 @@ import GoSingleFileInput from '#components/domain/GoSingleFileInput';
 import PerExportModal from '#components/PerExportModal';
 import WikiLink from '#components/WikiLink';
 import useRouting from '#hooks/useRouting';
+import { getFormattedComponentName } from '#utils/domain/per';
 import {
     type GoApiResponse,
     useRequest,
@@ -606,10 +606,10 @@ function PrivateCountryPreparedness() {
                                 key={priorityComponent.id}
                             >
                                 <Heading level={5} className={styles.heading}>
-                                    {resolveToString(strings.priorityComponentHeading, {
-                                        componentNumber: priorityComponent.num,
-                                        componentLetter: priorityComponent.letter,
-                                        componentName: priorityComponent.label,
+                                    {getFormattedComponentName({
+                                        component_num: priorityComponent.num,
+                                        component_letter: priorityComponent.letter,
+                                        title: priorityComponent.label,
                                     })}
                                 </Heading>
                                 <ProgressBar
@@ -635,11 +635,7 @@ function PrivateCountryPreparedness() {
                                 key={`${component.details.id}-${component.details.component_num}-${component.details.component_letter}`}
                             >
                                 <Heading level={5}>
-                                    {resolveToString(strings.priorityComponentHeading, {
-                                        componentNumber: component.details.component_num,
-                                        componentLetter: component.details.component_letter ?? '',
-                                        componentName: component.details.title,
-                                    })}
+                                    {getFormattedComponentName(component.details)}
                                 </Heading>
                                 <ProgressBar
                                     value={component.rating?.value ?? 0}
