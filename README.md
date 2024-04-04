@@ -68,6 +68,10 @@ The repository hosts multiple packages under `packages` directory.
 
 The backend that serves the frontend application is maintained in a separate [repository](https://github.com/IFRCGo/go-api/).
 
+## Previous repository
+
+[Go Frontend](https://github.com/IFRCGo/go-frontend) is the previous version of the project which contains the original codebase and project history.
+
 ## Community & support
 
 - Visit the [IFRC GO Wiki](https://go-wiki.ifrc.org/) for documentation of the IFRC GO platform.
