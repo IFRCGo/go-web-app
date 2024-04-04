@@ -34,7 +34,7 @@ import {
 } from '@togglecorp/fujs';
 
 import ifrcLogo from '#assets/icons/ifrc-square.png';
-import { getFormattedComponentName } from '#utils/common';
+import { getFormattedComponentName } from '#utils/domain/per';
 import { useRequest } from '#utils/restRequest';
 
 import PreviousAssessmentCharts from '../CountryPreparedness/PreviousAssessmentChart';

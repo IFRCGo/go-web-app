@@ -50,7 +50,7 @@ import GoSingleFileInput from '#components/domain/GoSingleFileInput';
 import PerExportModal from '#components/PerExportModal';
 import WikiLink from '#components/WikiLink';
 import useRouting from '#hooks/useRouting';
-import { getFormattedComponentName } from '#utils/common';
+import { getFormattedComponentName } from '#utils/domain/per';
 import {
     type GoApiResponse,
     useRequest,

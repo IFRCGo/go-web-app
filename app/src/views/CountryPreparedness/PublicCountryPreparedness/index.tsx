@@ -23,7 +23,7 @@ import {
 import Link from '#components/Link';
 import WikiLink from '#components/WikiLink';
 import useRouting from '#hooks/useRouting';
-import { getFormattedComponentName } from '#utils/common';
+import { getFormattedComponentName } from '#utils/domain/per';
 import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
