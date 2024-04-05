@@ -61,13 +61,11 @@ export function Component() {
                 </Link>
             )}
         >
-            {/* // FIXME: This should be handle by Container */}
+            {/* FIXME: This should be handle by Container */}
             <div className={styles.nsOverviewCapacityHeader}>
-                <div className={styles.dummy} />
                 <div className={styles.nsOverviewCapacityHeaderDescription}>
                     {strings.nSOverviewCapacityDescription}
                 </div>
-                <div className={styles.dummy} />
             </div>
             {/* Data is currently under review, it will be include in the next version */}
             {/* Hide this section */}

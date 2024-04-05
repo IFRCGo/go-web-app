@@ -1,5 +1,6 @@
 import { _cs } from '@togglecorp/fujs';
 
+import DefaultMessage from '#components/DefaultMessage';
 import Footer from '#components/Footer';
 import Header, { Props as HeaderProps } from '#components/Header';
 import { Props as HeadingProps } from '#components/Heading';
@@ -52,6 +53,17 @@ export interface Props {
     withHeaderBorder?: boolean;
     withInternalPadding?: boolean;
     withoutWrapInHeading?: boolean;
+
+    pending?: boolean;
+    overlayPending?: boolean;
+    empty?: boolean;
+    filtered?: boolean;
+    compactMessage?: boolean;
+
+    emptyMessage?: React.ReactNode;
+    pendingMessage?: React.ReactNode;
+    errorMessage?: React.ReactNode;
+    filteredEmptyMessage?: React.ReactNode;
 }
 
 function Container(props: Props) {
@@ -91,6 +103,17 @@ function Container(props: Props) {
         withHeaderBorder = false,
         withInternalPadding = false,
         withoutWrapInHeading = false,
+
+        pending = false,
+        overlayPending = false,
+        empty = false,
+        filtered = false,
+        compactMessage = false,
+
+        errorMessage,
+        emptyMessage,
+        pendingMessage,
+        filteredEmptyMessage,
     } = props;
 
     const showFooter = footerIcons || footerContent || footerActions;
@@ -178,10 +201,23 @@ function Container(props: Props) {
                         styles.content,
                         contentViewType !== 'default' && childrenGapTokens,
                         withInternalPadding && horizontalPaddingSpacingTokens,
+                        overlayPending && pending && styles.pendingOverlaid,
                         childrenContainerClassName,
                     )}
                 >
-                    {children}
+                    <DefaultMessage
+                        className={styles.message}
+                        pending={pending}
+                        filtered={filtered}
+                        empty={empty}
+                        compact={compactMessage}
+                        overlayPending={overlayPending}
+                        emptyMessage={emptyMessage}
+                        filteredEmptyMessage={filteredEmptyMessage}
+                        pendingMessage={pendingMessage}
+                        errorMessage={errorMessage}
+                    />
+                    {!empty && (!pending || overlayPending) && children}
                 </div>
             )}
             {showFooter && (

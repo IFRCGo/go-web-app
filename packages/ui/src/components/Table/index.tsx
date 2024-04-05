@@ -1,9 +1,7 @@
 import React, {
     useEffect,
-    useMemo,
     useRef,
 } from 'react';
-import { AnalysisIcon } from '@ifrc-go/icons';
 import {
     _cs,
     isDefined,
@@ -13,8 +11,7 @@ import {
     sum,
 } from '@togglecorp/fujs';
 
-import Message from '#components/Message';
-import useTranslation from '#hooks/useTranslation';
+import DefaultMessage from '#components/DefaultMessage';
 import { WIDTH_DEFAULT_TABLE_COLUMN } from '#utils/constants';
 
 import TableBodyContent from './TableBodyContent';
@@ -26,7 +23,6 @@ import type {
     VerifyColumn,
 } from './types';
 
-import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 function getColumnWidth<D, K, C, H>(column: Column<D, K, C, H>, width: number) {
@@ -79,7 +75,6 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
         filtered,
     } = props;
 
-    const strings = useTranslation(i18n);
     const containerRef = useRef<HTMLDivElement>(null);
     const [tableName] = React.useState(() => randomString());
     const [columnWidths, setColumnWidths] = React.useState<Record<string, number>>({});
@@ -177,21 +172,6 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
     const isEmpty = isNotDefined(data)
         || data.length === 0
         || Object.keys(columnWidths).length === 0;
-
-    const messageTitle = useMemo(
-        () => {
-            if (pending) {
-                return strings.messageTitleFetching;
-            }
-
-            if (filtered) {
-                return strings.messageTitleSelected;
-            }
-
-            return strings.messageTitleNotAvailable;
-        },
-        [pending, filtered, strings],
-    );
 
     return (
         <div
@@ -298,19 +278,12 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
                     </table>
                 </div>
             )}
-            {(isEmpty || pending) && (
-                <Message
-                    className={_cs(
-                        styles.message,
-                        pending && styles.pending,
-                    )}
-                    pending={pending}
-                    icon={<AnalysisIcon />}
-                    title={messageTitle}
-                    // filtered={filtered}
-                    // withoutBorder
-                />
-            )}
+            <DefaultMessage
+                filtered={filtered}
+                empty={isEmpty}
+                pending={pending}
+                overlayPending
+            />
         </div>
     );
 }

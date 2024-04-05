@@ -9,22 +9,24 @@
         grid-gap: var(--go-ui-spacing-lg);
     }
 
-    .national-society-detail {
+    .ns-directory-and-contacts {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
         align-items: start;
         grid-gap: var(--go-ui-spacing-lg);
 
-        .map {
-            grid-column: auto / span 2;
-        }
 
         .directory {
+            grid-column: auto / span 1;
             max-height: 50rem;
 
             @media screen and (max-width: 60rem) {
                 grid-column: 1 / -1;
             }
+        }
+
+        .contacts {
+            grid-column: auto / span 2;
         }
     }
 

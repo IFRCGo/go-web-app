@@ -149,10 +149,10 @@ export function Component() {
     });
 
     useRequest({
-        url: '/api/v2/latest-per-overview/',
+        url: '/api/v2/country/{id}/latest-per-overview/',
         skip: isNotDefined(value?.country) || isDefined(value?.is_draft),
         query: {
-            country_id: Number(value?.country),
+            id: Number(value?.country),
         },
         onSuccess: (response) => {
             const lastAssessment = response.results?.[0];

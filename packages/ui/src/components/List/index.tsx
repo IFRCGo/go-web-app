@@ -1,17 +1,14 @@
-import { useMemo } from 'react';
 import {
     _cs,
     isNotDefined,
 } from '@togglecorp/fujs';
 
-import Message from '#components/Message';
+import DefaultMessage from '#components/DefaultMessage';
 import RawList, {
     type ListKey,
     type Props as RawListProps,
 } from '#components/RawList';
-import useTranslation from '#hooks/useTranslation';
 
-import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export interface Props<
@@ -29,7 +26,7 @@ export interface Props<
     emptyMessage?: React.ReactNode;
     pendingMessage?: React.ReactNode;
     errorMessage?: React.ReactNode;
-    filteredMessage?: React.ReactNode;
+    filteredEmptyMessage?: React.ReactNode;
 
     compact?: boolean;
     withoutMessage?: boolean;
@@ -40,7 +37,6 @@ function List<DATUM, KEY extends ListKey, RENDERER_PROPS>(
 ) {
     const {
         className,
-        messageClassName,
         data,
         keySelector,
         renderer,
@@ -50,41 +46,17 @@ function List<DATUM, KEY extends ListKey, RENDERER_PROPS>(
         errored,
         filtered,
 
-        errorMessage: errorMessageFromProps,
-        emptyMessage: emptyMessageFromProps,
-        pendingMessage: pendingMessageFromProps,
-        filteredMessage: filteredMessageFromProps,
+        errorMessage,
+        emptyMessage,
+        pendingMessage,
+        filteredEmptyMessage,
 
         compact,
         withoutMessage = false,
+        messageClassName,
     } = props;
 
-    const strings = useTranslation(i18n);
-
-    const filteredMessage = filteredMessageFromProps ?? strings.listFilteredMessage;
-    const pendingMessage = pendingMessageFromProps ?? strings.listPendingMessage;
-    const emptyMessage = emptyMessageFromProps ?? strings.listEmptyMessage;
-    const errorMessage = errorMessageFromProps ?? strings.listFailedToFetch;
-
     const isEmpty = isNotDefined(data) || data.length === 0;
-    const messageTitle = useMemo(
-        () => {
-            if (pending) {
-                return pendingMessage;
-            }
-
-            if (errored) {
-                return errorMessage;
-            }
-
-            if (filtered) {
-                return filteredMessage;
-            }
-
-            return emptyMessage;
-        },
-        [pending, filtered, errored, errorMessage, pendingMessage, filteredMessage, emptyMessage],
-    );
 
     return (
         <div
@@ -101,12 +73,19 @@ function List<DATUM, KEY extends ListKey, RENDERER_PROPS>(
                 renderer={renderer}
                 rendererParams={rendererParams}
             />
-            {(pending || isEmpty) && !withoutMessage && (
-                <Message
-                    className={_cs(styles.message, messageClassName)}
+            {!withoutMessage && (
+                <DefaultMessage
+                    className={messageClassName}
                     pending={pending}
-                    title={messageTitle}
+                    filtered={filtered}
+                    empty={isEmpty}
+                    errored={errored}
                     compact={compact}
+                    emptyMessage={emptyMessage}
+                    filteredEmptyMessage={filteredEmptyMessage}
+                    pendingMessage={pendingMessage}
+                    errorMessage={errorMessage}
+                    overlayPending
                 />
             )}
         </div>
