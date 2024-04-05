@@ -20,7 +20,7 @@ export interface Props<D> {
     keySelector: (datum: D) => number | string;
     valueSelector: (datum: D) => number | null | undefined;
     labelSelector: (datum: D) => React.ReactNode;
-    labelDescriptionSelector?: (datum: D) => React.ReactNode;
+    tooltipSelector?: (datum: D) => React.ReactNode;
     maxValue?: number;
     maxRows?: number;
     compactValue?: boolean;
@@ -32,7 +32,7 @@ function BarChart<D>(props: Props<D>) {
         data,
         valueSelector,
         labelSelector,
-        labelDescriptionSelector,
+        tooltipSelector,
         keySelector,
         maxValue: maxValueFromProps,
         maxRows = 5,
@@ -52,12 +52,12 @@ function BarChart<D>(props: Props<D>) {
                     key: keySelector(datum),
                     value,
                     label: labelSelector(datum),
-                    labelDescription: labelDescriptionSelector?.(datum),
+                    tooltip: tooltipSelector?.(datum),
                 };
                 // FIXME: use compareNumber
             }).filter(isDefined).sort((a, b) => b.value - a.value).slice(0, maxRows) ?? []
         ),
-        [data, keySelector, valueSelector, labelSelector, labelDescriptionSelector, maxRows],
+        [data, keySelector, valueSelector, labelSelector, tooltipSelector, maxRows],
     );
 
     // NOTE: we do not need to check if Math.max will be Infinity as the render
@@ -83,21 +83,21 @@ function BarChart<D>(props: Props<D>) {
 
                 return (
                     <div
-                        className={styles.barRow}
+                        className={_cs(isDefined(datum.tooltip) && styles.hoverable, styles.barRow)}
                         key={datum.key}
                     >
+                        {isDefined(datum.tooltip)
+                            && hasSomeDefinedValue(datum.tooltip) && (
+                            <Tooltip
+                                title={datum.label}
+                                description={datum.tooltip}
+                            />
+                        )}
                         <div
                             className={styles.label}
                             style={isStringLabel ? { fontSize } : undefined}
                         >
                             {datum.label}
-                            {isDefined(labelDescriptionSelector)
-                            && isDefined(datum.labelDescription)
-                            && hasSomeDefinedValue(datum.labelDescription) && (
-                                <Tooltip
-                                    description={datum.labelDescription}
-                                />
-                            )}
                         </div>
                         <div className={styles.barTrack}>
                             <div

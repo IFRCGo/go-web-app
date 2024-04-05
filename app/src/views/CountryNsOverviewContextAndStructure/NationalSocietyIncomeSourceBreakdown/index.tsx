@@ -96,7 +96,7 @@ function NationalSocietyIncomeSourceBreakdown(props: Props) {
             <BarChart
                 data={incomeListForSelectedYear}
                 labelSelector={incomeSourceLabelSelector}
-                labelDescriptionSelector={incomeSourceDescriptionSelector}
+                tooltipSelector={incomeSourceDescriptionSelector}
                 valueSelector={numericValueSelector}
                 keySelector={numericIdSelector}
                 maxRows={incomeListForSelectedYear?.length}

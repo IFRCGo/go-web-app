@@ -151,11 +151,11 @@ export function Component() {
     useRequest({
         url: '/api/v2/country/{id}/latest-per-overview/',
         skip: isNotDefined(value?.country) || isDefined(value?.is_draft),
-        query: {
+        pathVariables: {
             id: Number(value?.country),
         },
         onSuccess: (response) => {
-            const lastAssessment = response.results?.[0];
+            const lastAssessment = response;
             if (lastAssessment) {
                 const lastAssessmentNumber = lastAssessment.assessment_number ?? 0;
                 setFieldValue(lastAssessmentNumber + 1, 'assessment_number');
