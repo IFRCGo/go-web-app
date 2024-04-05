@@ -74,11 +74,11 @@ export function Component() {
                     />
                 )}
             </div>
-            <div className={styles.nationalSocietyDetail}>
-                <NationalSocietyLocalUnitsMap className={styles.map} />
+            <NationalSocietyLocalUnitsMap />
+            <div className={styles.nsDirectoryAndContacts}>
                 <NationalSocietyDirectory className={styles.directory} />
+                <NationalSocietyContacts className={styles.contacts} />
             </div>
-            <NationalSocietyContacts />
             <NationalSocietyKeyDocuments />
             {isDefined(countryResponse) && (
                 <Container

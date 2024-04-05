@@ -28,7 +28,7 @@ const snippetKeySelector = (s: RegionSnippetType) => s.id;
 
 interface RegionKeyFigureProps {
     figure: string;
-    deck: string;
+    deck: string | null | undefined;
     source: string;
 }
 

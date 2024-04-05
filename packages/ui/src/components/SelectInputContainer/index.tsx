@@ -366,7 +366,7 @@ function SelectInputContainer<
                         pending={optionsPending}
                         pendingMessage={strings.selectInputPendingMessage}
                         emptyMessage={strings.selectInputEmptyMessage}
-                        filteredMessage={strings.selectInputFilteredMessage}
+                        filteredEmptyMessage={strings.selectInputFilteredMessage}
                         errorMessage={strings.selectInputErrorMessage}
                         compact
                     />

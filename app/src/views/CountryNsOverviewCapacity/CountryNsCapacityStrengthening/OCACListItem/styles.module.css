@@ -5,8 +5,6 @@
     .ocac-detail {
         display: flex;
         flex-direction: column;
-        gap: var(--go-ui-spacing-sm);
-        padding: var(--go-ui-spacing-md);
 
         .date {
             font-size: var(--go-ui-font-size-3xl);

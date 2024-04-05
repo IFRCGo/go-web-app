@@ -12,12 +12,10 @@ import {
     DownloadFillIcon,
 } from '@ifrc-go/icons';
 import {
-    BlockLoading,
     Button,
     Container,
     Grid,
     Heading,
-    InputSection,
     KeyFigure,
     Message,
     PieChart,
@@ -80,12 +78,14 @@ function primaryRedColorShadeSelector(_: unknown, i: number) {
     return primaryRedColorShades[i];
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const noOp = () => {};
+
 // eslint-disable-next-line import/prefer-default-export
 function PrivateCountryPreparedness() {
     const strings = useTranslation(i18n);
     const { perId, countryId } = useParams<{ perId: string, countryId: string }>();
 
-    const [fileId, setFileId] = useState<number | undefined>();
     const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
 
     const {
@@ -410,8 +410,7 @@ function PrivateCountryPreparedness() {
         || perFormAreaPending
         || perProcessStatusPending
         || assessmentResponsePending
-        || prioritizationResponsePending
-        || perDocumentsPending;
+        || prioritizationResponsePending;
 
     const [showExportModal, {
         setTrue: setShowExportModalTrue,
@@ -423,7 +422,7 @@ function PrivateCountryPreparedness() {
         onDeleteSuccess: refetchDocuments,
     }), [refetchDocuments]);
 
-    const documentUploadUrlQuery = useMemo(
+    const documentUploadRequestBody = useMemo(
         () => {
             if (isNotDefined(countryId) || isNotDefined(perId)) {
                 return undefined;
@@ -476,6 +475,8 @@ function PrivateCountryPreparedness() {
                     <ArrowLeftLineIcon className={styles.backIcon} />
                 </Button>
             )}
+            pending={pending}
+            contentViewType="grid"
         >
             <div className={styles.perOverviewDetails}>
                 <TextOutput
@@ -675,39 +676,39 @@ function PrivateCountryPreparedness() {
                     heading={strings.relevantDocumentHeader}
                     className={styles.relevantDocuments}
                     withHeaderBorder
-                >
-                    <InputSection
-                        className={styles.uploadInputSection}
-                    >
+                    contentViewType="vertical"
+                    pending={perDocumentsPending}
+                    actions={(
                         <GoSingleFileInput
                             name="country_ns_upload"
                             accept=".pdf, .docx, .pptx"
                             fileIdToUrlMap={fileIdToUrlMap}
-                            onChange={setFileId}
+                            onChange={noOp}
                             url="/api/v2/per-document-upload/"
-                            urlQuery={documentUploadUrlQuery}
-                            value={fileId}
+                            requestBody={documentUploadRequestBody}
+                            value={undefined}
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             clearable
                             disabled={
                                 (perDocumentsResponse?.count ?? 0) >= MAX_PER_DOCUMENT_COUNT
                             }
-                            countryId={countryId}
                             onSuccess={refetchDocuments}
-                            description={(
-                                (perDocuments?.length ?? 0 > 9) ? strings.uploadLimitDisclaimer
-                                    : undefined
-                            )}
+                            withoutPreview
+                            withoutStatus
                         >
                             {strings.upload}
-
                         </GoSingleFileInput>
-                    </InputSection>
+                    )}
+                    footerContent={(
+                        (perDocuments?.length ?? 0 > 9) ? strings.uploadLimitDisclaimer
+                            : undefined
+                    )}
+                >
                     {(perDocuments && perDocuments?.length > 0) && (
                         <Grid
                             className={styles.perDocuments}
                             data={perDocuments}
-                            pending={perDocumentsPending}
+                            pending={false}
                             errored={isDefined(perDocumentsError)}
                             filtered={false}
                             keySelector={numericIdSelector}
@@ -717,9 +718,6 @@ function PrivateCountryPreparedness() {
                         />
                     )}
                 </Container>
-            )}
-            {pending && (
-                <BlockLoading className={styles.pendingMessage} />
             )}
         </Container>
     );

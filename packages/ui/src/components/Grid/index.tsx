@@ -1,19 +1,16 @@
-import { useMemo } from 'react';
 import {
     _cs,
     isNotDefined,
 } from '@togglecorp/fujs';
 
-import Message from '#components/Message';
+import DefaultMessage from '#components/DefaultMessage';
 import RawList, {
     type ListKey,
     type Props as RawListProps,
 } from '#components/RawList';
 import { type SpacingType } from '#components/types';
 import useSpacingTokens from '#hooks/useSpacingTokens';
-import useTranslation from '#hooks/useTranslation';
 
-import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type NumColumn = 2 | 3 | 4 | 5;
@@ -34,9 +31,10 @@ export interface Props<
     emptyMessage?: React.ReactNode;
     pendingMessage?: React.ReactNode;
     errorMessage?: React.ReactNode;
-    filteredMessage?: React.ReactNode;
+    filteredEmptyMessage?: React.ReactNode;
 
     compact?: boolean;
+    withoutMessage?: boolean;
 }
 
 function Grid<DATUM, KEY extends ListKey, RENDERER_PROPS>(
@@ -55,40 +53,16 @@ function Grid<DATUM, KEY extends ListKey, RENDERER_PROPS>(
         errored,
         filtered,
 
-        errorMessage: errorMessageFromProps,
-        emptyMessage: emptyMessageFromProps,
-        pendingMessage: pendingMessageFromProps,
-        filteredMessage: filteredMessageFromProps,
+        errorMessage,
+        emptyMessage,
+        pendingMessage,
+        filteredEmptyMessage,
 
         compact,
+        withoutMessage,
     } = props;
 
-    const strings = useTranslation(i18n);
-
-    const filteredMessage = filteredMessageFromProps ?? strings.gridFilteredMessage;
-    const pendingMessage = pendingMessageFromProps ?? strings.gridPendingMessage;
-    const emptyMessage = emptyMessageFromProps ?? strings.gridEmptyMessage;
-    const errorMessage = errorMessageFromProps ?? strings.gridFailedToFetch;
-
     const isEmpty = isNotDefined(data) || data.length === 0;
-    const messageTitle = useMemo(
-        () => {
-            if (pending) {
-                return pendingMessage;
-            }
-
-            if (errored) {
-                return errorMessage;
-            }
-
-            if (filtered) {
-                return filteredMessage;
-            }
-
-            return emptyMessage;
-        },
-        [pending, filtered, errored, errorMessage, pendingMessage, filteredMessage, emptyMessage],
-    );
 
     const gapSpacing = useSpacingTokens({ spacing });
 
@@ -112,12 +86,19 @@ function Grid<DATUM, KEY extends ListKey, RENDERER_PROPS>(
                 renderer={renderer}
                 rendererParams={rendererParams}
             />
-            {(pending || isEmpty) && (
-                <Message
+            {!withoutMessage && (
+                <DefaultMessage
                     className={styles.message}
                     pending={pending}
-                    title={messageTitle}
+                    filtered={filtered}
+                    empty={isEmpty}
+                    errored={errored}
                     compact={compact}
+                    emptyMessage={emptyMessage}
+                    filteredEmptyMessage={filteredEmptyMessage}
+                    pendingMessage={pendingMessage}
+                    errorMessage={errorMessage}
+                    overlayPending
                 />
             )}
         </div>

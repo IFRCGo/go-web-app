@@ -37,13 +37,14 @@ export type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
     url: SupportedPaths;
     urlQuery?: Record<string, string | number | boolean>;
+    requestBody?: Record<string, string | number | boolean>;
     value: number | undefined | null;
     variant?: ButtonVariant;
     withoutPreview?: boolean;
     error?: React.ReactNode;
     description?: React.ReactNode;
-    countryId?: string | undefined | null;
     onSuccess?: () => void;
+    withoutStatus?: boolean;
 }
 
 function GoSingleFileInput<T extends NameType>(props: Props<T>) {
@@ -68,8 +69,9 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
         withoutPreview,
         error,
         description,
-        countryId,
+        requestBody,
         onSuccess,
+        withoutStatus,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -89,7 +91,8 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
         onSuccess: (response) => {
             const { id, file } = response;
             onChange(id, name);
-            if (isDefined(countryId) && isDefined(onSuccess)) {
+
+            if (isDefined(onSuccess)) {
                 onSuccess();
             }
 
@@ -126,13 +129,21 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
     });
 
     const handleChange = useCallback((file: File | undefined) => {
-        if (file && isNotDefined(countryId)) {
-            triggerFileUpload({ file });
+        if (isNotDefined(file)) {
+            return;
         }
-        if (file && isDefined(countryId)) {
-            triggerFileUpload({ country: Number(countryId), file });
+
+        if (isDefined(requestBody)) {
+            triggerFileUpload({
+                file,
+                ...requestBody,
+            });
+
+            return;
         }
-    }, [triggerFileUpload, countryId]);
+
+        triggerFileUpload({ file });
+    }, [triggerFileUpload, requestBody]);
 
     const disabled = disabledFromProps || pending || readOnly;
     const actions = (!readOnly && !disabled ? actionsFromProps : null);
@@ -158,7 +169,7 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
                 >
                     {children}
                 </RawFileInput>
-                {clearable && value && isNotDefined(countryId) && (
+                {clearable && value && (
                     <IconButton
                         className={styles.removeButton}
                         name={undefined}
@@ -173,14 +184,15 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
                     </IconButton>
                 )}
             </div>
-            {!withoutPreview && isDefined(selectedFileUrl) ? (
+            {!withoutPreview && isDefined(selectedFileUrl) && (
                 <Link
                     href={selectedFileUrl}
                     external
                 >
                     {selectedFileUrl.split('/').pop()}
                 </Link>
-            ) : (
+            )}
+            {isNotDefined(selectedFileUrl) && !withoutStatus && (
                 <div className={styles.emptyMessage}>
                     {strings.noFileSelected}
                 </div>

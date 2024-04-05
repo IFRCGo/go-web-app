@@ -7,6 +7,7 @@ import {
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     _cs,
+    isDefined,
     isTruthyString,
 } from '@togglecorp/fujs';
 
@@ -55,7 +56,7 @@ function NationalSocietyDirectory(props: Props) {
             childrenContainerClassName={styles.content}
             heading={strings.countryNSDirectoryTitle}
             withHeaderBorder
-            footerActions={(
+            footerActions={isDefined(directoryList) && directoryList.length > 0 && (
                 <TextOutput
                     label={strings.countryNSDirectorySource}
                     value={(
@@ -80,7 +81,6 @@ function NationalSocietyDirectory(props: Props) {
                 keySelector={({ id }) => id}
                 renderer={NsDirectory}
                 rendererParams={(_, datum) => ({ directory: datum })}
-                compact
             />
         </Container>
     );

@@ -119,7 +119,7 @@ function NationalSocietyKeyDocuments() {
                     />
                 </>
             )}
-            footerActions={(
+            footerActions={isDefined(groupedDocumentsList) && groupedDocumentsList.length > 0 && (
                 <TextOutput
                     label={strings.source}
                     value={(

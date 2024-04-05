@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 import {
     BarChart,
     Container,
-    Message,
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -90,11 +89,10 @@ function NationalSocietyIncomeSourceBreakdown(props: Props) {
                     )}
                 />
             )}
+            empty={isNotDefined(incomeListForSelectedYear)
+                || incomeListForSelectedYear.length === 0}
+            emptyMessage={strings.incomeSourceBreakdownNotAvailableMessage}
         >
-            {(isNotDefined(incomeListForSelectedYear)
-                || incomeListForSelectedYear.length === 0) && (
-                <Message description={strings.incomeSourceBreakdownNotAvailableMessage} />
-            )}
             <BarChart
                 data={incomeListForSelectedYear}
                 labelSelector={incomeSourceLabelSelector}
