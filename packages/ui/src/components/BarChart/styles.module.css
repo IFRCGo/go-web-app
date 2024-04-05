@@ -8,6 +8,12 @@
         align-items: center;
         gap: var(--go-ui-spacing-md);
 
+        &.hoverable {
+            &:hover {
+                background-color: var(--go-ui-color-background-hover);
+            }
+        }
+
         .label {
             width: 30%;
             font-weight: var(--go-ui-font-weight-medium);
