@@ -1,14 +1,14 @@
 import { ValidateEnv as validateEnv } from '@julr/vite-plugin-validate-env';
+import { defineConfig, loadEnv } from 'vite';
+import tsconfigPaths from 'vite-tsconfig-paths';
+import webfontDownload from 'vite-plugin-webfont-dl';
 import reactSwc from '@vitejs/plugin-react-swc';
 import { execSync } from 'child_process';
 import { visualizer } from 'rollup-plugin-visualizer';
-import { defineConfig, loadEnv } from 'vite';
 import checker from 'vite-plugin-checker';
 import { compression } from 'vite-plugin-compression2';
 import { VitePluginRadar } from 'vite-plugin-radar';
 import svgr from 'vite-plugin-svgr';
-import webfontDownload from 'vite-plugin-webfont-dl';
-import tsconfigPaths from 'vite-tsconfig-paths';
 
 import envConfig from './env';
 
@@ -77,6 +77,10 @@ export default defineConfig(({ mode }) => {
         },
         test: {
             environment: 'happy-dom',
+            coverage: {
+                enabled: true,
+                reporter: 'html',
+            },
         },
     };
 });
