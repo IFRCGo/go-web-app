@@ -19,7 +19,7 @@ import { useRequest } from '#utils/restRequest';
 import i18n from './i18n.json';
 
 type ExportTypeEnum = components<'read'>['schemas']['ExportTypeEnum'];
-type ExportStatusEnum = components<'read'>['schemas']['Status1d2Enum'];
+type ExportStatusEnum = components<'read'>['schemas']['ExportStatusEnum'];
 
 const EXPORT_STATUS_PENDING = 0 satisfies ExportStatusEnum;
 const EXPORT_STATUS_COMPLETED = 1 satisfies ExportStatusEnum;
@@ -57,6 +57,7 @@ function DrefExportModal(props: Props) {
                 export_id: id,
                 export_type: type,
                 selector: '#pdf-preview-ready',
+                per_country: undefined, // FIXME: typing is altered by the useRequest function
             };
         },
         [id, applicationType],

@@ -6,12 +6,16 @@
     }
 
     .table {
+        .status,
         .date {
-            width: 7rem;
+            width: 0%;
+            min-width: 7rem;
         }
 
+        .type,
         .appeal-code {
-            width: 8rem;
+            width: 0%;
+            min-width: 8rem;
         }
 
         .title {
@@ -19,8 +23,10 @@
             min-width: 8rem;
         }
 
+        .actions,
         .stage {
-            width: 8rem;
+            width: 0%;
+            min-width: 9rem;
         }
 
         .sub-cell {

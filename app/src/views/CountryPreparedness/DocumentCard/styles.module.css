@@ -14,7 +14,7 @@
 
         .name {
             display: flex;
-            word-break: break-all;
+            word-break: break-word;
         }
     }
 

@@ -14,13 +14,11 @@ import {
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
-    TextOutput,
-    type TextOutputProps,
-} from '@ifrc-go/ui/printable';
-import {
     DescriptionText,
     Heading,
     Image,
+    TextOutput,
+    type TextOutputProps,
 } from '@ifrc-go/ui/printable';
 import {
     _cs,
@@ -375,8 +373,6 @@ export function Component() {
                     valueClassName={_cs(
                         isDefined(drefResponse)
                         && isDefined(drefResponse.disaster_category)
-                        // FIXME: empty string in enum
-                        && drefResponse.disaster_category !== ''
                         && colorMap[drefResponse.disaster_category],
                     )}
                     strongValue

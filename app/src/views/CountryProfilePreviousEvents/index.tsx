@@ -133,7 +133,7 @@ export function Component() {
     } = useRequest({
         skip: isNotDefined(countryId) || isNotDefined(selectedTimePeriod),
         url: '/api/v2/country/{id}/figure/',
-        pathVariables: { id: countryId },
+        pathVariables: { id: Number(countryId) },
         query: isDefined(selectedTimePeriod) ? ({
             start_date: encodeDate(selectedTimePeriod.startDate),
             end_date: encodeDate(selectedTimePeriod.endDate),

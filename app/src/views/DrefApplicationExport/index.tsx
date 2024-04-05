@@ -399,8 +399,6 @@ export function Component() {
                     valueClassName={_cs(
                         isDefined(drefResponse)
                         && isDefined(drefResponse.disaster_category)
-                        // FIXME: empty string in enum
-                        && drefResponse.disaster_category !== ''
                         && colorMap[drefResponse.disaster_category],
                     )}
                     strongValue
