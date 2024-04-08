@@ -117,8 +117,7 @@ function ActiveDrefTable(props: Props) {
             } = dref;
 
             if (has_final_report) {
-                const finalReportList = final_report_details;
-                return finalReportList[0];
+                return final_report_details;
             }
 
             if (has_ops_update) {
@@ -194,11 +193,13 @@ function ActiveDrefTable(props: Props) {
                 'type_of_dref',
                 strings.activeDrefTableTypeOfDrefHeading,
                 (item) => item.type_of_dref_display,
+                { columnClassName: styles.type },
             ),
             createStringColumn<LatestDref, Key>(
                 'status',
                 strings.activeDrefTableStatusHeading,
                 (item) => item.status_display,
+                { columnClassName: styles.status },
             ),
             createElementColumn<LatestDref, Key, DrefTableActionsProps>(
                 'actions',
@@ -259,6 +260,7 @@ function ActiveDrefTable(props: Props) {
                         onPublishSuccess: refetchActiveDref,
                     };
                 },
+                { columnClassName: styles.actions },
             ),
         ]),
         [
@@ -319,11 +321,10 @@ function ActiveDrefTable(props: Props) {
                 operational_update_details,
             } = originalDref;
 
-            const finalReportList = final_report_details;
             const opsUpdateList = operational_update_details;
 
             const subRows: LatestDref[] = [
-                ...finalReportList,
+                final_report_details,
                 ...opsUpdateList,
                 originalDref,
             ].slice(1);

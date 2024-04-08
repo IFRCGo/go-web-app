@@ -6,7 +6,7 @@ import {
 import { type components } from '#generated/types';
 import { type GoApiResponse } from '#utils/restRequest';
 
-type PerPhase = components<'read'>['schemas']['PhaseEnum'];
+type PerPhase = components<'read'>['schemas']['PerPerphasesEnumKey'];
 type PerComponent = Pick<components<'read'>['schemas']['FormComponent'], 'title' | 'component_letter' | 'component_num'>;
 
 export const PER_PHASE_OVERVIEW = 1 satisfies PerPhase;

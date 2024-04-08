@@ -12,7 +12,7 @@ import { type components } from '#generated/types';
 
 import { type PartialOpsUpdate } from './schema';
 
-export type TypeOfDrefEnum = components<'read'>['schemas']['TypeOfDrefEnum'];
+export type TypeOfDrefEnum = components<'read'>['schemas']['DrefDrefDrefTypeEnumKey'];
 
 // FIXME: use constants from common
 type TypeOfOnsetEnum = components<'read'>['schemas']['TypeValidatedEnum'];

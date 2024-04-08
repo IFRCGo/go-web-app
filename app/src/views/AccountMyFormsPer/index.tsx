@@ -148,7 +148,7 @@ export function Component() {
                     perId,
                     phase: statusItem.phase,
                     phaseDisplay: statusItem.phase_display,
-                    country: statusItem.country_details.name,
+                    country: statusItem.country_details.name ?? '--',
                 }),
             ),
         ]),
