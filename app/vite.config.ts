@@ -62,6 +62,7 @@ export default defineConfig(({ mode }) => {
         build: {
             outDir: '../build',
             sourcemap: isProd,
+            emptyOutDir: true,
             rollupOptions: {
                 output: {
                     chunkFileNames: `${env.npm_package_version}/chunk-[name].[hash].js`,
