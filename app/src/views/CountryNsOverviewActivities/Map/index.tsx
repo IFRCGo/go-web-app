@@ -114,6 +114,10 @@ function generateProjectsLineGeoJson(
     countries: Country[],
     projectList: Project[],
 ): ProjectLineGeoJson | undefined {
+    if (countries.length < 1) {
+        return undefined;
+    }
+
     const relationsMap = listToMap(
         projectList,
         (project) => `${project.project_country}-${project.reporting_ns}`,
