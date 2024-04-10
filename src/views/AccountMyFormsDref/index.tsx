@@ -19,7 +19,7 @@ export function Component() {
         <div className={styles.accountDrefApplications}>
             <div className={styles.drefFeedbackForm}>
                 <Link
-                    href="https://forms.office.com/pages/responsepage.aspx?id=5Tu1ok5zbE6rDdGE9g_ZFwFnyoRVgjpFtGr2viq4vX9UN0IwQ0NCQkpNSElDRVk1R1U3Q0tJV1I5VS4u"
+                    href="https://forms.office.com/e/wFQsu0V7Zb"
                     variant="tertiary"
                     external
                     withLinkIcon
