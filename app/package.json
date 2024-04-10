@@ -27,6 +27,7 @@
         "lint:unused": "unimported",
         "lint:translation": "yarn translatte:lint",
         "lint": "yarn lint:js && yarn lint:css && yarn lint:unused && yarn lint:translation",
+        "lint:fix": "yarn lint:js --fix && yarn lint:css --fix",
         "test": "vitest",
         "test:coverage": "vitest run --coverage",
         "surge:deploy": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); branch=$(echo $branch  | tr ./ -); cp build/index.html build/200.html; surge -p build/ -d https://ifrc-go-$branch.surge.sh",
