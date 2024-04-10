@@ -8,6 +8,8 @@ import mergeMigrations from './commands/mergeMigrations';
 
 import applyMigrations from './commands/applyMigrations';
 import generateMigration from './commands/generateMigration';
+import exportMigration from './commands/exportMigration';
+import { join, basename } from 'path';
 
 const currentDir = cwd();
 
@@ -85,7 +87,7 @@ yargs(hideBin(process.argv))
         (yargs) => {
             yargs.positional('MIGRATION_FILE_PATH', {
                 type: 'string',
-                describe: 'Find the migration files on MIGRATION_FILE_PATH',
+                describe: 'Find the migration file on MIGRATION_FILE_PATH',
             });
             yargs.options({
                 'dry-run': {
@@ -149,6 +151,35 @@ yargs(hideBin(process.argv))
                 argv.TRANSLATION_FILE as string,
                 new Date().getTime(),
                 argv.dryRun as (boolean | undefined),
+            );
+        },
+    )
+    .command(
+        'export-migration <MIGRATION_FILE_PATH> <OUTPUT_DIR>',
+        'Export migration file to excel format which can be used to translate the new and updated strings',
+        (yargs) => {
+            yargs.positional('MIGRATION_FILE_PATH', {
+                type: 'string',
+                describe: 'Find the migration file on MIGRATION_FILE_PATH',
+            });
+            yargs.positional('OUTPUT_DIR', {
+                type: 'string',
+                describe: 'Directory where the output xlsx should be saved',
+            });
+        },
+        async (argv) => {
+            const migrationFilePath = (argv.MIGRATION_FILE_PATH as string);
+
+            const outputDir = argv.OUTPUT_DIR as string;
+
+            // Get only the filename without extension
+            const exportFileName = basename(migrationFilePath, '.json');
+
+            const exportFilePath = join(outputDir, exportFileName);
+
+            await exportMigration(
+                argv.MIGRATION_FILE_PATH as string,
+                exportFilePath,
             );
         },
     )

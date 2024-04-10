@@ -1,0 +1,704 @@
+{
+    "parent": "000002-1710930687486.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "dropdownPerActionExportLabel",
+            "namespace": "accountMyFormsPer",
+            "value": "Export"
+        },
+        {
+            "action": "add",
+            "key": "failureToDownloadMessage",
+            "namespace": "accountMyFormsPer",
+            "value": "Failed to download the PER form. Please try again."
+        },
+        {
+            "action": "add",
+            "key": "failureToExportMessage",
+            "namespace": "accountMyFormsPer",
+            "value": "Failed to export the PER form. Please try again."
+        },
+        {
+            "action": "add",
+            "key": "perClickDownloadLink",
+            "namespace": "common",
+            "value": "Click on the download link below!"
+        },
+        {
+            "action": "add",
+            "key": "perDownloadPDF",
+            "namespace": "common",
+            "value": "Download PDF"
+        },
+        {
+            "action": "add",
+            "key": "perExportFailed",
+            "namespace": "common",
+            "value": "Export failed"
+        },
+        {
+            "action": "add",
+            "key": "perExportSuccessfully",
+            "namespace": "common",
+            "value": "Export completed successfully"
+        },
+        {
+            "action": "add",
+            "key": "perExportTitle",
+            "namespace": "common",
+            "value": "Export PER"
+        },
+        {
+            "action": "add",
+            "key": "perPreparingExport",
+            "namespace": "common",
+            "value": "Preparing for export..."
+        },
+        {
+            "action": "add",
+            "key": "perWaitingExport",
+            "namespace": "common",
+            "value": "Waiting for the export to complete..."
+        },
+        {
+            "action": "remove",
+            "key": "listFilteredMessage",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "listPendingMessage",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "messageTitleNotAvailable",
+            "namespace": "common"
+        },
+        {
+            "action": "update",
+            "key": "listEmptyMessage",
+            "newKey": "messageTitleDataNotAvailable",
+            "namespace": "common"
+        },
+        {
+            "action": "update",
+            "key": "listFailedToFetch",
+            "newKey": "messageTitleDataFailedToFetch",
+            "namespace": "common"
+        },
+        {
+            "action": "update",
+            "key": "messageTitleSelected",
+            "newKey": "messageTitleFilterdDataNotAvailable",
+            "namespace": "common"
+        },
+        {
+            "action": "add",
+            "key": "climateKnowledgePortal",
+            "namespace": "countryClimateChart",
+            "value": "The World Bank"
+        },
+        {
+            "action": "remove",
+            "key": "openMeteo",
+            "namespace": "countryClimateChart"
+        },
+        {
+            "action": "update",
+            "key": "climateChangePrecipitation",
+            "namespace": "countryClimateChart",
+            "newValue": "Precipitation"
+        },
+        {
+            "action": "add",
+            "key": "countryOngoingActivitiesDREFOperations",
+            "namespace": "countryKeyFigures",
+            "value": "Active DREF Operations"
+        },
+        {
+            "action": "update",
+            "key": "countryNsCapacityStrengtheningHeading",
+            "namespace": "countryNsCapacityStrengthening",
+            "newValue": "Organisational Capacity Assessments"
+        },
+        {
+            "action": "update",
+            "key": "nSActivityDescription",
+            "namespace": "countryNsOverviewActivities",
+            "newValue": "The following data displays the activities of the National Society which include emergency or non-emergency related projects, as well as ongoing and implemented/closed initiatives funded by the different NSD funding mechanisms. The displayed data is based on reporting and may not be fully indicative of all the activities."
+        },
+        {
+            "action": "add",
+            "key": "perCycleHeadingDescription",
+            "namespace": "countryNsOverviewCapacity",
+            "value": "Last update: {updatedDate}"
+        },
+        {
+            "action": "add",
+            "key": "perFocalPointLabel",
+            "namespace": "countryNsOverviewCapacity",
+            "value": "PER focal point"
+        },
+        {
+            "action": "add",
+            "key": "perTypeOfAssessmentLabel",
+            "namespace": "countryNsOverviewCapacity",
+            "value": "Type of assessment"
+        },
+        {
+            "action": "update",
+            "key": "nSOverviewCapacityDescription",
+            "namespace": "countryNsOverviewCapacity",
+            "newValue": "The following are various processes and assessments that the NS has done with IFRC that address National Society development, capacity, preparedness, and others."
+        },
+        {
+            "action": "update",
+            "key": "strategicPrioritiesDescription",
+            "namespace": "countryNsOverviewStrategicPriorities",
+            "newValue": "The following data highlights the focus areas of the National Society as per IFRC Unified Plans and PER process. The displayed data is based on reporting and may not be fully indicative of all the priorities."
+        },
+        {
+            "action": "update",
+            "key": "countryOngoingActivitiesFigureAppealDescription",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "newNamespace": "countryKeyFigures"
+        },
+        {
+            "action": "update",
+            "key": "countryOngoingActivitiesKeyFiguresActiveAppeals",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "newNamespace": "countryKeyFigures"
+        },
+        {
+            "action": "update",
+            "key": "countryOngoingActivitiesKeyFiguresAppealsFunding",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "newNamespace": "countryKeyFigures"
+        },
+        {
+            "action": "update",
+            "key": "countryOngoingActivitiesKeyFiguresAppealsTitle",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "newNamespace": "countryKeyFigures"
+        },
+        {
+            "action": "update",
+            "key": "countryOngoingActivitiesKeyFiguresBudget",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "newNamespace": "countryKeyFigures"
+        },
+        {
+            "action": "update",
+            "key": "countryOngoingActivitiesKeyFiguresDref",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "newNamespace": "countryKeyFigures"
+        },
+        {
+            "action": "update",
+            "key": "countryOngoingActivitiesKeyFiguresDrefTitle",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "newNamespace": "countryKeyFigures"
+        },
+        {
+            "action": "update",
+            "key": "countryOngoingActivitiesKeyFiguresTargetPop",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "newNamespace": "countryKeyFigures"
+        },
+        {
+            "action": "add",
+            "key": "download",
+            "namespace": "countryPreparedness",
+            "value": "Download"
+        },
+        {
+            "action": "add",
+            "key": "relevantDocumentDeletedFailureMessage",
+            "namespace": "countryPreparedness",
+            "value": "Failed to delete the document."
+        },
+        {
+            "action": "add",
+            "key": "relevantDocumentDeletedSuccessMessage",
+            "namespace": "countryPreparedness",
+            "value": "Document deleted successfully."
+        },
+        {
+            "action": "add",
+            "key": "removeFileButtonTitle",
+            "namespace": "countryPreparedness",
+            "value": "Remove"
+        },
+        {
+            "action": "remove",
+            "key": "component0NotReviewed",
+            "namespace": "countryPreparedness"
+        },
+        {
+            "action": "remove",
+            "key": "componentNotReviewed",
+            "namespace": "countryPreparedness"
+        },
+        {
+            "action": "remove",
+            "key": "priorityComponentHeading",
+            "namespace": "countryPreparedness"
+        },
+        {
+            "action": "remove",
+            "key": "publicComponentFetchingData",
+            "namespace": "countryPreparedness"
+        },
+        {
+            "action": "remove",
+            "key": "publicPriorityComponentHeading",
+            "namespace": "countryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "averageComponentRatingLabel",
+            "namespace": "countryPreparedness",
+            "newNamespace": "privateCountryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "componentChartNotAvailable",
+            "namespace": "countryPreparedness",
+            "newNamespace": "privateCountryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "componentChartNotAvailableDescription",
+            "namespace": "countryPreparedness",
+            "newNamespace": "privateCountryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "componentContactPERTeam",
+            "namespace": "countryPreparedness",
+            "newNamespace": "privateCountryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "componentFetchingData",
+            "namespace": "countryPreparedness",
+            "newNamespace": "privateCountryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "componentHeading",
+            "namespace": "countryPreparedness",
+            "newNamespace": "privateCountryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "componentMessageDescription",
+            "namespace": "countryPreparedness",
+            "newNamespace": "privateCountryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "componentMessagePERDataNotAvailable",
+            "namespace": "countryPreparedness",
+            "newNamespace": "privateCountryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "componentRatingResultsHeading",
+            "namespace": "countryPreparedness",
+            "newNamespace": "privateCountryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "componentsByAreaHeading",
+            "namespace": "countryPreparedness",
+            "newNamespace": "privateCountryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "highlightedTopRatedComponentHeading",
+            "namespace": "countryPreparedness",
+            "newNamespace": "privateCountryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "NSResponseHeading",
+            "namespace": "countryPreparedness",
+            "newNamespace": "privateCountryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "perAssessmentHeading",
+            "namespace": "countryPreparedness",
+            "newNamespace": "privateCountryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "priorityComponentToBeStrengthenedHeading",
+            "namespace": "countryPreparedness",
+            "newNamespace": "privateCountryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "totalBenchmarkSummaryHeading",
+            "namespace": "countryPreparedness",
+            "newNamespace": "privateCountryPreparedness"
+        },
+        {
+            "action": "add",
+            "key": "ifrc",
+            "namespace": "countryPresence",
+            "value": "IFRC"
+        },
+        {
+            "action": "update",
+            "key": "supportingPartnersTabTitle",
+            "namespace": "countryProfile",
+            "newNamespace": "countryNsOverview"
+        },
+        {
+            "action": "remove",
+            "key": "drefFormPeopleTargeted",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefFormPeopleTargetedDescription",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "add",
+            "key": "drefFormPeopleAssisted",
+            "namespace": "drefFinalReportForm",
+            "value": "Number of people assisted"
+        },
+        {
+            "action": "remove",
+            "key": "finalReportPeopleTargeted",
+            "namespace": "drefFinalReportForm"
+        },
+        {
+            "action": "update",
+            "key": "drefFormPeopleTargetedDescription",
+            "newKey": "drefFormPeopleAssistedDescription",
+            "namespace": "drefFinalReportForm"
+        },
+        {
+            "action": "add",
+            "key": "initiativeFund",
+            "namespace": "initiativeCard",
+            "value": "Fund({fundType})"
+        },
+        {
+            "action": "add",
+            "key": "initiativeYearApprovedAndDuration",
+            "namespace": "initiativeCard",
+            "value": "{yearApproved}({duration} months)"
+        },
+        {
+            "action": "remove",
+            "key": "initiativeFundingPeriodTitle",
+            "namespace": "initiativeCard"
+        },
+        {
+            "action": "remove",
+            "key": "initiativeMonthsSuffix",
+            "namespace": "initiativeCard"
+        },
+        {
+            "action": "update",
+            "key": "initiativeAllocationTitle",
+            "namespace": "initiativeCard",
+            "newValue": "Allocation (CHF)"
+        },
+        {
+            "action": "update",
+            "key": "initiativeFundNameTitle",
+            "namespace": "initiativeCard",
+            "newValue": "Fund initiative name"
+        },
+        {
+            "action": "update",
+            "key": "initiativeYearApprovedTitle",
+            "namespace": "initiativeCard",
+            "newValue": "Year Approved/Duration"
+        },
+        {
+            "action": "update",
+            "key": "nSDirectoryInitiativesTitle",
+            "namespace": "nsDirectoryInitiatives",
+            "newValue": "Active NSD funded initiatives"
+        },
+        {
+            "action": "add",
+            "key": "filterLastFiveYearsLabel",
+            "namespace": "pastEventsChart",
+            "value": "Last 5 years"
+        },
+        {
+            "action": "add",
+            "key": "filterLastTenYearsLabel",
+            "namespace": "pastEventsChart",
+            "value": "Last 10 years"
+        },
+        {
+            "action": "add",
+            "key": "componentsByArea",
+            "namespace": "perExport",
+            "value": "Components by Area"
+        },
+        {
+            "action": "add",
+            "key": "perComponentNotReviewed",
+            "namespace": "perExport",
+            "value": "0 - Not reviewed"
+        },
+        {
+            "action": "add",
+            "key": "perComponentRatingResultsHeading",
+            "namespace": "perExport",
+            "value": "Components Rating Results"
+        },
+        {
+            "action": "add",
+            "key": "perExportAssessmentHeading",
+            "namespace": "perExport",
+            "value": "PER Process Results"
+        },
+        {
+            "action": "add",
+            "key": "perExportAverageComponentRatingLabel",
+            "namespace": "perExport",
+            "value": "Average Component Rating"
+        },
+        {
+            "action": "add",
+            "key": "perExportCycleLabel",
+            "namespace": "perExport",
+            "value": "PER Cycle"
+        },
+        {
+            "action": "add",
+            "key": "perExportFocalPointEmailTitle",
+            "namespace": "perExport",
+            "value": "Email"
+        },
+        {
+            "action": "add",
+            "key": "perExportFocalPointNameLabel",
+            "namespace": "perExport",
+            "value": "Focal Point"
+        },
+        {
+            "action": "add",
+            "key": "perExportNSPreparedness",
+            "namespace": "perExport",
+            "value": "NS Preparedness and Response Capacity"
+        },
+        {
+            "action": "add",
+            "key": "perExportPhaseLabel",
+            "namespace": "perExport",
+            "value": "PER Phase"
+        },
+        {
+            "action": "add",
+            "key": "perExportStartDateLabel",
+            "namespace": "perExport",
+            "value": "Start Date"
+        },
+        {
+            "action": "add",
+            "key": "perExportTitle",
+            "namespace": "perExport",
+            "value": "PER"
+        },
+        {
+            "action": "add",
+            "key": "perExportTotalBenchmarkSummaryHeading",
+            "namespace": "perExport",
+            "value": "Total Benchmark Summary: "
+        },
+        {
+            "action": "add",
+            "key": "perExportTypeOfAssessmentLabel",
+            "namespace": "perExport",
+            "value": "Type of Assessment"
+        },
+        {
+            "action": "add",
+            "key": "perHighlightedTopRatedComponentHeading",
+            "namespace": "perExport",
+            "value": "Highlighted Top Rated Components"
+        },
+        {
+            "action": "add",
+            "key": "perImageLogoIFRCAlt",
+            "namespace": "perExport",
+            "value": "IFRC"
+        },
+        {
+            "action": "add",
+            "key": "perNSResponseHeading",
+            "namespace": "perExport",
+            "value": "NS Response Mechanism Performance"
+        },
+        {
+            "action": "add",
+            "key": "actionStatusInputPlaceholder",
+            "namespace": "perWorkPlanForm",
+            "value": "Status"
+        },
+        {
+            "action": "add",
+            "key": "actionSupportedByOrganizationInputLabel",
+            "namespace": "perWorkPlanForm",
+            "value": "Supported by"
+        },
+        {
+            "action": "add",
+            "key": "actionSupportedByOrganizationInputPlaceholder",
+            "namespace": "perWorkPlanForm",
+            "value": "Select NS"
+        },
+        {
+            "action": "add",
+            "key": "componentOrganizationInputPlaceholder",
+            "namespace": "perWorkPlanForm",
+            "value": "Organization type"
+        },
+        {
+            "action": "add",
+            "key": "componentSupportedByOrganizationInputLabel",
+            "namespace": "perWorkPlanForm",
+            "value": "Supported by"
+        },
+        {
+            "action": "remove",
+            "key": "actionInputStatusPlaceholder",
+            "namespace": "perWorkPlanForm"
+        },
+        {
+            "action": "update",
+            "key": "actionInputSupportedByLabel",
+            "namespace": "perWorkPlanForm",
+            "newValue": "Supporting National Society"
+        },
+        {
+            "action": "update",
+            "key": "actionInputSupportedByPlaceholder",
+            "namespace": "perWorkPlanForm",
+            "newValue": "National Society"
+        },
+        {
+            "action": "update",
+            "key": "componentStatusInputPlaceholder",
+            "namespace": "perWorkPlanForm",
+            "newValue": "Status"
+        },
+        {
+            "action": "update",
+            "key": "componentSupportedByInputLabel",
+            "namespace": "perWorkPlanForm",
+            "newValue": "Supporting National Society"
+        },
+        {
+            "action": "update",
+            "key": "componentSupportedByInputPlaceholder",
+            "namespace": "perWorkPlanForm",
+            "newValue": "National Society"
+        },
+        {
+            "action": "add",
+            "key": "populationPopupYearLabel",
+            "namespace": "populationMap",
+            "value": "Year"
+        },
+        {
+            "action": "add",
+            "key": "componentNotReviewed",
+            "namespace": "privateCountryPreparedness",
+            "value": "0 - Not reviewed"
+        },
+        {
+            "action": "add",
+            "key": "focalPointEmailTitle",
+            "namespace": "privateCountryPreparedness",
+            "value": "Email"
+        },
+        {
+            "action": "add",
+            "key": "focalPointNameLabel",
+            "namespace": "privateCountryPreparedness",
+            "value": "Focal Point"
+        },
+        {
+            "action": "add",
+            "key": "goBackButtonTitle",
+            "namespace": "privateCountryPreparedness",
+            "value": "Go back"
+        },
+        {
+            "action": "add",
+            "key": "lastUpdatedLabel",
+            "namespace": "privateCountryPreparedness",
+            "value": "Last update"
+        },
+        {
+            "action": "add",
+            "key": "nsPreparednessAndResponseCapacityHeading",
+            "namespace": "privateCountryPreparedness",
+            "value": "NS Preparedness and Response Capacity"
+        },
+        {
+            "action": "add",
+            "key": "perCycleLabel",
+            "namespace": "privateCountryPreparedness",
+            "value": "PER Cycle"
+        },
+        {
+            "action": "add",
+            "key": "perExport",
+            "namespace": "privateCountryPreparedness",
+            "value": "Export"
+        },
+        {
+            "action": "add",
+            "key": "perPhaseLabel",
+            "namespace": "privateCountryPreparedness",
+            "value": "PER Phase"
+        },
+        {
+            "action": "add",
+            "key": "relevantDocumentHeader",
+            "namespace": "privateCountryPreparedness",
+            "value": "Relevant Documents"
+        },
+        {
+            "action": "add",
+            "key": "startDateLabel",
+            "namespace": "privateCountryPreparedness",
+            "value": "Start Date"
+        },
+        {
+            "action": "add",
+            "key": "typeOfAssessmentLabel",
+            "namespace": "privateCountryPreparedness",
+            "value": "Type of Assessment"
+        },
+        {
+            "action": "add",
+            "key": "upload",
+            "namespace": "privateCountryPreparedness",
+            "value": "Upload"
+        },
+        {
+            "action": "add",
+            "key": "uploadLimitDisclaimer",
+            "namespace": "privateCountryPreparedness",
+            "value": "Note: You can only upload upto 10 documents."
+        }
+    ]
+}
