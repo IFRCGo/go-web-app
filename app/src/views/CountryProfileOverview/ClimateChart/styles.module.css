@@ -3,22 +3,17 @@
     .temperature-chart-container {
         height: 16rem;
 
-        .svg {
-            width: 100%;
-            height: 100%;
+        .rect {
+            fill: currentColor;
+            pointer-events: none;
+        }
 
-            .rect {
-                fill: currentColor;
-                pointer-events: none;
-            }
+        .temperature {
+            color: var(--go-ui-color-red-50);
+        }
 
-            .temperature {
-                color: var(--go-ui-color-red-50);
-            }
-
-            .precipitation {
-                color: var(--go-ui-color-blue);
-            }
+        .precipitation {
+            color: var(--go-ui-color-blue);
         }
     }
 }

@@ -1,4 +1,8 @@
-import { _cs } from '@togglecorp/fujs';
+import { useMemo } from 'react';
+import {
+    _cs,
+    isNotDefined,
+} from '@togglecorp/fujs';
 
 import DefaultMessage from '#components/DefaultMessage';
 import Footer from '#components/Footer';
@@ -42,6 +46,7 @@ export interface Props {
     headingClassName?: string;
     headingContainerClassName?: string;
     headingDescription?: React.ReactNode;
+    withCenteredHeaderDescription?: boolean;
     headingDescriptionContainerClassName?: string;
     headingLevel?: HeadingProps['level'],
     headingSectionClassName?: string;
@@ -51,12 +56,15 @@ export interface Props {
     spacing?: SpacingType;
     withGridViewInFilter?: boolean;
     withHeaderBorder?: boolean;
+    withFooterBorder?: boolean;
     withInternalPadding?: boolean;
     withoutWrapInHeading?: boolean;
+    withoutWrapInFooter?: boolean;
 
     pending?: boolean;
     overlayPending?: boolean;
     empty?: boolean;
+    errored?: boolean;
     filtered?: boolean;
     compactMessage?: boolean;
 
@@ -85,7 +93,8 @@ function Container(props: Props) {
         footerContentClassName,
         footerIcons,
         headerClassName,
-        headerDescription,
+        headerDescription: headerDescriptionFromProps,
+        withCenteredHeaderDescription,
         headerDescriptionContainerClassName,
         headerElementRef,
         heading,
@@ -101,12 +110,15 @@ function Container(props: Props) {
         spacing = 'default',
         withGridViewInFilter = false,
         withHeaderBorder = false,
+        withFooterBorder = false,
         withInternalPadding = false,
         withoutWrapInHeading = false,
+        withoutWrapInFooter = false,
 
         pending = false,
         overlayPending = false,
         empty = false,
+        errored = false,
         filtered = false,
         compactMessage = false,
 
@@ -117,7 +129,11 @@ function Container(props: Props) {
     } = props;
 
     const showFooter = footerIcons || footerContent || footerActions;
-    const showHeader = heading || actions || icons || headerDescription || headingDescription;
+    const showHeader = heading
+        || actions
+        || icons
+        || headerDescriptionFromProps
+        || headingDescription;
     const gapSpacingTokens = useSpacingTokens({ spacing });
     const horizontalPaddingSpacingTokens = useSpacingTokens({
         spacing,
@@ -137,7 +153,35 @@ function Container(props: Props) {
         mode: 'grid-gap',
     });
 
-    if (!showHeader && !filters && !children && !showFooter) {
+    const headerDescription = useMemo(
+        () => {
+            if (isNotDefined(headerDescriptionFromProps)) {
+                return null;
+            }
+
+            if (!withCenteredHeaderDescription) {
+                return headerDescriptionFromProps;
+            }
+
+            return (
+                <div className={styles.centeredDescription}>
+                    {headerDescriptionFromProps}
+                </div>
+            );
+        },
+        [headerDescriptionFromProps, withCenteredHeaderDescription],
+    );
+
+    if (
+        !showHeader
+            && !filters
+            && !children
+            && !showFooter
+            && !empty
+            && !pending
+            && !errored
+            && !filtered
+    ) {
         return null;
     }
 
@@ -169,7 +213,10 @@ function Container(props: Props) {
                     headingLevel={headingLevel}
                     icons={icons}
                     iconsContainerClassName={iconsContainerClassName}
-                    childrenContainerClassName={headerDescriptionContainerClassName}
+                    childrenContainerClassName={_cs(
+                        withCenteredHeaderDescription && styles.centeredHeaderDescriptionContainer,
+                        headerDescriptionContainerClassName,
+                    )}
                     headingSectionClassName={headingSectionClassName}
                     headingClassName={headingClassName}
                     headingContainerClassName={headingContainerClassName}
@@ -195,7 +242,7 @@ function Container(props: Props) {
                     {filters}
                 </div>
             )}
-            {children && (
+            {(children || empty || pending || errored || filtered) && (
                 <div
                     className={_cs(
                         styles.content,
@@ -209,6 +256,7 @@ function Container(props: Props) {
                         className={styles.message}
                         pending={pending}
                         filtered={filtered}
+                        errored={errored}
                         empty={empty}
                         compact={compactMessage}
                         overlayPending={overlayPending}
@@ -217,9 +265,10 @@ function Container(props: Props) {
                         pendingMessage={pendingMessage}
                         errorMessage={errorMessage}
                     />
-                    {!empty && (!pending || overlayPending) && children}
+                    {!empty && !errored && (!pending || overlayPending) && children}
                 </div>
             )}
+            {showFooter && withFooterBorder && <div className={styles.border} />}
             {showFooter && (
                 <Footer
                     actions={footerActions}
@@ -232,6 +281,7 @@ function Container(props: Props) {
                     )}
                     actionsContainerClassName={footerActionsContainerClassName}
                     spacing={spacing}
+                    withoutWrap={withoutWrapInFooter}
                 >
                     {footerContent}
                 </Footer>

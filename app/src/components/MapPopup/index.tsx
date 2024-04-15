@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { CloseLineIcon } from '@ifrc-go/icons';
 import {
     Button,
@@ -11,19 +12,11 @@ import { MapPopup as BasicMapPopup } from '@togglecorp/re-map';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-const popupOptions: mapboxgl.PopupOptions = {
-    closeButton: false,
-    closeOnClick: false,
-    closeOnMove: false,
-    offset: 8,
-    className: styles.mapPopup,
-    maxWidth: 'unset',
-};
-
 interface Props extends ContainerProps {
     coordinates: mapboxgl.LngLatLike;
     children: React.ReactNode;
     onCloseButtonClick: () => void;
+    popupClassName?: string;
 }
 
 function MapPopup(props: Props) {
@@ -33,10 +26,20 @@ function MapPopup(props: Props) {
         onCloseButtonClick,
         actions,
         childrenContainerClassName,
+        popupClassName,
         ...containerProps
     } = props;
 
     const strings = useTranslation(i18n);
+
+    const popupOptions = useMemo<mapboxgl.PopupOptions>(() => ({
+        closeButton: false,
+        closeOnClick: false,
+        closeOnMove: false,
+        offset: 8,
+        className: _cs(styles.mapPopup, popupClassName),
+        maxWidth: 'unset',
+    }), [popupClassName]);
 
     return (
         <BasicMapPopup

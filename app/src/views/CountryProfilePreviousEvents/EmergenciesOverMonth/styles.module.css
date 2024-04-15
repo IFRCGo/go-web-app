@@ -1,12 +1,7 @@
 .emergencies-over-month {
     height: 16rem;
 
-    .svg {
-        width: 100%;
-        height: 100%;
-
-        .data-point {
-            color: var(--go-ui-color-primary-red);
-        }
+    .data-point {
+        color: var(--go-ui-color-primary-red);
     }
 }

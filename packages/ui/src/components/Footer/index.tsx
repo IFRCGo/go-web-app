@@ -9,6 +9,7 @@ interface Props {
     icons?: React.ReactNode;
     iconsContainerClassName?: string;
     spacing?: BasicLayoutProps['spacing'];
+    withoutWrap?: boolean;
 }
 
 function Footer(props: Props) {
@@ -21,6 +22,7 @@ function Footer(props: Props) {
         icons,
         iconsContainerClassName,
         spacing,
+        withoutWrap,
     } = props;
 
     const {
@@ -35,6 +37,7 @@ function Footer(props: Props) {
         icons,
         iconsContainerClassName,
         spacing,
+        withoutWrap,
     });
 
     return (

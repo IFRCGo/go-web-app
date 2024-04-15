@@ -1,4 +1,9 @@
-import { useMemo } from 'react';
+import {
+    createRef,
+    useCallback,
+    useMemo,
+    useState,
+} from 'react';
 import { useSizeTracking } from '@ifrc-go/ui/hooks';
 import {
     Bounds,
@@ -30,7 +35,6 @@ import {
 } from '#utils/constants';
 
 interface Options<DATUM> {
-    containerRef: React.RefObject<HTMLElement>;
     keySelector: (d: DATUM, index: number) => number | string;
     xValueSelector: (d: DATUM, index: number) => number | undefined | null;
     yValueSelector: (d: DATUM, index: number) => number | undefined | null;
@@ -55,7 +59,6 @@ function useNumericChartData<DATUM>(data: DATUM[] | null | undefined, options: O
         yValueSelector,
         chartMargin = defaultChartMargin,
         chartPadding = defaultChartPadding,
-        containerRef,
         numXAxisTicks: numXAxisTicksFromProps = 'auto',
         numYAxisTicks = 6,
         xAxisTickLabelSelector,
@@ -68,6 +71,16 @@ function useNumericChartData<DATUM>(data: DATUM[] | null | undefined, options: O
         yScale = 'linear',
     } = options;
 
+    const [containerRef, setContainerRef] = useState<React.RefObject<HTMLDivElement>>(
+        createRef,
+    );
+
+    const handleRefChange = useCallback(
+        (element: HTMLDivElement) => {
+            setContainerRef({ current: element });
+        },
+        [],
+    );
     const chartSize = useSizeTracking(containerRef);
 
     const chartData = useMemo(
@@ -309,6 +322,7 @@ function useNumericChartData<DATUM>(data: DATUM[] | null | undefined, options: O
             yAxisWidth,
             chartMargin,
             numXAxisTicks,
+            containerRef: handleRefChange,
         }),
         [
             chartPoints,
@@ -323,6 +337,7 @@ function useNumericChartData<DATUM>(data: DATUM[] | null | undefined, options: O
             numXAxisTicks,
             xAxisHeight,
             yAxisWidth,
+            handleRefChange,
         ],
     );
 }

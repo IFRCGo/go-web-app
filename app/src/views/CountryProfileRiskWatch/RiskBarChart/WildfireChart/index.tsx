@@ -1,11 +1,11 @@
 import {
     useCallback,
     useMemo,
-    useRef,
     useState,
 } from 'react';
 import {
     ChartAxes,
+    ChartContainer,
     ChartPoint,
     TextOutput,
     Tooltip,
@@ -55,7 +55,6 @@ function WildfireChart(props: Props) {
     const { gwisData } = props;
 
     const strings = useTranslation(i18n);
-    const chartContainerRef = useRef<HTMLDivElement>(null);
 
     const aggregatedList = useMemo(
         () => {
@@ -95,7 +94,6 @@ function WildfireChart(props: Props) {
     const chartData = useTemporalChartData(
         aggregatedList,
         {
-            containerRef: chartContainerRef,
             keySelector: (datum) => datum.month,
             xValueSelector: (datum) => datum.date,
             yValueSelector: (datum) => datum.maxValue,
@@ -192,64 +190,62 @@ function WildfireChart(props: Props) {
     );
 
     return (
-        <div
+        <ChartContainer
             className={styles.wildfireChart}
-            ref={chartContainerRef}
+            chartData={chartData}
         >
-            <svg className={styles.svg}>
+            <path
+                className={styles.minMaxPath}
+                d={getPathData(minMaxPoints)}
+            />
+            <g className={styles.currentYear}>
+                {getDiscretePathDataList(currentYearPoints).map(
+                    (points) => (
+                        <path
+                            className={styles.path}
+                            key={points}
+                            d={points}
+                        />
+                    ),
+                )}
+                {currentYearPoints.map(
+                    (pointData, i) => (
+                        <ChartPoint
+                            className={styles.point}
+                            key={pointData.key}
+                            x={pointData.x}
+                            y={pointData.y}
+                            active={i === hoveredAxisIndex}
+                        />
+                    ),
+                )}
+            </g>
+            <g className={styles.average}>
                 <path
-                    className={styles.minMaxPath}
-                    d={getPathData(minMaxPoints)}
+                    className={styles.path}
+                    d={getPathData(averagePoints)}
+                    fill="none"
+                    stroke={COLOR_PRIMARY_BLUE}
                 />
-                <g className={styles.currentYear}>
-                    {getDiscretePathDataList(currentYearPoints).map(
-                        (points) => (
-                            <path
-                                className={styles.path}
-                                key={points}
-                                d={points}
-                            />
-                        ),
-                    )}
-                    {currentYearPoints.map(
-                        (pointData, i) => (
-                            <ChartPoint
-                                className={styles.point}
-                                key={pointData.key}
-                                x={pointData.x}
-                                y={pointData.y}
-                                active={i === hoveredAxisIndex}
-                            />
-                        ),
-                    )}
-                </g>
-                <g className={styles.average}>
-                    <path
-                        className={styles.path}
-                        d={getPathData(averagePoints)}
-                        fill="none"
-                        stroke={COLOR_PRIMARY_BLUE}
-                    />
-                    {averagePoints.map(
-                        (pointData, i) => (
-                            <ChartPoint
-                                className={styles.point}
-                                key={pointData.key}
-                                x={pointData.x}
-                                y={pointData.y}
-                                active={i === hoveredAxisIndex}
-                            />
-                        ),
-                    )}
-                </g>
-                <ChartAxes
-                    chartData={chartData}
-                    tooltipSelector={tooltipSelector}
-                    onHover={handleHover}
-                    yAxisLabel={strings.monthlySeverityRating}
-                />
-            </svg>
-        </div>
+                {averagePoints.map(
+                    (pointData, i) => (
+                        <ChartPoint
+                            className={styles.point}
+                            key={pointData.key}
+                            x={pointData.x}
+                            y={pointData.y}
+                            active={i === hoveredAxisIndex}
+                        />
+                    ),
+                )}
+            </g>
+            <ChartAxes
+                chartData={chartData}
+                tooltipSelector={tooltipSelector}
+                onHover={handleHover}
+                yAxisLabel={strings.monthlySeverityRating}
+            />
+        </ChartContainer>
     );
 }
 

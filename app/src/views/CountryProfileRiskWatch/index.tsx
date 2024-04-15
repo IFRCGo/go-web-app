@@ -3,10 +3,7 @@ import {
     useOutletContext,
     useParams,
 } from 'react-router-dom';
-import {
-    BlockLoading,
-    Container,
-} from '@ifrc-go/ui';
+import { Container } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     isDefined,
@@ -128,10 +125,11 @@ export function Component() {
             childrenContainerClassName={styles.countryRiskWatch}
             headerDescription={strings.riskWatchDescription}
             headerDescriptionContainerClassName={styles.riskWatchDescription}
+            withCenteredHeaderDescription
+            pending={pendingImminentEventCounts}
+            contentViewType="vertical"
+            spacing="loose"
         >
-            {pendingImminentEventCounts && (
-                <BlockLoading />
-            )}
             {hasImminentEvents && isDefined(countryResponse) && isDefined(countryResponse.iso3) && (
                 <RiskImminentEvents
                     variant="country"

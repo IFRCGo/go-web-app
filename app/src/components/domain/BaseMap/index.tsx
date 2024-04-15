@@ -101,7 +101,7 @@ function BaseMap(props: BaseMapProps) {
     return (
         <Map
             mapStyle={mapStyle ?? defaultMapStyle}
-            mapOptions={mapOptions ?? defaultMapOptions}
+            mapOptions={{ ...defaultMapOptions, ...mapOptions }}
             navControlShown={navControlShown ?? true}
             navControlPosition={navControlPosition ?? defaultNavControlPosition}
             navControlOptions={navControlOptions ?? defaultNavControlOptions}

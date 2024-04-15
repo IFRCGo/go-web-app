@@ -2,10 +2,10 @@ import {
     Fragment,
     useCallback,
     useMemo,
-    useRef,
 } from 'react';
 import {
     ChartAxes,
+    ChartContainer,
     NumberOutput,
     TextOutput,
     Tooltip,
@@ -81,8 +81,6 @@ function CombinedChart(props: Props) {
         hazardListForDisplay,
     } = props;
     const strings = useTranslation(i18n);
-
-    const containerRef = useRef<HTMLDivElement>(null);
 
     const riskCategoryToLabelMap: Record<number, string> = useMemo(
         () => ({
@@ -239,7 +237,6 @@ function CombinedChart(props: Props) {
     const chartData = useTemporalChartData(
         hazardData,
         {
-            containerRef,
             keySelector: (datum) => datum.date.getTime(),
             xValueSelector: (datum) => datum.date,
             yValueSelector: (datum) => maxSafe(Object.values(datum.value)),
@@ -265,77 +262,75 @@ function CombinedChart(props: Props) {
     const barGap = Math.min(BAR_GAP, xAxisDiff / 30);
 
     return (
-        <div
+        <ChartContainer
             className={styles.combinedChart}
-            ref={containerRef}
+            chartData={chartData}
         >
-            <svg className={styles.svg}>
-                <ChartAxes
-                    chartData={chartData}
-                />
-                {chartData.chartPoints.map(
-                    (datum) => (
-                        <Fragment key={datum.key}>
-                            {hazardListForDisplay.map(
-                                ({ hazard_type: hazard, hazard_type_display }, hazardIndex) => {
-                                    const value = datum.originalData.value[hazard];
-                                    const y = chartData.yScaleFn(value);
-                                    const height = getChartHeight(y);
+            <ChartAxes
+                chartData={chartData}
+            />
+            {chartData.chartPoints.map(
+                (datum) => (
+                    <Fragment key={datum.key}>
+                        {hazardListForDisplay.map(
+                            ({ hazard_type: hazard, hazard_type_display }, hazardIndex) => {
+                                const value = datum.originalData.value[hazard];
+                                const y = chartData.yScaleFn(value);
+                                const height = getChartHeight(y);
 
-                                    const offsetX = barGap;
-                                    const numItems = hazardListForDisplay.length;
+                                const offsetX = barGap;
+                                const numItems = hazardListForDisplay.length;
 
-                                    const width = Math.max(
-                                        // eslint-disable-next-line max-len
-                                        (xAxisDiff / numItems) - offsetX * 2,
-                                        0,
-                                    );
+                                const width = Math.max(
                                     // eslint-disable-next-line max-len
-                                    const x = (datum.x - xAxisDiff / 2) + offsetX + (width + barGap) * hazardIndex;
+                                    (xAxisDiff / numItems) - offsetX * 2,
+                                    0,
+                                );
+                                // eslint-disable-next-line max-len
+                                const x = (datum.x - xAxisDiff / 2) + offsetX + (width + barGap) * hazardIndex;
 
-                                    return (
-                                        <rect
-                                            key={hazard}
-                                            x={x}
-                                            y={y}
-                                            width={width}
-                                            height={height}
-                                            fill={hazardTypeToColorMap[hazard]}
-                                        >
-                                            <Tooltip
-                                                title={hazard_type_display}
-                                                description={(
-                                                    <>
-                                                        {datum.originalData.date.toLocaleDateString('default', { month: 'long' })}
-                                                        {selectedRiskMetricDetail.key === 'riskScore' ? (
-                                                            <TextOutput
-                                                                label={strings.riskScoreLabel}
-                                                                // eslint-disable-next-line max-len
-                                                                value={riskCategoryToLabelMap[value]}
-                                                                strongValue
-                                                            />
-                                                        ) : (
-                                                            <TextOutput
-                                                                // eslint-disable-next-line max-len
-                                                                label={selectedRiskMetricDetail.label}
-                                                                value={value}
-                                                                valueType="number"
-                                                                maximumFractionDigits={0}
-                                                                strongValue
-                                                            />
-                                                        )}
-                                                    </>
-                                                )}
-                                            />
-                                        </rect>
-                                    );
-                                },
-                            )}
-                        </Fragment>
-                    ),
-                )}
-            </svg>
-        </div>
+                                return (
+                                    <rect
+                                        key={hazard}
+                                        x={x}
+                                        y={y}
+                                        width={width}
+                                        height={height}
+                                        fill={hazardTypeToColorMap[hazard]}
+                                    >
+                                        <Tooltip
+                                            title={hazard_type_display}
+                                            description={(
+                                                <>
+                                                    {datum.originalData.date.toLocaleDateString('default', { month: 'long' })}
+                                                    {selectedRiskMetricDetail.key === 'riskScore' ? (
+                                                        <TextOutput
+                                                            label={strings.riskScoreLabel}
+                                                            // eslint-disable-next-line max-len
+                                                            value={riskCategoryToLabelMap[value]}
+                                                            strongValue
+                                                        />
+                                                    ) : (
+                                                        <TextOutput
+                                                            // eslint-disable-next-line max-len
+                                                            label={selectedRiskMetricDetail.label}
+                                                            value={value}
+                                                            valueType="number"
+                                                            maximumFractionDigits={0}
+                                                            strongValue
+                                                        />
+                                                    )}
+                                                </>
+                                            )}
+                                        />
+                                    </rect>
+                                );
+                            },
+                        )}
+                    </Fragment>
+                ),
+            )}
+        </ChartContainer>
     );
 }
 

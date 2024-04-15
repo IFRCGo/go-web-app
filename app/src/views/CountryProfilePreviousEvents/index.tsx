@@ -6,7 +6,6 @@ import { useOutletContext } from 'react-router-dom';
 import {
     BarChart,
     Container,
-    Message,
     SelectInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -127,7 +126,7 @@ export function Component() {
     });
 
     const {
-        // pending: figurePending,
+        pending: figureResponsePending,
         response: figureResponse,
         // error: figureResponseError,
     } = useRequest({
@@ -147,7 +146,11 @@ export function Component() {
     // FIXME: properly handle low data and empty conditions in charts
 
     return (
-        <div className={styles.countryProfilePreviousEvents}>
+        <Container
+            className={styles.countryProfilePreviousEvents}
+            contentViewType="vertical"
+            spacing="loose"
+        >
             <Container
                 contentViewType="grid"
                 numPreferredGridContentColumns={2}
@@ -164,6 +167,9 @@ export function Component() {
                         nonClearable
                     />
                 )}
+                pending={disasterCountPending || figureResponsePending}
+                errored={isDefined(disasterCountError)}
+                errorMessage={disasterCountError?.value.messageForNotification}
             >
                 {isDefined(figureResponse) && (
                     <CountryKeyFigures
@@ -171,41 +177,28 @@ export function Component() {
                         data={figureResponse}
                     />
                 )}
-                {(disasterCountPending || isDefined(disasterCountError)) && (
-                    <Message
-                        className={styles.message}
-                        pending={disasterCountPending}
-                        errored={isDefined(disasterCountError)}
-                        erroredTitle={strings.dataLoadFailureMessage}
-                        erroredDescription={disasterCountError?.value.messageForNotification}
+                <Container
+                    heading={strings.emergenciesByDisasterTypeHeading}
+                    withHeaderBorder
+                >
+                    <BarChart
+                        data={disasterCountResponse}
+                        keySelector={disasterIdSelector}
+                        labelSelector={disasterNameSelector}
+                        valueSelector={disasterCountSelector}
+                        maxRows={8}
                     />
-                )}
-                {!(disasterCountPending || isDefined(disasterCountError)) && (
-                    <>
-                        <Container
-                            heading={strings.emergenciesByDisasterTypeHeading}
-                            withHeaderBorder
-                        >
-                            <BarChart
-                                data={disasterCountResponse}
-                                keySelector={disasterIdSelector}
-                                labelSelector={disasterNameSelector}
-                                valueSelector={disasterCountSelector}
-                                maxRows={8}
-                            />
-                        </Container>
-                        <Container
-                            heading={strings.emergenciesOverMonthHeading}
-                            withHeaderBorder
-                        >
-                            <EmergenciesOverMonth
-                                countryId={countryId}
-                                startDate={encodeDate(selectedTimePeriod.startDate)}
-                                endDate={encodeDate(selectedTimePeriod.endDate)}
-                            />
-                        </Container>
-                    </>
-                )}
+                </Container>
+                <Container
+                    heading={strings.emergenciesOverMonthHeading}
+                    withHeaderBorder
+                >
+                    <EmergenciesOverMonth
+                        countryId={countryId}
+                        startDate={encodeDate(selectedTimePeriod.startDate)}
+                        endDate={encodeDate(selectedTimePeriod.endDate)}
+                    />
+                </Container>
             </Container>
             <PastEventsChart
                 countryId={countryId}
@@ -218,7 +211,7 @@ export function Component() {
                     withPastOperations
                 />
             )}
-        </div>
+        </Container>
     );
 }
 

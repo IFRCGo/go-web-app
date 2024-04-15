@@ -42,7 +42,10 @@ function NationalSocietyIncomeSourceBreakdown(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
-    const { response: countryIncomeResponse } = useRequest({
+    const {
+        response: countryIncomeResponse,
+        pending: countryIncomeResponsePending,
+    } = useRequest({
         skip: isNotDefined(countryId),
         url: '/api/v2/country-income/',
         query: { country: countryId },
@@ -89,6 +92,7 @@ function NationalSocietyIncomeSourceBreakdown(props: Props) {
                     )}
                 />
             )}
+            pending={countryIncomeResponsePending}
             empty={isNotDefined(incomeListForSelectedYear)
                 || incomeListForSelectedYear.length === 0}
             emptyMessage={strings.incomeSourceBreakdownNotAvailableMessage}

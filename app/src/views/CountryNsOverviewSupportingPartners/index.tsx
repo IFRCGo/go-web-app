@@ -1,4 +1,5 @@
 import { useOutletContext } from 'react-router-dom';
+import { Container } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { isNotDefined } from '@togglecorp/fujs';
 
@@ -34,16 +35,22 @@ export function Component() {
     });
 
     return (
-        <div className={styles.countryProfileSupportingPartners}>
-            {/* TODO: This is just temporary link, and should be removed */}
-            <Link
-                href={countryResponse?.url_ifrc}
-                external
-                variant="secondary"
-                withLinkIcon
-            >
-                {strings.gotoIfrcLinkLabel}
-            </Link>
+        <Container
+            className={styles.countryProfileSupportingPartners}
+            actions={(
+                /* TODO: This is just temporary link, and should be removed */
+                <Link
+                    href={countryResponse?.url_ifrc}
+                    external
+                    variant="secondary"
+                    withLinkIcon
+                >
+                    {strings.gotoIfrcLinkLabel}
+                </Link>
+            )}
+            contentViewType="vertical"
+            spacing="loose"
+        >
             <Presence />
             {countryResponse?.has_country_plan && (
                 <MembershipCoordinationTable
@@ -52,7 +59,7 @@ export function Component() {
                 />
             )}
             <SupportingPartnersContacts />
-        </div>
+        </Container>
     );
 }
 

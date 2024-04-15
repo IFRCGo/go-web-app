@@ -1,10 +1,10 @@
 import {
     useCallback,
     useMemo,
-    useRef,
 } from 'react';
 import {
     ChartAxes,
+    ChartContainer,
     Container,
     TextOutput,
     Tooltip,
@@ -39,9 +39,6 @@ function ClimateChart(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
-
-    const temperatureContainerRef = useRef<HTMLDivElement>(null);
-    const precipitationContainerRef = useRef<HTMLDivElement>(null);
 
     const temperatureBounds = useMemo(
         () => {
@@ -86,7 +83,6 @@ function ClimateChart(props: Props) {
     const temperatureChartData = useTemporalChartData(
         data,
         {
-            containerRef: temperatureContainerRef,
             yearlyChart: true,
             keySelector: ({ id }) => id,
             xValueSelector: ({ year, month }) => new Date(year, month - 1, 1),
@@ -99,7 +95,6 @@ function ClimateChart(props: Props) {
     const precipitationChartData = useTemporalChartData(
         data,
         {
-            containerRef: precipitationContainerRef,
             yearlyChart: true,
             keySelector: ({ id }) => id,
             xValueSelector: ({ year, month }) => new Date(year, month - 1, 1),
@@ -224,71 +219,67 @@ function ClimateChart(props: Props) {
                 heading={strings.climateChartTemperature}
                 headingLevel={5}
             >
-                <div
-                    ref={temperatureContainerRef}
+                <ChartContainer
+                    chartData={temperatureChartData}
                     className={styles.temperatureChartContainer}
                 >
-                    <svg className={styles.svg}>
-                        <ChartAxes
-                            chartData={temperatureChartData}
-                            tooltipSelector={temperatureTooltipSelector}
-                        />
-                        <g className={styles.temperature}>
-                            {temperatureChartData.chartPoints.map((chartPoint) => {
-                                const minY = chartPoint.y;
-                                const maxY = temperatureChartData.yScaleFn(
-                                    chartPoint.originalData.max_temp,
-                                );
+                    <ChartAxes
+                        chartData={temperatureChartData}
+                        tooltipSelector={temperatureTooltipSelector}
+                    />
+                    <g className={styles.temperature}>
+                        {temperatureChartData.chartPoints.map((chartPoint) => {
+                            const minY = chartPoint.y;
+                            const maxY = temperatureChartData.yScaleFn(
+                                chartPoint.originalData.max_temp,
+                            );
 
-                                return (
-                                    <rect
-                                        key={chartPoint.key}
-                                        className={styles.rect}
-                                        x={chartPoint.x - barWidth / 2}
-                                        y={maxY}
-                                        width={barWidth}
-                                        height={Math.abs(minY - maxY)}
-                                    />
-                                );
-                            })}
-                        </g>
-                    </svg>
-                </div>
+                            return (
+                                <rect
+                                    key={chartPoint.key}
+                                    className={styles.rect}
+                                    x={chartPoint.x - barWidth / 2}
+                                    y={maxY}
+                                    width={barWidth}
+                                    height={Math.abs(minY - maxY)}
+                                />
+                            );
+                        })}
+                    </g>
+                </ChartContainer>
             </Container>
             <Container
                 heading={strings.climateChangePrecipitation}
                 headingLevel={5}
             >
-                <div
-                    ref={precipitationContainerRef}
+                <ChartContainer
+                    chartData={precipitationChartData}
                     className={styles.precipitationChartContainer}
                 >
-                    <svg className={styles.svg}>
-                        <ChartAxes
-                            chartData={precipitationChartData}
-                            tooltipSelector={precipitationTooltipSelector}
-                        />
-                        <g className={styles.precipitation}>
-                            {precipitationChartData.chartPoints.map((chartPoint) => (
-                                <rect
-                                    key={chartPoint.key}
-                                    className={styles.rect}
-                                    x={chartPoint.x - barWidth / 2}
-                                    y={chartPoint.y}
-                                    width={barWidth}
-                                    height={(
-                                        Math.max(
-                                            precipitationChartData.dataAreaSize.height
-                                            - chartPoint.y
-                                            + precipitationChartData.dataAreaOffset.top,
-                                            0,
-                                        )
-                                    )}
-                                />
-                            ))}
-                        </g>
-                    </svg>
-                </div>
+                    <ChartAxes
+                        chartData={precipitationChartData}
+                        tooltipSelector={precipitationTooltipSelector}
+                    />
+                    <g className={styles.precipitation}>
+                        {precipitationChartData.chartPoints.map((chartPoint) => (
+                            <rect
+                                key={chartPoint.key}
+                                className={styles.rect}
+                                x={chartPoint.x - barWidth / 2}
+                                y={chartPoint.y}
+                                width={barWidth}
+                                height={(
+                                    Math.max(
+                                        precipitationChartData.dataAreaSize.height
+                                        - chartPoint.y
+                                        + precipitationChartData.dataAreaOffset.top,
+                                        0,
+                                    )
+                                )}
+                            />
+                        ))}
+                    </g>
+                </ChartContainer>
             </Container>
         </Container>
     );

@@ -6,7 +6,6 @@ import {
 import { useOutletContext } from 'react-router-dom';
 import { PencilFillIcon } from '@ifrc-go/icons';
 import {
-    BlockLoading,
     Container,
     ExpandableContainer,
     KeyFigure,
@@ -36,7 +35,7 @@ import {
     unique,
 } from '@togglecorp/fujs';
 import { saveAs } from 'file-saver';
-import Papa from 'papaparse';
+import { unparse } from 'papaparse';
 
 import ExportButton from '#components/domain/ExportButton';
 import ProjectActions, { Props as ProjectActionsProps } from '#components/domain/ProjectActions';
@@ -316,7 +315,7 @@ export function Component() {
             );
         },
         onSuccess: (data) => {
-            const unparseData = Papa.unparse(data);
+            const unparseData = unparse(data);
             const blob = new Blob(
                 [unparseData],
                 { type: 'text/csv' },
@@ -344,15 +343,19 @@ export function Component() {
         projectListResponse?.count,
     ]);
 
-    const showCard1 = activeNSCount > 0 || targetedPopulation > 0;
-    const showCard2 = filteredProjectList.length > 0 || programmeTypeStats.length > 0;
-    const showCard3 = ongoingProjectBudget > 0 || projectStatusTypeStats.length > 0;
-    const showCardsSection = showCard1 || showCard2 || showCard3;
+    const showActivitiesAndTargetedPopulationCard = activeNSCount > 0 || targetedPopulation > 0;
+    const showTotalProjectsAndProgrammeTypeCard = filteredProjectList.length > 0
+        || programmeTypeStats.length > 0;
+    const showOngoingProjectBudgetAndProjectStatusCard = ongoingProjectBudget > 0
+        || projectStatusTypeStats.length > 0;
+
+    const showCardsSection = showActivitiesAndTargetedPopulationCard
+        || showTotalProjectsAndProgrammeTypeCard
+        || showOngoingProjectBudgetAndProjectStatusCard;
 
     return (
         <Container
             className={styles.threeWProjects}
-            childrenContainerClassName={styles.countryThreeWProjects}
             actions={(
                 isDefined(userMe?.id) && (
                     <div className={styles.countryThreeWActions}>
@@ -366,19 +369,15 @@ export function Component() {
                     </div>
                 )
             )}
+            headerDescription={strings.threeWProjectDescription}
+            withCenteredHeaderDescription
+            contentViewType="vertical"
+            spacing="loose"
+            pending={projectListPending}
         >
-            {/* // FIXME: This should be handle by Container */}
-            <div className={styles.threeWProjectHeader}>
-                <div className={styles.dummy} />
-                <div className={styles.threeWProjectHeaderDescription}>
-                    {strings.threeWProjectDescription}
-                </div>
-                <div className={styles.dummy} />
-            </div>
-            {projectListPending && <BlockLoading />}
-            {!projectListPending && showCardsSection && (
+            {showCardsSection && (
                 <div className={styles.keyFigureCardList}>
-                    {showCard1 && (
+                    {showActivitiesAndTargetedPopulationCard && (
                         <div className={styles.keyFigureCard}>
                             <KeyFigure
                                 className={styles.keyFigure}
@@ -396,7 +395,7 @@ export function Component() {
                             />
                         </div>
                     )}
-                    {showCard2 && (
+                    {showTotalProjectsAndProgrammeTypeCard && (
                         <div className={styles.keyFigureCard}>
                             <KeyFigure
                                 className={styles.keyFigure}
@@ -423,7 +422,7 @@ export function Component() {
                             </Container>
                         </div>
                     )}
-                    {showCard3 && (
+                    {showOngoingProjectBudgetAndProjectStatusCard && (
                         <div className={styles.keyFigureCard}>
                             <KeyFigure
                                 className={styles.keyFigure}
@@ -453,7 +452,6 @@ export function Component() {
                     )}
                 </div>
             )}
-
             <Container
                 className={styles.ongoingProjects}
                 heading={strings.threeWOngoingProjectsTitle}

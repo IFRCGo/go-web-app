@@ -1,11 +1,10 @@
 import {
-    ElementRef,
     useCallback,
     useMemo,
-    useRef,
 } from 'react';
 import {
     ChartAxes,
+    ChartContainer,
     ChartPoint,
     DateOutput,
     TextOutput,
@@ -47,7 +46,6 @@ function PreviousAssessmentCharts(props: Props) {
         data,
         ratingOptions,
     } = props;
-    const containerRef = useRef<ElementRef<'div'>>(null);
     const ratingTitleMap = listToMap(
         ratingOptions,
         (option) => option.value,
@@ -57,7 +55,6 @@ function PreviousAssessmentCharts(props: Props) {
     const chartData = useNumericChartData(
         [...data].sort((a, b) => compareNumber(a.assessment_number, b.assessment_number)),
         {
-            containerRef,
             chartMargin: {
                 ...defaultChartMargin,
                 top: 10,
@@ -116,47 +113,45 @@ function PreviousAssessmentCharts(props: Props) {
     );
 
     return (
-        <div
+        <ChartContainer
             className={styles.previousAssessmentChart}
-            ref={containerRef}
+            chartData={chartData}
         >
-            <svg className={styles.svg}>
-                <ChartAxes
-                    chartData={chartData}
-                    tooltipSelector={tooltipSelector}
+            <ChartAxes
+                chartData={chartData}
+                tooltipSelector={tooltipSelector}
+            />
+            {chartData.chartPoints.length > 0 && (
+                <path
+                    // NOTE: only drawing first path
+                    // FIXME: we cannot guarantee that the array will have
+                    // at least one element
+                    d={getDiscretePathDataList(chartData.chartPoints)[0]}
+                    fill="none"
+                    className={styles.path}
                 />
-                {chartData.chartPoints.length > 0 && (
-                    <path
-                        // NOTE: only drawing first path
-                        // FIXME: we cannot guarantee that the array will have
-                        // at least one element
-                        d={getDiscretePathDataList(chartData.chartPoints)[0]}
-                        fill="none"
-                        className={styles.path}
-                    />
-                )}
-                {chartData.chartPoints.map(
-                    (point) => (
-                        <g key={point.key}>
-                            <text
-                                className={styles.text}
-                                textAnchor="middle"
-                                dy={-15}
-                                x={point.x}
-                                y={point.y}
-                            >
-                                {formatNumber(point.originalData.average_rating)}
-                            </text>
-                            <ChartPoint
-                                className={styles.circle}
-                                x={point.x}
-                                y={point.y}
-                            />
-                        </g>
-                    ),
-                )}
-            </svg>
-        </div>
+            )}
+            {chartData.chartPoints.map(
+                (point) => (
+                    <g key={point.key}>
+                        <text
+                            className={styles.text}
+                            textAnchor="middle"
+                            dy={-15}
+                            x={point.x}
+                            y={point.y}
+                        >
+                            {formatNumber(point.originalData.average_rating)}
+                        </text>
+                        <ChartPoint
+                            className={styles.circle}
+                            x={point.x}
+                            y={point.y}
+                        />
+                    </g>
+                ),
+            )}
+        </ChartContainer>
     );
 }
 

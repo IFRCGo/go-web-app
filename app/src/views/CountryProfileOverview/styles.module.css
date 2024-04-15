@@ -1,8 +1,4 @@
 .country-profile-overview {
-    display: flex;
-    flex-direction: column;
-    gap: var(--go-ui-spacing-2xl);
-
     .seasonal-calendar-content {
         background-image:
             linear-gradient(to right, var(--go-ui-color-separator) var(--go-ui-width-separator-thin), transparent var(--go-ui-width-separator-thin)),

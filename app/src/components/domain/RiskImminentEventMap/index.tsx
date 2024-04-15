@@ -250,7 +250,9 @@ function RiskImminentEventMap<
 
     return (
         <div className={styles.riskImminentEventMap}>
-            <BaseMap>
+            <BaseMap
+                mapOptions={{ bounds }}
+            >
                 <MapContainerWithDisclaimer
                     title={strings.riskImminentEventsMap}
                     className={styles.mapContainer}

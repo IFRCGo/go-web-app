@@ -15,7 +15,7 @@ interface Props {
     overlayPending?: boolean;
     filtered: boolean;
     empty: boolean;
-    errored?: boolean;
+    errored: boolean;
 
     emptyMessage?: React.ReactNode;
     filteredEmptyMessage?: React.ReactNode;
@@ -74,7 +74,7 @@ function DefaultMessage(props: Props) {
         ],
     );
 
-    if (!empty && !pending) {
+    if (!empty && !pending && !errored) {
         return null;
     }
 

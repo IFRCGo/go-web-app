@@ -1,6 +1,8 @@
 import {
+    createRef,
     useCallback,
     useMemo,
+    useState,
 } from 'react';
 import { useSizeTracking } from '@ifrc-go/ui/hooks';
 import {
@@ -39,7 +41,6 @@ import {
 type TemporalResolution = 'year' | 'month' | 'day';
 
 interface CommonOptions<DATUM> {
-    containerRef: React.RefObject<HTMLElement>;
     keySelector: (d: DATUM, index: number) => number | string;
     xValueSelector: (d: DATUM, index: number) => DateLike | undefined | null;
     yValueSelector: (d: DATUM, index: number) => number | undefined | null;
@@ -82,7 +83,6 @@ function useTemporalChartData<DATUM>(data: DATUM[] | undefined | null, options: 
         xAxisHeight = DEFAULT_X_AXIS_HEIGHT,
         chartMargin = defaultChartMargin,
         chartPadding = defaultChartPadding,
-        containerRef,
         numYAxisTicks = 6,
         yAxisTickLabelSelector,
         yearlyChart = false,
@@ -90,6 +90,17 @@ function useTemporalChartData<DATUM>(data: DATUM[] | undefined | null, options: 
         yScale = 'linear',
         yDomain,
     } = options;
+
+    const [containerRef, setContainerRef] = useState<React.RefObject<HTMLDivElement>>(
+        createRef,
+    );
+
+    const handleRefChange = useCallback(
+        (element: HTMLDivElement) => {
+            setContainerRef({ current: element });
+        },
+        [],
+    );
 
     const chartSize = useSizeTracking(containerRef);
 
@@ -629,6 +640,7 @@ function useTemporalChartData<DATUM>(data: DATUM[] | undefined | null, options: 
             chartMargin,
             temporalResolution,
             numXAxisTicks,
+            containerRef: handleRefChange,
         }),
         [
             chartPoints,
@@ -644,6 +656,7 @@ function useTemporalChartData<DATUM>(data: DATUM[] | undefined | null, options: 
             numXAxisTicks,
             xAxisHeight,
             yAxisWidth,
+            handleRefChange,
         ],
     );
 }

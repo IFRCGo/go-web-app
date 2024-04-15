@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import {
-    BlockLoading,
     Container,
     Table,
 } from '@ifrc-go/ui';
@@ -106,12 +105,14 @@ function SupportingPartnersContacts(props: Props) {
 
     return (
         <Container
-            className={_cs(className, styles.contactsTable)}
-            childrenContainerClassName={styles.content}
+            className={_cs(className, styles.supportingPartnersContacts)}
             heading={strings.supportingPartnersContactsTitle}
             withHeaderBorder
+            pending={supportingPartnerPending}
+            empty={isNotDefined(groupedPartnersList) || groupedPartnersList.length === 0}
+            contentViewType="vertical"
+            spacing="comfortable"
         >
-            {supportingPartnerPending && <BlockLoading className={styles.loading} />}
             {groupedPartnersList?.map((groupedPartner) => (
                 <Table
                     key={groupedPartner.label}

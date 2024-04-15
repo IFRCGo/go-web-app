@@ -2,10 +2,14 @@ import { useCallback } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import {
     Container,
-    Grid,
+    RawList,
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import {
+    isDefined,
+    isNotDefined,
+} from '@togglecorp/fujs';
 
 import Link from '#components/Link';
 import { type CountryOutletContext } from '#utils/outletContext';
@@ -14,16 +18,11 @@ import InitiativeCard from './InitiativeCard';
 
 import i18n from './i18n.json';
 
-interface Props {
-    className?: string;
-}
-
 type CountryInitiative = NonNullable<NonNullable<CountryOutletContext['countryResponse']>['initiatives']>[number];
 
 const keySelector = (initiative: CountryInitiative) => initiative.id;
 
-function NationalSocietyDirectoryInitiatives(props: Props) {
-    const { className } = props;
+function NationalSocietyDirectoryInitiatives() {
     const strings = useTranslation(i18n);
 
     const { countryResponse } = useOutletContext<CountryOutletContext>();
@@ -41,7 +40,9 @@ function NationalSocietyDirectoryInitiatives(props: Props) {
             // TODO: Add Contacts link in description
             headerDescription={strings.nSDirectoryInitiativesDescription}
             withHeaderBorder
-            footerActions={(
+            footerActions={isDefined(countryResponse)
+                && isDefined(countryResponse.initiatives)
+                && countryResponse.initiatives.length > 0 && (
                 <TextOutput
                     label={strings.source}
                     value={(
@@ -56,17 +57,17 @@ function NationalSocietyDirectoryInitiatives(props: Props) {
                     )}
                 />
             )}
+            contentViewType="grid"
+            numPreferredGridContentColumns={3}
+            empty={isNotDefined(countryResponse)
+                || isNotDefined(countryResponse.initiatives)
+                || countryResponse.initiatives.length === 0}
         >
-            <Grid
-                className={className}
+            <RawList
                 data={countryResponse?.initiatives}
-                pending={false}
-                errored={false}
-                filtered={false}
                 keySelector={keySelector}
                 renderer={InitiativeCard}
                 rendererParams={rendererParams}
-                numPreferredColumns={3}
             />
         </Container>
     );

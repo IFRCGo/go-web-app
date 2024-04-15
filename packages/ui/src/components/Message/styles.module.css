@@ -6,6 +6,7 @@
     justify-content: center;
     opacity: var(--go-ui-opacity-message);
     background-color: var(--go-ui-color-foreground);
+    padding: var(--go-ui-spacing-md);
     min-height: var(--go-ui-content-min-height);
     text-align: center;
 
@@ -30,6 +31,7 @@
     }
 
     &.compact {
+        padding: var(--go-ui-spacing-sm);
         min-height: var(--go-ui-compact-content-min-height);
 
         .title {

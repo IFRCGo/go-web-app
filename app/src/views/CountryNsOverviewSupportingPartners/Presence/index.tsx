@@ -27,10 +27,14 @@ function Presence() {
     ].filter(isTruthyString).join(' ');
 
     return (
-        <div className={styles.presence}>
+        <Container
+            className={styles.presence}
+            contentViewType="grid"
+            numPreferredGridContentColumns={2}
+            spacing="comfortable"
+        >
             <Container
                 className={styles.presenceCard}
-                childrenContainerClassName={styles.presenceCardList}
                 heading={strings.countryIFRCPresenceTitle}
                 footerActions={(
                     <TextOutput
@@ -47,6 +51,10 @@ function Presence() {
                         )}
                     />
                 )}
+                contentViewType="vertical"
+                withHeaderBorder
+                withInternalPadding
+                spacing="comfortable"
             >
                 <div className={styles.ifrcPresenceItem}>
                     <TextOutput
@@ -82,7 +90,6 @@ function Presence() {
             <Container
                 className={styles.presenceCard}
                 heading={strings.countryICRCPresenceTitle}
-                childrenContainerClassName={styles.presenceCardList}
                 footerActions={(
                     <TextOutput
                         label={strings.source}
@@ -98,6 +105,10 @@ function Presence() {
                         )}
                     />
                 )}
+                contentViewType="vertical"
+                withHeaderBorder
+                withInternalPadding
+                spacing="comfortable"
             >
                 {resolveToString(
                     strings.countryICRCConfirmedPartner,
@@ -121,7 +132,7 @@ function Presence() {
                     </div>
                 )}
             </Container>
-        </div>
+        </Container>
     );
 }
 

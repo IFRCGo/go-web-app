@@ -61,7 +61,6 @@ function InitiativeCard(props: Props) {
                     },
                 )}
                 description={strings.initiativeYearApprovedTitle}
-                valueType="text"
                 strongValue
                 withoutLabelColon
             />

@@ -50,6 +50,7 @@ export interface TableProps<D, K extends string | number, C extends Column<D, K,
 
     filtered: boolean;
     pending: boolean;
+    errored?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -73,6 +74,7 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
         headersHidden,
         pending,
         filtered,
+        errored = false,
     } = props;
 
     const containerRef = useRef<HTMLDivElement>(null);
@@ -281,6 +283,7 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
             <DefaultMessage
                 filtered={filtered}
                 empty={isEmpty}
+                errored={errored}
                 pending={pending}
                 overlayPending
             />

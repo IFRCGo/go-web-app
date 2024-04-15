@@ -5,11 +5,10 @@ import {
 import { useOutletContext } from 'react-router-dom';
 import { AddFillIcon } from '@ifrc-go/icons';
 import {
-    BlockLoading,
     Container,
     ExpandableContainer,
     KeyFigure,
-    Message,
+    List,
     PieChart,
     Table,
 } from '@ifrc-go/ui';
@@ -33,7 +32,7 @@ import {
     unique,
 } from '@togglecorp/fujs';
 import { saveAs } from 'file-saver';
-import Papa from 'papaparse';
+import { unparse } from 'papaparse';
 
 import ExportButton from '#components/domain/ExportButton';
 import ProjectActions, { Props as ProjectActionsProps } from '#components/domain/ProjectActions';
@@ -186,9 +185,10 @@ export function Component() {
 
     const tableColumns = useMemo(() => ([
         createStringColumn<Project, number>(
-            'ns',
+            'countries',
             strings.nSTableCountries,
             (item) => item.project_country_detail.name,
+            { columnClassName: styles.countries },
         ),
         createDateRangeColumn<Project, number>(
             'startDate',
@@ -263,7 +263,7 @@ export function Component() {
         strings.nSStartDate,
     ]);
 
-    const countryIdList = Object.keys(countryGroupedProjects);
+    const countryIdList = Object.keys(countryGroupedProjects) as unknown as number[];
 
     const [
         pendingExport,
@@ -277,7 +277,7 @@ export function Component() {
             );
         },
         onSuccess: (data) => {
-            const unparseData = Papa.unparse(data);
+            const unparseData = unparse(data);
             const blob = new Blob(
                 [unparseData],
                 { type: 'text/csv' },
@@ -303,16 +303,69 @@ export function Component() {
         projectListResponse?.count,
     ]);
 
-    const showCard1 = countryCountWithNSProjects > 0 || targetedPopulation > 0;
-    const showCard2 = filteredProjectList.length > 0 || programmeTypeStats.length > 0;
-    const showCard3 = ongoingProjectBudget > 0 || projectStatusTypeStats.length > 0;
+    const activityAndTargetedPopulationCard = countryCountWithNSProjects > 0
+        || targetedPopulation > 0;
+    const totalProjectsAndProgrammeTypeCard = filteredProjectList.length > 0
+        || programmeTypeStats.length > 0;
+    const fundingRequirementsAndProjectStatusCard = ongoingProjectBudget > 0
+        || projectStatusTypeStats.length > 0;
 
-    const showCardsSection = showCard1 || showCard2 || showCard3;
+    const showCardsSection = activityAndTargetedPopulationCard
+        || totalProjectsAndProgrammeTypeCard
+        || fundingRequirementsAndProjectStatusCard;
+
+    const projectsByCountry = useMemo(() => (
+        countryIdList.map((countryId) => {
+            const projectsInCountry = countryGroupedProjects[countryId];
+
+            if (isNotDefined(projectsInCountry) || projectsInCountry.length === 0) {
+                return null;
+            }
+
+            return {
+                id: countryId,
+                projects: projectsInCountry,
+            };
+        }).filter(isDefined)
+    ), [countryGroupedProjects, countryIdList]);
+
+    type ProjectsByCountry = typeof projectsByCountry;
+    const countryListRendererParams = useCallback(
+        (_: number, item: ProjectsByCountry[number]) => ({
+            heading: resolveToString(
+                strings.nSCountryProjects,
+                {
+                    countryName: item.projects[0].project_country_detail.name,
+                    numProjects: item.projects.length,
+                },
+            ),
+            headingLevel: 5 as const,
+            childrenContainerClassName: styles.projectsInCountry,
+            // FIXME: use separate component for this
+            children: item.projects.map((project) => (
+                <div
+                    key={project.id}
+                    className={styles.projectInCountryItem}
+                >
+                    <div className={styles.name}>
+                        {project.name}
+                    </div>
+                    <ProjectActions
+                        project={project}
+                        className={styles.action}
+                        onProjectDeletionSuccess={
+                            reTriggerProjectListRequest
+                        }
+                    />
+                </div>
+            )),
+        }),
+        [strings.nSCountryProjects, reTriggerProjectListRequest],
+    );
 
     return (
         <Container
             className={styles.nsActivity}
-            childrenContainerClassName={styles.countryThreeWNationalSocietyProjects}
             actions={(
                 <Link
                     to="newThreeWActivity"
@@ -322,97 +375,19 @@ export function Component() {
                     {strings.addNSActivity}
                 </Link>
             )}
+            headerDescription={strings.nSActivityDescription}
+            withCenteredHeaderDescription
+            pending={projectListPending}
+            contentViewType="vertical"
+            spacing="loose"
         >
-            {/* // FIXME: This should be handle by Container */}
-            <div className={styles.nsActivityHeader}>
-                <div className={styles.dummy} />
-                <div className={styles.nsActivityDescription}>
-                    {strings.nSActivityDescription}
-                </div>
-                <div className={styles.dummy} />
-            </div>
-            {projectListPending && <BlockLoading />}
-            {!projectListPending && showCardsSection && (
-                <div className={styles.keyFigureCardList}>
-                    {showCard1 && (
-                        <div className={styles.keyFigureCard}>
-                            <KeyFigure
-                                className={styles.keyFigure}
-                                value={countryCountWithNSProjects}
-                                label={strings.countriesNSWork}
-                                labelClassName={styles.keyFigureDescription}
-                            />
-                            <div className={styles.separator} />
-                            <KeyFigure
-                                className={styles.keyFigure}
-                                value={targetedPopulation}
-                                label={strings.nSTargetedPopulationTitle}
-                                labelClassName={styles.keyFigureDescription}
-                                compactValue
-                            />
-                        </div>
-                    )}
-                    {showCard2 && (
-                        <div className={styles.keyFigureCard}>
-                            <KeyFigure
-                                className={styles.keyFigure}
-                                value={filteredProjectList.length}
-                                label={strings.nSTotalProjectsTitle}
-                                labelClassName={styles.keyFigureDescription}
-                            />
-                            <div className={styles.separator} />
-                            <Container
-                                heading={strings.nSProgrammeType}
-                                headingLevel={5}
-                                className={styles.pieChartContainer}
-                            >
-                                <PieChart
-                                    className={styles.pieChart}
-                                    data={programmeTypeStats}
-                                    valueSelector={numericValueSelector}
-                                    labelSelector={stringLabelSelector}
-                                    keySelector={stringLabelSelector}
-                                    colors={primaryRedColorShades}
-                                    pieRadius={40}
-                                    chartPadding={10}
-                                />
-                            </Container>
-                        </div>
-                    )}
-                    {showCard3 && (
-                        <div className={styles.keyFigureCard}>
-                            <KeyFigure
-                                className={styles.keyFigure}
-                                value={ongoingProjectBudget}
-                                label={strings.nSFundingRequirementsTitle}
-                                labelClassName={styles.keyFigureDescription}
-                                compactValue
-                            />
-                            <div className={styles.separator} />
-                            <Container
-                                heading={strings.nSProjectStatus}
-                                headingLevel={5}
-                                className={styles.pieChartContainer}
-                            >
-                                <PieChart
-                                    className={styles.pieChart}
-                                    data={projectStatusTypeStats}
-                                    valueSelector={numericValueSelector}
-                                    labelSelector={stringLabelSelector}
-                                    keySelector={stringLabelSelector}
-                                    colors={primaryRedColorShades}
-                                    pieRadius={40}
-                                    chartPadding={10}
-                                />
-                            </Container>
-                        </div>
-                    )}
-                </div>
-            )}
             <Container
                 className={styles.ongoingProjects}
                 childrenContainerClassName={styles.content}
-                heading={strings.nsInternationalWorkTitle}
+                heading={resolveToString(
+                    strings.nsActivitiesTitle,
+                    { count: ongoingProjects.length },
+                )}
                 withHeaderBorder
                 filters={(
                     <Filter
@@ -421,14 +396,100 @@ export function Component() {
                     />
                 )}
                 actions={(
-                    <ExportButton
-                        onClick={handleExportClick}
-                        progress={progress}
-                        pendingExport={pendingExport}
-                        totalCount={projectListResponse?.count}
-                    />
+                    <>
+                        <ExportButton
+                            onClick={handleExportClick}
+                            progress={progress}
+                            pendingExport={pendingExport}
+                            totalCount={projectListResponse?.count}
+                        />
+                        <Link
+                            to="allThreeWProject"
+                            urlSearch={`reporting_ns=${countryResponse?.id}`}
+                            withLinkIcon
+                        >
+                            {strings.nSAllProjects}
+                        </Link>
+                    </>
                 )}
             >
+                {showCardsSection && (
+                    <div className={styles.keyFigureCardList}>
+                        {activityAndTargetedPopulationCard && (
+                            <div className={styles.keyFigureCard}>
+                                <KeyFigure
+                                    className={styles.keyFigure}
+                                    value={countryCountWithNSProjects}
+                                    label={strings.countriesNSWork}
+                                    labelClassName={styles.keyFigureDescription}
+                                />
+                                <div className={styles.separator} />
+                                <KeyFigure
+                                    className={styles.keyFigure}
+                                    value={targetedPopulation}
+                                    label={strings.nSTargetedPopulationTitle}
+                                    labelClassName={styles.keyFigureDescription}
+                                    compactValue
+                                />
+                            </div>
+                        )}
+                        {totalProjectsAndProgrammeTypeCard && (
+                            <div className={styles.keyFigureCard}>
+                                <KeyFigure
+                                    className={styles.keyFigure}
+                                    value={filteredProjectList.length}
+                                    label={strings.nSTotalProjectsTitle}
+                                    labelClassName={styles.keyFigureDescription}
+                                />
+                                <div className={styles.separator} />
+                                <Container
+                                    heading={strings.nSProgrammeType}
+                                    headingLevel={5}
+                                    className={styles.pieChartContainer}
+                                >
+                                    <PieChart
+                                        className={styles.pieChart}
+                                        data={programmeTypeStats}
+                                        valueSelector={numericValueSelector}
+                                        labelSelector={stringLabelSelector}
+                                        keySelector={stringLabelSelector}
+                                        colors={primaryRedColorShades}
+                                        pieRadius={40}
+                                        chartPadding={10}
+                                    />
+                                </Container>
+                            </div>
+                        )}
+                        {fundingRequirementsAndProjectStatusCard && (
+                            <div className={styles.keyFigureCard}>
+                                <KeyFigure
+                                    className={styles.keyFigure}
+                                    value={ongoingProjectBudget}
+                                    label={strings.nSFundingRequirementsTitle}
+                                    labelClassName={styles.keyFigureDescription}
+                                    compactValue
+                                />
+                                <div className={styles.separator} />
+                                <Container
+                                    heading={strings.nSProjectStatus}
+                                    headingLevel={5}
+                                    className={styles.pieChartContainer}
+                                >
+                                    <PieChart
+                                        className={styles.pieChart}
+                                        data={projectStatusTypeStats}
+                                        valueSelector={numericValueSelector}
+                                        labelSelector={stringLabelSelector}
+                                        keySelector={stringLabelSelector}
+                                        colors={primaryRedColorShades}
+                                        pieRadius={40}
+                                        chartPadding={10}
+                                    />
+                                </Container>
+                            </div>
+                        )}
+                    </div>
+                )}
                 <Map
                     projectList={ongoingProjects}
                     sidebarContent={(
@@ -438,86 +499,20 @@ export function Component() {
                             withInternalPadding
                             childrenContainerClassName={styles.sidebarContent}
                         >
-                            {countryIdList.map((countryId) => {
-                                const projectsInCountry = countryGroupedProjects[countryId];
-
-                                if (
-                                    isNotDefined(projectsInCountry)
-                                    || projectsInCountry.length === 0
-                                ) {
-                                    return null;
-                                }
-
-                                // NOTE: we will always have at least one project as it is
-                                // project list is aggregated using listToGroupList
-                                const countryName = projectsInCountry[0]
-                                    .project_country_detail.name;
-
-                                return (
-                                    <ExpandableContainer
-                                        key={countryId}
-                                        heading={resolveToString(
-                                            strings.nSCountryProjects,
-                                            {
-                                                countryName,
-                                                numProjects: projectsInCountry.length,
-                                            },
-                                        )}
-                                        headingLevel={5}
-                                        childrenContainerClassName={styles.projectsInCountry}
-                                    >
-                                        {/* NOTE: projects array will always have an element
-                                          * as we are using listToGroupList to get it.
-                                          */}
-                                        {projectsInCountry.map((project) => (
-                                            <div
-                                                key={project.id}
-                                                className={styles.projectInCountryItem}
-                                            >
-                                                <div className={styles.name}>
-                                                    {project.name}
-                                                </div>
-                                                <ProjectActions
-                                                    project={project}
-                                                    className={styles.action}
-                                                    onProjectDeletionSuccess={
-                                                        reTriggerProjectListRequest
-                                                    }
-                                                />
-                                            </div>
-                                        ))}
-                                    </ExpandableContainer>
-                                );
-                            })}
-                            {/* FIXME: Show empty message for when filter is applied */}
-                            {/* FIXME: Show empty message for when filter is not applied */}
-                            {/* FIXME: Use List component instead? */}
-                            {countryIdList.length === 0 && (
-                                <Message
-                                    description={strings.nSProjectDataNotAvailable}
-                                />
-                            )}
+                            <List
+                                filtered={filtered}
+                                pending={projectListPending || countryResponsePending}
+                                errored={false}
+                                data={projectsByCountry}
+                                renderer={ExpandableContainer}
+                                keySelector={numericIdSelector}
+                                rendererParams={countryListRendererParams}
+                            />
                         </Container>
                     )}
                 />
-            </Container>
-            <Container
-                withHeaderBorder
-                heading={resolveToString(
-                    strings.nsInternationalWorkHeading,
-                    { count: ongoingProjects.length },
-                )}
-                actions={(
-                    <Link
-                        to="allThreeWProject"
-                        urlSearch={`reporting_ns=${countryResponse?.id}`}
-                        withLinkIcon
-                    >
-                        {strings.nSAllProjects}
-                    </Link>
-                )}
-            >
                 <Table
+                    className={styles.internationalWorksTable}
                     filtered={filtered}
                     pending={projectListPending || countryResponsePending}
                     data={ongoingProjects}

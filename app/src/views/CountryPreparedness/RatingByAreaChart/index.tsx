@@ -1,8 +1,7 @@
 import {
-    ElementRef,
-    useRef,
-} from 'react';
-import { ChartAxes } from '@ifrc-go/ui';
+    ChartAxes,
+    ChartContainer,
+} from '@ifrc-go/ui';
 import { listToMap } from '@togglecorp/fujs';
 
 import useNumericChartData from '#hooks/useNumericChartData';
@@ -32,7 +31,6 @@ function RatingByAreaChart(props: Props) {
         formAreaOptions,
     } = props;
 
-    const containerRef = useRef<ElementRef<'div'>>(null);
     const ratingTitleMap = listToMap(
         ratingOptions,
         (option) => option.value,
@@ -48,7 +46,6 @@ function RatingByAreaChart(props: Props) {
     const chartData = useNumericChartData(
         data,
         {
-            containerRef,
             chartMargin: {
                 ...defaultChartMargin,
                 top: 10,
@@ -70,49 +67,47 @@ function RatingByAreaChart(props: Props) {
     const barWidth = 10;
 
     return (
-        <div
+        <ChartContainer
             className={styles.ratingByAreaChart}
-            ref={containerRef}
+            chartData={chartData}
         >
-            <svg className={styles.svg}>
-                <ChartAxes
-                    chartData={chartData}
-                />
-                {chartData.chartPoints.map(
-                    (point) => (
-                        <g key={point.key}>
-                            {point.originalData.value !== 0 && (
-                                <text
-                                    className={styles.text}
-                                    textAnchor="middle"
-                                    dy={-10}
-                                    dx={barWidth / 2}
-                                    x={point.x - barWidth / 2}
-                                    y={point.y}
-                                >
-                                    {Number(point.originalData.value.toFixed(2)) ?? '-'}
-                                </text>
-                            )}
-                            <rect
-                                className={styles.rect}
+            <ChartAxes
+                chartData={chartData}
+            />
+            {chartData.chartPoints.map(
+                (point) => (
+                    <g key={point.key}>
+                        {point.originalData.value !== 0 && (
+                            <text
+                                className={styles.text}
+                                textAnchor="middle"
+                                dy={-10}
+                                dx={barWidth / 2}
                                 x={point.x - barWidth / 2}
                                 y={point.y}
-                                ry={barWidth / 2}
-                                width={barWidth}
-                                height={
-                                    Math.max(
-                                        chartData.dataAreaSize.height
-                                            - point.y
-                                            + chartData.dataAreaOffset.top,
-                                        0,
-                                    )
-                                }
-                            />
-                        </g>
-                    ),
-                )}
-            </svg>
-        </div>
+                            >
+                                {Number(point.originalData.value.toFixed(2)) ?? '-'}
+                            </text>
+                        )}
+                        <rect
+                            className={styles.rect}
+                            x={point.x - barWidth / 2}
+                            y={point.y}
+                            ry={barWidth / 2}
+                            width={barWidth}
+                            height={
+                                Math.max(
+                                    chartData.dataAreaSize.height
+                                        - point.y
+                                        + chartData.dataAreaOffset.top,
+                                    0,
+                                )
+                            }
+                        />
+                    </g>
+                ),
+            )}
+        </ChartContainer>
     );
 }
 

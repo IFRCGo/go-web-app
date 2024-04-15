@@ -4,7 +4,6 @@
         "emergenciesByDisasterTypeHeading": "Emergencies by disaster type",
         "emergenciesOverMonthHeading": "Emergencies over month",
         "previousOperationsHeading": "Previous Operations",
-        "dataLoadFailureMessage": "Failed to load data!",
         "filterThisYearLabel": "This year",
         "filterPastYearLabel": "Past year",
         "filterLastTwoYearsLabel": "Last 2 years",

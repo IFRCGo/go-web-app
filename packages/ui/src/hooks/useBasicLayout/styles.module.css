@@ -9,7 +9,6 @@
     .icons-container {
         display: flex;
         align-items: flex-start;
-        flex-shrink: 0;
     }
 
     .children-container {
@@ -20,6 +19,15 @@
     .actions-container {
         display: flex;
         align-items: flex-start;
-        flex-shrink: 0;
+    }
+
+    &:not(.with-wrap) {
+        .icons-container {
+            flex-shrink: 0;
+        }
+
+        .actions-container {
+            flex-shrink: 0;
+        }
     }
 }
