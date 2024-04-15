@@ -17,7 +17,7 @@
 
 ## Getting started
 
-Below are the steps to guide you through preparing your local environment for the IFRC GO Web application development. The repository is set up as a [monorepo](https://monorepo.tools/). The app directory houses the application code, while the packages directory contains related packages, including the [IFRC GO UI](https://www.npmjs.com/package/@ifrc-go/ui) components library.
+Below are the steps to guide you through preparing your local environment for the IFRC GO Web application development. The repository is set up as a [monorepo](https://monorepo.tools/). The app directory houses the application code, while the packages directory contains related packages, including the [IFRC GO UI](https://www.npmjs.com/package/@ifrc-go/ui) components library. Please review the [Contribution Guidelines](./CONTRIBUTING.md) and [Collaboration Guidelines](./COLLABORATING.md) to gain a deeper understanding of the repository's structure.
 
 ### Prerequisites
 
@@ -47,21 +47,20 @@ cp app/.env.example app/.env
 ```bash
 yarn start:app
 ```
+## Contributing
 
-### Build for production
+Have a look through existing [Issues](https://github.com/IFRCGo/go-web-app/issues) and [Pull Requests](https://github.com/IFRCGo/go-web-app/pulls) that you could help with. If you'd like to request a feature or report a bug, please [create a GitHub Issue](https://github.com/IFRCGo/go-web-app/issues/new/choose) using one of the templates provided.
 
-1. To build the application for production
-```bash
-yarn build
-```
-2. To locally preview the production build
-```bash
-yarn preview
-```
+[See contribution guide →](./CONTRIBUTING.md)
+
+[See collaboration guide →](./COLLABORATING.md)
+
+
+
 ## Additional packages
 
 The repository hosts multiple packages under `packages` directory.
- 1. [IFRC GO UI](https://www.npmjs.com/package/@ifrc-go/ui) is a React UI components library tailored to meet the specific requirements of the IFRC GO community and its associated projects.
+ 1. [IFRC GO UI](https://github.com/IFRCGo/go-web-app/tree/develop/packages/ui) is a React UI components library tailored to meet the specific requirements of the IFRC GO community and its associated projects.
  2. [IFRC GO UI Storybook](https://github.com/IFRCGo/go-web-app/tree/develop/packages/go-ui-storybook) serves as the comprehensive showcase for the components library.
 
 ## IFRC GO backend
@@ -78,12 +77,6 @@ The backend that serves the frontend application is maintained in a separate [re
 - Create [GitHub Issues](https://github.com/IFRCGo/go-web-app/issues) for bug reports and feature requests.
 - Tweet at [@ifrcgo](https://twitter.com/ifrcgo) on Twitter.
 - Stay informed about the latest project updates at [Medium](https://ifrcgoproject.medium.com/).
-
-## Contributing
-
-Have a look through existing [Issues](https://github.com/IFRCGo/go-web-app/issues) and [Pull Requests](https://github.com/IFRCGo/go-web-app/pulls) that you could help with. If you'd like to request a feature or report a bug, please [create a GitHub Issue](https://github.com/IFRCGo/go-web-app/pulls) using one of the templates provided.
-
-[See contribution guide →](https://github.com/IFRCGo/go-web-app/blob/develop/CONTRIBUTING.md)
 
 ## License
 
