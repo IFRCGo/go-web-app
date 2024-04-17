@@ -1,11 +1,10 @@
 import {
-    type ElementRef,
     useMemo,
-    useRef,
     useState,
 } from 'react';
 import {
     ChartAxes,
+    ChartContainer,
     ChartPoint,
     Container,
     DateOutput,
@@ -56,7 +55,6 @@ function PastEventsChart(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
-    const containerRef = useRef<ElementRef<'div'>>(null);
     const [selectedTimePeriodKey, setSelectedTimePeriodKey] = useState<TimePeriodKey>('last-five-years');
     const [selectedEventMetricKey, setSelectedEventMetricKey] = useState<EventMetricKey>('targeted_population');
 
@@ -123,8 +121,9 @@ function PastEventsChart(props: Props) {
         : undefined;
 
     const {
-        // pending: historicalDisastersPending,
+        pending: historicalDisastersPending,
         response: historicalDisastersResponse,
+        error: historicalDisastersError,
     } = useRequest({
         skip: isNotDefined(countryId) || isNotDefined(selectedTimePeriod),
         url: '/api/v2/country/{id}/historical-disaster/',
@@ -138,7 +137,6 @@ function PastEventsChart(props: Props) {
     const chartData = useTemporalChartData(
         historicalDisastersResponse,
         {
-            containerRef,
             keySelector: (datum, i) => `${datum.date}-${i}`,
             xValueSelector: (datum) => datum.date,
             yValueSelector: (datum) => datum[selectedEventMetricKey],
@@ -158,6 +156,9 @@ function PastEventsChart(props: Props) {
             className={_cs(styles.pastEventsChart, className)}
             withHeaderBorder
             withGridViewInFilter
+            pending={historicalDisastersPending}
+            errored={isDefined(historicalDisastersError)}
+            errorMessage={historicalDisastersError?.value?.messageForNotification}
             filters={(
                 <>
                     <SelectInput
@@ -181,59 +182,54 @@ function PastEventsChart(props: Props) {
                 </>
             )}
         >
-            <div
-                className={styles.chartContainer}
-                ref={containerRef}
-            >
-                <svg className={styles.svg}>
-                    <ChartAxes
-                        chartData={chartData}
-                        yAxisLabel={selectedEventMetric?.label}
-                    />
-                    {chartData.chartPoints.map(
-                        (chartPoint) => (
-                            <ChartPoint
-                                className={styles.dataPoint}
-                                x={chartPoint.x}
-                                y={chartPoint.y}
-                                key={chartPoint.key}
-                                hoverable
-                            >
-                                <Tooltip
-                                    title={chartPoint.originalData.disaster_name}
-                                    description={(
-                                        <>
-                                            <DateOutput
-                                                value={chartPoint.originalData.date}
-                                                format="yyyy MMM"
-                                            />
-                                            <TextOutput
-                                                label={strings.pastEventsTargetedPopulation}
-                                                value={chartPoint.originalData.targeted_population}
-                                                valueType="number"
-                                            />
-                                            <TextOutput
-                                                label={strings.pastEventsAmountRequested}
-                                                value={chartPoint.originalData.amount_requested}
-                                                valueType="number"
-                                            />
-                                            <TextOutput
-                                                label={strings.pastEventsAmountFunded}
-                                                value={getPercentage(
-                                                    chartPoint.originalData.amount_funded,
-                                                    chartPoint.originalData.amount_requested,
-                                                )}
-                                                valueType="number"
-                                                suffix="%"
-                                            />
-                                        </>
-                                    )}
-                                />
-                            </ChartPoint>
-                        ),
-                    )}
-                </svg>
-            </div>
+            <ChartContainer chartData={chartData}>
+                <ChartAxes
+                    chartData={chartData}
+                    yAxisLabel={selectedEventMetric?.label}
+                />
+                {chartData.chartPoints.map(
+                    (chartPoint) => (
+                        <ChartPoint
+                            className={styles.dataPoint}
+                            x={chartPoint.x}
+                            y={chartPoint.y}
+                            key={chartPoint.key}
+                            hoverable
+                        >
+                            <Tooltip
+                                title={chartPoint.originalData.disaster_name}
+                                description={(
+                                    <>
+                                        <DateOutput
+                                            value={chartPoint.originalData.date}
+                                            format="yyyy MMM"
+                                        />
+                                        <TextOutput
+                                            label={strings.pastEventsTargetedPopulation}
+                                            value={chartPoint.originalData.targeted_population}
+                                            valueType="number"
+                                        />
+                                        <TextOutput
+                                            label={strings.pastEventsAmountRequested}
+                                            value={chartPoint.originalData.amount_requested}
+                                            valueType="number"
+                                        />
+                                        <TextOutput
+                                            label={strings.pastEventsAmountFunded}
+                                            value={getPercentage(
+                                                chartPoint.originalData.amount_funded,
+                                                chartPoint.originalData.amount_requested,
+                                            )}
+                                            valueType="number"
+                                            suffix="%"
+                                        />
+                                    </>
+                                )}
+                            />
+                        </ChartPoint>
+                    ),
+                )}
+            </ChartContainer>
         </Container>
     );
 }

@@ -1,8 +1,6 @@
 import { useOutletContext } from 'react-router-dom';
 import {
-    BlockLoading,
     Container,
-    Message,
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -13,6 +11,7 @@ import {
 import {
     isDefined,
     isNotDefined,
+    isTruthyString,
 } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
@@ -31,8 +30,8 @@ export function Component() {
     const strings = useTranslation(i18n);
 
     const {
-        pending: countryStatusPending,
-        response: countryStatusResponse,
+        pending: countryPerProcessStatusPending,
+        response: countryPerProcessStatusResponse,
     } = useRequest({
         skip: isNotDefined(countryId),
         url: '/api/v2/public-per-process-status/',
@@ -42,14 +41,13 @@ export function Component() {
         },
     });
 
-    const hasPer = isDefined(countryStatusResponse)
-        && isDefined(countryStatusResponse.results)
-        && countryStatusResponse.results.length > 0;
+    const hasPer = isDefined(countryPerProcessStatusResponse)
+        && isDefined(countryPerProcessStatusResponse.results)
+        && countryPerProcessStatusResponse.results.length > 0;
 
     return (
         <Container
             className={styles.nsOverviewCapacity}
-            childrenContainerClassName={styles.countryNsOverviewCapacity}
             actions={(
                 <Link
                     href="https://www.ifrc.org/evaluations/"
@@ -60,26 +58,24 @@ export function Component() {
                     {strings.nsOverviewCapacityLink}
                 </Link>
             )}
+            headerDescription={strings.nSOverviewCapacityDescription}
+            withCenteredHeaderDescription
+            contentViewType="vertical"
+            spacing="loose"
         >
-            {/* FIXME: This should be handle by Container */}
-            <div className={styles.nsOverviewCapacityHeader}>
-                <div className={styles.nsOverviewCapacityHeaderDescription}>
-                    {strings.nSOverviewCapacityDescription}
-                </div>
-            </div>
             {/* Data is currently under review, it will be include in the next version */}
             {/* Hide this section */}
             {/* {countryResponse?.region === REGION_ASIA && (
                 <CountryNsOrganisationalCapacity />
             )} */}
             <CountryNsCapacityStrengthening />
-            {countryStatusPending && <BlockLoading />}
             <Container
                 heading={strings.nsPreparednessHeading}
                 headerDescription={strings.nsPreparednessDescription}
                 withHeaderBorder
                 contentViewType="grid"
                 numPreferredGridContentColumns={3}
+                pending={countryPerProcessStatusPending}
                 actions={(
                     <Link
                         to="newPerOverviewForm"
@@ -88,15 +84,9 @@ export function Component() {
                         {strings.perStartPerProcess}
                     </Link>
                 )}
+                empty={!hasPer}
             >
-                {!hasPer && (
-                    <Message
-                        className={styles.emptyMessage}
-                        // TODO: add appropriate message
-                        title="Data not available!"
-                    />
-                )}
-                {hasPer && countryStatusResponse?.results?.map(
+                {countryPerProcessStatusResponse?.results?.map(
                     (perProcess) => (
                         <Container
                             key={perProcess.id}
@@ -137,22 +127,17 @@ export function Component() {
                             )}
                             footerContent={(
                                 <>
-                                    <div className={styles.separator} />
                                     <TextOutput
                                         label={strings.perTypeOfAssessmentLabel}
                                         value={perProcess.type_of_assessment_details.name}
                                     />
                                     <TextOutput
                                         label={strings.perFocalPointLabel}
-                                        value={`${perProcess.ns_focal_point_name
-                                            ? perProcess.ns_focal_point_name
-                                            : '-'} | ${perProcess.ns_focal_point_email
-                                            ? perProcess.ns_focal_point_email
-                                            : '-'}`}
+                                        value={[perProcess.ns_focal_point_name, perProcess.ns_focal_point_email].filter(isTruthyString).join(' | ')}
                                     />
                                 </>
                             )}
-
+                            withFooterBorder
                         >
                             <div className={styles.phaseAssessmentDateSection}>
                                 <div className={styles.phaseAssessmentValue}>

@@ -9,3 +9,4 @@ export { default as useKeyboard } from './useKeyboard';
 export { default as useSizeTracking } from './useSizeTracking';
 export { default as useSpacingTokens } from './useSpacingTokens';
 export { default as useTranslation } from './useTranslation';
+export { default as useDebouncedValue } from './useTranslation';

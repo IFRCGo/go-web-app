@@ -1,14 +1,4 @@
 .country-ns-overview-context-and-structure {
-    display: flex;
-    flex-direction: column;
-    gap: var(--go-ui-spacing-2xl);
-
-    .ns-income {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
-        grid-gap: var(--go-ui-spacing-lg);
-    }
-
     .ns-directory-and-contacts {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
@@ -18,7 +8,7 @@
 
         .directory {
             grid-column: auto / span 1;
-            max-height: 50rem;
+            max-height: 30rem;
 
             @media screen and (max-width: 60rem) {
                 grid-column: 1 / -1;

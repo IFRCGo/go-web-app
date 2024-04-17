@@ -33,7 +33,10 @@ export function Component() {
         () => new Date().getFullYear(),
     );
 
-    const { response: databankResponse } = useRequest({
+    const {
+        response: databankResponse,
+        pending: databankResponsePending,
+    } = useRequest({
         skip: isNotDefined(countryId),
         url: '/api/v2/country/{id}/databank/',
         pathVariables: isDefined(countryId) ? { id: Number(countryId) } : undefined,
@@ -57,11 +60,21 @@ export function Component() {
     });
 
     return (
-        <div className={styles.countryNsOverviewContextAndStructure}>
+        <Container
+            className={styles.countryNsOverviewContextAndStructure}
+            contentViewType="vertical"
+            spacing="loose"
+            pending={databankResponsePending}
+        >
             <NationalSocietyIndicators
                 databankResponse={databankResponse}
             />
-            <div className={styles.nsIncome}>
+            <NationalSocietyLocalUnitsMap />
+            <Container
+                contentViewType="grid"
+                numPreferredGridContentColumns={2}
+                spacing="relaxed"
+            >
                 <NationalSocietyIncomeOverTime
                     selectedYear={selectedYearForIncome}
                     setSelectedYear={setSelectedYearForIncome}
@@ -73,8 +86,7 @@ export function Component() {
                         countryId={Number(countryId)}
                     />
                 )}
-            </div>
-            <NationalSocietyLocalUnitsMap />
+            </Container>
             <div className={styles.nsDirectoryAndContacts}>
                 <NationalSocietyDirectory className={styles.directory} />
                 <NationalSocietyContacts className={styles.contacts} />
@@ -151,7 +163,7 @@ export function Component() {
                     )}
                 </Container>
             )}
-        </div>
+        </Container>
     );
 }
 

@@ -68,6 +68,7 @@ function DocumentListCard(props: Props) {
             headingLevel={4}
             withHeaderBorder
             withInternalPadding
+            childrenContainerClassName={styles.content}
         >
             <Table
                 data={documents}

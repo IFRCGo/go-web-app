@@ -1,10 +1,7 @@
-import {
-    ElementRef,
-    useCallback,
-    useRef,
-} from 'react';
+import { useCallback } from 'react';
 import {
     ChartAxes,
+    ChartContainer,
     ChartPoint,
     Container,
     TextOutput,
@@ -43,7 +40,6 @@ function NationalSocietyIncomeOverTime(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
-    const containerRef = useRef<ElementRef<'div'>>(null);
 
     const annualIncome = databankResponse?.fdrs_annual_income?.map(
         (income) => {
@@ -85,7 +81,6 @@ function NationalSocietyIncomeOverTime(props: Props) {
     const chartData = useNumericChartData(
         annualIncome,
         {
-            containerRef,
             keySelector: (datum) => datum.date.getFullYear(),
             xValueSelector: (datum) => datum.date.getFullYear(),
             yValueSelector: (datum) => datum.value,
@@ -145,33 +140,31 @@ function NationalSocietyIncomeOverTime(props: Props) {
                 />
             )}
         >
-            <div
+            <ChartContainer
                 className={styles.chartContainer}
-                ref={containerRef}
+                chartData={chartData}
             >
-                <svg className={styles.svg}>
-                    <g className={styles.yearlyIncome}>
-                        <path
-                            className={styles.line}
-                            d={getPathData(chartData.chartPoints)}
-                        />
-                        {chartData.chartPoints.map((dataPoint) => (
-                            <ChartPoint
-                                active={selectedYear === dataPoint.key}
-                                key={dataPoint.key}
-                                x={dataPoint.x}
-                                y={dataPoint.y}
-                            />
-                        ))}
-                    </g>
-                    <ChartAxes
-                        chartData={chartData}
-                        yAxisLabel={strings.nsIncomeOverTimeChartAxisLabel}
-                        tooltipSelector={tooltipSelector}
-                        onClick={handlePointClick}
+                <g className={styles.yearlyIncome}>
+                    <path
+                        className={styles.line}
+                        d={getPathData(chartData.chartPoints)}
                     />
-                </svg>
-            </div>
+                    {chartData.chartPoints.map((dataPoint) => (
+                        <ChartPoint
+                            active={selectedYear === dataPoint.key}
+                            key={dataPoint.key}
+                            x={dataPoint.x}
+                            y={dataPoint.y}
+                        />
+                    ))}
+                </g>
+                <ChartAxes
+                    chartData={chartData}
+                    yAxisLabel={strings.nsIncomeOverTimeChartAxisLabel}
+                    tooltipSelector={tooltipSelector}
+                    onClick={handlePointClick}
+                />
+            </ChartContainer>
         </Container>
     );
 }

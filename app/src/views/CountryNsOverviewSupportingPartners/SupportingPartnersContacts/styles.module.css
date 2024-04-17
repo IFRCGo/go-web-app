@@ -1,29 +1,15 @@
-.contacts-table {
-    .content {
-        display: flex;
-        flex-direction: column;
-        gap: var(--go-ui-spacing-lg);
+.supporting-partners-contacts {
+    .table {
+        min-height: 0;
 
-        .table {
-            min-height: 0;
-
-            .name {
-                font-weight: var(--go-ui-font-weight-semibold);
-            }
-
-            .caption {
-                display: flex;
-                padding: var(--go-ui-spacing-md) 0 var(--go-ui-spacing-sm);
-                font-weight: var(--go-ui-font-weight-semibold);
-            }
+        .name {
+            font-weight: var(--go-ui-font-weight-semibold);
         }
-    }
 
-    .loading {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        .caption {
+            display: flex;
+            padding: var(--go-ui-spacing-md) 0 var(--go-ui-spacing-sm);
+            font-weight: var(--go-ui-font-weight-semibold);
+        }
     }
 }

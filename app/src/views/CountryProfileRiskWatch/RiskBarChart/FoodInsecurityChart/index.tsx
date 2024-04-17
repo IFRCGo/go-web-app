@@ -1,9 +1,7 @@
-import {
-    useMemo,
-    useRef,
-} from 'react';
+import { useMemo } from 'react';
 import {
     ChartAxes,
+    ChartContainer,
     ChartPoint,
     TextOutput,
     Tooltip,
@@ -136,7 +134,6 @@ function FoodInsecurityChart(props: Props) {
         showProjection,
     } = props;
 
-    const chartContainerRef = useRef<HTMLDivElement>(null);
     const uniqueData = useMemo(
         () => getPrioritizedIpcData(ipcData ?? []),
         [ipcData],
@@ -145,7 +142,6 @@ function FoodInsecurityChart(props: Props) {
     const chartData = useTemporalChartData(
         uniqueData,
         {
-            containerRef: chartContainerRef,
             keySelector: (datum) => datum.id,
             xValueSelector: (datum) => new Date(datum.year, datum.month - 1, 1),
             yValueSelector: (datum) => datum.total_displacement,
@@ -232,44 +228,21 @@ function FoodInsecurityChart(props: Props) {
     );
 
     return (
-        <div
+        <ChartContainer
             className={styles.foodInsecurityChart}
-            ref={chartContainerRef}
+            chartData={chartData}
         >
-            <svg className={styles.svg}>
-                <ChartAxes chartData={chartData} />
-                {showHistoricalData && historicalPointsDataList.map(
-                    (historicalPointsData, i) => (
-                        <g
-                            className={styles.historicalData}
-                            key={historicalPointsData.key}
-                            style={{
-                                color: colors[i],
-                            }}
-                        >
-                            {getDiscretePathDataList(historicalPointsData.list).map(
-                                (discretePath) => (
-                                    <path
-                                        key={discretePath}
-                                        className={styles.path}
-                                        d={discretePath}
-                                    />
-                                ),
-                            )}
-                            {historicalPointsData.list.map(
-                                (pointData) => (
-                                    <FiChartPoint
-                                        dataPoint={pointData}
-                                        key={pointData.key}
-                                    />
-                                ),
-                            )}
-                        </g>
-                    ),
-                )}
-                {showProjection && (
-                    <g className={styles.prediction}>
-                        {getDiscretePathDataList(predictionPointsData).map(
+            <ChartAxes chartData={chartData} />
+            {showHistoricalData && historicalPointsDataList.map(
+                (historicalPointsData, i) => (
+                    <g
+                        className={styles.historicalData}
+                        key={historicalPointsData.key}
+                        style={{
+                            color: colors[i],
+                        }}
+                    >
+                        {getDiscretePathDataList(historicalPointsData.list).map(
                             (discretePath) => (
                                 <path
                                     key={discretePath}
@@ -278,18 +251,20 @@ function FoodInsecurityChart(props: Props) {
                                 />
                             ),
                         )}
-                        {predictionPointsData.map(
+                        {historicalPointsData.list.map(
                             (pointData) => (
                                 <FiChartPoint
-                                    key={pointData.key}
                                     dataPoint={pointData}
+                                    key={pointData.key}
                                 />
                             ),
                         )}
                     </g>
-                )}
-                <g className={styles.average}>
-                    {getDiscretePathDataList(averagePointsData).map(
+                ),
+            )}
+            {showProjection && (
+                <g className={styles.prediction}>
+                    {getDiscretePathDataList(predictionPointsData).map(
                         (discretePath) => (
                             <path
                                 key={discretePath}
@@ -298,7 +273,7 @@ function FoodInsecurityChart(props: Props) {
                             />
                         ),
                     )}
-                    {averagePointsData.map(
+                    {predictionPointsData.map(
                         (pointData) => (
                             <FiChartPoint
                                 key={pointData.key}
@@ -307,8 +282,27 @@ function FoodInsecurityChart(props: Props) {
                         ),
                     )}
                 </g>
-            </svg>
-        </div>
+            )}
+            <g className={styles.average}>
+                {getDiscretePathDataList(averagePointsData).map(
+                    (discretePath) => (
+                        <path
+                            key={discretePath}
+                            className={styles.path}
+                            d={discretePath}
+                        />
+                    ),
+                )}
+                {averagePointsData.map(
+                    (pointData) => (
+                        <FiChartPoint
+                            key={pointData.key}
+                            dataPoint={pointData}
+                        />
+                    ),
+                )}
+            </g>
+        </ChartContainer>
     );
 }
 

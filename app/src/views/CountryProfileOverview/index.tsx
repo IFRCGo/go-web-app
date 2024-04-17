@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import {
-    BlockLoading,
     Container,
     LegendItem,
     Message,
@@ -124,6 +123,7 @@ export function Component() {
     const {
         pending: databankResponsePending,
         response: databankResponse,
+        error: databankResponseError,
     } = useRequest({
         url: '/api/v2/country/{id}/databank/',
         skip: isNotDefined(countryId),
@@ -218,8 +218,14 @@ export function Component() {
     );
 
     return (
-        <div className={styles.countryProfileOverview}>
-            {databankResponsePending && <BlockLoading />}
+        <Container
+            className={styles.countryProfileOverview}
+            contentViewType="vertical"
+            spacing="loose"
+            pending={databankResponsePending}
+            errored={isDefined(databankResponseError)}
+            errorMessage={databankResponseError?.value?.messageForNotification}
+        >
             {isDefined(databankResponse) && (
                 <Container
                     className={styles.countryIndicators}
@@ -406,7 +412,7 @@ export function Component() {
                     )}
                 </Container>
             )}
-        </div>
+        </Container>
     );
 }
 

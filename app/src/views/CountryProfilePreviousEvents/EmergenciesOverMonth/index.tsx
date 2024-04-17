@@ -1,9 +1,6 @@
 import {
-    type ElementRef,
-    useRef,
-} from 'react';
-import {
     ChartAxes,
+    ChartContainer,
     ChartPoint,
     DateOutput,
     TextOutput,
@@ -33,8 +30,6 @@ function EmergenciesOverMonth(props: Props) {
 
     const strings = useTranslation(i18n);
 
-    const containerRef = useRef<ElementRef<'div'>>(null);
-
     const {
         // pending: disasterMonthlyCountPending,
         response: disasterMonthlyCountResponse,
@@ -53,7 +48,6 @@ function EmergenciesOverMonth(props: Props) {
     const chartData = useTemporalChartData(
         disasterMonthlyCountResponse,
         {
-            containerRef,
             keySelector: (datum, i) => `${datum.date}-${i}`,
             xValueSelector: (datum) => datum.date,
             yValueSelector: (datum) => datum.targeted_population,
@@ -63,41 +57,37 @@ function EmergenciesOverMonth(props: Props) {
     );
 
     return (
-        <div
+        <ChartContainer
             className={styles.emergenciesOverMonth}
-            ref={containerRef}
+            chartData={chartData}
         >
-            <svg className={styles.svg}>
-                {chartData.chartPoints.map(
-                    (dataPoint) => (
-                        <ChartPoint
-                            className={styles.dataPoint}
-                            x={dataPoint.x}
-                            y={dataPoint.y}
-                            key={dataPoint.key}
-                            hoverable
-                        >
-                            <Tooltip
-                                title={dataPoint.originalData.disaster_name}
-                                description={(
-                                    <>
-                                        <DateOutput value={dataPoint.originalData.date} />
-                                        <TextOutput
-                                            label={strings.emergenciesOverMonthTargetedPopulation}
-                                            value={dataPoint.originalData.targeted_population}
-                                            valueType="number"
-                                        />
-                                    </>
-                                )}
-                            />
-                        </ChartPoint>
-                    ),
-                )}
-                <ChartAxes
-                    chartData={chartData}
-                />
-            </svg>
-        </div>
+            {chartData.chartPoints.map(
+                (dataPoint) => (
+                    <ChartPoint
+                        className={styles.dataPoint}
+                        x={dataPoint.x}
+                        y={dataPoint.y}
+                        key={dataPoint.key}
+                        hoverable
+                    >
+                        <Tooltip
+                            title={dataPoint.originalData.disaster_name}
+                            description={(
+                                <>
+                                    <DateOutput value={dataPoint.originalData.date} />
+                                    <TextOutput
+                                        label={strings.emergenciesOverMonthTargetedPopulation}
+                                        value={dataPoint.originalData.targeted_population}
+                                        valueType="number"
+                                    />
+                                </>
+                            )}
+                        />
+                    </ChartPoint>
+                ),
+            )}
+            <ChartAxes chartData={chartData} />
+        </ChartContainer>
     );
 }
 

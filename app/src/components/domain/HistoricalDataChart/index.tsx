@@ -1,4 +1,3 @@
-import { useRef } from 'react';
 import {
     CycloneIcon,
     DroughtIcon,
@@ -7,6 +6,7 @@ import {
 } from '@ifrc-go/icons';
 import {
     ChartAxes,
+    ChartContainer,
     Container,
     SelectInput,
     TextOutput,
@@ -128,7 +128,6 @@ function HistoricalDataChart(props: Props) {
     const strings = useTranslation(i18n);
 
     const [disasterFilter, setDisasterFilter] = useInputState<number | undefined>(undefined);
-    const chartContainerRef = useRef<HTMLDivElement>(null);
 
     const { response: historicalDataResponse } = useRequest({
         skip: variant === 'country' ? isNotDefined(countryId) : isNotDefined(regionId),
@@ -181,7 +180,6 @@ function HistoricalDataChart(props: Props) {
     const chartData = useTemporalChartData(
         filteredEvents,
         {
-            containerRef: chartContainerRef,
             keySelector: (datum) => datum.id,
             xValueSelector: (datum) => datum.disaster_start_date,
             yValueSelector: (datum) => datum.num_affected,
@@ -208,16 +206,14 @@ function HistoricalDataChart(props: Props) {
                 />
             )}
         >
-            <div
-                ref={chartContainerRef}
+            <ChartContainer
                 className={styles.chartContainer}
+                chartData={chartData}
             >
-                <svg className={styles.svg}>
-                    <ChartAxes
-                        chartData={chartData}
-                        yAxisLabel={strings.peopleExposed}
-                    />
-                </svg>
+                <ChartAxes
+                    chartData={chartData}
+                    yAxisLabel={strings.peopleExposed}
+                />
                 {chartData.chartPoints?.map(
                     (point) => {
                         const funded = sumSafe(
@@ -236,55 +232,60 @@ function HistoricalDataChart(props: Props) {
                             : getPercentage(funded, requested);
 
                         return (
-                            <div
+                            <foreignObject
+                                x={point.x}
+                                y={point.y}
+                                className={styles.pointContainer}
                                 key={point.key}
-                                className={styles.point}
-                                style={{
-                                    left: `${point.x}px`,
-                                    top: `${point.y}px`,
-                                    backgroundColor: hazardIdToColorMap[
-                                        point.originalData.dtype.id
-                                    ],
-                                }}
                             >
-                                {hazardIdToIconMap[point.originalData.dtype.id]}
-                                <Tooltip
-                                    title={point.originalData.dtype.name}
-                                    description={(
-                                        <>
-                                            <TextOutput
-                                                label="Start date"
-                                                value={point.originalData.disaster_start_date}
-                                                valueType="date"
-                                                strongValue
-                                            />
-                                            <TextOutput
-                                                value={point.originalData.num_affected}
-                                                label={strings.peopleAffectedLabel}
-                                                valueType="number"
-                                                strongValue
-                                            />
-                                            <TextOutput
-                                                value={funded}
-                                                label={strings.fundedLabel}
-                                                valueType="number"
-                                                strongValue
-                                            />
-                                            <TextOutput
-                                                value={coverage}
-                                                valueType="number"
-                                                suffix="%"
-                                                label={strings.fundingCoverageLabel}
-                                                strongValue
-                                            />
-                                        </>
-                                    )}
-                                />
-                            </div>
+                                <div
+                                    className={styles.point}
+                                    style={{
+                                        backgroundColor: hazardIdToColorMap[
+                                            point.originalData.dtype.id
+                                        ],
+                                    }}
+                                >
+                                    {hazardIdToIconMap[point.originalData.dtype.id]}
+                                    <Tooltip
+                                        title={point.originalData.dtype.name}
+                                        description={(
+                                            <>
+                                                <TextOutput
+                                                    label="Start date"
+                                                    value={point.originalData.disaster_start_date}
+                                                    valueType="date"
+                                                    strongValue
+                                                />
+                                                <TextOutput
+                                                    value={point.originalData.num_affected}
+                                                    label={strings.peopleAffectedLabel}
+                                                    valueType="number"
+                                                    strongValue
+                                                />
+                                                <TextOutput
+                                                    value={funded}
+                                                    label={strings.fundedLabel}
+                                                    valueType="number"
+                                                    strongValue
+                                                    maximumFractionDigits={0}
+                                                />
+                                                <TextOutput
+                                                    value={coverage}
+                                                    valueType="number"
+                                                    suffix="%"
+                                                    label={strings.fundingCoverageLabel}
+                                                    strongValue
+                                                />
+                                            </>
+                                        )}
+                                    />
+                                </div>
+                            </foreignObject>
                         );
                     },
                 )}
-            </div>
+            </ChartContainer>
             <div className={styles.legend}>
                 {disasterOptions.map(
                     (disaster) => (

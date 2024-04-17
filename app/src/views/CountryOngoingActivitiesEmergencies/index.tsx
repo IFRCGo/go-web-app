@@ -9,7 +9,6 @@ import {
     PencilFillIcon,
 } from '@ifrc-go/icons';
 import {
-    BlockLoading,
     Button,
     Container,
     LegendItem,
@@ -207,6 +206,7 @@ export function Component(props: BaseProps) {
     const {
         pending: aggregatedAppealPending,
         response: aggregatedAppealResponse,
+        error: aggregatedAppealError,
     } = useRequest({
         skip: isNotDefined(countryId),
         url: '/api/v2/appeal/aggregated',
@@ -216,6 +216,7 @@ export function Component(props: BaseProps) {
     const {
         pending: appealsPending,
         response: appealsResponse,
+        error: appealsResponseError,
     } = useRequest({
         url: '/api/v2/appeal/',
         preserveResponse: true,
@@ -303,19 +304,12 @@ export function Component(props: BaseProps) {
         ],
     );
 
-    const {
-        response: appealResponse,
-    } = useRequest({
-        url: '/api/v2/appeal/',
-        query,
-    });
-
     const countryGroupedAppeal = useMemo(() => (
         listToGroupList(
-            appealResponse?.results ?? [],
+            appealsResponse?.results ?? [],
             (appeal) => appeal.country.iso3 ?? '<no-key>',
         )
-    ), [appealResponse]);
+    ), [appealsResponse]);
 
     const countryCentroidGeoJson = useMemo(
         (): GeoJSON.FeatureCollection<GeoJSON.Geometry> => {
@@ -464,7 +458,6 @@ export function Component(props: BaseProps) {
     return (
         <Container
             className={styles.countryOngoingActivities}
-            childrenContainerClassName={styles.countryOngoingActivitiesEmergencies}
             actions={isAuthenticated && (
                 <Link
                     external
@@ -475,21 +468,23 @@ export function Component(props: BaseProps) {
                     {strings.editCountryLink}
                 </Link>
             )}
+            headerDescription={strings.countryOngoingActivitiesEmergenciesDescription}
+            withCenteredHeaderDescription
+            contentViewType="vertical"
+            spacing="loose"
+            pending={aggregatedAppealPending || appealsPending}
         >
-            {/* // FIXME: This should be handle by Container */}
-            <div className={styles.ongoingEmergenciesHeader}>
-                <div className={styles.dummy} />
-                <div className={styles.ongoingEmergenciesHeaderDescription}>
-                    {strings.countryOngoingActivitiesEmergenciesDescription}
-                </div>
-                <div className={styles.dummy} />
-            </div>
-            {aggregatedAppealPending && <BlockLoading />}
-            {!aggregatedAppealPending && aggregatedAppealResponse && (
-                <CountryKeyFigures
-                    data={aggregatedAppealResponse}
-                />
-            )}
+            <Container
+                pending={aggregatedAppealPending}
+                errored={isDefined(aggregatedAppealError)}
+                errorMessage={aggregatedAppealError?.value?.messageForNotification}
+            >
+                {aggregatedAppealResponse && (
+                    <CountryKeyFigures
+                        data={aggregatedAppealResponse}
+                    />
+                )}
+            </Container>
             {isDefined(countryId) && (
                 <HighlightedOperations
                     variant="country"
@@ -521,6 +516,15 @@ export function Component(props: BaseProps) {
                             {allAppealsType.title}
                         </Link>
                     )}
+                    footerActions={(
+                        <Pager
+                            activePage={page}
+                            itemsCount={appealsResponse?.count ?? 0}
+                            maxItemsPerPage={limit}
+                            onActivePageChange={setPage}
+                        />
+                    )}
+                    contentViewType="vertical"
                 >
                     <BaseMap
                         baseLayers={(
@@ -580,6 +584,7 @@ export function Component(props: BaseProps) {
                         </MapSource>
                         {clickedPointProperties?.lngLat && (
                             <MapPopup
+                                popupClassName={styles.mapPopup}
                                 onCloseButtonClick={handlePointClose}
                                 coordinates={clickedPointProperties.lngLat}
                                 heading={(
@@ -648,24 +653,6 @@ export function Component(props: BaseProps) {
                             {strings.presentationModeButton}
                         </Button>
                     )}
-                </Container>
-            )}
-            {isDefined(countryId) && (
-                <Container
-                    className={styles.appealsTable}
-                    childrenContainerClassName={styles.content}
-                    withGridViewInFilter
-                    withHeaderBorder
-                    footerActions={(
-                        <Pager
-                            activePage={page}
-                            itemsCount={appealsResponse?.count ?? 0}
-                            maxItemsPerPage={limit}
-                            onActivePageChange={setPage}
-                        />
-                    )}
-                    contentViewType="vertical"
-                >
                     <SortContext.Provider value={sortState}>
                         <Table
                             pending={appealsPending}
@@ -674,6 +661,7 @@ export function Component(props: BaseProps) {
                             columns={columns}
                             keySelector={appealKeySelector}
                             data={appealsResponse?.results}
+                            errored={isDefined(appealsResponseError)}
                         />
                     </SortContext.Provider>
                 </Container>

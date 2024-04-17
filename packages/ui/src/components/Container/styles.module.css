@@ -1,12 +1,23 @@
 .container {
     --num-columns: 2;
-    --max-width: calc(var(--go-ui-page-width-max) * 0.7);
+    --max-width: calc(var(--go-ui-page-width-max) * 0.8);
 
     display: flex;
     flex-direction: column;
 
     .header {
         flex-shrink: 0;
+
+        .centered-header-description-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+
+            .centered-description {
+                max-width: var(--go-ui-page-header-description-width-max);
+                text-align: center;
+            }
+        }
     }
 
     .border {
@@ -52,6 +63,12 @@
             @media screen and (max-width: 55rem) {
                 --max-width: 60rem;
             }
+
+            @media screen and (max-width: 30rem) {
+                >.content {
+                    grid-template-columns: 1fr;
+                }
+            }
         }
 
         &.three-columns {
@@ -59,6 +76,12 @@
 
             @media screen and (max-width: 55rem) {
                 --max-width: 60rem;
+            }
+
+            @media screen and (max-width: 30rem) {
+                >.content {
+                    grid-template-columns: 1fr;
+                }
             }
         }
 

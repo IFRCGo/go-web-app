@@ -1,10 +1,4 @@
 .risk-watch {
-    .risk-watch-description {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-    }
-
     .country-risk-watch {
         display: flex;
         flex-direction: column;

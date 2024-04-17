@@ -137,7 +137,7 @@ function Header(props: Props) {
                 </div>
             )}
             {children && (
-                <div className={_cs(styles.description, childrenContainerClassName)}>
+                <div className={childrenContainerClassName}>
                     {children}
                 </div>
             )}

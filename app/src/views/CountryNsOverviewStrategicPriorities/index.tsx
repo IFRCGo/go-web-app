@@ -5,10 +5,8 @@ import {
     DownloadLineIcon,
 } from '@ifrc-go/icons';
 import {
-    BlockLoading,
     Container,
     KeyFigure,
-    Message,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToString } from '@ifrc-go/ui/utils';
@@ -20,6 +18,7 @@ import {
 } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
+import useDebouncedValue from '#hooks/useDebouncedValue';
 import { type CountryOutletContext } from '#utils/outletContext';
 import { useRequest } from '#utils/restRequest';
 
@@ -84,11 +83,27 @@ export function Component() {
                 (areaResponse) => (
                     areaResponse.component_responses
                 ),
-            ).flat().filter(isDefined).sort(
-                (a, b) => compareNumber(a?.rating_details?.value, b?.rating_details?.value, -1),
-            );
+            ).flat();
 
-            return componentResponses.slice(0, 5);
+            const componentResponsesWithDefinedRating = componentResponses.map(
+                (componentResponse) => {
+                    if (
+                        isNotDefined(componentResponse)
+                        || isNotDefined(componentResponse.rating_details)
+                    ) {
+                        return undefined;
+                    }
+
+                    return {
+                        ...componentResponse,
+                        rating_details: componentResponse.rating_details,
+                    };
+                },
+            ).filter(isDefined);
+
+            return componentResponsesWithDefinedRating.sort(
+                (a, b) => compareNumber(a.rating_details.value, b.rating_details.value, -1),
+            ).slice(0, 5);
         },
         [assessmentResponse],
     );
@@ -132,28 +147,19 @@ export function Component() {
     const perContentsDefined = hasStrengthComponents || hasKeyDevelopmentComponents;
 
     const hasCountryPlan = countryResponse?.has_country_plan;
+    const pending = useDebouncedValue(countryPlanPending || perPending);
 
     return (
         <Container
             className={styles.strategicPriorities}
             childrenContainerClassName={styles.countryNsOverviewStrategicPriorities}
+            headerDescription={strings.strategicPrioritiesDescription}
+            withCenteredHeaderDescription
+            pending={pending}
+            empty={!pending && !hasCountryPlan && !perContentsDefined}
+            contentViewType="vertical"
+            spacing="loose"
         >
-            {/* // FIXME: This should be handle by Container */}
-            <div className={styles.strategicPrioritiesHeader}>
-                <div className={styles.dummy} />
-                <div className={styles.strategicPrioritiesHeaderDescription}>
-                    {strings.strategicPrioritiesDescription}
-                </div>
-                <div className={styles.dummy} />
-            </div>
-            {(perPending || countryPlanPending) && (
-                <BlockLoading />
-            )}
-            {!hasCountryPlan && !perContentsDefined && (
-                <Message
-                    title={strings.notAvailableMessage}
-                />
-            )}
             {hasCountryPlan && isDefined(countryPlanResponse) && (
                 <Container
                     childrenContainerClassName={styles.countryPlanContent}

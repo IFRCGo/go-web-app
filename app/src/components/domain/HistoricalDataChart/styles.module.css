@@ -9,32 +9,30 @@
     }
 
     .chart-container {
-        position: relative;
         height: 20rem;
 
-        .svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        .point {
-            display: flex;
-            position: absolute;
-            align-items: center;
-            justify-content: center;
-            transform: translate(-50%, -50%);
-            opacity: var(--go-ui-opacity-chart-point);
-            border-radius: 50%;
+        .point-container {
+            transform: translate(calc(-1 * var(--hazard-point-size) / 2), calc(-1 * var(--hazard-point-size) / 2));
             width: var(--hazard-point-size);
             height: var(--hazard-point-size);
 
-            .hazard-icon {
-                color: var(--go-ui-color-white);
-                font-size: var(--hazard-icon-size);
-            }
+            .point {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: var(--go-ui-opacity-chart-point);
+                border-radius: 50%;
+                width: var(--hazard-point-size);
+                height: var(--hazard-point-size);
 
-            &:hover {
-                opacity: 1;
+                .hazard-icon {
+                    color: var(--go-ui-color-white);
+                    font-size: var(--hazard-icon-size);
+                }
+
+                &:hover {
+                    opacity: 1;
+                }
             }
         }
     }

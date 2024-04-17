@@ -35,7 +35,7 @@ function capacityKeySelector(option: CapacityItem) {
 function CountryNsCapacityStrengthening() {
     const strings = useTranslation(i18n);
 
-    const { countryResponse } = useOutletContext<CountryOutletContext>();
+    const { countryResponse, countryResponsePending } = useOutletContext<CountryOutletContext>();
 
     const ocacRendererParams = useCallback(
         (_: number, capacity: CapacityItem) => ({
@@ -60,6 +60,11 @@ function CountryNsCapacityStrengthening() {
 
     const fdrsLink = countryResponse?.fdrs;
 
+    const hasOcacAssessments = isDefined(ocacAssessments) && ocacAssessments.length > 0;
+    const hasBocaAssessments = isDefined(bocaAssessments) && bocaAssessments.length > 0;
+
+    const isEmpty = !hasOcacAssessments && !hasBocaAssessments;
+
     return (
         <Container
             childrenContainerClassName={styles.countryNsCapacityStrengthening}
@@ -68,7 +73,7 @@ function CountryNsCapacityStrengthening() {
             contentViewType="grid"
             numPreferredGridContentColumns={3}
             withHeaderBorder
-            footerActions={(
+            footerActions={!isEmpty && (
                 <TextOutput
                     label={strings.source}
                     value={(
@@ -83,8 +88,10 @@ function CountryNsCapacityStrengthening() {
                     )}
                 />
             )}
+            pending={countryResponsePending}
+            empty={isEmpty}
         >
-            {isDefined(ocacAssessments) && ocacAssessments.length > 0 && (
+            {hasOcacAssessments && (
                 <RawList
                     data={ocacAssessments}
                     keySelector={capacityKeySelector}
@@ -92,7 +99,7 @@ function CountryNsCapacityStrengthening() {
                     rendererParams={ocacRendererParams}
                 />
             )}
-            {isDefined(bocaAssessments) && bocaAssessments.length > 0 && (
+            {hasBocaAssessments && (
                 <Container
                     className={styles.capacityItem}
                     heading={strings.bocaAssessment}

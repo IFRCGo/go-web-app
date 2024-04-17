@@ -4,7 +4,7 @@ import { SearchLineIcon } from '@ifrc-go/icons';
 import {
     Container,
     DateInput,
-    Grid,
+    RawList,
     TextInput,
     TextOutput,
 } from '@ifrc-go/ui';
@@ -134,16 +134,17 @@ function NationalSocietyKeyDocuments() {
                     )}
                 />
             )}
+            pending={documentResponsePending}
+            errored={isDefined(documentResponseError)}
+            filtered={filtered}
+            contentViewType="grid"
+            numPreferredGridContentColumns={3}
         >
-            <Grid
+            <RawList
                 data={groupedDocumentsList}
-                pending={documentResponsePending}
-                errored={isDefined(documentResponseError)}
-                filtered={filtered}
                 keySelector={groupedDocumentsListKeySelector}
                 renderer={DocumentListCard}
                 rendererParams={rendererParams}
-                numPreferredColumns={3}
             />
         </Container>
     );
