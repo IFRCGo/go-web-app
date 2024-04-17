@@ -1,7 +1,0 @@
-.question-input {
-    .content {
-        display: flex;
-        flex-direction: column;
-        gap: var(--go-ui-spacing-md);
-    }
-}

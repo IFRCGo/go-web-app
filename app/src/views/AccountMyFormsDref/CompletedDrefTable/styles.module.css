@@ -6,21 +6,34 @@
     }
 
     .table {
+        .status,
         .date {
-            width: 7rem;
+            width: 0%;
+            min-width: 7rem;
         }
 
+        .type,
         .appeal-code {
-            width: 8rem;
+            width: 0%;
+            min-width: 8rem;
         }
 
         .title {
+            min-width: 9rem;
+        }
+
+        .country {
+            min-width: 9rem;
+        }
+
+        .actions {
             width: 0%;
-            min-width: 4rem;
+            min-width: 2rem;
         }
 
         .stage {
-            width: 8rem;
+            width: 0%;
+            min-width: 9rem;
         }
 
         .sub-cell {

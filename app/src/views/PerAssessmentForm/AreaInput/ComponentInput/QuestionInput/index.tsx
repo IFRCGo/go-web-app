@@ -19,7 +19,6 @@ import { type GoApiResponse } from '#utils/restRequest';
 import type { PartialAssessment } from '../../../schema';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 type AreaResponse = NonNullable<PartialAssessment['area_responses']>[number]
 type ComponentResponse = NonNullable<AreaResponse['component_responses']>[number];
@@ -77,15 +76,14 @@ function QuestionInput(props: Props) {
 
     return (
         <Container
-            className={styles.questionInput}
             heading={
                 isDefined(question.question_num)
                     ? `${componentNumber}.${question.question_num}. ${question.question}`
                     : question.question
             }
             headingLevel={5}
-            childrenContainerClassName={styles.content}
             headerDescription={question.description}
+            contentViewType="vertical"
         >
             <NonFieldError error={error} />
             <RadioInput
@@ -101,7 +99,6 @@ function QuestionInput(props: Props) {
                 readOnly={readOnly}
             />
             <TextArea
-                className={styles.noteSection}
                 placeholder={strings.placeholderNotesAndVerification}
                 name="notes"
                 value={value?.notes}

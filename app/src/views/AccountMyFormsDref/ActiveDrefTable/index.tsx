@@ -188,6 +188,7 @@ function ActiveDrefTable(props: Props) {
                 'country',
                 strings.activeDrefTableCountryHeading,
                 (item) => item.country_details?.name,
+                { columnClassName: styles.country },
             ),
             createStringColumn<LatestDref, Key>(
                 'type_of_dref',
