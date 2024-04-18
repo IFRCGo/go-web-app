@@ -1,0 +1,7 @@
+.table {
+    display: flex;
+}
+
+.footer-content {
+    align-self: end;
+}

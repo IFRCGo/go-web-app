@@ -1,0 +1,12 @@
+.national-society-local-units-map {
+    .content {
+        position: relative;
+    }
+
+    .clear-button {
+        display: flex;
+        align-items: flex-end;
+    }
+
+}
+

@@ -21,7 +21,7 @@ import NationalSocietyIncomeOverTime from './NationalSocietyIncomeOverTime';
 import NationalSocietyIncomeSourceBreakdown from './NationalSocietyIncomeSourceBreakdown';
 import NationalSocietyIndicators from './NationalSocietyIndicators';
 import NationalSocietyKeyDocuments from './NationalSocietyKeyDocuments';
-import NationalSocietyLocalUnitsMap from './NationalSocietyLocalUnitsMap';
+import NationalSocietyLocalUnits from './NationalSocietyLocalUnits';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -75,12 +75,7 @@ export function Component() {
             <NationalSocietyIndicators
                 databankResponse={databankResponse}
             />
-            <NationalSocietyLocalUnitsMap />
-            <Container
-                contentViewType="grid"
-                numPreferredGridContentColumns={2}
-                spacing="relaxed"
-            >
+            <div className={styles.nsIncome}>
                 <NationalSocietyIncomeOverTime
                     selectedYear={selectedYearForIncome}
                     setSelectedYear={setSelectedYearForIncome}
@@ -92,7 +87,8 @@ export function Component() {
                         countryId={Number(countryId)}
                     />
                 )}
-            </Container>
+            </div>
+            <NationalSocietyLocalUnits />
             <div className={styles.nsDirectoryAndContacts}>
                 <NationalSocietyDirectory className={styles.directory} />
                 <NationalSocietyContacts className={styles.contacts} />

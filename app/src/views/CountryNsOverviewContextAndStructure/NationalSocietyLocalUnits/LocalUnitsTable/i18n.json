@@ -1,0 +1,13 @@
+{
+    "namespace": "nationalSocietyLocalUnits",
+    "strings": {
+        "localUnitsTableValidated": "Validated",
+        "localUnitsTableName": "Name",
+        "localUnitsTableAddress": "Address",
+        "localUnitsTableType": "Type",
+        "localUnitsTableFocal": "Focal person",
+        "localUnitsTablePhoneNumber": "Phone Number",
+        "localUnitsTableEmail": "Email",
+        "localUnitsTableValidate": "Validate"
+    }
+}
