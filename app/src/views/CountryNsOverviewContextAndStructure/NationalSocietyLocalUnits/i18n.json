@@ -10,14 +10,11 @@
         "notValidated": "Not Validated",
         "localUnitsFilterSearchLabel": "Search",
         "localUnitsFilterSearchPlaceholderLabel": "Search Local Units",
-        "localUnitDetailAddress": "Address",
         "localUnitDetailAddressValue": "{address}, {city}, {country}",
-        "localUnitDetailPhoneNumber": "Phone Number",
-        "localUnitDetailLastUpdate": "Last Updated",
         "localUnitDetailType": "Type",
-        "localUnitDetailFocalPerson": "Focal Person",
-        "localUnitDetailEmail": "Email",
         "localUnitsFilterClear": "Clear Filters",
+        "localUnitsMapView": "Map view",
+        "localUnitsListView": "List view",
         "editLocalUnitLink": "Add/Edit Local Units"
     }
 }

@@ -20,7 +20,7 @@ import NationalSocietyIncomeOverTime from './NationalSocietyIncomeOverTime';
 import NationalSocietyIncomeSourceBreakdown from './NationalSocietyIncomeSourceBreakdown';
 import NationalSocietyIndicators from './NationalSocietyIndicators';
 import NationalSocietyKeyDocuments from './NationalSocietyKeyDocuments';
-import NationalSocietyLocalUnitsMap from './NationalSocietyLocalUnitsMap';
+import NationalSocietyLocalUnits from './NationalSocietyLocalUnits';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -74,7 +74,7 @@ export function Component() {
                     />
                 )}
             </div>
-            <NationalSocietyLocalUnitsMap />
+            <NationalSocietyLocalUnits />
             <div className={styles.nsDirectoryAndContacts}>
                 <NationalSocietyDirectory className={styles.directory} />
                 <NationalSocietyContacts className={styles.contacts} />
