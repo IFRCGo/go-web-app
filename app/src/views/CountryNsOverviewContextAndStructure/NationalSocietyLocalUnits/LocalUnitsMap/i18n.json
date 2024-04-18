@@ -1,0 +1,10 @@
+{
+    "namespace": "nationalSocietyLocalUnits",
+    "strings": {
+        "localUnitDetailAddress": "Address",
+        "localUnitDetailPhoneNumber": "Phone Number",
+        "localUnitDetailLastUpdate": "Last Updated",
+        "localUnitDetailFocalPerson": "Focal Person",
+        "localUnitDetailEmail": "Email"
+    }
+}
