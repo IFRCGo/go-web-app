@@ -1,5 +1,32 @@
 # @ifrc-go/ui
 
+## 1.1.0
+
+### Minor Changes
+
+- b38d9d9: - Remove deprecated ChartAxisX component
+  - Remove deprecated ChartAxisY component
+  - Add ChartContainer component
+  - Add DefaultMessage component
+  - Add padding in Message component
+  - Update Container component
+    - Add an option to center header description
+    - Add an option for the footer border
+    - Change default behavior of footer to wrap and add option to disable wrapping
+    - Add errored property
+    - Fix behavior for the empty and errored message
+    - Improve grid responsive behavior
+  - Update table to support errored state
+  - Add useDebouncedValue hook
+  - Update useBasicLayout hook to properly incorporate the wrap feature
+  - Add throttling in useSizeTracking hook
+- b0d9a17: Add a label description selector to the BarChart component
+
+  - The label description will be visible in a tooltip when hovered over.
+
+- b0d9a17: Add incrementDate, incrementMonth, getNumberOfDays, getNumberOfMonths, getTemporalDiff utility functions
+- - Adjust spacing tokens
+
 ## 1.0.0
 
 ### Major Changes
