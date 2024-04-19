@@ -9,7 +9,6 @@ import {
     KeyFigure,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { resolveToString } from '@ifrc-go/ui/utils';
 import {
     compareNumber,
     isDefined,
@@ -176,10 +175,7 @@ export function Component() {
                                     className={styles.downloadLink}
                                     icons={<DownloadLineIcon className={styles.icon} />}
                                 >
-                                    {resolveToString(
-                                        strings.countryPlanDownloadPlan,
-                                        { countryName: countryResponse?.name ?? '--' },
-                                    )}
+                                    {strings.countryPlan}
                                 </Link>
                             )}
                             {isTruthyString(countryPlanResponse.internal_plan_file) && (
@@ -190,10 +186,7 @@ export function Component() {
                                     className={styles.downloadLink}
                                     icons={<DownloadLineIcon className={styles.icon} />}
                                 >
-                                    {resolveToString(
-                                        strings.countryPlanDownloadPlanInternal,
-                                        { countryName: countryResponse?.name ?? '--' },
-                                    )}
+                                    {strings.countryPlanInternal}
                                 </Link>
                             )}
                         </div>

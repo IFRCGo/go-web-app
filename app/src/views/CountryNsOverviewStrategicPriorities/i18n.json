@@ -3,8 +3,8 @@
     "strings": {
         "nsStrategicPrioritiesHeading": "NS Strategic Priorities",
         "countryPlanPeopleTargeted": "People Targeted",
-        "countryPlanDownloadPlan": "{countryName} Country Plan",
-        "countryPlanDownloadPlanInternal": "{countryName} Internal Plan",
+        "countryPlan": "Country Plan",
+        "countryPlanInternal": "Internal Plan",
         "countryPlanKeyFigureRequestedAmount": "Federation-Wide Requested Amount (CHF)",
         "strengthsHeading": "Strengths (PER process)",
         "keyDevelopmentPrioritiesHeading": "Key Development Priorities (PER process)",
