@@ -48,7 +48,7 @@ export function Component() {
                     to="countryNsOverviewSupportingPartners"
                     urlParams={{ countryId }}
                 >
-                    {strings.supportingPartnersTabTitle}
+                    {strings.partnersTabTitle}
                 </NavigationTab>
             </NavigationTabList>
             <Outlet context={outletContext} />
