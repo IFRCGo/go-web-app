@@ -14,7 +14,7 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 const year = new Date().getFullYear();
-const legalStatusLink = 'https://idp.ifrc.org/SSO/SAMLLogin?loginToSp=https://fednet.ifrc.org&returnUrl=https://fednet.ifrc.org/PageFiles/255835/List%20States%20with%20Defined%20Legal%20Status%2025.07.2023_ENG.pdf';
+const legalStatusLink = 'https://fednet.ifrc.org/en/support/legal/legal/legal-status/';
 
 function Presence() {
     const strings = useTranslation(i18n);
