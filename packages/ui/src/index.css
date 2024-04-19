@@ -64,10 +64,10 @@
     --go-ui-spacing-md: calc(var(--base-spacing) * 1);
     --go-ui-spacing-lg: calc(var(--base-spacing) * 1.5);
     --go-ui-spacing-xl: calc(var(--base-spacing) * 2.25);
-    --go-ui-spacing-2xl: calc(var(--base-spacing) * 3.375);
-    --go-ui-spacing-3xl: calc(var(--base-spacing) * 5.0625);
-    --go-ui-spacing-4xl: calc(var(--base-spacing) * 7.5937);
-    --go-ui-spacing-5xl: calc(var(--base-spacing) * 11.39);
+    --go-ui-spacing-2xl: calc(var(--base-spacing) * 3.5);
+    --go-ui-spacing-3xl: calc(var(--base-spacing) * 4.75);
+    --go-ui-spacing-4xl: calc(var(--base-spacing) * 6);
+    --go-ui-spacing-5xl: calc(var(--base-spacing) * 7.25);
 
     @media screen and (max-width: 40rem) {
         --go-ui-spacing-4xs: calc(var(--base-spacing) * 0.0625);

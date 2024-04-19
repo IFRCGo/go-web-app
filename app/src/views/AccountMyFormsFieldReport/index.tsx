@@ -96,17 +96,22 @@ export function Component() {
                     to: 'emergenciesLayout',
                     urlParams: { emergencyId: item.event },
                 }),
+                { columnClassName: styles.event },
             ),
             createStringColumn<FieldReportListItem, number>(
                 'dtype',
                 strings.disasterTypeHeading,
                 (item) => item.dtype_details?.name,
-                { sortable: true },
+                {
+                    sortable: true,
+                    columnClassName: styles.disasterType,
+                },
             ),
             createCountryListColumn<FieldReportListItem, number>(
                 'countries',
                 strings.countryHeading,
                 (item) => item.countries_details,
+                { columnClassName: styles.countries },
             ),
         ]),
         [

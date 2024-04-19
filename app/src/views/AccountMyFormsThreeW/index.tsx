@@ -181,11 +181,13 @@ export function Component(props: Props) {
                     to: 'countryOngoingActivitiesThreeWProjects',
                     urlParams: { countryId: item.project_country },
                 }),
+                { columnClassName: styles.country },
             ),
             createStringColumn<ProjectListItem, number>(
                 'ns',
                 strings.threeWTableNS,
                 (item) => item.reporting_ns_detail?.society_name,
+                { columnClassName: styles.ns },
             ),
             createLinkColumn<ProjectListItem, number>(
                 'name',
@@ -195,39 +197,43 @@ export function Component(props: Props) {
                     to: 'threeWProjectDetail',
                     urlParams: { projectId: item.id },
                 }),
+                { columnClassName: styles.title },
             ),
             createStringColumn<ProjectListItem, number>(
                 'sector',
                 strings.threeWTableSector,
                 (item) => item.primary_sector_display,
+                { columnClassName: styles.primarySector },
             ),
             createNumberColumn<ProjectListItem, number>(
                 'budget',
                 strings.threeWTableTotalBudget,
                 (item) => item.budget_amount,
-                undefined,
+                { columnClassName: styles.budget },
             ),
             createStringColumn<ProjectListItem, number>(
                 'programmeType',
                 strings.threeWTableProgrammeType,
                 (item) => item.programme_type_display,
+                { columnClassName: styles.programmeType },
             ),
             createStringColumn<ProjectListItem, number>(
                 'disasterType',
                 strings.threeWTableDisasterType,
                 (item) => item.dtype_detail?.name,
+                { columnClassName: styles.disasterType },
             ),
             createNumberColumn<ProjectListItem, number>(
                 'peopleTargeted',
                 strings.threeWTablePeopleTargeted,
                 (item) => item.target_total,
-                undefined,
+                { columnClassName: styles.peopleTargeted },
             ),
             createNumberColumn<ProjectListItem, number>(
                 'peopleReached',
                 strings.threeWTablePeopleReached2,
                 (item) => item.reached_total,
-                undefined,
+                { columnClassName: styles.peopleReached },
             ),
             createElementColumn<ProjectListItem, number, ThreeWTableActionsProps>(
                 'actions',
@@ -237,6 +243,7 @@ export function Component(props: Props) {
                     type: 'project',
                     projectId,
                 }),
+                { columnClassName: styles.actions },
             ),
         ]),
         [
@@ -265,6 +272,7 @@ export function Component(props: Props) {
                             ?.society_name
                         : item.reporting_ns_details?.society_name
                 ),
+                { columnClassName: styles.ns },
             ),
             createLinkColumn<ActivityListItem, number>(
                 'title',
@@ -274,11 +282,13 @@ export function Component(props: Props) {
                     to: 'threeWActivityDetail',
                     urlParams: { activityId: item.id },
                 }),
+                { columnClassName: styles.title },
             ),
             createDateColumn<ActivityListItem, number>(
                 'start_date',
                 strings.threeWEmergencyStartDate,
                 (item) => item.start_date,
+                { columnClassName: styles.startDate },
             ),
             createLinkColumn<ActivityListItem, number>(
                 'country',
@@ -288,6 +298,7 @@ export function Component(props: Props) {
                     to: 'countriesLayout',
                     urlParams: { countryId: item.id },
                 }),
+                { columnClassName: styles.country },
             ),
             createListDisplayColumn<
                 ActivityListItem,
@@ -303,16 +314,19 @@ export function Component(props: Props) {
                     rendererParams: (districtDetail) => ({ districtName: districtDetail.name }),
                     keySelector: (districtDetail) => districtDetail.id,
                 }),
+                { columnClassName: styles.district },
             ),
             createStringColumn<ActivityListItem, number>(
                 'status',
                 strings.threeWEmergencyStatus,
                 (item) => item.status_display,
+                { columnClassName: styles.status },
             ),
             createNumberColumn<ActivityListItem, number>(
                 'people_reached',
                 strings.threeWEmergencyServices, // People Reached
                 (item) => getPeopleReached(item),
+                { columnClassName: styles.peopleReached },
             ),
             createElementColumn<
                 ActivityListItem,
@@ -326,6 +340,7 @@ export function Component(props: Props) {
                     type: 'activity',
                     activityId,
                 }),
+                { columnClassName: styles.actions },
             ),
         ]),
         [

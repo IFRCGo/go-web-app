@@ -119,11 +119,13 @@ function CompletedDrefTable(props: Props) {
                 'country',
                 strings.completedDrefTableCountryHeading,
                 (item) => item.country_details?.name,
+                { columnClassName: styles.country },
             ),
             createStringColumn<DrefResultItem, Key>(
                 'status',
                 strings.completedDrefTableStatusHeading,
                 (item) => item.status_display,
+                { columnClassName: styles.status },
             ),
             createElementColumn<DrefResultItem, Key, DrefTableActionsProps>(
                 'actions',
@@ -139,6 +141,7 @@ function CompletedDrefTable(props: Props) {
                     canAddOpsUpdate: false,
                     canCreateFinalReport: false,
                 }),
+                { columnClassName: styles.actions },
             ),
         ]),
         [

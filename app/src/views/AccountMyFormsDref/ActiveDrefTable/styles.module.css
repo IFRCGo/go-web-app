@@ -19,8 +19,11 @@
         }
 
         .title {
-            width: 0%;
-            min-width: 8rem;
+            min-width: 9rem;
+        }
+
+        .country {
+            min-width: 9rem;
         }
 
         .actions,

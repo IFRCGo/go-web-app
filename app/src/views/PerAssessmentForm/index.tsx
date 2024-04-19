@@ -136,14 +136,14 @@ export function Component() {
         },
     });
 
+    // NOTE: we need to pull the components separately
+    // because there are components without questions (i.e. #14)
     const {
         pending: componentPending,
         response: componentResponse,
     } = useRequest({
         url: '/api/v2/per-formcomponent/',
-        query: {
-            limit: 9999,
-        },
+        query: { limit: 9999 },
     });
 
     const {
@@ -156,35 +156,21 @@ export function Component() {
         },
     });
 
-    const parentComponent: PerFormQuestionResponse['results'] = useMemo(() => {
-        const filteredParentComponent = componentResponse?.results?.filter(
-            (question) => question.is_parent === true,
-        );
+    const questionListByAreaId = useMemo(
+        () => listToGroupList(
+            questionsResponse?.results,
+            ({ component }) => component.area.id,
+        ),
+        [questionsResponse],
+    );
 
-        return filteredParentComponent?.map((component) => (
-            {
-                answers: [],
-                component: {
-                    area: {
-                        area_num: component.area,
-                        title: '',
-                        id: component.area,
-                    },
-                    component_letter: component.component_letter,
-                    component_num: component.component_num,
-                    description: component.description,
-                    id: component.id,
-                    title: component.title,
-                    is_parent: component.is_parent,
-                },
-                description: null,
-                id: component.id,
-                question: '',
-                question_group: null,
-                question_num: null,
-            }
-        ));
-    }, [componentResponse]);
+    const componentListByAreaId = useMemo(
+        () => listToGroupList(
+            componentResponse?.results,
+            ({ area }) => area,
+        ),
+        [componentResponse],
+    );
 
     const {
         response: perOverviewResponse,
@@ -344,15 +330,6 @@ export function Component() {
         }),
     );
 
-    const groupedParentQuestionResponse = useMemo(() => (
-        [...questionsResponse?.results ?? [], ...parentComponent ?? []]
-    ), [questionsResponse, parentComponent]);
-
-    const areaIdGroupedQuestion = listToGroupList(
-        groupedParentQuestionResponse ?? [],
-        (question) => question.component.area.id,
-    );
-
     const areaIdToTitleMap = listToMap(
         questionsResponse?.results ?? [],
         (question) => question.component.area.id,
@@ -495,9 +472,7 @@ export function Component() {
                             value={currentArea}
                             variant="primary"
                         >
-                            <TabList
-                                className={styles.tabList}
-                            >
+                            <TabList className={styles.tabList}>
                                 {areas.map((area) => (
                                     <Tab
                                         key={area.id}
@@ -518,8 +493,9 @@ export function Component() {
                                         key={area.id}
                                         area={area}
                                         readOnly={readOnlyMode}
-                                        questions={areaIdGroupedQuestion[area.id]}
-                                        questionGroups={questionGroupResponse}
+                                        questions={questionListByAreaId?.[area.id]}
+                                        components={componentListByAreaId?.[area.id]}
+                                        questionGroups={questionGroupResponse?.results}
                                         index={areaResponseMapping[area.id]?.index}
                                         value={areaResponseMapping[area.id]?.value}
                                         disabled={savePerPending}

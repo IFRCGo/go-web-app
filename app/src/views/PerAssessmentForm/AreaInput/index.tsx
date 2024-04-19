@@ -3,7 +3,6 @@ import {
     _cs,
     listToGroupList,
     listToMap,
-    mapToList,
 } from '@togglecorp/fujs';
 import {
     Error,
@@ -14,7 +13,10 @@ import {
 } from '@togglecorp/toggle-form';
 
 import NonFieldError from '#components/NonFieldError';
-import { type GoApiResponse } from '#utils/restRequest';
+import {
+    type GoApiResponse,
+    ListResponseItem,
+} from '#utils/restRequest';
 
 import { type PartialAssessment } from '../schema';
 import ComponentInput from './ComponentInput';
@@ -22,11 +24,15 @@ import ComponentInput from './ComponentInput';
 import styles from './styles.module.css';
 
 type PerOptionsResponse = GoApiResponse<'/api/v2/per-options/'>;
-type PerFormQuestionResponse = GoApiResponse<'/api/v2/per-formquestion/'>;
-
 type Value = NonNullable<PartialAssessment['area_responses']>[number];
-type PerFormQuestion = NonNullable<PerFormQuestionResponse['results']>[number];
-type QuestionGroups = GoApiResponse<'/api/v2/per-formquestion-group/'>;
+
+type PerFormQuestionResponse = GoApiResponse<'/api/v2/per-formquestion/'>;
+type PerFormQuestion = ListResponseItem<PerFormQuestionResponse>;
+type QuestionGroupResponse = GoApiResponse<'/api/v2/per-formquestion-group/'>;
+type QuestionGroup = ListResponseItem<QuestionGroupResponse>;
+
+type PerFormComponentResponse = GoApiResponse<'/api/v2/per-formcomponent/'>;
+type PerFormComponent = ListResponseItem<PerFormComponentResponse>;
 
 type PerFormArea = PerFormQuestion['component']['area'];
 
@@ -37,7 +43,8 @@ interface Props {
     value: Value;
     index: number | undefined;
     questions: PerFormQuestion[] | undefined;
-    questionGroups: QuestionGroups | undefined;
+    components: PerFormComponent[] | undefined;
+    questionGroups: QuestionGroup[] | undefined;
     area: PerFormArea;
     ratingOptions: PerOptionsResponse['componentratings'] | undefined;
     epi_considerations: boolean | null | undefined;
@@ -55,6 +62,7 @@ function AreaInput(props: Props) {
         index,
         area,
         questions,
+        components,
         error: formError,
         ratingOptions,
         epi_considerations,
@@ -77,27 +85,33 @@ function AreaInput(props: Props) {
         setValue: setQuestionResponseValue,
     } = useFormArray('component_responses', setFieldValue);
 
-    const componentResponseMapping = useMemo(() => (listToMap(
-        value?.component_responses ?? [],
-        (componentResponse) => componentResponse.component,
-        (componentResponse, _, questionResponseIndex) => ({
-            index: questionResponseIndex,
-            value: componentResponse,
-        }),
-    )), [value?.component_responses]);
+    const componentResponseMapping = useMemo(
+        () => (listToMap(
+            value?.component_responses ?? [],
+            (componentResponse) => componentResponse.component,
+            (componentResponse, _, questionResponseIndex) => ({
+                index: questionResponseIndex,
+                value: componentResponse,
+            }),
+        )),
+        [value?.component_responses],
+    );
 
-    const componentGroupedQuestions = useMemo(() => (listToGroupList(
-        questions ?? [],
-        (question) => question.component.id,
-    )), [questions]);
+    const questionListByComponentId = useMemo(
+        () => listToGroupList(
+            questions,
+            ({ component }) => component.id,
+        ),
+        [questions],
+    );
 
-    const componentGroupedQuestionList = useMemo(() => (mapToList(
-        componentGroupedQuestions,
-        (list) => ({
-            component: list[0].component,
-            questions: list,
-        }),
-    )), [componentGroupedQuestions]);
+    const questionGroupsByComponentId = useMemo(
+        () => listToGroupList(
+            questionGroups,
+            ({ component }) => component,
+        ),
+        [questionGroups],
+    );
 
     const error = useMemo(
         () => getErrorObject(formError),
@@ -110,20 +124,18 @@ function AreaInput(props: Props) {
     );
 
     return (
-        <div
-            className={_cs(styles.areaInput, className)}
-        >
+        <div className={_cs(styles.areaInput, className)}>
             <NonFieldError error={error} />
             <NonFieldError error={componentInputError} />
-            {componentGroupedQuestionList.map((componentResponse) => (
+            {components?.map((component) => (
                 <ComponentInput
-                    key={componentResponse.component.id}
-                    component={componentResponse.component}
-                    questions={componentResponse.questions}
-                    questionGroups={questionGroups}
-                    index={componentResponseMapping[componentResponse.component.id]?.index}
-                    value={componentResponseMapping[componentResponse.component.id]?.value}
-                    error={componentInputError?.[componentResponse.component.id]}
+                    key={component.id}
+                    component={component}
+                    questions={questionListByComponentId?.[component.id]}
+                    questionGroups={questionGroupsByComponentId?.[component.id]}
+                    index={componentResponseMapping[component.id]?.index}
+                    value={componentResponseMapping[component.id]?.value}
+                    error={componentInputError?.[component.id]}
                     onChange={setQuestionResponseValue}
                     ratingOptions={ratingOptions}
                     epi_considerations={epi_considerations}
