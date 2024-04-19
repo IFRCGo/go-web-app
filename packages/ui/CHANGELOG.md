@@ -3,7 +3,7 @@
 ## 1.1.0
 
 ### Minor Changes
-
+- 176e01b7: Adjust spacing tokens
 - b38d9d9: - Remove deprecated ChartAxisX component
   - Remove deprecated ChartAxisY component
   - Add ChartContainer component
@@ -20,12 +20,9 @@
   - Add useDebouncedValue hook
   - Update useBasicLayout hook to properly incorporate the wrap feature
   - Add throttling in useSizeTracking hook
-- b0d9a17: Add a label description selector to the BarChart component
-
+- a2455b1a: Add a label description selector to the BarChart component
   - The label description will be visible in a tooltip when hovered over.
-
-- b0d9a17: Add incrementDate, incrementMonth, getNumberOfDays, getNumberOfMonths, getTemporalDiff utility functions
-- - Adjust spacing tokens
+- 329ddfcf: Add incrementDate, incrementMonth, getNumberOfDays, getNumberOfMonths, getTemporalDiff utility functions
 
 ## 1.0.0
 
