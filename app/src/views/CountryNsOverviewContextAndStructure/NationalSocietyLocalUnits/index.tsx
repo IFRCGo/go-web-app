@@ -58,7 +58,7 @@ function NationalSocietyLocalUnits(props: Props) {
         className,
     } = props;
 
-    const [activeTab, setActiveTab] = useState<'map'| 'table'>('map');
+    const [activeTab, setActiveTab] = useState<'map'| 'table'>('table');
 
     const strings = useTranslation(i18n);
     const { countryId, countryResponse } = useOutletContext<CountryOutletContext>();
@@ -67,6 +67,7 @@ function NationalSocietyLocalUnits(props: Props) {
 
     const {
         rawFilter,
+        limit,
         filter,
         filtered,
         setFilter,
@@ -86,7 +87,7 @@ function NationalSocietyLocalUnits(props: Props) {
         skip: isNotDefined(countryResponse?.iso3),
         url: '/api/v2/local-units/',
         query: {
-            limit: 9999,
+            limit,
             type__code: filter.type,
             validated: isDefined(filter.isValidated)
                 ? filter.isValidated === strings.validated : undefined,
@@ -193,7 +194,9 @@ function NationalSocietyLocalUnits(props: Props) {
                     />
                 </TabPanel>
                 <TabPanel name="table">
-                    <LocalUnitsTable />
+                    <LocalUnitsTable
+                        filter={filter}
+                    />
                 </TabPanel>
             </Tabs>
         </Container>
