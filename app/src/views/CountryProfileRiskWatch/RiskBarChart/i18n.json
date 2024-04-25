@@ -10,7 +10,7 @@
         "currentYearTooltipLabel": "Year {currentYear}",
         "averageTooltipLabel": "Average (2003-{currentYear})",
         "minMaxLabel": "Min-Max (2003-{currentYear})",
-        "source": "Source",
+        "sourceLabel": "Source",
         "ifrcMontandon": "IFRC Montandon, Global Crisis Data Bank"
     }
 }

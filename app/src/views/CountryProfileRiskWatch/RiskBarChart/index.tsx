@@ -277,7 +277,7 @@ function RiskBarChart(props: Props) {
             withGridViewInFilter
             footerActions={(
                 <TextOutput
-                    label={strings.source}
+                    label={strings.sourceLabel}
                     value={strings.ifrcMontandon}
                     strongValue
                 />

@@ -3,6 +3,7 @@
     "strings": {
         "nsStrategicPrioritiesHeading": "NS Strategic Priorities",
         "countryPlanPeopleTargeted": "People Targeted",
+        "strategicPlan": "NS Strategic Plan ({year})",
         "countryPlan": "IFRC Network Plan",
         "countryPlanInternal": "Unified Plan",
         "countryPlanKeyFigureRequestedAmount": "Federation-Wide Requested Amount (CHF)",
