@@ -8,6 +8,7 @@ import {
     Container,
     LegendItem,
     SelectInput,
+    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -274,6 +275,13 @@ function RiskBarChart(props: Props) {
             className={styles.riskBarChart}
             withHeaderBorder
             withGridViewInFilter
+            footerActions={(
+                <TextOutput
+                    label={strings.source}
+                    value={strings.ifrcMontandon}
+                    strongValue
+                />
+            )}
             filters={(
                 <>
                     <SelectInput

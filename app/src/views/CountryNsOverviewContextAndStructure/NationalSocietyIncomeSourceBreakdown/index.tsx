@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import {
     BarChart,
     Container,
@@ -17,6 +18,7 @@ import {
 
 import Link from '#components/Link';
 import { type components } from '#generated/types';
+import { type CountryOutletContext } from '#utils/outletContext';
 import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -42,6 +44,7 @@ function NationalSocietyIncomeSourceBreakdown(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
+    const { countryResponse } = useOutletContext<CountryOutletContext>();
     const {
         response: countryIncomeResponse,
         pending: countryIncomeResponsePending,
@@ -77,20 +80,32 @@ function NationalSocietyIncomeSourceBreakdown(props: Props) {
                 )
             }
             withHeaderBorder
-            footerActions={(
-                <TextOutput
-                    label={strings.source}
-                    value={(
-                        <Link
-                            variant="tertiary"
-                            href="https://data.ifrc.org/fdrs/"
-                            external
-                            withUnderline
-                        >
-                            {strings.fdrs}
-                        </Link>
-                    )}
-                />
+            footerActions={isDefined(countryResponse?.fdrs)
+                && isDefined(countryResponse.society_name) && (
+                <>
+                    <TextOutput
+                        label={strings.source}
+                        value={(
+                            <Link
+                                variant="tertiary"
+                                href={`https://data.ifrc.org/fdrs/national-society/${countryResponse.fdrs}`}
+                                external
+                                withUnderline
+                            >
+                                {resolveToString(
+                                    strings.incomeSourceBreakdownSource,
+                                    {
+                                        nationalSociety: countryResponse.society_name,
+                                    },
+                                )}
+                            </Link>
+                        )}
+                    />
+                    <TextOutput
+                        value={selectedYear}
+                        strongValue
+                    />
+                </>
             )}
             pending={countryIncomeResponsePending}
             empty={isNotDefined(incomeListForSelectedYear)

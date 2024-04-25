@@ -3,6 +3,7 @@ import {
     Container,
     SelectInput,
     Table,
+    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -190,6 +191,13 @@ function ReturnPeriodTable(props: Props) {
             heading={strings.returnPeriodTableHeading}
             filtersContainerClassName={styles.filters}
             withHeaderBorder
+            footerActions={(
+                <TextOutput
+                    label={strings.source}
+                    value={strings.ifrcMontandon}
+                    strongValue
+                />
+            )}
             filters={(
                 <SelectInput
                     name={undefined}

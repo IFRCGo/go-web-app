@@ -3,6 +3,7 @@ import { CheckboxCircleLineIcon } from '@ifrc-go/icons';
 import {
     Container,
     Table,
+    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -129,6 +130,13 @@ function MembershipCoordinationTable(props: Props) {
             className={_cs(styles.membershipCoordinationTable, className)}
             heading={strings.membershipCoordinationTableTitle}
             withHeaderBorder
+            footerActions={(
+                <TextOutput
+                    label={strings.source}
+                    value={strings.unifiedPlanning}
+                    strongValue
+                />
+            )}
         >
             <Table
                 pending={pending}

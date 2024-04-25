@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import {
     ChartAxes,
     ChartContainer,
@@ -11,6 +12,7 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     getBounds,
     getPathData,
+    resolveToString,
 } from '@ifrc-go/ui/utils';
 import {
     isDefined,
@@ -21,6 +23,7 @@ import {
 import Link from '#components/Link';
 import useNumericChartData from '#hooks/useNumericChartData';
 import { DEFAULT_Y_AXIS_WIDTH_WITH_LABEL } from '#utils/constants';
+import { type CountryOutletContext } from '#utils/outletContext';
 import { GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -40,6 +43,7 @@ function NationalSocietyIncomeOverTime(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
+    const { countryResponse } = useOutletContext<CountryOutletContext>();
 
     const annualIncome = databankResponse?.fdrs_annual_income?.map(
         (income) => {
@@ -124,17 +128,21 @@ function NationalSocietyIncomeOverTime(props: Props) {
             className={styles.nationalSocietyIncomeOverTime}
             heading={strings.nsIncomeOverTimeHeading}
             withHeaderBorder
-            footerActions={(
+            footerActions={isDefined(countryResponse?.fdrs)
+                && isDefined(countryResponse.society_name) && (
                 <TextOutput
                     label={strings.sourceLabel}
                     value={(
                         <Link
                             variant="tertiary"
-                            href="https://data.ifrc.org/fdrs/"
+                            href={`https://data.ifrc.org/fdrs/national-society/${countryResponse.fdrs}`}
                             external
                             withUnderline
                         >
-                            {strings.sourceFDRS}
+                            {resolveToString(
+                                strings.sourceFDRS,
+                                { nationalSociety: countryResponse.society_name },
+                            )}
                         </Link>
                     )}
                 />

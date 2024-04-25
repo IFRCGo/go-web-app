@@ -2,7 +2,6 @@
     "namespace": "countryNsCapacityStrengthening",
     "strings": {
         "capacityListItemDateOfAssessment": "Date of Assessment",
-        "capacityListItemViewDetails": "View Details",
         "capacityListItemAssessment": "Assessment"
     }
 }

@@ -7,6 +7,7 @@ import {
 import {
     Container,
     KeyFigure,
+    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -163,6 +164,13 @@ export function Component() {
                 <Container
                     childrenContainerClassName={styles.countryPlanContent}
                     heading={strings.nsStrategicPrioritiesHeading}
+                    footerActions={(
+                        <TextOutput
+                            label={strings.source}
+                            value={strings.unifiedPlanning}
+                            strongValue
+                        />
+                    )}
                     withHeaderBorder
                 >
                     <div className={styles.downloadLinksAndKeyFigures}>

@@ -9,6 +9,7 @@ import {
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import { resolveToString } from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
@@ -43,7 +44,7 @@ function groupedDocumentsListKeySelector(groupedDocuments: GroupedDocuments) {
 function NationalSocietyKeyDocuments() {
     const strings = useTranslation(i18n);
 
-    const { countryId } = useOutletContext<CountryOutletContext>();
+    const { countryId, countryResponse } = useOutletContext<CountryOutletContext>();
     const {
         filter,
         rawFilter,
@@ -119,17 +120,22 @@ function NationalSocietyKeyDocuments() {
                     />
                 </>
             )}
-            footerActions={isDefined(groupedDocumentsList) && groupedDocumentsList.length > 0 && (
+            footerActions={isDefined(groupedDocumentsList)
+                && groupedDocumentsList.length > 0
+                && isDefined(countryResponse?.fdrs) && (
                 <TextOutput
                     label={strings.source}
                     value={(
                         <Link
                             variant="tertiary"
-                            href="https://www.ifrc.org/"
+                            href={`https://data.ifrc.org/fdrs/national-society/${countryResponse.fdrs}`}
                             external
                             withUnderline
                         >
-                            {strings.ifrc}
+                            {resolveToString(
+                                strings.sourceFDRS,
+                                { nationalSociety: countryResponse.society_name },
+                            )}
                         </Link>
                     )}
                 />

@@ -7,6 +7,13 @@
         "eapHeading": "Early Action Protocols (EAPs)",
         "eapDownloadButtonLabel": "Download the EAP",
         "eapDescription": "EAPs are a formal plan that guide timely and effective implementation of early actions for extreme weather events, based on pre-agreed triggers.",
-        "riskWatchDescription": "The following dataset displays information about the modeled impact of specific forecasted or detected natural hazards."
+        "riskWatchDescription": "The following dataset displays information about the modeled impact of specific forecasted or detected natural hazards.",
+        "source": "Source",
+        "inform": "INFORM",
+        "idmc": "IDMC",
+        "ipc": "IPC",
+        "sourceINFORM": "{link} for each country's level of risk",
+        "sourceIDMC": "{link} for the expected displacements",
+        "sourceIPC": "{link} for food insecurity"
     }
 }

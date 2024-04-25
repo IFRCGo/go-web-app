@@ -11,7 +11,7 @@
         "nationalSocietyStaffLabel": "Staff",
         "goToFDRS": "Go to FDRS",
         "nationalSocietyYouthLabel": "Youth (6-29 yrs)",
-        "fdrs": "FDRS",
+        "sourceFDRS": "{nationalSociety} on FDRS",
         "source": "Source",
         "volunteerTooltipMaleLabel": "Male Volunteers",
         "volunteerTooltipFemaleLabel": "Female Volunteers",

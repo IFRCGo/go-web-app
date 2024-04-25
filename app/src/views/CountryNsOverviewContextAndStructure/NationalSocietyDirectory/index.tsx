@@ -56,17 +56,20 @@ function NationalSocietyDirectory(props: Props) {
             childrenContainerClassName={styles.content}
             heading={strings.countryNSDirectoryTitle}
             withHeaderBorder
-            footerActions={isDefined(directoryList) && directoryList.length > 0 && (
+            footerActions={isDefined(directoryList)
+                && directoryList.length > 0
+                && isDefined(countryResponse?.society_name)
+                && isDefined(countryResponse.url_ifrc) && (
                 <TextOutput
                     label={strings.countryNSDirectorySource}
                     value={(
                         <Link
                             variant="tertiary"
-                            href="https://www.ifrc.org/"
+                            href={countryResponse.url_ifrc}
                             external
                             withUnderline
                         >
-                            {strings.ifrc}
+                            {countryResponse.society_name}
                         </Link>
                     )}
                 />

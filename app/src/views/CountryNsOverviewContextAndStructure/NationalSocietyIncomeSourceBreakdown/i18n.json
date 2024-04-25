@@ -1,9 +1,9 @@
 {
-    "namespace": "countryNsOverviewContextAndStructure",
+    "namespace": "nationalSocietyIncomeSourceBreakdown",
     "strings": {
         "incomeSourceBreakdownHeading": "Income Source Breakdown for {year}",
         "incomeSourceBreakdownNotAvailableMessage": "Data not available for selected year",
-        "fdrs": "FDRS",
-        "source": "Source"
+        "incomeSourceBreakdownSource": "{nationalSociety} on FDRS, {year}",
+        "incomeSourceBreakdownSourceLabel": "Source"
     }
 }

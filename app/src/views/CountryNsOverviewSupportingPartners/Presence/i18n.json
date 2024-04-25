@@ -11,7 +11,7 @@
         "countryICRCKeyOperations": "Key Operations",
         "countryICRCWithin": "within {name}",
         "source": "Source",
-        "ifrc": "IFRC",
+        "fdrs": "FDRS",
         "icrc": "ICRC"
     }
 }
