@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
 import { useOutletContext } from 'react-router-dom';
-import { ArrowRightUpLineIcon } from '@ifrc-go/icons';
 import {
     Container,
     KeyFigure,
@@ -58,8 +57,6 @@ function CountryNsCapacityStrengthening() {
         ).filter(isDefined) ?? [],
     );
 
-    const fdrsLink = countryResponse?.fdrs;
-
     const hasOcacAssessments = isDefined(ocacAssessments) && ocacAssessments.length > 0;
     const hasBocaAssessments = isDefined(bocaAssessments) && bocaAssessments.length > 0;
 
@@ -75,15 +72,15 @@ function CountryNsCapacityStrengthening() {
             withHeaderBorder
             footerActions={!isEmpty && (
                 <TextOutput
-                    label={strings.source}
+                    label={strings.moreDetails}
                     value={(
                         <Link
                             variant="tertiary"
-                            href="https://www.ifrc.org/"
+                            href="https://data.ifrc.org/en/ocac"
                             external
                             withUnderline
                         >
-                            {strings.ifrc}
+                            {strings.globalOCAC}
                         </Link>
                     )}
                 />
@@ -91,30 +88,18 @@ function CountryNsCapacityStrengthening() {
             pending={countryResponsePending}
             empty={isEmpty}
         >
-            {hasOcacAssessments && (
-                <RawList
-                    data={ocacAssessments}
-                    keySelector={capacityKeySelector}
-                    renderer={OCACListItem}
-                    rendererParams={ocacRendererParams}
-                />
-            )}
+            <RawList
+                data={ocacAssessments}
+                keySelector={capacityKeySelector}
+                renderer={OCACListItem}
+                rendererParams={ocacRendererParams}
+            />
             {hasBocaAssessments && (
                 <Container
                     className={styles.capacityItem}
                     heading={strings.bocaAssessment}
                     headingLevel={4}
                     withInternalPadding
-                    actions={(
-                        <Link
-                            href={`https://data.ifrc.org/en/BOCA/Form?donCode=${fdrsLink}`}
-                            variant="primary"
-                            actions={<ArrowRightUpLineIcon />}
-                            external
-                        >
-                            {strings.viewDetails}
-                        </Link>
-                    )}
                 >
                     <KeyFigure
                         className={styles.figure}

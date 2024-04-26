@@ -2,6 +2,8 @@
     "namespace": "countryProfileSupportingPartners",
     "strings": {
         "membershipCoordinationTableTitle": "Membership Coordination",
-        "membershipCoordinationTableNameOfPNS": "Name of Partner National Society"
+        "membershipCoordinationTableNameOfPNS": "Name of Partner National Society",
+        "source": "Source",
+        "unifiedPlanning": "IFRC Unified Planning"
     }
 }

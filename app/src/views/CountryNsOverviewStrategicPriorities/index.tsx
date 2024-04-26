@@ -7,6 +7,7 @@ import {
 import {
     Container,
     KeyFigure,
+    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToString } from '@ifrc-go/ui/utils';
@@ -141,13 +142,27 @@ export function Component() {
         },
     });
 
+    const {
+        response: documentResponse,
+        pending: documentResponsePending,
+    } = useRequest({
+        url: '/api/v2/country-document/',
+        skip: isNotDefined(countryId),
+        query: {
+            country: isDefined(countryId) ? Number(countryId) : undefined,
+            document_type: 'Our Strategic Plan',
+            ordering: '-end_year',
+        },
+        preserveResponse: true,
+    });
+
     const hasStrengthComponents = isDefined(strengthComponents) && strengthComponents.length > 0;
     const hasKeyDevelopmentComponents = isDefined(keyDevelopmentComponents)
         && keyDevelopmentComponents.length > 0;
     const perContentsDefined = hasStrengthComponents || hasKeyDevelopmentComponents;
 
     const hasCountryPlan = countryResponse?.has_country_plan;
-    const pending = useDebouncedValue(countryPlanPending || perPending);
+    const pending = useDebouncedValue(countryPlanPending || perPending || documentResponsePending);
 
     return (
         <Container
@@ -164,10 +179,33 @@ export function Component() {
                 <Container
                     childrenContainerClassName={styles.countryPlanContent}
                     heading={strings.nsStrategicPrioritiesHeading}
+                    footerActions={(
+                        <TextOutput
+                            label={strings.source}
+                            value={strings.unifiedPlanning}
+                            strongValue
+                        />
+                    )}
                     withHeaderBorder
                 >
                     <div className={styles.downloadLinksAndKeyFigures}>
                         <div className={styles.countryPlanDownloadLink}>
+                            {(documentResponse?.results?.length ?? 0) > 0 && (
+                                <Link
+                                    variant="secondary"
+                                    href={documentResponse?.results?.[0].url}
+                                    external
+                                    className={styles.downloadLink}
+                                    icons={<DownloadLineIcon className={styles.icon} />}
+                                >
+                                    {resolveToString(
+                                        strings.strategicPlan,
+                                        {
+                                            year: documentResponse?.results?.[0].year_text,
+                                        },
+                                    )}
+                                </Link>
+                            )}
                             {isDefined(countryPlanResponse.public_plan_file) && (
                                 <Link
                                     variant="secondary"
@@ -176,10 +214,7 @@ export function Component() {
                                     className={styles.downloadLink}
                                     icons={<DownloadLineIcon className={styles.icon} />}
                                 >
-                                    {resolveToString(
-                                        strings.countryPlanDownloadPlan,
-                                        { countryName: countryResponse?.name ?? '--' },
-                                    )}
+                                    {strings.countryPlan}
                                 </Link>
                             )}
                             {isTruthyString(countryPlanResponse.internal_plan_file) && (
@@ -190,10 +225,7 @@ export function Component() {
                                     className={styles.downloadLink}
                                     icons={<DownloadLineIcon className={styles.icon} />}
                                 >
-                                    {resolveToString(
-                                        strings.countryPlanDownloadPlanInternal,
-                                        { countryName: countryResponse?.name ?? '--' },
-                                    )}
+                                    {strings.countryPlanInternal}
                                 </Link>
                             )}
                         </div>

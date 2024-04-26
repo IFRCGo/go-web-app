@@ -9,6 +9,8 @@
         "riskBarChartDisplacementLabel": "People at Risk of Displacement",
         "currentYearTooltipLabel": "Year {currentYear}",
         "averageTooltipLabel": "Average (2003-{currentYear})",
-        "minMaxLabel": "Min-Max (2003-{currentYear})"
+        "minMaxLabel": "Min-Max (2003-{currentYear})",
+        "sourceLabel": "Source",
+        "ifrcMontandon": "IFRC Montandon, Global Crisis Data Bank"
     }
 }

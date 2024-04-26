@@ -52,7 +52,7 @@ export function Component() {
             );
 
             const sortedIncomeList = timestampList.sort(
-                (a, b) => compareNumber(a, b),
+                (a, b) => compareNumber(a, b, -1),
             );
 
             setSelectedYearForIncome(new Date(sortedIncomeList[0]).getFullYear());

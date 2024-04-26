@@ -22,7 +22,7 @@
         "nSProjectStatus": "Project Status",
         "nSProjectDataNotAvailable": "Data not available!",
         "addNSActivity": "Add NS Activity",
-        "nSActivityDescription": "The following data displays the activities of the National Society which include emergency or non-emergency related projects, as well as ongoing and implemented/closed initiatives funded by the different NSD funding mechanisms. The displayed data is based on reporting and may not be fully indicative of all the activities.",
+        "nSActivityDescription": "The following data displays international and domestic activities of the National Society reported through GO, which may include emergency and non-emergency related projects. The displayed data is based on reporting and so may not include all the activities of the National Society.",
         "nSFailedToCreateExport": "Failed to generate export."
     }
 }

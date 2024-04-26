@@ -1,3 +1,4 @@
+import { useOutletContext } from 'react-router-dom';
 import { InfoIcon } from '@ifrc-go/icons';
 import {
     Button,
@@ -26,6 +27,7 @@ import {
 } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
+import { type CountryOutletContext } from '#utils/outletContext';
 import { GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -37,6 +39,7 @@ interface Props {
 
 function NationalSocietyIndicators(props: Props) {
     const strings = useTranslation(i18n);
+    const { countryResponse } = useOutletContext<CountryOutletContext>();
     const { databankResponse } = props;
     const [
         showStaffDisaggregation,
@@ -168,9 +171,9 @@ function NationalSocietyIndicators(props: Props) {
         <Container
             className={styles.nationalSocietyIndicators}
             heading={strings.nationalSocietyIndicatorsTitle}
-            actions={(
+            actions={isDefined(countryResponse?.fdrs) && (
                 <Link
-                    href="https://data.ifrc.org/fdrs/"
+                    href={`https://data.ifrc.org/fdrs/national-society/${countryResponse.fdrs}`}
                     external
                     withLinkIcon
                     variant="primary"
@@ -182,21 +185,32 @@ function NationalSocietyIndicators(props: Props) {
             withHeaderBorder
             contentViewType="grid"
             numPreferredGridContentColumns={3}
-            footerContentClassName={styles.footerContent}
-            footerActions={(
-                <TextOutput
-                    label={strings.source}
-                    value={(
-                        <Link
-                            variant="tertiary"
-                            href="https://data.ifrc.org/fdrs/"
-                            external
-                            withUnderline
-                        >
-                            {strings.fdrs}
-                        </Link>
+            footerActions={isDefined(countryResponse?.fdrs)
+                && isDefined(countryResponse.society_name) && (
+                <>
+                    <TextOutput
+                        label={strings.source}
+                        value={(
+                            <Link
+                                variant="tertiary"
+                                href={`https://data.ifrc.org/fdrs/national-society/${countryResponse.fdrs}`}
+                                external
+                                withUnderline
+                            >
+                                {resolveToString(
+                                    strings.sourceFDRS,
+                                    { nationalSociety: countryResponse.society_name },
+                                )}
+                            </Link>
+                        )}
+                    />
+                    {isDefined(databankResponse.fdrs_data_fetched_year) && (
+                        <TextOutput
+                            value={databankResponse?.fdrs_data_fetched_year}
+                            strongValue
+                        />
                     )}
-                />
+                </>
             )}
         >
             <TextOutput

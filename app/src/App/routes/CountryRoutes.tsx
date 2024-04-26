@@ -257,13 +257,13 @@ const countryNsOverviewCapacity = customWrapRoute({
 
 const countryNsOverviewSupportingPartners = customWrapRoute({
     parent: countryNsOverviewLayout,
-    path: 'supporting-partners',
+    path: 'partners',
     component: {
         render: () => import('#views/CountryNsOverviewSupportingPartners'),
         props: {},
     },
     context: {
-        title: 'Country NS Supporting Partners',
+        title: 'Country NS Partners',
         visibility: 'anything',
     },
 });

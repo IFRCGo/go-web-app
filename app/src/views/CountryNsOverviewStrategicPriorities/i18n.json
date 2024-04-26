@@ -3,11 +3,14 @@
     "strings": {
         "nsStrategicPrioritiesHeading": "NS Strategic Priorities",
         "countryPlanPeopleTargeted": "People Targeted",
-        "countryPlanDownloadPlan": "{countryName} Country Plan",
-        "countryPlanDownloadPlanInternal": "{countryName} Internal Plan",
+        "strategicPlan": "NS Strategic Plan ({year})",
+        "countryPlan": "IFRC Network Plan",
+        "countryPlanInternal": "Unified Plan",
         "countryPlanKeyFigureRequestedAmount": "Federation-Wide Requested Amount (CHF)",
         "strengthsHeading": "Strengths (PER process)",
         "keyDevelopmentPrioritiesHeading": "Key Development Priorities (PER process)",
-        "strategicPrioritiesDescription": "The following data highlights the focus areas of the National Society as per IFRC Unified Plans and PER process. The displayed data is based on reporting and may not be fully indicative of all the priorities."
+        "strategicPrioritiesDescription": "The following data highlights the focus areas of the National Society as per IFRC Unified Plans and PER process. The displayed data is based on reporting and may not be fully indicative of all the priorities.",
+        "source": "Source",
+        "unifiedPlanning": "IFRC Unified Planning"
     }
 }

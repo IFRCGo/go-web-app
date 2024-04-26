@@ -9,6 +9,8 @@
         "returnPeriodTableDisplacementSource": "Disaster Displacement Risk Model",
         "returnPeriodTableEconomicLossesTitle": "Economic Losses (USD)",
         "returnPeriodTableEconomicLossesDescription": "Figures taken from {source}",
-        "returnPeriodTableEconomicLossesSource": "World Bank Disaster Risk Country Profiles"
+        "returnPeriodTableEconomicLossesSource": "World Bank Disaster Risk Country Profiles",
+        "returnPeriodSource": "Source",
+        "returnPeriodIfrcMontandon": "IFRC Montandon, Global Crisis Data Bank"
     }
 }

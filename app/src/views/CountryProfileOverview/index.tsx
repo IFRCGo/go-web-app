@@ -359,7 +359,7 @@ export function Component() {
                             value={(
                                 <Link
                                     variant="tertiary"
-                                    href="https://www.acaps.org/"
+                                    href="https://www.acaps.org/en/thematics/all-topics/seasonal-calendar"
                                     external
                                     withUnderline
                                 >

@@ -47,7 +47,7 @@ import { useRequest } from '#utils/restRequest';
 
 import Filter, { FilterValue } from './Filters';
 import Map from './Map';
-import NationalSocietyDirectoryInitiatives from './NsDirectoryInitiatives';
+import NationalSocietyDevelopmentInitiatives from './NationalSocietyDevelopmentInitiatives';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -520,7 +520,7 @@ export function Component() {
                     keySelector={numericIdSelector}
                 />
             </Container>
-            <NationalSocietyDirectoryInitiatives />
+            <NationalSocietyDevelopmentInitiatives />
         </Container>
     );
 }

@@ -5,7 +5,10 @@ import {
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToString } from '@ifrc-go/ui/utils';
-import { isTruthyString } from '@togglecorp/fujs';
+import {
+    isDefined,
+    isTruthyString,
+} from '@togglecorp/fujs';
 
 import Link from '#components/Link';
 import { type CountryOutletContext } from '#utils/outletContext';
@@ -14,7 +17,7 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 const year = new Date().getFullYear();
-const legalStatusLink = 'https://idp.ifrc.org/SSO/SAMLLogin?loginToSp=https://fednet.ifrc.org&returnUrl=https://fednet.ifrc.org/PageFiles/255835/List%20States%20with%20Defined%20Legal%20Status%2025.07.2023_ENG.pdf';
+const legalStatusLink = 'https://fednet.ifrc.org/en/support/legal/legal/legal-status/';
 
 function Presence() {
     const strings = useTranslation(i18n);
@@ -42,11 +45,11 @@ function Presence() {
                         value={(
                             <Link
                                 variant="tertiary"
-                                href="https://www.ifrc.org/"
+                                href="https://data.ifrc.org/fdrs/ifrc-secretariat/"
                                 external
                                 withUnderline
                             >
-                                {strings.ifrc}
+                                {strings.fdrs}
                             </Link>
                         )}
                     />
@@ -77,26 +80,28 @@ function Presence() {
                         value={countryResponse?.country_delegation?.hod_mobile_number}
                         strongValue
                     />
-                    <Link
-                        href={countryResponse?.disaster_law_url}
-                        external
-                        variant="tertiary"
-                        withUnderline
-                    >
-                        {strings.countryIFRCDisasterLaw}
-                    </Link>
+                    {isDefined(countryResponse?.disaster_law_url) && (
+                        <Link
+                            href={countryResponse.disaster_law_url}
+                            external
+                            variant="tertiary"
+                            withUnderline
+                        >
+                            {strings.countryIFRCDisasterLaw}
+                        </Link>
+                    )}
                 </div>
             </Container>
             <Container
                 className={styles.presenceCard}
                 heading={strings.countryICRCPresenceTitle}
-                footerActions={(
+                footerActions={isDefined(countryResponse?.icrc_presence.url) && (
                     <TextOutput
                         label={strings.source}
                         value={(
                             <Link
                                 variant="tertiary"
-                                href="https://www.icrc.org/"
+                                href={countryResponse.icrc_presence.url}
                                 external
                                 withUnderline
                             >

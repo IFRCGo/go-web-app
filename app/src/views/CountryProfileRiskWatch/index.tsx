@@ -3,8 +3,12 @@ import {
     useOutletContext,
     useParams,
 } from 'react-router-dom';
-import { Container } from '@ifrc-go/ui';
+import {
+    Container,
+    TextOutput,
+} from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import { resolveToComponent } from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
@@ -145,6 +149,66 @@ export function Component() {
                 headerDescription={strings.risksByMonthDescription}
                 withHeaderBorder
                 childrenContainerClassName={styles.riskByMonthContent}
+                footerActions={(
+                    <TextOutput
+                        label={strings.source}
+                        value={(
+                            <>
+                                <div>
+                                    {resolveToComponent(
+                                        strings.sourceINFORM,
+                                        {
+                                            link: (
+                                                <Link
+                                                    variant="tertiary"
+                                                    href="https://drmkc.jrc.ec.europa.eu/inform-index/INFORM-Risk"
+                                                    external
+                                                    withUnderline
+                                                >
+                                                    {strings.inform}
+                                                </Link>
+                                            ),
+                                        },
+                                    )}
+                                </div>
+                                <div>
+                                    {resolveToComponent(
+                                        strings.sourceIDMC,
+                                        {
+                                            link: (
+                                                <Link
+                                                    variant="tertiary"
+                                                    href="https://www.internal-displacement.org/"
+                                                    external
+                                                    withUnderline
+                                                >
+                                                    {strings.idmc}
+                                                </Link>
+                                            ),
+                                        },
+                                    )}
+                                </div>
+                                <div>
+                                    {resolveToComponent(
+                                        strings.sourceIPC,
+                                        {
+                                            link: (
+                                                <Link
+                                                    variant="tertiary"
+                                                    href="https://www.ipcinfo.org/"
+                                                    external
+                                                    withUnderline
+                                                >
+                                                    {strings.ipc}
+                                                </Link>
+                                            ),
+                                        },
+                                    )}
+                                </div>
+                            </>
+                        )}
+                    />
+                )}
             >
                 <MultiMonthSelectInput
                     name={undefined}

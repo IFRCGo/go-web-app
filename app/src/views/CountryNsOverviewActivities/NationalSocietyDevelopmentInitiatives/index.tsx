@@ -48,11 +48,11 @@ function NationalSocietyDirectoryInitiatives() {
                     value={(
                         <Link
                             variant="tertiary"
-                            href="https://www.ifrc.org/"
+                            href="https://www.ifrc.org/our-work/national-society-development/funds-national-society-development"
                             external
                             withUnderline
                         >
-                            {strings.ifrc}
+                            {strings.ifrcNSDFunds}
                         </Link>
                     )}
                 />

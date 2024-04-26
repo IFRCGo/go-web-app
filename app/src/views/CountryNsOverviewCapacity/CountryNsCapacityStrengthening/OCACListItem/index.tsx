@@ -1,11 +1,9 @@
-import { ArrowRightUpLineIcon } from '@ifrc-go/icons';
 import {
     Container,
     DateOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
-import Link from '#components/Link';
 import { CountryOutletContext } from '#utils/outletContext';
 
 import i18n from './i18n.json';
@@ -33,16 +31,6 @@ function OCACListItem(props: Props) {
             }
             headingLevel={4}
             withInternalPadding
-            actions={(
-                <Link
-                    href={capacity?.url}
-                    variant="primary"
-                    actions={<ArrowRightUpLineIcon />}
-                    external
-                >
-                    {strings.capacityListItemViewDetails}
-                </Link>
-            )}
         >
             <div className={styles.ocacDetail}>
                 <DateOutput

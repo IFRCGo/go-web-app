@@ -3,6 +3,6 @@
     "strings": {
         "nSSocietyKeyDocumentsTitle": "Key Documents",
         "source": "Source",
-        "ifrc": "IFRC"
+        "sourceFDRS": "{nationalSociety} on FDRS"
     }
 }

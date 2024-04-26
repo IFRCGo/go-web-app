@@ -84,6 +84,20 @@ export function Component() {
                         {strings.perStartPerProcess}
                     </Link>
                 )}
+                footerActions={(
+                    <TextOutput
+                        label={strings.moreDetails}
+                        value={(
+                            <Link
+                                variant="tertiary"
+                                to="preparednessLayout"
+                                withUnderline
+                            >
+                                {strings.perGlobalSummary}
+                            </Link>
+                        )}
+                    />
+                )}
                 empty={!hasPer}
             >
                 {countryPerProcessStatusResponse?.results?.map(
