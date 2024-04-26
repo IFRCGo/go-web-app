@@ -36,6 +36,7 @@
 
             .download-links-and-key-figures {
                 display: flex;
+                flex-basis: 50%;
                 flex-direction: column;
                 gap: var(--go-ui-spacing-lg);
 
@@ -63,8 +64,8 @@
             }
 
             .strategic-priority-table {
+                display: flex;
                 flex-grow: 1;
-                width: 50%;
                 overflow-x: auto;
             }
         }
