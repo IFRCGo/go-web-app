@@ -84,7 +84,7 @@ function NationalSocietyIncomeSourceBreakdown(props: Props) {
                 && isDefined(countryResponse.society_name) && (
                 <>
                     <TextOutput
-                        label={strings.source}
+                        label={strings.incomeSourceBreakdownSourceLabel}
                         value={(
                             <Link
                                 variant="tertiary"

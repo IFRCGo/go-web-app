@@ -185,25 +185,32 @@ function NationalSocietyIndicators(props: Props) {
             withHeaderBorder
             contentViewType="grid"
             numPreferredGridContentColumns={3}
-            footerContentClassName={styles.footerContent}
             footerActions={isDefined(countryResponse?.fdrs)
                 && isDefined(countryResponse.society_name) && (
-                <TextOutput
-                    label={strings.source}
-                    value={(
-                        <Link
-                            variant="tertiary"
-                            href={`https://data.ifrc.org/fdrs/national-society/${countryResponse.fdrs}`}
-                            external
-                            withUnderline
-                        >
-                            {resolveToString(
-                                strings.sourceFDRS,
-                                { nationalSociety: countryResponse.society_name },
-                            )}
-                        </Link>
+                <>
+                    <TextOutput
+                        label={strings.source}
+                        value={(
+                            <Link
+                                variant="tertiary"
+                                href={`https://data.ifrc.org/fdrs/national-society/${countryResponse.fdrs}`}
+                                external
+                                withUnderline
+                            >
+                                {resolveToString(
+                                    strings.sourceFDRS,
+                                    { nationalSociety: countryResponse.society_name },
+                                )}
+                            </Link>
+                        )}
+                    />
+                    {isDefined(databankResponse.fdrs_data_fetched_year) && (
+                        <TextOutput
+                            value={databankResponse?.fdrs_data_fetched_year}
+                            strongValue
+                        />
                     )}
-                />
+                </>
             )}
         >
             <TextOutput
