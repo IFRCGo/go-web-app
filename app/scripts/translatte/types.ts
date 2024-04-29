@@ -21,6 +21,18 @@ export interface MigrationUpdateActionItem {
     newNamespace?: string,
 }
 
+export type ServerActionItem  = {
+    action: 'set',
+    key: string,
+    page_name: string,
+    value: string,
+    hash: string,
+} | {
+    action: 'delete'
+    key: string;
+    page_name: string;
+}
+
 export type MigrationActionItem = MigrationAddActionItem | MigrationRemoveActionItem | MigrationUpdateActionItem;
 
 export interface TranslationFileContent {
@@ -48,3 +60,5 @@ export interface SourceFileContent {
     last_migration?: string;
     strings: SourceStringItem[];
 }
+
+export type Language = 'en' | 'fr' | 'es' | 'ar'

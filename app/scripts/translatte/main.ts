@@ -10,6 +10,8 @@ import applyMigrations from './commands/applyMigrations';
 import generateMigration from './commands/generateMigration';
 import exportMigration from './commands/exportMigration';
 import { join, basename } from 'path';
+import pushMigration from './commands/pushMigration';
+import importExcel from './commands/importExcel';
 
 const currentDir = cwd();
 
@@ -180,6 +182,68 @@ yargs(hideBin(process.argv))
             await exportMigration(
                 argv.MIGRATION_FILE_PATH as string,
                 exportFilePath,
+            );
+        },
+    )
+    .command(
+        'push-migration <MIGRATION_FILE_PATH>',
+        'Push migration file to the server',
+        (yargs) => {
+            yargs.positional('MIGRATION_FILE_PATH', {
+                type: 'string',
+                describe: 'Find the migration file on MIGRATION_FILE_PATH',
+            });
+            yargs.options({
+                'api-url': {
+                    type: 'string',
+                    describe: 'URL for the API server',
+                    require: true,
+                },
+                'auth-token': {
+                    type: 'string',
+                    describe: 'Authentication token to access the API server',
+                    require: true,
+                },
+            });
+        },
+        async (argv) => {
+            const migrationFilePath = (argv.MIGRATION_FILE_PATH as string);
+
+            await pushMigration(
+                migrationFilePath,
+                argv.apiUrl as string,
+                argv.authToken as string,
+            );
+        },
+    )
+    .command(
+        'import-excel <IMPORT_FILE_PATH>',
+        'Import migration from excel file',
+        (yargs) => {
+            yargs.positional('IMPORT_FILE_PATH', {
+                type: 'string',
+                describe: 'Find the import file on IMPORT_FILE_PATH',
+            });
+            yargs.options({
+                'auth-token': {
+                    type: 'string',
+                    describe: 'Authentication token to access the API server',
+                    require: true,
+                },
+                'api-url': {
+                    type: 'string',
+                    describe: 'URL for the API server',
+                    require: true,
+                }
+            });
+        },
+        async (argv) => {
+            const importFilePath = (argv.IMPORT_FILE_PATH as string);
+
+            await importExcel(
+                importFilePath,
+                argv.apiUrl as string,
+                argv.authToken as string,
             );
         },
     )

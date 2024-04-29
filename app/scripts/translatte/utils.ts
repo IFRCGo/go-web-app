@@ -15,6 +15,8 @@ import {
     TranslationFileContent,
     MigrationFileContent,
     SourceFileContent,
+    Language,
+    ServerActionItem,
 } from './types';
 
 export const readFilePromisify = promisify(readFile);
@@ -329,3 +331,50 @@ export async function removeFiles(files: string[]) {
     ));
     await Promise.all(removePromises);
 }
+
+export function getCombinedKey(key: string, namespace: string) {
+    return `${namespace}:${key}`;
+}
+
+export function resolveUrl(from: string, to: string) {
+    const resolvedUrl = new URL(to, new URL(from, 'resolve://'));
+    if (resolvedUrl.protocol === 'resolve:') {
+        const { pathname, search, hash } = resolvedUrl;
+        return pathname + search + hash;
+    }
+    return resolvedUrl.toString();
+}
+
+export async function fetchLanguageStrings(language: Language, apiUrl: string, authToken: string) {
+    const endpoint = resolveUrl(apiUrl, language);
+    const promise = fetch(
+        endpoint,
+        {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${authToken}`,
+                'Accept': 'application/json'
+            }
+        }
+    );
+
+    return promise;
+}
+
+export async function postLanguageStrings(language: Language, actions: ServerActionItem[], apiUrl: string, authToken: string) {
+    const endpoint = resolveUrl(apiUrl, language);
+    const promise = fetch(
+        endpoint,
+        {
+            method: 'POST',
+            headers: {
+                'Authorization': `Token ${authToken}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ actions }),
+        }
+    );
+
+    return promise;
+}
+
