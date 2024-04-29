@@ -1,5 +1,26 @@
 # go-web-app
 
+## 7.2.0
+
+### Minor Changes
+
+- 9657d4b: Update country pages with appropriate source links
+- 66fa7cf: Show FDRS data retrieval year in NS indicators
+- b69e8e5: Update IFRC legal status link
+- 300250a: Show latest strategic plan of National Society under Strategic Priorities
+- 9657d4b: Add GO Wiki links for country page sections
+- b38d9d9: - Improve overall styling of country pages
+  - Make loading animation consistent across all pages
+  - Make empty message consistent
+  - Use ChartContainer and update usage of charting hooks
+  - Update BaseMap to extend defaultMapOptions (instead of replacing it)
+  - Add an option to provide popupClassName in MapPopup
+- 80be711: - Rename `Supporting Partners` to `Partners`.
+  - Update IFRC legal status link.
+  - Update the name of the strategic priorities link to indicate that they were created by the National Society.
+- 176e01b: - Simplify usage of PER question group in PER assessment form
+  - Add min widths in account table columns
+
 ## 7.1.5
 
 ### Patch Changes
