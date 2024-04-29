@@ -66,6 +66,7 @@ import HighlightedOperations from '#components/domain/HighlightedOperations';
 import Link from '#components/Link';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import MapPopup from '#components/MapPopup';
+import WikiLink from '#components/WikiLink';
 import { adminUrl } from '#config';
 import useAuth from '#hooks/domain/useAuth';
 import useCountryRaw from '#hooks/domain/useCountryRaw';
@@ -459,14 +460,19 @@ export function Component(props: BaseProps) {
         <Container
             className={styles.countryOngoingActivities}
             actions={isAuthenticated && (
-                <Link
-                    external
-                    href={resolveUrl(adminUrl, `api/country/${countryId}/change/`)}
-                    variant="secondary"
-                    icons={<PencilFillIcon />}
-                >
-                    {strings.editCountryLink}
-                </Link>
+                <>
+                    <Link
+                        external
+                        href={resolveUrl(adminUrl, `api/country/${countryId}/change/`)}
+                        variant="secondary"
+                        icons={<PencilFillIcon />}
+                    >
+                        {strings.editCountryLink}
+                    </Link>
+                    <WikiLink
+                        href="user_guide/Country_Pages#on-going-activities"
+                    />
+                </>
             )}
             headerDescription={strings.countryOngoingActivitiesEmergenciesDescription}
             withCenteredHeaderDescription
@@ -591,8 +597,8 @@ export function Component(props: BaseProps) {
                                     <Link
                                         to="countriesLayout"
                                         urlParams={{
-                                            countryId:
-                                            clickedPointProperties.feature.properties.country_id,
+                                            // eslint-disable-next-line max-len
+                                            countryId: clickedPointProperties.feature.properties.country_id,
                                         }}
                                     >
                                         {clickedPointProperties.feature.properties.name}

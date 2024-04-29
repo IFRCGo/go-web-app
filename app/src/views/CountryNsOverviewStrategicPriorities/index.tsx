@@ -19,6 +19,7 @@ import {
 } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
+import WikiLink from '#components/WikiLink';
 import useDebouncedValue from '#hooks/useDebouncedValue';
 import { type CountryOutletContext } from '#utils/outletContext';
 import { useRequest } from '#utils/restRequest';
@@ -169,6 +170,11 @@ export function Component() {
             className={styles.strategicPriorities}
             childrenContainerClassName={styles.countryNsOverviewStrategicPriorities}
             headerDescription={strings.strategicPrioritiesDescription}
+            actions={(
+                <WikiLink
+                    href="user_guide/Country_Pages#strategic-priorities"
+                />
+            )}
             withCenteredHeaderDescription
             pending={pending}
             empty={!pending && !hasCountryPlan && !perContentsDefined}

@@ -23,6 +23,7 @@ import {
 } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
+import WikiLink from '#components/WikiLink';
 import { type CountryOutletContext } from '#utils/outletContext';
 import {
     GoApiResponse,
@@ -225,6 +226,11 @@ export function Component() {
             pending={databankResponsePending}
             errored={isDefined(databankResponseError)}
             errorMessage={databankResponseError?.value?.messageForNotification}
+            actions={(
+                <WikiLink
+                    href="user_guide/Country_Pages#country-profile"
+                />
+            )}
         >
             {isDefined(databankResponse) && (
                 <Container

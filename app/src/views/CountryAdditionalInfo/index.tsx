@@ -22,6 +22,7 @@ import {
 import { isNotDefined } from '@togglecorp/fujs';
 
 import Link, { type Props as LinkProps } from '#components/Link';
+import WikiLink from '#components/WikiLink';
 import {
     type CountryOutletContext,
     type CountryResponse,
@@ -114,7 +115,14 @@ export function Component() {
     const isDataAvailable = hasCountryLinks || hasCountryContacts || hasCountrySnippet;
 
     return (
-        <div className={styles.countryAdditionalData}>
+        <Container
+            className={styles.countryAdditionalData}
+            actions={(
+                <WikiLink
+                    href="user_guide/Country_Pages#additional-data"
+                />
+            )}
+        >
             {hasCountrySnippet && (
                 <List
                     data={countrySnippetResponse.results}
@@ -166,7 +174,7 @@ export function Component() {
                     description={!countrySnippetPending && strings.noDataMessage}
                 />
             )}
-        </div>
+        </Container>
     );
 }
 
