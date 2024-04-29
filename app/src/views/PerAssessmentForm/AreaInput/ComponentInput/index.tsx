@@ -13,6 +13,7 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import { numericIdSelector } from '@ifrc-go/ui/utils';
 import {
     _cs,
+    compareNumber,
     isFalsyString,
     isNotDefined,
     listToGroupList,
@@ -149,18 +150,24 @@ function ComponentInput(props: Props) {
 
     const groupedQuestions = useMemo(
         () => listToGroupList(
-            questions,
+            questions?.sort((q1, q2) => compareNumber(q1.question_num, q2.question_num)),
             (question) => question.question_group ?? NO_GROUP,
         ),
         [questions],
     );
 
-    const groupedQuestionList = mapToList(
-        groupedQuestions,
-        (questionsInGroup, groupId) => ({
-            groupId: Number(groupId),
-            questionsInGroup,
-        }),
+    const groupedQuestionList = useMemo(
+        () => mapToList(
+            groupedQuestions,
+            (questionsInGroup, groupId) => ({
+                groupId: Number(groupId),
+                questionsInGroup,
+            }),
+        )?.sort((g1, g2) => compareNumber(
+            g1.questionsInGroup[0].question_num,
+            g2.questionsInGroup[0].question_num,
+        )),
+        [groupedQuestions],
     );
 
     if (isNotDefined(componentNumber)) {
@@ -272,6 +279,7 @@ function ComponentInput(props: Props) {
             />
             {epi_considerations && (
                 <InputSection
+                    withoutPadding
                     title={strings.epiConsiderationTitle}
                     description={(
                         <ul className={styles.description}>
@@ -291,11 +299,13 @@ function ComponentInput(props: Props) {
                         onChange={setFieldValue}
                         disabled={disabled}
                         readOnly={readOnly}
+                        rows={8}
                     />
                 </InputSection>
             )}
             {urban_considerations && (
                 <InputSection
+                    withoutPadding
                     title={strings.urbanConsiderationTitle}
                     description={strings.urbanConsiderationDescription}
                 >
@@ -306,11 +316,13 @@ function ComponentInput(props: Props) {
                         onChange={setFieldValue}
                         disabled={disabled}
                         readOnly={readOnly}
+                        rows={8}
                     />
                 </InputSection>
             )}
             {climate_environmental_considerations && (
                 <InputSection
+                    withoutPadding
                     title={strings.environmentConsiderationTitle}
                     description={(
                         <ul className={styles.description}>
@@ -330,6 +342,7 @@ function ComponentInput(props: Props) {
                         onChange={setFieldValue}
                         disabled={disabled}
                         readOnly={readOnly}
+                        rows={8}
                     />
                 </InputSection>
             )}
