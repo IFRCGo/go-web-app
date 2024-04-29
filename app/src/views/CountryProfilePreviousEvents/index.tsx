@@ -19,6 +19,7 @@ import {
 
 import AppealsTable from '#components/domain/AppealsTable';
 import CountryKeyFigures from '#components/domain/CountryKeyFigures';
+import WikiLink from '#components/WikiLink';
 import { type CountryOutletContext } from '#utils/outletContext';
 import {
     GoApiResponse,
@@ -150,6 +151,11 @@ export function Component() {
             className={styles.countryProfilePreviousEvents}
             contentViewType="vertical"
             spacing="loose"
+            actions={(
+                <WikiLink
+                    href="user_guide/Country_Pages#previous-events"
+                />
+            )}
         >
             <Container
                 contentViewType="grid"

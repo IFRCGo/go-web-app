@@ -18,6 +18,7 @@ import getBbox from '@turf/bbox';
 
 import RiskImminentEvents, { type ImminentEventSource } from '#components/domain/RiskImminentEvents';
 import Link from '#components/Link';
+import WikiLink from '#components/WikiLink';
 import useInputState from '#hooks/useInputState';
 import type { CountryOutletContext } from '#utils/outletContext';
 import { useRiskRequest } from '#utils/restRequest';
@@ -133,6 +134,11 @@ export function Component() {
             pending={pendingImminentEventCounts}
             contentViewType="vertical"
             spacing="loose"
+            actions={(
+                <WikiLink
+                    href="user_guide/Country_Pages#risk-watch"
+                />
+            )}
         >
             {hasImminentEvents && isDefined(countryResponse) && isDefined(countryResponse.iso3) && (
                 <RiskImminentEvents

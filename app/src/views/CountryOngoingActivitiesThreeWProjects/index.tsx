@@ -40,6 +40,7 @@ import { unparse } from 'papaparse';
 import ExportButton from '#components/domain/ExportButton';
 import ProjectActions, { Props as ProjectActionsProps } from '#components/domain/ProjectActions';
 import Link from '#components/Link';
+import WikiLink from '#components/WikiLink';
 import useUserMe from '#hooks/domain/useUserMe';
 import useAlert from '#hooks/useAlert';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
@@ -357,17 +358,23 @@ export function Component() {
         <Container
             className={styles.threeWProjects}
             actions={(
-                isDefined(userMe?.id) && (
-                    <div className={styles.countryThreeWActions}>
-                        <Link
-                            variant="secondary"
-                            to="newThreeWProject"
-                            state={{ reportingNsId: countryId }}
-                        >
-                            {strings.addThreeWProject}
-                        </Link>
-                    </div>
-                )
+                <>
+                    {isDefined(userMe?.id) && (
+                        <div className={styles.countryThreeWActions}>
+                            <Link
+                                variant="secondary"
+                                to="newThreeWProject"
+                                state={{ reportingNsId: countryId }}
+                            >
+                                {strings.addThreeWProject}
+                            </Link>
+                        </div>
+                    )}
+                    <WikiLink
+                        href="user_guide/Country_Pages#h-3w-projects"
+                    />
+                </>
+
             )}
             headerDescription={strings.threeWProjectDescription}
             withCenteredHeaderDescription

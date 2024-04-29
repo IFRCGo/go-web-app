@@ -2,6 +2,7 @@ import { useOutletContext } from 'react-router-dom';
 import { Container } from '@ifrc-go/ui';
 import { isNotDefined } from '@togglecorp/fujs';
 
+import WikiLink from '#components/WikiLink';
 import { type CountryOutletContext } from '#utils/outletContext';
 import { useRequest } from '#utils/restRequest';
 
@@ -35,6 +36,11 @@ export function Component() {
             className={styles.countryProfileSupportingPartners}
             contentViewType="vertical"
             spacing="loose"
+            actions={(
+                <WikiLink
+                    href="user_guide/Country_Pages#partners"
+                />
+            )}
         >
             <Presence />
             {countryResponse?.has_country_plan && (

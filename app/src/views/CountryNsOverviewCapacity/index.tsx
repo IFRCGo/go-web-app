@@ -15,6 +15,7 @@ import {
 } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
+import WikiLink from '#components/WikiLink';
 import { type CountryOutletContext } from '#utils/outletContext';
 import { useRequest } from '#utils/restRequest';
 
@@ -49,14 +50,19 @@ export function Component() {
         <Container
             className={styles.nsOverviewCapacity}
             actions={(
-                <Link
-                    href="https://www.ifrc.org/evaluations/"
-                    external
-                    withLinkIcon
-                    variant="primary"
-                >
-                    {strings.nsOverviewCapacityLink}
-                </Link>
+                <>
+                    <Link
+                        href="https://www.ifrc.org/evaluations/"
+                        external
+                        withLinkIcon
+                        variant="primary"
+                    >
+                        {strings.nsOverviewCapacityLink}
+                    </Link>
+                    <WikiLink
+                        href="user_guide/Country_Pages#capacity"
+                    />
+                </>
             )}
             headerDescription={strings.nSOverviewCapacityDescription}
             withCenteredHeaderDescription

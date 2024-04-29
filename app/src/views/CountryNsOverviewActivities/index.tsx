@@ -37,6 +37,7 @@ import { unparse } from 'papaparse';
 import ExportButton from '#components/domain/ExportButton';
 import ProjectActions, { Props as ProjectActionsProps } from '#components/domain/ProjectActions';
 import Link from '#components/Link';
+import WikiLink from '#components/WikiLink';
 import useAlert from '#hooks/useAlert';
 import useFilterState from '#hooks/useFilterState';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
@@ -367,13 +368,18 @@ export function Component() {
         <Container
             className={styles.nsActivity}
             actions={(
-                <Link
-                    to="newThreeWActivity"
-                    variant="secondary"
-                    icons={<AddFillIcon />}
-                >
-                    {strings.addNSActivity}
-                </Link>
+                <>
+                    <Link
+                        to="newThreeWActivity"
+                        variant="secondary"
+                        icons={<AddFillIcon />}
+                    >
+                        {strings.addNSActivity}
+                    </Link>
+                    <WikiLink
+                        href="user_guide/Country_Pages#national-society-overview"
+                    />
+                </>
             )}
             headerDescription={strings.nSActivityDescription}
             withCenteredHeaderDescription
