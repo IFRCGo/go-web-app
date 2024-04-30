@@ -993,20 +993,6 @@ const surgeCatalogueSecurityManagement = customWrapRoute({
     },
 });
 
-const surgeCatalogueOther = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'other',
-    component: {
-        render: () => import('#views/SurgeCatalogueOther'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Other',
-        visibility: 'anything',
-    },
-});
-
 const surgeCatalogueOtherCivilMilitaryRelations = customWrapRoute({
     parent: surgeCatalogueLayout,
     path: 'other/civil-military-relations',
@@ -1274,7 +1260,6 @@ function DeploymentCatalogueNavigate() {
         security: surgeCatalogueSecurity,
         shelter: surgeCatalogueShelter,
         water: surgeCatalogueWash,
-        other: surgeCatalogueOther,
     };
 
     const subCatalogueRouteMap: Record<string, Record<string, WrappedRoute>> = {
@@ -1500,7 +1485,6 @@ export default {
     surgeCatalogueWashKitM40Eru,
     surgeCatalogueWashWaterSupplyRehabilitation,
     surgeCatalogueWashHwts,
-    surgeCatalogueOther,
     surgeCatalogueOtherCivilMilitaryRelations,
     surgeCatalogueOtherDisasterRiskReduction,
     surgeCatalogueOtherHumanResources,

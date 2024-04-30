@@ -25,7 +25,6 @@ export function Component() {
     return (
         <SurgeCatalogueContainer
             heading={strings.uavHeading}
-            goBackFallbackLink="surgeCatalogueOther"
             imageList={imageList}
         >
             <SurgeContentContainer

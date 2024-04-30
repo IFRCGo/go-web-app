@@ -96,6 +96,15 @@ export function Component() {
         },
     ];
 
+    const frameworkData: LinkData[] = [
+        {
+            title: strings.technicalCompetencyFrameworkItemTitle,
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ETttjfpzsjdDrxWaSf7hP3ABQ4zRPhN1zDrNWS5drKTNJw',
+            external: true,
+            withLinkIcon: true,
+        },
+    ];
+
     return (
         <SurgeCatalogueContainer
             heading={strings.catalogueLivelihoodTitle}
@@ -107,6 +116,11 @@ export function Component() {
                 <CatalogueInfoCard
                     title={strings.catalogueLivelihoodRoleTitle}
                     data={roleProfiles}
+                />
+                <CatalogueInfoCard
+                    title={strings.technicalCompetencyFramework}
+                    data={frameworkData}
+                    description={strings.technicalCompetencyFrameworkDetails}
                 />
             </SurgeCardContainer>
             <SurgeCardContainer
