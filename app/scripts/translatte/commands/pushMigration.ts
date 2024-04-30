@@ -1,6 +1,6 @@
-import { isDefined, isNotDefined, listToGroupList, listToMap, mapToMap } from "@togglecorp/fujs";
+import { isDefined, isNotDefined, isTruthyString, listToGroupList, listToMap, mapToMap } from "@togglecorp/fujs";
 import { Language, MigrationActionItem, SourceStringItem } from "../types";
-import { fetchLanguageStrings, getCombinedKey, postLanguageStrings, readMigrations } from "../utils";
+import { fetchLanguageStrings, getCombinedKey, postLanguageStrings, readMigrations, writeFileAsync } from "../utils";
 import { Md5 } from "ts-md5";
 
 const languages: Language[] = ['en', 'fr', 'es', 'ar'];
@@ -38,10 +38,13 @@ async function fetchServerState(apiUrl: string, authToken: string) {
 
 async function pushMigration(migrationFilePath: string, apiUrl: string, authToken: string) {
     const serverStrings = await fetchServerState(apiUrl, authToken);
+    // const serverStrings = prevServerStateStrings as SourceStringItem[];
 
     const serverStringMapByCombinedKey = mapToMap(
         listToGroupList(
-            serverStrings,
+            serverStrings.filter(
+                ({ value, page_name }) => isTruthyString(page_name) && isTruthyString(value),
+            ),
             ({ key, page_name }) => getCombinedKey(key, page_name),
         ),
         (key) => key,
@@ -197,6 +200,38 @@ async function pushMigration(migrationFilePath: string, apiUrl: string, authToke
         }
     });
 
+    await writeFileAsync(
+        'prevServerState.json',
+        JSON.stringify(serverStringMapByCombinedKey, null, 2),
+        'utf8',
+    );
+
+    await writeFileAsync(
+        'serverActions.json',
+        JSON.stringify(serverActions, null, 2),
+        'utf8',
+    );
+
+    /*
+    const postPromise = await postLanguageStrings('en', [
+        {
+            "action": "set",
+            "key": "ifrc",
+            "page_name": "countryPresence",
+            "value": "IFRC",
+            "hash": Md5.hashStr("IFRC"),
+        },
+    ], apiUrl, authToken);
+
+    const postResponseJson = await postPromise.json();
+
+    await writeFilePromisify(
+        'serverResponse.json',
+        JSON.stringify(postResponseJson, null, 2),
+        'utf8',
+    );
+    */
+
     const postResponsePromises = serverActions.map(
         (serverAction) => postLanguageStrings(
             serverAction.language,
@@ -206,7 +241,16 @@ async function pushMigration(migrationFilePath: string, apiUrl: string, authToke
         )
     );
 
-    await Promise.all(postResponsePromises);
+    const postResponses = await Promise.all(postResponsePromises);
+    const postJsonResponses = await Promise.all(
+        postResponses.map((response) => response.json())
+    );
+
+    await writeFileAsync(
+        'serverResponse.json',
+        JSON.stringify(postJsonResponses, null, 2),
+        'utf8',
+    );
 }
 
 export default pushMigration;

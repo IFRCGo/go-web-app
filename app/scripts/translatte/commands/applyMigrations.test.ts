@@ -4,7 +4,7 @@ import { join } from 'path';
 
 import { testWithTmpDir } from '../testHelpers';
 import {
-    writeFilePromisify,
+    writeFileAsync,
     readJsonFilesContents,
 } from '../utils';
 import {
@@ -29,7 +29,7 @@ testWithTmpDir('test applyMigrations with no data in server', async ({ tmpdir })
         { name: '000003-1000000000000.json', content: migrationContent3 },
         { name: '000004-1000000000000.json', content: migrationContent4 },
         { name: '000005-1000000000000.json', content: migrationContent5 },
-    ].map(({ name, content }) => writeFilePromisify(
+    ].map(({ name, content }) => writeFileAsync(
         join(tmpdir, 'migrations', name),
         JSON.stringify(content, null, 4),
         'utf8',
@@ -42,7 +42,7 @@ testWithTmpDir('test applyMigrations with no data in server', async ({ tmpdir })
         last_migration: undefined,
         strings: [],
     };
-    await writeFilePromisify(
+    await writeFileAsync(
         join(tmpdir, 'strings', 'before.json'),
         JSON.stringify(emptySourceFile),
         'utf8',
@@ -70,7 +70,7 @@ testWithTmpDir('test applyMigrations with data in server', async ({ tmpdir }) =>
     mkdirSync(join(tmpdir, 'migrations'));
     const migrations = [
         { name: '000006-1000000000000.json', content: migrationContent6 },
-    ].map(({ name, content }) => writeFilePromisify(
+    ].map(({ name, content }) => writeFileAsync(
         join(tmpdir, 'migrations', name),
         JSON.stringify(content, null, 4),
         'utf8',
@@ -79,7 +79,7 @@ testWithTmpDir('test applyMigrations with data in server', async ({ tmpdir }) =>
 
     mkdirSync(join(tmpdir, 'strings'));
 
-    await writeFilePromisify(
+    await writeFileAsync(
         join(tmpdir, 'strings', 'before.json'),
         JSON.stringify(strings1),
         'utf8',

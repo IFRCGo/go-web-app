@@ -1,12 +1,16 @@
-import { isDefined, isNotDefined, listToGroupList, listToMap, mapToList } from '@togglecorp/fujs';
+import { compareString, isDefined, isNotDefined, isTruthyString, listToGroupList, listToMap, mapToList } from '@togglecorp/fujs';
 import xlsx from 'exceljs';
-import { Language, ServerActionItem } from '../types';
+import { Language, ServerActionItem, SourceStringItem, StringItem } from '../types';
 import { Md5 } from 'ts-md5';
-import { postLanguageStrings } from '../utils';
+import { fetchAllServerStrings, postLanguageStrings, readFileAsync, writeFileAsync } from '../utils';
+import stagingStrings from '../../../../../../go-temp/goadmin-stage.ifrc.org-1717130893109.json';
 
-async function importExcel(importFilePath: string, apiUrl: string, accessToken: string) {
+async function importExcel(
+    importFilePath: string,
+    apiUrl: string,
+    accessToken: string,
+) {
     const workbook = new xlsx.Workbook();
-
     await workbook.xlsx.readFile(importFilePath);
 
     const firstSheet = workbook.worksheets[0];
@@ -26,13 +30,7 @@ async function importExcel(importFilePath: string, apiUrl: string, accessToken: 
         ({ column }) => column,
     );
 
-    const strings: {
-        key: string;
-        namespace: string;
-        language: Language;
-        value: string;
-        hash: string;
-    }[] = [];
+    const stringsFromExcel: StringItem[] = [];
 
     firstSheet.eachRow(
         (row) => {
@@ -64,28 +62,28 @@ async function importExcel(importFilePath: string, apiUrl: string, accessToken: 
 
             const hash = Md5.hashStr(en);
 
-            strings.push({
-                key,
+            stringsFromExcel.push({
                 namespace,
+                key,
                 language: 'en',
                 value: en,
                 hash,
             });
 
             if (isDefined(ar)) {
-                strings.push({
-                    key,
+                stringsFromExcel.push({
                     namespace,
+                    key,
                     language: 'ar',
                     value: ar,
-                hash,
+                    hash,
                 });
             }
 
             if (isDefined(fr)) {
-                strings.push({
-                    key,
+                stringsFromExcel.push({
                     namespace,
+                    key,
                     language: 'fr',
                     value: fr,
                     hash,
@@ -93,9 +91,9 @@ async function importExcel(importFilePath: string, apiUrl: string, accessToken: 
             }
 
             if (isDefined(es)) {
-                strings.push({
-                    key,
+                stringsFromExcel.push({
                     namespace,
+                    key,
                     language: 'es',
                     value: es,
                     hash,
@@ -106,7 +104,7 @@ async function importExcel(importFilePath: string, apiUrl: string, accessToken: 
 
     const languageGroupedActions = mapToList(
         listToGroupList(
-            strings,
+            stringsFromExcel,
             ({ language }) => language,
             (languageString) => {
                 const serverAction: ServerActionItem = {
@@ -126,6 +124,7 @@ async function importExcel(importFilePath: string, apiUrl: string, accessToken: 
         })
     );
 
+    /*
     const postPromises = languageGroupedActions.map(
         (languageStrings) => postLanguageStrings(
             languageStrings.language,
@@ -135,7 +134,20 @@ async function importExcel(importFilePath: string, apiUrl: string, accessToken: 
         )
     )
 
-    await Promise.all(postPromises);
+    const postResponses = await Promise.all(postPromises);
+
+    const postJsonResponses = await Promise.all(
+        postResponses.map((response) => response.json())
+    );
+    */
+
+    /*
+    await writeFileAsync(
+        'serverResponse.json',
+        JSON.stringify(postJsonResponses, null, 2),
+        'utf8',
+    );
+    */
 }
 
 export default importExcel;
