@@ -17,6 +17,8 @@ import {
     useRequest,
 } from '#utils/restRequest';
 
+import { VALIDATED } from '../common';
+
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -60,44 +62,44 @@ function LocalUnitsTable(props: Props) {
             offset,
             type__code: filter?.type,
             validated: isDefined(filter?.isValidated)
-                ? filter.isValidated === strings.localUnitsTableValidated : undefined,
+                ? filter.isValidated === VALIDATED : undefined,
             search: filter?.search,
         },
     });
 
     const columns = useMemo(
         () => ([
-            createStringColumn<LocalUnitsTableListItem, string>(
+            createStringColumn<LocalUnitsTableListItem, number>(
                 'english_branch_name',
                 strings.localUnitsTableName,
                 (item) => item.english_branch_name,
             ),
-            createStringColumn<LocalUnitsTableListItem, string>(
+            createStringColumn<LocalUnitsTableListItem, number>(
                 'address_en',
                 strings.localUnitsTableAddress,
                 (item) => item.address_en,
             ),
-            createStringColumn<LocalUnitsTableListItem, string>(
+            createStringColumn<LocalUnitsTableListItem, number>(
                 'type',
                 strings.localUnitsTableType,
-                (item) => item.type.name,
+                (item) => item.type_details.name,
             ),
-            createStringColumn<LocalUnitsTableListItem, string>(
+            createStringColumn<LocalUnitsTableListItem, number>(
                 'focal',
                 strings.localUnitsTableFocal,
                 (item) => item.focal_person_en,
             ),
-            createStringColumn<LocalUnitsTableListItem, string>(
+            createStringColumn<LocalUnitsTableListItem, number>(
                 'phone',
                 strings.localUnitsTablePhoneNumber,
                 (item) => item.phone,
             ),
-            createStringColumn<LocalUnitsTableListItem, string>(
+            createStringColumn<LocalUnitsTableListItem, number>(
                 'email',
                 strings.localUnitsTableEmail,
                 (item) => item.email,
             ),
-            createBooleanColumn<LocalUnitsTableListItem, boolean>(
+            createBooleanColumn<LocalUnitsTableListItem, number>(
                 'validate',
                 strings.localUnitsTableValidate,
                 (item) => item.validated,
@@ -126,6 +128,7 @@ function LocalUnitsTable(props: Props) {
                     onActivePageChange={setPage}
                 />
             )}
+            footerClassName={styles.footerContent}
             contentViewType="vertical"
         >
             <Table

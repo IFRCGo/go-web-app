@@ -35,6 +35,11 @@ import { type CountryOutletContext } from '#utils/outletContext';
 import { resolveUrl } from '#utils/resolveUrl';
 import { useRequest } from '#utils/restRequest';
 
+import {
+    NOT_VALIDATED,
+    VALIDATED,
+    Validation,
+} from './common';
 import LocalUnitsMap from './LocalUnitsMap';
 import LocalUnitsTable from './LocalUnitsTable';
 
@@ -45,7 +50,8 @@ type LocalUnitType = components<'read'>['schemas']['LocalUnitType'];
 
 const localUnitCodeSelector = (localUnit: LocalUnitType) => localUnit.code;
 
-interface Validation {
+interface ValidationOptions {
+    key: Validation
     label: string;
 }
 
@@ -90,7 +96,7 @@ function NationalSocietyLocalUnits(props: Props) {
             limit,
             type__code: filter.type,
             validated: isDefined(filter.isValidated)
-                ? filter.isValidated === strings.validated : undefined,
+                ? filter.isValidated === VALIDATED : undefined,
             search: filter.search,
             country__iso3: isDefined(countryResponse?.iso3) ? countryResponse?.iso3 : undefined,
         },
@@ -103,11 +109,13 @@ function NationalSocietyLocalUnits(props: Props) {
         url: '/api/v2/local-units/options/',
     });
 
-    const validationOptions: Validation[] = useMemo(() => ([
+    const validationOptions = useMemo((): ValidationOptions[] => ([
         {
+            key: VALIDATED,
             label: strings.validated,
         },
         {
+            key: NOT_VALIDATED,
             label: strings.notValidated,
         },
     ]), [strings.validated, strings.notValidated]);
@@ -120,74 +128,74 @@ function NationalSocietyLocalUnits(props: Props) {
     );
 
     return (
-        <Container
-            className={_cs(styles.nationalSocietyLocalUnitsMap, className)}
-            heading={strings.localUnitsMapTitle}
-            childrenContainerClassName={styles.content}
-            withGridViewInFilter
-            withHeaderBorder
-            actions={isAuthenticated && (
-                <Link
-                    external
-                    href={resolveUrl(adminUrl, `local_units/localunit/?country=${countryId}`)}
-                    variant="secondary"
-                >
-                    {strings.editLocalUnitLink}
-                </Link>
-            )}
-            filters={(
-                <>
-                    <SelectInput
-                        placeholder={strings.localUnitsFilterTypePlaceholder}
-                        label={strings.localUnitsFilterTypeLabel}
-                        name="type"
-                        value={rawFilter.type}
-                        onChange={setFilterField}
-                        keySelector={localUnitCodeSelector}
-                        labelSelector={stringNameSelector}
-                        disabled={localUnitsOptionsResponsePending}
-                        options={localUnitsOptionsResponse?.type}
-                    />
-                    <SelectInput
-                        placeholder={strings.localUnitsFilterValidatedPlaceholder}
-                        label={strings.localUnitsFilterValidatedLabel}
-                        name="isValidated"
-                        value={rawFilter.isValidated}
-                        onChange={setFilterField}
-                        keySelector={stringLabelSelector}
-                        labelSelector={stringLabelSelector}
-                        options={validationOptions}
-                    />
-                    <TextInput
-                        name="search"
-                        label={strings.localUnitsFilterSearchLabel}
-                        placeholder={strings.localUnitsFilterSearchPlaceholderLabel}
-                        value={rawFilter.search}
-                        onChange={setFilterField}
-                        icons={<SearchLineIcon />}
-                    />
-                    <div className={styles.clearButton}>
-                        <Button
-                            name={undefined}
-                            variant="secondary"
-                            onClick={handleClearFilter}
-                            disabled={!filtered}
-                        >
-                            {strings.localUnitsFilterClear}
-                        </Button>
-                    </div>
-                </>
-            )}
+        <Tabs
+            onChange={setActiveTab}
+            value={activeTab}
+            variant="tertiary"
         >
-            <Tabs
-                onChange={setActiveTab}
-                value={activeTab}
-                variant="tertiary"
+            <Container
+                className={_cs(styles.nationalSocietyLocalUnitsMap, className)}
+                heading={strings.localUnitsMapTitle}
+                childrenContainerClassName={styles.content}
+                withGridViewInFilter
+                withHeaderBorder
+                actions={isAuthenticated && (
+                    <Link
+                        external
+                        href={resolveUrl(adminUrl, `local_units/localunit/?country=${countryId}`)}
+                        variant="secondary"
+                    >
+                        {strings.editLocalUnitLink}
+                    </Link>
+                )}
+                filters={(
+                    <>
+                        <SelectInput
+                            placeholder={strings.localUnitsFilterTypePlaceholder}
+                            label={strings.localUnitsFilterTypeLabel}
+                            name="type"
+                            value={rawFilter.type}
+                            onChange={setFilterField}
+                            keySelector={localUnitCodeSelector}
+                            labelSelector={stringNameSelector}
+                            disabled={localUnitsOptionsResponsePending}
+                            options={localUnitsOptionsResponse?.type}
+                        />
+                        <SelectInput
+                            placeholder={strings.localUnitsFilterValidatedPlaceholder}
+                            label={strings.localUnitsFilterValidatedLabel}
+                            name="isValidated"
+                            value={rawFilter.isValidated}
+                            onChange={setFilterField}
+                            keySelector={stringLabelSelector}
+                            labelSelector={stringLabelSelector}
+                            options={validationOptions}
+                        />
+                        <TextInput
+                            name="search"
+                            label={strings.localUnitsFilterSearchLabel}
+                            placeholder={strings.localUnitsFilterSearchPlaceholderLabel}
+                            value={rawFilter.search}
+                            onChange={setFilterField}
+                            icons={<SearchLineIcon />}
+                        />
+                        <div className={styles.clearButton}>
+                            <Button
+                                name={undefined}
+                                variant="secondary"
+                                onClick={handleClearFilter}
+                                disabled={!filtered}
+                            >
+                                {strings.localUnitsFilterClear}
+                            </Button>
+                        </div>
+                        <TabList>
+                            <Tab name="map">{strings.localUnitsMapView}</Tab>
+                            <Tab name="table">{strings.localUnitsListView}</Tab>
+                        </TabList>
+                    </>
+                )}
             >
-                <TabList>
-                    <Tab name="map">{strings.localUnitsMapView}</Tab>
-                    <Tab name="table">{strings.localUnitsListView}</Tab>
-                </TabList>
                 <TabPanel name="map">
                     <LocalUnitsMap
                         localUnitListResponse={localUnitListResponse}
@@ -198,8 +206,8 @@ function NationalSocietyLocalUnits(props: Props) {
                         filter={filter}
                     />
                 </TabPanel>
-            </Tabs>
-        </Container>
+            </Container>
+        </Tabs>
     );
 }
 
