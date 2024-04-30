@@ -1,0 +1,14 @@
+{
+    "namespace": "countryRiskSourcesOutput",
+    "strings": {
+        "source": "Source",
+        "inform": "INFORM",
+        "idmc": "IDMC",
+        "ipc": "IPC",
+        "undrr": "UNDRR",
+        "sourceINFORM": "{link} for each country's level of risk",
+        "sourceUNDRR": "{link} for the population exposure",
+        "sourceIDMC": "{link} for the expected displacements",
+        "sourceIPC": "{link} for food insecurity"
+    }
+}

@@ -289,6 +289,7 @@ function RiskImminentEvents(props: Props) {
                     )}
                 </>
             )}
+            headingLevel={2}
         >
             {CurrentView && (
                 <CurrentView

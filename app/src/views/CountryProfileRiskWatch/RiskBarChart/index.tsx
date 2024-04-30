@@ -3,12 +3,10 @@ import {
     useMemo,
 } from 'react';
 import {
-    BlockLoading,
     Checkbox,
     Container,
     LegendItem,
     SelectInput,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -47,6 +45,7 @@ import {
 } from '#utils/domain/risk';
 import { type RiskApiResponse } from '#utils/restRequest';
 
+import CountryRiskSourcesOutput from '../CountryRiskSourcesOutput';
 import CombinedChart from './CombinedChart';
 import FoodInsecurityChart from './FoodInsecurityChart';
 import WildfireChart from './WildfireChart';
@@ -275,13 +274,7 @@ function RiskBarChart(props: Props) {
             className={styles.riskBarChart}
             withHeaderBorder
             withGridViewInFilter
-            footerActions={(
-                <TextOutput
-                    label={strings.sourceLabel}
-                    value={strings.ifrcMontandon}
-                    strongValue
-                />
-            )}
+            footerActions={<CountryRiskSourcesOutput />}
             filters={(
                 <>
                     <SelectInput
@@ -320,21 +313,22 @@ function RiskBarChart(props: Props) {
                     )}
                 </>
             )}
+            pending={pending}
+            headingLevel={2}
         >
-            {pending && <BlockLoading />}
-            {!pending && selectedHazardType === 'FI' && (
+            {selectedHazardType === 'FI' && (
                 <FoodInsecurityChart
                     showHistoricalData={showFiHistoricalData}
                     showProjection={showFiProjection}
                     ipcData={seasonalRiskData?.ipc_displacement_data}
                 />
             )}
-            {!pending && selectedHazardType === 'WF' && (
+            {selectedHazardType === 'WF' && (
                 <WildfireChart
                     gwisData={seasonalRiskData?.gwis}
                 />
             )}
-            {!pending && selectedHazardType !== 'FI' && selectedHazardType !== 'WF' && (
+            {selectedHazardType !== 'FI' && selectedHazardType !== 'WF' && (
                 <CombinedChart
                     riskData={seasonalRiskData}
                     selectedRiskMetricDetail={selectedRiskMetricDetail}
@@ -342,50 +336,48 @@ function RiskBarChart(props: Props) {
                     hazardListForDisplay={hazardListForDisplay}
                 />
             )}
-            {!pending && (
-                <div className={styles.legend}>
-                    {hazardListForDisplay.map(
-                        (hazard) => (
-                            <LegendItem
-                                key={hazard.hazard_type}
-                                label={hazard.hazard_type_display}
-                                color={hazardTypeToColorMap[hazard.hazard_type]}
-                            />
-                        ),
-                    )}
-                    {selectedHazardType === 'WF' && (
-                        <>
-                            <LegendItem
-                                className={styles.legendItem}
-                                colorClassName={styles.color}
-                                label={resolveToString(
-                                    strings.currentYearTooltipLabel,
-                                    { currentYear },
-                                )}
-                                color={COLOR_PRIMARY_RED}
-                            />
-                            <LegendItem
-                                className={styles.legendItem}
-                                colorClassName={styles.color}
-                                label={resolveToString(
-                                    strings.averageTooltipLabel,
-                                    { currentYear },
-                                )}
-                                color={COLOR_PRIMARY_BLUE}
-                            />
-                            <LegendItem
-                                className={styles.legendItem}
-                                colorClassName={styles.color}
-                                label={resolveToString(
-                                    strings.minMaxLabel,
-                                    { currentYear },
-                                )}
-                                color={COLOR_LIGHT_GREY}
-                            />
-                        </>
-                    )}
-                </div>
-            )}
+            <div className={styles.legend}>
+                {hazardListForDisplay.map(
+                    (hazard) => (
+                        <LegendItem
+                            key={hazard.hazard_type}
+                            label={hazard.hazard_type_display}
+                            color={hazardTypeToColorMap[hazard.hazard_type]}
+                        />
+                    ),
+                )}
+                {selectedHazardType === 'WF' && (
+                    <>
+                        <LegendItem
+                            className={styles.legendItem}
+                            colorClassName={styles.color}
+                            label={resolveToString(
+                                strings.currentYearTooltipLabel,
+                                { currentYear },
+                            )}
+                            color={COLOR_PRIMARY_RED}
+                        />
+                        <LegendItem
+                            className={styles.legendItem}
+                            colorClassName={styles.color}
+                            label={resolveToString(
+                                strings.averageTooltipLabel,
+                                { currentYear },
+                            )}
+                            color={COLOR_PRIMARY_BLUE}
+                        />
+                        <LegendItem
+                            className={styles.legendItem}
+                            colorClassName={styles.color}
+                            label={resolveToString(
+                                strings.minMaxLabel,
+                                { currentYear },
+                            )}
+                            color={COLOR_LIGHT_GREY}
+                        />
+                    </>
+                )}
+            </div>
         </Container>
     );
 }

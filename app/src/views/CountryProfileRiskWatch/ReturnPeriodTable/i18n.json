@@ -11,6 +11,6 @@
         "returnPeriodTableEconomicLossesDescription": "Figures taken from {source}",
         "returnPeriodTableEconomicLossesSource": "World Bank Disaster Risk Country Profiles",
         "returnPeriodSource": "Source",
-        "returnPeriodIfrcMontandon": "IFRC Montandon, Global Crisis Data Bank"
+        "returnPeriodIfrcMontandon": "UNDRR, World Bank / GFDRR and IDMC"
     }
 }
