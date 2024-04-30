@@ -368,32 +368,6 @@ function NationalSocietyLocalUnitsMap(props: Props) {
                             value={selectedLocalUnitDetail.address_en
                                 ?? selectedLocalUnitDetail.address_loc}
                         />
-                        <TextOutput
-                            className={styles.localUnitInfo}
-                            label={strings.localUnitDetailPhoneNumber}
-                            strongLabel
-                            value={selectedLocalUnitDetail.phone}
-                        />
-                        <TextOutput
-                            className={styles.localUnitInfo}
-                            label={strings.localUnitDetailFocalPerson}
-                            strongLabel
-                            value={selectedLocalUnitDetail.focal_person_en
-                                ?? selectedLocalUnitDetail.focal_person_loc}
-                        />
-                        <TextOutput
-                            className={styles.localUnitInfo}
-                            label={strings.localUnitDetailEmail}
-                            strongLabel
-                            value={(
-                                <Link
-                                    href={`mailto:${selectedLocalUnitDetail.email}`}
-                                    external
-                                >
-                                    {selectedLocalUnitDetail.email}
-                                </Link>
-                            )}
-                        />
                     </MapPopup>
                 )}
             </BaseMap>
