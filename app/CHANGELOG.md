@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.2.1
+
+### Patch Changes
+
+- Remove personal identifiable information for local units
+
 ## 7.2.0
 
 ### Minor Changes
