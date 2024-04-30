@@ -346,9 +346,9 @@ function NationalSocietyLocalUnitsMap(props: Props) {
                                 external
                                 withLinkIcon
                             >
-                                {isTruthyString(selectedLocalUnitDetail.english_branch_name)
-                                    ? selectedLocalUnitDetail.english_branch_name
-                                    : selectedLocalUnitDetail.local_branch_name}
+                                {isTruthyString(selectedLocalUnitDetail.local_branch_name)
+                                    ? selectedLocalUnitDetail.local_branch_name
+                                    : selectedLocalUnitDetail.english_branch_name}
                             </Link>
                         )}
                         childrenContainerClassName={styles.popupContent}
