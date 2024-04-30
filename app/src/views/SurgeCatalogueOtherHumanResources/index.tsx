@@ -13,7 +13,6 @@ export function Component() {
     return (
         <SurgeCatalogueContainer
             heading={strings.humanHeading}
-            goBackFallbackLink="surgeCatalogueOther"
         >
             <SurgeContentContainer
                 heading={strings.otherOverview}
@@ -27,20 +26,20 @@ export function Component() {
                 <ul>
                     <li>
                         <Link
-                            href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ebd935X260FFuCsCh5ujYTkBDjPnZI2fWz-3zTfSPeCNJw"
+                            href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EQ2XIVDyiHFGh8G27WHDgnEBxS_tdNbtzfFw6nV6HXRaag"
                             external
                             withLinkIcon
                         >
-                            {strings.otherLinkOne}
+                            {strings.otherLinkOneCoord}
                         </Link>
                     </li>
                     <li>
                         <Link
-                            href="https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fother%2FRapid%20Response%20Profile%20Human%20Resources%20Officer%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fother&p=true&ga=1"
+                            href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ETtWcMNEWz9LoNsUSQQSyiYBPTLLuZyur7y74Ho8l0ctxA"
                             external
                             withLinkIcon
                         >
-                            {strings.otherLinkTwo}
+                            {strings.otherLinkTwoOffic}
                         </Link>
                     </li>
                 </ul>

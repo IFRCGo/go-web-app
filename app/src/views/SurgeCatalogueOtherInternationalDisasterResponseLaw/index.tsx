@@ -14,7 +14,6 @@ export function Component() {
     return (
         <SurgeCatalogueContainer
             heading={strings.internationalDisasterHeading}
-            goBackFallbackLink="surgeCatalogueOther"
         >
             <SurgeContentContainer
                 heading={strings.otherOverview}

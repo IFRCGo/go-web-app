@@ -10,7 +10,7 @@
         "catalogueHealth": "Health",
         "catalogueInformationManagement": "Information Management (IM)",
         "catalogueInformationTechnologyTelecom": "Information Technology & Telecom (IT/T)",
-        "catalogueLivelihoodsAndBasicNeeds": "Livelihoods and Basic Needs",
+        "catalogueLivelihoodsAndBasicNeeds": "Livelihoods and Basic Needs (LBN)",
         "catalogueLogistics": "Logistics",
         "catalogueOperations": "Operations Management",
         "catalogueProtection": "Protection, Gender and Inclusion (PGI)",
@@ -19,6 +19,16 @@
         "catalogueWater": "Water, Sanitation, and Hygiene (WASH)",
         "catalogueRelief": "Relief",
         "catalogueSecurity": "Security",
-        "catalogueOther": "Other"
+        "catalogueCMR": "Civil Military Relations (CMR)",
+        "catalogueDDR": "Disaster Risk Reduction (DRR)",
+        "catalogueHR": "Human Resources (HR)",
+        "catalogueIDRL": "International Disaster Response Law (IDRL)",
+        "catalogueMigration": "Migration",
+        "catalogueNSD": "National Society Development (NSD)",
+        "cataloguePRD": "Partnership and Resource Development (PRD)",
+        "cataloguePER": "Preparedness for Effective Response (PER)",
+        "catalogueRecovery": "Recovery",
+        "catalogueGR": "Green Response (GR)",
+        "catalogueUAV": "Drones – Uncrewed Aerial Vehicles (UAV)"
     }
 }

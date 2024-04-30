@@ -13,7 +13,6 @@ export function Component() {
     return (
         <SurgeCatalogueContainer
             heading={strings.preparednessHeading}
-            goBackFallbackLink="surgeCatalogueOther"
         >
             <SurgeContentContainer
                 heading={strings.otherOverview}

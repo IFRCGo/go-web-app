@@ -162,11 +162,81 @@ export function Component() {
                     {strings.catalogueWater}
                 </NavigationTab>
                 <NavigationTab
-                    to="surgeCatalogueOther"
+                    to="surgeCatalogueOtherCivilMilitaryRelations"
                     parentRoute
                 >
                     <MoreOptionsIcon className={styles.icon} />
-                    {strings.catalogueOther}
+                    {strings.catalogueCMR}
+                </NavigationTab>
+                <NavigationTab
+                    to="surgeCatalogueOtherDisasterRiskReduction"
+                    parentRoute
+                >
+                    <MoreOptionsIcon className={styles.icon} />
+                    {strings.catalogueDDR}
+                </NavigationTab>
+                <NavigationTab
+                    to="surgeCatalogueOtherHumanResources"
+                    parentRoute
+                >
+                    <MoreOptionsIcon className={styles.icon} />
+                    {strings.catalogueHR}
+                </NavigationTab>
+                <NavigationTab
+                    to="surgeCatalogueOtherInternationalDisasterResponseLaw"
+                    parentRoute
+                >
+                    <MoreOptionsIcon className={styles.icon} />
+                    {strings.catalogueIDRL}
+                </NavigationTab>
+                <NavigationTab
+                    to="surgeCatalogueOtherMigration"
+                    parentRoute
+                >
+                    <MoreOptionsIcon className={styles.icon} />
+                    {strings.catalogueMigration}
+                </NavigationTab>
+                <NavigationTab
+                    to="surgeCatalogueOtherNationalSocietyDevelopment"
+                    parentRoute
+                >
+                    <MoreOptionsIcon className={styles.icon} />
+                    {strings.catalogueNSD}
+                </NavigationTab>
+                <NavigationTab
+                    to="surgeCatalogueOtherPartnershipResourceDevelopment"
+                    parentRoute
+                >
+                    <MoreOptionsIcon className={styles.icon} />
+                    {strings.cataloguePRD}
+                </NavigationTab>
+                <NavigationTab
+                    to="surgeCatalogueOtherPreparednessEffectiveResponse"
+                    parentRoute
+                >
+                    <MoreOptionsIcon className={styles.icon} />
+                    {strings.cataloguePER}
+                </NavigationTab>
+                <NavigationTab
+                    to="surgeCatalogueOtherRecovery"
+                    parentRoute
+                >
+                    <MoreOptionsIcon className={styles.icon} />
+                    {strings.catalogueRecovery}
+                </NavigationTab>
+                <NavigationTab
+                    to="surgeCatalogueOtherGreenResponse"
+                    parentRoute
+                >
+                    <MoreOptionsIcon className={styles.icon} />
+                    {strings.catalogueGR}
+                </NavigationTab>
+                <NavigationTab
+                    to="surgeCatalogueOtherUAV"
+                    parentRoute
+                >
+                    <MoreOptionsIcon className={styles.icon} />
+                    {strings.catalogueUAV}
                 </NavigationTab>
             </NavigationTabList>
             <div className={styles.content}>
