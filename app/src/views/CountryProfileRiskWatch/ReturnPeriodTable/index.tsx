@@ -193,8 +193,8 @@ function ReturnPeriodTable(props: Props) {
             withHeaderBorder
             footerActions={(
                 <TextOutput
-                    label={strings.source}
-                    value={strings.ifrcMontandon}
+                    label={strings.returnPeriodSource}
+                    value={strings.returnPeriodIfrcMontandon}
                     strongValue
                 />
             )}
@@ -209,6 +209,7 @@ function ReturnPeriodTable(props: Props) {
                     nonClearable
                 />
             )}
+            headingLevel={2}
         >
             <Table
                 filtered={false}
