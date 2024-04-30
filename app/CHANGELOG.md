@@ -1,5 +1,15 @@
 # go-web-app
 
+## 7.2.2
+
+### Patch Changes
+
+- - Update country risk page sources
+  - Update CoS pages
+- Updated dependencies [a1c0554]
+- Updated dependencies [e9552b4]
+  - @ifrc-go/ui@1.1.1
+
 ## 7.2.1
 
 ### Patch Changes

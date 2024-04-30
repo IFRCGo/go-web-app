@@ -1,8 +1,17 @@
 # @ifrc-go/ui
 
+## 1.1.1
+
+### Patch Changes
+
+- a1c0554: Prioritize local name ahead of English name for local units
+  Update source links and texts for Country Risk Watch section
+- e9552b4: Fix `useDebouncedValue` export
+
 ## 1.1.0
 
 ### Minor Changes
+
 - 176e01b7: Adjust spacing tokens
 - b38d9d9: - Remove deprecated ChartAxisX component
   - Remove deprecated ChartAxisY component
