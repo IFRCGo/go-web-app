@@ -104,7 +104,7 @@ function LocalUnitsMap(props: Props) {
                 },
                 properties: {
                     id: localUnit.local_branch_name,
-                    type: localUnit?.location,
+                    type: localUnit.type.code,
                 },
             })) : [],
     }), [localUnitListResponse]);
