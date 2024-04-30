@@ -704,19 +704,17 @@ function PrivateCountryPreparedness() {
                             : undefined
                     )}
                 >
-                    {(perDocuments && perDocuments?.length > 0) && (
-                        <Grid
-                            className={styles.perDocuments}
-                            data={perDocuments}
-                            pending={false}
-                            errored={isDefined(perDocumentsError)}
-                            filtered={false}
-                            keySelector={numericIdSelector}
-                            renderer={DocumentCard}
-                            rendererParams={rendererParams}
-                            numPreferredColumns={3}
-                        />
-                    )}
+                    <Grid
+                        className={styles.perDocuments}
+                        data={perDocuments}
+                        pending={false}
+                        errored={isDefined(perDocumentsError)}
+                        filtered={false}
+                        keySelector={numericIdSelector}
+                        renderer={DocumentCard}
+                        rendererParams={rendererParams}
+                        numPreferredColumns={3}
+                    />
                 </Container>
             )}
         </Container>
