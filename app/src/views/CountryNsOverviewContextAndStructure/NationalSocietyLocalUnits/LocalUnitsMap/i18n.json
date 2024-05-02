@@ -5,6 +5,13 @@
         "localUnitDetailPhoneNumber": "Phone Number",
         "localUnitDetailLastUpdate": "Last Updated",
         "localUnitDetailFocalPerson": "Focal Person",
+        "localUnitLegendAdministrative": "Administrative",
+        "localUnitLegendHealthCare": "Health Care",
+        "localUnitLegendEmergency": "Emergency Response",
+        "localUnitLegendHumanitarian": "Humanitarian Assistance Centres",
+        "localUnitLegendTraining": "Training and Education",
+        "localUnitLegendOther": "Other",
+        "localUnitLegendTitle": "Types of local units",
         "localUnitDetailEmail": "Email"
     }
 }
