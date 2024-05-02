@@ -1,50 +1,38 @@
-.map-detail {
-    position: absolute;
-    bottom: var(--go-ui-spacing-2xl);
-    left: var(--go-ui-spacing-md);
-    border: var(--go-ui-width-separator-sm) solid var(--go-ui-color-gray-30);
-    border-radius: var(--go-ui-border-radius-md);
-    box-shadow: var(--go-ui-box-shadow-md);
-    background-color: var(--go-ui-color-white);
-    padding: var(--go-ui-spacing-sm);
-    width: 18rem;
-    overflow: auto;
-
-    .info-container {
-        display: flex;
-        flex-direction: column;
-        gap: var(--go-ui-spacing-md);
-
-        .info {
-            flex-wrap: nowrap;
-
-            .label {
-                display: flex;
-                align-items: center;
-                flex-wrap: nowrap;
-            }
-
-            .icon {
-                font-size: var(--go-ui-font-size-2xl);
-            }
-        }
-
-        .email {
-            word-break: break-word;
-        }
-    }
-}
-
-.map-container {
-    height: 40rem;
-}
-
-.popup-content {
+.local-units-map {
     display: flex;
     flex-direction: column;
     gap: var(--go-ui-spacing-md);
 
-    .local-unit-info {
-        font-size: var(--go-ui-font-size-sm);
+    .map-container-with-contact-details {
+        position: relative;
+
+        .map-container {
+            height: 40rem;
+        }
+
+        .contact-detail {
+            position: absolute;
+            bottom: 3rem;
+            left: var(--go-ui-spacing-md);
+            border: var(--go-ui-width-separator-sm) solid var(--go-ui-color-gray-30);
+            border-radius: var(--go-ui-border-radius-md);
+            box-shadow: var(--go-ui-box-shadow-md);
+            background-color: var(--go-ui-color-white);
+            width: 18rem;
+            overflow: auto;
+
+            .icon {
+                font-size: var(--go-ui-height-icon-multiplier);
+            }
+
+            .email {
+                word-break: break-word;
+            }
+        }
     }
+
+    .legend-icon {
+        filter: invert(1);
+    }
+
 }

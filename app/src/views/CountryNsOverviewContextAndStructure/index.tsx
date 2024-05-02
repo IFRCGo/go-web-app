@@ -75,6 +75,7 @@ export function Component() {
             <NationalSocietyIndicators
                 databankResponse={databankResponse}
             />
+            <NationalSocietyLocalUnits />
             <div className={styles.nsIncome}>
                 <NationalSocietyIncomeOverTime
                     selectedYear={selectedYearForIncome}
@@ -88,7 +89,6 @@ export function Component() {
                     />
                 )}
             </div>
-            <NationalSocietyLocalUnits />
             <div className={styles.nsDirectoryAndContacts}>
                 <NationalSocietyDirectory className={styles.directory} />
                 <NationalSocietyContacts className={styles.contacts} />
