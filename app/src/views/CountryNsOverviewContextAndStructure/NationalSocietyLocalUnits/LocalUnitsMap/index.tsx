@@ -10,6 +10,7 @@ import {
 } from '@ifrc-go/icons';
 import {
     Container,
+    LegendItem,
     List,
     TextOutput,
 } from '@ifrc-go/ui';
@@ -36,22 +37,58 @@ import Link, { type Props as LinkProps } from '#components/Link';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import MapPopup from '#components/MapPopup';
 import {
+    COLOR_BLUE,
+    COLOR_DARK_GREY,
+    COLOR_DARK_RED,
+    COLOR_ORANGE,
+    COLOR_PRIMARY_BLUE,
     COLOR_RED,
+    COLOR_YELLOW,
     DEFAULT_MAP_PADDING,
     DURATION_MAP_ZOOM,
 } from '#utils/constants';
 import { type CountryOutletContext } from '#utils/outletContext';
-import { type GoApiResponse } from '#utils/restRequest';
+import {
+    type GoApiResponse,
+    useRequest,
+} from '#utils/restRequest';
+
+import {
+    TYPE_ADMINISTRATIVE,
+    TYPE_EMERGENCY_RESPONSE,
+    TYPE_HEALTHCARE,
+    TYPE_HUMANITARIAN,
+    TYPE_OTHER,
+    TYPE_TRAINING,
+} from '../common';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type GetLocalUnitResponseType = GoApiResponse<'/api/v2/public-local-units/'>;
+
+const circleColor: CirclePaint['circle-color'] = [
+    'match',
+    ['get', 'type'],
+    TYPE_ADMINISTRATIVE,
+    COLOR_RED,
+    TYPE_HEALTHCARE,
+    COLOR_ORANGE,
+    TYPE_EMERGENCY_RESPONSE,
+    COLOR_BLUE,
+    TYPE_HUMANITARIAN,
+    COLOR_YELLOW,
+    TYPE_TRAINING,
+    COLOR_PRIMARY_BLUE,
+    TYPE_OTHER,
+    COLOR_DARK_RED,
+    COLOR_DARK_RED,
+];
 const basePointPaint: CirclePaint = {
     'circle-radius': 5,
-    'circle-color': COLOR_RED,
+    'circle-color': circleColor,
     'circle-opacity': 0.6,
-    'circle-stroke-color': COLOR_RED,
+    'circle-stroke-color': circleColor,
     'circle-stroke-width': 1,
     'circle-stroke-opacity': 1,
 };
@@ -67,6 +104,7 @@ const sourceOption: mapboxgl.GeoJSONSourceRaw = {
 
 interface ClickedPoint {
     id: string;
+    localUnitId: number;
     lngLat: mapboxgl.LngLatLike;
 }
 
@@ -88,9 +126,59 @@ function LocalUnitsMap(props: Props) {
         setClickedPointProperties,
     ] = useState<ClickedPoint | undefined>();
 
+    const legendOptions = useMemo(() => ([
+        {
+            value: TYPE_ADMINISTRATIVE,
+            label: strings.localUnitLegendAdministrative,
+            color: COLOR_RED,
+        },
+        {
+            value: TYPE_HEALTHCARE,
+            label: strings.localUnitLegendHealthCare,
+            color: COLOR_ORANGE,
+        },
+        {
+            value: TYPE_EMERGENCY_RESPONSE,
+            label: strings.localUnitLegendEmergency,
+            color: COLOR_BLUE,
+        },
+        {
+            value: TYPE_HUMANITARIAN,
+            label: strings.localUnitLegendHumanitarian,
+            color: COLOR_YELLOW,
+        },
+        {
+            value: TYPE_TRAINING,
+            label: strings.localUnitLegendTraining,
+            color: COLOR_PRIMARY_BLUE,
+        },
+        {
+            value: TYPE_OTHER,
+            label: strings.localUnitLegendOther,
+            color: COLOR_DARK_RED,
+        },
+    ]), [
+        strings.localUnitLegendAdministrative,
+        strings.localUnitLegendHealthCare,
+        strings.localUnitLegendEmergency,
+        strings.localUnitLegendHumanitarian,
+        strings.localUnitLegendTraining,
+        strings.localUnitLegendOther,
+    ]);
+
     const countryBounds = useMemo(() => (
         countryResponse ? getBbox(countryResponse.bbox) : undefined
     ), [countryResponse]);
+
+    const {
+        response: localUnitMapTooltipResponse,
+    } = useRequest({
+        skip: isNotDefined(clickedPointProperties?.localUnitId),
+        url: '/api/v2/local-units/{id}/',
+        pathVariables: {
+            id: isDefined(clickedPointProperties) ? clickedPointProperties?.localUnitId : -1,
+        },
+    });
 
     const localUnitsGeoJson = useMemo((): GeoJSON.FeatureCollection<GeoJSON.Geometry> => ({
         type: 'FeatureCollection' as const,
@@ -98,13 +186,14 @@ function LocalUnitsMap(props: Props) {
             && isDefined(localUnitListResponse.results)
             ? localUnitListResponse?.results?.map((localUnit) => ({
                 type: 'Feature' as const,
-                geometry: localUnit.location as unknown as {
+                geometry: localUnit.location_details as unknown as {
                     type: 'Point',
                     coordinates: [number, number],
                 },
                 properties: {
                     id: localUnit.local_branch_name,
-                    type: localUnit.type.code,
+                    localUnitId: localUnit.id,
+                    type: localUnit.type,
                 },
             })) : [],
     }), [localUnitListResponse]);
@@ -146,6 +235,7 @@ function LocalUnitsMap(props: Props) {
         (feature: mapboxgl.MapboxGeoJSONFeature, lngLat: mapboxgl.LngLat) => {
             setClickedPointProperties({
                 id: feature.properties?.id,
+                localUnitId: feature.properties?.localUnitId,
                 lngLat,
             });
             return true;
@@ -183,6 +273,21 @@ function LocalUnitsMap(props: Props) {
             >
                 <MapContainerWithDisclaimer
                     className={styles.mapContainer}
+                    footer={(
+                        <div className={styles.footer}>
+                            {strings.localUnitLegendTitle}
+                            <div className={styles.legend}>
+                                {legendOptions.map((legendItem) => (
+                                    <LegendItem
+                                        key={legendItem.value}
+                                        className={styles.legendItem}
+                                        color={legendItem.color}
+                                        label={legendItem.label}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 />
                 <MapSource
                     sourceKey="points"
@@ -207,13 +312,13 @@ function LocalUnitsMap(props: Props) {
                         heading={(
                             <Link
                                 className={styles.localUnitInfo}
-                                href={selectedLocalUnitDetail.link}
+                                href={localUnitMapTooltipResponse?.link}
                                 external
                                 withLinkIcon
                             >
-                                {isTruthyString(selectedLocalUnitDetail.english_branch_name)
-                                    ? selectedLocalUnitDetail.english_branch_name
-                                    : selectedLocalUnitDetail.local_branch_name}
+                                {isTruthyString(localUnitMapTooltipResponse?.english_branch_name)
+                                    ? localUnitMapTooltipResponse?.english_branch_name
+                                    : localUnitMapTooltipResponse?.local_branch_name}
                             </Link>
                         )}
                         childrenContainerClassName={styles.popupContent}
@@ -222,7 +327,7 @@ function LocalUnitsMap(props: Props) {
                         <TextOutput
                             className={styles.localUnitInfo}
                             label={strings.localUnitDetailLastUpdate}
-                            value={selectedLocalUnitDetail.modified_at}
+                            value={localUnitMapTooltipResponse?.modified_at}
                             strongLabel
                             valueType="date"
                         />
@@ -230,21 +335,21 @@ function LocalUnitsMap(props: Props) {
                             className={styles.localUnitInfo}
                             label={strings.localUnitDetailAddress}
                             strongLabel
-                            value={selectedLocalUnitDetail.address_en
-                                ?? selectedLocalUnitDetail.address_loc}
+                            value={localUnitMapTooltipResponse?.address_en
+                                ?? localUnitMapTooltipResponse?.address_loc}
                         />
                         <TextOutput
                             className={styles.localUnitInfo}
                             label={strings.localUnitDetailPhoneNumber}
                             strongLabel
-                            value={selectedLocalUnitDetail.phone}
+                            value={localUnitMapTooltipResponse?.phone}
                         />
                         <TextOutput
                             className={styles.localUnitInfo}
                             label={strings.localUnitDetailFocalPerson}
                             strongLabel
-                            value={selectedLocalUnitDetail.focal_person_en
-                                ?? selectedLocalUnitDetail.focal_person_loc}
+                            value={localUnitMapTooltipResponse?.focal_person_en
+                                ?? localUnitMapTooltipResponse?.focal_person_loc}
                         />
                         <TextOutput
                             className={styles.localUnitInfo}
@@ -252,10 +357,10 @@ function LocalUnitsMap(props: Props) {
                             strongLabel
                             value={(
                                 <Link
-                                    href={`mailto:${selectedLocalUnitDetail.email}`}
+                                    href={`mailto:${localUnitMapTooltipResponse?.email}`}
                                     external
                                 >
-                                    {selectedLocalUnitDetail.email}
+                                    {localUnitMapTooltipResponse?.email}
                                 </Link>
                             )}
                         />
@@ -264,7 +369,10 @@ function LocalUnitsMap(props: Props) {
             </BaseMap>
             {isDefined(countryResponse)
                 && (isDefined(countryResponse.address_1)
-                    || isDefined(countryResponse.emails))
+                        || (
+                            isDefined(countryResponse.emails)
+                            && countryResponse.emails.length > 0
+                        ))
                     && (
                         <Container
                             className={styles.mapDetail}
@@ -290,6 +398,7 @@ function LocalUnitsMap(props: Props) {
                                 )}
                             {isDefined(countryResponse)
                                 && isDefined(countryResponse.emails)
+                                && countryResponse.emails.length > 0
                                 && (
                                     <TextOutput
                                         className={styles.info}
