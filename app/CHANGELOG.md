@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.2.3
+
+### Patch Changes
+
+- Fix crash due to undefined ICRC presense in country page
+
 ## 7.2.2
 
 ### Patch Changes
