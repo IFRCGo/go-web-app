@@ -95,7 +95,7 @@ function Presence() {
             <Container
                 className={styles.presenceCard}
                 heading={strings.countryICRCPresenceTitle}
-                footerActions={isDefined(countryResponse?.icrc_presence.url) && (
+                footerActions={isDefined(countryResponse?.icrc_presence?.url) && (
                     <TextOutput
                         label={strings.source}
                         value={(
