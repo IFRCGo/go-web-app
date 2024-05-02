@@ -91,7 +91,7 @@ function NationalSocietyLocalUnits(props: Props) {
         response: localUnitListResponse,
     } = useRequest({
         skip: isNotDefined(countryResponse?.iso3),
-        url: '/api/v2/local-units/',
+        url: '/api/v2/public-local-units/',
         query: {
             limit,
             type__code: filter.type,
@@ -106,7 +106,7 @@ function NationalSocietyLocalUnits(props: Props) {
         response: localUnitsOptionsResponse,
         pending: localUnitsOptionsResponsePending,
     } = useRequest({
-        url: '/api/v2/local-units/options/',
+        url: '/api/v2/local-units-options/',
     });
 
     const validationOptions = useMemo((): ValidationOptions[] => ([

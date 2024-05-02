@@ -46,7 +46,7 @@ import { type GoApiResponse } from '#utils/restRequest';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetLocalUnitResponseType = GoApiResponse<'/api/v2/local-units/'>;
+type GetLocalUnitResponseType = GoApiResponse<'/api/v2/public-local-units/'>;
 const basePointPaint: CirclePaint = {
     'circle-radius': 5,
     'circle-color': COLOR_RED,
