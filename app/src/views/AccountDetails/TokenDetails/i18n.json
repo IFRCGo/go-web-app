@@ -1,0 +1,9 @@
+{
+    "namespace": "tokenDetails",
+    "strings": {
+        "copyButtonLabel": "Copy to clipboard",
+        "createdAtLabel": "Created at",
+        "expiresOnLabel": "Expires on",
+        "copySuccessMessage": "Token copied to the clipboard!"
+    }
+}

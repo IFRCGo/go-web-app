@@ -1,0 +1,6 @@
+.generate-montandon-token-modal {
+    .note {
+        color: var(--go-ui-color-primary-red);
+        font-weight: var(--go-ui-font-weight-medium);
+    }
+}

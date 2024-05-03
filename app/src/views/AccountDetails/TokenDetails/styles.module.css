@@ -1,0 +1,16 @@
+.token-details {
+    .token {
+        flex-grow: 1;
+        background-color: var(--go-ui-color-background);
+        padding: var(--go-ui-spacing-md);
+        overflow: auto;
+        word-break: break-word;
+        font-family: monospace;
+    }
+
+    .created-at,
+    .expires-on {
+        color: var(--go-ui-color-text-light);
+        font-size: var(--go-ui-font-size-sm);
+    }
+}

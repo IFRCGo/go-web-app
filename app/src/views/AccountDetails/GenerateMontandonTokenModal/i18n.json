@@ -1,0 +1,15 @@
+{
+    "namespace": "generateMontandonTokenModal",
+    "strings": {
+        "title": "Generate token for Montandon",
+        "description": "By clicking 'Accept & Generate' button, you'll  accept the {termsLink} of the Montandon API. Please make sure to review it.",
+        "termsAndConditionLabel": "Terms & Condition",
+        "cancelButtonLabel": "Cancel",
+        "acceptButtonLabel": "Accept & Generate",
+        "doneButtonLabel": "Done",
+        "titleInputLabel": "Title for token",
+        "titleInputPlaceholder": "Enter a descriptive title for the token",
+        "titleInputHint": "Note: title should contain at least {minCharacters} characters",
+        "tokenNote": "Please make sure to copy and store the token safely. Once you close this modal, you'll not be able to see the token again!"
+    }
+}
