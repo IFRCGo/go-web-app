@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.2.4
+
+### Patch Changes
+
+- 30eac3c: Add option to generate API token for Montandon in the user profile
+
 ## 7.2.3
 
 ### Patch Changes
