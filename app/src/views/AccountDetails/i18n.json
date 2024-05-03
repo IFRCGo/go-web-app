@@ -12,6 +12,12 @@
         "departmentLabel": "Department",
         "positionLabel": "Position",
         "changePasswordButtonLabel": "Change Password",
-        "editProfileButtonLabel": "Edit Profile"
+        "editProfileButtonLabel": "Edit Profile",
+        "externalConnectionsTitle": "External Connections",
+        "externalConnectionsDescription": "You can connect and recieve the data to use it in the external platform or dashboard using the GO APIs. You'll need an access token to make the connection.",
+        "externalConnectionMontandonTitle": "Montandon - Global Crisis Data Bank",
+        "externalConnectionMontandonDescription": "The Montandon is the world’s largest disaster database: a public good with applications beyond IFRC. It contains information about natural hazards (both forecasted and observed), their impacts (also modeled and observed) as well as what actions were taken when, where, by whom and to what effect.",
+        "viewMoreDetailsLabel": "View more details",
+        "generateNewTokenLabel": "Generate new token"
     }
 }

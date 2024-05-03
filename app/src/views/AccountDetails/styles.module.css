@@ -1,3 +1,11 @@
 .account-information {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-2xl);
     padding: var(--go-ui-spacing-2xl) 0;
+
+    .token-details {
+        border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+        padding: var(--go-ui-spacing-sm);
+    }
 }
