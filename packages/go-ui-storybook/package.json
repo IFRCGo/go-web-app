@@ -21,7 +21,7 @@
         "@eslint/eslintrc": "^2.0.3",
         "@storybook/addon-a11y": "^7.6.10",
         "@storybook/addon-designs": "^7.0.9",
-        "@storybook/addon-essentials": "^7.6.10",
+        "@storybook/addon-essentials": "^8.0.10",
         "@storybook/addon-interactions": "^7.6.10",
         "@storybook/addon-links": "^7.6.10",
         "@storybook/addon-onboarding": "^1.0.11",
