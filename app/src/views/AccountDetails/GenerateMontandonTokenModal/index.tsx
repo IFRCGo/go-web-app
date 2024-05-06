@@ -30,10 +30,11 @@ const MIN_TITLE_LENGTH = 3;
 
 interface Props {
     onClose: () => void;
+    onCreate: () => void;
 }
 
 function GenerateMontandonTokenModal(props: Props) {
-    const { onClose } = props;
+    const { onClose, onCreate } = props;
     const [accepted, { setTrue: setAcceptedTrue }] = useBooleanState(false);
     const strings = useTranslation(i18n);
 
@@ -51,6 +52,7 @@ function GenerateMontandonTokenModal(props: Props) {
             title: context,
             expire_timestamp: undefined,
         }),
+        onSuccess: onCreate,
     });
 
     const handleAcceptAndGenerateClick = useCallback(
@@ -74,8 +76,7 @@ function GenerateMontandonTokenModal(props: Props) {
                     termsLink: (
                         <Link
                             external
-                            // TODO: use actual link
-                            href="https://github.com/IFRCGo"
+                            href="https://docs.google.com/spreadsheets/d/1kQZQmWk8W4tyE3fhi54Oc2Q-TiLJVUj0/"
                             withLinkIcon
                             withUnderline
                         >

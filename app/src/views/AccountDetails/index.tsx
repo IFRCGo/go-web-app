@@ -71,6 +71,7 @@ export function Component() {
     const {
         pending: montandonTokenPending,
         response: montandonTokenResponse,
+        retrigger: refetchMontandonTokenList,
     } = useRequest({
         url: '/api/v2/external-token/',
         query: {
@@ -233,6 +234,7 @@ export function Component() {
             {showGenerateMontandonTokenModal && (
                 <GenerateMontandonTokenModal
                     onClose={setShowGenerateMontandonTokenModalFalse}
+                    onCreate={refetchMontandonTokenList}
                 />
             )}
         </div>
