@@ -1,5 +1,12 @@
 # go-web-app
 
+## 7.2.5
+
+### Patch Changes
+
+- 556766e: - Refetch token list after new token is created
+  - Update link for terms and conditions for Montandon
+
 ## 7.2.4
 
 ### Patch Changes
