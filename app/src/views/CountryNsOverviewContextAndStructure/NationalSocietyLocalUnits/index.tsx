@@ -20,11 +20,7 @@ import {
     stringLabelSelector,
     stringNameSelector,
 } from '@ifrc-go/ui/utils';
-import {
-    _cs,
-    isDefined,
-    isNotDefined,
-} from '@togglecorp/fujs';
+import { _cs } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
 import { adminUrl } from '#config';
@@ -64,16 +60,15 @@ function NationalSocietyLocalUnits(props: Props) {
         className,
     } = props;
 
-    const [activeTab, setActiveTab] = useState<'map'| 'table'>('table');
+    const [activeTab, setActiveTab] = useState<'map'| 'table'>('map');
 
     const strings = useTranslation(i18n);
-    const { countryId, countryResponse } = useOutletContext<CountryOutletContext>();
+    const { countryId } = useOutletContext<CountryOutletContext>();
 
     const { isAuthenticated } = useAuth();
 
     const {
         rawFilter,
-        limit,
         filter,
         filtered,
         setFilter,
@@ -85,21 +80,6 @@ function NationalSocietyLocalUnits(props: Props) {
     }>({
         filter: {},
         pageSize: 9999,
-    });
-
-    const {
-        response: localUnitListResponse,
-    } = useRequest({
-        skip: isNotDefined(countryResponse?.iso3),
-        url: '/api/v2/public-local-units/',
-        query: {
-            limit,
-            type__code: filter.type,
-            validated: isDefined(filter.isValidated)
-                ? filter.isValidated === VALIDATED : undefined,
-            search: filter.search,
-            country__iso3: isDefined(countryResponse?.iso3) ? countryResponse?.iso3 : undefined,
-        },
     });
 
     const {
@@ -139,14 +119,22 @@ function NationalSocietyLocalUnits(props: Props) {
                 childrenContainerClassName={styles.content}
                 withGridViewInFilter
                 withHeaderBorder
-                actions={isAuthenticated && (
-                    <Link
-                        external
-                        href={resolveUrl(adminUrl, `local_units/localunit/?country=${countryId}`)}
-                        variant="secondary"
-                    >
-                        {strings.editLocalUnitLink}
-                    </Link>
+                actions={(
+                    <>
+                        {isAuthenticated && (
+                            <Link
+                                external
+                                href={resolveUrl(adminUrl, `local_units/localunit/?country=${countryId}`)}
+                                variant="secondary"
+                            >
+                                {strings.editLocalUnitLink}
+                            </Link>
+                        )}
+                        <TabList>
+                            <Tab name="map">{strings.localUnitsMapView}</Tab>
+                            <Tab name="table">{strings.localUnitsListView}</Tab>
+                        </TabList>
+                    </>
                 )}
                 filters={(
                     <>
@@ -189,17 +177,13 @@ function NationalSocietyLocalUnits(props: Props) {
                                 {strings.localUnitsFilterClear}
                             </Button>
                         </div>
-                        <TabList>
-                            <Tab name="map">{strings.localUnitsMapView}</Tab>
-                            <Tab name="table">{strings.localUnitsListView}</Tab>
-                        </TabList>
                     </>
                 )}
             >
                 <TabPanel name="map">
                     <LocalUnitsMap
-                        localUnitListResponse={localUnitListResponse}
-                        localUnitType={filter.type}
+                        filters={filter}
+                        localUnitOptions={localUnitsOptionsResponse}
                     />
                 </TabPanel>
                 <TabPanel name="table">

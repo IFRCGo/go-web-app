@@ -11,6 +11,7 @@
         "localUnitLegendHumanitarian": "Humanitarian Assistance Centres",
         "localUnitLegendTraining": "Training and Education",
         "localUnitLegendOther": "Other",
+        "localUnitTooltipMoreDetails": "More details",
         "localUnitLegendTitle": "Types of local units",
         "localUnitDetailEmail": "Email"
     }

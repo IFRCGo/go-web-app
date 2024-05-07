@@ -11,6 +11,19 @@
         height: 0.8em;
     }
 
+    .icon-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        width: var(--go-ui-font-size-2xl);
+        height: var(--go-ui-font-size-2xl);
+
+        .icon {
+            color: var(--go-ui-color-white);
+        }
+    }
+
     .label {
         font-size: 1em;
     }
