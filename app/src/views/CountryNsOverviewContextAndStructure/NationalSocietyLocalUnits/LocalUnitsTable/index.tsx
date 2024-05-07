@@ -15,7 +15,10 @@ import {
     createStringColumn,
     numericIdSelector,
 } from '@ifrc-go/ui/utils';
-import { isDefined } from '@togglecorp/fujs';
+import {
+    isDefined,
+    isNotDefined,
+} from '@togglecorp/fujs';
 
 import useFilterState from '#hooks/useFilterState';
 import { type CountryOutletContext } from '#utils/outletContext';
@@ -78,11 +81,13 @@ function LocalUnitsTable(props: Props) {
         response: localUnitsTableResponse,
         retrigger: refetchLocalUnits,
     } = useRequest({
+        skip: isNotDefined(countryResponse?.iso3),
         url: '/api/v2/local-units/',
         preserveResponse: true,
         query: {
             limit,
             offset,
+            country__iso3: countryResponse?.iso3 ?? undefined,
             type__code: filter?.type,
             validated: isDefined(filter?.isValidated)
                 ? filter.isValidated === VALIDATED : undefined,

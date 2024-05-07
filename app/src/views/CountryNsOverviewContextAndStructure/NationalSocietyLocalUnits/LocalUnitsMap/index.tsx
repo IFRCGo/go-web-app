@@ -15,6 +15,7 @@ import {
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import { sumSafe } from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
@@ -38,57 +39,28 @@ import Link, { type Props as LinkProps } from '#components/Link';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import MapPopup from '#components/MapPopup';
 import {
-    COLOR_BLUE,
-    COLOR_DARK_RED,
-    COLOR_ORANGE,
-    COLOR_PRIMARY_BLUE,
-    COLOR_RED,
+    COLOR_DARK_GREY,
     COLOR_WHITE,
-    COLOR_YELLOW,
     DEFAULT_MAP_PADDING,
     DURATION_MAP_ZOOM,
 } from '#utils/constants';
 import { type CountryOutletContext } from '#utils/outletContext';
 import {
-    type GoApiResponse,
+    GoApiResponse,
     useRequest,
 } from '#utils/restRequest';
 
-import {
-    TYPE_ADMINISTRATIVE,
-    TYPE_EMERGENCY_RESPONSE,
-    TYPE_HEALTH_AMBULANCE,
-    TYPE_HEALTH_BLOOD_CENTER,
-    TYPE_HEALTH_HOSPITAL,
-    TYPE_HEALTH_OTHERS,
-    TYPE_HEALTH_PHARMACY,
-    TYPE_HEALTH_PHC_CENTER,
-    TYPE_HEALTH_RESIDENTIAL,
-    TYPE_HEALTH_SPECIAL_SERVICES,
-    TYPE_HEALTH_TRAINING,
-    TYPE_HEALTHCARE,
-    TYPE_HUMANITARIAN,
-    TYPE_OTHER,
-    TYPE_TRAINING,
-} from '../common';
-import {
-    basePointPaint,
-    healthCarePointIconLayout,
-    healthFacilityBasePointPaint,
-    healthFacilityKeys,
-    healthFacilityKeyToIconMap,
-    invisibleLayout,
-    localUnitIconKeys,
-    localUnitMapIcons,
-    localUnitPointIconLayout,
-    localUnitTypeKeyToIconMap,
-    mapIcons,
-} from './mapStyles';
+import { VALIDATED } from '../common';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetLocalUnitResponseType = GoApiResponse<'/api/v2/public-local-units/'>;
+const LOCAL_UNIT_ICON_KEY = 'local-units';
+const HEALTHCARE_ICON_KEY = 'healthcare';
+
+function getIconKey(code: number, type: string) {
+    return `${type}:${code}`;
+}
 
 const mapImageOption = {
     sdf: true,
@@ -109,13 +81,37 @@ function emailKeySelector(email: string) {
 }
 
 interface Props {
-    localUnitListResponse?: GetLocalUnitResponseType;
-    localUnitType?: number;
+    filters : {
+        type?: number;
+        search?: string;
+        isValidated?: string;
+    }
+    localUnitOptions: GoApiResponse<'/api/v2/local-units-options/'> | undefined;
 }
 
 function LocalUnitsMap(props: Props) {
-    const { localUnitListResponse, localUnitType } = props;
-    const { countryResponse } = useOutletContext<CountryOutletContext>();
+    const {
+        filters,
+        localUnitOptions,
+    } = props;
+    const {
+        countryResponse,
+    } = useOutletContext<CountryOutletContext>();
+
+    const {
+        response: localUnitListResponse,
+    } = useRequest({
+        skip: isNotDefined(countryResponse?.iso3),
+        url: '/api/v2/local-units/',
+        query: {
+            limit: 9999,
+            type__code: filters.type,
+            validated: isDefined(filters.isValidated)
+                ? filters.isValidated === VALIDATED : undefined,
+            search: filters.search,
+            country__iso3: isDefined(countryResponse?.iso3) ? countryResponse?.iso3 : undefined,
+        },
+    });
 
     const strings = useTranslation(i18n);
     const [
@@ -137,89 +133,44 @@ function LocalUnitsMap(props: Props) {
 
     const allIconsLoaded = useMemo(
         () => (
-            Object.values(loadedIcons)
-                .filter(Boolean).length === mapIcons.length
+            Object.values(loadedIcons).filter(Boolean).length === sumSafe([
+                localUnitOptions?.type.length,
+                localUnitOptions?.health_facility_type.length,
+            ])
         ),
-        [loadedIcons],
+        [loadedIcons, localUnitOptions],
     );
 
-    const healthCarePointIconLayer = useMemo(
-        (): Omit<SymbolLayer, 'id'> => ({
-            type: 'symbol',
-            paint: { 'icon-color': COLOR_WHITE },
-            layout: (allIconsLoaded && localUnitType === TYPE_HEALTHCARE)
-                ? healthCarePointIconLayout
-                : invisibleLayout,
-        }),
-        [allIconsLoaded, localUnitType],
-    );
-
-    const localUnitPointIconLayer = useMemo(
-        (): Omit<SymbolLayer, 'id'> => ({
-            type: 'symbol',
-            paint: { 'icon-color': COLOR_WHITE },
-            layout: (allIconsLoaded && isNotDefined(localUnitType))
-                ? localUnitPointIconLayout
-                : invisibleLayout,
-        }),
-        [allIconsLoaded, localUnitType],
-    );
-
-    const basePointLayerOptions: Omit<CircleLayer, 'id'> = {
+    const localUnitPointLayerOptions: Omit<CircleLayer, 'id'> = {
         layout: {
-            visibility: isNotDefined(localUnitType) ? 'visible' : 'none',
+            visibility: 'visible',
         },
         type: 'circle',
-        paint: basePointPaint,
+        paint: {
+            'circle-radius': 12,
+            'circle-color': isDefined(localUnitOptions) ? [
+                'match',
+                ['get', 'type'],
+                ...localUnitOptions.type.flatMap(
+                    ({ code, colour }) => [code, colour],
+                ),
+                COLOR_DARK_GREY,
+            ] : COLOR_DARK_GREY,
+        },
     };
 
-    const healthBasePointLayerOptions: Omit<CircleLayer, 'id'> = {
+    const localUnitIconLayerOptions: Omit<SymbolLayer, 'id'> = {
         layout: {
-            visibility: localUnitType === TYPE_HEALTHCARE ? 'visible' : 'none',
+            visibility: 'visible',
+            'icon-size': 0.2,
+            'icon-allow-overlap': false,
+            'icon-image': ['get', 'iconKey'],
         },
-        type: 'circle',
-        paint: healthFacilityBasePointPaint,
+        type: 'symbol',
+        paint: {
+            'icon-color': COLOR_WHITE,
+        },
     };
-
-    const legendOptions = useMemo(() => ([
-        {
-            value: TYPE_ADMINISTRATIVE,
-            label: strings.localUnitLegendAdministrative,
-            color: COLOR_RED,
-        },
-        {
-            value: TYPE_HEALTHCARE,
-            label: strings.localUnitLegendHealthCare,
-            color: COLOR_ORANGE,
-        },
-        {
-            value: TYPE_EMERGENCY_RESPONSE,
-            label: strings.localUnitLegendEmergency,
-            color: COLOR_BLUE,
-        },
-        {
-            value: TYPE_HUMANITARIAN,
-            label: strings.localUnitLegendHumanitarian,
-            color: COLOR_YELLOW,
-        },
-        {
-            value: TYPE_TRAINING,
-            label: strings.localUnitLegendTraining,
-            color: COLOR_PRIMARY_BLUE,
-        },
-        {
-            value: TYPE_OTHER,
-            label: strings.localUnitLegendOther,
-            color: COLOR_DARK_RED,
-        },
-    ]), [
-        strings.localUnitLegendAdministrative,
-        strings.localUnitLegendHealthCare,
-        strings.localUnitLegendEmergency,
-        strings.localUnitLegendHumanitarian,
-        strings.localUnitLegendTraining,
-        strings.localUnitLegendOther,
-    ]);
 
     const countryBounds = useMemo(() => (
         countryResponse ? getBbox(countryResponse.bbox) : undefined
@@ -235,23 +186,34 @@ function LocalUnitsMap(props: Props) {
         },
     });
 
-    const localUnitsGeoJson = useMemo((): GeoJSON.FeatureCollection<GeoJSON.Geometry> => ({
-        type: 'FeatureCollection' as const,
-        features: isDefined(localUnitListResponse) && isDefined(localUnitListResponse.results)
-            ? localUnitListResponse?.results?.map((localUnit) => ({
-                type: 'Feature' as const,
-                geometry: localUnit.location_details as unknown as {
-                    type: 'Point',
-                    coordinates: [number, number],
-                },
-                properties: {
-                    id: localUnit.local_branch_name,
-                    localUnitId: localUnit.id,
-                    type: localUnit.type,
-                    healthFacilityType: localUnit.health_details.health_facility_type,
-                },
-            })) : [],
-    }), [localUnitListResponse]);
+    const localUnitsGeoJson = useMemo<GeoJSON.FeatureCollection<GeoJSON.Geometry>>(
+        () => ({
+            type: 'FeatureCollection' as const,
+            features: localUnitListResponse?.results?.map(
+                (localUnit) => ({
+                    type: 'Feature' as const,
+                    geometry: localUnit.location_details as unknown as {
+                        type: 'Point',
+                        coordinates: [number, number],
+                    },
+                    properties: {
+                        id: localUnit.id,
+                        localUnitId: localUnit.id,
+                        type: localUnit.type,
+                        subType: isDefined(localUnit.health_details)
+                            ? localUnit.health_details.health_facility_type
+                            : undefined,
+                        iconKey: isDefined(localUnit.health_details)
+                            ? getIconKey(
+                                localUnit.health_details.health_facility_type,
+                                HEALTHCARE_ICON_KEY,
+                            ) : getIconKey(localUnit.type, LOCAL_UNIT_ICON_KEY),
+                    },
+                }),
+            ) ?? [],
+        }),
+        [localUnitListResponse],
+    );
 
     const adminZeroHighlightLayerOptions = useMemo<Omit<FillLayer, 'id'>>(
         () => ({
@@ -305,6 +267,7 @@ function LocalUnitsMap(props: Props) {
                         layerOptions={adminZeroHighlightLayerOptions}
                     />
                 )}
+                mapOptions={{ bounds: countryBounds }}
             >
                 <MapContainerWithDisclaimer
                     className={styles.mapContainer}
@@ -312,66 +275,66 @@ function LocalUnitsMap(props: Props) {
                         <div className={styles.footer}>
                             {strings.localUnitLegendTitle}
                             <div className={styles.legend}>
-                                {legendOptions.map((legendItem) => (
+                                {/* FIXME: use raw list */}
+                                {localUnitOptions?.type.map((legendItem) => (
                                     <LegendItem
-                                        key={legendItem.value}
+                                        key={legendItem.id}
                                         className={styles.legendItem}
-                                        color={legendItem.color}
-                                        label={legendItem.label}
+                                        color={legendItem.colour ?? COLOR_DARK_GREY}
+                                        label={legendItem.name}
+                                        icon_src={legendItem.image_url}
+                                    />
+                                ))}
+                                {localUnitOptions?.health_facility_type.map((legendItem) => (
+                                    <LegendItem
+                                        key={legendItem.id}
+                                        className={styles.legendItem}
+                                        color={COLOR_DARK_GREY}
+                                        label={legendItem.name}
                                     />
                                 ))}
                             </div>
                         </div>
                     )}
                 />
-                {healthFacilityKeys.map((key) => {
-                    const url = healthFacilityKeyToIconMap[key];
-
-                    return (
+                {localUnitOptions?.type.map(
+                    (typeOption) => (
                         <MapImage
-                            key={key}
-                            name={String(key)}
-                            url={url}
+                            key={typeOption.id}
+                            name={getIconKey(typeOption.code, LOCAL_UNIT_ICON_KEY)}
+                            url={typeOption.image_url}
                             onLoad={handleIconLoad}
                             imageOptions={mapImageOption}
                         />
-                    );
-                })}
-                {localUnitIconKeys.map((key) => {
-                    const url = localUnitTypeKeyToIconMap[key];
-
-                    return (
+                    ),
+                )}
+                {localUnitOptions?.health_facility_type.map(
+                    (healthTypeOption) => (
                         <MapImage
-                            key={key}
-                            name={String(key)}
-                            url={url}
+                            key={healthTypeOption.id}
+                            name={getIconKey(healthTypeOption.code, HEALTHCARE_ICON_KEY)}
+                            url={healthTypeOption.image_url}
                             onLoad={handleIconLoad}
                             imageOptions={mapImageOption}
                         />
-                    );
-                })}
+                    ),
+                )}
                 <MapSource
-                    sourceKey="points"
+                    sourceKey="local-unit-points"
                     sourceOptions={sourceOption}
                     geoJson={localUnitsGeoJson}
                 >
                     <MapLayer
-                        layerKey="point-circle"
-                        layerOptions={basePointLayerOptions}
+                        layerKey="point"
+                        layerOptions={localUnitPointLayerOptions}
                         onClick={handlePointClick}
                     />
-                    <MapLayer
-                        layerKey="health-point-circle"
-                        layerOptions={healthBasePointLayerOptions}
-                    />
-                    <MapLayer
-                        layerKey="point-symbol-layer"
-                        layerOptions={healthCarePointIconLayer}
-                    />
-                    <MapLayer
-                        layerKey="point-symbol-layer"
-                        layerOptions={localUnitPointIconLayer}
-                    />
+                    {allIconsLoaded && (
+                        <MapLayer
+                            layerKey="icon"
+                            layerOptions={localUnitIconLayerOptions}
+                        />
+                    )}
                 </MapSource>
                 <MapBounds
                     duration={DURATION_MAP_ZOOM}
@@ -382,18 +345,9 @@ function LocalUnitsMap(props: Props) {
                     <MapPopup
                         coordinates={clickedPointProperties.lngLat}
                         onCloseButtonClick={handlePointClose}
-                        heading={(
-                            <Link
-                                className={styles.localUnitInfo}
-                                href={localUnitMapTooltipResponse?.link}
-                                external
-                                withLinkIcon
-                            >
-                                {isTruthyString(localUnitMapTooltipResponse?.english_branch_name)
-                                    ? localUnitMapTooltipResponse?.english_branch_name
-                                    : localUnitMapTooltipResponse?.local_branch_name}
-                            </Link>
-                        )}
+                        heading={isTruthyString(localUnitMapTooltipResponse?.english_branch_name)
+                            ? localUnitMapTooltipResponse?.english_branch_name
+                            : localUnitMapTooltipResponse?.local_branch_name}
                         childrenContainerClassName={styles.popupContent}
                         contentViewType="vertical"
                     >
@@ -411,6 +365,15 @@ function LocalUnitsMap(props: Props) {
                             value={localUnitMapTooltipResponse?.address_en
                                 ?? localUnitMapTooltipResponse?.address_loc}
                         />
+                        <Link
+                            className={styles.localUnitInfo}
+                            href={localUnitMapTooltipResponse?.link}
+                            external
+                            withLinkIcon
+                        >
+                            {strings.localUnitTooltipMoreDetails}
+                        </Link>
+                        {/* TODO: only show for authenticated users
                         <TextOutput
                             className={styles.localUnitInfo}
                             label={strings.localUnitDetailPhoneNumber}
@@ -437,6 +400,7 @@ function LocalUnitsMap(props: Props) {
                                 </Link>
                             )}
                         />
+                        */}
                     </MapPopup>
                 )}
             </BaseMap>
