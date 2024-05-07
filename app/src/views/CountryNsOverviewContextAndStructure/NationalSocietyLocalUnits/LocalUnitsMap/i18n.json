@@ -5,14 +5,11 @@
         "localUnitDetailPhoneNumber": "Phone Number",
         "localUnitDetailLastUpdate": "Last Updated",
         "localUnitDetailFocalPerson": "Focal Person",
-        "localUnitLegendAdministrative": "Administrative",
-        "localUnitLegendHealthCare": "Health Care",
-        "localUnitLegendEmergency": "Emergency Response",
-        "localUnitLegendHumanitarian": "Humanitarian Assistance Centres",
-        "localUnitLegendTraining": "Training and Education",
-        "localUnitLegendOther": "Other",
         "localUnitTooltipMoreDetails": "More details",
-        "localUnitLegendTitle": "Types of local units",
+        "localUnitLegendLocalUnitTitle": "Local Units",
+        "localUnitLocalUnitType": "Local Unit Type",
+        "localUnitHealthFacilityType": "Health Facility Type",
+        "localUnitLegendHealthCareTitle": "Health Care Local Units",
         "localUnitDetailEmail": "Email"
     }
 }

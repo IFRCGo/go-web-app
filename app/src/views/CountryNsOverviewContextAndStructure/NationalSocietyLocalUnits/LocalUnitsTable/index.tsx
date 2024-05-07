@@ -87,7 +87,6 @@ function LocalUnitsTable(props: Props) {
         query: {
             limit,
             offset,
-            country__iso3: countryResponse?.iso3 ?? undefined,
             type__code: filter?.type,
             validated: isDefined(filter?.isValidated)
                 ? filter.isValidated === VALIDATED : undefined,

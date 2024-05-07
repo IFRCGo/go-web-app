@@ -6,29 +6,31 @@ interface Props {
     className?: string;
     colorClassName?: string;
     label?: React.ReactNode;
-    icon_src?: string;
+    iconSrc?: string;
     color?: string;
+    iconClassName?: string;
 }
 
 function LegendItem(props: Props) {
     const {
         className,
         colorClassName,
+        iconClassName,
         color,
         label,
-        icon_src,
+        iconSrc,
     } = props;
 
     return (
         <div className={_cs(styles.legendElement, className)}>
-            {icon_src ? (
+            {iconSrc ? (
                 <div
                     style={{
                         backgroundColor: color,
                     }}
                     className={styles.iconContainer}
                 >
-                    <img className={styles.icon} src={icon_src} alt="legend items" />
+                    <img className={_cs(styles.icon, iconClassName)} src={iconSrc} alt="legend items" />
                 </div>
             ) : (
                 <div

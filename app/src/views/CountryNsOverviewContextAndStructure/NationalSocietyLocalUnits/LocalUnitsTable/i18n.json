@@ -1,7 +1,6 @@
 {
     "namespace": "nationalSocietyLocalUnits",
     "strings": {
-        "localUnitsTableValidated": "Validated",
         "localUnitsTableName": "Name",
         "localUnitsTableAddress": "Address",
         "localUnitsTableType": "Type",

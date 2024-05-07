@@ -119,9 +119,9 @@ function NationalSocietyLocalUnits(props: Props) {
                 childrenContainerClassName={styles.content}
                 withGridViewInFilter
                 withHeaderBorder
-                actions={(
-                    <>
-                        {isAuthenticated && (
+                actions={
+                    isAuthenticated && (
+                        <>
                             <Link
                                 external
                                 href={resolveUrl(adminUrl, `local_units/localunit/?country=${countryId}`)}
@@ -129,13 +129,13 @@ function NationalSocietyLocalUnits(props: Props) {
                             >
                                 {strings.editLocalUnitLink}
                             </Link>
-                        )}
-                        <TabList>
-                            <Tab name="map">{strings.localUnitsMapView}</Tab>
-                            <Tab name="table">{strings.localUnitsListView}</Tab>
-                        </TabList>
-                    </>
-                )}
+                            <TabList>
+                                <Tab name="map">{strings.localUnitsMapView}</Tab>
+                                <Tab name="table">{strings.localUnitsListView}</Tab>
+                            </TabList>
+                        </>
+                    )
+                }
                 filters={(
                     <>
                         <SelectInput

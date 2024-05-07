@@ -38,8 +38,10 @@ import BaseMap from '#components/domain/BaseMap';
 import Link, { type Props as LinkProps } from '#components/Link';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import MapPopup from '#components/MapPopup';
+import useAuth from '#hooks/domain/useAuth';
 import {
     COLOR_DARK_GREY,
+    COLOR_PRIMARY_BLUE,
     COLOR_WHITE,
     DEFAULT_MAP_PADDING,
     DURATION_MAP_ZOOM,
@@ -94,10 +96,10 @@ function LocalUnitsMap(props: Props) {
         filters,
         localUnitOptions,
     } = props;
-    const {
-        countryResponse,
-    } = useOutletContext<CountryOutletContext>();
 
+    const { countryResponse } = useOutletContext<CountryOutletContext>();
+
+    const { isAuthenticated } = useAuth();
     const {
         response: localUnitListResponse,
     } = useRequest({
@@ -156,6 +158,17 @@ function LocalUnitsMap(props: Props) {
                 ),
                 COLOR_DARK_GREY,
             ] : COLOR_DARK_GREY,
+            'circle-opacity': 0.6,
+            'circle-stroke-color': isDefined(localUnitOptions) ? [
+                'match',
+                ['get', 'type'],
+                ...localUnitOptions.type.flatMap(
+                    ({ code, colour }) => [code, colour],
+                ),
+                COLOR_DARK_GREY,
+            ] : COLOR_DARK_GREY,
+            'circle-stroke-width': 1,
+            'circle-stroke-opacity': 1,
         },
     };
 
@@ -176,14 +189,12 @@ function LocalUnitsMap(props: Props) {
         countryResponse ? getBbox(countryResponse.bbox) : undefined
     ), [countryResponse]);
 
-    const {
-        response: localUnitMapTooltipResponse,
-    } = useRequest({
+    const { response: localUnitDetailResponse } = useRequest({
         skip: isNotDefined(clickedPointProperties?.localUnitId),
         url: '/api/v2/local-units/{id}/',
-        pathVariables: {
-            id: isDefined(clickedPointProperties) ? clickedPointProperties?.localUnitId : -1,
-        },
+        pathVariables: isDefined(clickedPointProperties) ? ({
+            id: clickedPointProperties.localUnitId,
+        }) : undefined,
     });
 
     const localUnitsGeoJson = useMemo<GeoJSON.FeatureCollection<GeoJSON.Geometry>>(
@@ -258,210 +269,237 @@ function LocalUnitsMap(props: Props) {
         [],
     );
 
+    const hasAddress = isDefined(countryResponse) && (
+        isDefined(countryResponse.address_1) || isDefined(countryResponse.address_2)
+    );
+    const hasEmails = isDefined(countryResponse)
+        && isDefined(countryResponse.emails)
+        && countryResponse.emails.length > 0;
+    const hasContactDetails = hasAddress || hasEmails;
+
     return (
-        <>
-            <BaseMap
-                baseLayers={(
-                    <MapLayer
-                        layerKey="admin-0-highlight"
-                        layerOptions={adminZeroHighlightLayerOptions}
-                    />
-                )}
-                mapOptions={{ bounds: countryBounds }}
-            >
-                <MapContainerWithDisclaimer
-                    className={styles.mapContainer}
-                    footer={(
-                        <div className={styles.footer}>
-                            {strings.localUnitLegendTitle}
-                            <div className={styles.legend}>
-                                {/* FIXME: use raw list */}
-                                {localUnitOptions?.type.map((legendItem) => (
-                                    <LegendItem
-                                        key={legendItem.id}
-                                        className={styles.legendItem}
-                                        color={legendItem.colour ?? COLOR_DARK_GREY}
-                                        label={legendItem.name}
-                                        icon_src={legendItem.image_url}
-                                    />
-                                ))}
-                                {localUnitOptions?.health_facility_type.map((legendItem) => (
-                                    <LegendItem
-                                        key={legendItem.id}
-                                        className={styles.legendItem}
-                                        color={COLOR_DARK_GREY}
-                                        label={legendItem.name}
-                                    />
-                                ))}
-                            </div>
-                        </div>
-                    )}
-                />
-                {localUnitOptions?.type.map(
-                    (typeOption) => (
-                        <MapImage
-                            key={typeOption.id}
-                            name={getIconKey(typeOption.code, LOCAL_UNIT_ICON_KEY)}
-                            url={typeOption.image_url}
-                            onLoad={handleIconLoad}
-                            imageOptions={mapImageOption}
-                        />
-                    ),
-                )}
-                {localUnitOptions?.health_facility_type.map(
-                    (healthTypeOption) => (
-                        <MapImage
-                            key={healthTypeOption.id}
-                            name={getIconKey(healthTypeOption.code, HEALTHCARE_ICON_KEY)}
-                            url={healthTypeOption.image_url}
-                            onLoad={handleIconLoad}
-                            imageOptions={mapImageOption}
-                        />
-                    ),
-                )}
-                <MapSource
-                    sourceKey="local-unit-points"
-                    sourceOptions={sourceOption}
-                    geoJson={localUnitsGeoJson}
-                >
-                    <MapLayer
-                        layerKey="point"
-                        layerOptions={localUnitPointLayerOptions}
-                        onClick={handlePointClick}
-                    />
-                    {allIconsLoaded && (
+        <div className={styles.localUnitsMap}>
+            <div className={styles.mapContainerWithContactDetails}>
+                <BaseMap
+                    baseLayers={(
                         <MapLayer
-                            layerKey="icon"
-                            layerOptions={localUnitIconLayerOptions}
+                            layerKey="admin-0-highlight"
+                            layerOptions={adminZeroHighlightLayerOptions}
                         />
                     )}
-                </MapSource>
-                <MapBounds
-                    duration={DURATION_MAP_ZOOM}
-                    padding={DEFAULT_MAP_PADDING}
-                    bounds={countryBounds}
-                />
-                {clickedPointProperties?.lngLat && localUnitMapTooltipResponse && (
-                    <MapPopup
-                        coordinates={clickedPointProperties.lngLat}
-                        onCloseButtonClick={handlePointClose}
-                        heading={isTruthyString(localUnitMapTooltipResponse?.english_branch_name)
-                            ? localUnitMapTooltipResponse?.english_branch_name
-                            : localUnitMapTooltipResponse?.local_branch_name}
-                        childrenContainerClassName={styles.popupContent}
-                        contentViewType="vertical"
+                    mapOptions={{ bounds: countryBounds }}
+                >
+                    <MapContainerWithDisclaimer
+                        className={styles.mapContainer}
+                    />
+                    {localUnitOptions?.type.map(
+                        (typeOption) => (
+                            <MapImage
+                                key={typeOption.id}
+                                name={getIconKey(typeOption.code, LOCAL_UNIT_ICON_KEY)}
+                                url={typeOption.image_url}
+                                onLoad={handleIconLoad}
+                                imageOptions={mapImageOption}
+                            />
+                        ),
+                    )}
+                    {localUnitOptions?.health_facility_type.map(
+                        (healthTypeOption) => (
+                            <MapImage
+                                key={healthTypeOption.id}
+                                name={getIconKey(healthTypeOption.code, HEALTHCARE_ICON_KEY)}
+                                url={healthTypeOption.image_url}
+                                onLoad={handleIconLoad}
+                                imageOptions={mapImageOption}
+                            />
+                        ),
+                    )}
+                    <MapSource
+                        sourceKey="local-unit-points"
+                        sourceOptions={sourceOption}
+                        geoJson={localUnitsGeoJson}
                     >
-                        <TextOutput
-                            className={styles.localUnitInfo}
-                            label={strings.localUnitDetailLastUpdate}
-                            value={localUnitMapTooltipResponse?.modified_at}
-                            strongLabel
-                            valueType="date"
+                        <MapLayer
+                            layerKey="point"
+                            layerOptions={localUnitPointLayerOptions}
+                            onClick={handlePointClick}
                         />
-                        <TextOutput
-                            className={styles.localUnitInfo}
-                            label={strings.localUnitDetailAddress}
-                            strongLabel
-                            value={localUnitMapTooltipResponse?.address_en
-                                ?? localUnitMapTooltipResponse?.address_loc}
-                        />
-                        <Link
-                            className={styles.localUnitInfo}
-                            href={localUnitMapTooltipResponse?.link}
-                            external
-                            withLinkIcon
+                        {allIconsLoaded && (
+                            <MapLayer
+                                layerKey="icon"
+                                layerOptions={localUnitIconLayerOptions}
+                            />
+                        )}
+                    </MapSource>
+                    <MapBounds
+                        duration={DURATION_MAP_ZOOM}
+                        padding={DEFAULT_MAP_PADDING}
+                        bounds={countryBounds}
+                    />
+                    {clickedPointProperties?.lngLat && localUnitDetailResponse && (
+                        <MapPopup
+                            coordinates={clickedPointProperties.lngLat}
+                            onCloseButtonClick={handlePointClose}
+                            heading={isTruthyString(localUnitDetailResponse?.english_branch_name)
+                                ? localUnitDetailResponse?.english_branch_name
+                                : localUnitDetailResponse?.local_branch_name}
+                            contentViewType="vertical"
                         >
-                            {strings.localUnitTooltipMoreDetails}
-                        </Link>
-                        {/* TODO: only show for authenticated users
-                        <TextOutput
-                            className={styles.localUnitInfo}
-                            label={strings.localUnitDetailPhoneNumber}
-                            strongLabel
-                            value={localUnitMapTooltipResponse?.phone}
-                        />
-                        <TextOutput
-                            className={styles.localUnitInfo}
-                            label={strings.localUnitDetailFocalPerson}
-                            strongLabel
-                            value={localUnitMapTooltipResponse?.focal_person_en
-                                ?? localUnitMapTooltipResponse?.focal_person_loc}
-                        />
-                        <TextOutput
-                            className={styles.localUnitInfo}
-                            label={strings.localUnitDetailEmail}
-                            strongLabel
-                            value={(
-                                <Link
-                                    href={`mailto:${localUnitMapTooltipResponse?.email}`}
-                                    external
-                                >
-                                    {localUnitMapTooltipResponse?.email}
-                                </Link>
+                            <TextOutput
+                                label={strings.localUnitDetailLastUpdate}
+                                value={localUnitDetailResponse?.modified_at}
+                                strongLabel
+                                valueType="date"
+                            />
+                            <TextOutput
+                                label={strings.localUnitDetailAddress}
+                                strongLabel
+                                value={localUnitDetailResponse?.address_en
+                                    ?? localUnitDetailResponse?.address_loc}
+                            />
+                            <TextOutput
+                                label={strings.localUnitLocalUnitType}
+                                strongLabel
+                                value={localUnitDetailResponse?.type_details.name}
+                            />
+                            {isDefined(localUnitDetailResponse?.health) && (
+                                <TextOutput
+                                    label={strings.localUnitHealthFacilityType}
+                                    strongLabel
+                                    value={
+                                        localUnitDetailResponse
+                                            ?.health?.health_facility_type_details.name
+                                    }
+                                />
                             )}
-                        />
-                        */}
-                    </MapPopup>
-                )}
-            </BaseMap>
-            {isDefined(countryResponse)
-                && (isDefined(countryResponse.address_1)
-                        || (
-                            isDefined(countryResponse.emails)
-                            && countryResponse.emails.length > 0
-                        ))
-                    && (
-                        <Container
-                            className={styles.mapDetail}
-                            childrenContainerClassName={styles.infoContainer}
-                        >
-                            {isDefined(countryResponse)
-                                && isDefined(countryResponse.address_1)
-                                && (
+                            {isAuthenticated && (
+                                <>
                                     <TextOutput
-                                        className={styles.info}
-                                        labelClassName={styles.label}
-                                        label={(
-                                            <LocationIcon className={styles.icon} />
-                                        )}
-                                        withoutLabelColon
+                                        label={strings.localUnitDetailPhoneNumber}
+                                        strongLabel
+                                        value={localUnitDetailResponse?.phone}
+                                    />
+                                    <TextOutput
+                                        label={strings.localUnitDetailFocalPerson}
+                                        strongLabel
+                                        value={localUnitDetailResponse?.focal_person_en
+                                    ?? localUnitDetailResponse?.focal_person_loc}
+                                    />
+                                    <TextOutput
+                                        label={strings.localUnitDetailEmail}
+                                        strongLabel
                                         value={(
-                                            <>
-                                                <div>{countryResponse.address_1}</div>
-                                                <div>{countryResponse.address_2}</div>
-                                            </>
+                                            <Link
+                                                href={`mailto:${localUnitDetailResponse?.email}`}
+                                                external
+                                            >
+                                                {localUnitDetailResponse?.email}
+                                            </Link>
                                         )}
                                     />
-                                )}
-                            {isDefined(countryResponse)
-                                && isDefined(countryResponse.emails)
-                                && countryResponse.emails.length > 0
-                                && (
-                                    <TextOutput
-                                        className={styles.info}
-                                        labelClassName={styles.label}
-                                        label={(
-                                            <MailIcon className={styles.icon} />
-                                        )}
-                                        withoutLabelColon
-                                        value={(
-                                            <List
-                                                data={countryResponse.emails.filter(isDefined)}
-                                                renderer={Link}
-                                                rendererParams={emailRendererParams}
-                                                keySelector={emailKeySelector}
-                                                withoutMessage
-                                                compact
-                                                pending={false}
-                                                errored={false}
-                                                filtered={false}
-                                            />
-                                        )}
-                                    />
-                                )}
-                        </Container>
+                                </>
+                            )}
+                            <Link
+                                href={localUnitDetailResponse?.link}
+                                external
+                                withLinkIcon
+                            >
+                                {strings.localUnitTooltipMoreDetails}
+                            </Link>
+                        </MapPopup>
                     )}
-        </>
+                </BaseMap>
+                {hasContactDetails && (
+                    <Container
+                        className={styles.contactDetail}
+                        contentViewType="vertical"
+                        withInternalPadding
+                    >
+                        {hasAddress && (
+                            <TextOutput
+                                className={styles.info}
+                                labelClassName={styles.label}
+                                icon={(
+                                    <LocationIcon className={styles.icon} />
+                                )}
+                                withoutLabelColon
+                                value={(
+                                    <>
+                                        <div>{countryResponse.address_1}</div>
+                                        <div>{countryResponse.address_2}</div>
+                                    </>
+                                )}
+                            />
+                        )}
+                        {hasEmails && (
+                            <TextOutput
+                                className={styles.info}
+                                labelClassName={styles.label}
+                                icon={(
+                                    <MailIcon className={styles.icon} />
+                                )}
+                                withoutLabelColon
+                                value={(
+                                    <List
+                                        data={countryResponse?.emails?.filter(isDefined)}
+                                        renderer={Link}
+                                        rendererParams={emailRendererParams}
+                                        keySelector={emailKeySelector}
+                                        withoutMessage
+                                        compact
+                                        pending={false}
+                                        errored={false}
+                                        filtered={false}
+                                    />
+                                )}
+                            />
+                        )}
+                    </Container>
+                )}
+            </div>
+            {isDefined(localUnitOptions) && (
+                <Container
+                    contentViewType="vertical"
+                    spacing="comfortable"
+                >
+                    <Container
+                        heading={strings.localUnitLegendLocalUnitTitle}
+                        headingLevel={4}
+                        contentViewType="grid"
+                        numPreferredGridContentColumns={5}
+                        spacing="compact"
+                    >
+                        {localUnitOptions?.type.map((legendItem) => (
+                            <LegendItem
+                                key={legendItem.id}
+                                iconSrc={legendItem.image_url}
+                                iconClassName={styles.legendIcon}
+                                color={legendItem.colour ?? COLOR_DARK_GREY}
+                                label={legendItem.name}
+                            />
+                        ))}
+                    </Container>
+                    <Container
+                        heading={strings.localUnitLegendHealthCareTitle}
+                        headingLevel={5}
+                        contentViewType="grid"
+                        numPreferredGridContentColumns={5}
+                        spacing="compact"
+                    >
+                        {localUnitOptions?.health_facility_type.map((legendItem) => (
+                            <LegendItem
+                                key={legendItem.id}
+                                // FIXME: use color from server
+                                color={COLOR_PRIMARY_BLUE}
+                                iconSrc={legendItem.image_url}
+                                iconClassName={styles.legendIcon}
+                                label={legendItem.name}
+                            />
+                        ))}
+                    </Container>
+                </Container>
+            )}
+        </div>
     );
 }
 
