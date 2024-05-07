@@ -199,6 +199,7 @@ function NationalSocietyLocalUnits(props: Props) {
                 <TabPanel name="map">
                     <LocalUnitsMap
                         localUnitListResponse={localUnitListResponse}
+                        localUnitType={filter.type}
                     />
                 </TabPanel>
                 <TabPanel name="table">
