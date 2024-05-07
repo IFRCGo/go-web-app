@@ -28,6 +28,8 @@ export const KEY_LANGUAGE_STORAGE = 'language';
 export const KEY_URL_SEARCH = 'keyword';
 export const SEARCH_TEXT_LENGTH_MIN = 3;
 
+// Risk
+
 export const COLOR_HAZARD_CYCLONE = '#a4bede';
 export const COLOR_HAZARD_DROUGHT = '#b68fba';
 export const COLOR_HAZARD_FOOD_INSECURITY = '#b7c992';
