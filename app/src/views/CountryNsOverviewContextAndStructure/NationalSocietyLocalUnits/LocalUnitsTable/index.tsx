@@ -91,8 +91,6 @@ function LocalUnitsTable(props: Props) {
         },
     });
 
-    console.log('table', localUnitsTableResponse);
-
     const columns = useMemo(
         () => ([
             createStringColumn<LocalUnitsTableListItem, number>(

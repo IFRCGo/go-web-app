@@ -22,14 +22,15 @@ import {
 } from '@togglecorp/fujs';
 import {
     MapBounds,
+    MapImage,
     MapLayer,
     MapSource,
 } from '@togglecorp/re-map';
 import getBbox from '@turf/bbox';
 import type {
     CircleLayer,
-    CirclePaint,
     FillLayer,
+    SymbolLayer,
 } from 'mapbox-gl';
 
 import BaseMap from '#components/domain/BaseMap';
@@ -38,11 +39,11 @@ import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import MapPopup from '#components/MapPopup';
 import {
     COLOR_BLUE,
-    COLOR_DARK_GREY,
     COLOR_DARK_RED,
     COLOR_ORANGE,
     COLOR_PRIMARY_BLUE,
     COLOR_RED,
+    COLOR_WHITE,
     COLOR_YELLOW,
     DEFAULT_MAP_PADDING,
     DURATION_MAP_ZOOM,
@@ -56,46 +57,41 @@ import {
 import {
     TYPE_ADMINISTRATIVE,
     TYPE_EMERGENCY_RESPONSE,
+    TYPE_HEALTH_AMBULANCE,
+    TYPE_HEALTH_BLOOD_CENTER,
+    TYPE_HEALTH_HOSPITAL,
+    TYPE_HEALTH_OTHERS,
+    TYPE_HEALTH_PHARMACY,
+    TYPE_HEALTH_PHC_CENTER,
+    TYPE_HEALTH_RESIDENTIAL,
+    TYPE_HEALTH_SPECIAL_SERVICES,
+    TYPE_HEALTH_TRAINING,
     TYPE_HEALTHCARE,
     TYPE_HUMANITARIAN,
     TYPE_OTHER,
     TYPE_TRAINING,
 } from '../common';
+import {
+    basePointPaint,
+    healthCarePointIconLayout,
+    healthFacilityBasePointPaint,
+    healthFacilityKeys,
+    healthFacilityKeyToIconMap,
+    invisibleLayout,
+    localUnitIconKeys,
+    localUnitMapIcons,
+    localUnitPointIconLayout,
+    localUnitTypeKeyToIconMap,
+    mapIcons,
+} from './mapStyles';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type GetLocalUnitResponseType = GoApiResponse<'/api/v2/public-local-units/'>;
 
-const circleColor: CirclePaint['circle-color'] = [
-    'match',
-    ['get', 'type'],
-    TYPE_ADMINISTRATIVE,
-    COLOR_RED,
-    TYPE_HEALTHCARE,
-    COLOR_ORANGE,
-    TYPE_EMERGENCY_RESPONSE,
-    COLOR_BLUE,
-    TYPE_HUMANITARIAN,
-    COLOR_YELLOW,
-    TYPE_TRAINING,
-    COLOR_PRIMARY_BLUE,
-    TYPE_OTHER,
-    COLOR_DARK_RED,
-    COLOR_DARK_RED,
-];
-const basePointPaint: CirclePaint = {
-    'circle-radius': 5,
-    'circle-color': circleColor,
-    'circle-opacity': 0.6,
-    'circle-stroke-color': circleColor,
-    'circle-stroke-width': 1,
-    'circle-stroke-opacity': 1,
-};
-
-const basePointLayerOptions: Omit<CircleLayer, 'id'> = {
-    type: 'circle',
-    paint: basePointPaint,
+const mapImageOption = {
+    sdf: true,
 };
 
 const sourceOption: mapboxgl.GeoJSONSourceRaw = {
@@ -114,10 +110,11 @@ function emailKeySelector(email: string) {
 
 interface Props {
     localUnitListResponse?: GetLocalUnitResponseType;
+    localUnitType?: number;
 }
 
 function LocalUnitsMap(props: Props) {
-    const { localUnitListResponse } = props;
+    const { localUnitListResponse, localUnitType } = props;
     const { countryResponse } = useOutletContext<CountryOutletContext>();
 
     const strings = useTranslation(i18n);
@@ -125,6 +122,64 @@ function LocalUnitsMap(props: Props) {
         clickedPointProperties,
         setClickedPointProperties,
     ] = useState<ClickedPoint | undefined>();
+
+    const [loadedIcons, setLoadedIcons] = useState<Record<string, boolean>>({});
+
+    const handleIconLoad = useCallback(
+        (loaded: boolean, key: string) => {
+            setLoadedIcons((prevValue) => ({
+                ...prevValue,
+                [key]: loaded,
+            }));
+        },
+        [],
+    );
+
+    const allIconsLoaded = useMemo(
+        () => (
+            Object.values(loadedIcons)
+                .filter(Boolean).length === mapIcons.length
+        ),
+        [loadedIcons],
+    );
+
+    const healthCarePointIconLayer = useMemo(
+        (): Omit<SymbolLayer, 'id'> => ({
+            type: 'symbol',
+            paint: { 'icon-color': COLOR_WHITE },
+            layout: (allIconsLoaded && localUnitType === TYPE_HEALTHCARE)
+                ? healthCarePointIconLayout
+                : invisibleLayout,
+        }),
+        [allIconsLoaded, localUnitType],
+    );
+
+    const localUnitPointIconLayer = useMemo(
+        (): Omit<SymbolLayer, 'id'> => ({
+            type: 'symbol',
+            paint: { 'icon-color': COLOR_WHITE },
+            layout: (allIconsLoaded && isNotDefined(localUnitType))
+                ? localUnitPointIconLayout
+                : invisibleLayout,
+        }),
+        [allIconsLoaded, localUnitType],
+    );
+
+    const basePointLayerOptions: Omit<CircleLayer, 'id'> = {
+        layout: {
+            visibility: isNotDefined(localUnitType) ? 'visible' : 'none',
+        },
+        type: 'circle',
+        paint: basePointPaint,
+    };
+
+    const healthBasePointLayerOptions: Omit<CircleLayer, 'id'> = {
+        layout: {
+            visibility: localUnitType === TYPE_HEALTHCARE ? 'visible' : 'none',
+        },
+        type: 'circle',
+        paint: healthFacilityBasePointPaint,
+    };
 
     const legendOptions = useMemo(() => ([
         {
@@ -182,8 +237,7 @@ function LocalUnitsMap(props: Props) {
 
     const localUnitsGeoJson = useMemo((): GeoJSON.FeatureCollection<GeoJSON.Geometry> => ({
         type: 'FeatureCollection' as const,
-        features: isDefined(localUnitListResponse)
-            && isDefined(localUnitListResponse.results)
+        features: isDefined(localUnitListResponse) && isDefined(localUnitListResponse.results)
             ? localUnitListResponse?.results?.map((localUnit) => ({
                 type: 'Feature' as const,
                 geometry: localUnit.location_details as unknown as {
@@ -194,6 +248,7 @@ function LocalUnitsMap(props: Props) {
                     id: localUnit.local_branch_name,
                     localUnitId: localUnit.id,
                     type: localUnit.type,
+                    healthFacilityType: localUnit.health_details.health_facility_type,
                 },
             })) : [],
     }), [localUnitListResponse]);
@@ -209,26 +264,6 @@ function LocalUnitsMap(props: Props) {
             ] : undefined,
         }),
         [countryResponse],
-    );
-
-    const selectedLocalUnitDetail = useMemo(
-        () => {
-            const id = clickedPointProperties?.id;
-            if (isNotDefined(id)) {
-                return undefined;
-            }
-
-            const selectedLocalUnit = localUnitListResponse?.results?.find(
-                (localUnit) => localUnit.local_branch_name === id,
-            );
-
-            if (isNotDefined(selectedLocalUnit)) {
-                return undefined;
-            }
-
-            return selectedLocalUnit;
-        },
-        [clickedPointProperties, localUnitListResponse?.results],
     );
 
     const handlePointClick = useCallback(
@@ -289,6 +324,32 @@ function LocalUnitsMap(props: Props) {
                         </div>
                     )}
                 />
+                {healthFacilityKeys.map((key) => {
+                    const url = healthFacilityKeyToIconMap[key];
+
+                    return (
+                        <MapImage
+                            key={key}
+                            name={String(key)}
+                            url={url}
+                            onLoad={handleIconLoad}
+                            imageOptions={mapImageOption}
+                        />
+                    );
+                })}
+                {localUnitIconKeys.map((key) => {
+                    const url = localUnitTypeKeyToIconMap[key];
+
+                    return (
+                        <MapImage
+                            key={key}
+                            name={String(key)}
+                            url={url}
+                            onLoad={handleIconLoad}
+                            imageOptions={mapImageOption}
+                        />
+                    );
+                })}
                 <MapSource
                     sourceKey="points"
                     sourceOptions={sourceOption}
@@ -299,13 +360,25 @@ function LocalUnitsMap(props: Props) {
                         layerOptions={basePointLayerOptions}
                         onClick={handlePointClick}
                     />
+                    <MapLayer
+                        layerKey="health-point-circle"
+                        layerOptions={healthBasePointLayerOptions}
+                    />
+                    <MapLayer
+                        layerKey="point-symbol-layer"
+                        layerOptions={healthCarePointIconLayer}
+                    />
+                    <MapLayer
+                        layerKey="point-symbol-layer"
+                        layerOptions={localUnitPointIconLayer}
+                    />
                 </MapSource>
                 <MapBounds
                     duration={DURATION_MAP_ZOOM}
                     padding={DEFAULT_MAP_PADDING}
                     bounds={countryBounds}
                 />
-                {clickedPointProperties?.lngLat && selectedLocalUnitDetail && (
+                {clickedPointProperties?.lngLat && localUnitMapTooltipResponse && (
                     <MapPopup
                         coordinates={clickedPointProperties.lngLat}
                         onCloseButtonClick={handlePointClose}
