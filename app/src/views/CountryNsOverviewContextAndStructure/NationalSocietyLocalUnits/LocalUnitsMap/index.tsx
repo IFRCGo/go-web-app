@@ -399,13 +399,15 @@ function LocalUnitsMap(props: Props) {
                                     />
                                 </>
                             )}
-                            <Link
-                                href={localUnitDetailResponse?.link}
-                                external
-                                withLinkIcon
-                            >
-                                {strings.localUnitTooltipMoreDetails}
-                            </Link>
+                            {localUnitDetailResponse?.link && (
+                                <Link
+                                    href={localUnitDetailResponse?.link}
+                                    external
+                                    withLinkIcon
+                                >
+                                    {strings.localUnitTooltipMoreDetails}
+                                </Link>
+                            )}
                         </MapPopup>
                     )}
                 </BaseMap>
