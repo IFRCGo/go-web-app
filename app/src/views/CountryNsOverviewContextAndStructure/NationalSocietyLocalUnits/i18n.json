@@ -2,17 +2,8 @@
     "namespace": "nationalSocietyLocalUnits",
     "strings": {
         "localUnitsMapTitle": "NS Local Units",
-        "localUnitsFilterTypePlaceholder": "Type (All)",
-        "localUnitsFilterTypeLabel": "Type",
-        "localUnitsFilterValidatedPlaceholder": "Validation (All)",
-        "localUnitsFilterValidatedLabel": "Validation",
-        "validated": "Validated",
-        "notValidated": "Not Validated",
-        "localUnitsFilterSearchLabel": "Search",
-        "localUnitsFilterSearchPlaceholderLabel": "Search Local Units",
         "localUnitDetailAddressValue": "{address}, {city}, {country}",
         "localUnitDetailType": "Type",
-        "localUnitsFilterClear": "Clear Filters",
         "localUnitsMapView": "Map view",
         "localUnitsListView": "List view",
         "editLocalUnitLink": "Add/Edit Local Units"
