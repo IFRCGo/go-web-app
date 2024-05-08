@@ -1,0 +1,15 @@
+{
+    "namespace": "nationalSocietyLocalUnits",
+    "strings": {
+        "localUnitDetailAddress": "Address",
+        "localUnitDetailPhoneNumber": "Phone Number",
+        "localUnitDetailLastUpdate": "Last Updated",
+        "localUnitDetailFocalPerson": "Focal Person",
+        "localUnitTooltipMoreDetails": "More Details",
+        "localUnitLegendLocalUnitTitle": "Local Units",
+        "localUnitLocalUnitType": "Local Unit Type",
+        "localUnitHealthFacilityType": "Health Facility Type",
+        "localUnitLegendHealthCareTitle": "Health Care Local Units",
+        "localUnitDetailEmail": "Email"
+    }
+}

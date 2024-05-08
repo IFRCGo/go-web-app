@@ -1,9 +1,11 @@
 export function booleanValueSelector(option: { value: boolean }) {
     return option.value;
 }
+
 export function numericValueSelector(option: { value: number }) {
     return option.value;
 }
+
 export function stringValueSelector(option: { value: string }) {
     return option.value;
 }

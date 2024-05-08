@@ -1,0 +1,14 @@
+{
+    "namespace": "nsLocalUnitsFilters",
+    "strings": {
+        "validated": "Validated",
+        "notValidated": "Not Validated",
+        "localUnitsFilterTypePlaceholder": "Type (All)",
+        "localUnitsFilterTypeLabel": "Type",
+        "localUnitsFilterClear": "Clear filters",
+        "localUnitsFilterValidatedPlaceholder": "Validation (All)",
+        "localUnitsFilterValidatedLabel": "Validation",
+        "localUnitsFilterSearchLabel": "Search",
+        "localUnitsFilterSearchPlaceholderLabel": "Search Local Units"
+    }
+}

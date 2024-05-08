@@ -3,7 +3,7 @@
     "strings": {
         "title": "Generate token for Montandon",
         "description": "By clicking 'Accept & Generate' button, you'll  accept the {termsLink} of the Montandon API. Please make sure to review it.",
-        "termsAndConditionLabel": "Terms & Condition",
+        "termsAndConditionLabel": "Terms & Conditions",
         "cancelButtonLabel": "Cancel",
         "acceptButtonLabel": "Accept & Generate",
         "doneButtonLabel": "Done",

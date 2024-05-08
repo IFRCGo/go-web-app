@@ -29,7 +29,7 @@ export function useSortState(defaultValue?: SortParameter) {
     return { sorting, setSorting };
 }
 
-interface SortContextInterface {
+export interface SortContextInterface {
     sorting: SortParameter | undefined;
     setSorting: React.Dispatch<React.SetStateAction<SortParameter | undefined>>;
 }

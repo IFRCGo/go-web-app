@@ -37,8 +37,13 @@
         flex-grow: 1;
 
         &.pending-overlaid {
+            isolation: isolate;
             position: relative;
             min-height: 6rem;
+
+            .message {
+                z-index: 1;
+            }
         }
     }
 

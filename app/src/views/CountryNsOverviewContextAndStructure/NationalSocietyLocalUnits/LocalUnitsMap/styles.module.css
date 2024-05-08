@@ -1,0 +1,34 @@
+.local-units-map {
+    .map-container-with-contact-details {
+        position: relative;
+
+        .map-container {
+            height: 40rem;
+        }
+
+        .contact-detail {
+            position: absolute;
+            bottom: 3rem;
+            left: var(--go-ui-spacing-md);
+            border: var(--go-ui-width-separator-sm) solid var(--go-ui-color-gray-30);
+            border-radius: var(--go-ui-border-radius-md);
+            box-shadow: var(--go-ui-box-shadow-md);
+            background-color: var(--go-ui-color-white);
+            width: 18rem;
+            overflow: auto;
+
+            .icon {
+                font-size: var(--go-ui-height-icon-multiplier);
+            }
+
+            .email {
+                word-break: break-word;
+            }
+        }
+    }
+
+    .legend-icon {
+        filter: invert(1);
+    }
+
+}

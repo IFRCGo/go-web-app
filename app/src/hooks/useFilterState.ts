@@ -134,6 +134,13 @@ function useFilterState<FILTER extends object>(options: {
         [],
     );
 
+    const resetFilter = useCallback(
+        () => {
+            dispatch({ type: 'reset-filter' });
+        },
+        [],
+    );
+
     const setFilterField = useCallback(
         (...args: EntriesAsList<FILTER>) => {
             const [val, key] = args;
@@ -189,6 +196,8 @@ function useFilterState<FILTER extends object>(options: {
         filtered,
         setFilter,
         setFilterField,
+
+        resetFilter,
 
         page: state.page,
         offset: pageSize * (debouncedState.page - 1),
