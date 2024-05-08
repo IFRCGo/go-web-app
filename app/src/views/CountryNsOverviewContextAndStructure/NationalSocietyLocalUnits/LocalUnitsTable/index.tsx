@@ -161,7 +161,7 @@ function LocalUnitsTable(props: Props) {
             footerContent={(
                 <Pager
                     activePage={page}
-                    itemsCount={localUnitsTableResponse?.count ?? 0}
+                    itemsCount={localUnitsTableResponse?.count ?? PAGE_SIZE}
                     maxItemsPerPage={limit}
                     onActivePageChange={setPage}
                 />
