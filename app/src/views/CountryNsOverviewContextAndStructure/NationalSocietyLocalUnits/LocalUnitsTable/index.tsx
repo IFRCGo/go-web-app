@@ -1,7 +1,4 @@
-import {
-    useEffect,
-    useMemo,
-} from 'react';
+import { useMemo } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import {
     Container,
@@ -28,29 +25,18 @@ import {
 } from '#utils/restRequest';
 
 import { VALIDATED } from '../common';
+import Filters, { FilterValue } from '../Filters';
 import LocalUnitsTableActions, { type Props as LocalUnitsTableActionsProps } from './LocalUnitTableActions';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-const PAGE_SIZE = 15;
+const PAGE_SIZE = 12;
 
 type LocalUnitsTableResponse = GoApiResponse<'/api/v2/local-units/'>;
 type LocalUnitsTableListItem = NonNullable<LocalUnitsTableResponse['results']>[number];
 
-interface Props {
-    filter: {
-        type?: number;
-        search?: string;
-        isValidated?: string;
-    }
-}
-
-function LocalUnitsTable(props: Props) {
-    const {
-        filter: filterFromProps,
-    } = props;
-
+function LocalUnitsTable() {
     const strings = useTranslation(i18n);
     const { countryResponse } = useOutletContext<CountryOutletContext>();
 
@@ -61,17 +47,17 @@ function LocalUnitsTable(props: Props) {
         setPage,
         filtered,
         filter,
-        setFilter,
-    } = useFilterState({
-        filter: filterFromProps,
+        setFilterField,
+        rawFilter,
+        resetFilter,
+    } = useFilterState<FilterValue>({
+        filter: {},
         pageSize: PAGE_SIZE,
     });
 
-    useEffect(() => {
-        if (filterFromProps) {
-            setFilter(filterFromProps);
-        }
-    }, [filterFromProps, setFilter]);
+    const { response: localUnitsOptionsResponse } = useRequest({
+        url: '/api/v2/local-units-options/',
+    });
 
     const {
         pending: localUnitsPending,
@@ -109,6 +95,7 @@ function LocalUnitsTable(props: Props) {
                 'type',
                 strings.localUnitsTableType,
                 (item) => item.type_details.name,
+                { columnClassName: styles.type },
             ),
             createStringColumn<LocalUnitsTableListItem, number>(
                 'focal',
@@ -156,7 +143,7 @@ function LocalUnitsTable(props: Props) {
 
     return (
         <Container
-            footerContent={isDefined(localUnitsResponse)
+            footerActions={isDefined(localUnitsResponse)
                 && isDefined(localUnitsResponse.count) && (
                 <Pager
                     activePage={page}
@@ -165,8 +152,17 @@ function LocalUnitsTable(props: Props) {
                     onActivePageChange={setPage}
                 />
             )}
-            footerClassName={styles.footerContent}
             contentViewType="vertical"
+            withGridViewInFilter
+            filters={(
+                <Filters
+                    value={rawFilter}
+                    setFieldValue={setFilterField}
+                    options={localUnitsOptionsResponse}
+                    resetFilter={resetFilter}
+                    filtered={filtered}
+                />
+            )}
         >
             <Table
                 pending={localUnitsPending}

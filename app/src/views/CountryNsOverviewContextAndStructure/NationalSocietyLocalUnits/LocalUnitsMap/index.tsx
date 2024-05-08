@@ -38,7 +38,8 @@ import BaseMap from '#components/domain/BaseMap';
 import Link, { type Props as LinkProps } from '#components/Link';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import MapPopup from '#components/MapPopup';
-import useAuth from '#hooks/domain/useAuth';
+import useUserMe from '#hooks/domain/useUserMe';
+import useFilterState from '#hooks/useFilterState';
 import {
     COLOR_DARK_GREY,
     COLOR_PRIMARY_BLUE,
@@ -48,11 +49,12 @@ import {
 } from '#utils/constants';
 import { type CountryOutletContext } from '#utils/outletContext';
 import {
-    GoApiResponse,
+    GoApiUrlQuery,
     useRequest,
 } from '#utils/restRequest';
 
 import { VALIDATED } from '../common';
+import Filters, { FilterValue } from '../Filters';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -95,38 +97,64 @@ function emailKeySelector(email: string) {
     return email;
 }
 
-interface Props {
-    filters : {
-        type?: number;
-        search?: string;
-        isValidated?: string;
-    }
-    localUnitOptions: GoApiResponse<'/api/v2/local-units-options/'> | undefined;
-}
-
-function LocalUnitsMap(props: Props) {
-    const {
-        filters,
-        localUnitOptions,
-    } = props;
-
+function LocalUnitsMap() {
     const { countryResponse } = useOutletContext<CountryOutletContext>();
 
-    const { isAuthenticated } = useAuth();
     const {
-        response: localUnitListResponse,
+        response: localUnitsOptions,
+        // pending: localUnitsOptionsResponsePending,
     } = useRequest({
-        skip: isNotDefined(countryResponse?.iso3),
-        url: '/api/v2/local-units/',
-        query: {
-            limit: 9999,
-            type__code: filters.type,
-            validated: isDefined(filters.isValidated)
-                ? filters.isValidated === VALIDATED : undefined,
-            search: filters.search,
-            country__iso3: isDefined(countryResponse?.iso3) ? countryResponse?.iso3 : undefined,
-        },
+        url: '/api/v2/local-units-options/',
     });
+
+    const {
+        filter,
+        rawFilter,
+        setFilterField,
+        filtered,
+        resetFilter,
+        limit,
+    } = useFilterState<FilterValue>({
+        filter: {},
+        pageSize: 9999,
+    });
+
+    const urlQuery = useMemo<GoApiUrlQuery<'/api/v2/public-local-units/'>>(
+        () => ({
+            limit,
+            type__code: filter.type,
+            validated: isDefined(filter.isValidated)
+                ? filter.isValidated === VALIDATED : undefined,
+            search: filter.search,
+            country__iso3: isDefined(countryResponse?.iso3) ? countryResponse?.iso3 : undefined,
+        }),
+        [limit, filter, countryResponse],
+    );
+
+    const meResponse = useUserMe();
+
+    const {
+        response: publicLocalUnitsResponse,
+        pending: publicLocalUnitsPending,
+    } = useRequest({
+        skip: isNotDefined(countryResponse?.iso3) || meResponse?.is_superuser,
+        url: '/api/v2/public-local-units/',
+        query: urlQuery,
+    });
+
+    const {
+        response: localUnitsResponse,
+        pending: localUnitsPending,
+    } = useRequest({
+        skip: isNotDefined(countryResponse?.iso3)
+            || isNotDefined(meResponse)
+            || !meResponse.is_superuser,
+        url: '/api/v2/local-units/',
+        query: urlQuery,
+    });
+
+    const localUnits = meResponse?.is_superuser ? localUnitsResponse : publicLocalUnitsResponse;
+    const pending = publicLocalUnitsPending || localUnitsPending;
 
     const strings = useTranslation(i18n);
     const [
@@ -149,11 +177,11 @@ function LocalUnitsMap(props: Props) {
     const allIconsLoaded = useMemo(
         () => (
             Object.values(loadedIcons).filter(Boolean).length === sumSafe([
-                localUnitOptions?.type.length,
-                localUnitOptions?.health_facility_type.length,
+                localUnitsOptions?.type.length,
+                localUnitsOptions?.health_facility_type.length,
             ])
         ),
-        [loadedIcons, localUnitOptions],
+        [loadedIcons, localUnitsOptions],
     );
 
     const localUnitPointLayerOptions: Omit<CircleLayer, 'id'> = useMemo(() => ({
@@ -163,19 +191,19 @@ function LocalUnitsMap(props: Props) {
         type: 'circle',
         paint: {
             'circle-radius': 12,
-            'circle-color': isDefined(localUnitOptions) ? [
+            'circle-color': isDefined(localUnitsOptions) ? [
                 'match',
                 ['get', 'type'],
-                ...localUnitOptions.type.flatMap(
+                ...localUnitsOptions.type.flatMap(
                     ({ code, colour }) => [code, colour],
                 ),
                 COLOR_DARK_GREY,
             ] : COLOR_DARK_GREY,
             'circle-opacity': 0.6,
-            'circle-stroke-color': isDefined(localUnitOptions) ? [
+            'circle-stroke-color': isDefined(localUnitsOptions) ? [
                 'match',
                 ['get', 'type'],
-                ...localUnitOptions.type.flatMap(
+                ...localUnitsOptions.type.flatMap(
                     ({ code, colour }) => [code, colour],
                 ),
                 COLOR_DARK_GREY,
@@ -183,7 +211,7 @@ function LocalUnitsMap(props: Props) {
             'circle-stroke-width': 1,
             'circle-stroke-opacity': 1,
         },
-    }), [localUnitOptions]);
+    }), [localUnitsOptions]);
 
     const countryBounds = useMemo(() => (
         countryResponse ? getBbox(countryResponse.bbox) : undefined
@@ -200,7 +228,7 @@ function LocalUnitsMap(props: Props) {
     const localUnitsGeoJson = useMemo<GeoJSON.FeatureCollection<GeoJSON.Geometry>>(
         () => ({
             type: 'FeatureCollection' as const,
-            features: localUnitListResponse?.results?.map(
+            features: localUnits?.results?.map(
                 (localUnit) => ({
                     type: 'Feature' as const,
                     geometry: localUnit.location_details as unknown as {
@@ -223,7 +251,7 @@ function LocalUnitsMap(props: Props) {
                 }),
             ) ?? [],
         }),
-        [localUnitListResponse],
+        [localUnits],
     );
 
     const adminZeroHighlightLayerOptions = useMemo<Omit<FillLayer, 'id'>>(
@@ -278,7 +306,22 @@ function LocalUnitsMap(props: Props) {
     const hasContactDetails = hasAddress || hasEmails;
 
     return (
-        <div className={styles.localUnitsMap}>
+        <Container
+            className={styles.localUnitsMap}
+            contentViewType="vertical"
+            withGridViewInFilter
+            filters={(
+                <Filters
+                    value={rawFilter}
+                    setFieldValue={setFilterField}
+                    options={localUnitsOptions}
+                    resetFilter={resetFilter}
+                    filtered={filtered}
+                />
+            )}
+            pending={pending}
+            overlayPending
+        >
             <div className={styles.mapContainerWithContactDetails}>
                 <BaseMap
                     baseLayers={(
@@ -292,7 +335,7 @@ function LocalUnitsMap(props: Props) {
                     <MapContainerWithDisclaimer
                         className={styles.mapContainer}
                     />
-                    {localUnitOptions?.type.map(
+                    {localUnitsOptions?.type.map(
                         (typeOption) => (
                             <MapImage
                                 key={typeOption.id}
@@ -303,7 +346,7 @@ function LocalUnitsMap(props: Props) {
                             />
                         ),
                     )}
-                    {localUnitOptions?.health_facility_type.map(
+                    {localUnitsOptions?.health_facility_type.map(
                         (healthTypeOption) => (
                             <MapImage
                                 key={healthTypeOption.id}
@@ -372,33 +415,6 @@ function LocalUnitsMap(props: Props) {
                                     }
                                 />
                             )}
-                            {isAuthenticated && (
-                                <>
-                                    <TextOutput
-                                        label={strings.localUnitDetailPhoneNumber}
-                                        strongLabel
-                                        value={localUnitDetailResponse?.phone}
-                                    />
-                                    <TextOutput
-                                        label={strings.localUnitDetailFocalPerson}
-                                        strongLabel
-                                        value={localUnitDetailResponse?.focal_person_en
-                                            ?? localUnitDetailResponse?.focal_person_loc}
-                                    />
-                                    <TextOutput
-                                        label={strings.localUnitDetailEmail}
-                                        strongLabel
-                                        value={(
-                                            <Link
-                                                href={`mailto:${localUnitDetailResponse?.email}`}
-                                                external
-                                            >
-                                                {localUnitDetailResponse?.email}
-                                            </Link>
-                                        )}
-                                    />
-                                </>
-                            )}
                             {isTruthyString(localUnitDetailResponse?.link) && (
                                 <Link
                                     href={localUnitDetailResponse?.link}
@@ -459,7 +475,7 @@ function LocalUnitsMap(props: Props) {
                     </Container>
                 )}
             </div>
-            {isDefined(localUnitOptions) && (
+            {isDefined(localUnitsOptions) && (
                 <Container
                     contentViewType="vertical"
                     spacing="comfortable"
@@ -471,7 +487,7 @@ function LocalUnitsMap(props: Props) {
                         numPreferredGridContentColumns={5}
                         spacing="compact"
                     >
-                        {localUnitOptions?.type.map((legendItem) => (
+                        {localUnitsOptions?.type.map((legendItem) => (
                             <LegendItem
                                 key={legendItem.id}
                                 iconSrc={legendItem.image_url}
@@ -488,7 +504,7 @@ function LocalUnitsMap(props: Props) {
                         numPreferredGridContentColumns={5}
                         spacing="compact"
                     >
-                        {localUnitOptions?.health_facility_type.map((legendItem) => (
+                        {localUnitsOptions?.health_facility_type.map((legendItem) => (
                             <LegendItem
                                 key={legendItem.id}
                                 // FIXME: use color from server
@@ -501,7 +517,7 @@ function LocalUnitsMap(props: Props) {
                     </Container>
                 </Container>
             )}
-        </div>
+        </Container>
     );
 }
 

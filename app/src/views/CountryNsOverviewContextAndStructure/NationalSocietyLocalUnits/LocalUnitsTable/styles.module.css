@@ -1,7 +1,8 @@
 .table {
     display: flex;
-}
 
-.footer-content {
-    align-self: end;
+    .type {
+        width: 8rem;
+        min-width: 8rem;
+    }
 }
