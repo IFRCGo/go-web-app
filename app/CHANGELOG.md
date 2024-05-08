@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.3.0
+
+### Minor Changes
+
+- 0dffd52: Add table view in NS local units
+
 ## 7.2.5
 
 ### Patch Changes
