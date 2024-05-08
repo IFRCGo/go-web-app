@@ -204,11 +204,11 @@ export function Component() {
                     {strings.catalogueNSD}
                 </NavigationTab>
                 <NavigationTab
-                    to="surgeCatalogueOtherPartnershipResourceDevelopment"
+                    to="surgeCatalogueOtherStrategicPartnershipsResourceMobilisation"
                     parentRoute
                 >
                     <MoreOptionsIcon className={styles.icon} />
-                    {strings.cataloguePRD}
+                    {strings.catalogueSPRD}
                 </NavigationTab>
                 <NavigationTab
                     to="surgeCatalogueOtherPreparednessEffectiveResponse"
