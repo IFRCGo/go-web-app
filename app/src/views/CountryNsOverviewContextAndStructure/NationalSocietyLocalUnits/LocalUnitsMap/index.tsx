@@ -60,6 +60,19 @@ import styles from './styles.module.css';
 const LOCAL_UNIT_ICON_KEY = 'local-units';
 const HEALTHCARE_ICON_KEY = 'healthcare';
 
+const localUnitIconLayerOptions: Omit<SymbolLayer, 'id'> = {
+    layout: {
+        visibility: 'visible',
+        'icon-size': 0.2,
+        'icon-allow-overlap': false,
+        'icon-image': ['get', 'iconKey'],
+    },
+    type: 'symbol',
+    paint: {
+        'icon-color': COLOR_WHITE,
+    },
+};
+
 function getIconKey(code: number, type: string) {
     return `${type}:${code}`;
 }
@@ -143,7 +156,7 @@ function LocalUnitsMap(props: Props) {
         [loadedIcons, localUnitOptions],
     );
 
-    const localUnitPointLayerOptions: Omit<CircleLayer, 'id'> = {
+    const localUnitPointLayerOptions: Omit<CircleLayer, 'id'> = useMemo(() => ({
         layout: {
             visibility: 'visible',
         },
@@ -170,20 +183,7 @@ function LocalUnitsMap(props: Props) {
             'circle-stroke-width': 1,
             'circle-stroke-opacity': 1,
         },
-    };
-
-    const localUnitIconLayerOptions: Omit<SymbolLayer, 'id'> = {
-        layout: {
-            visibility: 'visible',
-            'icon-size': 0.2,
-            'icon-allow-overlap': false,
-            'icon-image': ['get', 'iconKey'],
-        },
-        type: 'symbol',
-        paint: {
-            'icon-color': COLOR_WHITE,
-        },
-    };
+    }), [localUnitOptions]);
 
     const countryBounds = useMemo(() => (
         countryResponse ? getBbox(countryResponse.bbox) : undefined
@@ -383,7 +383,7 @@ function LocalUnitsMap(props: Props) {
                                         label={strings.localUnitDetailFocalPerson}
                                         strongLabel
                                         value={localUnitDetailResponse?.focal_person_en
-                                    ?? localUnitDetailResponse?.focal_person_loc}
+                                            ?? localUnitDetailResponse?.focal_person_loc}
                                     />
                                     <TextOutput
                                         label={strings.localUnitDetailEmail}
@@ -399,7 +399,7 @@ function LocalUnitsMap(props: Props) {
                                     />
                                 </>
                             )}
-                            {localUnitDetailResponse?.link && (
+                            {isTruthyString(localUnitDetailResponse?.link) && (
                                 <Link
                                     href={localUnitDetailResponse?.link}
                                     external

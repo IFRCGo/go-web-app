@@ -63,9 +63,7 @@ function LocalUnitsTable(props: Props) {
         filter,
         setFilter,
     } = useFilterState({
-        filter: {
-            ...filterFromProps,
-        },
+        filter: filterFromProps,
         pageSize: PAGE_SIZE,
     });
 
@@ -76,9 +74,9 @@ function LocalUnitsTable(props: Props) {
     }, [filterFromProps, setFilter]);
 
     const {
-        pending: localUnitsTablePending,
-        error: localUnitsTableError,
-        response: localUnitsTableResponse,
+        pending: localUnitsPending,
+        error: localUnitsError,
+        response: localUnitsResponse,
         retrigger: refetchLocalUnits,
     } = useRequest({
         skip: isNotDefined(countryResponse?.iso3),
@@ -158,10 +156,11 @@ function LocalUnitsTable(props: Props) {
 
     return (
         <Container
-            footerContent={(
+            footerContent={isDefined(localUnitsResponse)
+                && isDefined(localUnitsResponse.count) && (
                 <Pager
                     activePage={page}
-                    itemsCount={localUnitsTableResponse?.count ?? PAGE_SIZE}
+                    itemsCount={localUnitsResponse.count}
                     maxItemsPerPage={limit}
                     onActivePageChange={setPage}
                 />
@@ -170,13 +169,13 @@ function LocalUnitsTable(props: Props) {
             contentViewType="vertical"
         >
             <Table
-                pending={localUnitsTablePending}
+                pending={localUnitsPending}
                 filtered={filtered}
-                errored={isDefined(localUnitsTableError)}
+                errored={isDefined(localUnitsError)}
                 className={styles.table}
                 columns={columns}
                 keySelector={numericIdSelector}
-                data={localUnitsTableResponse?.results?.filter(isDefined)}
+                data={localUnitsResponse?.results?.filter(isDefined)}
             />
         </Container>
     );

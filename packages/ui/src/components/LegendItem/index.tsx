@@ -30,7 +30,11 @@ function LegendItem(props: Props) {
                     }}
                     className={styles.iconContainer}
                 >
-                    <img className={_cs(styles.icon, iconClassName)} src={iconSrc} alt="legend items" />
+                    <img
+                        className={_cs(styles.icon, iconClassName)}
+                        src={iconSrc}
+                        alt=""
+                    />
                 </div>
             ) : (
                 <div
