@@ -22,7 +22,6 @@
         .yearly-disaggregated-people-list {
             display: flex;
             flex-direction: column;
-            border: 1px solid red;
             gap: var(--go-ui-spacing-lg);
         }
     }

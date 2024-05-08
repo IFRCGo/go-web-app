@@ -217,13 +217,43 @@ function LocalUnitsMap() {
         countryResponse ? getBbox(countryResponse.bbox) : undefined
     ), [countryResponse]);
 
-    const { response: localUnitDetailResponse } = useRequest({
-        skip: isNotDefined(clickedPointProperties?.localUnitId),
+    const {
+        response: publicLocalUnitDetailResponse,
+        pending: publicLocalUnitDetailPending,
+        error: publicLocalUnitDetailError,
+    } = useRequest({
+        skip: isNotDefined(clickedPointProperties?.localUnitId) || meResponse?.is_superuser,
+        url: '/api/v2/public-local-units/{id}/',
+        pathVariables: isDefined(clickedPointProperties) ? ({
+            id: clickedPointProperties.localUnitId,
+        }) : undefined,
+    });
+
+    const {
+        response: superLocalUnitDetailResponse,
+        pending: superLocalUnitDetailPending,
+        error: superLocalUnitDetailError,
+    } = useRequest({
+        skip: isNotDefined(clickedPointProperties?.localUnitId)
+            || isNotDefined(meResponse)
+            || !meResponse.is_superuser,
         url: '/api/v2/local-units/{id}/',
         pathVariables: isDefined(clickedPointProperties) ? ({
             id: clickedPointProperties.localUnitId,
         }) : undefined,
     });
+
+    const localUnitDetail = meResponse?.is_superuser
+        ? superLocalUnitDetailResponse
+        : publicLocalUnitDetailResponse;
+
+    const localUnitDetailPending = meResponse?.is_superuser
+        ? superLocalUnitDetailPending
+        : publicLocalUnitDetailPending;
+
+    const localUnitDetailError = meResponse?.is_superuser
+        ? superLocalUnitDetailError
+        : publicLocalUnitDetailError;
 
     const localUnitsGeoJson = useMemo<GeoJSON.FeatureCollection<GeoJSON.Geometry>>(
         () => ({
@@ -379,45 +409,48 @@ function LocalUnitsMap() {
                         padding={DEFAULT_MAP_PADDING}
                         bounds={countryBounds}
                     />
-                    {clickedPointProperties?.lngLat && localUnitDetailResponse && (
+                    {isDefined(clickedPointProperties) && clickedPointProperties.lngLat && (
                         <MapPopup
                             coordinates={clickedPointProperties.lngLat}
                             onCloseButtonClick={handlePointClose}
-                            heading={isTruthyString(localUnitDetailResponse?.english_branch_name)
-                                ? localUnitDetailResponse?.english_branch_name
-                                : localUnitDetailResponse?.local_branch_name}
+                            heading={isTruthyString(localUnitDetail?.english_branch_name)
+                                ? localUnitDetail?.english_branch_name
+                                : localUnitDetail?.local_branch_name ?? '--'}
                             contentViewType="vertical"
+                            pending={localUnitDetailPending}
+                            errored={isDefined(localUnitDetailError)}
+                            errorMessage={localUnitDetailError?.value.messageForNotification}
                         >
                             <TextOutput
                                 label={strings.localUnitDetailLastUpdate}
-                                value={localUnitDetailResponse?.modified_at}
+                                value={localUnitDetail?.modified_at}
                                 strongLabel
                                 valueType="date"
                             />
                             <TextOutput
                                 label={strings.localUnitDetailAddress}
                                 strongLabel
-                                value={localUnitDetailResponse?.address_en
-                                    ?? localUnitDetailResponse?.address_loc}
+                                value={localUnitDetail?.address_en
+                                    ?? localUnitDetail?.address_loc}
                             />
                             <TextOutput
                                 label={strings.localUnitLocalUnitType}
                                 strongLabel
-                                value={localUnitDetailResponse?.type_details.name}
+                                value={localUnitDetail?.type_details.name}
                             />
-                            {isDefined(localUnitDetailResponse?.health) && (
+                            {isDefined(localUnitDetail?.health) && (
                                 <TextOutput
                                     label={strings.localUnitHealthFacilityType}
                                     strongLabel
                                     value={
-                                        localUnitDetailResponse
+                                        localUnitDetail
                                             ?.health?.health_facility_type_details.name
                                     }
                                 />
                             )}
-                            {isTruthyString(localUnitDetailResponse?.link) && (
+                            {isTruthyString(localUnitDetail?.link) && (
                                 <Link
-                                    href={localUnitDetailResponse?.link}
+                                    href={localUnitDetail?.link}
                                     external
                                     withLinkIcon
                                 >
