@@ -1,8 +1,11 @@
 import {
     ElementType,
     ReactNode,
+    useRef,
 } from 'react';
 import { _cs } from '@togglecorp/fujs';
+
+import useSizeTracking from '#hooks/useSizeTracking';
 
 import styles from './styles.module.css';
 
@@ -21,6 +24,7 @@ export interface Props {
     className?: string;
     level?: HeadingLevel;
     children: ReactNode;
+    ellipsize?: boolean;
 }
 
 function Heading(props: Props) {
@@ -28,9 +32,13 @@ function Heading(props: Props) {
         className,
         level = 3,
         children,
+        ellipsize,
     } = props;
 
     const HeadingTag = `h${level}` as ElementType;
+    const headingElementRef = useRef<HTMLHeadingElement>(null);
+
+    const size = useSizeTracking(headingElementRef);
 
     if (!children) {
         return null;
@@ -40,11 +48,24 @@ function Heading(props: Props) {
         <HeadingTag
             className={_cs(
                 styles.heading,
+                ellipsize && styles.ellipsized,
                 levelToClassName[level],
                 className,
             )}
+            ref={headingElementRef}
         >
-            {children}
+            {ellipsize && (
+                <div
+                    className={styles.ellipsizedText}
+                    style={{
+                        width: `${size.width}px`,
+                    }}
+                    title={typeof children === 'string' ? children : undefined}
+                >
+                    {children}
+                </div>
+            )}
+            {!ellipsize && children}
         </HeadingTag>
     );
 }

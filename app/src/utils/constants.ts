@@ -69,6 +69,8 @@ export const COLOR_DARK_RED = '#730413';
 export const COLOR_PRIMARY_BLUE = '#011e41';
 export const COLOR_PRIMARY_RED = '#f5333f';
 
+export const COLOR_ACTIVE_REGION = '#7d8b9d';
+
 // Three W
 
 type OperationTypeEnum = components<'read'>['schemas']['DeploymentsProjectOperationTypeEnumKey'];

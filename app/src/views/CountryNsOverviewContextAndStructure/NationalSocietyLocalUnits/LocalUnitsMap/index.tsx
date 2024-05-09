@@ -1,8 +1,4 @@
-import {
-    useCallback,
-    useMemo,
-    useState,
-} from 'react';
+import react from 'react';
 import { useOutletContext } from 'react-router-dom';
 import {
     LocationIcon,
@@ -30,10 +26,10 @@ import {
 import getBbox from '@turf/bbox';
 import type {
     CircleLayer,
-    FillLayer,
     SymbolLayer,
 } from 'mapbox-gl';
 
+import ActiveCountryBaseMapLayer from '#components/domain/ActiveCountryBaseMapLayer';
 import BaseMap from '#components/domain/BaseMap';
 import Link, { type Props as LinkProps } from '#components/Link';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
@@ -119,7 +115,7 @@ function LocalUnitsMap() {
         pageSize: 9999,
     });
 
-    const urlQuery = useMemo<GoApiUrlQuery<'/api/v2/public-local-units/'>>(
+    const urlQuery = react.useMemo<GoApiUrlQuery<'/api/v2/public-local-units/'>>(
         () => ({
             limit,
             type__code: filter.type,
@@ -160,11 +156,11 @@ function LocalUnitsMap() {
     const [
         clickedPointProperties,
         setClickedPointProperties,
-    ] = useState<ClickedPoint | undefined>();
+    ] = react.useState<ClickedPoint | undefined>();
 
-    const [loadedIcons, setLoadedIcons] = useState<Record<string, boolean>>({});
+    const [loadedIcons, setLoadedIcons] = react.useState<Record<string, boolean>>({});
 
-    const handleIconLoad = useCallback(
+    const handleIconLoad = react.useCallback(
         (loaded: boolean, key: string) => {
             setLoadedIcons((prevValue) => ({
                 ...prevValue,
@@ -174,7 +170,7 @@ function LocalUnitsMap() {
         [],
     );
 
-    const allIconsLoaded = useMemo(
+    const allIconsLoaded = react.useMemo(
         () => (
             Object.values(loadedIcons).filter(Boolean).length === sumSafe([
                 localUnitsOptions?.type.length,
@@ -184,7 +180,7 @@ function LocalUnitsMap() {
         [loadedIcons, localUnitsOptions],
     );
 
-    const localUnitPointLayerOptions: Omit<CircleLayer, 'id'> = useMemo(() => ({
+    const localUnitPointLayerOptions: Omit<CircleLayer, 'id'> = react.useMemo(() => ({
         layout: {
             visibility: 'visible',
         },
@@ -213,7 +209,7 @@ function LocalUnitsMap() {
         },
     }), [localUnitsOptions]);
 
-    const countryBounds = useMemo(() => (
+    const countryBounds = react.useMemo(() => (
         countryResponse ? getBbox(countryResponse.bbox) : undefined
     ), [countryResponse]);
 
@@ -255,7 +251,7 @@ function LocalUnitsMap() {
         ? superLocalUnitDetailError
         : publicLocalUnitDetailError;
 
-    const localUnitsGeoJson = useMemo<GeoJSON.FeatureCollection<GeoJSON.Geometry>>(
+    const localUnitsGeoJson = react.useMemo<GeoJSON.FeatureCollection<GeoJSON.Geometry>>(
         () => ({
             type: 'FeatureCollection' as const,
             features: localUnits?.results?.map(
@@ -284,20 +280,7 @@ function LocalUnitsMap() {
         [localUnits],
     );
 
-    const adminZeroHighlightLayerOptions = useMemo<Omit<FillLayer, 'id'>>(
-        () => ({
-            type: 'fill',
-            layout: { visibility: 'visible' },
-            filter: isDefined(countryResponse) ? [
-                '!in',
-                'country_id',
-                countryResponse.id,
-            ] : undefined,
-        }),
-        [countryResponse],
-    );
-
-    const handlePointClick = useCallback(
+    const handlePointClick = react.useCallback(
         (feature: mapboxgl.MapboxGeoJSONFeature, lngLat: mapboxgl.LngLat) => {
             setClickedPointProperties({
                 id: feature.properties?.id,
@@ -309,14 +292,14 @@ function LocalUnitsMap() {
         [setClickedPointProperties],
     );
 
-    const handlePointClose = useCallback(
+    const handlePointClose = react.useCallback(
         () => {
             setClickedPointProperties(undefined);
         },
         [setClickedPointProperties],
     );
 
-    const emailRendererParams = useCallback(
+    const emailRendererParams = react.useCallback(
         (_: string, email: string): LinkProps => ({
             className: styles.email,
             withUnderline: true,
@@ -354,10 +337,10 @@ function LocalUnitsMap() {
         >
             <div className={styles.mapContainerWithContactDetails}>
                 <BaseMap
+                    withoutLabel
                     baseLayers={(
-                        <MapLayer
-                            layerKey="admin-0-highlight"
-                            layerOptions={adminZeroHighlightLayerOptions}
+                        <ActiveCountryBaseMapLayer
+                            activeCountryIso3={countryResponse?.iso3}
                         />
                     )}
                     mapOptions={{ bounds: countryBounds }}
@@ -411,6 +394,7 @@ function LocalUnitsMap() {
                     />
                     {isDefined(clickedPointProperties) && clickedPointProperties.lngLat && (
                         <MapPopup
+                            popupClassName={styles.mapPopup}
                             coordinates={clickedPointProperties.lngLat}
                             onCloseButtonClick={handlePointClose}
                             heading={isTruthyString(localUnitDetail?.english_branch_name)
@@ -420,6 +404,8 @@ function LocalUnitsMap() {
                             pending={localUnitDetailPending}
                             errored={isDefined(localUnitDetailError)}
                             errorMessage={localUnitDetailError?.value.messageForNotification}
+                            compactMessage
+                            ellipsizeHeading
                         >
                             <TextOutput
                                 label={strings.localUnitDetailLastUpdate}

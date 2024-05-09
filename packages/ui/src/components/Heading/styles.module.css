@@ -2,6 +2,7 @@
     --font-size: var(--go-ui-font-size-xl);
     --line-height: var(--go-ui-line-height-sm);
     margin: 0;
+    overflow: auto;
     line-height: var(--line-height);
     font-size: var(--font-size);
     font-weight: var(--go-ui-font-weight-semibold);
@@ -40,5 +41,15 @@
 
     &.level-six {
         --font-size: var(--go-ui-font-size-sm);
+    }
+
+    .ellipsized-text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    &.ellipsized {
+        width: 100%;
     }
 }

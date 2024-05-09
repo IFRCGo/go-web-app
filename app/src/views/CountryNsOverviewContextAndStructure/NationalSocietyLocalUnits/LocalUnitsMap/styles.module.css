@@ -3,7 +3,7 @@
         position: relative;
 
         .map-container {
-            height: 40rem;
+            height: 45rem;
         }
 
         .contact-detail {
@@ -30,5 +30,8 @@
     .legend-icon {
         filter: invert(1);
     }
+}
 
+.map-popup {
+    height: 16rem;
 }
