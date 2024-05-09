@@ -87,7 +87,7 @@ function LocalUnitsTableActions(props: Props) {
                             confirmHeading={strings.validateLocalUnitHeading}
                             confirmMessage={resolveToString(
                                 strings.validateLocalUnitMessage,
-                                { localUnitName },
+                                { localUnitName: localUnitName ?? '' },
                             )}
                             onConfirm={handleLocalUnitValidate}
                             disabled={validateLocalUnitPending}

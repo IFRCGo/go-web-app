@@ -76,7 +76,11 @@ export function Component() {
                 databankResponse={databankResponse}
             />
             <NationalSocietyLocalUnits />
-            <div className={styles.nsIncome}>
+            <Container
+                contentViewType="grid"
+                numPreferredGridContentColumns={2}
+                spacing="relaxed"
+            >
                 <NationalSocietyIncomeOverTime
                     selectedYear={selectedYearForIncome}
                     setSelectedYear={setSelectedYearForIncome}
@@ -88,7 +92,7 @@ export function Component() {
                         countryId={Number(countryId)}
                     />
                 )}
-            </div>
+            </Container>
             <div className={styles.nsDirectoryAndContacts}>
                 <NationalSocietyDirectory className={styles.directory} />
                 <NationalSocietyContacts className={styles.contacts} />
