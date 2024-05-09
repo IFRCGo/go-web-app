@@ -28,6 +28,7 @@ export type { Props as BodyOverlayProps } from './components/BodyOverlay';
 export { default as BodyOverlay } from './components/BodyOverlay';
 export { default as Popup } from './components/Popup';
 
+export type { BooleanInputProps } from './components/BooleanInput';
 export { default as BooleanInput } from './components/BooleanInput';
 export type { Props as BooleanOutputProps } from './components/BooleanOutput';
 export { default as BooleanOutput } from './components/BooleanOutput';
