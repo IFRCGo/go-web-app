@@ -3,20 +3,31 @@ import {
     AnalysisIcon,
     BasecampIcon,
     CashTransferIcon,
+    CivilMilitaryCoordinationIcon,
     CoordinatedAssessementIcon,
+    DisasterRiskReductionIcon,
+    DroneIcon,
+    EarlyRecoveryIcon,
     EmergencyTelecommunicationsIcon,
+    GreenResponseIcon,
     GroupIcon,
     HealthIcon,
+    HumanResourceIcon,
+    LawIcon,
     LivelihoodIcon,
     LogisticsIcon,
+    MigrationIcon,
     MonitoringIcon,
     MoreOptionsIcon,
+    NationalSocietyDevelopmentIcon,
     NonFoodItemsIcon,
     PartnershipIcon,
+    PreparednessIcon,
     ProtectionIcon,
     PublicInformationIcon,
     SafetyAndSecurityIcon,
     ShelterIcon,
+    StrategicPrioritiesResourceMobilizationIcon,
     WaterSanitationAndHygieneIcon,
 } from '@ifrc-go/icons';
 import { NavigationTabList } from '@ifrc-go/ui';
@@ -165,77 +176,77 @@ export function Component() {
                     to="surgeCatalogueOtherCivilMilitaryRelations"
                     parentRoute
                 >
-                    <MoreOptionsIcon className={styles.icon} />
+                    <CivilMilitaryCoordinationIcon className={styles.icon} />
                     {strings.catalogueCMR}
                 </NavigationTab>
                 <NavigationTab
                     to="surgeCatalogueOtherDisasterRiskReduction"
                     parentRoute
                 >
-                    <MoreOptionsIcon className={styles.icon} />
+                    <DisasterRiskReductionIcon className={styles.icon} />
                     {strings.catalogueDDR}
                 </NavigationTab>
                 <NavigationTab
                     to="surgeCatalogueOtherHumanResources"
                     parentRoute
                 >
-                    <MoreOptionsIcon className={styles.icon} />
+                    <HumanResourceIcon className={styles.icon} />
                     {strings.catalogueHR}
                 </NavigationTab>
                 <NavigationTab
                     to="surgeCatalogueOtherInternationalDisasterResponseLaw"
                     parentRoute
                 >
-                    <MoreOptionsIcon className={styles.icon} />
+                    <LawIcon className={styles.icon} />
                     {strings.catalogueIDRL}
                 </NavigationTab>
                 <NavigationTab
                     to="surgeCatalogueOtherMigration"
                     parentRoute
                 >
-                    <MoreOptionsIcon className={styles.icon} />
+                    <MigrationIcon className={styles.icon} />
                     {strings.catalogueMigration}
                 </NavigationTab>
                 <NavigationTab
                     to="surgeCatalogueOtherNationalSocietyDevelopment"
                     parentRoute
                 >
-                    <MoreOptionsIcon className={styles.icon} />
+                    <NationalSocietyDevelopmentIcon className={styles.icon} />
                     {strings.catalogueNSD}
                 </NavigationTab>
                 <NavigationTab
                     to="surgeCatalogueOtherStrategicPartnershipsResourceMobilisation"
                     parentRoute
                 >
-                    <MoreOptionsIcon className={styles.icon} />
+                    <StrategicPrioritiesResourceMobilizationIcon className={styles.icon} />
                     {strings.catalogueSPRD}
                 </NavigationTab>
                 <NavigationTab
                     to="surgeCatalogueOtherPreparednessEffectiveResponse"
                     parentRoute
                 >
-                    <MoreOptionsIcon className={styles.icon} />
+                    <PreparednessIcon className={styles.icon} />
                     {strings.cataloguePER}
                 </NavigationTab>
                 <NavigationTab
                     to="surgeCatalogueOtherRecovery"
                     parentRoute
                 >
-                    <MoreOptionsIcon className={styles.icon} />
+                    <EarlyRecoveryIcon className={styles.icon} />
                     {strings.catalogueRecovery}
                 </NavigationTab>
                 <NavigationTab
                     to="surgeCatalogueOtherGreenResponse"
                     parentRoute
                 >
-                    <MoreOptionsIcon className={styles.icon} />
+                    <GreenResponseIcon className={styles.icon} />
                     {strings.catalogueGR}
                 </NavigationTab>
                 <NavigationTab
                     to="surgeCatalogueOtherUAV"
                     parentRoute
                 >
-                    <MoreOptionsIcon className={styles.icon} />
+                    <DroneIcon className={styles.icon} />
                     {strings.catalogueUAV}
                 </NavigationTab>
             </NavigationTabList>
