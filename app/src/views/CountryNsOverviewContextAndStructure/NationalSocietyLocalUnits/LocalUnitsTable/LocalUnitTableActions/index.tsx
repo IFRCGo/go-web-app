@@ -4,6 +4,7 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToString } from '@ifrc-go/ui/utils';
 
 import DropdownMenuItem from '#components/DropdownMenuItem';
+import usePermissions from '#hooks/domain/usePermissions';
 import useAlert from '#hooks/useAlert';
 import {
     type GoApiResponse,
@@ -14,6 +15,7 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export interface Props {
+    countryId: number;
     localUnitName: string | null | undefined;
     localUnitId: number;
     isValidated: boolean;
@@ -24,15 +26,18 @@ export type LocalUnitValidateResponsePostBody = GoApiResponse<'/api/v2/local-uni
 
 function LocalUnitsTableActions(props: Props) {
     const {
+        countryId,
         localUnitName,
         localUnitId,
         isValidated,
         onActionSuccess,
     } = props;
 
+    const { isCountryAdmin, isSuperUser } = usePermissions();
     const strings = useTranslation(i18n);
     const alert = useAlert();
 
+    const hasValidatePermission = isSuperUser || isCountryAdmin(countryId);
     const {
         pending: validateLocalUnitPending,
         trigger: validateLocalUnit,
@@ -77,7 +82,7 @@ function LocalUnitsTableActions(props: Props) {
                     >
                         {strings.localUnitsView}
                     </DropdownMenuItem>
-                    {!(isValidated) && (
+                    {!(isValidated) && hasValidatePermission && (
                         <DropdownMenuItem
                             persist
                             name={undefined}
