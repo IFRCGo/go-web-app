@@ -12,7 +12,7 @@ import { _cs } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
 import { adminUrl } from '#config';
-import useUserMe from '#hooks/domain/useUserMe';
+import useAuth from '#hooks/domain/useAuth';
 import { type CountryOutletContext } from '#utils/outletContext';
 import { resolveUrl } from '#utils/resolveUrl';
 
@@ -32,11 +32,11 @@ function NationalSocietyLocalUnits(props: Props) {
     } = props;
 
     const [activeTab, setActiveTab] = useState<'map'| 'table'>('map');
+    const { isAuthenticated } = useAuth();
 
     const strings = useTranslation(i18n);
     const { countryId } = useOutletContext<CountryOutletContext>();
 
-    const meResponse = useUserMe();
     return (
         <Tabs
             onChange={setActiveTab}
@@ -49,13 +49,13 @@ function NationalSocietyLocalUnits(props: Props) {
                 childrenContainerClassName={styles.content}
                 withGridViewInFilter
                 withHeaderBorder
-                headerDescription={meResponse?.is_superuser && (
+                headerDescription={isAuthenticated && (
                     <TabList>
                         <Tab name="map">{strings.localUnitsMapView}</Tab>
                         <Tab name="table">{strings.localUnitsListView}</Tab>
                     </TabList>
                 )}
-                actions={meResponse?.is_superuser && (
+                actions={isAuthenticated && (
                     <Link
                         external
                         href={resolveUrl(adminUrl, `local_units/localunit/?country=${countryId}`)}
