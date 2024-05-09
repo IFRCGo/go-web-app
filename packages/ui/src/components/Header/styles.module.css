@@ -1,35 +1,4 @@
 .header {
     display: flex;
     flex-direction: column;
-
-    .heading-section {
-        display: flex;
-
-        .heading-container {
-            display: flex;
-            flex-wrap: wrap;
-            overflow-x: auto;
-
-            .heading {
-                display: flex;
-                flex-grow: 1;
-                overflow-x: auto;
-                overflow-y: hidden;
-            }
-        }
-    }
-
-    &.heading-ellipsized {
-        .heading-section {
-            .heading-container {
-                min-width: 0;
-
-                .heading {
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                }
-            }
-        }
-    }
 }

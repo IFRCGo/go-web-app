@@ -70,17 +70,13 @@ function Header(props: Props) {
                 <>
                     <Heading
                         level={headingLevel}
-                        className={_cs(styles.heading, headingClassName)}
+                        className={headingClassName}
+                        ellipsize={ellipsizeHeading}
                     >
                         {heading}
                     </Heading>
                     {headingDescription && (
-                        <div
-                            className={_cs(
-                                styles.headingDescription,
-                                headingDescriptionContainerClassName,
-                            )}
-                        >
+                        <div className={headingDescriptionContainerClassName}>
                             {headingDescription}
                         </div>
                     )}
@@ -89,6 +85,7 @@ function Header(props: Props) {
         },
         [
             heading,
+            ellipsizeHeading,
             headingDescription,
             headingClassName,
             headingDescriptionContainerClassName,
@@ -103,7 +100,7 @@ function Header(props: Props) {
         actions,
         actionsContainerClassName,
         children: headingChildren,
-        childrenContainerClassName: _cs(styles.headingContainer, headingContainerClassName),
+        childrenContainerClassName: headingContainerClassName,
         className: headingSectionClassName,
         icons,
         iconsContainerClassName,
@@ -125,14 +122,13 @@ function Header(props: Props) {
         <div
             className={_cs(
                 styles.header,
-                ellipsizeHeading && styles.headingEllipsized,
                 gapSpacing,
                 className,
             )}
             ref={elementRef}
         >
             {content && (
-                <div className={_cs(styles.headingSection, containerClassName)}>
+                <div className={containerClassName}>
                     {content}
                 </div>
             )}
