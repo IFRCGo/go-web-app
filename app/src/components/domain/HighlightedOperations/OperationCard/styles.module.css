@@ -1,6 +1,18 @@
 .operation-card {
     border-radius: var(--go-ui-border-radius-lg);
     box-shadow: var(--go-ui-box-shadow-md);
+    width: 100%;
+    overflow: auto;
+
+    .heading-container {
+        width: 100%;
+        overflow: auto;
+    }
+
+    .heading {
+        width: 100%;
+        overflow: auto;
+    }
 
     .severity-indicator {
         font-size: var(--go-ui-font-size-xl);

@@ -14,6 +14,7 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import { sumSafe } from '@ifrc-go/ui/utils';
 import {
     isDefined,
+    isNotDefined,
     isTruthyString,
 } from '@togglecorp/fujs';
 import {
@@ -151,7 +152,7 @@ function LocalUnitsMap() {
         response: publicLocalUnitsResponse,
         pending: publicLocalUnitsPending,
     } = useRequest({
-        skip: requestType !== PUBLIC,
+        skip: requestType !== PUBLIC || isNotDefined(countryResponse),
         url: '/api/v2/public-local-units/',
         query: urlQuery,
     });
@@ -160,7 +161,7 @@ function LocalUnitsMap() {
         response: localUnitsResponse,
         pending: localUnitsPending,
     } = useRequest({
-        skip: requestType !== AUTHENTICATED,
+        skip: requestType !== AUTHENTICATED || isNotDefined(countryResponse),
         url: '/api/v2/local-units/',
         query: urlQuery,
     });
@@ -235,7 +236,7 @@ function LocalUnitsMap() {
         pending: publicLocalUnitDetailPending,
         error: publicLocalUnitDetailError,
     } = useRequest({
-        skip: requestType !== PUBLIC,
+        skip: requestType !== PUBLIC || isNotDefined(clickedPointProperties),
         url: '/api/v2/public-local-units/{id}/',
         pathVariables: isDefined(clickedPointProperties) ? ({
             id: clickedPointProperties.localUnitId,
@@ -247,7 +248,7 @@ function LocalUnitsMap() {
         pending: superLocalUnitDetailPending,
         error: superLocalUnitDetailError,
     } = useRequest({
-        skip: requestType !== AUTHENTICATED,
+        skip: requestType !== AUTHENTICATED || isNotDefined(clickedPointProperties),
         url: '/api/v2/local-units/{id}/',
         pathVariables: isDefined(clickedPointProperties) ? ({
             id: clickedPointProperties.localUnitId,
@@ -255,16 +256,16 @@ function LocalUnitsMap() {
     });
 
     const localUnitDetail = requestType !== AUTHENTICATED
-        ? superLocalUnitDetailResponse
-        : publicLocalUnitDetailResponse;
+        ? publicLocalUnitDetailResponse
+        : superLocalUnitDetailResponse;
 
     const localUnitDetailPending = requestType !== AUTHENTICATED
-        ? superLocalUnitDetailPending
-        : publicLocalUnitDetailPending;
+        ? publicLocalUnitDetailPending
+        : superLocalUnitDetailPending;
 
     const localUnitDetailError = requestType !== AUTHENTICATED
-        ? superLocalUnitDetailError
-        : publicLocalUnitDetailError;
+        ? publicLocalUnitDetailError
+        : superLocalUnitDetailError;
 
     const localUnitsGeoJson = react.useMemo<GeoJSON.FeatureCollection<GeoJSON.Geometry>>(
         () => ({
@@ -352,6 +353,7 @@ function LocalUnitsMap() {
         >
             <div className={styles.mapContainerWithContactDetails}>
                 <BaseMap
+                    mapStyle="mapbox://styles/go-ifrc/clvvgugzh00x501pc1n00b8cz"
                     withoutLabel
                     baseLayers={(
                         <ActiveCountryBaseMapLayer

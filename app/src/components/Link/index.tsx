@@ -285,6 +285,8 @@ function Link(props: Props) {
                 ellipsize && styles.ellipsized,
                 className,
             )}
+            title={(ellipsize && typeof childrenFromProps === 'string')
+                ? childrenFromProps : undefined}
         >
             {children}
         </div>
