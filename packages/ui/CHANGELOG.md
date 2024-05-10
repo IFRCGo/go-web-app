@@ -1,5 +1,11 @@
 # @ifrc-go/ui
 
+## 1.1.2
+
+### Patch Changes
+
+- 7f0212b: Add ellipsize prop to Heading component
+
 ## 1.1.1
 
 ### Patch Changes

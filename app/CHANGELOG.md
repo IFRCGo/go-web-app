@@ -1,5 +1,13 @@
 # go-web-app
 
+## 7.3.1
+
+### Patch Changes
+
+- 7f0212b: Integrate mapbox street view for local units map
+- Updated dependencies [7f0212b]
+  - @ifrc-go/ui@1.1.2
+
 ## 7.3.0
 
 ### Minor Changes
