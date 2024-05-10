@@ -12,6 +12,13 @@ import {
     COLOR_WHITE,
 } from '#utils/constants';
 
+const hiddenFillLayerOptions: Omit<FillLayer, 'id'> = {
+    type: 'fill',
+    layout: {
+        visibility: 'none',
+    },
+};
+
 interface Props {
     activeCountryIso3: string | undefined | null;
 }
@@ -25,10 +32,18 @@ function ActiveCountryBaseMapLayer(props: Props) {
             layout: { visibility: 'visible' },
             paint: {
                 'fill-color': [
-                    'match',
-                    ['get', 'iso3'],
-                    activeCountryIso3,
-                    COLOR_ACTIVE_REGION,
+                    'interpolate',
+                    ['linear'],
+                    ['zoom'],
+                    2,
+                    [
+                        'match',
+                        ['get', 'iso3'],
+                        activeCountryIso3,
+                        COLOR_ACTIVE_REGION,
+                        COLOR_LIGHT_GREY,
+                    ],
+                    10,
                     COLOR_LIGHT_GREY,
                 ],
             },
@@ -79,6 +94,10 @@ function ActiveCountryBaseMapLayer(props: Props) {
             <MapLayer
                 layerKey="admin-0"
                 layerOptions={adminZeroHighlightLayerOptions}
+            />
+            <MapLayer
+                layerKey="admin-0-highlight"
+                layerOptions={hiddenFillLayerOptions}
             />
             <MapLayer
                 layerKey="admin-1-boundary"

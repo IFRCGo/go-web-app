@@ -119,6 +119,8 @@ function OperationCard(props: Props) {
         <Container
             className={_cs(styles.operationCard, className)}
             // heading={name}
+            headingClassName={styles.heading}
+            headingContainerClassName={styles.headingContainer}
             heading={(
                 <Link
                     to="emergenciesLayout"

@@ -38,6 +38,7 @@ function LocalUnitsTableActions(props: Props) {
     const alert = useAlert();
 
     const hasValidatePermission = isSuperUser || isCountryAdmin(countryId);
+
     const {
         pending: validateLocalUnitPending,
         trigger: validateLocalUnit,
@@ -82,24 +83,26 @@ function LocalUnitsTableActions(props: Props) {
                     >
                         {strings.localUnitsView}
                     </DropdownMenuItem>
-                    {!(isValidated) && hasValidatePermission && (
-                        <DropdownMenuItem
-                            persist
-                            name={undefined}
-                            type="confirm-button"
-                            variant="tertiary"
-                            className={styles.button}
-                            confirmHeading={strings.validateLocalUnitHeading}
-                            confirmMessage={resolveToString(
-                                strings.validateLocalUnitMessage,
-                                { localUnitName: localUnitName ?? '' },
-                            )}
-                            onConfirm={handleLocalUnitValidate}
-                            disabled={validateLocalUnitPending}
-                        >
-                            {strings.localUnitsValidate}
-                        </DropdownMenuItem>
-                    )}
+                    <DropdownMenuItem
+                        persist
+                        name={undefined}
+                        type="confirm-button"
+                        variant="tertiary"
+                        className={styles.button}
+                        confirmHeading={strings.validateLocalUnitHeading}
+                        confirmMessage={resolveToString(
+                            strings.validateLocalUnitMessage,
+                            { localUnitName: localUnitName ?? '' },
+                        )}
+                        onConfirm={handleLocalUnitValidate}
+                        disabled={
+                            validateLocalUnitPending
+                        || !hasValidatePermission
+                        || isValidated
+                        }
+                    >
+                        {strings.localUnitsValidate}
+                    </DropdownMenuItem>
                 </>
             )}
         />

@@ -1,4 +1,4 @@
-import react from 'react';
+import react, { useMemo } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import {
     LocationIcon,
@@ -34,7 +34,7 @@ import BaseMap from '#components/domain/BaseMap';
 import Link, { type Props as LinkProps } from '#components/Link';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import MapPopup from '#components/MapPopup';
-import useUserMe from '#hooks/domain/useUserMe';
+import usePermissions from '#hooks/domain/usePermissions';
 import useFilterState from '#hooks/useFilterState';
 import {
     COLOR_DARK_GREY,
@@ -49,7 +49,11 @@ import {
     useRequest,
 } from '#utils/restRequest';
 
-import { VALIDATED } from '../common';
+import {
+    AUTHENTICATED,
+    PUBLIC,
+    VALIDATED,
+} from '../common';
 import Filters, { FilterValue } from '../Filters';
 
 import i18n from './i18n.json';
@@ -127,13 +131,28 @@ function LocalUnitsMap() {
         [limit, filter, countryResponse],
     );
 
-    const meResponse = useUserMe();
+    const { isCountryAdmin, isSuperUser } = usePermissions();
+
+    const requestType = useMemo(
+        () => {
+            if (isSuperUser) {
+                return 'authenticated';
+            }
+
+            if (isCountryAdmin(countryResponse?.id)) {
+                return 'authenticated';
+            }
+
+            return 'public';
+        },
+        [countryResponse, isSuperUser, isCountryAdmin],
+    );
 
     const {
         response: publicLocalUnitsResponse,
         pending: publicLocalUnitsPending,
     } = useRequest({
-        skip: isNotDefined(countryResponse?.iso3) || meResponse?.is_superuser,
+        skip: requestType !== PUBLIC || isNotDefined(countryResponse),
         url: '/api/v2/public-local-units/',
         query: urlQuery,
     });
@@ -142,14 +161,13 @@ function LocalUnitsMap() {
         response: localUnitsResponse,
         pending: localUnitsPending,
     } = useRequest({
-        skip: isNotDefined(countryResponse?.iso3)
-            || isNotDefined(meResponse)
-            || !meResponse.is_superuser,
+        skip: requestType !== AUTHENTICATED || isNotDefined(countryResponse),
         url: '/api/v2/local-units/',
         query: urlQuery,
     });
 
-    const localUnits = meResponse?.is_superuser ? localUnitsResponse : publicLocalUnitsResponse;
+    const localUnits = (isSuperUser || isCountryAdmin(countryResponse?.id))
+        ? localUnitsResponse : publicLocalUnitsResponse;
     const pending = publicLocalUnitsPending || localUnitsPending;
 
     const strings = useTranslation(i18n);
@@ -218,7 +236,7 @@ function LocalUnitsMap() {
         pending: publicLocalUnitDetailPending,
         error: publicLocalUnitDetailError,
     } = useRequest({
-        skip: isNotDefined(clickedPointProperties?.localUnitId) || meResponse?.is_superuser,
+        skip: requestType !== PUBLIC || isNotDefined(clickedPointProperties),
         url: '/api/v2/public-local-units/{id}/',
         pathVariables: isDefined(clickedPointProperties) ? ({
             id: clickedPointProperties.localUnitId,
@@ -230,26 +248,24 @@ function LocalUnitsMap() {
         pending: superLocalUnitDetailPending,
         error: superLocalUnitDetailError,
     } = useRequest({
-        skip: isNotDefined(clickedPointProperties?.localUnitId)
-            || isNotDefined(meResponse)
-            || !meResponse.is_superuser,
+        skip: requestType !== AUTHENTICATED || isNotDefined(clickedPointProperties),
         url: '/api/v2/local-units/{id}/',
         pathVariables: isDefined(clickedPointProperties) ? ({
             id: clickedPointProperties.localUnitId,
         }) : undefined,
     });
 
-    const localUnitDetail = meResponse?.is_superuser
-        ? superLocalUnitDetailResponse
-        : publicLocalUnitDetailResponse;
+    const localUnitDetail = requestType !== AUTHENTICATED
+        ? publicLocalUnitDetailResponse
+        : superLocalUnitDetailResponse;
 
-    const localUnitDetailPending = meResponse?.is_superuser
-        ? superLocalUnitDetailPending
-        : publicLocalUnitDetailPending;
+    const localUnitDetailPending = requestType !== AUTHENTICATED
+        ? publicLocalUnitDetailPending
+        : superLocalUnitDetailPending;
 
-    const localUnitDetailError = meResponse?.is_superuser
-        ? superLocalUnitDetailError
-        : publicLocalUnitDetailError;
+    const localUnitDetailError = requestType !== AUTHENTICATED
+        ? publicLocalUnitDetailError
+        : superLocalUnitDetailError;
 
     const localUnitsGeoJson = react.useMemo<GeoJSON.FeatureCollection<GeoJSON.Geometry>>(
         () => ({
@@ -337,6 +353,7 @@ function LocalUnitsMap() {
         >
             <div className={styles.mapContainerWithContactDetails}>
                 <BaseMap
+                    mapStyle="mapbox://styles/go-ifrc/clvvgugzh00x501pc1n00b8cz"
                     withoutLabel
                     baseLayers={(
                         <ActiveCountryBaseMapLayer

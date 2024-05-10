@@ -16,6 +16,7 @@
         align-items: center;
         justify-content: center;
         border-radius: 50%;
+        padding: var(--go-ui-spacing-2xs);
         width: 1.2rem;
         height: 1.2rem;
 

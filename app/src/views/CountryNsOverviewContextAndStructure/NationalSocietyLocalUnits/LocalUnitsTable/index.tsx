@@ -122,7 +122,7 @@ function LocalUnitsTable() {
                 '',
                 LocalUnitsTableActions,
                 (_, item) => ({
-                    countryId: item.id,
+                    countryId: item.country,
                     localUnitId: item.id,
                     isValidated: item.validated,
                     localUnitName: item.local_branch_name ?? item.english_branch_name,
