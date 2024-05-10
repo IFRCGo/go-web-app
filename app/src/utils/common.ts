@@ -1,6 +1,7 @@
 import {
     compareNumber,
     isNotDefined,
+    isTruthyString,
 } from '@togglecorp/fujs';
 
 import type { GoApiResponse } from '#utils/restRequest';
@@ -74,4 +75,17 @@ export function downloadFile(
     document.body.removeChild(a);
 
     URL.revokeObjectURL(url);
+}
+
+export function chooseName(
+    primaryName: string | null | undefined,
+    secondaryName: string | null | undefined,
+) {
+    if (isTruthyString(primaryName)) {
+        return primaryName;
+    }
+    if (isTruthyString(secondaryName)) {
+        return secondaryName;
+    }
+    return '--';
 }
