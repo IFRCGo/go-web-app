@@ -18,6 +18,7 @@ import {
 } from '@togglecorp/fujs';
 
 import useFilterState from '#hooks/useFilterState';
+import { chooseName } from '#utils/common';
 import { type CountryOutletContext } from '#utils/outletContext';
 import {
     type GoApiResponse,
@@ -84,12 +85,12 @@ function LocalUnitsTable() {
             createStringColumn<LocalUnitsTableListItem, number>(
                 'branch_name',
                 strings.localUnitsTableName,
-                (item) => item.local_branch_name ?? item.english_branch_name,
+                (item) => chooseName(item.local_branch_name, item.english_branch_name),
             ),
             createStringColumn<LocalUnitsTableListItem, number>(
                 'address',
                 strings.localUnitsTableAddress,
-                (item) => item.address_loc ?? item.address_en,
+                (item) => chooseName(item.address_loc, item.address_en),
             ),
             createStringColumn<LocalUnitsTableListItem, number>(
                 'type',
@@ -100,7 +101,7 @@ function LocalUnitsTable() {
             createStringColumn<LocalUnitsTableListItem, number>(
                 'focal',
                 strings.localUnitsTableFocal,
-                (item) => item.focal_person_en,
+                (item) => chooseName(item.focal_person_loc, item.focal_person_en),
             ),
             createStringColumn<LocalUnitsTableListItem, number>(
                 'phone',

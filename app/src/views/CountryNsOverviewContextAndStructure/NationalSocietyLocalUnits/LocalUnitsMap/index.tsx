@@ -34,8 +34,9 @@ import BaseMap from '#components/domain/BaseMap';
 import Link, { type Props as LinkProps } from '#components/Link';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import MapPopup from '#components/MapPopup';
-import usePermissions from '#hooks/domain/usePermissions';
+import useAuth from '#hooks/domain/useAuth';
 import useFilterState from '#hooks/useFilterState';
+import { chooseName } from '#utils/common';
 import {
     COLOR_DARK_GREY,
     COLOR_PRIMARY_BLUE,
@@ -131,21 +132,17 @@ function LocalUnitsMap() {
         [limit, filter, countryResponse],
     );
 
-    const { isCountryAdmin, isSuperUser } = usePermissions();
+    const { isAuthenticated } = useAuth();
 
     const requestType = useMemo(
         () => {
-            if (isSuperUser) {
-                return 'authenticated';
-            }
-
-            if (isCountryAdmin(countryResponse?.id)) {
+            if (isAuthenticated) {
                 return 'authenticated';
             }
 
             return 'public';
         },
-        [countryResponse, isSuperUser, isCountryAdmin],
+        [isAuthenticated],
     );
 
     const {
@@ -166,7 +163,7 @@ function LocalUnitsMap() {
         query: urlQuery,
     });
 
-    const localUnits = (isSuperUser || isCountryAdmin(countryResponse?.id))
+    const localUnits = requestType === AUTHENTICATED
         ? localUnitsResponse : publicLocalUnitsResponse;
     const pending = publicLocalUnitsPending || localUnitsPending;
 
@@ -334,6 +331,16 @@ function LocalUnitsMap() {
         && countryResponse.emails.length > 0;
     const hasContactDetails = hasAddress || hasEmails;
 
+    const localUnitName = useMemo(() => chooseName(
+        localUnitDetail?.local_branch_name,
+        localUnitDetail?.english_branch_name,
+    ), [localUnitDetail?.local_branch_name, localUnitDetail?.english_branch_name]);
+
+    const localUnitAddress = useMemo(() => chooseName(
+        localUnitDetail?.address_loc,
+        localUnitDetail?.address_en,
+    ), [localUnitDetail?.address_loc, localUnitDetail?.address_en]);
+
     return (
         <Container
             className={styles.localUnitsMap}
@@ -414,9 +421,7 @@ function LocalUnitsMap() {
                             popupClassName={styles.mapPopup}
                             coordinates={clickedPointProperties.lngLat}
                             onCloseButtonClick={handlePointClose}
-                            heading={isTruthyString(localUnitDetail?.english_branch_name)
-                                ? localUnitDetail?.english_branch_name
-                                : localUnitDetail?.local_branch_name ?? '--'}
+                            heading={localUnitName}
                             contentViewType="vertical"
                             pending={localUnitDetailPending}
                             errored={isDefined(localUnitDetailError)}
@@ -433,8 +438,7 @@ function LocalUnitsMap() {
                             <TextOutput
                                 label={strings.localUnitDetailAddress}
                                 strongLabel
-                                value={localUnitDetail?.address_en
-                                    ?? localUnitDetail?.address_loc}
+                                value={localUnitAddress}
                             />
                             <TextOutput
                                 label={strings.localUnitLocalUnitType}
@@ -511,48 +515,50 @@ function LocalUnitsMap() {
                     </Container>
                 )}
             </div>
-            {isDefined(localUnitsOptions) && (
-                <Container
-                    contentViewType="vertical"
-                    spacing="comfortable"
-                >
+            {
+                isDefined(localUnitsOptions) && (
                     <Container
-                        heading={strings.localUnitLegendLocalUnitTitle}
-                        headingLevel={4}
-                        contentViewType="grid"
-                        numPreferredGridContentColumns={5}
-                        spacing="compact"
+                        contentViewType="vertical"
+                        spacing="comfortable"
                     >
-                        {localUnitsOptions?.type.map((legendItem) => (
-                            <LegendItem
-                                key={legendItem.id}
-                                iconSrc={legendItem.image_url}
-                                iconClassName={styles.legendIcon}
-                                color={legendItem.colour ?? COLOR_DARK_GREY}
-                                label={legendItem.name}
-                            />
-                        ))}
+                        <Container
+                            heading={strings.localUnitLegendLocalUnitTitle}
+                            headingLevel={4}
+                            contentViewType="grid"
+                            numPreferredGridContentColumns={5}
+                            spacing="compact"
+                        >
+                            {localUnitsOptions?.type.map((legendItem) => (
+                                <LegendItem
+                                    key={legendItem.id}
+                                    iconSrc={legendItem.image_url}
+                                    iconClassName={styles.legendIcon}
+                                    color={legendItem.colour ?? COLOR_DARK_GREY}
+                                    label={legendItem.name}
+                                />
+                            ))}
+                        </Container>
+                        <Container
+                            heading={strings.localUnitLegendHealthCareTitle}
+                            headingLevel={5}
+                            contentViewType="grid"
+                            numPreferredGridContentColumns={5}
+                            spacing="compact"
+                        >
+                            {localUnitsOptions?.health_facility_type.map((legendItem) => (
+                                <LegendItem
+                                    key={legendItem.id}
+                                    // FIXME: use color from server
+                                    color={COLOR_PRIMARY_BLUE}
+                                    iconSrc={legendItem.image_url}
+                                    iconClassName={styles.legendIcon}
+                                    label={legendItem.name}
+                                />
+                            ))}
+                        </Container>
                     </Container>
-                    <Container
-                        heading={strings.localUnitLegendHealthCareTitle}
-                        headingLevel={5}
-                        contentViewType="grid"
-                        numPreferredGridContentColumns={5}
-                        spacing="compact"
-                    >
-                        {localUnitsOptions?.health_facility_type.map((legendItem) => (
-                            <LegendItem
-                                key={legendItem.id}
-                                // FIXME: use color from server
-                                color={COLOR_PRIMARY_BLUE}
-                                iconSrc={legendItem.image_url}
-                                iconClassName={styles.legendIcon}
-                                label={legendItem.name}
-                            />
-                        ))}
-                    </Container>
-                </Container>
-            )}
+                )
+            }
         </Container>
     );
 }
