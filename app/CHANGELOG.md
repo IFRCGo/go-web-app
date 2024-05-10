@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.3.2
+
+### Patch Changes
+
+- f83c12b: Show Local name when available and use English name as fallback for local units data
+
 ## 7.3.1
 
 ### Patch Changes
