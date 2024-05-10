@@ -34,7 +34,7 @@ import BaseMap from '#components/domain/BaseMap';
 import Link, { type Props as LinkProps } from '#components/Link';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import MapPopup from '#components/MapPopup';
-import usePermissions from '#hooks/domain/usePermissions';
+import useAuth from '#hooks/domain/useAuth';
 import useFilterState from '#hooks/useFilterState';
 import {
     COLOR_DARK_GREY,
@@ -131,21 +131,17 @@ function LocalUnitsMap() {
         [limit, filter, countryResponse],
     );
 
-    const { isCountryAdmin, isSuperUser } = usePermissions();
+    const { isAuthenticated } = useAuth();
 
     const requestType = useMemo(
         () => {
-            if (isSuperUser) {
-                return 'authenticated';
-            }
-
-            if (isCountryAdmin(countryResponse?.id)) {
+            if (isAuthenticated) {
                 return 'authenticated';
             }
 
             return 'public';
         },
-        [countryResponse, isSuperUser, isCountryAdmin],
+        [isAuthenticated],
     );
 
     const {
@@ -166,7 +162,7 @@ function LocalUnitsMap() {
         query: urlQuery,
     });
 
-    const localUnits = (isSuperUser || isCountryAdmin(countryResponse?.id))
+    const localUnits = requestType === AUTHENTICATED
         ? localUnitsResponse : publicLocalUnitsResponse;
     const pending = publicLocalUnitsPending || localUnitsPending;
 
