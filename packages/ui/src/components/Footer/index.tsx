@@ -1,6 +1,6 @@
 import useBasicLayout, { type Props as BasicLayoutProps } from '#hooks/useBasicLayout';
 
-interface Props {
+export interface Props {
     actions?: React.ReactNode;
     actionsContainerClassName?: string;
     children: React.ReactNode;
