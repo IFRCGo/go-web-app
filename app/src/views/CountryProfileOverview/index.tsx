@@ -304,7 +304,7 @@ export function Component() {
                         label={strings.countryIndicatorsCapitaLabel}
                         prefix="$"
                         maximumFractionDigits={0}
-                        value={databankResponse?.world_bank_gni}
+                        value={databankResponse?.world_bank_gni_capita}
                         valueType="number"
                         strongValue
                     />
