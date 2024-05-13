@@ -181,8 +181,8 @@ function ActiveOperationMap(props: Props) {
 
             return {
                 ...baseQuery,
-                region: regionId ? [regionId] : undefined,
-                country: countryId ? [countryId] : undefined,
+                region: isDefined(regionId) ? [regionId] : undefined,
+                country: isDefined(countryId) ? [countryId] : undefined,
             };
         },
         [variant, regionId, filter, limit, countryId],
