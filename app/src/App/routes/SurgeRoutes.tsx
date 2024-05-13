@@ -1077,11 +1077,11 @@ const surgeCatalogueOtherNationalSocietyDevelopment = customWrapRoute({
     },
 });
 
-const surgeCatalogueOtherPartnershipResourceDevelopment = customWrapRoute({
+const surgeCatalogueOtherStrategicPartnershipsResourceMobilisation = customWrapRoute({
     parent: surgeCatalogueLayout,
-    path: 'other/partnership-resource-development',
+    path: 'other/strategic-partnership-resource-mobilisation',
     component: {
-        render: () => import('#views/SurgeCatalogueOtherPartnershipResourceDevelopment'),
+        render: () => import('#views/SurgeCatalogueOtherStrategicPartnershipsResourceMobilisation'),
         props: {},
     },
     wrapperComponent: Auth,
@@ -1351,7 +1351,7 @@ function DeploymentCatalogueNavigate() {
             'international-disaster-response-law': surgeCatalogueOtherInternationalDisasterResponseLaw,
             migration: surgeCatalogueOtherMigration,
             'national-society-development': surgeCatalogueOtherNationalSocietyDevelopment,
-            'partnership-and-resource-development': surgeCatalogueOtherPartnershipResourceDevelopment,
+            'strategic-partnership-resource-mobilisation': surgeCatalogueOtherStrategicPartnershipsResourceMobilisation,
             'preparedness-for-effective-response-per': surgeCatalogueOtherPreparednessEffectiveResponse,
             recovery: surgeCatalogueOtherRecovery,
             greenresponse: surgeCatalogueOtherGreenResponse,
@@ -1491,7 +1491,7 @@ export default {
     surgeCatalogueOtherInternationalDisasterResponseLaw,
     surgeCatalogueOtherMigration,
     surgeCatalogueOtherNationalSocietyDevelopment,
-    surgeCatalogueOtherPartnershipResourceDevelopment,
+    surgeCatalogueOtherStrategicPartnershipsResourceMobilisation,
     surgeCatalogueOtherPreparednessEffectiveResponse,
     surgeCatalogueOtherRecovery,
     surgeCatalogueOtherGreenResponse,
