@@ -65,6 +65,7 @@ export type { Props as HtmlOutputProps } from './components/HtmlOutput';
 export { default as HtmlOutput } from './components/HtmlOutput';
 export type { Props as IconButtonProps } from './components/IconButton';
 export { default as IconButton } from './components/IconButton';
+export type { Props as ImageProps } from './components/Image';
 export { default as Image } from './components/Image';
 export type { Props as InputContainerProps } from './components/InputContainer';
 export { default as InputContainer } from './components/InputContainer';
