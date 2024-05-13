@@ -13,7 +13,7 @@ import Popup from '#components/Popup';
 
 import styles from './styles.module.css';
 
-interface Props {
+export interface Props {
     className?: string;
     title?: React.ReactNode;
     description?: React.ReactNode;

@@ -164,6 +164,7 @@ export type { Props as TextOutputProps } from './components/TextOutput';
 export { default as TextOutput } from './components/TextOutput';
 export { default as TimeSeriesChart } from './components/TimeSeriesChart';
 export { default as ChartPoint } from './components/TimeSeriesChart/ChartPoint';
+export type { Props as TooltipProps } from './components/Tooltip';
 export { default as Tooltip } from './components/Tooltip';
 export type {
     BaseCell,
