@@ -1,5 +1,13 @@
 # go-web-app
 
+## 7.3.3
+
+### Patch Changes
+
+- 73e1966: Update CoS pages as mentioned in #913
+- 179a073: Show all head of delegation under IFRC Presence
+- 98d6b62: Fix region operation map to apply filter for Africa
+
 ## 7.3.2
 
 ### Patch Changes
