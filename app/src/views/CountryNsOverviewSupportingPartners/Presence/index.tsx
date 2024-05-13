@@ -1,6 +1,8 @@
+import { useCallback } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import {
     Container,
+    RawList,
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -11,24 +13,73 @@ import {
 } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
-import { type CountryOutletContext } from '#utils/outletContext';
+import {
+    type CountryOutletContext,
+    type CountryResponse,
+} from '#utils/outletContext';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 const year = new Date().getFullYear();
+
 const legalStatusLink = 'https://fednet.ifrc.org/en/support/legal/legal/legal-status/';
 
+interface DelegationInformationProps {
+    name: string | null | undefined;
+    contact: string | null | undefined;
+    delegationOfficeType: string;
+}
+
+type CountryDelgation = NonNullable<CountryResponse>['country_delegation'][number];
+const countryDelegationKeySelector = (countryDelegation: CountryDelgation) => (
+    `${countryDelegation.dotype_name}-${countryDelegation.hod_first_name}-${countryDelegation.hod_last_name}`
+);
+
+function DelegationInformation(props: DelegationInformationProps) {
+    const {
+        name,
+        contact,
+        delegationOfficeType,
+    } = props;
+
+    const strings = useTranslation(i18n);
+
+    return (
+        <div className={styles.delegation}>
+            <TextOutput
+                label={resolveToString(
+                    strings.countryIFRCPresenceHeadOfDelegation,
+                    { delegationOfficeType },
+                )}
+                value={name}
+                strongValue
+            />
+            <TextOutput
+                label={strings.countryIFRCContact}
+                value={contact}
+                strongValue
+            />
+        </div>
+    );
+}
 function Presence() {
     const strings = useTranslation(i18n);
 
     const { countryResponse } = useOutletContext<CountryOutletContext>();
 
-    const hodValue = [
-        countryResponse?.country_delegation?.hod_first_name,
-        countryResponse?.country_delegation?.hod_last_name,
-    ].filter(isTruthyString).join(' ');
+    const countryDelegationRendererParams = useCallback((_: string, value: CountryDelgation) => {
+        const hodName = [
+            value.hod_first_name,
+            value.hod_last_name,
+        ].filter(isTruthyString).join(' ');
 
+        return {
+            name: hodName,
+            contact: value.hod_mobile_number,
+            delegationOfficeType: value.dotype_name,
+        };
+    }, []);
     return (
         <Container
             className={styles.presence}
@@ -54,17 +105,19 @@ function Presence() {
                         )}
                     />
                 )}
-                contentViewType="vertical"
                 withHeaderBorder
                 withInternalPadding
-                spacing="comfortable"
+                childrenContainerClassName={styles.content}
             >
-                <div className={styles.ifrcPresenceItem}>
-                    <TextOutput
-                        label={strings.countryIFRCPresenceHeadOfDelegation}
-                        value={hodValue}
-                        strongValue
+                <div className={styles.delegationInformation}>
+                    <RawList
+                        data={countryResponse?.country_delegation}
+                        keySelector={countryDelegationKeySelector}
+                        renderer={DelegationInformation}
+                        rendererParams={countryDelegationRendererParams}
                     />
+                </div>
+                <div className={styles.ifrcPresenceItem}>
                     <Link
                         href={legalStatusLink}
                         external
@@ -73,13 +126,6 @@ function Presence() {
                     >
                         {strings.countryIFRCLegalStatus}
                     </Link>
-                </div>
-                <div className={styles.ifrcPresenceItem}>
-                    <TextOutput
-                        label={strings.countryIFRCContact}
-                        value={countryResponse?.country_delegation?.hod_mobile_number}
-                        strongValue
-                    />
                     {isDefined(countryResponse?.disaster_law_url) && (
                         <Link
                             href={countryResponse.disaster_law_url}
@@ -110,10 +156,8 @@ function Presence() {
                         )}
                     />
                 )}
-                contentViewType="vertical"
                 withHeaderBorder
                 withInternalPadding
-                spacing="comfortable"
             >
                 {resolveToString(
                     strings.countryICRCConfirmedPartner,
