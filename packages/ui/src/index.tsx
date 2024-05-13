@@ -52,6 +52,7 @@ export type { Props as DropdownMenuProps } from './components/DropdownMenu';
 export { default as DropdownMenu } from './components/DropdownMenu';
 export type { Props as ExpandableContainerProps } from './components/ExpandableContainer';
 export { default as ExpandableContainer } from './components/ExpandableContainer';
+export type { Props as FooterProps } from './components/Footer';
 export { default as Footer } from './components/Footer';
 export type { Props as GridProps } from './components/Grid';
 export { default as Grid } from './components/Grid';
