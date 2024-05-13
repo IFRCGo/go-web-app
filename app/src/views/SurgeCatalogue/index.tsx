@@ -7,27 +7,25 @@ import {
     CoordinatedAssessementIcon,
     DisasterRiskReductionIcon,
     DroneIcon,
-    EarlyRecoveryIcon,
     EmergencyTelecommunicationsIcon,
     GreenResponseIcon,
     GroupIcon,
     HealthIcon,
-    HumanResourceIcon,
+    HumanResourcesIcon,
     LawIcon,
     LivelihoodIcon,
     LogisticsIcon,
     MigrationIcon,
     MonitoringIcon,
-    MoreOptionsIcon,
     NationalSocietyDevelopmentIcon,
     NonFoodItemsIcon,
     PartnershipIcon,
     PreparednessIcon,
     ProtectionIcon,
     PublicInformationIcon,
+    RecoveryIcon,
     SafetyAndSecurityIcon,
     ShelterIcon,
-    StrategicPrioritiesResourceMobilizationIcon,
     WaterSanitationAndHygieneIcon,
 } from '@ifrc-go/icons';
 import { NavigationTabList } from '@ifrc-go/ui';
@@ -190,7 +188,7 @@ export function Component() {
                     to="surgeCatalogueOtherHumanResources"
                     parentRoute
                 >
-                    <HumanResourceIcon className={styles.icon} />
+                    <HumanResourcesIcon className={styles.icon} />
                     {strings.catalogueHR}
                 </NavigationTab>
                 <NavigationTab
@@ -218,7 +216,7 @@ export function Component() {
                     to="surgeCatalogueOtherStrategicPartnershipsResourceMobilisation"
                     parentRoute
                 >
-                    <StrategicPrioritiesResourceMobilizationIcon className={styles.icon} />
+                    <PartnershipIcon className={styles.icon} />
                     {strings.catalogueSPRD}
                 </NavigationTab>
                 <NavigationTab
@@ -232,7 +230,7 @@ export function Component() {
                     to="surgeCatalogueOtherRecovery"
                     parentRoute
                 >
-                    <EarlyRecoveryIcon className={styles.icon} />
+                    <RecoveryIcon className={styles.icon} />
                     {strings.catalogueRecovery}
                 </NavigationTab>
                 <NavigationTab
