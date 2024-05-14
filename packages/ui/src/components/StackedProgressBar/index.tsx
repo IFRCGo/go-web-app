@@ -9,7 +9,7 @@ import {
 
 import styles from './styles.module.css';
 
-interface Props<VALUE> {
+export interface Props<VALUE> {
     className?: string;
     data: VALUE[];
     valueSelector: (value: VALUE, index: number) => number;
