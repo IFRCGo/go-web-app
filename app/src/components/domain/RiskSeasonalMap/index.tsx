@@ -666,11 +666,7 @@ function RiskSeasonalMap(props: Props) {
 
                                 const newValue = filters.riskMetric === 'riskScore'
                                     ? riskScoreToCategory(
-                                        // NOTE: Risk Scores are multiplited
-                                        // by vulnerability (from server)
-                                        // So, dividing by 10 to
-                                        // correct the range (0 - 100 -> 0 - 10)
-                                        item.hazard_type === 'WF' ? value : (value / 10),
+                                        value,
                                         item.hazard_type,
                                     ) : value;
 
@@ -697,7 +693,7 @@ function RiskSeasonalMap(props: Props) {
                                     }
                                 }
 
-                                if (filters.includeCopingCapacity) {
+                                if (filters.riskMetric !== 'riskScore' && filters.includeCopingCapacity) {
                                     const lccFactor = mappings?.lccFactor[
                                         item.country_details.iso3
                                     ];
@@ -880,6 +876,7 @@ function RiskSeasonalMap(props: Props) {
         <Container
             className={_cs(styles.riskSeasonalMapContainer, className)}
             heading={strings.riskSeasonalMapHeading}
+            withGridViewInFilter
             filters={(
                 <Filters
                     regionId={Number(regionId)}

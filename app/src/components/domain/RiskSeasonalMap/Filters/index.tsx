@@ -75,7 +75,7 @@ function Filters(props: Props) {
     );
 
     return (
-        <div className={styles.filters}>
+        <>
             <MultiSelectInput
                 placeholder={strings.riskAllCountries}
                 name="countries"
@@ -115,21 +115,23 @@ function Filters(props: Props) {
                 onChange={handleChange}
                 withSelectAll
             />
-            <div className={styles.riskScoreAdditionalOptions}>
+            <div className={styles.additionalOptions}>
                 <Checkbox
                     name="normalizeByPopulation"
                     label={strings.riskNormalize}
                     value={value.normalizeByPopulation}
                     onChange={handleChange}
                 />
-                <Checkbox
-                    name="includeCopingCapacity"
-                    label={strings.riskCopingCapacity}
-                    value={value.includeCopingCapacity}
-                    onChange={handleChange}
-                />
+                {value.riskMetric !== 'riskScore' && (
+                    <Checkbox
+                        name="includeCopingCapacity"
+                        label={strings.riskCopingCapacity}
+                        value={value.includeCopingCapacity}
+                        onChange={handleChange}
+                    />
+                )}
             </div>
-        </div>
+        </>
     );
 }
 
