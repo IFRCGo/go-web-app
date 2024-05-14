@@ -131,6 +131,7 @@ export { default as SelectInput } from './components/SelectInput';
 export type { SelectInputContainerProps } from './components/SelectInputContainer';
 export { default as SelectInputContainer } from './components/SelectInputContainer';
 export { default as Spinner } from './components/Spinner';
+export type { Props as StackedProgressBarProps } from './components/StackedProgressBar';
 export { default as StackedProgressBar } from './components/StackedProgressBar';
 export { default as Switch } from './components/Switch';
 export type { TableProps } from './components/Table';
