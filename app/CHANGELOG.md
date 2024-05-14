@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.3.5
+
+### Patch Changes
+
+- 894a762: Fix seasonal risk score in regional and global risk watch
+
 ## 7.3.4
 
 ### Patch Changes
