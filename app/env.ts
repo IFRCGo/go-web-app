@@ -15,6 +15,7 @@ export default defineConfig({
         }
         return value as ('production' | 'staging' | 'testing' | `alpha-${number}` | 'development' | 'APP_ENVIRONMENT_PLACEHOLDER');
     },
+    APP_BASE_URL: Schema.string.optional(),
     APP_API_ENDPOINT: Schema.string({ format: 'url', protocol: true, tld: false }),
     APP_ADMIN_URL: Schema.string.optional({ format: 'url', protocol: true }),
     APP_MAPBOX_ACCESS_TOKEN: Schema.string(),
