@@ -1,14 +1,13 @@
 {
-  "name": "tests-e2e",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "devDependencies": {
-    "@playwright/test": "^1.44.0",
-    "@types/node": "^20.12.12"
-  },
-  "scripts": {},
-  "dependencies": {
-    "dotenv": "^16.4.5"
-  }
+    "name": "tests-e2e",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "devDependencies": {
+        "@playwright/test": "^1.44.0",
+        "@types/node": "^20.12.12"
+    },
+    "scripts": {
+        "biome:check": "biome check --apply ./tests/*"
+    }
 }
