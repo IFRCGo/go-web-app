@@ -1,21 +1,23 @@
 import { useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import {
+    Button,
     Container,
     Tab,
     TabList,
     TabPanel,
     Tabs,
 } from '@ifrc-go/ui';
-import { useTranslation } from '@ifrc-go/ui/hooks';
+import {
+    useBooleanState,
+    useTranslation,
+} from '@ifrc-go/ui/hooks';
 import { _cs } from '@togglecorp/fujs';
 
-import Link from '#components/Link';
-import { adminUrl } from '#config';
 import useAuth from '#hooks/domain/useAuth';
 import { type CountryOutletContext } from '#utils/outletContext';
-import { resolveUrl } from '#utils/resolveUrl';
 
+import AddEditLocalUnitsModal from './AddEditLocalUnitsModal';
 import LocalUnitsMap from './LocalUnitsMap';
 import LocalUnitsTable from './LocalUnitsTable';
 
@@ -33,9 +35,12 @@ function NationalSocietyLocalUnits(props: Props) {
 
     const [activeTab, setActiveTab] = useState<'map'| 'table'>('map');
     const { isAuthenticated } = useAuth();
+    const [showAddEditModal, {
+        setTrue: setShowAddEditModalTrue,
+        setFalse: setShowAddEditModalFalse,
+    }] = useBooleanState(false);
 
     const strings = useTranslation(i18n);
-    const { countryId } = useOutletContext<CountryOutletContext>();
 
     return (
         <Tabs
@@ -56,13 +61,21 @@ function NationalSocietyLocalUnits(props: Props) {
                     </TabList>
                 )}
                 actions={isAuthenticated && (
-                    <Link
-                        external
-                        href={resolveUrl(adminUrl, `local_units/localunit/?country=${countryId}`)}
+                    // <Link
+                    //     external
+                    //     href={resolveUrl(adminUrl,
+                    //     `local_units/localunit/?country=${countryId}`)}
+                    //     variant="secondary"
+                    // >
+                    //     {strings.editLocalUnitLink}
+                    // </Link>
+                    <Button
+                        name="addEdit"
                         variant="secondary"
+                        onClick={setShowAddEditModalTrue}
                     >
                         {strings.editLocalUnitLink}
-                    </Link>
+                    </Button>
                 )}
             >
                 <TabPanel name="map">
@@ -71,6 +84,11 @@ function NationalSocietyLocalUnits(props: Props) {
                 <TabPanel name="table">
                     <LocalUnitsTable />
                 </TabPanel>
+                {showAddEditModal && (
+                    <AddEditLocalUnitsModal
+                        onClose={setShowAddEditModalFalse}
+                    />
+                )}
             </Container>
         </Tabs>
     );
