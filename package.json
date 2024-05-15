@@ -20,6 +20,7 @@
     "workspaces": [
         "app",
         "packages/ui",
-        "packages/go-ui-storybook"
+        "packages/go-ui-storybook",
+        "packages/tests-e2e"
     ]
 }
