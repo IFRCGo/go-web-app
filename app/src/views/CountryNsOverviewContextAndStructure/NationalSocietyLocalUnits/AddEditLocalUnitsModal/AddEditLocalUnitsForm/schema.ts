@@ -10,14 +10,25 @@ import {
 } from '@togglecorp/toggle-form';
 
 import { type components } from '#generated/types';
+import { getNumberInBetweenCondition } from '#utils/form';
 import {
     type GoApiBody,
     type GoApiResponse,
 } from '#utils/restRequest';
 
 export type LocalUnitsResponse = GoApiResponse<'/api/v2/local-units/'>;
-export type LocalUnitsRequestBody = GoApiBody<'/api/v2/local-units/{id}/', 'PATCH'>;
-export type LocalUnitsRequestPostBody = GoApiBody<'/api/v2/local-units/', 'POST'>;
+export type LocalUnitsRequestBody = GoApiBody<'/api/v2/local-units/{id}/', 'PATCH'> & {
+    location_json: {
+        lng: number;
+        lat: number;
+    }
+};
+export type LocalUnitsRequestPostBody = GoApiBody<'/api/v2/local-units/', 'POST'> & {
+    location_json: {
+        lng: number;
+        lat: number;
+    }
+};
 export type TypeOfLocalUnits = components<'read'>['schemas']['LocalUnitType']['code'];
 
 export type PartialLocalUnits = PartialForm<
@@ -85,6 +96,22 @@ const schema: LocalUnitsFormSchema = {
             },
             link: {
                 validations: [urlCondition],
+            },
+            location_json: {
+                fields: () => ({
+                    lng: {
+                        required: true,
+                        validations: [
+                            getNumberInBetweenCondition(-180, 180),
+                        ],
+                    },
+                    lat: {
+                        required: true,
+                        validations: [
+                            getNumberInBetweenCondition(-90, 90),
+                        ],
+                    },
+                }),
             },
         };
 

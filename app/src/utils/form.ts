@@ -8,6 +8,14 @@ function isNumber(value: unknown): value is number {
     return typeof value === 'number';
 }
 
+export function getNumberInBetweenCondition(min: number, max: number) {
+    return (value: Maybe<number>) => (
+        isDefined(value) && (value > max || value < min)
+            ? `The value must be between ${min} to ${max}`
+            : undefined
+    );
+}
+
 export function positiveNumberCondition(value: Maybe<number>) {
     // FIXME: use translations
     return isDefined(value) && (!isNumber(value) || value < 0)

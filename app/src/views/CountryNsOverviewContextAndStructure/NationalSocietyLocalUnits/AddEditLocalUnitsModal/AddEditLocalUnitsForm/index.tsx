@@ -16,13 +16,17 @@ import {
     stringNameSelector,
     stringValueSelector,
 } from '@ifrc-go/ui/utils';
+import { isNotDefined } from '@togglecorp/fujs';
 import {
     getErrorObject,
     getErrorString,
     useForm,
     useFormObject,
 } from '@togglecorp/toggle-form';
+import { MapboxGeoJSONFeature } from 'mapbox-gl';
 
+import BaseMapPointInput from '#components/domain/BaseMapPointInput';
+import CountrySelectInput from '#components/domain/CountrySelectInput';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useAlert from '#hooks/useAlert';
 import { CountryOutletContext } from '#utils/outletContext';
@@ -39,7 +43,6 @@ import schema, {
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
 type HealthLocalUnitFormFields = PartialLocalUnits['health'];
 type LocalUnitsOptionsType = GoApiResponse<'/api/v2/local-units-options/'>;
@@ -120,9 +123,7 @@ function AddEditLocalUnitsForm(props: Props) {
         onFailure: () => {
             alert.show(
                 'Failed',
-                {
-                    variant: 'danger',
-                },
+                { variant: 'danger' },
             );
         },
     });
@@ -158,11 +159,19 @@ function AddEditLocalUnitsForm(props: Props) {
         [setFieldValue, localUnitsOptions, onLocalUnitTypeClick],
     );
 
+    const handleMapPointClick = useCallback(
+        (feature: MapboxGeoJSONFeature) => {
+            const country = feature.properties?.country_id as number | undefined;
+            setFieldValue(country, 'country');
+        },
+        [setFieldValue],
+    );
+
     const error = getErrorObject(formError);
     const healthFormError = getErrorObject(error?.health);
 
     return (
-        <div>
+        <div className={styles.localUnitsForm}>
             <InputSection
                 title={strings.localUnitsFormType}
                 withAsteriskOnTitle
@@ -195,9 +204,9 @@ function AddEditLocalUnitsForm(props: Props) {
                 withAsteriskOnTitle
             >
                 <SelectInput
-                    name="visibility_display"
+                    name="visibility"
                     options={visibilityOptions}
-                    value={value.visibility_display}
+                    value={value.visibility}
                     onChange={setFieldValue}
                     keySelector={VisibilityOptions}
                     labelSelector={stringValueSelector}
@@ -331,7 +340,8 @@ function AddEditLocalUnitsForm(props: Props) {
             <Container
                 heading={strings.localUnitsAddressTitle}
                 withHeaderBorder
-                childrenContainerClassName={styles.addressContainer}
+                contentViewType="grid"
+                numPreferredGridContentColumns={2}
             >
                 <div>
                     <InputSection
@@ -939,6 +949,27 @@ function AddEditLocalUnitsForm(props: Props) {
                     </InputSection>
                 </>
             )}
+            <Container
+                // FIXME: use strings
+                heading="Location"
+                withHeaderBorder
+            >
+                <CountrySelectInput
+                    // FIXME: use strings
+                    label="Country"
+                    name="country"
+                    value={value.country}
+                    onChange={setFieldValue}
+                    readOnly
+                />
+                <BaseMapPointInput
+                    name="location_json"
+                    mapContainerClassName={styles.pointInputMap}
+                    value={value.location_json}
+                    onChange={setFieldValue}
+                    onClick={handleMapPointClick}
+                />
+            </Container>
             <Button
                 name={undefined}
                 onClick={handleFormSubmit}
