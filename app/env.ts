@@ -2,6 +2,7 @@ import { defineConfig, Schema } from '@julr/vite-plugin-validate-env';
 
 export default defineConfig({
     APP_TITLE: Schema.string(),
+    APP_BASE_URL: Schema.string.optional(),
     APP_ENVIRONMENT: Schema.enum(['development', 'testing', 'staging', 'production'] as const),
     APP_API_ENDPOINT: Schema.string({ format: 'url', protocol: true, tld: false }),
     APP_ADMIN_URL: Schema.string.optional({ format: 'url', protocol: true }),

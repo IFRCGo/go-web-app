@@ -2327,6 +2327,13 @@
   resolved "https://registry.yarnpkg.com/@pkgjs/parseargs/-/parseargs-0.11.0.tgz#a77ea742fab25775145434eb1d2328cf5013ac33"
   integrity sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==
 
+"@playwright/test@^1.44.0":
+  version "1.44.0"
+  resolved "https://registry.yarnpkg.com/@playwright/test/-/test-1.44.0.tgz#ac7a764b5ee6a80558bdc0fcbc525fcb81f83465"
+  integrity sha512-rNX5lbNidamSUorBhB4XZ9SQTjAqfe5M+p37Z8ic0jPFBMo5iCtQz1kRWkEMg+rYOKSlVycpQmpqjSFq7LXOfg==
+  dependencies:
+    playwright "1.44.0"
+
 "@poppinss/cliui@^6.3.0":
   version "6.4.0"
   resolved "https://registry.yarnpkg.com/@poppinss/cliui/-/cliui-6.4.0.tgz#0c9d7219ad7a2cbd183ed0a5677049cd43d71443"
@@ -4069,6 +4076,13 @@
   version "18.19.21"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.19.21.tgz#f4ca1ac8ffb05ee4b89163c2d6fac9a1a59ee149"
   integrity sha512-2Q2NeB6BmiTFQi4DHBzncSoq/cJMLDdhPaAoJFnFCyD9a8VPZRf7a1GAwp1Edb7ROaZc5Jz/tnZyL6EsWMRaqw==
+  dependencies:
+    undici-types "~5.26.4"
+
+"@types/node@^20.12.12":
+  version "20.12.12"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.12.12.tgz#7cbecdf902085cec634fdb362172dfe12b8f2050"
+  integrity sha512-eWLDGF/FOSPtAvEqeRAQ4C8LSA7M1I7i0ky1I8U7kD1J5ITyW3AsRhQrKVoWf5pFKZ2kILsEGJhsI9r93PYnOw==
   dependencies:
     undici-types "~5.26.4"
 
@@ -6964,7 +6978,7 @@ dotenv-expand@^10.0.0:
   resolved "https://registry.yarnpkg.com/dotenv-expand/-/dotenv-expand-10.0.0.tgz#12605d00fb0af6d0a592e6558585784032e4ef37"
   integrity sha512-GopVGCpVS1UKH75VKHGuQFqS1Gusej0z4FyQkPdwjil2gNIv+LNsqBlboOzpJFZKVT95GkCyWJbBSdFEFUWI2A==
 
-dotenv@^16.0.0, dotenv@^16.3.0:
+dotenv@^16.0.0, dotenv@^16.3.0, dotenv@^16.4.5:
   version "16.4.5"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.4.5.tgz#cdd3b3b604cb327e286b4762e13502f717cb099f"
   integrity sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==
@@ -8076,6 +8090,11 @@ fs.realpath@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
   integrity sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==
+
+fsevents@2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.2.tgz#8a526f78b8fdf4623b709e0b975c52c24c02fd1a"
+  integrity sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==
 
 fsevents@^2.3.2, fsevents@~2.3.2, fsevents@~2.3.3:
   version "2.3.3"
@@ -10805,6 +10824,20 @@ pkg-types@^1.0.3:
     jsonc-parser "^3.2.0"
     mlly "^1.2.0"
     pathe "^1.1.0"
+
+playwright-core@1.44.0:
+  version "1.44.0"
+  resolved "https://registry.yarnpkg.com/playwright-core/-/playwright-core-1.44.0.tgz#316c4f0bca0551ffb88b6eb1c97bc0d2d861b0d5"
+  integrity sha512-ZTbkNpFfYcGWohvTTl+xewITm7EOuqIqex0c7dNZ+aXsbrLj0qI8XlGKfPpipjm0Wny/4Lt4CJsWJk1stVS5qQ==
+
+playwright@1.44.0:
+  version "1.44.0"
+  resolved "https://registry.yarnpkg.com/playwright/-/playwright-1.44.0.tgz#22894e9b69087f6beb639249323d80fe2b5087ff"
+  integrity sha512-F9b3GUCLQ3Nffrfb6dunPOkE5Mh68tR7zN32L4jCk4FjQamgesGay7/dAAe1WaMEGV04DkdJfcJzjoCKygUaRQ==
+  dependencies:
+    playwright-core "1.44.0"
+  optionalDependencies:
+    fsevents "2.3.2"
 
 pn@^1.1.0:
   version "1.1.0"
