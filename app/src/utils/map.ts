@@ -19,6 +19,8 @@ import {
 } from '#utils/constants';
 
 export const defaultMapStyle = 'mapbox://styles/go-ifrc/ckrfe16ru4c8718phmckdfjh0';
+export const localUnitMapStyle = 'mapbox://styles/go-ifrc/clvvgugzh00x501pc1n00b8cz';
+
 type NavControlOptions = NonNullable<ConstructorParameters<typeof NavigationControl>[0]>;
 export const defaultNavControlOptions: NavControlOptions = {
     showCompass: false,

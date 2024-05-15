@@ -23,7 +23,7 @@ type MapProps = Parameters<typeof Map>[0];
 
 type overrides = 'mapStyle' | 'mapOptions' | 'navControlShown' | 'navControlPosition' | 'navControlOptions' | 'scaleControlShown';
 
-type BaseMapProps = Omit<MapProps, overrides> & {
+export type Props = Omit<MapProps, overrides> & {
     baseLayers?: React.ReactNode;
     withDisclaimer?: boolean;
     withoutLabel?: boolean;
@@ -57,7 +57,7 @@ const adminLabelOverrideOptions: Omit<SymbolLayer, 'id'> = {
     },
 };
 
-function BaseMap(props: BaseMapProps) {
+function BaseMap(props: Props) {
     const {
         baseLayers,
         mapStyle,

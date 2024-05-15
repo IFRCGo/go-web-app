@@ -40,7 +40,7 @@ function AddEditLocalUnitsModal(props: Props) {
                 },
             )}
             onClose={onClose}
-            size="xl"
+            size="full"
         >
             <AddEditLocalUnitsForm
                 onLocalUnitTypeClick={handleLocalUnitType}

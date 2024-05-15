@@ -59,6 +59,7 @@ import Filters, { FilterValue } from '../Filters';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+import { localUnitMapStyle } from '#utils/map';
 
 const LOCAL_UNIT_ICON_KEY = 'local-units';
 const HEALTHCARE_ICON_KEY = 'healthcare';
@@ -360,7 +361,7 @@ function LocalUnitsMap() {
         >
             <div className={styles.mapContainerWithContactDetails}>
                 <BaseMap
-                    mapStyle="mapbox://styles/go-ifrc/clvvgugzh00x501pc1n00b8cz"
+                    mapStyle={localUnitMapStyle}
                     withoutLabel
                     baseLayers={(
                         <ActiveCountryBaseMapLayer
