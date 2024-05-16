@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Modal } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToString } from '@ifrc-go/ui/utils';
@@ -22,6 +23,12 @@ function AddEditLocalUnitsModal(props: Props) {
         url: '/api/v2/local-units-options/',
     });
 
+    const [localUnitType, setLocalUnitType] = useState<string | undefined>('Administrative');
+
+    const handleLocalUnitType = (type?: string) => {
+        setLocalUnitType(type);
+    };
+
     return (
         <Modal
             childrenContainerClassName={styles.addEditModal}
@@ -29,13 +36,14 @@ function AddEditLocalUnitsModal(props: Props) {
                 strings.localUnitsModalHeading,
                 {
                     // FIXME Pass local unit type
-                    type: 'Administrative',
+                    type: localUnitType,
                 },
             )}
             onClose={onClose}
             size="xl"
         >
             <AddEditLocalUnitsForm
+                onLocalUnitTypeClick={handleLocalUnitType}
                 localUnitsOptions={localUnitsOptions}
             />
         </Modal>

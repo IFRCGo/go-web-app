@@ -1,9 +1,12 @@
 import {
     addCondition,
+    emailCondition,
+    lengthSmallerThanCondition,
     nullValue,
     type ObjectSchema,
     type PartialForm,
     type PurgeNull,
+    urlCondition,
 } from '@togglecorp/toggle-form';
 
 import { type components } from '#generated/types';
@@ -38,22 +41,51 @@ const schema: LocalUnitsFormSchema = {
     fields: (formValue): LocalUnitsFormSchemaFields => {
         let formFields: LocalUnitsFormSchemaFields = {
             type: { required: true },
+            visibility: { required: true },
             location: {},
-            subtype: {},
-            local_branch_name: {},
-            english_branch_name: {},
+            subtype: {
+                validations: [lengthSmallerThanCondition(200)],
+            },
+            local_branch_name: {
+                required: true,
+                validations: [lengthSmallerThanCondition(200)],
+            },
+            english_branch_name: {
+                validations: [lengthSmallerThanCondition(200)],
+            },
             level: {},
-            focal_person_en: {},
-            focal_person_loc: {},
+            focal_person_en: {
+                validations: [lengthSmallerThanCondition(200)],
+            },
+            focal_person_loc: {
+                validations: [lengthSmallerThanCondition(200)],
+                required: true,
+            },
             source_en: {},
-            address_en: {},
-            address_loc: {},
-            postcode: {},
-            phone: {},
-            email: {},
-            city_en: {},
-            city_loc: {},
-            link: {},
+            address_en: {
+                validations: [lengthSmallerThanCondition(200)],
+            },
+            address_loc: {
+                validations: [lengthSmallerThanCondition(200)],
+            },
+            postcode: {
+                validations: [lengthSmallerThanCondition(20)],
+            },
+            phone: {
+                validations: [lengthSmallerThanCondition(100)],
+            },
+            email: {
+                validations: [emailCondition],
+            },
+            city_en: {
+                validations: [lengthSmallerThanCondition(100)],
+            },
+            city_loc: {
+                validations: [lengthSmallerThanCondition(100)],
+            },
+            link: {
+                validations: [urlCondition],
+            },
         };
 
         formFields = addCondition(
@@ -69,24 +101,39 @@ const schema: LocalUnitsFormSchema = {
                                 affiliation: { required: true },
                                 functionality: { required: true },
                                 health_facility_type: { required: true },
-                                other_facility_type: {},
-                                other_affiliation: { required: true },
-                                is_teaching_hospital: {},
-                                is_in_patient_capacity: {},
-                                is_isolation_rooms_wards: {},
-                                // address
-                                focal_point_email: {},
-                                focal_point_position: {},
-                                focal_point_phone_number: {},
-                                // Specialities and capacity
-                                // ??
-                                specialized_medical_beyond_primary_level: {},
-                                // ??
-                                other_services: {},
-                                blood_services: {},
+                                other_facility_type: {
+                                    validations: [lengthSmallerThanCondition(200)],
+                                },
+                                other_affiliation: {
+                                    validations: [lengthSmallerThanCondition(500)],
+                                },
+                                is_teaching_hospital: { required: true },
+                                is_in_patient_capacity: { required: true },
+                                is_isolation_rooms_wards: { required: true },
+                                focal_point_email: {
+                                    required: true,
+                                    validations: [
+                                        lengthSmallerThanCondition(50),
+                                        emailCondition,
+                                    ],
+                                },
+                                focal_point_position: {
+                                    validations: [lengthSmallerThanCondition(50)],
+                                },
+                                focal_point_phone_number: {
+                                    validations: [lengthSmallerThanCondition(50)],
+                                },
+                                hospital_type: { required: true },
+                                specialized_medical_beyond_primary_level: { required: true },
+                                other_services: {
+                                    validations: [lengthSmallerThanCondition(200)],
+                                },
+                                blood_services: { required: true },
                                 professional_training_facilities: {},
-                                general_medical_services: {},
-                                speciality: {},
+                                general_medical_services: { required: true },
+                                speciality: {
+                                    validations: [lengthSmallerThanCondition(200)],
+                                },
                                 maximum_capacity: {},
                                 number_of_isolation_rooms: {},
                                 is_warehousing: {},
@@ -94,8 +141,7 @@ const schema: LocalUnitsFormSchema = {
                                 ambulance_type_a: {},
                                 ambulance_type_b: {},
                                 ambulance_type_c: {},
-                                // Human resources
-                                total_number_of_human_resource: {},
+                                total_number_of_human_resource: { required: true },
                                 general_practitioner: {},
                                 specialist: {},
                                 residents_doctor: {},
@@ -104,8 +150,12 @@ const schema: LocalUnitsFormSchema = {
                                 nursing_aid: {},
                                 midwife: {},
                                 other_medical_heal: {},
-                                other_profiles: {},
-                                feedback: {},
+                                other_profiles: {
+                                    validations: [lengthSmallerThanCondition(200)],
+                                },
+                                feedback: {
+                                    validations: [lengthSmallerThanCondition(500)],
+                                },
                             }),
                         },
                     };

@@ -12,7 +12,10 @@ import {
     TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { stringNameSelector } from '@ifrc-go/ui/utils';
+import {
+    stringNameSelector,
+    stringValueSelector,
+} from '@ifrc-go/ui/utils';
 import {
     getErrorObject,
     getErrorString,
@@ -20,6 +23,7 @@ import {
     useFormObject,
 } from '@togglecorp/toggle-form';
 
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useAlert from '#hooks/useAlert';
 import { CountryOutletContext } from '#utils/outletContext';
 import {
@@ -35,6 +39,7 @@ import schema, {
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
 type HealthLocalUnitFormFields = PartialLocalUnits['health'];
 type LocalUnitsOptionsType = GoApiResponse<'/api/v2/local-units-options/'>;
@@ -45,20 +50,27 @@ type LocalUnitHealthFacility = NonNullable<LocalUnitsOptionsType['health_facilit
 type LocalUnitBloodServices = NonNullable<LocalUnitsOptionsType['blood_services']>[number];
 type LocalUnitProfessionalTraining = NonNullable<LocalUnitsOptionsType['professional_training_facilities']>[number];
 type LocalUnitGeneralMedical = NonNullable<LocalUnitsOptionsType['general_medical_services']>[number];
+type LocalUnitPrimaryHealthCareCenter = NonNullable<LocalUnitsOptionsType['primary_health_care_center']>[number];
+type VisibilityOptions = NonNullable<GoApiResponse<'/api/v2/global-enums/'>['api_visibility_choices']>[number]
 
 const localUnitTypeCodeSelector = (localUnit: LocalUnitType) => localUnit.code;
 const localUnitCoverageLevelSelector = (localUnit: LocalUnitCoverage) => localUnit.level;
 const localUnitAffiliationCodeSelector = (localUnit: LocalUnitAffiliation) => localUnit.code;
 const localUnitHealthFacilityCodeSelector = (localUnit: LocalUnitHealthFacility) => localUnit.code;
+const LocalUnitPrimaryHealthCareCenterCodeSelector = (
+    localUnit: LocalUnitPrimaryHealthCareCenter,
+) => localUnit.code;
 const localUnitBloodServicesCodeSelector = (localUnit: LocalUnitBloodServices) => localUnit.code;
 const LocalUnitProfessionalTrainingCodeSelector = (
     localUnit: LocalUnitProfessionalTraining,
 ) => localUnit.code;
 const localUnitGeneralMedicalCodeSelector = (localUnit: LocalUnitGeneralMedical) => localUnit.code;
+const VisibilityOptions = (option: VisibilityOptions) => option.key;
 
 interface Props {
     viewMode?: boolean;
     localUnitsOptions?: LocalUnitsOptionsType;
+    onLocalUnitTypeClick: (type?: string) => void;
 }
 
 const defaultHealthValue = {};
@@ -67,9 +79,11 @@ function AddEditLocalUnitsForm(props: Props) {
     const {
         viewMode = false,
         localUnitsOptions,
+        onLocalUnitTypeClick,
     } = props;
     const alert = useAlert();
     const strings = useTranslation(i18n);
+    const { api_visibility_choices: visibilityOptions } = useGlobalEnums();
     const { countryId } = useOutletContext<CountryOutletContext>();
     const {
         value,
@@ -129,6 +143,21 @@ function AddEditLocalUnitsForm(props: Props) {
         [validate, setError, addLocalUnits, countryId],
     );
 
+    const handleLocalUnitType = useCallback(
+        (type?: number) => {
+            setFieldValue(type, 'type');
+            if (isNotDefined(localUnitsOptions)) {
+                return;
+            }
+            const selectedType = localUnitsOptions.type.find(
+                (opt) => opt.code === type,
+            );
+
+            onLocalUnitTypeClick(selectedType?.name);
+        },
+        [setFieldValue, localUnitsOptions, onLocalUnitTypeClick],
+    );
+
     const error = getErrorObject(formError);
     const healthFormError = getErrorObject(error?.health);
 
@@ -142,7 +171,7 @@ function AddEditLocalUnitsForm(props: Props) {
                     name="type"
                     options={localUnitsOptions?.type}
                     value={value.type}
-                    onChange={setFieldValue}
+                    onChange={handleLocalUnitType}
                     keySelector={localUnitTypeCodeSelector}
                     labelSelector={stringNameSelector}
                     readOnly={viewMode}
@@ -159,6 +188,46 @@ function AddEditLocalUnitsForm(props: Props) {
                     onChange={setFieldValue}
                     readOnly={viewMode}
                     error={error?.subtype}
+                />
+            </InputSection>
+            <InputSection
+                title={strings.localUnitsVisibility}
+                withAsteriskOnTitle
+            >
+                <SelectInput
+                    name="visibility_display"
+                    options={visibilityOptions}
+                    value={value.visibility_display}
+                    onChange={setFieldValue}
+                    keySelector={VisibilityOptions}
+                    labelSelector={stringValueSelector}
+                    readOnly={viewMode}
+                    error={error?.type}
+                />
+            </InputSection>
+            <InputSection
+                title={strings.localUnitsFormLocalUnitName}
+                description={strings.localUnitsFormLocalDescription}
+                withAsteriskOnTitle
+            >
+                <TextInput
+                    name="local_branch_name"
+                    value={value.local_branch_name}
+                    onChange={setFieldValue}
+                    readOnly={viewMode}
+                    error={error?.local_branch_name}
+                />
+            </InputSection>
+            <InputSection
+                title={strings.localUnitsFormLocalUnitName}
+                description={strings.localUnitsFormEnglishDescription}
+            >
+                <TextInput
+                    name="english_branch_name"
+                    value={value.english_branch_name}
+                    onChange={setFieldValue}
+                    readOnly={viewMode}
+                    error={error?.english_branch_name}
                 />
             </InputSection>
             {value.type === TYPE_HEALTH_CARE ? (
@@ -180,7 +249,6 @@ function AddEditLocalUnitsForm(props: Props) {
                     </InputSection>
                     <InputSection
                         title={strings.localUnitsFormOtherAffiliation}
-                        withAsteriskOnTitle
                     >
                         <TextInput
                             name="other_affiliation"
@@ -205,80 +273,9 @@ function AddEditLocalUnitsForm(props: Props) {
                             error={healthFormError?.functionality}
                         />
                     </InputSection>
-                    <InputSection
-                        title={strings.localUnitsFormHospitalType}
-                    >
-                        <SelectInput
-                            name="health_facility_type"
-                            options={localUnitsOptions?.health_facility_type}
-                            value={value.health?.health_facility_type}
-                            onChange={onHealthFieldChange}
-                            keySelector={localUnitHealthFacilityCodeSelector}
-                            labelSelector={stringNameSelector}
-                            readOnly={viewMode}
-                            error={healthFormError?.health_facility_type}
-                        />
-                    </InputSection>
-                    <InputSection
-                        title={strings.localUnitsFormTeachingHospital}
-                    >
-                        <BooleanInput
-                            name="is_teaching_hospital"
-                            value={value.health?.is_teaching_hospital}
-                            onChange={onHealthFieldChange}
-                            readOnly={viewMode}
-                            error={healthFormError?.is_teaching_hospital}
-                        />
-                    </InputSection>
-                    <InputSection
-                        title={strings.localUnitsFormInPatientCapacity}
-                    >
-                        <BooleanInput
-                            name="is_in_patient_capacity"
-                            value={value.health?.is_in_patient_capacity}
-                            onChange={onHealthFieldChange}
-                            readOnly={viewMode}
-                            error={healthFormError?.is_in_patient_capacity}
-                        />
-                    </InputSection>
-                    <InputSection
-                        title={strings.localUnitsFormIsolationRoomsWards}
-                    >
-                        <BooleanInput
-                            name="is_isolation_rooms_wards"
-                            value={value.health?.is_isolation_rooms_wards}
-                            onChange={onHealthFieldChange}
-                            readOnly={viewMode}
-                            error={healthFormError?.is_isolation_rooms_wards}
-                        />
-                    </InputSection>
                 </>
             ) : (
                 <>
-                    <InputSection
-                        title={strings.localUnitsFormLocalUnitName}
-                        description={strings.localUnitsFormLocalDescription}
-                    >
-                        <TextInput
-                            name="local_branch_name"
-                            value={value.local_branch_name}
-                            onChange={setFieldValue}
-                            readOnly={viewMode}
-                            error={error?.local_branch_name}
-                        />
-                    </InputSection>
-                    <InputSection
-                        title={strings.localUnitsFormLocalUnitName}
-                        description={strings.localUnitsFormEnglishDescription}
-                    >
-                        <TextInput
-                            name="english_branch_name"
-                            value={value.english_branch_name}
-                            onChange={setFieldValue}
-                            readOnly={viewMode}
-                            error={error?.english_branch_name}
-                        />
-                    </InputSection>
                     <InputSection
                         title={strings.localUnitsFormCoverage}
                     >
@@ -296,6 +293,7 @@ function AddEditLocalUnitsForm(props: Props) {
                     <InputSection
                         title={strings.localUnitsFormFocalPerson}
                         description={strings.localUnitsFormLocalDescription}
+                        withAsteriskOnTitle
                     >
                         <TextInput
                             name="focal_person_loc"
@@ -463,6 +461,7 @@ function AddEditLocalUnitsForm(props: Props) {
                             </InputSection>
                             <InputSection
                                 title={strings.localUnitsFormFocalPointEmail}
+                                withAsteriskOnTitle
                             >
                                 <TextInput
                                     name="focal_point_email"
@@ -490,11 +489,51 @@ function AddEditLocalUnitsForm(props: Props) {
             {value.type === TYPE_HEALTH_CARE && (
                 <>
                     <Container
-                        heading={strings.localUnitsSpecialtiesTitle}
+                        heading={strings.localUnitsFacilityCategoryTitle}
                         withHeaderBorder
                         childrenContainerClassName={styles.addressContainer}
                     >
                         <div>
+                            <InputSection
+                                title={strings.localUnitsFormHealthFacilityType}
+                                withAsteriskOnTitle
+                            >
+                                <SelectInput
+                                    name="health_facility_type"
+                                    options={localUnitsOptions?.health_facility_type}
+                                    value={value.health?.health_facility_type}
+                                    onChange={onHealthFieldChange}
+                                    keySelector={localUnitHealthFacilityCodeSelector}
+                                    labelSelector={stringNameSelector}
+                                    readOnly={viewMode}
+                                    error={healthFormError?.health_facility_type}
+                                />
+                            </InputSection>
+                            <InputSection
+                                title={strings.localUnitsFormOtherFacilityType}
+                            >
+                                <TextInput
+                                    name="other_facility_type"
+                                    value={value.health?.other_facility_type}
+                                    onChange={onHealthFieldChange}
+                                    readOnly={viewMode}
+                                    error={healthFormError?.other_facility_type}
+                                />
+                            </InputSection>
+                            <InputSection
+                                title={strings.localUnitsFormHealthFacilityType}
+                            >
+                                <SelectInput
+                                    name="primary_health_care_center"
+                                    options={localUnitsOptions?.primary_health_care_center}
+                                    value={value.health?.primary_health_care_center}
+                                    onChange={onHealthFieldChange}
+                                    keySelector={LocalUnitPrimaryHealthCareCenterCodeSelector}
+                                    labelSelector={stringNameSelector}
+                                    readOnly={viewMode}
+                                    error={healthFormError?.primary_health_care_center}
+                                />
+                            </InputSection>
                             <InputSection
                                 title={strings.localUnitsFormSpecialties}
                             >
@@ -506,96 +545,66 @@ function AddEditLocalUnitsForm(props: Props) {
                                     error={healthFormError?.speciality}
                                 />
                             </InputSection>
+                        </div>
+                        <div>
                             <InputSection
-                                title={strings.localUnitsFormOtherServices}
-                            >
-                                <TextInput
-                                    name="other_services"
-                                    value={value.health?.other_services}
-                                    onChange={onHealthFieldChange}
-                                    readOnly={viewMode}
-                                    error={healthFormError?.other_services}
-                                />
-                            </InputSection>
-                            <InputSection
-                                title={strings.localUnitsFormBloodServices}
-                            >
-                                <MultiSelectInput
-                                    name="blood_services"
-                                    options={localUnitsOptions?.blood_services}
-                                    value={value.health?.blood_services}
-                                    onChange={onHealthFieldChange}
-                                    keySelector={localUnitBloodServicesCodeSelector}
-                                    labelSelector={stringNameSelector}
-                                    readOnly={viewMode}
-                                    error={getErrorString(healthFormError?.blood_services)}
-                                />
-                            </InputSection>
-                            <InputSection
-                                title={strings.localUnitsFormProfessionalTrainingFacilities}
-                            >
-                                <MultiSelectInput
-                                    name="professional_training_facilities"
-                                    options={localUnitsOptions?.professional_training_facilities}
-                                    value={value.health?.professional_training_facilities}
-                                    onChange={onHealthFieldChange}
-                                    keySelector={LocalUnitProfessionalTrainingCodeSelector}
-                                    labelSelector={stringNameSelector}
-                                    readOnly={viewMode}
-                                    error={getErrorString(
-                                        healthFormError?.professional_training_facilities,
-                                    )}
-                                />
-                            </InputSection>
-                            <InputSection
-                                title={strings.localUnitsFormGeneralMedicalServices}
-                            >
-                                <MultiSelectInput
-                                    name="general_medical_services"
-                                    options={localUnitsOptions?.general_medical_services}
-                                    value={value.health?.general_medical_services}
-                                    onChange={onHealthFieldChange}
-                                    keySelector={localUnitGeneralMedicalCodeSelector}
-                                    labelSelector={stringNameSelector}
-                                    readOnly={viewMode}
-                                    error={getErrorString(
-                                        healthFormError?.general_medical_services,
-                                    )}
-                                />
-                            </InputSection>
-                            <InputSection
-                                title={strings.localUnitsFormSpecialisation}
+                                title={strings.localUnitsFormHospitalType}
+                                withAsteriskOnTitle
                             >
                                 <SelectInput
-                                    name="specialist"
-                                    options={localUnitsOptions?.specialized_medical_services}
-                                    value={value.health?.specialist}
+                                    name="hospital_type"
+                                    options={localUnitsOptions?.hospital_type}
+                                    value={value.health?.hospital_type}
                                     onChange={onHealthFieldChange}
-                                    keySelector={localUnitGeneralMedicalCodeSelector}
+                                    keySelector={LocalUnitPrimaryHealthCareCenterCodeSelector}
                                     labelSelector={stringNameSelector}
                                     readOnly={viewMode}
-                                    error={getErrorString(
-                                        healthFormError?.specialist,
-                                    )}
+                                    error={healthFormError?.hospital_type}
                                 />
                             </InputSection>
                             <InputSection
-                                title={strings.localUnitsFormSpecializedMedicalService}
+                                title={strings.localUnitsFormTeachingHospital}
+                                withAsteriskOnTitle
                             >
-                                <MultiSelectInput
-                                    name="specialized_medical_beyond_primary_level"
-                                    options={localUnitsOptions?.specialized_medical_services}
-                                    value={value.health?.specialized_medical_beyond_primary_level}
+                                <BooleanInput
+                                    name="is_teaching_hospital"
+                                    value={value.health?.is_teaching_hospital}
                                     onChange={onHealthFieldChange}
-                                    keySelector={LocalUnitProfessionalTrainingCodeSelector}
-                                    labelSelector={stringNameSelector}
                                     readOnly={viewMode}
-                                    error={getErrorString(
-                                        healthFormError?.specialized_medical_beyond_primary_level,
-                                    )}
+                                    error={healthFormError?.is_teaching_hospital}
+                                />
+                            </InputSection>
+                            <InputSection
+                                title={strings.localUnitsFormInPatientCapacity}
+                                withAsteriskOnTitle
+                            >
+                                <BooleanInput
+                                    name="is_in_patient_capacity"
+                                    value={value.health?.is_in_patient_capacity}
+                                    onChange={onHealthFieldChange}
+                                    readOnly={viewMode}
+                                    error={healthFormError?.is_in_patient_capacity}
+                                />
+                            </InputSection>
+                            <InputSection
+                                title={strings.localUnitsFormIsolationRoomsWards}
+                                withAsteriskOnTitle
+                            >
+                                <BooleanInput
+                                    name="is_isolation_rooms_wards"
+                                    value={value.health?.is_isolation_rooms_wards}
+                                    onChange={onHealthFieldChange}
+                                    readOnly={viewMode}
+                                    error={healthFormError?.is_isolation_rooms_wards}
                                 />
                             </InputSection>
                         </div>
+                    </Container>
+                    <Container
+                        heading={strings.localUnitsFacilityCapacityTitle}
+                        withHeaderBorder
+                        childrenContainerClassName={styles.addressContainer}
+                    >
                         <div>
                             <InputSection
                                 title={strings.localUnitsFormMaximumCapacity}
@@ -649,6 +658,8 @@ function AddEditLocalUnitsForm(props: Props) {
                                     )}
                                 />
                             </InputSection>
+                        </div>
+                        <div>
                             <InputSection
                                 title={strings.localUnitsFormAmbulanceTypeA}
                             >
@@ -691,6 +702,91 @@ function AddEditLocalUnitsForm(props: Props) {
                         </div>
                     </Container>
                     <Container
+                        heading={strings.localUnitsServicesTitle}
+                        withHeaderBorder
+                        childrenContainerClassName={styles.addressContainer}
+                    >
+                        <div>
+                            <InputSection
+                                title={strings.localUnitsFormGeneralMedicalServices}
+                            >
+                                <MultiSelectInput
+                                    name="general_medical_services"
+                                    options={localUnitsOptions?.general_medical_services}
+                                    value={value.health?.general_medical_services}
+                                    onChange={onHealthFieldChange}
+                                    keySelector={localUnitGeneralMedicalCodeSelector}
+                                    labelSelector={stringNameSelector}
+                                    readOnly={viewMode}
+                                    error={getErrorString(
+                                        healthFormError?.general_medical_services,
+                                    )}
+                                />
+                            </InputSection>
+                            <InputSection
+                                title={strings.localUnitsFormSpecializedMedicalService}
+                                withAsteriskOnTitle
+                            >
+                                <MultiSelectInput
+                                    name="specialized_medical_beyond_primary_level"
+                                    options={localUnitsOptions?.specialized_medical_services}
+                                    value={value.health?.specialized_medical_beyond_primary_level}
+                                    onChange={onHealthFieldChange}
+                                    keySelector={LocalUnitProfessionalTrainingCodeSelector}
+                                    labelSelector={stringNameSelector}
+                                    readOnly={viewMode}
+                                    error={getErrorString(
+                                        healthFormError?.specialized_medical_beyond_primary_level,
+                                    )}
+                                />
+                            </InputSection>
+                            <InputSection
+                                title={strings.localUnitsFormOtherServices}
+                            >
+                                <TextInput
+                                    name="other_services"
+                                    value={value.health?.other_services}
+                                    onChange={onHealthFieldChange}
+                                    readOnly={viewMode}
+                                    error={healthFormError?.other_services}
+                                />
+                            </InputSection>
+                        </div>
+                        <div>
+                            <InputSection
+                                title={strings.localUnitsFormBloodServices}
+                                withAsteriskOnTitle
+                            >
+                                <MultiSelectInput
+                                    name="blood_services"
+                                    options={localUnitsOptions?.blood_services}
+                                    value={value.health?.blood_services}
+                                    onChange={onHealthFieldChange}
+                                    keySelector={localUnitBloodServicesCodeSelector}
+                                    labelSelector={stringNameSelector}
+                                    readOnly={viewMode}
+                                    error={getErrorString(healthFormError?.blood_services)}
+                                />
+                            </InputSection>
+                            <InputSection
+                                title={strings.localUnitsFormProfessionalTrainingFacilities}
+                            >
+                                <MultiSelectInput
+                                    name="professional_training_facilities"
+                                    options={localUnitsOptions?.professional_training_facilities}
+                                    value={value.health?.professional_training_facilities}
+                                    onChange={onHealthFieldChange}
+                                    keySelector={LocalUnitProfessionalTrainingCodeSelector}
+                                    labelSelector={stringNameSelector}
+                                    readOnly={viewMode}
+                                    error={getErrorString(
+                                        healthFormError?.professional_training_facilities,
+                                    )}
+                                />
+                            </InputSection>
+                        </div>
+                    </Container>
+                    <Container
                         heading={strings.localUnitsHumanResourcesTitle}
                         withHeaderBorder
                         childrenContainerClassName={styles.addressContainer}
@@ -719,6 +815,19 @@ function AddEditLocalUnitsForm(props: Props) {
                                     readOnly={viewMode}
                                     error={getErrorString(
                                         healthFormError?.general_practitioner,
+                                    )}
+                                />
+                            </InputSection>
+                            <InputSection
+                                title={strings.localUnitsFormSpecialist}
+                            >
+                                <NumberInput
+                                    name="specialist"
+                                    value={value.health?.specialist}
+                                    onChange={onHealthFieldChange}
+                                    readOnly={viewMode}
+                                    error={getErrorString(
+                                        healthFormError?.specialist,
                                     )}
                                 />
                             </InputSection>
@@ -800,6 +909,17 @@ function AddEditLocalUnitsForm(props: Props) {
                                     error={getErrorString(
                                         healthFormError?.other_medical_heal,
                                     )}
+                                />
+                            </InputSection>
+                            <InputSection
+                                title={strings.localUnitsFormOtherProfiles}
+                            >
+                                <TextInput
+                                    name="other_profiles"
+                                    value={value.health?.other_profiles}
+                                    onChange={onHealthFieldChange}
+                                    readOnly={viewMode}
+                                    error={healthFormError?.other_profiles}
                                 />
                             </InputSection>
                         </div>

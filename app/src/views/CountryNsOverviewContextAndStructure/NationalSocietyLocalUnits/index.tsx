@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
 import {
     Button,
     Container,
@@ -15,7 +14,6 @@ import {
 import { _cs } from '@togglecorp/fujs';
 
 import useAuth from '#hooks/domain/useAuth';
-import { type CountryOutletContext } from '#utils/outletContext';
 
 import AddEditLocalUnitsModal from './AddEditLocalUnitsModal';
 import LocalUnitsMap from './LocalUnitsMap';
