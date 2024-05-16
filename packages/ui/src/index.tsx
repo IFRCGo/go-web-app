@@ -168,6 +168,7 @@ export type { Props as TextInputProps } from './components/TextInput';
 export { default as TextInput } from './components/TextInput';
 export type { Props as TextOutputProps } from './components/TextOutput';
 export { default as TextOutput } from './components/TextOutput';
+export type { Props as TimeSeriesChartProps } from './components/TimeSeriesChart';
 export { default as TimeSeriesChart } from './components/TimeSeriesChart';
 export { default as ChartPoint } from './components/TimeSeriesChart/ChartPoint';
 export type { Props as TooltipProps } from './components/Tooltip';
