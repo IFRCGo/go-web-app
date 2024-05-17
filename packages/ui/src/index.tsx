@@ -97,6 +97,7 @@ export { default as PageContainer } from './components/PageContainer';
 export { default as PageHeader } from './components/PageHeader';
 export type { Props as PagerProps } from './components/Pager';
 export { default as Pager } from './components/Pager';
+export type { Props as TopBannerProps } from './components/parked/TopBanner';
 export { default as TopBanner } from './components/parked/TopBanner';
 export type { Props as PasswordInputProps } from './components/PasswordInput';
 export { default as PasswordInput } from './components/PasswordInput';

@@ -3,7 +3,7 @@ import { _cs } from '@togglecorp/fujs';
 
 import styles from './styles.module.css';
 
-interface Props {
+export interface Props {
   className?: string;
   children?: React.ReactNode;
   variant: 'warning' | 'negative' | 'positive' | 'information';
