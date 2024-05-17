@@ -93,6 +93,7 @@ export { default as NumberInput } from './components/NumberInput';
 export type { Props as NumberOutputProps } from './components/NumberOutput';
 export { default as NumberOutput } from './components/NumberOutput';
 export { default as PageContainer } from './components/PageContainer';
+export type { Props as PageHeaderProps } from './components/PageHeader';
 export { default as PageHeader } from './components/PageHeader';
 export type { Props as PagerProps } from './components/Pager';
 export { default as Pager } from './components/Pager';
