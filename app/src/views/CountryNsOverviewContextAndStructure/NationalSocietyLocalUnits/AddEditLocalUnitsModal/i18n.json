@@ -1,7 +1,0 @@
-{
-    "namespace": "nationalSocietyLocalUnits",
-    "strings": {
-        "localUnitsModalHeading": "Local Unit - {type}",
-        "localUnitsModalContent": "This is the content"
-    }
-}

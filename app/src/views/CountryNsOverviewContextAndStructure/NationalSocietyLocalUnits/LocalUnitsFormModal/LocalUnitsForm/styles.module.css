@@ -1,0 +1,14 @@
+.local-units-form {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+
+    .health-care-details-content {
+        gap: var(--go-ui-spacing-2xl);
+    }
+
+    .point-input-map {
+        background-color: var(--go-ui-color-background);
+        height: 24rem;
+    }
+}

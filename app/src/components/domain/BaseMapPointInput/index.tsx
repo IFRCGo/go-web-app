@@ -13,6 +13,7 @@ import {
     MapLayer,
     MapSource,
 } from '@togglecorp/re-map';
+import getBbox from '@turf/bbox';
 import {
     CircleLayer,
     FillLayer,
@@ -23,11 +24,14 @@ import {
 } from 'mapbox-gl';
 
 import BaseMap, { Props as BaseMapProps } from '#components/domain/BaseMap';
+import useCountry from '#hooks/domain/useCountry';
 import {
     COLOR_LIGHT_GREY,
     COLOR_PRIMARY_RED,
 } from '#utils/constants';
 import { localUnitMapStyle } from '#utils/map';
+
+import ActiveCountryBaseMapLayer from '../ActiveCountryBaseMapLayer';
 
 import styles from './styles.module.css';
 
@@ -39,12 +43,14 @@ export interface GeoPoint {
 type Value = Partial<GeoPoint>;
 
 interface Props<NAME> extends BaseMapProps {
+    country?: number | undefined;
     name: NAME,
     value: Value | undefined | null;
     onChange: (newValue: Value | undefined, name: NAME) => void;
     onClick?: (feature: MapboxGeoJSONFeature, lngLat: LngLat, map: Map) => void;
     mapContainerClassName?: string;
     className?: string;
+    readOnly?: boolean;
 }
 
 function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
@@ -59,8 +65,23 @@ function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
         children,
         mapOptions,
         mapStyle = localUnitMapStyle,
+        readOnly,
+        country,
         ...otherProps
     } = props;
+
+    const countryDetails = useCountry({ id: country ?? -1 });
+
+    const bounds = useMemo(
+        () => {
+            if (isNotDefined(countryDetails)) {
+                return undefined;
+            }
+
+            return getBbox(countryDetails.bbox);
+        },
+        [countryDetails],
+    );
 
     const pointGeoJson = useMemo<GeoJSON.Feature | undefined>(
         () => {
@@ -86,6 +107,10 @@ function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
                 onClick(feature, lngLat, map);
             }
 
+            if (isDefined(country) && feature.properties?.country_id !== country) {
+                return undefined;
+            }
+
             onChange(
                 {
                     lat: lngLat.lat,
@@ -95,7 +120,7 @@ function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
             );
             return undefined;
         },
-        [name, onChange, onClick],
+        [name, onChange, onClick, country],
     );
 
     const adminOneLayerOptions = useMemo<Omit<FillLayer, 'id'>>(
@@ -148,18 +173,22 @@ function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
         <div className={_cs(styles.baseMapPointInput, className)}>
             <div className={styles.locationInputs}>
                 <NumberInput
+                    className={styles.input}
                     name="lat"
                     // FIXME: use strings
                     label="Latitude"
                     value={value?.lat}
                     onChange={handleLatInputChange}
+                    readOnly={readOnly}
                 />
                 <NumberInput
+                    className={styles.input}
                     name="lng"
                     // FIXME: use strings
                     label="Longitude"
                     value={value?.lng}
                     onChange={handleLngInputChange}
+                    readOnly={readOnly}
                 />
             </div>
             <BaseMap
@@ -168,15 +197,21 @@ function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
                 mapOptions={{
                     minZoom: 3,
                     zoom: 3,
+                    bounds,
                     ...mapOptions,
                 }}
                 mapStyle={mapStyle}
                 baseLayers={(
                     <>
+                        {isDefined(countryDetails) && (
+                            <ActiveCountryBaseMapLayer
+                                activeCountryIso3={countryDetails.iso3}
+                            />
+                        )}
                         <MapLayer
                             layerKey="admin-1-highlight"
                             layerOptions={adminOneLayerOptions}
-                            onClick={handleMapLayerClick}
+                            onClick={!readOnly ? handleMapLayerClick : undefined}
                         />
                         {baseLayers}
                     </>

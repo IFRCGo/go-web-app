@@ -15,7 +15,7 @@ import { _cs } from '@togglecorp/fujs';
 
 import useAuth from '#hooks/domain/useAuth';
 
-import AddEditLocalUnitsModal from './AddEditLocalUnitsModal';
+import LocalUnitsFormModal from './LocalUnitsFormModal';
 import LocalUnitsMap from './LocalUnitsMap';
 import LocalUnitsTable from './LocalUnitsTable';
 
@@ -47,8 +47,8 @@ function NationalSocietyLocalUnits(props: Props) {
             variant="tertiary"
         >
             <Container
-                className={_cs(styles.nationalSocietyLocalUnitsMap, className)}
-                heading={strings.localUnitsMapTitle}
+                className={_cs(styles.nationalSocietyLocalUnits, className)}
+                heading={strings.localUnitsTitle}
                 childrenContainerClassName={styles.content}
                 withGridViewInFilter
                 withHeaderBorder
@@ -59,16 +59,8 @@ function NationalSocietyLocalUnits(props: Props) {
                     </TabList>
                 )}
                 actions={isAuthenticated && (
-                    // <Link
-                    //     external
-                    //     href={resolveUrl(adminUrl,
-                    //     `local_units/localunit/?country=${countryId}`)}
-                    //     variant="secondary"
-                    // >
-                    //     {strings.editLocalUnitLink}
-                    // </Link>
                     <Button
-                        name="addEdit"
+                        name={undefined}
                         variant="secondary"
                         onClick={setShowAddEditModalTrue}
                     >
@@ -83,7 +75,7 @@ function NationalSocietyLocalUnits(props: Props) {
                     <LocalUnitsTable />
                 </TabPanel>
                 {showAddEditModal && (
-                    <AddEditLocalUnitsModal
+                    <LocalUnitsFormModal
                         onClose={setShowAddEditModalFalse}
                     />
                 )}

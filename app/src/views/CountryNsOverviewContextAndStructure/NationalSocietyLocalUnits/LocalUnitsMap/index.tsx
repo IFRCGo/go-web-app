@@ -44,6 +44,7 @@ import {
     DEFAULT_MAP_PADDING,
     DURATION_MAP_ZOOM,
 } from '#utils/constants';
+import { localUnitMapStyle } from '#utils/map';
 import { type CountryOutletContext } from '#utils/outletContext';
 import {
     GoApiUrlQuery,
@@ -59,7 +60,6 @@ import Filters, { FilterValue } from '../Filters';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-import { localUnitMapStyle } from '#utils/map';
 
 const LOCAL_UNIT_ICON_KEY = 'local-units';
 const HEALTHCARE_ICON_KEY = 'healthcare';

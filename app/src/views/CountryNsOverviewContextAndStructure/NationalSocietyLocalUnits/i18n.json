@@ -1,11 +1,11 @@
 {
     "namespace": "nationalSocietyLocalUnits",
     "strings": {
-        "localUnitsMapTitle": "NS Local Units",
+        "localUnitsTitle": "NS Local Units",
         "localUnitDetailAddressValue": "{address}, {city}, {country}",
         "localUnitDetailType": "Type",
         "localUnitsMapView": "Map view",
         "localUnitsListView": "List view",
-        "editLocalUnitLink": "Add/Edit Local Units"
+        "editLocalUnitLink": "Add a Local Unit"
     }
 }

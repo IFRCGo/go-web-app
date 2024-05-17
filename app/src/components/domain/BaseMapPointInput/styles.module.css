@@ -7,5 +7,10 @@
         display: flex;
         gap: var(--go-ui-spacing-sm);
         flex-wrap: wrap;
+
+        .input {
+            flex-grow: 1;
+            min-width: 16rem;
+        }
     }
 }
