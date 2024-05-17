@@ -7,7 +7,7 @@ import PageContainer from '#components/PageContainer';
 
 import styles from './styles.module.css';
 
-interface Props {
+export interface Props {
     className?: string;
     heading?: React.ReactNode;
     description?: React.ReactNode;
