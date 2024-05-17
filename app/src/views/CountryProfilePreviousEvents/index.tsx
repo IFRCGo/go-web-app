@@ -18,7 +18,6 @@ import {
 } from '@togglecorp/fujs';
 
 import AppealsTable from '#components/domain/AppealsTable';
-import CountryKeyFigures from '#components/domain/CountryKeyFigures';
 import WikiLink from '#components/WikiLink';
 import { type CountryOutletContext } from '#utils/outletContext';
 import {
@@ -26,6 +25,7 @@ import {
     useRequest,
 } from '#utils/restRequest';
 
+import CountryHistoricalKeyFigures from './CountryHistoricalKeyFigures';
 import EmergenciesOverMonth from './EmergenciesOverMonth';
 import PastEventsChart from './PastEventsChart';
 
@@ -143,9 +143,7 @@ export function Component() {
     if (isNotDefined(selectedTimePeriod)) {
         return null;
     }
-
     // FIXME: properly handle low data and empty conditions in charts
-
     return (
         <Container
             className={styles.countryProfilePreviousEvents}
@@ -178,7 +176,7 @@ export function Component() {
                 errorMessage={disasterCountError?.value.messageForNotification}
             >
                 {isDefined(figureResponse) && (
-                    <CountryKeyFigures
+                    <CountryHistoricalKeyFigures
                         className={styles.keyFigures}
                         data={figureResponse}
                     />

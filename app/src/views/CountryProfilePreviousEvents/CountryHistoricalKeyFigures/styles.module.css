@@ -1,0 +1,13 @@
+.country-historical-key-figures {
+    display: grid;
+    grid-gap: var(--go-ui-spacing-md);
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+
+    .key-figure {
+        border-radius: var(--go-ui-border-radius-lg);
+        box-shadow: var(--go-ui-box-shadow-md);
+        background-color: var(--go-ui-color-white);
+        height: 100%;
+    }
+
+}
