@@ -78,6 +78,7 @@ export type { Props as InputSectionProps } from './components/InputSection';
 export { default as InputSection } from './components/InputSection';
 export { default as KeyFigure } from './components/KeyFigure';
 export type { Props as KeyFigureProps } from './components/KeyFigure';
+export type{ Props as LegendItemProps } from './components/LegendItem';
 export { default as LegendItem } from './components/LegendItem';
 export type { Props as ListProps } from './components/List';
 export { default as List } from './components/List';
