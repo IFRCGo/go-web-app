@@ -49,6 +49,7 @@ import schema, {
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+import { DateInput } from '@ifrc-go/ui';
 
 type HealthLocalUnitFormFields = PartialLocalUnits['health'];
 type LocalUnitsOptionsType = GoApiResponse<'/api/v2/local-units-options/'>;
@@ -62,18 +63,18 @@ type LocalUnitGeneralMedical = NonNullable<LocalUnitsOptionsType['general_medica
 type LocalUnitPrimaryHealthCareCenter = NonNullable<LocalUnitsOptionsType['primary_health_care_center']>[number];
 type VisibilityOptions = NonNullable<GoApiResponse<'/api/v2/global-enums/'>['api_visibility_choices']>[number]
 
-const localUnitTypeCodeSelector = (localUnit: LocalUnitType) => localUnit.code;
-const localUnitCoverageLevelSelector = (localUnit: LocalUnitCoverage) => localUnit.level;
-const localUnitAffiliationCodeSelector = (localUnit: LocalUnitAffiliation) => localUnit.code;
-const localUnitHealthFacilityCodeSelector = (localUnit: LocalUnitHealthFacility) => localUnit.code;
-const LocalUnitPrimaryHealthCareCenterCodeSelector = (
+const localUnitTypeSelector = (localUnit: LocalUnitType) => localUnit.id;
+const localUnitCoverageSelector = (localUnit: LocalUnitCoverage) => localUnit.id;
+const localUnitAffiliationSelector = (localUnit: LocalUnitAffiliation) => localUnit.id;
+const localUnitHealthFacilitySelector = (localUnit: LocalUnitHealthFacility) => localUnit.id;
+const LocalUnitPrimaryHealthCareCenterSelector = (
     localUnit: LocalUnitPrimaryHealthCareCenter,
-) => localUnit.code;
-const localUnitBloodServicesCodeSelector = (localUnit: LocalUnitBloodServices) => localUnit.code;
-const LocalUnitProfessionalTrainingCodeSelector = (
+) => localUnit.id;
+const localUnitBloodServicesSelector = (localUnit: LocalUnitBloodServices) => localUnit.id;
+const LocalUnitProfessionalTrainingSelector = (
     localUnit: LocalUnitProfessionalTraining,
-) => localUnit.code;
-const localUnitGeneralMedicalCodeSelector = (localUnit: LocalUnitGeneralMedical) => localUnit.code;
+) => localUnit.id;
+const localUnitGeneralMedicalSelector = (localUnit: LocalUnitGeneralMedical) => localUnit.id;
 const VisibilityOptions = (option: VisibilityOptions) => option.key;
 const defaultHealthValue = {};
 
@@ -169,11 +170,13 @@ function LocalUnitsForm(props: Props) {
                 { variant: 'success' },
             );
         },
-        onFailure: () => {
+        onFailure: (response) => {
             alert.show(
                 'Failed',
                 { variant: 'danger' },
             );
+
+            setError(response.value.formErrors);
         },
     });
 
@@ -227,7 +230,7 @@ function LocalUnitsForm(props: Props) {
                         options={localUnitsOptions?.type}
                         value={value.type}
                         onChange={setFieldValue}
-                        keySelector={localUnitTypeCodeSelector}
+                        keySelector={localUnitTypeSelector}
                         labelSelector={stringNameSelector}
                         readOnly={readOnly}
                         error={error?.type}
@@ -262,7 +265,7 @@ function LocalUnitsForm(props: Props) {
                             options={localUnitsOptions?.level}
                             value={value.level}
                             onChange={setFieldValue}
-                            keySelector={localUnitCoverageLevelSelector}
+                            keySelector={localUnitCoverageSelector}
                             labelSelector={stringNameSelector}
                             readOnly={readOnly}
                             error={error?.level}
@@ -276,7 +279,7 @@ function LocalUnitsForm(props: Props) {
                             options={localUnitsOptions?.affiliation}
                             value={value.health?.affiliation}
                             onChange={onHealthFieldChange}
-                            keySelector={localUnitAffiliationCodeSelector}
+                            keySelector={localUnitAffiliationSelector}
                             labelSelector={stringNameSelector}
                             readOnly={readOnly}
                             error={healthFormError?.affiliation}
@@ -300,12 +303,21 @@ function LocalUnitsForm(props: Props) {
                             options={localUnitsOptions?.functionality}
                             value={value.health?.functionality}
                             onChange={onHealthFieldChange}
-                            keySelector={localUnitAffiliationCodeSelector}
+                            keySelector={localUnitAffiliationSelector}
                             labelSelector={stringNameSelector}
                             readOnly={readOnly}
                             error={healthFormError?.functionality}
                         />
                     )}
+                    <DateInput
+                        required
+                        name="date_of_data"
+                        label={strings.dateOfUpdate}
+                        value={value.date_of_data}
+                        onChange={setFieldValue}
+                        readOnly={readOnly}
+                        error={error?.date_of_data}
+                    />
                 </InputSection>
                 <InputSection
                     title={strings.localUnitName}
@@ -557,7 +569,7 @@ function LocalUnitsForm(props: Props) {
                                 options={localUnitsOptions?.health_facility_type}
                                 value={value.health?.health_facility_type}
                                 onChange={onHealthFieldChange}
-                                keySelector={localUnitHealthFacilityCodeSelector}
+                                keySelector={localUnitHealthFacilitySelector}
                                 labelSelector={stringNameSelector}
                                 readOnly={readOnly}
                                 error={healthFormError?.health_facility_type}
@@ -576,7 +588,7 @@ function LocalUnitsForm(props: Props) {
                                 options={localUnitsOptions?.primary_health_care_center}
                                 value={value.health?.primary_health_care_center}
                                 onChange={onHealthFieldChange}
-                                keySelector={LocalUnitPrimaryHealthCareCenterCodeSelector}
+                                keySelector={LocalUnitPrimaryHealthCareCenterSelector}
                                 labelSelector={stringNameSelector}
                                 readOnly={readOnly}
                                 error={healthFormError?.primary_health_care_center}
@@ -596,7 +608,7 @@ function LocalUnitsForm(props: Props) {
                                 options={localUnitsOptions?.hospital_type}
                                 value={value.health?.hospital_type}
                                 onChange={onHealthFieldChange}
-                                keySelector={LocalUnitPrimaryHealthCareCenterCodeSelector}
+                                keySelector={LocalUnitPrimaryHealthCareCenterSelector}
                                 labelSelector={stringNameSelector}
                                 readOnly={readOnly}
                                 error={healthFormError?.hospital_type}
@@ -713,7 +725,7 @@ function LocalUnitsForm(props: Props) {
                                 options={localUnitsOptions?.general_medical_services}
                                 value={value.health?.general_medical_services}
                                 onChange={onHealthFieldChange}
-                                keySelector={localUnitGeneralMedicalCodeSelector}
+                                keySelector={localUnitGeneralMedicalSelector}
                                 labelSelector={stringNameSelector}
                                 readOnly={readOnly}
                                 error={getErrorString(
@@ -727,7 +739,7 @@ function LocalUnitsForm(props: Props) {
                                 options={localUnitsOptions?.specialized_medical_services}
                                 value={value.health?.specialized_medical_beyond_primary_level}
                                 onChange={onHealthFieldChange}
-                                keySelector={LocalUnitProfessionalTrainingCodeSelector}
+                                keySelector={LocalUnitProfessionalTrainingSelector}
                                 labelSelector={stringNameSelector}
                                 readOnly={readOnly}
                                 error={getErrorString(
@@ -749,7 +761,7 @@ function LocalUnitsForm(props: Props) {
                                 options={localUnitsOptions?.blood_services}
                                 value={value.health?.blood_services}
                                 onChange={onHealthFieldChange}
-                                keySelector={localUnitBloodServicesCodeSelector}
+                                keySelector={localUnitBloodServicesSelector}
                                 labelSelector={stringNameSelector}
                                 readOnly={readOnly}
                                 error={getErrorString(healthFormError?.blood_services)}
@@ -760,7 +772,7 @@ function LocalUnitsForm(props: Props) {
                                 options={localUnitsOptions?.professional_training_facilities}
                                 value={value.health?.professional_training_facilities}
                                 onChange={onHealthFieldChange}
-                                keySelector={LocalUnitProfessionalTrainingCodeSelector}
+                                keySelector={LocalUnitProfessionalTrainingSelector}
                                 labelSelector={stringNameSelector}
                                 readOnly={readOnly}
                                 error={getErrorString(

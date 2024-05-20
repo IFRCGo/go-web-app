@@ -53,7 +53,6 @@ const schema: LocalUnitsFormSchema = {
         let formFields: LocalUnitsFormSchemaFields = {
             type: { required: true },
             visibility: { required: true },
-            location: {},
             subtype: {
                 validations: [lengthSmallerThanCondition(200)],
             },
@@ -72,6 +71,7 @@ const schema: LocalUnitsFormSchema = {
                 validations: [lengthSmallerThanCondition(200)],
                 required: true,
             },
+            date_of_data: { required: true },
             source_en: {},
             address_en: {
                 validations: [lengthSmallerThanCondition(200)],
@@ -134,7 +134,7 @@ const schema: LocalUnitsFormSchema = {
                                 other_affiliation: {
                                     validations: [lengthSmallerThanCondition(500)],
                                 },
-                                is_teaching_hospital: { required: true },
+                                is_teaching_hospital: {},
                                 is_in_patient_capacity: { required: true },
                                 is_isolation_rooms_wards: { required: true },
                                 focal_point_email: {
@@ -150,7 +150,7 @@ const schema: LocalUnitsFormSchema = {
                                 focal_point_phone_number: {
                                     validations: [lengthSmallerThanCondition(50)],
                                 },
-                                hospital_type: { required: true },
+                                hospital_type: {},
                                 specialized_medical_beyond_primary_level: { required: true },
                                 other_services: {
                                     validations: [lengthSmallerThanCondition(200)],
