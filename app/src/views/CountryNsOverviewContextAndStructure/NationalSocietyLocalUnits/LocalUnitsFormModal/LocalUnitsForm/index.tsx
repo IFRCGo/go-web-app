@@ -191,8 +191,7 @@ function LocalUnitsForm(props: Props) {
                 onSuccess();
             }
             alert.show(
-                // FIXME use translation
-                'Local unit added successfully!',
+                strings.successMessage,
                 { variant: 'success' },
             );
         },
@@ -211,8 +210,7 @@ function LocalUnitsForm(props: Props) {
             ));
 
             alert.show(
-                // FIXME use translation
-                'Failed to add local unit',
+                strings.failedMessage,
                 {
                     variant: 'danger',
                     description: messageForNotification,
@@ -237,8 +235,7 @@ function LocalUnitsForm(props: Props) {
                 onSuccess();
             }
             alert.show(
-                // FIXME use translation
-                'Local unit updated successfully!',
+                strings.updateMessage,
                 { variant: 'success' },
             );
         },
@@ -257,8 +254,7 @@ function LocalUnitsForm(props: Props) {
             ));
 
             alert.show(
-                // FIXME use translation
-                'Failed to update local unit',
+                strings.updateFailedMessage,
                 {
                     variant: 'danger',
                     description: messageForNotification,
@@ -522,8 +518,7 @@ function LocalUnitsForm(props: Props) {
                         </LocalUnitInputSection>
                         <LocalUnitInputSection
                             numPreferredColumns={3}
-                            // FIXME: use strings
-                            title="Local Unit detail"
+                            title={strings.localUnitDetail}
                         >
                             <TextInput
                                 label={strings.postCode}
@@ -627,8 +622,8 @@ function LocalUnitsForm(props: Props) {
                             numPreferredColumns={3}
                         >
                             <CountrySelectInput
-                                // FIXME: use strings
-                                label="Country"
+                                required
+                                label={strings.country}
                                 name="country"
                                 value={value.country}
                                 onChange={setFieldValue}
@@ -714,6 +709,7 @@ function LocalUnitsForm(props: Props) {
                                 error={healthFormError?.hospital_type}
                             />
                             <BooleanInput
+                                clearable
                                 label={strings.teachingHospital}
                                 name="is_teaching_hospital"
                                 value={value.health?.is_teaching_hospital}
@@ -722,6 +718,7 @@ function LocalUnitsForm(props: Props) {
                                 error={healthFormError?.is_teaching_hospital}
                             />
                             <BooleanInput
+                                required
                                 label={strings.inPatientCapacity}
                                 name="is_in_patient_capacity"
                                 value={value.health?.is_in_patient_capacity}
@@ -730,6 +727,7 @@ function LocalUnitsForm(props: Props) {
                                 error={healthFormError?.is_in_patient_capacity}
                             />
                             <BooleanInput
+                                required
                                 label={strings.isolationRoomsWards}
                                 name="is_isolation_rooms_wards"
                                 value={value.health?.is_isolation_rooms_wards}
@@ -762,6 +760,7 @@ function LocalUnitsForm(props: Props) {
                                 )}
                             />
                             <BooleanInput
+                                clearable
                                 label={strings.warehousing}
                                 name="is_warehousing"
                                 value={value.health?.is_warehousing}
@@ -772,6 +771,7 @@ function LocalUnitsForm(props: Props) {
                                 )}
                             />
                             <BooleanInput
+                                clearable
                                 label={strings.coldChain}
                                 name="is_cold_chain"
                                 value={value.health?.is_cold_chain}
@@ -816,6 +816,7 @@ function LocalUnitsForm(props: Props) {
                             title={strings.servicesTitle}
                         >
                             <MultiSelectInput
+                                required
                                 label={strings.generalMedicalServices}
                                 name="general_medical_services"
                                 options={localUnitsOptions?.general_medical_services}
@@ -880,6 +881,7 @@ function LocalUnitsForm(props: Props) {
                             title={strings.humanResourcesTitle}
                         >
                             <NumberInput
+                                required
                                 label={strings.totalNumberOfHumanResources}
                                 name="total_number_of_human_resource"
                                 value={value.health?.total_number_of_human_resource}
@@ -960,6 +962,7 @@ function LocalUnitsForm(props: Props) {
                                 )}
                             />
                             <BooleanInput
+                                clearable
                                 label={strings.otherMedicalHeal}
                                 name="other_medical_heal"
                                 value={value.health?.other_medical_heal}

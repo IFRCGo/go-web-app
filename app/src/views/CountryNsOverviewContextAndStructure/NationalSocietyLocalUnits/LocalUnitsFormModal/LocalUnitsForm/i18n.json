@@ -1,6 +1,10 @@
 {
     "namespace": "",
     "strings": {
+        "successMessage": "Local unit added successfully!",
+        "failedMessage": "Failed to add local unit",
+        "updateMessage": "Local unit updated successfully!",
+        "updateFailedMessage": "Failed to update local unit",
         "subtype": "Sub-type",
         "subtypeDescription": "(e.g. hospital)",
         "englishLabel": "English",
@@ -8,6 +12,7 @@
         "localUnitName": "Local unit name",
         "coverage": "Coverage",
         "focalPerson": "Focal person name",
+        "country": "Country",
         "focalPointLabel": "Focal point",
         "source": "Source",
         "addressAndContactTitle": "Address and Contact",
@@ -18,6 +23,7 @@
         "address": "Address",
         "locality": "Locality",
         "postCode": "Local unit post code",
+        "localUnitDetail": "Local Unit detail",
         "phone": "Local unit phone number",
         "email": "Local unit email",
         "website": "Local unit website",
