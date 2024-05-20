@@ -9,8 +9,11 @@
             "recommended": true
         }
     },
-    "formatter": {
-        "indentStyle": "space",
-        "indentWidth": 4
+    "javascript": {
+        "formatter": {
+            "indentStyle": "space",
+            "quoteStyle": "single",
+            "indentWidth": 4
+        }
     }
 }

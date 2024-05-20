@@ -24,7 +24,6 @@ build-ssr
 *.njsproj
 *.sln
 *.sw?
-
 .env*
 !.env.example
 .eslintcache
@@ -41,3 +40,7 @@ storybook-static/
 
 # Helm
 .helm-charts/
+
+#tests
+test-results/
+

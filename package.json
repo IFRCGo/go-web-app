@@ -19,7 +19,8 @@
         "preview": "pnpm -F go-web-app preview",
         "storybook": "pnpm -F go-ui-storybook storybook",
         "build-storybook": "pnpm -F go-ui-storybook build-storybook",
-        "chromatic": "pnpm -F go-ui-storybook chromatic"
+        "chromatic": "pnpm -F go-ui-storybook chromatic",
+        "test:e2e": "yarn workspace e2e-tests playwright test"
     },
     "engines": {
         "node": "20",
