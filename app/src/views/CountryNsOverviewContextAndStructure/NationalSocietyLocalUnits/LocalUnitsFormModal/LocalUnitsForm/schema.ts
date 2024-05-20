@@ -53,6 +53,7 @@ const schema: LocalUnitsFormSchema = {
         let formFields: LocalUnitsFormSchemaFields = {
             type: { required: true },
             visibility: { required: true },
+            country: { required: true },
             subtype: {
                 validations: [lengthSmallerThanCondition(200)],
             },

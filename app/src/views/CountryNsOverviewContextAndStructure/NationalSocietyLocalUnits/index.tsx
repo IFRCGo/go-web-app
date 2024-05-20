@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
     Button,
     Container,
@@ -33,10 +33,20 @@ function NationalSocietyLocalUnits(props: Props) {
 
     const [activeTab, setActiveTab] = useState<'map'| 'table'>('map');
     const { isAuthenticated } = useAuth();
+    const [localUnitUpdateKey, setLocalUnitUpdateKey] = useState(0);
+
     const [showAddEditModal, {
         setTrue: setShowAddEditModalTrue,
         setFalse: setShowAddEditModalFalse,
     }] = useBooleanState(false);
+
+    const handleLocalUnitFormModalClose = useCallback(
+        () => {
+            setShowAddEditModalFalse();
+            setLocalUnitUpdateKey(new Date().getTime());
+        },
+        [setShowAddEditModalFalse],
+    );
 
     const strings = useTranslation(i18n);
 
@@ -69,14 +79,18 @@ function NationalSocietyLocalUnits(props: Props) {
                 )}
             >
                 <TabPanel name="map">
-                    <LocalUnitsMap />
+                    <LocalUnitsMap
+                        key={localUnitUpdateKey}
+                    />
                 </TabPanel>
                 <TabPanel name="table">
-                    <LocalUnitsTable />
+                    <LocalUnitsTable
+                        key={localUnitUpdateKey}
+                    />
                 </TabPanel>
                 {showAddEditModal && (
                     <LocalUnitsFormModal
-                        onClose={setShowAddEditModalFalse}
+                        onClose={handleLocalUnitFormModalClose}
                     />
                 )}
             </Container>

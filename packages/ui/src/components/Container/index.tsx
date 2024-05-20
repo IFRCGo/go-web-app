@@ -58,6 +58,7 @@ export interface Props {
     withHeaderBorder?: boolean;
     withFooterBorder?: boolean;
     withInternalPadding?: boolean;
+    withOverflowInContent?: boolean;
     withoutWrapInHeading?: boolean;
     withoutWrapInFooter?: boolean;
 
@@ -111,6 +112,7 @@ function Container(props: Props) {
         withGridViewInFilter = false,
         withHeaderBorder = false,
         withFooterBorder = false,
+        withOverflowInContent = false,
         withInternalPadding = false,
         withoutWrapInHeading = false,
         withoutWrapInFooter = false,
@@ -192,6 +194,7 @@ function Container(props: Props) {
                 styles.container,
                 gapSpacingTokens,
                 withInternalPadding && verticalPaddingSpacingTokens,
+                withOverflowInContent && styles.withOverflowInContent,
                 contentViewType === 'grid' && styles.withGridView,
                 contentViewType === 'grid' && numColumnToClassNameMap[numPreferredGridContentColumns],
                 contentViewType === 'vertical' && styles.withVerticalView,

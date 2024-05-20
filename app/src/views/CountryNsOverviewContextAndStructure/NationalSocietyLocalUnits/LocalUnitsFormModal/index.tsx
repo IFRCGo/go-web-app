@@ -1,11 +1,13 @@
-import { useCallback } from 'react';
+import {
+    useCallback,
+    useRef,
+} from 'react';
 import { Modal } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import LocalUnitsForm from './LocalUnitsForm';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 interface Props {
     localUnitId?: number;
@@ -21,6 +23,7 @@ function LocalUnitsFormModal(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
+    const submitButtonContainerRef = useRef<HTMLDivElement>(null);
 
     const handleSuccess = useCallback(
         () => { onClose(true); },
@@ -29,17 +32,21 @@ function LocalUnitsFormModal(props: Props) {
 
     return (
         <Modal
-            childrenContainerClassName={styles.addEditModal}
             heading={strings.localUnitsModalHeading}
             onClose={onClose}
             size="full"
             withHeaderBorder
-            headingLevel={1}
+            headingLevel={2}
+            footerActions={(
+                <div ref={submitButtonContainerRef} />
+            )}
+            withFooterBorder
         >
             <LocalUnitsForm
                 localUnitId={localUnitId}
                 onSuccess={handleSuccess}
                 readOnly={readOnly}
+                submitButtonContainerRef={submitButtonContainerRef}
             />
         </Modal>
     );

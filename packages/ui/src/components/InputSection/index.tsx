@@ -13,6 +13,7 @@ export interface Props {
     description?: React.ReactNode;
     contentSectionClassName?: string;
     tooltip?: string;
+    withCompactTitleSection?: boolean;
     withoutTitleSection?: boolean;
     withoutPadding?: boolean;
     withAsteriskOnTitle?: boolean;
@@ -28,6 +29,7 @@ function InputSection(props: Props) {
         tooltip,
         contentSectionClassName,
         withoutTitleSection = false,
+        withCompactTitleSection,
         withoutPadding = false,
         withAsteriskOnTitle,
         numPreferredColumns = 1,
@@ -39,6 +41,7 @@ function InputSection(props: Props) {
                 styles.inputSection,
                 withoutTitleSection && styles.withoutTitleSection,
                 !withoutPadding && styles.withPadding,
+                withCompactTitleSection && styles.withCompactTitleSection,
                 className,
             )}
         >
@@ -55,7 +58,7 @@ function InputSection(props: Props) {
                     headingContainerClassName={styles.headingContainer}
                     actions={tooltip && <InfoPopup description={tooltip} />}
                     childrenContainerClassName={styles.description}
-                    headingLevel={4}
+                    headingLevel={withCompactTitleSection ? 5 : 4}
                     spacing="cozy"
                 >
                     {description}

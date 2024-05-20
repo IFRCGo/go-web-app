@@ -16,6 +16,10 @@
         grid-template-columns: 1fr;
     }
 
+    &.with-compact-title-section {
+        grid-template-columns: 1fr 3fr;
+    }
+
     &.with-padding {
         padding: var(--go-ui-spacing-lg);
     }

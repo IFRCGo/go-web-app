@@ -1,13 +1,20 @@
-import { useCallback } from 'react';
+import {
+    RefObject,
+    useCallback,
+    useRef,
+} from 'react';
 import { useOutletContext } from 'react-router-dom';
 import {
     BooleanInput,
     Button,
     Container,
+    DateInput,
     InputSection,
+    InputSectionProps,
     MultiSelectInput,
     NumberInput,
     PageContainer,
+    Portal,
     SelectInput,
     TextArea,
     TextInput,
@@ -31,6 +38,7 @@ import {
 
 import BaseMapPointInput from '#components/domain/BaseMapPointInput';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
+import NonFieldError from '#components/NonFieldError';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useAlert from '#hooks/useAlert';
 import { VISIBILITY_PUBLIC } from '#utils/constants';
@@ -40,6 +48,7 @@ import {
     useLazyRequest,
     useRequest,
 } from '#utils/restRequest';
+import { transformObjectError } from '#utils/restRequest/error';
 
 import schema, {
     type LocalUnitsRequestPostBody,
@@ -49,7 +58,6 @@ import schema, {
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-import { DateInput } from '@ifrc-go/ui';
 
 type HealthLocalUnitFormFields = PartialLocalUnits['health'];
 type LocalUnitsOptionsType = GoApiResponse<'/api/v2/local-units-options/'>;
@@ -78,10 +86,23 @@ const localUnitGeneralMedicalSelector = (localUnit: LocalUnitGeneralMedical) => 
 const VisibilityOptions = (option: VisibilityOptions) => option.key;
 const defaultHealthValue = {};
 
+function LocalUnitInputSection(props: Omit<InputSectionProps, 'withoutPadding' | 'withCompactTitleSection'>) {
+    return (
+        <InputSection
+            numPreferredColumns={2}
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...props}
+            withoutPadding
+            withCompactTitleSection
+        />
+    );
+}
+
 interface Props {
     readOnly?: boolean;
     onSuccess?: () => void;
     localUnitId?: number;
+    submitButtonContainerRef?: RefObject<HTMLDivElement>;
 }
 
 function LocalUnitsForm(props: Props) {
@@ -89,9 +110,13 @@ function LocalUnitsForm(props: Props) {
         readOnly = false,
         onSuccess,
         localUnitId,
+        submitButtonContainerRef,
     } = props;
+
     const alert = useAlert();
     const strings = useTranslation(i18n);
+    const formFieldsContainerRef = useRef<HTMLDivElement>(null);
+
     const { api_visibility_choices: visibilityOptions } = useGlobalEnums();
     const { countryId } = useOutletContext<CountryOutletContext>();
     const {
@@ -156,7 +181,7 @@ function LocalUnitsForm(props: Props) {
 
     const {
         pending: addLocalUnitsPending,
-        trigger: addLocalUnits,
+        trigger: addLocalUnit,
     } = useLazyRequest({
         url: '/api/v2/local-units/',
         method: 'POST',
@@ -166,17 +191,82 @@ function LocalUnitsForm(props: Props) {
                 onSuccess();
             }
             alert.show(
-                'success',
+                // FIXME use translation
+                'Local unit added successfully!',
                 { variant: 'success' },
             );
         },
         onFailure: (response) => {
+            const {
+                value: {
+                    formErrors,
+                    messageForNotification,
+                },
+                debugMessage,
+            } = response;
+
+            setError(transformObjectError(
+                formErrors,
+                () => undefined,
+            ));
+
             alert.show(
-                'Failed',
-                { variant: 'danger' },
+                // FIXME use translation
+                'Failed to add local unit',
+                {
+                    variant: 'danger',
+                    description: messageForNotification,
+                    debugMessage,
+                },
             );
 
-            setError(response.value.formErrors);
+            formFieldsContainerRef.current?.scrollIntoView({ block: 'start' });
+        },
+    });
+
+    const {
+        pending: updateLocalUnitsPending,
+        trigger: updateLocalUnit,
+    } = useLazyRequest({
+        method: 'PATCH',
+        url: '/api/v2/local-units/{id}/',
+        pathVariables: isDefined(localUnitId) ? { id: localUnitId } : undefined,
+        body: (formFields: LocalUnitsRequestPostBody) => formFields,
+        onSuccess: () => {
+            if (onSuccess) {
+                onSuccess();
+            }
+            alert.show(
+                // FIXME use translation
+                'Local unit updated successfully!',
+                { variant: 'success' },
+            );
+        },
+        onFailure: (response) => {
+            const {
+                value: {
+                    formErrors,
+                    messageForNotification,
+                },
+                debugMessage,
+            } = response;
+
+            setError(transformObjectError(
+                formErrors,
+                () => undefined,
+            ));
+
+            alert.show(
+                // FIXME use translation
+                'Failed to update local unit',
+                {
+                    variant: 'danger',
+                    description: messageForNotification,
+                    debugMessage,
+                },
+            );
+
+            formFieldsContainerRef.current?.scrollIntoView({ block: 'start' });
         },
     });
 
@@ -185,43 +275,50 @@ function LocalUnitsForm(props: Props) {
             const result = validate();
             if (result.errored) {
                 setError(result.error);
+                formFieldsContainerRef.current?.scrollIntoView({ block: 'start' });
                 return;
             }
-            addLocalUnits({
-                ...result.value,
-                country: Number(countryId),
-            } as LocalUnitsRequestPostBody);
+
+            if (isDefined(localUnitId)) {
+                updateLocalUnit(result.value as LocalUnitsRequestPostBody);
+            } else {
+                addLocalUnit(result.value as LocalUnitsRequestPostBody);
+            }
         },
-        [validate, setError, addLocalUnits, countryId],
+        [validate, localUnitId, setError, updateLocalUnit, addLocalUnit],
     );
 
     const error = getErrorObject(formError);
     const healthFormError = getErrorObject(error?.health);
 
-    return (
-        <PageContainer
-            className={styles.localUnitsForm}
+    const submitButton = (
+        <Button
+            name={undefined}
+            onClick={handleFormSubmit}
+            disabled={addLocalUnitsPending || updateLocalUnitsPending}
         >
+            {strings.submitButtonLabel}
+        </Button>
+    );
+
+    return (
+        <PageContainer className={styles.localUnitsForm}>
             <Container
-                footerActions={(
-                    <Button
-                        name={undefined}
-                        onClick={handleFormSubmit}
-                        disabled={addLocalUnitsPending}
-                    >
-                        {strings.submitButtonLabel}
-                    </Button>
-                )}
+                containerRef={formFieldsContainerRef}
+                footerActions={isNotDefined(submitButtonContainerRef) && submitButton}
                 contentViewType="vertical"
                 spacing="loose"
                 pending={localUnitDetailsPending || localUnitsOptionsPending}
                 errored={isDefined(localUnitId) && isDefined(localUnitDetailsError)}
                 errorMessage={localUnitDetailsError?.value.messageForNotification}
             >
-                <InputSection
-                    numPreferredColumns={3}
+                <NonFieldError
+                    error={formError}
+                    withFallbackError
+                />
+                <LocalUnitInputSection
+                    numPreferredColumns={4}
                     withoutTitleSection
-                    withoutPadding
                 >
                     <SelectInput
                         label={strings.type}
@@ -238,7 +335,7 @@ function LocalUnitsForm(props: Props) {
                     />
                     <TextInput
                         label={strings.subtype}
-                        hint={strings.subtypeDescription}
+                        placeholder={strings.subtypeDescription}
                         name="subtype"
                         value={value.subtype}
                         onChange={setFieldValue}
@@ -318,76 +415,73 @@ function LocalUnitsForm(props: Props) {
                         readOnly={readOnly}
                         error={error?.date_of_data}
                     />
-                </InputSection>
-                <InputSection
-                    title={strings.localUnitName}
-                    numPreferredColumns={2}
-                    withoutPadding
+                </LocalUnitInputSection>
+                <Container
+                    contentViewType="grid"
+                    numPreferredGridContentColumns={2}
+                    childrenContainerClassName={styles.basicDetails}
                 >
-                    <TextInput
-                        name="local_branch_name"
-                        required
-                        label={strings.localLabel}
-                        value={value.local_branch_name}
-                        onChange={setFieldValue}
-                        readOnly={readOnly}
-                        error={error?.local_branch_name}
-                    />
-                    <TextInput
-                        label={strings.englishLabel}
-                        name="english_branch_name"
-                        value={value.english_branch_name}
-                        onChange={setFieldValue}
-                        readOnly={readOnly}
-                        error={error?.english_branch_name}
-                    />
-                </InputSection>
-                {value.type !== TYPE_HEALTH_CARE && (
-                    <InputSection
-                        title={strings.source}
-                        numPreferredColumns={2}
-                        withoutPadding
+                    <LocalUnitInputSection
+                        title={strings.localUnitName}
+                        numPreferredColumns={3}
                     >
                         <TextInput
-                            name="source_loc"
+                            name="local_branch_name"
+                            required
                             label={strings.localLabel}
-                            value={value.source_en}
+                            value={value.local_branch_name}
                             onChange={setFieldValue}
                             readOnly={readOnly}
-                            error={error?.source_en}
+                            error={error?.local_branch_name}
                         />
                         <TextInput
-                            name="source_en"
                             label={strings.englishLabel}
-                            value={value.source_en}
+                            name="english_branch_name"
+                            value={value.english_branch_name}
                             onChange={setFieldValue}
                             readOnly={readOnly}
-                            error={error?.source_en}
+                            error={error?.english_branch_name}
                         />
-                    </InputSection>
-                )}
+                    </LocalUnitInputSection>
+                    {value.type !== TYPE_HEALTH_CARE && (
+                        <LocalUnitInputSection
+                            title={strings.source}
+                            numPreferredColumns={3}
+                        >
+                            <TextInput
+                                name="source_loc"
+                                label={strings.localLabel}
+                                value={value.source_loc}
+                                onChange={setFieldValue}
+                                readOnly={readOnly}
+                                error={error?.source_loc}
+                            />
+                            <TextInput
+                                name="source_en"
+                                label={strings.englishLabel}
+                                value={value.source_en}
+                                onChange={setFieldValue}
+                                readOnly={readOnly}
+                                error={error?.source_en}
+                            />
+                        </LocalUnitInputSection>
+                    )}
+                </Container>
                 <Container
                     heading={strings.addressAndContactTitle}
                     withHeaderBorder
                     contentViewType="grid"
                     numPreferredGridContentColumns={2}
-                    headingLevel={2}
-                    spacing="comfortable"
+                    childrenContainerClassName={styles.addressAndContactContent}
                 >
-                    <Container contentViewType="vertical">
-                        <InputSection
+                    <Container
+                        contentViewType="vertical"
+                        spacing="relaxed"
+                    >
+                        <LocalUnitInputSection
                             title={strings.address}
                             numPreferredColumns={3}
-                            withoutPadding
                         >
-                            <TextInput
-                                name="address_en"
-                                label={strings.englishLabel}
-                                value={value.address_en}
-                                onChange={setFieldValue}
-                                readOnly={readOnly}
-                                error={error?.address_en}
-                            />
                             <TextInput
                                 name="address_loc"
                                 label={strings.localLabel}
@@ -396,20 +490,19 @@ function LocalUnitsForm(props: Props) {
                                 readOnly={readOnly}
                                 error={error?.address_loc}
                             />
-                        </InputSection>
-                        <InputSection
-                            title={strings.locality}
-                            numPreferredColumns={3}
-                            withoutPadding
-                        >
                             <TextInput
+                                name="address_en"
                                 label={strings.englishLabel}
-                                name="city_en"
-                                value={value.city_en}
+                                value={value.address_en}
                                 onChange={setFieldValue}
                                 readOnly={readOnly}
-                                error={error?.city_en}
+                                error={error?.address_en}
                             />
+                        </LocalUnitInputSection>
+                        <LocalUnitInputSection
+                            title={strings.locality}
+                            numPreferredColumns={3}
+                        >
                             <TextInput
                                 label={strings.localLabel}
                                 name="city_loc"
@@ -418,10 +511,17 @@ function LocalUnitsForm(props: Props) {
                                 readOnly={readOnly}
                                 error={error?.city_loc}
                             />
-                        </InputSection>
-                        <InputSection
+                            <TextInput
+                                label={strings.englishLabel}
+                                name="city_en"
+                                value={value.city_en}
+                                onChange={setFieldValue}
+                                readOnly={readOnly}
+                                error={error?.city_en}
+                            />
+                        </LocalUnitInputSection>
+                        <LocalUnitInputSection
                             numPreferredColumns={3}
-                            withoutPadding
                             // FIXME: use strings
                             title="Local Unit detail"
                         >
@@ -463,11 +563,10 @@ function LocalUnitsForm(props: Props) {
                                     error={error?.link}
                                 />
                             )}
-                        </InputSection>
-                        <InputSection
+                        </LocalUnitInputSection>
+                        <LocalUnitInputSection
                             title={strings.focalPerson}
-                            numPreferredColumns={2}
-                            withoutPadding
+                            numPreferredColumns={3}
                         >
                             <TextInput
                                 required
@@ -486,12 +585,11 @@ function LocalUnitsForm(props: Props) {
                                 readOnly={readOnly}
                                 error={error?.focal_person_en}
                             />
-                        </InputSection>
+                        </LocalUnitInputSection>
                         {value.type === TYPE_HEALTH_CARE && (
-                            <InputSection
+                            <LocalUnitInputSection
                                 title={strings.focalPointLabel}
-                                numPreferredColumns={2}
-                                withoutPadding
+                                numPreferredColumns={3}
                             >
                                 <TextInput
                                     label={strings.focalPointPosition}
@@ -518,14 +616,13 @@ function LocalUnitsForm(props: Props) {
                                     readOnly={readOnly}
                                     error={healthFormError?.focal_point_phone_number}
                                 />
-                            </InputSection>
+                            </LocalUnitInputSection>
                         )}
                     </Container>
                     <Container
                         contentViewType="vertical"
                     >
-                        <InputSection
-                            withoutPadding
+                        <LocalUnitInputSection
                             withoutTitleSection
                             numPreferredColumns={3}
                         >
@@ -537,7 +634,10 @@ function LocalUnitsForm(props: Props) {
                                 onChange={setFieldValue}
                                 readOnly
                             />
-                        </InputSection>
+                        </LocalUnitInputSection>
+                        <NonFieldError
+                            error={error?.location_json}
+                        />
                         <BaseMapPointInput
                             country={Number(countryId)}
                             name="location_json"
@@ -545,22 +645,23 @@ function LocalUnitsForm(props: Props) {
                             value={value.location_json}
                             onChange={setFieldValue}
                             readOnly={readOnly}
+                            error={getErrorObject(error?.location_json)}
+                            required
                         />
                     </Container>
                 </Container>
                 {value.type === TYPE_HEALTH_CARE && (
                     <Container
                         heading="Health care details"
-                        headingLevel={2}
                         withHeaderBorder
                         contentViewType="vertical"
-                        spacing="comfortable"
                         childrenContainerClassName={styles.healthCareDetailsContent}
                     >
-                        <InputSection
+                        <NonFieldError
+                            error={error?.health}
+                        />
+                        <LocalUnitInputSection
                             title={strings.facilityCategoryTitle}
-                            withoutPadding
-                            numPreferredColumns={2}
                         >
                             <SelectInput
                                 label={strings.healthFacilityType}
@@ -603,7 +704,6 @@ function LocalUnitsForm(props: Props) {
                             />
                             <SelectInput
                                 label={strings.hospitalType}
-                                required
                                 name="hospital_type"
                                 options={localUnitsOptions?.hospital_type}
                                 value={value.health?.hospital_type}
@@ -637,11 +737,9 @@ function LocalUnitsForm(props: Props) {
                                 readOnly={readOnly}
                                 error={healthFormError?.is_isolation_rooms_wards}
                             />
-                        </InputSection>
-                        <InputSection
+                        </LocalUnitInputSection>
+                        <LocalUnitInputSection
                             title={strings.facilityCapacityTitle}
-                            numPreferredColumns={2}
-                            withoutPadding
                         >
                             <NumberInput
                                 label={strings.maximumCapacity}
@@ -713,11 +811,9 @@ function LocalUnitsForm(props: Props) {
                                     healthFormError?.ambulance_type_c,
                                 )}
                             />
-                        </InputSection>
-                        <InputSection
+                        </LocalUnitInputSection>
+                        <LocalUnitInputSection
                             title={strings.servicesTitle}
-                            withoutPadding
-                            numPreferredColumns={2}
                         >
                             <MultiSelectInput
                                 label={strings.generalMedicalServices}
@@ -779,11 +875,9 @@ function LocalUnitsForm(props: Props) {
                                     healthFormError?.professional_training_facilities,
                                 )}
                             />
-                        </InputSection>
-                        <InputSection
+                        </LocalUnitInputSection>
+                        <LocalUnitInputSection
                             title={strings.humanResourcesTitle}
-                            numPreferredColumns={2}
-                            withoutPadding
                         >
                             <NumberInput
                                 label={strings.totalNumberOfHumanResources}
@@ -883,14 +977,12 @@ function LocalUnitsForm(props: Props) {
                                 readOnly={readOnly}
                                 error={healthFormError?.other_profiles}
                             />
-                        </InputSection>
+                        </LocalUnitInputSection>
                     </Container>
                 )}
                 <Container
                     heading={strings.commentsNS}
-                    headingLevel={2}
                     withHeaderBorder
-                    spacing="comfortable"
                 >
                     <TextArea
                         name="feedback"
@@ -903,6 +995,11 @@ function LocalUnitsForm(props: Props) {
                     />
                 </Container>
             </Container>
+            {isDefined(submitButtonContainerRef) && isDefined(submitButtonContainerRef.current) && (
+                <Portal container={submitButtonContainerRef.current}>
+                    {submitButton}
+                </Portal>
+            )}
         </PageContainer>
     );
 }

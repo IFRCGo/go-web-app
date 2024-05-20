@@ -13,6 +13,7 @@ import {
     MapLayer,
     MapSource,
 } from '@togglecorp/re-map';
+import { ObjectError } from '@togglecorp/toggle-form';
 import getBbox from '@turf/bbox';
 import {
     CircleLayer,
@@ -51,6 +52,8 @@ interface Props<NAME> extends BaseMapProps {
     mapContainerClassName?: string;
     className?: string;
     readOnly?: boolean;
+    required?: boolean;
+    error?: ObjectError<Value>;
 }
 
 function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
@@ -67,6 +70,8 @@ function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
         mapStyle = localUnitMapStyle,
         readOnly,
         country,
+        required,
+        error,
         ...otherProps
     } = props;
 
@@ -180,6 +185,8 @@ function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
                     value={value?.lat}
                     onChange={handleLatInputChange}
                     readOnly={readOnly}
+                    error={error?.lat}
+                    required={required}
                 />
                 <NumberInput
                     className={styles.input}
@@ -189,6 +196,8 @@ function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
                     value={value?.lng}
                     onChange={handleLngInputChange}
                     readOnly={readOnly}
+                    error={error?.lng}
+                    required={required}
                 />
             </div>
             <BaseMap
