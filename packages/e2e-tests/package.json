@@ -1,0 +1,21 @@
+{
+    "name": "e2e-tests",
+    "version": "0.0.1",
+    "main": "index.js",
+    "license": "MIT",
+    "devDependencies": {
+        "@biomejs/biome": "1.7.3",
+        "@playwright/test": "^1.44.0",
+        "@types/node": "^20.12.12"
+    },
+    "scripts": {
+        "install": "playwright install",
+        "test": "playwright test",
+        "format": "biome format --write ./tests/*",
+        "lint": "yarn biome lint --apply ./tests/*",
+        "biome:check": "biome check --apply ./tests/*"
+    },
+    "dependencies": {
+        "dotenv": "^16.4.5"
+    }
+}
