@@ -22,6 +22,7 @@ export { default as BlockLoading } from './components/BlockLoading';
 // NOTE: Ovearlay needs to be exported before
 // BodyOverlay for styling to work properly
 // eslint-disable-next-line simple-import-sort/exports
+export type { Props as OverlayProps } from './components/Overlay';
 export { default as Overlay } from './components/Overlay';
 export type { Props as BodyOverlayProps } from './components/BodyOverlay';
 export { default as BodyOverlay } from './components/BodyOverlay';
