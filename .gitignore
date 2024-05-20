@@ -24,8 +24,8 @@ build-ssr
 *.njsproj
 *.sln
 *.sw?
-
 .env*
+!.env.example
 .eslintcache
 tsconfig.tsbuildinfo
 
@@ -34,3 +34,6 @@ tsconfig.tsbuildinfo
 stats.html
 generated/
 coverage/
+
+#tests
+test-results/

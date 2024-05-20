@@ -11,7 +11,8 @@
         "start:app": "yarn build:ui && yarn workspace go-web-app start",
         "generate:type": "yarn workspace go-web-app generate:type",
         "storybook": "yarn workspace go-ui-storybook storybook",
-        "preview": "yarn workspace go-web-app preview"
+        "preview": "yarn workspace go-web-app preview",
+        "test:e2e": "yarn workspace e2e-tests playwright test"
     },
     "devDependencies": {
         "patch-package": "^8.0.0",
@@ -21,6 +22,6 @@
         "app",
         "packages/ui",
         "packages/go-ui-storybook",
-        "packages/tests-e2e"
+        "packages/e2e-tests"
     ]
 }
