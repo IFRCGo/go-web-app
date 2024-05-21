@@ -61,7 +61,6 @@ import {
     ScaleOption,
 } from '#components/domain/ActiveOperationMap/utils';
 import BaseMap from '#components/domain/BaseMap';
-import CountryKeyFigures from '#components/domain/CountryKeyFigures';
 import HighlightedOperations from '#components/domain/HighlightedOperations';
 import Link from '#components/Link';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
@@ -86,6 +85,7 @@ import type {
 } from '#utils/restRequest';
 import { useRequest } from '#utils/restRequest';
 
+import CountryKeyFigures from './CountryKeyFigures';
 import Filters from './Filters';
 
 import i18n from './i18n.json';

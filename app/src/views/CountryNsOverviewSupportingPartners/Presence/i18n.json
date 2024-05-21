@@ -12,6 +12,8 @@
         "countryICRCWithin": "within {name}",
         "source": "Source",
         "fdrs": "FDRS",
-        "icrc": "ICRC"
+        "icrc": "ICRC",
+        "countryIFRCDelegationType": "Office Type",
+        "countryIFRCLocation": "Location"
     }
 }

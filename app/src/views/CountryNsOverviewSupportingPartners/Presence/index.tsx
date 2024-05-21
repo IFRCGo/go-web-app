@@ -29,6 +29,7 @@ interface DelegationInformationProps {
     name: string | null | undefined;
     contact: string | null | undefined;
     delegationOfficeType: string;
+    address: string;
 }
 
 type CountryDelgation = NonNullable<CountryResponse>['country_delegation'][number];
@@ -41,6 +42,7 @@ function DelegationInformation(props: DelegationInformationProps) {
         name,
         contact,
         delegationOfficeType,
+        address,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -60,9 +62,21 @@ function DelegationInformation(props: DelegationInformationProps) {
                 value={contact}
                 strongValue
             />
+            <TextOutput
+                label={strings.countryIFRCDelegationType}
+                value={delegationOfficeType}
+                strongValue
+            />
+            <TextOutput
+                valueClassName={styles.location}
+                label={strings.countryIFRCLocation}
+                value={address}
+                strongValue
+            />
         </div>
     );
 }
+
 function Presence() {
     const strings = useTranslation(i18n);
 
@@ -74,10 +88,16 @@ function Presence() {
             value.hod_last_name,
         ].filter(isTruthyString).join(' ');
 
+        const address = [
+            value.address,
+            value.city,
+        ].filter(isTruthyString).join(', ');
+
         return {
             name: hodName,
             contact: value.hod_mobile_number,
             delegationOfficeType: value.dotype_name,
+            address,
         };
     }, []);
     return (
