@@ -291,7 +291,8 @@ function LocalUnitsForm(props: Props) {
         <Button
             name={undefined}
             onClick={handleFormSubmit}
-            disabled={addLocalUnitsPending || updateLocalUnitsPending}
+            disabled={addLocalUnitsPending
+            || updateLocalUnitsPending}
         >
             {strings.submitButtonLabel}
         </Button>
@@ -679,7 +680,7 @@ function LocalUnitsForm(props: Props) {
                                 error={healthFormError?.other_facility_type}
                             />
                             <SelectInput
-                                label={strings.healthFacilityType}
+                                label={strings.primaryHealthCareCenter}
                                 name="primary_health_care_center"
                                 options={localUnitsOptions?.primary_health_care_center}
                                 value={value.health?.primary_health_care_center}
@@ -709,7 +710,7 @@ function LocalUnitsForm(props: Props) {
                                 error={healthFormError?.hospital_type}
                             />
                             <BooleanInput
-                                clearable
+                                required
                                 label={strings.teachingHospital}
                                 name="is_teaching_hospital"
                                 value={value.health?.is_teaching_hospital}

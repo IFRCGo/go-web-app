@@ -49,6 +49,7 @@
         "professionalTrainingFacilities": "Professional training facilities",
         "generalMedicalServices": "General medical services",
         "specialist": "Specialist",
+        "primaryHealthCareCenter": "Primary health care center",
         "specializedMedicalService": "Specialized medical beyond primary level",
         "maximumCapacity": "Maximum capacity",
         "numberOfIsolationRooms": "Number of isolation rooms",

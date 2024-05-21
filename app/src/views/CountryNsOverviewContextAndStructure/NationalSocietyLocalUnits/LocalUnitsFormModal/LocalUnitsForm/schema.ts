@@ -135,7 +135,7 @@ const schema: LocalUnitsFormSchema = {
                                 other_affiliation: {
                                     validations: [lengthSmallerThanCondition(500)],
                                 },
-                                is_teaching_hospital: {},
+                                is_teaching_hospital: { required: true },
                                 is_in_patient_capacity: { required: true },
                                 is_isolation_rooms_wards: { required: true },
                                 focal_point_email: {
@@ -157,7 +157,7 @@ const schema: LocalUnitsFormSchema = {
                                     validations: [lengthSmallerThanCondition(200)],
                                 },
                                 blood_services: { required: true },
-                                professional_training_facilities: {},
+                                professional_training_facilities: { forceValue: [] },
                                 general_medical_services: { required: true },
                                 speciality: {
                                     validations: [lengthSmallerThanCondition(200)],
