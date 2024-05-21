@@ -273,6 +273,7 @@ export function Component() {
                 },
             );
         },
+        useCurrentLanguageForMutation: true,
     });
 
     const handleSubmit = useCallback(
