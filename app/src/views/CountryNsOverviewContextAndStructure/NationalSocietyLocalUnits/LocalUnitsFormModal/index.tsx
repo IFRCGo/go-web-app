@@ -37,10 +37,10 @@ function LocalUnitsFormModal(props: Props) {
             size="full"
             withHeaderBorder
             headingLevel={2}
-            footerActions={(
+            footerActions={!readOnly && (
                 <div ref={submitButtonContainerRef} />
             )}
-            withFooterBorder
+            withFooterBorder={!readOnly}
         >
             <LocalUnitsForm
                 localUnitId={localUnitId}

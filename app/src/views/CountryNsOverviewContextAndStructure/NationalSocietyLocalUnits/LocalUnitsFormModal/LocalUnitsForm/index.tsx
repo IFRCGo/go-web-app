@@ -287,7 +287,7 @@ function LocalUnitsForm(props: Props) {
     const error = getErrorObject(formError);
     const healthFormError = getErrorObject(error?.health);
 
-    const submitButton = (
+    const submitButton = readOnly ? null : (
         <Button
             name={undefined}
             onClick={handleFormSubmit}
@@ -301,7 +301,7 @@ function LocalUnitsForm(props: Props) {
         <PageContainer className={styles.localUnitsForm}>
             <Container
                 containerRef={formFieldsContainerRef}
-                footerActions={isNotDefined(submitButtonContainerRef) && submitButton}
+                footerActions={!readOnly && isNotDefined(submitButtonContainerRef) && submitButton}
                 contentViewType="vertical"
                 spacing="loose"
                 pending={localUnitDetailsPending || localUnitsOptionsPending}
@@ -998,11 +998,14 @@ function LocalUnitsForm(props: Props) {
                     />
                 </Container>
             </Container>
-            {isDefined(submitButtonContainerRef) && isDefined(submitButtonContainerRef.current) && (
-                <Portal container={submitButtonContainerRef.current}>
-                    {submitButton}
-                </Portal>
-            )}
+            {!readOnly
+                && isDefined(submitButtonContainerRef)
+                && isDefined(submitButtonContainerRef.current)
+                && (
+                    <Portal container={submitButtonContainerRef.current}>
+                        {submitButton}
+                    </Portal>
+                )}
         </PageContainer>
     );
 }

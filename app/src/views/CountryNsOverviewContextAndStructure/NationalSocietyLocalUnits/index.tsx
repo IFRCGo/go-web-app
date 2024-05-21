@@ -1,4 +1,7 @@
-import { useCallback, useState } from 'react';
+import {
+    useCallback,
+    useState,
+} from 'react';
 import {
     Button,
     Container,
@@ -33,6 +36,8 @@ function NationalSocietyLocalUnits(props: Props) {
 
     const [activeTab, setActiveTab] = useState<'map'| 'table'>('map');
     const { isAuthenticated } = useAuth();
+
+    // NOTE: key is used to refresh the page when local unit data is updated
     const [localUnitUpdateKey, setLocalUnitUpdateKey] = useState(0);
 
     const [showAddEditModal, {
