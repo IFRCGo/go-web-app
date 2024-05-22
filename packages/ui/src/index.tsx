@@ -105,6 +105,7 @@ export { default as TopBanner } from './components/parked/TopBanner';
 export type { Props as PasswordInputProps } from './components/PasswordInput';
 export { default as PasswordInput } from './components/PasswordInput';
 export { default as PieChart } from './components/PieChart';
+export type { Props as PopupProps } from './components/Popup';
 export { default as Popup } from './components/Popup';
 export type { Props as PortalProps } from './components/Portal';
 export { default as Portal } from './components/Portal';
