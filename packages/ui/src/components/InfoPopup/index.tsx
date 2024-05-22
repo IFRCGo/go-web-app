@@ -6,7 +6,7 @@ import DropdownMenu from '#components/DropdownMenu';
 
 import styles from './styles.module.css';
 
-interface Props {
+export interface Props {
     icon?: React.ReactNode;
     withoutIcon?: boolean;
     infoLabel?: React.ReactNode;
