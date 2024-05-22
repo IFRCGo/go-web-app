@@ -69,6 +69,7 @@ export type { Props as IconButtonProps } from './components/IconButton';
 export { default as IconButton } from './components/IconButton';
 export type { Props as ImageProps } from './components/Image';
 export { default as Image } from './components/Image';
+export type { Props as InfoPopupProps } from './components/InfoPopup';
 export { default as InfoPopup } from './components/InfoPopup';
 export type { Props as InputContainerProps } from './components/InputContainer';
 export { default as InputContainer } from './components/InputContainer';
