@@ -1,5 +1,18 @@
 # go-web-app
 
+## 7.3.6
+
+### Patch Changes
+
+- 2631a9f: Add office type and location information for IFRC delegation office
+- 1b4b6df: Add local unit form
+- 2d7a6a5: - Enable ability to start PER in IFRC supported lanugages
+  - Make PER forms readOnly in case of language mismatch
+- e4bf098: Fix incorrect statistics for past appeals of a country
+- Updated dependencies [0ab207d]
+- Updated dependencies [66151a7]
+  - @ifrc-go/ui@1.1.3
+
 ## 7.3.5
 
 ### Patch Changes

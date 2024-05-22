@@ -1,5 +1,12 @@
 # @ifrc-go/ui
 
+## 1.1.3
+
+### Patch Changes
+
+- 0ab207d: Improve styling and add default options
+- 66151a7: Fix overflow issue on heading component
+
 ## 1.1.2
 
 ### Patch Changes
