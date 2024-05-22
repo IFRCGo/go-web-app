@@ -6,6 +6,6 @@
         "localUnitDetailType": "Type",
         "localUnitsMapView": "Map view",
         "localUnitsListView": "List view",
-        "editLocalUnitLink": "Add a Local Unit"
+        "addLocalUnitLabel": "Add a Local Unit"
     }
 }

@@ -3,6 +3,7 @@ import {
     useMemo,
 } from 'react';
 import { NumberInput } from '@ifrc-go/ui';
+import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     _cs,
     isDefined,
@@ -34,6 +35,7 @@ import { localUnitMapStyle } from '#utils/map';
 
 import ActiveCountryBaseMapLayer from '../ActiveCountryBaseMapLayer';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export interface GeoPoint {
@@ -45,7 +47,7 @@ type Value = Partial<GeoPoint>;
 
 interface Props<NAME> extends BaseMapProps {
     country?: number | undefined;
-    name: NAME,
+    name: NAME;
     value: Value | undefined | null;
     onChange: (newValue: Value | undefined, name: NAME) => void;
     onClick?: (feature: MapboxGeoJSONFeature, lngLat: LngLat, map: Map) => void;
@@ -76,6 +78,7 @@ function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
     } = props;
 
     const countryDetails = useCountry({ id: country ?? -1 });
+    const strings = useTranslation(i18n);
 
     const bounds = useMemo(
         () => {
@@ -180,8 +183,7 @@ function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
                 <NumberInput
                     className={styles.input}
                     name="lat"
-                    // FIXME: use strings
-                    label="Latitude"
+                    label={strings.latitude}
                     value={value?.lat}
                     onChange={handleLatInputChange}
                     readOnly={readOnly}
@@ -191,8 +193,7 @@ function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
                 <NumberInput
                     className={styles.input}
                     name="lng"
-                    // FIXME: use strings
-                    label="Longitude"
+                    label={strings.longitude}
                     value={value?.lng}
                     onChange={handleLngInputChange}
                     readOnly={readOnly}

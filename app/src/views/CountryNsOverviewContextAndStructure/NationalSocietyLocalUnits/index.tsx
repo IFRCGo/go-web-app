@@ -2,6 +2,7 @@ import {
     useCallback,
     useState,
 } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import {
     Button,
     Container,
@@ -17,6 +18,8 @@ import {
 import { _cs } from '@togglecorp/fujs';
 
 import useAuth from '#hooks/domain/useAuth';
+import usePermissions from '#hooks/domain/usePermissions';
+import { CountryOutletContext } from '#utils/outletContext';
 
 import LocalUnitsFormModal from './LocalUnitsFormModal';
 import LocalUnitsMap from './LocalUnitsMap';
@@ -36,6 +39,8 @@ function NationalSocietyLocalUnits(props: Props) {
 
     const [activeTab, setActiveTab] = useState<'map'| 'table'>('map');
     const { isAuthenticated } = useAuth();
+    const { countryResponse } = useOutletContext<CountryOutletContext>();
+    const { isSuperUser, isCountryAdmin } = usePermissions();
 
     // NOTE: key is used to refresh the page when local unit data is updated
     const [localUnitUpdateKey, setLocalUnitUpdateKey] = useState(0);
@@ -55,6 +60,8 @@ function NationalSocietyLocalUnits(props: Props) {
 
     const strings = useTranslation(i18n);
 
+    const hasAddLocalUnitPermission = isCountryAdmin(countryResponse?.id) || isSuperUser;
+
     return (
         <Tabs
             onChange={setActiveTab}
@@ -73,13 +80,13 @@ function NationalSocietyLocalUnits(props: Props) {
                         <Tab name="table">{strings.localUnitsListView}</Tab>
                     </TabList>
                 )}
-                actions={isAuthenticated && (
+                actions={hasAddLocalUnitPermission && (
                     <Button
                         name={undefined}
                         variant="secondary"
                         onClick={setShowAddEditModalTrue}
                     >
-                        {strings.editLocalUnitLink}
+                        {strings.addLocalUnitLabel}
                     </Button>
                 )}
             >

@@ -1,0 +1,7 @@
+{
+    "namespace": "common",
+    "strings": {
+        "latitude": "Latitude",
+        "longitude": "Longitude"
+    }
+}

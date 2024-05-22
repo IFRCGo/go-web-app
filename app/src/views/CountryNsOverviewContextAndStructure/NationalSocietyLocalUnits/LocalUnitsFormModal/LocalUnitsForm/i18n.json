@@ -1,5 +1,5 @@
 {
-    "namespace": "",
+    "namespace": "localUnitsForm",
     "strings": {
         "successMessage": "Local unit added successfully!",
         "failedMessage": "Failed to add local unit",
