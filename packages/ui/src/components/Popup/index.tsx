@@ -5,7 +5,7 @@ import useFloatPlacement from '#hooks/useFloatPlacement';
 
 import styles from './styles.module.css';
 
-interface Props {
+export interface Props {
     className?: string;
     pointerClassName?: string;
     elementRef?: React.RefObject<HTMLDivElement>;
