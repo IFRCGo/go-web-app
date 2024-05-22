@@ -443,6 +443,7 @@ export function Component() {
                     className={styles.metaItem}
                     label={strings.operationStartDateLabel}
                     value={drefResponse?.date_of_approval}
+                    valueType="date"
                     strongValue
                 />
                 <TextOutput
