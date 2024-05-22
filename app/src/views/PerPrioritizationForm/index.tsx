@@ -79,6 +79,7 @@ export function Component() {
         statusResponse,
         refetchStatusResponse,
         actionDivRef,
+        readOnly: readOnlyFromContext,
     } = useOutletContext<PerProcessOutletContext>();
 
     const {
@@ -335,7 +336,8 @@ export function Component() {
     );
 
     const currentPerStep = statusResponse?.phase;
-    const readOnlyMode = isNotDefined(currentPerStep)
+    const readOnlyMode = readOnlyFromContext
+        || isNotDefined(currentPerStep)
         || currentPerStep < PER_PHASE_PRIORITIZATION;
 
     const sortedFormComponents = useMemo(

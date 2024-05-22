@@ -88,6 +88,7 @@ export function Component() {
         statusResponse,
         refetchStatusResponse,
         actionDivRef,
+        readOnly: readOnlyFromContext,
     } = useOutletContext<PerProcessOutletContext>();
 
     const {
@@ -361,7 +362,8 @@ export function Component() {
         || fetchingPerAssessment
         || fetchingStatus;
 
-    const readOnlyMode = isNotDefined(currentPerStep)
+    const readOnlyMode = readOnlyFromContext
+        || isNotDefined(currentPerStep)
         || currentPerStep !== PER_PHASE_ASSESSMENT;
 
     const error = useMemo(

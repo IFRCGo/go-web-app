@@ -15,7 +15,6 @@ import {
 
 import FormFailedToLoadMessage from '#components/domain/FormFailedToLoadMessage';
 import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage';
-import NonEnglishFormCreationMessage from '#components/domain/NonEnglishFormCreationMessage';
 import Link from '#components/Link';
 import NavigationTab from '#components/NavigationTab';
 import Page from '#components/Page';
@@ -61,35 +60,33 @@ export function Component() {
         ?? getCurrentPerProcessStep(statusResponse)
         ?? PER_PHASE_OVERVIEW;
 
+    const contentOriginalLanguage = statusResponse
+        ?.translation_module_original_language;
+    const languageMismatch = isDefined(perId)
+        && currentLanguage !== contentOriginalLanguage;
+
+    const shouldHideForm = isDefined(statusResponseError);
+
     const actionDivRef = useRef<HTMLDivElement>(null);
-    const outletContext: PerProcessOutletContext = useMemo(
+    const outletContext = useMemo<PerProcessOutletContext>(
         () => ({
             fetchingStatus,
             statusResponse,
             refetchStatusResponse,
             actionDivRef,
+            readOnly: languageMismatch,
         }),
-        [fetchingStatus, statusResponse, refetchStatusResponse, actionDivRef],
+        [fetchingStatus, statusResponse, refetchStatusResponse, actionDivRef, languageMismatch],
     );
-
-    // TODO: Use content language from server if applicable
-    // const contentOriginalLanguage = perOverviewResponse
-    //     ?.translation_module_original_language ?? 'en';
-    const contentOriginalLanguage = 'en';
-    const nonEnglishCreate = isNotDefined(perId) && currentLanguage !== 'en';
-    const languageMismatch = isDefined(perId)
-        && currentLanguage !== contentOriginalLanguage;
-
-    const shouldHideForm = languageMismatch
-        || nonEnglishCreate
-        || isDefined(statusResponseError);
 
     return (
         <Page
             className={styles.perProcessForm}
+            mainSectionClassName={styles.mainSection}
             title={strings.perFormTitle}
             heading={strings.perFormHeading}
             description={strings.perFormProcessDescription}
+            contentOriginalLanguage={contentOriginalLanguage}
             actions={(
                 <>
                     <Link
@@ -144,9 +141,6 @@ export function Component() {
                 </NavigationTabList>
             )}
         >
-            {nonEnglishCreate && (
-                <NonEnglishFormCreationMessage />
-            )}
             {languageMismatch && (
                 <LanguageMismatchMessage
                     originalLanguage={contentOriginalLanguage}

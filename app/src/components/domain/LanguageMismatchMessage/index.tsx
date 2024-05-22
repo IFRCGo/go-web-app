@@ -13,7 +13,7 @@ interface Props {
 
     // FIXME: typings should be fixed in the server
     // this should be of type Language
-    originalLanguage: string;
+    originalLanguage: string | undefined;
 }
 
 function LanguageMismatchMessage(props: Props) {
@@ -21,7 +21,7 @@ function LanguageMismatchMessage(props: Props) {
 
     const {
         title = strings.languageMismatchErrorTitle,
-        originalLanguage,
+        originalLanguage = 'en',
     } = props;
 
     return (
