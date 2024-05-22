@@ -44,6 +44,7 @@ import {
     DEFAULT_MAP_PADDING,
     DURATION_MAP_ZOOM,
 } from '#utils/constants';
+import { localUnitMapStyle } from '#utils/map';
 import { type CountryOutletContext } from '#utils/outletContext';
 import {
     GoApiUrlQuery,
@@ -360,7 +361,7 @@ function LocalUnitsMap() {
         >
             <div className={styles.mapContainerWithContactDetails}>
                 <BaseMap
-                    mapStyle="mapbox://styles/go-ifrc/clvvgugzh00x501pc1n00b8cz"
+                    mapStyle={localUnitMapStyle}
                     withoutLabel
                     baseLayers={(
                         <ActiveCountryBaseMapLayer

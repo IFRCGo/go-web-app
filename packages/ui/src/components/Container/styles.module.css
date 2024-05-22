@@ -105,4 +105,10 @@
             flex-direction: column;
         }
     }
+
+    &.with-overflow-in-content {
+        >.content {
+            overflow: auto;
+        }
+    }
 }

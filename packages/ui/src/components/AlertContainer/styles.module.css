@@ -1,8 +1,13 @@
 .alert-container {
+    isolation: isolate;
     position: fixed;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
+
+    /* NOTE: we're setting z-index to make it appear on top of modals and pop-ups */
+    z-index: 1;
+
     padding: var(--go-ui-spacing-2xl) 0;
     max-height: calc(100vh - 2 * var(--go-ui-spacing-2xl));
     overflow: auto;

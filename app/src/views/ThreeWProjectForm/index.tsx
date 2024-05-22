@@ -228,7 +228,7 @@ export function Component() {
         setValue,
         setFieldValue,
         error: formError,
-        setError: onErrorSet,
+        setError,
         validate,
     } = useForm(schema, { value: defaultFormValues });
 
@@ -570,7 +570,7 @@ export function Component() {
                 debugMessage,
             } = err;
 
-            onErrorSet(transformObjectError(
+            setError(transformObjectError(
                 formErrors,
                 (locations) => {
                     const match = matchArray(locations, ['annual_splits', NUM]);
@@ -622,7 +622,7 @@ export function Component() {
                 debugMessage,
             } = err;
 
-            onErrorSet(transformObjectError(
+            setError(transformObjectError(
                 formErrors,
                 (locations) => {
                     const match = matchArray(locations, ['annual_splits', NUM]);
@@ -1232,7 +1232,7 @@ export function Component() {
                             name={undefined}
                             onClick={createSubmitHandler(
                                 validate,
-                                onErrorSet,
+                                setError,
                                 handleSubmit,
                                 handleFormError,
                             )}

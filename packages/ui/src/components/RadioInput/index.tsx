@@ -31,6 +31,7 @@ export interface BaseProps<N, O, V, RRP extends RadioProps<V, N>> {
     renderer?: (p: RRP) => React.ReactElement;
     rendererParams?: (o: O) => Omit<RRP, 'inputName' | 'label' | 'name' | 'onClick' | 'value'>;
     clearable?: boolean;
+    required?: boolean;
     withAsterisk?: boolean;
 }
 
@@ -84,6 +85,7 @@ function RadioInput<
         rendererParams: radioRendererParamsFromProps,
         disabled,
         readOnly,
+        required,
         onChange,
         withAsterisk,
     } = props;
@@ -142,6 +144,8 @@ function RadioInput<
         descriptionSelector,
     ]);
 
+    const isRequired = withAsterisk ?? required;
+
     return (
         <div
             className={_cs(
@@ -153,7 +157,7 @@ function RadioInput<
             <InputLabel
                 className={labelContainerClassName}
                 disabled={disabled}
-                required={withAsterisk}
+                required={isRequired}
             >
                 {label}
             </InputLabel>

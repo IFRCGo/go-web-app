@@ -1,6 +1,9 @@
 import { useCallback } from 'react';
 import { TableActions } from '@ifrc-go/ui';
-import { useTranslation } from '@ifrc-go/ui/hooks';
+import {
+    useBooleanState,
+    useTranslation,
+} from '@ifrc-go/ui/hooks';
 import { resolveToString } from '@ifrc-go/ui/utils';
 
 import DropdownMenuItem from '#components/DropdownMenuItem';
@@ -10,6 +13,8 @@ import {
     type GoApiResponse,
     useLazyRequest,
 } from '#utils/restRequest';
+
+import LocalUnitsFormModal from '../../LocalUnitsFormModal';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -61,51 +66,80 @@ function LocalUnitsTableActions(props: Props) {
         },
     });
 
-    const handleLocalUnitValidate = useCallback(() => {
-        // NOTE sending an empty post request to validate the local unit
-        validateLocalUnit(null);
-    }, [validateLocalUnit]);
+    const [showLocalUnitViewModal, {
+        setTrue: setShowLocalUnitViewModalTrue,
+        setFalse: setShowLocalUnitViewModalFalse,
+    }] = useBooleanState(false);
+
+    const [showLocalUnitEditModal, {
+        setTrue: setShowLocalUnitEditModalTrue,
+        setFalse: setShowLocalUnitEditModalFalse,
+    }] = useBooleanState(false);
+
+    const handleLocalUnitsFormModalClose = useCallback(
+        (shouldUpdate?: boolean) => {
+            setShowLocalUnitEditModalFalse();
+            setShowLocalUnitViewModalFalse();
+
+            if (shouldUpdate) {
+                onActionSuccess();
+            }
+        },
+        [setShowLocalUnitViewModalFalse, setShowLocalUnitEditModalFalse, onActionSuccess],
+    );
 
     return (
-        <TableActions
-            persistent
-            extraActions={(
-                <>
-                    <DropdownMenuItem
-                        type="link"
-                        to={undefined}
-                    >
-                        {strings.localUnitsEdit}
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                        type="link"
-                        to={undefined}
-                    >
-                        {strings.localUnitsView}
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                        persist
-                        name={undefined}
-                        type="confirm-button"
-                        variant="tertiary"
-                        className={styles.button}
-                        confirmHeading={strings.validateLocalUnitHeading}
-                        confirmMessage={resolveToString(
-                            strings.validateLocalUnitMessage,
-                            { localUnitName: localUnitName ?? '' },
-                        )}
-                        onConfirm={handleLocalUnitValidate}
-                        disabled={
-                            validateLocalUnitPending
-                        || !hasValidatePermission
-                        || isValidated
-                        }
-                    >
-                        {strings.localUnitsValidate}
-                    </DropdownMenuItem>
-                </>
+        <>
+            <TableActions
+                persistent
+                extraActions={(
+                    <>
+                        <DropdownMenuItem
+                            type="button"
+                            name={localUnitId}
+                            onClick={setShowLocalUnitViewModalTrue}
+                        >
+                            {strings.localUnitsView}
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            type="button"
+                            name={localUnitId}
+                            onClick={setShowLocalUnitEditModalTrue}
+                        >
+                            {strings.localUnitsEdit}
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            persist
+                            // NOTE sending an empty post request to validate the local unit
+                            name={null}
+                            type="confirm-button"
+                            variant="tertiary"
+                            className={styles.button}
+                            confirmHeading={strings.validateLocalUnitHeading}
+                            confirmMessage={resolveToString(
+                                strings.validateLocalUnitMessage,
+                                { localUnitName: localUnitName ?? '' },
+                            )}
+                            onConfirm={validateLocalUnit}
+                            disabled={
+                                validateLocalUnitPending
+                            || !hasValidatePermission
+                            || isValidated
+                            }
+                        >
+                            {strings.localUnitsValidate}
+                        </DropdownMenuItem>
+                    </>
+                )}
+            />
+            {(showLocalUnitViewModal || showLocalUnitEditModal) && (
+                <LocalUnitsFormModal
+                    onClose={handleLocalUnitsFormModalClose}
+                    localUnitId={localUnitId}
+                    readOnly={showLocalUnitViewModal}
+                />
             )}
-        />
+        </>
     );
 }
 

@@ -1,21 +1,27 @@
-import { useState } from 'react';
+import {
+    useCallback,
+    useState,
+} from 'react';
 import { useOutletContext } from 'react-router-dom';
 import {
+    Button,
     Container,
     Tab,
     TabList,
     TabPanel,
     Tabs,
 } from '@ifrc-go/ui';
-import { useTranslation } from '@ifrc-go/ui/hooks';
+import {
+    useBooleanState,
+    useTranslation,
+} from '@ifrc-go/ui/hooks';
 import { _cs } from '@togglecorp/fujs';
 
-import Link from '#components/Link';
-import { adminUrl } from '#config';
 import useAuth from '#hooks/domain/useAuth';
-import { type CountryOutletContext } from '#utils/outletContext';
-import { resolveUrl } from '#utils/resolveUrl';
+import usePermissions from '#hooks/domain/usePermissions';
+import { CountryOutletContext } from '#utils/outletContext';
 
+import LocalUnitsFormModal from './LocalUnitsFormModal';
 import LocalUnitsMap from './LocalUnitsMap';
 import LocalUnitsTable from './LocalUnitsTable';
 
@@ -33,9 +39,28 @@ function NationalSocietyLocalUnits(props: Props) {
 
     const [activeTab, setActiveTab] = useState<'map'| 'table'>('map');
     const { isAuthenticated } = useAuth();
+    const { countryResponse } = useOutletContext<CountryOutletContext>();
+    const { isSuperUser, isCountryAdmin } = usePermissions();
+
+    // NOTE: key is used to refresh the page when local unit data is updated
+    const [localUnitUpdateKey, setLocalUnitUpdateKey] = useState(0);
+
+    const [showAddEditModal, {
+        setTrue: setShowAddEditModalTrue,
+        setFalse: setShowAddEditModalFalse,
+    }] = useBooleanState(false);
+
+    const handleLocalUnitFormModalClose = useCallback(
+        () => {
+            setShowAddEditModalFalse();
+            setLocalUnitUpdateKey(new Date().getTime());
+        },
+        [setShowAddEditModalFalse],
+    );
 
     const strings = useTranslation(i18n);
-    const { countryId } = useOutletContext<CountryOutletContext>();
+
+    const hasAddLocalUnitPermission = isCountryAdmin(countryResponse?.id) || isSuperUser;
 
     return (
         <Tabs
@@ -44,8 +69,8 @@ function NationalSocietyLocalUnits(props: Props) {
             variant="tertiary"
         >
             <Container
-                className={_cs(styles.nationalSocietyLocalUnitsMap, className)}
-                heading={strings.localUnitsMapTitle}
+                className={_cs(styles.nationalSocietyLocalUnits, className)}
+                heading={strings.localUnitsTitle}
                 childrenContainerClassName={styles.content}
                 withGridViewInFilter
                 withHeaderBorder
@@ -55,22 +80,31 @@ function NationalSocietyLocalUnits(props: Props) {
                         <Tab name="table">{strings.localUnitsListView}</Tab>
                     </TabList>
                 )}
-                actions={isAuthenticated && (
-                    <Link
-                        external
-                        href={resolveUrl(adminUrl, `local_units/localunit/?country=${countryId}`)}
+                actions={hasAddLocalUnitPermission && (
+                    <Button
+                        name={undefined}
                         variant="secondary"
+                        onClick={setShowAddEditModalTrue}
                     >
-                        {strings.editLocalUnitLink}
-                    </Link>
+                        {strings.addLocalUnitLabel}
+                    </Button>
                 )}
             >
                 <TabPanel name="map">
-                    <LocalUnitsMap />
+                    <LocalUnitsMap
+                        key={localUnitUpdateKey}
+                    />
                 </TabPanel>
                 <TabPanel name="table">
-                    <LocalUnitsTable />
+                    <LocalUnitsTable
+                        key={localUnitUpdateKey}
+                    />
                 </TabPanel>
+                {showAddEditModal && (
+                    <LocalUnitsFormModal
+                        onClose={handleLocalUnitFormModalClose}
+                    />
+                )}
             </Container>
         </Tabs>
     );
