@@ -68,6 +68,7 @@ export function Component() {
         statusResponse,
         actionDivRef,
         refetchStatusResponse,
+        readOnly: readOnlyFromContext,
     } = useOutletContext<PerProcessOutletContext>();
     const formContentRef = useRef<ElementRef<'div'>>(null);
 
@@ -307,7 +308,8 @@ export function Component() {
     const customComponentError = getErrorObject(error?.additional_action_responses);
 
     const currentPerStep = statusResponse?.phase;
-    const readOnlyMode = isNotDefined(currentPerStep)
+    const readOnlyMode = readOnlyFromContext
+        || isNotDefined(currentPerStep)
         || currentPerStep < PER_PHASE_WORKPLAN;
 
     const disabled = dataPending || savePerWorkPlanPending;

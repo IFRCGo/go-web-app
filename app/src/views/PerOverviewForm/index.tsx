@@ -85,7 +85,9 @@ export function Component() {
         statusResponse,
         actionDivRef,
         refetchStatusResponse,
+        readOnly,
     } = useOutletContext<PerProcessOutletContext>();
+
     const { per_overviewassessmentmethods } = useGlobalEnums();
     const userMe = useUserMe();
 
@@ -101,6 +103,7 @@ export function Component() {
         validate,
     } = useForm(
         overviewSchema,
+        // FIXME: use value from enum
         { value: { assessment_method: 'per' } },
         isSettingUpProcess,
     );
@@ -273,6 +276,7 @@ export function Component() {
                 },
             );
         },
+        useCurrentLanguageForMutation: true,
     });
 
     const handleSubmit = useCallback(
@@ -337,10 +341,10 @@ export function Component() {
     const error = getErrorObject(formError);
 
     const currentPerStep = statusResponse?.phase;
-    const submissionDisabled = isDefined(currentPerStep)
-        && currentPerStep !== PER_PHASE_OVERVIEW;
+    const submissionDisabled = readOnly
+        || (isDefined(currentPerStep) && currentPerStep !== PER_PHASE_OVERVIEW);
 
-    const partialReadonlyMode = value?.is_draft === false;
+    const partialReadOnly = value?.is_draft === false;
 
     const dataPending = fetchingPerOverview;
     const savePerPending = createPerPending || updatePerPending;
@@ -366,7 +370,7 @@ export function Component() {
         <Container
             headerElementRef={formContentRef}
             className={styles.overviewForm}
-            heading={partialReadonlyMode
+            heading={partialReadOnly
                 ? strings.overviewEditHeading
                 : strings.overviewSetupHeading}
             headingLevel={2}
@@ -393,7 +397,7 @@ export function Component() {
                         name={undefined}
                         variant="secondary"
                         onClick={handleSave}
-                        disabled={savePerPending}
+                        disabled={savePerPending || readOnly}
                     >
                         {strings.saveButtonLabel}
                     </Button>
@@ -419,7 +423,7 @@ export function Component() {
                         onChange={setFieldValue}
                         value={value?.country}
                         error={getErrorString(error?.country)}
-                        readOnly={partialReadonlyMode}
+                        readOnly={partialReadOnly || readOnly}
                         disabled={disabled}
                         regions={!userMe?.is_superuser
                             ? userMe?.is_per_admin_for_regions : undefined}
@@ -448,7 +452,7 @@ export function Component() {
                         onChange={setFieldValue}
                         value={value?.date_of_orientation}
                         error={error?.date_of_orientation}
-                        readOnly={partialReadonlyMode}
+                        readOnly={partialReadOnly || readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -466,6 +470,7 @@ export function Component() {
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         error={getErrorString(error?.orientation_documents)}
                         disabled={disabled}
+                        readOnly={readOnly}
                     >
                         {strings.uploadButtonLabel}
                     </GoMultiFileInput>
@@ -490,7 +495,7 @@ export function Component() {
                         onChange={setFieldValue}
                         value={value?.date_of_assessment}
                         error={error?.date_of_assessment}
-                        readOnly={partialReadonlyMode}
+                        readOnly={partialReadOnly || readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -508,7 +513,7 @@ export function Component() {
                         onChange={setFieldValue}
                         value={value?.type_of_assessment}
                         error={error?.type_of_assessment}
-                        readOnly={partialReadonlyMode}
+                        readOnly={partialReadOnly || readOnly}
                         disabled={disabled || perOptionsPending}
                     />
                 </InputSection>
@@ -553,7 +558,7 @@ export function Component() {
                         value={value?.branches_involved}
                         onChange={setFieldValue}
                         error={error?.branches_involved}
-                        readOnly={partialReadonlyMode}
+                        readOnly={partialReadOnly || readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -570,7 +575,7 @@ export function Component() {
                         labelSelector={stringValueSelector}
                         onChange={setFieldValue}
                         error={error?.assessment_method}
-                        readOnly={partialReadonlyMode}
+                        readOnly={partialReadOnly || readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -584,7 +589,7 @@ export function Component() {
                         value={value?.assess_preparedness_of_country}
                         onChange={setFieldValue}
                         error={error?.assess_preparedness_of_country}
-                        readOnly={partialReadonlyMode}
+                        readOnly={partialReadOnly || readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -598,7 +603,7 @@ export function Component() {
                         value={value.assess_urban_aspect_of_country}
                         onChange={setFieldValue}
                         error={error?.assess_urban_aspect_of_country}
-                        readOnly={partialReadonlyMode}
+                        readOnly={partialReadOnly || readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -613,7 +618,7 @@ export function Component() {
                         value={value?.assess_climate_environment_of_country}
                         onChange={setFieldValue}
                         error={error?.assess_climate_environment_of_country}
-                        readOnly={partialReadonlyMode}
+                        readOnly={partialReadOnly || readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -659,6 +664,7 @@ export function Component() {
                         error={error?.workplan_development_date}
                         onChange={setFieldValue}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -672,6 +678,7 @@ export function Component() {
                         value={value?.workplan_revision_date}
                         error={error?.workplan_revision_date}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
             </Container>
@@ -695,6 +702,7 @@ export function Component() {
                         onChange={setFieldValue}
                         error={error?.ns_focal_point_name}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <TextInput
                         label={strings.focalPointEmailInputLabel}
@@ -703,6 +711,7 @@ export function Component() {
                         onChange={setFieldValue}
                         error={error?.ns_focal_point_email}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <TextInput
                         label={strings.focalPointPhoneNumberInputLabel}
@@ -711,6 +720,7 @@ export function Component() {
                         onChange={setFieldValue}
                         error={error?.ns_focal_point_phone}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -726,6 +736,7 @@ export function Component() {
                         onChange={setFieldValue}
                         error={error?.ns_second_focal_point_name}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <TextInput
                         label={strings.focalPointEmailInputLabel}
@@ -734,6 +745,7 @@ export function Component() {
                         onChange={setFieldValue}
                         error={error?.ns_second_focal_point_email}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <TextInput
                         label={strings.focalPointPhoneNumberInputLabel}
@@ -742,6 +754,7 @@ export function Component() {
                         onChange={setFieldValue}
                         error={error?.ns_second_focal_point_phone}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -756,6 +769,7 @@ export function Component() {
                         onChange={setFieldValue}
                         error={error?.partner_focal_point_name}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <TextInput
                         label={strings.focalPointEmailInputLabel}
@@ -764,6 +778,7 @@ export function Component() {
                         onChange={setFieldValue}
                         error={error?.partner_focal_point_email}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <TextInput
                         label={strings.focalPointPhoneNumberInputLabel}
@@ -772,6 +787,7 @@ export function Component() {
                         onChange={setFieldValue}
                         error={error?.partner_focal_point_phone}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <TextInput
                         label={strings.focalPointOrganizationInputLabel}
@@ -780,6 +796,7 @@ export function Component() {
                         onChange={setFieldValue}
                         error={error?.partner_focal_point_organization}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
                 <InputSection
@@ -794,6 +811,7 @@ export function Component() {
                         onChange={setFieldValue}
                         error={error?.facilitator_name}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <TextInput
                         label={strings.focalPointEmailInputLabel}
@@ -802,6 +820,7 @@ export function Component() {
                         onChange={setFieldValue}
                         error={error?.facilitator_email}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <TextInput
                         label={strings.focalPointPhoneNumberInputLabel}
@@ -810,6 +829,7 @@ export function Component() {
                         onChange={setFieldValue}
                         error={error?.facilitator_phone}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <TextInput
                         label={strings.otherContactMethodInputLabel}
@@ -818,6 +838,7 @@ export function Component() {
                         onChange={setFieldValue}
                         error={error?.facilitator_contact}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </InputSection>
             </Container>
