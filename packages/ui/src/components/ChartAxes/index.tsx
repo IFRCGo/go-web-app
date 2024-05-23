@@ -25,7 +25,7 @@ interface TickY {
     label: React.ReactNode;
 }
 
-interface Props {
+export interface Props {
     chartData: {
         xAxisTicks: TickX[];
         yAxisTicks: TickY[];
