@@ -17,9 +17,11 @@ import {
     isDefined,
     isNotDefined,
     isTruthyString,
+    listToMap,
 } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useUserMe from '#hooks/domain/useUserMe';
 import useFilterState from '#hooks/useFilterState';
 import { useRequest } from '#utils/restRequest';
@@ -49,6 +51,11 @@ export function Component() {
     ] = useBooleanState(false);
 
     const meResponse = useUserMe();
+    const { api_profile_org_types } = useGlobalEnums();
+    const orgTypeMap = listToMap(
+        api_profile_org_types,
+        ({ key }) => key,
+    );
 
     const onEditProfileCancel = useCallback(() => {
         setShowEditProfileModal(false);
@@ -146,7 +153,11 @@ export function Component() {
                 />
                 <TextOutput
                     label={strings.organizationTypeLabel}
-                    value={meResponse?.profile?.org_type}
+                    value={
+                        isDefined(meResponse?.profile.org_type)
+                            ? orgTypeMap?.[meResponse?.profile?.org_type]?.value
+                            : undefined
+                    }
                     strongLabel
                 />
                 <TextOutput
