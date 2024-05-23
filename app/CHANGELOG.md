@@ -1,5 +1,14 @@
 # go-web-app
 
+## 7.3.7
+
+### Patch Changes
+
+- 909a5e2: Fix Appeals table for Africa Region
+- 5a1ae43: Add presentation mode in local units map
+- 96120aa: Fix DREF exports margins and use consistent date format
+- 8a4f26d: Avoid crash on country pages for countries without bbox
+
 ## 7.3.6
 
 ### Patch Changes
