@@ -4,18 +4,17 @@ import {
     useState,
 } from 'react';
 import { useParams } from 'react-router-dom';
-import {
-    Container,
-    DateOutput,
-} from '@ifrc-go/ui';
+import { DateOutput } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
+    Container,
     DescriptionText,
     Heading,
     Image,
     TextOutput,
     type TextOutputProps,
 } from '@ifrc-go/ui/printable';
+import { DEFAULT_PRINT_DATE_FORMAT } from '@ifrc-go/ui/utils';
 import {
     _cs,
     isDefined,
@@ -505,6 +504,7 @@ export function Component() {
                         >
                             <DateOutput
                                 value={drefResponse?.event_date}
+                                format={DEFAULT_PRINT_DATE_FORMAT}
                             />
                         </Container>
                     )}
@@ -666,6 +666,7 @@ export function Component() {
                         >
                             <DateOutput
                                 value={drefResponse?.ns_respond_date}
+                                format={DEFAULT_PRINT_DATE_FORMAT}
                             />
                         </Container>
                     )}
