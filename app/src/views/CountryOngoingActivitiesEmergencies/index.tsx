@@ -170,9 +170,10 @@ export function Component(props: BaseProps) {
         pageSize: 5,
     });
 
-    const countryBounds = useMemo(() => (countryResponse
-        ? getBbox(countryResponse.bbox)
-        : undefined
+    const countryBounds = useMemo(() => (
+        (countryResponse && countryResponse.bbox)
+            ? getBbox(countryResponse.bbox)
+            : undefined
     ), [countryResponse]);
 
     const query = useMemo<AppealQueryParams>(

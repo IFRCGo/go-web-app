@@ -1,4 +1,8 @@
-import react, { useMemo } from 'react';
+import {
+    useCallback,
+    useMemo,
+    useState,
+} from 'react';
 import { useOutletContext } from 'react-router-dom';
 import {
     ArtboardLineIcon,
@@ -132,7 +136,7 @@ function LocalUnitsMap(props: Props) {
         pageSize: 9999,
     });
 
-    const urlQuery = react.useMemo<GoApiUrlQuery<'/api/v2/public-local-units/'>>(
+    const urlQuery = useMemo<GoApiUrlQuery<'/api/v2/public-local-units/'>>(
         () => ({
             limit,
             type__code: filter.type,
@@ -183,11 +187,11 @@ function LocalUnitsMap(props: Props) {
     const [
         clickedPointProperties,
         setClickedPointProperties,
-    ] = react.useState<ClickedPoint | undefined>();
+    ] = useState<ClickedPoint | undefined>();
 
-    const [loadedIcons, setLoadedIcons] = react.useState<Record<string, boolean>>({});
+    const [loadedIcons, setLoadedIcons] = useState<Record<string, boolean>>({});
 
-    const handleIconLoad = react.useCallback(
+    const handleIconLoad = useCallback(
         (loaded: boolean, key: string) => {
             setLoadedIcons((prevValue) => ({
                 ...prevValue,
@@ -197,7 +201,7 @@ function LocalUnitsMap(props: Props) {
         [],
     );
 
-    const allIconsLoaded = react.useMemo(
+    const allIconsLoaded = useMemo(
         () => (
             Object.values(loadedIcons).filter(Boolean).length === sumSafe([
                 localUnitsOptions?.type.length,
@@ -207,7 +211,7 @@ function LocalUnitsMap(props: Props) {
         [loadedIcons, localUnitsOptions],
     );
 
-    const localUnitPointLayerOptions: Omit<CircleLayer, 'id'> = react.useMemo(() => ({
+    const localUnitPointLayerOptions: Omit<CircleLayer, 'id'> = useMemo(() => ({
         layout: {
             visibility: 'visible',
         },
@@ -236,8 +240,10 @@ function LocalUnitsMap(props: Props) {
         },
     }), [localUnitsOptions]);
 
-    const countryBounds = react.useMemo(() => (
-        countryResponse ? getBbox(countryResponse.bbox) : undefined
+    const countryBounds = useMemo(() => (
+        (countryResponse && countryResponse.bbox)
+            ? getBbox(countryResponse.bbox)
+            : undefined
     ), [countryResponse]);
 
     const {
@@ -276,7 +282,7 @@ function LocalUnitsMap(props: Props) {
         ? publicLocalUnitDetailError
         : superLocalUnitDetailError;
 
-    const localUnitsGeoJson = react.useMemo<GeoJSON.FeatureCollection<GeoJSON.Geometry>>(
+    const localUnitsGeoJson = useMemo<GeoJSON.FeatureCollection<GeoJSON.Geometry>>(
         () => ({
             type: 'FeatureCollection' as const,
             features: localUnits?.results?.map(
@@ -305,7 +311,7 @@ function LocalUnitsMap(props: Props) {
         [localUnits],
     );
 
-    const handlePointClick = react.useCallback(
+    const handlePointClick = useCallback(
         (feature: mapboxgl.MapboxGeoJSONFeature, lngLat: mapboxgl.LngLat) => {
             setClickedPointProperties({
                 id: feature.properties?.id,
@@ -317,14 +323,14 @@ function LocalUnitsMap(props: Props) {
         [setClickedPointProperties],
     );
 
-    const handlePointClose = react.useCallback(
+    const handlePointClose = useCallback(
         () => {
             setClickedPointProperties(undefined);
         },
         [setClickedPointProperties],
     );
 
-    const emailRendererParams = react.useCallback(
+    const emailRendererParams = useCallback(
         (_: string, email: string): LinkProps => ({
             className: styles.email,
             withUnderline: true,
