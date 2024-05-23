@@ -170,7 +170,9 @@ function CountryThreeWMap(props: Props) {
     } = useGlobalEnums();
 
     const countryBounds = useMemo(() => (
-        countryResponse ? getBbox(countryResponse.bbox) : undefined
+        (countryResponse && countryResponse.bbox)
+            ? getBbox(countryResponse.bbox)
+            : undefined
     ), [countryResponse]);
 
     const [

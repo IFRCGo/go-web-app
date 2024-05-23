@@ -116,10 +116,11 @@ export function Component() {
 
     // NOTE: we always get 1 child in the response
     const riskResponse = countryRiskResponse?.[0];
-    const bbox = useMemo(
-        () => (countryResponse ? getBbox(countryResponse.bbox) : undefined),
-        [countryResponse],
-    );
+    const bbox = useMemo(() => (
+        (countryResponse && countryResponse.bbox)
+            ? getBbox(countryResponse.bbox)
+            : undefined
+    ), [countryResponse]);
 
     return (
         <Container
