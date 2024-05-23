@@ -10,6 +10,7 @@
         "localUnitLocalUnitType": "Local Unit Type",
         "localUnitHealthFacilityType": "Health Facility Type",
         "localUnitLegendHealthCareTitle": "Health Care Local Units",
+        "presentationModeButton":"Presentation Mode",
         "localUnitDetailEmail": "Email"
     }
 }

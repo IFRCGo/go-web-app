@@ -1,11 +1,15 @@
 import {
     useCallback,
+    useEffect,
+    useRef,
     useState,
 } from 'react';
 import { useOutletContext } from 'react-router-dom';
+import { CloseLineIcon } from '@ifrc-go/icons';
 import {
     Button,
     Container,
+    IconButton,
     Tab,
     TabList,
     TabPanel,
@@ -15,7 +19,11 @@ import {
     useBooleanState,
     useTranslation,
 } from '@ifrc-go/ui/hooks';
-import { _cs } from '@togglecorp/fujs';
+import {
+    _cs,
+    isDefined,
+    isNotDefined,
+} from '@togglecorp/fujs';
 
 import useAuth from '#hooks/domain/useAuth';
 import usePermissions from '#hooks/domain/usePermissions';
@@ -41,14 +49,35 @@ function NationalSocietyLocalUnits(props: Props) {
     const { isAuthenticated } = useAuth();
     const { countryResponse } = useOutletContext<CountryOutletContext>();
     const { isSuperUser, isCountryAdmin } = usePermissions();
+    const containerRef = useRef<HTMLDivElement>(null);
 
     // NOTE: key is used to refresh the page when local unit data is updated
     const [localUnitUpdateKey, setLocalUnitUpdateKey] = useState(0);
+    const [
+        presentationMode,
+        setFullScreenMode,
+    ] = useState(false);
 
     const [showAddEditModal, {
         setTrue: setShowAddEditModalTrue,
         setFalse: setShowAddEditModalFalse,
     }] = useBooleanState(false);
+
+    const handleFullScreenChange = useCallback(() => {
+        setFullScreenMode(isDefined(document.fullscreenElement));
+    }, [setFullScreenMode]);
+
+    const handleFullScreenToggleClick = useCallback(() => {
+        if (isNotDefined(containerRef.current)) {
+            return;
+        }
+        const { current: viewerContainer } = containerRef;
+        if (!presentationMode && isDefined(viewerContainer?.requestFullscreen)) {
+            viewerContainer?.requestFullscreen();
+        } else if (presentationMode && isDefined(document.exitFullscreen)) {
+            document.exitFullscreen();
+        }
+    }, [presentationMode]);
 
     const handleLocalUnitFormModalClose = useCallback(
         () => {
@@ -61,6 +90,14 @@ function NationalSocietyLocalUnits(props: Props) {
     const strings = useTranslation(i18n);
 
     const hasAddLocalUnitPermission = isCountryAdmin(countryResponse?.id) || isSuperUser;
+
+    useEffect(() => {
+        document.addEventListener('fullscreenchange', handleFullScreenChange);
+
+        return (() => {
+            document.removeEventListener('fullscreenchange', handleFullScreenChange);
+        });
+    }, [handleFullScreenChange]);
 
     return (
         <Tabs
@@ -91,9 +128,27 @@ function NationalSocietyLocalUnits(props: Props) {
                 )}
             >
                 <TabPanel name="map">
-                    <LocalUnitsMap
-                        key={localUnitUpdateKey}
-                    />
+                    <Container
+                        className={_cs(presentationMode && styles.presentationMode)}
+                        containerRef={containerRef}
+                        actions={presentationMode && (
+                            <IconButton
+                                name={undefined}
+                                onClick={handleFullScreenToggleClick}
+                                title={strings.closePresentationLabel}
+                                variant="secondary"
+                                ariaLabel={strings.closePresentationLabel}
+                            >
+                                <CloseLineIcon />
+                            </IconButton>
+                        )}
+                    >
+                        <LocalUnitsMap
+                            key={localUnitUpdateKey}
+                            onPresentationModeButtonClick={handleFullScreenToggleClick}
+                            presentationMode={presentationMode}
+                        />
+                    </Container>
                 </TabPanel>
                 <TabPanel name="table">
                     <LocalUnitsTable

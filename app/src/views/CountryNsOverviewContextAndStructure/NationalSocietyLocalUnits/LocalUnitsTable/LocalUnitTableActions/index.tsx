@@ -98,6 +98,7 @@ function LocalUnitsTableActions(props: Props) {
                             type="button"
                             name={localUnitId}
                             onClick={setShowLocalUnitViewModalTrue}
+                            disabled={!hasValidatePermission}
                         >
                             {strings.localUnitsView}
                         </DropdownMenuItem>
@@ -105,6 +106,7 @@ function LocalUnitsTableActions(props: Props) {
                             type="button"
                             name={localUnitId}
                             onClick={setShowLocalUnitEditModalTrue}
+                            disabled={!hasValidatePermission}
                         >
                             {strings.localUnitsEdit}
                         </DropdownMenuItem>
