@@ -225,8 +225,8 @@ function AppealsTable(props: Props) {
 
             return {
                 ...baseQuery,
-                country: countryId ? [countryId] : undefined,
-                region: regionId ? [regionId] : undefined,
+                country: isDefined(countryId) ? [countryId] : undefined,
+                region: isDefined(regionId) ? [regionId] : undefined,
             };
         },
         [
