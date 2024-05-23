@@ -2,6 +2,12 @@
     .map-container-with-contact-details {
         position: relative;
 
+        .presentation-mode-button {
+            position: absolute;
+            top: var(--go-ui-spacing-md);
+            left: var(--go-ui-spacing-md);
+        }
+
         .map-container {
             height: 45rem;
         }

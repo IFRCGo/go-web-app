@@ -73,6 +73,7 @@ const schema: LocalUnitsFormSchema = {
                 required: true,
             },
             date_of_data: { required: true },
+            source_loc: {},
             source_en: {},
             address_en: {
                 validations: [lengthSmallerThanCondition(200)],
@@ -153,11 +154,12 @@ const schema: LocalUnitsFormSchema = {
                                 },
                                 hospital_type: {},
                                 specialized_medical_beyond_primary_level: { required: true },
+                                primary_health_care_center: {},
                                 other_services: {
                                     validations: [lengthSmallerThanCondition(200)],
                                 },
                                 blood_services: { required: true },
-                                professional_training_facilities: { forceValue: [] },
+                                professional_training_facilities: { defaultValue: [] },
                                 general_medical_services: { required: true },
                                 speciality: {
                                     validations: [lengthSmallerThanCondition(200)],

@@ -5,6 +5,7 @@
         "failedMessage": "Failed to add local unit",
         "updateMessage": "Local unit updated successfully!",
         "updateFailedMessage": "Failed to update local unit",
+        "healthCareDetails": "Health care details",
         "subtype": "Sub-type",
         "subtypeDescription": "(e.g. hospital)",
         "englishLabel": "English",

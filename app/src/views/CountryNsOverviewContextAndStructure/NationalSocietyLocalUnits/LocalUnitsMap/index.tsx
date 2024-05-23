@@ -1,10 +1,12 @@
 import react, { useMemo } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import {
+    ArtboardLineIcon,
     LocationIcon,
     MailIcon,
 } from '@ifrc-go/icons';
 import {
+    Button,
     Container,
     LegendItem,
     List,
@@ -99,7 +101,16 @@ function emailKeySelector(email: string) {
     return email;
 }
 
-function LocalUnitsMap() {
+interface Props {
+    onPresentationModeButtonClick?: () => void;
+    presentationMode?: boolean;
+}
+
+function LocalUnitsMap(props: Props) {
+    const {
+        onPresentationModeButtonClick,
+        presentationMode = false,
+    } = props;
     const { countryResponse } = useOutletContext<CountryOutletContext>();
 
     const {
@@ -347,7 +358,7 @@ function LocalUnitsMap() {
             className={styles.localUnitsMap}
             contentViewType="vertical"
             withGridViewInFilter
-            filters={(
+            filters={!presentationMode && (
                 <Filters
                     value={rawFilter}
                     setFieldValue={setFilterField}
@@ -468,6 +479,17 @@ function LocalUnitsMap() {
                         </MapPopup>
                     )}
                 </BaseMap>
+                {onPresentationModeButtonClick && !presentationMode && (
+                    <Button
+                        className={styles.presentationModeButton}
+                        name={undefined}
+                        icons={<ArtboardLineIcon />}
+                        onClick={onPresentationModeButtonClick}
+                        variant="secondary"
+                    >
+                        {strings.presentationModeButton}
+                    </Button>
+                )}
                 {hasContactDetails && (
                     <Container
                         className={styles.contactDetail}

@@ -648,7 +648,7 @@ function LocalUnitsForm(props: Props) {
                 </Container>
                 {value.type === TYPE_HEALTH_CARE && (
                     <Container
-                        heading="Health care details"
+                        heading={strings.healthCareDetails}
                         withHeaderBorder
                         contentViewType="vertical"
                         childrenContainerClassName={styles.healthCareDetailsContent}
@@ -982,22 +982,22 @@ function LocalUnitsForm(props: Props) {
                                 error={healthFormError?.other_profiles}
                             />
                         </LocalUnitInputSection>
+                        <LocalUnitInputSection
+                            title={strings.commentsNS}
+                            numPreferredColumns={1}
+                        >
+                            <TextArea
+                                name="feedback"
+                                value={value.health?.feedback}
+                                onChange={onHealthFieldChange}
+                                readOnly={readOnly}
+                                error={getErrorString(
+                                    healthFormError?.feedback,
+                                )}
+                            />
+                        </LocalUnitInputSection>
                     </Container>
                 )}
-                <Container
-                    heading={strings.commentsNS}
-                    withHeaderBorder
-                >
-                    <TextArea
-                        name="feedback"
-                        value={value.health?.feedback}
-                        onChange={onHealthFieldChange}
-                        readOnly={readOnly}
-                        error={getErrorString(
-                            healthFormError?.feedback,
-                        )}
-                    />
-                </Container>
             </Container>
             {!readOnly
                 && isDefined(submitButtonContainerRef)
