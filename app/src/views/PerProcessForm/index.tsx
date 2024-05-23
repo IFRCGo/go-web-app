@@ -63,8 +63,8 @@ export function Component() {
     const contentOriginalLanguage = statusResponse
         ?.translation_module_original_language;
     const languageMismatch = isDefined(perId)
-        && currentLanguage !== contentOriginalLanguage;
-
+        && isDefined(contentOriginalLanguage)
+        && (currentLanguage !== contentOriginalLanguage);
     const shouldHideForm = isDefined(statusResponseError);
 
     const actionDivRef = useRef<HTMLDivElement>(null);
