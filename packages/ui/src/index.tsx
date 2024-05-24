@@ -34,6 +34,7 @@ export { default as Breadcrumbs } from './components/Breadcrumbs';
 export type { BreadcrumbsProps } from './components/Breadcrumbs';
 export { default as ChartAxes } from './components/ChartAxes';
 export { default as ChartAxisX } from './components/ChartAxisX';
+export type { Props as ChartAxisYProps } from './components/ChartAxisY';
 export { default as ChartAxisY } from './components/ChartAxisY';
 export type { Props as CheckboxProps } from './components/Checkbox';
 export { default as Checkbox } from './components/Checkbox';
