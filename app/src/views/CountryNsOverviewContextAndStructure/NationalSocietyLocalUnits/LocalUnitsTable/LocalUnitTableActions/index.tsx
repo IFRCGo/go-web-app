@@ -7,6 +7,7 @@ import {
 import { resolveToString } from '@ifrc-go/ui/utils';
 
 import DropdownMenuItem from '#components/DropdownMenuItem';
+import { environment } from '#config';
 import usePermissions from '#hooks/domain/usePermissions';
 import useAlert from '#hooks/useAlert';
 import {
@@ -102,14 +103,16 @@ function LocalUnitsTableActions(props: Props) {
                         >
                             {strings.localUnitsView}
                         </DropdownMenuItem>
-                        <DropdownMenuItem
-                            type="button"
-                            name={localUnitId}
-                            onClick={setShowLocalUnitEditModalTrue}
-                            disabled={!hasValidatePermission}
-                        >
-                            {strings.localUnitsEdit}
-                        </DropdownMenuItem>
+                        {environment !== 'production' && (
+                            <DropdownMenuItem
+                                type="button"
+                                name={localUnitId}
+                                onClick={setShowLocalUnitEditModalTrue}
+                                disabled={!hasValidatePermission}
+                            >
+                                {strings.localUnitsEdit}
+                            </DropdownMenuItem>
+                        )}
                         <DropdownMenuItem
                             persist
                             // NOTE sending an empty post request to validate the local unit
