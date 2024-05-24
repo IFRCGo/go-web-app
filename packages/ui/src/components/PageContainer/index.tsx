@@ -4,7 +4,7 @@ import styles from './styles.module.css';
 
 type SupportedElements = 'div' | 'nav' | 'header' | 'footer' | 'main';
 
-interface Props {
+export interface Props {
   className?: string;
   contentClassName?: string;
   children: React.ReactNode;
