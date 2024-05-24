@@ -2,6 +2,7 @@ import type {
     Meta,
     StoryObj,
 } from '@storybook/react';
+import { fn } from '@storybook/test';
 
 import Button from './Button';
 
@@ -15,6 +16,9 @@ const meta = {
             url: 'https://www.figma.com/proto/k9SOqgh5jk9PxzuBKdMKsA/IFRC-GO---UI-Library?type=design&node-id=11261-189642&t=T89pqHCZaIRUE5DW-1&scaling=contain&page-id=11126%3A176956&starting-point-node-id=11282%3A188000&mode=design',
             allowFullscreen: true,
         },
+    },
+    args: {
+        onClick: fn(),
     },
     tags: ['autodocs'],
     argTypes: {},
