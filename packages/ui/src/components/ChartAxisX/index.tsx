@@ -10,7 +10,7 @@ import {
 
 import styles from './styles.module.css';
 
-interface Props {
+export interface Props {
     ticks: {
         x: number;
         label: React.ReactNode;

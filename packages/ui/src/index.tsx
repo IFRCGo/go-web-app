@@ -33,6 +33,7 @@ export { default as BooleanOutput } from './components/BooleanOutput';
 export { default as Breadcrumbs } from './components/Breadcrumbs';
 export type { BreadcrumbsProps } from './components/Breadcrumbs';
 export { default as ChartAxes } from './components/ChartAxes';
+export type { Props as ChartAxisXProps } from './components/ChartAxisX';
 export { default as ChartAxisX } from './components/ChartAxisX';
 export { default as ChartAxisY } from './components/ChartAxisY';
 export type { Props as CheckboxProps } from './components/Checkbox';
