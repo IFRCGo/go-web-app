@@ -68,7 +68,7 @@ function getPathData(radius: number, startAngle: number, endAngleFromParams: num
     return d.join(' ');
 }
 
-interface Props<D> {
+export interface Props<D> {
     className?: string;
     legendClassName?: string;
     data: D[] | undefined | null;

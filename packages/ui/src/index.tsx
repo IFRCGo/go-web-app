@@ -101,6 +101,7 @@ export { default as Pager } from './components/Pager';
 export { default as TopBanner } from './components/parked/TopBanner';
 export type { Props as PasswordInputProps } from './components/PasswordInput';
 export { default as PasswordInput } from './components/PasswordInput';
+export type { Props as PieChartProps } from './components/PieChart';
 export { default as PieChart } from './components/PieChart';
 export type { Props as PortalProps } from './components/Portal';
 export type { Props as InputErrorProps } from './components/InputError';
