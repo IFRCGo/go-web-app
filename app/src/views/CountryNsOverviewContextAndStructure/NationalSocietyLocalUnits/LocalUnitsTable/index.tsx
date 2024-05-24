@@ -106,12 +106,12 @@ function LocalUnitsTable() {
             createStringColumn<LocalUnitsTableListItem, number>(
                 'phone',
                 strings.localUnitsTablePhoneNumber,
-                (item) => item.phone,
+                (item) => chooseName(item.phone, item?.health_details?.focal_point_phone_number),
             ),
             createStringColumn<LocalUnitsTableListItem, number>(
                 'email',
                 strings.localUnitsTableEmail,
-                (item) => item.email,
+                (item) => chooseName(item.email, item?.health_details?.focal_point_email),
             ),
             createBooleanColumn<LocalUnitsTableListItem, number>(
                 'validated',
