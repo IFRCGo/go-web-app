@@ -25,6 +25,7 @@ import {
     isNotDefined,
 } from '@togglecorp/fujs';
 
+import { environment } from '#config';
 import useAuth from '#hooks/domain/useAuth';
 import usePermissions from '#hooks/domain/usePermissions';
 import { CountryOutletContext } from '#utils/outletContext';
@@ -117,7 +118,8 @@ function NationalSocietyLocalUnits(props: Props) {
                         <Tab name="table">{strings.localUnitsListView}</Tab>
                     </TabList>
                 )}
-                actions={hasAddLocalUnitPermission && (
+                // NOTE: disable local units add/edit for now
+                actions={hasAddLocalUnitPermission && (environment !== 'production') && (
                     <Button
                         name={undefined}
                         variant="secondary"
