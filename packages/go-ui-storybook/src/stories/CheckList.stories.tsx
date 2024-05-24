@@ -1,12 +1,13 @@
 import {
     ChecklistProps,
-    ListKey,
+    type ListKey,
 } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {
     Meta,
     StoryObj,
 } from '@storybook/react';
+import { fn } from '@storybook/test';
 
 import Checklist from './Checklist';
 
@@ -28,6 +29,9 @@ const meta: Meta<typeof Checklist> = {
             url: ' https://www.figma.com/file/myeW85ibN5p2SlnXcEpxFD/IFRC-GO---UI-Current---1?type=design&node-id=0-4957&mode=design&t=KwxbuoUQxqcLyZbG-0',
             allowFullscreen: true,
         },
+    },
+    args: {
+        onChange: fn(),
     },
     tags: ['autodocs'],
     decorators: [

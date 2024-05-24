@@ -2,12 +2,13 @@ import {
     Checkbox,
     CheckboxProps,
 } from '@ifrc-go/ui';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { useArgs } from '@storybook/preview-api';
 import type {
     Meta,
     StoryObj,
 } from '@storybook/react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { fn } from '@storybook/test';
 
 import CheckBox from './CheckBox';
 
@@ -24,6 +25,9 @@ const meta: Meta<typeof CheckBox> = {
             type: 'figma',
             url: 'https://www.figma.com/file/myeW85ibN5p2SlnXcEpxFD/IFRC-GO---UI-Current---1?type=design&node-id=0-4957&mode=design&t=KwxbuoUQxqcLyZbG-0',
         },
+    },
+    args: {
+        onChange: fn(),
     },
     tags: ['autodocs'],
     decorators: [

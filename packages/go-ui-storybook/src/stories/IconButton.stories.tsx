@@ -1,9 +1,13 @@
-import { WikiHelpSectionLineIcon } from '@ifrc-go/icons';
+import {
+    AddFillIcon,
+    DownloadCloudLineIcon,
+} from '@ifrc-go/icons';
 import { IconButtonProps } from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,
 } from '@storybook/react';
+import { fn } from '@storybook/test';
 
 import IconButton from './IconButton';
 
@@ -19,6 +23,9 @@ const meta: Meta<typeof IconButton> = {
             type: 'figma',
             url: 'https://www.figma.com/file/myeW85ibN5p2SlnXcEpxFD/IFRC-GO---UI-Current---1?type=design&node-id=0-4957&mode=design&t=KwxbuoUQxqcLyZbG-0',
         },
+    },
+    args: {
+        onClick: fn(),
     },
     tags: ['autodocs'],
     decorators: [
@@ -38,22 +45,22 @@ export default meta;
 
 export const Default: Story = {
     args: {
-        children: '1',
-        className: 'Icon-button',
+        name: 'Add',
+        children: <AddFillIcon />,
         variant: 'primary',
     },
 };
 export const WithIcon: Story = {
     args: {
-        children: <WikiHelpSectionLineIcon />,
-        className: 'Icon-button',
+        name: 'Download',
+        children: <DownloadCloudLineIcon />,
         variant: 'secondary',
     },
 };
 export const Disabled: Story = {
     args: {
-        children: '1',
-        className: 'Icon-button',
+        name: 'Download',
+        children: <AddFillIcon />,
         variant: 'secondary',
         disabled: true,
     },
