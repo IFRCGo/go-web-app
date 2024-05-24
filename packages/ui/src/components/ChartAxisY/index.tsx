@@ -3,7 +3,7 @@ import { isDefined } from '@togglecorp/fujs';
 
 import styles from './styles.module.css';
 
-interface Props {
+export interface Props {
     ticks: {
         y: number;
         label: React.ReactNode;
