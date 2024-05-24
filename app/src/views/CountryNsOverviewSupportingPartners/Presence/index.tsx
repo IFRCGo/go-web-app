@@ -27,7 +27,7 @@ const legalStatusLink = 'https://fednet.ifrc.org/en/support/legal/legal/legal-st
 
 interface DelegationInformationProps {
     name: string | null | undefined;
-    contact: string | null | undefined;
+    // contact: string | null | undefined;
     delegationOfficeType: string;
     address: string;
 }
@@ -40,7 +40,7 @@ const countryDelegationKeySelector = (countryDelegation: CountryDelgation) => (
 function DelegationInformation(props: DelegationInformationProps) {
     const {
         name,
-        contact,
+        // contact,
         delegationOfficeType,
         address,
     } = props;
@@ -57,11 +57,14 @@ function DelegationInformation(props: DelegationInformationProps) {
                 value={name}
                 strongValue
             />
+            {/* NOTE: Hide it for now, not sure if we can publish or not */}
+            {/*
             <TextOutput
                 label={strings.countryIFRCContact}
                 value={contact}
                 strongValue
             />
+              */}
             <TextOutput
                 label={strings.countryIFRCDelegationType}
                 value={delegationOfficeType}
@@ -110,21 +113,22 @@ function Presence() {
             <Container
                 className={styles.presenceCard}
                 heading={strings.countryIFRCPresenceTitle}
-                footerActions={(
-                    <TextOutput
-                        label={strings.source}
-                        value={(
-                            <Link
-                                variant="tertiary"
-                                href="https://data.ifrc.org/fdrs/ifrc-secretariat/"
-                                external
-                                withUnderline
-                            >
-                                {strings.fdrs}
-                            </Link>
-                        )}
-                    />
-                )}
+                // NOTE: Hide it for now, not sure if we can publish or not
+                // footerActions={(
+                //     <TextOutput
+                //         label={strings.source}
+                //         value={(
+                //             <Link
+                //                 variant="tertiary"
+                //                 href="https://data.ifrc.org/fdrs/ifrc-secretariat/"
+                //                 external
+                //                 withUnderline
+                //             >
+                //                 {strings.fdrs}
+                //             </Link>
+                //         )}
+                //     />
+                // )}
                 withHeaderBorder
                 withInternalPadding
                 childrenContainerClassName={styles.content}
