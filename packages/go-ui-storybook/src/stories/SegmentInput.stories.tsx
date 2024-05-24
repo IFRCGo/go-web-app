@@ -4,6 +4,7 @@ import type {
     Meta,
     StoryObj,
 } from '@storybook/react';
+import { fn } from '@storybook/test';
 
 import SegmentInput from './SegmentInput';
 
@@ -24,6 +25,9 @@ const meta: Meta<typeof SegmentInput> = {
             type: 'figma',
             url: 'https://www.figma.com/file/myeW85ibN5p2SlnXcEpxFD/IFRC-GO---UI-Current---1?type=design&node-id=0-4957&mode=design&t=KwxbuoUQxqcLyZbG-0',
         },
+    },
+    args: {
+        onChange: fn(),
     },
     tags: ['autodocs'],
     decorators: [

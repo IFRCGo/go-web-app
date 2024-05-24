@@ -4,6 +4,7 @@ import type {
     Meta,
     StoryObj,
 } from '@storybook/react';
+import { fn } from '@storybook/test';
 import { isDefined } from '@togglecorp/fujs';
 
 import RadioInput from './RadioInput';
@@ -21,6 +22,9 @@ const meta: Meta<typeof RadioInput> = {
             url: 'https://www.figma.com/file/myeW85ibN5p2SlnXcEpxFD/IFRC-GO---UI-Current---1?type=design&node-id=0-4957&mode=design&t=KwxbuoUQxqcLyZbG-0',
             allowFullscreen: true,
         },
+    },
+    args: {
+        onChange: fn(),
     },
     tags: ['autodocs'],
     decorators: [

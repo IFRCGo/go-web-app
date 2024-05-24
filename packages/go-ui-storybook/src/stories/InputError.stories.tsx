@@ -27,13 +27,11 @@ export default meta;
 export const Default: Story = {
     args: {
         children: 'This is an error',
-        className: 'error',
     },
 };
 export const Disabled: Story = {
     args: {
         children: 'This is an error ',
-        className: 'Error',
         disabled: true,
     },
 };
