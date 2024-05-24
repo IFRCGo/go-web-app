@@ -1,5 +1,13 @@
 # go-web-app
 
+## 7.3.8
+
+### Patch Changes
+
+- 478ab69: Hide contact information from IFRC Presence
+- 3fbe60f: Hide add/edit local units on production environmet
+- 90678ed: Show Organization Type properly in Account Details page
+
 ## 7.3.7
 
 ### Patch Changes
