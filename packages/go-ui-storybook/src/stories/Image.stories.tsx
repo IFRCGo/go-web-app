@@ -38,12 +38,24 @@ export default meta;
 
 export const Default: Story = {
     args: {
-        src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgbrM1jom-4qX5O5NM1tAcLa7ckXcBkao-KbaIFsQNVzLsNBNYewNPeJD_mC0N7FFzwHM&usqp=CAU',
+        src: 'https://images.unsplash.com/photo-1655815226495-68d7d78894c4?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        alt: 'Desert landscape with sand dunes',
     },
 };
 
-export const WithoutImage: Story = {
+export const WithCaption: Story = {
     args: {
-        src: '',
+        src: 'https://images.unsplash.com/photo-1655815226495-68d7d78894c4?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        alt: 'Desert landscape with sand dunes',
+        caption: "Golden waves of sand stretch endlessly under the scorching sun, painting a timeless portrait of nature's serene beauty.",
+    },
+};
+
+export const WithCaptionHidden: Story = {
+    args: {
+        src: 'https://images.unsplash.com/photo-1655815226495-68d7d78894c4?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        alt: 'Desert landscape with sand dunes',
+        caption: "Golden waves of sand stretch endlessly under the scorching sun, painting a timeless portrait of nature's serene beauty.",
+        withCaptionHidden: true,
     },
 };

@@ -1,15 +1,10 @@
-import { NumberInputProps } from '@ifrc-go/ui';
-import { useArgs } from '@storybook/preview-api';
 import type {
     Meta,
     StoryObj,
 } from '@storybook/react';
+import { fn } from '@storybook/test';
 
 import NumberInput from './NumberInput';
-
-type NumberInputSpecificProps = NumberInputProps<string>;
-
-type Story = StoryObj<NumberInputSpecificProps>;
 
 const meta: Meta<typeof NumberInput> = {
     title: 'Components/NumberInput',
@@ -21,38 +16,18 @@ const meta: Meta<typeof NumberInput> = {
             url: 'https://www.figma.com/file/myeW85ibN5p2SlnXcEpxFD/IFRC-GO---UI-Current---1?type=design&node-id=0-4957&mode=design&t=KwxbuoUQxqcLyZbG-0',
         },
     },
+    args: {
+        onChange: fn(),
+    },
     tags: ['autodocs'],
-    decorators: [
-        function Component(_, ctx) {
-            const [
-                { value },
-                setArgs,
-            ] = useArgs<{ value: number | null | undefined }>();
-            const onChange = (val:number| undefined, name: string) => {
-                setArgs({ value: val });
-                if (ctx.args && ctx.args.onChange) {
-                    ctx.args.onChange(Number(val), name);
-                }
-            };
-
-            return (
-                <NumberInput
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...ctx.args}
-                    onChange={onChange}
-                    value={value}
-                    name="NumberInput"
-                />
-            );
-        },
-    ],
 };
 
 export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
     args: {
-        label: 'Age',
+        label: 'Number of people affected',
         value: 1123,
     },
 };
@@ -81,19 +56,19 @@ export const WithAsterisk: Story = {
 export const Hint: Story = {
     args: {
         ...Default.args,
-        hint: 'This is hint',
+        hint: 'Please enter a valid number.',
     },
 };
 
 export const WithError: Story = {
     args: {
         ...Default.args,
-        error: 'This is an error',
+        error: 'There is an error with the input data.',
     },
 };
 export const WithPlaceholder: Story = {
     args: {
-        label: 'Age',
-        placeholder: 'Enter your age',
+        label: 'Year',
+        placeholder: 'Enter current year',
     },
 };

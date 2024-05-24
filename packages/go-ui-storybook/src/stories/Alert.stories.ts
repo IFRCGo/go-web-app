@@ -2,6 +2,7 @@ import type {
     Meta,
     StoryObj,
 } from '@storybook/react';
+import { fn } from '@storybook/test';
 
 import Alert from './Alert';
 
@@ -13,6 +14,9 @@ const meta = {
         allowfullscreen: true,
     },
     tags: ['autodocs'],
+    args: {
+        onCloseButtonClick: fn(),
+    },
     argTypes: {},
 } satisfies Meta<typeof Alert>;
 
