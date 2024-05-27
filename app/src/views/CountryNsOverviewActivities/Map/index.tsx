@@ -9,7 +9,10 @@ import {
     Message,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { resolveToString } from '@ifrc-go/ui/utils';
+import {
+    DEFAULT_INVALID_TEXT,
+    resolveToString,
+} from '@ifrc-go/ui/utils';
 import {
     _cs,
     isDefined,
@@ -348,7 +351,7 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
                         className={styles.mapContainer}
                         title={resolveToString(
                             strings.countryNSMapTitle,
-                            { countryName: countryResponse?.society_name ?? '-' },
+                            { countryName: countryResponse?.society_name ?? DEFAULT_INVALID_TEXT },
                         )}
                         footer={(
                             <div className={styles.legend}>

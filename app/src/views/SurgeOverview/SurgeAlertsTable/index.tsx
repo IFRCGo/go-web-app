@@ -9,6 +9,7 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     createDateColumn,
     createStringColumn,
+    DEFAULT_INVALID_TEXT,
     formatDate,
     getDuration,
 } from '@ifrc-go/ui/utils';
@@ -99,7 +100,7 @@ function SurgeAlertsTable() {
             strings.surgeAlertsTableDuration,
             (surgeAlert) => {
                 if (isNotDefined(surgeAlert.start) || isNotDefined(surgeAlert.end)) {
-                    return '-';
+                    return DEFAULT_INVALID_TEXT;
                 }
 
                 const startDate = new Date(surgeAlert.start);

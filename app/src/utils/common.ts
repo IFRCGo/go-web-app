@@ -1,3 +1,4 @@
+import { DEFAULT_INVALID_TEXT } from '@ifrc-go/ui/utils';
 import {
     compareNumber,
     isNotDefined,
@@ -77,15 +78,18 @@ export function downloadFile(
     URL.revokeObjectURL(url);
 }
 
-export function chooseName(
-    primaryName: string | null | undefined,
-    secondaryName: string | null | undefined,
+export function getFirstTruthyString(
+    primaryStr: string | null | undefined,
+    secondaryStr: string | null | undefined,
+    invalidText = DEFAULT_INVALID_TEXT,
 ) {
-    if (isTruthyString(primaryName)) {
-        return primaryName;
+    if (isTruthyString(primaryStr)) {
+        return primaryStr;
     }
-    if (isTruthyString(secondaryName)) {
-        return secondaryName;
+
+    if (isTruthyString(secondaryStr)) {
+        return secondaryStr;
     }
-    return '--';
+
+    return invalidText;
 }

@@ -18,7 +18,7 @@ import {
 } from '@togglecorp/fujs';
 
 import useFilterState from '#hooks/useFilterState';
-import { chooseName } from '#utils/common';
+import { getFirstTruthyString } from '#utils/common';
 import { type CountryOutletContext } from '#utils/outletContext';
 import {
     type GoApiResponse,
@@ -85,12 +85,12 @@ function LocalUnitsTable() {
             createStringColumn<LocalUnitsTableListItem, number>(
                 'branch_name',
                 strings.localUnitsTableName,
-                (item) => chooseName(item.local_branch_name, item.english_branch_name),
+                (item) => getFirstTruthyString(item.local_branch_name, item.english_branch_name),
             ),
             createStringColumn<LocalUnitsTableListItem, number>(
                 'address',
                 strings.localUnitsTableAddress,
-                (item) => chooseName(item.address_loc, item.address_en),
+                (item) => getFirstTruthyString(item.address_loc, item.address_en),
             ),
             createStringColumn<LocalUnitsTableListItem, number>(
                 'type',
@@ -101,17 +101,17 @@ function LocalUnitsTable() {
             createStringColumn<LocalUnitsTableListItem, number>(
                 'focal',
                 strings.localUnitsTableFocal,
-                (item) => chooseName(item.focal_person_loc, item.focal_person_en),
+                (item) => getFirstTruthyString(item.focal_person_loc, item.focal_person_en),
             ),
             createStringColumn<LocalUnitsTableListItem, number>(
                 'phone',
                 strings.localUnitsTablePhoneNumber,
-                (item) => chooseName(item.phone, item?.health_details?.focal_point_phone_number),
+                (item) => item.phone,
             ),
             createStringColumn<LocalUnitsTableListItem, number>(
                 'email',
                 strings.localUnitsTableEmail,
-                (item) => chooseName(item.email, item?.health_details?.focal_point_email),
+                (item) => item.email,
             ),
             createBooleanColumn<LocalUnitsTableListItem, number>(
                 'validated',

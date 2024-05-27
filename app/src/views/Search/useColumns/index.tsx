@@ -10,6 +10,7 @@ import {
     createNumberColumn,
     createProgressColumn,
     createStringColumn,
+    DEFAULT_INVALID_TEXT,
     getDuration,
     getPercentage,
 } from '@ifrc-go/ui/utils';
@@ -56,7 +57,7 @@ function useColumns(searchResponse: SearchResponse | undefined) {
         createStringColumn<EmergencyResult, number>(
             'appeal_type',
             strings.searchEmergencyTableAppealType,
-            (emergency) => emergency.appeal_type ?? '-',
+            (emergency) => emergency.appeal_type ?? DEFAULT_INVALID_TEXT,
         ),
         createStringColumn<EmergencyResult, number>(
             'disaster_type',
@@ -237,7 +238,7 @@ function useColumns(searchResponse: SearchResponse | undefined) {
             strings.searchSurgeAlertTableDuration,
             (surgeAlert) => {
                 if (isNotDefined(surgeAlert.alert_date)) {
-                    return '-';
+                    return DEFAULT_INVALID_TEXT;
                 }
 
                 const alertDate = new Date(surgeAlert.alert_date);

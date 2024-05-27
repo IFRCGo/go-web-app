@@ -2,6 +2,7 @@ import {
     ChartAxes,
     ChartContainer,
 } from '@ifrc-go/ui';
+import { DEFAULT_INVALID_TEXT } from '@ifrc-go/ui/utils';
 import { listToMap } from '@togglecorp/fujs';
 
 import useNumericChartData from '#hooks/useNumericChartData';
@@ -39,7 +40,7 @@ function RatingByAreaChart(props: Props) {
 
     const formAreaMap = listToMap(
         formAreaOptions,
-        (option) => option.area_num ?? '-',
+        (option) => option.area_num ?? DEFAULT_INVALID_TEXT,
         (option) => option.title,
     );
 
@@ -86,7 +87,8 @@ function RatingByAreaChart(props: Props) {
                                 x={point.x - barWidth / 2}
                                 y={point.y}
                             >
-                                {Number(point.originalData.value.toFixed(2)) ?? '-'}
+                                {Number(point.originalData.value.toFixed(2))
+                                    ?? DEFAULT_INVALID_TEXT}
                             </text>
                         )}
                         <rect
