@@ -1,6 +1,6 @@
 {
-    "name": "go-web-app-workspace",
-    "version": "1.0.0",
+    "name": "go-web-app",
+    "version": "7.0.30",
     "type": "module",
     "private": true,
     "scripts": {
@@ -11,7 +11,8 @@
         "start:app": "yarn build:ui && yarn workspace go-web-app start",
         "generate:type": "yarn workspace go-web-app generate:type",
         "storybook": "yarn workspace go-ui-storybook storybook",
-        "preview": "yarn workspace go-web-app preview"
+        "build-storybook": "yarn workspace go-ui-storybook build-storybook",
+        "chromatic": "yarn workspace go-ui-storybook chromatic"
     },
     "devDependencies": {
         "patch-package": "^8.0.0",

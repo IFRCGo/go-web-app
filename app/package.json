@@ -74,7 +74,7 @@
         "@vitest/coverage-v8": "^1.2.2",
         "autoprefixer": "^10.4.14",
         "cross-var": "^1.1.0",
-        "dotenv-cli": "^7.2.1",
+        "dotenv-cli": "^7.4.2",
         "eslint": "^8.40.0",
         "eslint-config-airbnb": "^19.0.4",
         "eslint-import-resolver-typescript": "^3.5.5",
