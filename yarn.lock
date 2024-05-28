@@ -5722,6 +5722,11 @@ chromatic@^11.3.2:
   resolved "https://registry.yarnpkg.com/chromatic/-/chromatic-11.4.0.tgz#411a51e82599472b2131a08895faf000e0f9a0fa"
   integrity sha512-/O6OwEUckqKTBGbm9KvYsR/eKCXy4s2eelO38yyfimBIJiL8+TS/pVnBqdtzUqO2hVK4GjrFiea9CnZUG9Akzw==
 
+chromatic@^11.4.1:
+  version "11.4.1"
+  resolved "https://registry.yarnpkg.com/chromatic/-/chromatic-11.4.1.tgz#cf41b7fd46148708155dba0657e26cf818d56cc4"
+  integrity sha512-f1Ud4EA7KvNKIIkO/qk/0epiCoyHjcyoejuncilSqC0KAHahmIgrWdZxEu+N8QfqqYbEBc5SrhAjiVWHePXTKw==
+
 ci-info@^3.7.0:
   version "3.9.0"
   resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-3.9.0.tgz#4279a62028a7b1f262f3473fc9605f5e218c59b4"
@@ -6481,10 +6486,10 @@ dot-case@^3.0.4:
     no-case "^3.0.4"
     tslib "^2.0.3"
 
-dotenv-cli@^7.2.1:
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/dotenv-cli/-/dotenv-cli-7.3.0.tgz#21e33e7944713001677658d68856063968edfbd2"
-  integrity sha512-314CA4TyK34YEJ6ntBf80eUY+t1XaFLyem1k9P0sX1gn30qThZ5qZr/ZwE318gEnzyYP9yj9HJk6SqwE0upkfw==
+dotenv-cli@^7.4.2:
+  version "7.4.2"
+  resolved "https://registry.yarnpkg.com/dotenv-cli/-/dotenv-cli-7.4.2.tgz#c158a818de08e1fbc51d310f628cbace9075b734"
+  integrity sha512-SbUj8l61zIbzyhIbg0FwPJq6+wjbzdn9oEtozQpZ6kW2ihCcapKVZj49oCT3oPM+mgQm+itgvUQcG5szxVrZTA==
   dependencies:
     cross-spawn "^7.0.3"
     dotenv "^16.3.0"

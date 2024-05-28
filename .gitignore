@@ -26,6 +26,7 @@ build-ssr
 *.sw?
 
 .env*
+!.env.example
 .eslintcache
 tsconfig.tsbuildinfo
 
@@ -33,3 +34,6 @@ tsconfig.tsbuildinfo
 
 stats.html
 generated/
+
+# storybook build
+storybook-static/

@@ -10,7 +10,9 @@
         "start:ui": "yarn workspace @ifrc-go/ui start",
         "start:app": "yarn build:ui && yarn workspace go-web-app start",
         "generate:type": "yarn workspace go-web-app generate:type",
-        "storybook": "yarn workspace go-ui-storybook storybook"
+        "storybook": "yarn workspace go-ui-storybook storybook",
+        "build-storybook": "yarn workspace go-ui-storybook build-storybook",
+        "chromatic": "yarn workspace go-ui-storybook chromatic"
     },
     "devDependencies": {
         "patch-package": "^8.0.0",
