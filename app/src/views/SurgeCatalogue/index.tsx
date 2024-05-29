@@ -52,13 +52,6 @@ export function Component() {
                     {strings.catalogueServiceOverview}
                 </NavigationTab>
                 <NavigationTab
-                    to="surgeCatalogueEmergencyNeedsAssessment"
-                    parentRoute
-                >
-                    <CoordinatedAssessementIcon className={styles.icon} />
-                    {strings.catalogueEmergency}
-                </NavigationTab>
-                <NavigationTab
                     to="surgeCatalogueBasecamp"
                     parentRoute
                 >
@@ -73,11 +66,11 @@ export function Component() {
                     {strings.catalogueCash}
                 </NavigationTab>
                 <NavigationTab
-                    to="surgeCatalogueCommunityEngagement"
+                    to="surgeCatalogueOtherCivilMilitaryRelations"
                     parentRoute
                 >
-                    <PartnershipIcon className={styles.icon} />
-                    {strings.catalogueCommunityEngagement}
+                    <CivilMilitaryCoordinationIcon className={styles.icon} />
+                    {strings.catalogueCMR}
                 </NavigationTab>
                 <NavigationTab
                     to="surgeCatalogueCommunication"
@@ -87,11 +80,53 @@ export function Component() {
                     {strings.catalogueCommunication}
                 </NavigationTab>
                 <NavigationTab
+                    to="surgeCatalogueCommunityEngagement"
+                    parentRoute
+                >
+                    <PartnershipIcon className={styles.icon} />
+                    {strings.catalogueCommunityEngagement}
+                </NavigationTab>
+                <NavigationTab
+                    to="surgeCatalogueOtherDisasterRiskReduction"
+                    parentRoute
+                >
+                    <DisasterRiskReductionIcon className={styles.icon} />
+                    {strings.catalogueDDR}
+                </NavigationTab>
+                <NavigationTab
+                    to="surgeCatalogueOtherUAV"
+                    parentRoute
+                >
+                    <DroneIcon className={styles.icon} />
+                    {strings.catalogueUAV}
+                </NavigationTab>
+                <NavigationTab
+                    to="surgeCatalogueEmergencyNeedsAssessment"
+                    parentRoute
+                >
+                    <CoordinatedAssessementIcon className={styles.icon} />
+                    {strings.catalogueEmergency}
+                </NavigationTab>
+                <NavigationTab
+                    to="surgeCatalogueOtherGreenResponse"
+                    parentRoute
+                >
+                    <GreenResponseIcon className={styles.icon} />
+                    {strings.catalogueGR}
+                </NavigationTab>
+                <NavigationTab
                     to="surgeCatalogueHealth"
                     parentRoute
                 >
                     <HealthIcon className={styles.icon} />
                     {strings.catalogueHealth}
+                </NavigationTab>
+                <NavigationTab
+                    to="surgeCatalogueOtherHumanResources"
+                    parentRoute
+                >
+                    <HumanResourcesIcon className={styles.icon} />
+                    {strings.catalogueHR}
                 </NavigationTab>
                 <NavigationTab
                     to="surgeCatalogueInformationManagement"
@@ -108,6 +143,13 @@ export function Component() {
                     {strings.catalogueInformationTechnologyTelecom}
                 </NavigationTab>
                 <NavigationTab
+                    to="surgeCatalogueOtherInternationalDisasterResponseLaw"
+                    parentRoute
+                >
+                    <LawIcon className={styles.icon} />
+                    {strings.catalogueIDRL}
+                </NavigationTab>
+                <NavigationTab
                     to="surgeCatalogueLivelihood"
                     parentRoute
                 >
@@ -122,11 +164,39 @@ export function Component() {
                     {strings.catalogueLogistics}
                 </NavigationTab>
                 <NavigationTab
+                    to="surgeCatalogueOtherMigration"
+                    parentRoute
+                >
+                    <MigrationIcon className={styles.icon} />
+                    {strings.catalogueMigration}
+                </NavigationTab>
+                <NavigationTab
+                    to="surgeCatalogueOtherNationalSocietyDevelopment"
+                    parentRoute
+                >
+                    <NationalSocietyDevelopmentIcon className={styles.icon} />
+                    {strings.catalogueNSD}
+                </NavigationTab>
+                <NavigationTab
                     to="surgeCatalogueOperationsManagement"
                     parentRoute
                 >
                     <GroupIcon className={styles.icon} />
                     {strings.catalogueOperations}
+                </NavigationTab>
+                <NavigationTab
+                    to="surgeCataloguePmer"
+                    parentRoute
+                >
+                    <MonitoringIcon className={styles.icon} />
+                    {strings.cataloguePMER}
+                </NavigationTab>
+                <NavigationTab
+                    to="surgeCatalogueOtherPreparednessEffectiveResponse"
+                    parentRoute
+                >
+                    <PreparednessIcon className={styles.icon} />
+                    {strings.cataloguePER}
                 </NavigationTab>
                 <NavigationTab
                     to="surgeCataloguePgi"
@@ -136,11 +206,11 @@ export function Component() {
                     {strings.catalogueProtection}
                 </NavigationTab>
                 <NavigationTab
-                    to="surgeCataloguePmer"
+                    to="surgeCatalogueOtherRecovery"
                     parentRoute
                 >
-                    <MonitoringIcon className={styles.icon} />
-                    {strings.cataloguePMER}
+                    <RecoveryIcon className={styles.icon} />
+                    {strings.catalogueRecovery}
                 </NavigationTab>
                 <NavigationTab
                     to="surgeCatalogueRelief"
@@ -164,55 +234,6 @@ export function Component() {
                     {strings.catalogueShelter}
                 </NavigationTab>
                 <NavigationTab
-                    to="surgeCatalogueWash"
-                    parentRoute
-                >
-                    <WaterSanitationAndHygieneIcon className={styles.icon} />
-                    {strings.catalogueWater}
-                </NavigationTab>
-                <NavigationTab
-                    to="surgeCatalogueOtherCivilMilitaryRelations"
-                    parentRoute
-                >
-                    <CivilMilitaryCoordinationIcon className={styles.icon} />
-                    {strings.catalogueCMR}
-                </NavigationTab>
-                <NavigationTab
-                    to="surgeCatalogueOtherDisasterRiskReduction"
-                    parentRoute
-                >
-                    <DisasterRiskReductionIcon className={styles.icon} />
-                    {strings.catalogueDDR}
-                </NavigationTab>
-                <NavigationTab
-                    to="surgeCatalogueOtherHumanResources"
-                    parentRoute
-                >
-                    <HumanResourcesIcon className={styles.icon} />
-                    {strings.catalogueHR}
-                </NavigationTab>
-                <NavigationTab
-                    to="surgeCatalogueOtherInternationalDisasterResponseLaw"
-                    parentRoute
-                >
-                    <LawIcon className={styles.icon} />
-                    {strings.catalogueIDRL}
-                </NavigationTab>
-                <NavigationTab
-                    to="surgeCatalogueOtherMigration"
-                    parentRoute
-                >
-                    <MigrationIcon className={styles.icon} />
-                    {strings.catalogueMigration}
-                </NavigationTab>
-                <NavigationTab
-                    to="surgeCatalogueOtherNationalSocietyDevelopment"
-                    parentRoute
-                >
-                    <NationalSocietyDevelopmentIcon className={styles.icon} />
-                    {strings.catalogueNSD}
-                </NavigationTab>
-                <NavigationTab
                     to="surgeCatalogueOtherStrategicPartnershipsResourceMobilisation"
                     parentRoute
                 >
@@ -220,32 +241,11 @@ export function Component() {
                     {strings.catalogueSPRD}
                 </NavigationTab>
                 <NavigationTab
-                    to="surgeCatalogueOtherPreparednessEffectiveResponse"
+                    to="surgeCatalogueWash"
                     parentRoute
                 >
-                    <PreparednessIcon className={styles.icon} />
-                    {strings.cataloguePER}
-                </NavigationTab>
-                <NavigationTab
-                    to="surgeCatalogueOtherRecovery"
-                    parentRoute
-                >
-                    <RecoveryIcon className={styles.icon} />
-                    {strings.catalogueRecovery}
-                </NavigationTab>
-                <NavigationTab
-                    to="surgeCatalogueOtherGreenResponse"
-                    parentRoute
-                >
-                    <GreenResponseIcon className={styles.icon} />
-                    {strings.catalogueGR}
-                </NavigationTab>
-                <NavigationTab
-                    to="surgeCatalogueOtherUAV"
-                    parentRoute
-                >
-                    <DroneIcon className={styles.icon} />
-                    {strings.catalogueUAV}
+                    <WaterSanitationAndHygieneIcon className={styles.icon} />
+                    {strings.catalogueWater}
                 </NavigationTab>
             </NavigationTabList>
             <div className={styles.content}>
