@@ -1,5 +1,12 @@
 # go-web-app
 
+## 7.3.9
+
+### Patch Changes
+
+- 49f5410: - Reorder CoS list
+  - Update texts in CoS strategic partnerships resource mobilisation
+
 ## 7.3.8
 
 ### Patch Changes
