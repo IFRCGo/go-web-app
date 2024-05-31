@@ -70,52 +70,39 @@ function BarChart<D>(props: Props<D>) {
 
     return (
         <div className={_cs(styles.barChart, className)}>
-            {renderingData.map((datum) => {
-                const isStringLabel = typeof datum.label === 'string';
-                let fontSize = 12;
-
-                if (datum.label && typeof datum.label === 'string') {
-                    const nl = Math.sqrt(datum.label.length);
-                    if (!Number.isNaN(nl)) {
-                        fontSize = Math.max(8, 16 - nl);
-                    }
-                }
-
-                return (
+            {renderingData.map((datum) => (
+                <div
+                    className={_cs(isDefined(datum.tooltip) && styles.hoverable, styles.barRow)}
+                    key={datum.key}
+                >
+                    {isDefined(datum.tooltip)
+                        && hasSomeDefinedValue(datum.tooltip) && (
+                        <Tooltip
+                            title={datum.label}
+                            description={datum.tooltip}
+                        />
+                    )}
                     <div
-                        className={_cs(isDefined(datum.tooltip) && styles.hoverable, styles.barRow)}
-                        key={datum.key}
+                        className={styles.label}
                     >
-                        {isDefined(datum.tooltip)
-                            && hasSomeDefinedValue(datum.tooltip) && (
-                            <Tooltip
-                                title={datum.label}
-                                description={datum.tooltip}
-                            />
-                        )}
+                        {datum.label}
+                    </div>
+                    <div className={styles.barTrack}>
                         <div
-                            className={styles.label}
-                            style={isStringLabel ? { fontSize } : undefined}
-                        >
-                            {datum.label}
-                        </div>
-                        <div className={styles.barTrack}>
-                            <div
-                                className={styles.bar}
-                                style={{
-                                    // FIXME: use percent function
-                                    width: `${getPercentage(datum.value, maxValueSafe)}%`,
-                                }}
-                            />
-                        </div>
-                        <NumberOutput
-                            className={styles.value}
-                            value={datum.value}
-                            compact={compactValue}
+                            className={styles.bar}
+                            style={{
+                                // FIXME: use percent function
+                                width: `${getPercentage(datum.value, maxValueSafe)}%`,
+                            }}
                         />
                     </div>
-                );
-            })}
+                    <NumberOutput
+                        className={styles.value}
+                        value={datum.value}
+                        compact={compactValue}
+                    />
+                </div>
+            ))}
         </div>
     );
 }
