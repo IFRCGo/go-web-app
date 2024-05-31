@@ -1,0 +1,81 @@
+export const baseFontSize = 0.875;
+import { Meta, Typeset } from '@storybook/blocks';
+
+<Meta title="Typography" />
+
+export const typography = {
+  type: {
+    primary:{
+      SansSerif: "var(--go-ui-font-family-sans-serif)",
+      Serif: "var(--go-ui-font-family-serif)",
+      Mono: "var(--go-ui-font-family-mono)",
+    }
+  },
+  weight: {
+    light: 'var(--go-ui-font-weight-light)',
+    regular: 'var(--go-ui-font-weight-normal)',
+    medium: 'var(--go-ui-font-weight-medium)',
+    semibold: 'var(--go-ui-font-weight-semibold)',
+    bold: 'var(--go-ui-font-weight-bold)',
+  },
+  size: {
+    '2xs': `${baseFontSize * 0.625}rem`,
+    xs: `${baseFontSize * 0.75}rem`,
+    sm: `${baseFontSize * 0.875}rem`,
+    md: `${baseFontSize}rem`,
+    lg: `${baseFontSize * 1.125}rem`,
+    xl: `${baseFontSize * 1.25}rem`,
+    '2xl': `${baseFontSize * 1.5}rem`,
+    '3xl': `${baseFontSize * 1.875}rem`,
+    '4xl': `${baseFontSize * 2.375}rem`,
+  },
+    lineHeight: {
+    none: 'var(--go-ui-line-height-none)',
+    xs: 'var(--go-ui-line-height-xs)',
+    sm: 'var(--go-ui-line-height-sm)',
+    md: 'var(--go-ui-line-height-md)',
+  },
+  iconHeight: {
+    multiplier: 'var(--go-ui-height-icon-multiplier)',
+    brandIcon: 'var(--go-ui-height-brand-icon)',
+    socialIcon: 'var(--go-ui-height-social-icon)',
+    keyFigureIcon: 'var(--go-ui-height-key-figure-icon)',
+    statusIcon: 'var(--go-ui-height-status-icon)',
+    compactStatusIcon: 'var(--go-ui-height-compact-status-icon)',
+  },
+  screenWidth: {
+    sm: 'var(--go-ui-width-screen-sm)',
+    md: 'var(--go-ui-width-screen-md)',
+    lg: 'var(--go-ui-width-screen-lg)',
+    xl: 'var(--go-ui-width-screen-xl)',
+    '2xl': 'var(--go-ui-width-screen-2xl)',
+  },
+};
+
+export const SampleText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+
+# Typography
+
+**Font:** SansSerif,
+
+**Weights:** 300(light), 400(regular), 500(medium),600(semibold) 700(blold),
+
+<Typeset
+  fontSizes={[
+    typography.size['2xs'],
+    typography.size.xs,
+    typography.size.sm,
+    typography.size.md,
+    typography.size.lg,
+    typography.size.xl,
+    typography.size['2xl'],
+    typography.size['3xl'],
+    typography.size['4xl'],
+  ]}
+  fontWeight={typography.weight.semibold}
+  lineHeight={typography.lineHeight.xs}
+  iconHeight={typography.iconHeight.statusIcon}
+  screenWidth={typography.screenWidth.lg}
+  sampleText={SampleText}
+  fontFamily={typography.type}
+/>
