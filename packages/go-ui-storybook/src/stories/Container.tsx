@@ -3,7 +3,7 @@ import {
     ContainerProps as PureContainerProps,
 } from '@ifrc-go/ui';
 
-interface ContainerProps extends PureContainerProps {}
+type ContainerProps = PureContainerProps
 
 function WrappedContainer(props: ContainerProps) {
     return (
