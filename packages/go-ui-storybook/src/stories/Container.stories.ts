@@ -1,3 +1,5 @@
+import { WikiLineIcon } from '@ifrc-go/icons';
+import { Button } from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,
@@ -30,11 +32,52 @@ export const Default: Story = {
         footerContent: 'Footer content',
         filters: 'Filter content',
         children: 'Container content',
-        contentViewType: 'default',
-        spacing: 'default',
-        numPreferredGridContentColumns: 2,
     },
 };
+
+export const ContentViewType : Story = {
+    args: {
+        heading: 'Container Heading',
+        headerDescription: 'This is a description for the header',
+        footerContent: 'Footer content',
+        filters: 'Filter content',
+        children: 'Container content',
+        contentViewType: 'default',
+    },
+};
+
+export const EllipsizeHeading: Story = {
+    args: {
+        heading: 'Container Heading',
+        headerDescription: 'This is a description for the header',
+        footerContent: 'Footer content',
+        filters: 'Filter content',
+        children: 'Container content',
+        ellipsizeHeading: true,
+    },
+};
+
+export const FooterAction: Story = {
+    args: {
+        heading: 'Container Heading',
+        headerDescription: 'This is a description for the header',
+        footerContent: 'Footer content',
+        filters: 'Filter content',
+        children: 'Container content',
+        footerActions: typeof Button,
+    },
+};
+export const WithFooterIcons: Story = {
+    args: {
+        heading: 'Container Heading',
+        headerDescription: 'This is a description for the header',
+        footerContent: 'Footer content',
+        filters: 'Filter content',
+        children: 'Container content',
+        footerIcons: typeof WikiLineIcon,
+    },
+};
+
 export const WithGridViewAndPadding: Story = {
     args: {
         heading: 'Container Heading',
@@ -46,6 +89,97 @@ export const WithGridViewAndPadding: Story = {
         spacing: 'default',
         numPreferredGridContentColumns: 2,
         withGridViewInFilter: true,
+    },
+};
+
+export const ContainerElementRef: Story = {
+    args: {
+        heading: 'Container Heading',
+        headerDescription: 'This is a description for the header',
+        footerContent: 'Footer content',
+        filters: 'Filter content',
+        children: 'Container content',
+    },
+};
+
+export const WithHeadinglevel: Story = {
+    args: {
+        heading: 'Container Heading',
+        headerDescription: 'This is a description for the header',
+        footerContent: 'Footer content',
+        filters: 'Filter content',
+        children: 'Container content',
+        contentViewType: 'default',
+        spacing: 'default',
+        headingLevel: 1,
+        numPreferredGridContentColumns: 2,
+    },
+};
+
+export const WithIcons: Story = {
+    args: {
+        heading: 'Container Heading',
+        headerDescription: 'This is a description for the header',
+        footerContent: 'Footer content',
+        filters: 'Filter content',
+        children: 'Container content',
+        contentViewType: 'default',
+        spacing: 'default',
+        icons: typeof WikiLineIcon,
+    },
+};
+
+export const NumPreferredGridContentColumns: Story = {
+    args: {
+        heading: 'Container Heading',
+        headerDescription: 'This is a description for the header',
+        footerContent: 'Footer content',
+        filters: 'Filter content',
+        children: 'Container content',
+        contentViewType: 'default',
+        spacing: 'default',
+        numPreferredGridContentColumns: 2,
+    },
+};
+export const Withspacing: Story = {
+    args: {
+        heading: 'Container Heading',
+        headerDescription: 'This is a description for the header',
+        footerContent: 'Footer content',
+        filters: 'Filter content',
+        children: 'Container content',
+        contentViewType: 'default',
+        spacing: 'none',
+        numPreferredGridContentColumns: 2,
+        withGridViewInFilter: true,
+    },
+};
+
+export const WithGridViewInFilter: Story = {
+    args: {
+        heading: 'Container Heading',
+        headerDescription: 'This is a description for the header',
+        footerContent: 'Footer content',
+        filters: 'Filter content',
+        children: 'Container content',
+        contentViewType: 'default',
+        spacing: 'default',
+        numPreferredGridContentColumns: 2,
+        withGridViewInFilter: true,
+    },
+};
+
+export const WithHeaderBorder: Story = {
+    args: {
+        heading: 'Container Heading',
+        headerDescription: 'This is a description for the header',
+        footerContent: 'Footer content',
+        filters: 'Filter content',
+        children: 'Container content',
+        contentViewType: 'grid',
+        spacing: 'default',
+        numPreferredGridContentColumns: 2,
+        withHeaderBorder: true,
     },
 };
 
@@ -63,19 +197,6 @@ export const WithInternalPadding: Story = {
     },
 };
 
-export const WithHeaderBorder: Story = {
-    args: {
-        heading: 'Container Heading',
-        headerDescription: 'This is a description for the header',
-        footerContent: 'Footer content',
-        filters: 'Filter content',
-        children: 'Container content',
-        contentViewType: 'grid',
-        spacing: 'default',
-        numPreferredGridContentColumns: 2,
-        withHeaderBorder: true,
-    },
-};
 export const WithoutWrapInHeading: Story = {
     args: {
         heading: 'Container Heading',
