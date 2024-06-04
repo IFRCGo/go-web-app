@@ -4,9 +4,11 @@ import {
 } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {
+    Args,
     Meta,
     StoryObj,
 } from '@storybook/react';
+import { fn } from '@storybook/test';
 
 import MultiSelectInput from './MultiSelectInput';
 
@@ -30,7 +32,7 @@ const options: Option[] = [
     },
     {
         key: '4',
-        label: 'Forecasst Based Action',
+        label: 'Forecast Based Action',
     },
 ];
 
@@ -52,73 +54,66 @@ const meta: Meta<typeof MultiSelectInput> = {
             allowFullscreen: true,
         },
     },
+    args: {
+        onChange: fn(),
+    },
     tags: ['autodocs'],
-    decorators: [
-        function Component(_, ctx) {
-            const [
-                { value },
-                updateArgs,
-            ] = useArgs<{ value: string[] | undefined }>();
-
-            const componentArgs = ctx.args as MultiSelectInputSpecificProps;
-
-            const setValue = (e: string[]) => {
-                updateArgs({ value: e });
-            };
-            return (
-                <MultiSelectInput
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...componentArgs}
-                    options={options}
-                    value={value}
-                    onChange={setValue}
-                    keySelector={keySelector}
-                    labelSelector={labelSelector}
-                    name=" MultiSelect"
-                />
-            );
-        },
-    ],
 };
 
 export default meta;
 
+function Template(args:Args) {
+    const [
+        {
+            value,
+            onChange,
+        },
+        updateArgs,
+    ] = useArgs();
+
+    const setValue = (val: string[], name: string) => {
+        onChange(val, name);
+        updateArgs({ value: val });
+    };
+
+    return (
+        <MultiSelectInput
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...args}
+            name="multiselect"
+            placeholder="Select an emergency type"
+            value={value}
+            options={options}
+            onChange={setValue}
+            keySelector={keySelector}
+            labelSelector={labelSelector}
+        />
+    );
+}
+
 export const Default: Story = {
-    args: {
-        options,
-        keySelector,
-        labelSelector,
-        value: ['1'],
-        withSelectAll: true,
-    },
-};
-export const NoValue: Story = {
-    args: {
-        options,
-        keySelector,
-        labelSelector,
-        value: undefined,
-        withSelectAll: true,
-    },
+    render: Template,
 };
 
 export const Disabled: Story = {
+    render: Template,
     args: {
-        options,
-        keySelector,
-        labelSelector,
         disabled: true,
         value: ['1', '3'],
-        withSelectAll: true,
     },
 };
 
 export const ReadOnly: Story = {
+    render: Template,
     args: {
-        options,
-        keySelector,
-        labelSelector,
+        value: ['1', '2'],
         readOnly: true,
+    },
+};
+
+export const WithSelectAll: Story = {
+    render: Template,
+    args: {
         withSelectAll: true,
     },
 };
