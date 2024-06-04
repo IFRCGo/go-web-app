@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import {
     Tab,
     TabList,
@@ -6,15 +7,17 @@ import {
 } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {
+    Args,
     Meta,
     StoryObj,
 } from '@storybook/react';
+import { fn } from '@storybook/test';
 
 import Tabs from './Tabs';
 
-type TabsSpecificProps = TabsProps<string[] | undefined>
+type TabsSpecificProps = TabsProps<string | undefined>
 
-type Story = StoryObj< TabsSpecificProps>;
+type Story = StoryObj<TabsSpecificProps>;
 
 const meta: Meta<typeof Tabs> = {
     title: 'Components/ Tabs',
@@ -26,122 +29,104 @@ const meta: Meta<typeof Tabs> = {
             url: 'https://www.figma.com/file/myeW85ibN5p2SlnXcEpxFD/IFRC-GO---UI-Current---1?type=design&node-id=0-4957&mode=design&t=KwxbuoUQxqcLyZbG-0',
         },
     },
+    args: {
+        onChange: fn(),
+    },
     tags: ['autodocs'],
-    decorators: [
-        function Component(_, ctx) {
-            const [
-                { value },
-                updateArgs,
-            ] = useArgs<{ value:string[] | undefined}>();
-            const componentArgs = ctx.args as TabsSpecificProps;
-            const onChange = (e: string[]) => {
-                updateArgs({ value: e });
-            };
-
-            return (
-                <Tabs
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...componentArgs}
-                    onChange={onChange}
-                    value={value || []}
-                />
-
-            );
-        },
-    ],
 };
 export default meta;
 
-const children = (
-    <>
-        <TabList>
-            <Tab name="Tab1">
-                Home
-            </Tab>
-            <Tab name="Tab2">
-                Profile
-            </Tab>
-            <Tab name="Tab3">
-                Notifications
-            </Tab>
-        </TabList>
+function Template(args:Args) {
+    const [
+        {
+            onChange,
+        },
+        updateArgs,
+    ] = useArgs();
 
-        <TabPanel name="Tab1" />
-        <TabPanel
-            name="Tab2"
-        />
-        <TabPanel
-            name="Tab3"
-        />
-    </>
-);
+    const handleChange = useCallback((key: string) => {
+        updateArgs({ value: key });
+        onChange(key);
+    }, [updateArgs, onChange]);
+
+    return (
+        <Tabs
+            value="Tab1"
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...args}
+            onChange={handleChange}
+        >
+            <TabList>
+                <Tab name="Tab1">
+                    Home
+                </Tab>
+                <Tab name="Tab2">
+                    Profile
+                </Tab>
+                <Tab name="Tab3">
+                    Notifications
+                </Tab>
+            </TabList>
+            <TabPanel name="Tab1" />
+            <TabPanel
+                name="Tab2"
+            />
+            <TabPanel
+                name="Tab3"
+            />
+        </Tabs>
+    );
+}
 
 export const Default: Story = {
-    args: {
-        children,
-        value: ['Tab1'],
-
-    },
+    render: Template,
 };
 
 export const Primary: Story = {
+    render: Template,
     args: {
-        children,
         variant: 'primary',
-        value: ['Tab1'],
-
     },
 };
 
 export const Secondary: Story = {
+    render: Template,
     args: {
-        children,
         variant: 'secondary',
-        value: ['Tab1'],
-
     },
 };
 
 export const Tertiary: Story = {
+    render: Template,
     args: {
-        children,
         variant: 'tertiary',
-        value: ['Tab1'],
-
     },
 };
 
 export const Step: Story = {
+    render: Template,
     args: {
-        children,
         variant: 'step',
-        value: ['Tab1'],
-
     },
 };
 
 export const Vertical: Story = {
+    render: Template,
     args: {
-        children,
         variant: 'vertical',
-        value: ['Tab1'],
-
     },
 };
 
 export const VerticalCompact: Story = {
+    render: Template,
     args: {
-        children,
         variant: 'vertical-compact',
-        value: ['Tab1'],
-
     },
 };
 
 export const Disabled: Story = {
+    render: Template,
     args: {
-        children,
-        value: ['Tab1'],
         disabled: true,
 
     },
