@@ -48,7 +48,6 @@ function Template(args:Args) {
             confirmMessage="This action cannot be undone. Are you sure you want to proceed?"
             confirmHeading="Confirmation"
             onConfirm={handleConfirm}
-            style={{ width: 'auto' }}
         >
             Delete
         </ConfirmButton>
