@@ -1,13 +1,19 @@
-import { useState } from 'react';
+import {
+    useCallback,
+    useState,
+} from 'react';
 import {
     OptionKey,
     SearchMultiSelectInputProps,
 } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {
+    Args,
     Meta,
     StoryObj,
 } from '@storybook/react';
+import { fn } from '@storybook/test';
+import { isDefined } from '@togglecorp/fujs';
 
 import SearchMultiSelectInput from './SearchMultiSelectInput';
 
@@ -52,76 +58,79 @@ const meta: Meta<typeof SearchMultiSelectInput> = {
             allowFullscreen: true,
         },
     },
+    args: {
+        onChange: fn(),
+    },
     tags: ['autodocs'],
-    decorators: [
-        function Component(_, ctx) {
-            const [
-                { value },
-                updateArgs,
-            ] = useArgs<{ value:string[] | undefined}>();
-            const componentArgs = ctx.args as SearchMultiSelectInputSpecificProps;
-            const onChange = (e: string[]) => {
-                updateArgs({ value: e });
-            };
-
-            return (
-                <SearchMultiSelectInput
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...componentArgs}
-                    options={options}
-                    value={value}
-                    onChange={onChange}
-                    keySelector={keySelector}
-                    labelSelector={labelSelector}
-                    name="SearchMultiSelectInput"
-                />
-            );
-        },
-    ],
 };
 
 export default meta;
 
+function Template(args:Args) {
+    const [
+        {
+            value,
+            onChange,
+        },
+        updateArgs,
+    ] = useArgs();
+
+    const [filteredOptions, setFilteredOptions] = useState(options);
+
+    const handleChange = useCallback((val: string[], name: string) => {
+        onChange(val, name);
+        updateArgs({ value: val });
+    }, [onChange, updateArgs]);
+
+    const handleSearchValueChange = useCallback((searchText: string | undefined) => {
+        if (isDefined(searchText)) {
+            const newOptions = options.filter(
+                (v) => v.label.toLowerCase().includes(searchText.toLowerCase()),
+            );
+            setFilteredOptions(newOptions);
+        } else {
+            setFilteredOptions(options);
+        }
+    }, []);
+
+    return (
+        <SearchMultiSelectInput
+            selectedOnTop={false}
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...args}
+            options={options}
+            onSearchValueChange={handleSearchValueChange}
+            searchOptions={filteredOptions}
+            value={value}
+            onChange={handleChange}
+            keySelector={keySelector}
+            labelSelector={labelSelector}
+            placeholder="Select an emergency type"
+            name="searchmultiselectinput"
+        />
+    );
+}
+
 export const Default: Story = {
+    render: Template,
     args: {
         options,
-        keySelector,
-        labelSelector,
         selectedOnTop: true,
-        value: ['1', '2'],
     },
 };
 
-export const NoValue: Story = {
+export const Disabled: Story = {
+    render: Template,
     args: {
-        options,
-        keySelector,
-        labelSelector,
-        value: undefined,
-    },
-};
-
-export const Disabled : Story = {
-    args: {
-        options,
-        keySelector,
-        labelSelector,
-        value: ['1', '2'],
         disabled: true,
+        value: ['1', '3'],
     },
 };
 
-export const ReadOnly:Story = {
+export const ReadOnly: Story = {
+    render: Template,
     args: {
         value: ['1', '2'],
         readOnly: true,
-    },
-};
-export const HideOptionFilter: Story = {
-    args: {
-        options,
-        keySelector,
-        labelSelector,
-        hideOptionFilter: () => true,
     },
 };
