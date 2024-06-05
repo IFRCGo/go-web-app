@@ -1,9 +1,9 @@
-import { DownloadTwoLineIcon } from '@ifrc-go/icons';
 import { RawFileInputProps } from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,
 } from '@storybook/react';
+import { fn } from '@storybook/test';
 
 import RawFileInput from './RawFileInput';
 
@@ -11,7 +11,7 @@ type RawFileInputSpecificProps = RawFileInputProps<string>;
 
 type Story = StoryObj<RawFileInputSpecificProps>;
 
-const meta: Meta<typeof RawFileInput > = {
+const meta: Meta<RawFileInputSpecificProps> = {
     title: 'Components/RawFileInput',
     component: RawFileInput,
     parameters: {
@@ -22,22 +22,6 @@ const meta: Meta<typeof RawFileInput > = {
         },
     },
     tags: ['autodocs'],
-    decorators: [
-        function Component(_, ctx) {
-            const componentArgs = ctx.args as RawFileInputSpecificProps;
-            const onChange = () => {};
-
-            return (
-                <RawFileInput
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...componentArgs}
-                    onChange={onChange}
-                    name="RawFileInput"
-
-                />
-            );
-        },
-    ],
 };
 
 export default meta;
@@ -45,15 +29,29 @@ export default meta;
 export const Default: Story = {
     args: {
         name: 'RawFileInput',
-        children: <DownloadTwoLineIcon />,
+        children: 'Upload File',
+        multiple: false,
+        onChange: fn(),
     },
 };
 
 export const Multiple: Story = {
     args: {
         name: 'RawFileInput',
-        children: 'Export',
+        children: 'Upload Files',
+        variant: 'secondary',
         multiple: true,
+        onChange: fn(),
+    },
+};
+
+export const WithAccept: Story = {
+    args: {
+        name: 'RawFileInput',
+        accept: 'image/png,image/jpeg',
+        children: 'Upload Image',
+        multiple: false,
+        onChange: fn(),
     },
 };
 
@@ -62,6 +60,8 @@ export const ReadOnly: Story = {
         name: 'RawFileInput',
         children: 'Export',
         readOnly: true,
+        multiple: false,
+        onChange: fn(),
     },
 };
 
@@ -69,6 +69,8 @@ export const Disabled: Story = {
     args: {
         name: 'RawFileInput',
         children: 'Export',
+        multiple: false,
+        onChange: fn(),
         disabled: true,
     },
 };
