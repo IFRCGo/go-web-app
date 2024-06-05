@@ -23,3 +23,7 @@
         stroke: var(--go-ui-color-orange);
     }
 }
+
+.list-story {
+    width: 30rem;
+}
