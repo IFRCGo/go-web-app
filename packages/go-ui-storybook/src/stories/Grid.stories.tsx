@@ -1,8 +1,4 @@
-import {
-    GridProps,
-    ListKey,
-} from '@ifrc-go/ui';
-import { useArgs } from '@storybook/preview-api';
+import { GridProps } from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,
@@ -16,17 +12,18 @@ interface Option {
 }
 
 const options: Option[] = [
-    { key: '1', label: 'Vegetables' },
-    { key: '2', label: 'Fruits' },
-    { key: '3', label: 'Dairy' },
+    { key: '1', label: 'Cat' },
+    { key: '2', label: 'Dog' },
+    { key: '3', label: 'Elephant' },
+    { key: '4', label: 'Giraffe' },
+    { key: '5', label: 'Lion' },
 ];
-type RendererProps = {
-    children: React.ReactNode
 
+type RendererProps = {
+    label: string;
 };
 
-type GridSpecificProps = GridProps<Option, ListKey, RendererProps>;
-
+type GridSpecificProps = GridProps<Option, string, RendererProps>;
 type Story = StoryObj<GridSpecificProps>;
 
 const meta: Meta<typeof Grid> = {
@@ -40,39 +37,25 @@ const meta: Meta<typeof Grid> = {
         },
     },
     tags: ['autodocs'],
-    decorators: [
-        function Component(_, ctx) {
-            const componentArgs = ctx.args as GridSpecificProps;
-            const [args] = useArgs();
-            const { data } = args;
-            return (
-                <Grid
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...componentArgs}
-                    data={data}
-                />
-            );
-        },
-    ],
-
 };
 
 export default meta;
 
-function Option({ children }: RendererProps) {
+function Option({ label }: RendererProps) {
     return (
-        <div>
-            { children }
+        <div className="grid-item">
+            {label}
         </div>
     );
 }
 
 const keySelector = (datum: Option) => datum.key;
 
-const rendererParams = (_key: string, option: Option) => ({ children: option.label });
+const rendererParams = (_key: string, option: Option) => ({ label: option.label });
 
 export const Default: Story = {
     args: {
+        className: 'grid-story',
         data: options,
         keySelector,
         renderer: Option,
@@ -80,8 +63,20 @@ export const Default: Story = {
     },
 };
 
+export const WithPreferredColumns: Story = {
+    args: {
+        className: 'grid-story',
+        data: options,
+        keySelector,
+        renderer: Option,
+        rendererParams,
+        numPreferredColumns: 2,
+    },
+};
+
 export const Pending: Story = {
     args: {
+        className: 'grid-story',
         keySelector,
         renderer: Option,
         rendererParams,
@@ -91,6 +86,7 @@ export const Pending: Story = {
 
 export const Errored: Story = {
     args: {
+        className: 'grid-story',
         keySelector,
         renderer: Option,
         rendererParams,

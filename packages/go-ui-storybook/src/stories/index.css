@@ -27,3 +27,15 @@
 .list-story {
     width: 30rem;
 }
+
+.grid-story {
+    .grid-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 0;
+        padding: var(--go-ui-spacing-sm);
+        border-radius: var(--go-ui-border-radius-md);
+        box-shadow: var(--go-ui-box-shadow-md);
+    }
+}
