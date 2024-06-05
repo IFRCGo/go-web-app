@@ -4,6 +4,7 @@ import {
 } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {
+    Args,
     Meta,
     StoryObj,
 } from '@storybook/react';
@@ -15,6 +16,16 @@ interface Option{
     key: string;
     label:string;
 }
+
+const options: Option[] = [
+    { key: '1', label: 'TODO' },
+    { key: '2', label: 'In Progress' },
+    { key: '3', label: 'Done' },
+];
+
+const keySelector = (d: Option) => d.key;
+const labelSelector = (d: Option) => d.label;
+
 type ChecklistSpecificProps = ChecklistProps<ListKey, string, Option>;
 
 type Story = StoryObj<ChecklistSpecificProps>;
@@ -34,85 +45,61 @@ const meta: Meta<typeof Checklist> = {
         onChange: fn(),
     },
     tags: ['autodocs'],
-    decorators: [
-        function Component(_, ctx) {
-            const [
-                { value },
-                setArgs,
-            ] = useArgs<{ value: ListKey[] | null | undefined }>();
-            const onChange = (val: ListKey[], name: string) => {
-                setArgs({ value: val });
-                ctx.args.onChange(val, name);
-            };
-
-            return (
-                <Checklist
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...ctx.args}
-                    onChange={onChange}
-                    value={value}
-                    name="checklist"
-                />
-            );
-        },
-    ],
 };
 
 export default meta;
 
-const options: Option[] = [
-    { key: 'option1', label: 'Option 1' },
-    { key: 'option2', label: 'Option 2' },
-    { key: 'option3', label: 'option 3' },
-];
+function Template(args:Args) {
+    const [
+        { value },
+        setArgs,
+    ] = useArgs<{ value: ListKey[] | null | undefined }>();
+    const onChange = (val: ListKey[]) => {
+        setArgs({ value: val });
+    };
 
-const keySelector = (d: Option) => d.key;
-const labelSelector = (d: Option) => d.label;
+    return (
+        <Checklist
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...args}
+            name="Checklist"
+            value={value}
+            options={options}
+            onChange={onChange}
+            keySelector={keySelector}
+            labelSelector={labelSelector}
+        />
+    );
+}
 
 export const Default: Story = {
-    args: {
-        options,
-        keySelector,
-        labelSelector,
-        value: [true],
-    },
+    render: Template,
 };
 
 export const Novalue: Story = {
+    render: Template,
     args: {
-        options,
-        keySelector,
-        labelSelector,
         value: undefined,
     },
 };
 
 export const Disabled: Story = {
+    render: Template,
     args: {
-        options,
-        keySelector,
-        labelSelector,
-        value: [true],
         disabled: true,
     },
 };
 
 export const Readonly: Story = {
+    render: Template,
     args: {
-        options,
-        keySelector,
-        labelSelector,
-        value: [true],
         readOnly: true,
     },
 };
 
 export const Error: Story = {
+    render: Template,
     args: {
-        options,
-        keySelector,
-        labelSelector,
-        value: [true],
-        error: 'This is an error',
+        error: 'Please select at least one option.',
     },
 };
