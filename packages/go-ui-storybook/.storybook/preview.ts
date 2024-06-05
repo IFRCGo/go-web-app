@@ -1,6 +1,8 @@
 import '@ifrc-go/ui/index.css';
 import type { Preview } from "@storybook/react";
 
+import '../src/stories/timeseries.css';
+
 const preview: Preview = {
     parameters: {
         controls: {

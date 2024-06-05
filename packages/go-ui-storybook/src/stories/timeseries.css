@@ -1,0 +1,25 @@
+.timeline-chart {
+    width: 30rem;
+    --path-stroke-width: 1pt;
+
+    .sales {
+        stroke: var(--go-ui-color-primary-red);
+        stroke-width: var(--path-stroke-width);
+        fill: none;
+        color: var(--go-ui-color-primary-red);
+    }
+
+    .expenses {
+        stroke: var(--go-ui-color-primary-blue);
+        stroke-width: var(--path-stroke-width);
+        fill: none;
+        color: var(--go-ui-color-primary-blue);
+    }
+
+    .profit {
+        stroke: var(--go-ui-color-orange);
+        stroke-width: var(--path-stroke-width);
+        fill: none;
+        stroke: var(--go-ui-color-orange);
+    }
+}
