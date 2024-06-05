@@ -1,16 +1,35 @@
 import { BarChartProps } from '@ifrc-go/ui';
 import type {
+    Args,
     Meta,
     StoryObj,
 } from '@storybook/react';
 
 import BarChart from './BarChart';
 
+interface Option {
+    id: number;
+    label: string;
+    value: number;
+}
+
+const data: Option[] = [
+    { id: 1, label: '2022', value: 10 },
+    { id: 2, label: '2023', value: 9 },
+    { id: 3, label: '2024', value: 5 },
+    { id: 4, label: '2020', value: 2 },
+];
+
+const keySelector = (d: Option) => d.id;
+const valueSelector = (d: Option) => d.value;
+const labelSelector = (d: Option) => d.label;
+
+const maxValue = Math.max(...data.map(valueSelector));
 type BarChartSpecificProps = BarChartProps<Option>;
 
-type Story = StoryObj<BarChartSpecificProps>;
+type Story = StoryObj<typeof BarChart>;
 
-const meta: Meta<typeof BarChart> = {
+const meta: Meta<BarChartSpecificProps> = {
     title: 'Components/BarChart',
     component: BarChart,
     parameters: {
@@ -25,29 +44,34 @@ const meta: Meta<typeof BarChart> = {
 
 export default meta;
 
-interface Option {
-    key: string;
-    label: string;
-    value: number;
+function Template(args:Args) {
+    return (
+        <BarChart
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...args}
+            data={data}
+            keySelector={keySelector}
+            labelSelector={labelSelector}
+            valueSelector={valueSelector}
+            maxValue={maxValue}
+        />
+    );
 }
 
-const data: Option[] = [
-    { key: '1', label: '2022', value: 8 },
-    { key: '2', label: '2023', value: 28 },
-    { key: '3', label: '2024', value: 50 },
-    { key: '4', label: '2020', value: 59 },
-];
-
-const keySelector = (d: Option) => d.key;
-const valueSelector = (d: Option) => d.value;
-const labelSelector = (d: Option) => d.label;
-
 export const Default: Story = {
+    render: Template,
+};
+
+export const MaxRows: Story = {
+    render: Template,
     args: {
-        data,
-        maxValue: 3,
-        keySelector,
-        labelSelector,
-        valueSelector,
+        maxRows: 5,
+    },
+};
+
+export const CompactValue: Story = {
+    render: Template,
+    args: {
+        compactValue: true,
     },
 };
