@@ -28,7 +28,7 @@ export const Info: Story = {
         name: 'info',
         title: 'Information',
         type: 'info',
-        description: 'This is an information alert.',
+        description: 'This alert provides informative details to the user.',
     },
 };
 
@@ -37,7 +37,7 @@ export const Success: Story = {
         name: 'success',
         title: 'Success',
         type: 'success',
-        description: 'This is a Success alert.',
+        description: 'This alert indicates a successful operation or task.',
     },
 };
 
@@ -46,7 +46,7 @@ export const Warning : Story = {
         name: 'warning',
         title: 'Warning',
         type: 'warning',
-        description: 'This is a warning alert.',
+        description: 'This alert warns the user about potential issues or risks.',
     },
 };
 
@@ -55,6 +55,16 @@ export const Danger : Story = {
         name: 'danger',
         title: 'Danger',
         type: 'danger',
-        description: 'This is a danger alert.',
+        description: 'This alert indicates a dangerous or potentially harmful situation.',
+    },
+};
+
+export const NonDismissable: Story = {
+    args: {
+        name: 'danger',
+        title: 'Danger',
+        type: 'danger',
+        description: 'This alert indicates a dangerous or potentially harmful situation.',
+        nonDismissable: true,
     },
 };
