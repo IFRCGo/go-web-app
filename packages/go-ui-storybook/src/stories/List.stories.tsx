@@ -1,8 +1,4 @@
-import {
-    ListKey,
-    ListProps,
-} from '@ifrc-go/ui';
-import { useArgs } from '@storybook/preview-api';
+import { ListProps } from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,
@@ -16,19 +12,17 @@ interface Option {
 }
 
 const options: Option[] = [
-    { key: '1', label: 'Green' },
-    { key: '2', label: 'Yellow' },
-    { key: '3', label: 'Blue' },
-    { key: '4', label: 'White' },
-    { key: '5', label: 'Black' },
+    { key: '1', label: 'Apple' },
+    { key: '2', label: 'Banana' },
+    { key: '3', label: 'Cherry' },
+    { key: '4', label: 'Date' },
+    { key: '5', label: 'Elderberry' },
 ];
-type RendererProps = {
-    children: React.ReactNode
-};
 
-type ListSpecificProps = ListProps<Option, ListKey, RendererProps>;
-
-type Story = StoryObj<ListSpecificProps>;
+interface RendererProps {
+    label: string;
+}
+type Story = StoryObj<ListProps<Option, string, RendererProps>>;
 
 const meta: Meta<typeof List> = {
     title: 'Components/List',
@@ -41,36 +35,20 @@ const meta: Meta<typeof List> = {
         },
     },
     tags: ['autodocs'],
-    decorators: [
-        function Component(_, ctx) {
-            const componentArgs = ctx.args as ListSpecificProps;
-            const [args] = useArgs();
-            const { data } = args;
-            return (
-                <List
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...componentArgs}
-                    data={data}
-                />
-            );
-        },
-    ],
-
 };
 
 export default meta;
 
-function Option({ children }: RendererProps) {
+function Option({ label }: RendererProps) {
     return (
         <div>
-            { children }
+            { label }
         </div>
     );
 }
 
 const keySelector = (datum: Option) => datum.key;
-
-const rendererParams = (_key: string, option: Option) => ({ children: option.label });
+const rendererParams = (_key: string, option: Option) => ({ label: option.label });
 
 export const Default: Story = {
     args: {
@@ -83,15 +61,19 @@ export const Default: Story = {
 
 export const Pending: Story = {
     args: {
+        className: 'list-story',
         keySelector,
         renderer: Option,
         rendererParams,
         pending: true,
+        compact: true,
+        pendingMessage: 'We are populating the data...',
     },
 };
 
 export const Errored: Story = {
     args: {
+        className: 'list-story',
         keySelector,
         renderer: Option,
         rendererParams,
@@ -102,9 +84,11 @@ export const Errored: Story = {
 
 export const Filtered: Story = {
     args: {
+        className: 'list-story',
         keySelector,
         renderer: Option,
         rendererParams,
         filtered: true,
+        filteredEmptyMessage: 'Data is not available for selected filters',
     },
 };
