@@ -4,9 +4,11 @@ import type {
     StoryObj,
 } from '@storybook/react';
 
-import InputContainer from './InputContainer';
+import InputContainer, { InputContainerProps } from './InputContainer';
 
-const meta = {
+type Story = StoryObj<InputContainerProps>;
+
+const meta: Meta<InputContainerProps> = {
     title: 'Components/InputContainer',
     component: InputContainer,
     parameters: {
@@ -17,59 +19,103 @@ const meta = {
             allowFullscreen: true,
         },
     },
+    argTypes: {
+        spacing: {
+            options: ['none', 'condensed', 'compact', 'cozy', 'default', 'comfortable', 'relaxed', 'loose'],
+            control: { type: 'select' },
+        },
+    },
+    args: {},
     tags: ['autodocs'],
-    argTypes: {},
-} satisfies Meta<typeof InputContainer>;
+};
 
 export default meta;
-type Story = StoryObj<typeof InputContainer>;
 
 export const Default: Story = {
     args: {
-        label: 'Start After',
+        label: 'Select a date',
         input: <div>mm/dd/yy</div>,
-        icons: <CalendarLineIcon />,
+        actions: <CalendarLineIcon />,
+        icons: undefined,
+        disabled: false,
+        error: undefined,
+        actionsContainerClassName: '',
+        errorContainerClassName: '',
+        hintContainerClassName: '',
+        iconsContainerClassName: '',
+        errorOnTooltip: false,
+        hint: '',
+        inputSectionClassName: '',
+        labelClassName: '',
+        readOnly: false,
+        required: false,
+        variant: 'form',
+        withAsterisk: false,
+        className: '',
+        containerRef: undefined,
+        inputSectionRef: undefined,
     },
 };
+
 export const Disabled: Story = {
     args: {
-        label: 'Start After',
-        input: <div>mm/dd/yy</div>,
-        icons: <CalendarLineIcon />,
+        ...Default.args,
         disabled: true,
-
     },
 };
+
 export const WithError: Story = {
     args: {
-        label: 'Start After',
-        input: <div>mm/dd/yy</div>,
-        icons: <CalendarLineIcon />,
-        error: <p>This is an error message</p>,
+        ...Default.args,
+        error: <p>Invalid Date</p>,
     },
 };
 
 export const ReadOnly: Story = {
     args: {
-        label: 'Start After',
-        input: <div>mm/dd/yy</div>,
-        icons: <CalendarLineIcon />,
+        ...Default.args,
         readOnly: true,
     },
 };
+
 export const WithHint: Story = {
     args: {
-        label: 'Start After',
-        input: <div>mm/dd/yy</div>,
-        icons: <CalendarLineIcon />,
-        hint: 'Please get this Hint',
+        ...Default.args,
+        hint: 'Enter a date in the format mm/dd/yy that the event should start after.',
     },
 };
+
 export const WithAsterisk: Story = {
     args: {
-        label: 'Start After',
-        input: <div>mm/dd/yy</div>,
-        icons: <CalendarLineIcon />,
+        ...Default.args,
         withAsterisk: true,
+    },
+};
+
+export const ErrorOnTooltip: Story = {
+    args: {
+        ...Default.args,
+        errorOnTooltip: true,
+    },
+};
+
+export const Variant: Story = {
+    args: {
+        ...Default.args,
+        variant: 'form',
+    },
+};
+
+export const Required: Story = {
+    args: {
+        ...Default.args,
+        required: true,
+    },
+};
+
+export const WithIcon: Story = {
+    args: {
+        ...Default.args,
+        icons: <CalendarLineIcon />,
     },
 };

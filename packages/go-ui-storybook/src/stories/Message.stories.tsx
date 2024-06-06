@@ -40,6 +40,7 @@ export default meta;
 export const Default: Story = {
     args: {
         title: 'IFRC supported Operation',
+        errored: false,
     },
 };
 
@@ -58,10 +59,19 @@ export const Info :Story = {
 
     },
 };
+export const Pending :Story = {
+    args: {
+        title: 'Fetching data...',
+        pending: true,
+
+    },
+};
 
 export const Error :Story = {
     args: {
-        title: 'Page not found',
+        title: 'IFRC supported Operation',
         variant: 'error',
+        erroredTitle: 'Page Not Found',
+        errored: true,
     },
 };
