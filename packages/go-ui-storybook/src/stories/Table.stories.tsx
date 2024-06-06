@@ -1,9 +1,14 @@
-import { ReactNode } from 'react';
 import {
     Column,
-    RowOptions,
     TableProps,
 } from '@ifrc-go/ui';
+import {
+    createDateColumn,
+    createElementColumn,
+    createListDisplayColumn,
+    createNumberColumn,
+    createStringColumn,
+} from '@ifrc-go/ui/utils';
 import type {
     Meta,
     StoryObj,
@@ -14,85 +19,213 @@ import Table from './Table';
 interface Data {
     id: number;
     name: string;
-    budget: number | undefined;
-    date: string;
+    dateofbirth: string;
+    link: string;
+    characteristics: string[];
+    status: string;
+    habitat: string;
+    comments: string;
 }
 
-const data: Data[] = [
+const data = [
     {
-        id: 1, name: 'Rice', budget: 100, date: '2022-01-01T00:00:00',
+        id: 1,
+        name: 'African Elephant',
+        dateofbirth: '2010-05-12',
+        link: 'https://en.wikipedia.org/wiki/african_elephant',
+        characteristics: [
+            'Large',
+            'Gray',
+            'Tusks',
+        ],
+        status: 'Endangered',
+        habitat: 'Savannah',
+        comments: 'Largest land animal',
     },
     {
-        id: 2, name: 'vegetables', budget: 200, date: '2022-01-01T00:00:00',
+        id: 2,
+        name: 'Bald Eagle',
+        dateofbirth: '2012-07-04',
+        link: 'https://en.wikipedia.org/wiki/bald_eagle',
+        characteristics: [
+            'Large wingspan',
+            'White head',
+            'Sharp beak',
+        ],
+        status: 'Least Concern',
+        habitat: 'Forests, mountains, and rivers',
+        comments: 'National bird of the USA',
     },
     {
-        id: 3, name: 'meat', budget: 300, date: '2022-01-01T00:00:00',
+        id: 3,
+        name: 'Cheetah',
+        dateofbirth: '2015-03-22',
+        link: 'https://en.wikipedia.org/wiki/cheetah',
+        characteristics: [
+            'Fast',
+            'Spotted',
+            'Slim build',
+        ],
+        status: 'Vulnerable',
+        habitat: 'Grasslands',
+        comments: 'Fastest land animal',
+    },
+    {
+        id: 4,
+        name: 'Dolphin',
+        dateofbirth: '2013-09-18',
+        link: 'https://en.wikipedia.org/wiki/dolphin',
+        characteristics: [
+            'Intelligent',
+            'Social',
+            'Echolocation',
+        ],
+        status: 'Least Concern',
+        habitat: 'Oceans',
+        comments: 'Known for their intelligence',
+    },
+    {
+        id: 5,
+        name: 'Emperor Penguin',
+        dateofbirth: '2011-12-01',
+        link: 'https://en.wikipedia.org/wiki/emperor_penguin',
+        characteristics: [
+            'Large',
+            'Black and white',
+            'Flightless',
+        ],
+        status: 'Near Threatened',
+        habitat: 'Antarctica',
+        comments: 'Largest species of penguin',
+    },
+    {
+        id: 6,
+        name: 'Fennec Fox',
+        dateofbirth: '2016-01-10',
+        link: 'https://en.wikipedia.org/wiki/fennec_fox',
+        characteristics: [
+            'Small',
+            'Big ears',
+            'Nocturnal',
+        ],
+        status: 'Least Concern',
+        habitat: 'Deserts',
+        comments: 'Smallest fox species',
+    },
+    {
+        id: 7,
+        name: 'Giant Panda',
+        dateofbirth: '2014-08-23',
+        link: 'https://en.wikipedia.org/wiki/giant_panda',
+        characteristics: [
+            'Black and white',
+            'Bamboo eater',
+            'Calm',
+        ],
+        status: 'Vulnerable',
+        habitat: 'Mountain forests',
+        comments: 'Symbol of conservation',
+    },
+    {
+        id: 8,
+        name: 'Great White Shark',
+        dateofbirth: '2009-06-15',
+        link: 'https://en.wikipedia.org/wiki/great_white_shark',
+        characteristics: [
+            'Large',
+            'Apex predator',
+            'Sharp teeth',
+        ],
+        status: 'Vulnerable',
+        habitat: 'Coastal waters',
+        comments: 'Known for their size and strength',
+    },
+    {
+        id: 9,
+        name: 'Hummingbird',
+        dateofbirth: '2018-04-05',
+        link: 'https://en.wikipedia.org/wiki/hummingbird',
+        characteristics: [
+            'Small',
+            'Colorful',
+            'Fast wings',
+        ],
+        status: 'Least Concern',
+        habitat: 'Gardens, forests',
+        comments: 'Can hover in mid-air',
+    },
+    {
+        id: 10,
+        name: 'Indian Tiger',
+        dateofbirth: '2013-11-11',
+        link: 'https://en.wikipedia.org/wiki/indian_tiger',
+        characteristics: [
+            'Striped',
+            'Powerful',
+            'Carnivorous',
+        ],
+        status: 'Endangered',
+        habitat: 'Tropical forests',
+        comments: 'Largest cat species in India',
     },
 ];
-const keySelector: (d: Data) => string = (d) => d.name;
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const columns: Column<Data, string, any, any>[] = [
-    {
-        id: '1',
-        title: 'Id',
-        cellRenderer: (row: Data) => <div>{row.id}</div>,
-        headerCellRenderer: () => 'Id',
-        headerCellRendererParams: {},
-        cellRendererParams: () => ({
-            type: 'some type',
-            props: 'some props',
+const keySelector = (d: Data) => d.id;
+const columns = [
+    createNumberColumn<Data, number>(
+        'id',
+        'ID',
+        (item) => item.id,
+        undefined,
+    ),
+    createStringColumn<Data, number>(
+        'name',
+        'Name',
+        (item) => item.name,
+    ),
+    createDateColumn<Data, number>(
+        'dateofbirth',
+        'Date of Birth',
+        (item) => item.dateofbirth,
+    ),
+    createElementColumn<Data, number, { link: string, title: string }>(
+        'link',
+        'Link',
+        ({ link, title }) => (
+            <a href={link}>{title}</a>
+        ),
+        (_, item) => ({ link: item.link, title: item.name }),
+    ),
+    createListDisplayColumn<Data, number, string, { character: string }>(
+        'characteristics',
+        'Characteristics',
+        (item) => ({
+            list: item.characteristics,
+            renderer: ({ character }) => (
+                <span>{character}</span>
+            ),
+            rendererParams: (character) => ({
+                character,
+            }),
+            keySelector: (character) => character,
         }),
-    },
-    {
-        id: '2',
-        title: 'Name',
-        cellRenderer: (row: Data) => <div>{row.name}</div>,
-        headerCellRenderer: () => 'Name',
-        headerCellRendererParams: {},
-        cellRendererParams: () => ({
-            type: 'some type',
-            props: 'some props',
-        }),
-    },
-    {
-        id: '3',
-        title: 'Budget',
-        cellRenderer: (row: Data) => <div>{row.budget}</div>,
-        headerCellRenderer: () => 'Budget',
-        headerCellRendererParams: {},
-        cellRendererParams: () => ({
-            type: 'some type',
-            props: 'some props',
-        }),
-    },
-    {
-        id: '4',
-        title: 'Date',
-        cellRenderer: (row: Data) => <div>{row.date}</div>,
-        headerCellRenderer: () => 'Date',
-        headerCellRendererParams: {
-            name: 'Date',
-            index: 1,
-        },
-        cellRendererParams: () => ({
-            type: 'some type',
-            props: 'some props',
-        }),
-    },
+    ),
+    createStringColumn<Data, number>(
+        'status',
+        'Status',
+        (item) => item.status,
+    ),
+    createStringColumn<Data, number>(
+        'habitat',
+        'Habitat',
+        (item) => item.habitat,
+    ),
 ];
-const rowModifier = (rowOptions: RowOptions<Data, string>): ReactNode => {
-    const row = rowOptions.datum;
-    return (
-        <div>
-            {row.id}
-        </div>
-    );
-};
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type TableSpecificProps = TableProps<Data, string, Column<Data, string, any, any>>
-type Story = StoryObj<TableSpecificProps>;
 
+type Story = StoryObj<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    TableProps<Data, number, Column<Data, number, any, any>>
+>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const meta: Meta<typeof Table> = {
     title: 'Components/Table',
     component: Table,
@@ -103,81 +236,71 @@ const meta: Meta<typeof Table> = {
             url: 'https://www.figma.com/file/myeW85ibN5p2SlnXcEpxFD/IFRC-GO---UI-Current---1?type=design&node-id=0-4957&mode=design&t=KwxbuoUQxqcLyZbG-0',
         },
     },
-    tags: ['autodocs'],
-    decorators: [
-        function Component(_, ctx) {
-            const componentArgs = ctx.args as unknown as TableSpecificProps;
-            return (
-                <Table
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...componentArgs}
-                    keySelector={keySelector}
-                    columns={columns}
-                    data={data}
-
-                />
-            );
+    argTypes: {
+        className: {
+            type: 'string',
         },
-    ],
+        captionClassName: {
+            type: 'string',
+        },
+        headerCellClassName: {
+            type: 'string',
+        },
+        headerRowClassName: {
+            type: 'string',
+        },
+        rowClassName: {
+            type: 'string',
+        },
+        rowModifier: {
+            type: 'function',
+        },
+    },
+    tags: ['autodocs'],
 };
+
 export default meta;
 
 export const Default: Story = {
     args: {
-        rowModifier,
+        data,
         columns,
-        fixedColumnWidth: true,
-        caption: 'Table for the households expenses',
+        keySelector,
+        caption: 'Animal Information Dataset',
+        fixedColumnWidth: false,
+        resizableColumn: false,
+        filtered: false,
+        pending: false,
+        headersHidden: false,
     },
 };
 
-export const Pending: Story = {
+export const WithHeadersHidden: Story = {
     args: {
-        keySelector,
-        rowModifier,
+        data,
         columns,
-        pending: true,
-
-    },
-};
-
-export const Filtered: Story = {
-    args: {
         keySelector,
-        rowModifier,
-        columns,
-        filtered: true,
-
-    },
-};
-
-export const HeadersHidden: Story = {
-    args: {
-        keySelector,
-        rowModifier,
-        columns,
+        caption: 'Animal Information Dataset',
         headersHidden: true,
+    },
+};
+
+export const WithFixedColumnWidth: Story = {
+    args: {
+        data,
+        columns,
+        keySelector,
+        caption: 'All columns utilize fixed width formatting.',
         fixedColumnWidth: true,
     },
 };
 
-export const ResizableColumn: Story = {
+export const WithResizableColumn: Story = {
     args: {
-        keySelector,
-        rowModifier,
+        data,
         columns,
+        keySelector,
+        caption: 'You can utilize the header column to adjust the width of each column.',
         resizableColumn: true,
-        fixedColumnWidth: true,
-
-    },
-};
-
-export const FixedColumnWidth: Story = {
-    args: {
-        keySelector,
-        rowModifier,
-        columns,
-        fixedColumnWidth: true,
-
     },
 };
