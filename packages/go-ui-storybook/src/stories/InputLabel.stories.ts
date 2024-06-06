@@ -24,20 +24,20 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
     args: {
-        children: 'This is a   Default Input-label',
+        children: 'User Name',
     },
 };
 
 export const Disabled :Story = {
     args: {
-        children: 'This is a disabled label',
+        children: 'User Name',
         disabled: true,
     },
 };
 
 export const Required : Story = {
     args: {
-        children: 'This is a required label',
+        children: 'User Name',
         required: true,
     },
 };
