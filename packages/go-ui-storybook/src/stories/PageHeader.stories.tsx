@@ -5,6 +5,7 @@ import {
     TabList,
 } from '@ifrc-go/ui';
 import type {
+    Args,
     Meta,
     StoryObj,
 } from '@storybook/react';
@@ -13,9 +14,9 @@ import PageHeader from './PageHeader';
 
 type PageHeaderSpecificProps = PageHeaderProps;
 
-type Story = StoryObj<PageHeaderSpecificProps>;
+type Story = StoryObj<typeof PageHeader>;
 
-const meta: Meta<typeof PageHeader> = {
+const meta: Meta<PageHeaderSpecificProps> = {
     title: 'Components/PageHeader',
     component: PageHeader,
     parameters: {
@@ -26,23 +27,22 @@ const meta: Meta<typeof PageHeader> = {
         },
     },
     tags: ['autodocs'],
-    decorators: [
-        function Component(_, ctx) {
-            const componentArgs = ctx.args as PageHeaderSpecificProps;
-            return (
-                <PageHeader
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...componentArgs}
-
-                />
-            );
-        },
-    ],
+    argTypes: {},
 };
 
 export default meta;
 
+function Template(args: Args) {
+    return (
+        <PageHeader
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...args}
+        />
+    );
+}
+
 export const Default: Story = {
+    render: Template,
     args: {
         heading: 'IFRC Disaster Response and Preparedness',
     },
@@ -62,6 +62,7 @@ export const WithWikiLink: Story = {
         wikiLink: <WikiHelpSectionLineIcon />,
     },
 };
+
 export const WithAction: Story = {
     args: {
         heading: 'IFRC Disaster Response and Preparedness',
@@ -78,5 +79,13 @@ export const WithAction: Story = {
                 </Tab>
             </TabList>,
         ],
+    },
+};
+
+export const WithInfo: Story = {
+    args: {
+        heading: 'IFRC Disaster Response and Preparedness',
+        description: 'IFRC GO aims to make all disaster information universally accessible and useful to IFRC responders for better decision making.',
+        info: 'The following data displays the current and ongoing emergencies within the country that are reported by the National Societies and partners',
     },
 };
