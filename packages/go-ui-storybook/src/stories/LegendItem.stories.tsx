@@ -39,14 +39,14 @@ export default meta;
 
 export const Default: Story = {
     args: {
-        label: 'Test',
+        label: 'Early Action Protocol Activation',
         color: 'red',
     },
 };
 
 export const Color: Story = {
     args: {
-        label: 'Test',
-        color: 'green',
+        label: 'Multiple types',
+        color: 'orange',
     },
 };
