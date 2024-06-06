@@ -1,12 +1,12 @@
-import { DateInputProps } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {
+    Args,
     Meta,
     StoryObj,
 } from '@storybook/react';
 import { fn } from '@storybook/test';
 
-import DateInput from './DateInput';
+import DateInput, { DateInputProps } from './DateInput';
 
 type DateInputSpecificProps = DateInputProps<string>;
 
@@ -26,62 +26,66 @@ const meta: Meta<typeof DateInput> = {
         onChange: fn(),
     },
     tags: ['autodocs'],
-    decorators: [
-        function Component(_, ctx) {
-            const [
-                { value },
-                setArgs,
-            ] = useArgs<{ value: string }>();
-            const onChange = (val:string | undefined, name: string) => {
-                setArgs({ value: val });
-                ctx.args.onChange(val, name);
-            };
-
-            return (
-                <DateInput
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...ctx.args}
-                    onChange={onChange}
-                    value={value}
-                    name="DateInput"
-                />
-            );
-        },
-    ],
 };
+
 export default meta;
 
+function Template(args:Args) {
+    const [
+        { value },
+        setArgs,
+    ] = useArgs<{ value: string }>();
+    const onChange = (val:string | undefined, name: string) => {
+        setArgs({ value: val });
+        // eslint-disable-next-line react/destructuring-assignment
+        args.onChange(val, name);
+    };
+
+    return (
+        <DateInput
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...args}
+            name="dateinput"
+            onChange={onChange}
+            value={value}
+            label="Date"
+        />
+    );
+}
+
 export const Default: Story = {
+    render: Template,
     args: {
+        name: 'dateinput',
+        value: '2024-06-07',
         label: 'Date',
+        disabled: false,
+        readOnly: false,
+        withAsterisk: false,
+        required: true,
     },
 };
+
 export const Disabled: Story = {
+    render: Template,
     args: {
-        label: 'Date',
+        ...Default.args,
         disabled: true,
     },
 };
 
 export const ReadOnly: Story = {
+    render: Template,
     args: {
-        label: 'Date',
+        ...Default.args,
         readOnly: true,
     },
 };
 
 export const WithAsterisk: Story = {
+    render: Template,
     args: {
-        label: 'Date',
+        ...Default.args,
         withAsterisk: true,
-
-    },
-};
-
-export const Error: Story = {
-    args: {
-        label: 'Date',
-        error: 'The is wrong',
-
     },
 };
