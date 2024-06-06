@@ -25,12 +25,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
     args: {
-        children: 'This is a Hint',
-    },
-};
-export const WithClassName: Story = {
-    args: {
-        className: 'custom-class',
-        children: 'This is a Hint with a Class',
+        children: 'Enter your information in the provided field.',
     },
 };

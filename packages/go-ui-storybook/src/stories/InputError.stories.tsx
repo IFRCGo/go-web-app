@@ -23,15 +23,15 @@ const meta: Meta<typeof InputError> = {
 };
 
 export default meta;
-
 export const Default: Story = {
     args: {
-        children: 'This is an error',
+        children: 'An error occurred. Please try again.',
     },
 };
+
 export const Disabled: Story = {
     args: {
-        children: 'This is an error ',
+        children: 'An error occurred. Please try again.',
         disabled: true,
     },
 };
