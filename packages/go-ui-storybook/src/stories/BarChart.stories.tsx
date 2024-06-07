@@ -1,6 +1,5 @@
 import { BarChartProps } from '@ifrc-go/ui';
 import type {
-    Args,
     Meta,
     StoryObj,
 } from '@storybook/react';
@@ -14,21 +13,19 @@ interface Option {
 }
 
 const data: Option[] = [
-    { id: 1, label: '2022', value: 10 },
-    { id: 2, label: '2023', value: 9 },
-    { id: 3, label: '2024', value: 5 },
-    { id: 4, label: '2020', value: 2 },
+    { id: 1, label: 'Apples', value: 50 },
+    { id: 2, label: 'Oranges', value: 30 },
+    { id: 3, label: 'Bananas', value: 20 },
+    { id: 4, label: 'Grapes', value: 40 },
 ];
 
 const keySelector = (d: Option) => d.id;
 const valueSelector = (d: Option) => d.value;
 const labelSelector = (d: Option) => d.label;
-
 const maxValue = Math.max(...data.map(valueSelector));
+
 type BarChartSpecificProps = BarChartProps<Option>;
-
-type Story = StoryObj<typeof BarChart>;
-
+type Story = StoryObj<BarChartSpecificProps>;
 const meta: Meta<BarChartSpecificProps> = {
     title: 'Components/BarChart',
     component: BarChart,
@@ -44,34 +41,27 @@ const meta: Meta<BarChartSpecificProps> = {
 
 export default meta;
 
-function Template(args:Args) {
-    return (
-        <BarChart
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...args}
-            data={data}
-            keySelector={keySelector}
-            labelSelector={labelSelector}
-            valueSelector={valueSelector}
-            maxValue={maxValue}
-        />
-    );
-}
-
 export const Default: Story = {
-    render: Template,
-};
-
-export const MaxRows: Story = {
-    render: Template,
     args: {
-        maxRows: 5,
+        data,
+        keySelector,
+        labelSelector,
+        valueSelector,
+        maxValue,
+        className: 'bar-chart',
     },
 };
 
-export const CompactValue: Story = {
-    render: Template,
+export const WithMaxRows: Story = {
     args: {
+        ...Default.args,
+        maxRows: 3,
+    },
+};
+
+export const WithCompactValue: Story = {
+    args: {
+        ...Default.args,
         compactValue: true,
     },
 };
