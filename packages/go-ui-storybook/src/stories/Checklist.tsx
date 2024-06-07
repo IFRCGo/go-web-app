@@ -1,13 +1,13 @@
 import {
     Checklist as PureChecklist,
     ChecklistProps as PureChecklistProps,
-    ListKey,
 } from '@ifrc-go/ui';
 
+type ListKey = string | number;
 interface ChecklistProps<KEY extends ListKey, NAME, OPTION extends object>
 extends PureChecklistProps<KEY, NAME, OPTION> {}
 
-function WrappedChecklist
+function Checklist
 <KEY extends ListKey, NAME, OPTION extends object>(props: ChecklistProps<KEY, NAME, OPTION>) {
     return (
 
@@ -15,4 +15,4 @@ function WrappedChecklist
     );
 }
 
-export default WrappedChecklist;
+export default Checklist;
