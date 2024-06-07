@@ -66,3 +66,7 @@
 .text-body > p {
     font-size: var(--go-ui-font-size-lg);
 }
+
+.bar-chart {
+    width: 30rem;
+}
