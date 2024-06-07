@@ -42,7 +42,7 @@ export default meta;
 export const Default: Story = {
     args: {
         label: 'Click me',
-        children: <div className="dropdown-option">Spanish</div>,
+        children: [<div className="dropdown-option">Spanish</div>],
     },
 };
 
@@ -50,7 +50,7 @@ export const WithoutDropdownIcon: Story = {
     args: {
         label: 'Click me',
         withoutDropdownIcon: true,
-        children: <div className="dropdown-option">Spanish</div>,
+        children: [<div className="dropdown-option">Spanish</div>],
     },
 };
 
@@ -58,7 +58,8 @@ export const Persistent: Story = {
     args: {
         label: 'Click me',
         persistent: true,
-        children: <div className="dropdown-option">Spanish</div>,
+        children: [<div className="dropdown-option">Spanish</div>],
+
     },
 };
 
@@ -67,6 +68,6 @@ export const Variant: Story = {
         label: 'Click me',
         persistent: true,
         variant: 'primary',
-        children: <div className="dropdown-option">Spanish</div>,
+        children: [<div className="dropdown-option">Spanish</div>],
     },
 };
