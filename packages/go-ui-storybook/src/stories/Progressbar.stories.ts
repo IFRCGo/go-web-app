@@ -25,7 +25,9 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
     args: {
+        className: 'progress-bar',
         value: 50,
+        title: 'Total People',
         totalValue: 100,
         showPercentageInTitle: true,
     },
@@ -34,13 +36,13 @@ export const Default: Story = {
 export const WithTitle : Story = {
     args: {
         ...Default.args,
-        title: 'Progress',
+        title: 'Total People',
     },
 };
 
 export const WithDescription: Story = {
     args: {
         ...Default.args,
-        description: 'This is a progress bar',
+        description: 'Loading progress of a file',
     },
 };
