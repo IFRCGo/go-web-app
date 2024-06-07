@@ -1,0 +1,104 @@
+export const baseFontSize = 0.875;
+import { Meta, Typeset } from '@storybook/blocks';
+
+<Meta title="System/Typography" />
+
+export const typography = {
+  type: {
+    primary: "var(--go-ui-font-family-sans-serif)",
+    serif: "var(--go-ui-font-family-serif)",
+    mono: "var(--go-ui-font-family-mono)",
+  },
+  weight: {
+    light: 300,
+    regular: 400,
+    medium: 500,
+    semibold: 600,
+    bold: 700,
+  },
+  size: {
+    '2xs': 'var(--go-ui-font-size-2xs)',
+    xs: 'var(--go-ui-font-size-xs)',
+    sm: 'var(--go-ui-font-size-sm)',
+    md: 'var(--go-ui-font-size-md)',
+    lg: 'var(--go-ui-font-size-lg)',
+    xl: 'var(--go-ui-font-size-xl)',
+    '2xl': 'var(--go-ui-font-size-2xl)',
+    '3xl': 'var(--go-ui-font-size-3xl)',
+    '4xl': 'var(--go-ui-font-size-4xl)',
+  },
+};
+
+export const SampleText = 'Night; and once again, the while I wait for you, cold wind turns into rain.';
+
+# Typography
+
+**Font:** Poppins
+
+**Font Type:** Sans Serif
+
+**Weights:** 300(light), 400(regular), 500(medium), 600(semibold), 700(blold)
+
+<Typeset
+  fontSizes={[
+    typography.size['2xs'],
+    typography.size.xs,
+    typography.size.sm,
+    typography.size.md,
+    typography.size.lg,
+    typography.size.xl,
+    typography.size['2xl'],
+    typography.size['3xl'],
+    typography.size['4xl'],
+  ]}
+  fontWeight={typography.weight.md}
+  sampleText={SampleText}
+  fontFamily={typography.type.primary}
+/>
+
+**Font:** Georgia
+
+**Font Type:** Serif
+
+**Weights:** 300(light), 400(regular), 500(medium), 600(semibold), 700(blold)
+
+<Typeset
+  fontSizes={[
+    typography.size['2xs'],
+    typography.size.xs,
+    typography.size.sm,
+    typography.size.md,
+    typography.size.lg,
+    typography.size.xl,
+    typography.size['2xl'],
+    typography.size['3xl'],
+    typography.size['4xl'],
+  ]}
+  fontWeight={typography.weight.md}
+  sampleText={SampleText}
+  fontFamily={typography.type.serif}
+/>
+
+
+**Font:** SFMono-Regular
+
+**Font Type:** Monospace
+
+**Weights:** 300(light), 400(regular), 500(medium), 600(semibold), 700(blold)
+
+<Typeset
+  fontSizes={[
+    typography.size['2xs'],
+    typography.size.xs,
+    typography.size.sm,
+    typography.size.md,
+    typography.size.lg,
+    typography.size.xl,
+    typography.size['2xl'],
+    typography.size['3xl'],
+    typography.size['4xl'],
+  ]}
+  fontWeight={typography.weight.md}
+  sampleText={SampleText}
+  fontFamily={typography.type.mono}
+/>
