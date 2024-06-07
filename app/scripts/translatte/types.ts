@@ -44,7 +44,10 @@ export interface SourceStringItem {
     value: string;
 }
 
+/*
 export interface SourceFileContent {
     last_migration?: string;
     strings: SourceStringItem[];
 }
+*/
+export type SourceFileContent = SourceStringItem[];

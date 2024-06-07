@@ -2,8 +2,11 @@ import { join, isAbsolute, basename } from 'path';
 import fg from 'fast-glob';
 import { promisify } from 'util';
 import { readFile, writeFile, unlink } from 'fs';
+import { Md5 } from 'ts-md5';
+import Excel from 'exceljs';
 import {
     isDefined,
+    isNotDefined,
     intersection,
     listToMap,
     mapToList,
@@ -15,6 +18,7 @@ import {
     TranslationFileContent,
     MigrationFileContent,
     SourceFileContent,
+    SourceStringItem,
 } from './types';
 
 export const readFilePromisify = promisify(readFile);
@@ -316,10 +320,110 @@ export async function readMigrations(fileNames: string[]) {
 }
 
 export async function readSource(fileName: string) {
+    if (fileName.toLowerCase().endsWith('.xlsx')) {
+        const workbook = new Excel.Workbook();
+        await workbook.xlsx.readFile(fileName);
+
+        const firstSheet = workbook.worksheets[0];
+
+        const columns = firstSheet.columns.map(
+            (column) => {
+                const key = column.values?.[1]?.toString();
+                if (isNotDefined(key)) {
+                    return undefined;
+                }
+                return { key, column: column.number }
+            }
+        ).filter(isDefined);
+
+        const columnMap = listToMap(
+            columns,
+            ({ key }) => key,
+            ({ column }) => column,
+        );
+
+        const strings: SourceStringItem[] = [];
+        firstSheet.eachRow(
+            (row) => {
+                const keyColumn = columnMap['key'];
+                const key = isDefined(keyColumn) ? row.getCell(keyColumn).value?.toString() : undefined;
+
+                const namespaceColumn = columnMap['namespace'];
+                const namespace = isDefined(namespaceColumn) ? row.getCell(namespaceColumn).value?.toString() : undefined;
+
+                if (isNotDefined(key) || isNotDefined(namespace)) {
+                    return;
+                }
+
+                const enColumn = columnMap['en'];
+                const en = isDefined(enColumn) ? row.getCell(enColumn).value?.toString() : undefined;
+
+                const arColumn = columnMap['ar'];
+                const ar = isDefined(arColumn) ? row.getCell(arColumn).value?.toString() : undefined;
+
+                const frColumn = columnMap['fr'];
+                const fr = isDefined(frColumn) ? row.getCell(frColumn).value?.toString() : undefined;
+
+                const esColumn = columnMap['es'];
+                const es = isDefined(esColumn) ? row.getCell(esColumn).value?.toString() : undefined;
+
+                if (isNotDefined(en)) {
+                    return;
+                }
+
+                const hash = Md5.hashStr(en);
+
+                strings.push({
+                    key,
+                    page_name: namespace,
+                    language: 'en',
+                    value: en,
+                    hash,
+                });
+
+                if (isDefined(ar)) {
+                    strings.push({
+                        key,
+                        page_name: namespace,
+                        language: 'ar',
+                        value: ar,
+                        hash,
+                    });
+                }
+
+                if (isDefined(fr)) {
+                    strings.push({
+                        key,
+                        page_name: namespace,
+                        language: 'fr',
+                        value: fr,
+                        hash,
+                    });
+                }
+
+                if (isDefined(es)) {
+                    strings.push({
+                        key,
+                        page_name: namespace,
+                        language: 'es',
+                        value: es,
+                        hash,
+                    });
+                }
+            }
+        );
+
+        return {
+            file: fileName,
+            content: strings,
+        }
+    }
+
     const fileContents = await readJsonFilesContents([fileName]);
     // TODO: validate the schema for content
     return fileContents[0] as {
-        file: string, content: SourceFileContent
+        file: string,
+        content: SourceFileContent,
     };
 }
 

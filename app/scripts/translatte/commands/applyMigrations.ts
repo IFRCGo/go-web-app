@@ -1,13 +1,12 @@
 import { Md5 } from 'ts-md5';
 import { listToMap, isDefined, unique } from '@togglecorp/fujs';
-import { isAbsolute, join, basename } from 'path';
+import { isAbsolute, join } from 'path';
 import {
     readSource,
     getMigrationFilesAttrs,
     readMigrations,
     writeFilePromisify,
 } from '../utils';
-import { merge } from './mergeMigrations';
 import {
     SourceFileContent,
     MigrationFileContent,
@@ -16,9 +15,15 @@ import {
 
 function apply(
     strings: SourceStringItem[],
+    stringsFromServer: SourceStringItem[],
     migrationActions: MigrationFileContent['actions'],
     languages: string[],
 ): SourceStringItem[] {
+    const stringsMappingFromServer = listToMap(
+        stringsFromServer,
+        (item) => `${item.page_name}:${item.key}:${item.language}` as string,
+        (item) => item,
+    );
     const stringsMapping = listToMap(
         strings,
         (item) => `${item.page_name}:${item.key}:${item.language}` as string,
@@ -27,7 +32,7 @@ function apply(
 
     const newMapping: {
         [key: string]: SourceStringItem | null;
-    } = { };
+    } = {};
 
     unique(['en', ...languages]).forEach((language) => {
         migrationActions.forEach((action) => {
@@ -36,24 +41,43 @@ function apply(
             if (action.action === 'add') {
                 const hash = Md5.hashStr(action.value);
 
+                if (!isSourceLanguage) {
+                    // NOTE: We do not need to add strings for other languages, just copy it
+                    const prevValueFromServer = stringsMappingFromServer[key];
+                    if (prevValueFromServer) {
+                        newMapping[key] = {
+                            page_name: action.namespace,
+                            key: action.key,
+                            language,
+                            value: prevValueFromServer.value,
+                            hash: prevValueFromServer.hash,
+                        };
+                    }
+                    return;
+                }
+
                 const prevValue = stringsMapping[key];
                 // NOTE: we are comparing hash instead of value so that this works for source language as well as other languages
                 if (prevValue && prevValue.hash !== hash) {
-                    throw `Add: We already have string with different value for namespace '${action.namespace}' and key '${action.key}'`;
+                    // throw `Add: We already have string with different value for namespace '${action.namespace}' and key '${action.key}'`;
+                    console.warn( `Add: We already have string with different value for namespace '${action.namespace}' and key '${action.key}'`);
+                    return;
                 }
 
                 if (newMapping[key]) {
-                    throw `Add: We already have string for namespace '${action.namespace}' and key '${action.key}' in migration`;
+                    // throw `Add: We already have string for namespace '${action.namespace}' and key '${action.key}' in migration`;
+                    console.warn(`Add: We already have string for namespace '${action.namespace}' and key '${action.key}' in migration`);
+                    return;
                 }
 
                 newMapping[key] = {
-                    hash,
-                    key: action.key,
                     page_name: action.namespace,
+                    key: action.key,
                     language,
                     value: isSourceLanguage
                         ? action.value
                         : '',
+                    hash,
                 };
             } else if (action.action === 'remove') {
                 // NOTE: We can add or move string so we might have value in newMapping
@@ -62,21 +86,27 @@ function apply(
                 }
             } else {
                 const prevValue = stringsMapping[key];
-                if (!prevValue) {
-                    throw `Update: We do not have string with namespace '${action.namespace}' and key '${action.key}'`;
+                if (isSourceLanguage && !prevValue) {
+                    // throw `Update: We do not have string with namespace '${action.namespace}' and key '${action.key}'`;
+                    console.warn(`Update: We do not have string with namespace '${action.namespace}' and key '${action.key}'`);
+                    return;
                 }
 
-                const newKey = action.newKey ?? prevValue.key;
-                const newNamespace = action.newNamespace ?? prevValue.page_name;
+                const prevValueFromServer = stringsMappingFromServer[key] ?? prevValue;
+                if (!isSourceLanguage && !prevValueFromServer) {
+                    return;
+                }
+
+                const newKey = action.newKey ?? action.key;
+                const newNamespace = action.newNamespace ?? action.namespace;
                 const newValue = isSourceLanguage
-                    ? action.newValue ?? prevValue.value
-                    : prevValue.value;
+                    ? (action.newValue ?? prevValue.value)
+                    : prevValueFromServer.value;
                 const newHash = isSourceLanguage
                     ? Md5.hashStr(newValue)
-                    : prevValue.hash;
+                    : prevValueFromServer.hash;
 
                 const newCanonicalKey = `${newNamespace}:${newKey}:${language}`;
-
 
                 // NOTE: remove the old key and add new key
                 if (!newMapping[key]) {
@@ -84,15 +114,17 @@ function apply(
                 }
 
                 const newItem = {
-                    hash: newHash,
-                    key: newKey,
                     page_name: newNamespace,
+                    key: newKey,
                     language,
                     value: newValue,
+                    hash: newHash,
                 }
 
                 if (newMapping[newCanonicalKey]) {
-                    throw `Update: We already have string for namespace '${action.namespace}' and key '${action.key}' in migration`;
+                    // throw `Update: We already have string for namespace '${action.namespace}' and key '${action.key}' in migration`;
+                    console.warn( `Update: We already have string for namespace '${action.namespace}' and key '${action.key}' in migration`);
+                    return;
                 }
                 newMapping[newCanonicalKey] = newItem;
             }
@@ -115,22 +147,25 @@ function apply(
 
 async function applyMigrations(
     projectPath: string,
-    sourceFileName: string,
+    sourceFileNames: string[],
     destinationFileName: string,
     migrationFilePath: string,
     languages: string[],
-    from: string | undefined,
     dryRun: boolean | undefined,
 ) {
-    const sourcePath = isAbsolute(sourceFileName)
-        ? sourceFileName
-        : join(projectPath, sourceFileName)
-    const sourceFile = await readSource(sourcePath)
+
+    // FIXME: We can use multiple source path
+    const sourcePaths = sourceFileNames.map((sourceFileName) => (
+        isAbsolute(sourceFileName)
+            ? sourceFileName
+            : join(projectPath, sourceFileName)
+    ));
+    const sourceFiles = await Promise.all(sourcePaths.map(
+        (sourcePath) => readSource(sourcePath),
+    ))
 
     const migrationFilesAttrs = await getMigrationFilesAttrs(projectPath, migrationFilePath);
-    const selectedMigrationFilesAttrs = from
-        ? migrationFilesAttrs.filter((item) => (item.migrationName > from))
-        : migrationFilesAttrs;
+    const selectedMigrationFilesAttrs = migrationFilesAttrs;
 
     console.info(`Found ${selectedMigrationFilesAttrs.length} migration files`);
 
@@ -142,21 +177,27 @@ async function applyMigrations(
         selectedMigrationFilesAttrs.map((migration) => migration.fileName),
     );
 
-    const lastMigration = selectedMigrations[selectedMigrations.length - 1];
+   let outputSourceFileContent: SourceFileContent = [];
+   selectedMigrations.forEach((migration) => {
+       outputSourceFileContent = apply(
+           outputSourceFileContent,
+           sourceFiles.flatMap((sourceFile) => sourceFile.content),
+           migration.content.actions,
+           languages,
+       );
+   });
 
-    const mergedMigrationActions = merge(
-        selectedMigrations.map((migration) => migration.content),
-    );
+   outputSourceFileContent = [...outputSourceFileContent].sort((foo, bar) => (
+        foo.page_name.localeCompare(bar.page_name)
+        || foo.key.localeCompare(bar.key)
+        || foo.language.localeCompare(bar.language)
+   ));
 
-    const outputSourceFileContent: SourceFileContent = {
-        ...sourceFile.content,
-        last_migration: basename(lastMigration.file),
-        strings: apply(
-            sourceFile.content.strings,
-            mergedMigrationActions,
-            languages,
-        ),
-    };
+   outputSourceFileContent = outputSourceFileContent.sort((foo, bar) => (
+        foo.page_name.localeCompare(bar.page_name)
+        || foo.key.localeCompare(bar.key)
+        || foo.language.localeCompare(bar.language)
+   ));
 
     const destinationPath = isAbsolute(destinationFileName)
         ? destinationFileName

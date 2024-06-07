@@ -1,6 +1,6 @@
 import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';
-import { cwd } from 'process';
+import { cwd, exit } from 'process';
 
 import lint from './commands/lint';
 import listMigrations from './commands/listMigrations';
@@ -95,12 +95,8 @@ yargs(hideBin(process.argv))
                     description: 'Dry run',
                     type: 'boolean',
                 },
-                'last-migration': {
-                    type: 'string',
-                    description: 'The file after which the migration will be applied',
-                },
                 'source': {
-                    type: 'string',
+                    type: 'array',
                     description: 'The source file to which migration is applied',
                     demandOption: true,
                 },
@@ -112,14 +108,12 @@ yargs(hideBin(process.argv))
             });
         },
         async (argv) => {
-            console.warn(argv);
             await applyMigrations(
                 currentDir,
-                argv.SOURCE_FILE as string,
-                argv.DESTINATION_FILE as string,
+                argv.source as string[],
+                argv.destination as string,
                 argv.MIGRATION_FILE_PATH as string,
                 ['es', 'ar', 'fr'],
-                argv.lastMigration as (string | undefined),
                 argv.dryRun as (boolean | undefined),
             );
         },
