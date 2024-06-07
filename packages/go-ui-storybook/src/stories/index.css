@@ -39,3 +39,7 @@
         box-shadow: var(--go-ui-box-shadow-md);
     }
 }
+
+.dropdown-option {
+    margin-left: var(--go-ui-spacing-md);
+}
