@@ -43,3 +43,26 @@
 .dropdown-option {
     margin-left: var(--go-ui-spacing-md);
 }
+
+.title > p {
+    font-size: var(--go-ui-font-size-4xl);
+    padding-bottom: var(--go-ui-spacing-2xl);
+    color: var(--go-ui-color-primary-red);
+}
+
+.ifrc-logo {
+    display: block;
+    margin: auto;
+    width: 50%;
+    padding-bottom: var(--go-ui-spacing-2xl);
+}
+
+.overview > p {
+    padding-top: var(--go-ui-spacing-md);
+    padding-bottom: var(--go-ui-spacing-md);
+    font-size: var(--go-ui-font-size-3xl);
+}
+
+.text-body > p {
+    font-size: var(--go-ui-font-size-lg);
+}
