@@ -1,7 +1,4 @@
-import {
-    ChecklistProps,
-    type ListKey,
-} from '@ifrc-go/ui';
+import { ChecklistProps } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {
     Args,
@@ -12,17 +9,22 @@ import { fn } from '@storybook/test';
 
 import Checklist from './Checklist';
 
-interface Option{
+type ListKey = string | number;
+
+interface Option {
     key: string;
     label:string;
 }
 
 const options: Option[] = [
-    { key: '1', label: 'TODO' },
-    { key: '2', label: 'In Progress' },
-    { key: '3', label: 'Done' },
+    { key: 'a', label: 'Not Started' },
+    { key: 'b', label: 'Ongoing' },
+    { key: 'c', label: 'Completed' },
+    { key: 'd', label: 'Deferred' },
+    { key: 'e', label: 'Waiting for Review' },
+    { key: 'f', label: 'Approved' },
+    { key: 'g', label: 'Rejected' },
 ];
-
 const keySelector = (d: Option) => d.key;
 const labelSelector = (d: Option) => d.label;
 
@@ -31,7 +33,7 @@ type ChecklistSpecificProps = ChecklistProps<ListKey, string, Option>;
 type Story = StoryObj<ChecklistSpecificProps>;
 
 const meta: Meta<typeof Checklist> = {
-    title: 'Components/CheckList',
+    title: 'Components/Checklist',
     component: Checklist,
     parameters: {
         layout: 'centered',
@@ -51,29 +53,37 @@ export default meta;
 
 function Template(args:Args) {
     const [
-        { value },
+        { value, onChange },
         setArgs,
-    ] = useArgs<{ value: ListKey[] | null | undefined }>();
-    const onChange = (val: ListKey[]) => {
+    ] = useArgs();
+
+    const handleChange = (val: ListKey[], key: string) => {
+        onChange(val, key);
         setArgs({ value: val });
     };
 
     return (
         <Checklist
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...args}
-            name="Checklist"
-            value={value}
+            name="checklist"
             options={options}
-            onChange={onChange}
             keySelector={keySelector}
             labelSelector={labelSelector}
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...args}
+            value={value}
+            onChange={handleChange}
         />
     );
 }
 
 export const Default: Story = {
     render: Template,
+    args: {
+        name: 'checklist',
+        options,
+        keySelector,
+        labelSelector,
+    },
 };
 
 export const Novalue: Story = {
