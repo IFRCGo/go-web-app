@@ -28,28 +28,26 @@ export default meta;
 export const Default: Story = {
     args: {
         value: 500,
-        label: 'Sources',
-        description: 'Total targeted population Are',
+        description: 'Targeted population',
     },
 };
 export const WithProgress: Story = {
     args: {
         value: 500,
-        label: 'Sources',
-        description: 'Total targeted population Are',
+        description: 'Funding Requirements',
         progress: 50,
-        progressDescription: '22 % received',
+        progressDescription: '50% received',
     },
 };
 export const WithIconAndInfo: Story = {
     args: {
         value: 800,
         label: 'Targeted Population',
-        description: 'Total targeted population Are',
-        progress: 50,
+        description: 'Funding Requirements',
+        progress: 22,
         progressDescription: '22% received',
         icon: <WikiHelpSectionLineIcon />,
         info: 'AFRICA - HUNGER CRISIS',
-        children: 'This is keyfigure story',
+        children: 'Last updated:2023-10-06',
     },
 };
