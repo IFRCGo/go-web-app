@@ -1,3 +1,4 @@
+import { TargetedPopulationIcon } from '@ifrc-go/icons';
 import { TextInputProps } from '@ifrc-go/ui';
 import type {
     Meta,
@@ -31,10 +32,11 @@ export const Default: Story = {
 
     },
 };
-export const WittIcon: Story = {
+export const WithIcon: Story = {
     args: {
         label: 'Total affected population',
         value: 'affected population',
+        icons: <TargetedPopulationIcon />,
 
     },
 };
@@ -69,7 +71,7 @@ export const WithError: Story = {
     args: {
         label: 'Total affected population',
         value: 'affected population',
-        error: 'This is an error',
+        error: 'Invalid input. Please enter a number.',
     },
 };
 

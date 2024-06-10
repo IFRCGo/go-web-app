@@ -55,14 +55,14 @@ export default meta;
 
 export const Default: Story = {
     args: {
-        label: 'I agree to be awesome',
+        label: 'Enable notifications',
         value: false,
     },
 };
 
 export const Disabled: Story = {
     args: {
-        label: 'I agree to be awesome',
+        label: 'Enable notifications',
         value: false,
         disabled: true,
     },
@@ -70,7 +70,7 @@ export const Disabled: Story = {
 
 export const Checked: Story = {
     args: {
-        label: 'I agree to be awesome',
+        label: 'Enable notifications',
         value: true,
     },
 };
