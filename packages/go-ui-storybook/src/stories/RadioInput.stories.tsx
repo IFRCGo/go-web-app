@@ -1,6 +1,7 @@
 import { RadioInputProps } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {
+    Args,
     Meta,
     StoryObj,
 } from '@storybook/react';
@@ -8,6 +9,21 @@ import { fn } from '@storybook/test';
 import { isDefined } from '@togglecorp/fujs';
 
 import RadioInput from './RadioInput';
+
+interface Option {
+    key: string;
+    label: string;
+}
+const options: Option[] = [
+    { key: 'red', label: ' Red' },
+    { key: 'green', label: 'Green' },
+    { key: 'yellow', label: 'Yellow' },
+    { key: 'blue', label: 'blue' },
+    { key: 'pink', label: 'pink' },
+];
+
+const keySelector = (o: Option) => o.key;
+const labelSelector = (o: Option) => o.label;
 
 type RadioInputSpecificProps = RadioInputProps<string, Option, string, never, never>;
 type Story = StoryObj<RadioInputSpecificProps>;
@@ -27,89 +43,66 @@ const meta: Meta<typeof RadioInput> = {
         onChange: fn(),
     },
     tags: ['autodocs'],
-    decorators: [
-        function Component(_, ctx) {
-            const [
-                { value },
-                setArgs,
-            ] = useArgs<{ value: string | undefined }>();
-
-            // NOTE: We are casting args as props because of discriminated union
-            // used in RadionInputProps
-            const componentArgs = ctx.args as RadioInputSpecificProps;
-            const onChange = (val: string | undefined, name: string) => {
-                setArgs({ value: val });
-                if (componentArgs.clearable) {
-                    componentArgs.onChange(val, name);
-                } else if (isDefined(val)) {
-                    componentArgs.onChange(val, name);
-                }
-            };
-
-            return (
-                <RadioInput
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...componentArgs}
-                    onChange={onChange}
-                    value={value}
-                />
-            );
-        },
-    ],
 };
 
 export default meta;
 
-interface Option {
-    key: string;
-    label: string;
-}
-const options: Option[] = [
-    { key: 'option1', label: 'Option 1' },
-    { key: 'option2', label: 'Option 2' },
-    { key: 'option3', label: 'Option 3' },
-];
+function Template(args:Args) {
+    const [
+        { value },
+        setArgs,
+    ] = useArgs<{ value: string | undefined }>();
 
-const keySelector = (o: Option) => o.key;
-const labelSelector = (o: Option) => o.label;
+    // NOTE: We are casting args as props because of discriminated union
+    // used in RadionInputProps
+
+    const onChange = (val: string | undefined, name: string) => {
+        setArgs({ value: val });
+        // eslint-disable-next-line react/destructuring-assignment
+        if (args.clearable) {
+            // eslint-disable-next-line react/destructuring-assignment
+            args.onChange(val, name);
+        } else if (isDefined(val)) {
+            // eslint-disable-next-line react/destructuring-assignment
+            args.onChange(val, name);
+        }
+    };
+    return (
+        <RadioInput
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...args}
+            name="RadioInput"
+            value={value}
+            options={options}
+            onChange={onChange}
+            keySelector={keySelector}
+            labelSelector={labelSelector}
+        />
+    );
+}
 
 export const Default:Story = {
-    args: {
-        name: 'radio-input',
-        options,
-        keySelector,
-        labelSelector,
-    },
+    render: Template,
 };
 
 export const Disabled: Story = {
+    render: Template,
     args: {
-        name: 'radio-input',
-        options,
         value: 'option2',
-        keySelector,
-        labelSelector,
         disabled: true,
     },
 };
 
 export const ReadOnly: Story = {
+    render: Template,
     args: {
-        name: 'radio-input',
         value: 'option1',
-        options,
-        keySelector,
-        labelSelector,
         readOnly: true,
     },
 };
 export const Error: Story = {
+    render: Template,
     args: {
-        name: 'radio-input',
-        value: 'option1',
-        options,
-        keySelector,
-        labelSelector,
-        error: <p>This is error</p>,
+        error: 'Please select an option. This field is required.',
     },
 };
