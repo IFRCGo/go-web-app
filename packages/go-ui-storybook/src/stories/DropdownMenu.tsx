@@ -3,12 +3,12 @@ import {
     DropdownMenuProps as PureDropdownMenuProps,
 } from '@ifrc-go/ui';
 
-type DropdownMenuProps = PureDropdownMenuProps
+export type DropdownMenuProps = PureDropdownMenuProps;
 
-function WrappedDropdownMenu(props: DropdownMenuProps) {
+function DropdownMenu(props: DropdownMenuProps) {
     return (
         <PureDropdownMenu {...props} />// eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedDropdownMenu;
+export default DropdownMenu;

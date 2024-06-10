@@ -41,6 +41,7 @@
 }
 
 .dropdown-option {
+    padding: var(--go-ui-spacing-xs);
     margin-left: var(--go-ui-spacing-md);
 }
 
