@@ -1,15 +1,13 @@
-import {
-    KeyFigure as PureKeyFigure,
-    KeyFigureProps as PureKeyFigureProps,
-} from '@ifrc-go/ui';
+import { ComponentProps } from 'react';
+import { KeyFigure as PureKeyFigure } from '@ifrc-go/ui';
 
-interface KeyFigureProps extends PureKeyFigureProps{}
+// FIXME: let's export TimeSeriesChartProps from @ifrc-go/ui
+type KeyFigureProps = ComponentProps<typeof PureKeyFigure>
 
-function WrappedKeyFigure(props: KeyFigureProps) {
+function KeyFigure(props: KeyFigureProps) {
     return (
-
         <PureKeyFigure {...props} /> // eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedKeyFigure;
+export default KeyFigure;
