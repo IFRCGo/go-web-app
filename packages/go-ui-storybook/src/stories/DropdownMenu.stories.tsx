@@ -1,18 +1,13 @@
-import { DropdownMenuProps } from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,
 } from '@storybook/react';
 
-import DropdownMenu from './DropdownMenu';
+import DropdownMenu, { DropdownMenuProps } from './DropdownMenu';
 
-type DropdownMenuSpecificProps = DropdownMenuProps & {
-    name: string;
-};
+type Story = StoryObj<DropdownMenuProps>;
 
-type Story = StoryObj<DropdownMenuSpecificProps>;
-
-const meta: Meta<typeof DropdownMenu> = {
+const meta = {
     title: 'Components/DropdownMenu',
     component: DropdownMenu,
     parameters: {
@@ -23,51 +18,41 @@ const meta: Meta<typeof DropdownMenu> = {
         },
     },
     tags: ['autodocs'],
-    decorators: [
-        function Component(_, ctx) {
-            const componentArgs = ctx.args as DropdownMenuSpecificProps;
-
-            return (
-                <DropdownMenu
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...componentArgs}
-                />
-            );
-        },
-    ],
-};
+} satisfies Meta<typeof DropdownMenu>;
 
 export default meta;
 
-export const Default: Story = {
+export const Default = {
     args: {
-        label: 'Click me',
-        children: [<div className="dropdown-option">Spanish</div>],
+        label: 'Select a language',
+        children: [
+            <>
+                <div className="dropdown-option">English</div>
+                <div className="dropdown-option">Spanish</div>
+                <div className="dropdown-option">French</div>
+                <div className="dropdown-option">Arabic</div>
+            </>,
+        ],
     },
-};
+} satisfies Story;
 
 export const WithoutDropdownIcon: Story = {
     args: {
-        label: 'Click me',
+        ...Default.args,
         withoutDropdownIcon: true,
-        children: [<div className="dropdown-option">Spanish</div>],
     },
 };
 
 export const Persistent: Story = {
     args: {
-        label: 'Click me',
+        ...Default.args,
         persistent: true,
-        children: [<div className="dropdown-option">Spanish</div>],
-
     },
 };
 
-export const Variant: Story = {
+export const WithPreferredWidth: Story = {
     args: {
-        label: 'Click me',
-        persistent: true,
-        variant: 'primary',
-        children: [<div className="dropdown-option">Spanish</div>],
+        ...Default.args,
+        preferredPopupWidth: 30,
     },
 };
