@@ -31,7 +31,18 @@ const config: StorybookConfig = {
     staticDirs: ['../public'],
 
     typescript: {
-        reactDocgen: "react-docgen-typescript"
-    }
+        reactDocgen: 'react-docgen-typescript',
+        reactDocgenTypescriptOptions: {
+            compilerOptions: {
+                allowSyntheticDefaultImports: false,
+                esModuleInterop: false,
+            },
+            // shouldExtractValuesFromUnion: true,
+            shouldExtractLiteralValuesFromEnum: true,
+            // Filter out third-party props from node_modules except @ifrc-go/ui package.
+            propFilter: (prop) =>
+                prop.parent ? !/node_modules\/(?!@ifrc-go\/ui)/.test(prop.parent.fileName) : true,
+        },
+    },
 };
 export default config;
