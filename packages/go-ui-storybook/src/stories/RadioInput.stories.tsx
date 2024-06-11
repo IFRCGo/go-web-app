@@ -35,7 +35,7 @@ const meta: Meta<typeof RadioInput> = {
         layout: 'centered',
         design: {
             type: 'figma',
-            url: 'https://www.figma.com/file/myeW85ibN5p2SlnXcEpxFD/IFRC-GO---UI-Current---1?type=design&node-id=0-4957&mode=design&t=KwxbuoUQxqcLyZbG-0',
+            url: 'https://www.figma.com/file/k9SOqgh5jk9PxzuBKdMKsA/IFRC-GO---UI-Library?node-id=14405-190089&t=tvoCZGUCjrbFSV16-4',
             allowFullscreen: true,
         },
     },
@@ -49,22 +49,25 @@ export default meta;
 
 function Template(args:Args) {
     const [
-        { value },
+        {
+            value,
+            onChange,
+        },
         setArgs,
-    ] = useArgs<{ value: string | undefined }>();
+    ] = useArgs();
 
     // NOTE: We are casting args as props because of discriminated union
     // used in RadionInputProps
 
-    const onChange = (val: string | undefined, name: string) => {
+    const handleChange = (val: string | undefined, name: string) => {
         setArgs({ value: val });
         // eslint-disable-next-line react/destructuring-assignment
         if (args.clearable) {
             // eslint-disable-next-line react/destructuring-assignment
-            args.onChange(val, name);
+            onChange(val, name);
         } else if (isDefined(val)) {
             // eslint-disable-next-line react/destructuring-assignment
-            args.onChange(val, name);
+            onChange(val, name);
         }
     };
     return (
@@ -72,23 +75,27 @@ function Template(args:Args) {
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...args}
             name="RadioInput"
-            value={value}
             options={options}
-            onChange={onChange}
             keySelector={keySelector}
             labelSelector={labelSelector}
+            value={value}
+            onChange={handleChange}
         />
     );
 }
 
 export const Default:Story = {
     render: Template,
+    args: {
+        value: 'red',
+        hint: 'Please select a color from the options.',
+    },
 };
 
 export const Disabled: Story = {
     render: Template,
     args: {
-        value: 'option2',
+        value: 'red',
         disabled: true,
     },
 };
@@ -96,13 +103,15 @@ export const Disabled: Story = {
 export const ReadOnly: Story = {
     render: Template,
     args: {
-        value: 'option1',
+        value: 'green',
         readOnly: true,
     },
 };
-export const Error: Story = {
+
+export const Clerable: Story = {
     render: Template,
     args: {
-        error: 'Please select an option. This field is required.',
+        value: 'green',
+        clearable: true,
     },
 };
