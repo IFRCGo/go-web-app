@@ -1,14 +1,12 @@
 import {
     Pager as PurePager,
-    PagerProps as PurePagerProps,
+    PagerProps,
 } from '@ifrc-go/ui';
 
-interface PagerProps extends PurePagerProps {}
-
-function WrappedPager(props: PagerProps) {
+function Pager(props: PagerProps) {
     return (
         <PurePager {...props} />// eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedPager;
+export default Pager;
