@@ -1,15 +1,13 @@
 import {
     ProgressBar as PureProgressBar,
-    ProgressBarProps as PureProgressBarProps,
+    ProgressBarProps,
 } from '@ifrc-go/ui';
 
-interface ProgressBarProps extends PureProgressBarProps{}
-
-function WrappedProgressBar(props: ProgressBarProps) {
+function ProgressBar(props: ProgressBarProps) {
     return (
-    // eslint-disable-next-line react/jsx-props-no-spreading
+        // eslint-disable-next-line react/jsx-props-no-spreading
         <PureProgressBar {...props} />
     );
 }
 
-export default WrappedProgressBar;
+export default ProgressBar;
