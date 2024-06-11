@@ -1,3 +1,4 @@
+import { ProgressBarProps } from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,
@@ -12,7 +13,7 @@ const meta = {
         layout: 'centered',
         design: {
             type: 'figma',
-            url: 'https://www.figma.com/file/myeW85ibN5p2SlnXcEpxFD/IFRC-GO---UI-Current---1?type=design&node-id=0-4957&mode=design&t=KwxbuoUQxqcLyZbG-0',
+            url: 'https://www.figma.com/file/k9SOqgh5jk9PxzuBKdMKsA/IFRC-GO---UI-Library?node-id=14425-221303&t=tvoCZGUCjrbFSV16-4',
             allowFullscreen: true,
         },
     },
@@ -21,28 +22,28 @@ const meta = {
 } satisfies Meta<typeof ProgressBar>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+
+type Story = StoryObj<ProgressBarProps>;
 
 export const Default: Story = {
     args: {
         className: 'progress-bar',
-        value: 50,
-        title: 'Total People',
-        totalValue: 100,
-        showPercentageInTitle: true,
+        value: 75,
+        title: 'Total Projects Completed',
+        totalValue: 150,
     },
 };
 
-export const WithTitle : Story = {
+export const WithPercentageInTitle: Story = {
     args: {
         ...Default.args,
-        title: 'Total People',
+        showPercentageInTitle: true,
     },
 };
 
 export const WithDescription: Story = {
     args: {
         ...Default.args,
-        description: 'Loading progress of a file',
+        description: 'Number of projects completed successfully this year.',
     },
 };
