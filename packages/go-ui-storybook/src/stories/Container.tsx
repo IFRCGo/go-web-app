@@ -1,14 +1,12 @@
 import {
     Container as PureContainer,
-    ContainerProps as PureContainerProps,
+    ContainerProps,
 } from '@ifrc-go/ui';
 
-interface ContainerProps extends PureContainerProps {}
-
-function WrappedContainer(props: ContainerProps) {
+function Container(props: ContainerProps) {
     return (
         <PureContainer {...props} /> // eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedContainer;
+export default Container;
