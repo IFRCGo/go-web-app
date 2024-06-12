@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { SegmentInputProps } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {
@@ -14,10 +15,10 @@ interface Option {
     label: string;
 }
 const options: Option[] = [
-    { key: '1', label: 'Global summary' },
-    { key: '2', label: 'Global performance' },
-    { key: '3', label: 'Opertional learning' },
-    { key: '4', label: 'Catalogue of Resources' },
+    { key: '1', label: 'Mount Everest' },
+    { key: '2', label: 'Kanchenjunga' },
+    { key: '3', label: 'Lhotse' },
+    { key: '4', label: 'Makalu' },
 ];
 
 const keySelector = (o: Option) => o.key;
@@ -26,36 +27,39 @@ const labelSelector = (o: Option) => o.label;
 type SegmentInputSpecificProps = SegmentInputProps<string, Option, string, never>;
 type Story = StoryObj<SegmentInputSpecificProps>;
 
-const meta: Meta<typeof SegmentInput> = {
+const meta = {
     title: 'Components/SegmentInput',
     component: SegmentInput,
     parameters: {
         layout: 'centered',
         design: {
             type: 'figma',
-            url: 'https://www.figma.com/file/myeW85ibN5p2SlnXcEpxFD/IFRC-GO---UI-Current---1?type=design&node-id=0-4957&mode=design&t=KwxbuoUQxqcLyZbG-0',
+            url: 'https://www.figma.com/file/k9SOqgh5jk9PxzuBKdMKsA/IFRC-GO---UI-Library?node-id=11699-191901&t=Ts3c39nyO8lGnuGx-4',
         },
     },
     args: {
         onChange: fn(),
     },
     tags: ['autodocs'],
-};
+} satisfies Meta<typeof SegmentInput>;
 
 export default meta;
 
 function Template(args:Args) {
     const [
-        { value },
+        {
+            value,
+            onChange,
+        },
         setArgs,
-    ] = useArgs<{ value: string | undefined }>();
+    ] = useArgs();
     // NOTE: We are casting args as props because of discriminated union
     // used in SegmentInput
-    const onChange = (val: string, name: string) => {
+    const handleChange = useCallback((val: string, name: string) => {
         setArgs({ value: val });
         // eslint-disable-next-line react/destructuring-assignment
-        args.onChange(val, name);
-    };
+        onChange(val, name);
+    }, [onChange, setArgs]);
 
     return (
         <SegmentInput
@@ -64,36 +68,44 @@ function Template(args:Args) {
             name="segementinput"
             value={value}
             options={options}
-            onChange={onChange}
+            onChange={handleChange}
             keySelector={keySelector}
             labelSelector={labelSelector}
         />
     );
 }
 
-export const Default: Story = {
-    render: Template,
-};
-
-export const Disabled: Story = {
+export const Default = {
     render: Template,
     args: {
         value: '1',
-        disabled: true,
+        label: 'Select  a mountain',
+        hint: 'Choose from famous mountains around the world.',
     },
-};
+} satisfies Story;
 
-export const Readonly: Story = {
+export const Disabled = {
     render: Template,
     args: {
+        ...Default.args,
+        disabled: true,
+    },
+} satisfies Story;
+
+export const Readonly: Story = {
+    args: {
+        ...Default.args,
         value: '2',
         readOnly: true,
     },
-};
+} satisfies Story;
 
-export const Error: Story = {
+export const Required: Story = {
     render: Template,
     args: {
-        error: 'Please select. This field is required.',
+        ...Default.args,
+        value: '3',
+        required: true,
+        withAsterisk: true,
     },
-};
+} satisfies Story;
