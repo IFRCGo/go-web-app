@@ -1,5 +1,8 @@
 import { WikiLineIcon } from '@ifrc-go/icons';
-import { Button } from '@ifrc-go/ui';
+import {
+    Button,
+    ContainerProps,
+} from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,
@@ -14,16 +17,14 @@ const meta = {
         layout: 'centered',
         design: {
             type: 'figma',
-            url: 'https://www.figma.com/file/myeW85ibN5p2SlnXcEpxFD/IFRC-GO---UI-Current---1?type=design&node-id=0-4957&mode=design&t=KwxbuoUQxqcLyZbG-0',
             allowFullscreen: true,
         },
     },
     tags: ['autodocs'],
-    argTypes: {},
 } satisfies Meta<typeof Container>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<ContainerProps>;
 
 export const Default: Story = {
     args: {
@@ -35,7 +36,7 @@ export const Default: Story = {
     },
 };
 
-export const ContentViewType : Story = {
+export const ContentViewType: Story = {
     args: {
         heading: 'Container Heading',
         headerDescription: 'This is a description for the header',
