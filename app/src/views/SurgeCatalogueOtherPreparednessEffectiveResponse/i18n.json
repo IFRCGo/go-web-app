@@ -1,9 +1,11 @@
 {
     "namespace": "surgeCatalogueOtherPreparednessEffectiveResponse",
     "strings": {
-        "preparednessHeading": "Preparedness For Effective Response (PER)",
+        "preparednessHeading": "National Society Preparedness and Response Capacity Strengthening (PER)",
         "otherOverview": "Overview",
-        "otherOverviewDetail": "Preparedness for Effective Response (PER) is a cyclical approach designed to empower National Societies to become more creative and innovative in their disaster management actions, and contribute to the coordination of national and global response systems.",
+        "otherOverviewDetail1": "National Society (NS) Preparedness and Response Capacity Strengthening – also known as Preparedness for Effective Response (PER) – focuses on actions within an operation that support RCRC NS in fulfilling their mandate of providing timely and effective humanitarian services to affected populations.",
+        "otherOverviewDetail2": "The NS Preparedness and Response Capacity Strengthening Coordinator will collaborate with the NS and IFRC operational and technical teams to identify critical components of NS response capacity that need enhancement. They will work with these teams to pinpoint tangible response capacity actions and provide input and recommendations to the emergency planning processes and the operational strategy.",
+        "otherOverviewDetail3": "Identified actions will be aligned with the NS's overall strategic priorities and strengths, as well as existing preparedness plans, which are informed by lessons learned from previous operations. These actions will build on current NS response capacity priorities to ensure ownership and leadership within the operation. This will inform and support the efficient allocation of resources and ensure a coordinated approach to Movement support for the National Society.",
         "rapidResponse": "Rapid Response Personnel Role Profile",
         "rapidResponseDetail":"Details about the expectations for this specialty can be found in this role profile:",
         "otherLinkOne": "National Society Response Capacity Coordinator role profile"

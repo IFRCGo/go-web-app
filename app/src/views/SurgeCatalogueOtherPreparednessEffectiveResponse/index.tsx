@@ -1,5 +1,7 @@
+import { Image } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
+import perImage from '#assets/images/surge-per.gif';
 import SurgeCatalogueContainer from '#components/domain/SurgeCatalogueContainer';
 import SurgeContentContainer from '#components/domain/SurgeContentContainer';
 import Link from '#components/Link';
@@ -13,12 +15,18 @@ export function Component() {
     return (
         <SurgeCatalogueContainer
             heading={strings.preparednessHeading}
+            description={(
+                <>
+                    <div>{strings.otherOverviewDetail1}</div>
+                    <div>{strings.otherOverviewDetail2}</div>
+                    <div>{strings.otherOverviewDetail3}</div>
+                    <Image
+                        src={perImage}
+                        alt={strings.preparednessHeading}
+                    />
+                </>
+            )}
         >
-            <SurgeContentContainer
-                heading={strings.otherOverview}
-            >
-                <div>{strings.otherOverviewDetail}</div>
-            </SurgeContentContainer>
             <SurgeContentContainer
                 heading={strings.rapidResponse}
             >
