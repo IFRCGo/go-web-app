@@ -5,7 +5,7 @@ import {
 } from '@ifrc-go/ui';
 
 // eslint-disable-next-line max-len
-function WrappedSegmentInput<const N, O extends object, V
+function SegmentInput<const N, O extends object, V
 extends string | number | boolean, RRP extends RadioProps<V, N>>(
     props: PureSegmentInputProps<N, O, V, RRP>,
 ) {
@@ -13,4 +13,4 @@ extends string | number | boolean, RRP extends RadioProps<V, N>>(
         <PureSegmentInput {...props} /> // eslint-disable-line react/jsx-props-no-spreading
     );
 }
-export default WrappedSegmentInput;
+export default SegmentInput;
