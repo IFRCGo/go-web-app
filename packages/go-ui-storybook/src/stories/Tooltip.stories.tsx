@@ -17,7 +17,7 @@ const meta: Meta<typeof Tooltip> = {
         layout: 'centered',
         design: {
             type: 'figma',
-            url: 'https://www.figma.com/file/myeW85ibN5p2SlnXcEpxFD/IFRC-GO---UI-Current---1?type=design&node-id=0-4957&mode=design&t=KwxbuoUQxqcLyZbG-0',
+            url: 'https://www.figma.com/file/k9SOqgh5jk9PxzuBKdMKsA/IFRC-GO---UI-Library?node-id=13837-218961&t=rxFDpy4yPC2JaFiF-4',
         },
     },
     tags: ['autodocs'],

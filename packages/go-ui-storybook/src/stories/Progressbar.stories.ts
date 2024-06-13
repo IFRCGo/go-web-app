@@ -13,7 +13,7 @@ const meta = {
         layout: 'centered',
         design: {
             type: 'figma',
-            url: 'https://www.figma.com/file/k9SOqgh5jk9PxzuBKdMKsA/IFRC-GO---UI-Library?node-id=14425-221303&t=tvoCZGUCjrbFSV16-4',
+            url: 'https://www.figma.com/file/k9SOqgh5jk9PxzuBKdMKsA/IFRC-GO---UI-Library?node-id=11261-184719&t=JxlW0bNF2vjvkZ01-4',
             allowFullscreen: true,
         },
     },
