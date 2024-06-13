@@ -5,10 +5,10 @@ import {
 
 interface TabsProps<T extends string | number> extends PureTabsProps<T> {}
 
-function WrappedTabs<T extends string | number>(props: TabsProps<T>) {
+function Tabs<T extends string | number>(props: TabsProps<T>) {
     return (
         <PureTabs {...props} /> // eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedTabs;
+export default Tabs;

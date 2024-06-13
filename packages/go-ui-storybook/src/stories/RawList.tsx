@@ -7,7 +7,7 @@ import {
 interface RawListProps< DATUM, KEY extends ListKey, RENDERER_PROPS>
 extends PureRawListProps< DATUM, KEY, RENDERER_PROPS> {}
 
-function WrappedRawList
+function RawList
 // eslint-disable-next-line max-len
 <DATUM, KEY extends ListKey, RENDERER_PROPS>(props: RawListProps<DATUM, KEY, RENDERER_PROPS>) {
     return (
@@ -15,4 +15,4 @@ function WrappedRawList
     );
 }
 
-export default WrappedRawList;
+export default RawList;

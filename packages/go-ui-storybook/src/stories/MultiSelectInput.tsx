@@ -7,7 +7,7 @@ import {
 // eslint-disable-next-line max-len
 type MultiSelectInputProps<K extends OptionKey, N, Option extends object, Def extends object > = PureMultiSelectInputProps<K, N, Option, Def, never> ;
 
-function WrappedMultiSelectInput
+function MultiSelectInput
 <K extends OptionKey, const N, Option extends object, Def extends object>(
     props: MultiSelectInputProps<K, N, Option, Def>,
 ) {
@@ -17,4 +17,4 @@ function WrappedMultiSelectInput
     );
 }
 
-export default WrappedMultiSelectInput;
+export default MultiSelectInput;

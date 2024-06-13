@@ -5,10 +5,10 @@ import {
 
 interface BodyOverlayProps extends PureBodyOverlayProps {}
 
-function WrappedBodyOverlay(props: BodyOverlayProps) {
+function BodyOverlay(props: BodyOverlayProps) {
     return (
         <PureBodyOverlay {...props} />// eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedBodyOverlay;
+export default BodyOverlay;

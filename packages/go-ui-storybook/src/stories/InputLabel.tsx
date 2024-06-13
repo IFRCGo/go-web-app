@@ -5,10 +5,10 @@ import {
 
 interface InputLabelProps extends PureInputLabelProps {}
 
-function WrappedInputLabel(props: InputLabelProps) {
+function InputLabel(props: InputLabelProps) {
     return (
         <PureInputLabel {...props} /> // eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedInputLabel;
+export default InputLabel;

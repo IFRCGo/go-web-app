@@ -5,10 +5,10 @@ import {
 
 interface PageContainerProps extends PurePageContainerProps {}
 
-function WrappedPageContainer(props: PageContainerProps) {
+function PageContainer(props: PageContainerProps) {
     return (
         <PurePageContainer {...props} />// eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedPageContainer;
+export default PageContainer;

@@ -5,10 +5,10 @@ import {
 
 interface SpinnerProps extends PureSpinnerProps {}
 
-function WrappedSpinner(props: SpinnerProps) {
+function Spinner(props: SpinnerProps) {
     return (
         <PureSpinner {...props} />// eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedSpinner;
+export default Spinner;

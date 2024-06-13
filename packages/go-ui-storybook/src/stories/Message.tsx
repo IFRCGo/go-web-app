@@ -5,10 +5,10 @@ import {
 
 interface MessageProps extends PureMessageProps {}
 
-function WrappedMessage(props: MessageProps) {
+function Message(props: MessageProps) {
     return (
         <PureMessage {...props} />// eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedMessage;
+export default Message;
