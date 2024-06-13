@@ -360,6 +360,16 @@ export function Component() {
                         const [index] = match;
                         return value?.planned_interventions?.[index]?.client_id;
                     }
+                    match = matchArray(locations, ['source_information', NUM, 'source_link', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.source_information?.[index]?.source_link;
+                    }
+                    match = matchArray(locations, ['source_information', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.source_information?.[index]?.client_id;
+                    }
                     return undefined;
                 },
             ));
@@ -437,6 +447,16 @@ export function Component() {
                     if (isDefined(match)) {
                         const [index] = match;
                         return value?.planned_interventions?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['source_information', NUM, 'source_link', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.source_information?.[index]?.source_link;
+                    }
+                    match = matchArray(locations, ['source_information', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.source_information?.[index]?.client_id;
                     }
                     return undefined;
                 },
