@@ -11,6 +11,7 @@ import {
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
+    DEFAULT_INVALID_TEXT,
     denormalizeList,
     resolveToString,
 } from '@ifrc-go/ui/utils';
@@ -346,7 +347,7 @@ function CountryThreeWMap(props: Props) {
                         className={styles.mapContainer}
                         title={resolveToString(
                             strings.threeWMapTitle,
-                            { countryName: countryResponse?.name ?? '-' },
+                            { countryName: countryResponse?.name ?? DEFAULT_INVALID_TEXT },
                         )}
                         footer={operationTypeOptions && operationTypeOptions.length > 0 && (
                             <div className={styles.legend}>

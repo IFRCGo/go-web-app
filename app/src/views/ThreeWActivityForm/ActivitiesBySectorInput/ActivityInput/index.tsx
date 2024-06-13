@@ -15,6 +15,7 @@ import {
     TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import { DEFAULT_INVALID_TEXT } from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
@@ -244,7 +245,7 @@ function ActivityInput(props: Props) {
         >
             <NonFieldError error={error} />
             <InputSection
-                description={actionDetails?.description || '-'}
+                description={actionDetails?.description || DEFAULT_INVALID_TEXT}
                 withoutPadding
             >
                 <div className={styles.inputSectionContent}>

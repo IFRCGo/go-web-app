@@ -6,7 +6,10 @@ import {
     KeyFigure,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { resolveToString } from '@ifrc-go/ui/utils';
+import {
+    DEFAULT_INVALID_TEXT,
+    resolveToString,
+} from '@ifrc-go/ui/utils';
 import { isValidEmail } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
@@ -32,7 +35,7 @@ export function Component() {
                     label={
                         resolveToString(
                             strings.regionalProfileNationalSocietyTitle,
-                            { regionName: regionResponse?.region_name ?? '-' },
+                            { regionName: regionResponse?.region_name ?? DEFAULT_INVALID_TEXT },
                         )
                     }
                 />

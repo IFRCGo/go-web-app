@@ -3,7 +3,10 @@ import { _cs } from '@togglecorp/fujs';
 import BooleanOutput, { Props as BooleanOutputProps } from '#components/BooleanOutput';
 import DateOutput, { Props as DateOutputProps } from '#components/DateOutput';
 import NumberOutput, { Props as NumberOutputProps } from '#components/NumberOutput';
-import { DEFAULT_PRINT_DATE_FORMAT } from '#utils/constants';
+import {
+    DEFAULT_INVALID_TEXT,
+    DEFAULT_PRINT_DATE_FORMAT,
+} from '#utils/constants';
 
 import styles from './styles.module.css';
 
@@ -54,7 +57,7 @@ function TextOutput(props: Props) {
         strongLabel,
         strongValue,
         withoutLabelColon,
-        invalidText = '-',
+        invalidText = DEFAULT_INVALID_TEXT,
         variant = 'default',
         ...otherProps
     } = props;

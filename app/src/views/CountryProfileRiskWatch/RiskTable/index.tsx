@@ -7,6 +7,7 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     createNumberColumn,
     createStringColumn,
+    DEFAULT_INVALID_TEXT,
     minSafe,
     resolveToComponent,
 } from '@ifrc-go/ui/utils';
@@ -98,7 +99,7 @@ function RiskTable(props: Props) {
     const riskScoreToLabel = useCallback(
         (score: number | undefined | null, hazardType: HazardTypeOption['hazard_type']) => {
             if (isNotDefined(score) || score < 0) {
-                return '-';
+                return DEFAULT_INVALID_TEXT;
             }
 
             const riskCategory = riskScoreToCategory(score, hazardType);

@@ -10,6 +10,7 @@ import {
 
 import LanguageContext from '#contexts/language';
 import { formatNumber } from '#utils/common';
+import { DEFAULT_INVALID_TEXT } from '#utils/constants';
 
 import styles from './styles.module.css';
 
@@ -49,7 +50,7 @@ export interface Props {
 function NumberOutput(props: Props) {
     const {
         className,
-        invalidText = '-',
+        invalidText = DEFAULT_INVALID_TEXT,
         separatorHidden,
         compact,
         currency,

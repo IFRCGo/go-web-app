@@ -42,7 +42,7 @@ import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import MapPopup from '#components/MapPopup';
 import useAuth from '#hooks/domain/useAuth';
 import useFilterState from '#hooks/useFilterState';
-import { chooseName } from '#utils/common';
+import { getFirstTruthyString } from '#utils/common';
 import {
     COLOR_DARK_GREY,
     COLOR_PRIMARY_BLUE,
@@ -349,12 +349,12 @@ function LocalUnitsMap(props: Props) {
         && countryResponse.emails.length > 0;
     const hasContactDetails = hasAddress || hasEmails;
 
-    const localUnitName = useMemo(() => chooseName(
+    const localUnitName = useMemo(() => getFirstTruthyString(
         localUnitDetail?.local_branch_name,
         localUnitDetail?.english_branch_name,
     ), [localUnitDetail?.local_branch_name, localUnitDetail?.english_branch_name]);
 
-    const localUnitAddress = useMemo(() => chooseName(
+    const localUnitAddress = useMemo(() => getFirstTruthyString(
         localUnitDetail?.address_loc,
         localUnitDetail?.address_en,
     ), [localUnitDetail?.address_loc, localUnitDetail?.address_en]);

@@ -20,6 +20,7 @@ import {
     createExpansionIndicatorColumn,
     createNumberColumn,
     createStringColumn,
+    DEFAULT_INVALID_TEXT,
     numericIdSelector,
 } from '@ifrc-go/ui/utils';
 import {
@@ -137,7 +138,7 @@ export function Component() {
             createStringColumn<PerProcessStatusItem, number>(
                 'phase',
                 strings.tablePerPhaseTitle,
-                (item) => (isDefined(item.phase) ? `${item.phase} - ${item.phase_display}` : '-'),
+                (item) => (isDefined(item.phase) ? `${item.phase} - ${item.phase_display}` : DEFAULT_INVALID_TEXT),
                 { sortable: true },
             ),
             createElementColumn<PerProcessStatusItem, number, PerTableActionsProps>(

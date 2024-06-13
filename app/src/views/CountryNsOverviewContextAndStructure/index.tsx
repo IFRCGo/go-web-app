@@ -2,7 +2,10 @@ import { useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { Container } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { resolveToString } from '@ifrc-go/ui/utils';
+import {
+    DEFAULT_INVALID_TEXT,
+    resolveToString,
+} from '@ifrc-go/ui/utils';
 import {
     compareNumber,
     isDefined,
@@ -124,7 +127,7 @@ export function Component() {
                         >
                             {resolveToString(
                                 strings.countryOnIFRC,
-                                { countryName: countryResponse?.name ?? '-' },
+                                { countryName: countryResponse?.name ?? DEFAULT_INVALID_TEXT },
                             )}
                         </Link>
                     )}
@@ -137,7 +140,7 @@ export function Component() {
                         >
                             {resolveToString(
                                 strings.countryOnReliefWeb,
-                                { countryName: countryResponse?.name ?? '-' },
+                                { countryName: countryResponse?.name ?? DEFAULT_INVALID_TEXT },
                             )}
                         </Link>
                     )}
@@ -150,7 +153,7 @@ export function Component() {
                         >
                             {resolveToString(
                                 strings.countryRCHomepage,
-                                { countryName: countryResponse?.name ?? '-' },
+                                { countryName: countryResponse?.name ?? DEFAULT_INVALID_TEXT },
                             )}
                         </Link>
                     )}
@@ -163,7 +166,7 @@ export function Component() {
                         >
                             {resolveToString(
                                 strings.countryDisasterLaw,
-                                { countryName: countryResponse?.name ?? '-' },
+                                { countryName: countryResponse?.name ?? DEFAULT_INVALID_TEXT },
                             )}
                         </Link>
                     )}

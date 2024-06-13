@@ -84,7 +84,7 @@ function PointDetails(props: Props) {
                         />
                         <TextOutput
                             label={strings.timelineChartPeopleTargetedLabel}
-                            value={Number(data.dref?.beneficiaries) ?? '-'}
+                            value={Number(data.dref?.beneficiaries)}
                             valueType="number"
                             strongValue
                         />
