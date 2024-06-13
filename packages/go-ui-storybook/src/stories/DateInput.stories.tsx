@@ -19,7 +19,7 @@ const meta: Meta<typeof DateInput> = {
         layout: 'centered',
         design: {
             type: 'figma',
-            url: 'https://www.figma.com/file/myeW85ibN5p2SlnXcEpxFD/IFRC-GO---UI-Current---1?type=design&node-id=0-4957&mode=design&t=KwxbuoUQxqcLyZbG-0',
+            url: 'https://www.figma.com/file/k9SOqgh5jk9PxzuBKdMKsA/IFRC-GO---UI-Library?node-id=11261-189135&t=pARdc5n4ifPxahdr-4',
         },
     },
     args: {

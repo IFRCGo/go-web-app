@@ -35,7 +35,7 @@ const meta: Meta<typeof RadioInput> = {
         layout: 'centered',
         design: {
             type: 'figma',
-            url: 'https://www.figma.com/file/k9SOqgh5jk9PxzuBKdMKsA/IFRC-GO---UI-Library?node-id=14405-190089&t=tvoCZGUCjrbFSV16-4',
+            url: 'https://www.figma.com/file/k9SOqgh5jk9PxzuBKdMKsA/IFRC-GO---UI-Library?node-id=14405-190089&t=pARdc5n4ifPxahdr-4',
             allowFullscreen: true,
         },
     },

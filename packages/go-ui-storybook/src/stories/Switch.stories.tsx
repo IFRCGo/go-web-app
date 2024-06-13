@@ -19,7 +19,7 @@ const meta: Meta<typeof Switch> = {
         layout: 'centered',
         design: {
             type: 'figma',
-            url: 'https://www.figma.com/file/myeW85ibN5p2SlnXcEpxFD/IFRC-GO---UI-Current---1?type=design&node-id=0-4957&mode=design&t=KwxbuoUQxqcLyZbG-0',
+            url: 'https://www.figma.com/file/k9SOqgh5jk9PxzuBKdMKsA/IFRC-GO---UI-Library?node-id=14405-193575&t=pARdc5n4ifPxahdr-4',
         },
     },
     args: {
@@ -58,6 +58,13 @@ export const Default: Story = {
         label: 'Enable notifications',
         value: false,
     },
+    parameters: {
+        design: {
+            type: 'figma',
+            url: 'https://www.figma.com/file/k9SOqgh5jk9PxzuBKdMKsA/IFRC-GO---UI-Library?node-id=14405-193575&t=pARdc5n4ifPxahdr-4',
+            allowFullscreen: false,
+        },
+    },
 };
 
 export const Disabled: Story = {
@@ -72,5 +79,12 @@ export const Checked: Story = {
     args: {
         label: 'Enable notifications',
         value: true,
+    },
+    parameters: {
+        design: {
+            type: 'figma',
+            url: 'https://www.figma.com/file/k9SOqgh5jk9PxzuBKdMKsA/IFRC-GO---UI-Library?node-id=14405-193576&t=pARdc5n4ifPxahdr-4',
+            allowFullscreen: false,
+        },
     },
 };

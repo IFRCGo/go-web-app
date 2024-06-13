@@ -11,6 +11,10 @@ const meta = {
     component: Alert,
     parameters: {
         layout: 'centered',
+        design: {
+            type: 'figma',
+            url: 'https://www.figma.com/file/k9SOqgh5jk9PxzuBKdMKsA/IFRC-GO---UI-Library?node-id=11261-191021&t=qmirLf8EtsAXR5l4-4',
+        },
         allowfullscreen: true,
     },
     tags: ['autodocs'],
@@ -30,6 +34,13 @@ export const Info: Story = {
         type: 'info',
         description: 'This alert provides informative details to the user.',
     },
+    parameters: {
+        design: {
+            type: 'figma',
+            url: 'https://www.figma.com/file/k9SOqgh5jk9PxzuBKdMKsA/IFRC-GO---UI-Library?node-id=11262-185381&t=7UbPoK27NQN0IBx8-4',
+            allowFullscreen: false,
+        },
+    },
 };
 
 export const Success: Story = {
@@ -38,6 +49,13 @@ export const Success: Story = {
         title: 'Success',
         type: 'success',
         description: 'This alert indicates a successful operation or task.',
+    },
+    parameters: {
+        design: {
+            type: 'figma',
+            url: 'https://www.figma.com/file/k9SOqgh5jk9PxzuBKdMKsA/IFRC-GO---UI-Library?node-id=11262-185380&t=7UbPoK27NQN0IBx8-4',
+            allowFullscreen: false,
+        },
     },
 };
 
@@ -56,6 +74,13 @@ export const Danger : Story = {
         title: 'Danger',
         type: 'danger',
         description: 'This alert indicates a dangerous or potentially harmful situation.',
+    },
+    parameters: {
+        design: {
+            type: 'figma',
+            url: 'https://www.figma.com/file/k9SOqgh5jk9PxzuBKdMKsA/IFRC-GO---UI-Library?node-id=11262-185379&t=7UbPoK27NQN0IBx8-4',
+            allowFullscreen: false,
+        },
     },
 };
 
