@@ -10,7 +10,10 @@ import {
 } from '@togglecorp/toggle-form';
 
 import { type components } from '#generated/types';
-import { getNumberInBetweenCondition } from '#utils/form';
+import {
+    getNumberInBetweenCondition,
+    positiveIntegerCondition,
+} from '#utils/form';
 import {
     type GoApiBody,
     type GoApiResponse,
@@ -164,21 +167,74 @@ const schema: LocalUnitsFormSchema = {
                                 speciality: {
                                     validations: [lengthSmallerThanCondition(200)],
                                 },
-                                maximum_capacity: {},
-                                number_of_isolation_rooms: {},
+                                maximum_capacity: {
+                                    validations: [
+                                        positiveIntegerCondition,
+                                    ],
+                                },
+                                number_of_isolation_rooms: {
+                                    validations: [
+                                        positiveIntegerCondition,
+                                    ],
+                                },
                                 is_warehousing: {},
                                 is_cold_chain: {},
-                                ambulance_type_a: {},
-                                ambulance_type_b: {},
-                                ambulance_type_c: {},
-                                total_number_of_human_resource: { required: true },
-                                general_practitioner: {},
-                                specialist: {},
-                                residents_doctor: {},
-                                nurse: {},
-                                dentist: {},
-                                nursing_aid: {},
-                                midwife: {},
+                                ambulance_type_a: {
+                                    validations: [
+                                        positiveIntegerCondition,
+                                    ],
+                                },
+                                ambulance_type_b: {
+                                    validations: [
+                                        positiveIntegerCondition,
+                                    ],
+                                },
+                                ambulance_type_c: {
+                                    validations: [
+                                        positiveIntegerCondition,
+                                    ],
+                                },
+                                total_number_of_human_resource: {
+                                    validations: [
+                                        positiveIntegerCondition,
+                                    ],
+                                    required: true,
+                                },
+                                general_practitioner: {
+                                    validations: [
+                                        positiveIntegerCondition,
+                                    ],
+                                },
+                                specialist: {
+                                    validations: [
+                                        positiveIntegerCondition,
+                                    ],
+                                },
+                                residents_doctor: {
+                                    validations: [
+                                        positiveIntegerCondition,
+                                    ],
+                                },
+                                nurse: {
+                                    validations: [
+                                        positiveIntegerCondition,
+                                    ],
+                                },
+                                dentist: {
+                                    validations: [
+                                        positiveIntegerCondition,
+                                    ],
+                                },
+                                nursing_aid: {
+                                    validations: [
+                                        positiveIntegerCondition,
+                                    ],
+                                },
+                                midwife: {
+                                    validations: [
+                                        positiveIntegerCondition,
+                                    ],
+                                },
                                 other_medical_heal: {},
                                 other_profiles: {
                                     validations: [lengthSmallerThanCondition(200)],
