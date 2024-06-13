@@ -1,3 +1,4 @@
+import { isDefined } from '@togglecorp/fujs';
 import getBbox from '@turf/bbox';
 import type {
     FillLayer,
@@ -183,9 +184,14 @@ export function getCountryListBoundingBox(countryList: Country[]) {
         return undefined;
     }
 
+    const countryWithBbox = countryList.filter((country) => isDefined(country.bbox));
+
+    if (countryWithBbox.length < 1) {
+        return undefined;
+    }
     const collection = {
         type: 'FeatureCollection' as const,
-        features: countryList.map((country) => ({
+        features: countryWithBbox.map((country) => ({
             type: 'Feature' as const,
             geometry: country.bbox,
         })),
