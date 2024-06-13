@@ -109,6 +109,7 @@ export function Component() {
         },
         (dtype) => dtype,
     );
+
     const [filterRegion, setFilterRegion] = useUrlSearchState<RegionListItem['name'] | undefined>(
         'region',
         (searchValue) => {
@@ -122,7 +123,6 @@ export function Component() {
             ) {
                 return potentialValue;
             }
-
             return undefined;
         },
         (regionId) => regionId,
@@ -143,8 +143,8 @@ export function Component() {
             ordering,
             atype: filterAppealType,
             dtype: filterDisasterType,
-            country: filterCountry ? [filterCountry] : undefined,
-            region: filterRegion ? [filterRegion] : undefined,
+            country: isDefined(filterCountry) ? [filterCountry] : undefined,
+            region: isDefined(filterRegion) ? [filterRegion] : undefined,
             start_date__gte: filter.startDateAfter,
             start_date__lte: filter.startDateBefore,
         }),
