@@ -5,10 +5,10 @@ import {
 
 type NavigationTabListProps = PureNavigationTabListProps;
 
-function WrappedNavigationTabList(props: NavigationTabListProps) {
+function NavigationTabList(props: NavigationTabListProps) {
     return (
         <PureNavigationTabList {...props} />// eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedNavigationTabList;
+export default NavigationTabList;

@@ -5,10 +5,10 @@ import {
 
 type InputSectionProps = PureInputSectionProps
 
-function WrappedInputSection(props: InputSectionProps) {
+function InputSection(props: InputSectionProps) {
     return (
         <PureInputSection {...props} />// eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedInputSection;
+export default InputSection;

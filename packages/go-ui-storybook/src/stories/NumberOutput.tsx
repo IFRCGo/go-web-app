@@ -5,10 +5,10 @@ import {
 
 type NumberOutputProps = PureNumberOutputProps
 
-function WrappedNumberOutput(props: NumberOutputProps) {
+function NumberOutput(props: NumberOutputProps) {
     return (
         <PureNumberOutput {...props} />// eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedNumberOutput;
+export default NumberOutput;

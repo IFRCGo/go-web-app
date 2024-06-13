@@ -5,10 +5,10 @@ import {
 
 interface InputErrorProps extends PureInputErrorProps {}
 
-function WrappedInputError(props: InputErrorProps) {
+function InputError(props: InputErrorProps) {
     return (
         <PureInputError {...props} />// eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedInputError;
+export default InputError;

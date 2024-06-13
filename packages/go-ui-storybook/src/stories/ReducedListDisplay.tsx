@@ -6,7 +6,7 @@ import {
 // eslint-disable-next-line max-len
 type ReducedListDisplayProps<LIST_ITEM, RENDERER_PROPS> = PureReducedListDisplayProps<LIST_ITEM, RENDERER_PROPS>
 
-function WrappedReducedListDisplay
+function ReducedListDisplay
 // eslint-disable-next-line max-len
 <LIST_ITEM, RENDERER_PROPS>(props: ReducedListDisplayProps<LIST_ITEM, RENDERER_PROPS>) {
     return (
@@ -14,4 +14,4 @@ function WrappedReducedListDisplay
     );
 }
 
-export default WrappedReducedListDisplay;
+export default ReducedListDisplay;

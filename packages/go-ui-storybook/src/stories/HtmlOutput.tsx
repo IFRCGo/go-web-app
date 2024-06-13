@@ -5,10 +5,10 @@ import {
 
 interface HtmlOutputProps extends PureHtmlOutputProps {}
 
-function WrappedHtmlOutput(props:HtmlOutputProps) {
+function HtmlOutput(props:HtmlOutputProps) {
     return (
         <PureHtmlOutput {...props} /> // eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedHtmlOutput;
+export default HtmlOutput;

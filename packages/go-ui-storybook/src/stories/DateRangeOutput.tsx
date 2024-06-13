@@ -5,11 +5,11 @@ import {
 
 interface DateRangeOutputProps extends PureDateRangeOutputProps{}
 
-function WrappedDateRangeOutput(props: DateRangeOutputProps) {
+function DateRangeOutput(props: DateRangeOutputProps) {
     return (
     // eslint-disable-next-line react/jsx-props-no-spreading
         <PureDateRangeOutput {...props} />
     );
 }
 
-export default WrappedDateRangeOutput;
+export default DateRangeOutput;

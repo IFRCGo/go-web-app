@@ -5,10 +5,10 @@ import {
 
 type PopupProps = PurePopupProps
 
-function WrappedPopup(props: PopupProps) {
+function Popup(props: PopupProps) {
     return (
         <PurePopup {...props} />// eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedPopup;
+export default Popup;

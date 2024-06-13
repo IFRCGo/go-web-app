@@ -5,10 +5,10 @@ import {
 
 interface FooterProps extends PureFooterProps {}
 
-function WrappedFooter(props:FooterProps) {
+function Footer(props:FooterProps) {
     return (
         <PureFooter {...props} /> // eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedFooter;
+export default Footer;

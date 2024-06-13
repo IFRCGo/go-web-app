@@ -5,10 +5,10 @@ import {
 
 interface BlockloadingProps extends PureBlockLoadingProps {}
 
-function WrappedBlockloading(props: BlockloadingProps) {
+function Blockloading(props: BlockloadingProps) {
     return (
         // eslint-disable-next-line react/jsx-props-no-spreading
         <PureBlockLoading {...props} />
     );
 }
-export default WrappedBlockloading;
+export default Blockloading;

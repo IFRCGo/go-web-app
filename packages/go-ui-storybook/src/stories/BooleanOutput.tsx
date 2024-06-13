@@ -5,10 +5,10 @@ import {
 
 interface BooleanOutputProps extends PureBooleanOutputProps{}
 
-function WrappedBooleanOutput(props: BooleanOutputProps) {
+function BooleanOutput(props: BooleanOutputProps) {
     return (
         <PureBooleanOutput {...props} />// eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedBooleanOutput;
+export default BooleanOutput;

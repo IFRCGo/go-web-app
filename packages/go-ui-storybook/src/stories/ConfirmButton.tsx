@@ -5,10 +5,10 @@ import {
 
 interface ConfirmButtonProps<N> extends PureConfirmButtonProps<N> {}
 
-function WrappedConfirmButton<const N>(props: ConfirmButtonProps<N>) {
+function ConfirmButton<const N>(props: ConfirmButtonProps<N>) {
     return (
         <PureConfirmButton {...props} />// eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedConfirmButton;
+export default ConfirmButton;

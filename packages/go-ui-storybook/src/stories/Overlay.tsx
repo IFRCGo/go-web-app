@@ -5,10 +5,10 @@ import {
 
 interface OverlayProps extends PureOverlayProps {}
 
-function WrappedOverlay(props: OverlayProps) {
+function Overlay(props: OverlayProps) {
     return (
         <PureOverlay {...props} />// eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedOverlay;
+export default Overlay;
