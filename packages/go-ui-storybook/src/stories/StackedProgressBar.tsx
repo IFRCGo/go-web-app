@@ -5,10 +5,10 @@ import {
 
 interface StackedProgressBarProps<N> extends PureStackedProgressBarProps<N> {}
 
-function WrappedStackedProgressBar<const N>(props: StackedProgressBarProps<N>) {
+function ProgressBar<const N>(props: StackedProgressBarProps<N>) {
     return (
         <PureStackedProgressBar {...props} />// eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedStackedProgressBar;
+export default ProgressBar;

@@ -5,10 +5,10 @@ import {
 
 interface HeadingProps extends PureHeadingProps {}
 
-function WrappedHeading(props: HeadingProps) {
+function Heading(props: HeadingProps) {
     return (
         <PureHeading {...props} /> // eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedHeading;
+export default Heading;

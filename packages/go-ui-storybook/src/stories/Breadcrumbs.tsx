@@ -5,10 +5,10 @@ import {
 
 interface BreadcrumbsProps extends PureBreadcrumbsProps {}
 
-function WrappedBreadcrumbs(props: BreadcrumbsProps) {
+function Breadcrumbs(props: BreadcrumbsProps) {
     return (
         <PureBreadcrumbs {...props} /> // eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedBreadcrumbs;
+export default Breadcrumbs;

@@ -5,10 +5,10 @@ import {
 
 interface PageHeaderProps extends PurePageHeaderProps {}
 
-function WrappedPageHeader(props: PageHeaderProps) {
+function PageHeader(props: PageHeaderProps) {
     return (
         <PurePageHeader {...props} />// eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedPageHeader;
+export default PageHeader;

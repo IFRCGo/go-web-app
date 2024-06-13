@@ -5,10 +5,10 @@ import {
 
 type InfoPopupProps = PureInfoPopupProps
 
-function WrappedInfoPopup(props: InfoPopupProps) {
+function InfoPopup(props: InfoPopupProps) {
     return (
         <PureInfoPopup {...props} />// eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedInfoPopup;
+export default InfoPopup;

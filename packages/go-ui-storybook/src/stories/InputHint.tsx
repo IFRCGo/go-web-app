@@ -5,10 +5,10 @@ import {
 
 interface InputHintProps extends PureInputHintProps {}
 
-function WrappedInputHint(props: InputHintProps) {
+function InputHint(props: InputHintProps) {
     return (
         <PureInputHint {...props} /> // eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedInputHint;
+export default InputHint;
