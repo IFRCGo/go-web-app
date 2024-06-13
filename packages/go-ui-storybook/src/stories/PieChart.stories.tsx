@@ -23,7 +23,7 @@ const meta: Meta<typeof PieChart> = {
         layout: 'centered',
         design: {
             type: 'figma',
-            url: 'https://www.figma.com/file/myeW85ibN5p2SlnXcEpxFD/IFRC-GO---UI-Current---1?type=design&node-id=0-4957&mode=design&t=KwxbuoUQxqcLyZbG-0',
+            url: 'https://www.figma.com/file/k9SOqgh5jk9PxzuBKdMKsA/IFRC-GO---UI-Library?node-id=11699-192004&t=qmirLf8EtsAXR5l4-4',
         },
     },
     tags: ['autodocs'],
@@ -31,9 +31,9 @@ const meta: Meta<typeof PieChart> = {
 
 export default meta;
 const options: Option[] = [
-    { value: 10, label: 'Item 1', key: '1' },
-    { value: 15, label: 'Item 2', key: '2' },
-    { value: 20, label: 'Item 3', key: '3' },
+    { value: 50, label: 'Rice', key: '1' },
+    { value: 15, label: 'Vegetables', key: '2' },
+    { value: 20, label: 'Fruits', key: '3' },
 ];
 
 const valueSelector: (d: Option) => number = (d) => d.value;
