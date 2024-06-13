@@ -4,10 +4,10 @@ import { TimeSeriesChart as PureTimeSeriesChart } from '@ifrc-go/ui';
 // FIXME: let's export TimeSeriesChartProps from @ifrc-go/ui
 type TimeSeriesChartProps<K extends string> = ComponentProps<typeof PureTimeSeriesChart<K>>
 
-function WrappedTimeSeriesChart<const K extends string>(props: TimeSeriesChartProps<K>) {
+function TimeSeriesChart<const K extends string>(props: TimeSeriesChartProps<K>) {
     return (
         <PureTimeSeriesChart {...props} /> // eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedTimeSeriesChart;
+export default TimeSeriesChart;

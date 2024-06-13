@@ -5,10 +5,10 @@ import {
 
 interface ModalProps extends PureModalProps {}
 
-function WrappedModal(props: ModalProps) {
+function Modal(props: ModalProps) {
     return (
         <PureModal {...props} /> // eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedModal;
+export default Modal;

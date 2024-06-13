@@ -5,10 +5,10 @@ import {
 
 type HeaderProps = PureHeaderProps
 
-function WrappedHeader(props:HeaderProps) {
+function Header(props:HeaderProps) {
     return (
         <PureHeader {...props} /> // eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedHeader;
+export default Header;

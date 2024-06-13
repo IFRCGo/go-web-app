@@ -5,7 +5,7 @@ import {
 
 type RawFileInputProps<N> = PureRawFileInputProps<N>;
 
-function WrappedRawFileInput< const N>(props: RawFileInputProps<N>) {
+function RawFileInput< const N>(props: RawFileInputProps<N>) {
     // eslint-disable-next-line react/jsx-props-no-spreading
     return (
         // eslint-disable-next-line react/jsx-props-no-spreading
@@ -14,4 +14,4 @@ function WrappedRawFileInput< const N>(props: RawFileInputProps<N>) {
     );
 }
 
-export default WrappedRawFileInput;
+export default RawFileInput;

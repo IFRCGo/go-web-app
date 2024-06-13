@@ -5,10 +5,10 @@ import {
 
 interface ImageProps extends PureImageProps {}
 
-function WrappedImage(props: ImageProps) {
+function Image(props: ImageProps) {
     return (
         <PureImage {...props} />// eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedImage;
+export default Image;

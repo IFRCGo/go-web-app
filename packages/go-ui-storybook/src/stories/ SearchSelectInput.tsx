@@ -7,7 +7,7 @@ import {
 // eslint-disable-next-line max-len
 type SearchSelectInputProps<K extends OptionKey, N, Option extends object, Def extends object > = PureSearchSelectInputProps<K, N, Option, Def, never> ;
 
-function WrappedSearchSelectInput
+function SearchSelectInput
 <K extends OptionKey, const N, Option extends object, Def extends object>(
     props: SearchSelectInputProps<K, N, Option, Def>,
 ) {
@@ -17,4 +17,4 @@ function WrappedSearchSelectInput
     );
 }
 
-export default WrappedSearchSelectInput;
+export default SearchSelectInput;
