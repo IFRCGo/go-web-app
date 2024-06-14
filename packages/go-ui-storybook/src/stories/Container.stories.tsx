@@ -65,7 +65,13 @@ export const FooterAction: Story = {
         footerContent: 'Footer content',
         filters: 'Filter content',
         children: 'Container content',
-        footerActions: typeof Button,
+        footerActions: [
+            <Button
+                name={undefined}
+            >
+                save
+            </Button>,
+        ],
     },
 };
 export const WithFooterIcons: Story = {
@@ -75,7 +81,7 @@ export const WithFooterIcons: Story = {
         footerContent: 'Footer content',
         filters: 'Filter content',
         children: 'Container content',
-        footerIcons: typeof WikiLineIcon,
+        footerIcons: <WikiLineIcon />,
     },
 };
 
@@ -126,7 +132,7 @@ export const WithIcons: Story = {
         children: 'Container content',
         contentViewType: 'default',
         spacing: 'default',
-        icons: typeof WikiLineIcon,
+        icons: <WikiLineIcon />,
     },
 };
 
