@@ -93,6 +93,7 @@ export const Disabled = {
 } satisfies Story;
 
 export const Readonly: Story = {
+    render: Template,
     args: {
         ...Default.args,
         value: '2',
