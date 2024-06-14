@@ -60,6 +60,7 @@ export const Default: Story = {
         keySelector,
         renderer: Option,
         rendererParams,
+        separator: ' ',
     },
 };
 
@@ -71,6 +72,7 @@ export const MaxItems: Story = {
         renderer: Option,
         rendererParams,
         maxItems: 2,
+        separator: ' ',
     },
 };
 
@@ -82,5 +84,6 @@ export const MinItems: Story = {
         renderer: Option,
         rendererParams,
         minItems: 1,
+        separator: ' ',
     },
 };
