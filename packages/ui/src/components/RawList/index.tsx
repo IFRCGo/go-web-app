@@ -1,6 +1,7 @@
+import { Key } from 'react';
 import { isNotDefined } from '@togglecorp/fujs';
 
-export type ListKey = string | number | boolean;
+export type ListKey = Key | boolean;
 
 export type Props<DATUM, KEY extends ListKey, RENDERER_PROPS> = {
     data: DATUM[] | undefined | null;

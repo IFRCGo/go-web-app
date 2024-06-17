@@ -1,0 +1,11 @@
+.legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--go-ui-spacing-sm) var(--go-ui-spacing-lg);
+
+    .legend-items {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--go-ui-spacing-sm) var(--go-ui-spacing-md);
+    }
+}
