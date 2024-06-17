@@ -27,7 +27,7 @@ export default meta;
 
 export const Default: Story = {
     args: {
-        children: 'Content goes here',
+        children: 'IFRC-GO',
         contentAs: 'div',
         containerAs: 'div',
     },
@@ -35,7 +35,7 @@ export const Default: Story = {
 
 export const WithNav: Story = {
     args: {
-        children: 'Content goes here',
+        children: 'Home',
         contentAs: 'nav',
         containerAs: 'nav',
     },
@@ -43,24 +43,24 @@ export const WithNav: Story = {
 
 export const Header: Story = {
     args: {
-        children: 'Content goes here',
+        children: 'IFRC Go',
         contentAs: 'header',
         containerAs: 'header',
     },
 };
 
-export const Footer: Story = {
+export const Main: Story = {
     args: {
-        children: 'Content goes here',
-        contentAs: 'footer',
-        containerAs: 'footer',
+        children: 'IFRC GO aims to make all disaster information universally accessible and useful to IFRC responders for better decision making.',
+        contentAs: 'main',
+        containerAs: 'main',
     },
 };
 
-export const Main: Story = {
+export const Footer: Story = {
     args: {
-        children: 'Content goes here',
-        contentAs: 'main',
-        containerAs: 'main',
+        children: 'About us',
+        contentAs: 'footer',
+        containerAs: 'footer',
     },
 };

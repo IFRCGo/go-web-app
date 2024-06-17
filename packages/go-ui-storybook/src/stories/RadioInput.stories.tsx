@@ -108,7 +108,7 @@ export const ReadOnly: Story = {
     },
 };
 
-export const Clerable: Story = {
+export const Clearable: Story = {
     render: Template,
     args: {
         value: 'green',

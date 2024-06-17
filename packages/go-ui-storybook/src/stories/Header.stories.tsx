@@ -4,6 +4,7 @@ import {
     HeaderProps,
 } from '@ifrc-go/ui';
 import type {
+    Args,
     Meta,
     StoryObj,
 } from '@storybook/react';
@@ -25,47 +26,50 @@ const meta: Meta<typeof Header> = {
         },
     },
     tags: ['autodocs'],
-    decorators: [
-        function Component(_, ctx) {
-            const componentArgs = ctx.args as HeaderSpecificProps;
-            return (
-                <Header
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...componentArgs}
-
-                />
-            );
-        },
-    ],
 };
 
 export default meta;
+function Template(args:Args) {
+    return (
+        <Header
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...args}
+            heading="Company Overview"
+        />
+    );
+}
 
 export const Default: Story = {
+    render: Template,
     args: {
-        heading: 'Company Overview',
         headingDescription: 'Learn more about our company and what sets us apart in the market.',
+        headingLevel: 2,
     },
 };
 
 export const EllipsizeHeading: Story = {
+    render: Template,
     args: {
-        heading: 'Company Overview',
         headingDescription: 'Learn more about our company and what sets us apart in the market.',
         ellipsizeHeading: true,
     },
 };
 
 export const WithIcon: Story = {
+    render: Template,
     args: {
+        headingLevel: 2,
         heading: 'Introduction',
         icons: <WikiHelpSectionLineIcon />,
     },
 };
+
 export const WithAction: Story = {
+    render: Template,
     args: {
         heading: 'Company Overview',
         headingDescription: 'Learn more about our company and what sets us apart in the market.',
+        headingLevel: 2,
         actions: [
             <Button
                 name={undefined}
