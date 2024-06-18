@@ -4,16 +4,13 @@ import {
     HeaderProps,
 } from '@ifrc-go/ui';
 import type {
-    Args,
     Meta,
     StoryObj,
 } from '@storybook/react';
 
 import Header from './Header';
 
-type HeaderSpecificProps = HeaderProps;
-
-type Story = StoryObj<HeaderSpecificProps>;
+type Story = StoryObj<HeaderProps>;
 
 const meta: Meta<typeof Header> = {
     title: 'Components/Header',
@@ -29,55 +26,51 @@ const meta: Meta<typeof Header> = {
 };
 
 export default meta;
-function Template(args:Args) {
-    return (
-        <Header
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...args}
-            heading="Company Overview"
-        />
-    );
-}
 
 export const Default: Story = {
-    render: Template,
     args: {
-        headingDescription: 'Learn more about our company and what sets us apart in the market.',
+        heading: 'Overview of the International Federation of Red Cross and Red Crescent Societies (IFRC)',
+        headingDescription: 'The International Federation of Red Cross and Red Crescent Societies (IFRC) is the world’s largest humanitarian network.',
         headingLevel: 2,
+        headingContainerClassName: 'header-children',
     },
 };
 
-export const EllipsizeHeading: Story = {
-    render: Template,
+export const WithEllipsizedHeading: Story = {
     args: {
-        headingDescription: 'Learn more about our company and what sets us apart in the market.',
+        ...Default.args,
+        headingContainerClassName: 'header-ellipsized',
         ellipsizeHeading: true,
     },
 };
 
-export const WithIcon: Story = {
-    render: Template,
+export const WithWrapHeadingContent: Story = {
     args: {
-        headingLevel: 2,
-        heading: 'Introduction',
+        ...Default.args,
+        wrapHeadingContent: true,
+        headingContainerClassName: 'header-children',
+        className: 'header-wrapped',
+    },
+};
+
+export const WithIcon: Story = {
+    args: {
+        ...Default.args,
+        iconsContainerClassName: 'header-icon',
         icons: <WikiHelpSectionLineIcon />,
     },
 };
 
 export const WithAction: Story = {
-    render: Template,
     args: {
-        heading: 'Company Overview',
-        headingDescription: 'Learn more about our company and what sets us apart in the market.',
-        headingLevel: 2,
-        actions: [
+        ...Default.args,
+        actions: (
             <Button
                 name={undefined}
                 variant="primary"
             >
-                Export
-            </Button>,
-        ],
-
+                Learn More
+            </Button>
+        ),
     },
 };
