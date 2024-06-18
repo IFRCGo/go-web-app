@@ -6,9 +6,7 @@ import type {
 
 import Message from './Message';
 
-type MessageSpecificProps = MessageProps;
-
-type Story = StoryObj<MessageSpecificProps>;
+type Story = StoryObj<MessageProps>;
 
 const meta: Meta<typeof Message> = {
     title: 'Components/Message',
@@ -21,18 +19,6 @@ const meta: Meta<typeof Message> = {
         },
     },
     tags: ['autodocs'],
-    decorators: [
-        function Component(_, ctx) {
-            const componentArgs = ctx.args as MessageSpecificProps;
-            return (
-                <Message
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...componentArgs}
-
-                />
-            );
-        },
-    ],
 };
 
 export default meta;
@@ -40,20 +26,19 @@ export default meta;
 export const Default: Story = {
     args: {
         title: 'IFRC supported Operation',
-        errored: false,
     },
 };
 
 export const WithDescription: Story = {
     args: {
-        title: 'IFRC supported Operation',
+        ...Default.args,
         description: 'If operation does not appear in the dropdown, the operation does not yet exist in GO. In that case, please submit a new Field Report to generate the operation, then come back to this form',
     },
 };
 
 export const Info :Story = {
     args: {
-        title: 'IFRC supported Operation',
+        ...Default.args,
         description: 'If operation does not appear in the dropdown, the operation does not yet exist in GO. In that case, please submit a new Field Report to generate the operation, then come back to this form',
         variant: 'info',
 
@@ -69,7 +54,7 @@ export const Pending :Story = {
 
 export const Error :Story = {
     args: {
-        title: 'IFRC supported Operation',
+        ...Default.args,
         variant: 'error',
         erroredTitle: 'Page Not Found',
         errored: true,
