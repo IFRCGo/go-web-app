@@ -1,6 +1,6 @@
 {
-    "name": "go-web-app",
-    "version": "7.0.30",
+    "name": "go-web-app-workspace",
+    "version": "1.0.0",
     "type": "module",
     "private": true,
     "scripts": {
@@ -10,6 +10,7 @@
         "start:ui": "yarn workspace @ifrc-go/ui start",
         "start:app": "yarn build:ui && yarn workspace go-web-app start",
         "generate:type": "yarn workspace go-web-app generate:type",
+        "preview": "yarn workspace go-web-app preview",
         "storybook": "yarn workspace go-ui-storybook storybook",
         "build-storybook": "yarn workspace go-ui-storybook build-storybook",
         "chromatic": "yarn workspace go-ui-storybook chromatic"
