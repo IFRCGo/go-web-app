@@ -1,6 +1,7 @@
 import { SwitchProps } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {
+    Args,
     Meta,
     StoryObj,
 } from '@storybook/react';
@@ -8,7 +9,7 @@ import { fn } from '@storybook/test';
 
 import Switch from './Switch';
 
-type SwitchSpecificProps = SwitchProps<string>;
+type SwitchSpecificProps = SwitchProps<boolean>;
 
 type Story = StoryObj< SwitchSpecificProps>;
 
@@ -26,34 +27,32 @@ const meta: Meta<typeof Switch> = {
         onChange: fn(),
     },
     tags: ['autodocs'],
-    decorators: [
-        function Component(_, ctx) {
-            const [
-                { value },
-                updateArgs,
-            ] = useArgs();
-            const componentArgs = ctx.args as SwitchSpecificProps;
-
-            const onChange = (
-                newValue: boolean | undefined,
-            ) => {
-                updateArgs({ value: newValue });
-            };
-            return (
-                <Switch
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...componentArgs}
-                    value={value}
-                    onChange={onChange}
-                />
-            );
-        },
-    ],
 };
 
 export default meta;
+function Template(args:Args) {
+    const [
+        { value },
+        updateArgs,
+    ] = useArgs();
+
+    const onChange = (
+        newValue: boolean | undefined,
+    ) => {
+        updateArgs({ value: newValue });
+    };
+    return (
+        <Switch
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...args}
+            value={value}
+            onChange={onChange}
+        />
+    );
+}
 
 export const Default: Story = {
+    render: Template,
     args: {
         label: 'Enable notifications',
         value: false,
@@ -68,6 +67,7 @@ export const Default: Story = {
 };
 
 export const Disabled: Story = {
+    render: Template,
     args: {
         label: 'Enable notifications',
         value: false,
@@ -76,6 +76,7 @@ export const Disabled: Story = {
 };
 
 export const Checked: Story = {
+    render: Template,
     args: {
         label: 'Enable notifications',
         value: true,

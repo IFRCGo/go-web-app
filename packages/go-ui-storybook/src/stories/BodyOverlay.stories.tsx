@@ -6,9 +6,7 @@ import type {
 
 import BodyOverlay from './BodyOverlay';
 
-type BodyOverlaySpecificProps = BodyOverlayProps;
-
-type Story = StoryObj<BodyOverlaySpecificProps>;
+type Story = StoryObj<BodyOverlayProps>;
 
 const meta: Meta<typeof BodyOverlay> = {
     title: 'Components/BodyOverlay',
@@ -21,18 +19,6 @@ const meta: Meta<typeof BodyOverlay> = {
         },
     },
     tags: ['autodocs'],
-    decorators: [
-        function Component(_, ctx) {
-            const componentArgs = ctx.args as BodyOverlaySpecificProps;
-            return (
-                <BodyOverlay
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...componentArgs}
-
-                />
-            );
-        },
-    ],
 };
 
 export default meta;
