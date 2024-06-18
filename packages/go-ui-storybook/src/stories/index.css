@@ -75,3 +75,22 @@
 .progress-bar{
     width:20rem;
 }
+
+.header-children {
+    display: flex;
+    flex-direction: column;
+}
+
+.header-ellipsized {
+    display: flex;
+    flex-direction: column;
+    width: 30rem;
+}
+
+.header-wrapped {
+    width: 30rem;
+}
+
+.header-icon {
+    font-size: var(--go-ui-font-size-4xl);
+}
