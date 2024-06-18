@@ -6,9 +6,7 @@ import type {
 
 import LegendItem from './LegendItem';
 
-type LegendItemSpecificProps = LegendItemProps;
-
-type Story = StoryObj<LegendItemSpecificProps>;
+type Story = StoryObj<LegendItemProps>;
 
 const meta: Meta<typeof LegendItem> = {
     title: 'Components/LegendItem',
@@ -21,18 +19,6 @@ const meta: Meta<typeof LegendItem> = {
         },
     },
     tags: ['autodocs'],
-    decorators: [
-        function Component(_, ctx) {
-            const componentArgs = ctx.args as LegendItemSpecificProps;
-            return (
-                <LegendItem
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...componentArgs}
-
-                />
-            );
-        },
-    ],
 };
 
 export default meta;
