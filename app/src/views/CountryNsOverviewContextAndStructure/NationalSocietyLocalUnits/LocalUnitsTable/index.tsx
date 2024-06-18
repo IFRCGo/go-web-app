@@ -1,4 +1,7 @@
-import { useMemo } from 'react';
+import {
+    useEffect,
+    useMemo,
+} from 'react';
 import { useOutletContext } from 'react-router-dom';
 import {
     Container,
@@ -26,18 +29,28 @@ import {
 } from '#utils/restRequest';
 
 import { VALIDATED } from '../common';
-import Filters, { FilterValue } from '../Filters';
+import type { FilterValue } from '../Filters';
 import LocalUnitsTableActions, { type Props as LocalUnitsTableActionsProps } from './LocalUnitTableActions';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-const PAGE_SIZE = 12;
+const PAGE_SIZE = 10;
 
 type LocalUnitsTableResponse = GoApiResponse<'/api/v2/local-units/'>;
 type LocalUnitsTableListItem = NonNullable<LocalUnitsTableResponse['results']>[number];
 
-function LocalUnitsTable() {
+interface Props {
+    filter: FilterValue;
+    filtered: boolean;
+}
+
+function LocalUnitsTable(props: Props) {
+    const {
+        filter,
+        filtered,
+    } = props;
+
     const strings = useTranslation(i18n);
     const { countryResponse } = useOutletContext<CountryOutletContext>();
 
@@ -46,19 +59,15 @@ function LocalUnitsTable() {
         offset,
         page,
         setPage,
-        filtered,
-        filter,
-        setFilterField,
-        rawFilter,
-        resetFilter,
+        setFilter,
     } = useFilterState<FilterValue>({
-        filter: {},
+        filter,
         pageSize: PAGE_SIZE,
     });
 
-    const { response: localUnitsOptionsResponse } = useRequest({
-        url: '/api/v2/local-units-options/',
-    });
+    useEffect(() => {
+        setFilter(filter);
+    }, [filter, setFilter]);
 
     const {
         pending: localUnitsPending,
@@ -155,16 +164,6 @@ function LocalUnitsTable() {
                 />
             )}
             contentViewType="vertical"
-            withGridViewInFilter
-            filters={(
-                <Filters
-                    value={rawFilter}
-                    setFieldValue={setFilterField}
-                    options={localUnitsOptionsResponse}
-                    resetFilter={resetFilter}
-                    filtered={filtered}
-                />
-            )}
         >
             <Table
                 pending={localUnitsPending}

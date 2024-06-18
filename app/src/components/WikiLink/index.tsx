@@ -36,7 +36,7 @@ function WikiLink<N extends string>(props: Props<N>) {
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
         >
-            <WikiHelpSectionLineIcon />
+            <WikiHelpSectionLineIcon className={styles.icon} />
         </Link>
     );
 }

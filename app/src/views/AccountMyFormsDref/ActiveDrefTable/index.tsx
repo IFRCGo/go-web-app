@@ -367,7 +367,6 @@ function ActiveDrefTable(props: Props) {
                     onChange={setFilterField}
                 />
             )}
-            withGridViewInFilter
         >
             <Table
                 className={styles.table}

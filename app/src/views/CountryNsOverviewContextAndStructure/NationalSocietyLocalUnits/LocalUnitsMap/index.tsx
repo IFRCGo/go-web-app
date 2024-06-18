@@ -42,17 +42,18 @@ import Link, { type Props as LinkProps } from '#components/Link';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import MapPopup from '#components/MapPopup';
 import useAuth from '#hooks/domain/useAuth';
-import useFilterState from '#hooks/useFilterState';
 import { getFirstTruthyString } from '#utils/common';
 import {
     COLOR_PRIMARY_RED,
     COLOR_WHITE,
     DEFAULT_MAP_PADDING,
     DURATION_MAP_ZOOM,
+    MAX_PAGE_LIMIT,
 } from '#utils/constants';
 import { localUnitMapStyle } from '#utils/map';
 import { type CountryOutletContext } from '#utils/outletContext';
 import {
+    GoApiResponse,
     GoApiUrlQuery,
     useRequest,
 } from '#utils/restRequest';
@@ -62,7 +63,7 @@ import {
     PUBLIC,
     VALIDATED,
 } from '../common';
-import Filters, { FilterValue } from '../Filters';
+import type { FilterValue } from '../Filters';
 import { TYPE_HEALTH_CARE } from '../LocalUnitsFormModal/LocalUnitsForm/schema';
 
 import i18n from './i18n.json';
@@ -117,44 +118,29 @@ function emailKeySelector(email: string) {
 interface Props {
     onPresentationModeButtonClick?: () => void;
     presentationMode?: boolean;
+    filter: FilterValue;
+    localUnitsOptions: GoApiResponse<'/api/v2/local-units-options/'> | undefined;
 }
 
 function LocalUnitsMap(props: Props) {
     const {
         onPresentationModeButtonClick,
         presentationMode = false,
+        filter,
+        localUnitsOptions,
     } = props;
     const { countryResponse } = useOutletContext<CountryOutletContext>();
 
-    const {
-        response: localUnitsOptions,
-        // pending: localUnitsOptionsResponsePending,
-    } = useRequest({
-        url: '/api/v2/local-units-options/',
-    });
-
-    const {
-        filter,
-        rawFilter,
-        setFilterField,
-        filtered,
-        resetFilter,
-        limit,
-    } = useFilterState<FilterValue>({
-        filter: {},
-        pageSize: 9999,
-    });
-
     const urlQuery = useMemo<GoApiUrlQuery<'/api/v2/public-local-units/'>>(
         () => ({
-            limit,
+            limit: MAX_PAGE_LIMIT,
             type__code: filter.type,
             validated: isDefined(filter.isValidated)
                 ? filter.isValidated === VALIDATED : undefined,
             search: filter.search,
             country__iso3: isDefined(countryResponse?.iso3) ? countryResponse?.iso3 : undefined,
         }),
-        [limit, filter, countryResponse],
+        [filter, countryResponse],
     );
 
     const { isAuthenticated } = useAuth();
@@ -344,16 +330,6 @@ function LocalUnitsMap(props: Props) {
         <Container
             className={styles.localUnitsMap}
             contentViewType="vertical"
-            withGridViewInFilter
-            filters={!presentationMode && (
-                <Filters
-                    value={rawFilter}
-                    setFieldValue={setFilterField}
-                    options={localUnitsOptions}
-                    resetFilter={resetFilter}
-                    filtered={filtered}
-                />
-            )}
             pending={pending}
             overlayPending
         >
@@ -412,6 +388,9 @@ function LocalUnitsMap(props: Props) {
                                 paint: {
                                     'circle-radius': ['get', 'radius'],
                                     'circle-color': COLOR_PRIMARY_RED,
+                                    'circle-opacity': 0.7,
+                                    'circle-stroke-color': COLOR_PRIMARY_RED,
+                                    'circle-stroke-width': 1,
                                 },
                             }}
                             onClick={handlePointClick}

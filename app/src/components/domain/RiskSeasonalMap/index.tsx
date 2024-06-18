@@ -876,7 +876,6 @@ function RiskSeasonalMap(props: Props) {
         <Container
             className={_cs(styles.riskSeasonalMapContainer, className)}
             heading={strings.riskSeasonalMapHeading}
-            withGridViewInFilter
             filters={(
                 <Filters
                     regionId={Number(regionId)}

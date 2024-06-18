@@ -382,7 +382,6 @@ function ActiveOperationMap(props: Props) {
             heading={!presentationMode && heading}
             withHeaderBorder={!presentationMode}
             childrenContainerClassName={styles.content}
-            withGridViewInFilter
             filters={!presentationMode && (
                 <>
                     <DateInput

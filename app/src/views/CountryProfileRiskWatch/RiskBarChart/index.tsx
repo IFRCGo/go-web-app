@@ -273,7 +273,6 @@ function RiskBarChart(props: Props) {
             heading={strings.riskBarChartTitle}
             className={styles.riskBarChart}
             withHeaderBorder
-            withGridViewInFilter
             footerActions={<CountryRiskSourcesOutput />}
             filters={(
                 <>

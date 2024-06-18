@@ -255,7 +255,6 @@ export function Component() {
                         totalCount={personnelResponse?.count}
                     />
                 )}
-                withGridViewInFilter
                 filters={(
                     <>
                         <DateInput

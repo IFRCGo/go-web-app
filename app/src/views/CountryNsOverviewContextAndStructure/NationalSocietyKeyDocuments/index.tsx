@@ -95,7 +95,6 @@ function NationalSocietyKeyDocuments() {
         <Container
             heading={strings.nSSocietyKeyDocumentsTitle}
             withHeaderBorder
-            withGridViewInFilter
             filters={(
                 <>
                     <TextInput

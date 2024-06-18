@@ -189,3 +189,5 @@ export const UN_ORGANIZATION = 0;
 export const PRIVATE_SECTOR = 1;
 export const GOVERNMENT = 2;
 export const NATIONAL_SOCIETY = 3;
+
+export const MAX_PAGE_LIMIT = 9999;
