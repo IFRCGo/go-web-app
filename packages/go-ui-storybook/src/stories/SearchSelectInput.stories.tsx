@@ -4,6 +4,7 @@ import {
 } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {
+    Args,
     Meta,
     StoryObj,
 } from '@storybook/react';
@@ -57,84 +58,75 @@ const meta: Meta<typeof SearchSelectInput> = {
             allowFullscreen: true,
         },
     },
-    tags: ['autodocs'],
-    decorators: [
-        function Component(_, ctx) {
-            const [
-                { value },
-                setArgs,
-            ] = useArgs<{ value: OptionKey | null | undefined}>();
-
-            // NOTE: We are casting args as props because of discriminated union
-            // used in SearchSelectInputProps
-            const componentArgs = ctx.args as SearchSelectInputSpecificProps;
-            const onChange = (
-                newValue: OptionKey | undefined,
-                name: string,
-                val: Option | undefined,
-            ) => {
-                setArgs({ value: newValue });
-                if (componentArgs.nonClearable && isDefined(newValue) && isDefined(val)) {
-                    componentArgs.onChange(newValue, name, val);
-                } else if (isDefined(newValue) && isDefined(val)) {
-                    componentArgs.onChange(newValue, name, val);
-                }
-            };
-
-            return (
-                <SearchSelectInput
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...componentArgs}
-                    keySelector={keySelector}
-                    labelSelector={labelSelector}
-                    onChange={onChange}
-                    value={value}
-                    name="SearchSelectInput"
-                />
-            );
-        },
-    ],
 };
 
 export default meta;
 
+function Template(args:Args) {
+    const [
+        { value },
+        setArgs,
+    ] = useArgs<{ value: OptionKey | null | undefined}>();
+
+    // NOTE: We are casting args as props because of discriminated union
+    // used in SearchSelectInputProps
+
+    const onChange = (
+        newValue: OptionKey | undefined,
+        name: string,
+        val: Option | undefined,
+    ) => {
+        setArgs({ value: newValue });
+        // eslint-disable-next-line react/destructuring-assignment
+        if (args.nonClearable && isDefined(newValue) && isDefined(val)) {
+            // eslint-disable-next-line react/destructuring-assignment
+            args.onChange(newValue, name, val);
+        } else if (isDefined(newValue) && isDefined(val)) {
+            // eslint-disable-next-line react/destructuring-assignment
+            args.onChange(newValue, name, val);
+        }
+    };
+
+    return (
+        <SearchSelectInput
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...args}
+            keySelector={keySelector}
+            labelSelector={labelSelector}
+            onChange={onChange}
+            value={value}
+            name="SearchSelectInput"
+            options={options}
+            selectedOnTop
+        />
+    );
+}
 export const Default: Story = {
-    args: {
-        keySelector,
-        labelSelector,
-    },
+    render: Template,
 };
 
 export const WithPlaceholder: Story = {
+    render: Template,
     args: {
-        options,
         placeholder: 'Search',
-        keySelector,
-        labelSelector,
     },
 };
 export const Disabled: Story = {
+    render: Template,
     args: {
-        options,
-        keySelector,
-        labelSelector,
         disabled: true,
     },
 };
 
 export const Error: Story = {
+    render: Template,
     args: {
-        options,
-        keySelector,
-        labelSelector,
-        error: 'This is an error',
+        error: 'This is required ',
     },
 };
 export const ReadOnly: Story = {
+    render: Template,
     args: {
-        options,
-        keySelector,
-        labelSelector,
         readOnly: true,
     },
 };
