@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { TableActions } from '@ifrc-go/ui';
+import { ConfirmButton, TableActions } from '@ifrc-go/ui';
 import {
     useBooleanState,
     useTranslation,
@@ -19,6 +19,7 @@ import LocalUnitsFormModal from '../../LocalUnitsFormModal';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+import { CheckboxCircleLineIcon } from '@ifrc-go/icons';
 
 export interface Props {
     countryId: number;
@@ -92,6 +93,7 @@ function LocalUnitsTableActions(props: Props) {
     return (
         <>
             <TableActions
+                className={styles.localUnitTableActions}
                 persistent
                 extraActions={(
                     <>
@@ -113,30 +115,29 @@ function LocalUnitsTableActions(props: Props) {
                                 {strings.localUnitsEdit}
                             </DropdownMenuItem>
                         )}
-                        <DropdownMenuItem
-                            persist
-                            // NOTE sending an empty post request to validate the local unit
-                            name={null}
-                            type="confirm-button"
-                            variant="tertiary"
-                            className={styles.button}
-                            confirmHeading={strings.validateLocalUnitHeading}
-                            confirmMessage={resolveToString(
-                                strings.validateLocalUnitMessage,
-                                { localUnitName: localUnitName ?? '' },
-                            )}
-                            onConfirm={validateLocalUnit}
-                            disabled={
-                                validateLocalUnitPending
-                            || !hasValidatePermission
-                            || isValidated
-                            }
-                        >
-                            {strings.localUnitsValidate}
-                        </DropdownMenuItem>
                     </>
                 )}
-            />
+            >
+                <ConfirmButton
+                    // NOTE sending an empty post request to validate the local unit
+                    name={null}
+                    spacing="compact"
+                    confirmHeading={strings.validateLocalUnitHeading}
+                    confirmMessage={resolveToString(
+                        strings.validateLocalUnitMessage,
+                        { localUnitName: localUnitName ?? '' },
+                    )}
+                    onConfirm={validateLocalUnit}
+                    disabled={
+                        validateLocalUnitPending
+                        || !hasValidatePermission
+                        || isValidated
+                    }
+                    icons={isValidated && <CheckboxCircleLineIcon className={styles.icon} />}
+                >
+                    {isValidated ? strings.localUnitsValidated : strings.localUnitsValidate}
+                </ConfirmButton>
+            </TableActions>
             {(showLocalUnitViewModal || showLocalUnitEditModal) && (
                 <LocalUnitsFormModal
                     onClose={handleLocalUnitsFormModalClose}

@@ -122,15 +122,11 @@ function LocalUnitsTable(props: Props) {
                 strings.localUnitsTableEmail,
                 (item) => item.email,
             ),
-            createBooleanColumn<LocalUnitsTableListItem, number>(
-                'validated',
-                strings.localUnitsTableValidated,
-                (item) => item.validated,
-            ),
             createElementColumn<LocalUnitsTableListItem, number, LocalUnitsTableActionsProps>(
                 'actions',
                 '',
                 LocalUnitsTableActions,
+                // FIXME: this should be added to a callback
                 (_, item) => ({
                     countryId: item.country,
                     localUnitId: item.id,
@@ -138,6 +134,7 @@ function LocalUnitsTable(props: Props) {
                     localUnitName: item.local_branch_name ?? item.english_branch_name,
                     onActionSuccess: refetchLocalUnits,
                 }),
+                { columnClassName: styles.actions },
             ),
         ]),
         [
@@ -147,7 +144,6 @@ function LocalUnitsTable(props: Props) {
             strings.localUnitsTableFocal,
             strings.localUnitsTablePhoneNumber,
             strings.localUnitsTableEmail,
-            strings.localUnitsTableValidated,
             refetchLocalUnits,
         ],
     );

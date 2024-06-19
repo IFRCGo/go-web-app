@@ -261,6 +261,8 @@ function LocalUnitsMap(props: Props) {
                     properties: {
                         id: localUnit.id,
                         localUnitId: localUnit.id,
+                        // NOTE: we're adding radius here because of some bug in mapbox (not sure)
+                        // which doesn't render circle if there aren't any expressions
                         radius: 12,
                         type: localUnit.type,
                         subType: localUnit.type === TYPE_HEALTH_CARE
@@ -386,6 +388,8 @@ function LocalUnitsMap(props: Props) {
                             layerOptions={{
                                 type: 'circle',
                                 paint: {
+                                    // NOTE: we're using expression for radius here because
+                                    // of a bug in mapbox (potentially)
                                     'circle-radius': ['get', 'radius'],
                                     'circle-color': COLOR_PRIMARY_RED,
                                     'circle-opacity': 0.7,

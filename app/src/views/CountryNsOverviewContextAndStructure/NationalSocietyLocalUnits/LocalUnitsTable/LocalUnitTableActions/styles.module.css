@@ -1,3 +1,5 @@
-.button {
-    padding: var(--go-ui-spacing-sm) var(--go-ui-spacing-lg);
+.local-unit-table-actions {
+    .icon {
+        font-size: var(--go-ui-height-icon-multiplier);
+    }
 }
