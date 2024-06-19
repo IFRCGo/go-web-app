@@ -26,6 +26,7 @@ import {
     RecoveryIcon,
     SafetyAndSecurityIcon,
     ShelterIcon,
+    ShieldCrossFillIcon,
     WaterSanitationAndHygieneIcon,
 } from '@ifrc-go/icons';
 import { NavigationTabList } from '@ifrc-go/ui';
@@ -120,6 +121,13 @@ export function Component() {
                 >
                     <HealthIcon className={styles.icon} />
                     {strings.catalogueHealth}
+                </NavigationTab>
+                <NavigationTab
+                    to="surgeCatalogueOtherHumanitarianDiplomacy"
+                    parentRoute
+                >
+                    <ShieldCrossFillIcon className={styles.icon} />
+                    {strings.catalogueHD}
                 </NavigationTab>
                 <NavigationTab
                     to="surgeCatalogueOtherHumanResources"
