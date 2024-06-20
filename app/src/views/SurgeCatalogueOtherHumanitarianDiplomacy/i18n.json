@@ -1,0 +1,11 @@
+{
+    "namespace": "surgeCatalogueOtherHumanitarianDiplomacy",
+    "strings": {
+        "humanHeading": "Humanitarian Diplomacy (HD)",
+        "overview": "Overview",
+        "overviewDetail": "Humanitarian Diplomacy (HD) is “persuading decision makers and opinion leaders to act, at all times, in the interests of vulnerable people, and with full respect for fundamental humanitarian principles”. In emergencies, IFRC delegations and NS may require specific surge support to strengthen HD efforts to identify HD issues and provide contextual analysis, draft HD key messages and engagement plan, set up an HD membership coordination system, and engage with external partners and stakeholders.",
+        "rapidResponse": "Rapid Response Personnel Role Profile",
+        "rapidResponseDetail": "Details about the expectations for this specialty can be found in the role profile:",
+        "linkOfficer": "Humanitarian Diplomacy Officer Role Profile"
+    }
+}

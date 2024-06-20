@@ -1021,6 +1021,20 @@ const surgeCatalogueOtherDisasterRiskReduction = customWrapRoute({
     },
 });
 
+const surgeCatalogueOtherHumanitarianDiplomacy = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'other/humanitarian-diplomacy',
+    component: {
+        render: () => import('#views/SurgeCatalogueOtherHumanitarianDiplomacy'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Humanitarian Diplomacy',
+        visibility: 'anything',
+    },
+});
+
 const surgeCatalogueOtherHumanResources = customWrapRoute({
     parent: surgeCatalogueLayout,
     path: 'other/human-resources',
@@ -1347,6 +1361,7 @@ function DeploymentCatalogueNavigate() {
         other: {
             'civil-military-relations': surgeCatalogueOtherCivilMilitaryRelations,
             'disaster-risk-reduction-drr': surgeCatalogueOtherDisasterRiskReduction,
+            'humanitarian-diplomacy': surgeCatalogueOtherHumanitarianDiplomacy,
             'human-resources': surgeCatalogueOtherHumanResources,
             'international-disaster-response-law': surgeCatalogueOtherInternationalDisasterResponseLaw,
             migration: surgeCatalogueOtherMigration,
@@ -1487,6 +1502,7 @@ export default {
     surgeCatalogueWashHwts,
     surgeCatalogueOtherCivilMilitaryRelations,
     surgeCatalogueOtherDisasterRiskReduction,
+    surgeCatalogueOtherHumanitarianDiplomacy,
     surgeCatalogueOtherHumanResources,
     surgeCatalogueOtherInternationalDisasterResponseLaw,
     surgeCatalogueOtherMigration,
