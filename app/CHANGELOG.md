@@ -1,5 +1,18 @@
 # go-web-app
 
+## 7.3.10
+
+### Patch Changes
+
+- 3508c83: Add missing validations in DREF forms
+- 3508c83: Fix region filter in All Appeals table
+- 073fa1e: Remove personal detail for focal point in local units table
+- b508475: Add June 2024 Catalogue of Surge Services Updates
+- 3508c83: Handle countries with no bounding box
+- d9491a2: Fix appeals based statistics calculation
+- Updated dependencies [073fa1e]
+  - @ifrc-go/ui@1.1.4
+
 ## 7.3.9
 
 ### Patch Changes

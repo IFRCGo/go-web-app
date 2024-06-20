@@ -1,5 +1,11 @@
 # @ifrc-go/ui
 
+## 1.1.4
+
+### Patch Changes
+
+- 073fa1e: Add a constant for default invalid text
+
 ## 1.1.3
 
 ### Patch Changes
