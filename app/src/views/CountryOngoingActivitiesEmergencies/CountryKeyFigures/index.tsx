@@ -22,9 +22,10 @@ interface Props {
         active_drefs: number | null;
         active_appeals: number | null;
         target_population: number | null;
+        amount_requested: number | null;
         amount_requested_dref_included: number | null;
         amount_funded: number | null;
-        amount_requested: number | null;
+        amount_funded_dref_included: number | null;
     }
 }
 
@@ -81,8 +82,8 @@ function CountryKeyFigures(props: Props) {
                 icon={<FundingCoverageIcon />}
                 className={styles.keyFigure}
                 value={getPercentage(
-                    data.amount_funded,
-                    data.amount_requested,
+                    data.amount_funded_dref_included,
+                    data.amount_requested_dref_included,
                 )}
                 suffix="%"
                 compactValue

@@ -70,7 +70,7 @@ function CountryHistoricalKeyFigures(props: Props) {
             <KeyFigure
                 icon={<FundingIcon />}
                 className={styles.keyFigure}
-                value={data.total_amount_requested}
+                value={data.amount_funded_dref_included}
                 compactValue
                 label={strings.keyFiguresFundingRequirements}
             />
@@ -78,8 +78,8 @@ function CountryHistoricalKeyFigures(props: Props) {
                 icon={<FundingCoverageIcon />}
                 className={styles.keyFigure}
                 value={getPercentage(
-                    data.total_amount_funded,
-                    data.total_amount_requested,
+                    data.amount_funded_dref_included,
+                    data.amount_requested_dref_included,
                 )}
                 suffix="%"
                 compactValue

@@ -129,8 +129,8 @@ function PastEventsChart(props: Props) {
         url: '/api/v2/country/{id}/historical-disaster/',
         pathVariables: { id: countryId },
         query: isDefined(selectedTimePeriod) ? {
-            start_date: encodeDate(selectedTimePeriod.startDate),
-            end_date: encodeDate(selectedTimePeriod.endDate),
+            start_date_from: encodeDate(selectedTimePeriod.startDate),
+            start_date_to: encodeDate(selectedTimePeriod.endDate),
         } : undefined,
     });
 

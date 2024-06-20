@@ -40,8 +40,8 @@ function EmergenciesOverMonth(props: Props) {
         url: '/api/v2/country/{id}/disaster-monthly-count/',
         pathVariables: { id: countryId },
         query: {
-            start_date: startDate,
-            end_date: endDate,
+            start_date_from: startDate,
+            start_date_to: endDate,
         },
     });
 

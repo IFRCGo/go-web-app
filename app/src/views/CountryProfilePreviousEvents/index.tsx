@@ -121,8 +121,8 @@ export function Component() {
         url: '/api/v2/country/{id}/disaster-count/',
         pathVariables: { id: countryId },
         query: isDefined(selectedTimePeriod) ? ({
-            start_date: encodeDate(selectedTimePeriod.startDate),
-            end_date: encodeDate(selectedTimePeriod.endDate),
+            start_date_from: encodeDate(selectedTimePeriod.startDate),
+            start_date_to: encodeDate(selectedTimePeriod.endDate),
         }) : undefined,
     });
 
@@ -135,8 +135,8 @@ export function Component() {
         url: '/api/v2/country/{id}/figure/',
         pathVariables: { id: Number(countryId) },
         query: isDefined(selectedTimePeriod) ? ({
-            start_date: encodeDate(selectedTimePeriod.startDate),
-            end_date: encodeDate(selectedTimePeriod.endDate),
+            start_date_from: encodeDate(selectedTimePeriod.startDate),
+            start_date_to: encodeDate(selectedTimePeriod.endDate),
         }) : undefined,
     });
 
