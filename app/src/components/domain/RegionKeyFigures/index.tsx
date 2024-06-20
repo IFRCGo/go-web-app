@@ -87,8 +87,8 @@ function RegionKeyFigures(props: Props) {
                 icon={<FundingCoverageIcon />}
                 className={styles.keyFigure}
                 value={getPercentage(
-                    aggregatedAppealResponse?.amount_funded,
-                    aggregatedAppealResponse?.amount_requested,
+                    aggregatedAppealResponse?.amount_funded_dref_included,
+                    aggregatedAppealResponse?.amount_requested_dref_included,
                 )}
                 suffix="%"
                 compactValue
