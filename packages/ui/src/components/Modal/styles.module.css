@@ -30,6 +30,11 @@
             height: calc(100vh - var(--go-ui-spacing-md) * 2);
         }
 
+        &.page-width {
+            max-width: var(--go-ui-page-width-max);
+            height: calc(100vh - var(--go-ui-spacing-md) * 2);
+        }
+
         &.size-auto {
             max-width: fit-content;
         }

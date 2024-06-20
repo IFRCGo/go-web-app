@@ -10,7 +10,6 @@ import {
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
-    createBooleanColumn,
     createElementColumn,
     createStringColumn,
     numericIdSelector,
@@ -131,7 +130,10 @@ function LocalUnitsTable(props: Props) {
                     countryId: item.country,
                     localUnitId: item.id,
                     isValidated: item.validated,
-                    localUnitName: item.local_branch_name ?? item.english_branch_name,
+                    localUnitName: getFirstTruthyString(
+                        item.local_branch_name,
+                        item.english_branch_name,
+                    ),
                     onActionSuccess: refetchLocalUnits,
                 }),
                 { columnClassName: styles.actions },

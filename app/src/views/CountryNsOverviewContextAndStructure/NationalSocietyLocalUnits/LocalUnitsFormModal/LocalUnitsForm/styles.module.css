@@ -1,12 +1,20 @@
 .local-units-form {
-    .basic-details,
-    .address-and-contact-content,
-    .health-care-details-content {
-        gap: var(--go-ui-spacing-2xl);
-    }
-
     .point-input-map {
         background-color: var(--go-ui-color-background);
-        height: 24rem;
+        height: 32rem;
     }
+}
+
+/* NOTE: this element is portaled */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--go-ui-spacing-lg);
+}
+
+/* NOTE: this element is portaled */
+.actions {
+    display: flex;
+    gap: var(--go-ui-spacing-md);
+    justify-content: flex-end;
 }

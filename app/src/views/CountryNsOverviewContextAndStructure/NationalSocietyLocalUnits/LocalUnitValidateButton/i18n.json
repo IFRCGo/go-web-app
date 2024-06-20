@@ -1,0 +1,12 @@
+{
+    "namespace": "localUnitValidateButton",
+    "strings": {
+        "localUnitsValidate": "Validate",
+        "localUnitsValidated": "Validated",
+        "localUnitsNotValidated": "Not validated",
+        "validationSuccessMessage": "{localUnitName} was validated.",
+        "validationFailureMessage": "Failed to validate {localUnitName}",
+        "validateLocalUnitHeading": "Validate Local Unit Confirmation",
+        "validateLocalUnitMessage": "Are you sure you want to validate \"{localUnitName}\"?"
+    }
+}
