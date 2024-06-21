@@ -1,13 +1,19 @@
-name: 'Chromatic Publish'
+name: Chromatic
 
-on:
-  push:
-    branches:
-      - project/storybook
+on: workflow_call
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-chromatic
+  cancel-in-progress: true
+
+permissions:
+  actions: write
+  contents: read
 
 jobs:
   ui:
     name: Build UI Library
+    needs: [changed-files]
     environment: 'test'
     runs-on: ubuntu-latest
     defaults:
@@ -51,12 +57,13 @@ jobs:
           path: packages/ui/dist
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      #👇 Adds Chromatic as a step in the workflow
       - name: Run Chromatic
         uses: chromaui/action@v1
-        # Options required for Chromatic's GitHub Action
         with:
-          #👇 Chromatic projectToken
+          exitZeroOnChanges: true
+          exitOnceUploaded: true
+          onlyChanged: true
+          skip: "@(renovate/**|dependabot/**)"
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}
           workingDir: packages/go-ui-storybook
