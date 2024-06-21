@@ -70,7 +70,7 @@ function CountryHistoricalKeyFigures(props: Props) {
             <KeyFigure
                 icon={<FundingIcon />}
                 className={styles.keyFigure}
-                value={data.amount_funded_dref_included}
+                value={data.amount_requested_dref_included}
                 compactValue
                 label={strings.keyFiguresFundingRequirements}
             />
