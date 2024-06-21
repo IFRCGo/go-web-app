@@ -6,11 +6,37 @@ on:
       - project/storybook
 
 jobs:
-  chromatic:
+  ui:
+    name: Build UI Library
+    environment: 'test'
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: packages/go-ui-storybook
+        working-directory: packages/ui
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'yarn'
+      - name: Install dependencies on UI library
+        run: yarn install --frozen-lockfile
+      - name: Typecheck
+        run: yarn typecheck
+      - name: Lint CSS
+        run: yarn lint:css
+      - name: Lint JS
+        run: yarn lint:js
+      - name: build  UI library
+        run: yarn build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ui-build
+          path: packages/ui/dist
+  chromatic:
+    name: Chromatic Deploy
+    runs-on: ubuntu-latest
+    needs: [ui]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -19,12 +45,18 @@ jobs:
         with:
           node-version: 20
           cache: 'yarn'
-      - run: yarn
+      - uses: actions/download-artifact@v4
+        with:
+          name: ui-build
+          path: packages/ui/dist
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
       #👇 Adds Chromatic as a step in the workflow
-      - uses: chromaui/action@v1
+      - name: Run Chromatic
+        uses: chromaui/action@v1
         # Options required for Chromatic's GitHub Action
         with:
           #👇 Chromatic projectToken
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          working-directory: packages/go-ui-storybook
+          workingDir: packages/go-ui-storybook
