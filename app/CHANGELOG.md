@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.3.11
+
+### Patch Changes
+
+- Fix funding requirements in previous events page
+
 ## 7.3.10
 
 ### Patch Changes
