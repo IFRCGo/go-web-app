@@ -1,6 +1,5 @@
-import '@ifrc-go/ui/index.css';
 import type { Preview } from "@storybook/react";
-
+import '@ifrc-go/ui/index.css';
 import '../src/stories/index.css';
 
 const preview: Preview = {
