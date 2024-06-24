@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- Fix funding requirements in previous events page
+- d9491a2: Fix appeals statistics calculation
 
 ## 7.3.10
 
