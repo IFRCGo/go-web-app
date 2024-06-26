@@ -2,7 +2,6 @@ import {
     ListKey,
     RawListProps,
 } from '@ifrc-go/ui';
-import { useArgs } from '@storybook/preview-api';
 import type {
     Meta,
     StoryObj,
@@ -16,29 +15,30 @@ type Story = StoryObj<RawListSpecificProps>;
 
 interface Option {
     id: string;
-    key: string;
+    label: string;
 }
 
 const options: Option[] = [
-    { id: '1', key: 'Nepal' },
-    { id: '4', key: 'France' },
-    { id: '2', key: 'India' },
-    { id: '5', key: 'Spain' },
+    { id: '1', label: 'Nepal' },
+    { id: '4', label: 'France' },
+    { id: '2', label: 'India' },
+    { id: '5', label: 'Spain' },
 ];
 
 type RendererProps = {
-    children: React.ReactNode
+    label: React.ReactNode
 };
-function Option({ children }: RendererProps) {
+
+function Option({ label }: RendererProps) {
     return (
         <div>
-            { children }
+            { label }
         </div>
     );
 }
 
-const keySelector = (d: Option) => d.key;
-const rendererParams = (_key: string, datum: Option) => ({ children: datum.key });
+const keySelector = (d: Option) => d.label;
+const rendererParams = (_: string, datum: Option) => ({ label: datum.label });
 
 const meta: Meta<typeof RawList> = {
     title: 'Components/RawList',
@@ -52,22 +52,6 @@ const meta: Meta<typeof RawList> = {
         },
     },
     tags: ['autodocs'],
-    decorators: [
-        function Component(_, ctx) {
-            const componentArgs = ctx.args as RawListSpecificProps;
-            const [args] = useArgs();
-            const { data } = args;
-            return (
-                <RawList
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...componentArgs}
-                    data={data}
-                    keySelector={keySelector}
-
-                />
-            );
-        },
-    ],
 };
 
 export default meta;
@@ -75,16 +59,6 @@ export default meta;
 export const Default: Story = {
     args: {
         data: options,
-        keySelector,
-        renderer: Option,
-        rendererParams,
-
-    },
-};
-
-export const NoValue: Story = {
-    args: {
-        data: undefined,
         keySelector,
         renderer: Option,
         rendererParams,

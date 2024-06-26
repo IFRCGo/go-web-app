@@ -119,6 +119,12 @@ export const Default: Story = {
     },
 };
 
+export const WithPlaceholder: Story = {
+    render: Template,
+    args: {
+        placeholder: 'Select an appeal type',
+    },
+};
 export const Disabled: Story = {
     render: Template,
     args: {

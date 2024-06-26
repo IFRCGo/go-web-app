@@ -58,7 +58,6 @@ function Template(args:Args) {
 
     // NOTE: We are casting args as props because of discriminated union
     // used in RadionInputProps
-
     const handleChange = (val: string | undefined, name: string) => {
         setArgs({ value: val });
         // eslint-disable-next-line react/destructuring-assignment

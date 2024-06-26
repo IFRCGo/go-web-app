@@ -1,14 +1,12 @@
 import {
     StackedProgressBar as PureStackedProgressBar,
-    StackedProgressBarProps as PureStackedProgressBarProps,
+    StackedProgressBarProps,
 } from '@ifrc-go/ui';
 
-interface StackedProgressBarProps<N> extends PureStackedProgressBarProps<N> {}
-
-function ProgressBar<const N>(props: StackedProgressBarProps<N>) {
+function StackedProgressBar<const N>(props: StackedProgressBarProps<N>) {
     return (
         <PureStackedProgressBar {...props} />// eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default ProgressBar;
+export default StackedProgressBar;

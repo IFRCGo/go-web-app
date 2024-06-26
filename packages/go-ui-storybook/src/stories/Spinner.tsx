@@ -1,9 +1,7 @@
 import {
     Spinner as PureSpinner,
-    SpinnerProps as PureSpinnerProps,
+    SpinnerProps,
 } from '@ifrc-go/ui';
-
-interface SpinnerProps extends PureSpinnerProps {}
 
 function Spinner(props: SpinnerProps) {
     return (

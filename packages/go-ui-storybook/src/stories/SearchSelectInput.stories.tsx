@@ -1,4 +1,8 @@
 import {
+    useCallback,
+    useState,
+} from 'react';
+import {
     OptionKey,
     SearchSelectInputProps,
 } from '@ifrc-go/ui';
@@ -8,9 +12,10 @@ import type {
     Meta,
     StoryObj,
 } from '@storybook/react';
+import { fn } from '@storybook/test';
 import { isDefined } from '@togglecorp/fujs';
 
-import SearchSelectInput from './ SearchSelectInput';
+import SearchSelectInput from './SearchSelectInput';
 
 interface Option {
     key: string;
@@ -58,34 +63,43 @@ const meta: Meta<typeof SearchSelectInput> = {
             allowFullscreen: true,
         },
     },
+    args: {
+        onChange: fn(),
+    },
+    tags: ['autodocs'],
 };
 
 export default meta;
 
 function Template(args:Args) {
     const [
-        { value },
+        {
+            value,
+            onChange,
+        },
         setArgs,
-    ] = useArgs<{ value: OptionKey | null | undefined}>();
+    ] = useArgs();
+    const [filteredOptions, setFilteredOptions] = useState(options);
 
-    // NOTE: We are casting args as props because of discriminated union
-    // used in SearchSelectInputProps
-
-    const onChange = (
+    const handleChange = useCallback((
         newValue: OptionKey | undefined,
         name: string,
         val: Option | undefined,
     ) => {
+        onChange(newValue, name, val);
         setArgs({ value: newValue });
-        // eslint-disable-next-line react/destructuring-assignment
-        if (args.nonClearable && isDefined(newValue) && isDefined(val)) {
-            // eslint-disable-next-line react/destructuring-assignment
-            args.onChange(newValue, name, val);
-        } else if (isDefined(newValue) && isDefined(val)) {
-            // eslint-disable-next-line react/destructuring-assignment
-            args.onChange(newValue, name, val);
+    }, [onChange, setArgs]);
+
+    const handleSearchValueChange = useCallback((searchText: string | undefined) => {
+        if (isDefined(searchText)) {
+            const newOptions = options.filter(
+                (v) => v.label.toLowerCase().includes(searchText.toLowerCase()),
+            );
+            setFilteredOptions(newOptions);
+        } else {
+            setFilteredOptions(options);
         }
-    };
+    }, []);
 
     return (
         <SearchSelectInput
@@ -93,14 +107,17 @@ function Template(args:Args) {
             {...args}
             keySelector={keySelector}
             labelSelector={labelSelector}
-            onChange={onChange}
+            onChange={handleChange}
             value={value}
-            name="SearchSelectInput"
+            name="searchselectinput"
             options={options}
+            onSearchValueChange={handleSearchValueChange}
+            searchOptions={filteredOptions}
             selectedOnTop
         />
     );
 }
+
 export const Default: Story = {
     render: Template,
 };
@@ -108,25 +125,22 @@ export const Default: Story = {
 export const WithPlaceholder: Story = {
     render: Template,
     args: {
-        placeholder: 'Search',
+        placeholder: 'Select a fruit',
     },
 };
+
 export const Disabled: Story = {
     render: Template,
     args: {
+        value: 1,
         disabled: true,
     },
 };
 
-export const Error: Story = {
-    render: Template,
-    args: {
-        error: 'This is required ',
-    },
-};
 export const ReadOnly: Story = {
     render: Template,
     args: {
+        value: 2,
         readOnly: true,
     },
 };

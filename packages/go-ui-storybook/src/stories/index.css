@@ -94,3 +94,7 @@
 .header-icon {
     font-size: var(--go-ui-font-size-4xl);
 }
+
+.spinner {
+    font-size: var(--go-ui-font-size-4xl);
+}

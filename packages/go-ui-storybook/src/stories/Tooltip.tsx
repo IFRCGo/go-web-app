@@ -1,9 +1,7 @@
 import {
     Tooltip as PureTooltip,
-    TooltipProps as PureTooltipProps,
+    TooltipProps,
 } from '@ifrc-go/ui';
-
-interface TooltipProps extends PureTooltipProps {}
 
 function Tooltip(props: TooltipProps) {
     return (

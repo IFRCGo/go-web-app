@@ -11,7 +11,7 @@ type RawFileInputSpecificProps = RawFileInputProps<string>;
 
 type Story = StoryObj<RawFileInputSpecificProps>;
 
-const meta: Meta<RawFileInputSpecificProps> = {
+const meta: Meta<typeof RawFileInput> = {
     title: 'Components/RawFileInput',
     component: RawFileInput,
     parameters: {
@@ -55,16 +55,6 @@ export const WithAccept: Story = {
     },
 };
 
-export const ReadOnly: Story = {
-    args: {
-        name: 'RawFileInput',
-        children: 'Export',
-        readOnly: true,
-        multiple: false,
-        onChange: fn(),
-    },
-};
-
 export const Disabled: Story = {
     args: {
         name: 'RawFileInput',
@@ -72,5 +62,15 @@ export const Disabled: Story = {
         multiple: false,
         onChange: fn(),
         disabled: true,
+    },
+};
+
+export const ReadOnly: Story = {
+    args: {
+        name: 'RawFileInput',
+        children: 'Export',
+        readOnly: true,
+        multiple: false,
+        onChange: fn(),
     },
 };
