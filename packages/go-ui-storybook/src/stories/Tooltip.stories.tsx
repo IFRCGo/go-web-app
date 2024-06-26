@@ -1,14 +1,13 @@
 import { TooltipProps } from '@ifrc-go/ui';
 import type {
+    Args,
     Meta,
     StoryObj,
 } from '@storybook/react';
 
 import Tooltip from './Tooltip';
 
-type TooltipSpecificProps = TooltipProps;
-
-type Story = StoryObj<TooltipSpecificProps>;
+type Story = StoryObj<TooltipProps>;
 
 const meta: Meta<typeof Tooltip> = {
     title: 'Components/Tooltip',
@@ -25,16 +24,22 @@ const meta: Meta<typeof Tooltip> = {
 
 export default meta;
 
+function Template(args:Args) {
+    return (
+        <div>
+            <div>Help</div>
+            <Tooltip
+                {...args} // eslint-disable-line react/jsx-props-no-spreading
+            />
+        </div>
+    );
+}
 // eslint-disable-next-line react/function-component-definition
-export const Default: Story = () => (
-    <div>
-        <h2>Download</h2>
-        <Tooltip
-            title="Download"
-            preferredWidth={10}
-        />
-    </div>
-);
-Default.args = {
-    title: 'Download',
-};
+export const Default: Story = {
+    render: Template,
+    args: {
+        title: "Need help?",
+        description: "Click here to access our help documentation and support resources.",
+        preferredWidth: 20,
+    }
+}

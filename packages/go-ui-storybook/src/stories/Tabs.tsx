@@ -1,9 +1,7 @@
 import {
     Tabs as PureTabs,
-    TabsProps as PureTabsProps,
+    TabsProps,
 } from '@ifrc-go/ui';
-
-interface TabsProps<T extends string | number> extends PureTabsProps<T> {}
 
 function Tabs<T extends string | number>(props: TabsProps<T>) {
     return (

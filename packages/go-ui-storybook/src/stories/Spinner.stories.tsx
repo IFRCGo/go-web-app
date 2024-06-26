@@ -21,24 +21,12 @@ const meta: Meta<typeof Spinner> = {
         },
     },
     tags: ['autodocs'],
-    decorators: [
-        function Component(_, ctx) {
-            const componentArgs = ctx.args as SpinnerSpecificProps;
-            return (
-                <Spinner
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...componentArgs}
-
-                />
-            );
-        },
-    ],
 };
 
 export default meta;
 
 export const Default: Story = {
     args: {
-        className: 'Spinner',
+        className: 'spinner',
     },
 };

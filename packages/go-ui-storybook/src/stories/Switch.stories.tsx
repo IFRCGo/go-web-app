@@ -9,9 +9,9 @@ import { fn } from '@storybook/test';
 
 import Switch from './Switch';
 
-type SwitchSpecificProps = SwitchProps<boolean>;
+type SwitchSpecificProps = SwitchProps<string>;
 
-type Story = StoryObj< SwitchSpecificProps>;
+type Story = StoryObj<SwitchSpecificProps>;
 
 const meta: Meta<typeof Switch> = {
     title: 'Components/ Switch',
@@ -30,6 +30,7 @@ const meta: Meta<typeof Switch> = {
 };
 
 export default meta;
+
 function Template(args:Args) {
     const [
         { value },
@@ -47,6 +48,7 @@ function Template(args:Args) {
             {...args}
             value={value}
             onChange={onChange}
+            name="switch-input"
         />
     );
 }

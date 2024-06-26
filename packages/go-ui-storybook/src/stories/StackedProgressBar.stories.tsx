@@ -6,7 +6,36 @@ import type {
 
 import StackedProgressBar from './StackedProgressBar';
 
-type StackedProgressBarSpecificProps = StackedProgressBarProps<number>;
+interface Category {
+    value: number;
+    color: string;
+    label: string;
+}
+
+const data:Category[] = [
+    {
+        label: 'Category A',
+        value: 15,
+        color: '#ff3333',
+    },
+    {
+        label: 'Category B',
+        value: 20,
+        color: '#ff6666',
+    },
+    {
+        label: 'Category C',
+        value: 25,
+        color: '#ff9999',
+    },
+    {
+        label: 'Category D',
+        value: 30,
+        color: '#ffcccc',
+    }
+];
+
+type StackedProgressBarSpecificProps = StackedProgressBarProps<Category>;
 
 type Story = StoryObj<StackedProgressBarSpecificProps>;
 
@@ -21,28 +50,17 @@ const meta: Meta<typeof StackedProgressBar> = {
         },
     },
     tags: ['autodocs'],
-    decorators: [
-        function Component(_, ctx) {
-            const componentArgs = ctx.args as StackedProgressBarSpecificProps;
-            return (
-                <StackedProgressBar
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...componentArgs}
-                />
-            );
-        },
-    ],
 };
 
 export default meta;
 
-const valueSelector = (value: number) => value;
-const labelSelector = (value: number) => `Label ${value}`;
-const colorSelector = () => 'red';
+const valueSelector = (datum: Category) => datum.value;
+const labelSelector = (datum: Category) => datum.label;
+const colorSelector = (datum: Category) => datum.color;
 
 export const Default: Story = {
     args: {
-        data: [10, 20, 40],
+        data: data,
         valueSelector,
         labelSelector,
         colorSelector,

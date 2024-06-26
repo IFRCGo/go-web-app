@@ -1,9 +1,7 @@
 import {
     TextInput as PureTextInput,
-    TextInputProps as PureTextInputProps,
+    TextInputProps,
 } from '@ifrc-go/ui';
-
-interface TextInputProps<T> extends PureTextInputProps<T> {}
 
 function TextInput<const T>(props: TextInputProps<T>) {
     return (

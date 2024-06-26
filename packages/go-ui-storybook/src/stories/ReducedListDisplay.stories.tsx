@@ -19,7 +19,7 @@ const options: Option[] = [
 ];
 
 type RendererProps = {
-    children: React.ReactNode
+    value: React.ReactNode
 };
 
 type ReducedListDisplaySpecificProps = ReducedListDisplayProps<Option, RendererProps>;
@@ -41,21 +41,21 @@ const meta: Meta<typeof ReducedListDisplay> = {
 
 export default meta;
 
-function Option({ children }: RendererProps) {
+function Option({ value }: RendererProps) {
     return (
         <div>
-            { children }
+            { value }
         </div>
     );
 }
 
 const keySelector = (d: Option) => d.label;
 
-const rendererParams = (option: Option) => ({ children: option.label });
+const rendererParams = (option: Option) => ({ value: option.label });
 
 export const Default: Story = {
     args: {
-        title: 'Test',
+        title: 'Colors',
         list: options,
         keySelector,
         renderer: Option,
@@ -64,26 +64,16 @@ export const Default: Story = {
     },
 };
 
-export const MaxItems: Story = {
+export const WithMaxItems: Story = {
     args: {
-        title: 'Test',
-        list: options,
-        keySelector,
-        renderer: Option,
-        rendererParams,
-        maxItems: 2,
-        separator: ' ',
+        ...Default.args,
+        maxItems: 3,
     },
 };
 
-export const MinItems: Story = {
+export const WithMinItems: Story = {
     args: {
-        title: 'Test',
-        list: options,
-        keySelector,
-        renderer: Option,
-        rendererParams,
-        minItems: 1,
-        separator: ' ',
+        ...Default.args,
+        minItems: 3,
     },
 };

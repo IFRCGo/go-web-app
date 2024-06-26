@@ -1,8 +1,7 @@
-import { ComponentProps } from 'react';
-import { TimeSeriesChart as PureTimeSeriesChart } from '@ifrc-go/ui';
-
-// FIXME: let's export TimeSeriesChartProps from @ifrc-go/ui
-type TimeSeriesChartProps<K extends string> = ComponentProps<typeof PureTimeSeriesChart<K>>
+import {
+    TimeSeriesChart as PureTimeSeriesChart,
+    TimeSeriesChartProps,
+} from '@ifrc-go/ui';
 
 function TimeSeriesChart<const K extends string>(props: TimeSeriesChartProps<K>) {
     return (

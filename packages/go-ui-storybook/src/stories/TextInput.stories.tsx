@@ -1,9 +1,12 @@
 import { TargetedPopulationIcon } from '@ifrc-go/icons';
 import { TextInputProps } from '@ifrc-go/ui';
+import { useArgs } from '@storybook/preview-api';
 import type {
+    Args,
     Meta,
     StoryObj,
 } from '@storybook/react';
+import { fn } from '@storybook/test';
 
 import TextInput from './TextInput';
 
@@ -21,30 +24,56 @@ const meta: Meta<typeof TextInput> = {
             url: 'https://www.figma.com/file/k9SOqgh5jk9PxzuBKdMKsA/IFRC-GO---UI-Library?node-id=11261-189019&t=rxFDpy4yPC2JaFiF-4',
         },
     },
+    args: {
+        onChange: fn(),
+    },
     tags: ['autodocs'],
 };
 
 export default meta;
 
+function Template(args:Args) {
+    const [
+        { value },
+        setArgs,
+    ] = useArgs();
+
+    const onChange = (val:string | undefined, name: string) => {
+        setArgs({ value: val });
+        // eslint-disable-next-line react/destructuring-assignment
+        args.onChange(val, name);
+    };
+
+    return (
+        <TextInput
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...args}
+            name="textinput"
+            onChange={onChange}
+            value={value}
+        />
+    );
+}
+
 export const Default: Story = {
+    render: Template,
     args: {
-        label: 'Total affected population',
-
-    },
-};
-export const WithIcon: Story = {
-    args: {
-        label: 'Total affected population',
-        value: 'affected population',
-        icons: <TargetedPopulationIcon />,
-
+        label: 'Email Address',
     },
 };
 
+export const Disabled: Story = {
+    args: {
+        ...Default.args,
+        value: 'ifrcgo@ifrc.org',
+        disabled: true,
+
+    },
+};
 export const ReadOnly: Story = {
     args: {
-        label: 'Total affected population',
-        value: 'affected population',
+        ...Default.args,
+        value: 'ifrcgo@ifrc.org',
         readOnly: true,
 
     },
@@ -52,41 +81,23 @@ export const ReadOnly: Story = {
 
 export const WithHint: Story = {
     args: {
-        label: 'Total affected population',
-        value: 'affected population',
-        hint: 'People Affected include all those whose lives and livelihoods have been impacted as a direct result of the shock or stress.',
+        ...Default.args,
+        hint: 'Enter your email address.',
 
     },
 };
 
 export const WithAsterisk: Story = {
     args: {
-        label: 'Total affected population',
-        value: 'affected population',
+        ...Default.args,
         withAsterisk: true,
 
-    },
-};
-export const WithError: Story = {
-    args: {
-        label: 'Total affected population',
-        value: 'affected population',
-        error: 'Invalid input. Please enter a number.',
-    },
-};
-
-export const ErrorOnTooltip: Story = {
-    args: {
-        label: 'Total affected population',
-        value: 'affected population',
-        errorOnTooltip: true,
     },
 };
 
 export const Variant: Story = {
     args: {
-        label: 'Total affected population',
-        value: 'affected population',
+        ...Default.args,
         variant: 'general',
     },
 };

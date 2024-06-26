@@ -43,7 +43,7 @@ function Template(args:Args) {
         <TextArea
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...args}
-            name="Text"
+            name="text"
             value={value}
             onChange={onChange}
         />
@@ -54,50 +54,34 @@ export const Default: Story = {
     render: Template,
     args: {
         label: 'Feedback',
-        value: 'Please enter your feedback here...',
-    },
-};
-export const Disabled: Story = {
-    args: {
-        label: 'Feedback',
-        value: 'Please enter your feedback here...',
-        disabled: true,
-    },
-};
-export const Error: Story = {
-    args: {
-        label: 'Feedback',
-        value: 'Please enter your feedback here...',
-        error: 'Feedback is required.',
-    },
-};
-export const Hint: Story = {
-    args: {
-        label: 'Feedback',
-        value: 'Please enter your feedback here...',
-        hint: 'Your feedback helps us improve our product.',
-    },
-};
-export const ReadOnly: Story = {
-    args: {
-        label: 'Feedback',
-        value: 'Please enter your feedback here...',
-        readOnly: true,
-    },
-};
-export const WithAsterisk: Story = {
-    args: {
-        label: 'Feedback',
-        value: 'Please enter your feedback here...',
-        withAsterisk: true,
+        value: 'I appreciate the quick response from your support team!',
     },
 };
 
-export const ErrorOnTooltip: Story = {
+export const Disabled: Story = {
+    args: {
+        ...Default.args,
+        disabled: true,
+    },
+};
+
+export const ReadOnly: Story = {
+    args: {
+        ...Default.args,
+        readOnly: true,
+    },
+};
+
+export const Hint: Story = {
     args: {
         label: 'Feedback',
-        value: 'Please enter your feedback here...',
-        error: 'Feedback is required.',
-        errorOnTooltip: true,
+        hint: 'We value your input! Please share your feedback.',
+    },
+};
+
+export const WithAsterisk: Story = {
+    args: {
+        label: 'Feedback',
+        withAsterisk: true,
     },
 };

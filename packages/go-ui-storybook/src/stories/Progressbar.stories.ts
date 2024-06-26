@@ -18,7 +18,6 @@ const meta = {
         },
     },
     tags: ['autodocs'],
-    argTypes: {},
 } satisfies Meta<typeof ProgressBar>;
 
 export default meta;
