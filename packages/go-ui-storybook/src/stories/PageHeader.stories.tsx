@@ -1,4 +1,3 @@
-import { WikiHelpSectionLineIcon } from '@ifrc-go/icons';
 import {
     PageHeaderProps,
     Tab,
@@ -26,18 +25,6 @@ const meta: Meta<typeof PageHeader> = {
         },
     },
     tags: ['autodocs'],
-    decorators: [
-        function Component(_, ctx) {
-            const componentArgs = ctx.args as PageHeaderSpecificProps;
-            return (
-                <PageHeader
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...componentArgs}
-
-                />
-            );
-        },
-    ],
 };
 
 export default meta;
@@ -55,13 +42,6 @@ export const WithDescription: Story = {
     },
 };
 
-export const WithWikiLink: Story = {
-    args: {
-        heading: 'IFRC Disaster Response and Preparedness',
-        description: 'IFRC GO aims to make all disaster information universally accessible and useful to IFRC responders for better decision making.',
-        wikiLink: <WikiHelpSectionLineIcon />,
-    },
-};
 export const WithAction: Story = {
     args: {
         heading: 'IFRC Disaster Response and Preparedness',

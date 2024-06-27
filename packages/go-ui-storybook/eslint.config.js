@@ -21,8 +21,6 @@ const appConfigs = compat.config({
         'airbnb/hooks',
         'plugin:@typescript-eslint/recommended',
         'plugin:react-hooks/recommended',
-        'plugin:import/recommended',
-        'plugin:storybook/recommended',
     ],
     parser: '@typescript-eslint/parser',
     parserOptions: {
@@ -41,7 +39,9 @@ const appConfigs = compat.config({
         },
         'import/resolver': {
             typescript: {
-                project: './tsconfig.json'
+                project: [
+                    './tsconfig.json',
+                ],
             },
         },
     },
@@ -90,7 +90,7 @@ const appConfigs = compat.config({
         'react/require-default-props': ['warn', { ignoreFunctionalComponents: true }],
         'simple-import-sort/imports': 'warn',
         'simple-import-sort/exports': 'warn',
-        'import-newlines/enforce': ['warn', 1],
+        'import-newlines/enforce': ['warn', 1]
     },
     overrides: [
         {

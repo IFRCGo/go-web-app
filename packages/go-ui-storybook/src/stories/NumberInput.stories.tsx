@@ -60,12 +60,6 @@ export const Hint: Story = {
     },
 };
 
-export const WithError: Story = {
-    args: {
-        ...Default.args,
-        error: 'There is an error with the input data.',
-    },
-};
 export const WithPlaceholder: Story = {
     args: {
         label: 'Year',

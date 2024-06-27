@@ -41,9 +41,9 @@ function Template(args:Args) {
 
     return (
         <TextArea
+            name="textarea"
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...args}
-            name="text"
             value={value}
             onChange={onChange}
         />

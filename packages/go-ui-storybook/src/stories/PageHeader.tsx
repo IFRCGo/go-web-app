@@ -1,9 +1,7 @@
 import {
     PageHeader as PurePageHeader,
-    PageHeaderProps as PurePageHeaderProps,
+    PageHeaderProps,
 } from '@ifrc-go/ui';
-
-interface PageHeaderProps extends PurePageHeaderProps {}
 
 function PageHeader(props: PageHeaderProps) {
     return (

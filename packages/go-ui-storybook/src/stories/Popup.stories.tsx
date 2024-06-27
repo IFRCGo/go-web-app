@@ -30,10 +30,10 @@ export const Default: Story = () => {
 
     return (
         <div>
-            <div ref={containerRef}>Test</div>
+            <div ref={containerRef}>Popup</div>
             <Popup parentRef={containerRef}>
                 <div style={{ padding: '20px' }}>
-                    This is the popup content
+                    This is the popup message
                 </div>
             </Popup>
         </div>

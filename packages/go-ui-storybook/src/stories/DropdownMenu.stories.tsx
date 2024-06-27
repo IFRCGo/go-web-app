@@ -1,9 +1,10 @@
+import { DropdownMenuProps } from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,
 } from '@storybook/react';
 
-import DropdownMenu, { DropdownMenuProps } from './DropdownMenu';
+import DropdownMenu from './DropdownMenu';
 
 type Story = StoryObj<DropdownMenuProps>;
 

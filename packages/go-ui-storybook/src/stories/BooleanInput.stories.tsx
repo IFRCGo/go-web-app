@@ -1,4 +1,3 @@
-import { BooleanInput } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {
     Args,
@@ -6,6 +5,8 @@ import type {
     StoryObj,
 } from '@storybook/react';
 import { fn } from '@storybook/test';
+
+import BooleanInput from './BooleanInput';
 
 type Story = StoryObj<typeof BooleanInput>;
 
@@ -57,6 +58,9 @@ function Template(args: Args) {
 
 export const Default: Story = {
     render: Template,
+    args: {
+        name: 'booleanInput',
+    },
 };
 
 export const Disabled: Story = {

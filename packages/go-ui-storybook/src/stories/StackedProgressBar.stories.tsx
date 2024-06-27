@@ -32,7 +32,7 @@ const data:Category[] = [
         label: 'Category D',
         value: 30,
         color: '#ffcccc',
-    }
+    },
 ];
 
 type StackedProgressBarSpecificProps = StackedProgressBarProps<Category>;
@@ -60,7 +60,7 @@ const colorSelector = (datum: Category) => datum.color;
 
 export const Default: Story = {
     args: {
-        data: data,
+        data,
         valueSelector,
         labelSelector,
         colorSelector,

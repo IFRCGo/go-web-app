@@ -1,9 +1,7 @@
 import {
     IconButton as PureIconButton,
-    IconButtonProps as PureIconButtonProps,
+    IconButtonProps,
 } from '@ifrc-go/ui';
-
-interface IconButtonProps<N> extends PureIconButtonProps<N> {}
 
 function IconButton<const N>(props: IconButtonProps<N>) {
     return (

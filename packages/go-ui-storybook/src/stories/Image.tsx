@@ -1,9 +1,7 @@
 import {
     Image as PureImage,
-    ImageProps as PureImageProps,
+    ImageProps,
 } from '@ifrc-go/ui';
-
-interface ImageProps extends PureImageProps {}
 
 function Image(props: ImageProps) {
     return (

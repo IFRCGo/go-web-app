@@ -65,40 +65,7 @@ export const Default: Story = {
 
 export const WithPreferredColumns: Story = {
     args: {
-        className: 'grid-story',
-        data: options,
-        keySelector,
-        renderer: Option,
-        rendererParams,
+        ...Default.args,
         numPreferredColumns: 2,
-    },
-};
-
-export const Pending: Story = {
-    args: {
-        className: 'grid-story',
-        keySelector,
-        renderer: Option,
-        rendererParams,
-        pending: true,
-    },
-};
-
-export const Errored: Story = {
-    args: {
-        className: 'grid-story',
-        keySelector,
-        renderer: Option,
-        rendererParams,
-        errored: true,
-        errorMessage: 'Failed to fetch data!',
-    },
-};
-export const Filtered: Story = {
-    args: {
-        keySelector,
-        renderer: Option,
-        rendererParams,
-        filtered: true,
     },
 };

@@ -6,9 +6,7 @@ import type {
 
 import Image from './Image';
 
-type ImageSpecificProps = ImageProps;
-
-type Story = StoryObj<ImageSpecificProps>;
+type Story = StoryObj<ImageProps>;
 
 const meta: Meta<typeof Image> = {
     title: 'Components/Image',
@@ -21,23 +19,18 @@ const meta: Meta<typeof Image> = {
         },
     },
     tags: ['autodocs'],
-    decorators: [
-        function Component(_, ctx) {
-            const componentArgs = ctx.args as ImageSpecificProps;
-            return (
-                <Image
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...componentArgs}
-                />
-            );
-        },
-    ],
+    decorators: [(Story) => (
+        <div className="image-container">
+            <Story />
+        </div>
+    )],
 };
 
 export default meta;
 
 export const Default: Story = {
     args: {
+        className: 'image',
         src: 'https://images.unsplash.com/photo-1655815226495-68d7d78894c4?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         alt: 'Desert landscape with sand dunes',
     },
@@ -45,15 +38,14 @@ export const Default: Story = {
 
 export const WithCaption: Story = {
     args: {
-        src: 'https://images.unsplash.com/photo-1655815226495-68d7d78894c4?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        alt: 'Desert landscape with sand dunes',
+        ...Default.args,
         caption: "Golden waves of sand stretch endlessly under the scorching sun, painting a timeless portrait of nature's serene beauty.",
     },
 };
 
 export const WithCaptionHidden: Story = {
     args: {
-        src: 'https://images.unsplash.com/photo-1655815226495-68d7d78894c4?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        ...Default.args,
         alt: 'Desert landscape with sand dunes',
         caption: "Golden waves of sand stretch endlessly under the scorching sun, painting a timeless portrait of nature's serene beauty.",
         withCaptionHidden: true,

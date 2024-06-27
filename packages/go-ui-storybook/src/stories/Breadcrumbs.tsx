@@ -1,9 +1,7 @@
 import {
     Breadcrumbs as PureBreadcrumbs,
-    BreadcrumbsProps as PureBreadcrumbsProps,
+    BreadcrumbsProps,
 } from '@ifrc-go/ui';
-
-interface BreadcrumbsProps extends PureBreadcrumbsProps {}
 
 function Breadcrumbs(props: BreadcrumbsProps) {
     return (

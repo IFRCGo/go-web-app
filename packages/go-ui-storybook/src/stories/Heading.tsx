@@ -1,9 +1,7 @@
 import {
     Heading as PureHeading,
-    HeadingProps as PureHeadingProps,
+    HeadingProps,
 } from '@ifrc-go/ui';
-
-interface HeadingProps extends PureHeadingProps {}
 
 function Heading(props: HeadingProps) {
     return (

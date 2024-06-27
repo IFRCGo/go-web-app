@@ -28,3 +28,10 @@ export const Default: Story = {
         children: ['Home', 'Africa', 'Angola'],
     },
 };
+
+export const WithSlashSeparator: Story = {
+    args: {
+        ...Default.args,
+        separator: '/',
+    },
+};

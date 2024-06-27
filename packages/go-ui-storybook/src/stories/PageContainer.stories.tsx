@@ -1,18 +1,20 @@
-import { PageContainerProps } from '@ifrc-go/ui';
+import {
+    Footer,
+    Header,
+    PageContainerProps,
+} from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,
 } from '@storybook/react';
 
-import PageConatainer from './PageContainer';
+import PageContainer from './PageContainer';
 
-type PageConatainerSpecificProps = PageContainerProps;
+type Story = StoryObj<PageContainerProps>;
 
-type Story = StoryObj<PageConatainerSpecificProps>;
-
-const meta: Meta<typeof PageConatainer> = {
-    title: 'Components/PageConatainer',
-    component: PageConatainer,
+const meta: Meta<typeof PageContainer> = {
+    title: 'Components/PageContainer',
+    component: PageContainer,
     parameters: {
         layout: 'centered',
         design: {
@@ -27,39 +29,79 @@ export default meta;
 
 export const Default: Story = {
     args: {
-        children: 'IFRC-GO',
+        children: (
+            <div className="page-container">
+                <div className="page-container-header">
+                    Header
+                </div>
+                <div className="page-container-main">
+                    Main
+                </div>
+                <div className="page-container-footer">
+                    Footer
+                </div>
+            </div>
+        ),
         contentAs: 'div',
         containerAs: 'div',
     },
 };
 
-export const WithNav: Story = {
+export const WithNavigation: Story = {
     args: {
-        children: 'Home',
+        children: (
+            <nav className="footer-items">
+                <a href="/" className="footer-text">
+                    Home
+                </a>
+                <a href="/" className="footer-text">
+                    About
+                </a>
+                <a href="/" className="footer-text">
+                    Services
+                </a>
+                <a href="/" className="footer-text">
+                    Contact
+                </a>
+            </nav>
+        ),
         contentAs: 'nav',
-        containerAs: 'nav',
+        containerAs: 'div',
     },
 };
 
-export const Header: Story = {
+export const WithHeader: Story = {
     args: {
-        children: 'IFRC Go',
+        children: (
+            <Header
+                heading="Overview of the International Federation of Red Cross and Red Crescent Societies (IFRC)"
+            />
+        ),
         contentAs: 'header',
         containerAs: 'header',
     },
 };
 
-export const Main: Story = {
+export const WithFooter: Story = {
     args: {
-        children: 'IFRC GO aims to make all disaster information universally accessible and useful to IFRC responders for better decision making.',
-        contentAs: 'main',
-        containerAs: 'main',
-    },
-};
-
-export const Footer: Story = {
-    args: {
-        children: 'About us',
+        children: (
+            <Footer>
+                <div className="footer-items">
+                    <a href="/" className="footer-text">
+                        Home
+                    </a>
+                    <a href="/" className="footer-text">
+                        About
+                    </a>
+                    <a href="/" className="footer-text">
+                        Services
+                    </a>
+                    <a href="/" className="footer-text">
+                        Contact
+                    </a>
+                </div>
+            </Footer>
+        ),
         contentAs: 'footer',
         containerAs: 'footer',
     },

@@ -21,7 +21,7 @@ const meta = {
 } satisfies Meta<typeof BlockLoading>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof BlockLoading>;
 
 export const Default : Story = {
     args: {
@@ -31,14 +31,14 @@ export const Default : Story = {
 
 export const Compact : Story = {
     args: {
-        message: 'Loading...',
+        ...Default.args,
         compact: true,
     },
 };
 
 export const WithoutBorder : Story = {
     args: {
-        message: 'Loading...',
+        ...Default.args,
         withoutBorder: true,
     },
 };

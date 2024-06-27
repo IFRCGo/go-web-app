@@ -1,9 +1,7 @@
 import {
     LegendItem as PureLegendItem,
-    LegendItemProps as PureLegendItemProps,
+    LegendItemProps,
 } from '@ifrc-go/ui';
-
-interface LegendItemProps extends PureLegendItemProps {}
 
 function LegendItem(props: LegendItemProps) {
     return (

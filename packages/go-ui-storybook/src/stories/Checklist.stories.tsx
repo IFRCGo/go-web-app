@@ -86,7 +86,7 @@ export const Default: Story = {
     },
 };
 
-export const Novalue: Story = {
+export const NoValue: Story = {
     render: Template,
     args: {
         value: undefined,
@@ -104,12 +104,5 @@ export const Readonly: Story = {
     render: Template,
     args: {
         readOnly: true,
-    },
-};
-
-export const Error: Story = {
-    render: Template,
-    args: {
-        error: 'Please select at least one option.',
     },
 };

@@ -1,9 +1,7 @@
 import {
     InfoPopup as PureInfoPopup,
-    InfoPopupProps as PureInfoPopupProps,
+    InfoPopupProps,
 } from '@ifrc-go/ui';
-
-type InfoPopupProps = PureInfoPopupProps
 
 function InfoPopup(props: InfoPopupProps) {
     return (

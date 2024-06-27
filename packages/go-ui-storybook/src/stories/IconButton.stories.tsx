@@ -1,7 +1,4 @@
-import {
-    AddFillIcon,
-    DownloadCloudLineIcon,
-} from '@ifrc-go/icons';
+import { AddFillIcon } from '@ifrc-go/icons';
 import { IconButtonProps } from '@ifrc-go/ui';
 import type {
     Meta,
@@ -28,38 +25,20 @@ const meta: Meta<typeof IconButton> = {
         onClick: fn(),
     },
     tags: ['autodocs'],
-    decorators: [
-        function Component(_, ctx) {
-            const componentArgs = ctx.args as IconButtonSpecificProps;
-            return (
-                <IconButton
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...componentArgs}
-                />
-            );
-        },
-    ],
 };
 
 export default meta;
 
 export const Default: Story = {
     args: {
-        name: 'Add',
+        title: 'Add Item',
         children: <AddFillIcon />,
         variant: 'primary',
     },
 };
-export const WithIcon: Story = {
-    args: {
-        name: 'Download',
-        children: <DownloadCloudLineIcon />,
-        variant: 'secondary',
-    },
-};
 export const Disabled: Story = {
     args: {
-        name: 'Download',
+        title: 'Download',
         children: <AddFillIcon />,
         variant: 'secondary',
         disabled: true,

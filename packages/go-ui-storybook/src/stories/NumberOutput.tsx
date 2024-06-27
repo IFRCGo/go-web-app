@@ -1,9 +1,7 @@
 import {
     NumberOutput as PureNumberOutput,
-    NumberOutputProps as PureNumberOutputProps,
+    NumberOutputProps,
 } from '@ifrc-go/ui';
-
-type NumberOutputProps = PureNumberOutputProps
 
 function NumberOutput(props: NumberOutputProps) {
     return (

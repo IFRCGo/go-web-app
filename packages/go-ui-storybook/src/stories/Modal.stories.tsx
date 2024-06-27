@@ -78,8 +78,20 @@ function Template(args:Args) {
 export const Default: Story = {
     render: Template,
     args: {
-        heading: 'Modal',
-        children: 'A modal is a user interface element that appears on top of the main content, creating a focused interaction by overlaying the rest of the page.It is typically used to capture user attention for a specific task, such as filling out a form, confirming an action, or displaying critical information.By temporarily blocking interaction with the rest of the application, modals ensure that users complete the necessary action before returning to the main content.Modals enhance user experience by providing a streamlined way to handle interactions that require immediate attention or additional input.',
+        heading: 'Quotes',
+        children: (
+            <div>
+                <div>
+                    But why should we have to be useful and for what reason?
+                    Who divided the world into useless and useful, and by what right?
+                </div>
+                <div>
+                    Everyone knows the profit to be reaped from the useful,
+                    but nobody knows the benefit to be gained from the useless.
+                </div>
+                <div>- Olga Tokarczuk</div>
+            </div>
+        ),
         footerActions: (
             <>
                 <Button

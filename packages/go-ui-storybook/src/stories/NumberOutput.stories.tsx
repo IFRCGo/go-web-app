@@ -33,8 +33,8 @@ export const Default: Story = {
 
 export const WithToolTip: Story = {
     args: {
-        value: 12333,
-        tooltip: 'This is a NumberOutput',
+        value: 186282,
+        tooltip: 'The speed of light',
     },
 };
 

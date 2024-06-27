@@ -1,11 +1,9 @@
 import {
     Footer as PureFooter,
-    FooterProps as PureFooterProps,
+    FooterProps,
 } from '@ifrc-go/ui';
 
-interface FooterProps extends PureFooterProps {}
-
-function Footer(props:FooterProps) {
+function Footer(props: FooterProps) {
     return (
         <PureFooter {...props} /> // eslint-disable-line react/jsx-props-no-spreading
     );
