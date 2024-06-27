@@ -1,3 +1,9 @@
+import {
+    SocialFacebookIcon,
+    SocialInstagramIcon,
+    SocialTwitterIcon,
+    SocialYoutubeIcon,
+} from '@ifrc-go/icons';
 import { FooterProps } from '@ifrc-go/ui';
 import type {
     Meta,
@@ -6,9 +12,7 @@ import type {
 
 import Footer from './Footer';
 
-type FooterSpecificProps = FooterProps;
-
-type Story = StoryObj< FooterSpecificProps>;
+type Story = StoryObj<FooterProps>;
 
 const meta: Meta<typeof Footer> = {
     title: 'Components/ Footer',
@@ -22,24 +26,56 @@ const meta: Meta<typeof Footer> = {
     },
     tags: ['autodocs'],
 };
+
 export default meta;
+
+function FooterActions() {
+    return (
+        <div>
+            <div className="footer-items">
+                <a href="https://www.facebook.com/" aria-label="facebook" className="footer-link">
+                    <SocialFacebookIcon />
+                </a>
+                <a href="https://twitter.com/" aria-label="twitter" className="footer-link">
+                    <SocialTwitterIcon />
+                </a>
+                <a href="https://www.instagram.com/" aria-label="instagram" className="footer-link">
+                    <SocialInstagramIcon />
+                </a>
+                <a href="https://www.youtube.com/" aria-label="youtube" className="footer-link">
+                    <SocialYoutubeIcon />
+                </a>
+            </div>
+        </div>
+    );
+}
+
+function FooterIcons() {
+    return (
+        <div>
+            <div className="footer-items">
+                <a href="/" className="footer-text">
+                    Home
+                </a>
+                <a href="/" className="footer-text">
+                    About
+                </a>
+                <a href="/" className="footer-text">
+                    Services
+                </a>
+                <a href="/" className="footer-text">
+                    Contact
+                </a>
+            </div>
+        </div>
+    );
+}
 
 export const Default: Story = {
     args: {
-        children: 'Footer',
-    },
-};
-
-export const WithNoChildren: Story = {
-    args: {
-        className: 'custom-footer',
-    },
-};
-
-export const WithSpacing: Story = {
-    args: {
-        children: 'Footer',
-        spacing: 'comfortable',
-
+        className: 'footer',
+        children: 'IFRC GO Component Library',
+        icons: <FooterIcons />,
+        actions: <FooterActions />,
     },
 };

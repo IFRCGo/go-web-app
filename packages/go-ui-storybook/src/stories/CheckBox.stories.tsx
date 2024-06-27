@@ -4,6 +4,7 @@ import {
 } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {
+    Args,
     Meta,
     StoryObj,
 } from '@storybook/react';
@@ -30,64 +31,61 @@ const meta: Meta<typeof CheckBox> = {
         onChange: fn(),
     },
     tags: ['autodocs'],
-    decorators: [
-        function Component(_, ctx) {
-            const [
-                { value },
-                setArgs,
-            ] = useArgs<{ value: boolean | null | undefined }>();
-            const onChange = (val: boolean, name: string) => {
-                setArgs({ value: val });
-                ctx.args.onChange(val, name);
-            };
-
-            return (
-                <Checkbox
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...ctx.args}
-                    onChange={onChange}
-                    value={value}
-                    name="checkbox"
-                />
-            );
-        },
-    ],
 };
 
 export default meta;
 
+function Template(args: Args) {
+    const [
+        { value },
+        setArgs,
+    ] = useArgs();
+    const onChange = (val: boolean, name: string) => {
+        setArgs({ value: val });
+        // eslint-disable-next-line react/destructuring-assignment
+        args.onChange(val, name);
+    };
+
+    return (
+        <Checkbox
+            name="checkbox"
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...args}
+            onChange={onChange}
+            value={value}
+        />
+    );
+}
 export const Default: Story = {
+    render: Template,
     args: {
-        label: 'Ready!',
+        label: ' I agree to the terms and conditions',
         name: 'Checkbox',
     },
 };
 
 export const Checked: Story = {
     args: {
-        label: 'Ready',
-        name: 'checkbox',
+        ...Default.args,
         value: true,
     },
 };
 export const Unchecked: Story = {
     args: {
-        label: 'Ready',
-        name: 'checkbox',
+        ...Default.args,
         value: false,
     },
 };
 export const Disabled: Story = {
     args: {
-        label: 'Can\'t check it',
-        name: 'checkbox',
+        ...Default.args,
         value: true,
         disabled: true,
     },
 };
 export const Indeterminate: Story = {
     args: {
-        label: 'Get set!',
+        ...Default.args,
         value: false,
         indeterminate: true,
     },
@@ -95,7 +93,7 @@ export const Indeterminate: Story = {
 
 export const Readonly: Story = {
     args: {
-        label: 'GO! GO! ',
+        ...Default.args,
         value: false,
         readOnly: true,
     },

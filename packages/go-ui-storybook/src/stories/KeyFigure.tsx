@@ -1,8 +1,7 @@
-import { ComponentProps } from 'react';
-import { KeyFigure as PureKeyFigure } from '@ifrc-go/ui';
-
-// FIXME: let's export TimeSeriesChartProps from @ifrc-go/ui
-type KeyFigureProps = ComponentProps<typeof PureKeyFigure>
+import {
+    KeyFigure as PureKeyFigure,
+    KeyFigureProps,
+} from '@ifrc-go/ui';
 
 function KeyFigure(props: KeyFigureProps) {
     return (

@@ -38,8 +38,8 @@ function Template(args:Args) {
 export const Default: Story = {
     render: Template,
     args: {
-        title: "Need help?",
-        description: "Click here to access our help documentation and support resources.",
+        title: 'Need help?',
+        description: 'Click here to access our help documentation and support resources.',
         preferredWidth: 20,
-    }
-}
+    },
+};

@@ -6,9 +6,7 @@ import type {
 
 import InfoPopup from './InfoPopup';
 
-type InfoPopupSpecificProps = InfoPopupProps;
-
-type Story = StoryObj<InfoPopupSpecificProps>;
+type Story = StoryObj<InfoPopupProps>;
 
 const meta: Meta<typeof InfoPopup> = {
     title: 'Components/InfoPopup',
@@ -27,19 +25,14 @@ export default meta;
 
 export const Default: Story = {
     args: {
-        title: 'Test',
+        title: 'Important Update',
+        description: 'Stay informed with the latest updates and announcements. Please read through the details and take necessary actions. Thank you!',
     },
 };
-export const WithDescription: Story = {
-    args: {
-        title: 'Test',
-        description: 'All the Test are Listed below',
-    },
-};
+
 export const Infolabel: Story = {
     args: {
-        title: 'Test',
-        description: 'All the Test are Listed below',
-        infoLabel: 'DREF',
+        ...Default.args,
+        infoLabel: 'Notice',
     },
 };

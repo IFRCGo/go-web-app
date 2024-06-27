@@ -26,6 +26,7 @@ export { default as Portal } from './components/Portal';
 export { default as Overlay } from './components/Overlay';
 export type { Props as BodyOverlayProps } from './components/BodyOverlay';
 export { default as BodyOverlay } from './components/BodyOverlay';
+export type { Props as PopupProps } from './components/Popup';
 export { default as Popup } from './components/Popup';
 
 export type { BooleanInputProps } from './components/BooleanInput';
@@ -108,6 +109,7 @@ export { default as PieChart } from './components/PieChart';
 export type { Props as PortalProps } from './components/Portal';
 export type { Props as InputErrorProps } from './components/InputError';
 export { default as InputError } from './components/InputError';
+export type { Props as InfoPopupProps } from './components/InfoPopup';
 export { default as InfoPopup } from './components/InfoPopup';
 export type { Props as ProgressBarProps } from './components/ProgressBar';
 export { default as ProgressBar } from './components/ProgressBar';

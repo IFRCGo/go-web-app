@@ -25,25 +25,11 @@ export default meta;
 
 export const Default: Story = {
     args: {
-        title: 'IFRC supported Operation',
+        title: 'Server Maintenance',
+        description: 'The server will be down for maintenance tonight from 10 PM to 2 AM. Please save your work.',
     },
 };
 
-export const WithDescription: Story = {
-    args: {
-        ...Default.args,
-        description: 'If operation does not appear in the dropdown, the operation does not yet exist in GO. In that case, please submit a new Field Report to generate the operation, then come back to this form',
-    },
-};
-
-export const Info :Story = {
-    args: {
-        ...Default.args,
-        description: 'If operation does not appear in the dropdown, the operation does not yet exist in GO. In that case, please submit a new Field Report to generate the operation, then come back to this form',
-        variant: 'info',
-
-    },
-};
 export const Pending :Story = {
     args: {
         title: 'Fetching data...',

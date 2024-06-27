@@ -1,9 +1,7 @@
 import {
     PageContainer as PurePageContainer,
-    PageContainerProps as PurePageContainerProps,
+    PageContainerProps,
 } from '@ifrc-go/ui';
-
-interface PageContainerProps extends PurePageContainerProps {}
 
 function PageContainer(props: PageContainerProps) {
     return (

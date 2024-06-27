@@ -6,9 +6,7 @@ import type {
 
 import BooleanOutput from './BooleanOutput';
 
-type BooleanOutputSpecificProps = BooleanOutputProps;
-
-type Story = StoryObj<BooleanOutputSpecificProps>;
+type Story = StoryObj<BooleanOutputProps>;
 
 const meta: Meta<typeof BooleanOutput> = {
     title: 'Components/BooleanOutput',
@@ -21,39 +19,26 @@ const meta: Meta<typeof BooleanOutput> = {
         },
     },
     tags: ['autodocs'],
-    decorators: [
-        function Component(_, ctx) {
-            const componentArgs = ctx.args as BooleanOutputSpecificProps;
-            return (
-                <BooleanOutput
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...componentArgs}
-
-                />
-            );
-        },
-    ],
 };
 
 export default meta;
 
 export const Default: Story = {
     args: {
-        className: 'BooleanOutput',
         value: true,
     },
 };
 
 export const TrueValue : Story = {
     args: {
-        className: 'BooleanOutput',
+        ...Default.args,
         value: true,
     },
 };
 
 export const FalseValue :Story = {
     args: {
-        className: 'booleanOutput',
+        ...Default.args,
         value: false,
     },
 
@@ -61,7 +46,7 @@ export const FalseValue :Story = {
 
 export const InvalidText: Story = {
     args: {
-        className: 'BooleanOutput',
+        ...Default.args,
         invalidText: 'Invalid value',
     },
 };

@@ -1,11 +1,9 @@
 import {
     BlockLoading as PureBlockLoading,
-    BlockLoadingProps as PureBlockLoadingProps,
+    BlockLoadingProps,
 } from '@ifrc-go/ui';
 
-interface BlockloadingProps extends PureBlockLoadingProps {}
-
-function Blockloading(props: BlockloadingProps) {
+function Blockloading(props: BlockLoadingProps) {
     return (
         // eslint-disable-next-line react/jsx-props-no-spreading
         <PureBlockLoading {...props} />

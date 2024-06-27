@@ -1,4 +1,4 @@
-name: Chromatic
+name: 'Chromatic'
 
 on: workflow_call
 
@@ -13,7 +13,6 @@ permissions:
 jobs:
   ui:
     name: Build UI Library
-    needs: [changed-files]
     environment: 'test'
     runs-on: ubuntu-latest
     defaults:

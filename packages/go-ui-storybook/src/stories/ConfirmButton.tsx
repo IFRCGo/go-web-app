@@ -1,9 +1,7 @@
 import {
     ConfirmButton as PureConfirmButton,
-    ConfirmButtonProps as PureConfirmButtonProps,
+    ConfirmButtonProps,
 } from '@ifrc-go/ui';
-
-interface ConfirmButtonProps<N> extends PureConfirmButtonProps<N> {}
 
 function ConfirmButton<const N>(props: ConfirmButtonProps<N>) {
     return (

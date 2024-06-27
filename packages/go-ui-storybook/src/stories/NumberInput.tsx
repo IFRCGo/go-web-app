@@ -1,9 +1,7 @@
 import {
     NumberInput as PureNumberInput,
-    NumberInputProps as PureNumberInputProps,
+    NumberInputProps,
 } from '@ifrc-go/ui';
-
-interface NumberInputProps<T> extends PureNumberInputProps<T> {}
 
 function NumberInput<const T>(props: NumberInputProps<T>) {
     return (

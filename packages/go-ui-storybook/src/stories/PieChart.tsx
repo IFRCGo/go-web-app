@@ -1,9 +1,7 @@
 import {
     PieChart as PurePieChart,
-    PieChartProps as PurePieChartProps,
+    PieChartProps,
 } from '@ifrc-go/ui';
-
-interface PieChartProps<D> extends PurePieChartProps<D> {}
 
 function PieChart<const D>(props: PieChartProps<D>) {
     return (

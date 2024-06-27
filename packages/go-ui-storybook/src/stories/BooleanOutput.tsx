@@ -1,9 +1,7 @@
 import {
     BooleanOutput as PureBooleanOutput,
-    BooleanOutputProps as PureBooleanOutputProps,
+    BooleanOutputProps,
 } from '@ifrc-go/ui';
-
-interface BooleanOutputProps extends PureBooleanOutputProps{}
 
 function BooleanOutput(props: BooleanOutputProps) {
     return (

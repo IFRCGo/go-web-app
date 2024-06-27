@@ -1,3 +1,4 @@
+import { DateInputProps } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {
     Args,
@@ -6,7 +7,7 @@ import type {
 } from '@storybook/react';
 import { fn } from '@storybook/test';
 
-import DateInput, { DateInputProps } from './DateInput';
+import DateInput from './DateInput';
 
 type DateInputSpecificProps = DateInputProps<string>;
 

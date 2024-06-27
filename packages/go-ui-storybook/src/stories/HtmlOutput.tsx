@@ -1,9 +1,7 @@
 import {
     HtmlOutput as PureHtmlOutput,
-    HtmlOutputProps as PureHtmlOutputProps,
+    HtmlOutputProps,
 } from '@ifrc-go/ui';
-
-interface HtmlOutputProps extends PureHtmlOutputProps {}
 
 function HtmlOutput(props:HtmlOutputProps) {
     return (

@@ -27,42 +27,47 @@ export default meta;
 
 export const Default: Story = {
     args: {
-        children: [<div>Test</div>],
+        children: [
+            <div>Home</div>,
+            <div>About</div>,
+            <div>Services</div>,
+            <div>Contact</div>,
+        ],
         variant: 'primary',
     },
 };
 
 export const Primary: Story = {
     args: {
-        children: [<div>Test</div>],
+        ...Default.args,
         variant: 'primary',
     },
 };
 
 export const Secondary: Story = {
     args: {
-        children: [<div>Test</div>],
+        ...Default.args,
         variant: 'secondary',
     },
 };
 
 export const Tertiary: Story = {
     args: {
-        children: [<div>Test</div>],
+        ...Default.args,
         variant: 'tertiary',
     },
 };
 
 export const Step: Story = {
     args: {
-        children: [<div>Test</div>],
+        ...Default.args,
         variant: 'step',
     },
 };
 
 export const Vertical: Story = {
     args: {
-        children: [<div>Test</div>],
+        ...Default.args,
         variant: 'vertical',
     },
 };

@@ -1,9 +1,7 @@
 import {
     Popup as PurePopup,
-    PopupProps as PurePopupProps,
+    PopupProps,
 } from '@ifrc-go/ui';
-
-type PopupProps = PurePopupProps
 
 function Popup(props: PopupProps) {
     return (

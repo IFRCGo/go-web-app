@@ -1,4 +1,3 @@
-import { TargetedPopulationIcon } from '@ifrc-go/icons';
 import { TextInputProps } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {

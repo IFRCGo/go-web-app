@@ -30,7 +30,7 @@ export const Default: Story = {
     },
 };
 
-export const Color: Story = {
+export const WithDifferentColor: Story = {
     args: {
         label: 'Multiple types',
         color: 'orange',

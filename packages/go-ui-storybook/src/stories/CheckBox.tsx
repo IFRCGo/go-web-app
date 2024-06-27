@@ -1,9 +1,7 @@
 import {
     Checkbox as PureCheckbox,
-    CheckboxProps as PureCheckboxProps,
+    CheckboxProps,
 } from '@ifrc-go/ui';
-
-interface CheckboxProps<N> extends PureCheckboxProps<N> {}
 
 function CheckBox<const N>(props: CheckboxProps<N>) {
     return (

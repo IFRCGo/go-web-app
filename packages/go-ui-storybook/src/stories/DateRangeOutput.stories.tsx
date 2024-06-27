@@ -6,9 +6,7 @@ import type {
 
 import DateRangeOutput from './DateRangeOutput';
 
-type DateRangeOutputSpecificProps = DateRangeOutputProps;
-
-type Story = StoryObj<DateRangeOutputSpecificProps>;
+type Story = StoryObj<DateRangeOutputProps>;
 
 const meta: Meta<typeof DateRangeOutput> = {
     title: 'Components/DateRangeOutput',
