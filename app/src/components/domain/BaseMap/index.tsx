@@ -1,4 +1,8 @@
-import { useMemo } from 'react';
+import {
+    useContext,
+    useMemo,
+} from 'react';
+import { LanguageContext } from '@ifrc-go/ui/contexts';
 import {
     isDefined,
     isFalsyString,
@@ -12,7 +16,6 @@ import { type SymbolLayer } from 'mapbox-gl';
 
 import useCountry from '#hooks/domain/useCountry';
 import {
-    adminLabelLayerOptions,
     defaultMapOptions,
     defaultMapStyle,
     defaultNavControlOptions,
@@ -96,6 +99,34 @@ function BaseMap(props: Props) {
                 }).filter(isDefined) ?? [],
         }),
         [countries],
+    );
+
+    const {
+        currentLanguage,
+    } = useContext(LanguageContext);
+
+    const adminLabelLayerOptions : Omit<SymbolLayer, 'id'> = useMemo(
+        () => {
+            // ar, es, fr
+            let label: string;
+            if (currentLanguage === 'es') {
+                label = 'name_es';
+            } else if (currentLanguage === 'ar') {
+                label = 'name_ar';
+            } else if (currentLanguage === 'fr') {
+                label = 'name_fr';
+            } else {
+                label = 'name';
+            }
+
+            return {
+                type: 'symbol',
+                layout: {
+                    'text-field': ['get', label],
+                },
+            };
+        },
+        [currentLanguage],
     );
 
     return (
