@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.3.12
+
+### Patch Changes
+
+- ba6734e: Show admin labels in maps in different languages, potentially fixing [##1036](https://github.com/IFRCGo/go-web-app/issues/1036)
+
 ## 7.3.11
 
 ### Patch Changes
