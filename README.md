@@ -61,7 +61,7 @@ Have a look through existing [Issues](https://github.com/IFRCGo/go-web-app/issue
 
 The repository hosts multiple packages under `packages` directory.
  1. [IFRC GO UI](https://github.com/IFRCGo/go-web-app/tree/develop/packages/ui) is a React UI components library tailored to meet the specific requirements of the IFRC GO community and its associated projects.
- 2. [IFRC GO UI Storybook](https://github.com/IFRCGo/go-web-app/tree/develop/packages/go-ui-storybook) serves as the comprehensive showcase for the components library.
+ 2. [IFRC GO UI Storybook](https://github.com/IFRCGo/go-web-app/tree/develop/packages/go-ui-storybook) serves as the comprehensive showcase for the components library.It is hosted on [chromatic](https://66557be6b68dacbf0a96db23-zctxglhsnk.chromatic.com/).
 
 ## IFRC GO backend
 
