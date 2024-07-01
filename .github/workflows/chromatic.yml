@@ -9,6 +9,8 @@ concurrency:
 permissions:
   actions: write
   contents: read
+  pages: write
+  id-token: write
 
 jobs:
   ui:
@@ -66,3 +68,24 @@ jobs:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}
           workingDir: packages/go-ui-storybook
+  github-pages:
+    name: Deploy to Github Pages
+    runs-on: ubuntu-latest
+    needs: [ui]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: actions/download-artifact@v4
+        with:
+          name: ui-build
+          path: packages/ui/dist
+      - uses: bitovi/github-actions-storybook-to-github-pages@v1.0.3
+        with:
+          install_command: yarn install
+          build_command: yarn build-storybook
+          path: packages/go-ui-storybook/storybook-static
+          checkout: false

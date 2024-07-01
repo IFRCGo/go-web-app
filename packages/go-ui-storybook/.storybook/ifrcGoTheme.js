@@ -4,6 +4,6 @@ export default create({
     base: 'light',
     brandTitle: 'IFRC-GO',
     brandUrl: '/',
-    brandImage: '/go-logo.svg',
+    brandImage: './go-logo.svg',
     brandTarget: 'IFRC_GO',
 });
