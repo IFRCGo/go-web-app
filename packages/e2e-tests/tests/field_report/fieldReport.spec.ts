@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { login } from "../../utils/auth.ts";
+import { login } from "../../utils/auth.ts"
 import { formatNumber } from '../../utils/common.ts';
 import fixtureData from "./fieldReport.json";
 
@@ -239,21 +239,15 @@ test.describe("test suite for Field report", async () => {
     const sections = [
       {
         childText: 'Actions taken by National Society',
-        actions: [actionHuman, actionShelter, actionEvacuation],
-        summaryIndex: 0,
-        summaryText: nationalSocietySummary
+        actions: [actionHuman, actionShelter, actionEvacuation, nationalSocietySummary]
       },
       {
         childText: 'Actions Taken by Federation',
-        actions: [actionHealth, actionShelter, actionCamp],
-        summaryIndex: 1,
-        summaryText: federationSummary
+        actions: [actionHealth, actionShelter, actionCamp, federationSummary]
       },
       {
         childText: 'Actions Taken by RCRC',
-        actions: [actionFirst, actionPsychosocial, actionFood],
-        summaryIndex: 2,
-        summaryText: rcrcSummary
+        actions: [actionFirst, actionPsychosocial, actionFood, rcrcSummary]
       }
     ];
     
@@ -264,9 +258,6 @@ test.describe("test suite for Field report", async () => {
       for (const action of section.actions) {
         await expect(sectionParent).toContainText(action);
       }
-      
-      const summary = page.getByText('Summary').nth(section.summaryIndex).locator('..');
-      await expect(summary).toContainText(section.summaryText);
     }
    // Actions taken by others assertions
     const actionParent = page.getByText('Actions taken by others', {exact: true});
@@ -281,19 +272,24 @@ test.describe("test suite for Field report", async () => {
     await expect(rapidPI).toHaveText("Rapid Response Personnel" + interventionOptionThree);
     const emergencyResponsePI = page.getByText('Emergency Response Units', { exact: true }).locator('..');
     await expect(emergencyResponsePI).toHaveText("Emergency Response Units" + interventionOptionTwo);
+
   // Assertions to verify the contacts
-    // Originator
-    const originatorDetail = page.getByText('Uday, Project Manager, uday@sunshine.com, 9802556314');
-    expect(originatorDetail).toContainText(originatorName + ", " + originatorTitle + ", " + originatorEmail + ", " + originatorPhone);
-    // National Society
-    const nationalSocietyDetail = page.getByText('Navin, Network Engineer, navin@theone.com, 9804115777');
-    expect(nationalSocietyDetail).toContainText(nationalName + ", " + nationalTitle + ", " + nationalEmail + ", " + nationalPhone);
-    // Federation
-    const federationDetail = page.getByText("Ankit, CEO, ankit@sir.com, 9801447523");
-    expect(federationDetail).toContainText(ifrcName + ", " + ifrcTitle + ", " + ifrcEmail + ", " + ifrcPhone);
-    // Media  
-    const mediaDetail = page.getByText("Shreya, Shreya uffu, shreya@ok.com, 9805441239");
-    expect(mediaDetail).toContainText(mediaName + ", " + mediaTitle + ", " + mediaEmail + ", " + mediaPhone);  
+    const details = [
+      { label: 'Originator', name: originatorName, title: originatorTitle, email: originatorEmail, phone: originatorPhone },
+      { label: 'NationalSociety', name: nationalName, title: nationalTitle, email: nationalEmail, phone: nationalPhone },
+      { label: 'Federation', name: ifrcName, title: ifrcTitle, email: ifrcEmail, phone: ifrcPhone },
+      { label: 'Media', name: mediaName, title: mediaTitle, email: mediaEmail, phone: mediaPhone }
+    ];
+  
+    for (const detail of details) {
+      const detailLocator = page.getByText(detail.label, { exact: true }).locator('..');
+      await expect(detailLocator).toContainText(detail.name);
+      await expect(detailLocator).toContainText(detail.title);
+      await expect(detailLocator).toContainText(detail.email);
+      await expect(detailLocator).toContainText(detail.phone);
+  }
+  
+
   });
 });
 
