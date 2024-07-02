@@ -16,6 +16,7 @@
         "biome:check": "biome check --apply ./tests/*"
     },
     "dependencies": {
+        "@togglecorp/fujs": "^2.1.1",
         "dotenv": "^16.4.5"
     }
 }
