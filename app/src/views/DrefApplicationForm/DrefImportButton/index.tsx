@@ -1,11 +1,8 @@
-import { useCallback } from 'react';
-import { RawFileInput } from '@ifrc-go/ui';
-import { isNotDefined } from '@togglecorp/fujs';
-import xlsx from 'exceljs';
-
-import { SHEET_OPERATION_OVERVIEW } from '#utils/domain/dref';
+import { Button } from '@ifrc-go/ui';
+import { useBooleanState } from '@ifrc-go/ui/hooks';
 
 import { DrefRequestBody } from '../schema';
+import DrefImportModal from './DrefImportModal';
 
 interface Props {
     onImport?: (formFields?: DrefRequestBody) => void;
@@ -13,41 +10,31 @@ interface Props {
 
 function DrefImportButton(props: Props) {
     const { onImport } = props;
-
-    const handleChange = useCallback((file: File | undefined) => {
-        if (isNotDefined(file)) {
-            return;
-        }
-
-        async function loadFile(excelFile: File) {
-            const workbook = new xlsx.Workbook();
-            const buffer = await excelFile.arrayBuffer();
-            await workbook.xlsx.load(buffer);
-
-            const worksheet = workbook.getWorksheet(SHEET_OPERATION_OVERVIEW);
-            worksheet?.eachRow((row) => {
-                const fieldName = row.getCell(1)?.name;
-                // eslint-disable-next-line no-console
-                console.info(fieldName);
-            });
-
-            if (onImport) {
-                onImport();
-            }
-        }
-
-        loadFile(file);
-    }, [onImport]);
+    const [
+        showImportModal,
+        {
+            setTrue: setShowImportModalTrue,
+            setFalse: setShowImportModalFalse,
+        },
+    ] = useBooleanState(false);
 
     return (
-        <RawFileInput
-            name={undefined}
-            accept=".xlsx"
-            onChange={handleChange}
-            variant="secondary"
-        >
-            Import
-        </RawFileInput>
+        <>
+            <Button
+                variant="secondary"
+                name={undefined}
+                onClick={setShowImportModalTrue}
+                // FIXME: use strings
+            >
+                Import
+            </Button>
+            {showImportModal && (
+                <DrefImportModal
+                    onClose={setShowImportModalFalse}
+                    onImport={onImport}
+                />
+            )}
+        </>
     );
 }
 

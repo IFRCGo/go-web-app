@@ -61,7 +61,7 @@ export function getPreviousStep(currentStep: TabKeys, minSteps: number, maxSteps
 
 // FORM ERROR
 
-const overviewFields: (keyof PartialDref)[] = [
+export const overviewTabFields: (keyof PartialDref)[] = [
     'field_report',
     'title_prefix',
     'title',
@@ -78,11 +78,10 @@ const overviewFields: (keyof PartialDref)[] = [
     'cover_image_file',
     'emergency_appeal_planned',
     'is_man_made_event',
-    // 'is_assessment_report',
     'type_of_dref',
 ] satisfies (keyof PartialDref)[];
 
-const eventDetailFields: (keyof PartialDref)[] = [
+export const eventDetailTabFields: (keyof PartialDref)[] = [
     'did_it_affect_same_population',
     'did_it_affect_same_area',
     'did_ns_respond',
@@ -91,12 +90,13 @@ const eventDetailFields: (keyof PartialDref)[] = [
     'lessons_learned',
     'event_description',
     'event_scope',
+    'source_information',
     'images_file',
     'event_date',
     'event_text',
 ] satisfies (keyof PartialDref)[];
 
-const actionsFields: (keyof PartialDref)[] = [
+export const actionsTabFields: (keyof PartialDref)[] = [
     'national_society_actions',
     'ifrc',
     'icrc',
@@ -112,7 +112,7 @@ const actionsFields: (keyof PartialDref)[] = [
     'assessment_report',
 ] satisfies (keyof PartialDref)[];
 
-const operationFields: (keyof PartialDref)[] = [
+export const operationTabFields: (keyof PartialDref)[] = [
     'people_assisted',
     'women',
     'men',
@@ -137,7 +137,7 @@ const operationFields: (keyof PartialDref)[] = [
     'risk_security_concern',
 ] satisfies (keyof PartialDref)[];
 
-const submissionFields: (keyof PartialDref)[] = [
+export const timeframeAndContactsTabFields: (keyof PartialDref)[] = [
     'ns_request_date',
     // 'start_date',
     'end_date',
@@ -170,11 +170,11 @@ const submissionFields: (keyof PartialDref)[] = [
 ] satisfies (keyof PartialDref)[];
 
 const tabToFieldsMap = {
-    overview: overviewFields,
-    eventDetail: eventDetailFields,
-    actions: actionsFields,
-    operation: operationFields,
-    submission: submissionFields,
+    overview: overviewTabFields,
+    eventDetail: eventDetailTabFields,
+    actions: actionsTabFields,
+    operation: operationTabFields,
+    submission: timeframeAndContactsTabFields,
 };
 
 export function checkTabErrors(error: Error<PartialDref> | undefined, tabKey: TabKeys) {

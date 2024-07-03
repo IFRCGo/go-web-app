@@ -574,7 +574,9 @@ export function Component() {
                 actions={(
                     <>
                         {isNotDefined(drefId) && (
-                            <DrefImportButton />
+                            <DrefImportButton
+                                onImport={setValue}
+                            />
                         )}
                         {isDefined(drefId) && (
                             <>

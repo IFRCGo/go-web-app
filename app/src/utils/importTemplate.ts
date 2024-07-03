@@ -1,10 +1,17 @@
-import { isNotDefined } from '@togglecorp/fujs';
+import { hasSomeDefinedValue } from '@ifrc-go/ui/utils';
+import {
+    isDefined,
+    isNotDefined,
+    isObject,
+    listToMap,
+    mapToMap,
+} from '@togglecorp/fujs';
 
 type ValidationType = string | number | boolean;
 type TypeToLiteral<T extends ValidationType> = T extends string
     ? 'string' | 'date'
     : T extends number
-        ? 'number'
+        ? 'integer' | 'number'
         : T extends boolean
             ? 'boolean'
             : never;
@@ -14,6 +21,7 @@ type ExtractValidation<T> = T extends ValidationType
 
 interface BaseField {
     label: string;
+    description?: string;
 }
 
 interface InputField<
@@ -25,7 +33,7 @@ interface InputField<
 
 interface SelectField<
     VALIDATION extends ValidationType,
-    OPTIONS_MAPPING extends OptionsMapping,
+    OPTIONS_MAPPING extends TemplateFieldOptionsMapping,
 > extends BaseField {
     type: 'select'
     validation: TypeToLiteral<VALIDATION>
@@ -39,18 +47,19 @@ interface SelectField<
 
 interface ListField<
     VALUE,
-    OPTIONS_MAPPING extends OptionsMapping
+    OPTIONS_MAPPING extends TemplateFieldOptionsMapping
 > extends BaseField {
     type: 'list'
     // TODO: Make this more strict
     optionsKey: keyof OPTIONS_MAPPING;
+    keyFieldName?: string;
     children: TemplateSchema<
         VALUE,
         OPTIONS_MAPPING
     >;
 }
 
-interface ObjectField<VALUE, OPTIONS_MAPPING extends OptionsMapping> {
+interface ObjectField<VALUE, OPTIONS_MAPPING extends TemplateFieldOptionsMapping> {
     type: 'object',
     fields: {
         [key in keyof VALUE]+?: TemplateSchema<
@@ -60,18 +69,20 @@ interface ObjectField<VALUE, OPTIONS_MAPPING extends OptionsMapping> {
     },
 }
 
-interface OptionItem<T extends ValidationType> {
+export interface TemplateOptionItem<T extends ValidationType> {
     key: T;
     label: string;
 }
 
-interface OptionsMapping {
-    [key: string]: OptionItem<string>[] | OptionItem<number>[] | OptionItem<boolean>[]
+export interface TemplateFieldOptionsMapping {
+    [key: string]: TemplateOptionItem<string>[]
+        | TemplateOptionItem<number>[]
+        | TemplateOptionItem<boolean>[]
 }
 
 export type TemplateSchema<
     VALUE,
-    OPTIONS_MAPPING extends OptionsMapping,
+    OPTIONS_MAPPING extends TemplateFieldOptionsMapping,
 > = VALUE extends (infer LIST_ITEM)[]
     ? (
         ListField<LIST_ITEM, OPTIONS_MAPPING>
@@ -98,17 +109,33 @@ type InputTemplateField = {
     name: string | number | boolean;
     label: string;
     outlineLevel: number;
+    description?: string;
 } & ({
     dataValidation: 'list';
     optionsKey: ObjectKey;
 } | {
-    dataValidation?: never;
+    dataValidation?: 'number' | 'integer' | 'date';
     optionsKey?: never;
 })
 
+export function getCombinedKey(
+    key: string | number | boolean | symbol,
+    parentKey: string | number | boolean | symbol | undefined,
+) {
+    if (isNotDefined(parentKey)) {
+        return String(key);
+    }
+
+    return `${String(parentKey)}__${String(key)}`;
+}
+
 type TemplateField = HeadingTemplateField | InputTemplateField;
 
-export function createImportTemplate<TEMPLATE_SCHEMA, OPTIONS_MAPPING extends OptionsMapping>(
+// TODO: add test
+export function createImportTemplate<
+    TEMPLATE_SCHEMA,
+    OPTIONS_MAPPING extends TemplateFieldOptionsMapping
+>(
     schema: TemplateSchema<TEMPLATE_SCHEMA, OPTIONS_MAPPING>,
     optionsMap: OPTIONS_MAPPING,
     fieldName: string | undefined = undefined,
@@ -124,7 +151,7 @@ export function createImportTemplate<TEMPLATE_SCHEMA, OPTIONS_MAPPING extends Op
                     const newFields = createImportTemplate<any, OPTIONS_MAPPING>(
                         fieldSchema,
                         optionsMap,
-                        key,
+                        getCombinedKey(key, fieldName),
                         outlineLevel + 1,
                     );
 
@@ -145,6 +172,10 @@ export function createImportTemplate<TEMPLATE_SCHEMA, OPTIONS_MAPPING extends Op
             type: 'input',
             name: fieldName,
             label: schema.label,
+            description: schema.description,
+            dataValidation: (schema.validation === 'number' || schema.validation === 'date' || schema.validation === 'integer')
+                ? schema.validation
+                : undefined,
             outlineLevel,
         } satisfies InputTemplateField;
 
@@ -156,6 +187,7 @@ export function createImportTemplate<TEMPLATE_SCHEMA, OPTIONS_MAPPING extends Op
             type: 'input',
             name: fieldName,
             label: schema.label,
+            description: schema.description,
             outlineLevel,
             dataValidation: 'list',
             optionsKey: schema.optionsKey,
@@ -177,7 +209,8 @@ export function createImportTemplate<TEMPLATE_SCHEMA, OPTIONS_MAPPING extends Op
     const optionFields = options.flatMap((option) => {
         const subHeadingField = {
             type: 'heading',
-            name: option.key,
+            // name: option.key,
+            name: getCombinedKey(option.key, fieldName),
             label: option.label,
             outlineLevel: outlineLevel + 1,
         } satisfies HeadingTemplateField;
@@ -186,7 +219,8 @@ export function createImportTemplate<TEMPLATE_SCHEMA, OPTIONS_MAPPING extends Op
         const newFields = createImportTemplate<any, OPTIONS_MAPPING>(
             schema.children,
             optionsMap,
-            undefined,
+            // undefined,
+            getCombinedKey(option.key, fieldName),
             outlineLevel + 1,
         );
 
@@ -201,3 +235,210 @@ export function createImportTemplate<TEMPLATE_SCHEMA, OPTIONS_MAPPING extends Op
         ...optionFields,
     ];
 }
+
+// TODO: add test
+export function getValueFromImportTemplate<
+    TEMPLATE_SCHEMA,
+    OPTIONS_MAPPING extends TemplateFieldOptionsMapping,
+>(
+    schema: TemplateSchema<TEMPLATE_SCHEMA, OPTIONS_MAPPING>,
+    optionsMap: OPTIONS_MAPPING,
+    formValues: Record<string, string>,
+    fieldName: string | undefined = undefined,
+): unknown {
+    const optionsReverseMap = mapToMap(
+        optionsMap,
+        (key) => key,
+        (optionList) => (
+            listToMap(
+                // FIXME: inspect this
+                optionList as TemplateOptionItem<string>[],
+                ({ label }) => label,
+                ({ key }) => key,
+            )
+        ),
+    );
+
+    if (schema.type === 'object') {
+        return mapToMap(
+            schema.fields,
+            (key) => key,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (fieldSchema, key) => getValueFromImportTemplate(
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                fieldSchema as TemplateSchema<any, OPTIONS_MAPPING>,
+                optionsMap,
+                formValues,
+                getCombinedKey(key, fieldName),
+            ),
+        );
+    }
+
+    if (isNotDefined(fieldName)) {
+        return undefined;
+    }
+
+    if (schema.type === 'input') {
+        const value = formValues[fieldName];
+        // TODO: add validation from schema.validation
+        return value;
+    }
+
+    if (schema.type === 'select') {
+        const value = formValues[fieldName];
+        const valueKey = optionsReverseMap[
+            schema.optionsKey as string
+        ]?.[value];
+        // TODO: add validation from schema.validation
+        return valueKey;
+    }
+
+    const options = optionsMap[schema.optionsKey];
+
+    const listValue = options.map((option) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const value = getValueFromImportTemplate<any, OPTIONS_MAPPING>(
+            schema.children,
+            optionsMap,
+            formValues,
+            getCombinedKey(option.key, fieldName),
+        );
+
+        if (isObject(value) && hasSomeDefinedValue(value)) {
+            return {
+                [schema.keyFieldName ?? 'client_id']: option.key,
+                ...value,
+            };
+        }
+
+        return undefined;
+    }).filter(isDefined);
+
+    if (listValue.length === 0) {
+        return undefined;
+    }
+
+    return listValue;
+}
+
+type TemplateName = 'dref-application' | 'dref-operational-update' | 'dref-final-report';
+
+export interface ImportTemplateDescription<FormFields> {
+    application: 'ifrc-go',
+    templateName: TemplateName,
+    meta: Record<string, unknown>;
+    schema: TemplateSchema<FormFields, TemplateFieldOptionsMapping>,
+    optionsMap: TemplateFieldOptionsMapping,
+    fieldNameToTabNameMap: Record<string, string>,
+}
+
+/*
+function isValidTemplate(templateName: unknown): templateName is TemplateName {
+    const templateNameMap: Record<TemplateName, boolean> = {
+        'dref-application': true,
+        'dref-operational-update': true,
+        'dref-final-report': true,
+    };
+
+    return !!templateNameMap[templateName as TemplateName];
+}
+
+function isValidOption<T extends string | number | boolean>(
+    option: unknown,
+): option is TemplateOptionItem<T> {
+    if (!isObject(option)) {
+        return false;
+    }
+
+    if (!('key' in option) || !('label' in option)) {
+        return false;
+    }
+
+    if (typeof option.label !== 'string') {
+        return false;
+    }
+
+    if (
+        typeof option.key !== 'string'
+            && typeof option.key !== 'number'
+            && typeof option.key !== 'boolean'
+    ) {
+        return false;
+    }
+
+    return true;
+}
+
+function isValidOptionList(
+    optionList: unknown,
+): optionList is (TemplateOptionItem<number>[]
+    | TemplateOptionItem<string>[]
+    | TemplateOptionItem<boolean>[]
+) {
+    if (!Array.isArray(optionList)) {
+        return false;
+    }
+
+    const firstElement = optionList[0];
+    if (!isValidOption(firstElement)) {
+        return false;
+    }
+
+    const keyType = typeof firstElement.key;
+
+    return optionList.every((option) => (
+        isValidOption(option) && typeof option.key === keyType
+    ));
+}
+*/
+
+/*
+export function isValidTemplateDescription<FormFields>(
+    value: unknown,
+): value is ImportTemplateDescription<FormFields> {
+    if (!isObject(value)) {
+        return false;
+    }
+
+    type DescriptionKey = keyof ImportTemplateDescription<unknown>;
+
+    if (!('application' satisfies DescriptionKey in value) || value.application !== 'ifrc-go') {
+        return false;
+    }
+
+    if (
+        !('templateName' satisfies DescriptionKey in value)
+            || !isValidTemplate(value.templateName)
+    ) {
+        return false;
+    }
+
+    if (!('meta' satisfies DescriptionKey in value) || !isObject(value.meta)) {
+        return false;
+    }
+
+    if (!('schema' satisfies DescriptionKey in value) || !isObject(value.schema)) {
+        return false;
+    }
+
+    if (
+        !('optionsMap' satisfies DescriptionKey in value)
+        || !isObject(value.optionsMap)
+        || !(Object.values(value.optionsMap).every((optionList) => isValidOptionList(optionList)))
+    ) {
+        return false;
+    }
+
+    if (
+        !('fieldNameToTabNameMap' satisfies DescriptionKey in value)
+        || !(isObject(value.fieldNameToTabNameMap))
+        || !(Object.values(value.fieldNameToTabNameMap).every(
+            (field) => typeof field === 'string',
+        ))
+    ) {
+        return false;
+    }
+
+    return true;
+}
+*/

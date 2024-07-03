@@ -36,7 +36,7 @@
         "lint:fix": "yarn lint:js --fix && yarn lint:css --fix",
         "test": "vitest",
         "test:coverage": "vitest run --coverage",
-        "surge:deploy": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); branch=$(echo $branch  | tr ./ -); cp build/index.html build/200.html; surge -p build/ -d https://ifrc-go-$branch.surge.sh",
+        "surge:deploy": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); branch=$(echo $branch  | tr ./ -); cp ../build/index.html ../build/200.html; surge -p ../build/ -d https://ifrc-go-$branch.surge.sh",
         "surge:teardown": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); branch=$(echo $branch  | tr ./ -); surge teardown https://ifrc-go-$branch.surge.sh",
         "postinstall": "patch-package"
     },
