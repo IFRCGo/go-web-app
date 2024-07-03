@@ -718,6 +718,19 @@ const resources = customWrapRoute({
         visibility: 'anything',
     },
 });
+const operationalLearnings = customWrapRoute({
+    parent: rootLayout,
+    path: 'operational-learnings',
+    component: {
+        render: () => import('#views/OperationalLearnings'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Operational Learnings',
+        visibility: 'anything',
+    },
+});
 
 const search = customWrapRoute({
     parent: rootLayout,
@@ -1204,6 +1217,7 @@ const wrappedRoutes = {
     perPrioritizationForm,
     perWorkPlanForm,
     threeWProjectDetail,
+    operationalLearnings,
     ...regionRoutes,
     ...countryRoutes,
     ...surgeRoutes,

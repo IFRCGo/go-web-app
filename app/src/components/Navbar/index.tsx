@@ -415,6 +415,11 @@ function Navbar(props: Props) {
                                 contentClassName={styles.optionListContent}
                             >
                                 <Tab
+                                    name="operational-learnings"
+                                >
+                                    {strings.userMenuOperationalLearnings}
+                                </Tab>
+                                <Tab
                                     name="tools"
                                     className={styles.option}
                                 >
@@ -438,6 +443,21 @@ function Navbar(props: Props) {
                                 </DropdownMenuItem>
                             </TabList>
                             <div className={styles.optionBorder} />
+                            <TabPanel
+                                name="operational-learnings"
+                                className={styles.optionDetail}
+                            >
+                                <DropdownMenuItem
+                                    type="link"
+                                    to="operationalLearnings"
+                                    variant="tertiary"
+                                >
+                                    {strings.userMenuOperationalLearnings}
+                                </DropdownMenuItem>
+                                <div className={styles.description}>
+                                    {strings.userMenuOperationalLearningsDescription}
+                                </div>
+                            </TabPanel>
                             <TabPanel
                                 name="tools"
                                 className={styles.optionDetail}
