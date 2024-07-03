@@ -65,6 +65,7 @@ import {
     TYPE_LOAN,
     type TypeOfDrefEnum,
 } from './common';
+import DrefImportButton from './DrefImportButton';
 import EventDetail from './EventDetail';
 import ObsoletePayloadModal from './ObsoletePayloadModal';
 import Operation from './Operation';
@@ -77,7 +78,6 @@ import Submission from './Submission';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-import DrefImportButton from './DrefImportButton';
 
 type GetDrefResponse = GoApiResponse<'/api/v2/dref/{id}/'>;
 

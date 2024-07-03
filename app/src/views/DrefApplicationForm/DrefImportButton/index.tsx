@@ -27,6 +27,7 @@ function DrefImportButton(props: Props) {
             const worksheet = workbook.getWorksheet(SHEET_OPERATION_OVERVIEW);
             worksheet?.eachRow((row) => {
                 const fieldName = row.getCell(1)?.name;
+                // eslint-disable-next-line no-console
                 console.info(fieldName);
             });
 
