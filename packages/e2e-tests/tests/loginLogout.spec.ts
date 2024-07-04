@@ -1,6 +1,5 @@
 import { expect, test } from '@playwright/test';
 import { login } from '#utils/auth';
-
 test('should login', async ({ page }) => {
     await login(
         page,
