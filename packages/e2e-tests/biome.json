@@ -15,5 +15,11 @@
             "quoteStyle": "single",
             "indentWidth": 4
         }
+    },
+    "json": {
+        "formatter": {
+            "indentStyle": "space",
+            "indentWidth": 4
+        }
     }
 }
