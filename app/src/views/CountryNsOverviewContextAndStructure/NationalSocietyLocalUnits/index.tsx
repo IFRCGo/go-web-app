@@ -49,7 +49,7 @@ function NationalSocietyLocalUnits(props: Props) {
     const [activeTab, setActiveTab] = useState<'map'| 'table'>('map');
     const { isAuthenticated } = useAuth();
     const { countryResponse } = useOutletContext<CountryOutletContext>();
-    const { isSuperUser, isCountryAdmin } = usePermissions();
+    const { isSuperUser, isCountryAdmin, isGuestUser } = usePermissions();
     const containerRef = useRef<HTMLDivElement>(null);
 
     // NOTE: key is used to refresh the page when local unit data is updated
@@ -90,7 +90,7 @@ function NationalSocietyLocalUnits(props: Props) {
 
     const strings = useTranslation(i18n);
 
-    const hasAddLocalUnitPermission = isCountryAdmin(countryResponse?.id) || isSuperUser;
+    const hasAddLocalUnitPermission = !isGuestUser && (isCountryAdmin(countryResponse?.id) || isSuperUser);
 
     useEffect(() => {
         document.addEventListener('fullscreenchange', handleFullScreenChange);

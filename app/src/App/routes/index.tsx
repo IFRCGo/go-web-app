@@ -423,6 +423,7 @@ const newThreeWProject = customWrapRoute({
     context: {
         title: 'New 3W Project',
         visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
     },
 });
 
@@ -451,6 +452,7 @@ const threeWProjectEdit = customWrapRoute({
     context: {
         title: 'Edit 3W Project',
         visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
     },
 });
 
@@ -465,6 +467,7 @@ const newThreeWActivity = customWrapRoute({
     context: {
         title: 'New 3W Activity',
         visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
     },
 });
 
@@ -493,6 +496,7 @@ const threeWActivityEdit = customWrapRoute({
     context: {
         title: 'Edit 3W Activity',
         visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
     },
 });
 
@@ -620,6 +624,7 @@ const accountMyFormsLayout = customWrapRoute({
     context: {
         title: 'Account - My Forms',
         visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
     },
 });
 
@@ -650,6 +655,7 @@ const accountMyFormsFieldReport = customWrapRoute({
     context: {
         title: 'Account - Field Report Forms',
         visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
     },
 });
 
@@ -663,6 +669,7 @@ const accountMyFormsPer = customWrapRoute({
     context: {
         title: 'Account - PER Forms',
         visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
     },
 });
 
@@ -676,6 +683,7 @@ const accountMyFormsDref = customWrapRoute({
     context: {
         title: 'Account - DREF Applications',
         visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
     },
 });
 
@@ -689,6 +697,7 @@ const accountMyFormsThreeW = customWrapRoute({
     context: {
         title: 'Account - 3W',
         visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
     },
 });
 
@@ -814,7 +823,7 @@ const allFlashUpdates = customWrapRoute({
     context: {
         title: 'All Flash Updates',
         visibility: 'is-authenticated',
-        permissions: ({ isIfrcAdmin }) => isIfrcAdmin,
+        permissions: ({ isIfrcAdmin, isGuestUser }) => !isGuestUser && isIfrcAdmin,
     },
 });
 
@@ -829,7 +838,7 @@ const flashUpdateFormNew = customWrapRoute({
     context: {
         title: 'New Flash Update',
         visibility: 'is-authenticated',
-        permissions: ({ isIfrcAdmin }) => isIfrcAdmin,
+        permissions: ({ isIfrcAdmin, isGuestUser }) => !isGuestUser && isIfrcAdmin,
     },
 });
 
@@ -844,7 +853,7 @@ const flashUpdateFormEdit = customWrapRoute({
     context: {
         title: 'Edit Flash Update',
         visibility: 'is-authenticated',
-        permissions: ({ isIfrcAdmin }) => isIfrcAdmin,
+        permissions: ({ isIfrcAdmin, isGuestUser }) => !isGuestUser && isIfrcAdmin,
     },
 });
 
@@ -860,7 +869,7 @@ const flashUpdateFormDetails = customWrapRoute({
     context: {
         title: 'Flash Update Details',
         visibility: 'anything',
-        permissions: ({ isIfrcAdmin }) => isIfrcAdmin,
+        permissions: ({ isIfrcAdmin, isGuestUser }) => !isGuestUser && isIfrcAdmin,
     },
 });
 
@@ -889,6 +898,7 @@ const newDrefApplicationForm = customWrapRoute({
     context: {
         title: 'New DREF Application Form',
         visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
     },
 });
 
@@ -903,6 +913,7 @@ const drefApplicationForm = customWrapRoute({
     context: {
         title: 'Edit DREF Application Form',
         visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
     },
 });
 
@@ -917,6 +928,7 @@ const drefApplicationExport = customWrapRoute({
     context: {
         title: 'DREF Application Export',
         visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
     },
 });
 
@@ -931,6 +943,7 @@ const drefOperationalUpdateForm = customWrapRoute({
     context: {
         title: 'Edit DREF Operational Update Form',
         visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
     },
 });
 
@@ -945,6 +958,7 @@ const drefOperationalUpdateExport = customWrapRoute({
     context: {
         title: 'DREF Operational Update Export',
         visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
     },
 });
 const drefFinalReportForm = customWrapRoute({
@@ -958,6 +972,7 @@ const drefFinalReportForm = customWrapRoute({
     context: {
         title: 'Edit DREF Final Report Form',
         visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
     },
 });
 
@@ -972,6 +987,7 @@ const drefFinalReportExport = customWrapRoute({
     context: {
         title: 'DREF Final Report Export',
         visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
     },
 });
 
@@ -986,6 +1002,7 @@ const fieldReportFormNew = customWrapRoute({
     context: {
         title: 'New Field Report Form',
         visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
     },
 });
 
@@ -1000,6 +1017,7 @@ const fieldReportFormEdit = customWrapRoute({
     context: {
         title: 'Edit Field Report Form',
         visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
     },
 });
 
@@ -1030,6 +1048,7 @@ const perProcessLayout = customWrapRoute({
     context: {
         title: 'PER Process',
         visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
     },
 });
 
@@ -1064,7 +1083,8 @@ const newPerOverviewForm = customWrapRoute({
         permissions: ({
             isSuperUser,
             isPerAdmin,
-        }) => isSuperUser || isPerAdmin,
+            isGuestUser,
+        }) => !isGuestUser && (isSuperUser || isPerAdmin)
     },
 });
 
@@ -1079,6 +1099,7 @@ const perOverviewForm = customWrapRoute({
     context: {
         title: 'Edit PER Overview',
         visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
     },
 });
 
@@ -1093,6 +1114,7 @@ const perAssessmentForm = customWrapRoute({
     context: {
         title: 'Edit PER Assessment',
         visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
     },
 });
 
@@ -1107,6 +1129,7 @@ const perPrioritizationForm = customWrapRoute({
     context: {
         title: 'Edit PER Prioritization',
         visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
     },
 });
 
@@ -1121,6 +1144,7 @@ const perWorkPlanForm = customWrapRoute({
     context: {
         title: 'Edit PER Work Plan',
         visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
     },
 });
 

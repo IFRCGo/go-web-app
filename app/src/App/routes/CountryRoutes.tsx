@@ -292,6 +292,7 @@ const perExport = customWrapRoute({
     context: {
         title: 'PER Export',
         visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
     },
 });
 
