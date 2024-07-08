@@ -416,6 +416,7 @@ function Navbar(props: Props) {
                             >
                                 <Tab
                                     name="operational-learnings"
+                                    className={styles.option}
                                 >
                                     {strings.userMenuOperationalLearnings}
                                 </Tab>
