@@ -1,0 +1,10 @@
+{
+    "namespace": "operational-learnings-Filters",
+    "strings": {
+    "filterRegionsPlaceholder": "Region",
+    "filterCountryPlaceholder": "Country",
+    "filterDisasterTypePlaceholder": "Disaster Types",
+    "filterBySectorPlaceholder": "By Sector",
+    "filterByComponentPlaceholder": "By Component"
+    }
+}
