@@ -39,7 +39,7 @@
         "@ifrc-go/ui": "^1.1.4",
         "@mapbox/mapbox-gl-draw": "^1.2.0",
         "@sentry/react": "^7.81.1",
-        "@tinymce/tinymce-react": "^4.3.0",
+        "@tinymce/tinymce-react": "^5.1.1",
         "@togglecorp/fujs": "^2.1.1",
         "@togglecorp/re-map": "^0.2.0-beta-6",
         "@togglecorp/toggle-form": "^2.0.4",
