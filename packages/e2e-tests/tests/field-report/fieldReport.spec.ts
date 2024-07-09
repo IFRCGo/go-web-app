@@ -1,19 +1,11 @@
 import { expect, test } from '@playwright/test';
-import { login } from '../../utils/auth';
-import { formatNumber } from '../../utils/common';
+import { formatNumber } from '#utils/common';
 import fixtureData from './fieldReport.json';
 
-test.describe('test suite for Field report', async () => {
-    test.beforeEach('login credentials', async ({ page }) => {
-        await login(
-            page,
-            process.env.PLAYWRIGHT_APP_BASE_URL,
-            process.env.PLAYWRIGHT_USER_NAME,
-            process.env.PLAYWRIGHT_USER_PASSWORD,
-        );
-    });
+test.use({ storageState: 'playwright/.auth/user.json' });
 
-    test('Field report for Event', async ({ page }) => {
+test.describe('Field Report',  () => {
+    test('should create a new event type field report', async ({ page }) => {
         const {
             formName,
             country,
@@ -84,6 +76,7 @@ test.describe('test suite for Field report', async () => {
             visibiltyOptTwo,
         } = fixtureData;
 
+        await page.goto('/');
         await page.getByRole('button', { name: 'Create a Report' }).click();
         await page.getByRole('link', { name: 'New Field Report' }).click();
         await expect(page.locator('h1')).toContainText(formName);
