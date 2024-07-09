@@ -1,31 +1,23 @@
 import { expect, test } from '@playwright/test';
-import { login } from '../utils/auth';
+import { login } from '#utils/auth';
 
-test('Login', async ({ page }) => {
+test('should login', async ({ page }) => {
     await login(
         page,
-        process.env.PLAYWRIGHT_APP_BASE_URL,
         process.env.PLAYWRIGHT_USER_NAME,
         process.env.PLAYWRIGHT_USER_PASSWORD,
     );
-    await expect(page.getByRole('navigation')).toContainText(
-        process.env.PLAYWRIGHT_USER_NAME,
-    );
-    await page
-        .getByRole('button', { name: process.env.PLAYWRIGHT_USER_NAME })
-        .click();
+    await page.waitForURL('/');
+    await expect(page.getByRole('button', { name: 'Create a Report' })).toBeVisible();
 });
 
-test('logout', async ({ page }) => {
+test('should logout', async ({ page }) => {
     await login(
         page,
-        process.env.PLAYWRIGHT_APP_BASE_URL,
         process.env.PLAYWRIGHT_USER_NAME,
         process.env.PLAYWRIGHT_USER_PASSWORD,
     );
-    await expect(page.getByRole('navigation')).toContainText(
-        process.env.PLAYWRIGHT_USER_NAME,
-    );
+    await page.waitForURL('/');
     await page
         .getByRole('button', { name: process.env.PLAYWRIGHT_USER_NAME })
         .click();

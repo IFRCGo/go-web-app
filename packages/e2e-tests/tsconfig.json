@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "#utils/*": ["./utils/*"],
+        },
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+    },
+    "include": ["tests"]
+}

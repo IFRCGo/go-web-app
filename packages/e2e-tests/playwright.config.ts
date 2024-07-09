@@ -33,14 +33,21 @@ export default defineConfig({
     /* Configure projects for major browsers */
     projects: process.env.CI
         ? [
+
+              {
+                  name: 'setup',
+                  testMatch: /.*\.setup\.ts/,
+              },
               {
                   name: 'chromium',
                   use: { ...devices['Desktop Chrome'] },
+                  dependencies: ['setup'],
               },
 
               {
                   name: 'firefox',
                   use: { ...devices['Desktop Firefox'] },
+                  dependencies: ['setup'],
               },
 
               // FIXME: tests not working in webkit
@@ -71,13 +78,19 @@ export default defineConfig({
         : [
               // NOTE: WebKit is only supported on Debian and Ubuntu in Playwright.
               {
+                  name: 'setup',
+                  testMatch: /.*\.setup\.ts/,
+              },
+              {
                   name: 'chromium',
                   use: { ...devices['Desktop Chrome'] },
+                  dependencies: ['setup'],
               },
 
               {
                   name: 'firefox',
                   use: { ...devices['Desktop Firefox'] },
+                  dependencies: ['setup'],
               },
           ],
 
