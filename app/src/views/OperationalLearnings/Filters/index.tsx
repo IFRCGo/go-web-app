@@ -3,13 +3,13 @@ import {
     Container,
     DateInput,
     SelectInput,
+    TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import ExportButton from '#components/domain/ExportButton';
-import KeywordSearchSelectInput from '#components/domain/KeywordSearchSelectInput';
 import RegionSelectInput, { RegionOption } from '#components/domain/RegionSelectInput';
 import useFilterState from '#hooks/useFilterState';
 
@@ -19,30 +19,27 @@ type Option = {
     key: string;
     label: string;
 };
+const keySelector = (option: Option) => option.key;
+const labelSelector = (option: Option) => option.label;
+const options: Option[] = [];
 
 function Filters() {
     const strings = useTranslation(i18n);
-    const options: Option[] = [];
-    const keySelector = (option: Option) => option.key;
-    const labelSelector = (option: Option) => option.label;
     const {
         rawFilter,
         setFilter,
         setFilterField,
     } = useFilterState<{
-        region: RegionOption['key'],
-        country: number,
-        disasterType:number,
+        region?: RegionOption['key'],
+        country?: number,
+        disasterType?:number,
         startDateBefore?: string,
-        bySector?:number,
-        byComponent?:number,
-        startDate?:string
+        bySector?:string,
+        byComponent?:string,
+        startDate?:string,
+        search?:string | undefined;
     }>({
-        filter: {
-            region: 0,
-            country: 0,
-            disasterType: 0,
-        },
+        filter: {},
     });
     const handleExportClick = useCallback(() => setFilter({}), [setFilter]);
 
@@ -89,11 +86,16 @@ function Filters() {
                         onChange={setFilterField}
                     />
                     <DateInput
-                        name="startDateFrom"
+                        name="startDateBefore"
                         onChange={setFilterField}
                         value={rawFilter.startDate}
                     />
-                    <KeywordSearchSelectInput />
+                    <TextInput
+                        name="search"
+                        placeholder={strings.filterOpsLearningsSearchPlaceholder}
+                        value={rawFilter.search}
+                        onChange={setFilterField}
+                    />
                 </>
             )}
             actions={(
@@ -107,4 +109,5 @@ function Filters() {
         />
     );
 }
+
 export default Filters;
