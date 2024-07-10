@@ -1,18 +1,21 @@
 import { useState } from 'react';
 import {
-    Button,
     Container,
     Tab,
     TabList,
+    TabPanel,
     Tabs,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import Page from '#components/Page';
 
+import ByComponent from './ByComponent';
+import BySector from './BySector';
 import Filters from './Filters';
 
 import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -35,6 +38,7 @@ export function Component() {
                 variant="tertiary"
             >
                 <Container
+                    className={styles.operationalLearningsStyle}
                     headerDescription={(
                         <TabList>
                             <Tab name="bySector">{strings.bySectorTitle}</Tab>
@@ -42,14 +46,17 @@ export function Component() {
                         </TabList>
                     )}
                     actions={(
-                        <Button
-                            name={undefined}
-                            variant="tertiary"
-                        >
+                        <div>
                             66 extracts
-                        </Button>
+                        </div>
                     )}
                 />
+                <TabPanel name="bySector">
+                    <BySector />
+                </TabPanel>
+                <TabPanel name="byComponent">
+                    <ByComponent />
+                </TabPanel>
             </Tabs>
         </Page>
     );
