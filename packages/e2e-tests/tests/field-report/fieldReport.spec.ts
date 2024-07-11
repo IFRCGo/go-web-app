@@ -15,27 +15,27 @@ test.describe('Field Report',  () => {
             title,
             govRequest,
             nationalsocietyRequest,
-            num_injured,
-            gov_num_injured,
-            other_num_injured,
-            num_dead,
-            gov_num_dead,
-            other_num_dead,
-            num_missing,
-            gov_num_missing,
-            other_num_missing,
-            num_affected,
-            gov_num_affected,
-            other_num_affected,
-            num_displaced,
-            other_num_displaced,
-            gov_num_displaced,
-            other_sources,
-            gov_num_assisted,
-            num_assisted,
-            num_localstaff,
-            num_volunteers,
-            num_expats_delegates,
+            numInjured,
+            govNumInjured,
+            otherNumInjured,
+            numDead,
+            govNumDead,
+            otherNumDead,
+            numMissing,
+            govNumMissing,
+            otherNumMissing,
+            numAffected,
+            govNumAffected,
+            otherNumAffected,
+            numDisplaced,
+            otherNumDisplaced,
+            govNumDisplaced,
+            otherSources,
+            govNumAssisted,
+            numAssisted,
+            numLocalstaff,
+            numVolunteers,
+            numExpatsDelegates,
             actionHuman,
             actionEvacuation,
             actionHealth,
@@ -102,53 +102,53 @@ test.describe('Field Report',  () => {
             .click();
         await page.getByRole('button', { name: 'Continue' }).click();
         // Situation Page
-        await page.locator('input[name="num_injured"]').fill(num_injured);
+        await page.locator('input[name="num_injured"]').fill(numInjured);
         await page
             .locator('input[name="gov_num_injured"]')
-            .fill(gov_num_injured);
+            .fill(govNumInjured);
         await page
             .locator('input[name="other_num_injured"]')
-            .fill(other_num_injured);
-        await page.locator('input[name="num_dead"]').fill(num_dead);
-        await page.locator('input[name="gov_num_dead"]').fill(gov_num_dead);
-        await page.locator('input[name="other_num_dead"]').fill(other_num_dead);
-        await page.locator('input[name="num_missing"]').fill(num_missing);
+            .fill(otherNumInjured);
+        await page.locator('input[name="num_dead"]').fill(numDead);
+        await page.locator('input[name="gov_num_dead"]').fill(govNumDead);
+        await page.locator('input[name="other_num_dead"]').fill(otherNumDead);
+        await page.locator('input[name="num_missing"]').fill(numMissing);
         await page
             .locator('input[name="gov_num_missing"]')
-            .fill(gov_num_missing);
+            .fill(govNumMissing);
         await page
             .locator('input[name="other_num_missing"]')
-            .fill(other_num_missing);
-        await page.locator('input[name="num_affected"]').fill(num_affected);
+            .fill(otherNumMissing);
+        await page.locator('input[name="num_affected"]').fill(numAffected);
         await page
             .locator('input[name="gov_num_affected"]')
-            .fill(gov_num_affected);
+            .fill(govNumAffected);
         await page
             .locator('input[name="other_num_affected"]')
-            .fill(other_num_affected);
-        await page.locator('input[name="num_displaced"]').fill(num_displaced);
+            .fill(otherNumAffected);
+        await page.locator('input[name="num_displaced"]').fill(numDisplaced);
         await page
             .locator('input[name="gov_num_displaced"]')
-            .fill(gov_num_displaced);
+            .fill(govNumDisplaced);
         await page
             .locator('input[name="other_num_displaced"]')
-            .fill(other_num_displaced);
+            .fill(otherNumDisplaced);
         await page
             .locator('textarea[name="other_sources"]')
-            .fill(other_sources);
+            .fill(otherSources);
         // await page.frameLocator('iframe[title="Rich Text Area"]').locator('html').fill("Just the random data");
         // issue in Situational overview textbox
         await page.getByRole('button', { name: 'Continue' }).click();
         // Action Page
         await page
             .locator('input[name="gov_num_assisted"]')
-            .fill(gov_num_assisted);
-        await page.locator('input[name="num_assisted"]').fill(num_assisted);
-        await page.locator('input[name="num_localstaff"]').fill(num_localstaff);
-        await page.locator('input[name="num_volunteers"]').fill(num_volunteers);
+            .fill(govNumAssisted);
+        await page.locator('input[name="num_assisted"]').fill(numAssisted);
+        await page.locator('input[name="num_localstaff"]').fill(numLocalstaff);
+        await page.locator('input[name="num_volunteers"]').fill(numVolunteers);
         await page
             .locator('input[name="num_expats_delegates"]')
-            .fill(num_expats_delegates);
+            .fill(numExpatsDelegates);
         // Action taken by National red cross society
         await page
             .locator('label')
@@ -292,54 +292,54 @@ test.describe('Field Report',  () => {
         await expect(frDate).toHaveText(`Start Date${date}`);
         // Assertions to verify whether the data inserted on the form are displayed on the UI // Numeric Details
         const numericDetails = [
-            { label: 'Injured (RC)', value: formatNumber(num_injured) },
+            { label: 'Injured (RC)', value: formatNumber(numInjured) },
             {
                 label: 'Injured (Government)',
-                value: formatNumber(gov_num_injured),
+                value: formatNumber(govNumInjured),
             },
             {
                 label: 'Injured (Other)',
-                value: formatNumber(other_num_injured),
+                value: formatNumber(otherNumInjured),
             },
-            { label: 'Missing (RC)', value: formatNumber(num_missing) },
+            { label: 'Missing (RC)', value: formatNumber(numMissing) },
             {
                 label: 'Missing (Government)',
-                value: formatNumber(gov_num_missing),
+                value: formatNumber(govNumMissing),
             },
             {
                 label: 'Missing (Other)',
-                value: formatNumber(other_num_missing),
+                value: formatNumber(otherNumMissing),
             },
-            { label: 'Dead (RC)', value: formatNumber(num_dead) },
-            { label: 'Dead (Government)', value: formatNumber(gov_num_dead) },
-            { label: 'Dead (Other)', value: formatNumber(other_num_dead) },
-            { label: 'Displaced (RC)', value: formatNumber(num_displaced) },
+            { label: 'Dead (RC)', value: formatNumber(numDead) },
+            { label: 'Dead (Government)', value: formatNumber(govNumDead) },
+            { label: 'Dead (Other)', value: formatNumber(otherNumDead) },
+            { label: 'Displaced (RC)', value: formatNumber(numDisplaced) },
             {
                 label: 'Displaced (Government)',
-                value: formatNumber(gov_num_displaced),
+                value: formatNumber(govNumDisplaced),
             },
             {
                 label: 'Displaced (Other)',
-                value: formatNumber(other_num_displaced),
+                value: formatNumber(otherNumDisplaced),
             },
-            { label: 'Affected (RC)', value: formatNumber(num_affected) },
+            { label: 'Affected (RC)', value: formatNumber(numAffected) },
             {
                 label: 'Affected (Government)',
-                value: formatNumber(gov_num_affected),
+                value: formatNumber(govNumAffected),
             },
             {
                 label: 'Affected (Other)',
-                value: formatNumber(other_num_affected),
+                value: formatNumber(otherNumAffected),
             },
-            { label: 'Assisted (RC)', value: formatNumber(num_assisted) },
+            { label: 'Assisted (RC)', value: formatNumber(numAssisted) },
             {
                 label: 'Assisted (Government)',
-                value: formatNumber(gov_num_assisted),
+                value: formatNumber(govNumAssisted),
             },
-            { label: 'Local Staff', value: formatNumber(num_localstaff) },
-            { label: 'Volunteers', value: formatNumber(num_volunteers) },
+            { label: 'Local Staff', value: formatNumber(numLocalstaff) },
+            { label: 'Volunteers', value: formatNumber(numVolunteers) },
             { label: 'IFRC Staff', value: formatNumber(emergencyResponse) },
-            { label: 'Delegates', value: formatNumber(num_expats_delegates) },
+            { label: 'Delegates', value: formatNumber(numExpatsDelegates) },
         ];
         for (const detail of numericDetails) {
             const parentElement = page.getByText(detail.label).locator('..');
@@ -355,7 +355,7 @@ test.describe('Field Report',  () => {
             .locator('..')
             .locator('..')
             .locator('..');
-        await expect(sourceParent).toContainText(other_sources);
+        await expect(sourceParent).toContainText(otherSources);
         // Request for Assistance Assertions
         const govReq = page
             .getByText('Government Requests International Assistance', {
@@ -497,5 +497,100 @@ test.describe('Field Report',  () => {
             await expect(detailLocator).toContainText(detail.email);
             await expect(detailLocator).toContainText(detail.phone);
         }
-    });
+          await page.getByRole('link', { name: 'Edit Report' }).click();
+        // Input Value Assertions
+        // Context Page
+        // Status
+        const statusValue = page.locator('label').filter({ hasText: 'EventFirst report for this disaster' })
+        await expect(statusValue).toBeChecked();
+        // Assertions for Country, Region, Disaster Type, Date and Title
+        const countryValue = page.locator('input[name="country"]');
+        await expect(countryValue).toHaveValue(country);
+        const regionValue = page.locator('input[name="districts"]')
+        await expect(regionValue).toHaveValue(district);
+        const disasterValue = page.locator('input[name="dtype"]');
+        await expect(disasterValue).toHaveValue(disasterType);
+        const dateValue = page.locator('input[name="start_date"]');
+        await expect(dateValue).toHaveValue(date);
+        const titleValue = page.getByPlaceholder('Example: Cyclone Cody');
+        await expect(titleValue).toHaveValue(`${newtitle} - ${title}`,);
+        // Government request international assistance
+        const govReqValue = page.locator('label').filter({ hasText: govRequest }).nth(1)
+        await expect(govReqValue).toBeChecked();
+        // National Society requests international assistance?
+        const nsReqValue = page.locator('label').filter({ hasText: nationalsocietyRequest }).nth(2)
+        await expect(nsReqValue).toBeChecked();
+        await page.getByRole('button', { name: 'Continue' }).click();
+        // Situation Page
+        // Assertions for Numeric Details Value
+        const numericDetailValues = [
+            { name: 'num_injured', value: numInjured },
+            { name: 'gov_num_injured', value: govNumInjured },
+            { name: 'other_num_injured', value: otherNumInjured },
+            { name: 'num_dead', value: numDead },
+            { name: 'gov_num_dead', value: govNumDead },
+            { name: 'other_num_dead', value: otherNumDead },
+            { name: 'num_missing', value: numMissing },
+            { name: 'gov_num_missing', value: govNumMissing },
+            { name: 'other_num_missing', value: otherNumMissing },
+            { name: 'num_affected', value: numAffected },
+            { name: 'gov_num_affected', value: govNumAffected },
+            { name: 'other_num_affected', value: otherNumAffected },
+            { name: 'num_displaced', value: numDisplaced },
+            { name: 'gov_num_displaced', value: govNumDisplaced },
+            { name: 'other_num_displaced', value: otherNumDisplaced }
+        ];
+        for (const { name, value } of numericDetailValues) {
+            const inputValue = page.locator(`input[name="${name}"]`);
+            await expect(inputValue).toHaveValue(value);
+        }
+        // Assertions for Source Details value
+        const sourceValue = page.locator('textarea[name="other_sources"]');
+        await expect(sourceValue).toHaveValue(otherSources);
+        await page.getByRole('button', { name: 'Continue' }).click();
+        // Actions Page
+        // Assertions for Actions taken Value
+        const assistedValues = [
+            { name: 'gov_num_assisted', value: govNumAssisted },
+            { name: 'num_assisted', value: numAssisted },
+            { name: 'num_localstaff', value: numLocalstaff },
+            { name: 'num_volunteers', value: numVolunteers },
+            { name: 'num_expats_delegates', value: numExpatsDelegates }
+        ];
+        for (const { name, value } of assistedValues) {
+            const inputValue = page.locator(`input[name="${name}"]`);
+            await expect(inputValue).toHaveValue(value);
+        }
+        // Assertions for Actions Taken by National Society Red Cross Value
+        const nsActions = [actionHuman, actionShelter, actionEvacuation];
+        for (const action of nsActions) {
+            const label = page.locator('label').filter({ hasText: action }).first();
+            await expect(label).toBeChecked();
+        }
+        const nsValue = page.getByPlaceholder('Brief description of the action').first();
+        await expect(nsValue).toHaveText(nationalSocietySummary);
+        // Assertions for Actions Taken by IFRC Value
+        const ifrcActions = [actionHealth, actionShelter, actionCamp];
+        for (const action of ifrcActions) {
+            const label = page.locator('label').filter({ hasText: action }).nth(1);
+            await expect(label).toBeChecked();
+        }
+        const ifrcValue = page.getByPlaceholder('Brief description of the action').nth(1);
+        await expect(ifrcValue).toHaveText(federationSummary);
+        // Assertions for Actions Taken by RCRC Movements Value
+        const rcrcActions = [actionFirst, actionPsychosocial, actionFood];
+        for (const action of rcrcActions) {
+            const label = page.locator('label').filter({ hasText: action }).nth(2);
+            await expect(label).toBeChecked();
+        }
+        const rcrcValue = page.getByPlaceholder('Brief description of the action').nth(2);
+        await expect(rcrcValue).toHaveText(rcrcSummary);
+        // Assertions for Information Bulletin
+        const bulletinValue = page.locator('label').filter({ hasText: informationBulletin });
+        await expect(bulletinValue).toBeChecked();
+        // Assertions for Actions Taken by Others Value
+        const actionsOtherValue = page.locator('textarea[name="actions_others"]');
+        await expect(actionsOtherValue).toHaveText(actionOther)
+        
+        });
 });
