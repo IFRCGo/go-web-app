@@ -8,7 +8,9 @@ test('should login', async ({ page }) => {
         process.env.PLAYWRIGHT_USER_PASSWORD,
     );
     await page.waitForURL('/');
-    await expect(page.getByRole('button', { name: 'Create a Report' })).toBeVisible();
+    await expect(
+        page.getByRole('button', { name: 'Create a Report' }),
+    ).toBeVisible();
 });
 
 test('should logout', async ({ page }) => {

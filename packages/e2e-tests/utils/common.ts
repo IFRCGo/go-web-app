@@ -1,4 +1,9 @@
-import { isNotDefined, isFalsyString, isTruthyString, isDefined } from '@togglecorp/fujs';
+import {
+    isDefined,
+    isFalsyString,
+    isNotDefined,
+    isTruthyString,
+} from '@togglecorp/fujs';
 
 function getMaximumFractionDigits(value: number) {
     if (value < 1000) {
@@ -25,8 +30,8 @@ interface FormatNumberOptions {
     unit?: Intl.NumberFormatOptions['unit'];
     maximumFractionDigits?: Intl.NumberFormatOptions['maximumFractionDigits'];
     compact?: boolean;
-    separatorHidden?: boolean,
-    language?: string,
+    separatorHidden?: boolean;
+    language?: string;
 }
 
 export function formatNumber(
@@ -35,13 +40,14 @@ export function formatNumber(
 ) {
     const formattingOptions: Intl.NumberFormatOptions = {};
 
-    const safeNumber = typeof value === 'string'
-        ? Number(value)
-        : value;
+    const safeNumber = typeof value === 'string' ? Number(value) : value;
 
     if (isNotDefined(options)) {
-        formattingOptions.maximumFractionDigits = getMaximumFractionDigits(safeNumber);
-        return new Intl.NumberFormat('default', formattingOptions).format(safeNumber);
+        formattingOptions.maximumFractionDigits =
+            getMaximumFractionDigits(safeNumber);
+        return new Intl.NumberFormat('default', formattingOptions).format(
+            safeNumber,
+        );
     }
 
     const {
@@ -71,11 +77,13 @@ export function formatNumber(
     if (isDefined(maximumFractionDigits)) {
         formattingOptions.maximumFractionDigits = maximumFractionDigits;
     } else {
-        formattingOptions.maximumFractionDigits = getMaximumFractionDigits(safeNumber);
+        formattingOptions.maximumFractionDigits =
+            getMaximumFractionDigits(safeNumber);
     }
 
-    const newValue = new Intl.NumberFormat(language, formattingOptions)
-        .format(safeNumber);
+    const newValue = new Intl.NumberFormat(language, formattingOptions).format(
+        safeNumber,
+    );
 
     return newValue;
 }

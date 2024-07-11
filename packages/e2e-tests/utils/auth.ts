@@ -13,5 +13,7 @@ export async function login(page: Page, username: string, password: string) {
     // Wait for the final URL to ensure that the cookies are actually set.
     await page.waitForURL('/');
     // Alternatively, you can wait until the page reaches a state where all cookies are set.
-    await expect(page.getByRole('button', { name: 'Create a Report' })).toBeVisible();
+    await expect(
+        page.getByRole('button', { name: 'Create a Report' }),
+    ).toBeVisible();
 }
