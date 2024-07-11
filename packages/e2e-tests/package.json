@@ -16,7 +16,7 @@
         "lint": "yarn biome lint ./tests/* ./utils/*",
         "biome:check": "biome check ./tests/* ./utils/*",
         "biome:ci": "biome ci ./tests/* ./utils/*",
-        "biome:fix": "biome check --write ./tests/* ./utils/*"
+        "biome:fix": "biome check --apply ./tests/* ./utils/*"
     },
     "dependencies": {
         "@togglecorp/fujs": "^2.1.1",
