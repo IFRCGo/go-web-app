@@ -24,6 +24,24 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  typecheck-lint:
+    name: Typecheck & Lint
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/e2e-tests
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Run Typecheck
+        run: yarn typecheck
+      - name: Run Biome Check
+        run: yarn biome:ci
   test-e2e:
     name: E2E Tests
     environment: 'test'

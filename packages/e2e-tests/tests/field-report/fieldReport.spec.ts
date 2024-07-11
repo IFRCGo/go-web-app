@@ -4,7 +4,7 @@ import fixtureData from './fieldReport.json';
 
 test.use({ storageState: 'playwright/.auth/user.json' });
 
-test.describe('Field Report',  () => {
+test.describe('Field Report', () => {
     test('should create a new event type field report', async ({ page }) => {
         const {
             formName,
@@ -103,9 +103,7 @@ test.describe('Field Report',  () => {
         await page.getByRole('button', { name: 'Continue' }).click();
         // Situation Page
         await page.locator('input[name="num_injured"]').fill(numInjured);
-        await page
-            .locator('input[name="gov_num_injured"]')
-            .fill(govNumInjured);
+        await page.locator('input[name="gov_num_injured"]').fill(govNumInjured);
         await page
             .locator('input[name="other_num_injured"]')
             .fill(otherNumInjured);
@@ -113,9 +111,7 @@ test.describe('Field Report',  () => {
         await page.locator('input[name="gov_num_dead"]').fill(govNumDead);
         await page.locator('input[name="other_num_dead"]').fill(otherNumDead);
         await page.locator('input[name="num_missing"]').fill(numMissing);
-        await page
-            .locator('input[name="gov_num_missing"]')
-            .fill(govNumMissing);
+        await page.locator('input[name="gov_num_missing"]').fill(govNumMissing);
         await page
             .locator('input[name="other_num_missing"]')
             .fill(otherNumMissing);
@@ -133,9 +129,7 @@ test.describe('Field Report',  () => {
         await page
             .locator('input[name="other_num_displaced"]')
             .fill(otherNumDisplaced);
-        await page
-            .locator('textarea[name="other_sources"]')
-            .fill(otherSources);
+        await page.locator('textarea[name="other_sources"]').fill(otherSources);
         // await page.frameLocator('iframe[title="Rich Text Area"]').locator('html').fill("Just the random data");
         // issue in Situational overview textbox
         await page.getByRole('button', { name: 'Continue' }).click();
@@ -497,28 +491,36 @@ test.describe('Field Report',  () => {
             await expect(detailLocator).toContainText(detail.email);
             await expect(detailLocator).toContainText(detail.phone);
         }
-          await page.getByRole('link', { name: 'Edit Report' }).click();
+        await page.getByRole('link', { name: 'Edit Report' }).click();
         // Input Value Assertions
         // Context Page
         // Status
-        const statusValue = page.locator('label').filter({ hasText: 'EventFirst report for this disaster' })
+        const statusValue = page
+            .locator('label')
+            .filter({ hasText: 'EventFirst report for this disaster' });
         await expect(statusValue).toBeChecked();
         // Assertions for Country, Region, Disaster Type, Date and Title
         const countryValue = page.locator('input[name="country"]');
         await expect(countryValue).toHaveValue(country);
-        const regionValue = page.locator('input[name="districts"]')
+        const regionValue = page.locator('input[name="districts"]');
         await expect(regionValue).toHaveValue(district);
         const disasterValue = page.locator('input[name="dtype"]');
         await expect(disasterValue).toHaveValue(disasterType);
         const dateValue = page.locator('input[name="start_date"]');
         await expect(dateValue).toHaveValue(date);
         const titleValue = page.getByPlaceholder('Example: Cyclone Cody');
-        await expect(titleValue).toHaveValue(`${newtitle} - ${title}`,);
+        await expect(titleValue).toHaveValue(`${newtitle} - ${title}`);
         // Government request international assistance
-        const govReqValue = page.locator('label').filter({ hasText: govRequest }).nth(1)
+        const govReqValue = page
+            .locator('label')
+            .filter({ hasText: govRequest })
+            .nth(1);
         await expect(govReqValue).toBeChecked();
         // National Society requests international assistance?
-        const nsReqValue = page.locator('label').filter({ hasText: nationalsocietyRequest }).nth(2)
+        const nsReqValue = page
+            .locator('label')
+            .filter({ hasText: nationalsocietyRequest })
+            .nth(2);
         await expect(nsReqValue).toBeChecked();
         await page.getByRole('button', { name: 'Continue' }).click();
         // Situation Page
@@ -538,7 +540,7 @@ test.describe('Field Report',  () => {
             { name: 'other_num_affected', value: otherNumAffected },
             { name: 'num_displaced', value: numDisplaced },
             { name: 'gov_num_displaced', value: govNumDisplaced },
-            { name: 'other_num_displaced', value: otherNumDisplaced }
+            { name: 'other_num_displaced', value: otherNumDisplaced },
         ];
         for (const { name, value } of numericDetailValues) {
             const inputValue = page.locator(`input[name="${name}"]`);
@@ -555,7 +557,7 @@ test.describe('Field Report',  () => {
             { name: 'num_assisted', value: numAssisted },
             { name: 'num_localstaff', value: numLocalstaff },
             { name: 'num_volunteers', value: numVolunteers },
-            { name: 'num_expats_delegates', value: numExpatsDelegates }
+            { name: 'num_expats_delegates', value: numExpatsDelegates },
         ];
         for (const { name, value } of assistedValues) {
             const inputValue = page.locator(`input[name="${name}"]`);
@@ -564,33 +566,51 @@ test.describe('Field Report',  () => {
         // Assertions for Actions Taken by National Society Red Cross Value
         const nsActions = [actionHuman, actionShelter, actionEvacuation];
         for (const action of nsActions) {
-            const label = page.locator('label').filter({ hasText: action }).first();
+            const label = page
+                .locator('label')
+                .filter({ hasText: action })
+                .first();
             await expect(label).toBeChecked();
         }
-        const nsValue = page.getByPlaceholder('Brief description of the action').first();
+        const nsValue = page
+            .getByPlaceholder('Brief description of the action')
+            .first();
         await expect(nsValue).toHaveText(nationalSocietySummary);
         // Assertions for Actions Taken by IFRC Value
         const ifrcActions = [actionHealth, actionShelter, actionCamp];
         for (const action of ifrcActions) {
-            const label = page.locator('label').filter({ hasText: action }).nth(1);
+            const label = page
+                .locator('label')
+                .filter({ hasText: action })
+                .nth(1);
             await expect(label).toBeChecked();
         }
-        const ifrcValue = page.getByPlaceholder('Brief description of the action').nth(1);
+        const ifrcValue = page
+            .getByPlaceholder('Brief description of the action')
+            .nth(1);
         await expect(ifrcValue).toHaveText(federationSummary);
         // Assertions for Actions Taken by RCRC Movements Value
         const rcrcActions = [actionFirst, actionPsychosocial, actionFood];
         for (const action of rcrcActions) {
-            const label = page.locator('label').filter({ hasText: action }).nth(2);
+            const label = page
+                .locator('label')
+                .filter({ hasText: action })
+                .nth(2);
             await expect(label).toBeChecked();
         }
-        const rcrcValue = page.getByPlaceholder('Brief description of the action').nth(2);
+        const rcrcValue = page
+            .getByPlaceholder('Brief description of the action')
+            .nth(2);
         await expect(rcrcValue).toHaveText(rcrcSummary);
         // Assertions for Information Bulletin
-        const bulletinValue = page.locator('label').filter({ hasText: informationBulletin });
+        const bulletinValue = page
+            .locator('label')
+            .filter({ hasText: informationBulletin });
         await expect(bulletinValue).toBeChecked();
         // Assertions for Actions Taken by Others Value
-        const actionsOtherValue = page.locator('textarea[name="actions_others"]');
-        await expect(actionsOtherValue).toHaveText(actionOther)
-        
-        });
+        const actionsOtherValue = page.locator(
+            'textarea[name="actions_others"]',
+        );
+        await expect(actionsOtherValue).toHaveText(actionOther);
+    });
 });
