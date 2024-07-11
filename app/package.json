@@ -21,7 +21,7 @@
         "generate:type": "yarn generate:type:go-api && yarn generate:type:risk-api",
         "generate:type:go-api": "dotenv -- cross-var openapi-typescript \"%APP_API_ENDPOINT%api-docs/\" -o ./generated/types.ts --alphabetize",
         "generate:type:risk-api": "dotenv -- cross-var openapi-typescript \"%APP_RISK_API_ENDPOINT%api-docs/\" -o ./generated/riskTypes.ts --alphabetize",
-        "typecheck": "tsc",
+        "typecheck": "tsc --noEmit",
         "lint:js": "eslint src",
         "lint:css": "stylelint \"./src/**/*.css\"",
         "lint:unused": "unimported",
