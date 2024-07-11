@@ -4,8 +4,8 @@ export async function login(page: Page, username: string, password: string) {
 
     //FIXME: page.fill is discouraged. We should use locator based fill.
     // @ifrc/go-ui should be updated to support locators
-    await page.fill('input[name="username"]', username);
-    await page.fill('input[name="password"]', password);
+    await page.locator('input[name="username"]').fill(username);
+    await page.locator('input[name="password"]').fill(password);
 
     await page.getByRole('button', { name: 'Login' }).click();
     // Wait until the page receives the cookies.

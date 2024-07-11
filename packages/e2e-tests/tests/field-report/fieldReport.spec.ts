@@ -147,21 +147,21 @@ test.describe('Field Report', () => {
         await page
             .locator('label')
             .filter({ hasText: actionHuman })
-            .first()
+            .nth(0)
             .click();
         await page
             .locator('label')
             .filter({ hasText: actionShelter })
-            .first()
+            .nth(0)
             .click();
         await page
             .locator('label')
             .filter({ hasText: actionEvacuation })
-            .first()
+            .nth(0)
             .click();
         await page
             .getByPlaceholder('Brief description of the action')
-            .first()
+            .nth(0)
             .fill(nationalSocietySummary);
         // Action Taken by IFRC
         await page
@@ -214,7 +214,7 @@ test.describe('Field Report', () => {
         await page
             .locator('label')
             .filter({ hasText: interventionOptionOne })
-            .first()
+            .nth(0)
             .click();
         await page.locator('input[name="dref_amount"]').fill(drefRequested);
         //Emergency Appeal
@@ -284,7 +284,7 @@ test.describe('Field Report', () => {
             .getByText('Start Date', { exact: true })
             .locator('..');
         await expect(frDate).toHaveText(`Start Date${date}`);
-        // Assertions to verify whether the data inserted on the form are displayed on the UI // Numeric Details
+        // Numeric Details Assertions
         const numericDetails = [
             { label: 'Injured (RC)', value: formatNumber(numInjured) },
             {
@@ -375,7 +375,7 @@ test.describe('Field Report', () => {
             .locator('..')
             .locator('..');
         await expect(bulletin).toContainText(informationBulletin);
-        // Assertions for actions taken by National Society, Federation and RCRC
+        // Actions taken by National Society, Federation and RCRC Assertions
         const sections = [
             {
                 childText: 'Actions taken by National Society',
@@ -450,7 +450,7 @@ test.describe('Field Report', () => {
             `Emergency Response Units${interventionOptionTwo}`,
         );
 
-        // Assertions to verify the contacts
+        // Contacts Assertions
         const details = [
             {
                 label: 'Originator',
@@ -499,7 +499,7 @@ test.describe('Field Report', () => {
             .locator('label')
             .filter({ hasText: 'EventFirst report for this disaster' });
         await expect(statusValue).toBeChecked();
-        // Assertions for Country, Region, Disaster Type, Date and Title
+        // Assertions for Country, Region, Disaster Type, Date and Title value
         const countryValue = page.locator('input[name="country"]');
         await expect(countryValue).toHaveValue(country);
         const regionValue = page.locator('input[name="districts"]');
@@ -569,12 +569,12 @@ test.describe('Field Report', () => {
             const label = page
                 .locator('label')
                 .filter({ hasText: action })
-                .first();
+                .nth(0);
             await expect(label).toBeChecked();
         }
         const nsValue = page
             .getByPlaceholder('Brief description of the action')
-            .first();
+            .nth(0);
         await expect(nsValue).toHaveText(nationalSocietySummary);
         // Assertions for Actions Taken by IFRC Value
         const ifrcActions = [actionHealth, actionShelter, actionCamp];
@@ -607,10 +607,94 @@ test.describe('Field Report', () => {
             .locator('label')
             .filter({ hasText: informationBulletin });
         await expect(bulletinValue).toBeChecked();
-        // Assertions for Actions Taken by Others Value
         const actionsOtherValue = page.locator(
             'textarea[name="actions_others"]',
         );
         await expect(actionsOtherValue).toHaveText(actionOther);
+        await page.getByRole('button', { name: 'Continue' }).click();
+        // Response Page
+        // Assertions for Planned Assertions value
+        // DREF Requested
+        const drefValue = page
+            .locator('label')
+            .filter({ hasText: interventionOptionOne })
+            .nth(0);
+        await expect(drefValue).toBeChecked();
+        const drefSummaryValue = page.locator('input[name="dref_amount"]');
+        await expect(drefSummaryValue).toHaveValue(drefRequested);
+        // Emmergency Appeal
+        const emergencyAppealValue = page
+            .locator('label')
+            .filter({ hasText: interventionOptionTwo })
+            .nth(1);
+        await expect(emergencyAppealValue).toBeChecked();
+        const emergencyAppealSummaryValue = page.locator(
+            'input[name="appeal_amount"]',
+        );
+        await expect(emergencyAppealSummaryValue).toHaveValue(emergencyAppeal);
+        // Rapid Response Personnel
+        const rapidResponseValue = page
+            .locator('label')
+            .filter({ hasText: interventionOptionThree })
+            .nth(2);
+        await expect(rapidResponseValue).toBeChecked();
+        const rapidResponseSummaryValue = page.locator(
+            'input[name="num_fact"]',
+        );
+        await expect(rapidResponseSummaryValue).toHaveValue(rapidResponse);
+        // Emergency Response Unit
+        const emergencyResponseValue = page
+            .locator('label')
+            .filter({ hasText: interventionOptionTwo })
+            .nth(3);
+        await expect(emergencyResponseValue).toBeChecked();
+        const emergencyResponseSummaryValue = page.locator(
+            'input[name="num_ifrc_staff"]',
+        );
+        await expect(emergencyResponseSummaryValue).toHaveValue(
+            emergencyResponse,
+        );
+        // Contacts
+        // Assertion for Originator Contacts value
+        const originatorNameValue = page.locator('input[name="name"]').nth(0);
+        await expect(originatorNameValue).toHaveValue(originatorName);
+        const orginatorTitleValue = page.locator('input[name="title"]').nth(0);
+        await expect(orginatorTitleValue).toHaveValue(originatorTitle);
+        const originatorEmailValue = page.locator('input[name="email"]').nth(0);
+        await expect(originatorEmailValue).toHaveValue(originatorEmail);
+        const originatorPhoneValue = page.locator('input[name="phone"]').nth(0);
+        await expect(originatorPhoneValue).toHaveValue(originatorPhone);
+        // Assertion for Emergency Appeal values
+        const nationalNameValue = page.locator('input[name="name"]').nth(1);
+        await expect(nationalNameValue).toHaveValue(nationalName);
+        const nationalTitleValue = page.locator('input[name="title"]').nth(1);
+        await expect(nationalTitleValue).toHaveValue(nationalTitle);
+        const nationalEmailValue = page.locator('input[name="email"]').nth(1);
+        await expect(nationalEmailValue).toHaveValue(nationalEmail);
+        const nationalPhoneValue = page.locator('input[name="phone"]').nth(1);
+        await expect(nationalPhoneValue).toHaveValue(nationalPhone);
+        // Assertions for Rapid Response Personnel Values
+        const ifrcNameValue = page.locator('input[name="name"]').nth(2);
+        await expect(ifrcNameValue).toHaveValue(ifrcName);
+        const ifrcTitleValue = page.locator('input[name="title"]').nth(2);
+        await expect(ifrcTitleValue).toHaveValue(ifrcTitle);
+        const ifrcEmailValue = page.locator('input[name="email"]').nth(2);
+        await expect(ifrcEmailValue).toHaveValue(ifrcEmail);
+        const ifrcPhoneValue = page.locator('input[name="phone"]').nth(2);
+        await expect(ifrcPhoneValue).toHaveValue(ifrcPhone);
+        // Assertions for Emergency Response Units Values
+        const mediaNameValue = page.locator('input[name="name"]').nth(3);
+        await expect(mediaNameValue).toHaveValue(mediaName);
+        const mediaTitleValue = page.locator('input[name="title"]').nth(3);
+        await expect(mediaTitleValue).toHaveValue(mediaTitle);
+        const mediaEmailValue = page.locator('input[name="email"]').nth(3);
+        await expect(mediaEmailValue).toHaveValue(mediaEmail);
+        const mediaPhoneValue = page.locator('input[name="phone"]').nth(3);
+        await expect(mediaPhoneValue).toHaveValue(mediaPhone);
+        // Assertions for Field Report Visibility Value
+        const frVisibilityValue = page
+            .locator('label')
+            .filter({ hasText: visibiltyOptTwo });
+        await expect(frVisibilityValue).toBeChecked();
     });
 });
