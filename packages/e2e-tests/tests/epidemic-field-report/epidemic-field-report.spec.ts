@@ -1,18 +1,10 @@
 import { expect, test } from '@playwright/test';
-import { login } from '../../utils/auth.ts';
-import { formatNumber } from '../../utils/common.ts';
-import fixtureData from '../epidemic-field-report/epidemic.json';
+import { formatNumber } from '#utils/common';
+import fixtureData from './epidemic.json';
+
+test.use({ storageState: 'playwright/.auth/user.json' });
 
 test.describe('Field report flow', async () => {
-    test.beforeEach('login credentials', async ({ page }) => {
-        await login(
-            page,
-            process.env.APP_URL,
-            process.env.PLAYWRIGHT_USER_NAME,
-            process.env.PLAYWRIGHT_USER_PASSWORD,
-        );
-    });
-
     test('field report for epidemic type', async ({ page }) => {
         const {
             formName,
@@ -24,20 +16,20 @@ test.describe('Field report flow', async () => {
             govRequest,
             nationalsocietyRequest,
             cases,
-            suspected_cases,
-            probable_cases,
-            confirmed_cases,
-            num_dead,
+            suspectedCases,
+            probableCases,
+            confirmedCases,
+            numDead,
             source,
-            epi_notes,
-            epi_date,
-            other_sources,
+            epiNotes,
+            epiDate,
+            otherSources,
             description,
-            gov_num_assisted,
-            num_assisted,
-            num_localstaff,
-            num_volunteers,
-            num_expats_delegates,
+            govNumAssisted,
+            numAssisted,
+            numLocalstaff,
+            numVolunteers,
+            numExpatsDelegates,
             actionVaccination,
             actionQuarantine,
             actionWater,
@@ -78,6 +70,7 @@ test.describe('Field report flow', async () => {
             visibiltyOptOne,
             visibiltyOptTwo,
         } = fixtureData;
+        await page.goto('/');
         await page.getByRole('button', { name: 'Create a Report' }).click();
         await page.getByRole('link', { name: 'New Field Report' }).click();
         await expect(page.locator('h1')).toContainText(formName);
@@ -109,35 +102,33 @@ test.describe('Field report flow', async () => {
         await page.locator('input[name="epi_cases"]').fill(cases);
         await page
             .locator('input[name="epi_suspected_cases"]')
-            .fill(suspected_cases);
+            .fill(suspectedCases);
         await page
             .locator('input[name="epi_probable_cases"]')
-            .fill(probable_cases);
+            .fill(probableCases);
         await page
             .locator('input[name="epi_confirmed_cases"]')
-            .fill(confirmed_cases);
-        await page.locator('input[name="epi_num_dead"]').fill(num_dead);
+            .fill(confirmedCases);
+        await page.locator('input[name="epi_num_dead"]').fill(numDead);
         await page.locator('input[name="epi_figures_source"]').click();
         await page.getByRole('button', { name: source }).click();
         await page
             .locator('textarea[name="epi_notes_since_last_fr"]')
-            .fill(epi_notes);
-        await page.locator('input[name="sit_fields_date"]').fill(epi_date);
-        await page
-            .locator('textarea[name="other_sources"]')
-            .fill(other_sources);
+            .fill(epiNotes);
+        await page.locator('input[name="sit_fields_date"]').fill(epiDate);
+        await page.locator('textarea[name="other_sources"]').fill(otherSources);
         await page.locator('textarea[name="description"]').fill(description);
         await page.getByRole('button', { name: 'Continue' }).click();
         // Action Page
         await page
             .locator('input[name="gov_num_assisted"]')
-            .fill(gov_num_assisted);
-        await page.locator('input[name="num_assisted"]').fill(num_assisted);
-        await page.locator('input[name="num_localstaff"]').fill(num_localstaff);
-        await page.locator('input[name="num_volunteers"]').fill(num_volunteers);
+            .fill(govNumAssisted);
+        await page.locator('input[name="num_assisted"]').fill(numAssisted);
+        await page.locator('input[name="num_localstaff"]').fill(numLocalstaff);
+        await page.locator('input[name="num_volunteers"]').fill(numVolunteers);
         await page
             .locator('input[name="num_expats_delegates"]')
-            .fill(num_expats_delegates);
+            .fill(numExpatsDelegates);
         // Action taken by National red cross society
         await page
             .locator('label')
@@ -274,7 +265,7 @@ test.describe('Field report flow', async () => {
         const fields = [
             { label: 'Visibility', value: visibiltyOptTwo },
             { label: 'Start Date', value: date },
-            { label: 'Date of Data', value: epi_date },
+            { label: 'Date of Data', value: epiDate },
             { label: 'Source', value: source },
         ];
         for (const field of fields) {
@@ -286,18 +277,18 @@ test.describe('Field report flow', async () => {
         // Assertions to verify whether the data inserted on the form are displayed on the UI // Numeric Details
         const numericDetails = [
             { label: 'Cumulative Cases', value: formatNumber(cases) },
-            { label: 'Suspected Cases', value: formatNumber(suspected_cases) },
-            { label: 'Probable Cases', value: formatNumber(probable_cases) },
-            { label: 'Confirmed Cases', value: formatNumber(confirmed_cases) },
-            { label: 'Dead', value: formatNumber(num_dead) },
-            { label: 'Assisted (RC)', value: formatNumber(num_assisted) },
+            { label: 'Suspected Cases', value: formatNumber(suspectedCases) },
+            { label: 'Probable Cases', value: formatNumber(probableCases) },
+            { label: 'Confirmed Cases', value: formatNumber(confirmedCases) },
+            { label: 'Dead', value: formatNumber(numDead) },
+            { label: 'Assisted (RC)', value: formatNumber(numAssisted) },
             {
                 label: 'Assisted (Government)',
-                value: formatNumber(gov_num_assisted),
+                value: formatNumber(govNumAssisted),
             },
             //  { label: 'Staff', value: formatNumber(num_localstaff)},
             //  { label: 'Volunteers', value: formatNumber(num_volunteers) },
-            { label: 'Delegates', value: formatNumber(num_expats_delegates) },
+            { label: 'Delegates', value: formatNumber(numExpatsDelegates) },
         ];
         for (const detail of numericDetails) {
             const parentElement = page.getByText(detail.label).locator('..');
@@ -311,7 +302,7 @@ test.describe('Field report flow', async () => {
             .locator('..')
             .locator('..')
             .locator('..');
-        await expect(noteParent).toContainText(epi_notes);
+        await expect(noteParent).toContainText(epiNotes);
         // Source Marked as Others Assertions
         const sourceChild = page.getByText('Sources for data marked as Other', {
             exact: true,
@@ -321,7 +312,7 @@ test.describe('Field report flow', async () => {
             .locator('..')
             .locator('..')
             .locator('..');
-        await expect(sourceParent).toContainText(other_sources);
+        await expect(sourceParent).toContainText(otherSources);
         // Description
         const descriptionChild = page.getByText(
             'Sources for data marked as Other',
@@ -332,7 +323,7 @@ test.describe('Field report flow', async () => {
             .locator('..')
             .locator('..')
             .locator('..');
-        await expect(descriptionParent).toContainText(other_sources);
+        await expect(descriptionParent).toContainText(otherSources);
         // Request for Assistance Assertions
         const govReq = page
             .getByText('Government Requests International Assistance', {
@@ -469,5 +460,222 @@ test.describe('Field report flow', async () => {
             await expect(detailLocator).toContainText(detail.email);
             await expect(detailLocator).toContainText(detail.phone);
         }
+        await page.getByRole('link', { name: 'Edit Report' }).click();
+        // Input Value Assertions
+        // Context Page
+        const statusValue = page
+            .locator('label')
+            .filter({ hasText: 'EventFirst report for this disaster' });
+        await expect(statusValue).toBeChecked();
+        // Assertions for Country, Region, Disaster Type, Date and Title
+        const countryValue = page.locator('input[name="country"]');
+        await expect(countryValue).toHaveValue(country);
+        const regionValue = page.locator('input[name="districts"]');
+        await expect(regionValue).toHaveValue(region);
+        const disasterValue = page.locator('input[name="dtype"]');
+        await expect(disasterValue).toHaveValue(disasterType);
+        const dateValue = page.locator('input[name="start_date"]');
+        await expect(dateValue).toHaveValue(date);
+        const titleValue = page.getByPlaceholder('Example: Cyclone Cody');
+        await expect(titleValue).toHaveValue(`${newtitle} - ${title}`);
+        // Government request international assistance
+        const govReqValue = page
+            .locator('label')
+            .filter({ hasText: govRequest })
+            .nth(1);
+        await expect(govReqValue).toBeChecked();
+        // National Society requests international assistance?
+        const nsReqValue = page
+            .locator('label')
+            .filter({ hasText: nationalsocietyRequest })
+            .nth(2);
+        await expect(nsReqValue).toBeChecked();
+        await page.getByRole('button', { name: 'Continue' }).click();
+        // Situation Page
+        // Assertion for Numeric Details Value
+        const numericDetailCases = [
+            { name: 'epi_cases', value: cases },
+            { name: 'epi_suspected_cases', value: suspectedCases },
+            { name: 'epi_probable_cases', value: probableCases },
+            { name: 'epi_confirmed_cases', value: confirmedCases },
+            { name: 'epi_num_dead', value: numDead },
+        ];
+        for (const caseData of numericDetailCases) {
+            const locator = page.locator(`input[name="${caseData.name}"]`);
+            await expect(locator).toHaveValue(caseData.value);
+        }
+        // Assertions for Source Value
+        const sourceValue = page.locator('input[name="epi_figures_source"]');
+        await expect(sourceValue).toHaveValue(source);
+        // Assertions for Notes Value
+        const notesValue = page.locator(
+            'textarea[name="epi_notes_since_last_fr"]',
+        );
+        await expect(notesValue).toHaveValue(epiNotes);
+        // Assertions for Date of Data Value
+        const dataDateValue = page.locator('input[name="sit_fields_date"]');
+        await expect(dataDateValue).toHaveValue(epiDate);
+        // Assertions for Source Details Value
+        const otherSourcesValue = page.locator(
+            'textarea[name="other_sources"]',
+        );
+        await expect(otherSourcesValue).toHaveValue(otherSources);
+        // Assertions for Situational Overview Value
+        const overviewValue = page.locator('textarea[name="description"]');
+        await expect(overviewValue).toHaveValue(description);
+        await page.getByRole('button', { name: 'Continue' }).click();
+        // Actions Page
+        // Assertions for Actions Taken Value
+        const inputValues = [
+            { name: 'gov_num_assisted', value: govNumAssisted },
+            { name: 'num_assisted', value: numAssisted },
+            { name: 'num_localstaff', value: numLocalstaff },
+            { name: 'num_volunteers', value: numVolunteers },
+            { name: 'num_expats_delegates', value: numExpatsDelegates },
+        ];
+        for (const { name, value } of inputValues) {
+            const inputValue = page.locator(`input[name="${name}"]`);
+            await expect(inputValue).toHaveValue(value);
+        }
+        // Assertions for Actions Taken by National Red Cross Society Value
+        const nsActions = [actionVaccination, actionQuarantine, actionWater];
+        for (const action of nsActions) {
+            const actionLocator = page
+                .locator('label')
+                .filter({ hasText: action })
+                .first();
+            await expect(actionLocator).toBeChecked();
+        }
+        const nsActionsValue = page.locator('textarea[name="summary"]').first();
+        await expect(nsActionsValue).toHaveValue(nationalSocietySummary);
+        // Assertions for Actions Taken by IFRC Value
+        const ifrcActions = [actionSanitation, actionVector, actionAid];
+        for (const action of ifrcActions) {
+            const actionLocator = page
+                .locator('label')
+                .filter({ hasText: action })
+                .nth(1);
+            await expect(actionLocator).toBeChecked();
+        }
+        const ifrcActionsValue = page
+            .locator('textarea[name="summary"]')
+            .nth(1);
+        await expect(ifrcActionsValue).toHaveValue(federationSummary);
+        // Assertions for Actions Taken by Other RCRC Movements Actors Value
+        const rcrcActions = [actionAmbulance, actionVolunteer, actionReadiness];
+        for (const action of rcrcActions) {
+            const actionLocator = page
+                .locator('label')
+                .filter({ hasText: action })
+                .nth(2);
+            await expect(actionLocator).toBeChecked();
+        }
+        const rcrcActionsValue = page
+            .locator('textarea[name="summary"]')
+            .nth(2);
+        await expect(rcrcActionsValue).toHaveValue(rcrcSummary);
+        // Assertions for Information Bulletin Value
+        const informationBulletinValue = page
+            .locator('label')
+            .filter({ hasText: informationBulletin });
+        await expect(informationBulletinValue).toBeChecked();
+        // Actions Taken by Others
+        const actionOthersValue = page.locator(
+            'textarea[name="actions_others"]',
+        );
+        await expect(actionOthersValue).toHaveValue(actionOther);
+        await page.getByRole('button', { name: 'Continue' }).click();
+        // Response Page
+        // Assertions for Planned Interventions Value
+        // DREF Requested
+        const drefValue = page
+            .locator('label')
+            .filter({ hasText: interventionOptionOne })
+            .nth(0);
+        await expect(drefValue).toBeChecked();
+        const drefSummaryValue = page.locator('input[name="dref_amount"]');
+        await expect(drefSummaryValue).toHaveValue(drefRequested);
+        // Emmergency Appeal
+        const emergencyAppealValue = page
+            .locator('label')
+            .filter({ hasText: interventionOptionTwo })
+            .nth(1);
+        await expect(emergencyAppealValue).toBeChecked();
+        const emergencyAppealSummaryValue = page.locator(
+            'input[name="appeal_amount"]',
+        );
+        await expect(emergencyAppealSummaryValue).toHaveValue(emergencyAppeal);
+        // Rapid Response Personnel
+        const rapidResponseValue = page
+            .locator('label')
+            .filter({ hasText: interventionOptionThree })
+            .nth(2);
+        await expect(rapidResponseValue).toBeChecked();
+        const rapidResponseSummaryValue = page.locator(
+            'input[name="num_fact"]',
+        );
+        await expect(rapidResponseSummaryValue).toHaveValue(rapidResponse);
+        // Emergency Response Unit
+        const emergencyResponseValue = page
+            .locator('label')
+            .filter({ hasText: interventionOptionTwo })
+            .nth(3);
+        await expect(emergencyResponseValue).toBeChecked();
+        const emergencyResponseSummaryValue = page.locator(
+            'input[name="num_ifrc_staff"]',
+        );
+        await expect(emergencyResponseSummaryValue).toHaveValue(
+            emergencyResponse,
+        );
+        // Contacts
+        // Assertion for Originator Contacts value
+        const originatorValue = [
+            { name: 'name', value: originatorName },
+            { name: 'title', value: originatorTitle },
+            { name: 'email', value: originatorEmail },
+            { name: 'phone', value: originatorPhone },
+        ];
+        for (const { name, value } of originatorValue) {
+            const locator = page.locator(`input[name="${name}"]`).nth(0);
+            await expect(locator).toHaveValue(value);
+        }
+        // Assertion for National Society values
+        const nationalValue = [
+            { name: 'name', value: nationalName },
+            { name: 'title', value: nationalTitle },
+            { name: 'email', value: nationalEmail },
+            { name: 'phone', value: nationalPhone },
+        ];
+        for (const { name, value } of nationalValue) {
+            const locator = page.locator(`input[name="${name}"]`).nth(1);
+            await expect(locator).toHaveValue(value);
+        }
+        // Assertions for IFRC Focal Points for the Emergency Values
+        const ifrcValue = [
+            { name: 'name', value: ifrcName },
+            { name: 'title', value: ifrcTitle },
+            { name: 'email', value: ifrcEmail },
+            { name: 'phone', value: ifrcPhone },
+        ];
+        for (const { name, value } of ifrcValue) {
+            const locator = page.locator(`input[name="${name}"]`).nth(2);
+            await expect(locator).toHaveValue(value);
+        }
+        // Assertions for Emergency Response Units Values
+        const mediaValue = [
+            { name: 'name', value: mediaName },
+            { name: 'title', value: mediaTitle },
+            { name: 'email', value: mediaEmail },
+            { name: 'phone', value: mediaPhone },
+        ];
+        for (const { name, value } of mediaValue) {
+            const locator = page.locator(`input[name="${name}"]`).nth(3);
+            await expect(locator).toHaveValue(value);
+        }
+        // Assertions for Field Report Visibility Value
+        const frVisibilityValue = page
+            .locator('label')
+            .filter({ hasText: visibiltyOptTwo });
+        await expect(frVisibilityValue).toBeChecked();
     });
 });
