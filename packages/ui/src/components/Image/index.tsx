@@ -8,9 +8,9 @@ import useBooleanState from '#hooks/useBooleanState';
 
 import styles from './styles.module.css';
 
-interface Props {
+export interface Props {
     className?: string;
-    src: string | null | undefined;
+    src?: string;
     alt?: string;
     caption?: React.ReactNode;
     captionClassName?: string;

@@ -5,10 +5,10 @@ import {
 
 interface AlertProps<N extends string> extends PureAlertProps<N> {}
 
-function WrappedAlert<N extends string>(props: AlertProps<N>) {
+function Alert<N extends string>(props: AlertProps<N>) {
     return (
         <PureAlert {...props} />// eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedAlert;
+export default Alert;

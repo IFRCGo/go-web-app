@@ -41,7 +41,7 @@ const getFormattedKey = (dateFromProps: string | Date) => {
     return formatDate(date, 'yyyy-MM');
 };
 
-interface Props<K> {
+export interface Props<K> {
     className?: string;
     dataKeys: K[];
     timePoints: Date[];

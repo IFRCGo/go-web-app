@@ -10,7 +10,7 @@ import {
 
 import i18n from './i18n.json';
 
-type Prop<NAME> = RadioInputProps<
+export type BooleanInputProps<NAME> = RadioInputProps<
     NAME,
     { value: boolean, label: string},
     boolean,
@@ -18,7 +18,7 @@ type Prop<NAME> = RadioInputProps<
     'options' | 'keySelector' | 'labelSelector'
 >;
 
-function BooleanInput<const NAME>(props: Prop<NAME>) {
+function BooleanInput<const NAME>(props: BooleanInputProps<NAME>) {
     const strings = useTranslation(i18n);
 
     const yesNoOptions = useMemo(

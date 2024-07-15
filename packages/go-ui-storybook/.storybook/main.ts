@@ -10,6 +10,7 @@ function getAbsolutePath(value: string): any {
 }
 const config: StorybookConfig = {
     stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
+
     addons: [
         getAbsolutePath("@storybook/addon-links"),
         getAbsolutePath("@storybook/addon-essentials"),
@@ -17,14 +18,31 @@ const config: StorybookConfig = {
         getAbsolutePath("@storybook/addon-interactions"),
         getAbsolutePath("@storybook/addon-a11y"),
         getAbsolutePath("@storybook/addon-designs"),
+        getAbsolutePath("@chromatic-com/storybook"),
     ],
+
     framework: {
         name: getAbsolutePath("@storybook/react-vite"),
         options: {},
     },
-    docs: {
-        autodocs: 'tag',
-    },
+
+    docs: {},
+
     staticDirs: ['../public'],
+
+    typescript: {
+        reactDocgen: 'react-docgen-typescript',
+        reactDocgenTypescriptOptions: {
+            compilerOptions: {
+                allowSyntheticDefaultImports: false,
+                esModuleInterop: false,
+            },
+            // shouldExtractValuesFromUnion: true,
+            shouldExtractLiteralValuesFromEnum: true,
+            // Filter out third-party props from node_modules except @ifrc-go/ui package.
+            propFilter: (prop) =>
+                prop.parent ? !/node_modules\/(?!@ifrc-go\/ui)/.test(prop.parent.fileName) : true,
+        },
+    },
 };
 export default config;

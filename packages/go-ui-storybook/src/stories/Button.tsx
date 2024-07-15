@@ -5,10 +5,10 @@ import {
 
 interface ButtonProps<N> extends PureButtonProps<N> {}
 
-function WrappedButton<const N>(props: ButtonProps<N>) {
+function Button<const N>(props: ButtonProps<N>) {
     return (
-        <PureButton {...props} /> // eslint-disable-line react/jsx-props-no-spreading
+        <PureButton {...props} />// eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
-export default WrappedButton;
+export default Button;

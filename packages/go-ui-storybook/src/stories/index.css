@@ -1,0 +1,172 @@
+.timeline-chart {
+    width: 30rem;
+    --path-stroke-width: 1pt;
+
+    .sales {
+        stroke: var(--go-ui-color-primary-red);
+        stroke-width: var(--path-stroke-width);
+        fill: none;
+        color: var(--go-ui-color-primary-red);
+    }
+
+    .expenses {
+        stroke: var(--go-ui-color-primary-blue);
+        stroke-width: var(--path-stroke-width);
+        fill: none;
+        color: var(--go-ui-color-primary-blue);
+    }
+
+    .profit {
+        stroke: var(--go-ui-color-orange);
+        stroke-width: var(--path-stroke-width);
+        fill: none;
+        stroke: var(--go-ui-color-orange);
+    }
+}
+
+.list-story {
+    width: 30rem;
+}
+
+.grid-story {
+    .grid-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 0;
+        padding: var(--go-ui-spacing-sm);
+        border-radius: var(--go-ui-border-radius-md);
+        box-shadow: var(--go-ui-box-shadow-md);
+    }
+}
+
+.dropdown-option {
+    padding: var(--go-ui-spacing-xs);
+    margin-left: var(--go-ui-spacing-md);
+}
+
+.title > p {
+    font-size: var(--go-ui-font-size-4xl);
+    padding-bottom: var(--go-ui-spacing-2xl);
+    color: var(--go-ui-color-primary-red);
+}
+
+.ifrc-logo {
+    display: block;
+    margin: auto;
+    width: 50%;
+    padding-bottom: var(--go-ui-spacing-2xl);
+}
+
+.overview > p {
+    padding-top: var(--go-ui-spacing-md);
+    padding-bottom: var(--go-ui-spacing-md);
+    font-size: var(--go-ui-font-size-3xl);
+}
+
+.text-body > p {
+    font-size: var(--go-ui-font-size-lg);
+}
+
+.bar-chart {
+    width: 30rem;
+}
+
+.progress-bar{
+    width:20rem;
+}
+
+.header-children {
+    display: flex;
+    flex-direction: column;
+}
+
+.header-ellipsized {
+    display: flex;
+    flex-direction: column;
+    width: 30rem;
+}
+
+.header-wrapped {
+    width: 30rem;
+}
+
+.header-icon {
+    font-size: var(--go-ui-font-size-4xl);
+}
+
+.spinner {
+    font-size: var(--go-ui-font-size-4xl);
+}
+
+.footer-items {
+    display: flex;
+    gap: var(--go-ui-spacing-md);
+}
+
+.footer-link {
+    font-size: var(--go-ui-font-size-2xl);
+    color: var(--go-ui-color-primary-black);
+
+    :hover {
+        color: var(--go-ui-color-primary-red);
+    }
+}
+
+.footer-text {
+    color: var(--go-ui-color-primary-black);
+    font-size: var(--go-ui-font-size-xl);
+
+    :hover {
+        color: var(--go-ui-color-primary-red);
+    }
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-container {
+    width: 50%;
+    height: 50%;
+    margin: auto;
+}
+
+.page-container {
+    display: flex;
+    flex-direction: column;
+    width: 40rem;
+    height: 30rem;
+     align-items: center;
+}
+
+.page-container-header {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--go-ui-color-gray-30);
+    padding-top: var(--go-ui-spacing-md);
+    padding-bottom: var(--go-ui-spacing-md);
+}
+
+.page-container-main {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--go-ui-color-gray-40);
+    flex-grow: 1;
+}
+
+.page-container-footer {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--go-ui-color-gray-50);
+    padding-top: var(--go-ui-spacing-md);
+    padding-bottom: var(--go-ui-spacing-md);
+}
