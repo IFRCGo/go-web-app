@@ -9,6 +9,7 @@ import {
     Button,
     Container,
     DateInput,
+    DateOutput,
     MultiSelectInput,
     NumberInput,
     PageContainer,
@@ -16,11 +17,11 @@ import {
     SelectInput,
     TextArea,
     TextInput,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     numericIdSelector,
+    resolveToComponent,
     stringNameSelector,
     stringValueSelector,
 } from '@ifrc-go/ui/utils';
@@ -44,6 +45,7 @@ import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useAlert from '#hooks/useAlert';
 import { getFirstTruthyString } from '#utils/common';
 import { VISIBILITY_PUBLIC } from '#utils/constants';
+import { getUserName } from '#utils/domain/user';
 import { CountryOutletContext } from '#utils/outletContext';
 import {
     type GoApiResponse,
@@ -312,10 +314,7 @@ function LocalUnitsForm(props: Props) {
     );
 
     return (
-        <PageContainer
-            className={styles.localUnitsForm}
-            contentClassName={styles.formContent}
-        >
+        <div className={styles.localUnitsForm}>
             {!readOnly
                 && isDefined(actionsContainerRef)
                 && isDefined(actionsContainerRef.current)
@@ -326,12 +325,21 @@ function LocalUnitsForm(props: Props) {
                 )}
             {isDefined(headingDescriptionRef) && isDefined(headingDescriptionRef.current) && (
                 <Portal container={headingDescriptionRef.current}>
-                    <TextOutput
-                        // FIXME: use strings
-                        label="Last updated on"
-                        // FIXME: use actual value
-                        value="2020-10-12"
-                    />
+                    <div className={styles.lastUpdateLabel}>
+                        {resolveToComponent(
+                            strings.lastUpdateLabel,
+                            {
+                                modifiedAt: (
+                                    <DateOutput
+                                        value={localUnitDetailsResponse?.modified_at}
+                                    />
+                                ),
+                                modifiedBy: getUserName(
+                                    localUnitDetailsResponse?.modified_by_details,
+                                ),
+                            },
+                        )}
+                    </div>
                 </Portal>
             )}
             {isDefined(headerDescriptionRef.current) && (
@@ -350,26 +358,25 @@ function LocalUnitsForm(props: Props) {
                             error={error?.type}
                             nonClearable
                         />
-                        <SelectInput
-                            label={strings.visibility}
-                            name="visibility"
-                            required
-                            nonClearable
-                            options={visibilityOptions}
-                            value={value.visibility}
-                            onChange={setFieldValue}
-                            keySelector={VisibilityOptions}
-                            labelSelector={stringValueSelector}
-                            readOnly={readOnly}
-                            error={error?.type}
-                        />
-                        {isDefined(countryId)
-                            && isDefined(localUnitId)
-                            && isDefined(onSuccess)
-                            && isDefined(isValidated)
-                            && (
-                                <>
-                                    <div />
+                        <FormGrid>
+                            <SelectInput
+                                label={strings.visibility}
+                                name="visibility"
+                                required
+                                nonClearable
+                                options={visibilityOptions}
+                                value={value.visibility}
+                                onChange={setFieldValue}
+                                keySelector={VisibilityOptions}
+                                labelSelector={stringValueSelector}
+                                readOnly={readOnly}
+                                error={error?.type}
+                            />
+                            {isDefined(countryId)
+                                && isDefined(localUnitId)
+                                && isDefined(onSuccess)
+                                && isDefined(isValidated)
+                                && (
                                     <div className={styles.actions}>
                                         <LocalUnitDeleteButton
                                             countryId={Number(countryId)}
@@ -394,8 +401,8 @@ function LocalUnitsForm(props: Props) {
                                             readOnly={!pristine}
                                         />
                                     </div>
-                                </>
-                            )}
+                                )}
+                        </FormGrid>
                     </FormGrid>
                 </Portal>
             )}
@@ -1038,7 +1045,7 @@ function LocalUnitsForm(props: Props) {
                     </>
                 )}
             </Container>
-        </PageContainer>
+        </div>
     );
 }
 

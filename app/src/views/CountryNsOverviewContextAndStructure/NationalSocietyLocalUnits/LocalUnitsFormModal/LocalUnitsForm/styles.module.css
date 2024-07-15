@@ -10,11 +10,21 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--go-ui-spacing-lg);
+
+    @media screen and (max-width: 60rem) {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* NOTE: this element is portaled */
 .actions {
     display: flex;
     gap: var(--go-ui-spacing-md);
+    align-self: end;
+    flex-wrap: wrap;
     justify-content: flex-end;
+}
+
+.last-update-label {
+    color: var(--go-ui-color-text-light);
 }

@@ -11,6 +11,8 @@ import { useLazyRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 
+const hideDelete = true;
+
 interface Props {
     countryId: number;
     localUnitId: number;
@@ -73,6 +75,10 @@ function LocalUnitDeleteButton(props: Props) {
             );
         },
     });
+
+    if (hideDelete) {
+        return null;
+    }
 
     return (
         <ConfirmButton

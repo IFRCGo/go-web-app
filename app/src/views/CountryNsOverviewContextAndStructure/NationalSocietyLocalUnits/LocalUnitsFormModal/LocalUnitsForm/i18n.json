@@ -1,6 +1,7 @@
 {
     "namespace": "localUnitsForm",
     "strings": {
+        "lastUpdateLabel": "Last update: {modifiedAt} by {modifiedBy}",
         "successMessage": "Local unit added successfully!",
         "failedMessage": "Failed to add local unit",
         "updateMessage": "Local unit updated successfully!",
