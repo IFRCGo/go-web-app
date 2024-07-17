@@ -266,11 +266,11 @@ function LocalUnitsMap(props: Props) {
                         radius: 12,
                         type: localUnit.type,
                         subType: localUnit.type === TYPE_HEALTH_CARE
-                            ? localUnit.health_details.health_facility_type
+                            ? localUnit.health_details?.health_facility_type
                             : undefined,
                         iconKey: isDefined(localUnit.health_details)
                             ? getIconKey(
-                                localUnit.health_details.health_facility_type,
+                                localUnit.health_details?.health_facility_type,
                                 HEALTHCARE_ICON_KEY,
                             ) : getIconKey(localUnit.type, LOCAL_UNIT_ICON_KEY),
                     },
@@ -367,7 +367,7 @@ function LocalUnitsMap(props: Props) {
                             />
                         ),
                     )}
-                    {localUnitsOptions?.health_facility_type.map(
+                    {localUnitsOptions?.health_facility_type?.map(
                         (healthTypeOption) => (
                             <MapImage
                                 key={healthTypeOption.id}
