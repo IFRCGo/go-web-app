@@ -1,5 +1,6 @@
 import { FlatCompat } from '@eslint/eslintrc';
 import js from '@eslint/js';
+import tseslint from '@typescript-eslint/eslint-plugin';
 import process from 'process';
 
 const dirname = process.cwd();
@@ -126,6 +127,7 @@ const appConfigs = compat.config({
 const otherConfig = {
     files: ['*.js', '*.ts', '*.cjs'],
     ...js.configs.recommended,
+    ...tseslint.configs.recommended,
 };
 
 export default [
