@@ -5,6 +5,7 @@ import {
 } from '@togglecorp/fujs';
 
 import DefaultMessage from '#components/DefaultMessage';
+import FilterBar from '#components/FilterBar';
 import Footer from '#components/Footer';
 import Header, { Props as HeaderProps } from '#components/Header';
 import { Props as HeadingProps } from '#components/Heading';
@@ -30,7 +31,7 @@ export interface Props {
     contentViewType?: 'grid' | 'vertical' | 'default';
     ellipsizeHeading?: boolean;
     filters?: React.ReactNode;
-    filtersContainerClassName?: string;
+    filterActions?: React.ReactNode;
     footerActions?: React.ReactNode;
     footerActionsContainerClassName?: string;
     footerClassName?: string;
@@ -54,7 +55,6 @@ export interface Props {
     iconsContainerClassName?: string;
     numPreferredGridContentColumns?: NumColumn;
     spacing?: SpacingType;
-    withGridViewInFilter?: boolean;
     withHeaderBorder?: boolean;
     withFooterBorder?: boolean;
     withInternalPadding?: boolean;
@@ -86,7 +86,7 @@ function Container(props: Props) {
         contentViewType = 'default',
         ellipsizeHeading,
         filters,
-        filtersContainerClassName,
+        filterActions,
         footerActions,
         footerActionsContainerClassName,
         footerClassName,
@@ -109,7 +109,6 @@ function Container(props: Props) {
         iconsContainerClassName,
         numPreferredGridContentColumns = 2,
         spacing = 'default',
-        withGridViewInFilter = false,
         withHeaderBorder = false,
         withFooterBorder = false,
         withOverflowInContent = false,
@@ -149,10 +148,6 @@ function Container(props: Props) {
         spacing,
         mode: 'gap',
         inner: true,
-    });
-    const filterGapTokens = useSpacingTokens({
-        spacing,
-        mode: 'grid-gap',
     });
 
     const headerDescription = useMemo(
@@ -232,19 +227,12 @@ function Container(props: Props) {
                 </Header>
             )}
             {withHeaderBorder && <div className={styles.border} />}
-            {filters && (
-                <div
-                    className={_cs(
-                        styles.filter,
-                        withGridViewInFilter && styles.withGridViewInFilter,
-                        withGridViewInFilter && filterGapTokens,
-                        filtersContainerClassName,
-                        withInternalPadding && horizontalPaddingSpacingTokens,
-                    )}
-                >
-                    {filters}
-                </div>
-            )}
+            <FilterBar
+                filters={filters}
+                filterActions={filterActions}
+                spacing={spacing}
+                className={_cs(withInternalPadding && horizontalPaddingSpacingTokens)}
+            />
             {(children || empty || pending || errored || filtered) && (
                 <div
                     className={_cs(

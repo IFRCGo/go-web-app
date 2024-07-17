@@ -254,7 +254,6 @@ function AppealsTable(props: Props) {
         <Container
             className={_cs(styles.appealsTable, className)}
             childrenContainerClassName={styles.content}
-            withGridViewInFilter
             heading={heading}
             withHeaderBorder={isDefined(heading)}
             filters={(

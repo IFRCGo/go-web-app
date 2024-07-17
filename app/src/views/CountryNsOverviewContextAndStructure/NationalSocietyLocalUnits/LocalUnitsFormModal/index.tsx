@@ -8,6 +8,7 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import LocalUnitsForm from './LocalUnitsForm';
 
 import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 interface Props {
     localUnitId?: number;
@@ -23,7 +24,9 @@ function LocalUnitsFormModal(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
-    const submitButtonContainerRef = useRef<HTMLDivElement>(null);
+    const actionsContainerRef = useRef<HTMLDivElement>(null);
+    const headingDescriptionRef = useRef<HTMLDivElement>(null);
+    const headerDescriptionRef = useRef<HTMLDivElement>(null);
 
     const handleSuccess = useCallback(
         () => { onClose(true); },
@@ -32,21 +35,32 @@ function LocalUnitsFormModal(props: Props) {
 
     return (
         <Modal
+            className={styles.localUnitsFormModal}
             heading={strings.localUnitsModalHeading}
             onClose={onClose}
-            size="full"
+            size="pageWidth"
             withHeaderBorder
             headingLevel={2}
-            footerActions={!readOnly && (
-                <div ref={submitButtonContainerRef} />
+            actions={!readOnly && (
+                <div ref={actionsContainerRef} />
             )}
+            headingContainerClassName={styles.headingContainer}
+            headingDescription={
+                <div ref={headingDescriptionRef} />
+            }
+            headerDescription={
+                <div ref={headerDescriptionRef} />
+            }
             withFooterBorder={!readOnly}
+            spacing="relaxed"
         >
             <LocalUnitsForm
                 localUnitId={localUnitId}
                 onSuccess={handleSuccess}
                 readOnly={readOnly}
-                submitButtonContainerRef={submitButtonContainerRef}
+                actionsContainerRef={actionsContainerRef}
+                headingDescriptionRef={headingDescriptionRef}
+                headerDescriptionRef={headerDescriptionRef}
             />
         </Modal>
     );

@@ -54,7 +54,6 @@ function SurgeCatalogueContainer(props: Props) {
             heading={heading}
             headerDescription={description}
             headerDescriptionContainerClassName={styles.description}
-            filtersContainerClassName={styles.imageList}
             filters={imageList?.map(
                 (image) => (
                     <Image

@@ -26,13 +26,6 @@
         border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
     }
 
-    .filter {
-        &.with-grid-view-in-filter {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
-        }
-    }
-
     .content {
         flex-grow: 1;
 

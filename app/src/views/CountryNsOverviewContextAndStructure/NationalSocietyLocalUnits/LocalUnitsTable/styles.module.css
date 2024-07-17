@@ -5,4 +5,9 @@
         width: 8rem;
         min-width: 8rem;
     }
+
+    .actions {
+        width: 11rem;
+        min-width: 11rem;
+    }
 }

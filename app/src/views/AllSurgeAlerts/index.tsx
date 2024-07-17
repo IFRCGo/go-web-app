@@ -308,7 +308,6 @@ export function Component() {
         >
             <Container
                 withHeaderBorder
-                withGridViewInFilter
                 filters={(
                     <>
                         <CountrySelectInput

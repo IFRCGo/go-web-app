@@ -14,7 +14,7 @@ import useTranslation from '#hooks/useTranslation';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-export type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full' | 'auto';
+export type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'pageWidth' | 'full' | 'auto';
 
 const sizeToStyleMap: Record<ModalSize, string> = {
     sm: styles.sizeSm,
@@ -23,6 +23,7 @@ const sizeToStyleMap: Record<ModalSize, string> = {
     xl: styles.sizeXl,
     full: styles.sizeFull,
     auto: styles.sizeAuto,
+    pageWidth: styles.pageWidth,
 };
 
 export interface Props extends Omit<ContainerProps, 'withInternalPadding' | 'withoutWrapInHeading'> {

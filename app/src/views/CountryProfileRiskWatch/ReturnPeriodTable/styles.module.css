@@ -1,7 +1,0 @@
-.return-period-table {
-    .filters {
-        display: grid;
-        grid-gap: var(--go-ui-spacing-md);
-        grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
-    }
-}

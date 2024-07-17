@@ -193,7 +193,6 @@ function HistoricalDataChart(props: Props) {
             className={styles.historicalDataChart}
             heading={strings.historicalChartHeading}
             withHeaderBorder
-            filtersContainerClassName={styles.filters}
             filters={(
                 <SelectInput
                     name={undefined}

@@ -25,7 +25,6 @@ import type {
 import useInputState from '#hooks/useInputState';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 type GetCountryRisk = paths['/api/v1/country-seasonal/']['get'];
 type CountryRiskResponse = GetCountryRisk['responses']['200']['content']['application/json'];
@@ -187,9 +186,7 @@ function ReturnPeriodTable(props: Props) {
 
     return (
         <Container
-            className={styles.returnPeriodTable}
             heading={strings.returnPeriodTableHeading}
-            filtersContainerClassName={styles.filters}
             withHeaderBorder
             footerActions={(
                 <TextOutput
@@ -214,7 +211,6 @@ function ReturnPeriodTable(props: Props) {
             <Table
                 filtered={false}
                 pending={false}
-                className={styles.returnPeriodTable}
                 data={transformedReturnPeriods}
                 columns={columns}
                 keySelector={returnPeriodKeySelector}

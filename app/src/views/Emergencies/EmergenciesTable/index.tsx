@@ -161,7 +161,6 @@ function EventItemsTable() {
     return (
         <Container
             className={styles.emergenciesTable}
-            withGridViewInFilter
             filters={(
                 <>
                     <DateInput

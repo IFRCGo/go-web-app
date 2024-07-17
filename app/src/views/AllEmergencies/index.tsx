@@ -280,7 +280,6 @@ export function Component() {
         >
             <Container
                 contentViewType="vertical"
-                withGridViewInFilter
                 filters={(
                     <>
                         <DateInput

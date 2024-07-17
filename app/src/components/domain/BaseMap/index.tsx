@@ -3,6 +3,7 @@ import {
     useMemo,
 } from 'react';
 import { LanguageContext } from '@ifrc-go/ui/contexts';
+import { ErrorBoundary } from '@sentry/react';
 import {
     isDefined,
     isFalsyString,
@@ -21,6 +22,8 @@ import {
     defaultNavControlOptions,
     defaultNavControlPosition,
 } from '#utils/map';
+
+import styles from './styles.module.css';
 
 type MapProps = Parameters<typeof Map>[0];
 
@@ -175,4 +178,21 @@ function BaseMap(props: Props) {
     );
 }
 
-export default BaseMap;
+function BaseMapWithErrorBoundary(props: Props) {
+    return (
+        <ErrorBoundary
+            fallback={(
+                <div className={styles.mapError}>
+                    Failed to load map!
+                </div>
+            )}
+        >
+            <BaseMap
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                {...props}
+            />
+        </ErrorBoundary>
+    );
+}
+
+export default BaseMapWithErrorBoundary;

@@ -159,7 +159,6 @@ function PossibleEarlyActionTable(props: Props) {
         <Container
             className={styles.possibleEarlyActionTable}
             heading={strings.earlyActionTableHeading}
-            filtersContainerClassName={styles.filters}
             withHeaderBorder
             filters={(
                 <>

@@ -1,0 +1,10 @@
+{
+    "namespace": "localUnitDeleteButton",
+    "strings": {
+        "localUnitsDelete": "Delete",
+        "deleteSuccessMessage": "{localUnitName} was deleted.",
+        "deleteFailureMessage": "Failed to validate {localUnitName}",
+        "deleteLocalUnitHeading": "Delete Local Unit Confirmation",
+        "deleteLocalUnitMessage": "Are you sure you want to delete \"{localUnitName}\"?"
+    }
+}

@@ -6,7 +6,6 @@
         "localUnitsTableType": "Type",
         "localUnitsTableFocal": "Focal Person",
         "localUnitsTablePhoneNumber": "Phone Number",
-        "localUnitsTableEmail": "Email",
-        "localUnitsTableValidated": "Validated"
+        "localUnitsTableEmail": "Email"
     }
 }

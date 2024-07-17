@@ -28,8 +28,11 @@ import {
 import { environment } from '#config';
 import useAuth from '#hooks/domain/useAuth';
 import usePermissions from '#hooks/domain/usePermissions';
+import useFilterState from '#hooks/useFilterState';
 import { CountryOutletContext } from '#utils/outletContext';
+import { useRequest } from '#utils/restRequest';
 
+import Filters, { FilterValue } from './Filters';
 import LocalUnitsFormModal from './LocalUnitsFormModal';
 import LocalUnitsMap from './LocalUnitsMap';
 import LocalUnitsTable from './LocalUnitsTable';
@@ -67,6 +70,24 @@ function NationalSocietyLocalUnits(props: Props) {
     const handleFullScreenChange = useCallback(() => {
         setFullScreenMode(isDefined(document.fullscreenElement));
     }, [setFullScreenMode]);
+
+    const {
+        filter,
+        rawFilter,
+        setFilterField,
+        filtered,
+        resetFilter,
+    } = useFilterState<FilterValue>({
+        filter: {},
+        pageSize: 9999,
+    });
+
+    const {
+        response: localUnitsOptions,
+        // pending: localUnitsOptionsResponsePending,
+    } = useRequest({
+        url: '/api/v2/local-units-options/',
+    });
 
     const handleFullScreenToggleClick = useCallback(() => {
         if (isNotDefined(containerRef.current)) {
@@ -110,13 +131,21 @@ function NationalSocietyLocalUnits(props: Props) {
                 className={_cs(styles.nationalSocietyLocalUnits, className)}
                 heading={strings.localUnitsTitle}
                 childrenContainerClassName={styles.content}
-                withGridViewInFilter
                 withHeaderBorder
-                headerDescription={isAuthenticated && (
+                filterActions={isAuthenticated && (
                     <TabList>
                         <Tab name="map">{strings.localUnitsMapView}</Tab>
                         <Tab name="table">{strings.localUnitsListView}</Tab>
                     </TabList>
+                )}
+                filters={(
+                    <Filters
+                        value={rawFilter}
+                        setFieldValue={setFilterField}
+                        options={localUnitsOptions}
+                        resetFilter={resetFilter}
+                        filtered={filtered}
+                    />
                 )}
                 // NOTE: disable local units add/edit for now
                 actions={hasAddLocalUnitPermission && (environment !== 'production') && (
@@ -149,12 +178,16 @@ function NationalSocietyLocalUnits(props: Props) {
                             key={localUnitUpdateKey}
                             onPresentationModeButtonClick={handleFullScreenToggleClick}
                             presentationMode={presentationMode}
+                            filter={filter}
+                            localUnitsOptions={localUnitsOptions}
                         />
                     </Container>
                 </TabPanel>
                 <TabPanel name="table">
                     <LocalUnitsTable
                         key={localUnitUpdateKey}
+                        filter={filter}
+                        filtered={filtered}
                     />
                 </TabPanel>
                 {showAddEditModal && (

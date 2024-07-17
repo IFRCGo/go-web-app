@@ -109,7 +109,6 @@ function Readiness() {
                     {strings.eruOwnersTableFilterClear}
                 </Button>
             )}
-            withGridViewInFilter
             filters={(
                 <Checklist
                     className={styles.checklist}

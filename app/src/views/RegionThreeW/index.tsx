@@ -291,7 +291,6 @@ export function Component() {
                 childrenContainerClassName={styles.content}
                 heading={strings.movementActivities}
                 withHeaderBorder
-                withGridViewInFilter
                 filters={(
                     <Filters
                         value={rawFilter}

@@ -1,0 +1,9 @@
+.map-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--go-ui-color-background);
+    min-height: 20rem;
+    color: var(--go-ui-color-red);
+    font-size: var(--go-ui-font-size-lg);
+}

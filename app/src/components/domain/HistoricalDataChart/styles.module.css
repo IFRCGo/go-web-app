@@ -2,12 +2,6 @@
     --hazard-icon-size: var(--go-ui-font-size-xl);
     --hazard-point-size: var(--go-ui-font-size-2xl);
 
-    .filters {
-        display: grid;
-        grid-gap: var(--go-ui-spacing-md);
-        grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
-    }
-
     .chart-container {
         height: 20rem;
 

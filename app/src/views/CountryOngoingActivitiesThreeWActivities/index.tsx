@@ -406,7 +406,6 @@ export function Component() {
                 childrenContainerClassName={styles.content}
                 heading={strings.responseActivities}
                 withHeaderBorder
-                withGridViewInFilter
                 filters={(
                     <Filters
                         value={rawFilter}

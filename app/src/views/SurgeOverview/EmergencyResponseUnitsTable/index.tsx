@@ -25,7 +25,6 @@ import {
 } from '#utils/restRequest';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 type DeploymentsEruTypeEnum = components<'read'>['schemas']['DeploymentsEruTypeEnum'];
 
@@ -133,13 +132,11 @@ function EmergencyResponseUnitsTable() {
 
     return (
         <Container
-            className={styles.emergencyResponseUnitsTable}
             heading={resolveToString(
                 strings.emergencyResponseUnitsTableHeading,
                 { count: emergencyResponseUnitsResponse?.count ?? '--' },
             )}
             withHeaderBorder
-            filtersContainerClassName={styles.filters}
             filters={(
                 <SelectInput
                     placeholder={strings.emergencyResponseUnitTypeFilterPlaceholder}
@@ -172,7 +169,6 @@ function EmergencyResponseUnitsTable() {
             <SortContext.Provider value={sortState}>
                 <Table
                     pending={emergencyResponseUnitsPending}
-                    className={styles.table}
                     columns={columns}
                     keySelector={emergencyResponseUnitKeySelector}
                     data={emergencyResponseUnitsResponse?.results}

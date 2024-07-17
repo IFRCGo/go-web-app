@@ -221,7 +221,6 @@ export function Component() {
             className={styles.accountPerForms}
             heading={strings.processStatusTitle}
             withHeaderBorder
-            actionsContainerClassName={styles.actionsContainer}
             actions={(
                 <>
                     <Link
@@ -235,7 +234,6 @@ export function Component() {
                     />
                 </>
             )}
-            filtersContainerClassName={styles.filters}
             filters={(
                 <>
                     <RegionSelectInput

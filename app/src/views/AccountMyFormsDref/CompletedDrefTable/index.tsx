@@ -238,7 +238,6 @@ function CompletedDrefTable(props: Props) {
                 />
             )}
             withHeaderBorder
-            filtersContainerClassName={styles.filters}
             filters={(
                 <Filters
                     value={rawFilter}

@@ -1,0 +1,22 @@
+.filter-bar {
+    display: flex;
+    flex-direction: column;
+}
+
+.grid-with-actions {
+    display: flex;
+
+    .grid {
+        display: grid;
+        flex-grow: 1;
+        grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+    }
+
+    .actions {
+        display: flex;
+    }
+
+    @media screen and (max-width: 30rem) {
+        flex-wrap: wrap;
+    }
+}

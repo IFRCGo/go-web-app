@@ -1,16 +1,11 @@
 .surge-catalogue-container {
     .back-icon {
-        font-size: var(--go-ui-height-icon-multiplier);
+        transform: scale(1.2);
+        font-size: var(--go-ui-font-size-2xl);
     }
 
-    .image-list {
-        display: grid;
-        grid-gap: var(--go-ui-spacing-sm);
-        grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
-
-        .image {
-            height: 12rem;
-        }
+    .image {
+        height: 12rem;
     }
 
     .description {

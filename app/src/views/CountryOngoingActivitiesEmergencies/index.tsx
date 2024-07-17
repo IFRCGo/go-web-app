@@ -504,7 +504,6 @@ export function Component(props: BaseProps) {
                     heading={!presentationMode && heading}
                     withHeaderBorder={!presentationMode}
                     childrenContainerClassName={styles.content}
-                    withGridViewInFilter
                     filters={(
                         <Filters
                             value={rawFilter}

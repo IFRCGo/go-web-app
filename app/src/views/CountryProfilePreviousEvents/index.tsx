@@ -158,7 +158,6 @@ export function Component() {
             <Container
                 contentViewType="grid"
                 numPreferredGridContentColumns={2}
-                withGridViewInFilter
                 spacing="relaxed"
                 filters={(
                     <SelectInput

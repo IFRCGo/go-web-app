@@ -4,11 +4,7 @@
         "localUnitsEdit": "Edit",
         "localUnitsView": "View",
         "localUnitsDelete": "Delete",
-        "localUnitsValidate": "Validate",
         "deleteLocalUnitHeading": "Delete Local Unit Confirmation",
-        "deleteLocalUnitMessage": "Are you sure you want to delete \"{localUnitName}\"?",
-        "validationMessage": "{localUnitName} was validated.",
-        "validateLocalUnitHeading": "Validate Local Unit Confirmation",
-        "validateLocalUnitMessage": "Are you sure you want to validate \"{localUnitName}\"?"
+        "deleteLocalUnitMessage": "Are you sure you want to delete \"{localUnitName}\"?"
     }
 }

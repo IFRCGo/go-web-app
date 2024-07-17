@@ -149,7 +149,6 @@ function FieldReportsTable() {
             heading={heading}
             headerDescriptionContainerClassName={styles.filters}
             withHeaderBorder
-            withGridViewInFilter
             filters={(
                 <>
                     <DateInput

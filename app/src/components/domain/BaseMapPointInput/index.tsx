@@ -103,7 +103,9 @@ function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
                     type: 'Point',
                     coordinates: [value.lng, value.lat],
                 },
-                properties: {},
+                properties: {
+                    radius: 10,
+                },
             };
         },
         [value],
@@ -150,7 +152,7 @@ function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
                 visibility: 'visible',
             },
             paint: {
-                'circle-radius': 10,
+                'circle-radius': ['get', 'radius'],
                 'circle-color': COLOR_PRIMARY_RED,
             },
         }),

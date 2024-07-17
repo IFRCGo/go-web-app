@@ -4,21 +4,16 @@ import {
     useBooleanState,
     useTranslation,
 } from '@ifrc-go/ui/hooks';
-import { resolveToString } from '@ifrc-go/ui/utils';
 
 import DropdownMenuItem from '#components/DropdownMenuItem';
-import { environment } from '#config';
 import usePermissions from '#hooks/domain/usePermissions';
-import useAlert from '#hooks/useAlert';
-import {
-    type GoApiResponse,
-    useLazyRequest,
-} from '#utils/restRequest';
+import { type GoApiResponse } from '#utils/restRequest';
 
+import LocalUnitDeleteButton from '../../LocalUnitDeleteButton';
 import LocalUnitsFormModal from '../../LocalUnitsFormModal';
+import LocalUnitValidateButton from '../../LocalUnitValidateButton';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 export interface Props {
     countryId: number;
@@ -41,31 +36,8 @@ function LocalUnitsTableActions(props: Props) {
 
     const { isCountryAdmin, isSuperUser } = usePermissions();
     const strings = useTranslation(i18n);
-    const alert = useAlert();
 
     const hasValidatePermission = isSuperUser || isCountryAdmin(countryId);
-
-    const {
-        pending: validateLocalUnitPending,
-        trigger: validateLocalUnit,
-    } = useLazyRequest({
-        method: 'POST',
-        url: '/api/v2/local-units/{id}/validate/',
-        pathVariables: { id: localUnitId },
-        // FIXME: typings should be fixed in the server
-        body: () => ({} as never),
-        onSuccess: (response) => {
-            const validationMessage = resolveToString(
-                strings.validationMessage,
-                { localUnitName: response.local_branch_name ?? response.english_branch_name },
-            );
-            alert.show(
-                validationMessage,
-                { variant: 'success' },
-            );
-            onActionSuccess();
-        },
-    });
 
     const [showLocalUnitViewModal, {
         setTrue: setShowLocalUnitViewModalTrue,
@@ -103,40 +75,32 @@ function LocalUnitsTableActions(props: Props) {
                         >
                             {strings.localUnitsView}
                         </DropdownMenuItem>
-                        {environment !== 'production' && (
-                            <DropdownMenuItem
-                                type="button"
-                                name={localUnitId}
-                                onClick={setShowLocalUnitEditModalTrue}
-                                disabled={!hasValidatePermission}
-                            >
-                                {strings.localUnitsEdit}
-                            </DropdownMenuItem>
-                        )}
                         <DropdownMenuItem
-                            persist
-                            // NOTE sending an empty post request to validate the local unit
-                            name={null}
-                            type="confirm-button"
-                            variant="tertiary"
-                            className={styles.button}
-                            confirmHeading={strings.validateLocalUnitHeading}
-                            confirmMessage={resolveToString(
-                                strings.validateLocalUnitMessage,
-                                { localUnitName: localUnitName ?? '' },
-                            )}
-                            onConfirm={validateLocalUnit}
-                            disabled={
-                                validateLocalUnitPending
-                            || !hasValidatePermission
-                            || isValidated
-                            }
+                            type="button"
+                            name={localUnitId}
+                            onClick={setShowLocalUnitEditModalTrue}
+                            disabled={!hasValidatePermission}
                         >
-                            {strings.localUnitsValidate}
+                            {strings.localUnitsEdit}
                         </DropdownMenuItem>
+                        <LocalUnitDeleteButton
+                            variant="dropdown-item"
+                            countryId={countryId}
+                            localUnitName={localUnitName}
+                            onActionSuccess={onActionSuccess}
+                            localUnitId={localUnitId}
+                        />
                     </>
                 )}
-            />
+            >
+                <LocalUnitValidateButton
+                    countryId={countryId}
+                    localUnitName={localUnitName}
+                    isValidated={isValidated}
+                    onActionSuccess={onActionSuccess}
+                    localUnitId={localUnitId}
+                />
+            </TableActions>
             {(showLocalUnitViewModal || showLocalUnitEditModal) && (
                 <LocalUnitsFormModal
                     onClose={handleLocalUnitsFormModalClose}

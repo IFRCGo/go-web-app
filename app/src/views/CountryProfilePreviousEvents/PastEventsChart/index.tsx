@@ -155,7 +155,6 @@ function PastEventsChart(props: Props) {
             heading={strings.pastEventsChartEvents}
             className={_cs(styles.pastEventsChart, className)}
             withHeaderBorder
-            withGridViewInFilter
             pending={historicalDisastersPending}
             errored={isDefined(historicalDisastersError)}
             errorMessage={historicalDisastersError?.value?.messageForNotification}

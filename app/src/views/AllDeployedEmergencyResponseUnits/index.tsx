@@ -242,7 +242,6 @@ export function Component() {
                         options={eruTypeOptions}
                     />
                 )}
-                withGridViewInFilter
                 actions={(
                     <ExportButton
                         onClick={handleExportClick}
