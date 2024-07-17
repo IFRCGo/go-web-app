@@ -10,6 +10,7 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import ExportButton from '#components/domain/ExportButton';
+import PrimarySectorSelectInput from '#components/domain/PrimarySectorSelectInput';
 import RegionSelectInput, { RegionOption } from '#components/domain/RegionSelectInput';
 import useFilterState from '#hooks/useFilterState';
 
@@ -25,6 +26,7 @@ const options: Option[] = [];
 
 function Filters() {
     const strings = useTranslation(i18n);
+
     const {
         rawFilter,
         setFilter,
@@ -34,13 +36,14 @@ function Filters() {
         country?: number,
         disasterType?:number,
         startDateBefore?: string,
-        bySector?:string,
+        bySector?:number,
         byComponent?:string,
         startDate?:string,
         search?:string | undefined;
     }>({
         filter: {},
     });
+
     const handleExportClick = useCallback(() => setFilter({}), [setFilter]);
 
     return (
@@ -67,7 +70,7 @@ function Filters() {
                         value={rawFilter.disasterType}
                         onChange={setFilterField}
                     />
-                    <SelectInput
+                    <PrimarySectorSelectInput
                         placeholder={strings.filterBySectorPlaceholder}
                         name="bySector"
                         options={options}
