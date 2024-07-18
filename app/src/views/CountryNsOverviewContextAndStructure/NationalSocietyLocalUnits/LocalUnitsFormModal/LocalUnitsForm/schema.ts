@@ -71,10 +71,6 @@ const schema: LocalUnitsFormSchema = {
             focal_person_en: {
                 validations: [lengthSmallerThanCondition(200)],
             },
-            focal_person_loc: {
-                validations: [lengthSmallerThanCondition(200)],
-                required: true,
-            },
             date_of_data: { required: true },
             source_loc: {},
             source_en: {},
@@ -124,10 +120,11 @@ const schema: LocalUnitsFormSchema = {
             formFields,
             formValue,
             ['type'],
-            ['health'],
+            ['health', 'focal_person_loc'],
             (val) => {
                 if (val?.type === TYPE_HEALTH_CARE) {
                     return {
+                        focal_person_loc: { forceValue: nullValue },
                         health: {
                             fields: (): LocalUnitsHealthFormSchemaFields => ({
                                 affiliation: { required: true },
@@ -247,6 +244,10 @@ const schema: LocalUnitsFormSchema = {
                     };
                 }
                 return {
+                    focal_person_loc: {
+                        validations: [lengthSmallerThanCondition(200)],
+                        required: true,
+                    },
                     health: { forceValue: nullValue },
                 };
             },
