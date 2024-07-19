@@ -1,10 +1,22 @@
 # go-web-app
 
+## 7.3.13
+
+### Patch Changes
+
+- 453a397: - Update Local Unit map, table and form to match the updated design in [#1178](https://github.com/IFRCGo/go-web-app/issues/1178)
+  - Add delete button in Local units table and form
+  - Use filter prop in container and remove manual stylings
+  - Update size of WikiLink to match height of other action items
+  - Add error boundary to BaseMap component
+- Updated dependencies [453a397]
+  - @ifrc-go/ui@1.1.5
+
 ## 7.3.12
 
 ### Patch Changes
 
-- ba6734e: Show admin labels in maps in different languages, potentially fixing [##1036](https://github.com/IFRCGo/go-web-app/issues/1036)
+- ba6734e: Show admin labels in maps in different languages, potentially fixing [#1036](https://github.com/IFRCGo/go-web-app/issues/1036)
 
 ## 7.3.11
 

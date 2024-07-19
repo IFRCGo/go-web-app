@@ -1,5 +1,17 @@
 # @ifrc-go/ui
 
+## 1.1.5
+
+### Patch Changes
+
+- 453a397: - Add and export Legend component
+  - Add FilterBar component
+  - Update RawList to extend Key prop from react
+  - Add a pageWidth option for Modal size
+  - Update Container to use FilterBar
+  - Remove withGridViewInFiterProp from Container, make it the default behavior
+  - Add filterActions props in Container
+
 ## 1.1.4
 
 ### Patch Changes
