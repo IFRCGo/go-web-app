@@ -12,13 +12,13 @@ import xlsx, {
 
 import ifrcLogoFile from '#assets/icons/ifrc-square.png';
 import {
-    COLOR_DARK_GREY,
+    COLOR_LIGHT_GREY,
     COLOR_PRIMARY_BLUE,
     COLOR_PRIMARY_RED,
 } from '#utils/constants';
 
 function hexToArgb(hexStr: string, alphaStr = 'ff') {
-    const hexWithoutHash = hexStr.substring(1, hexStr.length);
+    const hexWithoutHash = hexStr.substring(1);
 
     return `${alphaStr}${hexWithoutHash}`;
 }
@@ -30,7 +30,7 @@ export const headerRowStyle: Partial<Style> = {
     },
     fill: {
         type: 'pattern',
-        pattern: 'lightVertical',
+        pattern: 'solid',
         fgColor: { argb: hexToArgb(COLOR_PRIMARY_RED, '10') },
     },
     alignment: {
@@ -69,8 +69,8 @@ const inputBorderStyle: Partial<Border> = {
 const inputCellStyle: Partial<Style> = {
     fill: {
         type: 'pattern',
-        pattern: 'lightVertical',
-        fgColor: { argb: hexToArgb(COLOR_DARK_GREY, '10') },
+        pattern: 'solid',
+        fgColor: { argb: hexToArgb(COLOR_LIGHT_GREY, '10') },
     },
     border: {
         top: inputBorderStyle,
@@ -144,29 +144,31 @@ export function addRow(
     outlineLevel: number,
     name: string,
     label: string,
-    style?: Partial<xlsx.Style>,
+    description?: string,
+    style: Partial<xlsx.Style> = defaultCellStyle,
 ) {
     const col = 1;
 
     const row = sheet.getRow(rowNum);
-
-    row.getCell(col).name = name;
-    row.getCell(col + 1).name = name;
-
-    row.getCell(col).value = label;
     row.outlineLevel = outlineLevel;
 
-    if (style) {
-        row.getCell(col).style = style;
-    } else {
-        row.getCell(col).style = defaultCellStyle;
+    const labelCell = row.getCell(col);
+    const valueCell = row.getCell(col + 1);
+    const descriptionCell = row.getCell(col + 2);
+    descriptionCell.style = defaultCellStyle;
+
+    labelCell.name = name;
+    valueCell.name = name;
+
+    labelCell.value = label;
+    if (isTruthyString(description)) {
+        descriptionCell.value = description;
     }
 
-    const prevStyle = row.getCell(col).style;
     row.getCell(col).style = {
-        ...prevStyle,
+        ...style,
         alignment: {
-            ...prevStyle?.alignment,
+            ...style?.alignment,
             indent: outlineLevel * 2,
         },
     };
@@ -180,6 +182,7 @@ export function addHeadingRow(
     outlineLevel: number,
     name: string,
     label: string,
+    description?: string,
 ) {
     return addRow(
         sheet,
@@ -187,6 +190,7 @@ export function addHeadingRow(
         outlineLevel,
         name,
         label,
+        description,
         headingStyle,
     );
 }
@@ -197,8 +201,8 @@ export function addInputRow(
     outlineLevel: number,
     name: string,
     label: string,
+    description: string | undefined,
     dataValidation?: 'number' | 'integer' | 'date',
-    description?: string,
 ): Row
 export function addInputRow(
     sheet: Worksheet,
@@ -206,10 +210,10 @@ export function addInputRow(
     outlineLevel: number,
     name: string,
     label: string,
+    description: string | undefined,
     dataValidation: 'list',
     optionKey: string,
     optionsWorksheet: Worksheet,
-    description?: string,
 ): Row
 export function addInputRow(
     sheet: Worksheet,
@@ -217,10 +221,10 @@ export function addInputRow(
     outlineLevel: number,
     name: string,
     label: string,
+    description?: string,
     dataValidation?: 'number' | 'integer' | 'date' | 'list',
     optionKey?: string,
     optionsWorksheet?: Worksheet,
-    description?: string,
 ): Row {
     const col = 1;
 
@@ -230,6 +234,7 @@ export function addInputRow(
         outlineLevel,
         name,
         label,
+        description,
     );
 
     const inputCell = row.getCell(col + 1);
@@ -286,11 +291,6 @@ export function addInputRow(
                 allowBlank: true,
             };
         }
-    }
-
-    if (isTruthyString(description)) {
-        const descriptionCell = row.getCell(col + 2);
-        descriptionCell.value = description;
     }
 
     return row;

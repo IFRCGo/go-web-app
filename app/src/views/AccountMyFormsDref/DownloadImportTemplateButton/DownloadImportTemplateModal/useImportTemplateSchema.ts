@@ -121,13 +121,15 @@ function useImportTemplateSchema() {
                 label: 'Disaster Category',
                 validation: 'number',
                 optionsKey: 'disaster_category',
+                description: 'https://www.ifrc.org/sites/default/files/2021-07/IFRC%20Emergency%20Response%20Framework%20-%202017.pdf',
             },
 
             country: {
                 type: 'select',
-                label: 'Country',
+                label: 'Affected Country',
                 validation: 'number',
                 optionsKey: 'country',
+                description: 'NOTE: You may add the targeted region during the import',
             },
 
             title: {
@@ -226,12 +228,14 @@ function useImportTemplateSchema() {
                 type: 'input',
                 validation: 'string',
                 label: 'Scope and scale of the event',
+                description: 'Describe the extent this hazard will produce negative impacts on lives, livelihoods, well-being and infrastructure. Explain which people are most likely to experience the impacts of this hazard? Where do they live, and why are they vulnerable? Please explain which groups (e.g elderly, children, people with disabilities, IDPs, Refugees, etc.) are most likely to be affected? Provide historic information on how communities have been affected by the magnitude of this hazard in the past?',
             },
 
             source_information: {
                 type: 'list',
                 label: 'Source Information',
                 optionsKey: 'source_information',
+                description: 'Add the links and the name of the sources, the name will be shown in the export, as an hyperlink.',
                 children: {
                     type: 'object',
                     fields: {
@@ -261,6 +265,7 @@ function useImportTemplateSchema() {
                 label: 'National Society Actions',
                 keyFieldName: 'title',
                 optionsKey: 'national_society_actions',
+                description: 'Please indicate a description of the ongoing response with if possible: Branches involved, number of volunteers/staff involved in actions, assets deployed/distributed, number of people reach. Impact/added value of the NS in the response already ongoing.',
                 children: {
                     type: 'object',
                     fields: {
@@ -277,18 +282,21 @@ function useImportTemplateSchema() {
                 type: 'input',
                 validation: 'string',
                 label: 'IFRC',
+                description: 'Presence or not of IFRC in country (if not, indicate the cluster covering), support provided for this response, domestic coordination, technical, strategic, surge. Explain what support provided in terms of Secretariat services: PMER, Finance, Admin, HR, Security, logistics, NSD.',
             },
 
             partner_national_society: {
                 type: 'input',
                 validation: 'string',
                 label: 'Participating National Societies',
+                description: 'Briefly set out which PNS are present and give details of PNS contributions/roles on the ground and remotely for this specific operation',
             },
 
             icrc: {
                 type: 'input',
                 validation: 'string',
                 label: 'ICRC',
+                description: 'Presence or not of ICRC in country, and support directly provided for this emergency response. Other programs and support provided outside of the scope of this emergency should not be indicated here.',
             },
 
             government_requested_assistance: {
@@ -356,54 +364,62 @@ function useImportTemplateSchema() {
                 type: 'input',
                 validation: 'string',
                 label: 'Who will be targeted through this operation?',
+                description: 'Explain the logic behind our targets. Which groups are we targeting and why are we targeting these particular groups? Explain how you will target vulnerable groups (e.g., Migrants, refugees, etc.)',
             },
 
             selection_criteria: {
                 type: 'input',
                 validation: 'string',
                 label: 'Explain the selection criteria for the targeted population',
+                description: 'Explain the rational and logic behind which groups are being targeted and why and address vulnerable groups',
             },
 
             women: {
                 type: 'input',
                 validation: 'number',
-                label: 'Women',
+                label: 'Targeted Population: Women',
             },
 
             men: {
                 type: 'input',
                 validation: 'number',
-                label: 'Men',
+                label: 'Targeted Population: Men',
             },
 
             girls: {
                 type: 'input',
                 validation: 'number',
-                label: 'Girls',
+                label: 'Targeted Population: Girls (under 18)',
             },
 
             boys: {
                 type: 'input',
                 validation: 'number',
-                label: 'Boys (under 18)',
+                label: 'Targeted Population: Boys (under 18)',
             },
 
             total_targeted_population: {
                 type: 'input',
                 validation: 'number',
-                label: 'Total Population',
+                label: 'Targeted Population: Total',
             },
 
             disability_people_per: {
                 type: 'input',
                 validation: 'number',
-                label: 'Estimated Percentage People with Disability',
+                label: 'Estimated Percentage: People with Disability',
             },
 
             people_per_urban: {
                 type: 'input',
                 validation: 'number',
-                label: 'Estimated Percentage (Urban to Rural)',
+                label: 'Estimated Percentage: Urban',
+            },
+
+            people_per_local: {
+                type: 'input',
+                validation: 'number',
+                label: 'Estimated Percentage: Rural',
             },
 
             displaced_people: {
@@ -444,6 +460,7 @@ function useImportTemplateSchema() {
                 optionsKey: '__boolean',
                 validation: 'boolean',
                 label: 'Has the child safeguarding risk analysis assessment been completed?',
+                description: 'The IFRC Child Safeguarding Risk Analysis helps Operations quickly identify and rate their key child safeguarding risks in order to reduce the risk of harm against children, as outlined as a requirement in the IFRC Child Safeguarding Policy. Here are the link to the tool and Q&A',
             },
 
             amount_requested: {
@@ -515,25 +532,29 @@ function useImportTemplateSchema() {
             surge_personnel_deployed: {
                 type: 'input',
                 validation: 'string',
-                label: 'Description',
+                label: 'Role profile of the deployed personnel',
+                description: 'Please provide the role profile needed.',
             },
 
             logistic_capacity_of_ns: {
                 type: 'input',
                 validation: 'string',
                 label: 'If there is procurement, will be done by National Society or IFRC?',
+                description: 'Will it be for replenishment or for distribution? If for distribution, how long is the tendering expected to take? For Cash and Voucher Assistance, what is the status of the Financial Service Provider?',
             },
 
             pmer: {
                 type: 'input',
                 validation: 'string',
                 label: 'How will this operation be monitored?',
+                description: 'Will there be IFRC monitoring visits? How will it be deployed?',
             },
 
             communication: {
                 type: 'input',
                 validation: 'string',
                 label: 'Please briefly explain the National Societies communication strategy for this operation.',
+                description: 'Will the IFRC be supporting with communication? What roles will be involved?',
             },
 
             // Submission
@@ -547,12 +568,14 @@ function useImportTemplateSchema() {
                 type: 'input',
                 validation: 'date',
                 label: 'Date of Submission to GVA',
+                description: 'Added by Regional Office',
             },
 
             date_of_approval: {
                 type: 'input',
                 validation: 'date',
                 label: 'Date of Approval',
+                description: 'Added by Regional Office',
             },
 
             operation_timeframe: {
@@ -561,22 +584,18 @@ function useImportTemplateSchema() {
                 label: 'Operation timeframe',
             },
 
-            end_date: {
-                type: 'input',
-                validation: 'date',
-                label: 'End date of Operation',
-            },
-
             publishing_date: {
                 type: 'input',
                 validation: 'date',
                 label: 'Date of Publishing',
+                description: 'Added by Regional Office',
             },
 
             appeal_code: {
                 type: 'input',
                 validation: 'string',
                 label: 'Appeal Code',
+                description: 'Added by the regional PMER',
             },
 
             glide_code: {
@@ -588,145 +607,153 @@ function useImportTemplateSchema() {
             ifrc_appeal_manager_name: {
                 type: 'input',
                 validation: 'string',
-                label: 'IFRC Appeal Manager Name',
+                label: 'IFRC Appeal Manager: Name',
+                description: 'Added by the regional office',
             },
 
             ifrc_appeal_manager_title: {
                 type: 'input',
                 validation: 'string',
-                label: 'IFRC Appeal Manager Title',
+                label: 'IFRC Appeal Manager: Title',
+                description: 'Added by the regional office',
             },
 
             ifrc_appeal_manager_email: {
                 type: 'input',
                 validation: 'string',
-                label: 'IFRC Appeal Manager Email',
+                label: 'IFRC Appeal Manager: Email',
+                description: 'Added by the regional office',
             },
 
             ifrc_appeal_manager_phone_number: {
                 type: 'input',
                 validation: 'string',
-                label: 'IFRC Appeal Manager Phone Number',
+                label: 'IFRC Appeal Manager: Phone Number',
+                description: 'Added by the regional office',
             },
 
             ifrc_project_manager_name: {
                 type: 'input',
                 validation: 'string',
-                label: 'IFRC Project Manager Name',
+                label: 'IFRC Project Manager: Name',
+                description: 'Added by the regional office',
             },
 
             ifrc_project_manager_title: {
                 type: 'input',
                 validation: 'string',
-                label: 'IFRC Project Manager Title',
+                label: 'IFRC Project Manager: Title',
+                description: 'Added by the regional office',
             },
 
             ifrc_project_manager_email: {
                 type: 'input',
                 validation: 'string',
-                label: 'IFRC Project Manager Email',
+                label: 'IFRC Project Manager: Email',
+                description: 'Added by the regional office',
             },
 
             ifrc_project_manager_phone_number: {
                 type: 'input',
                 validation: 'string',
-                label: 'IFRC Project Manager Phone Number',
+                label: 'IFRC Project Manager: Phone Number',
+                description: 'Added by the regional office',
             },
 
             national_society_contact_name: {
                 type: 'input',
                 validation: 'string',
-                label: 'National Society Contact Name',
+                label: 'National Society Contact: Name',
             },
 
             national_society_contact_title: {
                 type: 'input',
                 validation: 'string',
-                label: 'National Society Contact Title',
+                label: 'National Society Contact: Title',
             },
 
             national_society_contact_email: {
                 type: 'input',
                 validation: 'string',
-                label: 'National Society Contact Email',
+                label: 'National Society Contact: Email',
             },
 
             national_society_contact_phone_number: {
                 type: 'input',
                 validation: 'string',
-                label: 'National Society Contact Phone Number',
+                label: 'National Society Contact: Phone Number',
             },
 
             ifrc_emergency_name: {
                 type: 'input',
                 validation: 'string',
-                label: 'IFRC focal point for the emergency Name',
+                label: 'IFRC focal point for the emergency: Name',
             },
 
             ifrc_emergency_title: {
                 type: 'input',
                 validation: 'string',
-                label: 'IFRC focal point for the emergency Title',
+                label: 'IFRC focal point for the emergency: Title',
             },
 
             ifrc_emergency_email: {
                 type: 'input',
                 validation: 'string',
-                label: 'IFRC focal point for the emergency Email',
+                label: 'IFRC focal point for the emergency: Email',
             },
 
             ifrc_emergency_phone_number: {
                 type: 'input',
                 validation: 'string',
-                label: 'IFRC focal point for the emergency Phone number',
+                label: 'IFRC focal point for the emergency: Phone number',
             },
 
             regional_focal_point_name: {
                 type: 'input',
                 validation: 'string',
-                label: 'DREF Regional Focal Point Name',
+                label: 'DREF Regional Focal Point: Name',
             },
 
             regional_focal_point_title: {
                 type: 'input',
                 validation: 'string',
-                label: 'DREF Regional Focal Point Title',
+                label: 'DREF Regional Focal Point: Title',
             },
 
             regional_focal_point_email: {
                 type: 'input',
                 validation: 'string',
-                label: 'DREF Regional Focal Point Email',
+                label: 'DREF Regional Focal Point: Email',
             },
 
             regional_focal_point_phone_number: {
                 type: 'input',
                 validation: 'string',
-                label: 'DREF Regional Focal Point Phone Number',
+                label: 'DREF Regional Focal Point: Phone Number',
             },
 
             media_contact_name: {
                 type: 'input',
                 validation: 'string',
-                label: 'Media Contact Name',
+                label: 'Media Contact: Name',
             },
 
             media_contact_title: {
                 type: 'input',
                 validation: 'string',
-                label: 'Media Contact Title',
+                label: 'Media Contact: Title',
             },
 
             media_contact_email: {
                 type: 'input',
                 validation: 'string',
-                label: 'Media Contact Email',
+                label: 'Media Contact: Email',
             },
 
             media_contact_phone_number: {
                 type: 'input',
                 validation: 'string',
-                label: 'Media Contact Phone Number',
+                label: 'Media Contact: Phone Number',
             },
         },
     }), []);

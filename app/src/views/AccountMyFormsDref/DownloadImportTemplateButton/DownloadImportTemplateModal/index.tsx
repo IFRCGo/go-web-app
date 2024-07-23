@@ -210,6 +210,7 @@ function DownloadImportTemplateModal(props: Props) {
                             templateAction.outlineLevel,
                             String(templateAction.name),
                             templateAction.label,
+                            templateAction.description,
                         );
                     } else if (templateAction.type === 'input') {
                         if (templateAction.dataValidation === 'list') {
@@ -219,10 +220,10 @@ function DownloadImportTemplateModal(props: Props) {
                                 templateAction.outlineLevel,
                                 String(templateAction.name),
                                 templateAction.label,
-                                templateAction.dataValidation,
+                                templateAction.description,
+                                'list',
                                 String(templateAction.optionsKey),
                                 optionsWorksheet,
-                                templateAction.description,
                             );
                         } else {
                             addInputRow(
@@ -231,8 +232,8 @@ function DownloadImportTemplateModal(props: Props) {
                                 templateAction.outlineLevel,
                                 String(templateAction.name),
                                 templateAction.label,
-                                templateAction.dataValidation,
                                 templateAction.description,
+                                templateAction.dataValidation,
                             );
                         }
                     }
@@ -256,6 +257,11 @@ function DownloadImportTemplateModal(props: Props) {
                             key: 'value',
                             header: 'Value',
                             width: 50,
+                        },
+                        {
+                            key: 'description',
+                            header: 'Description',
+                            width: 80,
                         },
                     ];
 

@@ -100,6 +100,7 @@ interface HeadingTemplateField {
     name: string | number | boolean;
     label: string;
     outlineLevel: number;
+    description?: string;
 }
 
 type ObjectKey = string | number | symbol;
@@ -200,6 +201,7 @@ export function createImportTemplate<
         type: 'heading',
         name: fieldName,
         label: schema.label,
+        description: schema.description,
         outlineLevel,
     } satisfies HeadingTemplateField;
 
@@ -213,6 +215,7 @@ export function createImportTemplate<
             name: getCombinedKey(option.key, fieldName),
             label: option.label,
             outlineLevel: outlineLevel + 1,
+            // description: schema.description,
         } satisfies HeadingTemplateField;
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
