@@ -6,6 +6,8 @@
     "filterDisasterTypePlaceholder": "Disaster Types",
     "filterBySectorPlaceholder": "By Sector",
     "filterByComponentPlaceholder": "By Component",
-    "filterOpsLearningsSearchPlaceholder":"Search operational Learnings"
+    "filterOpsLearningsSearchPlaceholder":"Search Operational Learnings",
+    "opsLearningsFilterClear":"Clear",
+    "opsLearningsSelectedFilterView":"Selected Filters :"
     }
 }
