@@ -19,7 +19,10 @@ import {
 
 import Link from '#components/Link';
 import useFilterState from '#hooks/useFilterState';
-import { SURGE_ALERT_STATUS_CLOSED } from '#utils/constants';
+import {
+    SURGE_ALERT_STATUS_OPEN,
+    SURGE_ALERT_STATUS_STOOD_DOWN,
+} from '#utils/constants';
 import { createLinkColumn } from '#utils/domain/tableHelpers';
 import {
     type GoApiResponse,
@@ -78,11 +81,8 @@ export default function SurgeTable(props: Props) {
             offset,
 
             // FIXME: this should come from the useFilterState
-            ordering: 'status,-opens',
-
-            // NOTE: following filters are required
-            is_active: true,
-            end__gte: now.toISOString(),
+            ordering: 'molnix_status,-opens',
+            molnix_status: [`${SURGE_ALERT_STATUS_OPEN}`, `${SURGE_ALERT_STATUS_STOOD_DOWN}`],
         },
     });
 
@@ -120,10 +120,6 @@ export default function SurgeTable(props: Props) {
                     const startDate = isDefined(item.start) ? new Date(item.start) : undefined;
 
                     if (isDefined(startDate)) {
-                        if (item.status === SURGE_ALERT_STATUS_CLOSED) {
-                            return formatDate(startDate);
-                        }
-
                         const dateStarted = startDate.getTime() < nowTimestamp
                             ? strings.emergencySurgeImmediately
                             : formatDate(startDate);
@@ -135,17 +131,17 @@ export default function SurgeTable(props: Props) {
                 { cellRendererClassName: styles.startColumn },
             ),
             createStringColumn<SurgeListItem, number>(
-                'name',
+                'message',
                 strings.surgeAlertPosition,
                 (item) => getPositionString(item),
             ),
             createStringColumn<SurgeListItem, number>(
-                'keywords',
+                'molnix_tags',
                 strings.surgeAlertKeywords,
                 (item) => getMolnixKeywords(item.molnix_tags),
             ),
             createLinkColumn<SurgeListItem, number>(
-                'emergency',
+                'event',
                 strings.surgeAlertEmergency,
                 (item) => item.event?.name,
                 (item) => ({
@@ -165,9 +161,9 @@ export default function SurgeTable(props: Props) {
                 }),
             ),
             createStringColumn<SurgeListItem, number>(
-                'status',
+                'molnix_status',
                 strings.surgeAlertStatus,
-                (item) => item.status_display,
+                (item) => item.molnix_status_display,
             ),
         ]),
         [

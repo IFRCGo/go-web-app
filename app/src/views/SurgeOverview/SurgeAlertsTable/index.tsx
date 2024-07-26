@@ -9,7 +9,6 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     createDateColumn,
     createStringColumn,
-    DEFAULT_INVALID_TEXT,
     formatDate,
     getDuration,
 } from '@ifrc-go/ui/utils';
@@ -20,7 +19,10 @@ import {
 
 import Link from '#components/Link';
 import useFilterState from '#hooks/useFilterState';
-import { SURGE_ALERT_STATUS_CLOSED } from '#utils/constants';
+import {
+    SURGE_ALERT_STATUS_OPEN,
+    SURGE_ALERT_STATUS_STOOD_DOWN,
+} from '#utils/constants';
 import { createLinkColumn } from '#utils/domain/tableHelpers';
 import {
     type GoApiResponse,
@@ -80,11 +82,8 @@ function SurgeAlertsTable() {
             offset,
 
             // FIXME: this should come from the useFilterState
-            ordering: 'status,-opens',
-
-            // NOTE: following filters are required
-            is_active: true,
-            end__gte: today.toISOString(),
+            ordering: 'molnix_status,-opens',
+            molnix_status: [`${SURGE_ALERT_STATUS_OPEN}`, `${SURGE_ALERT_STATUS_STOOD_DOWN}`],
         },
     });
 
@@ -100,7 +99,7 @@ function SurgeAlertsTable() {
             strings.surgeAlertsTableDuration,
             (surgeAlert) => {
                 if (isNotDefined(surgeAlert.start) || isNotDefined(surgeAlert.end)) {
-                    return DEFAULT_INVALID_TEXT;
+                    return undefined;
                 }
 
                 const startDate = new Date(surgeAlert.start);
@@ -118,10 +117,6 @@ function SurgeAlertsTable() {
                     ? new Date(surgeAlert.start) : undefined;
 
                 if (isDefined(startDate)) {
-                    if (surgeAlert.status === SURGE_ALERT_STATUS_CLOSED) {
-                        return formatDate(startDate);
-                    }
-
                     const dateStarted = startDate.getTime() < todayTimestamp
                         ? strings.surgeAlertImmediately
                         : formatDate(startDate);
@@ -133,41 +128,41 @@ function SurgeAlertsTable() {
             { cellRendererClassName: styles.startColumn },
         ),
         createStringColumn<SurgeAlertListItem, number>(
-            'name',
+            'message',
             strings.surgeAlertsTablePosition,
             (surgeAlert) => getPositionString(surgeAlert),
         ),
         createStringColumn<SurgeAlertListItem, number>(
-            'keywords',
+            'molnix_tags',
             strings.surgeAlertsTableKeywords,
             (surgeAlert) => getMolnixKeywords(surgeAlert.molnix_tags),
         ),
         createLinkColumn<SurgeAlertListItem, number>(
-            'emergency',
+            'event',
             strings.surgeAlertsTableEmergency,
-            (surgeAlert) => surgeAlert.event.name,
+            (surgeAlert) => surgeAlert.event?.name,
             (surgeAlert) => ({
                 to: 'emergenciesLayout',
                 urlParams: {
-                    emergencyId: surgeAlert.event.id,
+                    emergencyId: surgeAlert.event?.id,
                 },
             }),
         ),
         createLinkColumn<SurgeAlertListItem, number>(
             'country',
             strings.surgeAlertsTableCountry,
-            (surgeAlert) => surgeAlert.country.name,
+            (surgeAlert) => surgeAlert.country?.name,
             (surgeAlert) => ({
                 to: 'countriesLayout',
                 urlParams: {
-                    countryId: surgeAlert.country.id,
+                    countryId: surgeAlert.country?.id,
                 },
             }),
         ),
         createStringColumn<SurgeAlertListItem, number>(
-            'status',
+            'molnix_status',
             strings.surgeAlertsTableStatus,
-            (surgeAlert) => surgeAlert.status_display,
+            (surgeAlert) => surgeAlert.molnix_status_display,
         ),
     ]), [
         strings.surgeAlertImmediately,
