@@ -17,7 +17,7 @@
 
 ## Getting started
 
-Below are the steps to guide you through preparing your local environment for the IFRC GO Web application development. The repository is set up as a [monorepo](https://monorepo.tools/). The app directory houses the application code, while the packages directory contains related packages, including the [IFRC GO UI](https://www.npmjs.com/package/@ifrc-go/ui) components library. Please review the [Contribution Guidelines](./CONTRIBUTING.md) and [Collaboration Guidelines](./COLLABORATING.md) to gain a deeper understanding of the repository's structure.
+Below are the steps to guide you through preparing your local environment for the IFRC GO Web application development. The repository is set up as a [monorepo](https://monorepo.tools/). The app directory houses the application code, while the packages directory contains related packages, including the [IFRC GO UI](https://www.npmjs.com/package/@ifrc-go/ui) components library. Please review the [Contribution Guidelines](./CONTRIBUTING.md) and [Collaboration Guidelines](./COLLABORATING.md) to gain a deeper understanding of the repository's structure and ensure a smooth experience while contributing to the project.
 
 ### Prerequisites
 
