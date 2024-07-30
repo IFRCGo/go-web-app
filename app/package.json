@@ -41,7 +41,7 @@
         "postinstall": "patch-package"
     },
     "dependencies": {
-        "@ifrc-go/icons": "^2.0.0",
+        "@ifrc-go/icons": "^2.0.1",
         "@ifrc-go/ui": "^1.1.5",
         "@mapbox/mapbox-gl-draw": "^1.2.0",
         "@sentry/react": "^7.81.1",

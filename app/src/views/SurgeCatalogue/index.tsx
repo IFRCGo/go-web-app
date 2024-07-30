@@ -6,7 +6,7 @@ import {
     CivilMilitaryCoordinationIcon,
     CoordinatedAssessementIcon,
     DisasterRiskReductionIcon,
-    DroneIcon,
+    DroneTwoIcon,
     EmergencyTelecommunicationsIcon,
     GreenResponseIcon,
     GroupIcon,
@@ -98,7 +98,7 @@ export function Component() {
                     to="surgeCatalogueOtherUAV"
                     parentRoute
                 >
-                    <DroneIcon className={styles.icon} />
+                    <DroneTwoIcon className={styles.icon} />
                     {strings.catalogueUAV}
                 </NavigationTab>
                 <NavigationTab
