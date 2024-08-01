@@ -8,28 +8,35 @@ import {
     TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { isDefined } from '@togglecorp/fujs';
+import { isDefined, isFalsyString } from '@togglecorp/fujs';
 
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import ExportButton from '#components/domain/ExportButton';
-import PrimarySectorSelectInput from '#components/domain/PrimarySectorSelectInput';
 import RegionSelectInput, { RegionOption } from '#components/domain/RegionSelectInput';
 import useCountry from '#hooks/domain/useCountry';
 import useDisasterTypes from '#hooks/domain/useDisasterType';
 import useRegion from '#hooks/domain/useRegion';
 import useFilterState from '#hooks/useFilterState';
+import { useRequest } from '#utils/restRequest';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type Option = {
-    key: string;
-    label: string;
-};
-const keySelector = (option: Option) => option.key;
-const labelSelector = (option: Option) => option.label;
-const options: Option[] = [];
+type Sector = NonNullable<GoApiResponse<'/api/v2/primarysector'>>[number];
+type PerComponent = NonNullable<GoApiResponse<'/api/v2/per-formcomponent/'>['results']>[number];
+
+const sectorKeySelector = (d: Sector) => d.key;
+const sectorLabelSelector = (d: Sector) => d.label;
+const perComponentKeySelector = (option: PerComponent) => option.id;
+function perComponentLabelSelector(component: PerComponent) {
+    if (isFalsyString(component.component_letter)) {
+        return `${component.component_num}. ${component.title}`;
+    }
+
+    return `${component.component_num}(${component.component_letter}). ${component.title}`;
+}
 
 function Filters() {
     const strings = useTranslation(i18n);
@@ -41,16 +48,32 @@ function Filters() {
         setFilterField,
         filtered,
     } = useFilterState<{
-        region?:RegionOption['key'],
-        country?:number,
-        disasterType?:number,
+        region?: RegionOption['key'],
+        country?: number,
+        disasterType?: number,
         startDateBefore?: string,
-        bySector?:number,
-        byComponent?:string,
-        startDate?:string,
-        search?:string | undefined;
+        sector?: number,
+        component?: number,
+        startDate?: string,
+        search?: string | undefined;
     }>({
         filter: {},
+    });
+
+    const {
+        response: primarySectorOptions,
+        pending: primarySectorOptionsPending,
+    } = useRequest({
+        url: '/api/v2/primarysector',
+        preserveResponse: true,
+    });
+
+    const {
+        response: perFormComponentResponse,
+        pending: perFormComponentResponsePending,
+    } = useRequest({
+        url: '/api/v2/per-formcomponent/',
+        preserveResponse: true,
     });
 
     const handleExportClick = useCallback(() => setFilter({}), [setFilter]);
@@ -73,12 +96,12 @@ function Filters() {
             label: disasterTypeName(rawFilter.disasterType),
         },
         {
-            value: rawFilter.bySector,
-            label: rawFilter.bySector,
+            value: rawFilter.sector,
+            label: rawFilter.sector,
         },
         {
-            value: rawFilter.byComponent,
-            label: rawFilter.byComponent,
+            value: rawFilter.component,
+            label: rawFilter.component,
         },
     ].filter((filter) => isDefined(filter.value) && isDefined(filter.label));
 
@@ -106,22 +129,26 @@ function Filters() {
                         value={rawFilter.disasterType}
                         onChange={setFilterField}
                     />
-                    <PrimarySectorSelectInput
+                    <SelectInput
                         placeholder={strings.filterBySectorPlaceholder}
-                        name="bySector"
-                        options={options}
-                        keySelector={keySelector}
-                        labelSelector={labelSelector}
-                        value={rawFilter.bySector}
+                        name="sector"
+                        keySelector={sectorKeySelector}
+                        labelSelector={sectorLabelSelector}
+                        options={primarySectorOptions}
+                        optionsPending={primarySectorOptionsPending}
+                        disabled={primarySectorOptionsPending}
+                        value={rawFilter.sector}
                         onChange={setFilterField}
                     />
                     <SelectInput
                         placeholder={strings.filterByComponentPlaceholder}
-                        name="byComponent"
-                        options={options}
-                        keySelector={keySelector}
-                        labelSelector={labelSelector}
-                        value={rawFilter.byComponent}
+                        name="component"
+                        options={perFormComponentResponse?.results
+                            ?.filter((formComponent) => !formComponent.is_parent)}
+                        keySelector={perComponentKeySelector}
+                        labelSelector={perComponentLabelSelector}
+                        disabled={perFormComponentResponsePending}
+                        value={rawFilter.component}
                         onChange={setFilterField}
                     />
                     <DateInput
