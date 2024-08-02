@@ -10,8 +10,7 @@ This document offers guidelines for collaborators on codebase maintenance, testi
 
 ## Development
 - [Developing](./collaborating/developing.md)
-- [Translation]()
-- [Building]()
-- [Testing]()
-- [Storybook]()
-- [Release]()
+- [Translation](./collaborating/translation.md)
+- [Building](./collaborating/building.md)
+- [Testing](./collaborating/testing.md)
+- [Release](./collaborating/release.md)

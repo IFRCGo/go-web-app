@@ -1,13 +1,13 @@
 ## Repository Structure
 The repository is set up as a [monorepo](https://monorepo.tools/).
 
-The monorepo is organized as follows:
+The monorepo is organized as follows
 
-[app/](../app/) contains the web application code for the IFRC Go project.
+- [app/](../app/) contains the web application code for the IFRC Go project.
 
-[packages/ui/](../packages/ui/) contains the IFRC Go UI library. This component library powers the IFRC Go project's user interface.
+- [packages/ui/](../packages/ui/) contains the IFRC Go UI library. This component library powers the IFRC Go project's user interface.
 
-[packages/go-ui-storybook/](../packages/go-ui-storybook/) contains the Storybook configuration and stories for the IFRC Go UI library.
+- [packages/go-ui-storybook/](../packages/go-ui-storybook/) contains the Storybook configuration and stories for the IFRC Go UI library.
 
 ### `app` Directory
 The `app` directory contains the main codebase for the web application of the IFRC Go project. It is structured as below:

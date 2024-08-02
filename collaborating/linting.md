@@ -1,42 +1,52 @@
-## Linting
+## Linting and Type Checking
 
-The app repository runs [ESLint](https://eslint.org/), [Stylelint](https://stylelint.io/) to lint and format the code.
+IFRC Go Web App repository utilizes [ESLint](https://eslint.org/) and [Stylelint](https://stylelint.io/) for linting and formatting the code, as well as TypeScript for type checking.
 
-## ESLint
-The configuration is defined in [eslint.config.js](../app/eslint.config.js) file.
-To lint the code, you can use the following command:
+### ESLint
+
+Configuration for ESLint can be found in the [eslint.config.js](../app/eslint.config.js) file.
+
+To lint your code
 ```bash
 yarn lint:js
 ```
-If you encounter errors, you can automatically fix those that are fixable by running:
+
+To automatically fix fixable errors
 ```bash
 yarn lint:js --fix
 ```
 
-## Stylelint
-The configuration is defined in [stylelint.config.cjs](../app/stylelint.config.cjs) file.
-To lint CSS files, use the following command:
+### Stylelint
+
+Configuration for Stylelint is located in the [stylelint.config.cjs](../app/stylelint.config.cjs) file.
+
+To lint your CSS files
 ```bash
 yarn lint:css
 ```
-If any errors are found, you can automatically fix those that are fixable by running:
+
+To automatically fix fixable errors
 ```bash
 yarn lint:css --fix
 ```
 
-To fix auto fixable `ESLint` and `Stylelint` errors, run the following command:
+### Fixing Lint Errors
+
+To fix auto-fixable errors in both ESLint and Stylelint
 ```bash
 yarn lint:fix
 ```
 
-## Type Checking
-To verify and enforce TypeScript type constraints in your code, use the following command:
+### Type Checking
+
+To verify and enforce TypeScript type constraints in your code
 ```bash
 yarn typecheck
 ```
 
-## Lint Translation files
-To check for translation file errors:
+### Linting Translation Files
+
+To check for errors in translation files
 ```bash
 yarn lint:translation
 ```
