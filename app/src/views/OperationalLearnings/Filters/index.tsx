@@ -1,200 +1,182 @@
 import { useCallback } from 'react';
 import { SearchLineIcon } from '@ifrc-go/icons';
 import {
-    Button,
-    Container,
     DateInput,
     SelectInput,
     TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { isDefined, isFalsyString } from '@togglecorp/fujs';
+import { isDefined } from '@togglecorp/fujs';
+import { EntriesAsList } from '@togglecorp/toggle-form';
 
-import CountrySelectInput from '#components/domain/CountrySelectInput';
-import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
-import ExportButton from '#components/domain/ExportButton';
-import RegionSelectInput, { RegionOption } from '#components/domain/RegionSelectInput';
-import useCountry from '#hooks/domain/useCountry';
-import useDisasterTypes from '#hooks/domain/useDisasterType';
+import CountrySelectInput, { type CountryOption } from '#components/domain/CountrySelectInput';
+import DisasterTypeSelectInput, { type DisasterTypeItem } from '#components/domain/DisasterTypeSelectInput';
+import RegionSelectInput, { type RegionOption } from '#components/domain/RegionSelectInput';
+import usePerComponent, { type PerComponent } from '#hooks/domain/usePerComponent';
+import usePrimarySector, { type PrimarySector } from '#hooks/domain/usePrimarySector';
 import useRegion from '#hooks/domain/useRegion';
-import useFilterState from '#hooks/useFilterState';
-import { useRequest } from '#utils/restRequest';
-import { type GoApiResponse } from '#utils/restRequest';
+import { getFormattedComponentName } from '#utils/domain/per';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
-type Sector = NonNullable<GoApiResponse<'/api/v2/primarysector'>>[number];
-type PerComponent = NonNullable<GoApiResponse<'/api/v2/per-formcomponent/'>['results']>[number];
-
-const sectorKeySelector = (d: Sector) => d.key;
-const sectorLabelSelector = (d: Sector) => d.label;
+const sectorKeySelector = (d: PrimarySector) => d.key;
+const sectorLabelSelector = (d: PrimarySector) => d.label;
 const perComponentKeySelector = (option: PerComponent) => option.id;
-function perComponentLabelSelector(component: PerComponent) {
-    if (isFalsyString(component.component_letter)) {
-        return `${component.component_num}. ${component.title}`;
-    }
 
-    return `${component.component_num}(${component.component_letter}). ${component.title}`;
+export type FilterValue = Partial<{
+    region: RegionOption['key'],
+    country: CountryOption['id'],
+    disasterType: DisasterTypeItem['id'],
+    startDateBefore: string,
+    sector: PrimarySector['key'],
+    component: PerComponent['id'],
+    startDate: string,
+    search: string;
+}>
+
+export type SelectedFilter = Partial<{
+    region: string,
+    country: string,
+    disasterType: string,
+    startDateBefore: string,
+    sector: string,
+    component: string,
+    startDate: string,
+    search: string;
+}>
+
+interface Props {
+    value: FilterValue;
+    onChange: (...value: EntriesAsList<FilterValue>) => void;
+    disabled?: boolean;
 }
+function Filters(props: Props) {
+    const {
+        value,
+        onChange,
+        disabled,
+    } = props;
 
-function Filters() {
     const strings = useTranslation(i18n);
+    const regions = useRegion();
 
-    const {
-        rawFilter,
-        resetFilter,
-        setFilter,
-        setFilterField,
-        filtered,
-    } = useFilterState<{
-        region?: RegionOption['key'],
-        country?: number,
-        disasterType?: number,
-        startDateBefore?: string,
-        sector?: number,
-        component?: number,
-        startDate?: string,
-        search?: string | undefined;
-    }>({
-        filter: {},
-    });
+    const [primarySectorOptions, primarySectorOptionsPending] = usePrimarySector();
+    const [perComponentOptions, perComponentOptionsPending] = usePerComponent();
 
-    const {
-        response: primarySectorOptions,
-        pending: primarySectorOptionsPending,
-    } = useRequest({
-        url: '/api/v2/primarysector',
-        preserveResponse: true,
-    });
+    const handleRegionSelect = useCallback((
+        newValue: RegionOption['key'] | undefined,
+        key: 'region',
+        selectedRegion: RegionOption | undefined,
+    ) => {
+        onChange(newValue, key, selectedRegion?.value);
+        onChange(undefined, 'country', undefined);
+    }, [onChange]);
 
-    const {
-        response: perFormComponentResponse,
-        pending: perFormComponentResponsePending,
-    } = useRequest({
-        url: '/api/v2/per-formcomponent/',
-        preserveResponse: true,
-    });
+    const handleCountrySelect = useCallback((
+        newValue: CountryOption['id'] | undefined,
+        key: 'country',
+        selectedCountry: CountryOption | undefined,
+    ) => {
+        if (isDefined(newValue)) {
+            const countryRegion = regions?.find((region) => region.id === selectedCountry?.region);
+            onChange(
+                selectedCountry?.region as RegionOption['key'],
+                'region',
+                countryRegion?.region_name,
+            );
+        }
+        onChange(newValue, key, selectedCountry?.name);
+    }, [onChange, regions]);
 
-    const handleExportClick = useCallback(() => setFilter({}), [setFilter]);
-    const disasterTypes = useDisasterTypes();
-    const disasterTypeName = (
-        id: number | undefined,
-    ): string | undefined => disasterTypes?.find((type) => type.id === id)?.name;
+    const handleDisasterTypeSelect = useCallback((
+        newValue: DisasterTypeItem['id'] | undefined,
+        key: 'disasterType',
+        selectedDisasterType: DisasterTypeItem | undefined,
+    ) => {
+        onChange(newValue, key, selectedDisasterType?.name);
+    }, [onChange]);
 
-    const selectedFilters = [
-        {
-            value: rawFilter.region,
-            label: useRegion({ id: rawFilter.region })?.region_name,
-        },
-        {
-            value: rawFilter.country,
-            label: useCountry({ id: rawFilter.country })?.name,
-        },
-        {
-            value: rawFilter.disasterType,
-            label: disasterTypeName(rawFilter.disasterType),
-        },
-        {
-            value: rawFilter.sector,
-            label: rawFilter.sector,
-        },
-        {
-            value: rawFilter.component,
-            label: rawFilter.component,
-        },
-    ].filter((filter) => isDefined(filter.value) && isDefined(filter.label));
+    const handleSectorSelect = useCallback((
+        newValue: PrimarySector['key'] | undefined,
+        key: 'sector',
+        selectedSector: PrimarySector | undefined,
+    ) => {
+        onChange(newValue, key, selectedSector?.label);
+    }, [onChange]);
+
+    const handleComponentSelect = useCallback((
+        newValue: PerComponent['id'] | undefined,
+        key: 'component',
+        selectedComponent: PerComponent | undefined,
+    ) => {
+        onChange(
+            newValue,
+            key,
+            isDefined(selectedComponent) ? getFormattedComponentName(selectedComponent) : undefined,
+        );
+    }, [onChange]);
 
     return (
-        <Container
-            contentViewType="vertical"
-            withGridViewInFilter
-            filters={(
-                <>
-                    <RegionSelectInput
-                        placeholder={strings.filterRegionsPlaceholder}
-                        name="region"
-                        value={rawFilter.region}
-                        onChange={setFilterField}
-                    />
-                    <CountrySelectInput
-                        placeholder={strings.filterCountryPlaceholder}
-                        name="country"
-                        value={rawFilter.country}
-                        onChange={setFilterField}
-                    />
-                    <DisasterTypeSelectInput
-                        placeholder={strings.filterDisasterTypePlaceholder}
-                        name="disasterType"
-                        value={rawFilter.disasterType}
-                        onChange={setFilterField}
-                    />
-                    <SelectInput
-                        placeholder={strings.filterBySectorPlaceholder}
-                        name="sector"
-                        keySelector={sectorKeySelector}
-                        labelSelector={sectorLabelSelector}
-                        options={primarySectorOptions}
-                        optionsPending={primarySectorOptionsPending}
-                        disabled={primarySectorOptionsPending}
-                        value={rawFilter.sector}
-                        onChange={setFilterField}
-                    />
-                    <SelectInput
-                        placeholder={strings.filterByComponentPlaceholder}
-                        name="component"
-                        options={perFormComponentResponse?.results
-                            ?.filter((formComponent) => !formComponent.is_parent)}
-                        keySelector={perComponentKeySelector}
-                        labelSelector={perComponentLabelSelector}
-                        disabled={perFormComponentResponsePending}
-                        value={rawFilter.component}
-                        onChange={setFilterField}
-                    />
-                    <DateInput
-                        name="startDateBefore"
-                        onChange={setFilterField}
-                        value={rawFilter.startDate}
-                    />
-                    <TextInput
-                        name="search"
-                        placeholder={strings.filterOpsLearningsSearchPlaceholder}
-                        value={rawFilter.search}
-                        onChange={setFilterField}
-                        icons={<SearchLineIcon />}
-                    />
-                    <div className={styles.actions}>
-                        <Button
-                            name={undefined}
-                            variant="secondary"
-                            onClick={resetFilter}
-                            disabled={!filtered}
-                        >
-                            {strings.opsLearningsFilterClear}
-                        </Button>
-                    </div>
-                </>
-            )}
-            actions={(
-                <ExportButton
-                    onClick={handleExportClick}
-                    progress={0}
-                    pendingExport={false}
-                    totalCount={0}
-                />
-            )}
-        >
-            {selectedFilters.length > 0 && (
-                <div className={styles.selectedFilters}>
-                    {strings.opsLearningsSelectedFilterView}
-                    {selectedFilters.map((filter) => (
-                        <div key={filter.value}>
-                            {filter.label}
-                        </div>
-                    ))}
-                </div>
-            )}
-        </Container>
+        <>
+            <RegionSelectInput
+                placeholder={strings.filterRegionsPlaceholder}
+                name="region"
+                value={value.region}
+                onChange={handleRegionSelect}
+                disabled={disabled}
+            />
+            <CountrySelectInput
+                placeholder={strings.filterCountryPlaceholder}
+                name="country"
+                value={value.country}
+                regionId={value.region}
+                onChange={handleCountrySelect}
+                disabled={disabled}
+            />
+            <DisasterTypeSelectInput
+                placeholder={strings.filterDisasterTypePlaceholder}
+                name="disasterType"
+                value={value.disasterType}
+                onChange={handleDisasterTypeSelect}
+                disabled={disabled}
+            />
+            <SelectInput
+                placeholder={strings.filterBySectorPlaceholder}
+                name="sector"
+                keySelector={sectorKeySelector}
+                labelSelector={sectorLabelSelector}
+                options={primarySectorOptions}
+                optionsPending={primarySectorOptionsPending}
+                disabled={primarySectorOptionsPending || disabled}
+                value={value.sector}
+                onChange={handleSectorSelect}
+
+            />
+            <SelectInput
+                placeholder={strings.filterByComponentPlaceholder}
+                name="component"
+                options={perComponentOptions}
+                keySelector={perComponentKeySelector}
+                labelSelector={getFormattedComponentName}
+                disabled={perComponentOptionsPending || disabled}
+                value={value.component}
+                onChange={handleComponentSelect}
+            />
+            <DateInput
+                name="startDateBefore"
+                onChange={onChange}
+                value={value.startDate}
+                disabled={disabled}
+            />
+            <TextInput
+                name="search"
+                placeholder={strings.filterOpsLearningsSearchPlaceholder}
+                value={value.search}
+                onChange={onChange}
+                icons={<SearchLineIcon />}
+                disabled={disabled}
+            />
+        </>
     );
 }
 

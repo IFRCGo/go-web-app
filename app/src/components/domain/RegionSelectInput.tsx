@@ -22,7 +22,7 @@ type Props<NAME> = SelectInputProps<
 > & {
     className?: string;
     name: NAME;
-    onChange: (newValue: RegionOption['key'] | undefined, name: NAME) => void;
+    onChange: (newValue: RegionOption['key'] | undefined, name: NAME, value: RegionOption | undefined) => void;
     value: RegionOption['key'] | undefined | null;
 }
 
