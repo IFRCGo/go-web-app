@@ -1,8 +1,0 @@
-.actions {
-    display: flex;
-    align-items: flex-end;
-}
-.selected-filters{
-    display: flex;
-    gap: var(--go-ui-spacing-sm);
-}

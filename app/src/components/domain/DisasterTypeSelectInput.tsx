@@ -25,7 +25,11 @@ type Props<NAME> = SelectInputProps<
 > & {
     className?: string;
     name: NAME;
-    onChange: (newValue: number | undefined, name: NAME) => void;
+    onChange: (
+        newValue: number | undefined,
+        name: NAME,
+        option: DisasterTypeItem | undefined,
+    ) => void;
     value: number | undefined | null;
     optionsFilter?: (item: DisasterTypeItem) => boolean;
 }
