@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.4.0
+
+### Minor Changes
+
+- b6bd6aa: Implement Guest User Permission in [#1237](https://github.com/IFRCGo/go-web-app/issues/1237)
+
 ## 7.3.13
 
 ### Patch Changes
