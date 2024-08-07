@@ -27,6 +27,8 @@ function usePermissions() {
             const isPerAdmin = (userMe?.is_per_admin_for_countries.length ?? 0) > 0
                 || (userMe?.is_admin_for_regions.length ?? 0) > 0;
 
+            const isGuestUser = (userMe?.limit_access_to_guest);
+
             return {
                 isDrefRegionalCoordinator,
                 isRegionAdmin,
@@ -36,6 +38,7 @@ function usePermissions() {
                 isPerAdmin,
                 isIfrcAdmin: !!userMe?.is_ifrc_admin || !!userMe?.email?.toLowerCase().endsWith('@ifrc.org'),
                 isSuperUser: !!userMe?.is_superuser,
+                isGuestUser,
             };
         },
         [userMe],

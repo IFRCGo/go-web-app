@@ -30,6 +30,7 @@ import { adminUrl } from '#config';
 import RouteContext from '#contexts/route';
 import useAuth from '#hooks/domain/useAuth';
 import useCountry from '#hooks/domain/useCountry';
+import usePermissions from '#hooks/domain/usePermissions';
 import useRegion from '#hooks/domain/useRegion';
 import {
     countryIdToRegionIdMap,
@@ -67,6 +68,7 @@ export function Component() {
     });
 
     const { isAuthenticated } = useAuth();
+    const { isGuestUser } = usePermissions();
 
     const outletContext = useMemo<CountryOutletContext>(
         () => ({
@@ -180,7 +182,7 @@ export function Component() {
                     </Link>
                 )
             }
-            actions={isAuthenticated && (
+            actions={!isGuestUser && isAuthenticated && (
                 <Link
                     external
                     href={resolveUrl(adminUrl, `api/country/${countryId}/change/`)}

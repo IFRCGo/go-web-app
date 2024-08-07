@@ -69,6 +69,7 @@ import WikiLink from '#components/WikiLink';
 import { adminUrl } from '#config';
 import useAuth from '#hooks/domain/useAuth';
 import useCountryRaw from '#hooks/domain/useCountryRaw';
+import usePermissions from '#hooks/domain/usePermissions';
 import useFilterState from '#hooks/useFilterState';
 import useInputState from '#hooks/useInputState';
 import {
@@ -141,6 +142,7 @@ export function Component(props: BaseProps) {
 
     const strings = useTranslation(i18n);
     const { isAuthenticated } = useAuth();
+    const { isGuestUser } = usePermissions();
 
     const {
         countryId,
@@ -460,7 +462,7 @@ export function Component(props: BaseProps) {
     return (
         <Container
             className={styles.countryOngoingActivities}
-            actions={isAuthenticated && (
+            actions={!isGuestUser && isAuthenticated && (
                 <>
                     <Link
                         external

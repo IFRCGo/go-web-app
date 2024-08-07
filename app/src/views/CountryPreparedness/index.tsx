@@ -9,11 +9,16 @@ import PublicCountryPreparedness from './PublicCountryPreparedness';
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { countryId } = useParams<{ perId: string, countryId: string }>();
-    const { isCountryPerAdmin, isSuperUser, isRegionPerAdmin } = usePermissions();
+    const {
+        isCountryPerAdmin,
+        isSuperUser,
+        isRegionPerAdmin,
+        isGuestUser,
+    } = usePermissions();
 
     const countryDetails = useCountry({ id: Number(countryId) });
 
-    const hasPermission = (
+    const hasPermission = !isGuestUser && (
         isSuperUser
         || isCountryPerAdmin(Number(countryId))
         || isRegionPerAdmin(Number(countryDetails?.region))
