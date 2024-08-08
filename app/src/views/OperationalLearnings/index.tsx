@@ -10,14 +10,17 @@ import {
     Tabs,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import { resolveToString } from '@ifrc-go/ui/utils';
 import {
     isNotDefined,
     mapToList,
 } from '@togglecorp/fujs';
 import { EntriesAsList } from '@togglecorp/toggle-form';
 
+import Link from '#components/Link';
 import Page from '#components/Page';
 import useFilterState from '#hooks/useFilterState';
+import { useRequest } from '#utils/restRequest';
 
 import ByComponent from './ByComponent';
 import BySector from './BySector';
@@ -27,6 +30,7 @@ import Filters, {
 } from './Filters';
 
 import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -59,7 +63,22 @@ export function Component() {
     }, [setFilterField]);
 
     const selectedFilterOptions = mapToList(selectedFilter, (label, key) => ({ key, label }));
-
+    const isSpecificFilterSelected = () => {
+        if (!selectedFilter) {
+            return false;
+        }
+        const {
+            country, disasterType, sector, component,
+        } = selectedFilter;
+        return !!country || !!disasterType || !!sector || !!component;
+    };
+    const {
+        pending: insightsPending,
+        response: insightsResponse,
+    } = useRequest({
+        url: '/api/v2/ops-learning/summary/',
+        preserveResponse: true,
+    });
     return (
         <Page
             heading={strings.operationalLearningsHeading}
@@ -79,6 +98,52 @@ export function Component() {
                     </div>
                 )))}
             />
+            {isSpecificFilterSelected() && (
+                <Container
+                    heading={strings.opsLearningsSummariesHeading}
+                    contentViewType="grid"
+                    numPreferredGridContentColumns={3}
+                    footerContent={(
+                        <>
+                            <div className={styles.disclaimer}>
+                                {strings.keyInsightsDisclaimer}
+                            </div>
+                            <Link
+                                href="/"
+                                external
+                            >
+                                {strings.keyInsightsReportIssue}
+                            </Link>
+                        </>
+                    )}
+                    footerActions={(
+                        <div>{strings.opsLearningsShowSource}</div>
+                    )}
+                >
+                    <Container
+                        className={styles.keyInsights}
+                        key={insightsResponse?.id}
+                        pending={insightsPending}
+                        heading={insightsResponse?.insights1_title}
+                        headerDescription={insightsResponse?.insights1_content}
+                    />
+                    <Container
+                        className={styles.keyInsights}
+                        key={insightsResponse?.id}
+                        pending={insightsPending}
+                        heading={insightsResponse?.insights2_title}
+                        headerDescription={insightsResponse?.insights2_content}
+
+                    />
+                    <Container
+                        className={styles.keyInsights}
+                        key={insightsResponse?.id}
+                        pending={insightsPending}
+                        heading={insightsResponse?.insights3_title}
+                        headerDescription={insightsResponse?.insights3_content}
+                    />
+                </Container>
+            )}
             <Tabs
                 onChange={setActiveTab}
                 value={activeTab}
@@ -93,11 +158,17 @@ export function Component() {
                     )}
                     actions={(
                         <div>
-                            66 extracts
+                            {resolveToString(
+                                strings.bySummariesExtracts,
+                                { count: insightsResponse?.components.length },
+                            )}
                         </div>
                     )}
+
                 />
-                <TabPanel name="bySector">
+                <TabPanel
+                    name="bySector"
+                >
                     <BySector />
                 </TabPanel>
                 <TabPanel name="byComponent">

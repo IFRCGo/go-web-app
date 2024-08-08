@@ -1,24 +1,48 @@
 import { Container } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import { resolveToString } from '@ifrc-go/ui/utils';
+
+import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 
 function ByComponent() {
     const strings = useTranslation(i18n);
+    const {
+        response: summariesResponse,
+    } = useRequest({
+        url: '/api/v2/ops-learning/summary/',
+        preserveResponse: true,
+    });
 
     return (
         <Container
-            heading={strings.opsLearningsSummariesTitle}
-            headerDescription={strings.opsLearningsSummariesDescription}
-            actions={(
-                <div>
-                    66 source 13 operations
-                </div>
-            )}
-            footerContent={(
-                <div>see sources</div>
-            )}
-        />
+            spacing="relaxed"
+        >
+            { summariesResponse?.components?.map((result) => (
+                <Container
+                    heading={result.title}
+                    headingDescription={resolveToString(
+                        strings.byComponentExtracts,
+                        { count: summariesResponse.components.length },
+                    )}
+                    headerDescription={result.content}
+                    actions={(
+                        <div>
+                            {resolveToString(
+                                strings.byComponentSourceOperations,
+                                { count: summariesResponse.components.length },
+                            )}
+                        </div>
+                    )}
+                    footerActions={(
+                        <div>
+                            {strings.byComponentSeeSource}
+                        </div>
+                    )}
+                />
+            ))}
+        </Container>
     );
 }
 
