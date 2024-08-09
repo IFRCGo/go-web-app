@@ -39,3 +39,11 @@ The `packages/ui` directory contains the IFRC GO UI components library. The libr
 - **`src/utils/`** contains utility functions.
 - **`index.css`** contains global CSS styles.
 - **`index.tsx`** contains the main entry point for the UI library.
+
+
+### `packages/go-ui-storybook` Directory
+
+The `packages/go-ui-storybook` directory contains the stories for the IFRC GO UI components library. Its structure is as follows:
+
+- **`src/stories/`**: Houses all the UI component stories.
+- **`.storybook/`**: Contains the configuration for Storybook.
