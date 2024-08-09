@@ -1,6 +1,6 @@
-## Technologies Used to Build the IFRC Go Website
+## Technologies Used to Build the IFRC GO Website
 
-The IFRC Go web application is built using [React](https://react.dev/) and [Vite](https://vitejs.dev/), with [TypeScript](https://www.typescriptlang.org/) as the primary programming language.
+The IFRC GO web application is built using [React](https://react.dev/) and [Vite](https://vitejs.dev/), with [TypeScript](https://www.typescriptlang.org/) as the primary programming language.
 
 ### Libraries and Tools
 
@@ -12,8 +12,8 @@ The IFRC Go web application is built using [React](https://react.dev/) and [Vite
   - [@togglecorp/re-map](https://www.npmjs.com/package/@togglecorp/re-map), a thin wrapper around MapboxGL, for easier integration with React
 
 - **Icons and UI**
-  - [@ifrc-go/icons](https://www.npmjs.com/package/@ifrc-go/icons), the IFRC Go icons library
-  - [@ifrc-go/ui](https://www.npmjs.com/package/@ifrc-go/ui), the UI library powering the IFRC Go platform
+  - [@ifrc-go/icons](https://www.npmjs.com/package/@ifrc-go/icons), the IFRC GO icons library
+  - [@ifrc-go/ui](https://www.npmjs.com/package/@ifrc-go/ui), the UI library powering the IFRC GO platform
 
 - **Routing**
   - [React Router](https://www.npmjs.com/package/react-router-dom) for client-side routing

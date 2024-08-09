@@ -1,5 +1,5 @@
-## IFRC Go Translation
+## IFRC GO Translation
 
-The IFRC Go application supports the four official languages of the IFRC: English, French, Spanish, and Arabic.
+The IFRC GO application supports the four official languages of the IFRC: English, French, Spanish, and Arabic.
 
 TODO: Add documentation regarding translations

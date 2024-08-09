@@ -1,9 +1,11 @@
 ## Linting and Type Checking
 
-IFRC Go Web App repository utilizes [ESLint](https://eslint.org/) and [Stylelint](https://stylelint.io/) for linting and formatting the code, as well as TypeScript for type checking.
+IFRC GO Web App repository utilizes [ESLint](https://eslint.org/) and [Stylelint](https://stylelint.io/) for linting and formatting the code, as well as TypeScript for type checking.
+
+> [!NOTE]\
+> Run the following commands withing the [app](../app/) folder
 
 ### ESLint
-
 Configuration for ESLint can be found in the [eslint.config.js](../app/eslint.config.js) file.
 
 To lint your code
@@ -38,8 +40,15 @@ yarn lint:fix
 ```
 
 ### Type Checking
+> [!IMPORTANT]\
+> Before running the type check, make sure to generate the types.
+> To do this, define the API endpoints in the environment variables first.
 
-To verify and enforce TypeScript type constraints in your code
+To generate the TypeScript types for API endpoints
+```bash
+yarn generate:type
+```
+To verify and enforce TypeScript type constraints
 ```bash
 yarn typecheck
 ```

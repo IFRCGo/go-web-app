@@ -1,4 +1,4 @@
-## IFRC Go Release Workflow
+## IFRC GO Release Workflow
 
 The IFRC Go web application deployment occurs across nightly, staging, and production instances via [Azure Pipelines](https://azure.microsoft.com/en-us/products/devops/pipelines). The environment variables must be properly configured for the deployment workflow to run smoothly.
 
@@ -41,7 +41,7 @@ We use [changesets](https://github.com/changesets/changesets) to manage versioni
 ### Nightly/Staging/Production Release using Azure Pipelines
 TODO Add azure pipelines deployment documentation
 
-## IFRC Go UI Release Workflow
+## IFRC GO UI Release Workflow
 
 To release the IFRC Go UI to [NPM](https://www.npmjs.com/) using [changesets](https://github.com/changesets/changesets), follow these steps. Ensure you have the necessary credentials and publishing rights to the [ifrc-go/ui](https://www.npmjs.com/org/ifrc-go) package.
 
@@ -87,7 +87,7 @@ To release the IFRC Go UI to [NPM](https://www.npmjs.com/) using [changesets](ht
    git push --follow-tags
    ```
 
-## IFRC Go UI Storybook Release Workflow
+## IFRC GO UI Storybook Release Workflow
 
 The Go UI Storybook is deployed to [Chromatic](https://www.chromatic.com/) using the [Publish to Chromatic](https://github.com/marketplace/actions/publish-to-chromatic) GitHub action. This action is configured to detect changes in the `packages/ui` or `packages/go-ui-storybook` directories and deploy only when modifications are found.
 

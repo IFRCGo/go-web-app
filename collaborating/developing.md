@@ -1,6 +1,6 @@
 ## Development
 
-The stable branch for the IFRC Go application is `develop`. All PRs intended for deployment should be merged into the `develop` branch.
+The stable branch for the IFRC GO application is `develop`. All PRs intended for deployment should be merged into the `develop` branch.
 
 For long-running features, create PRs targeting the specific `project/project-x` branch when working on features related to that project.
 
@@ -32,8 +32,6 @@ To begin, ensure you have network access. Then, you'll need the following
   ```bash
   yarn start:app
   ```
-
-```
 > [!NOTE]\
 > To work on a specific development task, ensure you have the backend setup appropriately and configured properly.
 5. Create a new branch for your work.
@@ -43,11 +41,11 @@ To begin, ensure you have network access. Then, you'll need the following
 > [!IMPORTANT]\
 >  Ensure there are no lint errors before pushing the changes. Ensure the commit message is clear and concise, summarizing the changes made in the commit. Avoid vague and generic messages. Instead, provide specific details that describe the purpose or impact of the changes.
 6. Once you're happy with your changes, add and commit them to your branch, then push the branch to origin.
-```bash
-git add .
-git commit -m "some message"
-git push -u origin name-of-your-branch
-```
+  ```bash
+  git add .
+  git commit -m "some message"
+  git push -u origin name-of-your-branch
+  ```
 > [!NOTE]\
 > Before committing and opening a Pull Request, please ensure there are no lint errors. Also please create a pull request only when the feature is ready to be merged.
 
@@ -82,7 +80,7 @@ Execute the following commands within the `app` workspace.
 
 
 ### UI components library
-Please read the [README](../packages/ui/README.md) and [CONTRIBUTING](../packages/ui/CONTRIBUTING.md) guide for IFRC Go UI.
+Please read the [README](../packages/ui/README.md) and [CONTRIBUTING](../packages/ui/CONTRIBUTING.md) guide for IFRC GO UI.
 
 ### Storybook
 Please read the [README](../packages/go-ui-storybook/README.md) and [CONTRIBUTING](../packages/go-ui-storybook/CONTRIBUTING.md) guide.

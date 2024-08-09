@@ -1,4 +1,4 @@
-## Testing the IFRC Go Project
+## Testing the IFRC GO Project
 
 ### Unit Testing with Vitest
 
