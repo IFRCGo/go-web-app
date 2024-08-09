@@ -133,7 +133,7 @@ function NationalSocietyLocalUnits(props: Props) {
                 heading={strings.localUnitsTitle}
                 childrenContainerClassName={styles.content}
                 withHeaderBorder
-                filterActions={isAuthenticated && (
+                filterActions={isAuthenticated && !isGuestUser && (
                     <TabList>
                         <Tab name="map">{strings.localUnitsMapView}</Tab>
                         <Tab name="table">{strings.localUnitsListView}</Tab>

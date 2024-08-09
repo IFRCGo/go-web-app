@@ -42,6 +42,7 @@ import Link, { type Props as LinkProps } from '#components/Link';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import MapPopup from '#components/MapPopup';
 import useAuth from '#hooks/domain/useAuth';
+import usePermissions from '#hooks/domain/usePermissions';
 import { getFirstTruthyString } from '#utils/common';
 import {
     COLOR_PRIMARY_RED,
@@ -144,16 +145,21 @@ function LocalUnitsMap(props: Props) {
     );
 
     const { isAuthenticated } = useAuth();
+    const { isGuestUser } = usePermissions();
 
     const requestType = useMemo(
         () => {
+            if (isGuestUser) {
+                return 'public';
+            }
+
             if (isAuthenticated) {
                 return 'authenticated';
             }
 
             return 'public';
         },
-        [isAuthenticated],
+        [isAuthenticated, isGuestUser],
     );
 
     const {
