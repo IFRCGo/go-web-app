@@ -1,3 +1,4 @@
+import { ArrowDownSmallFillIcon } from '@ifrc-go/icons';
 import { Container } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToString } from '@ifrc-go/ui/utils';
@@ -5,6 +6,7 @@ import { resolveToString } from '@ifrc-go/ui/utils';
 import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 function BySector() {
     const strings = useTranslation(i18n);
@@ -17,11 +19,11 @@ function BySector() {
 
     return (
         <Container
-            headingLevel={2}
             spacing="relaxed"
         >
             { summariesResponse?.sectors.map((result) => (
                 <Container
+                    className={styles.sectorContainer}
                     heading={result.title}
                     headerDescription={result.content}
                     headingDescription={resolveToString(
@@ -35,6 +37,7 @@ function BySector() {
                     footerActions={(
                         <div>
                             {strings.bySectorSeeSource}
+                            <ArrowDownSmallFillIcon />
                         </div>
                     )}
                 />
