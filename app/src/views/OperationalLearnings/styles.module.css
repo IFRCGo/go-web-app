@@ -1,3 +1,9 @@
+.key-insights-container{
+    background-color: var(--go-ui-color-separator);
+}
+.source-container{
+    background-color: var(--go-ui-color-separator);
+}
 .key-insights{
     overflow-wrap: break-word;
 }
