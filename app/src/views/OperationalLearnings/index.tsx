@@ -3,6 +3,11 @@ import {
     useState,
 } from 'react';
 import {
+    ArrowDownSmallFillIcon,
+    CopyLineIcon,
+} from '@ifrc-go/icons';
+import {
+    Button,
     Container,
     Tab,
     TabList,
@@ -28,6 +33,7 @@ import Filters, {
     type FilterValue,
     type SelectedFilter,
 } from './Filters';
+import ViewAllExtractModal from './ViewAllExtractModal';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -36,7 +42,7 @@ import styles from './styles.module.css';
 export function Component() {
     const strings = useTranslation(i18n);
     const [activeTab, setActiveTab] = useState<'bySector' | 'byComponent'>('bySector');
-
+    const [isExpanded, setIsExpanded] = useState(false);
     const {
         rawFilter,
         setFilterField,
@@ -79,6 +85,20 @@ export function Component() {
         url: '/api/v2/ops-learning/summary/',
         preserveResponse: true,
     });
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleOpenModal = useCallback(() => {
+        setIsModalOpen(true);
+    }, []);
+
+    const handleCloseModal = useCallback(() => {
+        setIsModalOpen(false);
+    }, []);
+
+    const handleExpand = useCallback(() => {
+        setIsExpanded((prev) => !prev);
+    }, []);
+
     return (
         <Page
             heading={strings.operationalLearningsHeading}
@@ -99,50 +119,84 @@ export function Component() {
                 )))}
             />
             {isSpecificFilterSelected() && (
-                <Container
-                    heading={strings.opsLearningsSummariesHeading}
-                    contentViewType="grid"
-                    numPreferredGridContentColumns={3}
-                    footerContent={(
-                        <>
-                            <div className={styles.disclaimer}>
-                                {strings.keyInsightsDisclaimer}
-                            </div>
-                            <Link
-                                href="/"
-                                external
+                <>
+                    <Container
+                        className={styles.keyInsightsContainer}
+                        heading={strings.opsLearningsSummariesHeading}
+                        contentViewType="grid"
+                        numPreferredGridContentColumns={3}
+                        withInternalPadding
+                        footerIcons={(
+                            <>
+                                <div className={styles.disclaimer}>
+                                    {strings.keyInsightsDisclaimer}
+                                </div>
+                                <Link
+                                    href="/"
+                                    external
+                                >
+                                    {strings.keyInsightsReportIssue}
+                                </Link>
+                            </>
+                        )}
+                        footerActions={(
+                            <Button
+                                name={undefined}
+                                variant="tertiary"
+                                onClick={handleExpand}
                             >
-                                {strings.keyInsightsReportIssue}
-                            </Link>
-                        </>
+                                {isExpanded ? 'See Less' : 'See More'}
+                                <ArrowDownSmallFillIcon />
+                            </Button>
+                        )}
+                    >
+                        <Container
+                            className={styles.keyInsights}
+                            key={insightsResponse?.id}
+                            pending={insightsPending}
+                            heading={insightsResponse?.insights1_title}
+                            headerDescription={insightsResponse?.insights1_content}
+                            withInternalPadding
+                        />
+                        <Container
+                            className={styles.keyInsights}
+                            key={insightsResponse?.id}
+                            pending={insightsPending}
+                            heading={insightsResponse?.insights2_title}
+                            headerDescription={insightsResponse?.insights2_content}
+                            withInternalPadding
+                        />
+                        <Container
+                            className={styles.keyInsights}
+                            key={insightsResponse?.id}
+                            pending={insightsPending}
+                            heading={insightsResponse?.insights3_title}
+                            headerDescription={insightsResponse?.insights3_content}
+                            withInternalPadding
+                        />
+                    </Container>
+                    {isExpanded && (
+                        <Container
+                            className={styles.sourceContainer}
+                            withInternalPadding
+                            footerIcons={(
+                                <>
+                                    <Button
+                                        name={undefined}
+                                        variant="secondary"
+                                        onClick={handleOpenModal}
+                                    >
+                                        <CopyLineIcon />
+                                        {strings.viewAllExtract}
+                                    </Button>
+                                    {isModalOpen && (
+                                        <ViewAllExtractModal onClose={handleCloseModal} />
+                                    )}
+                                </>
+                            )}
+                        />
                     )}
-                    footerActions={(
-                        <div>{strings.opsLearningsShowSource}</div>
-                    )}
-                >
-                    <Container
-                        className={styles.keyInsights}
-                        key={insightsResponse?.id}
-                        pending={insightsPending}
-                        heading={insightsResponse?.insights1_title}
-                        headerDescription={insightsResponse?.insights1_content}
-                    />
-                    <Container
-                        className={styles.keyInsights}
-                        key={insightsResponse?.id}
-                        pending={insightsPending}
-                        heading={insightsResponse?.insights2_title}
-                        headerDescription={insightsResponse?.insights2_content}
-
-                    />
-                    <Container
-                        className={styles.keyInsights}
-                        key={insightsResponse?.id}
-                        pending={insightsPending}
-                        heading={insightsResponse?.insights3_title}
-                        headerDescription={insightsResponse?.insights3_content}
-                    />
-                </Container>
+                </>
             )}
             <Tabs
                 onChange={setActiveTab}
@@ -150,7 +204,7 @@ export function Component() {
                 variant="tertiary"
             >
                 <Container
-                    headerDescription={(
+                    heading={(
                         <TabList>
                             <Tab name="bySector">{strings.bySectorTitle}</Tab>
                             <Tab name="byComponent">{strings.byComponentTitle}</Tab>
@@ -164,7 +218,6 @@ export function Component() {
                             )}
                         </div>
                     )}
-
                 />
                 <TabPanel
                     name="bySector"
