@@ -1,9 +1,0 @@
-{
-    "namespace": "operationalLearningsByComponent",
-    "strings": {
-        "byComponentExtracts":" ({count} extracts)",
-        "byComponentSourceOperations":"{count} operations, {count} Sources",
-        "byComponentSeeSource":"See Sources"
-
-    }
-}
