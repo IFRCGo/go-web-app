@@ -2,21 +2,23 @@ import {
     useCallback,
     useState,
 } from 'react';
-import {
-    ArrowDownSmallFillIcon,
-    CopyLineIcon,
-} from '@ifrc-go/icons';
+import { ArrowDownSmallFillIcon } from '@ifrc-go/icons';
 import {
     Button,
     Container,
+    List,
     Tab,
     TabList,
     TabPanel,
     Tabs,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { resolveToString } from '@ifrc-go/ui/utils';
 import {
+    resolveToString,
+    stringTitleSelector,
+} from '@ifrc-go/ui/utils';
+import {
+    isDefined,
     isNotDefined,
     mapToList,
 } from '@togglecorp/fujs';
@@ -25,18 +27,18 @@ import { EntriesAsList } from '@togglecorp/toggle-form';
 import Link from '#components/Link';
 import Page from '#components/Page';
 import useFilterState from '#hooks/useFilterState';
+import { type GoApiResponse } from '#utils/restRequest';
 import { useRequest } from '#utils/restRequest';
 
-import ByComponent from './ByComponent';
-import BySector from './BySector';
 import Filters, {
     type FilterValue,
     type SelectedFilter,
 } from './Filters';
-import ViewAllExtractModal from './ViewAllExtractModal';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
+
+type OpsLearningSummaryResponse = GoApiResponse<'/api/v2/ops-learning/summary/'>;
+type OpsLearningSummary = OpsLearningSummaryResponse['sectors'][number];
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -69,35 +71,38 @@ export function Component() {
     }, [setFilterField]);
 
     const selectedFilterOptions = mapToList(selectedFilter, (label, key) => ({ key, label }));
-    const isSpecificFilterSelected = () => {
-        if (!selectedFilter) {
-            return false;
-        }
-        const {
-            country, disasterType, sector, component,
-        } = selectedFilter;
-        return !!country || !!disasterType || !!sector || !!component;
-    };
+
     const {
-        pending: insightsPending,
-        response: insightsResponse,
+        pending: opsLearningSummaryPending,
+        response: opsLearningSummaryResponse,
+        error: opsLearningSummaryError,
     } = useRequest({
         url: '/api/v2/ops-learning/summary/',
+        query: {
+            // TODO: fix this filters in server and in client
+            appeal_code__region: isDefined(rawFilter.region) ? rawFilter.region : undefined,
+            appeal_code__country: isDefined(rawFilter.country) ? rawFilter.country : undefined,
+            appeal_code__dtype: isDefined(rawFilter.disasterType)
+                ? rawFilter.disasterType : undefined,
+            sector_validated: isDefined(rawFilter.sector) ? [rawFilter.sector] : undefined,
+            per_component_validated: isDefined(rawFilter.component)
+                ? [rawFilter.component] : undefined,
+        },
         preserveResponse: true,
     });
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleOpenModal = useCallback(() => {
-        setIsModalOpen(true);
-    }, []);
+    const summaryRendererParams = (_: string, summary: OpsLearningSummary) => ({
+        heading: summary.title,
+        children: summary.content,
+    });
 
-    const handleCloseModal = useCallback(() => {
-        setIsModalOpen(false);
-    }, []);
-
-    const handleExpand = useCallback(() => {
+    const handleExpandButtonClick = useCallback(() => {
         setIsExpanded((prev) => !prev);
     }, []);
+
+    const showKeyInsights = isDefined(opsLearningSummaryResponse?.insights1_title)
+        && isDefined(opsLearningSummaryResponse.insights2_title)
+        && isDefined(opsLearningSummaryResponse.insights3_title);
 
     return (
         <Page
@@ -118,85 +123,58 @@ export function Component() {
                     </div>
                 )))}
             />
-            {isSpecificFilterSelected() && (
-                <>
-                    <Container
-                        className={styles.keyInsightsContainer}
-                        heading={strings.opsLearningsSummariesHeading}
-                        contentViewType="grid"
-                        numPreferredGridContentColumns={3}
-                        withInternalPadding
-                        footerIcons={(
-                            <>
-                                <div className={styles.disclaimer}>
-                                    {strings.keyInsightsDisclaimer}
-                                </div>
-                                <Link
-                                    href="/"
-                                    external
-                                >
-                                    {strings.keyInsightsReportIssue}
-                                </Link>
-                            </>
-                        )}
-                        footerActions={(
+            {showKeyInsights && (
+                <Container
+                    heading={strings.opsLearningsSummariesHeading}
+                    contentViewType="grid"
+                    numPreferredGridContentColumns={3}
+                    footerIcons={resolveToString(strings.keyInsightsDisclaimer, {
+                        numOfExtractsUsed: 20,
+                        totalNumberOfExtracts: 200,
+                        appealsFromDate: 2023,
+                        appealsToDate: 2024,
+                    })}
+                    footerActions={(
+                        <>
+                            <Link
+                                href="/"
+                                external
+                            >
+                                {strings.keyInsightsReportIssue}
+                            </Link>
                             <Button
                                 name={undefined}
                                 variant="tertiary"
-                                onClick={handleExpand}
+                                onClick={handleExpandButtonClick}
+                                actions={<ArrowDownSmallFillIcon />}
                             >
-                                {isExpanded ? 'See Less' : 'See More'}
-                                <ArrowDownSmallFillIcon />
+                                {isExpanded ? strings.seeLess : strings.seeMore}
                             </Button>
-                        )}
-                    >
-                        <Container
-                            className={styles.keyInsights}
-                            key={insightsResponse?.id}
-                            pending={insightsPending}
-                            heading={insightsResponse?.insights1_title}
-                            headerDescription={insightsResponse?.insights1_content}
-                            withInternalPadding
-                        />
-                        <Container
-                            className={styles.keyInsights}
-                            key={insightsResponse?.id}
-                            pending={insightsPending}
-                            heading={insightsResponse?.insights2_title}
-                            headerDescription={insightsResponse?.insights2_content}
-                            withInternalPadding
-                        />
-                        <Container
-                            className={styles.keyInsights}
-                            key={insightsResponse?.id}
-                            pending={insightsPending}
-                            heading={insightsResponse?.insights3_title}
-                            headerDescription={insightsResponse?.insights3_content}
-                            withInternalPadding
-                        />
-                    </Container>
-                    {isExpanded && (
-                        <Container
-                            className={styles.sourceContainer}
-                            withInternalPadding
-                            footerIcons={(
-                                <>
-                                    <Button
-                                        name={undefined}
-                                        variant="secondary"
-                                        onClick={handleOpenModal}
-                                    >
-                                        <CopyLineIcon />
-                                        {strings.viewAllExtract}
-                                    </Button>
-                                    {isModalOpen && (
-                                        <ViewAllExtractModal onClose={handleCloseModal} />
-                                    )}
-                                </>
-                            )}
-                        />
+                        </>
                     )}
-                </>
+                >
+                    <Container
+                        key={opsLearningSummaryResponse?.insights1_title}
+                        pending={opsLearningSummaryPending}
+                        heading={opsLearningSummaryResponse.insights1_title}
+                        headerDescription={opsLearningSummaryResponse.insights1_content}
+                        withInternalPadding
+                    />
+                    <Container
+                        key={opsLearningSummaryResponse?.insights2_title}
+                        pending={opsLearningSummaryPending}
+                        heading={opsLearningSummaryResponse.insights2_title}
+                        headerDescription={opsLearningSummaryResponse.insights2_content}
+                        withInternalPadding
+                    />
+                    <Container
+                        key={opsLearningSummaryResponse?.insights3_title}
+                        pending={opsLearningSummaryPending}
+                        heading={opsLearningSummaryResponse.insights3_title}
+                        headerDescription={opsLearningSummaryResponse.insights3_content}
+                        withInternalPadding
+                    />
+                </Container>
             )}
             <Tabs
                 onChange={setActiveTab}
@@ -210,22 +188,36 @@ export function Component() {
                             <Tab name="byComponent">{strings.byComponentTitle}</Tab>
                         </TabList>
                     )}
-                    actions={(
-                        <div>
-                            {resolveToString(
-                                strings.bySummariesExtracts,
-                                { count: insightsResponse?.components.length },
-                            )}
-                        </div>
-                    )}
                 />
                 <TabPanel
                     name="bySector"
                 >
-                    <BySector />
+                    <List
+                        data={opsLearningSummaryResponse?.sectors}
+                        renderer={Container}
+                        keySelector={stringTitleSelector}
+                        rendererParams={summaryRendererParams}
+                        emptyMessage="No summary"
+                        errored={isDefined(opsLearningSummaryError)}
+                        pending={opsLearningSummaryPending}
+                        filtered={false}
+                        compact
+                    />
                 </TabPanel>
-                <TabPanel name="byComponent">
-                    <ByComponent />
+                <TabPanel
+                    name="byComponent"
+                >
+                    <List
+                        data={opsLearningSummaryResponse?.components}
+                        renderer={Container}
+                        keySelector={stringTitleSelector}
+                        rendererParams={summaryRendererParams}
+                        emptyMessage="No summary"
+                        errored={isDefined(opsLearningSummaryError)}
+                        pending={opsLearningSummaryPending}
+                        filtered={false}
+                        compact
+                    />
                 </TabPanel>
             </Tabs>
         </Page>
