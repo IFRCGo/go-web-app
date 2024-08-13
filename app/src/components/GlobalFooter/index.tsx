@@ -15,6 +15,8 @@ import Link from '#components/Link';
 import {
     api,
     appCommitHash,
+    appPackageName,
+    appRepositoryUrl,
     appVersion,
 } from '#config';
 import { resolveUrl } from '#utils/resolveUrl';
@@ -35,8 +37,8 @@ function GlobalFooter(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
-    const versionTag = `go-web-app@${appVersion}`;
-    const versionUrl = `https://github.com/IFRCGo/go-web-app/releases/tag/${versionTag}`;
+    const versionTag = `${appPackageName}@${appVersion}`;
+    const versionUrl = `${appRepositoryUrl}/releases/tag/${versionTag}`;
     const copyrightText = resolveToComponent(
         strings.footerIFRC,
         {

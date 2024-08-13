@@ -1,12 +1,14 @@
 {
     "name": "@ifrc-go/ui",
+    "description": "IFRC-GO UI Components Library",
     "version": "1.1.5",
     "type": "module",
     "license": "MIT",
-    "author": {
-        "name": "ifrc"
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/IFRCGo/go-web-app.git",
+        "directory": "packages/ui"
     },
-    "description": "IFRC-GO UI Components Library",
     "keywords": [
         "ifrc-go",
         "ui",

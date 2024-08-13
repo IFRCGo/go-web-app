@@ -3,6 +3,12 @@
     "version": "7.4.0",
     "type": "module",
     "private": true,
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/IFRCGo/go-web-app.git",
+        "directory": "app"
+    },
     "scripts": {
         "translatte": "tsx scripts/translatte/main.ts",
         "translatte:generate": "yarn translatte generate-migration ../translationMigrations ./src/**/i18n.json ../packages/ui/src/**/i18n.json",

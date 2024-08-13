@@ -9,6 +9,7 @@ import checker from 'vite-plugin-checker';
 import { compression } from 'vite-plugin-compression2';
 import { VitePluginRadar } from 'vite-plugin-radar';
 import svgr from 'vite-plugin-svgr';
+import pkg from './package.json';
 
 import envConfig from './env';
 
@@ -23,6 +24,8 @@ export default defineConfig(({ mode }) => {
         define: {
             'import.meta.env.APP_COMMIT_HASH': JSON.stringify(commitHash),
             'import.meta.env.APP_VERSION': JSON.stringify(env.npm_package_version),
+            'import.meta.env.APP_PACKAGE_NAME': JSON.stringify(env.npm_package_name),
+            'import.meta.env.APP_REPOSITORY_URL': JSON.stringify(pkg.repository.url.match(/https:\/\/github\.com\/[^ ]+/)?.[0].replace(/\.git$/, '')),
         },
         plugins: [
             isProd ? checker({

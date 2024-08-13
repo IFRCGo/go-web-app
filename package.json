@@ -2,6 +2,11 @@
     "name": "go-web-app-workspace",
     "version": "1.0.0",
     "type": "module",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/IFRCGo/go-web-app.git"
+    },
     "private": true,
     "scripts": {
         "postinstall": "patch-package",

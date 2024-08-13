@@ -13,6 +13,8 @@ const {
     APP_SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE,
     APP_COMMIT_HASH,
     APP_VERSION,
+    APP_PACKAGE_NAME,
+    APP_REPOSITORY_URL,
 } = import.meta.env;
 
 export const environment = APP_ENVIRONMENT;
@@ -20,6 +22,8 @@ export const environment = APP_ENVIRONMENT;
 export const appTitle = APP_TITLE;
 export const appCommitHash = APP_COMMIT_HASH;
 export const appVersion = APP_VERSION;
+export const appPackageName = APP_PACKAGE_NAME;
+export const appRepositoryUrl = APP_REPOSITORY_URL;
 
 export const api = APP_API_ENDPOINT;
 export const adminUrl = APP_ADMIN_URL ?? api;
