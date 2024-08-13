@@ -1,9 +1,0 @@
-{
-    "namespace": "operationalLearningsBySector",
-    "strings": {
-        "bySectorsExtracts":"({count} extracts)",
-         "bySectorSourceOperations":"{count} operations, {count} Sources",
-         "bySectorSeeSource":"see Sources"
-
-    }
-}

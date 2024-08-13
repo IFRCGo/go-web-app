@@ -8,8 +8,10 @@
     "opsLearningsSummariesHeading":"Summary of Learnings",
     "opsLearningsSeeSource":"See More",
     "bySummariesExtracts":" {count} extracts",
-    "keyInsightsDisclaimer":"THIS DATA WAS GENERATED USING AI AND LARGE LEARNING MODELS. THESE SUMMARIES REPRESENT 20 PRIORITISED EXTRACTS OUT OF 635 FROM THE DREF AND EA DOCUMENTS BETWEEN 2021-2023, BASED ON AVAILABILITY.",
+    "keyInsightsDisclaimer":"THIS DATA WAS GENERATED USING AI AND LARGE LEARNING MODELS. THESE SUMMARIES REPRESENT {numOfExtractsUsed} PRIORITISED EXTRACTS OUT OF {totalNumberOfExtracts} FROM THE DREF AND EA DOCUMENTS BETWEEN {appealsFrom}-{appealsTo}, BASED ON AVAILABILITY.",
     "keyInsightsReportIssue":"Report an issue",
-    "viewAllExtract":" View All Extract"
+    "viewAllExtracts":" View All Extracts",
+    "seeLess": "See Less",
+    "seeMore": "See More"
     }
 }
