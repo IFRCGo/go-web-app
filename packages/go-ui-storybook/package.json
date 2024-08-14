@@ -1,8 +1,14 @@
 {
     "name": "go-ui-storybook",
-    "private": true,
     "version": "1.0.0",
+    "private": true,
     "type": "module",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/IFRCGo/go-web-app.git",
+        "directory": "packages/go-ui-storybook"
+    },
     "scripts": {
         "dev": "vite",
         "build": "tsc && vite build",

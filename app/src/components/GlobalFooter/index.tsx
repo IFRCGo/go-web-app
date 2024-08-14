@@ -1,7 +1,6 @@
 import {
     SocialFacebookIcon,
     SocialMediumIcon,
-    SocialTwitterIcon,
     SocialYoutubeIcon,
 } from '@ifrc-go/icons';
 import {
@@ -16,6 +15,8 @@ import Link from '#components/Link';
 import {
     api,
     appCommitHash,
+    appPackageName,
+    appRepositoryUrl,
     appVersion,
 } from '#config';
 import { resolveUrl } from '#utils/resolveUrl';
@@ -36,14 +37,20 @@ function GlobalFooter(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
+    const versionTag = `${appPackageName}@${appVersion}`;
+    const versionUrl = `${appRepositoryUrl}/releases/tag/${versionTag}`;
     const copyrightText = resolveToComponent(
         strings.footerIFRC,
         {
             year,
             appVersion: (
-                <span title={appCommitHash}>
+                <Link
+                    href={versionUrl}
+                    title={appCommitHash}
+                    external
+                >
                     {appVersion}
-                </span>
+                </Link>
             ),
         },
     );
@@ -112,6 +119,12 @@ function GlobalFooter(props: Props) {
                     >
                         {strings.footerOtherResources}
                     </Link>
+                    <Link
+                        href="https://go-wiki.ifrc.org"
+                        external
+                    >
+                        {strings.footerGoWiki}
+                    </Link>
                 </div>
             </div>
             <div className={styles.section}>
@@ -139,13 +152,6 @@ function GlobalFooter(props: Props) {
                         external
                     >
                         <SocialFacebookIcon />
-                    </Link>
-                    <Link
-                        className={styles.socialIcon}
-                        href="https://twitter.com/ifrcgo"
-                        external
-                    >
-                        <SocialTwitterIcon />
                     </Link>
                     <Link
                         className={styles.socialIcon}
