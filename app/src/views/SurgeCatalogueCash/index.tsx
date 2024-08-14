@@ -60,7 +60,7 @@ export function Component() {
     const frameworkData: LinkData[] = [
         {
             title: strings.technicalFrameworkCVA,
-            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EUuruzZd9bZDmMjeTqWsKHMBgXywwtj586i7nN6LNI9pow',
+            href: 'https://cash-hub.org/resource/technical-cva-competency-framework/',
             external: true,
             withLinkIcon: true,
         },

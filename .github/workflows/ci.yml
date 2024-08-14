@@ -194,7 +194,7 @@ jobs:
   #     - name: Typecheck
   #       run: yarn typecheck
   build:
-    name: Build Go Web App
+    name: Build GO Web App
     environment: 'test'
     needs: [lint, lint-css, test, ui]
     runs-on: ubuntu-latest
