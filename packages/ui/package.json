@@ -54,6 +54,7 @@
     },
     "dependencies": {
         "@changesets/cli": "^2.27.1",
+        "@ifrc-go/icons": "^2.0.1",
         "@togglecorp/fujs": "^2.1.1",
         "react-focus-on": "^3.9.1",
         "sanitize-html": "^2.11.0"
