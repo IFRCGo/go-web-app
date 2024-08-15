@@ -3,7 +3,6 @@ import {
     isTruthyString,
 } from '@togglecorp/fujs';
 import xlsx, {
-    type Border,
     type Row,
     type Style,
     type Workbook,
@@ -17,7 +16,7 @@ import {
     COLOR_PRIMARY_RED,
 } from '#utils/constants';
 
-function hexToArgb(hexStr: string, alphaStr = 'ff') {
+export function hexToArgb(hexStr: string, alphaStr = 'ff') {
     const hexWithoutHash = hexStr.substring(1);
 
     return `${alphaStr}${hexWithoutHash}`;
@@ -42,10 +41,26 @@ export const headerRowStyle: Partial<Style> = {
 const headingStyle: Partial<Style> = {
     font: {
         name: 'Montserrat',
-        color: { argb: hexToArgb(COLOR_PRIMARY_BLUE) },
+        color: { argb: 'FFFFFFFF' },
     },
     alignment: {
-        horizontal: 'left',
+        horizontal: 'center',
+        vertical: 'middle',
+    },
+    fill: {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: hexToArgb(COLOR_PRIMARY_BLUE, '10') },
+    },
+};
+
+const subHeadingStyle: Partial<Style> = {
+    font: {
+        name: 'Montserrat',
+        color: { argb: hexToArgb(COLOR_PRIMARY_RED, '10') },
+    },
+    alignment: {
+        horizontal: 'center',
         vertical: 'middle',
     },
 };
@@ -61,29 +76,11 @@ const defaultCellStyle: Partial<Style> = {
     },
 };
 
-const inputBorderStyle: Partial<Border> = {
-    style: 'dashed',
-    color: { argb: hexToArgb(COLOR_PRIMARY_BLUE) },
+const alternateRowFill: Style['fill'] = {
+    type: 'pattern',
+    pattern: 'solid',
+    fgColor: { argb: hexToArgb(COLOR_LIGHT_GREY, '10') },
 };
-
-const inputCellStyle: Partial<Style> = {
-    fill: {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: hexToArgb(COLOR_LIGHT_GREY, '10') },
-    },
-    border: {
-        top: inputBorderStyle,
-        left: inputBorderStyle,
-        right: inputBorderStyle,
-        bottom: inputBorderStyle,
-    },
-    alignment: {
-        vertical: 'top',
-        wrapText: true,
-    },
-};
-
 export async function buildCoverWorksheet(
     coverWorksheet: Worksheet,
     workbook: Workbook,
@@ -128,7 +125,7 @@ export async function buildCoverWorksheet(
     };
     coverWorksheet.mergeCells('A7:L8');
     const descriptionCell = coverWorksheet.getCell('A7');
-    descriptionCell.value = 'You can use this excel to fill up DREF application form and import it through the New Dref Application page in the GO. The fields are divided into 5 different sheets similar to the form in GO application.';
+    descriptionCell.value = 'This template allows you to fill in the necessary section of a DREF request, to be imported in the GO platform to generate a DREF application form. An import can only be done once, so once done please continue working on the application in the GO platform. \n \n This excel has determined fields where the information needs to be completed, these fields are always in the column “Value”, please do not add any information outside of these fields. \n \n This Excel (.xlsx) can be uploaded to OneDrive or SharePoint and be worked on simultaneously by multiple users, but bear in mind that only one user can edit an specific cell at the time. \n \n Fields such as sources of information, risk and mitigation section and indicators where you can add several entries in the online form, have only 5 slots in this format, please do not try to create more, and limit your entries to 5. \n \n Once ready to import, please create a “New DREF Application” in the GO platform (log in require), and then select “Import” bottom';
     descriptionCell.style.alignment = {
         wrapText: true,
     };
@@ -191,11 +188,12 @@ export function addHeadingRow(
         name,
         label,
         description,
-        headingStyle,
+        outlineLevel === 0 ? headingStyle : subHeadingStyle,
     );
 }
 
 export function addInputRow(
+    mode: 'one' | 'two',
     sheet: Worksheet,
     rowNum: number,
     outlineLevel: number,
@@ -205,6 +203,7 @@ export function addInputRow(
     dataValidation?: 'number' | 'integer' | 'date',
 ): Row
 export function addInputRow(
+    mode: 'one' | 'two',
     sheet: Worksheet,
     rowNum: number,
     outlineLevel: number,
@@ -216,6 +215,7 @@ export function addInputRow(
     optionsWorksheet: Worksheet,
 ): Row
 export function addInputRow(
+    mode: 'one' | 'two',
     sheet: Worksheet,
     rowNum: number,
     outlineLevel: number,
@@ -238,7 +238,33 @@ export function addInputRow(
     );
 
     const inputCell = row.getCell(col + 1);
-    inputCell.style = inputCellStyle;
+
+    if (mode === 'one') {
+        const firstRow = row.getCell(col);
+        firstRow.style = {
+            ...firstRow.style,
+            fill: {
+                ...firstRow.style?.fill,
+                ...alternateRowFill,
+            },
+        };
+        const secondRow = row.getCell(col + 1);
+        secondRow.style = {
+            ...secondRow.style,
+            fill: {
+                ...secondRow.style?.fill,
+                ...alternateRowFill,
+            },
+        };
+        const thirdRow = row.getCell(col + 2);
+        thirdRow.style = {
+            ...thirdRow.style,
+            fill: {
+                ...thirdRow.style?.fill,
+                ...alternateRowFill,
+            },
+        };
+    }
 
     if (dataValidation === 'number') {
         inputCell.dataValidation = {

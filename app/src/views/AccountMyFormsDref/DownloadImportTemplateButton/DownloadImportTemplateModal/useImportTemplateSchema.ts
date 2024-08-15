@@ -53,21 +53,27 @@ function useImportTemplateSchema() {
             { key: 'source__0', label: 'Source #1' },
             { key: 'source__1', label: 'Source #2' },
             { key: 'source__2', label: 'Source #3' },
+            { key: 'source__3', label: 'Source #4' },
+            { key: 'source__4', label: 'Source #5' },
         ],
         planned_interventions__indicators: [
             { key: 'indicator__0', label: 'Indicator #1' },
             { key: 'indicator__1', label: 'Indicator #2' },
             { key: 'indicator__2', label: 'Indicator #3' },
+            { key: 'indicator__3', label: 'Indicator #4' },
+            { key: 'indicator__4', label: 'Indicator #5' },
         ],
         risk_security: [
             { key: 'risk__0', label: 'Risk #1' },
             { key: 'risk__1', label: 'Risk #2' },
             { key: 'risk__2', label: 'Risk #3' },
+            { key: 'risk__3', label: 'Risk #4' },
+            { key: 'risk__4', label: 'Risk #5' },
         ],
         national_society_actions: dref_national_society_action_title?.map(
             ({ key, value }) => ({ key, label: value }),
         ) ?? [],
-        identified_needs: dref_identified_need_title?.map(
+        needs_identified: dref_identified_need_title?.map(
             ({ key, value }) => ({ key, label: value }),
         ) ?? [],
     }), [
@@ -189,6 +195,7 @@ function useImportTemplateSchema() {
                 type: 'input',
                 label: 'If you have answered yes to all questions above, justify why the use of DREF for a recurrent event, or how this event should not be considered recurrent',
                 validation: 'string',
+                description: 'Enter MDR code and year. Example: MDR',
             },
 
             lessons_learned: {
@@ -200,7 +207,7 @@ function useImportTemplateSchema() {
 
             event_date: {
                 type: 'input',
-                label: 'Date of the Event',
+                label: 'Date when the trigger was met',
                 validation: 'date',
             },
 
@@ -258,6 +265,12 @@ function useImportTemplateSchema() {
                 validation: 'boolean',
                 optionsKey: '__boolean',
                 label: 'Has the National Society started any actions?',
+            },
+
+            ns_respond_date: {
+                type: 'input',
+                validation: 'date',
+                label: 'Start date of National Society actions',
             },
 
             national_society_actions: {
@@ -325,10 +338,16 @@ function useImportTemplateSchema() {
                 label: 'Are there major coordination mechanisms in place?',
             },
 
+            major_coordination_mechanism: {
+                type: 'input',
+                validation: 'string',
+                label: 'List coordination mechanisms/platform in place at local/district and national level. Indicate the lead authorities/agencies. How the National Society is involved/positioned in this coordination. Does the NS in any lead/co-lead role? Any identified gap/overlap in the coordination (e.g., sector missing…)?',
+            },
+
             needs_identified: {
                 type: 'list',
                 label: 'Identified Needs',
-                optionsKey: 'identified_needs',
+                optionsKey: 'needs_identified',
                 children: {
                     type: 'object',
                     fields: {
@@ -488,6 +507,7 @@ function useImportTemplateSchema() {
                             label: 'Person targeted',
                         },
                         description: {
+                            description: 'A list should start with an \' * \' followed by a space. There are no limits to the number of lists that can be included. Eg:* Activity XYZ* Activity ABC',
                             type: 'input',
                             validation: 'string',
                             label: 'List of activities',
@@ -589,171 +609,6 @@ function useImportTemplateSchema() {
                 validation: 'date',
                 label: 'Date of Publishing',
                 description: 'Added by Regional Office',
-            },
-
-            appeal_code: {
-                type: 'input',
-                validation: 'string',
-                label: 'Appeal Code',
-                description: 'Added by the regional PMER',
-            },
-
-            glide_code: {
-                type: 'input',
-                validation: 'string',
-                label: 'GLIDE number',
-            },
-
-            ifrc_appeal_manager_name: {
-                type: 'input',
-                validation: 'string',
-                label: 'IFRC Appeal Manager: Name',
-                description: 'Added by the regional office',
-            },
-
-            ifrc_appeal_manager_title: {
-                type: 'input',
-                validation: 'string',
-                label: 'IFRC Appeal Manager: Title',
-                description: 'Added by the regional office',
-            },
-
-            ifrc_appeal_manager_email: {
-                type: 'input',
-                validation: 'string',
-                label: 'IFRC Appeal Manager: Email',
-                description: 'Added by the regional office',
-            },
-
-            ifrc_appeal_manager_phone_number: {
-                type: 'input',
-                validation: 'string',
-                label: 'IFRC Appeal Manager: Phone Number',
-                description: 'Added by the regional office',
-            },
-
-            ifrc_project_manager_name: {
-                type: 'input',
-                validation: 'string',
-                label: 'IFRC Project Manager: Name',
-                description: 'Added by the regional office',
-            },
-
-            ifrc_project_manager_title: {
-                type: 'input',
-                validation: 'string',
-                label: 'IFRC Project Manager: Title',
-                description: 'Added by the regional office',
-            },
-
-            ifrc_project_manager_email: {
-                type: 'input',
-                validation: 'string',
-                label: 'IFRC Project Manager: Email',
-                description: 'Added by the regional office',
-            },
-
-            ifrc_project_manager_phone_number: {
-                type: 'input',
-                validation: 'string',
-                label: 'IFRC Project Manager: Phone Number',
-                description: 'Added by the regional office',
-            },
-
-            national_society_contact_name: {
-                type: 'input',
-                validation: 'string',
-                label: 'National Society Contact: Name',
-            },
-
-            national_society_contact_title: {
-                type: 'input',
-                validation: 'string',
-                label: 'National Society Contact: Title',
-            },
-
-            national_society_contact_email: {
-                type: 'input',
-                validation: 'string',
-                label: 'National Society Contact: Email',
-            },
-
-            national_society_contact_phone_number: {
-                type: 'input',
-                validation: 'string',
-                label: 'National Society Contact: Phone Number',
-            },
-
-            ifrc_emergency_name: {
-                type: 'input',
-                validation: 'string',
-                label: 'IFRC focal point for the emergency: Name',
-            },
-
-            ifrc_emergency_title: {
-                type: 'input',
-                validation: 'string',
-                label: 'IFRC focal point for the emergency: Title',
-            },
-
-            ifrc_emergency_email: {
-                type: 'input',
-                validation: 'string',
-                label: 'IFRC focal point for the emergency: Email',
-            },
-
-            ifrc_emergency_phone_number: {
-                type: 'input',
-                validation: 'string',
-                label: 'IFRC focal point for the emergency: Phone number',
-            },
-
-            regional_focal_point_name: {
-                type: 'input',
-                validation: 'string',
-                label: 'DREF Regional Focal Point: Name',
-            },
-
-            regional_focal_point_title: {
-                type: 'input',
-                validation: 'string',
-                label: 'DREF Regional Focal Point: Title',
-            },
-
-            regional_focal_point_email: {
-                type: 'input',
-                validation: 'string',
-                label: 'DREF Regional Focal Point: Email',
-            },
-
-            regional_focal_point_phone_number: {
-                type: 'input',
-                validation: 'string',
-                label: 'DREF Regional Focal Point: Phone Number',
-            },
-
-            media_contact_name: {
-                type: 'input',
-                validation: 'string',
-                label: 'Media Contact: Name',
-            },
-
-            media_contact_title: {
-                type: 'input',
-                validation: 'string',
-                label: 'Media Contact: Title',
-            },
-
-            media_contact_email: {
-                type: 'input',
-                validation: 'string',
-                label: 'Media Contact: Email',
-            },
-
-            media_contact_phone_number: {
-                type: 'input',
-                validation: 'string',
-                label: 'Media Contact: Phone Number',
             },
         },
     }), []);

@@ -130,7 +130,7 @@ export function getCombinedKey(
     return `${String(parentKey)}__${String(key)}`;
 }
 
-type TemplateField = HeadingTemplateField | InputTemplateField;
+export type TemplateField = HeadingTemplateField | InputTemplateField;
 
 // TODO: add test
 export function createImportTemplate<
