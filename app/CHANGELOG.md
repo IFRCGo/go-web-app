@@ -1,5 +1,18 @@
 # go-web-app
 
+## 7.4.1
+
+### Patch Changes
+
+- a4f77ab: Fetch and use latest available WorldBank data in [#571](https://github.com/IFRCGo/go-api/issues/2224)
+- ebf033a: Update Technical Competencies Link on the Cash page of the Catalogue of Surge Services in [#1290](https://github.com/IFRCGo/go-web-app/issues/1290)
+- 18d0dc9: Use `molnix status` to filter surge alerts in [#2208](https://github.com/IFRCGo/go-api/issues/2208)
+- b070c66: Check guest user permission for local units
+- 72df1f2: Add new drone icon for UAV team in [#1280](https://github.com/IFRCGo/go-web-app/issues/1280)
+  Updated @ifrc-go/icons to v2.0.1
+- Updated dependencies [72df1f2]
+  - @ifrc-go/ui@1.1.6
+
 ## 7.4.0
 
 ### Minor Changes
