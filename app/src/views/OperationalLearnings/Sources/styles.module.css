@@ -1,0 +1,4 @@
+.children-container {
+    display: flex;
+    gap: var(--go-ui-spacing-lg);
+}

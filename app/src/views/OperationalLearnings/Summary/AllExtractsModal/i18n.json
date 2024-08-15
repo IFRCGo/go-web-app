@@ -1,0 +1,9 @@
+{
+    "namespace": "viewAllExtracts",
+    "strings": {
+        "heading": "Operational Learning Extracts",
+        "dateOfLearning": "Date of Learning",
+        "source": "Source",
+        "extractsCount": "{count} extracts"
+    }
+}
