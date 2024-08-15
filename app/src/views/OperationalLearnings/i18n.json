@@ -7,11 +7,10 @@
     "bySectorTitle":"Sector",
     "opsLearningsSummariesHeading":"Summary of Learnings",
     "opsLearningsSeeSource":"See More",
-    "bySummariesExtracts":" {count} extracts",
-    "keyInsightsDisclaimer":"THIS DATA WAS GENERATED USING AI AND LARGE LEARNING MODELS. THESE SUMMARIES REPRESENT {numOfExtractsUsed} PRIORITISED EXTRACTS OUT OF {totalNumberOfExtracts} FROM THE DREF AND EA DOCUMENTS BETWEEN {appealsFrom}-{appealsTo}, BASED ON AVAILABILITY.",
+    "keyInsightsDisclaimer":"THIS DATA WAS GENERATED USING AI AND LARGE LEARNING MODELS. THESE SUMMARIES REPRESENT {numOfExtractsUsed} PRIORITISED EXTRACTS OUT OF {totalNumberOfExtracts} FROM THE DREF AND EA DOCUMENTS BETWEEN {appealsFromDate}-{appealsToDate}, BASED ON AVAILABILITY.",
     "keyInsightsReportIssue":"Report an issue",
     "viewAllExtracts":" View All Extracts",
-    "seeLess": "See Less",
-    "seeMore": "See More"
+    "closeSources": "Close Sources",
+    "seeSources": "Show Sources"
     }
 }

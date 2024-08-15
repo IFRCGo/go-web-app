@@ -2,7 +2,10 @@ import {
     useCallback,
     useState,
 } from 'react';
-import { ArrowDownSmallFillIcon } from '@ifrc-go/icons';
+import {
+    ArrowDownSmallFillIcon,
+    ArrowUpSmallFillIcon,
+} from '@ifrc-go/icons';
 import {
     Button,
     Container,
@@ -12,10 +15,13 @@ import {
     TabPanel,
     Tabs,
 } from '@ifrc-go/ui';
-import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
+    useBooleanState,
+    useTranslation,
+} from '@ifrc-go/ui/hooks';
+import {
+    numericIdSelector,
     resolveToString,
-    stringTitleSelector,
 } from '@ifrc-go/ui/utils';
 import {
     isDefined,
@@ -26,25 +32,41 @@ import { EntriesAsList } from '@togglecorp/toggle-form';
 
 import Link from '#components/Link';
 import Page from '#components/Page';
+import { type components } from '#generated/types';
 import useFilterState from '#hooks/useFilterState';
-import { type GoApiResponse } from '#utils/restRequest';
-import { useRequest } from '#utils/restRequest';
+import {
+    type GoApiResponse,
+    useRequest,
+} from '#utils/restRequest';
 
 import Filters, {
     type FilterValue,
     type SelectedFilter,
 } from './Filters';
+import Sources from './Sources';
+import Summary, { type Props as SummaryProps } from './Summary';
 
 import i18n from './i18n.json';
 
+type SummaryStatusEnum = components<'read'>['schemas']['OpsLearningSummaryStatusEnum'];
+
+const SUMMARY_STATUS_SUCCESS = 3 satisfies SummaryStatusEnum;
+const SUMMARY_STATUS_FAILED = 4 satisfies SummaryStatusEnum;
+
 type OpsLearningSummaryResponse = GoApiResponse<'/api/v2/ops-learning/summary/'>;
-type OpsLearningSummary = OpsLearningSummaryResponse['sectors'][number];
+type OpsLearningSectorSummary = OpsLearningSummaryResponse['sectors'][number];
+type OpsLearningComponentSummary = OpsLearningSummaryResponse['components'][number];
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
     const [activeTab, setActiveTab] = useState<'bySector' | 'byComponent'>('bySector');
-    const [isExpanded, setIsExpanded] = useState(false);
+    const [
+        isExpanded,
+        {
+            toggle: toggleExpansion,
+        },
+    ] = useBooleanState(false);
     const {
         rawFilter,
         setFilterField,
@@ -79,26 +101,53 @@ export function Component() {
     } = useRequest({
         url: '/api/v2/ops-learning/summary/',
         query: {
-            // TODO: fix this filters in server and in client
-            appeal_code__region: isDefined(rawFilter.region) ? rawFilter.region : undefined,
+            // appeal_code__region: isDefined(rawFilter.region) ? rawFilter.region : undefined,
             appeal_code__country: isDefined(rawFilter.country) ? rawFilter.country : undefined,
             appeal_code__dtype: isDefined(rawFilter.disasterType)
                 ? rawFilter.disasterType : undefined,
-            sector_validated: isDefined(rawFilter.sector) ? [rawFilter.sector] : undefined,
+            sector_validated: isDefined(rawFilter.sector) ? rawFilter.sector : undefined,
             per_component_validated: isDefined(rawFilter.component)
-                ? [rawFilter.component] : undefined,
+                ? rawFilter.component : undefined,
+        },
+        shouldPoll: (poll) => {
+            if (poll?.errored
+                || poll?.value?.status === SUMMARY_STATUS_FAILED
+                || poll?.value?.status === SUMMARY_STATUS_SUCCESS
+            ) {
+                return -1;
+            }
+
+            return 5000;
         },
         preserveResponse: true,
     });
 
-    const summaryRendererParams = (_: string, summary: OpsLearningSummary) => ({
-        heading: summary.title,
-        children: summary.content,
+    const sectorSummaryRendererParams = (
+        summaryId: number,
+        summary: OpsLearningSectorSummary,
+    ): SummaryProps => ({
+        id: summaryId,
+        summaryType: 'sector',
+        summaryTitle: summary.title,
+        extractsCount: summary.extract_count,
+        summaryContent: summary.content,
     });
 
-    const handleExpandButtonClick = useCallback(() => {
-        setIsExpanded((prev) => !prev);
-    }, []);
+    const componentSummaryRendererParams = (
+        summaryId: number,
+        summary: OpsLearningComponentSummary,
+    ): SummaryProps => ({
+        id: summaryId,
+        summaryType: 'component',
+        summaryTitle: summary.title,
+        extractsCount: summary.extract_count,
+        summaryContent: summary.content,
+    });
+
+    const filtersSelected = isDefined(rawFilter.country)
+        || isDefined(rawFilter.disasterType)
+        || isDefined(rawFilter.sector)
+        || isDefined(rawFilter.component);
 
     const showKeyInsights = isDefined(opsLearningSummaryResponse?.insights1_title)
         && isDefined(opsLearningSummaryResponse.insights2_title)
@@ -123,16 +172,16 @@ export function Component() {
                     </div>
                 )))}
             />
-            {showKeyInsights && (
+            {showKeyInsights && filtersSelected && (
                 <Container
                     heading={strings.opsLearningsSummariesHeading}
                     contentViewType="grid"
                     numPreferredGridContentColumns={3}
                     footerIcons={resolveToString(strings.keyInsightsDisclaimer, {
-                        numOfExtractsUsed: 20,
-                        totalNumberOfExtracts: 200,
-                        appealsFromDate: 2023,
-                        appealsToDate: 2024,
+                        numOfExtractsUsed: opsLearningSummaryResponse.extract_count,
+                        totalNumberOfExtracts: 200, // TODO get this from server when available
+                        appealsFromDate: 2023, // TODO get this from server when available
+                        appealsToDate: 2024, // TODO get this from server when available
                     })}
                     footerActions={(
                         <>
@@ -143,33 +192,36 @@ export function Component() {
                                 {strings.keyInsightsReportIssue}
                             </Link>
                             <Button
-                                name={undefined}
+                                name={opsLearningSummaryResponse.id}
                                 variant="tertiary"
-                                onClick={handleExpandButtonClick}
-                                actions={<ArrowDownSmallFillIcon />}
+                                onClick={toggleExpansion}
+                                actions={(isExpanded
+                                    ? <ArrowUpSmallFillIcon />
+                                    : <ArrowDownSmallFillIcon />
+                                )}
                             >
-                                {isExpanded ? strings.seeLess : strings.seeMore}
+                                {isExpanded ? strings.closeSources : strings.seeSources}
                             </Button>
                         </>
                     )}
+                    footerContent={isExpanded && (
+                        <Sources
+                            summaryId={opsLearningSummaryResponse.id}
+                            summaryType="insight"
+                        />
+                    )}
                 >
                     <Container
-                        key={opsLearningSummaryResponse?.insights1_title}
-                        pending={opsLearningSummaryPending}
                         heading={opsLearningSummaryResponse.insights1_title}
                         headerDescription={opsLearningSummaryResponse.insights1_content}
                         withInternalPadding
                     />
                     <Container
-                        key={opsLearningSummaryResponse?.insights2_title}
-                        pending={opsLearningSummaryPending}
                         heading={opsLearningSummaryResponse.insights2_title}
                         headerDescription={opsLearningSummaryResponse.insights2_content}
                         withInternalPadding
                     />
                     <Container
-                        key={opsLearningSummaryResponse?.insights3_title}
-                        pending={opsLearningSummaryPending}
                         heading={opsLearningSummaryResponse.insights3_title}
                         headerDescription={opsLearningSummaryResponse.insights3_content}
                         withInternalPadding
@@ -194,14 +246,13 @@ export function Component() {
                 >
                     <List
                         data={opsLearningSummaryResponse?.sectors}
-                        renderer={Container}
-                        keySelector={stringTitleSelector}
-                        rendererParams={summaryRendererParams}
+                        renderer={Summary}
+                        keySelector={numericIdSelector}
+                        rendererParams={sectorSummaryRendererParams}
                         emptyMessage="No summary"
                         errored={isDefined(opsLearningSummaryError)}
                         pending={opsLearningSummaryPending}
                         filtered={false}
-                        compact
                     />
                 </TabPanel>
                 <TabPanel
@@ -209,14 +260,13 @@ export function Component() {
                 >
                     <List
                         data={opsLearningSummaryResponse?.components}
-                        renderer={Container}
-                        keySelector={stringTitleSelector}
-                        rendererParams={summaryRendererParams}
+                        renderer={Summary}
+                        keySelector={numericIdSelector}
+                        rendererParams={componentSummaryRendererParams}
                         emptyMessage="No summary"
                         errored={isDefined(opsLearningSummaryError)}
                         pending={opsLearningSummaryPending}
                         filtered={false}
-                        compact
                     />
                 </TabPanel>
             </Tabs>
