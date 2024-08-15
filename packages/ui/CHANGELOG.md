@@ -1,5 +1,13 @@
 # @ifrc-go/ui
 
+## 1.1.6
+
+### Patch Changes
+
+- 72df1f2: Add new drone icon for UAV team
+
+  Updated @ifrc-go/icons to v2.0.1
+
 ## 1.1.5
 
 ### Patch Changes
