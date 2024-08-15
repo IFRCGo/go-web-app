@@ -44,8 +44,8 @@ function Navbar(props: Props) {
     type RespondOptionKey = 'emergencies' | 'early-warning' | 'dref-process' | 'surge';
     const [activeRespondOption, setActiveRespondOption] = useState<RespondOptionKey>('emergencies');
 
-    type LearnOptionKey = 'tools' | 'resources';
-    const [activeLearnOption, setActiveLearnOption] = useState<LearnOptionKey>('tools');
+    type LearnOptionKey = 'tools' | 'resources' | 'operational-learnings';
+    const [activeLearnOption, setActiveLearnOption] = useState<LearnOptionKey>('operational-learnings');
 
     return (
         <nav className={_cs(styles.navbar, className)}>
