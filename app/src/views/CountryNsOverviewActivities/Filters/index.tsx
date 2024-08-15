@@ -6,7 +6,6 @@ import {
     stringLabelSelector,
     stringValueSelector,
 } from '@ifrc-go/ui/utils';
-import { _cs } from '@togglecorp/fujs';
 import { EntriesAsList } from '@togglecorp/toggle-form';
 
 import useCountryRaw, { Country } from '#hooks/domain/useCountryRaw';
@@ -14,7 +13,6 @@ import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 function countryNameSelector(country: Country) {
     return country.name ?? country.id.toString();
@@ -29,7 +27,6 @@ export interface FilterValue {
 }
 
 interface Props {
-    className?: string;
     value: FilterValue;
     onChange: (...args: EntriesAsList<FilterValue>) => void;
     disabled?: boolean;
@@ -37,7 +34,6 @@ interface Props {
 
 function Filters(props: Props) {
     const {
-        className,
         value,
         onChange,
         disabled,
@@ -61,7 +57,7 @@ function Filters(props: Props) {
     const countries = useCountryRaw();
 
     return (
-        <div className={_cs(styles.filters, className)}>
+        <>
             <MultiSelectInput
                 name="project_country"
                 placeholder={strings.nSFilterReportingNs}
@@ -112,7 +108,7 @@ function Filters(props: Props) {
                 onChange={onChange}
                 disabled={disabled}
             />
-        </div>
+        </>
     );
 }
 

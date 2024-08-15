@@ -10,7 +10,6 @@ import {
     stringValueSelector,
 } from '@ifrc-go/ui/utils';
 import {
-    _cs,
     isDefined,
     isNotDefined,
 } from '@togglecorp/fujs';
@@ -27,7 +26,6 @@ import type { GoApiResponse } from '#utils/restRequest';
 import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 type DeploymentsEmergencyProjectStatus = NonNullable<GoApiResponse<'/api/v2/global-enums/'>['deployments_emergency_project_status']>[number];
 export type FilterValue = Partial<{
@@ -44,7 +42,6 @@ function emergencyProjectStatusSelector(option: DeploymentsEmergencyProjectStatu
 }
 
 interface Props {
-    className?: string;
     value: FilterValue;
     onChange: (value: SetValueArg<FilterValue>) => void;
     disabled?: boolean;
@@ -52,7 +49,6 @@ interface Props {
 
 function Filters(props: Props) {
     const {
-        className,
         value,
         onChange,
         disabled,
@@ -102,7 +98,7 @@ function Filters(props: Props) {
     );
 
     return (
-        <div className={_cs(styles.filters, className)}>
+        <>
             <NationalSocietyMultiSelectInput
                 name="reporting_ns"
                 placeholder={strings.emergencyActivityFilterReportingNs}
@@ -155,7 +151,7 @@ function Filters(props: Props) {
                 onOptionsChange={setDistrictOptions}
                 value={value.districts}
             />
-        </div>
+        </>
     );
 }
 

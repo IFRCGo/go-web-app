@@ -32,6 +32,7 @@ import Page from '#components/Page';
 import { adminUrl } from '#config';
 import DomainContext from '#contexts/domain';
 import useAuth from '#hooks/domain/useAuth';
+import usePermissions from '#hooks/domain/usePermissions';
 import useRegion from '#hooks/domain/useRegion';
 import useUserMe from '#hooks/domain/useUserMe';
 import { type EmergencyOutletContext } from '#utils/outletContext';
@@ -136,6 +137,7 @@ export function Component() {
     const isSubscribed = isDefined(emergencyId) ? subscriptionMap[Number(emergencyId)] : false;
 
     const { isAuthenticated } = useAuth();
+    const { isGuestUser } = usePermissions();
     const subscriptionPending = addSubscriptionPending || removeSubscriptionPending;
     const isPending = emergencyPending || emergencySnippetPending;
 
@@ -240,7 +242,6 @@ export function Component() {
             )}
             actions={isAuthenticated && (
                 <>
-                    {/* <WikiLink href="" /> */}
                     <Button
                         name={Number(emergencyId)}
                         variant="secondary"
@@ -249,15 +250,17 @@ export function Component() {
                     >
                         {isSubscribed ? strings.emergencyUnfollow : strings.emergencyFollow}
                     </Button>
-                    <Link
-                        external
-                        href={resolveUrl(adminUrl, `api/event/${emergencyId}/change/`)}
-                        variant="secondary"
-                        icons={<PencilFillIcon />}
-                        disabled={isPending}
-                    >
-                        {strings.emergencyEdit}
-                    </Link>
+                    {!isGuestUser && (
+                        <Link
+                            external
+                            href={resolveUrl(adminUrl, `api/event/${emergencyId}/change/`)}
+                            variant="secondary"
+                            icons={<PencilFillIcon />}
+                            disabled={isPending}
+                        >
+                            {strings.emergencyEdit}
+                        </Link>
+                    )}
                 </>
             )}
             heading={emergencyResponse?.name ?? '--'}
