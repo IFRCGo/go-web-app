@@ -175,6 +175,8 @@ export const COUNTRY_RECORD_TYPE_COUNTRY_OFFICE = 4 satisfies CountryRecordTypeE
 export const COUNTRY_RECORD_TYPE_REPRESENTATIVE_OFFICE = 5 satisfies CountryRecordTypeEnum;
 
 type SurgeAlertTypeEnum = components<'read'>['schemas']['NotificationsSurgeAlertStatusEnumKey'];
+export const SURGE_ALERT_STATUS_OPEN = 0 satisfies SurgeAlertTypeEnum;
+export const SURGE_ALERT_STATUS_STOOD_DOWN = 1 satisfies SurgeAlertTypeEnum;
 export const SURGE_ALERT_STATUS_CLOSED = 2 satisfies SurgeAlertTypeEnum;
 
 export const NUM_X_AXIS_TICKS_MIN = 3;

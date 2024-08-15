@@ -163,7 +163,7 @@ export function Component() {
             country: countryFilter,
 
             // FIXME: this should come from the useFilterState
-            ordering: 'status,-opens',
+            ordering: 'molnix_status,-opens',
         },
     });
 
@@ -198,7 +198,7 @@ export function Component() {
                     const startDate = isDefined(item.start) ? new Date(item.start) : undefined;
 
                     if (isDefined(startDate)) {
-                        if (item.status === SURGE_ALERT_STATUS_CLOSED) {
+                        if (item.molnix_status === SURGE_ALERT_STATUS_CLOSED) {
                             return formatDate(startDate);
                         }
 
@@ -213,17 +213,17 @@ export function Component() {
                 { cellRendererClassName: styles.startColumn },
             ),
             createStringColumn<SurgeListItem, TableKey>(
-                'name',
+                'message',
                 strings.surgeAlertPosition,
                 (item) => getPositionString(item),
             ),
             createStringColumn<SurgeListItem, TableKey>(
-                'keywords',
+                'molnix_tags',
                 strings.surgeAlertKeywords,
                 (item) => getMolnixKeywords(item.molnix_tags),
             ),
             createLinkColumn<SurgeListItem, TableKey>(
-                'emergency',
+                'event',
                 strings.surgeAlertEmergency,
                 (item) => item.event?.name,
                 (item) => ({
@@ -243,9 +243,9 @@ export function Component() {
                 }),
             ),
             createStringColumn<SurgeListItem, TableKey>(
-                'status',
+                'molnix_status',
                 strings.surgeAlertStatus,
-                (item) => item.status_display,
+                (item) => item.molnix_status_display,
             ),
         ]),
         [
