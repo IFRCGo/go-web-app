@@ -50,7 +50,7 @@ function EpidemicNumericDetails(props: Props) {
                 value={value?.gov_num_assisted}
             />
             <KeyFigure
-                label={strings.epidemicVolunteersLabel}
+                label={strings.epidemicLocalStaffLabel}
                 value={value?.num_localstaff}
             />
             <KeyFigure

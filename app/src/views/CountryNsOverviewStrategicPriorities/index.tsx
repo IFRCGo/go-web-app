@@ -20,6 +20,8 @@ import {
 
 import Link from '#components/Link';
 import WikiLink from '#components/WikiLink';
+import useCountry from '#hooks/domain/useCountry';
+import usePermissions from '#hooks/domain/usePermissions';
 import useDebouncedValue from '#hooks/useDebouncedValue';
 import { type CountryOutletContext } from '#utils/outletContext';
 import { useRequest } from '#utils/restRequest';
@@ -33,6 +35,20 @@ import styles from './styles.module.css';
 export function Component() {
     const { countryId, countryResponse } = useOutletContext<CountryOutletContext>();
     const strings = useTranslation(i18n);
+
+    const {
+        isCountryPerAdmin,
+        isSuperUser,
+        isRegionPerAdmin,
+        isGuestUser,
+    } = usePermissions();
+
+    const countryDetails = useCountry({ id: Number(countryId) });
+    const regionId = isDefined(countryDetails) ? Number(countryDetails?.region) : undefined;
+
+    const isPerAdmin = isSuperUser
+        || (!isGuestUser && isCountryPerAdmin(Number(countryId)))
+        || (!isGuestUser && isRegionPerAdmin(regionId));
 
     const {
         pending: publicPerStatsPending,
@@ -266,20 +282,34 @@ export function Component() {
                             numPreferredGridContentColumns={5}
                         >
                             {strengthComponents?.map(
-                                (strengthComponent) => (
-                                    <Container
-                                        heading={strengthComponent?.component_details.title}
-                                        headingLevel={5}
-                                        key={strengthComponent.component}
-                                        withHeaderBorder
-                                        withInternalPadding
-                                        icons={<CheckboxFillIcon className={styles.icon} />}
-                                        withoutWrapInHeading
-                                        className={styles.strengthComponent}
-                                    >
-                                        {strengthComponent?.rating_details?.title}
-                                    </Container>
-                                ),
+                                (strengthComponent) => {
+                                    if (!isPerAdmin) {
+                                        return (
+                                            <Container
+                                                key={strengthComponent.component}
+                                                withInternalPadding
+                                                className={styles.strengthComponent}
+                                            >
+                                                {strengthComponent?.component_details.title}
+                                            </Container>
+                                        );
+                                    }
+
+                                    return (
+                                        <Container
+                                            heading={strengthComponent?.rating_details?.title}
+                                            headingLevel={5}
+                                            key={strengthComponent.component}
+                                            withHeaderBorder
+                                            withInternalPadding
+                                            icons={<CheckboxFillIcon className={styles.icon} />}
+                                            withoutWrapInHeading
+                                            className={styles.strengthComponent}
+                                        >
+                                            {strengthComponent?.component_details.title}
+                                        </Container>
+                                    );
+                                },
                             )}
                         </Container>
                     )}
@@ -291,20 +321,33 @@ export function Component() {
                             numPreferredGridContentColumns={5}
                         >
                             {keyDevelopmentComponents?.map(
-                                (keyDevelopmentComponent) => (
-                                    <Container
-                                        heading={keyDevelopmentComponent?.component_details.title}
-                                        headingLevel={5}
-                                        key={keyDevelopmentComponent.component}
-                                        withHeaderBorder
-                                        withInternalPadding
-                                        icons={<CheckboxFillIcon className={styles.icon} />}
-                                        withoutWrapInHeading
-                                        className={styles.priorityComponent}
-                                    >
-                                        {keyDevelopmentComponent?.rating_details?.title}
-                                    </Container>
-                                ),
+                                (keyDevelopmentComponent) => {
+                                    if (!isPerAdmin) {
+                                        return (
+                                            <Container
+                                                key={keyDevelopmentComponent.component}
+                                                withInternalPadding
+                                                className={styles.priorityComponent}
+                                            >
+                                                {keyDevelopmentComponent?.component_details.title}
+                                            </Container>
+                                        );
+                                    }
+                                    return (
+                                        <Container
+                                            heading={keyDevelopmentComponent?.rating_details?.title}
+                                            headingLevel={5}
+                                            key={keyDevelopmentComponent.component}
+                                            withHeaderBorder
+                                            withInternalPadding
+                                            icons={<CheckboxFillIcon className={styles.icon} />}
+                                            withoutWrapInHeading
+                                            className={styles.priorityComponent}
+                                        >
+                                            {keyDevelopmentComponent?.component_details.title}
+                                        </Container>
+                                    );
+                                },
                             )}
                         </Container>
                     )}
