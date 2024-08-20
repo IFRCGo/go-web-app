@@ -1,5 +1,4 @@
 import {
-    Fragment,
     useCallback,
     useMemo,
 } from 'react';
@@ -246,18 +245,17 @@ function PublicCountryPreparedness() {
                 >
                     {componentsToBeStrengthened.map(
                         (priorityComponent) => (
-                            <Fragment key={priorityComponent.id}>
-                                <Heading
-                                    className={styles.heading}
-                                    level={5}
-                                >
-                                    {getFormattedComponentName({
-                                        component_num: priorityComponent.componentNumber,
-                                        component_letter: priorityComponent.componentLetter,
-                                        title: priorityComponent.label,
-                                    })}
-                                </Heading>
-                            </Fragment>
+                            <Heading
+                                key={priorityComponent.id}
+                                className={styles.heading}
+                                level={5}
+                            >
+                                {getFormattedComponentName({
+                                    component_num: priorityComponent.componentNumber,
+                                    component_letter: priorityComponent.componentLetter,
+                                    title: priorityComponent.label,
+                                })}
+                            </Heading>
                         ),
                     )}
                 </Container>
