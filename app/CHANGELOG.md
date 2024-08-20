@@ -1,5 +1,12 @@
 # go-web-app
 
+## 7.4.2
+
+### Patch Changes
+
+- d734e04: - Fix duplication volunteer label in the Field Report details
+  - Fix rating visibility in the Country > NS Overview > Strategic priorities page
+
 ## 7.4.1
 
 ### Patch Changes
