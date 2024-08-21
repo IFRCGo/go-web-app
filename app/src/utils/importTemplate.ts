@@ -5,16 +5,18 @@ import {
     isObject,
     listToMap,
     mapToMap,
+    randomString,
 } from '@togglecorp/fujs';
 
-type ValidationType = string | number | boolean;
+type ValidationType = string | number | boolean | 'textArea';
 type TypeToLiteral<T extends ValidationType> = T extends string
-    ? 'string' | 'date'
+    ? 'string' | 'date' | 'textArea'
     : T extends number
-        ? 'integer' | 'number'
-        : T extends boolean
-            ? 'boolean'
-            : never;
+    ? 'integer' | 'number'
+    : T extends boolean
+    ? 'boolean'
+    : never;
+
 type ExtractValidation<T> = T extends ValidationType
     ? T
     : never;
@@ -22,6 +24,7 @@ type ExtractValidation<T> = T extends ValidationType
 interface BaseField {
     label: string;
     description?: string;
+    headingBefore?: string;
 }
 
 interface InputField<
@@ -40,8 +43,8 @@ interface SelectField<
     // Make this more strict
     optionsKey: {
         [key in keyof OPTIONS_MAPPING]: VALIDATION extends OPTIONS_MAPPING[key][number]['key']
-            ? key
-            : never
+        ? key
+        : never
     }[keyof OPTIONS_MAPPING]
 }
 
@@ -76,8 +79,8 @@ export interface TemplateOptionItem<T extends ValidationType> {
 
 export interface TemplateFieldOptionsMapping {
     [key: string]: TemplateOptionItem<string>[]
-        | TemplateOptionItem<number>[]
-        | TemplateOptionItem<boolean>[]
+    | TemplateOptionItem<number>[]
+    | TemplateOptionItem<boolean>[]
 }
 
 export type TemplateSchema<
@@ -86,13 +89,13 @@ export type TemplateSchema<
 > = VALUE extends (infer LIST_ITEM)[]
     ? (
         ListField<LIST_ITEM, OPTIONS_MAPPING>
-            | InputField<ExtractValidation<LIST_ITEM>>
-            | SelectField<ExtractValidation<LIST_ITEM>, OPTIONS_MAPPING>
+        | InputField<ExtractValidation<LIST_ITEM>>
+        | SelectField<ExtractValidation<LIST_ITEM>, OPTIONS_MAPPING>
     ) : (
         VALUE extends object
-            ? ObjectField<VALUE, OPTIONS_MAPPING>
-            : (InputField<ExtractValidation<VALUE>>
-                | SelectField<ExtractValidation<VALUE>, OPTIONS_MAPPING>)
+        ? ObjectField<VALUE, OPTIONS_MAPPING>
+        : (InputField<ExtractValidation<VALUE>>
+            | SelectField<ExtractValidation<VALUE>, OPTIONS_MAPPING>)
     );
 
 interface HeadingTemplateField {
@@ -111,11 +114,12 @@ type InputTemplateField = {
     label: string;
     outlineLevel: number;
     description?: string;
+    headingBefore?: string;
 } & ({
     dataValidation: 'list';
     optionsKey: ObjectKey;
 } | {
-    dataValidation?: 'number' | 'integer' | 'date';
+    dataValidation?: 'number' | 'integer' | 'date' | 'textArea';
     optionsKey?: never;
 })
 
@@ -168,19 +172,31 @@ export function createImportTemplate<
         return [];
     }
 
+    const fields: TemplateField[] = [];
+
+    if (isDefined(schema.headingBefore)) {
+        fields.push({
+            type: 'heading',
+            name: `${fieldName}__headingBefore`,
+            label: schema.headingBefore,
+            outlineLevel,
+        } satisfies HeadingTemplateField);
+    }
+
     if (schema.type === 'input') {
         const field = {
             type: 'input',
             name: fieldName,
             label: schema.label,
             description: schema.description,
-            dataValidation: (schema.validation === 'number' || schema.validation === 'date' || schema.validation === 'integer')
+            dataValidation: (schema.validation === 'number' || schema.validation === 'date' || schema.validation === 'integer' || schema.validation === 'textArea')
                 ? schema.validation
                 : undefined,
             outlineLevel,
         } satisfies InputTemplateField;
 
-        return [field];
+        fields.push(field);
+        return fields;
     }
 
     if (schema.type === 'select') {
@@ -194,7 +210,8 @@ export function createImportTemplate<
             optionsKey: schema.optionsKey,
         } satisfies InputTemplateField;
 
-        return [field];
+        fields.push(field);
+        return fields;
     }
 
     const headingField = {
@@ -234,6 +251,7 @@ export function createImportTemplate<
     });
 
     return [
+        ...fields,
         headingField,
         ...optionFields,
     ];
@@ -246,7 +264,7 @@ export function getValueFromImportTemplate<
 >(
     schema: TemplateSchema<TEMPLATE_SCHEMA, OPTIONS_MAPPING>,
     optionsMap: OPTIONS_MAPPING,
-    formValues: Record<string, string>,
+    formValues: Record<string, string | number | boolean>,
     fieldName: string | undefined = undefined,
 ): unknown {
     const optionsReverseMap = mapToMap(
@@ -291,7 +309,7 @@ export function getValueFromImportTemplate<
         const value = formValues[fieldName];
         const valueKey = optionsReverseMap[
             schema.optionsKey as string
-        ]?.[value];
+        ]?.[String(value)];
         // TODO: add validation from schema.validation
         return valueKey;
     }
@@ -308,12 +326,17 @@ export function getValueFromImportTemplate<
         );
 
         if (isObject(value) && hasSomeDefinedValue(value)) {
+            if (schema.keyFieldName) {
+                return {
+                    [schema.keyFieldName]: option.key,
+                    ...value,
+                };
+            }
             return {
-                [schema.keyFieldName ?? 'client_id']: option.key,
+                client_id: randomString(),
                 ...value,
             };
         }
-
         return undefined;
     }).filter(isDefined);
 

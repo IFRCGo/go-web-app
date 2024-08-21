@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import useCountry from '#hooks/domain/useCountry';
-import useDisasterTypes from '#hooks/domain/useDisasterType';
+import useDisasterTypes, { DisasterType } from '#hooks/domain/useDisasterType';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useNationalSociety from '#hooks/domain/useNationalSociety';
 import { type TemplateSchema } from '#utils/importTemplate';
@@ -38,7 +38,7 @@ function useImportTemplateSchema() {
             ({ id, name }) => ({ key: id, label: name }),
         ),
         disaster_type: disasterTypes?.map(
-            ({ id, name }) => ({ key: id, label: name }),
+            ({ id, name }: DisasterType) => ({ key: id, label: name }),
         ) ?? [],
         type_of_onset: dref_dref_onset_type?.map(
             ({ key, value }) => ({ key, label: value }),
@@ -56,7 +56,7 @@ function useImportTemplateSchema() {
             { key: 'source__3', label: 'Source #4' },
             { key: 'source__4', label: 'Source #5' },
         ],
-        planned_interventions__indicators: [
+        planned_interventions_indicators: [
             { key: 'indicator__0', label: 'Indicator #1' },
             { key: 'indicator__1', label: 'Indicator #2' },
             { key: 'indicator__2', label: 'Indicator #3' },
@@ -95,6 +95,7 @@ function useImportTemplateSchema() {
                 label: 'National society',
                 validation: 'number',
                 optionsKey: 'national_society',
+                headingBefore: 'Essential Information',
             },
 
             // We're skipping type of DREF since we'll have separate
@@ -158,6 +159,7 @@ function useImportTemplateSchema() {
                 label: 'Has a similar event affected the same area(s) in the last 3 years?',
                 optionsKey: '__boolean',
                 validation: 'boolean',
+                headingBefore: 'Previous Operation',
             },
 
             did_it_affect_same_population: {
@@ -194,21 +196,22 @@ function useImportTemplateSchema() {
             dref_recurrent_text: {
                 type: 'input',
                 label: 'If you have answered yes to all questions above, justify why the use of DREF for a recurrent event, or how this event should not be considered recurrent',
-                validation: 'string',
-                description: 'Enter MDR code and year. Example: MDR',
+                validation: 'textArea',
             },
 
             lessons_learned: {
                 type: 'input',
                 label: 'Lessons Learned',
-                validation: 'string',
+                validation: 'textArea',
                 description: 'Specify how the lessons learnt from these previous operations are being used to mitigate similar challenges in the current operation',
             },
 
             event_date: {
                 type: 'input',
-                label: 'Date when the trigger was met',
+                label: 'Date of the Event / Date when the trigger was met',
                 validation: 'date',
+                headingBefore: 'Description of the Event',
+                description: 'When the `Type of Onset` is Slow, we store the input date as `Date when the trigger was met. When the `Type of Onset` is Sudden, we store the input date as `Date of the Event`.',
             },
 
             num_affected: {
@@ -227,13 +230,13 @@ function useImportTemplateSchema() {
 
             event_description: {
                 type: 'input',
-                validation: 'string',
+                validation: 'textArea',
                 label: 'What happened, where and when?',
             },
 
             event_scope: {
                 type: 'input',
-                validation: 'string',
+                validation: 'textArea',
                 label: 'Scope and scale of the event',
                 description: 'Describe the extent this hazard will produce negative impacts on lives, livelihoods, well-being and infrastructure. Explain which people are most likely to experience the impacts of this hazard? Where do they live, and why are they vulnerable? Please explain which groups (e.g elderly, children, people with disabilities, IDPs, Refugees, etc.) are most likely to be affected? Provide historic information on how communities have been affected by the magnitude of this hazard in the past?',
             },
@@ -241,8 +244,8 @@ function useImportTemplateSchema() {
             source_information: {
                 type: 'list',
                 label: 'Source Information',
-                optionsKey: 'source_information',
                 description: 'Add the links and the name of the sources, the name will be shown in the export, as an hyperlink.',
+                optionsKey: 'source_information',
                 children: {
                     type: 'object',
                     fields: {
@@ -255,6 +258,7 @@ function useImportTemplateSchema() {
                             type: 'input',
                             validation: 'string',
                             label: 'Link',
+                            description: 'Add the links and the name of the sources, the name will be shown in the export, as an hyperlink.',
                         },
                     },
                 },
@@ -265,6 +269,7 @@ function useImportTemplateSchema() {
                 validation: 'boolean',
                 optionsKey: '__boolean',
                 label: 'Has the National Society started any actions?',
+                headingBefore: 'Current National Society Actions',
             },
 
             ns_respond_date: {
@@ -284,7 +289,7 @@ function useImportTemplateSchema() {
                     fields: {
                         description: {
                             type: 'input',
-                            validation: 'string',
+                            validation: 'textArea',
                             label: 'Description',
                         },
                     },
@@ -293,23 +298,25 @@ function useImportTemplateSchema() {
 
             ifrc: {
                 type: 'input',
-                validation: 'string',
+                validation: 'textArea',
                 label: 'IFRC',
                 description: 'Presence or not of IFRC in country (if not, indicate the cluster covering), support provided for this response, domestic coordination, technical, strategic, surge. Explain what support provided in terms of Secretariat services: PMER, Finance, Admin, HR, Security, logistics, NSD.',
+                headingBefore: 'IFRC Network Actions Related To The Current Event',
             },
 
             partner_national_society: {
                 type: 'input',
-                validation: 'string',
+                validation: 'textArea',
                 label: 'Participating National Societies',
                 description: 'Briefly set out which PNS are present and give details of PNS contributions/roles on the ground and remotely for this specific operation',
             },
 
             icrc: {
                 type: 'input',
-                validation: 'string',
+                validation: 'textArea',
                 label: 'ICRC',
                 description: 'Presence or not of ICRC in country, and support directly provided for this emergency response. Other programs and support provided outside of the scope of this emergency should not be indicated here.',
+                headingBefore: 'ICRC Actions Related To The Current Event',
             },
 
             government_requested_assistance: {
@@ -317,17 +324,18 @@ function useImportTemplateSchema() {
                 validation: 'boolean',
                 optionsKey: '__boolean',
                 label: 'Government has requested international assistance',
+                headingBefore: 'Other Actors Actions Related To The Current Event',
             },
 
             national_authorities: {
                 type: 'input',
-                validation: 'string',
+                validation: 'textArea',
                 label: 'National authorities',
             },
 
             un_or_other_actor: {
                 type: 'input',
-                validation: 'string',
+                validation: 'textArea',
                 label: 'UN or other actors',
             },
 
@@ -346,14 +354,15 @@ function useImportTemplateSchema() {
 
             needs_identified: {
                 type: 'list',
-                label: 'Identified Needs',
+                label: 'Needs (Gaps) Identified',
+                keyFieldName: 'title',
                 optionsKey: 'needs_identified',
                 children: {
                     type: 'object',
                     fields: {
                         description: {
                             type: 'input',
-                            validation: 'string',
+                            validation: 'textArea',
                             label: 'Description',
                         },
                     },
@@ -362,33 +371,35 @@ function useImportTemplateSchema() {
 
             identified_gaps: {
                 type: 'input',
-                validation: 'string',
+                validation: 'textArea',
                 label: 'Any identified gaps/limitations in the assessment',
             },
 
             // Operation
             operation_objective: {
                 type: 'input',
-                validation: 'string',
+                validation: 'textArea',
                 label: 'Overall objective of the operation',
+                headingBefore: 'Objective and Strategy Rationale',
             },
 
             response_strategy: {
                 type: 'input',
-                validation: 'string',
+                validation: 'textArea',
                 label: 'Operation strategy rationale',
             },
 
             people_assisted: {
                 type: 'input',
-                validation: 'string',
+                validation: 'textArea',
                 label: 'Who will be targeted through this operation?',
                 description: 'Explain the logic behind our targets. Which groups are we targeting and why are we targeting these particular groups? Explain how you will target vulnerable groups (e.g., Migrants, refugees, etc.)',
+                headingBefore: 'Targeting Strategy',
             },
 
             selection_criteria: {
                 type: 'input',
-                validation: 'string',
+                validation: 'textArea',
                 label: 'Explain the selection criteria for the targeted population',
                 description: 'Explain the rational and logic behind which groups are being targeted and why and address vulnerable groups',
             },
@@ -397,6 +408,7 @@ function useImportTemplateSchema() {
                 type: 'input',
                 validation: 'number',
                 label: 'Targeted Population: Women',
+                headingBefore: 'Total Targeted Population',
             },
 
             men: {
@@ -449,7 +461,7 @@ function useImportTemplateSchema() {
 
             risk_security: {
                 type: 'list',
-                label: 'Please indicate about potential operational risk for this operations and mitigation actions',
+                label: 'Risk and security considerations',
                 optionsKey: 'risk_security',
                 children: {
                     type: 'object',
@@ -470,7 +482,7 @@ function useImportTemplateSchema() {
 
             risk_security_concern: {
                 type: 'input',
-                validation: 'string',
+                validation: 'textArea',
                 label: 'Please indicate any security and safety concerns for this operation',
             },
 
@@ -486,11 +498,12 @@ function useImportTemplateSchema() {
                 type: 'input',
                 validation: 'number',
                 label: 'Requested Amount in CHF',
+                headingBefore: 'Planned Interventions',
             },
 
             planned_interventions: {
                 type: 'list',
-                label: 'Planned interventions',
+                label: 'Add the interventions that apply',
                 optionsKey: 'planned_interventions',
                 keyFieldName: 'title',
                 children: {
@@ -507,7 +520,7 @@ function useImportTemplateSchema() {
                             label: 'Person targeted',
                         },
                         description: {
-                            description: 'A list should start with an \' * \' followed by a space. There are no limits to the number of lists that can be included. Eg:* Activity XYZ* Activity ABC',
+                            description: 'A list should start with an \' * \' followed by a space. There are no limits to the number of lists that can be included. \n Eg: \n * Activity XYZ \n * Activity ABC',
                             type: 'input',
                             validation: 'string',
                             label: 'List of activities',
@@ -515,7 +528,7 @@ function useImportTemplateSchema() {
                         indicators: {
                             type: 'list',
                             label: 'Indicators',
-                            optionsKey: 'planned_interventions__indicators',
+                            optionsKey: 'planned_interventions_indicators',
                             children: {
                                 type: 'object',
                                 fields: {
@@ -538,8 +551,9 @@ function useImportTemplateSchema() {
 
             human_resource: {
                 type: 'input',
-                validation: 'string',
+                validation: 'textArea',
                 label: 'How many staff and volunteers will be involved in this operation. Briefly describe their role.',
+                headingBefore: 'About Support Services',
             },
 
             is_surge_personnel_deployed: {
@@ -558,21 +572,21 @@ function useImportTemplateSchema() {
 
             logistic_capacity_of_ns: {
                 type: 'input',
-                validation: 'string',
+                validation: 'textArea',
                 label: 'If there is procurement, will be done by National Society or IFRC?',
                 description: 'Will it be for replenishment or for distribution? If for distribution, how long is the tendering expected to take? For Cash and Voucher Assistance, what is the status of the Financial Service Provider?',
             },
 
             pmer: {
                 type: 'input',
-                validation: 'string',
+                validation: 'textArea',
                 label: 'How will this operation be monitored?',
                 description: 'Will there be IFRC monitoring visits? How will it be deployed?',
             },
 
             communication: {
                 type: 'input',
-                validation: 'string',
+                validation: 'textArea',
                 label: 'Please briefly explain the National Societies communication strategy for this operation.',
                 description: 'Will the IFRC be supporting with communication? What roles will be involved?',
             },
@@ -582,33 +596,13 @@ function useImportTemplateSchema() {
                 type: 'input',
                 validation: 'date',
                 label: 'Date of National Society Application',
-            },
-
-            submission_to_geneva: {
-                type: 'input',
-                validation: 'date',
-                label: 'Date of Submission to GVA',
-                description: 'Added by Regional Office',
-            },
-
-            date_of_approval: {
-                type: 'input',
-                validation: 'date',
-                label: 'Date of Approval',
-                description: 'Added by Regional Office',
+                headingBefore: 'Operational Timeframes',
             },
 
             operation_timeframe: {
                 type: 'input',
                 validation: 'number',
                 label: 'Operation timeframe',
-            },
-
-            publishing_date: {
-                type: 'input',
-                validation: 'date',
-                label: 'Date of Publishing',
-                description: 'Added by Regional Office',
             },
         },
     }), []);

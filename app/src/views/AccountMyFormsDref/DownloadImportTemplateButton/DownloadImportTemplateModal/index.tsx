@@ -57,8 +57,8 @@ import useImportTemplateSchema from './useImportTemplateSchema';
 
 import i18n from './i18n.json';
 
-function typeOfDrefKeySelector(option: { key: TypeOfDrefEnum }) {
-    return option.key;
+function typeOfDrefKeySelector(option: { value: TypeOfDrefEnum }) {
+    return option.value;
 }
 
 async function generateTemplate(
@@ -72,60 +72,46 @@ async function generateTemplate(
     const now = new Date();
     workbook.created = now;
 
-    const fieldNameToTabNameMap: Record<string, string> = {
-        ...listToMap(
-            overviewTabFields,
-            (key) => key,
-            () => SHEET_OPERATION_OVERVIEW,
-        ),
-        ...listToMap(
-            eventDetailTabFields,
-            (key) => key,
-            () => SHEET_EVENT_DETAIL,
-        ),
-        ...listToMap(
-            actionsTabFields,
-            (key) => key,
-            () => SHEET_ACTIONS_NEEDS,
-        ),
-        ...listToMap(
-            operationTabFields,
-            (key) => key,
-            () => SHEET_OPERATION,
-        ),
-        ...listToMap(
-            timeframeAndContactsTabFields,
-            (key) => key,
-            () => SHEET_TIMEFRAMES_AND_CONTACTS,
-        ),
-    };
-
-    /*
-    const description: ImportTemplateDescription<DrefRequestBody> = {
-        application: 'ifrc-go',
-        templateName: 'dref-application',
-        meta: {
-            typeOfDref: 'response',
-        },
-        fieldNameToTabNameMap,
-    };
-
-    workbook.description = JSON.stringify(description);
-    */
-
     const typeOfDrefLabel = drefTypeLabelMap?.[typeOfDref ?? DREF_TYPE_RESPONSE] ?? '';
 
     const coverWorksheet = workbook.addWorksheet(
         'DREF Import',
         { properties: { tabColor: { argb: hexToArgb(COLOR_PRIMARY_RED, '10') } } },
     );
-    await buildCoverWorksheet(coverWorksheet, workbook, typeOfDrefLabel);
+    await buildCoverWorksheet(coverWorksheet, workbook);
+
+    const fieldNameToTabNameMap: Record<string, string> = {
+        ...listToMap(
+            overviewTabFields,
+            (key) => key as string,
+            () => SHEET_OPERATION_OVERVIEW,
+        ),
+        ...listToMap(
+            eventDetailTabFields,
+            (key) => key as string,
+            () => SHEET_EVENT_DETAIL,
+        ),
+        ...listToMap(
+            actionsTabFields,
+            (key) => key as string,
+            () => SHEET_ACTIONS_NEEDS,
+        ),
+        ...listToMap(
+            operationTabFields,
+            (key) => key as string,
+            () => SHEET_OPERATION,
+        ),
+        ...listToMap(
+            timeframeAndContactsTabFields,
+            (key) => key as string,
+            () => SHEET_TIMEFRAMES_AND_CONTACTS,
+        ),
+    };
 
     const overviewWorksheet = workbook.addWorksheet(
         SHEET_OPERATION_OVERVIEW,
         { properties: { tabColor: { argb: hexToArgb(COLOR_PRIMARY_RED, '10') } } },
     );
-    // TODO: Add red color to all the sheet tabs
     const eventDetailsWorksheet = workbook.addWorksheet(
         SHEET_EVENT_DETAIL,
         { properties: { tabColor: { argb: hexToArgb(COLOR_PRIMARY_RED, '10') } } },
@@ -152,7 +138,7 @@ async function generateTemplate(
     };
 
     const optionsWorksheet = workbook.addWorksheet('options');
-    optionsWorksheet.state = 'veryHidden';
+    // optionsWorksheet.state = 'veryHidden';
     const optionKeys = Object.keys(optionsMap) as (keyof (typeof optionsMap))[];
 
     optionsWorksheet.columns = optionKeys.map((key) => (
@@ -165,23 +151,26 @@ async function generateTemplate(
         if (isDefined(options)) {
             const column = optionsWorksheet.getColumnKey(key);
 
-            options.forEach((option, i) => {
+            options.forEach((option: TypeOfDrefEnum, i: number) => {
                 const cell = optionsWorksheet.getCell(i + 2, column.number);
-                cell.name = String(option.key);
+                cell.name = `${key}____${option.key}`;
                 cell.value = option.label;
             });
         }
     });
 
-    const tabGroupedTemplateActions = mapToList(
-        listToGroupList(
+    function groupTemplateActionsByTab() {
+        return listToGroupList(
             templateActions,
             (templateAction) => {
                 const fieldName = String(templateAction.name).split('__')[0];
-                const tabName = fieldNameToTabNameMap[fieldName];
-                return tabName;
+                return fieldNameToTabNameMap[fieldName];
             },
-        ),
+        );
+    }
+
+    const tabGroupedTemplateActions = mapToList(
+        groupTemplateActionsByTab(),
         (actions, tabName) => {
             const worksheet = workbook.getWorksheet(tabName);
             if (isNotDefined(worksheet)) {
@@ -212,10 +201,12 @@ async function generateTemplate(
                 worksheet.mergeCells(i + ROW_OFFSET, 1, i + ROW_OFFSET, 3);
                 lastHeadingIndex = i + 1;
             } else if (templateAction.type === 'input') {
-                const mode = (i - lastHeadingIndex) % 2 === 0 ? 'one' : 'two';
+                // NOTE: Determines the headingLevel based on the index
+                // position relative to the last heading, list heading is for list section.
+                const headingLevel = (i - lastHeadingIndex) % 2 === 0 ? 'listHeading' : 'heading';
                 if (templateAction.dataValidation === 'list') {
                     addInputRow(
-                        mode,
+                        headingLevel,
                         worksheet,
                         i + ROW_OFFSET,
                         templateAction.outlineLevel,
@@ -226,9 +217,22 @@ async function generateTemplate(
                         String(templateAction.optionsKey),
                         optionsWorksheet,
                     );
+                } else if (templateAction.dataValidation === 'textArea') {
+                    addInputRow(
+                        headingLevel,
+                        worksheet,
+                        i + ROW_OFFSET,
+                        templateAction.outlineLevel,
+                        String(templateAction.name),
+                        templateAction.label,
+                        templateAction.description,
+                        'text',
+                    );
+                    const row = worksheet.getRow(i + ROW_OFFSET);
+                    row.height = 100;
                 } else {
                     addInputRow(
-                        mode,
+                        headingLevel,
                         worksheet,
                         i + ROW_OFFSET,
                         templateAction.outlineLevel,
@@ -245,7 +249,7 @@ async function generateTemplate(
     Object.values(sheetMap).forEach(
         (sheet) => {
             const worksheet = sheet;
-            worksheet.properties.defaultRowHeight = 20;
+            worksheet.properties.defaultRowHeight = 30;
             worksheet.properties.showGridLines = false;
 
             worksheet.columns = [
@@ -254,11 +258,12 @@ async function generateTemplate(
                     header: 'Field',
                     protection: { locked: true },
                     width: 50,
+                    style: { alignment: { wrapText: true } },
                 },
                 {
                     key: 'value',
                     header: 'Value',
-                    width: 100,
+                    width: 85,
                     style: { alignment: { wrapText: true } },
                 },
                 {
@@ -274,43 +279,16 @@ async function generateTemplate(
                     cell.style = headerRowStyle;
                 },
             );
-
-            /*
-            worksheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
-                if (rowNumber <= 1) { // Skip the header row
-                    return;
-                }
-
-                const fillColor = rowNumber % 2 === 0
-                    ? hexToArgb(COLOR_PRIMARY_RED, '10')
-                    : ;
-
-                row.eachCell((cell) => {
-                    const fill: xlsx.FillPattern = {
-                        type: 'pattern',
-                        pattern: 'solid',
-                        fgColor: { argb: fillColor },
-                    };
-                    // eslint-disable-next-line no-param-reassign
-                    cell.style = {
-                        font: {
-                            color: { argb: 'FFFFFFFF' },
-                        },
-                        fill,
-                    };
-                });
-            });
-            */
         },
     );
 
-    const templateFileName = `DREF Application ${typeOfDrefLabel} import template ${now.toLocaleString()}.xlsx`;
+    const templateFileName = `DREF_Application_${typeOfDrefLabel}_import_template_${now.toLocaleString()}.xlsx`;
 
     await workbook.xlsx.writeBuffer().then(
         (sheet) => {
             FileSaver.saveAs(
                 new Blob([sheet], { type: 'application/vnd.ms-excel;charset=utf-8' }),
-                templateFileName,
+                templateFileName.replace(' ', '_'),
             );
         },
     );
@@ -336,10 +314,10 @@ function DownloadImportTemplateModal(props: Props) {
 
     const drefTypeLabelMap = useMemo(
         () => (
-            listToMap(
+            listToMap<TypeOfDrefEnum, string, string>(
                 dref_dref_dref_type,
                 (option) => option.key,
-                (option) => option.value,
+                (option) => option.label,
             )
         ),
         [dref_dref_dref_type],

@@ -24,13 +24,13 @@ import DrefExportModal from '#components/domain/DrefExportModal';
 import DrefShareModal from '#components/domain/DrefShareModal';
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import Link from '#components/Link';
-import { type components } from '#generated/types';
 import useAlert from '#hooks/useAlert';
 import useRouting from '#hooks/useRouting';
 import {
     DREF_STATUS_IN_PROGRESS,
     DREF_TYPE_IMMINENT,
     DREF_TYPE_LOAN,
+    DrefStatus,
 } from '#utils/constants';
 import {
     GoApiBody,
@@ -41,8 +41,6 @@ import { exportDrefAllocation } from './drefAllocationExport';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-type DrefStatus = components<'read'>['schemas']['DrefDrefStatusEnumKey'];
 
 export interface Props {
     drefId: number;

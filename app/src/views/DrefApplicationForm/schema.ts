@@ -152,7 +152,6 @@ const schema: DrefFormSchema = {
                 requiredValidation: requiredStringCondition,
             },
             field_report: {}, // This value is set from CopyFieldReportSection
-
             // EVENT DETAILS
             num_affected: { validations: [positiveIntegerCondition] },
 

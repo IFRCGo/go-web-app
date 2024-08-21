@@ -1,8 +1,13 @@
 import { Button } from '@ifrc-go/ui';
-import { useBooleanState } from '@ifrc-go/ui/hooks';
+import {
+    useBooleanState,
+    useTranslation,
+} from '@ifrc-go/ui/hooks';
 
 import { DrefRequestBody } from '../schema';
 import DrefImportModal from './DrefImportModal';
+
+import i18n from './i18n.json';
 
 interface Props {
     onImport?: (formFields?: DrefRequestBody) => void;
@@ -10,6 +15,8 @@ interface Props {
 
 function DrefImportButton(props: Props) {
     const { onImport } = props;
+    const strings = useTranslation(i18n);
+
     const [
         showImportModal,
         {
@@ -24,9 +31,8 @@ function DrefImportButton(props: Props) {
                 variant="secondary"
                 name={undefined}
                 onClick={setShowImportModalTrue}
-                // FIXME: use strings
             >
-                Import
+                {strings.drefImportButton}
             </Button>
             {showImportModal && (
                 <DrefImportModal

@@ -91,7 +91,7 @@ export async function exportDrefAllocation(exportData: ExportData) {
     worksheet.mergeCells('C1:L3');
     worksheet.getCell('C1:L3').style = {
         font: {
-            name: 'Montserrat',
+            name: '--go-ui-font-family-montserrat',
             family: 2,
             bold: true,
             size: 20,
@@ -107,7 +107,7 @@ export async function exportDrefAllocation(exportData: ExportData) {
     worksheet.getCell('C4').value = 'Fund Income Allocation Request';
     worksheet.getCell('C4').style = {
         font: {
-            bold: true, size: 18, name: 'Montserrat', family: 2,
+            bold: true, size: 18, name: '--go-ui-font-family-montserrat', family: 2,
         },
         alignment: { horizontal: 'center', vertical: 'middle' },
     };
@@ -118,7 +118,7 @@ export async function exportDrefAllocation(exportData: ExportData) {
     worksheet.getCell('A7').value = 'To Be Completed By The DREF Focal Point';
     worksheet.getCell('A7').style = {
         font: {
-            bold: true, size: 14, name: 'Montserrat', family: 2,
+            bold: true, size: 14, name: '--go-ui-font-family-montserrat', family: 2,
         },
         alignment: { horizontal: 'center', vertical: 'middle' },
     };

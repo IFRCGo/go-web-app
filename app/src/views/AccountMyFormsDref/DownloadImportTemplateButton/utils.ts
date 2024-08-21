@@ -14,6 +14,7 @@ import {
     COLOR_LIGHT_GREY,
     COLOR_PRIMARY_BLUE,
     COLOR_PRIMARY_RED,
+    COLOR_WHITE,
 } from '#utils/constants';
 
 export function hexToArgb(hexStr: string, alphaStr = 'ff') {
@@ -41,7 +42,7 @@ export const headerRowStyle: Partial<Style> = {
 const headingStyle: Partial<Style> = {
     font: {
         name: 'Montserrat',
-        color: { argb: 'FFFFFFFF' },
+        color: { argb: hexToArgb(COLOR_WHITE, '10') },
     },
     alignment: {
         horizontal: 'center',
@@ -81,10 +82,10 @@ const alternateRowFill: Style['fill'] = {
     pattern: 'solid',
     fgColor: { argb: hexToArgb(COLOR_LIGHT_GREY, '10') },
 };
+
 export async function buildCoverWorksheet(
     coverWorksheet: Worksheet,
     workbook: Workbook,
-    typeOfDrefLabel: string,
 ) {
     const response = await fetch(ifrcLogoFile);
     const buffer = await response.arrayBuffer();
@@ -123,16 +124,20 @@ export async function buildCoverWorksheet(
         },
         alignment: { horizontal: 'center', vertical: 'middle' },
     };
-    coverWorksheet.mergeCells('A7:L8');
+    coverWorksheet.mergeCells('A7:L28');
     const descriptionCell = coverWorksheet.getCell('A7');
     descriptionCell.value = 'This template allows you to fill in the necessary section of a DREF request, to be imported in the GO platform to generate a DREF application form. An import can only be done once, so once done please continue working on the application in the GO platform. \n \n This excel has determined fields where the information needs to be completed, these fields are always in the column “Value”, please do not add any information outside of these fields. \n \n This Excel (.xlsx) can be uploaded to OneDrive or SharePoint and be worked on simultaneously by multiple users, but bear in mind that only one user can edit an specific cell at the time. \n \n Fields such as sources of information, risk and mitigation section and indicators where you can add several entries in the online form, have only 5 slots in this format, please do not try to create more, and limit your entries to 5. \n \n Once ready to import, please create a “New DREF Application” in the GO platform (log in require), and then select “Import” bottom';
-    descriptionCell.style.alignment = {
-        wrapText: true,
+    descriptionCell.style = {
+        alignment: {
+            wrapText: true,
+            vertical: 'middle',
+        },
+        font: {
+            size: 12,
+            name: 'Montserrat',
+            family: 2,
+        },
     };
-
-    coverWorksheet.mergeCells('A10:E10');
-    const typeCell = coverWorksheet.getCell('A10');
-    typeCell.value = `Type of DREF Application: ${typeOfDrefLabel}`;
 }
 
 export function addRow(
@@ -193,29 +198,29 @@ export function addHeadingRow(
 }
 
 export function addInputRow(
-    mode: 'one' | 'two',
+    headingLevel: 'heading' | 'listHeading',
     sheet: Worksheet,
     rowNum: number,
     outlineLevel: number,
     name: string,
     label: string,
-    description: string | undefined,
-    dataValidation?: 'number' | 'integer' | 'date',
+    description?: string,
+    dataValidation?: 'number' | 'integer' | 'date' | 'text',
 ): Row
 export function addInputRow(
-    mode: 'one' | 'two',
+    headingLevel: 'heading' | 'listHeading',
     sheet: Worksheet,
     rowNum: number,
     outlineLevel: number,
     name: string,
     label: string,
-    description: string | undefined,
-    dataValidation: 'list',
-    optionKey: string,
-    optionsWorksheet: Worksheet,
+    description?: string,
+    dataValidation?: 'list',
+    optionKey?: string,
+    optionsWorksheet?: Worksheet,
 ): Row
 export function addInputRow(
-    mode: 'one' | 'two',
+    headingLevel: 'heading' | 'listHeading',
     sheet: Worksheet,
     rowNum: number,
     outlineLevel: number,
@@ -227,7 +232,6 @@ export function addInputRow(
     optionsWorksheet?: Worksheet,
 ): Row {
     const col = 1;
-
     const row = addRow(
         sheet,
         rowNum,
@@ -239,28 +243,28 @@ export function addInputRow(
 
     const inputCell = row.getCell(col + 1);
 
-    if (mode === 'one') {
-        const firstRow = row.getCell(col);
-        firstRow.style = {
-            ...firstRow.style,
+    if (headingLevel === 'listHeading') {
+        const firstCell = row.getCell(col);
+        firstCell.style = {
+            ...firstCell.style,
             fill: {
-                ...firstRow.style?.fill,
+                ...firstCell.style?.fill,
                 ...alternateRowFill,
             },
         };
-        const secondRow = row.getCell(col + 1);
-        secondRow.style = {
-            ...secondRow.style,
+        const secondCell = row.getCell(col + 1);
+        secondCell.style = {
+            ...secondCell.style,
             fill: {
-                ...secondRow.style?.fill,
+                ...secondCell.style?.fill,
                 ...alternateRowFill,
             },
         };
-        const thirdRow = row.getCell(col + 2);
-        thirdRow.style = {
-            ...thirdRow.style,
+        const thirdCell = row.getCell(col + 2);
+        thirdCell.style = {
+            ...thirdCell.style,
             fill: {
-                ...thirdRow.style?.fill,
+                ...thirdCell.style?.fill,
                 ...alternateRowFill,
             },
         };

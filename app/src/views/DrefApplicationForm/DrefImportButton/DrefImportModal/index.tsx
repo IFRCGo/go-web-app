@@ -7,6 +7,7 @@ import {
     Modal,
     RawFileInput,
 } from '@ifrc-go/ui';
+import { useTranslation } from '@ifrc-go/ui/hooks';
 import { encodeDate } from '@ifrc-go/ui/utils';
 import {
     isDefined,
@@ -31,6 +32,7 @@ import { getValueFromImportTemplate } from '#utils/importTemplate';
 import useImportTemplateSchema from '#views/AccountMyFormsDref/DownloadImportTemplateButton/DownloadImportTemplateModal/useImportTemplateSchema';
 import { DrefRequestBody } from '#views/DrefApplicationForm/schema';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 function getValueFromCellValue(cellValue: CellValue) {
@@ -40,8 +42,8 @@ function getValueFromCellValue(cellValue: CellValue) {
 
     if (
         typeof cellValue === 'number'
-            || typeof cellValue === 'string'
-            || typeof cellValue === 'boolean'
+        || typeof cellValue === 'string'
+        || typeof cellValue === 'boolean'
     ) {
         return cellValue;
     }
@@ -72,6 +74,7 @@ function getValueFromCellValue(cellValue: CellValue) {
 }
 
 function getNameAndValueFromRow(row: Row) {
+    // NOTE: Cell(1) is used for the field name & Cell(2) is used for it's value.
     const name = row.getCell(1)?.name;
     const value = getValueFromCellValue(row.getCell(2)?.value);
 
@@ -88,6 +91,7 @@ interface Props {
 
 function DrefImportModal(props: Props) {
     const { onClose, onImport } = props;
+    const strings = useTranslation(i18n);
 
     const { drefFormSchema, optionsMap } = useImportTemplateSchema();
     const alert = useAlert();
@@ -116,27 +120,24 @@ function DrefImportModal(props: Props) {
                 // TODO: figure out better method for template validation
                 if (worksheets.length !== 5) {
                     alert.show(
-                        // FIXME: use strings,
-                        'Invalid import file',
+                        strings.drefImportButton,
                         {
                             variant: 'danger',
-                            description: 'Failed to process the selected import file, make sure you\'ve downloaded the import template from the GO platform.',
+                            description: strings.drefImportFailedDescription,
                         },
                     );
 
                     return;
                 }
 
-                const formValues: Record<string, string> = {};
+                const formValues: Record<string, string | number | boolean> = {};
                 worksheets.forEach((worksheet) => {
                     worksheet?.eachRow((row) => {
                         const { name, value } = getNameAndValueFromRow(row);
-
                         if (isNotDefined(name) || isNotDefined(value)) {
                             return;
                         }
-
-                        formValues[name] = String(value);
+                        formValues[name] = value;
                     });
                 });
 
@@ -155,12 +156,11 @@ function DrefImportModal(props: Props) {
                     onClose();
                 }
             } catch (ex) {
-                // FIXME: use strings,
                 alert.show(
-                    'Failed to import',
+                    strings.drefImportFailed,
                     {
                         variant: 'danger',
-                        description: 'Failed to process the selected import file, make sure you\'ve downloaded the import template from the GO platform.',
+                        description: strings.drefImportFailedDescription,
                         debugMessage: JSON.stringify(ex),
                     },
                 );
@@ -168,12 +168,18 @@ function DrefImportModal(props: Props) {
         }
 
         loadFile(file);
-    }, [onImport, onClose, alert, drefFormSchema, optionsMap]);
+    }, [
+        onImport,
+        onClose,
+        alert,
+        drefFormSchema,
+        optionsMap,
+        strings,
+    ]);
 
     return (
         <Modal
-            // FIXME use strings
-            heading="Import DREF Application"
+            heading={strings.drefImportApplication}
             onClose={onClose}
             contentViewType="vertical"
             className={styles.importDrefApplicationModal}
@@ -187,13 +193,11 @@ function DrefImportModal(props: Props) {
                 onChange={handleChange}
                 variant="secondary"
                 disabled={isNotDefined(drefFormSchema) || importPending}
-                // FIXME: use strings
             >
-                Select file (xlsx)
+                {strings.drefImportSelectFile}
             </RawFileInput>
             <div>
-                {/* FIXME: use strings */}
-                Please select the filled template for the DREF Application
+                {strings.drefImportTemplate}
             </div>
         </Modal>
     );

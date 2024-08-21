@@ -84,6 +84,7 @@ export const eventDetailTabFields: (keyof PartialDref)[] = [
     'did_ns_respond',
     'did_ns_request_fund',
     'ns_request_text',
+    'dref_recurrent_text',
     'lessons_learned',
     'event_date',
     'event_text',
