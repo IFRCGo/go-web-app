@@ -23,7 +23,7 @@ import {
 
 import i18n from './i18n.json';
 
-type OpsLearningResponse = GoApiResponse<'/api/v2/ops-learning-extracts/'>;
+type OpsLearningResponse = GoApiResponse<'/api/v2/ops-learning/'>;
 type OpsLearning = NonNullable<OpsLearningResponse['results']>[number];
 
 interface Props {
@@ -58,7 +58,7 @@ function AllExtractsModal(props: Props) {
         response: opsLearningResponse,
         error: opsLearningError,
     } = useRequest({
-        url: '/api/v2/ops-learning-extracts/',
+        url: '/api/v2/ops-learning/',
         query: {
             insight_component_id: summaryType === 'component' ? summaryId : undefined,
             insight_sector_id: summaryType === 'sector' ? summaryId : undefined,
@@ -86,7 +86,7 @@ function AllExtractsModal(props: Props) {
         footerContent: (
             <TextOutput
                 label={strings.dateOfLearning}
-                value={learning?.appeal.event_details.start_date}
+                value={learning?.appeal?.event_details.start_date}
                 valueType="date"
             />
         ),
