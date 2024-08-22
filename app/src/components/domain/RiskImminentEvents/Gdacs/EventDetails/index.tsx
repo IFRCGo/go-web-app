@@ -11,7 +11,7 @@ import { isDefined } from '@togglecorp/fujs';
 import Link from '#components/Link';
 import { type RiskApiResponse } from '#utils/restRequest';
 
-import LayerInput, { Props as LayerInputProps } from './LayerDetails';
+import LayerDetails, { Props as LayerInputProps } from './LayerDetails';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -24,19 +24,19 @@ interface Option {
 const options: Option[] = [
     {
         key: 1,
-        label: 'nodes',
+        label: 'Nodes',
     },
     {
         key: 2,
-        label: 'tracks',
+        label: 'Tracks',
     },
     {
         key: 3,
-        label: 'buffers',
+        label: 'Buffers',
     },
     {
         key: 4,
-        label: 'forecast uncertainty',
+        label: 'Forecast Uncertainty',
     },
 ];
 
@@ -101,8 +101,6 @@ interface Props {
     layer: {[key: string]: boolean};
 }
 
-type Footprint = GeoJSON.FeatureCollection<GeoJSON.Geometry> | undefined;
-
 function EventDetails(props: Props) {
     const {
         data: {
@@ -126,10 +124,9 @@ function EventDetails(props: Props) {
             options: layerOptions,
             value: layer,
             onChange: onLayerChange,
-            exposure: exposure as Footprint,
 
         }),
-        [layer, onLayerChange, exposure],
+        [layer, onLayerChange],
     );
 
     return (
@@ -220,8 +217,9 @@ function EventDetails(props: Props) {
                 )}
             {eventDetails?.eventtype === 'TC' && (
                 <List
+                    className={styles.layerDetail}
                     data={options}
-                    renderer={LayerInput}
+                    renderer={LayerDetails}
                     rendererParams={layerRendererParams}
                     keySelector={(item) => item.key}
                     withoutMessage

@@ -295,6 +295,7 @@ function RiskImminentEvents(props: Props) {
                 <CurrentView
                     // eslint-disable-next-line react/jsx-props-no-spreading
                     {...otherProps}
+                    activeView={activeView}
                 />
             )}
         </Container>
