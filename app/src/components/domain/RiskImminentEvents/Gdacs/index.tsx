@@ -20,13 +20,18 @@ import EventListItem from './EventListItem';
 type ImminentEventResponse = RiskApiResponse<'/api/v1/gdacs/'>;
 type EventItem = NonNullable<ImminentEventResponse['results']>[number];
 
-function getLayerType(geometryType: GeoJSON.Geometry['type']) {
-    if (geometryType === 'Point' || geometryType === 'MultiPoint') {
+function getLayerType(geometryType: GeoJSON.Feature<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>) {
+    if (geometryType.geometry.type === 'Point' || geometryType.geometry.type === 'MultiPoint') {
         return 'track-point';
     }
 
-    if (geometryType === 'LineString' || geometryType === 'MultiLineString') {
+    if (geometryType.geometry.type === 'LineString' || geometryType.geometry.type === 'MultiLineString') {
         return 'track';
+    }
+
+    // Note: this is the only way to identify uncertainty in GDACS
+    if (geometryType.properties?.polygonlabel === 'Uncertainty Cones') {
+        return 'uncertainty';
     }
 
     return 'exposure';
@@ -143,7 +148,7 @@ function Gdacs(props: Props) {
                             ...feature,
                             properties: {
                                 ...feature.properties,
-                                type: getLayerType(feature.geometry.type),
+                                type: getLayerType(feature),
                             },
                         }),
                     ) ?? [],
