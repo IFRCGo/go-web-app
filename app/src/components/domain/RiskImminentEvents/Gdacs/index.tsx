@@ -14,6 +14,7 @@ import {
     useRiskRequest,
 } from '#utils/restRequest';
 
+import { ImminentEventSource } from '..';
 import EventDetails from './EventDetails';
 import EventListItem from './EventListItem';
 
@@ -40,6 +41,7 @@ function getLayerType(geometryType: GeoJSON.Feature<GeoJSON.Geometry, GeoJSON.Ge
 type BaseProps = {
     title: React.ReactNode;
     bbox: LngLatBoundsLike | undefined;
+    activeView: ImminentEventSource;
 }
 
 type Props = BaseProps & ({
@@ -57,6 +59,7 @@ function Gdacs(props: Props) {
         title,
         bbox,
         variant,
+        activeView,
     } = props;
 
     const {
@@ -183,6 +186,7 @@ function Gdacs(props: Props) {
             activeEventExposure={exposureResponse}
             activeEventExposurePending={exposureResponsePending}
             onActiveEventChange={handleActiveEventChange}
+            activeView={activeView}
         />
     );
 }

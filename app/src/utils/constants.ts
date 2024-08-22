@@ -70,6 +70,7 @@ export const COLOR_PRIMARY_BLUE = '#011e41';
 export const COLOR_PRIMARY_RED = '#f5333f';
 
 export const COLOR_ACTIVE_REGION = '#7d8b9d';
+export const COLOR_GREEN = '#7FB845';
 
 // Three W
 

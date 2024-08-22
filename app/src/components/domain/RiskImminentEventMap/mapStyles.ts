@@ -20,8 +20,14 @@ import wildfireIcon from '#assets/icons/risk/wildfire.png';
 import { type components } from '#generated/riskTypes';
 import {
     COLOR_BLACK,
+    COLOR_BLUE,
+    COLOR_GREEN,
+    COLOR_LIGHT_YELLOW,
+    COLOR_ORANGE,
     COLOR_PRIMARY_BLUE,
+    COLOR_RED,
     COLOR_WHITE,
+    COLOR_YELLOW,
 } from '#utils/constants';
 import { hazardTypeToColorMap } from '#utils/domain/risk';
 
@@ -83,11 +89,7 @@ export const hazardPointIconLayout: SymbolLayout = {
 
 export const trackOutlineLayer: Omit<LineLayer, 'id'> = {
     type: 'line',
-    filter: [
-        'all',
-        ['==', ['get', 'type'], 'track'],
-        ['!=', ['get', 'eventtype'], 'TC'],
-    ],
+    filter: ['==', ['get', 'type'], 'track'],
     paint: {
         'line-color': COLOR_BLACK,
         'line-opacity': 0.5,
@@ -96,18 +98,13 @@ export const trackOutlineLayer: Omit<LineLayer, 'id'> = {
 
 export const trackArrowLayer: Omit<SymbolLayer, 'id'> = {
     type: 'symbol',
-    filter: [
-        'all',
-        ['==', ['get', 'type'], 'track'],
-        ['!=', ['get', 'eventtype'], 'TC'],
-    ],
+    filter: ['==', ['get', 'type'], 'track'],
     paint: {
         'icon-color': COLOR_BLACK,
         'icon-opacity': 0.5,
     },
     layout: {
         'icon-allow-overlap': true,
-        'symbol-placement': 'line',
         'icon-image': 'triangle-11',
         'icon-size': 0.8,
         'icon-rotate': 90,
@@ -116,11 +113,7 @@ export const trackArrowLayer: Omit<SymbolLayer, 'id'> = {
 
 export const trackPointLayer: Omit<CircleLayer, 'id'> = {
     type: 'circle',
-    filter: [
-        'all',
-        ['==', ['get', 'type'], 'track-point'],
-        ['!=', ['get', 'eventtype'], 'TC'],
-    ],
+    filter: ['==', ['get', 'type'], 'track-point'],
     paint: {
         'circle-radius': 4,
         'circle-color': COLOR_BLACK,
@@ -143,26 +136,21 @@ export const exposureFillLayer: Omit<FillLayer, 'id'> = {
 
 export const gdacsCycloneExposureFillLayer: Omit<FillLayer, 'id'> = {
     type: 'fill',
-    filter: [
-        'all',
-        ['==', ['get', 'type'], 'exposure'],
-        ['==', ['get', 'eventtype'], 'TC'],
-    ],
-    // TODO: fix color after discussion
+    filter: ['==', ['get', 'type'], 'exposure'],
     paint: {
         'fill-color': [
             'match',
             ['get', 'alertlevel'],
-            'Red', '#F44242',
-            'Orange', '#BBFA82',
-            'Green', '#9BC177',
+            'Red', COLOR_RED,
+            'Orange', COLOR_ORANGE,
+            'Green', COLOR_GREEN,
             COLOR_BLACK,
         ],
         'fill-opacity': 0.5,
     },
 };
 
-export const gdacsUncertaintyTrackOutlineLayer: Omit<LineLayer, 'id'> = {
+export const uncertaintyTrackOutlineLayer: Omit<LineLayer, 'id'> = {
     type: 'line',
     filter: [
         '==',
@@ -176,40 +164,7 @@ export const gdacsUncertaintyTrackOutlineLayer: Omit<LineLayer, 'id'> = {
     },
 };
 
-export const gdacsCycloneTrackOutlineLayer: Omit<LineLayer, 'id'> = {
-    type: 'line',
-    filter: [
-        'all',
-        ['==', ['get', 'type'], 'track'],
-        ['==', ['get', 'eventtype'], 'TC'],
-    ],
-    paint: {
-        'line-color': COLOR_BLACK,
-        'line-opacity': 0.5,
-    },
-};
-export const gdacsCycloneTrackArrowLayer: Omit<SymbolLayer, 'id'> = {
-    type: 'symbol',
-    filter: [
-        'all',
-        ['==', ['get', 'type'], 'track'],
-        ['==', ['get', 'eventtype'], 'TC'],
-    ],
-    paint: {
-        'icon-color': COLOR_BLACK,
-        'icon-opacity': 0.5,
-    },
-    layout: {
-        'icon-allow-overlap': true,
-        'symbol-placement': 'line',
-        'icon-image': 'triangle-11',
-        'icon-size': 0.8,
-        'icon-rotate': 90,
-
-    },
-};
-
-export const cycloneLabelLayer: Omit<SymbolLayer, 'id'> = {
+export const trackPointLabelLayer: Omit<SymbolLayer, 'id'> = {
     type: 'symbol',
     filter: ['==', ['get', 'type'], 'track'],
     paint: {
@@ -225,16 +180,19 @@ export const cycloneLabelLayer: Omit<SymbolLayer, 'id'> = {
     },
 };
 
-export const gdacsCycloneTrackPointLayer: Omit<CircleLayer, 'id'> = {
-    type: 'circle',
-    filter: [
-        'all',
-        ['==', ['get', 'type'], 'track-point'],
-        ['==', ['get', 'eventtype'], 'TC'],
-    ],
+export const pdcCycloneExposureFillLayer: Omit<FillLayer, 'id'> = {
+    type: 'fill',
+    filter: ['==', ['get', 'type'], 'exposure'],
     paint: {
-        'circle-radius': 4,
-        'circle-color': COLOR_BLACK,
-        'circle-opacity': 0.5,
+        'fill-color': [
+            'match',
+            ['get', 'severity'],
+            'INFORMATION', COLOR_BLUE,
+            'ADVISORY', COLOR_LIGHT_YELLOW,
+            'WATCH', COLOR_YELLOW,
+            'WARNING', COLOR_RED,
+            COLOR_BLACK,
+        ],
+        'fill-opacity': 0.5,
     },
 };

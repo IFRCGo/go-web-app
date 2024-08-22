@@ -41,25 +41,26 @@ import {
 } from '#utils/constants';
 import {
     BUFFERS,
+    NODES,
     TRACKS,
     UNCERTAINTY,
 } from '#utils/domain/risk';
 
+import { ImminentEventSource } from '../RiskImminentEvents';
 import {
-    cycloneLabelLayer,
     exposureFillLayer,
     gdacsCycloneExposureFillLayer,
-    gdacsCycloneTrackArrowLayer,
-    gdacsCycloneTrackOutlineLayer,
-    gdacsUncertaintyTrackOutlineLayer,
     geojsonSourceOptions,
     hazardKeyToIconmap,
     hazardPointIconLayout,
     hazardPointLayer,
     invisibleLayout,
+    pdcCycloneExposureFillLayer,
     trackArrowLayer,
     trackOutlineLayer,
+    trackPointLabelLayer,
     trackPointLayer,
+    uncertaintyTrackOutlineLayer,
 } from './mapStyles';
 
 import i18n from './i18n.json';
@@ -113,6 +114,7 @@ interface Props<EVENT, EXPOSURE, KEY extends string | number> {
     bbox: LngLatBoundsLike | undefined;
     onActiveEventChange: (eventId: KEY | undefined) => void;
     activeEventExposurePending: boolean;
+    activeView: ImminentEventSource;
 }
 
 const defaultLayersValue = {
@@ -139,6 +141,7 @@ function RiskImminentEventMap<
         bbox,
         onActiveEventChange,
         activeEventExposurePending,
+        activeView,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -303,7 +306,7 @@ function RiskImminentEventMap<
                     );
                 })}
                 {/* FIXME: footprint layer should always be the bottom layer */}
-                {activeEventFootprint && (
+                {activeEventFootprint && activeEvent?.hazard_type !== 'TC' && (
                     <MapSource
                         sourceKey="active-event-footprint"
                         sourceOptions={geojsonSourceOptions}
@@ -325,32 +328,56 @@ function RiskImminentEventMap<
                             layerKey="track-point"
                             layerOptions={trackPointLayer}
                         />
-                        {layers[BUFFERS] && (
+                    </MapSource>
+                )}
+                {activeEventFootprint && activeEvent?.hazard_type === 'TC' && (
+                    <MapSource
+                        sourceKey="active-event-footprint"
+                        sourceOptions={geojsonSourceOptions}
+                        geoJson={activeEventFootprint}
+                    >
+                        <MapLayer
+                            layerKey="exposure-fill"
+                            layerOptions={exposureFillLayer}
+                        />
+                        {layers[BUFFERS] && activeView === 'gdacs' && (
                             <MapLayer
-                                layerKey="cyclone-exposure-fill"
+                                layerKey="gdacs-cyclone-exposure-fill"
                                 layerOptions={gdacsCycloneExposureFillLayer}
+                            />
+                        )}
+                        {layers[BUFFERS] && activeView === 'pdc' && (
+                            <MapLayer
+                                layerKey="pdc-cyclone-exposure-fill"
+                                layerOptions={pdcCycloneExposureFillLayer}
                             />
                         )}
                         {(layers[UNCERTAINTY]) && (
                             <MapLayer
-                                layerKey="cyclone-uncertainty-track-line"
-                                layerOptions={gdacsUncertaintyTrackOutlineLayer}
+                                layerKey="uncertainty-track-line"
+                                layerOptions={uncertaintyTrackOutlineLayer}
                             />
                         )}
                         {layers[TRACKS] && (
                             <>
                                 <MapLayer
-                                    layerKey="cyclone-track-outline"
-                                    layerOptions={gdacsCycloneTrackOutlineLayer}
+                                    layerKey="track-outline"
+                                    layerOptions={trackOutlineLayer}
                                 />
                                 <MapLayer
-                                    layerKey="cyclone-track-arrow"
-                                    layerOptions={gdacsCycloneTrackArrowLayer}
+                                    layerKey="track-arrow"
+                                    layerOptions={trackArrowLayer}
                                 />
                                 <MapLayer
-                                    layerKey="cyclone-track-points-label"
-                                    layerOptions={cycloneLabelLayer}
+                                    layerKey="track-point"
+                                    layerOptions={trackPointLayer}
                                 />
+                                {activeView !== 'gdacs' && (
+                                    <MapLayer
+                                        layerKey="track-points-label"
+                                        layerOptions={trackPointLabelLayer}
+                                    />
+                                )}
                             </>
                         )}
                     </MapSource>
@@ -360,15 +387,19 @@ function RiskImminentEventMap<
                     sourceOptions={geojsonSourceOptions}
                     geoJson={pointFeatureCollection}
                 >
-                    <MapLayer
-                        onClick={handlePointClick}
-                        layerKey="point-circle"
-                        layerOptions={hazardPointLayer}
-                    />
-                    <MapLayer
-                        layerKey="hazard-points-icon"
-                        layerOptions={hazardPointIconLayer}
-                    />
+                    {layers[NODES] && (
+                        <>
+                            <MapLayer
+                                onClick={handlePointClick}
+                                layerKey="point-circle"
+                                layerOptions={hazardPointLayer}
+                            />
+                            <MapLayer
+                                layerKey="hazard-points-icon"
+                                layerOptions={hazardPointIconLayer}
+                            />
+                        </>
+                    )}
                 </MapSource>
                 {boundsSafe && (
                     <MapBounds
@@ -381,17 +412,13 @@ function RiskImminentEventMap<
                     <MapOrder ordering={[
                         getLayerName('active-event-footprint', 'exposure-fill', true),
                         getLayerName('active-event-footprint', 'cyclone-exposure-fill', true),
-                        getLayerName('active-event-footprint', 'cyclone-uncertainty-track-line', true),
-                        getLayerName('active-event-footprint', 'cyclone-tracks-points-label', true),
-                        getLayerName('active-event-footprint', 'cyclone-track-outline', true),
-                        getLayerName('active-event-footprint', 'cyclone-track-arrow', true),
+                        getLayerName('active-event-footprint', 'uncertainty-track-line', true),
                         getLayerName('active-event-footprint', 'track-outline', true),
                         getLayerName('active-event-footprint', 'track-arrow', true),
                         getLayerName('active-event-footprint', 'track-point', true),
                         getLayerName('event-points', 'point-circle', true),
                         getLayerName('event-points', 'hazard-points-icon', true),
-                        getLayerName('active-event-footprint', 'cyclone-track-points-label', true),
-                        getLayerName('active-event-footprint', 'cyclone-track-points', true),
+                        getLayerName('active-event-footprint', 'track-points-label', true),
                     ]}
                     />
                 )}
@@ -431,7 +458,7 @@ function RiskImminentEventMap<
                 {isDefined(activeEvent) && (
                     <DetailComponent
                         data={activeEvent}
-                        exposure={activeEventFootprint}
+                        exposure={activeEventExposure}
                         pending={activeEventExposurePending}
                         onLayerChange={handleLayerChange}
                         layer={layers}
