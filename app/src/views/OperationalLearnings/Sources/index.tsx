@@ -21,7 +21,7 @@ import AllExtractsModal from '../Summary/AllExtractsModal';
 
 import styles from './styles.module.css';
 
-type OpsLearningResponse = GoApiResponse<'/api/v2/ops-learning-extracts/'>;
+type OpsLearningResponse = GoApiResponse<'/api/v2/ops-learning/'>;
 type OpsLearning = NonNullable<OpsLearningResponse['results']>[number];
 
 type Props = {
@@ -54,7 +54,7 @@ function Sources(props: Props) {
         response: opsLearningResponse,
         error: opsLearningError,
     } = useRequest({
-        url: '/api/v2/ops-learning-extracts/',
+        url: '/api/v2/ops-learning/',
         query: {
             insight_component_id: summaryType === 'component' ? summaryId : undefined,
             insight_sector_id: summaryType === 'sector' ? summaryId : undefined,
