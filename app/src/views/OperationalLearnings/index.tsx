@@ -3,11 +3,6 @@ import {
     useState,
 } from 'react';
 import {
-    ArrowDownSmallFillIcon,
-    ArrowUpSmallFillIcon,
-} from '@ifrc-go/icons';
-import {
-    Button,
     Container,
     List,
     Tab,
@@ -15,14 +10,8 @@ import {
     TabPanel,
     Tabs,
 } from '@ifrc-go/ui';
-import {
-    useBooleanState,
-    useTranslation,
-} from '@ifrc-go/ui/hooks';
-import {
-    numericIdSelector,
-    resolveToString,
-} from '@ifrc-go/ui/utils';
+import { useTranslation } from '@ifrc-go/ui/hooks';
+import { numericIdSelector } from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
@@ -30,7 +19,6 @@ import {
 } from '@togglecorp/fujs';
 import { EntriesAsList } from '@togglecorp/toggle-form';
 
-import Link from '#components/Link';
 import Page from '#components/Page';
 import { type components } from '#generated/types';
 import useFilterState from '#hooks/useFilterState';
@@ -43,7 +31,7 @@ import Filters, {
     type FilterValue,
     type SelectedFilter,
 } from './Filters';
-import Sources from './Sources';
+import KeyInsights from './KeyInsights';
 import Summary, { type Props as SummaryProps } from './Summary';
 
 import i18n from './i18n.json';
@@ -61,12 +49,7 @@ type OpsLearningComponentSummary = OpsLearningSummaryResponse['components'][numb
 export function Component() {
     const strings = useTranslation(i18n);
     const [activeTab, setActiveTab] = useState<'bySector' | 'byComponent'>('bySector');
-    const [
-        isExpanded,
-        {
-            toggle: toggleExpansion,
-        },
-    ] = useBooleanState(false);
+
     const {
         rawFilter,
         setFilterField,
@@ -75,6 +58,7 @@ export function Component() {
     });
 
     const [selectedFilter, setSelectedFilter] = useState<SelectedFilter>();
+
     const handleFilterChange = useCallback((...args: EntriesAsList<FilterValue>) => {
         const [, key, option] = args;
 
@@ -173,60 +157,9 @@ export function Component() {
                 )))}
             />
             {showKeyInsights && filtersSelected && (
-                <Container
-                    heading={strings.opsLearningsSummariesHeading}
-                    contentViewType="grid"
-                    numPreferredGridContentColumns={3}
-                    footerIcons={resolveToString(strings.keyInsightsDisclaimer, {
-                        numOfExtractsUsed: opsLearningSummaryResponse.extract_count,
-                        totalNumberOfExtracts: 200, // TODO get this from server when available
-                        appealsFromDate: 2023, // TODO get this from server when available
-                        appealsToDate: 2024, // TODO get this from server when available
-                    })}
-                    footerActions={(
-                        <>
-                            <Link
-                                href="/"
-                                external
-                            >
-                                {strings.keyInsightsReportIssue}
-                            </Link>
-                            <Button
-                                name={opsLearningSummaryResponse.id}
-                                variant="tertiary"
-                                onClick={toggleExpansion}
-                                actions={(isExpanded
-                                    ? <ArrowUpSmallFillIcon />
-                                    : <ArrowDownSmallFillIcon />
-                                )}
-                            >
-                                {isExpanded ? strings.closeSources : strings.seeSources}
-                            </Button>
-                        </>
-                    )}
-                    footerContent={isExpanded && (
-                        <Sources
-                            summaryId={opsLearningSummaryResponse.id}
-                            summaryType="insight"
-                        />
-                    )}
-                >
-                    <Container
-                        heading={opsLearningSummaryResponse.insights1_title}
-                        headerDescription={opsLearningSummaryResponse.insights1_content}
-                        withInternalPadding
-                    />
-                    <Container
-                        heading={opsLearningSummaryResponse.insights2_title}
-                        headerDescription={opsLearningSummaryResponse.insights2_content}
-                        withInternalPadding
-                    />
-                    <Container
-                        heading={opsLearningSummaryResponse.insights3_title}
-                        headerDescription={opsLearningSummaryResponse.insights3_content}
-                        withInternalPadding
-                    />
-                </Container>
+                <KeyInsights
+                    opsLearningSummaryResponse={opsLearningSummaryResponse}
+                />
             )}
             <Tabs
                 onChange={setActiveTab}

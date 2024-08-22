@@ -4,13 +4,6 @@
     "operationalLearningsHeading":"Operational Learnings",
     "operationalLearningsHeadingDescription":"Operational learnings in emergencies are the lessons learned from managing and dealing with crises, refining protocols for resource allocation, decision-making, communication strategies, and others.  The summaries are generated using AI and Large Language Models, based on data coming from Final DREF Reports, Emergency Appeal reports and others.",
     "byComponentTitle":"Component",
-    "bySectorTitle":"Sector",
-    "opsLearningsSummariesHeading":"Summary of Learnings",
-    "opsLearningsSeeSource":"See More",
-    "keyInsightsDisclaimer":"THIS DATA WAS GENERATED USING AI AND LARGE LEARNING MODELS. THESE SUMMARIES REPRESENT {numOfExtractsUsed} PRIORITISED EXTRACTS OUT OF {totalNumberOfExtracts} FROM THE DREF AND EA DOCUMENTS BETWEEN {appealsFromDate}-{appealsToDate}, BASED ON AVAILABILITY.",
-    "keyInsightsReportIssue":"Report an issue",
-    "viewAllExtracts":" View All Extracts",
-    "closeSources": "Close Sources",
-    "seeSources": "Show Sources"
+    "bySectorTitle":"Sector"
     }
 }
