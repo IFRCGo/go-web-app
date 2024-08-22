@@ -13,14 +13,14 @@ import CountrySelectInput, { type CountryOption } from '#components/domain/Count
 import DisasterTypeSelectInput, { type DisasterTypeItem } from '#components/domain/DisasterTypeSelectInput';
 import RegionSelectInput, { type RegionOption } from '#components/domain/RegionSelectInput';
 import usePerComponent, { type PerComponent } from '#hooks/domain/usePerComponent';
-import usePrimarySector, { type PrimarySector } from '#hooks/domain/usePrimarySector';
 import useRegion from '#hooks/domain/useRegion';
+import useSecondarySector, { type SecondarySector } from '#hooks/domain/useSecondarySector';
 import { getFormattedComponentName } from '#utils/domain/per';
 
 import i18n from './i18n.json';
 
-const sectorKeySelector = (d: PrimarySector) => d.key;
-const sectorLabelSelector = (d: PrimarySector) => d.label;
+const sectorKeySelector = (d: SecondarySector) => d.key;
+const sectorLabelSelector = (d: SecondarySector) => d.label;
 const perComponentKeySelector = (option: PerComponent) => option.id;
 
 export type FilterValue = Partial<{
@@ -28,7 +28,7 @@ export type FilterValue = Partial<{
     country: CountryOption['id'],
     disasterType: DisasterTypeItem['id'],
     startDateBefore: string,
-    sector: PrimarySector['key'],
+    sector: SecondarySector['key'],
     component: PerComponent['id'],
     startDate: string,
     search: string;
@@ -60,7 +60,7 @@ function Filters(props: Props) {
     const strings = useTranslation(i18n);
     const regions = useRegion();
 
-    const [primarySectorOptions, primarySectorOptionsPending] = usePrimarySector();
+    const [primarySectorOptions, primarySectorOptionsPending] = useSecondarySector();
     const [perComponentOptions, perComponentOptionsPending] = usePerComponent();
 
     const handleRegionSelect = useCallback((
@@ -97,9 +97,9 @@ function Filters(props: Props) {
     }, [onChange]);
 
     const handleSectorSelect = useCallback((
-        newValue: PrimarySector['key'] | undefined,
+        newValue: SecondarySector['key'] | undefined,
         key: 'sector',
-        selectedSector: PrimarySector | undefined,
+        selectedSector: SecondarySector | undefined,
     ) => {
         onChange(newValue, key, selectedSector?.label);
     }, [onChange]);
