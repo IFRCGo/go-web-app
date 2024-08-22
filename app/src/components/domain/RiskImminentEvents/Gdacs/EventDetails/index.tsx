@@ -1,6 +1,8 @@
+import { useCallback } from 'react';
 import {
     BlockLoading,
     Container,
+    List,
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -9,14 +11,40 @@ import { isDefined } from '@togglecorp/fujs';
 import Link from '#components/Link';
 import { type RiskApiResponse } from '#utils/restRequest';
 
+import LayerInput, { Props as LayerInputProps } from './LayerDetails';
+
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+interface Option {
+    key: number;
+    label: string;
+}
+
+const options: Option[] = [
+    {
+        key: 1,
+        label: 'nodes',
+    },
+    {
+        key: 2,
+        label: 'tracks',
+    },
+    {
+        key: 3,
+        label: 'buffers',
+    },
+    {
+        key: 4,
+        label: 'forecast uncertainty',
+    },
+];
+
 type GdacsResponse = RiskApiResponse<'/api/v1/gdacs/'>;
 type GdacsItem = NonNullable<GdacsResponse['results']>[number];
-type GdacsExposure = RiskApiResponse<'/api/v1/gdacs/{id}/exposure/'>;
+export type GdacsExposure = RiskApiResponse<'/api/v1/gdacs/{id}/exposure/'>;
 
-interface GdacsEventDetails {
+export interface GdacsEventDetails {
     Class?: string;
     affectedcountries?: {
         iso3: string;
@@ -69,7 +97,11 @@ interface Props {
     data: GdacsItem;
     exposure: GdacsExposure | undefined;
     pending: boolean;
+    onLayerChange: (value: boolean, name: number) => void;
+    layer: {[key: string]: boolean};
 }
+
+type Footprint = GeoJSON.FeatureCollection<GeoJSON.Geometry> | undefined;
 
 function EventDetails(props: Props) {
     const {
@@ -80,12 +112,25 @@ function EventDetails(props: Props) {
         },
         exposure,
         pending,
+        onLayerChange,
+        layer,
     } = props;
 
     const strings = useTranslation(i18n);
 
     const populationExposure = exposure?.population_exposure as GdacsPopulationExposure | undefined;
     const eventDetails = event_details as GdacsEventDetails | undefined;
+
+    const layerRendererParams = useCallback(
+        (_: number, layerOptions: Option): LayerInputProps => ({
+            options: layerOptions,
+            value: layer,
+            onChange: onLayerChange,
+            exposure: exposure as Footprint,
+
+        }),
+        [layer, onLayerChange, exposure],
+    );
 
     return (
         <Container
@@ -173,6 +218,19 @@ function EventDetails(props: Props) {
                         {strings.eventMoreDetailsLink}
                     </Link>
                 )}
+            {eventDetails?.eventtype === 'TC' && (
+                <List
+                    data={options}
+                    renderer={LayerInput}
+                    rendererParams={layerRendererParams}
+                    keySelector={(item) => item.key}
+                    withoutMessage
+                    compact
+                    pending={false}
+                    errored={false}
+                    filtered={false}
+                />
+            )}
         </Container>
     );
 }

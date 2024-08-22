@@ -38,6 +38,11 @@ type CountrySeasonal = RiskApiResponse<'/api/v1/country-seasonal/'>;
 type IpcData = CountrySeasonal[number]['ipc_displacement_data'];
 type GwisData = CountrySeasonal[number]['gwis'];
 
+export const NODES = 1;
+export const TRACKS = 2;
+export const BUFFERS = 3;
+export const UNCERTAINTY = 4;
+
 export const hazardTypeToColorMap: Record<HazardType, string> = {
     EQ: COLOR_HAZARD_EARTHQUAKE,
     FL: COLOR_HAZARD_FLOOD,

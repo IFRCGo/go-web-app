@@ -16,9 +16,11 @@ import {
     mapToList,
 } from '@togglecorp/fujs';
 import {
+    getLayerName,
     MapBounds,
     MapImage,
     MapLayer,
+    MapOrder,
     MapSource,
 } from '@togglecorp/re-map';
 import getBbox from '@turf/bbox';
@@ -37,9 +39,19 @@ import {
     DEFAULT_MAP_PADDING,
     DURATION_MAP_ZOOM,
 } from '#utils/constants';
+import {
+    BUFFERS,
+    TRACKS,
+    UNCERTAINTY,
+} from '#utils/domain/risk';
 
 import {
+    cycloneLabelLayer,
     exposureFillLayer,
+    gdacsCycloneExposureFillLayer,
+    gdacsCycloneTrackArrowLayer,
+    gdacsCycloneTrackOutlineLayer,
+    gdacsUncertaintyTrackOutlineLayer,
     geojsonSourceOptions,
     hazardKeyToIconmap,
     hazardPointIconLayout,
@@ -78,13 +90,15 @@ interface EventItemProps<EVENT> {
     onExpandClick: (eventId: number | string) => void;
 }
 
+type Footprint = GeoJSON.FeatureCollection<GeoJSON.Geometry> | undefined;
+
 interface EventDetailProps<EVENT, EXPOSURE> {
     data: EVENT;
     exposure: EXPOSURE | undefined;
     pending: boolean;
+    onLayerChange: (value: boolean, name: number) => void;
+    layer: {[key: string]: boolean};
 }
-
-type Footprint = GeoJSON.FeatureCollection<GeoJSON.Geometry> | undefined;
 
 interface Props<EVENT, EXPOSURE, KEY extends string | number> {
     events: EVENT[] | undefined;
@@ -101,6 +115,12 @@ interface Props<EVENT, EXPOSURE, KEY extends string | number> {
     activeEventExposurePending: boolean;
 }
 
+const defaultLayersValue = {
+    1: true,
+    2: true,
+    3: true,
+    4: true,
+};
 function RiskImminentEventMap<
     EVENT,
     EXPOSURE,
@@ -124,6 +144,7 @@ function RiskImminentEventMap<
     const strings = useTranslation(i18n);
 
     const [activeEventId, setActiveEventId] = useState<KEY | undefined>(undefined);
+    const [layers, setLayers] = useState<{[key: string]: boolean }>(defaultLayersValue);
     const activeEvent = useMemo(
         () => {
             if (isNotDefined(activeEventId)) {
@@ -248,6 +269,13 @@ function RiskImminentEventMap<
         [allIconsLoaded],
     );
 
+    const handleLayerChange = useCallback((value: boolean, name: number) => {
+        setLayers((prevValues) => ({
+            ...prevValues,
+            [name]: value,
+        }));
+    }, []);
+
     return (
         <div className={styles.riskImminentEventMap}>
             <BaseMap
@@ -297,6 +325,34 @@ function RiskImminentEventMap<
                             layerKey="track-point"
                             layerOptions={trackPointLayer}
                         />
+                        {layers[BUFFERS] && (
+                            <MapLayer
+                                layerKey="cyclone-exposure-fill"
+                                layerOptions={gdacsCycloneExposureFillLayer}
+                            />
+                        )}
+                        {(layers[UNCERTAINTY]) && (
+                            <MapLayer
+                                layerKey="cyclone-uncertainty-track-line"
+                                layerOptions={gdacsUncertaintyTrackOutlineLayer}
+                            />
+                        )}
+                        {layers[TRACKS] && (
+                            <>
+                                <MapLayer
+                                    layerKey="cyclone-track-outline"
+                                    layerOptions={gdacsCycloneTrackOutlineLayer}
+                                />
+                                <MapLayer
+                                    layerKey="cyclone-track-arrow"
+                                    layerOptions={gdacsCycloneTrackArrowLayer}
+                                />
+                                <MapLayer
+                                    layerKey="cyclone-track-points-label"
+                                    layerOptions={cycloneLabelLayer}
+                                />
+                            </>
+                        )}
                     </MapSource>
                 )}
                 <MapSource
@@ -319,6 +375,24 @@ function RiskImminentEventMap<
                         duration={DURATION_MAP_ZOOM}
                         bounds={boundsSafe}
                         padding={DEFAULT_MAP_PADDING}
+                    />
+                )}
+                {activeEventFootprint && (
+                    <MapOrder ordering={[
+                        getLayerName('active-event-footprint', 'exposure-fill', true),
+                        getLayerName('active-event-footprint', 'cyclone-exposure-fill', true),
+                        getLayerName('active-event-footprint', 'cyclone-uncertainty-track-line', true),
+                        getLayerName('active-event-footprint', 'cyclone-tracks-points-label', true),
+                        getLayerName('active-event-footprint', 'cyclone-track-outline', true),
+                        getLayerName('active-event-footprint', 'cyclone-track-arrow', true),
+                        getLayerName('active-event-footprint', 'track-outline', true),
+                        getLayerName('active-event-footprint', 'track-arrow', true),
+                        getLayerName('active-event-footprint', 'track-point', true),
+                        getLayerName('event-points', 'point-circle', true),
+                        getLayerName('event-points', 'hazard-points-icon', true),
+                        getLayerName('active-event-footprint', 'cyclone-track-points-label', true),
+                        getLayerName('active-event-footprint', 'cyclone-track-points', true),
+                    ]}
                     />
                 )}
             </BaseMap>
@@ -357,8 +431,10 @@ function RiskImminentEventMap<
                 {isDefined(activeEvent) && (
                     <DetailComponent
                         data={activeEvent}
-                        exposure={activeEventExposure}
+                        exposure={activeEventFootprint}
                         pending={activeEventExposurePending}
+                        onLayerChange={handleLayerChange}
+                        layer={layers}
                     />
                 )}
             </Container>
