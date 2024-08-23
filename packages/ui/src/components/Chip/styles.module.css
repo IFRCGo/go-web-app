@@ -1,0 +1,40 @@
+.chip {
+    --color-border: transparent;
+    --color-text: inherit;
+    --color-background: transparent;
+    --border-radius: var(--go-ui-border-radius-full);
+    --padding: var(--go-ui-spacing-3xs) var(--go-ui-spacing-3xs)var(--go-ui-spacing-3xs) var(--go-ui-spacing-sm);
+
+    display: flex;
+    align-items: center;
+    border: var(--go-ui-width-separator-sm) solid var(--color-border);
+    background-color: var(--color-background);
+    color: var(--color-text);
+    border-radius: var(--border-radius);
+    padding: var(--padding);
+    gap: var(--go-ui-spacing-3xs);
+
+    &.primary {
+        --color-border: var(--go-ui-color-primary-red);
+        --color-background: var(--go-ui-color-primary-red);
+        --color-text: var(--go-ui-color-white);
+    }
+
+    &.secondary {
+        --color-border: var(--go-ui-color-primary-red);
+        --color-background: var(--go-ui-color-white);
+        --color-text: var(--go-ui-color-primary-red);
+    }
+
+    &.tertiary {
+        --color-border: transparent;
+        --color-background: transparent;
+        --color-text: inherit;
+        --padding: 0;
+        --border-radius: unset;
+    }
+
+    .close-icon {
+        font-size: var(--go-ui-font-size-sm);
+    }
+}
