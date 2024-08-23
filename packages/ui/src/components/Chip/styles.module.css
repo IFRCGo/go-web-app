@@ -3,7 +3,7 @@
     --color-text: inherit;
     --color-background: transparent;
     --border-radius: var(--go-ui-border-radius-full);
-    --padding: var(--go-ui-spacing-3xs) var(--go-ui-spacing-3xs)var(--go-ui-spacing-3xs) var(--go-ui-spacing-sm);
+    --padding: var(--go-ui-spacing-4xs) var(--go-ui-spacing-4xs) var(--go-ui-spacing-4xs) var(--go-ui-spacing-sm);
 
     display: flex;
     align-items: center;
@@ -27,11 +27,9 @@
     }
 
     &.tertiary {
-        --color-border: transparent;
-        --color-background: transparent;
+        --color-border: var(--go-ui-color-gray-40);
+        --color-background: var(--go-ui-color-gray-30);
         --color-text: inherit;
-        --padding: 0;
-        --border-radius: unset;
     }
 
     .close-icon {

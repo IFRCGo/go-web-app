@@ -34,15 +34,8 @@ export type FilterValue = Partial<{
     search: string;
 }>
 
-export type SelectedFilter = Partial<{
-    region: string,
-    country: string,
-    disasterType: string,
-    startDateBefore: string,
-    sector: string,
-    component: string,
-    startDate: string,
-    search: string;
+export type FilterLabel = Partial<{
+    [key in keyof FilterValue]: string;
 }>
 
 interface Props {
