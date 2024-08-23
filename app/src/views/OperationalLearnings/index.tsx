@@ -3,8 +3,11 @@ import {
     useState,
 } from 'react';
 import {
+    Chip,
+    ChipProps,
     Container,
     List,
+    RawList,
     Tab,
     TabList,
     TabPanel,
@@ -28,8 +31,8 @@ import {
 } from '#utils/restRequest';
 
 import Filters, {
+    type FilterLabel,
     type FilterValue,
-    type SelectedFilter,
 } from './Filters';
 import KeyInsights from './KeyInsights';
 import Summary, { type Props as SummaryProps } from './Summary';
@@ -39,11 +42,21 @@ import i18n from './i18n.json';
 type SummaryStatusEnum = components<'read'>['schemas']['OpsLearningSummaryStatusEnum'];
 
 const SUMMARY_STATUS_SUCCESS = 3 satisfies SummaryStatusEnum;
-const SUMMARY_STATUS_FAILED = 4 satisfies SummaryStatusEnum;
+const SUMMARY_NO_EXTRACT_AVAILBLE = 4 satisfies SummaryStatusEnum;
+const SUMMARY_STATUS_FAILED = 5 satisfies SummaryStatusEnum;
 
 type OpsLearningSummaryResponse = GoApiResponse<'/api/v2/ops-learning/summary/'>;
 type OpsLearningSectorSummary = OpsLearningSummaryResponse['sectors'][number];
 type OpsLearningComponentSummary = OpsLearningSummaryResponse['components'][number];
+
+interface FilterValueOption {
+    key: keyof FilterValue;
+    label: string;
+}
+
+function filterValueOptionKeySelector(option: FilterValueOption) {
+    return option.key;
+}
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -57,26 +70,38 @@ export function Component() {
         filter: {},
     });
 
-    const [selectedFilter, setSelectedFilter] = useState<SelectedFilter>();
+    const [selectedFilterLabel, setSelectedFilterLabel] = useState<FilterLabel>();
 
     const handleFilterChange = useCallback((...args: EntriesAsList<FilterValue>) => {
         const [, key, option] = args;
 
-        setSelectedFilter((oldFilterValue) => {
-            const newFilterValue = { ...oldFilterValue };
+        setSelectedFilterLabel((oldFilterLabel) => {
+            const newFilterLabel = { ...oldFilterLabel };
 
             if (isNotDefined(option)) {
-                delete newFilterValue[key];
+                delete newFilterLabel[key];
             } else {
-                newFilterValue[key] = option as string;
+                newFilterLabel[key] = option as string;
             }
 
-            return newFilterValue;
+            return newFilterLabel;
         });
         setFilterField(...args);
     }, [setFilterField]);
 
-    const selectedFilterOptions = mapToList(selectedFilter, (label, key) => ({ key, label }));
+    const handleFilterRemove = useCallback((filterKey: keyof FilterValue) => {
+        setFilterField(undefined, filterKey);
+        setSelectedFilterLabel((oldFilterLabel) => {
+            const newFilterLabel = { ...oldFilterLabel };
+            delete newFilterLabel[filterKey];
+            return newFilterLabel;
+        });
+    }, [setFilterField]);
+
+    const selectedFilterOptions = mapToList(
+        selectedFilterLabel,
+        (label, key) => ({ key, label } as { key: keyof FilterValue, label: string }),
+    );
 
     const {
         pending: opsLearningSummaryPending,
@@ -97,6 +122,7 @@ export function Component() {
             if (poll?.errored
                 || poll?.value?.status === SUMMARY_STATUS_FAILED
                 || poll?.value?.status === SUMMARY_STATUS_SUCCESS
+                || poll?.value.status === SUMMARY_NO_EXTRACT_AVAILBLE
             ) {
                 return -1;
             }
@@ -128,6 +154,16 @@ export function Component() {
         summaryContent: summary.content,
     });
 
+    const chipRendererParams = useCallback((
+        key: keyof FilterValue,
+        option: FilterValueOption,
+    ): ChipProps<keyof FilterValue> => ({
+        label: option.label,
+        name: key,
+        variant: 'primary' as const,
+        onDelete: handleFilterRemove,
+    }), [handleFilterRemove]);
+
     const filtersSelected = isDefined(rawFilter.country)
         || isDefined(rawFilter.disasterType)
         || isDefined(rawFilter.sector)
@@ -150,11 +186,14 @@ export function Component() {
                         onChange={handleFilterChange}
                     />
                 )}
-                footerIcons={(selectedFilterOptions?.map((option) => (
-                    <div key={option.key}>
-                        {option.label}
-                    </div>
-                )))}
+                footerIcons={(
+                    <RawList<FilterValueOption, keyof FilterValue, ChipProps<keyof FilterValue>>
+                        data={selectedFilterOptions}
+                        renderer={Chip}
+                        keySelector={filterValueOptionKeySelector}
+                        rendererParams={chipRendererParams}
+                    />
+                )}
             />
             {showKeyInsights && filtersSelected && (
                 <KeyInsights
