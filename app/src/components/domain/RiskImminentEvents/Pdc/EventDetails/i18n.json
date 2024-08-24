@@ -2,6 +2,7 @@
     "namespace": "common",
     "strings": {
         "eventDetailsViewDetails": "View Details",
+        "eventDetailsStartedOn": "Started on",
         "eventDetailsCreatedOn": "Created on",
         "eventDetailsUpdatedOn": "Updated on",
         "eventDetailsPeopleExposed": "People exposed / Potentially affected",
@@ -10,9 +11,13 @@
         "eventDetailsValueExposed": "Value (USD) of exposed buildings",
         "eventDetailsSchoolExposed": "Schools exposed",
         "eventHospitalsExposed": "Hospital exposed",
-        "pdcLayerTitle": "Layers",
-        "pdcChartTitle": "Data presenting wind speed/date",
-        "pdcEventDetailsKm": "{point} Km/h on {pointDate}",
-        "pdcChartLabel": "Windspeed over time"
+        "eventLayerTitle": "Layers",
+        "eventChartTitle": "Data presenting wind speed/date",
+        "eventDetailsKm": "{point} Km/h on {pointDate}",
+        "eventChartLabel": "Wind speed over time",
+        "eventLayerNodes": "Nodes",
+        "eventLayerTracks": "Tracks",
+        "eventLayerBuffers": "Buffers",
+        "eventLayerForecastUncertainty": "Forecast Uncertainty"
     }
 }

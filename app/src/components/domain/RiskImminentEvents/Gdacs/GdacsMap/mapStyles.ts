@@ -7,12 +7,11 @@ import type {
 
 import {
     COLOR_BLACK,
-    COLOR_BLUE,
-    COLOR_LIGHT_YELLOW,
+    COLOR_GREEN,
+    COLOR_ORANGE,
     COLOR_PRIMARY_BLUE,
     COLOR_RED,
     COLOR_WHITE,
-    COLOR_YELLOW,
 } from '#utils/constants';
 
 export const exposureFillLayer: Omit<FillLayer, 'id'> = {
@@ -34,11 +33,10 @@ export const cycloneExposureFillLayer: Omit<FillLayer, 'id'> = {
     paint: {
         'fill-color': [
             'match',
-            ['get', 'severity'],
-            'INFORMATION', COLOR_BLUE,
-            'ADVISORY', COLOR_LIGHT_YELLOW,
-            'WATCH', COLOR_YELLOW,
-            'WARNING', COLOR_RED,
+            ['get', 'alertlevel'],
+            'Red', COLOR_RED,
+            'Orange', COLOR_ORANGE,
+            'Green', COLOR_GREEN,
             COLOR_BLACK,
         ],
         'fill-opacity': 0.5,
@@ -58,7 +56,6 @@ export const uncertaintyTrackOutlineLayer: Omit<LineLayer, 'id'> = {
         'line-dasharray': [2, 1],
     },
 };
-
 export const trackOutlineLayer: Omit<LineLayer, 'id'> = {
     type: 'line',
     filter: ['==', ['get', 'type'], 'track'],
@@ -70,25 +67,24 @@ export const trackOutlineLayer: Omit<LineLayer, 'id'> = {
 
 export const trackPointLayer: Omit<CircleLayer, 'id'> = {
     type: 'circle',
-    filter: ['==', ['get', 'type'], 'track-point'],
+    filter: ['==', ['get', 'type'], 'track'],
     paint: {
+        'circle-radius': 6,
         'circle-color': [
             'match',
-            ['get', 'severity'],
-            'INFORMATION', COLOR_BLUE,
-            'ADVISORY', COLOR_LIGHT_YELLOW,
-            'WATCH', COLOR_YELLOW,
-            'WARNING', COLOR_RED,
+            ['get', 'alertlevel'],
+            'Red', COLOR_RED,
+            'Orange', COLOR_ORANGE,
+            'Green', COLOR_GREEN,
             COLOR_BLACK,
         ],
-        'circle-radius': 6,
-        'circle-opacity': 0.5,
+        'circle-opacity': 1,
     },
 };
 
 export const trackPointIconLayer: Omit<SymbolLayer, 'id'> = {
     type: 'symbol',
-    filter: ['==', ['get', 'type'], 'track-point'],
+    filter: ['==', ['get', 'type'], 'track'],
     paint: {
         'icon-color': COLOR_WHITE,
         'icon-opacity': 0.5,
@@ -99,21 +95,5 @@ export const trackPointIconLayer: Omit<SymbolLayer, 'id'> = {
         'icon-rotate': 90,
         'icon-allow-overlap': true,
         'icon-ignore-placement': true,
-    },
-};
-
-export const trackPointLabelLayer: Omit<SymbolLayer, 'id'> = {
-    type: 'symbol',
-    filter: ['==', ['get', 'type'], 'track-point'],
-    paint: {
-        'text-color': COLOR_BLACK,
-        'text-halo-color': COLOR_WHITE,
-    },
-    layout: {
-        'text-size': 12,
-        'text-field': ['get', 'forecast_date_time'],
-        'text-anchor': 'bottom-left',
-        'text-offset': [0.5, 0],
-        'text-max-width': 20,
     },
 };

@@ -20,14 +20,7 @@ import wildfireIcon from '#assets/icons/risk/wildfire.png';
 import { type components } from '#generated/riskTypes';
 import {
     COLOR_BLACK,
-    COLOR_BLUE,
-    COLOR_GREEN,
-    COLOR_LIGHT_YELLOW,
-    COLOR_ORANGE,
     COLOR_PRIMARY_BLUE,
-    COLOR_RED,
-    COLOR_WHITE,
-    COLOR_YELLOW,
 } from '#utils/constants';
 import { hazardTypeToColorMap } from '#utils/domain/risk';
 
@@ -130,69 +123,6 @@ export const exposureFillLayer: Omit<FillLayer, 'id'> = {
     ],
     paint: {
         'fill-color': COLOR_PRIMARY_BLUE,
-        'fill-opacity': 0.5,
-    },
-};
-
-export const gdacsCycloneExposureFillLayer: Omit<FillLayer, 'id'> = {
-    type: 'fill',
-    filter: ['==', ['get', 'type'], 'exposure'],
-    paint: {
-        'fill-color': [
-            'match',
-            ['get', 'alertlevel'],
-            'Red', COLOR_RED,
-            'Orange', COLOR_ORANGE,
-            'Green', COLOR_GREEN,
-            COLOR_BLACK,
-        ],
-        'fill-opacity': 0.5,
-    },
-};
-
-export const uncertaintyTrackOutlineLayer: Omit<LineLayer, 'id'> = {
-    type: 'line',
-    filter: [
-        '==',
-        ['get', 'type'],
-        'uncertainty',
-    ],
-    paint: {
-        'line-color': COLOR_BLACK,
-        'line-opacity': 0.5,
-        'line-dasharray': [2, 1],
-    },
-};
-
-export const trackPointLabelLayer: Omit<SymbolLayer, 'id'> = {
-    type: 'symbol',
-    filter: ['==', ['get', 'type'], 'track'],
-    paint: {
-        'text-color': COLOR_BLACK,
-        'text-halo-color': COLOR_WHITE,
-    },
-    layout: {
-        'text-size': 12,
-        'text-field': ['get', 'fromdate'],
-        'text-anchor': 'bottom-left',
-        'text-offset': [0.5, 0],
-        'text-max-width': 20,
-    },
-};
-
-export const pdcCycloneExposureFillLayer: Omit<FillLayer, 'id'> = {
-    type: 'fill',
-    filter: ['==', ['get', 'type'], 'exposure'],
-    paint: {
-        'fill-color': [
-            'match',
-            ['get', 'severity'],
-            'INFORMATION', COLOR_BLUE,
-            'ADVISORY', COLOR_LIGHT_YELLOW,
-            'WATCH', COLOR_YELLOW,
-            'WARNING', COLOR_RED,
-            COLOR_BLACK,
-        ],
         'fill-opacity': 0.5,
     },
 };

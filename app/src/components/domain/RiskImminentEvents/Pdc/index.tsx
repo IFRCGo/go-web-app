@@ -207,7 +207,6 @@ function Pdc(props: Props) {
                 ].filter(isDefined),
             };
 
-            console.log('storm', geoJson);
             return geoJson;
         },
         [],
