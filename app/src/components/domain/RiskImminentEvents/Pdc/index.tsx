@@ -17,6 +17,7 @@ import {
     useRiskRequest,
 } from '#utils/restRequest';
 
+import { ImminentEventSource } from '..';
 import EventDetails from './EventDetails';
 import EventListItem from './EventListItem';
 
@@ -26,6 +27,7 @@ type EventItem = NonNullable<ImminentEventResponse['results']>[number];
 type BaseProps = {
     title: React.ReactNode;
     bbox: LngLatBoundsLike | undefined;
+    activeView: ImminentEventSource;
 }
 
 type Props = BaseProps & ({
@@ -43,6 +45,7 @@ function Pdc(props: Props) {
         title,
         bbox,
         variant,
+        activeView,
     } = props;
 
     const {
@@ -119,9 +122,16 @@ function Pdc(props: Props) {
             const {
                 footprint_geojson,
                 storm_position_geojson,
+                cyclone_five_days_cou,
+                cyclone_three_days_cou,
             } = exposure;
 
-            if (isNotDefined(footprint_geojson) && isNotDefined(storm_position_geojson)) {
+            if (
+                isNotDefined(footprint_geojson)
+                && isNotDefined(storm_position_geojson)
+                && isNotDefined(cyclone_five_days_cou)
+                && isNotDefined(cyclone_three_days_cou)
+            ) {
                 return undefined;
             }
 
@@ -130,6 +140,11 @@ function Pdc(props: Props) {
             const stormPositions = (storm_position_geojson as unknown as unknown[] | undefined)
                 ?.filter(isValidPointFeature);
 
+            const cycloneFiveDays = (cyclone_five_days_cou as unknown as unknown[] | undefined)
+                ?.filter(isValidFeature);
+
+            const cycloneThreeDays = (cyclone_three_days_cou as unknown as unknown[] | undefined)
+                ?.filter(isValidFeature);
             // forecast_date_time : "2023 SEP 04, 00:00Z"
             // severity : "WARNING"
             // storm_name : "HAIKUI"
@@ -146,6 +161,27 @@ function Pdc(props: Props) {
                             type: 'exposure',
                         },
                     } : undefined,
+
+                    ...cycloneFiveDays?.map(
+                        (feature) => ({
+                            ...feature,
+                            properties: {
+                                ...feature.properties,
+                                type: 'uncertainty',
+                            },
+                        }),
+                    ) ?? [],
+
+                    ...cycloneThreeDays?.map(
+                        (feature) => ({
+                            ...feature,
+                            properties: {
+                                ...feature.properties,
+                                type: 'uncertainty',
+                            },
+                        }),
+                    ) ?? [],
+
                     stormPositions ? {
                         type: 'Feature' as const,
                         geometry: {
@@ -160,6 +196,7 @@ function Pdc(props: Props) {
                             type: 'track',
                         },
                     } : undefined,
+
                     ...stormPositions?.map(
                         (pointFeature) => ({
                             ...pointFeature,
@@ -172,6 +209,7 @@ function Pdc(props: Props) {
                 ].filter(isDefined),
             };
 
+            console.log('storm', geoJson);
             return geoJson;
         },
         [],
@@ -202,6 +240,7 @@ function Pdc(props: Props) {
             activeEventExposure={exposureResponse}
             activeEventExposurePending={exposureResponsePending}
             onActiveEventChange={handleActiveEventChange}
+            activeView={activeView}
         />
     );
 }

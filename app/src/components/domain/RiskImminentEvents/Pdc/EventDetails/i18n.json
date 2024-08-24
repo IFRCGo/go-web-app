@@ -9,6 +9,10 @@
         "eventDetailsPeopleGroups": "People in vulnerable groups exposed to the hazard",
         "eventDetailsValueExposed": "Value (USD) of exposed buildings",
         "eventDetailsSchoolExposed": "Schools exposed",
-        "eventHospitalsExposed": "Hospital exposed"
+        "eventHospitalsExposed": "Hospital exposed",
+        "pdcLayerTitle": "Layers",
+        "pdcChartTitle": "Data presenting wind speed/date",
+        "pdcEventDetailsKm": "{point} Km/h on {pointDate}",
+        "pdcChartLabel": "Windspeed over time"
     }
 }
