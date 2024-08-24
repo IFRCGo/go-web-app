@@ -1,19 +1,7 @@
-import { useCallback, useMemo } from 'react';
 import {
-    compareDate,
-    isDefined,
-    isFalsyString,
-    isNotDefined,
-} from '@togglecorp/fujs';
-import {
-    isValidFeatureCollection,
-    isValidPointFeature,
-} from '#utils/domain/risk';
-import {
-    getPercentage,
-    maxSafe,
-    resolveToString,
-} from '@ifrc-go/ui/utils';
+    useCallback,
+    useMemo,
+} from 'react';
 import {
     BlockLoading,
     Container,
@@ -22,9 +10,30 @@ import {
     Tooltip,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import {
+    getPercentage,
+    maxSafe,
+    resolveToString,
+} from '@ifrc-go/ui/utils';
+import {
+    compareDate,
+    isDefined,
+    isFalsyString,
+    isNotDefined,
+} from '@togglecorp/fujs';
+
+import {
+    BUFFERS,
+    isValidFeatureCollection,
+    isValidPointFeature,
+    NODES,
+    TRACKS,
+    UNCERTAINTY,
+} from '#utils/domain/risk';
 import { type RiskApiResponse } from '#utils/restRequest';
 
-import LayerDetails from '../../Gdacs/EventDetails/LayerDetails';
+import LayerDetails, { Props as LayerInputProps } from '../../LayerDetails';
+
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -32,25 +41,6 @@ interface Option {
     key: number;
     label: string;
 }
-
-const options: Option[] = [
-    {
-        key: 1,
-        label: 'Nodes',
-    },
-    {
-        key: 2,
-        label: 'Tracks',
-    },
-    {
-        key: 3,
-        label: 'Buffers',
-    },
-    {
-        key: 4,
-        label: 'Forecast Uncertainty',
-    },
-];
 
 type PdcResponse = RiskApiResponse<'/api/v1/pdc/'>;
 type PdcEventItem = NonNullable<PdcResponse['results']>[number];
@@ -82,6 +72,25 @@ function EventDetails(props: Props) {
 
     const strings = useTranslation(i18n);
 
+    // TODO: hide layer if data is not available
+    const options: Option[] = useMemo(() => [
+        {
+            key: NODES,
+            label: strings.eventLayerNodes,
+        },
+        {
+            key: TRACKS,
+            label: strings.eventLayerTracks,
+        },
+        {
+            key: BUFFERS,
+            label: strings.eventLayerBuffers,
+        },
+        {
+            key: UNCERTAINTY,
+            label: strings.eventLayerForecastUncertainty,
+        },
+    ], [strings]);
     interface Exposure {
         value?: number | null;
         valueFormatted?: string | null;
@@ -194,7 +203,7 @@ function EventDetails(props: Props) {
             headerDescription={(
                 <>
                     <TextOutput
-                        label={strings.eventDetailsViewDetails}
+                        label={strings.eventDetailsStartedOn}
                         value={start_date}
                         valueType="date"
                         strongValue
@@ -255,7 +264,7 @@ function EventDetails(props: Props) {
                 </>
             )}
             {showLayers && hazard_type === 'TC' && (
-                <Container heading={strings.pdcLayerTitle}>
+                <Container heading={strings.eventLayerTitle}>
                     <List
                         className={styles.layerDetail}
                         data={options}
@@ -271,7 +280,7 @@ function EventDetails(props: Props) {
                 </Container>
             )}
             {stormPoints && stormPoints.length > 0 && isDefined(maxWindSpeed) && (
-                <Container heading={strings.pdcChartTitle}>
+                <Container heading={strings.eventChartTitle}>
                     {/* TODO: use proper svg charts */}
                     <div className={styles.windSpeedChart}>
                         <div className={styles.barListContainer}>
@@ -283,7 +292,7 @@ function EventDetails(props: Props) {
                                     >
                                         <Tooltip
                                             description={resolveToString(
-                                                strings.pdcEventDetailsKm,
+                                                strings.eventDetailsKm,
                                                 {
                                                     point: point.windSpeed ?? '--',
                                                     pointDate: point.date.toLocaleString() ?? '--',
@@ -299,7 +308,7 @@ function EventDetails(props: Props) {
                             )}
                         </div>
                         <div className={styles.chartLabel}>
-                            {strings.pdcChartLabel}
+                            {strings.eventChartLabel}
                         </div>
                     </div>
                 </Container>

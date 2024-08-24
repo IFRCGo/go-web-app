@@ -16,11 +16,9 @@ import {
     mapToList,
 } from '@togglecorp/fujs';
 import {
-    getLayerName,
     MapBounds,
     MapImage,
     MapLayer,
-    MapOrder,
     MapSource,
 } from '@togglecorp/re-map';
 import getBbox from '@turf/bbox';
@@ -39,28 +37,16 @@ import {
     DEFAULT_MAP_PADDING,
     DURATION_MAP_ZOOM,
 } from '#utils/constants';
-import {
-    BUFFERS,
-    NODES,
-    TRACKS,
-    UNCERTAINTY,
-} from '#utils/domain/risk';
 
 import { ImminentEventSource } from '../RiskImminentEvents';
+import GdacsMap from '../RiskImminentEvents/Gdacs/GdacsMap';
+import PdcMap from '../RiskImminentEvents/Pdc/PdcMap';
 import {
-    exposureFillLayer,
-    gdacsCycloneExposureFillLayer,
     geojsonSourceOptions,
     hazardKeyToIconmap,
     hazardPointIconLayout,
     hazardPointLayer,
     invisibleLayout,
-    pdcCycloneExposureFillLayer,
-    trackArrowLayer,
-    trackOutlineLayer,
-    trackPointLabelLayer,
-    trackPointLayer,
-    uncertaintyTrackOutlineLayer,
 } from './mapStyles';
 
 import i18n from './i18n.json';
@@ -279,6 +265,29 @@ function RiskImminentEventMap<
         }));
     }, []);
 
+    const getLayerBySource = useCallback((source: ImminentEventSource) => {
+        if (source === 'pdc') {
+            return (
+                <PdcMap
+                    activeEventFootprint={activeEventFootprint}
+                    layers={layers}
+                    hazardType={activeEvent?.hazard_type}
+                />
+            );
+        }
+
+        if (source === 'gdacs') {
+            return (
+                <GdacsMap
+                    activeEventFootprint={activeEventFootprint}
+                    layers={layers}
+                    hazardType={activeEvent?.hazard_type}
+                />
+            );
+        }
+        return null;
+    }, [activeEventFootprint, layers, activeEvent]);
+
     return (
         <div className={styles.riskImminentEventMap}>
             <BaseMap
@@ -306,120 +315,29 @@ function RiskImminentEventMap<
                     );
                 })}
                 {/* FIXME: footprint layer should always be the bottom layer */}
-                {activeEventFootprint && activeEvent?.hazard_type !== 'TC' && (
-                    <MapSource
-                        sourceKey="active-event-footprint"
-                        sourceOptions={geojsonSourceOptions}
-                        geoJson={activeEventFootprint}
-                    >
-                        <MapLayer
-                            layerKey="exposure-fill"
-                            layerOptions={exposureFillLayer}
-                        />
-                        <MapLayer
-                            layerKey="track-outline"
-                            layerOptions={trackOutlineLayer}
-                        />
-                        <MapLayer
-                            layerKey="track-arrow"
-                            layerOptions={trackArrowLayer}
-                        />
-                        <MapLayer
-                            layerKey="track-point"
-                            layerOptions={trackPointLayer}
-                        />
-                    </MapSource>
-                )}
-                {activeEventFootprint && activeEvent?.hazard_type === 'TC' && (
-                    <MapSource
-                        sourceKey="active-event-footprint"
-                        sourceOptions={geojsonSourceOptions}
-                        geoJson={activeEventFootprint}
-                    >
-                        <MapLayer
-                            layerKey="exposure-fill"
-                            layerOptions={exposureFillLayer}
-                        />
-                        {layers[BUFFERS] && activeView === 'gdacs' && (
-                            <MapLayer
-                                layerKey="gdacs-cyclone-exposure-fill"
-                                layerOptions={gdacsCycloneExposureFillLayer}
-                            />
-                        )}
-                        {layers[BUFFERS] && activeView === 'pdc' && (
-                            <MapLayer
-                                layerKey="pdc-cyclone-exposure-fill"
-                                layerOptions={pdcCycloneExposureFillLayer}
-                            />
-                        )}
-                        {(layers[UNCERTAINTY]) && (
-                            <MapLayer
-                                layerKey="uncertainty-track-line"
-                                layerOptions={uncertaintyTrackOutlineLayer}
-                            />
-                        )}
-                        {layers[TRACKS] && (
-                            <>
-                                <MapLayer
-                                    layerKey="track-outline"
-                                    layerOptions={trackOutlineLayer}
-                                />
-                                <MapLayer
-                                    layerKey="track-arrow"
-                                    layerOptions={trackArrowLayer}
-                                />
-                                <MapLayer
-                                    layerKey="track-point"
-                                    layerOptions={trackPointLayer}
-                                />
-                                {activeView !== 'gdacs' && (
-                                    <MapLayer
-                                        layerKey="track-points-label"
-                                        layerOptions={trackPointLabelLayer}
-                                    />
-                                )}
-                            </>
-                        )}
-                    </MapSource>
+                {activeEventFootprint && (
+                    getLayerBySource(activeView)
                 )}
                 <MapSource
                     sourceKey="event-points"
                     sourceOptions={geojsonSourceOptions}
                     geoJson={pointFeatureCollection}
                 >
-                    {layers[NODES] && (
-                        <>
-                            <MapLayer
-                                onClick={handlePointClick}
-                                layerKey="point-circle"
-                                layerOptions={hazardPointLayer}
-                            />
-                            <MapLayer
-                                layerKey="hazard-points-icon"
-                                layerOptions={hazardPointIconLayer}
-                            />
-                        </>
-                    )}
+                    <MapLayer
+                        onClick={handlePointClick}
+                        layerKey="point-circle"
+                        layerOptions={hazardPointLayer}
+                    />
+                    <MapLayer
+                        layerKey="hazard-points-icon"
+                        layerOptions={hazardPointIconLayer}
+                    />
                 </MapSource>
                 {boundsSafe && (
                     <MapBounds
                         duration={DURATION_MAP_ZOOM}
                         bounds={boundsSafe}
                         padding={DEFAULT_MAP_PADDING}
-                    />
-                )}
-                {activeEventFootprint && (
-                    <MapOrder ordering={[
-                        getLayerName('active-event-footprint', 'exposure-fill', true),
-                        getLayerName('active-event-footprint', 'cyclone-exposure-fill', true),
-                        getLayerName('active-event-footprint', 'uncertainty-track-line', true),
-                        getLayerName('active-event-footprint', 'track-outline', true),
-                        getLayerName('active-event-footprint', 'track-arrow', true),
-                        getLayerName('active-event-footprint', 'track-point', true),
-                        getLayerName('event-points', 'point-circle', true),
-                        getLayerName('event-points', 'hazard-points-icon', true),
-                        getLayerName('active-event-footprint', 'track-points-label', true),
-                    ]}
                     />
                 )}
             </BaseMap>

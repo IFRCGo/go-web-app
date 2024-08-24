@@ -10,6 +10,11 @@
         "eventPeopleAffectedLabel": "People affected",
         "eventImpactLabel": "Impact",
         "eventSeverityLabel": "Severity",
-        "eventAlertType": "Alert Type"
+        "eventAlertType": "Alert Type",
+        "eventLayerNodes": "Nodes",
+        "eventLayerTracks": "Tracks",
+        "eventLayerBuffers": "Buffers",
+        "eventLayerForecastUncertainty": "Forecast Uncertainty"
     }
 }
+

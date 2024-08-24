@@ -14,6 +14,7 @@ import {
     useRiskRequest,
 } from '#utils/restRequest';
 
+import { ImminentEventSource } from '..';
 import EventDetails from './EventDetails';
 import EventListItem from './EventListItem';
 
@@ -35,6 +36,7 @@ function getLayerType(geometryType: GeoJSON.Geometry['type']) {
 type BaseProps = {
     title: React.ReactNode;
     bbox: LngLatBoundsLike | undefined;
+    activeView: ImminentEventSource;
 }
 
 type Props = BaseProps & ({
@@ -52,6 +54,7 @@ function WfpAdam(props: Props) {
         title,
         bbox,
         variant,
+        activeView,
     } = props;
 
     const {
@@ -182,6 +185,7 @@ function WfpAdam(props: Props) {
             activeEventExposure={exposureResponse}
             activeEventExposurePending={exposureResponsePending}
             onActiveEventChange={handleActiveEventChange}
+            activeView={activeView}
         />
     );
 }

@@ -1,4 +1,7 @@
-import { useCallback } from 'react';
+import {
+    useCallback,
+    useMemo,
+} from 'react';
 import {
     BlockLoading,
     Container,
@@ -9,9 +12,15 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import { isDefined } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
+import {
+    BUFFERS,
+    NODES,
+    TRACKS,
+    UNCERTAINTY,
+} from '#utils/domain/risk';
 import { type RiskApiResponse } from '#utils/restRequest';
 
-import LayerDetails, { Props as LayerInputProps } from './LayerDetails';
+import LayerDetails, { Props as LayerInputProps } from '../../LayerDetails';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -20,25 +29,6 @@ interface Option {
     key: number;
     label: string;
 }
-
-const options: Option[] = [
-    {
-        key: 1,
-        label: 'Nodes',
-    },
-    {
-        key: 2,
-        label: 'Tracks',
-    },
-    {
-        key: 3,
-        label: 'Buffers',
-    },
-    {
-        key: 4,
-        label: 'Forecast Uncertainty',
-    },
-];
 
 type GdacsResponse = RiskApiResponse<'/api/v1/gdacs/'>;
 type GdacsItem = NonNullable<GdacsResponse['results']>[number];
@@ -118,6 +108,26 @@ function EventDetails(props: Props) {
 
     const populationExposure = exposure?.population_exposure as GdacsPopulationExposure | undefined;
     const eventDetails = event_details as GdacsEventDetails | undefined;
+
+    // TODO: hide layer if data is not available
+    const options: Option[] = useMemo(() => [
+        {
+            key: NODES,
+            label: strings.eventLayerNodes,
+        },
+        {
+            key: TRACKS,
+            label: strings.eventLayerTracks,
+        },
+        {
+            key: BUFFERS,
+            label: strings.eventLayerBuffers,
+        },
+        {
+            key: UNCERTAINTY,
+            label: strings.eventLayerForecastUncertainty,
+        },
+    ], [strings]);
 
     const layerRendererParams = useCallback(
         (_: number, layerOptions: Option): LayerInputProps => ({
@@ -216,18 +226,20 @@ function EventDetails(props: Props) {
                     </Link>
                 )}
             {eventDetails?.eventtype === 'TC' && (
-                <List
-                    className={styles.layerDetail}
-                    data={options}
-                    renderer={LayerDetails}
-                    rendererParams={layerRendererParams}
-                    keySelector={(item) => item.key}
-                    withoutMessage
-                    compact
-                    pending={false}
-                    errored={false}
-                    filtered={false}
-                />
+                <Container heading="Layers">
+                    <List
+                        className={styles.layerDetail}
+                        data={options}
+                        renderer={LayerDetails}
+                        rendererParams={layerRendererParams}
+                        keySelector={(item) => item.key}
+                        withoutMessage
+                        compact
+                        pending={false}
+                        errored={false}
+                        filtered={false}
+                    />
+                </Container>
             )}
         </Container>
     );
