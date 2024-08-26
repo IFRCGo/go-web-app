@@ -24,7 +24,10 @@ import Link from '#components/Link';
 import WikiLink from '#components/WikiLink';
 import { environment } from '#config';
 import { type components } from '#generated/riskTypes';
-import { hazardTypeToColorMap } from '#utils/domain/risk';
+import {
+    hazardTypeToColorMap,
+    ImminentEventSource,
+} from '#utils/domain/risk';
 
 import Gdacs from './Gdacs';
 import MeteoSwiss from './MeteoSwiss';
@@ -34,7 +37,6 @@ import WfpAdam from './WfpAdam';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-export type ImminentEventSource = 'pdc' | 'wfpAdam' | 'gdacs' | 'meteoSwiss';
 type HazardType = components<'read'>['schemas']['HazardTypeEnum'];
 
 type BaseProps = {

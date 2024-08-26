@@ -8,7 +8,10 @@ import type { LngLatBoundsLike } from 'mapbox-gl';
 
 import type { EventPointFeature } from '#components/domain/RiskImminentEventMap';
 import RiskImminentEventMap from '#components/domain/RiskImminentEventMap';
-import { isValidFeatureCollection } from '#utils/domain/risk';
+import {
+    ImminentEventSource,
+    isValidFeatureCollection,
+} from '#utils/domain/risk';
 import {
     type RiskApiResponse,
     useRiskLazyRequest,
@@ -36,6 +39,7 @@ function getLayerType(geometryType: GeoJSON.Geometry['type']) {
 type BaseProps = {
     title: React.ReactNode;
     bbox: LngLatBoundsLike | undefined;
+    activeView: ImminentEventSource;
 }
 
 type Props = BaseProps & ({
@@ -53,6 +57,7 @@ function MeteoSwiss(props: Props) {
         title,
         bbox,
         variant,
+        activeView,
     } = props;
 
     const {
@@ -193,6 +198,7 @@ function MeteoSwiss(props: Props) {
             activeEventExposure={exposureResponse}
             activeEventExposurePending={exposureResponsePending}
             onActiveEventChange={handleActiveEventChange}
+            activeView={activeView}
         />
     );
 }

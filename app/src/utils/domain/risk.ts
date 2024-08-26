@@ -32,6 +32,7 @@ import {
 } from '#utils/constants';
 import { type RiskApiResponse } from '#utils/restRequest';
 
+export type ImminentEventSource = 'pdc' | 'wfpAdam' | 'gdacs' | 'meteoSwiss';
 export type HazardType = components<'read'>['schemas']['HazardTypeEnum'];
 type IpcEstimationType = components<'read'>['schemas']['EstimationTypeEnum'];
 type CountrySeasonal = RiskApiResponse<'/api/v1/country-seasonal/'>;
