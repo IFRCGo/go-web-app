@@ -11,13 +11,13 @@
         "eventDetailsValueExposed": "Value (USD) of exposed buildings",
         "eventDetailsSchoolExposed": "Schools exposed",
         "eventHospitalsExposed": "Hospital exposed",
-        "eventLayerTitle": "Layers",
-        "eventChartTitle": "Data presenting wind speed/date",
-        "eventDetailsKm": "{point} Km/h on {pointDate}",
-        "eventChartLabel": "Wind speed over time",
-        "eventLayerNodes": "Nodes",
-        "eventLayerTracks": "Tracks",
-        "eventLayerBuffers": "Buffers",
-        "eventLayerForecastUncertainty": "Forecast Uncertainty"
+        "pdcEventLayerTitle": "Layers",
+        "pdcEventChartTitle": "Data presenting wind speed/date",
+        "pdcEventDetailsKm": "{point} Km/h on {pointDate}",
+        "pdcEventChartLabel": "Wind speed over time",
+        "pdcEventLayerNodes": "Nodes",
+        "pdcEventLayerTracks": "Tracks",
+        "pdcEventLayerBuffers": "Buffers",
+        "pdcEventLayerForecastUncertainty": "Forecast Uncertainty"
     }
 }

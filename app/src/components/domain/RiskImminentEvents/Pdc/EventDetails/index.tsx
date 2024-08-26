@@ -76,19 +76,19 @@ function EventDetails(props: Props) {
     const options: Option[] = useMemo(() => [
         {
             key: NODES,
-            label: strings.eventLayerNodes,
+            label: strings.pdcEventLayerNodes,
         },
         {
             key: TRACKS,
-            label: strings.eventLayerTracks,
+            label: strings.pdcEventLayerTracks,
         },
         {
             key: BUFFERS,
-            label: strings.eventLayerBuffers,
+            label: strings.pdcEventLayerBuffers,
         },
         {
             key: UNCERTAINTY,
-            label: strings.eventLayerForecastUncertainty,
+            label: strings.pdcEventLayerForecastUncertainty,
         },
     ], [strings]);
     interface Exposure {
@@ -264,7 +264,7 @@ function EventDetails(props: Props) {
                 </>
             )}
             {showLayers && hazard_type === 'TC' && (
-                <Container heading={strings.eventLayerTitle}>
+                <Container heading={strings.pdcEventLayerTitle}>
                     <List
                         className={styles.layerDetail}
                         data={options}
@@ -280,7 +280,7 @@ function EventDetails(props: Props) {
                 </Container>
             )}
             {stormPoints && stormPoints.length > 0 && isDefined(maxWindSpeed) && (
-                <Container heading={strings.eventChartTitle}>
+                <Container heading={strings.pdcEventChartTitle}>
                     {/* TODO: use proper svg charts */}
                     <div className={styles.windSpeedChart}>
                         <div className={styles.barListContainer}>
@@ -292,7 +292,7 @@ function EventDetails(props: Props) {
                                     >
                                         <Tooltip
                                             description={resolveToString(
-                                                strings.eventDetailsKm,
+                                                strings.pdcEventDetailsKm,
                                                 {
                                                     point: point.windSpeed ?? '--',
                                                     pointDate: point.date.toLocaleString() ?? '--',
@@ -308,7 +308,7 @@ function EventDetails(props: Props) {
                             )}
                         </div>
                         <div className={styles.chartLabel}>
-                            {strings.eventChartLabel}
+                            {strings.pdcEventChartLabel}
                         </div>
                     </div>
                 </Container>

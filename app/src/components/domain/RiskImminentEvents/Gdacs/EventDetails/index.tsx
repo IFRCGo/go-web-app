@@ -113,19 +113,19 @@ function EventDetails(props: Props) {
     const options: Option[] = useMemo(() => [
         {
             key: NODES,
-            label: strings.eventLayerNodes,
+            label: strings.gdacsEventLayerNodes,
         },
         {
             key: TRACKS,
-            label: strings.eventLayerTracks,
+            label: strings.gdacsEventLayerTracks,
         },
         {
             key: BUFFERS,
-            label: strings.eventLayerBuffers,
+            label: strings.gdacsEventLayerBuffers,
         },
         {
             key: UNCERTAINTY,
-            label: strings.eventLayerForecastUncertainty,
+            label: strings.gdacsEventLayerForecastUncertainty,
         },
     ], [strings]);
 
@@ -226,7 +226,7 @@ function EventDetails(props: Props) {
                     </Link>
                 )}
             {eventDetails?.eventtype === 'TC' && (
-                <Container heading="Layers">
+                <Container heading={strings.gdacsEventLayerTitle}>
                     <List
                         className={styles.layerDetail}
                         data={options}
