@@ -11,10 +11,11 @@
         "eventImpactLabel": "Impact",
         "eventSeverityLabel": "Severity",
         "eventAlertType": "Alert Type",
-        "eventLayerNodes": "Nodes",
-        "eventLayerTracks": "Tracks",
-        "eventLayerBuffers": "Buffers",
-        "eventLayerForecastUncertainty": "Forecast Uncertainty"
+        "gdacsEventLayerTitle": "Layers",
+        "gdacsEventLayerNodes": "Nodes",
+        "gdacsEventLayerTracks": "Tracks",
+        "gdacsEventLayerBuffers": "Buffers",
+        "gdacsEventLayerForecastUncertainty": "Forecast Uncertainty"
     }
 }
 
