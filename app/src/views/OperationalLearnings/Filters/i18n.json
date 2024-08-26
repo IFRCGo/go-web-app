@@ -1,13 +1,19 @@
 {
     "namespace": "operationalLearningsFilters",
     "strings": {
-    "filterRegionsPlaceholder": "Region",
-    "filterCountryPlaceholder": "Country",
-    "filterDisasterTypePlaceholder": "Disaster Types",
-    "filterBySectorPlaceholder": "By Sector",
-    "filterByComponentPlaceholder": "By Component",
-    "filterOpsLearningsSearchPlaceholder":"Search Operational Learnings",
-    "opsLearningsFilterClear":"Clear",
-    "opsLearningsSelectedFilterView":"Selected Filters :"
+        "filterRegionsLabel": "Region",
+        "filterRegionsPlaceholder": "All Regions",
+        "filterCountryLabel": "Country",
+        "filterCountryPlaceholder": "All Countries",
+        "filterDisasterTypeLabel": "Disaster Type",
+        "filterDisasterTypePlaceholder": "All Disaster Types",
+        "filterBySectorLabel": "Sector",
+        "filterBySectorPlaceholder": "All Sectors",
+        "filterByComponentLabel": "Component",
+        "filterByComponentPlaceholder": "All Components",
+        "filterOpsLearningsSearchLabel": "Search Appeals and Extracts",
+        "filterOpsLearningsSearchPlaceholder": "Search Appeals and Extracts",
+        "appealStartDate": "Appeal Start Date",
+        "appealEndDate": "Appeal End Date"
     }
 }
