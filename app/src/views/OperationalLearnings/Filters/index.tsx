@@ -27,11 +27,11 @@ export type FilterValue = Partial<{
     region: RegionOption['key'],
     country: CountryOption['id'],
     disasterType: DisasterTypeItem['id'],
-    startDateBefore: string,
-    sector: SecondarySector['key'],
-    component: PerComponent['id'],
-    startDate: string,
-    search: string;
+    secondarySector: SecondarySector['key'],
+    perComponent: PerComponent['id'],
+    appealStartDateAfter: string,
+    appealStartDateBefore: string,
+    appealSearchText: string;
 }>
 
 export type FilterLabel = Partial<{
@@ -53,7 +53,7 @@ function Filters(props: Props) {
     const strings = useTranslation(i18n);
     const regions = useRegion();
 
-    const [primarySectorOptions, primarySectorOptionsPending] = useSecondarySector();
+    const [secondarySectorOptions, secondarySectorOptionsPending] = useSecondarySector();
     const [perComponentOptions, perComponentOptionsPending] = usePerComponent();
 
     const handleRegionSelect = useCallback((
@@ -89,9 +89,9 @@ function Filters(props: Props) {
         onChange(newValue, key, selectedDisasterType?.name);
     }, [onChange]);
 
-    const handleSectorSelect = useCallback((
+    const handleSecondarySectorSelect = useCallback((
         newValue: SecondarySector['key'] | undefined,
-        key: 'sector',
+        key: 'secondarySector',
         selectedSector: SecondarySector | undefined,
     ) => {
         onChange(newValue, key, selectedSector?.label);
@@ -99,7 +99,7 @@ function Filters(props: Props) {
 
     const handleComponentSelect = useCallback((
         newValue: PerComponent['id'] | undefined,
-        key: 'component',
+        key: 'perComponent',
         selectedComponent: PerComponent | undefined,
     ) => {
         onChange(
@@ -109,63 +109,109 @@ function Filters(props: Props) {
         );
     }, [onChange]);
 
+    const handleStartDateSelect = useCallback((
+        newValue: string | undefined,
+        key: 'appealStartDateAfter',
+    ) => {
+        onChange(
+            newValue,
+            key,
+            newValue,
+        );
+    }, [onChange]);
+
+    const handleEndDateSelect = useCallback((
+        newValue: string | undefined,
+        key: 'appealStartDateBefore',
+    ) => {
+        onChange(
+            newValue,
+            key,
+            newValue,
+        );
+    }, [onChange]);
+
+    const handleSearch = useCallback((
+        newValue: string | undefined,
+        key: 'appealSearchText',
+    ) => {
+        onChange(
+            newValue,
+            key,
+        );
+    }, [onChange]);
+
     return (
         <>
             <RegionSelectInput
-                placeholder={strings.filterRegionsPlaceholder}
                 name="region"
+                label={strings.filterRegionsLabel}
+                placeholder={strings.filterRegionsPlaceholder}
                 value={value.region}
                 onChange={handleRegionSelect}
                 disabled={disabled}
             />
             <CountrySelectInput
-                placeholder={strings.filterCountryPlaceholder}
                 name="country"
+                label={strings.filterCountryLabel}
+                placeholder={strings.filterCountryPlaceholder}
                 value={value.country}
                 regionId={value.region}
                 onChange={handleCountrySelect}
                 disabled={disabled}
             />
             <DisasterTypeSelectInput
-                placeholder={strings.filterDisasterTypePlaceholder}
                 name="disasterType"
+                label={strings.filterDisasterTypeLabel}
+                placeholder={strings.filterDisasterTypePlaceholder}
                 value={value.disasterType}
                 onChange={handleDisasterTypeSelect}
                 disabled={disabled}
             />
             <SelectInput
+                name="secondarySector"
+                label={strings.filterBySectorLabel}
                 placeholder={strings.filterBySectorPlaceholder}
-                name="sector"
                 keySelector={sectorKeySelector}
                 labelSelector={sectorLabelSelector}
-                options={primarySectorOptions}
-                optionsPending={primarySectorOptionsPending}
-                disabled={primarySectorOptionsPending || disabled}
-                value={value.sector}
-                onChange={handleSectorSelect}
+                options={secondarySectorOptions}
+                optionsPending={secondarySectorOptionsPending}
+                disabled={secondarySectorOptionsPending || disabled}
+                value={value.secondarySector}
+                onChange={handleSecondarySectorSelect}
 
             />
             <SelectInput
+                name="perComponent"
+                label={strings.filterByComponentLabel}
                 placeholder={strings.filterByComponentPlaceholder}
-                name="component"
                 options={perComponentOptions}
                 keySelector={perComponentKeySelector}
                 labelSelector={getFormattedComponentName}
                 disabled={perComponentOptionsPending || disabled}
-                value={value.component}
+                value={value.perComponent}
                 onChange={handleComponentSelect}
             />
             <DateInput
-                name="startDateBefore"
-                onChange={onChange}
-                value={value.startDate}
+                name="appealStartDateAfter"
+                label={strings.appealStartDate}
+                onChange={handleStartDateSelect}
+                value={value.appealStartDateAfter}
+                disabled={disabled}
+            />
+            <DateInput
+                name="appealStartDateBefore"
+                label={strings.appealEndDate}
+                onChange={handleEndDateSelect}
+                value={value.appealStartDateBefore}
                 disabled={disabled}
             />
             <TextInput
-                name="search"
+                name="appealSearchText"
+                label={strings.filterOpsLearningsSearchLabel}
                 placeholder={strings.filterOpsLearningsSearchPlaceholder}
-                value={value.search}
-                onChange={onChange}
+                value={value.appealSearchText}
+                onChange={handleSearch}
                 icons={<SearchLineIcon />}
                 disabled={disabled}
             />
