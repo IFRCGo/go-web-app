@@ -12,12 +12,14 @@ import {
     TabList,
     TabPanel,
     Tabs,
+    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { numericIdSelector } from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
+    isTruthyString,
     mapToList,
 } from '@togglecorp/fujs';
 import { EntriesAsList } from '@togglecorp/toggle-form';
@@ -38,9 +40,12 @@ import KeyInsights from './KeyInsights';
 import Summary, { type Props as SummaryProps } from './Summary';
 
 import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 type SummaryStatusEnum = components<'read'>['schemas']['OpsLearningSummaryStatusEnum'];
 
+const SUMMARY_STATUS_PENDING = 1 satisfies SummaryStatusEnum;
+const SUMMARY_STATUS_STARTED = 2 satisfies SummaryStatusEnum;
 const SUMMARY_STATUS_SUCCESS = 3 satisfies SummaryStatusEnum;
 const SUMMARY_NO_EXTRACT_AVAILBLE = 4 satisfies SummaryStatusEnum;
 const SUMMARY_STATUS_FAILED = 5 satisfies SummaryStatusEnum;
@@ -65,8 +70,11 @@ export function Component() {
 
     const {
         rawFilter,
+        filter,
+        filtered,
         setFilterField,
     } = useFilterState<FilterValue>({
+        debounceTime: 300,
         filter: {},
     });
 
@@ -100,7 +108,7 @@ export function Component() {
 
     const selectedFilterOptions = mapToList(
         selectedFilterLabel,
-        (label, key) => ({ key, label } as { key: keyof FilterValue, label: string }),
+        (label, key) => ({ key, label } as FilterValueOption),
     );
 
     const {
@@ -110,13 +118,20 @@ export function Component() {
     } = useRequest({
         url: '/api/v2/ops-learning/summary/',
         query: {
-            // appeal_code__region: isDefined(rawFilter.region) ? rawFilter.region : undefined,
-            appeal_code__country: isDefined(rawFilter.country) ? rawFilter.country : undefined,
-            appeal_code__dtype: isDefined(rawFilter.disasterType)
-                ? rawFilter.disasterType : undefined,
-            sector_validated: isDefined(rawFilter.sector) ? rawFilter.sector : undefined,
-            per_component_validated: isDefined(rawFilter.component)
-                ? rawFilter.component : undefined,
+            appeal_code__region: isDefined(filter.region) ? filter.region : undefined,
+            appeal_code__country: isDefined(filter.country) ? filter.country : undefined,
+            appeal_code__dtype: isDefined(filter.disasterType)
+                ? filter.disasterType : undefined,
+            sector_validated: isDefined(filter.secondarySector)
+                ? filter.secondarySector : undefined,
+            per_component_validated: isDefined(filter.perComponent)
+                ? filter.perComponent : undefined,
+            appeal_code__start_date__gte: isDefined(filter.appealStartDateAfter)
+                ? filter.appealStartDateAfter : undefined,
+            appeal_code__start_date__lte: isDefined(filter.appealStartDateBefore)
+                ? filter.appealStartDateBefore : undefined,
+            search: isTruthyString(filter.appealSearchText)
+                ? (filter.appealSearchText) : undefined,
         },
         shouldPoll: (poll) => {
             if (poll?.errored
@@ -160,23 +175,23 @@ export function Component() {
     ): ChipProps<keyof FilterValue> => ({
         label: option.label,
         name: key,
-        variant: 'primary' as const,
+        variant: 'tertiary' as const,
         onDelete: handleFilterRemove,
     }), [handleFilterRemove]);
-
-    const filtersSelected = isDefined(rawFilter.country)
-        || isDefined(rawFilter.disasterType)
-        || isDefined(rawFilter.sector)
-        || isDefined(rawFilter.component);
 
     const showKeyInsights = isDefined(opsLearningSummaryResponse?.insights1_title)
         && isDefined(opsLearningSummaryResponse.insights2_title)
         && isDefined(opsLearningSummaryResponse.insights3_title);
 
+    const pendingMessage = opsLearningSummaryPending
+        || (opsLearningSummaryResponse?.status === SUMMARY_STATUS_PENDING)
+        ? strings.pendingMessage : strings.startedMessage;
+
     return (
         <Page
             heading={strings.operationalLearningsHeading}
             description={strings.operationalLearningsHeadingDescription}
+            mainSectionClassName={styles.mainSection}
         >
             <Container
                 withGridViewInFilter
@@ -186,62 +201,90 @@ export function Component() {
                         onChange={handleFilterChange}
                     />
                 )}
-                footerIcons={(
-                    <RawList<FilterValueOption, keyof FilterValue, ChipProps<keyof FilterValue>>
-                        data={selectedFilterOptions}
-                        renderer={Chip}
-                        keySelector={filterValueOptionKeySelector}
-                        rendererParams={chipRendererParams}
+                footerIcons={((selectedFilterOptions?.length ?? 0) > 0 && (
+                    <TextOutput
+                        className={styles.selectedFilters}
+                        valueClassName={styles.options}
+                        value={(
+                            <RawList<
+                                FilterValueOption,
+                                keyof FilterValue,
+                                ChipProps<keyof FilterValue
+                                >>
+                                data={selectedFilterOptions}
+                                renderer={Chip}
+                                keySelector={filterValueOptionKeySelector}
+                                rendererParams={chipRendererParams}
+                            />
+                        )}
+                        label={strings.selectedFilters}
                     />
-                )}
+                ))}
             />
-            {showKeyInsights && filtersSelected && (
+            {showKeyInsights && (
                 <KeyInsights
                     opsLearningSummaryResponse={opsLearningSummaryResponse}
                 />
             )}
-            <Tabs
-                onChange={setActiveTab}
-                value={activeTab}
-                variant="tertiary"
+            <Container
+                pending={opsLearningSummaryPending
+                    || opsLearningSummaryResponse?.status === SUMMARY_STATUS_PENDING
+                    || opsLearningSummaryResponse?.status === SUMMARY_STATUS_STARTED}
+                pendingMessage={pendingMessage}
+                errored={isDefined(opsLearningSummaryError)
+                    || opsLearningSummaryResponse?.status === SUMMARY_STATUS_FAILED}
+                errorMessage={strings.errorMessage}
+                filtered={filtered}
+                empty={isDefined(opsLearningSummaryResponse) && ((
+                    opsLearningSummaryResponse?.components.length < 1
+                    && opsLearningSummaryResponse?.sectors.length < 1
+                ) || opsLearningSummaryResponse?.status === SUMMARY_NO_EXTRACT_AVAILBLE)}
+                emptyMessage={strings.emptyMessage}
+                filteredEmptyMessage={strings.filteredEmptyMessage}
             >
-                <Container
-                    heading={(
-                        <TabList>
-                            <Tab name="bySector">{strings.bySectorTitle}</Tab>
-                            <Tab name="byComponent">{strings.byComponentTitle}</Tab>
-                        </TabList>
-                    )}
-                />
-                <TabPanel
-                    name="bySector"
+                <Tabs
+                    onChange={setActiveTab}
+                    value={activeTab}
+                    variant="tertiary"
                 >
-                    <List
-                        data={opsLearningSummaryResponse?.sectors}
-                        renderer={Summary}
-                        keySelector={numericIdSelector}
-                        rendererParams={sectorSummaryRendererParams}
-                        emptyMessage="No summary"
-                        errored={isDefined(opsLearningSummaryError)}
-                        pending={opsLearningSummaryPending}
-                        filtered={false}
+                    <Container
+                        heading={(
+                            <TabList>
+                                <Tab name="bySector">{strings.bySectorTitle}</Tab>
+                                <Tab name="byComponent">{strings.byComponentTitle}</Tab>
+                            </TabList>
+                        )}
                     />
-                </TabPanel>
-                <TabPanel
-                    name="byComponent"
-                >
-                    <List
-                        data={opsLearningSummaryResponse?.components}
-                        renderer={Summary}
-                        keySelector={numericIdSelector}
-                        rendererParams={componentSummaryRendererParams}
-                        emptyMessage="No summary"
-                        errored={isDefined(opsLearningSummaryError)}
-                        pending={opsLearningSummaryPending}
-                        filtered={false}
-                    />
-                </TabPanel>
-            </Tabs>
+                    <TabPanel
+                        name="bySector"
+                    >
+                        <List
+                            data={opsLearningSummaryResponse?.sectors}
+                            renderer={Summary}
+                            keySelector={numericIdSelector}
+                            rendererParams={sectorSummaryRendererParams}
+                            emptyMessage="No summary"
+                            errored={isDefined(opsLearningSummaryError)}
+                            pending={opsLearningSummaryPending}
+                            filtered={false}
+                        />
+                    </TabPanel>
+                    <TabPanel
+                        name="byComponent"
+                    >
+                        <List
+                            data={opsLearningSummaryResponse?.components}
+                            renderer={Summary}
+                            keySelector={numericIdSelector}
+                            rendererParams={componentSummaryRendererParams}
+                            emptyMessage="No summary"
+                            errored={isDefined(opsLearningSummaryError)}
+                            pending={opsLearningSummaryPending}
+                            filtered={false}
+                        />
+                    </TabPanel>
+                </Tabs>
+            </Container>
         </Page>
     );
 }

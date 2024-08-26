@@ -1,9 +1,16 @@
 {
     "namespace": "operationalLearnings",
     "strings": {
-    "operationalLearningsHeading":"Operational Learnings",
-    "operationalLearningsHeadingDescription":"Operational learnings in emergencies are the lessons learned from managing and dealing with crises, refining protocols for resource allocation, decision-making, communication strategies, and others.  The summaries are generated using AI and Large Language Models, based on data coming from Final DREF Reports, Emergency Appeal reports and others.",
-    "byComponentTitle":"Component",
-    "bySectorTitle":"Sector"
+        "operationalLearningsHeading":"Operational Learnings",
+        "operationalLearningsHeadingDescription":"Operational learnings in emergencies are the lessons learned from managing and dealing with crises, refining protocols for resource allocation, decision-making, communication strategies, and others.  The summaries are generated using AI and Large Language Models, based on data coming from Final DREF Reports, Emergency Appeal reports and others.",
+        "byComponentTitle": "Component",
+        "bySectorTitle": "Sector",
+        "pendingMessage": "Request for generating operational learning summary is currently pending. Please wait a moment.",
+        "startedMessage": "Process of generating operational learning summary has started. This may take a few moments.",
+        "errorMessage": "Encountered an error while attempting to generate operational learning summary. Please try again later. If the issue continues, please contact the IFRC team.",
+        "emptyMessage": "There are no summaries available at the moment. Please adjust your filters or try again later.",
+        "filteredEmptyMessage": "Current filters did not return any operational learning summaries. Please try adjusting your filters or clearing them to see if there are any available operational learning summaries.",
+        "selectedFilters": "Selected Filters",
+        "clearFilters": "Clear Filters"
     }
 }
