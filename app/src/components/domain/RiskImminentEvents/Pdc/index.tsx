@@ -8,6 +8,7 @@ import { type LngLatBoundsLike } from 'mapbox-gl';
 
 import RiskImminentEventMap, { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
 import {
+    ImminentEventSource,
     isValidFeature,
     isValidPointFeature,
 } from '#utils/domain/risk';
@@ -17,7 +18,6 @@ import {
     useRiskRequest,
 } from '#utils/restRequest';
 
-import { ImminentEventSource } from '..';
 import EventDetails from './EventDetails';
 import EventListItem from './EventListItem';
 

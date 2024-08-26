@@ -12,10 +12,11 @@ import {
 } from '@togglecorp/fujs';
 import getBbox from '@turf/bbox';
 
-import RiskImminentEvents, { type ImminentEventSource } from '#components/domain/RiskImminentEvents';
+import RiskImminentEvents from '#components/domain/RiskImminentEvents';
 import Link from '#components/Link';
 import WikiLink from '#components/WikiLink';
 import useInputState from '#hooks/useInputState';
+import { ImminentEventSource } from '#utils/domain/risk';
 import type { CountryOutletContext } from '#utils/outletContext';
 import { useRiskRequest } from '#utils/restRequest';
 

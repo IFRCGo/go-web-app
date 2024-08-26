@@ -37,8 +37,8 @@ import {
     DEFAULT_MAP_PADDING,
     DURATION_MAP_ZOOM,
 } from '#utils/constants';
+import { ImminentEventSource } from '#utils/domain/risk';
 
-import { ImminentEventSource } from '../RiskImminentEvents';
 import GdacsMap from '../RiskImminentEvents/Gdacs/GdacsMap';
 import PdcMap from '../RiskImminentEvents/Pdc/PdcMap';
 import {
