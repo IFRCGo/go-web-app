@@ -65,13 +65,15 @@ function Sources(props: Props) {
         preserveResponse: true,
     });
 
-    const appealsRendererParams = (_: number, learning: OpsLearning): ContainerProps => ({
-        childrenContainerClassName: styles.childrenContainer,
+    const appealRendererParams = (_: number, learning: OpsLearning): ContainerProps => ({
+        childrenContainerClassName: styles.appeal,
         children: (
             <>
                 <Link
                     to="emergencyDetails"
-                    urlParams={{ emergencyId: learning.appeal?.atype }} // TODO: fix type in server
+                    urlParams={{
+                        emergencyId: learning.appeal?.event_details?.id,
+                    }}
                     withUnderline
                 >
                     {learning.appeal?.event_details?.name}
@@ -91,6 +93,7 @@ function Sources(props: Props) {
 
     return (
         <Container
+            className={styles.sources}
             footerContent={(
                 <Pager
                     activePage={opsLearningActivePage}
@@ -99,14 +102,17 @@ function Sources(props: Props) {
                     maxItemsPerPage={opsLearningLimit}
                 />
             )}
+            withInternalPadding
+            childrenContainerClassName={styles.content}
             errored={isDefined(opsLearningError)}
             pending={opsLearningPending}
         >
             <List
+                className={styles.appealList}
                 data={opsLearningResponse?.results}
                 renderer={Container}
                 keySelector={numericIdSelector}
-                rendererParams={appealsRendererParams}
+                rendererParams={appealRendererParams}
                 emptyMessage="No appeals"
                 errored={isDefined(opsLearningError)}
                 pending={false}
