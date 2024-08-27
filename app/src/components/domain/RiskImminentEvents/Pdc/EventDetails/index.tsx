@@ -28,7 +28,8 @@ import {
     isValidPointFeature,
     NODES,
     TRACKS,
-    UNCERTAINTY,
+    UNCERTAINTY_FIVE_DAYS,
+    UNCERTAINTY_THREE_DAYS,
 } from '#utils/domain/risk';
 import { type RiskApiResponse } from '#utils/restRequest';
 
@@ -51,7 +52,7 @@ interface Props {
     exposure: PdcExposure | undefined;
     pending: boolean;
     onLayerChange: (value: boolean, name: number) => void;
-    layer: {[key: string]: boolean};
+    layer: Record<number, boolean>;
 }
 
 function EventDetails(props: Props) {
@@ -72,7 +73,6 @@ function EventDetails(props: Props) {
 
     const strings = useTranslation(i18n);
 
-    // TODO: hide layer if data is not available
     const options: Option[] = useMemo(() => [
         {
             key: NODES,
@@ -87,8 +87,12 @@ function EventDetails(props: Props) {
             label: strings.pdcEventLayerBuffers,
         },
         {
-            key: UNCERTAINTY,
-            label: strings.pdcEventLayerForecastUncertainty,
+            key: UNCERTAINTY_FIVE_DAYS,
+            label: strings.pdcEventLayerForecastUncertaintyFiveDays,
+        },
+        {
+            key: UNCERTAINTY_THREE_DAYS,
+            label: strings.pdcEventLayerForecastUncertaintyThreeDays,
         },
     ], [strings]);
     interface Exposure {
@@ -270,7 +274,7 @@ function EventDetails(props: Props) {
                         data={options}
                         renderer={LayerDetails}
                         rendererParams={layerRendererParams}
-                        keySelector={(item) => item.key}
+                        keySelector={(item: Option) => item.key}
                         withoutMessage
                         compact
                         pending={false}

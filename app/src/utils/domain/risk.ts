@@ -43,6 +43,8 @@ export const NODES = 1;
 export const TRACKS = 2;
 export const BUFFERS = 3;
 export const UNCERTAINTY = 4;
+export const UNCERTAINTY_FIVE_DAYS = 5;
+export const UNCERTAINTY_THREE_DAYS = 6;
 
 export const hazardTypeToColorMap: Record<HazardType, string> = {
     EQ: COLOR_HAZARD_EARTHQUAKE,

@@ -11,7 +11,8 @@ import {
     HazardType,
     NODES,
     TRACKS,
-    UNCERTAINTY,
+    UNCERTAINTY_FIVE_DAYS,
+    UNCERTAINTY_THREE_DAYS,
 } from '#utils/domain/risk';
 
 import {
@@ -21,13 +22,14 @@ import {
     trackPointIconLayer,
     trackPointLabelLayer,
     trackPointLayer,
-    uncertaintyTrackOutlineLayer,
+    uncertaintyFiveDaysTrackOutlineLayer,
+    uncertaintyThreeDaysTrackOutlineLayer,
 } from './mapStyles';
 
 interface Props {
     activeEventFootprint: GeoJSON.FeatureCollection<GeoJSON.Geometry> | undefined;
     hazardType: HazardType | undefined;
-    layers:{[key: string]: boolean};
+    layers: Record<number, boolean>;
 }
 
 function PdcMap(props: Props) {
@@ -56,10 +58,16 @@ function PdcMap(props: Props) {
                             layerOptions={cycloneExposureFillLayer}
                         />
                     )}
-                    {(layers[UNCERTAINTY]) && (
+                    {(layers[UNCERTAINTY_FIVE_DAYS]) && (
                         <MapLayer
-                            layerKey="uncertainty-track-line"
-                            layerOptions={uncertaintyTrackOutlineLayer}
+                            layerKey="uncertainty-five-days-track-line"
+                            layerOptions={uncertaintyFiveDaysTrackOutlineLayer}
+                        />
+                    )}
+                    {(layers[UNCERTAINTY_THREE_DAYS]) && (
+                        <MapLayer
+                            layerKey="uncertainty-three-days-track-line"
+                            layerOptions={uncertaintyThreeDaysTrackOutlineLayer}
                         />
                     )}
                     {layers[TRACKS] && (
@@ -92,7 +100,8 @@ function PdcMap(props: Props) {
                 <MapOrder ordering={[
                     getLayerName('active-event-footprint', 'exposure-fill', true),
                     getLayerName('active-event-footprint', 'cyclone-exposure-fill', true),
-                    getLayerName('active-event-footprint', 'uncertainty-track-line', true),
+                    getLayerName('active-event-footprint', 'uncertainty-five-days-track-line', true),
+                    getLayerName('active-event-footprint', 'uncertainty-three-days-track-line', true),
                     getLayerName('active-event-footprint', 'track-outline', true),
                     getLayerName('active-event-footprint', 'track-circle', true),
                     getLayerName('active-event-footprint', 'track-point', true),

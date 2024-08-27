@@ -83,8 +83,8 @@ interface EventDetailProps<EVENT, EXPOSURE> {
     data: EVENT;
     exposure: EXPOSURE | undefined;
     pending: boolean;
+    layers: Record<number, boolean>;
     onLayerChange: (value: boolean, name: number) => void;
-    layer: {[key: string]: boolean};
 }
 
 interface Props<EVENT, EXPOSURE, KEY extends string | number> {
@@ -101,14 +101,10 @@ interface Props<EVENT, EXPOSURE, KEY extends string | number> {
     onActiveEventChange: (eventId: KEY | undefined) => void;
     activeEventExposurePending: boolean;
     activeView: ImminentEventSource;
+    layers: Record<number, boolean>;
+    onLayerChange: (value: boolean, name: number) => void;
 }
 
-const defaultLayersValue = {
-    1: true,
-    2: true,
-    3: true,
-    4: true,
-};
 function RiskImminentEventMap<
     EVENT,
     EXPOSURE,
@@ -128,12 +124,13 @@ function RiskImminentEventMap<
         onActiveEventChange,
         activeEventExposurePending,
         activeView,
+        layers,
+        onLayerChange,
     } = props;
 
     const strings = useTranslation(i18n);
 
     const [activeEventId, setActiveEventId] = useState<KEY | undefined>(undefined);
-    const [layers, setLayers] = useState<{[key: string]: boolean }>(defaultLayersValue);
     const activeEvent = useMemo(
         () => {
             if (isNotDefined(activeEventId)) {
@@ -258,13 +255,6 @@ function RiskImminentEventMap<
         [allIconsLoaded],
     );
 
-    const handleLayerChange = useCallback((value: boolean, name: number) => {
-        setLayers((prevValues) => ({
-            ...prevValues,
-            [name]: value,
-        }));
-    }, []);
-
     const getLayerBySource = useCallback((source: ImminentEventSource) => {
         if (source === 'pdc') {
             return (
@@ -378,7 +368,7 @@ function RiskImminentEventMap<
                         data={activeEvent}
                         exposure={activeEventExposure}
                         pending={activeEventExposurePending}
-                        onLayerChange={handleLayerChange}
+                        onLayerChange={onLayerChange}
                         layer={layers}
                     />
                 )}
