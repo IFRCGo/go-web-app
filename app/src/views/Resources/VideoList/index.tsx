@@ -21,9 +21,9 @@ function VideoList() {
         },
         {
             id: 2,
-            embedId: 'https://www.youtube.com/embed/RzP9jZqt-Zk',
-            heading: strings.videoCarouselHeadingTranslations,
-            description: strings.videoCarouselSubHeadingTranslations,
+            embedId: 'https://www.youtube.com/embed/BEWxqYfrQek',
+            heading: strings.videoCarouselHeadingMontandon,
+            description: strings.videoCarouselSubHeadingMontandon,
         },
         {
             id: 3,
@@ -33,12 +33,6 @@ function VideoList() {
         },
         {
             id: 4,
-            embedId: 'https://www.youtube.com/embed/QiDwKVr5pxg',
-            heading: strings.videoCarouselHeading3WInstructional,
-            description: strings.videoCarouselSubHeading3WInstructional,
-        },
-        {
-            id: 5,
             embedId: 'https://www.youtube.com/embed/wEz70tcwWx8',
             heading: strings.videoCarouselHeadingSubscribe,
             description: strings.videoCarouselSubHeadingSubscribe,
