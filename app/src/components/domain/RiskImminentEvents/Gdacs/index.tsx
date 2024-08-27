@@ -38,17 +38,17 @@ const defaultLayersValue: Record<string, boolean> = {
     [UNCERTAINTY]: false,
 };
 
-function getLayerType(geometryType: GeoJSON.Feature<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>) {
-    if (geometryType.geometry.type === 'Point' || geometryType.geometry.type === 'MultiPoint') {
+function getLayerType(feature: GeoJSON.Feature<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>) {
+    if (feature.geometry.type === 'Point' || feature.geometry.type === 'MultiPoint') {
         return 'track-point';
     }
 
-    if (geometryType.geometry.type === 'LineString' || geometryType.geometry.type === 'MultiLineString') {
+    if (feature.geometry.type === 'LineString' || feature.geometry.type === 'MultiLineString') {
         return 'track';
     }
 
     // Note: this is the only way to identify uncertainty in GDACS
-    if (geometryType.properties?.polygonlabel === 'Uncertainty Cones') {
+    if (feature.properties?.polygonlabel === 'Uncertainty Cones') {
         return 'uncertainty';
     }
 

@@ -1,7 +1,11 @@
-import { useMemo } from 'react';
+import {
+    useCallback,
+    useMemo,
+} from 'react';
 import {
     BlockLoading,
     Container,
+    List,
     TextOutput,
     Tooltip,
 } from '@ifrc-go/ui';
@@ -21,13 +25,24 @@ import {
 
 import Link from '#components/Link';
 import {
+    BUFFERS,
     isValidFeatureCollection,
     isValidPointFeature,
+    NODES,
+    TRACKS,
+    UNCERTAINTY,
 } from '#utils/domain/risk';
 import { type RiskApiResponse } from '#utils/restRequest';
 
+import LayerDetails, { Props as LayerInputProps } from '../../LayerDetails';
+
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+interface Option {
+    key: number;
+    label: string;
+}
 
 type WfpAdamResponse = RiskApiResponse<'/api/v1/adam-exposure/'>;
 type WfpAdamItem = NonNullable<WfpAdamResponse['results']>[number];
@@ -82,6 +97,8 @@ interface Props {
     data: WfpAdamItem;
     exposure: WfpAdamExposure | undefined;
     pending: boolean;
+    onLayerChange: (value: boolean, name: number) => void;
+    layers: Record<number, boolean>;
 }
 
 function EventDetails(props: Props) {
@@ -90,12 +107,34 @@ function EventDetails(props: Props) {
             title,
             publish_date,
             event_details,
+            hazard_type,
         },
         exposure,
         pending,
+        onLayerChange,
+        layers,
     } = props;
 
     const strings = useTranslation(i18n);
+
+    const options: Option[] = useMemo(() => [
+        {
+            key: NODES,
+            label: strings.wfpEventLayerNodes,
+        },
+        {
+            key: TRACKS,
+            label: strings.wfpEventLayerTracks,
+        },
+        {
+            key: BUFFERS,
+            label: strings.wfpEventLayerBuffers,
+        },
+        {
+            key: UNCERTAINTY,
+            label: strings.wfpEventLayerForecastUncertainty,
+        },
+    ], [strings]);
 
     const stormPoints = useMemo(
         () => {
@@ -144,6 +183,15 @@ function EventDetails(props: Props) {
         [exposure],
     );
 
+    const layerRendererParams = useCallback(
+        (_: number, layerOptions: Option): LayerInputProps => ({
+            options: layerOptions,
+            value: layers,
+            onChange: onLayerChange,
+
+        }),
+        [layers, onLayerChange],
+    );
     const eventDetails = event_details as WfpAdamEventDetails | undefined;
 
     // eslint-disable-next-line max-len
@@ -174,38 +222,6 @@ function EventDetails(props: Props) {
             )}
         >
             {pending && <BlockLoading />}
-            {stormPoints && stormPoints.length > 0 && isDefined(maxWindSpeed) && (
-                /* TODO: use proper svg charts */
-                <div className={styles.windSpeedChart}>
-                    <div className={styles.barListContainer}>
-                        {stormPoints.map(
-                            (point) => (
-                                <div
-                                    key={point.id}
-                                    className={styles.barContainer}
-                                >
-                                    <Tooltip
-                                        description={resolveToString(
-                                            strings.wfpEventDetailsKm,
-                                            {
-                                                point: point.windSpeed ?? '--',
-                                                pointDate: point.date.toLocaleString() ?? '--',
-                                            },
-                                        )}
-                                    />
-                                    <div
-                                        style={{ height: `${getPercentage(point.windSpeed, maxWindSpeed)}%` }}
-                                        className={styles.bar}
-                                    />
-                                </div>
-                            ),
-                        )}
-                    </div>
-                    <div className={styles.chartLabel}>
-                        {strings.wfpChartLabel}
-                    </div>
-                </div>
-            )}
             {isDefined(eventDetails)
                 && (isDefined(eventDetails.url) || isDefined(eventDetails.dashboard_url)) && (
                 <Container
@@ -387,6 +403,56 @@ function EventDetails(props: Props) {
                     />
                 )}
             </div>
+            {hazard_type === 'TC' && (
+                <Container heading={strings.wfpEventLayerTitle}>
+                    <List
+                        className={styles.layerDetail}
+                        data={options}
+                        renderer={LayerDetails}
+                        rendererParams={layerRendererParams}
+                        keySelector={(item: Option) => item.key}
+                        withoutMessage
+                        compact
+                        pending={false}
+                        errored={false}
+                        filtered={false}
+                    />
+                </Container>
+            )}
+            {stormPoints && stormPoints.length > 0 && isDefined(maxWindSpeed) && (
+                <Container heading={strings.wfpEventChartTitle}>
+                    {/* TODO: use proper svg charts */}
+                    <div className={styles.windSpeedChart}>
+                        <div className={styles.barListContainer}>
+                            {stormPoints.map(
+                                (point) => (
+                                    <div
+                                        key={point.id}
+                                        className={styles.barContainer}
+                                    >
+                                        <Tooltip
+                                            description={resolveToString(
+                                                strings.wfpEventDetailsKm,
+                                                {
+                                                    point: point.windSpeed ?? '--',
+                                                    pointDate: point.date.toLocaleString() ?? '--',
+                                                },
+                                            )}
+                                        />
+                                        <div
+                                            style={{ height: `${getPercentage(point.windSpeed, maxWindSpeed)}%` }}
+                                            className={styles.bar}
+                                        />
+                                    </div>
+                                ),
+                            )}
+                        </div>
+                        <div className={styles.chartLabel}>
+                            {strings.wfpChartLabel}
+                        </div>
+                    </div>
+                </Container>
+            )}
         </Container>
     );
 }

@@ -1,4 +1,8 @@
-import { useCallback } from 'react';
+import {
+    useCallback,
+    useMemo,
+    useState,
+} from 'react';
 import { numericIdSelector } from '@ifrc-go/ui/utils';
 import {
     isDefined,
@@ -8,8 +12,12 @@ import { type LngLatBoundsLike } from 'mapbox-gl';
 
 import RiskImminentEventMap, { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
 import {
+    BUFFERS,
     ImminentEventSource,
     isValidFeatureCollection,
+    NODES,
+    TRACKS,
+    UNCERTAINTY,
 } from '#utils/domain/risk';
 import {
     type RiskApiResponse,
@@ -23,13 +31,24 @@ import EventListItem from './EventListItem';
 type ImminentEventResponse = RiskApiResponse<'/api/v1/adam-exposure/'>;
 type EventItem = NonNullable<ImminentEventResponse['results']>[number];
 
-function getLayerType(geometryType: GeoJSON.Geometry['type']) {
-    if (geometryType === 'Point' || geometryType === 'MultiPoint') {
+const defaultLayersValue: Record<string, boolean> = {
+    [NODES]: false,
+    [TRACKS]: false,
+    [BUFFERS]: false,
+    [UNCERTAINTY]: false,
+};
+
+function getLayerType(feature: GeoJSON.Feature<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>) {
+    if (feature.geometry.type === 'Point' || feature.geometry.type === 'MultiPoint') {
         return 'track-point';
     }
 
-    if (geometryType === 'LineString' || geometryType === 'MultiLineString') {
+    if (feature.geometry.type === 'LineString' || feature.geometry.type === 'MultiLineString') {
         return 'track';
+    }
+
+    if (feature.properties?.alert_level === 'Cones') {
+        return 'uncertainty';
     }
 
     return 'exposure';
@@ -58,6 +77,8 @@ function WfpAdam(props: Props) {
         variant,
         activeView,
     } = props;
+
+    const [layers, setLayers] = useState<Record<number, boolean>>(defaultLayersValue);
 
     const {
         pending: pendingCountryRiskResponse,
@@ -89,6 +110,60 @@ function WfpAdam(props: Props) {
         url: '/api/v1/adam-exposure/{id}/exposure/',
         pathVariables: ({ eventId }) => ({ id: Number(eventId) }),
     });
+
+    useMemo(() => {
+        if (isNotDefined(exposureResponse)) {
+            return undefined;
+        }
+
+        const { storm_position_geojson } = exposureResponse;
+
+        if (isNotDefined(storm_position_geojson)) {
+            return undefined;
+        }
+
+        const stormPositions = isValidFeatureCollection(storm_position_geojson)
+            ? storm_position_geojson
+            : undefined;
+
+        return stormPositions?.features?.map(
+            (feature) => {
+                if (feature.geometry.type === 'Point' || feature.geometry.type === 'MultiPoint') {
+                    setLayers((prevLayers) => ({
+                        ...prevLayers,
+                        [NODES]: true,
+                    }));
+                }
+
+                if (feature.geometry.type === 'LineString' || feature.geometry.type === 'MultiLineString') {
+                    setLayers((prevLayers) => ({
+                        ...prevLayers,
+                        [TRACKS]: true,
+                    }));
+                }
+
+                if (feature.properties?.alert_level === 'Cones') {
+                    setLayers((prevLayers) => ({
+                        ...prevLayers,
+                        [UNCERTAINTY]: true,
+                    }));
+                }
+
+                setLayers((prevLayers) => ({
+                    ...prevLayers,
+                    [BUFFERS]: true,
+                }));
+                return null;
+            },
+        );
+    }, [exposureResponse]);
+
+    const handleLayerChange = useCallback((value: boolean, name: number) => {
+        setLayers((prevValues) => ({
+            ...prevValues,
+            [name]: value,
+        }));
+    }, []);
 
     const pointFeatureSelector = useCallback(
         (event: EventItem): EventPointFeature | undefined => {
@@ -150,7 +225,7 @@ function WfpAdam(props: Props) {
                             ...feature,
                             properties: {
                                 ...feature.properties,
-                                type: getLayerType(feature.geometry.type),
+                                type: getLayerType(feature),
                             },
                         }),
                     ) ?? [],
@@ -188,6 +263,8 @@ function WfpAdam(props: Props) {
             activeEventExposurePending={exposureResponsePending}
             onActiveEventChange={handleActiveEventChange}
             activeView={activeView}
+            layers={layers}
+            onLayerChange={handleLayerChange}
         />
     );
 }

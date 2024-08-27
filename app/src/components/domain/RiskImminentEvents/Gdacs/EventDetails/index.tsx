@@ -88,7 +88,7 @@ interface Props {
     exposure: GdacsExposure | undefined;
     pending: boolean;
     onLayerChange: (value: boolean, name: number) => void;
-    layer: Record<number, boolean>;
+    layers: Record<number, boolean>;
 }
 
 function EventDetails(props: Props) {
@@ -101,7 +101,7 @@ function EventDetails(props: Props) {
         exposure,
         pending,
         onLayerChange,
-        layer,
+        layers,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -131,11 +131,11 @@ function EventDetails(props: Props) {
     const layerRendererParams = useCallback(
         (_: number, layerOptions: Option): LayerInputProps => ({
             options: layerOptions,
-            value: layer,
+            value: layers,
             onChange: onLayerChange,
 
         }),
-        [layer, onLayerChange],
+        [layers, onLayerChange],
     );
 
     return (

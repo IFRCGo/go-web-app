@@ -41,6 +41,7 @@ import { ImminentEventSource } from '#utils/domain/risk';
 
 import GdacsMap from '../RiskImminentEvents/Gdacs/GdacsMap';
 import PdcMap from '../RiskImminentEvents/Pdc/PdcMap';
+import WfpAdamMap from '../RiskImminentEvents/WfpAdam/WfpAdamMap';
 import {
     geojsonSourceOptions,
     hazardKeyToIconmap,
@@ -275,6 +276,15 @@ function RiskImminentEventMap<
                 />
             );
         }
+        if (source === 'wfpAdam') {
+            return (
+                <WfpAdamMap
+                    activeEventFootprint={activeEventFootprint}
+                    layers={layers}
+                    hazardType={activeEvent?.hazard_type}
+                />
+            );
+        }
         return null;
     }, [activeEventFootprint, layers, activeEvent]);
 
@@ -369,7 +379,7 @@ function RiskImminentEventMap<
                         exposure={activeEventExposure}
                         pending={activeEventExposurePending}
                         onLayerChange={onLayerChange}
-                        layer={layers}
+                        layers={layers}
                     />
                 )}
             </Container>
