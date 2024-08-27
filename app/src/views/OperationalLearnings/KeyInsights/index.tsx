@@ -18,6 +18,7 @@ import { type GoApiResponse } from '#utils/restRequest';
 import Sources from '../Sources';
 
 import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 type OpsLearningSummaryResponse = GoApiResponse<'/api/v2/ops-learning/summary/'>;
 
@@ -41,35 +42,44 @@ function KeyInsights(props: Props) {
 
     return (
         <Container
+            className={styles.keyInsights}
             heading={strings.opsLearningsSummariesHeading}
             contentViewType="grid"
+            withInternalPadding
             numPreferredGridContentColumns={3}
-            footerIcons={resolveToString(strings.keyInsightsDisclaimer, {
-                numOfExtractsUsed: opsLearningSummaryResponse.extract_count,
-                totalNumberOfExtracts: 200, // TODO get this from server when available
-                appealsFromDate: 2023, // TODO get this from server when available
-                appealsToDate: 2024, // TODO get this from server when available
-            })}
-            footerActions={(
-                <>
+            footerIcons={(
+                <div className={styles.footerIcons}>
+                    <span>
+                        {resolveToString(strings.keyInsightsDisclaimer, {
+                            numOfExtractsUsed: opsLearningSummaryResponse.extract_count,
+                            totalNumberOfExtracts: 200, // TODO get this from server when available
+                            appealsFromDate: 2023, // TODO get this from server when available
+                            appealsToDate: 2024, // TODO get this from server when available
+
+                        })}
+                    </span>
                     <Link
+                        className={styles.reportIssue}
                         href="/"
                         external
                     >
                         {strings.keyInsightsReportIssue}
                     </Link>
-                    <Button
-                        name={opsLearningSummaryResponse.id}
-                        variant="tertiary"
-                        onClick={toggleExpansion}
-                        actions={(isExpanded
-                            ? <ArrowUpSmallFillIcon />
-                            : <ArrowDownSmallFillIcon />
-                        )}
-                    >
-                        {isExpanded ? strings.closeSources : strings.seeSources}
-                    </Button>
-                </>
+                </div>
+            )}
+            footerClassName={styles.footer}
+            footerActions={(
+                <Button
+                    name={opsLearningSummaryResponse.id}
+                    variant="tertiary"
+                    onClick={toggleExpansion}
+                    actions={(isExpanded
+                        ? <ArrowUpSmallFillIcon />
+                        : <ArrowDownSmallFillIcon />
+                    )}
+                >
+                    {isExpanded ? strings.closeSources : strings.seeSources}
+                </Button>
             )}
             footerContent={isExpanded && (
                 <Sources
