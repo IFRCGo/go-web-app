@@ -6,7 +6,9 @@ import {
 } from '@togglecorp/fujs';
 
 import IconButton from '#components/IconButton';
+import useTranslation from '#hooks/useTranslation';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export type ChipVariant = 'primary' | 'secondary' | 'tertiary';
@@ -33,6 +35,8 @@ function Chip<const N>(props: Props<N>) {
         onDelete,
     } = props;
 
+    const strings = useTranslation(i18n);
+
     const handleDeleteButtonClick = useCallback((n: N, e: React.MouseEvent<HTMLButtonElement>) => {
         if (onDelete) {
             onDelete(n, e);
@@ -54,8 +58,8 @@ function Chip<const N>(props: Props<N>) {
                     className={styles.closeIcon}
                     spacing="none"
                     name={name}
-                    title={label}
-                    ariaLabel={label}
+                    title={strings.closeButtonLabel}
+                    ariaLabel={strings.closeButtonLabel}
                     onClick={handleDeleteButtonClick}
                     variant={variant}
                 >

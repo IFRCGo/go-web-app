@@ -1,4 +1,22 @@
-.children-container {
+.sources {
     display: flex;
-    gap: var(--go-ui-spacing-lg);
+    flex-grow: 1;
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-md);
+
+        .appeal-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-md);
+
+            .appeal {
+                display: flex;
+                gap: var(--go-ui-spacing-md);
+                justify-content: space-between;
+            }
+        }
+    }
 }
