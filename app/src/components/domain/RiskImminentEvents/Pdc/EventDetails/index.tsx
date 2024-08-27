@@ -52,7 +52,7 @@ interface Props {
     exposure: PdcExposure | undefined;
     pending: boolean;
     onLayerChange: (value: boolean, name: number) => void;
-    layer: Record<number, boolean>;
+    layers: Record<number, boolean>;
 }
 
 function EventDetails(props: Props) {
@@ -67,7 +67,7 @@ function EventDetails(props: Props) {
         },
         exposure,
         pending,
-        layer,
+        layers,
         onLayerChange,
     } = props;
 
@@ -185,16 +185,12 @@ function EventDetails(props: Props) {
     const layerRendererParams = useCallback(
         (_: number, layerOptions: Option): LayerInputProps => ({
             options: layerOptions,
-            value: layer,
+            value: layers,
             onChange: onLayerChange,
 
         }),
-        [layer, onLayerChange],
+        [layers, onLayerChange],
     );
-    const showLayers = exposure?.storm_position_geojson
-    || exposure?.footprint_geojson
-    || exposure?.cyclone_five_days_cou
-    || exposure?.cyclone_three_days_cou;
 
     return (
         <Container
@@ -262,60 +258,60 @@ function EventDetails(props: Props) {
                             strongValue
                         />
                     </div>
+                    {hazard_type === 'TC' && (
+                        <Container heading={strings.pdcEventLayerTitle}>
+                            <List
+                                className={styles.layerDetail}
+                                data={options}
+                                renderer={LayerDetails}
+                                rendererParams={layerRendererParams}
+                                keySelector={(item: Option) => item.key}
+                                withoutMessage
+                                compact
+                                pending={false}
+                                errored={false}
+                                filtered={false}
+                            />
+                        </Container>
+                    )}
+                    {stormPoints && stormPoints.length > 0 && isDefined(maxWindSpeed) && (
+                        <Container heading={strings.pdcEventChartTitle}>
+                            {/* TODO: use proper svg charts */}
+                            <div className={styles.windSpeedChart}>
+                                <div className={styles.barListContainer}>
+                                    {stormPoints.map(
+                                        (point) => (
+                                            <div
+                                                key={point.id}
+                                                className={styles.barContainer}
+                                            >
+                                                <Tooltip
+                                                    description={resolveToString(
+                                                        strings.pdcEventDetailsKm,
+                                                        {
+                                                            point: point.windSpeed ?? '--',
+                                                            pointDate: point.date.toLocaleString() ?? '--',
+                                                        },
+                                                    )}
+                                                />
+                                                <div
+                                                    style={{ height: `${getPercentage(point.windSpeed, maxWindSpeed)}%` }}
+                                                    className={styles.bar}
+                                                />
+                                            </div>
+                                        ),
+                                    )}
+                                </div>
+                                <div className={styles.chartLabel}>
+                                    {strings.pdcEventChartLabel}
+                                </div>
+                            </div>
+                        </Container>
+                    )}
                     <div className={styles.description}>
                         {description}
                     </div>
                 </>
-            )}
-            {showLayers && hazard_type === 'TC' && (
-                <Container heading={strings.pdcEventLayerTitle}>
-                    <List
-                        className={styles.layerDetail}
-                        data={options}
-                        renderer={LayerDetails}
-                        rendererParams={layerRendererParams}
-                        keySelector={(item: Option) => item.key}
-                        withoutMessage
-                        compact
-                        pending={false}
-                        errored={false}
-                        filtered={false}
-                    />
-                </Container>
-            )}
-            {stormPoints && stormPoints.length > 0 && isDefined(maxWindSpeed) && (
-                <Container heading={strings.pdcEventChartTitle}>
-                    {/* TODO: use proper svg charts */}
-                    <div className={styles.windSpeedChart}>
-                        <div className={styles.barListContainer}>
-                            {stormPoints.map(
-                                (point) => (
-                                    <div
-                                        key={point.id}
-                                        className={styles.barContainer}
-                                    >
-                                        <Tooltip
-                                            description={resolveToString(
-                                                strings.pdcEventDetailsKm,
-                                                {
-                                                    point: point.windSpeed ?? '--',
-                                                    pointDate: point.date.toLocaleString() ?? '--',
-                                                },
-                                            )}
-                                        />
-                                        <div
-                                            style={{ height: `${getPercentage(point.windSpeed, maxWindSpeed)}%` }}
-                                            className={styles.bar}
-                                        />
-                                    </div>
-                                ),
-                            )}
-                        </div>
-                        <div className={styles.chartLabel}>
-                            {strings.pdcEventChartLabel}
-                        </div>
-                    </div>
-                </Container>
             )}
         </Container>
     );

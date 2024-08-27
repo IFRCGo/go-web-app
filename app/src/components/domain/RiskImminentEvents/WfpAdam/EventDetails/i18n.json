@@ -25,6 +25,12 @@
         "wfpExposed120": "Exposed (120km/h)",
         "wfpFloodArea": "Flood Area",
         "wfpFloodCropland": "Flood Cropland",
-        "wfpChartLabel": "Windspeed over time"
+        "wfpChartLabel": "Windspeed over time",
+        "wfpEventLayerTitle": "Layers",
+        "wfpEventLayerNodes": "Nodes",
+        "wfpEventLayerTracks": "Tracks",
+        "wfpEventLayerBuffers": "Buffers",
+        "wfpEventLayerForecastUncertainty": "Forecast Uncertainty",
+        "wfpEventChartTitle": "Data presenting wind speed/date"
     }
 }
