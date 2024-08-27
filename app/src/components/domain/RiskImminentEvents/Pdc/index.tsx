@@ -1,4 +1,8 @@
-import { useCallback } from 'react';
+import {
+    useCallback,
+    useMemo,
+    useState,
+} from 'react';
 import { numericIdSelector } from '@ifrc-go/ui/utils';
 import {
     isDefined,
@@ -8,9 +12,15 @@ import { type LngLatBoundsLike } from 'mapbox-gl';
 
 import RiskImminentEventMap, { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
 import {
+    BUFFERS,
     ImminentEventSource,
     isValidFeature,
     isValidPointFeature,
+    NODES,
+    TRACKS,
+    UNCERTAINTY,
+    UNCERTAINTY_FIVE_DAYS,
+    UNCERTAINTY_THREE_DAYS,
 } from '#utils/domain/risk';
 import {
     type RiskApiResponse,
@@ -40,6 +50,13 @@ type Props = BaseProps & ({
     iso3: string;
 })
 
+const defaultLayersValue: Record<string, boolean> = {
+    [NODES]: false,
+    [TRACKS]: false,
+    [BUFFERS]: false,
+    [UNCERTAINTY]: false,
+};
+
 function Pdc(props: Props) {
     const {
         title,
@@ -47,6 +64,8 @@ function Pdc(props: Props) {
         variant,
         activeView,
     } = props;
+
+    const [layers, setLayers] = useState<Record<number, boolean>>(defaultLayersValue);
 
     const {
         pending: pendingCountryRiskResponse,
@@ -78,6 +97,35 @@ function Pdc(props: Props) {
         url: '/api/v1/pdc/{id}/exposure/',
         pathVariables: ({ eventId }) => ({ id: Number(eventId) }),
     });
+
+    useMemo(() => {
+        if (isNotDefined(exposureResponse)) {
+            return undefined;
+        }
+
+        const {
+            footprint_geojson,
+            storm_position_geojson,
+            cyclone_five_days_cou,
+            cyclone_three_days_cou,
+        } = exposureResponse;
+
+        setLayers({
+            [NODES]: isDefined(storm_position_geojson) ?? false,
+            [TRACKS]: isDefined(storm_position_geojson) ?? false,
+            [BUFFERS]: isDefined(footprint_geojson) ?? false,
+            [UNCERTAINTY_FIVE_DAYS]: isDefined(cyclone_five_days_cou) ?? false,
+            [UNCERTAINTY_THREE_DAYS]: isDefined(cyclone_three_days_cou) ?? false,
+        });
+        return null;
+    }, [exposureResponse]);
+
+    const handleLayerChange = useCallback((value: boolean, name: number) => {
+        setLayers((prevValues) => ({
+            ...prevValues,
+            [name]: value,
+        }));
+    }, []);
 
     const pointFeatureSelector = useCallback(
         (event: EventItem): EventPointFeature | undefined => {
@@ -167,7 +215,7 @@ function Pdc(props: Props) {
                             ...feature,
                             properties: {
                                 ...feature.properties,
-                                type: 'uncertainty',
+                                type: 'uncertainty-five-days',
                             },
                         }),
                     ) ?? [],
@@ -177,7 +225,7 @@ function Pdc(props: Props) {
                             ...feature,
                             properties: {
                                 ...feature.properties,
-                                type: 'uncertainty',
+                                type: 'uncertainty-three-days',
                             },
                         }),
                     ) ?? [],
@@ -240,6 +288,8 @@ function Pdc(props: Props) {
             activeEventExposurePending={exposureResponsePending}
             onActiveEventChange={handleActiveEventChange}
             activeView={activeView}
+            layers={layers}
+            onLayerChange={handleLayerChange}
         />
     );
 }

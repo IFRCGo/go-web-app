@@ -1,4 +1,8 @@
-import { useCallback } from 'react';
+import {
+    useCallback,
+    useMemo,
+    useState,
+} from 'react';
 import { numericIdSelector } from '@ifrc-go/ui/utils';
 import {
     isDefined,
@@ -8,8 +12,12 @@ import { type LngLatBoundsLike } from 'mapbox-gl';
 
 import RiskImminentEventMap, { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
 import {
+    BUFFERS,
     ImminentEventSource,
     isValidFeatureCollection,
+    NODES,
+    TRACKS,
+    UNCERTAINTY,
 } from '#utils/domain/risk';
 import {
     RiskApiResponse,
@@ -22,6 +30,13 @@ import EventListItem from './EventListItem';
 
 type ImminentEventResponse = RiskApiResponse<'/api/v1/gdacs/'>;
 type EventItem = NonNullable<ImminentEventResponse['results']>[number];
+
+const defaultLayersValue: Record<string, boolean> = {
+    [NODES]: false,
+    [TRACKS]: false,
+    [BUFFERS]: false,
+    [UNCERTAINTY]: false,
+};
 
 function getLayerType(geometryType: GeoJSON.Feature<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>) {
     if (geometryType.geometry.type === 'Point' || geometryType.geometry.type === 'MultiPoint') {
@@ -64,6 +79,7 @@ function Gdacs(props: Props) {
         activeView,
     } = props;
 
+    const [layers, setLayers] = useState<Record<number, boolean>>(defaultLayersValue);
     const {
         pending: pendingCountryRiskResponse,
         response: countryRiskResponse,
@@ -94,6 +110,61 @@ function Gdacs(props: Props) {
         url: '/api/v1/gdacs/{id}/exposure/',
         pathVariables: ({ eventId }) => ({ id: Number(eventId) }),
     });
+
+    useMemo(() => {
+        if (isNotDefined(exposureResponse)) {
+            return undefined;
+        }
+
+        const { footprint_geojson } = exposureResponse;
+
+        if (isNotDefined(footprint_geojson)) {
+            return undefined;
+        }
+
+        const footprint = isValidFeatureCollection(footprint_geojson)
+            ? footprint_geojson
+            : undefined;
+
+        return footprint?.features?.map(
+            (feature) => {
+                if (feature.geometry.type === 'Point' || feature.geometry.type === 'MultiPoint') {
+                    setLayers((prevLayers) => ({
+                        ...prevLayers,
+                        [NODES]: true,
+                    }));
+                }
+
+                if (feature.geometry.type === 'LineString' || feature.geometry.type === 'MultiLineString') {
+                    setLayers((prevLayers) => ({
+                        ...prevLayers,
+                        [TRACKS]: true,
+                    }));
+                }
+
+                // Note: this is the only way to identify uncertainty in GDACS
+                if (feature.properties?.polygonlabel === 'Uncertainty Cones') {
+                    setLayers((prevLayers) => ({
+                        ...prevLayers,
+                        [UNCERTAINTY]: true,
+                    }));
+                }
+
+                setLayers((prevLayers) => ({
+                    ...prevLayers,
+                    [BUFFERS]: true,
+                }));
+                return null;
+            },
+        );
+    }, [exposureResponse]);
+
+    const handleLayerChange = useCallback((value: boolean, name: number) => {
+        setLayers((prevValues) => ({
+            ...prevValues,
+            [name]: value,
+        }));
+    }, []);
 
     const pointFeatureSelector = useCallback(
         (event: EventItem): EventPointFeature | undefined => {
@@ -159,7 +230,6 @@ function Gdacs(props: Props) {
                     ) ?? [],
                 ].filter(isDefined),
             };
-
             return geoJson;
         },
         [],
@@ -191,6 +261,8 @@ function Gdacs(props: Props) {
             activeEventExposurePending={exposureResponsePending}
             onActiveEventChange={handleActiveEventChange}
             activeView={activeView}
+            layers={layers}
+            onLayerChange={handleLayerChange}
         />
     );
 }

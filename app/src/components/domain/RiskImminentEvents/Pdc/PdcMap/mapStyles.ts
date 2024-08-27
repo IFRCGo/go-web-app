@@ -45,17 +45,31 @@ export const cycloneExposureFillLayer: Omit<FillLayer, 'id'> = {
     },
 };
 
-export const uncertaintyTrackOutlineLayer: Omit<LineLayer, 'id'> = {
+export const uncertaintyFiveDaysTrackOutlineLayer: Omit<LineLayer, 'id'> = {
     type: 'line',
     filter: [
         '==',
         ['get', 'type'],
-        'uncertainty',
+        'uncertainty-five-days',
+    ],
+    paint: {
+        'line-color': COLOR_BLACK,
+        'line-opacity': 0.8,
+        'line-dasharray': [5, 2],
+    },
+};
+
+export const uncertaintyThreeDaysTrackOutlineLayer: Omit<LineLayer, 'id'> = {
+    type: 'line',
+    filter: [
+        '==',
+        ['get', 'type'],
+        'uncertainty-three-days',
     ],
     paint: {
         'line-color': COLOR_BLACK,
         'line-opacity': 0.5,
-        'line-dasharray': [2, 1],
+        'line-dasharray': [2, 2],
     },
 };
 

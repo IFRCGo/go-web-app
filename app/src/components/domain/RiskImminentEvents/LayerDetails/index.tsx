@@ -7,7 +7,7 @@ interface Option {
 
 export interface Props {
     options: Option;
-    value: {[key: string]: boolean};
+    value: Record<number, boolean>;
     onChange: (value: boolean, name: number) => void;
 }
 

@@ -88,7 +88,7 @@ interface Props {
     exposure: GdacsExposure | undefined;
     pending: boolean;
     onLayerChange: (value: boolean, name: number) => void;
-    layer: {[key: string]: boolean};
+    layer: Record<number, boolean>;
 }
 
 function EventDetails(props: Props) {
@@ -109,7 +109,6 @@ function EventDetails(props: Props) {
     const populationExposure = exposure?.population_exposure as GdacsPopulationExposure | undefined;
     const eventDetails = event_details as GdacsEventDetails | undefined;
 
-    // TODO: hide layer if data is not available
     const options: Option[] = useMemo(() => [
         {
             key: NODES,
@@ -232,7 +231,7 @@ function EventDetails(props: Props) {
                         data={options}
                         renderer={LayerDetails}
                         rendererParams={layerRendererParams}
-                        keySelector={(item) => item.key}
+                        keySelector={(item: Option) => item.key}
                         withoutMessage
                         compact
                         pending={false}

@@ -18,6 +18,7 @@
         "pdcEventLayerNodes": "Nodes",
         "pdcEventLayerTracks": "Tracks",
         "pdcEventLayerBuffers": "Buffers",
-        "pdcEventLayerForecastUncertainty": "Forecast Uncertainty"
+        "pdcEventLayerForecastUncertaintyFiveDays": "Forecast Uncertainty (5 days)",
+        "pdcEventLayerForecastUncertaintyThreeDays": "Forecast Uncertainty (3 days)"
     }
 }
