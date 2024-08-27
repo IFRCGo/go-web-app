@@ -1,0 +1,17 @@
+.key-insights {
+    background-color: var(--go-ui-color-background);
+
+    .footer {
+        display: flex;
+        align-items: flex-end;
+
+        .footer-icons {
+            display: flex;
+            justify-content: space-between;
+
+            .report-issue {
+                flex-shrink: 0;
+            }
+        }
+    }
+}
