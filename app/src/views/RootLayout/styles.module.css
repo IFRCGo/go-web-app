@@ -18,6 +18,18 @@
             display: none;
         }
     }
+    .cookies-banner {
+        position: sticky;
+        bottom: 0;
+        background-color: var(--go-ui-color-primary-blue);
+        padding: var(--go-ui-spacing-xl);
+        color: var(--go-ui-color-white);
+        font-weight: var(--go-ui-font-weight-medium);
+        
+        .alert-info-icon {
+            font-size: 3rem;
+        }
+    }
 
     .navigation-loader {
         position: fixed;

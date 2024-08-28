@@ -4,6 +4,9 @@
        "environmentTextProduction": "Production Site'",
        "environmentTextDevelopment": "Development Site",
        "environmentTextStaging": "Staging Site",
-       "environmentTextTesting": "Testing Site"
+       "environmentTextTesting": "Testing Site",
+       "cookiesBannerDescription": "By entering this website,you consent to the use of technologies,such as cookies and analytics. These will be used to analyse traffic to the website, allowing us to understand visitor preferences and improve our services",
+       "cookiesBannerLearnMore": "Learn more",
+       "cookiesBannerIAccept": "I Accept"
     }
 }

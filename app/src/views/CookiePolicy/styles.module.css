@@ -1,0 +1,16 @@
+.cookie-page {
+  display: flex;
+
+  .side-titles {
+    display: flex;
+    flex-direction: column;
+    padding: var(--go-ui-spacing-sm);
+    gap: var(--go-ui-spacing-md);
+  }
+
+  .header-description {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-md);
+  } 
+}

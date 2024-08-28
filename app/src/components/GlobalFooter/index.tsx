@@ -99,6 +99,24 @@ function GlobalFooter(props: Props) {
             </div>
             <div className={styles.section}>
                 <Heading>
+                    {strings.policies}
+                </Heading>
+                <div className={styles.subSection}>
+                    <Link
+                        to="cookiePolicy"
+                    >
+                        {strings.cookiePolicy}
+                    </Link>
+                    <Link
+                        // FIXME: Add termsAndConditions link after the page is created
+                        to="cookiePolicy"
+                    >
+                        {strings.termsAndConditions}
+                    </Link>
+                </div>
+            </div>
+            <div className={styles.section}>
+                <Heading>
                     {strings.globalHelpfulLinks}
                 </Heading>
                 <div className={styles.subSection}>

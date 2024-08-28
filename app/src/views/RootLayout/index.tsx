@@ -11,9 +11,17 @@ import {
     Outlet,
     useNavigation,
 } from 'react-router-dom';
-import { AlertContainer } from '@ifrc-go/ui';
+import { AlertInformationLineIcon } from '@ifrc-go/icons';
+import {
+    AlertContainer,
+    Button,
+    Container,
+} from '@ifrc-go/ui';
 import { LanguageContext } from '@ifrc-go/ui/contexts';
-import { useTranslation } from '@ifrc-go/ui/hooks';
+import {
+    useBooleanState,
+    useTranslation,
+} from '@ifrc-go/ui/hooks';
 import {
     _cs,
     isDefined,
@@ -25,6 +33,7 @@ import {
 } from '@togglecorp/fujs';
 
 import GlobalFooter from '#components/GlobalFooter';
+import Link from '#components/Link';
 import Navbar from '#components/Navbar';
 import { environment } from '#config';
 import DomainContext, {
@@ -55,6 +64,12 @@ export function Component() {
     const [fetchDomainData, setFetchDomainData] = useState<{ [key in CacheKey]?: boolean }>({});
 
     const [languagePending, setLanguagePending] = useState(false);
+
+    const [isCookiesBannerVisible, { setFalse }] = useBooleanState(true);
+
+    const handleClick = useCallback(() => {
+        setFalse();
+    }, [setFalse]);
 
     const {
         currentLanguage,
@@ -419,6 +434,36 @@ export function Component() {
                     <div className={styles.banner}>
                         {/* NOTE: We are not translating alpha server names */}
                         {environmentTexts[environment] ?? environment}
+                    </div>
+                )}
+                {isCookiesBannerVisible && (
+                    <div className={styles.cookiesBanner}>
+                        <Container
+                            headingDescription={strings.cookiesBannerDescription}
+                            icons={(
+                                <AlertInformationLineIcon
+                                    className={styles.alertInfoIcon}
+                                />
+                            )}
+                            footerActions={(
+                                <>
+                                    <Link
+                                        to="cookiePolicy"
+                                        variant="tertiary"
+                                        onClick={handleClick}
+                                    >
+                                        {strings.cookiesBannerLearnMore}
+                                    </Link>
+                                    <Button
+                                        name={undefined}
+                                        variant="primary"
+                                        onClick={handleClick}
+                                    >
+                                        {strings.cookiesBannerIAccept}
+                                    </Button>
+                                </>
+                            )}
+                        />
                     </div>
                 )}
             </div>
