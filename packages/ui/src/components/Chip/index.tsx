@@ -3,6 +3,7 @@ import { CloseFillIcon } from '@ifrc-go/icons';
 import {
     _cs,
     isDefined,
+    isNotDefined,
 } from '@togglecorp/fujs';
 
 import IconButton from '#components/IconButton';
@@ -47,6 +48,7 @@ function Chip<const N>(props: Props<N>) {
         <div className={_cs(
             styles.chip,
             chipVariantToClassNameMap[variant],
+            isNotDefined(onDelete) && styles.noDeleteIcon,
             className,
         )}
         >
@@ -58,8 +60,8 @@ function Chip<const N>(props: Props<N>) {
                     className={styles.closeIcon}
                     spacing="none"
                     name={name}
-                    title={strings.closeButtonLabel}
-                    ariaLabel={strings.closeButtonLabel}
+                    title={strings.deleteButtonLabel}
+                    ariaLabel={strings.deleteButtonLabel}
                     onClick={handleDeleteButtonClick}
                     variant={variant}
                 >

@@ -1,4 +1,5 @@
 import {
+    Chip,
     Container,
     type ContainerProps,
     List,
@@ -22,6 +23,7 @@ import {
 } from '#utils/restRequest';
 
 import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 type OpsLearningResponse = GoApiResponse<'/api/v2/ops-learning/'>;
 type OpsLearning = NonNullable<OpsLearningResponse['results']>[number];
@@ -31,6 +33,8 @@ interface Props {
     summaryId: number;
     onCancel: () => void;
 }
+
+const PAGE_SIZE = 25;
 
 function AllExtractsModal(props: Props) {
     const {
@@ -50,7 +54,7 @@ function AllExtractsModal(props: Props) {
         offset: opsLearningOffset,
     } = useFilterState<object>({
         filter: {},
-        pageSize: 20,
+        pageSize: PAGE_SIZE,
     });
 
     const {
@@ -70,9 +74,20 @@ function AllExtractsModal(props: Props) {
     });
 
     const extractsRendererParams = (_: number, learning: OpsLearning): ContainerProps => ({
+        headingContainerClassName: styles.extractHeadingContainer,
         heading: countries.find((country) => country.id === learning.appeal?.country)?.name,
-        headingDescription: learning.appeal?.event_details?.name,
-        actions: (isDefined(learning?.document_url) && (
+        headingDescription: (
+            <Link
+                to="emergencyDetails"
+                urlParams={{
+                    emergencyId: learning.appeal?.event_details.id,
+                }}
+                withUnderline
+            >
+                {learning.appeal?.event_details.name}
+            </Link>
+        ),
+        actions: ((
             <Link
                 variant="primary"
                 href={learning?.document_url}
@@ -82,11 +97,14 @@ function AllExtractsModal(props: Props) {
                 {strings.source}
             </Link>
         )),
+        className: styles.extract,
         children: learning.learning_validated,
+        withInternalPadding: true,
         footerContent: (
             <TextOutput
                 label={strings.dateOfLearning}
                 value={learning?.appeal?.event_details.start_date}
+                strongValue
                 valueType="date"
             />
         ),
@@ -94,13 +112,21 @@ function AllExtractsModal(props: Props) {
 
     return (
         <Modal
+            className={styles.modal}
             heading={strings.heading}
             onClose={onCancel}
             pending={opsLearningPending}
-            size="auto"
-            headerDescription={resolveToString(
-                strings.extractsCount,
-                { count: opsLearningResponse?.count },
+            size="xl"
+            headerDescriptionContainerClassName={styles.headerDescription}
+            headerDescription={(
+                <Chip
+                    name="extractsCount"
+                    label={resolveToString(
+                        strings.extractsCount,
+                        { count: opsLearningResponse?.count },
+                    )}
+                    variant="tertiary"
+                />
             )}
             footerContent={(
                 <Pager
@@ -110,8 +136,10 @@ function AllExtractsModal(props: Props) {
                     maxItemsPerPage={opsLearningLimit}
                 />
             )}
+            childrenContainerClassName={styles.extractListContainer}
         >
             <List
+                className={styles.extractList}
                 data={opsLearningResponse?.results}
                 renderer={Container}
                 keySelector={numericIdSelector}
@@ -120,6 +148,7 @@ function AllExtractsModal(props: Props) {
                 errored={isDefined(opsLearningError)}
                 pending={false}
                 filtered={false}
+                compact
             />
         </Modal>
     );

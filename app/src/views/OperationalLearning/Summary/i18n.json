@@ -1,5 +1,5 @@
 {
-    "namespace": "operationalLearningsSummary",
+    "namespace": "operationalLearningSummary",
     "strings": {
     "extractsCount":"({count} extracts)",
     "closeSources": "Close Sources",

@@ -1,0 +1,8 @@
+.summary {
+    background-color: var(--go-ui-color-background);
+
+    .footer {
+        display: flex;
+        align-items: flex-end;
+    }
+}
