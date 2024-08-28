@@ -6,7 +6,10 @@ import {
     List,
     Pager,
 } from '@ifrc-go/ui';
-import { useBooleanState } from '@ifrc-go/ui/hooks';
+import {
+    useBooleanState,
+    useTranslation,
+} from '@ifrc-go/ui/hooks';
 import { numericIdSelector } from '@ifrc-go/ui/utils';
 import { isDefined } from '@togglecorp/fujs';
 
@@ -17,22 +20,28 @@ import {
     useRequest,
 } from '#utils/restRequest';
 
-import AllExtractsModal from '../Summary/AllExtractsModal';
+import AllExtractsModal from './AllExtractsModal';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type OpsLearningResponse = GoApiResponse<'/api/v2/ops-learning/'>;
-type OpsLearning = NonNullable<OpsLearningResponse['results']>[number];
+type AppealDocumentResponse = GoApiResponse<'/api/v2/appeal_document/'>;
+type AppealDocument = NonNullable<AppealDocumentResponse['results']>[number];
 
 type Props = {
     summaryType: 'sector' | 'component' | 'insight';
     summaryId: number;
 }
+
+const PAGE_SIZE = 10;
+
 function Sources(props: Props) {
     const {
         summaryId,
         summaryType,
     } = props;
+
+    const strings = useTranslation(i18n);
 
     const [showExtractsModal, {
         setTrue: setShowExtractsModalTrue,
@@ -40,51 +49,51 @@ function Sources(props: Props) {
     }] = useBooleanState(false);
 
     const {
-        page: opsLearningActivePage,
-        setPage: setOpsLearningActivePage,
-        limit: opsLearningLimit,
-        offset: opsLearningOffset,
+        page: appealDocumentActivePage,
+        setPage: setAppealDocumentActivePage,
+        limit: appealDocumentLimit,
+        offset: appealDocumentOffset,
     } = useFilterState<object>({
         filter: {},
-        pageSize: 20,
+        pageSize: PAGE_SIZE,
     });
 
     const {
-        pending: opsLearningPending,
-        response: opsLearningResponse,
-        error: opsLearningError,
+        pending: appealDocumentPending,
+        response: appealDocumentResponse,
+        error: appealDocumentError,
     } = useRequest({
-        url: '/api/v2/ops-learning/',
+        url: '/api/v2/appeal_document/',
         query: {
             insight_component_id: summaryType === 'component' ? summaryId : undefined,
             insight_sector_id: summaryType === 'sector' ? summaryId : undefined,
             insight_id: summaryType === 'insight' ? summaryId : undefined,
-            limit: opsLearningLimit,
-            offset: opsLearningOffset,
+            limit: appealDocumentLimit,
+            offset: appealDocumentOffset,
         },
         preserveResponse: true,
     });
 
-    const appealRendererParams = (_: number, learning: OpsLearning): ContainerProps => ({
+    const appealRendererParams = (_: number, appealDocument: AppealDocument): ContainerProps => ({
         childrenContainerClassName: styles.appeal,
         children: (
             <>
                 <Link
                     to="emergencyDetails"
                     urlParams={{
-                        emergencyId: learning.appeal?.event_details?.id,
+                        emergencyId: appealDocument.appeal.event.id,
                     }}
                     withUnderline
                 >
-                    {learning.appeal?.event_details?.name}
+                    {appealDocument.appeal?.event.name}
                 </Link>
-                {isDefined(learning?.document_url) && (
+                {isDefined(appealDocument?.document_url) && (
                     <Link
-                        href={learning?.document_url}
+                        href={appealDocument?.document_url}
                         withLinkIcon
                         external
                     >
-                        {learning?.document_name}
+                        {appealDocument?.name}
                     </Link>
                 )}
             </>
@@ -96,25 +105,24 @@ function Sources(props: Props) {
             className={styles.sources}
             footerContent={(
                 <Pager
-                    activePage={opsLearningActivePage}
-                    onActivePageChange={setOpsLearningActivePage}
-                    itemsCount={opsLearningResponse?.count ?? 0}
-                    maxItemsPerPage={opsLearningLimit}
+                    activePage={appealDocumentActivePage}
+                    onActivePageChange={setAppealDocumentActivePage}
+                    itemsCount={appealDocumentResponse?.count ?? 0}
+                    maxItemsPerPage={appealDocumentLimit}
                 />
             )}
-            withInternalPadding
             childrenContainerClassName={styles.content}
-            errored={isDefined(opsLearningError)}
-            pending={opsLearningPending}
+            errored={isDefined(appealDocumentError)}
+            pending={appealDocumentPending}
         >
             <List
                 className={styles.appealList}
-                data={opsLearningResponse?.results}
+                data={appealDocumentResponse?.results}
                 renderer={Container}
                 keySelector={numericIdSelector}
                 rendererParams={appealRendererParams}
-                emptyMessage="No appeals"
-                errored={isDefined(opsLearningError)}
+                emptyMessage={strings.noSources}
+                errored={isDefined(appealDocumentError)}
                 pending={false}
                 filtered={false}
                 compact
@@ -125,7 +133,7 @@ function Sources(props: Props) {
                 icons={<CopyLineIcon />}
                 onClick={setShowExtractsModalTrue}
             >
-                View All Extracts
+                {strings.viewAllExtracts}
             </Button>
             {showExtractsModal && (
                 <AllExtractsModal

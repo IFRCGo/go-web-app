@@ -1,5 +1,5 @@
 {
-    "namespace": "operationalLearningsFilters",
+    "namespace": "operationalLearningFilters",
     "strings": {
         "filterRegionsLabel": "Region",
         "filterRegionsPlaceholder": "All Regions",
@@ -11,8 +11,8 @@
         "filterBySectorPlaceholder": "All Sectors",
         "filterByComponentLabel": "Component",
         "filterByComponentPlaceholder": "All Components",
-        "filterOpsLearningsSearchLabel": "Search Appeals and Extracts",
-        "filterOpsLearningsSearchPlaceholder": "Search Appeals and Extracts",
+        "filterOpsLearningSearchLabel": "Search Appeals and Extracts",
+        "filterOpsLearningSearchPlaceholder": "Search Appeals and Extracts",
         "appealStartDate": "Appeal Start Date",
         "appealEndDate": "Appeal End Date"
     }

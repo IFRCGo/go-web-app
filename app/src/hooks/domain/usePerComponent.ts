@@ -35,7 +35,10 @@ function usePerComponent(
                     ?.results?.find((perComponent) => perComponent.id === id);
             }
 
-            return perFormComponentResponse?.results;
+            // NOTE: we need to filter out parent components
+            return perFormComponentResponse?.results?.filter(
+                (perComponent) => !perComponent.is_parent,
+            );
         },
         [perFormComponentResponse, props?.id],
     );
