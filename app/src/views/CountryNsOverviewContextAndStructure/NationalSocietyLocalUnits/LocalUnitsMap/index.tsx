@@ -423,7 +423,6 @@ function LocalUnitsMap(props: Props) {
                             errored={isDefined(localUnitDetailError)}
                             errorMessage={localUnitDetailError?.value.messageForNotification}
                             compactMessage
-                            ellipsizeHeading
                         >
                             <TextOutput
                                 label={strings.localUnitDetailLastUpdate}
