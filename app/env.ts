@@ -2,7 +2,14 @@ import { defineConfig, Schema } from '@julr/vite-plugin-validate-env';
 
 export default defineConfig({
     APP_TITLE: Schema.string(),
-    APP_ENVIRONMENT: Schema.enum(['development', 'testing', 'staging', 'production'] as const),
+    APP_ENVIRONMENT: (key, value) => {
+        const regex = /^production|staging|testing|alpha-\d+|development$/;
+        const valid = !!value && (value.match(regex) !== null);
+        if (!valid) {
+            throw new Error(`Value for environment variable "${key}" must match regex "${regex}", instead received "${value}"`);
+        }
+        return value as ('production' | 'staging' | 'testing' | `alpha-${number}` | 'development');
+    },
     APP_API_ENDPOINT: Schema.string({ format: 'url', protocol: true, tld: false }),
     APP_ADMIN_URL: Schema.string.optional({ format: 'url', protocol: true }),
     APP_SHOW_ENV_BANNER: Schema.boolean.optional(),
