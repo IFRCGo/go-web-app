@@ -1,0 +1,26 @@
+.modal {
+    .header-description {
+        display: flex;
+    }
+
+    .extract-list-container {
+        min-height: var(--go-ui-height-min-modal);
+        overflow: auto;
+
+        .extract-list {
+            display: flex;
+            flex-direction: column;
+            overflow: auto;
+            gap: var(--go-ui-spacing-md);
+
+            .extract {
+                background-color: var(--go-ui-color-background);
+
+                .extract-heading-container {
+                    display: flex;
+                    align-items: center;
+                }
+            }
+        }
+    }
+}

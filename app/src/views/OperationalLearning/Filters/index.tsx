@@ -208,8 +208,8 @@ function Filters(props: Props) {
             />
             <TextInput
                 name="appealSearchText"
-                label={strings.filterOpsLearningsSearchLabel}
-                placeholder={strings.filterOpsLearningsSearchPlaceholder}
+                label={strings.filterOpsLearningSearchLabel}
+                placeholder={strings.filterOpsLearningSearchPlaceholder}
                 value={value.appealSearchText}
                 onChange={handleSearch}
                 icons={<SearchLineIcon />}

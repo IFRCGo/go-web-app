@@ -66,7 +66,7 @@ function filterValueOptionKeySelector(option: FilterValueOption) {
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-    const [activeTab, setActiveTab] = useState<'bySector' | 'byComponent'>('bySector');
+    const [activeTab, setActiveTab] = useState<'sector' | 'component'>('sector');
 
     const {
         rawFilter,
@@ -130,7 +130,7 @@ export function Component() {
                 ? filter.appealStartDateAfter : undefined,
             appeal_code__start_date__lte: isDefined(filter.appealStartDateBefore)
                 ? filter.appealStartDateBefore : undefined,
-            search: isTruthyString(filter.appealSearchText)
+            search_extracts: isTruthyString(filter.appealSearchText)
                 ? (filter.appealSearchText) : undefined,
         },
         shouldPoll: (poll) => {
@@ -154,7 +154,7 @@ export function Component() {
         id: summaryId,
         summaryType: 'sector',
         summaryTitle: summary.title,
-        extractsCount: summary.extract_count,
+        extractsCount: summary.extracts_count,
         summaryContent: summary.content,
     });
 
@@ -165,7 +165,7 @@ export function Component() {
         id: summaryId,
         summaryType: 'component',
         summaryTitle: summary.title,
-        extractsCount: summary.extract_count,
+        extractsCount: summary.extracts_count,
         summaryContent: summary.content,
     });
 
@@ -179,9 +179,13 @@ export function Component() {
         onDelete: handleFilterRemove,
     }), [handleFilterRemove]);
 
-    const showKeyInsights = isDefined(opsLearningSummaryResponse?.insights1_title)
-        && isDefined(opsLearningSummaryResponse.insights2_title)
-        && isDefined(opsLearningSummaryResponse.insights3_title);
+    const showKeyInsights = !opsLearningSummaryPending
+        && isDefined(opsLearningSummaryResponse)
+        && (
+            isDefined(opsLearningSummaryResponse?.insights1_title)
+            || isDefined(opsLearningSummaryResponse?.insights2_title)
+            || isDefined(opsLearningSummaryResponse?.insights3_title)
+        );
 
     const pendingMessage = opsLearningSummaryPending
         || (opsLearningSummaryResponse?.status === SUMMARY_STATUS_PENDING)
@@ -189,8 +193,8 @@ export function Component() {
 
     return (
         <Page
-            heading={strings.operationalLearningsHeading}
-            description={strings.operationalLearningsHeadingDescription}
+            heading={strings.operationalLearningHeading}
+            description={strings.operationalLearningHeadingDescription}
             mainSectionClassName={styles.mainSection}
         >
             <Container
@@ -250,43 +254,46 @@ export function Component() {
                     <Container
                         heading={(
                             <TabList>
-                                <Tab name="bySector">{strings.bySectorTitle}</Tab>
-                                <Tab name="byComponent">{strings.byComponentTitle}</Tab>
+                                <Tab name="sector">{strings.bySectorTitle}</Tab>
+                                <Tab name="component">{strings.byComponentTitle}</Tab>
                             </TabList>
                         )}
-                    />
-                    <TabPanel
-                        name="bySector"
                     >
-                        <List
-                            data={opsLearningSummaryResponse?.sectors}
-                            renderer={Summary}
-                            keySelector={numericIdSelector}
-                            rendererParams={sectorSummaryRendererParams}
-                            emptyMessage="No summary"
-                            errored={isDefined(opsLearningSummaryError)}
-                            pending={opsLearningSummaryPending}
-                            filtered={false}
-                        />
-                    </TabPanel>
-                    <TabPanel
-                        name="byComponent"
-                    >
-                        <List
-                            data={opsLearningSummaryResponse?.components}
-                            renderer={Summary}
-                            keySelector={numericIdSelector}
-                            rendererParams={componentSummaryRendererParams}
-                            emptyMessage="No summary"
-                            errored={isDefined(opsLearningSummaryError)}
-                            pending={opsLearningSummaryPending}
-                            filtered={false}
-                        />
-                    </TabPanel>
+                        <TabPanel
+                            name="sector"
+                        >
+                            <List
+                                className={styles.summaryList}
+                                data={opsLearningSummaryResponse?.sectors}
+                                renderer={Summary}
+                                keySelector={numericIdSelector}
+                                rendererParams={sectorSummaryRendererParams}
+                                emptyMessage={strings.noSummariesAvailableForSector}
+                                errored={isDefined(opsLearningSummaryError)}
+                                pending={opsLearningSummaryPending}
+                                filtered={false}
+                            />
+                        </TabPanel>
+                        <TabPanel
+                            name="component"
+                        >
+                            <List
+                                className={styles.summaryList}
+                                data={opsLearningSummaryResponse?.components}
+                                renderer={Summary}
+                                keySelector={numericIdSelector}
+                                rendererParams={componentSummaryRendererParams}
+                                emptyMessage={strings.noSummariesAvailableForComponent}
+                                errored={isDefined(opsLearningSummaryError)}
+                                pending={opsLearningSummaryPending}
+                                filtered={false}
+                            />
+                        </TabPanel>
+                    </Container>
                 </Tabs>
             </Container>
         </Page>
     );
 }
 
-Component.displayName = 'OperationalLearnings';
+Component.displayName = 'OperationalLearning';

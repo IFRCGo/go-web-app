@@ -44,8 +44,8 @@ function Navbar(props: Props) {
     type RespondOptionKey = 'emergencies' | 'early-warning' | 'dref-process' | 'surge';
     const [activeRespondOption, setActiveRespondOption] = useState<RespondOptionKey>('emergencies');
 
-    type LearnOptionKey = 'tools' | 'resources' | 'operational-learnings';
-    const [activeLearnOption, setActiveLearnOption] = useState<LearnOptionKey>('operational-learnings');
+    type LearnOptionKey = 'tools' | 'resources' | 'operational-learning';
+    const [activeLearnOption, setActiveLearnOption] = useState<LearnOptionKey>('operational-learning');
 
     return (
         <nav className={_cs(styles.navbar, className)}>
@@ -415,10 +415,10 @@ function Navbar(props: Props) {
                                 contentClassName={styles.optionListContent}
                             >
                                 <Tab
-                                    name="operational-learnings"
+                                    name="operational-learning"
                                     className={styles.option}
                                 >
-                                    {strings.userMenuOperationalLearnings}
+                                    {strings.userMenuOperationalLearning}
                                 </Tab>
                                 <Tab
                                     name="tools"
@@ -445,18 +445,18 @@ function Navbar(props: Props) {
                             </TabList>
                             <div className={styles.optionBorder} />
                             <TabPanel
-                                name="operational-learnings"
+                                name="operational-learning"
                                 className={styles.optionDetail}
                             >
                                 <DropdownMenuItem
                                     type="link"
-                                    to="operationalLearnings"
+                                    to="operationalLearning"
                                     variant="tertiary"
                                 >
-                                    {strings.userMenuOperationalLearnings}
+                                    {strings.userMenuOperationalLearning}
                                 </DropdownMenuItem>
                                 <div className={styles.description}>
-                                    {strings.userMenuOperationalLearningsDescription}
+                                    {strings.userMenuOperationalLearningDescription}
                                 </div>
                             </TabPanel>
                             <TabPanel

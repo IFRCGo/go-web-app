@@ -15,6 +15,7 @@ import { resolveToString } from '@ifrc-go/ui/utils';
 import Sources from '../Sources';
 
 import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 export interface Props {
     id: number;
@@ -44,8 +45,11 @@ function Summary(props: Props) {
 
     return (
         <Container
+            className={styles.summary}
             heading={summaryTitle}
             headingDescription={resolveToString(strings.extractsCount, { count: extractsCount })}
+            withInternalPadding
+            footerClassName={styles.footer}
             footerActions={(
                 <Button
                     name={id}
