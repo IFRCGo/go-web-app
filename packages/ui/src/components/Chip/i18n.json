@@ -1,6 +1,6 @@
 {
     "namespace": "common",
     "strings": {
-        "closeButtonLabel": "Close"
+        "deleteButtonLabel": "Close"
     }
 }

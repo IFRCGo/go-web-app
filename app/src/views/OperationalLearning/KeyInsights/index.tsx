@@ -11,6 +11,7 @@ import {
     useTranslation,
 } from '@ifrc-go/ui/hooks';
 import { resolveToString } from '@ifrc-go/ui/utils';
+import { isDefined } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
 import { type GoApiResponse } from '#utils/restRequest';
@@ -43,16 +44,15 @@ function KeyInsights(props: Props) {
     return (
         <Container
             className={styles.keyInsights}
-            heading={strings.opsLearningsSummariesHeading}
-            contentViewType="grid"
+            heading={strings.opsLearningSummariesHeading}
             withInternalPadding
-            numPreferredGridContentColumns={3}
+            withOverflowInContent
             footerIcons={(
                 <div className={styles.footerIcons}>
                     <span>
                         {resolveToString(strings.keyInsightsDisclaimer, {
-                            numOfExtractsUsed: opsLearningSummaryResponse.extract_count,
-                            totalNumberOfExtracts: 200, // TODO get this from server when available
+                            numOfExtractsUsed: opsLearningSummaryResponse.used_extracts_count,
+                            totalNumberOfExtracts: opsLearningSummaryResponse.total_extracts_count,
                             appealsFromDate: 2023, // TODO get this from server when available
                             appealsToDate: 2024, // TODO get this from server when available
 
@@ -87,22 +87,26 @@ function KeyInsights(props: Props) {
                     summaryType="insight"
                 />
             )}
+            childrenContainerClassName={styles.insights}
         >
-            <Container
-                heading={opsLearningSummaryResponse.insights1_title}
-                headerDescription={opsLearningSummaryResponse.insights1_content}
-                withInternalPadding
-            />
-            <Container
-                heading={opsLearningSummaryResponse.insights2_title}
-                headerDescription={opsLearningSummaryResponse.insights2_content}
-                withInternalPadding
-            />
-            <Container
-                heading={opsLearningSummaryResponse.insights3_title}
-                headerDescription={opsLearningSummaryResponse.insights3_content}
-                withInternalPadding
-            />
+            {isDefined(opsLearningSummaryResponse?.insights1_title) && (
+                <Container
+                    heading={opsLearningSummaryResponse.insights1_title}
+                    headerDescription={opsLearningSummaryResponse.insights1_content}
+                />
+            )}
+            {isDefined(opsLearningSummaryResponse?.insights2_title) && (
+                <Container
+                    heading={opsLearningSummaryResponse.insights2_title}
+                    headerDescription={opsLearningSummaryResponse.insights2_content}
+                />
+            )}
+            {isDefined(opsLearningSummaryResponse?.insights3_title) && (
+                <Container
+                    heading={opsLearningSummaryResponse.insights3_title}
+                    headerDescription={opsLearningSummaryResponse.insights3_content}
+                />
+            )}
         </Container>
     );
 }
