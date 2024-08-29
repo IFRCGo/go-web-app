@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.5.0
+
+### Minor Changes
+
+- 5845699: Clean up Resources page
+
 ## 7.4.2
 
 ### Patch Changes
