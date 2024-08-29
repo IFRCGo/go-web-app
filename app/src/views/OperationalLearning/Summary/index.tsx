@@ -46,8 +46,19 @@ function Summary(props: Props) {
     return (
         <Container
             className={styles.summary}
+            headingContainerClassName={styles.heading}
             heading={summaryTitle}
-            headingDescription={resolveToString(strings.extractsCount, { count: extractsCount })}
+            headingDescription={(extractsCount > 1) ? (
+                resolveToString(
+                    strings.extractsCount,
+                    { count: extractsCount },
+                )
+            ) : (
+                resolveToString(
+                    strings.extractCount,
+                    { count: extractsCount },
+                )
+            )}
             withInternalPadding
             footerClassName={styles.footer}
             footerActions={(
