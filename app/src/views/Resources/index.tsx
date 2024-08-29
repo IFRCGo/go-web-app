@@ -98,7 +98,7 @@ export function Component() {
                         {strings.goUserAnalytics}
                     </Link>
                     <Link
-                        href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EWuCMne44ipEvbSHud6H38oB7mba_gaJxtwHelN909FEgg?e=uIdBu5"
+                        href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EQraprcbhQdGgH1L8tSQXFAByvRgyoBRfW46HTMh71Nzlw?e=dMQIr8"
                         external
                         withLinkIcon
                     >
@@ -110,13 +110,6 @@ export function Component() {
                         withLinkIcon
                     >
                         {strings.ifrcStrategicDirection}
-                    </Link>
-                    <Link
-                        href="https://go-user-library.ifrc.org/"
-                        external
-                        withLinkIcon
-                    >
-                        {strings.aboutGoUserLibrary}
                     </Link>
                 </Container>
                 <div />
@@ -134,7 +127,7 @@ export function Component() {
             >
                 <Container
                     className={styles.resourceCard}
-                    heading={strings.aboutSurgeServices}
+                    heading={strings.aboutSurgeLinks}
                     childrenContainerClassName={styles.resourceContent}
                     withHeaderBorder
                     withInternalPadding
@@ -151,7 +144,7 @@ export function Component() {
                         external
                         withLinkIcon
                     >
-                        {strings.aboutSurgeNetwork}
+                        {strings.aboutSIMS}
                     </Link>
                     <Link
                         href="https://www.cbsrc.org/"
@@ -159,6 +152,20 @@ export function Component() {
                         withLinkIcon
                     >
                         {strings.aboutCommunitySurveillance}
+                    </Link>
+                    <Link
+                        href="https://go.ifrc.org/surge/catalogue/overview"
+                        external
+                        withLinkIcon
+                    >
+                        {strings.aboutCoS}
+                    </Link>
+                    <Link
+                        href="https://surgelearning.ifrc.org/"
+                        external
+                        withLinkIcon
+                    >
+                        {strings.aboutSurgeLearning}
                     </Link>
                 </Container>
                 <Container
@@ -232,13 +239,6 @@ export function Component() {
                         withLinkIcon
                     >
                         {strings.aboutLearningPlatform}
-                    </Link>
-                    <Link
-                        href="https://prddsgofilestorage.blob.core.windows.net/api/documents/cop28/COP28.pdf"
-                        external
-                        withLinkIcon
-                    >
-                        {strings.aboutCOP23Report}
                     </Link>
                 </Container>
             </Container>
