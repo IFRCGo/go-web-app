@@ -13,6 +13,8 @@
         "selectedFilters": "Selected Filters",
         "clearFilters": "Clear Filters",
         "noSummariesAvailableForSector": "No summaries available for sectors.",
-        "noSummariesAvailableForComponent": "No summaries available for components."
+        "noSummariesAvailableForComponent": "No summaries available for components.",
+        "extractCount": "{count} extract",
+        "extractsCount": "{count} extracts"
     }
 }

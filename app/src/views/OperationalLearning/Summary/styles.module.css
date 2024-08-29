@@ -1,8 +1,14 @@
 .summary {
     background-color: var(--go-ui-color-background);
 
+    .heading {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
     .footer {
         display: flex;
         align-items: flex-end;
+        justify-content: flex-end;
     }
 }
