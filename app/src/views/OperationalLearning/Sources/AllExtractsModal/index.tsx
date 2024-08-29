@@ -121,9 +121,16 @@ function AllExtractsModal(props: Props) {
             headerDescription={(
                 <Chip
                     name="extractsCount"
-                    label={resolveToString(
-                        strings.extractsCount,
-                        { count: opsLearningResponse?.count },
+                    label={((opsLearningResponse?.count ?? 0) > 1) ? (
+                        resolveToString(
+                            strings.extractsCount,
+                            { count: opsLearningResponse?.count },
+                        )
+                    ) : (
+                        resolveToString(
+                            strings.extractCount,
+                            { count: opsLearningResponse?.count },
+                        )
                     )}
                     variant="tertiary"
                 />
