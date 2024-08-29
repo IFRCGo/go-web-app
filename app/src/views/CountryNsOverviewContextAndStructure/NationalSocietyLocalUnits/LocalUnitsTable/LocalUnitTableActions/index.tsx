@@ -105,7 +105,7 @@ function LocalUnitsTableActions(props: Props) {
                 <LocalUnitsFormModal
                     onClose={handleLocalUnitsFormModalClose}
                     localUnitId={localUnitId}
-                    readOnly={showLocalUnitViewModal}
+                    viewMode={showLocalUnitViewModal}
                 />
             )}
         </>

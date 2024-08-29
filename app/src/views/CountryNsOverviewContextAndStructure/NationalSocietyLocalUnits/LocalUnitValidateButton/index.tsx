@@ -3,6 +3,7 @@ import { CheckboxCircleLineIcon } from '@ifrc-go/icons';
 import { ConfirmButton } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToString } from '@ifrc-go/ui/utils';
+import { _cs } from '@togglecorp/fujs';
 
 import usePermissions from '#hooks/domain/usePermissions';
 import useAlert from '#hooks/useAlert';
@@ -95,7 +96,9 @@ function LocalUnitValidateButton(props: Props) {
 
     return (
         <ConfirmButton
-            className={styles.localUnitValidateButton}
+            className={_cs(isValidated
+                ? styles.localUnitValidatedButton
+                : styles.localUnitValidateButton)}
             // NOTE sending an empty post request to validate the local unit
             name={null}
             spacing="compact"

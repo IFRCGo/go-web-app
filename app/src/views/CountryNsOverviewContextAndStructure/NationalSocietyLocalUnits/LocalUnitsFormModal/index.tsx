@@ -1,6 +1,7 @@
 import {
     useCallback,
     useRef,
+    useState,
 } from 'react';
 import { Modal } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -12,7 +13,7 @@ import styles from './styles.module.css';
 
 interface Props {
     localUnitId?: number;
-    readOnly?: boolean;
+    viewMode?: boolean;
     onClose: (requestDone?: boolean) => void;
 }
 
@@ -20,7 +21,7 @@ function LocalUnitsFormModal(props: Props) {
     const {
         onClose,
         localUnitId,
-        readOnly,
+        viewMode = false,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -28,9 +29,16 @@ function LocalUnitsFormModal(props: Props) {
     const headingDescriptionRef = useRef<HTMLDivElement>(null);
     const headerDescriptionRef = useRef<HTMLDivElement>(null);
 
+    const [readOnly, setReadOnly] = useState<boolean>(viewMode);
+
     const handleSuccess = useCallback(
         () => { onClose(true); },
         [onClose],
+    );
+
+    const handleEditButtonClick = useCallback(
+        () => { setReadOnly(false); },
+        [],
     );
 
     return (
@@ -58,6 +66,7 @@ function LocalUnitsFormModal(props: Props) {
                 localUnitId={localUnitId}
                 onSuccess={handleSuccess}
                 readOnly={readOnly}
+                onEditButtonClick={handleEditButtonClick}
                 actionsContainerRef={actionsContainerRef}
                 headingDescriptionRef={headingDescriptionRef}
                 headerDescriptionRef={headerDescriptionRef}

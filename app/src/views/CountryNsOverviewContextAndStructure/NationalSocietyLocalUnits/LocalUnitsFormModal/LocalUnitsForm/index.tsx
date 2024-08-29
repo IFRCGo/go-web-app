@@ -108,6 +108,7 @@ function FormColumnContainer(props: FormColumnContainerProps) {
 interface Props {
     readOnly?: boolean;
     onSuccess?: () => void;
+    onEditButtonClick?: () => void;
     localUnitId?: number;
     actionsContainerRef?: RefObject<HTMLDivElement>;
     headingDescriptionRef?: RefObject<HTMLDivElement>;
@@ -118,6 +119,7 @@ function LocalUnitsForm(props: Props) {
     const {
         readOnly = false,
         onSuccess,
+        onEditButtonClick,
         localUnitId,
         actionsContainerRef,
         headingDescriptionRef,
@@ -387,6 +389,14 @@ function LocalUnitsForm(props: Props) {
                                             onActionSuccess={onSuccess}
                                             disabled={!pristine}
                                         />
+                                        {readOnly && (
+                                            <Button
+                                                name=""
+                                                onClick={onEditButtonClick}
+                                            >
+                                                {strings.editButtonLabel}
+                                            </Button>
+                                        )}
                                         <LocalUnitValidateButton
                                             countryId={Number(countryId)}
                                             localUnitId={localUnitId}
