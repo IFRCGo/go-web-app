@@ -9,8 +9,13 @@
 
         .options {
             display: flex;
+            flex-wrap: wrap;
             gap: var(--go-ui-spacing-sm);
         }
+    }
+
+    .summary-heading {
+        gap: var(--go-ui-spacing-xl);
     }
 
     .summary-list {
@@ -18,5 +23,6 @@
         flex-direction: column;
         gap: var(--go-ui-spacing-md);
     }
-
 }
+
+

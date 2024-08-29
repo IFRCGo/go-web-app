@@ -1,5 +1,6 @@
 import {
     useCallback,
+    useMemo,
     useState,
 } from 'react';
 import {
@@ -15,12 +16,16 @@ import {
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { numericIdSelector } from '@ifrc-go/ui/utils';
+import {
+    numericIdSelector,
+    resolveToString,
+} from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
     isTruthyString,
     mapToList,
+    sum,
 } from '@togglecorp/fujs';
 import { EntriesAsList } from '@togglecorp/toggle-form';
 
@@ -191,6 +196,19 @@ export function Component() {
         || (opsLearningSummaryResponse?.status === SUMMARY_STATUS_PENDING)
         ? strings.pendingMessage : strings.startedMessage;
 
+    const extractsCount = useMemo(() => {
+        if (activeTab === 'sector') {
+            return sum(
+                opsLearningSummaryResponse?.sectors.map((summary) => summary.extracts_count)
+                ?? [],
+            );
+        }
+        return sum(
+            opsLearningSummaryResponse?.components.map((summary) => summary.extracts_count)
+            ?? [],
+        );
+    }, [opsLearningSummaryResponse?.sectors, opsLearningSummaryResponse?.components, activeTab]);
+
     return (
         <Page
             heading={strings.operationalLearningHeading}
@@ -257,6 +275,24 @@ export function Component() {
                                 <Tab name="sector">{strings.bySectorTitle}</Tab>
                                 <Tab name="component">{strings.byComponentTitle}</Tab>
                             </TabList>
+                        )}
+                        headingContainerClassName={styles.summaryHeading}
+                        headingDescription={extractsCount > 0 && (
+                            <Chip
+                                name="extractsCount"
+                                label={((extractsCount) > 1) ? (
+                                    resolveToString(
+                                        strings.extractsCount,
+                                        { count: extractsCount },
+                                    )
+                                ) : (
+                                    resolveToString(
+                                        strings.extractCount,
+                                        { count: extractsCount },
+                                    )
+                                )}
+                                variant="tertiary"
+                            />
                         )}
                     >
                         <TabPanel
