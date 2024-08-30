@@ -10,7 +10,10 @@ import {
     useBooleanState,
     useTranslation,
 } from '@ifrc-go/ui/hooks';
-import { resolveToString } from '@ifrc-go/ui/utils';
+import {
+    formatDate,
+    resolveToString,
+} from '@ifrc-go/ui/utils';
 import { isDefined } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
@@ -53,9 +56,14 @@ function KeyInsights(props: Props) {
                         {resolveToString(strings.keyInsightsDisclaimer, {
                             numOfExtractsUsed: opsLearningSummaryResponse.used_extracts_count,
                             totalNumberOfExtracts: opsLearningSummaryResponse.total_extracts_count,
-                            appealsFromDate: 2023, // TODO get this from server when available
-                            appealsToDate: 2024, // TODO get this from server when available
-
+                            appealsFromDate: formatDate(
+                                opsLearningSummaryResponse.earliest_appeal_date,
+                                'MMM-yyyy',
+                            ),
+                            appealsToDate: formatDate(
+                                opsLearningSummaryResponse.latest_appeal_date,
+                                'MMM-yyyy',
+                            ),
                         })}
                     </span>
                     <Link
