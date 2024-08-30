@@ -91,7 +91,7 @@ export const trackPointIconLayer: Omit<SymbolLayer, 'id'> = {
         'icon-opacity': 1,
     },
     layout: {
-        'icon-image': 'triangle-11',
+        'icon-image': 'TC',
         'icon-size': 0.7,
         'icon-rotate': 90,
         'icon-allow-overlap': true,
