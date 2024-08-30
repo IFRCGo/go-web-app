@@ -23,25 +23,17 @@ import {
 } from '@togglecorp/fujs';
 
 import {
-    BUFFERS,
     isValidFeatureCollection,
     isValidPointFeature,
-    NODES,
-    TRACKS,
-    UNCERTAINTY_FIVE_DAYS,
-    UNCERTAINTY_THREE_DAYS,
+    LayerOption,
+    LayerType,
 } from '#utils/domain/risk';
 import { type RiskApiResponse } from '#utils/restRequest';
 
-import LayerDetails, { Props as LayerInputProps } from '../../LayerDetails';
+import LayerDetails, { Props as LayerInputProps } from './LayerDetails';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-interface Option {
-    key: number;
-    label: string;
-}
 
 type PdcResponse = RiskApiResponse<'/api/v1/pdc/'>;
 type PdcEventItem = NonNullable<PdcResponse['results']>[number];
@@ -52,7 +44,8 @@ interface Props {
     exposure: PdcExposure | undefined;
     pending: boolean;
     onLayerChange: (value: boolean, name: number) => void;
-    layers: Record<number, boolean>;
+    layers: Record<LayerType, boolean>;
+    options: LayerOption[];
 }
 
 function EventDetails(props: Props) {
@@ -69,32 +62,11 @@ function EventDetails(props: Props) {
         pending,
         layers,
         onLayerChange,
+        options,
     } = props;
 
     const strings = useTranslation(i18n);
 
-    const options: Option[] = useMemo(() => [
-        {
-            key: NODES,
-            label: strings.pdcEventLayerNodes,
-        },
-        {
-            key: TRACKS,
-            label: strings.pdcEventLayerTracks,
-        },
-        {
-            key: BUFFERS,
-            label: strings.pdcEventLayerBuffers,
-        },
-        {
-            key: UNCERTAINTY_FIVE_DAYS,
-            label: strings.pdcEventLayerForecastUncertaintyFiveDays,
-        },
-        {
-            key: UNCERTAINTY_THREE_DAYS,
-            label: strings.pdcEventLayerForecastUncertaintyThreeDays,
-        },
-    ], [strings]);
     interface Exposure {
         value?: number | null;
         valueFormatted?: string | null;
@@ -183,7 +155,7 @@ function EventDetails(props: Props) {
     );
 
     const layerRendererParams = useCallback(
-        (_: number, layerOptions: Option): LayerInputProps => ({
+        (_: number, layerOptions: LayerOption): LayerInputProps => ({
             options: layerOptions,
             value: layers,
             onChange: onLayerChange,
@@ -265,7 +237,7 @@ function EventDetails(props: Props) {
                                 data={options}
                                 renderer={LayerDetails}
                                 rendererParams={layerRendererParams}
-                                keySelector={(item: Option) => item.key}
+                                keySelector={(item: LayerOption) => item.key}
                                 withoutMessage
                                 compact
                                 pending={false}

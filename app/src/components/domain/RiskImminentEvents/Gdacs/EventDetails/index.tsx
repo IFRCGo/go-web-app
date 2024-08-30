@@ -1,7 +1,4 @@
-import {
-    useCallback,
-    useMemo,
-} from 'react';
+import { useCallback } from 'react';
 import {
     BlockLoading,
     Container,
@@ -13,22 +10,15 @@ import { isDefined } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
 import {
-    BUFFERS,
-    NODES,
-    TRACKS,
-    UNCERTAINTY,
+    LayerOption,
+    LayerType,
 } from '#utils/domain/risk';
 import { type RiskApiResponse } from '#utils/restRequest';
 
-import LayerDetails, { Props as LayerInputProps } from '../../LayerDetails';
+import LayerDetails, { Props as LayerInputProps } from './LayerDetails';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-interface Option {
-    key: number;
-    label: string;
-}
 
 type GdacsResponse = RiskApiResponse<'/api/v1/gdacs/'>;
 type GdacsItem = NonNullable<GdacsResponse['results']>[number];
@@ -88,7 +78,8 @@ interface Props {
     exposure: GdacsExposure | undefined;
     pending: boolean;
     onLayerChange: (value: boolean, name: number) => void;
-    layers: Record<number, boolean>;
+    layers: Record<LayerType, boolean>;
+    options: LayerOption[];
 }
 
 function EventDetails(props: Props) {
@@ -102,6 +93,7 @@ function EventDetails(props: Props) {
         pending,
         onLayerChange,
         layers,
+        options,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -109,27 +101,8 @@ function EventDetails(props: Props) {
     const populationExposure = exposure?.population_exposure as GdacsPopulationExposure | undefined;
     const eventDetails = event_details as GdacsEventDetails | undefined;
 
-    const options: Option[] = useMemo(() => [
-        {
-            key: NODES,
-            label: strings.gdacsEventLayerNodes,
-        },
-        {
-            key: TRACKS,
-            label: strings.gdacsEventLayerTracks,
-        },
-        {
-            key: BUFFERS,
-            label: strings.gdacsEventLayerBuffers,
-        },
-        {
-            key: UNCERTAINTY,
-            label: strings.gdacsEventLayerForecastUncertainty,
-        },
-    ], [strings]);
-
     const layerRendererParams = useCallback(
-        (_: number, layerOptions: Option): LayerInputProps => ({
+        (_: number, layerOptions: LayerOption): LayerInputProps => ({
             options: layerOptions,
             value: layers,
             onChange: onLayerChange,
@@ -231,7 +204,7 @@ function EventDetails(props: Props) {
                         data={options}
                         renderer={LayerDetails}
                         rendererParams={layerRendererParams}
-                        keySelector={(item: Option) => item.key}
+                        keySelector={(item: LayerOption) => item.key}
                         withoutMessage
                         compact
                         pending={false}

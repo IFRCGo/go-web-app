@@ -1,6 +1,5 @@
 import {
     useCallback,
-    useMemo,
     useState,
 } from 'react';
 import { numericIdSelector } from '@ifrc-go/ui/utils';
@@ -12,15 +11,14 @@ import { type LngLatBoundsLike } from 'mapbox-gl';
 
 import RiskImminentEventMap, { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
 import {
-    BUFFERS,
+    defaultLayersValue,
     ImminentEventSource,
     isValidFeature,
     isValidPointFeature,
-    NODES,
-    TRACKS,
-    UNCERTAINTY,
-    UNCERTAINTY_FIVE_DAYS,
-    UNCERTAINTY_THREE_DAYS,
+    LAYER_CYCLONE_BUFFERS,
+    LAYER_CYCLONE_TRACKS,
+    LAYER_CYCLONE_UNCERTAINTY_FIVE_DAYS,
+    LAYER_CYCLONE_UNCERTAINTY_THREE_DAYS,
 } from '#utils/domain/risk';
 import {
     type RiskApiResponse,
@@ -50,13 +48,6 @@ type Props = BaseProps & ({
     iso3: string;
 })
 
-const defaultLayersValue: Record<string, boolean> = {
-    [NODES]: false,
-    [TRACKS]: false,
-    [BUFFERS]: false,
-    [UNCERTAINTY]: false,
-};
-
 function Pdc(props: Props) {
     const {
         title,
@@ -65,8 +56,12 @@ function Pdc(props: Props) {
         activeView,
     } = props;
 
-    const [layers, setLayers] = useState<Record<number, boolean>>(defaultLayersValue);
+    const [
+        activeLayersMapping,
+        setActiveLayersMapping,
+    ] = useState<Record<number, boolean>>(defaultLayersValue);
 
+    const [layers, setLayers] = useState<Record<number, boolean>>(defaultLayersValue);
     const {
         pending: pendingCountryRiskResponse,
         response: countryRiskResponse,
@@ -96,36 +91,32 @@ function Pdc(props: Props) {
         apiType: 'risk',
         url: '/api/v1/pdc/{id}/exposure/',
         pathVariables: ({ eventId }) => ({ id: Number(eventId) }),
+        onSuccess: (res) => {
+            if (isNotDefined(res)) {
+                return defaultLayersValue;
+            }
+
+            const {
+                footprint_geojson,
+                storm_position_geojson,
+                cyclone_five_days_cou,
+                cyclone_three_days_cou,
+            } = res;
+
+            const layersWithStatus = {
+                [LAYER_CYCLONE_TRACKS]: isDefined(storm_position_geojson),
+                [LAYER_CYCLONE_BUFFERS]: isDefined(footprint_geojson),
+                [LAYER_CYCLONE_UNCERTAINTY_FIVE_DAYS]: isDefined(cyclone_five_days_cou),
+                [LAYER_CYCLONE_UNCERTAINTY_THREE_DAYS]: isDefined(cyclone_three_days_cou),
+            } as typeof defaultLayersValue;
+
+            setLayers(layersWithStatus);
+            setActiveLayersMapping(layersWithStatus);
+
+            return true;
+        },
+
     });
-
-    useMemo(() => {
-        if (isNotDefined(exposureResponse)) {
-            return undefined;
-        }
-
-        const {
-            footprint_geojson,
-            storm_position_geojson,
-            cyclone_five_days_cou,
-            cyclone_three_days_cou,
-        } = exposureResponse;
-
-        setLayers({
-            [NODES]: isDefined(storm_position_geojson) ?? false,
-            [TRACKS]: isDefined(storm_position_geojson) ?? false,
-            [BUFFERS]: isDefined(footprint_geojson) ?? false,
-            [UNCERTAINTY_FIVE_DAYS]: isDefined(cyclone_five_days_cou) ?? false,
-            [UNCERTAINTY_THREE_DAYS]: isDefined(cyclone_three_days_cou) ?? false,
-        });
-        return null;
-    }, [exposureResponse]);
-
-    const handleLayerChange = useCallback((value: boolean, name: number) => {
-        setLayers((prevValues) => ({
-            ...prevValues,
-            [name]: value,
-        }));
-    }, []);
 
     const pointFeatureSelector = useCallback(
         (event: EventItem): EventPointFeature | undefined => {
@@ -199,7 +190,9 @@ function Pdc(props: Props) {
             // track_heading : "WNW"
             // wind_speed_mph : 75
 
-            const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry> = {
+            const geoJson: GeoJSON.FeatureCollection<
+                GeoJSON.Geometry, GeoJSON.GeoJsonProperties
+            > = {
                 type: 'FeatureCollection' as const,
                 features: [
                     footprint ? {
@@ -230,6 +223,16 @@ function Pdc(props: Props) {
                         }),
                     ) ?? [],
 
+                    ...stormPositions?.map(
+                        (pointFeature) => ({
+                            ...pointFeature,
+                            properties: {
+                                ...pointFeature.properties,
+                                type: 'track-point',
+                            },
+                        }),
+                    ) ?? [],
+
                     stormPositions ? {
                         type: 'Feature' as const,
                         geometry: {
@@ -244,16 +247,6 @@ function Pdc(props: Props) {
                             type: 'track',
                         },
                     } : undefined,
-
-                    ...stormPositions?.map(
-                        (pointFeature) => ({
-                            ...pointFeature,
-                            properties: {
-                                ...pointFeature.properties,
-                                type: 'track-point',
-                            },
-                        }),
-                    ) ?? [],
                 ].filter(isDefined),
             };
 
@@ -288,8 +281,9 @@ function Pdc(props: Props) {
             activeEventExposurePending={exposureResponsePending}
             onActiveEventChange={handleActiveEventChange}
             activeView={activeView}
+            activeLayersMapping={activeLayersMapping}
             layers={layers}
-            onLayerChange={handleLayerChange}
+            onLayerChange={setLayers}
         />
     );
 }

@@ -1,6 +1,5 @@
 import {
     useCallback,
-    useMemo,
     useState,
 } from 'react';
 import { numericIdSelector } from '@ifrc-go/ui/utils';
@@ -12,12 +11,14 @@ import { type LngLatBoundsLike } from 'mapbox-gl';
 
 import RiskImminentEventMap, { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
 import {
-    BUFFERS,
+    CycloneFillLayerType,
+    defaultLayersValue,
     ImminentEventSource,
     isValidFeatureCollection,
-    NODES,
-    TRACKS,
-    UNCERTAINTY,
+    LAYER_CYCLONE_BUFFERS,
+    LAYER_CYCLONE_NODES,
+    LAYER_CYCLONE_TRACKS,
+    LAYER_CYCLONE_UNCERTAINTY,
 } from '#utils/domain/risk';
 import {
     type RiskApiResponse,
@@ -31,14 +32,9 @@ import EventListItem from './EventListItem';
 type ImminentEventResponse = RiskApiResponse<'/api/v1/adam-exposure/'>;
 type EventItem = NonNullable<ImminentEventResponse['results']>[number];
 
-const defaultLayersValue: Record<string, boolean> = {
-    [NODES]: false,
-    [TRACKS]: false,
-    [BUFFERS]: false,
-    [UNCERTAINTY]: false,
-};
-
-function getLayerType(feature: GeoJSON.Feature<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>) {
+function getLayerType(
+    feature: GeoJSON.Feature<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>,
+): CycloneFillLayerType {
     if (feature.geometry.type === 'Point' || feature.geometry.type === 'MultiPoint') {
         return 'track-point';
     }
@@ -78,6 +74,10 @@ function WfpAdam(props: Props) {
         activeView,
     } = props;
 
+    const [
+        activeLayersMapping,
+        setActiveLayersMapping,
+    ] = useState<Record<number, boolean>>(defaultLayersValue);
     const [layers, setLayers] = useState<Record<number, boolean>>(defaultLayersValue);
 
     const {
@@ -109,61 +109,47 @@ function WfpAdam(props: Props) {
         apiType: 'risk',
         url: '/api/v1/adam-exposure/{id}/exposure/',
         pathVariables: ({ eventId }) => ({ id: Number(eventId) }),
-    });
+        onSuccess: (res) => {
+            if (isNotDefined(res)) {
+                return defaultLayersValue;
+            }
 
-    useMemo(() => {
-        if (isNotDefined(exposureResponse)) {
-            return undefined;
-        }
+            const { storm_position_geojson } = res;
 
-        const { storm_position_geojson } = exposureResponse;
+            if (isNotDefined(storm_position_geojson)) {
+                return defaultLayersValue;
+            }
 
-        if (isNotDefined(storm_position_geojson)) {
-            return undefined;
-        }
+            const stormPositions = isValidFeatureCollection(storm_position_geojson)
+                ? storm_position_geojson
+                : undefined;
 
-        const stormPositions = isValidFeatureCollection(storm_position_geojson)
-            ? storm_position_geojson
-            : undefined;
+            const updatedLayers = {} as typeof defaultLayersValue;
 
-        return stormPositions?.features?.map(
-            (feature) => {
+            stormPositions?.features?.reduce((_, feature) => {
                 if (feature.geometry.type === 'Point' || feature.geometry.type === 'MultiPoint') {
-                    setLayers((prevLayers) => ({
-                        ...prevLayers,
-                        [NODES]: true,
-                    }));
+                    updatedLayers[LAYER_CYCLONE_NODES] = true;
                 }
 
                 if (feature.geometry.type === 'LineString' || feature.geometry.type === 'MultiLineString') {
-                    setLayers((prevLayers) => ({
-                        ...prevLayers,
-                        [TRACKS]: true,
-                    }));
+                    updatedLayers[LAYER_CYCLONE_TRACKS] = true;
+                }
+                if (feature.geometry.type === 'Polygon' || feature.geometry.type === 'MultiPolygon') {
+                    updatedLayers[LAYER_CYCLONE_BUFFERS] = true;
                 }
 
                 if (feature.properties?.alert_level === 'Cones') {
-                    setLayers((prevLayers) => ({
-                        ...prevLayers,
-                        [UNCERTAINTY]: true,
-                    }));
+                    updatedLayers[LAYER_CYCLONE_UNCERTAINTY] = true;
                 }
+                return updatedLayers as typeof defaultLayersValue;
+            }, { ...defaultLayersValue });
 
-                setLayers((prevLayers) => ({
-                    ...prevLayers,
-                    [BUFFERS]: true,
-                }));
-                return null;
-            },
-        );
-    }, [exposureResponse]);
+            setLayers(updatedLayers);
+            setActiveLayersMapping(updatedLayers);
 
-    const handleLayerChange = useCallback((value: boolean, name: number) => {
-        setLayers((prevValues) => ({
-            ...prevValues,
-            [name]: value,
-        }));
-    }, []);
+            return true;
+        },
+    });
 
     const pointFeatureSelector = useCallback(
         (event: EventItem): EventPointFeature | undefined => {
@@ -263,8 +249,9 @@ function WfpAdam(props: Props) {
             activeEventExposurePending={exposureResponsePending}
             onActiveEventChange={handleActiveEventChange}
             activeView={activeView}
+            activeLayersMapping={activeLayersMapping}
             layers={layers}
-            onLayerChange={handleLayerChange}
+            onLayerChange={setLayers}
         />
     );
 }

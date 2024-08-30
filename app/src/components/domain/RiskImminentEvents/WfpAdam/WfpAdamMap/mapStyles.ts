@@ -67,9 +67,10 @@ export const trackOutlineLayer: Omit<LineLayer, 'id'> = {
 
 export const trackPointLayer: Omit<CircleLayer, 'id'> = {
     type: 'circle',
-    filter: ['==', ['get', 'type'], 'track'],
+    filter: ['==', ['get', 'type'], 'track-point'],
+    // FIXME: the is value undefined for alert_level so default color for now is black
     paint: {
-        'circle-radius': 6,
+        'circle-radius': 12,
         'circle-color': [
             'match',
             ['get', 'alert_level'],
@@ -78,16 +79,16 @@ export const trackPointLayer: Omit<CircleLayer, 'id'> = {
             'Green', COLOR_GREEN,
             COLOR_BLACK,
         ],
-        'circle-opacity': 1,
+        'circle-opacity': 0.6,
     },
 };
 
 export const trackPointIconLayer: Omit<SymbolLayer, 'id'> = {
     type: 'symbol',
-    filter: ['==', ['get', 'type'], 'track'],
+    filter: ['==', ['get', 'type'], 'track-point'],
     paint: {
         'icon-color': COLOR_WHITE,
-        'icon-opacity': 0.5,
+        'icon-opacity': 1,
     },
     layout: {
         'icon-image': 'triangle-11',

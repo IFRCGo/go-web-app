@@ -1,6 +1,5 @@
 import {
     useCallback,
-    useMemo,
     useState,
 } from 'react';
 import { numericIdSelector } from '@ifrc-go/ui/utils';
@@ -12,12 +11,14 @@ import { type LngLatBoundsLike } from 'mapbox-gl';
 
 import RiskImminentEventMap, { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
 import {
-    BUFFERS,
+    CycloneFillLayerType,
+    defaultLayersValue,
     ImminentEventSource,
     isValidFeatureCollection,
-    NODES,
-    TRACKS,
-    UNCERTAINTY,
+    LAYER_CYCLONE_BUFFERS,
+    LAYER_CYCLONE_NODES,
+    LAYER_CYCLONE_TRACKS,
+    LAYER_CYCLONE_UNCERTAINTY,
 } from '#utils/domain/risk';
 import {
     RiskApiResponse,
@@ -31,14 +32,9 @@ import EventListItem from './EventListItem';
 type ImminentEventResponse = RiskApiResponse<'/api/v1/gdacs/'>;
 type EventItem = NonNullable<ImminentEventResponse['results']>[number];
 
-const defaultLayersValue: Record<string, boolean> = {
-    [NODES]: false,
-    [TRACKS]: false,
-    [BUFFERS]: false,
-    [UNCERTAINTY]: false,
-};
-
-function getLayerType(feature: GeoJSON.Feature<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>) {
+function getLayerType(
+    feature: GeoJSON.Feature<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>,
+): CycloneFillLayerType {
     if (feature.geometry.type === 'Point' || feature.geometry.type === 'MultiPoint') {
         return 'track-point';
     }
@@ -47,7 +43,6 @@ function getLayerType(feature: GeoJSON.Feature<GeoJSON.Geometry, GeoJSON.GeoJson
         return 'track';
     }
 
-    // Note: this is the only way to identify uncertainty in GDACS
     if (feature.properties?.polygonlabel === 'Uncertainty Cones') {
         return 'uncertainty';
     }
@@ -79,7 +74,12 @@ function Gdacs(props: Props) {
         activeView,
     } = props;
 
+    const [
+        activeLayersMapping,
+        setActiveLayersMapping,
+    ] = useState<Record<number, boolean>>(defaultLayersValue);
     const [layers, setLayers] = useState<Record<number, boolean>>(defaultLayersValue);
+
     const {
         pending: pendingCountryRiskResponse,
         response: countryRiskResponse,
@@ -109,62 +109,51 @@ function Gdacs(props: Props) {
         apiType: 'risk',
         url: '/api/v1/gdacs/{id}/exposure/',
         pathVariables: ({ eventId }) => ({ id: Number(eventId) }),
-    });
+        onSuccess: (res) => {
+            if (isNotDefined(res)) {
+                return defaultLayersValue;
+            }
 
-    useMemo(() => {
-        if (isNotDefined(exposureResponse)) {
-            return undefined;
-        }
+            const { footprint_geojson } = res;
 
-        const { footprint_geojson } = exposureResponse;
+            if (isNotDefined(footprint_geojson)) {
+                return defaultLayersValue;
+            }
 
-        if (isNotDefined(footprint_geojson)) {
-            return undefined;
-        }
+            const footprint = isValidFeatureCollection(footprint_geojson)
+                ? footprint_geojson
+                : undefined;
 
-        const footprint = isValidFeatureCollection(footprint_geojson)
-            ? footprint_geojson
-            : undefined;
-
-        return footprint?.features?.map(
-            (feature) => {
+            if (!footprint) {
+                return defaultLayersValue;
+            }
+            const updatedLayers = {} as typeof defaultLayersValue;
+            footprint.features.reduce((_, feature) => {
                 if (feature.geometry.type === 'Point' || feature.geometry.type === 'MultiPoint') {
-                    setLayers((prevLayers) => ({
-                        ...prevLayers,
-                        [NODES]: true,
-                    }));
+                    updatedLayers[LAYER_CYCLONE_NODES] = true;
                 }
 
-                if (feature.geometry.type === 'LineString' || feature.geometry.type === 'MultiLineString') {
-                    setLayers((prevLayers) => ({
-                        ...prevLayers,
-                        [TRACKS]: true,
-                    }));
+                if (feature.geometry.type === 'LineString'
+                    || feature.geometry.type === 'MultiLineString') {
+                    updatedLayers[LAYER_CYCLONE_TRACKS] = true;
                 }
 
-                // Note: this is the only way to identify uncertainty in GDACS
+                if (feature.geometry.type === 'Polygon' || feature.geometry.type === 'MultiPolygon') {
+                    updatedLayers[LAYER_CYCLONE_BUFFERS] = true;
+                }
+
                 if (feature.properties?.polygonlabel === 'Uncertainty Cones') {
-                    setLayers((prevLayers) => ({
-                        ...prevLayers,
-                        [UNCERTAINTY]: true,
-                    }));
+                    updatedLayers[LAYER_CYCLONE_UNCERTAINTY] = true;
                 }
 
-                setLayers((prevLayers) => ({
-                    ...prevLayers,
-                    [BUFFERS]: true,
-                }));
-                return null;
-            },
-        );
-    }, [exposureResponse]);
+                return updatedLayers;
+            }, { ...defaultLayersValue });
+            setLayers(updatedLayers);
+            setActiveLayersMapping(updatedLayers);
 
-    const handleLayerChange = useCallback((value: boolean, name: number) => {
-        setLayers((prevValues) => ({
-            ...prevValues,
-            [name]: value,
-        }));
-    }, []);
+            return true;
+        },
+    });
 
     const pointFeatureSelector = useCallback(
         (event: EventItem): EventPointFeature | undefined => {
@@ -228,6 +217,31 @@ function Gdacs(props: Props) {
                             },
                         }),
                     ) ?? [],
+
+                    // Convert LineString to Point and add them
+                    ...footprint?.features?.filter((feature) => feature.geometry.type === 'LineString')
+                        ?.map(
+                            (feature) => (feature.geometry as GeoJSON.LineString).coordinates.map(
+                                (coordinate) => ({
+                                    type: 'Feature' as const,
+                                    geometry: {
+                                        type: 'Point' as const,
+                                        coordinates: coordinate,
+                                    },
+                                    properties: {
+                                        ...feature.properties,
+                                        type: getLayerType({
+                                            ...feature,
+                                            geometry: {
+                                                type: 'Point',
+                                                coordinates: coordinate,
+                                            },
+                                        }),
+                                    },
+                                }),
+                            ),
+                        )
+                        ?.flat() ?? [],
                 ].filter(isDefined),
             };
             return geoJson;
@@ -261,8 +275,9 @@ function Gdacs(props: Props) {
             activeEventExposurePending={exposureResponsePending}
             onActiveEventChange={handleActiveEventChange}
             activeView={activeView}
+            activeLayersMapping={activeLayersMapping}
             layers={layers}
-            onLayerChange={handleLayerChange}
+            onLayerChange={setLayers}
         />
     );
 }

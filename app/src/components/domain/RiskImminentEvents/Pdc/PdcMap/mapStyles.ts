@@ -95,8 +95,8 @@ export const trackPointLayer: Omit<CircleLayer, 'id'> = {
             'WARNING', COLOR_RED,
             COLOR_BLACK,
         ],
-        'circle-radius': 6,
-        'circle-opacity': 0.5,
+        'circle-radius': 12,
+        'circle-opacity': 1,
     },
 };
 
@@ -105,11 +105,11 @@ export const trackPointIconLayer: Omit<SymbolLayer, 'id'> = {
     filter: ['==', ['get', 'type'], 'track-point'],
     paint: {
         'icon-color': COLOR_WHITE,
-        'icon-opacity': 0.5,
+        'icon-opacity': 1,
     },
     layout: {
         'icon-image': 'triangle-11',
-        'icon-size': 0.7,
+        'icon-size': 1,
         'icon-rotate': 90,
         'icon-allow-overlap': true,
         'icon-ignore-placement': true,

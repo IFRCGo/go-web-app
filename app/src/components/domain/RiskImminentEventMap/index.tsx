@@ -37,7 +37,17 @@ import {
     DEFAULT_MAP_PADDING,
     DURATION_MAP_ZOOM,
 } from '#utils/constants';
-import { ImminentEventSource } from '#utils/domain/risk';
+import {
+    ImminentEventSource,
+    LAYER_CYCLONE_BUFFERS,
+    LAYER_CYCLONE_NODES,
+    LAYER_CYCLONE_TRACKS,
+    LAYER_CYCLONE_UNCERTAINTY,
+    LAYER_CYCLONE_UNCERTAINTY_FIVE_DAYS,
+    LAYER_CYCLONE_UNCERTAINTY_THREE_DAYS,
+    LayerOption,
+    LayerType,
+} from '#utils/domain/risk';
 
 import GdacsMap from '../RiskImminentEvents/Gdacs/GdacsMap';
 import PdcMap from '../RiskImminentEvents/Pdc/PdcMap';
@@ -84,8 +94,9 @@ interface EventDetailProps<EVENT, EXPOSURE> {
     data: EVENT;
     exposure: EXPOSURE | undefined;
     pending: boolean;
-    layers: Record<number, boolean>;
+    layers: Record<LayerType, boolean>;
     onLayerChange: (value: boolean, name: number) => void;
+    options: LayerOption[];
 }
 
 interface Props<EVENT, EXPOSURE, KEY extends string | number> {
@@ -102,8 +113,9 @@ interface Props<EVENT, EXPOSURE, KEY extends string | number> {
     onActiveEventChange: (eventId: KEY | undefined) => void;
     activeEventExposurePending: boolean;
     activeView: ImminentEventSource;
-    layers: Record<number, boolean>;
-    onLayerChange: (value: boolean, name: number) => void;
+    activeLayersMapping: Record<LayerType, boolean>;
+    layers: Record<LayerType, boolean>;
+    onLayerChange: React.Dispatch<React.SetStateAction<Record<LayerType, boolean>>>;
 }
 
 function RiskImminentEventMap<
@@ -125,6 +137,7 @@ function RiskImminentEventMap<
         onActiveEventChange,
         activeEventExposurePending,
         activeView,
+        activeLayersMapping,
         layers,
         onLayerChange,
     } = props;
@@ -132,6 +145,34 @@ function RiskImminentEventMap<
     const strings = useTranslation(i18n);
 
     const [activeEventId, setActiveEventId] = useState<KEY | undefined>(undefined);
+
+    const layerOptions: LayerOption[] = useMemo(() => [
+        {
+            key: LAYER_CYCLONE_NODES,
+            label: strings.eventLayerNodes,
+        },
+        {
+            key: LAYER_CYCLONE_BUFFERS,
+            label: strings.eventLayerBuffers,
+        },
+        {
+            key: LAYER_CYCLONE_TRACKS,
+            label: strings.eventLayerTracks,
+        },
+        {
+            key: LAYER_CYCLONE_UNCERTAINTY,
+            label: strings.eventLayerForecastUncertainty,
+        },
+        {
+            key: LAYER_CYCLONE_UNCERTAINTY_FIVE_DAYS,
+            label: strings.eventLayerForecastUncertaintyFiveDays,
+        },
+        {
+            key: LAYER_CYCLONE_UNCERTAINTY_THREE_DAYS,
+            label: strings.eventLayerForecastUncertaintyThreeDays,
+        },
+    ], [strings]);
+
     const activeEvent = useMemo(
         () => {
             if (isNotDefined(activeEventId)) {
@@ -239,6 +280,13 @@ function RiskImminentEventMap<
         [],
     );
 
+    const handleLayerChange = useCallback((value: boolean, name: number) => {
+        onLayerChange((prevValues) => ({
+            ...prevValues,
+            [name]: value,
+        }));
+    }, [onLayerChange]);
+
     const allIconsLoaded = useMemo(
         () => (
             Object.values(loadedIcons)
@@ -255,6 +303,13 @@ function RiskImminentEventMap<
         }),
         [allIconsLoaded],
     );
+
+    const activeLayerOptions = useMemo(() => {
+        if (isNotDefined(activeLayersMapping)) {
+            return [];
+        }
+        return layerOptions.filter((opt) => activeLayersMapping[opt?.key]);
+    }, [activeLayersMapping, layerOptions]);
 
     const getLayerBySource = useCallback((source: ImminentEventSource) => {
         if (source === 'pdc') {
@@ -378,8 +433,9 @@ function RiskImminentEventMap<
                         data={activeEvent}
                         exposure={activeEventExposure}
                         pending={activeEventExposurePending}
-                        onLayerChange={onLayerChange}
+                        onLayerChange={handleLayerChange}
                         layers={layers}
+                        options={activeLayerOptions}
                     />
                 )}
             </Container>

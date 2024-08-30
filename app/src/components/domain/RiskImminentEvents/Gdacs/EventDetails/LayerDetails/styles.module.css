@@ -1,0 +1,46 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-left: var(--go-ui-spacing-lg);
+
+    svg {
+        padding: var(--go-ui-spacing-xs);
+        width: 24px;
+        height: 24px;
+        color: #fff;
+    }
+
+    .icon-red {
+        border-radius: 50%;
+        background-color: #f5333f;
+    }
+
+    .icon-orange {
+        border-radius: 50%;
+        background-color: #ff8000;
+    }
+
+    .icon-green {
+        border-radius: 50%;
+        background-color: #7fb845;
+    }
+
+    .storm-red {
+        background-color: #f5333f;
+        width: 40px;
+        height: 20px;
+    }
+
+    .storm-orange {
+        background-color: #ff8000;
+        width: 40px;
+        height: 20px;
+    }
+
+    .storm-green {
+        background-color: #7fb845;
+        width: 40px;
+        height: 20px;
+    }
+}

@@ -39,12 +39,35 @@ type CountrySeasonal = RiskApiResponse<'/api/v1/country-seasonal/'>;
 type IpcData = CountrySeasonal[number]['ipc_displacement_data'];
 type GwisData = CountrySeasonal[number]['gwis'];
 
-export const NODES = 1;
-export const TRACKS = 2;
-export const BUFFERS = 3;
-export const UNCERTAINTY = 4;
-export const UNCERTAINTY_FIVE_DAYS = 5;
-export const UNCERTAINTY_THREE_DAYS = 6;
+export const LAYER_CYCLONE_NODES = 1;
+export const LAYER_CYCLONE_TRACKS = 2;
+export const LAYER_CYCLONE_BUFFERS = 3;
+export const LAYER_CYCLONE_UNCERTAINTY = 4;
+export const LAYER_CYCLONE_UNCERTAINTY_FIVE_DAYS = 5;
+export const LAYER_CYCLONE_UNCERTAINTY_THREE_DAYS = 6;
+
+export type CycloneFillLayerType = 'track-point' | 'track' | 'uncertainty' | 'exposure';
+
+export type LayerType = typeof LAYER_CYCLONE_NODES
+    | typeof LAYER_CYCLONE_TRACKS
+    | typeof LAYER_CYCLONE_BUFFERS
+    | typeof LAYER_CYCLONE_UNCERTAINTY
+    | typeof LAYER_CYCLONE_UNCERTAINTY_FIVE_DAYS
+    | typeof LAYER_CYCLONE_UNCERTAINTY_THREE_DAYS;
+
+export interface LayerOption {
+    key: LayerType;
+    label: string;
+}
+
+export const defaultLayersValue: Record<LayerType, boolean> = {
+    [LAYER_CYCLONE_NODES]: false,
+    [LAYER_CYCLONE_TRACKS]: false,
+    [LAYER_CYCLONE_BUFFERS]: false,
+    [LAYER_CYCLONE_UNCERTAINTY]: false,
+    [LAYER_CYCLONE_UNCERTAINTY_FIVE_DAYS]: false,
+    [LAYER_CYCLONE_UNCERTAINTY_THREE_DAYS]: false,
+};
 
 export const hazardTypeToColorMap: Record<HazardType, string> = {
     EQ: COLOR_HAZARD_EARTHQUAKE,
