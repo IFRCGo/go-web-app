@@ -28,6 +28,7 @@ import {
     exposureFillLayer,
     trackOutlineLayer,
     trackPointIconLayer,
+    trackPointLabelLayer,
     trackPointLayer,
     uncertaintyTrackOutlineLayer,
 } from './mapStyles';
@@ -148,6 +149,10 @@ function WfpAdamMap(props: Props) {
                                 <MapLayer
                                     layerKey="track-point"
                                     layerOptions={trackPointIconLayer}
+                                />
+                                <MapLayer
+                                    layerKey="track-points-label"
+                                    layerOptions={trackPointLabelLayer}
                                 />
                             </>
                         )}

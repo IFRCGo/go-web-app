@@ -17,7 +17,7 @@ import styles from './styles.module.css';
 export interface Props {
     options: LayerOption;
     value: Record<LayerType, boolean>;
-    onChange: (value: boolean, name: number) => void;
+    onChange: (value: boolean, name: LayerType) => void;
 }
 
 function LayerDetails(props: Props) {
@@ -57,18 +57,22 @@ function LayerDetails(props: Props) {
                 </Container>
             )}
             {options.key === LAYER_CYCLONE_BUFFERS && value[LAYER_CYCLONE_BUFFERS] && (
-                <Container childrenContainerClassName={styles.content}>
+                <Container
+                    heading="Alert Level"
+                    headingLevel={5}
+                    childrenContainerClassName={styles.content}
+                >
                     <TextOutput
                         icon={<div className={styles.stormRed} />}
-                        value="Red Alert Level"
+                        value="Red"
                     />
                     <TextOutput
                         icon={<div className={styles.stormOrange} />}
-                        value="Orange Alert Level"
+                        value="Orange"
                     />
                     <TextOutput
                         icon={<div className={styles.stormGreen} />}
-                        value="Green Alert Level"
+                        value="Green"
                     />
                 </Container>
             )}

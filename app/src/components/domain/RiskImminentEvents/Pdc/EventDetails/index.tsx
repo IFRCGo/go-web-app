@@ -43,7 +43,7 @@ interface Props {
     data: PdcEventItem;
     exposure: PdcExposure | undefined;
     pending: boolean;
-    onLayerChange: (value: boolean, name: number) => void;
+    onLayerChange: (value: boolean, name: LayerType) => void;
     layers: Record<LayerType, boolean>;
     options: LayerOption[];
 }

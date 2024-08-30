@@ -53,7 +53,8 @@ export const uncertaintyTrackOutlineLayer: Omit<LineLayer, 'id'> = {
     paint: {
         'line-color': COLOR_BLACK,
         'line-opacity': 0.5,
-        'line-dasharray': [2, 1],
+        'line-dasharray': [4, 3],
+        'line-width': 1.5,
     },
 };
 export const trackOutlineLayer: Omit<LineLayer, 'id'> = {

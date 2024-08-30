@@ -17,7 +17,7 @@ import styles from './styles.module.css';
 export interface Props {
     options: LayerOption;
     value: Record<LayerType, boolean>;
-    onChange: (value: boolean, name: number) => void;
+    onChange: (value: boolean, name: LayerType) => void;
 }
 
 function LayerDetails(props: Props) {
@@ -43,32 +43,44 @@ function LayerDetails(props: Props) {
                     childrenContainerClassName={styles.content}
                 >
                     <TextOutput
-                        icon={<CycloneIcon className={styles.iconRed} />}
-                        value=">= 119 km/h"
+                        icon={<CycloneIcon className={styles.iconInformation} />}
+                        value="63 km/h with no current threat"
                     />
                     <TextOutput
-                        icon={<CycloneIcon className={styles.iconOrange} />}
-                        value="93 to 118 km/h"
+                        icon={<CycloneIcon className={styles.iconAdvisory} />}
+                        value="63 km/h imapct within 5 days"
                     />
                     <TextOutput
-                        icon={<CycloneIcon className={styles.iconGreen} />}
-                        value="63 to 92 km/h"
+                        icon={<CycloneIcon className={styles.iconWatch} />}
+                        value="63 km/h imapct within 48 hours"
+                    />
+                    <TextOutput
+                        icon={<CycloneIcon className={styles.iconWarning} />}
+                        value="63 km/h imapct within 36 hours"
                     />
                 </Container>
             )}
             {options.key === LAYER_CYCLONE_BUFFERS && value[LAYER_CYCLONE_BUFFERS] && (
-                <Container childrenContainerClassName={styles.content}>
+                <Container
+                    heading="Alert Level"
+                    headingLevel={5}
+                    childrenContainerClassName={styles.content}
+                >
                     <TextOutput
-                        icon={<div className={styles.stormRed} />}
-                        value="Red Alert Level"
+                        icon={<div className={styles.stormInformation} />}
+                        value="Information"
                     />
                     <TextOutput
-                        icon={<div className={styles.stormOrange} />}
-                        value="Orange Alert Level"
+                        icon={<div className={styles.stormAdvisory} />}
+                        value="Advisory"
                     />
                     <TextOutput
-                        icon={<div className={styles.stormGreen} />}
-                        value="Green Alert Level"
+                        icon={<div className={styles.stormWatch} />}
+                        value="Watch"
+                    />
+                    <TextOutput
+                        icon={<div className={styles.stormWarning} />}
+                        value="Warning"
                     />
                 </Container>
             )}

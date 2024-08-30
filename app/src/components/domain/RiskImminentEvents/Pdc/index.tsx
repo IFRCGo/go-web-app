@@ -16,6 +16,7 @@ import {
     isValidFeature,
     isValidPointFeature,
     LAYER_CYCLONE_BUFFERS,
+    LAYER_CYCLONE_NODES,
     LAYER_CYCLONE_TRACKS,
     LAYER_CYCLONE_UNCERTAINTY_FIVE_DAYS,
     LAYER_CYCLONE_UNCERTAINTY_THREE_DAYS,
@@ -104,6 +105,7 @@ function Pdc(props: Props) {
             } = res;
 
             const layersWithStatus = {
+                [LAYER_CYCLONE_NODES]: isDefined(storm_position_geojson),
                 [LAYER_CYCLONE_TRACKS]: isDefined(storm_position_geojson),
                 [LAYER_CYCLONE_BUFFERS]: isDefined(footprint_geojson),
                 [LAYER_CYCLONE_UNCERTAINTY_FIVE_DAYS]: isDefined(cyclone_five_days_cou),

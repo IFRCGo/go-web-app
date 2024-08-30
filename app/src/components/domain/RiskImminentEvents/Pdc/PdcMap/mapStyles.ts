@@ -54,8 +54,9 @@ export const uncertaintyFiveDaysTrackOutlineLayer: Omit<LineLayer, 'id'> = {
     ],
     paint: {
         'line-color': COLOR_BLACK,
-        'line-opacity': 0.8,
-        'line-dasharray': [5, 2],
+        'line-opacity': 0.5,
+        'line-dasharray': [4, 3],
+        'line-width': 1.5,
     },
 };
 
@@ -69,7 +70,8 @@ export const uncertaintyThreeDaysTrackOutlineLayer: Omit<LineLayer, 'id'> = {
     paint: {
         'line-color': COLOR_BLACK,
         'line-opacity': 0.5,
-        'line-dasharray': [2, 2],
+        'line-dasharray': [4, 3],
+        'line-width': 1.5,
     },
 };
 
@@ -109,7 +111,7 @@ export const trackPointIconLayer: Omit<SymbolLayer, 'id'> = {
     },
     layout: {
         'icon-image': 'TC',
-        'icon-size': 1,
+        'icon-size': 0.7,
         'icon-rotate': 90,
         'icon-allow-overlap': true,
         'icon-ignore-placement': true,

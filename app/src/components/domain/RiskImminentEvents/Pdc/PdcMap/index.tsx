@@ -141,16 +141,10 @@ function PdcMap(props: Props) {
                             />
                         )}
                         {layers[LAYER_CYCLONE_TRACKS] && (
-                            <>
-                                <MapLayer
-                                    layerKey="track-outline"
-                                    layerOptions={trackOutlineLayer}
-                                />
-                                <MapLayer
-                                    layerKey="track-points-label"
-                                    layerOptions={trackPointLabelLayer}
-                                />
-                            </>
+                            <MapLayer
+                                layerKey="track-outline"
+                                layerOptions={trackOutlineLayer}
+                            />
                         )}
                         {layers[LAYER_CYCLONE_NODES] && (
                             <>
@@ -162,6 +156,10 @@ function PdcMap(props: Props) {
                                 <MapLayer
                                     layerKey="track-point"
                                     layerOptions={trackPointIconLayer}
+                                />
+                                <MapLayer
+                                    layerKey="track-points-label"
+                                    layerOptions={trackPointLabelLayer}
                                 />
                             </>
                         )}

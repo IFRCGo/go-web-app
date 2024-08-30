@@ -11,35 +11,46 @@
         color: #fff;
     }
 
-    .icon-red {
+    .icon-information {
+        border-radius: 50%;
+        background-color: #4c5d9b;
+    }
+
+    .icon-advisory {
+        border-radius: 50%;
+        background-color: #ffd470;
+    }
+
+    .icon-watch {
+        border-radius: 50%;
+        background-color: #ff9e00;
+    }
+
+    .icon-warning {
         border-radius: 50%;
         background-color: #f5333f;
     }
 
-    .icon-orange {
-        border-radius: 50%;
-        background-color: #ff8000;
+    .storm-information {
+        background-color: #4c5d9b;
+        width: 40px;
+        height: 20px;
     }
 
-    .icon-green {
-        border-radius: 50%;
-        background-color: #7fb845;
+    .storm-advisory {
+        background-color: #ffd470;
+        width: 40px;
+        height: 20px;
     }
 
-    .storm-red {
+    .storm-watch {
+        background-color: #ff9e00;
+        width: 40px;
+        height: 20px;
+    }
+
+    .storm-warning {
         background-color: #f5333f;
-        width: 40px;
-        height: 20px;
-    }
-
-    .storm-orange {
-        background-color: #ff8000;
-        width: 40px;
-        height: 20px;
-    }
-
-    .storm-green {
-        background-color: #7fb845;
         width: 40px;
         height: 20px;
     }

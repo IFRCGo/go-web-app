@@ -17,7 +17,7 @@ import styles from './styles.module.css';
 export interface Props {
     options: LayerOption;
     value: Record<LayerType, boolean>;
-    onChange: (value: boolean, name: number) => void;
+    onChange: (value: boolean, name: LayerType) => void;
 }
 
 function LayerDetails(props: Props) {
@@ -44,31 +44,39 @@ function LayerDetails(props: Props) {
                 >
                     <TextOutput
                         icon={<CycloneIcon className={styles.iconRed} />}
-                        value=">= 119 km/h"
+                        value="> 240 km/h"
+                    />
+                    <TextOutput
+                        icon={<CycloneIcon className={styles.iconRed} />}
+                        value="185 to 240 km/h"
                     />
                     <TextOutput
                         icon={<CycloneIcon className={styles.iconOrange} />}
-                        value="93 to 118 km/h"
+                        value="110 t0 185 km/h"
                     />
                     <TextOutput
                         icon={<CycloneIcon className={styles.iconGreen} />}
-                        value="63 to 92 km/h"
+                        value="<= 110 km/h"
                     />
                 </Container>
             )}
             {options.key === LAYER_CYCLONE_BUFFERS && value[LAYER_CYCLONE_BUFFERS] && (
-                <Container childrenContainerClassName={styles.content}>
+                <Container
+                    heading="Wind Buffer"
+                    headingLevel={5}
+                    childrenContainerClassName={styles.content}
+                >
                     <TextOutput
                         icon={<div className={styles.stormRed} />}
-                        value="Red Alert Level"
+                        value="120 km/h"
                     />
                     <TextOutput
                         icon={<div className={styles.stormOrange} />}
-                        value="Orange Alert Level"
+                        value="90 km/h"
                     />
                     <TextOutput
                         icon={<div className={styles.stormGreen} />}
-                        value="Green Alert Level"
+                        value="60 km/h"
                     />
                 </Container>
             )}

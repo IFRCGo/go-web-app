@@ -90,7 +90,7 @@ interface Props {
     data: WfpAdamItem;
     exposure: WfpAdamExposure | undefined;
     pending: boolean;
-    onLayerChange: (value: boolean, name: number) => void;
+    onLayerChange: (value: boolean, name: LayerType) => void;
     layers: Record<LayerType, boolean>;
     options: LayerOption[];
 }
@@ -180,7 +180,6 @@ function EventDetails(props: Props) {
         stormPoints?.map(({ windSpeed }) => windSpeed),
     );
 
-    // TODO: add exposure details
     return (
         <Container
             className={styles.eventDetails}

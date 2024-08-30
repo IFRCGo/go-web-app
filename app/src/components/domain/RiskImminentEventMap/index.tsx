@@ -95,7 +95,7 @@ interface EventDetailProps<EVENT, EXPOSURE> {
     exposure: EXPOSURE | undefined;
     pending: boolean;
     layers: Record<LayerType, boolean>;
-    onLayerChange: (value: boolean, name: number) => void;
+    onLayerChange: (value: boolean, name: LayerType) => void;
     options: LayerOption[];
 }
 
@@ -280,7 +280,7 @@ function RiskImminentEventMap<
         [],
     );
 
-    const handleLayerChange = useCallback((value: boolean, name: number) => {
+    const handleLayerChange = useCallback((value: boolean, name: LayerType) => {
         onLayerChange((prevValues) => ({
             ...prevValues,
             [name]: value,

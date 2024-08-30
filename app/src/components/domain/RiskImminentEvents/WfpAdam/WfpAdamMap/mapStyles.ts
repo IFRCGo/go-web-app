@@ -53,7 +53,8 @@ export const uncertaintyTrackOutlineLayer: Omit<LineLayer, 'id'> = {
     paint: {
         'line-color': COLOR_BLACK,
         'line-opacity': 0.5,
-        'line-dasharray': [2, 1],
+        'line-dasharray': [4, 3],
+        'line-width': 1.5,
     },
 };
 export const trackOutlineLayer: Omit<LineLayer, 'id'> = {
@@ -96,5 +97,21 @@ export const trackPointIconLayer: Omit<SymbolLayer, 'id'> = {
         'icon-rotate': 90,
         'icon-allow-overlap': true,
         'icon-ignore-placement': true,
+    },
+};
+
+export const trackPointLabelLayer: Omit<SymbolLayer, 'id'> = {
+    type: 'symbol',
+    filter: ['==', ['get', 'type'], 'track-point'],
+    paint: {
+        'text-color': COLOR_BLACK,
+        'text-halo-color': COLOR_WHITE,
+    },
+    layout: {
+        'text-size': 12,
+        'text-field': ['get', 'track_date'],
+        'text-anchor': 'bottom-left',
+        'text-offset': [0.5, 0],
+        'text-max-width': 20,
     },
 };
