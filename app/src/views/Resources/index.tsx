@@ -240,6 +240,13 @@ export function Component() {
                     >
                         {strings.aboutLearningPlatform}
                     </Link>
+                    <Link
+                        href="https://prddsgofilestorage.blob.core.windows.net/api/documents/Health/Health.Mapping.-.Phase.1.Report.pdf"
+                        external
+                        withLinkIcon
+                    >
+                        {strings.aboutHealthMapping}
+                    </Link>
                 </Container>
             </Container>
             <Container
