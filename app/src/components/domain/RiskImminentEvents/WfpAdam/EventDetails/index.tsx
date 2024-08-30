@@ -25,24 +25,17 @@ import {
 
 import Link from '#components/Link';
 import {
-    BUFFERS,
     isValidFeatureCollection,
     isValidPointFeature,
-    NODES,
-    TRACKS,
-    UNCERTAINTY,
+    LayerOption,
+    LayerType,
 } from '#utils/domain/risk';
 import { type RiskApiResponse } from '#utils/restRequest';
 
-import LayerDetails, { Props as LayerInputProps } from '../../LayerDetails';
+import LayerDetails, { Props as LayerInputProps } from './LayerDetails';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-interface Option {
-    key: number;
-    label: string;
-}
 
 type WfpAdamResponse = RiskApiResponse<'/api/v1/adam-exposure/'>;
 type WfpAdamItem = NonNullable<WfpAdamResponse['results']>[number];
@@ -98,7 +91,8 @@ interface Props {
     exposure: WfpAdamExposure | undefined;
     pending: boolean;
     onLayerChange: (value: boolean, name: number) => void;
-    layers: Record<number, boolean>;
+    layers: Record<LayerType, boolean>;
+    options: LayerOption[];
 }
 
 function EventDetails(props: Props) {
@@ -113,28 +107,10 @@ function EventDetails(props: Props) {
         pending,
         onLayerChange,
         layers,
+        options,
     } = props;
 
     const strings = useTranslation(i18n);
-
-    const options: Option[] = useMemo(() => [
-        {
-            key: NODES,
-            label: strings.wfpEventLayerNodes,
-        },
-        {
-            key: TRACKS,
-            label: strings.wfpEventLayerTracks,
-        },
-        {
-            key: BUFFERS,
-            label: strings.wfpEventLayerBuffers,
-        },
-        {
-            key: UNCERTAINTY,
-            label: strings.wfpEventLayerForecastUncertainty,
-        },
-    ], [strings]);
 
     const stormPoints = useMemo(
         () => {
@@ -184,7 +160,7 @@ function EventDetails(props: Props) {
     );
 
     const layerRendererParams = useCallback(
-        (_: number, layerOptions: Option): LayerInputProps => ({
+        (_: number, layerOptions: LayerOption): LayerInputProps => ({
             options: layerOptions,
             value: layers,
             onChange: onLayerChange,
@@ -410,7 +386,7 @@ function EventDetails(props: Props) {
                         data={options}
                         renderer={LayerDetails}
                         rendererParams={layerRendererParams}
-                        keySelector={(item: Option) => item.key}
+                        keySelector={(item: LayerOption) => item.key}
                         withoutMessage
                         compact
                         pending={false}
