@@ -110,7 +110,7 @@ interface Props {
     onSuccess?: () => void;
     onEditButtonClick?: () => void;
     localUnitId?: number;
-    actionsContainerRef?: RefObject<HTMLDivElement>;
+    actionsContainerRef: RefObject<HTMLDivElement>;
     headingDescriptionRef?: RefObject<HTMLDivElement>;
     headerDescriptionRef: RefObject<HTMLDivElement>;
 }
@@ -316,14 +316,21 @@ function LocalUnitsForm(props: Props) {
 
     return (
         <div className={styles.localUnitsForm}>
-            {!readOnly
-                && isDefined(actionsContainerRef)
-                && isDefined(actionsContainerRef.current)
-                && (
-                    <Portal container={actionsContainerRef.current}>
-                        {submitButton}
-                    </Portal>
-                )}
+            {readOnly && isDefined(actionsContainerRef.current) && (
+                <Portal container={actionsContainerRef.current}>
+                    <Button
+                        name={undefined}
+                        onClick={onEditButtonClick}
+                    >
+                        {strings.editButtonLabel}
+                    </Button>
+                </Portal>
+            )}
+            {!readOnly && isDefined(actionsContainerRef.current) && (
+                <Portal container={actionsContainerRef.current}>
+                    {submitButton}
+                </Portal>
+            )}
             {isDefined(headingDescriptionRef) && isDefined(headingDescriptionRef.current) && (
                 <Portal container={headingDescriptionRef.current}>
                     <div className={styles.lastUpdateLabel}>
@@ -389,14 +396,6 @@ function LocalUnitsForm(props: Props) {
                                             onActionSuccess={onSuccess}
                                             disabled={!pristine}
                                         />
-                                        {readOnly && (
-                                            <Button
-                                                name=""
-                                                onClick={onEditButtonClick}
-                                            >
-                                                {strings.editButtonLabel}
-                                            </Button>
-                                        )}
                                         <LocalUnitValidateButton
                                             countryId={Number(countryId)}
                                             localUnitId={localUnitId}

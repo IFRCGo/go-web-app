@@ -5,8 +5,8 @@
 }
 
 .local-unit-validated-button {
-    background-color: var(--go-ui-color-gray-40);
     border: none;
+    background-color: var(--go-ui-color-gray-40);
 
     .icon {
         font-size: var(--go-ui-height-icon-multiplier);

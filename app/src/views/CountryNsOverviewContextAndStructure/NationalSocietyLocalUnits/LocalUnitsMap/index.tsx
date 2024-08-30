@@ -16,7 +16,10 @@ import {
     List,
     TextOutput,
 } from '@ifrc-go/ui';
-import { useTranslation } from '@ifrc-go/ui/hooks';
+import {
+    useBooleanState,
+    useTranslation,
+} from '@ifrc-go/ui/hooks';
 import {
     numericIdSelector,
     stringNameSelector,
@@ -65,6 +68,7 @@ import {
     VALIDATED,
 } from '../common';
 import type { FilterValue } from '../Filters';
+import LocalUnitsFormModal from '../LocalUnitsFormModal';
 import { TYPE_HEALTH_CARE } from '../LocalUnitsFormModal/LocalUnitsForm/schema';
 
 import i18n from './i18n.json';
@@ -131,6 +135,12 @@ function LocalUnitsMap(props: Props) {
         localUnitsOptions,
     } = props;
     const { countryResponse } = useOutletContext<CountryOutletContext>();
+
+    const [showLocalUnitModal, {
+        setTrue: setShowLocalUnitViewModalTrue,
+        setFalse: setShowLocalUnitViewModalFalse,
+    }] = useBooleanState(false);
+    const [readOnlyLocalUnitModal, setReadOnlyLocalUnitModal] = useState(true);
 
     const urlQuery = useMemo<GoApiUrlQuery<'/api/v2/public-local-units/'>>(
         () => ({
@@ -305,6 +315,22 @@ function LocalUnitsMap(props: Props) {
         [setClickedPointProperties],
     );
 
+    const handleLocalUnitHeadingClick = useCallback(
+        () => {
+            setReadOnlyLocalUnitModal(true);
+            setShowLocalUnitViewModalTrue();
+        },
+        [setShowLocalUnitViewModalTrue],
+    );
+
+    const handleLocalUnitsFormModalClose = useCallback(
+        () => {
+            setShowLocalUnitViewModalFalse();
+            setReadOnlyLocalUnitModal(true);
+        },
+        [setShowLocalUnitViewModalFalse],
+    );
+
     const emailRendererParams = useCallback(
         (_: string, email: string): LinkProps => ({
             className: styles.email,
@@ -417,7 +443,15 @@ function LocalUnitsMap(props: Props) {
                             popupClassName={styles.mapPopup}
                             coordinates={clickedPointProperties.lngLat}
                             onCloseButtonClick={handlePointClose}
-                            heading={localUnitName}
+                            heading={(
+                                <Button
+                                    name=""
+                                    variant="tertiary"
+                                    onClick={handleLocalUnitHeadingClick}
+                                >
+                                    {localUnitName}
+                                </Button>
+                            )}
                             contentViewType="vertical"
                             pending={localUnitDetailPending}
                             errored={isDefined(localUnitDetailError)}
@@ -543,6 +577,14 @@ function LocalUnitsMap(props: Props) {
                     iconElementClassName={styles.legendIcon}
                 />
             )}
+            {(showLocalUnitModal && (
+                <LocalUnitsFormModal
+                    onClose={handleLocalUnitsFormModalClose}
+                    localUnitId={clickedPointProperties?.localUnitId}
+                    readOnly={readOnlyLocalUnitModal}
+                    setReadOnly={setReadOnlyLocalUnitModal}
+                />
+            ))}
         </Container>
     );
 }

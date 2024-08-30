@@ -1,10 +1,10 @@
 import {
     useCallback,
     useRef,
-    useState,
 } from 'react';
 import { Modal } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import { isDefined } from '@togglecorp/fujs';
 
 import LocalUnitsForm from './LocalUnitsForm';
 
@@ -13,7 +13,8 @@ import styles from './styles.module.css';
 
 interface Props {
     localUnitId?: number;
-    viewMode?: boolean;
+    readOnly?: boolean;
+    setReadOnly?: React.Dispatch<React.SetStateAction<boolean>>;
     onClose: (requestDone?: boolean) => void;
 }
 
@@ -21,7 +22,8 @@ function LocalUnitsFormModal(props: Props) {
     const {
         onClose,
         localUnitId,
-        viewMode = false,
+        readOnly,
+        setReadOnly,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -29,16 +31,20 @@ function LocalUnitsFormModal(props: Props) {
     const headingDescriptionRef = useRef<HTMLDivElement>(null);
     const headerDescriptionRef = useRef<HTMLDivElement>(null);
 
-    const [readOnly, setReadOnly] = useState<boolean>(viewMode);
-
     const handleSuccess = useCallback(
-        () => { onClose(true); },
+        () => {
+            onClose(true);
+        },
         [onClose],
     );
 
     const handleEditButtonClick = useCallback(
-        () => { setReadOnly(false); },
-        [],
+        () => {
+            if (isDefined(setReadOnly)) {
+                setReadOnly(false);
+            }
+        },
+        [setReadOnly],
     );
 
     return (
@@ -49,9 +55,7 @@ function LocalUnitsFormModal(props: Props) {
             size="pageWidth"
             withHeaderBorder
             headingLevel={2}
-            actions={!readOnly && (
-                <div ref={actionsContainerRef} />
-            )}
+            actions={<div ref={actionsContainerRef} />}
             headingContainerClassName={styles.headingContainer}
             headingDescription={
                 <div ref={headingDescriptionRef} />
