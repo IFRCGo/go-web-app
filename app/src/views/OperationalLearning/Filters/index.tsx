@@ -12,8 +12,8 @@ import { EntriesAsList } from '@togglecorp/toggle-form';
 import CountrySelectInput, { type CountryOption } from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput, { type DisasterTypeItem } from '#components/domain/DisasterTypeSelectInput';
 import RegionSelectInput, { type RegionOption } from '#components/domain/RegionSelectInput';
+import useCountry from '#hooks/domain/useCountry';
 import usePerComponent, { type PerComponent } from '#hooks/domain/usePerComponent';
-import useRegion from '#hooks/domain/useRegion';
 import useSecondarySector, { type SecondarySector } from '#hooks/domain/useSecondarySector';
 import { getFormattedComponentName } from '#utils/domain/per';
 
@@ -51,7 +51,7 @@ function Filters(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
-    const regions = useRegion();
+    const countries = useCountry();
 
     const [secondarySectorOptions, secondarySectorOptionsPending] = useSecondarySector();
     const [perComponentOptions, perComponentOptionsPending] = usePerComponent();
@@ -62,24 +62,21 @@ function Filters(props: Props) {
         selectedRegion: RegionOption | undefined,
     ) => {
         onChange(newValue, key, selectedRegion?.value);
-        onChange(undefined, 'country', undefined);
-    }, [onChange]);
+        if (value.country) {
+            const countryRegion = countries.find((country) => country.id === value.country);
+            if (countryRegion?.region !== newValue) {
+                onChange(undefined, 'country', undefined);
+            }
+        }
+    }, [onChange, value, countries]);
 
     const handleCountrySelect = useCallback((
         newValue: CountryOption['id'] | undefined,
         key: 'country',
         selectedCountry: CountryOption | undefined,
     ) => {
-        if (isDefined(newValue)) {
-            const countryRegion = regions?.find((region) => region.id === selectedCountry?.region);
-            onChange(
-                selectedCountry?.region as RegionOption['key'],
-                'region',
-                countryRegion?.region_name,
-            );
-        }
         onChange(newValue, key, selectedCountry?.name);
-    }, [onChange, regions]);
+    }, [onChange]);
 
     const handleDisasterTypeSelect = useCallback((
         newValue: DisasterTypeItem['id'] | undefined,
