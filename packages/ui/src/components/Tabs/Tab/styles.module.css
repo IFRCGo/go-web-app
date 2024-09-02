@@ -88,11 +88,13 @@
             align-self: stretch;
 
             .step-circle {
+                position: absolute;
+                left: 40%;
                 flex-shrink: 0;
                 transition: var(--go-ui-duration-transition-slow) border-color ease-in-out;
                 border: var(--border-width) solid transparent;
                 border-radius: 50%;
-                background-color: var(--go-ui-color-background);
+                background-color: transparent;
                 padding: var(--go-ui-spacing-2xs);
 
                 .inner-circle {
@@ -116,7 +118,7 @@
             .progress-bar-start {
                 flex-grow: 1;
                 background-color: var(--go-ui-color-separator);
-                height: var(--go-ui-width-separator-thin);;
+                height: var(--go-ui-width-separator-small);
             }
         }
 
