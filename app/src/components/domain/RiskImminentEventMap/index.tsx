@@ -33,6 +33,7 @@ import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import { type components } from '#generated/riskTypes';
 import useDebouncedValue from '#hooks/useDebouncedValue';
 import {
+    ClickedPoint,
     COLOR_WHITE,
     DEFAULT_MAP_PADDING,
     DURATION_MAP_ZOOM,
@@ -90,23 +91,26 @@ interface EventItemProps<EVENT> {
 
 type Footprint = GeoJSON.FeatureCollection<GeoJSON.Geometry> | undefined;
 
-interface EventDetailProps<EVENT, EXPOSURE> {
+interface EventDetailProps<EVENT, EXPOSURE, EVENT_PROPERTIES> {
     data: EVENT;
     exposure: EXPOSURE | undefined;
     pending: boolean;
     layers: Record<LayerType, boolean>;
     onLayerChange: (value: boolean, name: LayerType) => void;
     options: LayerOption[];
+    clickedPointProperties: ClickedPoint<EVENT_PROPERTIES> | undefined;
+    handlePointClick: (feature: mapboxgl.MapboxGeoJSONFeature, lngLat: mapboxgl.LngLat) => boolean;
+    handlePointClose: () => void;
 }
 
-interface Props<EVENT, EXPOSURE, KEY extends string | number> {
+interface Props<EVENT, EXPOSURE, EVENT_PROPERTIES, KEY extends string | number> {
     events: EVENT[] | undefined;
     keySelector: (event: EVENT) => KEY;
     pointFeatureSelector: (event: EVENT) => EventPointFeature | undefined;
     footprintSelector: (activeEventExposure: EXPOSURE | undefined) => Footprint | undefined;
     activeEventExposure: EXPOSURE | undefined;
     listItemRenderer: React.ComponentType<EventItemProps<EVENT>>;
-    detailRenderer: React.ComponentType<EventDetailProps<EVENT, EXPOSURE>>;
+    detailRenderer: React.ComponentType<EventDetailProps<EVENT, EXPOSURE, EVENT_PROPERTIES>>;
     pending: boolean;
     sidePanelHeading: React.ReactNode;
     bbox: LngLatBoundsLike | undefined;
@@ -115,14 +119,21 @@ interface Props<EVENT, EXPOSURE, KEY extends string | number> {
     activeView: ImminentEventSource;
     activeLayersMapping: Record<LayerType, boolean>;
     layers: Record<LayerType, boolean>;
-    onLayerChange: React.Dispatch<React.SetStateAction<Record<LayerType, boolean>>>;
+    onLayerChange: (value: boolean, name: LayerType) => void;
+    clickedPointProperties: ClickedPoint<EVENT_PROPERTIES> | undefined;
+    handleCyclonePointClick: (
+        feature: mapboxgl.MapboxGeoJSONFeature,
+        lngLat: mapboxgl.LngLat,
+    ) => boolean;
+    handleCyclonePointClose: () => void;
 }
 
 function RiskImminentEventMap<
     EVENT,
     EXPOSURE,
+    EVENT_PROPERTIES,
     KEY extends string | number
->(props: Props<EVENT, EXPOSURE, KEY>) {
+>(props: Props<EVENT, EXPOSURE, EVENT_PROPERTIES, KEY>) {
     const {
         events,
         pointFeatureSelector,
@@ -140,6 +151,9 @@ function RiskImminentEventMap<
         activeLayersMapping,
         layers,
         onLayerChange,
+        clickedPointProperties,
+        handleCyclonePointClick,
+        handleCyclonePointClose,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -280,13 +294,6 @@ function RiskImminentEventMap<
         [],
     );
 
-    const handleLayerChange = useCallback((value: boolean, name: LayerType) => {
-        onLayerChange((prevValues) => ({
-            ...prevValues,
-            [name]: value,
-        }));
-    }, [onLayerChange]);
-
     const allIconsLoaded = useMemo(
         () => (
             Object.values(loadedIcons)
@@ -328,6 +335,9 @@ function RiskImminentEventMap<
                     activeEventFootprint={activeEventFootprint}
                     layers={layers}
                     hazardType={activeEvent?.hazard_type}
+                    handlePointClick={handleCyclonePointClick}
+                    handlePointClose={handleCyclonePointClose}
+                    clickedPointProperties={clickedPointProperties}
                 />
             );
         }
@@ -341,7 +351,14 @@ function RiskImminentEventMap<
             );
         }
         return null;
-    }, [activeEventFootprint, layers, activeEvent]);
+    }, [
+        activeEventFootprint,
+        layers,
+        activeEvent,
+        handleCyclonePointClick,
+        handleCyclonePointClose,
+        clickedPointProperties,
+    ]);
 
     return (
         <div className={styles.riskImminentEventMap}>
@@ -433,9 +450,12 @@ function RiskImminentEventMap<
                         data={activeEvent}
                         exposure={activeEventExposure}
                         pending={activeEventExposurePending}
-                        onLayerChange={handleLayerChange}
+                        onLayerChange={onLayerChange}
                         layers={layers}
                         options={activeLayerOptions}
+                        handlePointClick={handleCyclonePointClick}
+                        handlePointClose={handleCyclonePointClose}
+                        clickedPointProperties={clickedPointProperties}
                     />
                 )}
             </Container>

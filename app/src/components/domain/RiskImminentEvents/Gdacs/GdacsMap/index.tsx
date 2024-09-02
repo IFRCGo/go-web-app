@@ -1,8 +1,4 @@
-import {
-    useCallback,
-    useMemo,
-    useState,
-} from 'react';
+import { useMemo } from 'react';
 import { TextOutput } from '@ifrc-go/ui';
 import { isDefined } from '@togglecorp/fujs';
 import {
@@ -11,9 +7,11 @@ import {
     MapOrder,
     MapSource,
 } from '@togglecorp/re-map';
+import mapboxgl from 'mapbox-gl';
 
 import { geojsonSourceOptions } from '#components/domain/RiskImminentEventMap/mapStyles';
 import MapPopup from '#components/MapPopup';
+import { ClickedPoint } from '#utils/constants';
 import {
     HazardType,
     LAYER_CYCLONE_BUFFERS,
@@ -44,23 +42,24 @@ interface GdacsProperties {
     source?: string;
 }
 
-interface ClickedPoint {
-    feature: GeoJSON.Feature<GeoJSON.Point, GdacsProperties>;
-    lngLat: mapboxgl.LngLatLike;
-}
-
-interface Props {
+interface Props<EVENT_PROPERTIES> {
     activeEventFootprint: GeoJSON.FeatureCollection<GeoJSON.Geometry> | undefined;
     hazardType: HazardType | undefined;
     layers: Record<LayerType, boolean>;
+    clickedPointProperties: ClickedPoint<EVENT_PROPERTIES> | undefined;
+    handlePointClick: (feature: mapboxgl.MapboxGeoJSONFeature, lngLat: mapboxgl.LngLat) => boolean;
+    handlePointClose: () => void;
 
 }
 
-function GdacsMap(props: Props) {
+function GdacsMap<EVENT_PROPERTIES extends GdacsProperties>(props: Props<EVENT_PROPERTIES>) {
     const {
         activeEventFootprint,
         layers,
         hazardType,
+        clickedPointProperties,
+        handlePointClick,
+        handlePointClose,
     } = props;
 
     const mapOrder = useMemo(() => {
@@ -82,34 +81,14 @@ function GdacsMap(props: Props) {
         return null;
     }, [activeEventFootprint]);
 
-    const [
-        clickedPointProperties,
-        setClickedPointProperties,
-    ] = useState<ClickedPoint | undefined>();
+    const popupDetails = useMemo(() => {
+        const eventDetails = clickedPointProperties
+            ? clickedPointProperties?.feature?.properties
+            : undefined;
+        return eventDetails;
+    }, [clickedPointProperties]);
 
-    const handlePointClick = useCallback(
-        (feature: mapboxgl.MapboxGeoJSONFeature, lngLat: mapboxgl.LngLat) => {
-            setClickedPointProperties({
-                feature: feature as unknown as ClickedPoint['feature'],
-                lngLat,
-            });
-            return true;
-        },
-        [setClickedPointProperties],
-    );
-
-    const handlePointClose = useCallback(
-        () => {
-            setClickedPointProperties(undefined);
-        },
-        [setClickedPointProperties],
-    );
-
-    const popupDetails = clickedPointProperties
-        ? clickedPointProperties?.feature?.properties
-        : undefined;
-
-    const severityData: GdacsProperties['severitydata'] = useMemo(() => {
+    const severityData: EVENT_PROPERTIES['severitydata'] = useMemo(() => {
         if (isDefined(popupDetails) && isDefined(popupDetails.severitydata)) {
             return JSON.parse(popupDetails.severitydata);
         }

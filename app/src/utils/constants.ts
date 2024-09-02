@@ -194,3 +194,8 @@ export const GOVERNMENT = 2;
 export const NATIONAL_SOCIETY = 3;
 
 export const MAX_PAGE_LIMIT = 9999;
+
+export interface ClickedPoint<PROERTIES> {
+    feature: GeoJSON.Feature<GeoJSON.Point, PROERTIES>;
+    lngLat: mapboxgl.LngLatLike;
+}

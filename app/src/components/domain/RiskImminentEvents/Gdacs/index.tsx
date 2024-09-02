@@ -10,6 +10,7 @@ import {
 import { type LngLatBoundsLike } from 'mapbox-gl';
 
 import RiskImminentEventMap, { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
+import { ClickedPoint } from '#utils/constants';
 import {
     CycloneFillLayerType,
     defaultLayersValue,
@@ -19,6 +20,7 @@ import {
     LAYER_CYCLONE_NODES,
     LAYER_CYCLONE_TRACKS,
     LAYER_CYCLONE_UNCERTAINTY,
+    LayerType,
 } from '#utils/domain/risk';
 import {
     RiskApiResponse,
@@ -66,7 +68,7 @@ type Props = BaseProps & ({
     iso3: string;
 })
 
-function Gdacs(props: Props) {
+function Gdacs<PROPERTIES extends string | number>(props: Props) {
     const {
         title,
         bbox,
@@ -79,6 +81,11 @@ function Gdacs(props: Props) {
         setActiveLayersMapping,
     ] = useState<Record<number, boolean>>(defaultLayersValue);
     const [layers, setLayers] = useState<Record<number, boolean>>(defaultLayersValue);
+
+    const [
+        clickedPointProperties,
+        setClickedPointProperties,
+    ] = useState<ClickedPoint<PROPERTIES> | undefined>();
 
     const {
         pending: pendingCountryRiskResponse,
@@ -260,6 +267,34 @@ function Gdacs(props: Props) {
         [getFootprint],
     );
 
+    const handleCyclonePointClick = useCallback(
+        (feature: mapboxgl.MapboxGeoJSONFeature, lngLat: mapboxgl.LngLat) => {
+            setClickedPointProperties({
+                feature: feature as unknown as ClickedPoint<PROPERTIES>['feature'],
+                lngLat,
+            });
+            return true;
+        },
+        [setClickedPointProperties],
+    );
+
+    const handleCyclonePointClose = useCallback(
+        () => {
+            setClickedPointProperties(undefined);
+        },
+        [setClickedPointProperties],
+    );
+
+    const handleLayerChange = useCallback((value: boolean, name: LayerType) => {
+        if (name === LAYER_CYCLONE_NODES) {
+            handleCyclonePointClose();
+        }
+        setLayers((prevValues) => ({
+            ...prevValues,
+            [name]: value,
+        }));
+    }, [handleCyclonePointClose]);
+
     return (
         <RiskImminentEventMap
             events={countryRiskResponse?.results}
@@ -277,7 +312,10 @@ function Gdacs(props: Props) {
             activeView={activeView}
             activeLayersMapping={activeLayersMapping}
             layers={layers}
-            onLayerChange={setLayers}
+            onLayerChange={handleLayerChange}
+            handleCyclonePointClick={handleCyclonePointClick}
+            handleCyclonePointClose={handleCyclonePointClose}
+            clickedPointProperties={clickedPointProperties}
         />
     );
 }
