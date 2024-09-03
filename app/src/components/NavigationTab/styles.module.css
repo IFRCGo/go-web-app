@@ -140,9 +140,19 @@
         font-size: var(--go-ui-font-size-lg);
 
         .children-wrapper {
+            display:flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-sm);
             border-bottom-color: var(--border-color);
             background-color: var(--go-ui-color-background);
-            padding: var(--go-ui-spacing-md) var(--go-ui-spacing-lg);
+            padding: var(--go-ui-spacing-sm) var(--go-ui-spacing-lg) var(--go-ui-spacing-xs);
+
+        }
+
+        .active-children-border {
+            background-color: transparent;
+            width: 100%;
+            height: var(--go-ui-width-separator-small);
         }
 
         &.active {
@@ -152,6 +162,10 @@
                 border-color: var(--border-color);
                 border-bottom-color: transparent;
                 background-color: var(--go-ui-color-white);
+
+                .active-children-border {
+                    background-color: var(--go-ui-color-primary-red);
+                }
             }
         }
 
