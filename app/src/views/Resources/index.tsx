@@ -167,6 +167,13 @@ export function Component() {
                     >
                         {strings.aboutSurgeLearning}
                     </Link>
+                    <Link
+                        href="https://surgelearning.ifrc.org/resources/core-competency-framework-surge-personnel"
+                        external
+                        withLinkIcon
+                    >
+                        {strings.aboutCoreCompetencyFramework}
+                    </Link>
                 </Container>
                 <Container
                     className={styles.resourceCard}
