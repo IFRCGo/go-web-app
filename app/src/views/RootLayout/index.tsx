@@ -352,7 +352,9 @@ export function Component() {
         ],
     );
 
-    const environmentTexts = {
+    const environmentTexts: {
+        [key in typeof environment]?: string;
+    } = {
         production: strings.environmentTextProduction,
         development: strings.environmentTextDevelopment,
         staging: strings.environmentTextStaging,
@@ -378,7 +380,8 @@ export function Component() {
                 <AlertContainer />
                 {environment !== 'production' && (
                     <div className={styles.banner}>
-                        {environmentTexts[environment]}
+                        {/* NOTE: We are not translating alpha server names */}
+                        {environmentTexts[environment] ?? environment}
                     </div>
                 )}
             </div>
