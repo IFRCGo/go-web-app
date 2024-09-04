@@ -43,19 +43,19 @@ function LayerDetails(props: Props) {
                     childrenContainerClassName={styles.content}
                 >
                     <TextOutput
-                        icon={<CycloneIcon className={styles.iconInformation} />}
+                        icon={<CycloneIcon className={styles.iconBlue} />}
                         value="63 km/h with no current threat"
                     />
                     <TextOutput
-                        icon={<CycloneIcon className={styles.iconAdvisory} />}
+                        icon={<CycloneIcon className={styles.iconGreen} />}
                         value="63 km/h imapct within 5 days"
                     />
                     <TextOutput
-                        icon={<CycloneIcon className={styles.iconWatch} />}
+                        icon={<CycloneIcon className={styles.iconOrange} />}
                         value="63 km/h imapct within 48 hours"
                     />
                     <TextOutput
-                        icon={<CycloneIcon className={styles.iconWarning} />}
+                        icon={<CycloneIcon className={styles.iconRed} />}
                         value="63 km/h imapct within 36 hours"
                     />
                 </Container>
@@ -67,19 +67,19 @@ function LayerDetails(props: Props) {
                     childrenContainerClassName={styles.content}
                 >
                     <TextOutput
-                        icon={<div className={styles.stormInformation} />}
+                        icon={<div className={styles.stormBlue} />}
                         value="Information"
                     />
                     <TextOutput
-                        icon={<div className={styles.stormAdvisory} />}
+                        icon={<div className={styles.stormGreen} />}
                         value="Advisory"
                     />
                     <TextOutput
-                        icon={<div className={styles.stormWatch} />}
+                        icon={<div className={styles.stormOrange} />}
                         value="Watch"
                     />
                     <TextOutput
-                        icon={<div className={styles.stormWarning} />}
+                        icon={<div className={styles.stormRed} />}
                         value="Warning"
                     />
                 </Container>

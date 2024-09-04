@@ -11,6 +11,10 @@ import { type LngLatBoundsLike } from 'mapbox-gl';
 
 import RiskImminentEventMap, { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
 import {
+    ClickedPoint,
+    EventGeoJsonProperties,
+} from '#utils/constants';
+import {
     defaultLayersValue,
     ImminentEventSource,
     isValidFeature,
@@ -20,6 +24,7 @@ import {
     LAYER_CYCLONE_TRACKS,
     LAYER_CYCLONE_UNCERTAINTY_FIVE_DAYS,
     LAYER_CYCLONE_UNCERTAINTY_THREE_DAYS,
+    LayerType,
 } from '#utils/domain/risk';
 import {
     type RiskApiResponse,
@@ -30,34 +35,20 @@ import {
 import EventDetails from './EventDetails';
 import EventListItem from './EventListItem';
 
-function getAlertType(alertClass: 'WARNING' | 'WATCH' | 'ADVISORY' | 'INFORMATION') {
-    if (alertClass === 'WARNING') {
+function getAlertType(alertType: 'WARNING' | 'WATCH' | 'ADVISORY' | 'INFORMATION') {
+    if (alertType === 'WARNING') {
         return 'red';
     }
-    if (alertClass === 'WATCH') {
+    if (alertType === 'WATCH') {
         return 'orange';
     }
-    if (alertClass === 'ADVISORY') {
+    if (alertType === 'ADVISORY') {
         return 'green';
     }
-    if (alertClass === 'INFORMATION') {
+    if (alertType === 'INFORMATION') {
         return 'blue';
     }
     return undefined;
-}
-
-interface EventGeoJsonProperties {
-    type?: string;
-    eventId?: string;
-    eventAlertLevel?: string;
-    eventName?: string;
-    alertType?: string;
-    hazardTitle?: string;
-    hazardType?: string;
-    severityData?: string;
-    trackDate?: string;
-    stormName?: string;
-    windSpeedMph?: string;
 }
 
 type ImminentEventResponse = RiskApiResponse<'/api/v1/pdc/'>;
@@ -93,6 +84,11 @@ function Pdc(props: Props) {
     ] = useState<Record<number, boolean>>(defaultLayersValue);
 
     const [layers, setLayers] = useState<Record<number, boolean>>(defaultLayersValue);
+    const [
+        clickedPointProperties,
+        setClickedPointProperties,
+    ] = useState<ClickedPoint | undefined>();
+
     const {
         pending: pendingCountryRiskResponse,
         response: countryRiskResponse,
@@ -230,12 +226,7 @@ function Pdc(props: Props) {
                     footprint ? {
                         ...footprint,
                         properties: {
-                            eventId: footprint?.properties?.hazard_id,
-                            hazardTitle: footprint?.properties?.hazard_name,
                             alertType: getAlertType(footprint?.properties?.severity),
-                            trackDate: footprint?.properties?.forecast_date_time,
-                            windSpeedMph: footprint?.properties?.wind_speed_mph,
-                            stormName: footprint?.properties?.storm_name,
                             type: 'exposure',
                         },
                     } : undefined,
@@ -244,12 +235,7 @@ function Pdc(props: Props) {
                         (feature) => ({
                             ...feature,
                             properties: {
-                                eventId: footprint?.properties?.hazard_id,
-                                hazardTitle: footprint?.properties?.hazard_name,
-                                alertType: getAlertType(footprint?.properties?.severity),
-                                trackDate: footprint?.properties?.forecast_date_time,
-                                windSpeedMph: footprint?.properties?.wind_speed_mph,
-                                stormName: footprint?.properties?.storm_name,
+                                alertType: getAlertType(feature?.properties?.severity),
                                 type: 'uncertainty-five-days',
                             },
                         }),
@@ -259,12 +245,7 @@ function Pdc(props: Props) {
                         (feature) => ({
                             ...feature,
                             properties: {
-                                eventId: footprint?.properties?.hazard_id,
-                                hazardTitle: footprint?.properties?.hazard_name,
-                                alertType: getAlertType(footprint?.properties?.severity),
-                                trackDate: footprint?.properties?.forecast_date_time,
-                                windSpeedMph: footprint?.properties?.wind_speed_mph,
-                                stormName: footprint?.properties?.storm_name,
+                                alertType: getAlertType(feature?.properties?.severity),
                                 type: 'uncertainty-three-days',
                             },
                         }),
@@ -274,12 +255,19 @@ function Pdc(props: Props) {
                         (pointFeature) => ({
                             ...pointFeature,
                             properties: {
-                                eventId: footprint?.properties?.hazard_id,
-                                hazardTitle: footprint?.properties?.hazard_name,
-                                alertType: getAlertType(footprint?.properties?.severity),
-                                trackDate: footprint?.properties?.forecast_date_time,
-                                windSpeedMph: footprint?.properties?.wind_speed_mph,
-                                stormName: footprint?.properties?.storm_name,
+                                eventId: pointFeature?.properties?.hazard_id,
+                                eventName: pointFeature?.properties?.hazard_name,
+                                trackDate: pointFeature?.properties?.forecast_date_time,
+                                windSpeedMph: pointFeature?.properties?.wind_speed_mph,
+                                stormName: pointFeature?.properties?.storm_name,
+                                description: pointFeature?.properties?.description,
+                                startDate: pointFeature?.properties?.start_date,
+                                createdAt: pointFeature?.properties?.pdc_created_at,
+                                updatedAt: pointFeature?.properties?.start_updated_at,
+                                severity: pointFeature?.properties?.severity,
+                                advisoryNumber: pointFeature?.properties?.advisory_number,
+                                trackSpeedMph: pointFeature?.properties?.track_speed_mph,
+                                alertType: getAlertType(pointFeature?.properties?.severity),
                                 type: 'track-point',
                             },
                         }),
@@ -296,12 +284,6 @@ function Pdc(props: Props) {
                             ),
                         },
                         properties: {
-                            eventId: footprint?.properties?.hazard_id,
-                            hazardTitle: footprint?.properties?.hazard_name,
-                            alertType: getAlertType(footprint?.properties?.severity),
-                            trackDate: footprint?.properties?.forecast_date_time,
-                            windSpeedMph: footprint?.properties?.wind_speed_mph,
-                            stormName: footprint?.properties?.storm_name,
                             type: 'track',
                         },
                     } : undefined,
@@ -324,6 +306,34 @@ function Pdc(props: Props) {
         [getFootprint],
     );
 
+    const handleCyclonePointClick = useCallback(
+        (feature: mapboxgl.MapboxGeoJSONFeature, lngLat: mapboxgl.LngLat) => {
+            setClickedPointProperties({
+                feature: feature as unknown as ClickedPoint['feature'],
+                lngLat,
+            });
+            return true;
+        },
+        [setClickedPointProperties],
+    );
+
+    const handleCyclonePointClose = useCallback(
+        () => {
+            setClickedPointProperties(undefined);
+        },
+        [setClickedPointProperties],
+    );
+
+    const handleLayerChange = useCallback((value: boolean, name: LayerType) => {
+        if (name === LAYER_CYCLONE_NODES) {
+            handleCyclonePointClose();
+        }
+        setLayers((prevValues) => ({
+            ...prevValues,
+            [name]: value,
+        }));
+    }, [handleCyclonePointClose]);
+
     return (
         <RiskImminentEventMap
             events={countryRiskResponse?.results}
@@ -341,7 +351,10 @@ function Pdc(props: Props) {
             activeView={activeView}
             activeLayersMapping={activeLayersMapping}
             layers={layers}
-            onLayerChange={setLayers}
+            onLayerChange={handleLayerChange}
+            handleCyclonePointClick={handleCyclonePointClick}
+            handleCyclonePointClose={handleCyclonePointClose}
+            clickedPointProperties={clickedPointProperties}
         />
     );
 }

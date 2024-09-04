@@ -41,6 +41,7 @@ import {
     COLOR_WHITE,
     DEFAULT_MAP_PADDING,
     DURATION_MAP_ZOOM,
+    EventGeoJsonProperties,
 } from '#utils/constants';
 import {
     ImminentEventSource,
@@ -75,22 +76,6 @@ import styles from './styles.module.css';
 const mapImageOption = {
     sdf: true,
 };
-
-interface EventGeoJsonProperties {
-    eventId: string;
-    type: string;
-    eventAlertLevel: string;
-    eventName: string;
-    alertType: string;
-    hazardTitle: string;
-    hazardType: string;
-    severityData?: {
-        severity: string;
-        severitytext: string;
-        severityunit: string;
-    };
-    trackDate: string;
-}
 
 type HazardType = components<'read'>['schemas']['HazardTypeEnum'];
 
@@ -154,7 +139,7 @@ interface Props<EVENT, EXPOSURE, KEY extends string | number> {
 
 function RiskImminentEventMap<
     EVENT,
-    EXPOSURE extends EventGeoJsonProperties,
+    EXPOSURE,
     KEY extends string | number
 >(props: Props<EVENT, EXPOSURE, KEY>) {
     const {
@@ -373,6 +358,7 @@ function RiskImminentEventMap<
         }
         return null;
     }, [activeEventFootprint]);
+
     return (
         <div className={styles.riskImminentEventMap}>
             <BaseMap
@@ -485,22 +471,54 @@ function RiskImminentEventMap<
                     <MapPopup
                         coordinates={clickedPointProperties.lngLat}
                         onCloseButtonClick={handleCyclonePointClose}
-                        heading={popupDetails?.hazardTitle}
+                        heading={popupDetails?.eventName}
                         headingLevel={4}
                         contentViewType="vertical"
                         compactMessage
                         ellipsizeHeading
                     >
-                        <TextOutput
-                            label="Storm"
-                            value={severityData?.severitytext}
-                            strongLabel
-                        />
-                        <TextOutput
-                            label="Alert Level"
-                            value={popupDetails?.alertType}
-                            strongLabel
-                        />
+                        {severityData?.severitytext && (
+                            <TextOutput
+                                label="Storm"
+                                value={severityData?.severitytext}
+                                strongLabel
+                            />
+                        )}
+                        {popupDetails?.alertType && (
+                            <TextOutput
+                                label="Alert Level"
+                                value={popupDetails?.alertType}
+                                strongLabel
+                            />
+                        )}
+                        {popupDetails?.source && (
+                            <TextOutput
+                                label="Source"
+                                value={popupDetails?.source}
+                                strongLabel
+                            />
+                        )}
+                        {popupDetails?.severity && (
+                            <TextOutput
+                                label="Severity"
+                                value={popupDetails?.severity}
+                                strongLabel
+                            />
+                        )}
+                        {popupDetails?.advisoryNumber && (
+                            <TextOutput
+                                label="Advisory Number"
+                                value={popupDetails?.advisoryNumber}
+                                strongLabel
+                            />
+                        )}
+                        {popupDetails?.trackSpeedMph && (
+                            <TextOutput
+                                label="Track Speed mph"
+                                value={popupDetails?.trackSpeedMph}
+                                strongLabel
+                            />
+                        )}
                     </MapPopup>
                 )}
             </BaseMap>

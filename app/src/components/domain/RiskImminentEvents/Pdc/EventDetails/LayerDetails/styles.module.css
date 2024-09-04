@@ -11,46 +11,46 @@
         color: #fff;
     }
 
-    .icon-information {
+    .icon-blue {
         border-radius: 50%;
-        background-color: #4c5d9b;
+        background-color: var(--go-ui-color-map-dot-multiple-types);
     }
 
-    .icon-advisory {
+    .icon-green {
         border-radius: 50%;
-        background-color: #ffd470;
+        background-color: var(--go-ui-color-green);
     }
 
-    .icon-watch {
+    .icon-orange {
         border-radius: 50%;
-        background-color: #ff9e00;
+        background-color: var(--go-ui-color-orange);
     }
 
-    .icon-warning {
+    .icon-red {
         border-radius: 50%;
-        background-color: #f5333f;
+        background-color: var(--go-ui-color-red-90);
     }
 
-    .storm-information {
-        background-color: #4c5d9b;
+    .storm-blue {
+        background-color: var(--go-ui-color-map-dot-multiple-types);
         width: 40px;
         height: 20px;
     }
 
-    .storm-advisory {
-        background-color: #ffd470;
+    .storm-green {
+        background-color: var(--go-ui-color-green);
         width: 40px;
         height: 20px;
     }
 
-    .storm-watch {
-        background-color: #ff9e00;
+    .storm-orange {
+        background-color: var(--go-ui-color-orange);
         width: 40px;
         height: 20px;
     }
 
-    .storm-warning {
-        background-color: #f5333f;
+    .storm-red {
+        background-color: var(--go-ui-color-red-90);
         width: 40px;
         height: 20px;
     }

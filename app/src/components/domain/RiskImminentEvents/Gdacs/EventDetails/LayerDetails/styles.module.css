@@ -13,33 +13,33 @@
 
     .icon-red {
         border-radius: 50%;
-        background-color: #f5333f;
+        background-color: var(--go-ui-color-red-90);
     }
 
     .icon-orange {
         border-radius: 50%;
-        background-color: #ff8000;
+        background-color: var(--go-ui-color-orange);
     }
 
     .icon-green {
         border-radius: 50%;
-        background-color: #7fb845;
+        background-color: var(--go-ui-color-green);
     }
 
     .storm-red {
-        background-color: #f5333f;
+        background-color: var(--go-ui-color-red-90);
         width: 40px;
         height: 20px;
     }
 
     .storm-orange {
-        background-color: #ff8000;
+        background-color: var(--go-ui-color-orange);
         width: 40px;
         height: 20px;
     }
 
     .storm-green {
-        background-color: #7fb845;
+        background-color: var(--go-ui-color-green);
         width: 40px;
         height: 20px;
     }

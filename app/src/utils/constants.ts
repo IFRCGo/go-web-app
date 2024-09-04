@@ -196,14 +196,13 @@ export const NATIONAL_SOCIETY = 3;
 export const MAX_PAGE_LIMIT = 9999;
 
 export interface EventGeoJsonProperties {
-    eventId: string;
-    type: string;
-    eventAlertLevel: string;
-    eventName: string;
-    eventType: string;
-    alertType: string;
-    hazardTitle: string;
-    source: string;
+    eventId?: string;
+    type?: string;
+    eventAlertLevel?: string;
+    eventName?: string;
+    eventType?: string;
+    alertType?: string;
+    source?: string;
     severityData?: {
         severity: string;
         severitytext: string;
@@ -214,7 +213,18 @@ export interface EventGeoJsonProperties {
         details?: string;
         geometry?: string;
     },
-    trackDate: string;
+    trackDate?: string;
+
+    // PDC
+    stormName?: string;
+    windSpeedMph?: string;
+    description?: string;
+    startDate?: string;
+    pdcCreatedAt?: string;
+    pdcUpdatedAt?: string;
+    severity?: string;
+    advisoryNumber?: number;
+    trackSpeedMph?: string;
 }
 
 export interface ClickedPoint {

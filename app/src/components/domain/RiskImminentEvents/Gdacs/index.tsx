@@ -10,7 +10,10 @@ import {
 import { type LngLatBoundsLike } from 'mapbox-gl';
 
 import RiskImminentEventMap, { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
-import { ClickedPoint, EventGeoJsonProperties } from '#utils/constants';
+import {
+    ClickedPoint,
+    EventGeoJsonProperties,
+} from '#utils/constants';
 import {
     CycloneFillLayerType,
     defaultLayersValue,
@@ -236,8 +239,7 @@ function Gdacs(props: Props) {
                             properties: {
                                 eventId: feature?.properties?.eventid,
                                 eventAlertLevel: feature?.properties?.alertlevel,
-                                eventName: feature?.properties?.eventname,
-                                hazardTitle: feature?.properties?.name,
+                                eventName: feature?.properties?.name,
                                 eventType: feature?.properties?.eventtype,
                                 severityData: feature?.properties?.severitydata,
                                 trackDate: feature?.properties?.trackdate,
@@ -262,9 +264,8 @@ function Gdacs(props: Props) {
                                     properties: {
                                         eventId: feature?.properties?.eventid,
                                         eventAlertLevel: feature?.properties?.alertlevel,
-                                        eventName: feature?.properties?.eventname,
+                                        eventName: feature?.properties?.name,
                                         eventType: feature?.properties?.eventtype,
-                                        hazardTitle: feature?.properties?.name,
                                         severityData: feature?.properties?.severitydata,
                                         trackDate: feature?.properties?.trackdate,
                                         source: feature?.properties?.source,
