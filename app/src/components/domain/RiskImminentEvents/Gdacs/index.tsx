@@ -36,13 +36,13 @@ import EventListItem from './EventListItem';
 
 function getAlertType(alertClass: 'Poly_Red' | 'Poly_Orange' | 'Poly_Green') {
     if (alertClass === 'Poly_Red') {
-        return 'red';
+        return 'Red';
     }
     if (alertClass === 'Poly_Orange') {
-        return 'orange';
+        return 'Orange';
     }
     if (alertClass === 'Poly_Green') {
-        return 'green';
+        return 'Green';
     }
     return 'none';
 }
@@ -238,13 +238,13 @@ function Gdacs(props: Props) {
                             ...feature,
                             properties: {
                                 eventId: feature?.properties?.eventid,
-                                eventAlertLevel: feature?.properties?.alertlevel,
                                 eventName: feature?.properties?.name,
                                 eventType: feature?.properties?.eventtype,
                                 severityData: feature?.properties?.severitydata,
                                 trackDate: feature?.properties?.trackdate,
                                 source: feature?.properties?.source,
                                 url: feature?.properties?.url,
+                                alertLevel: feature?.properties?.alertlevel,
                                 alertType: getAlertType(feature?.properties?.Class),
                                 type: getLayerType(feature),
                             },
@@ -263,13 +263,13 @@ function Gdacs(props: Props) {
                                     },
                                     properties: {
                                         eventId: feature?.properties?.eventid,
-                                        eventAlertLevel: feature?.properties?.alertlevel,
                                         eventName: feature?.properties?.name,
                                         eventType: feature?.properties?.eventtype,
                                         severityData: feature?.properties?.severitydata,
                                         trackDate: feature?.properties?.trackdate,
                                         source: feature?.properties?.source,
                                         url: feature?.properties?.url,
+                                        alertLevel: feature?.properties?.alertlevel,
                                         alertType: getAlertType(feature?.properties?.Class),
                                         type: getLayerType({
                                             ...feature,

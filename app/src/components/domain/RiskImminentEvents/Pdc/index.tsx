@@ -37,16 +37,16 @@ import EventListItem from './EventListItem';
 
 function getAlertType(alertType: 'WARNING' | 'WATCH' | 'ADVISORY' | 'INFORMATION') {
     if (alertType === 'WARNING') {
-        return 'red';
+        return 'Red';
     }
     if (alertType === 'WATCH') {
-        return 'orange';
+        return 'Orange';
     }
     if (alertType === 'ADVISORY') {
-        return 'green';
+        return 'Green';
     }
     if (alertType === 'INFORMATION') {
-        return 'blue';
+        return 'Blue';
     }
     return undefined;
 }

@@ -19,6 +19,7 @@ import {
     LAYER_CYCLONE_NODES,
     LAYER_CYCLONE_TRACKS,
     LAYER_CYCLONE_UNCERTAINTY,
+    LayerType,
 } from '#utils/domain/risk';
 import {
     type RiskApiResponse,
@@ -28,6 +29,7 @@ import {
 
 import EventDetails from './EventDetails';
 import EventListItem from './EventListItem';
+import { ClickedPoint, EventGeoJsonProperties } from '#utils/constants';
 
 type ImminentEventResponse = RiskApiResponse<'/api/v1/adam-exposure/'>;
 type EventItem = NonNullable<ImminentEventResponse['results']>[number];
@@ -79,6 +81,11 @@ function WfpAdam(props: Props) {
         setActiveLayersMapping,
     ] = useState<Record<number, boolean>>(defaultLayersValue);
     const [layers, setLayers] = useState<Record<number, boolean>>(defaultLayersValue);
+
+    const [
+        clickedPointProperties,
+        setClickedPointProperties,
+    ] = useState<ClickedPoint | undefined>();
 
     const {
         pending: pendingCountryRiskResponse,
@@ -203,14 +210,19 @@ function WfpAdam(props: Props) {
                 ? storm_position_geojson
                 : undefined;
 
-            const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry> = {
+            const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry, EventGeoJsonProperties> = {
                 type: 'FeatureCollection' as const,
                 features: [
                     ...stormPositions?.features?.map(
                         (feature) => ({
                             ...feature,
                             properties: {
-                                ...feature.properties,
+                                eventId: feature?.properties?.hazard_id,
+                                eventName: feature?.properties?.title,
+                                populationImpact: feature?.properties?.population_impact,
+                                windSpeedMph: feature?.properties?.wind_speed,
+                                maxStormSurge: feature?.properties?.max_storm_surge,
+                                alertType: feature?.properties?.alert_level,
                                 type: getLayerType(feature),
                             },
                         }),
@@ -234,6 +246,34 @@ function WfpAdam(props: Props) {
         [getFootprint],
     );
 
+    const handleCyclonePointClick = useCallback(
+        (feature: mapboxgl.MapboxGeoJSONFeature, lngLat: mapboxgl.LngLat) => {
+            setClickedPointProperties({
+                feature: feature as unknown as ClickedPoint['feature'],
+                lngLat,
+            });
+            return true;
+        },
+        [setClickedPointProperties],
+    );
+
+    const handleCyclonePointClose = useCallback(
+        () => {
+            setClickedPointProperties(undefined);
+        },
+        [setClickedPointProperties],
+    );
+
+    const handleLayerChange = useCallback((value: boolean, name: LayerType) => {
+        if (name === LAYER_CYCLONE_NODES) {
+            handleCyclonePointClose();
+        }
+        setLayers((prevValues) => ({
+            ...prevValues,
+            [name]: value,
+        }));
+    }, [handleCyclonePointClose]);
+
     return (
         <RiskImminentEventMap
             events={countryRiskResponse?.results}
@@ -251,7 +291,10 @@ function WfpAdam(props: Props) {
             activeView={activeView}
             activeLayersMapping={activeLayersMapping}
             layers={layers}
-            onLayerChange={setLayers}
+            onLayerChange={handleLayerChange}
+            handleCyclonePointClick={handleCyclonePointClick}
+            handleCyclonePointClose={handleCyclonePointClose}
+            clickedPointProperties={clickedPointProperties}
         />
     );
 }

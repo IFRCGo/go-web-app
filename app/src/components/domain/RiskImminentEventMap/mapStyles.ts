@@ -131,20 +131,6 @@ export const exposureFillLayer: Omit<FillLayer, 'id'> = {
         'fill-opacity': 0.5,
     },
 };
-// -----------GDACS PROPERTIES
-
-export const gdacsExposureFillLayer: Omit<FillLayer, 'id'> = {
-    type: 'fill',
-    filter: [
-        'all',
-        ['==', ['get', 'type'], 'exposure'],
-        ['!=', ['get', 'hazardType'], 'TC'],
-    ],
-    paint: {
-        'fill-color': COLOR_PRIMARY_BLUE,
-        'fill-opacity': 0.5,
-    },
-};
 
 export const cycloneExposureFillLayer: Omit<FillLayer, 'id'> = {
     type: 'fill',
@@ -153,10 +139,10 @@ export const cycloneExposureFillLayer: Omit<FillLayer, 'id'> = {
         'fill-color': [
             'match',
             ['get', 'alertType'],
-            'red', COLOR_RED,
-            'orange', COLOR_ORANGE,
-            'green', COLOR_GREEN,
-            'blue', COLOR_BLUE,
+            'Red', COLOR_RED,
+            'Orange', COLOR_ORANGE,
+            'Green', COLOR_GREEN,
+            'Blue', COLOR_BLUE,
             COLOR_BLACK,
         ],
         'fill-opacity': 0.5,
@@ -193,10 +179,10 @@ export const cycloneTrackPointLayer: Omit<CircleLayer, 'id'> = {
         'circle-color': [
             'match',
             ['get', 'alertType'],
-            'red', COLOR_RED,
-            'orange', COLOR_ORANGE,
-            'green', COLOR_GREEN,
-            'blue', COLOR_BLUE,
+            'Red', COLOR_RED,
+            'Orange', COLOR_ORANGE,
+            'Green', COLOR_GREEN,
+            'Blue', COLOR_BLUE,
             COLOR_BLACK,
         ],
         'circle-radius': 12,

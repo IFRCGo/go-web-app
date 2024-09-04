@@ -198,7 +198,7 @@ export const MAX_PAGE_LIMIT = 9999;
 export interface EventGeoJsonProperties {
     eventId?: string;
     type?: string;
-    eventAlertLevel?: string;
+    alertLevel?: string;
     eventName?: string;
     eventType?: string;
     alertType?: string;
@@ -225,6 +225,10 @@ export interface EventGeoJsonProperties {
     severity?: string;
     advisoryNumber?: number;
     trackSpeedMph?: string;
+
+    // ADAM
+    populationImpact?: string;
+    maxStormSurge?: string;
 }
 
 export interface ClickedPoint {

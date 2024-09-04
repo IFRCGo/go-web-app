@@ -519,6 +519,20 @@ function RiskImminentEventMap<
                                 strongLabel
                             />
                         )}
+                        {popupDetails?.populationImpact && (
+                            <TextOutput
+                                label="Population Impact"
+                                value={popupDetails?.populationImpact}
+                                strongLabel
+                            />
+                        )}
+                        {popupDetails?.maxStormSurge && (
+                            <TextOutput
+                                label="Max Storm Surge"
+                                value={popupDetails?.maxStormSurge}
+                                strongLabel
+                            />
+                        )}
                     </MapPopup>
                 )}
             </BaseMap>
