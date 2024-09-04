@@ -8,6 +8,7 @@ import {
     Button,
     Container,
     List,
+    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -16,9 +17,11 @@ import {
     mapToList,
 } from '@togglecorp/fujs';
 import {
+    getLayerName,
     MapBounds,
     MapImage,
     MapLayer,
+    MapOrder,
     MapSource,
 } from '@togglecorp/re-map';
 import getBbox from '@turf/bbox';
@@ -30,6 +33,7 @@ import type {
 
 import BaseMap from '#components/domain/BaseMap';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
+import MapPopup from '#components/MapPopup';
 import { type components } from '#generated/riskTypes';
 import useDebouncedValue from '#hooks/useDebouncedValue';
 import {
@@ -50,15 +54,19 @@ import {
     LayerType,
 } from '#utils/domain/risk';
 
-import GdacsMap from '../RiskImminentEvents/Gdacs/GdacsMap';
-import PdcMap from '../RiskImminentEvents/Pdc/PdcMap';
-import WfpAdamMap from '../RiskImminentEvents/WfpAdam/WfpAdamMap';
 import {
+    cycloneExposureFillLayer,
+    cycloneTrackOutlineLayer,
+    cycloneTrackPointIconLayer,
+    cycloneTrackPointLabelLayer,
+    cycloneTrackPointLayer,
+    exposureFillLayer,
     geojsonSourceOptions,
     hazardKeyToIconmap,
     hazardPointIconLayout,
     hazardPointLayer,
     invisibleLayout,
+    uncertaintyTrackOutlineLayer,
 } from './mapStyles';
 
 import i18n from './i18n.json';
@@ -67,6 +75,22 @@ import styles from './styles.module.css';
 const mapImageOption = {
     sdf: true,
 };
+
+interface EventGeoJsonProperties {
+    eventId: string;
+    type: string;
+    eventAlertLevel: string;
+    eventName: string;
+    alertType: string;
+    hazardTitle: string;
+    hazardType: string;
+    severityData?: {
+        severity: string;
+        severitytext: string;
+        severityunit: string;
+    };
+    trackDate: string;
+}
 
 type HazardType = components<'read'>['schemas']['HazardTypeEnum'];
 
@@ -91,26 +115,26 @@ interface EventItemProps<EVENT> {
 
 type Footprint = GeoJSON.FeatureCollection<GeoJSON.Geometry> | undefined;
 
-interface EventDetailProps<EVENT, EXPOSURE, EVENT_PROPERTIES> {
+interface EventDetailProps<EVENT, EXPOSURE> {
     data: EVENT;
     exposure: EXPOSURE | undefined;
     pending: boolean;
     layers: Record<LayerType, boolean>;
     onLayerChange: (value: boolean, name: LayerType) => void;
     options: LayerOption[];
-    clickedPointProperties: ClickedPoint<EVENT_PROPERTIES> | undefined;
+    clickedPointProperties: ClickedPoint | undefined;
     handlePointClick: (feature: mapboxgl.MapboxGeoJSONFeature, lngLat: mapboxgl.LngLat) => boolean;
     handlePointClose: () => void;
 }
 
-interface Props<EVENT, EXPOSURE, EVENT_PROPERTIES, KEY extends string | number> {
+interface Props<EVENT, EXPOSURE, KEY extends string | number> {
     events: EVENT[] | undefined;
     keySelector: (event: EVENT) => KEY;
     pointFeatureSelector: (event: EVENT) => EventPointFeature | undefined;
     footprintSelector: (activeEventExposure: EXPOSURE | undefined) => Footprint | undefined;
     activeEventExposure: EXPOSURE | undefined;
     listItemRenderer: React.ComponentType<EventItemProps<EVENT>>;
-    detailRenderer: React.ComponentType<EventDetailProps<EVENT, EXPOSURE, EVENT_PROPERTIES>>;
+    detailRenderer: React.ComponentType<EventDetailProps<EVENT, EXPOSURE>>;
     pending: boolean;
     sidePanelHeading: React.ReactNode;
     bbox: LngLatBoundsLike | undefined;
@@ -120,7 +144,7 @@ interface Props<EVENT, EXPOSURE, EVENT_PROPERTIES, KEY extends string | number> 
     activeLayersMapping: Record<LayerType, boolean>;
     layers: Record<LayerType, boolean>;
     onLayerChange: (value: boolean, name: LayerType) => void;
-    clickedPointProperties: ClickedPoint<EVENT_PROPERTIES> | undefined;
+    clickedPointProperties: ClickedPoint | undefined;
     handleCyclonePointClick: (
         feature: mapboxgl.MapboxGeoJSONFeature,
         lngLat: mapboxgl.LngLat,
@@ -130,10 +154,9 @@ interface Props<EVENT, EXPOSURE, EVENT_PROPERTIES, KEY extends string | number> 
 
 function RiskImminentEventMap<
     EVENT,
-    EXPOSURE,
-    EVENT_PROPERTIES,
+    EXPOSURE extends EventGeoJsonProperties,
     KEY extends string | number
->(props: Props<EVENT, EXPOSURE, EVENT_PROPERTIES, KEY>) {
+>(props: Props<EVENT, EXPOSURE, KEY>) {
     const {
         events,
         pointFeatureSelector,
@@ -318,48 +341,38 @@ function RiskImminentEventMap<
         return layerOptions.filter((opt) => activeLayersMapping[opt?.key]);
     }, [activeLayersMapping, layerOptions]);
 
-    const getLayerBySource = useCallback((source: ImminentEventSource) => {
-        if (source === 'pdc') {
-            return (
-                <PdcMap
-                    activeEventFootprint={activeEventFootprint}
-                    layers={layers}
-                    hazardType={activeEvent?.hazard_type}
-                />
-            );
-        }
+    const popupDetails = useMemo(() => {
+        const eventDetails = clickedPointProperties
+            ? clickedPointProperties?.feature?.properties
+            : undefined;
+        return eventDetails;
+    }, [clickedPointProperties]);
 
-        if (source === 'gdacs') {
-            return (
-                <GdacsMap
-                    activeEventFootprint={activeEventFootprint}
-                    layers={layers}
-                    hazardType={activeEvent?.hazard_type}
-                    handlePointClick={handleCyclonePointClick}
-                    handlePointClose={handleCyclonePointClose}
-                    clickedPointProperties={clickedPointProperties}
-                />
-            );
+    const severityData: EventGeoJsonProperties['severityData'] = useMemo(() => {
+        if (isDefined(popupDetails) && isDefined(popupDetails.severityData)) {
+            return JSON.parse(popupDetails.severityData);
         }
-        if (source === 'wfpAdam') {
+        return true;
+    }, [popupDetails]);
+
+    const mapOrder = useMemo(() => {
+        if (activeEventFootprint) {
             return (
-                <WfpAdamMap
-                    activeEventFootprint={activeEventFootprint}
-                    layers={layers}
-                    hazardType={activeEvent?.hazard_type}
+                <MapOrder ordering={[
+                    getLayerName('active-event-footprint', 'exposure-fill', true),
+                    getLayerName('active-event-footprint', 'cyclone-exposure-fill', true),
+                    getLayerName('active-event-footprint', 'uncertainty-track-line', true),
+                    getLayerName('active-event-footprint', 'track-outline', true),
+                    getLayerName('active-event-footprint', 'track-circle', true),
+                    getLayerName('active-event-footprint', 'track-point', true),
+                    // getLayerName('event-points', 'point-circle', true),
+                    // getLayerName('event-points', 'hazard-points-icon', true),
+                ]}
                 />
             );
         }
         return null;
-    }, [
-        activeEventFootprint,
-        layers,
-        activeEvent,
-        handleCyclonePointClick,
-        handleCyclonePointClose,
-        clickedPointProperties,
-    ]);
-
+    }, [activeEventFootprint]);
     return (
         <div className={styles.riskImminentEventMap}>
             <BaseMap
@@ -388,7 +401,61 @@ function RiskImminentEventMap<
                 })}
                 {/* FIXME: footprint layer should always be the bottom layer */}
                 {activeEventFootprint && (
-                    getLayerBySource(activeView)
+                    <MapSource
+                        sourceKey="active-event-footprint"
+                        sourceOptions={geojsonSourceOptions}
+                        geoJson={activeEventFootprint}
+                    >
+                        {activeEvent?.hazard_type !== 'TC' && (
+                            <MapLayer
+                                layerKey="exposure-fill"
+                                layerOptions={exposureFillLayer}
+                            />
+                        )}
+                        {activeEvent?.hazard_type === 'TC' && (
+                            <>
+                                {layers[LAYER_CYCLONE_BUFFERS] && (
+                                    <MapLayer
+                                        layerKey="cyclone-exposure-fill"
+                                        layerOptions={cycloneExposureFillLayer}
+                                    />
+                                )}
+                                {(layers[LAYER_CYCLONE_UNCERTAINTY]) && (
+                                    <MapLayer
+                                        layerKey="uncertainty-track-line"
+                                        layerOptions={uncertaintyTrackOutlineLayer}
+                                    />
+                                )}
+                                {layers[LAYER_CYCLONE_TRACKS] && (
+                                    <>
+                                        <MapLayer
+                                            layerKey="track-outline"
+                                            layerOptions={cycloneTrackOutlineLayer}
+                                        />
+                                        <MapLayer
+                                            layerKey="track-points-label"
+                                            layerOptions={cycloneTrackPointLabelLayer}
+                                        />
+                                    </>
+                                )}
+                                {/* {activeView !== 'gdacs' && layers[LAYER_CYCLONE_NODES] && ( */}
+                                {layers[LAYER_CYCLONE_NODES] && (
+                                    <>
+                                        <MapLayer
+                                            layerKey="track-circle"
+                                            layerOptions={cycloneTrackPointLayer}
+                                            onClick={handleCyclonePointClick}
+                                        />
+                                        <MapLayer
+                                            layerKey="track-point"
+                                            layerOptions={cycloneTrackPointIconLayer}
+                                        />
+                                    </>
+                                )}
+                            </>
+                        )}
+                        {mapOrder}
+                    </MapSource>
                 )}
                 <MapSource
                     sourceKey="event-points"
@@ -411,6 +478,30 @@ function RiskImminentEventMap<
                         bounds={boundsSafe}
                         padding={DEFAULT_MAP_PADDING}
                     />
+                )}
+                {isDefined(clickedPointProperties)
+                    && clickedPointProperties.lngLat
+                    && isDefined(popupDetails) && (
+                    <MapPopup
+                        coordinates={clickedPointProperties.lngLat}
+                        onCloseButtonClick={handleCyclonePointClose}
+                        heading={popupDetails?.hazardTitle}
+                        headingLevel={4}
+                        contentViewType="vertical"
+                        compactMessage
+                        ellipsizeHeading
+                    >
+                        <TextOutput
+                            label="Storm"
+                            value={severityData?.severitytext}
+                            strongLabel
+                        />
+                        <TextOutput
+                            label="Alert Level"
+                            value={popupDetails?.alertType}
+                            strongLabel
+                        />
+                    </MapPopup>
                 )}
             </BaseMap>
             <Container

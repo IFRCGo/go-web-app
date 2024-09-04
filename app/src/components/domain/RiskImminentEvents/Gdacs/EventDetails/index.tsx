@@ -14,6 +14,7 @@ import {
     LayerType,
 } from '#utils/domain/risk';
 import { type RiskApiResponse } from '#utils/restRequest';
+import { EventGeoJsonProperties } from '#utils/constants';
 
 import LayerDetails, { Props as LayerInputProps } from './LayerDetails';
 
@@ -24,47 +25,50 @@ type GdacsResponse = RiskApiResponse<'/api/v1/gdacs/'>;
 type GdacsItem = NonNullable<GdacsResponse['results']>[number];
 export type GdacsExposure = RiskApiResponse<'/api/v1/gdacs/{id}/exposure/'>;
 
-export interface GdacsEventDetails {
-    Class?: string;
-    affectedcountries?: {
-        iso3: string;
-        countryname: string;
-    }[];
-    alertlevel?: string;
-    alertscore?: number;
-    country?: string;
-    countryonland?: string;
-    description?: string;
-    episodealertlevel?: string;
-    episodealertscore?: number;
-    episodeid?: number;
-    eventid?: number;
-    eventname?: string;
-    eventtype?: string;
-    fromdate?: string;
-    glide?: string;
-    htmldescription?: string;
-    icon?: string;
-    iconoverall?: null,
-    iscurrent?: string;
-    iso3?: string;
-    istemporary?: string;
-    name?: string;
-    polygonlabel?: string;
-    todate?: string;
-    severitydata?: {
-        severity?: number;
-        severitytext?: string;
-        severityunit?: string;
-    },
-    source?: string;
-    sourceid?: string;
-    url?: {
-        report?: string;
-        details?: string;
-        geometry?: string;
-    },
-}
+// export interface GdacsEventDetails {
+//     source?: string;
+//     eventtype?: string;
+//     alertlevel?: string;
+//     severitydata?: {
+//         severity?: number;
+//         severitytext?: string;
+//         severityunit?: string;
+//     },
+//     url?: {
+//         report?: string;
+//         details?: string;
+//         geometry?: string;
+//     },
+
+//     unused in this file
+//     Class?: string;
+//     affectedcountries?: {
+//         iso3: string;
+//         countryname: string;
+//     }[];
+//     alertscore?: number;
+//     country?: string;
+//     countryonland?: string;
+//     description?: string;
+//     episodealertlevel?: string;
+//     episodealertscore?: number;
+//     episodeid?: number;
+//     eventid?: number;
+//     eventname?: string;
+//     fromdate?: string;
+//     glide?: string;
+//     htmldescription?: string;
+//     icon?: string;
+//     iconoverall?: null,
+//     iscurrent?: string;
+//     iso3?: string;
+//     istemporary?: string;
+//     name?: string;
+//     polygonlabel?: string;
+//     todate?: string;
+//     sourceid?: string;
+// }
+
 interface GdacsPopulationExposure {
     death?: number;
     displaced?: number;
@@ -99,7 +103,7 @@ function EventDetails(props: Props) {
     const strings = useTranslation(i18n);
 
     const populationExposure = exposure?.population_exposure as GdacsPopulationExposure | undefined;
-    const eventDetails = event_details as GdacsEventDetails | undefined;
+    const eventDetails = event_details as EventGeoJsonProperties | undefined;
 
     const layerRendererParams = useCallback(
         (_: number, layerOptions: LayerOption): LayerInputProps => ({
@@ -171,17 +175,17 @@ function EventDetails(props: Props) {
                         value={populationExposure?.impact}
                     />
                 )}
-                {isDefined(eventDetails?.severitydata)
-                    && (isDefined(eventDetails) && (eventDetails?.eventtype) && !(eventDetails.eventtype === 'FL')) && (
+                {isDefined(eventDetails?.severityData)
+                    && (isDefined(eventDetails) && (eventDetails?.eventType) && !(eventDetails.eventType === 'FL')) && (
                     <TextOutput
                         label={strings.eventSeverityLabel}
-                        value={eventDetails?.severitydata?.severitytext}
+                        value={eventDetails?.severityData?.severitytext}
                     />
                 )}
-                {isDefined(eventDetails?.alertlevel) && (
+                {isDefined(eventDetails?.alertType) && (
                     <TextOutput
                         label={strings.eventAlertType}
-                        value={eventDetails?.alertlevel}
+                        value={eventDetails?.alertType}
                     />
                 )}
             </div>
@@ -197,7 +201,7 @@ function EventDetails(props: Props) {
                         {strings.eventMoreDetailsLink}
                     </Link>
                 )}
-            {eventDetails?.eventtype === 'TC' && (
+            {eventDetails?.eventType === 'TC' && (
                 <Container heading={strings.gdacsEventLayerTitle}>
                     <List
                         className={styles.layerDetail}

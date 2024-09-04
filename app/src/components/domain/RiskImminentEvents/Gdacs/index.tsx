@@ -10,7 +10,7 @@ import {
 import { type LngLatBoundsLike } from 'mapbox-gl';
 
 import RiskImminentEventMap, { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
-import { ClickedPoint } from '#utils/constants';
+import { ClickedPoint, EventGeoJsonProperties } from '#utils/constants';
 import {
     CycloneFillLayerType,
     defaultLayersValue,
@@ -31,8 +31,18 @@ import {
 import EventDetails from './EventDetails';
 import EventListItem from './EventListItem';
 
-type ImminentEventResponse = RiskApiResponse<'/api/v1/gdacs/'>;
-type EventItem = NonNullable<ImminentEventResponse['results']>[number];
+function getAlertType(alertClass: 'Poly_Red' | 'Poly_Orange' | 'Poly_Green') {
+    if (alertClass === 'Poly_Red') {
+        return 'red';
+    }
+    if (alertClass === 'Poly_Orange') {
+        return 'orange';
+    }
+    if (alertClass === 'Poly_Green') {
+        return 'green';
+    }
+    return 'none';
+}
 
 function getLayerType(
     feature: GeoJSON.Feature<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>,
@@ -45,12 +55,15 @@ function getLayerType(
         return 'track';
     }
 
-    if (feature.properties?.polygonlabel === 'Uncertainty Cones') {
+    if (feature.properties?.Class === 'Poly_Cones') {
         return 'uncertainty';
     }
 
     return 'exposure';
 }
+
+type ImminentEventResponse = RiskApiResponse<'/api/v1/gdacs/'>;
+type EventItem = NonNullable<ImminentEventResponse['results']>[number];
 
 type BaseProps = {
     title: React.ReactNode;
@@ -68,7 +81,7 @@ type Props = BaseProps & ({
     iso3: string;
 })
 
-function Gdacs<PROPERTIES extends string | number>(props: Props) {
+function Gdacs(props: Props) {
     const {
         title,
         bbox,
@@ -85,7 +98,7 @@ function Gdacs<PROPERTIES extends string | number>(props: Props) {
     const [
         clickedPointProperties,
         setClickedPointProperties,
-    ] = useState<ClickedPoint<PROPERTIES> | undefined>();
+    ] = useState<ClickedPoint | undefined>();
 
     const {
         pending: pendingCountryRiskResponse,
@@ -149,7 +162,7 @@ function Gdacs<PROPERTIES extends string | number>(props: Props) {
                     updatedLayers[LAYER_CYCLONE_BUFFERS] = true;
                 }
 
-                if (feature.properties?.polygonlabel === 'Uncertainty Cones') {
+                if (feature.properties?.Class === 'Poly_Cones') {
                     updatedLayers[LAYER_CYCLONE_UNCERTAINTY] = true;
                 }
 
@@ -212,14 +225,25 @@ function Gdacs<PROPERTIES extends string | number>(props: Props) {
                 ? footprint_geojson
                 : undefined;
 
-            const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry> = {
+            const geoJson: GeoJSON.FeatureCollection<
+                GeoJSON.Geometry, EventGeoJsonProperties
+            > = {
                 type: 'FeatureCollection' as const,
                 features: [
                     ...footprint?.features?.map(
                         (feature) => ({
                             ...feature,
                             properties: {
-                                ...feature.properties,
+                                eventId: feature?.properties?.eventid,
+                                eventAlertLevel: feature?.properties?.alertlevel,
+                                eventName: feature?.properties?.eventname,
+                                hazardTitle: feature?.properties?.name,
+                                eventType: feature?.properties?.eventtype,
+                                severityData: feature?.properties?.severitydata,
+                                trackDate: feature?.properties?.trackdate,
+                                source: feature?.properties?.source,
+                                url: feature?.properties?.url,
+                                alertType: getAlertType(feature?.properties?.Class),
                                 type: getLayerType(feature),
                             },
                         }),
@@ -236,7 +260,16 @@ function Gdacs<PROPERTIES extends string | number>(props: Props) {
                                         coordinates: coordinate,
                                     },
                                     properties: {
-                                        ...feature.properties,
+                                        eventId: feature?.properties?.eventid,
+                                        eventAlertLevel: feature?.properties?.alertlevel,
+                                        eventName: feature?.properties?.eventname,
+                                        eventType: feature?.properties?.eventtype,
+                                        hazardTitle: feature?.properties?.name,
+                                        severityData: feature?.properties?.severitydata,
+                                        trackDate: feature?.properties?.trackdate,
+                                        source: feature?.properties?.source,
+                                        url: feature?.properties?.url,
+                                        alertType: getAlertType(feature?.properties?.Class),
                                         type: getLayerType({
                                             ...feature,
                                             geometry: {
@@ -270,7 +303,7 @@ function Gdacs<PROPERTIES extends string | number>(props: Props) {
     const handleCyclonePointClick = useCallback(
         (feature: mapboxgl.MapboxGeoJSONFeature, lngLat: mapboxgl.LngLat) => {
             setClickedPointProperties({
-                feature: feature as unknown as ClickedPoint<PROPERTIES>['feature'],
+                feature: feature as unknown as ClickedPoint['feature'],
                 lngLat,
             });
             return true;

@@ -30,6 +30,36 @@ import {
 import EventDetails from './EventDetails';
 import EventListItem from './EventListItem';
 
+function getAlertType(alertClass: 'WARNING' | 'WATCH' | 'ADVISORY' | 'INFORMATION') {
+    if (alertClass === 'WARNING') {
+        return 'red';
+    }
+    if (alertClass === 'WATCH') {
+        return 'orange';
+    }
+    if (alertClass === 'ADVISORY') {
+        return 'green';
+    }
+    if (alertClass === 'INFORMATION') {
+        return 'blue';
+    }
+    return undefined;
+}
+
+interface EventGeoJsonProperties {
+    type?: string;
+    eventId?: string;
+    eventAlertLevel?: string;
+    eventName?: string;
+    alertType?: string;
+    hazardTitle?: string;
+    hazardType?: string;
+    severityData?: string;
+    trackDate?: string;
+    stormName?: string;
+    windSpeedMph?: string;
+}
+
 type ImminentEventResponse = RiskApiResponse<'/api/v1/pdc/'>;
 type EventItem = NonNullable<ImminentEventResponse['results']>[number];
 
@@ -193,14 +223,19 @@ function Pdc(props: Props) {
             // wind_speed_mph : 75
 
             const geoJson: GeoJSON.FeatureCollection<
-                GeoJSON.Geometry, GeoJSON.GeoJsonProperties
+                GeoJSON.Geometry, EventGeoJsonProperties
             > = {
                 type: 'FeatureCollection' as const,
                 features: [
                     footprint ? {
                         ...footprint,
                         properties: {
-                            ...footprint.properties,
+                            eventId: footprint?.properties?.hazard_id,
+                            hazardTitle: footprint?.properties?.hazard_name,
+                            alertType: getAlertType(footprint?.properties?.severity),
+                            trackDate: footprint?.properties?.forecast_date_time,
+                            windSpeedMph: footprint?.properties?.wind_speed_mph,
+                            stormName: footprint?.properties?.storm_name,
                             type: 'exposure',
                         },
                     } : undefined,
@@ -209,7 +244,12 @@ function Pdc(props: Props) {
                         (feature) => ({
                             ...feature,
                             properties: {
-                                ...feature.properties,
+                                eventId: footprint?.properties?.hazard_id,
+                                hazardTitle: footprint?.properties?.hazard_name,
+                                alertType: getAlertType(footprint?.properties?.severity),
+                                trackDate: footprint?.properties?.forecast_date_time,
+                                windSpeedMph: footprint?.properties?.wind_speed_mph,
+                                stormName: footprint?.properties?.storm_name,
                                 type: 'uncertainty-five-days',
                             },
                         }),
@@ -219,7 +259,12 @@ function Pdc(props: Props) {
                         (feature) => ({
                             ...feature,
                             properties: {
-                                ...feature.properties,
+                                eventId: footprint?.properties?.hazard_id,
+                                hazardTitle: footprint?.properties?.hazard_name,
+                                alertType: getAlertType(footprint?.properties?.severity),
+                                trackDate: footprint?.properties?.forecast_date_time,
+                                windSpeedMph: footprint?.properties?.wind_speed_mph,
+                                stormName: footprint?.properties?.storm_name,
                                 type: 'uncertainty-three-days',
                             },
                         }),
@@ -229,7 +274,12 @@ function Pdc(props: Props) {
                         (pointFeature) => ({
                             ...pointFeature,
                             properties: {
-                                ...pointFeature.properties,
+                                eventId: footprint?.properties?.hazard_id,
+                                hazardTitle: footprint?.properties?.hazard_name,
+                                alertType: getAlertType(footprint?.properties?.severity),
+                                trackDate: footprint?.properties?.forecast_date_time,
+                                windSpeedMph: footprint?.properties?.wind_speed_mph,
+                                stormName: footprint?.properties?.storm_name,
                                 type: 'track-point',
                             },
                         }),
@@ -246,6 +296,12 @@ function Pdc(props: Props) {
                             ),
                         },
                         properties: {
+                            eventId: footprint?.properties?.hazard_id,
+                            hazardTitle: footprint?.properties?.hazard_name,
+                            alertType: getAlertType(footprint?.properties?.severity),
+                            trackDate: footprint?.properties?.forecast_date_time,
+                            windSpeedMph: footprint?.properties?.wind_speed_mph,
+                            stormName: footprint?.properties?.storm_name,
                             type: 'track',
                         },
                     } : undefined,

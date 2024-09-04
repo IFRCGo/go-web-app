@@ -195,7 +195,29 @@ export const NATIONAL_SOCIETY = 3;
 
 export const MAX_PAGE_LIMIT = 9999;
 
-export interface ClickedPoint<PROERTIES> {
-    feature: GeoJSON.Feature<GeoJSON.Point, PROERTIES>;
+export interface EventGeoJsonProperties {
+    eventId: string;
+    type: string;
+    eventAlertLevel: string;
+    eventName: string;
+    eventType: string;
+    alertType: string;
+    hazardTitle: string;
+    source: string;
+    severityData?: {
+        severity: string;
+        severitytext: string;
+        severityunit: string;
+    };
+    url?: {
+        report?: string;
+        details?: string;
+        geometry?: string;
+    },
+    trackDate: string;
+}
+
+export interface ClickedPoint {
+    feature: GeoJSON.Feature<GeoJSON.Point, EventGeoJsonProperties>;
     lngLat: mapboxgl.LngLatLike;
 }
