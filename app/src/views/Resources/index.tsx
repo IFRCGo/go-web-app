@@ -167,6 +167,13 @@ export function Component() {
                     >
                         {strings.aboutSurgeLearning}
                     </Link>
+                    <Link
+                        href="https://surgelearning.ifrc.org/resources/core-competency-framework-surge-personnel"
+                        external
+                        withLinkIcon
+                    >
+                        {strings.aboutCoreCompetencyFramework}
+                    </Link>
                 </Container>
                 <Container
                     className={styles.resourceCard}
@@ -239,6 +246,13 @@ export function Component() {
                         withLinkIcon
                     >
                         {strings.aboutLearningPlatform}
+                    </Link>
+                    <Link
+                        href="https://prddsgofilestorage.blob.core.windows.net/api/documents/Health/Health.Mapping.-.Phase.1.Report.pdf"
+                        external
+                        withLinkIcon
+                    >
+                        {strings.aboutHealthMapping}
                     </Link>
                 </Container>
             </Container>
