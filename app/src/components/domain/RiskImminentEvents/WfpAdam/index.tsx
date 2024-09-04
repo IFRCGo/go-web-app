@@ -2,7 +2,10 @@ import {
     useCallback,
     useState,
 } from 'react';
-import { numericIdSelector } from '@ifrc-go/ui/utils';
+import {
+    formatDate,
+    numericIdSelector,
+} from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
@@ -11,9 +14,10 @@ import { type LngLatBoundsLike } from 'mapbox-gl';
 
 import RiskImminentEventMap, { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
 import {
+    ClickedPoint,
     CycloneFillLayerType,
     defaultLayersValue,
-    ImminentEventSource,
+    EventGeoJsonProperties,
     isValidFeatureCollection,
     LAYER_CYCLONE_BUFFERS,
     LAYER_CYCLONE_NODES,
@@ -29,7 +33,6 @@ import {
 
 import EventDetails from './EventDetails';
 import EventListItem from './EventListItem';
-import { ClickedPoint, EventGeoJsonProperties } from '#utils/constants';
 
 type ImminentEventResponse = RiskApiResponse<'/api/v1/adam-exposure/'>;
 type EventItem = NonNullable<ImminentEventResponse['results']>[number];
@@ -55,7 +58,6 @@ function getLayerType(
 type BaseProps = {
     title: React.ReactNode;
     bbox: LngLatBoundsLike | undefined;
-    activeView: ImminentEventSource;
 }
 
 type Props = BaseProps & ({
@@ -73,7 +75,6 @@ function WfpAdam(props: Props) {
         title,
         bbox,
         variant,
-        activeView,
     } = props;
 
     const [
@@ -217,10 +218,11 @@ function WfpAdam(props: Props) {
                         (feature) => ({
                             ...feature,
                             properties: {
-                                eventId: feature?.properties?.hazard_id,
-                                eventName: feature?.properties?.title,
+                                eventId: feature?.properties?.event_id,
+                                eventName: feature?.properties?.name,
                                 populationImpact: feature?.properties?.population_impact,
                                 windSpeedMph: feature?.properties?.wind_speed,
+                                trackDate: formatDate(feature?.properties?.track_date, 'yyyy-MM-dd, hh:mm'),
                                 maxStormSurge: feature?.properties?.max_storm_surge,
                                 alertType: feature?.properties?.alert_level,
                                 type: getLayerType(feature),
@@ -246,7 +248,7 @@ function WfpAdam(props: Props) {
         [getFootprint],
     );
 
-    const handleCyclonePointClick = useCallback(
+    const handlePopupClick = useCallback(
         (feature: mapboxgl.MapboxGeoJSONFeature, lngLat: mapboxgl.LngLat) => {
             setClickedPointProperties({
                 feature: feature as unknown as ClickedPoint['feature'],
@@ -257,7 +259,7 @@ function WfpAdam(props: Props) {
         [setClickedPointProperties],
     );
 
-    const handleCyclonePointClose = useCallback(
+    const handlePopupClose = useCallback(
         () => {
             setClickedPointProperties(undefined);
         },
@@ -266,13 +268,13 @@ function WfpAdam(props: Props) {
 
     const handleLayerChange = useCallback((value: boolean, name: LayerType) => {
         if (name === LAYER_CYCLONE_NODES) {
-            handleCyclonePointClose();
+            handlePopupClose();
         }
         setLayers((prevValues) => ({
             ...prevValues,
             [name]: value,
         }));
-    }, [handleCyclonePointClose]);
+    }, [handlePopupClose]);
 
     return (
         <RiskImminentEventMap
@@ -288,12 +290,11 @@ function WfpAdam(props: Props) {
             activeEventExposure={exposureResponse}
             activeEventExposurePending={exposureResponsePending}
             onActiveEventChange={handleActiveEventChange}
-            activeView={activeView}
             activeLayersMapping={activeLayersMapping}
             layers={layers}
             onLayerChange={handleLayerChange}
-            handleCyclonePointClick={handleCyclonePointClick}
-            handleCyclonePointClose={handleCyclonePointClose}
+            handlePopupClick={handlePopupClick}
+            handlePopupClose={handlePopupClose}
             clickedPointProperties={clickedPointProperties}
         />
     );

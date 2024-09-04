@@ -2,7 +2,10 @@ import {
     useCallback,
     useState,
 } from 'react';
-import { numericIdSelector } from '@ifrc-go/ui/utils';
+import {
+    formatDate,
+    numericIdSelector,
+} from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
@@ -12,11 +15,8 @@ import { type LngLatBoundsLike } from 'mapbox-gl';
 import RiskImminentEventMap, { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
 import {
     ClickedPoint,
-    EventGeoJsonProperties,
-} from '#utils/constants';
-import {
     defaultLayersValue,
-    ImminentEventSource,
+    EventGeoJsonProperties,
     isValidFeature,
     isValidPointFeature,
     LAYER_CYCLONE_BUFFERS,
@@ -57,7 +57,6 @@ type EventItem = NonNullable<ImminentEventResponse['results']>[number];
 type BaseProps = {
     title: React.ReactNode;
     bbox: LngLatBoundsLike | undefined;
-    activeView: ImminentEventSource;
 }
 
 type Props = BaseProps & ({
@@ -75,7 +74,6 @@ function Pdc(props: Props) {
         title,
         bbox,
         variant,
-        activeView,
     } = props;
 
     const [
@@ -218,9 +216,7 @@ function Pdc(props: Props) {
             // track_heading : "WNW"
             // wind_speed_mph : 75
 
-            const geoJson: GeoJSON.FeatureCollection<
-                GeoJSON.Geometry, EventGeoJsonProperties
-            > = {
+            const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry, EventGeoJsonProperties> = {
                 type: 'FeatureCollection' as const,
                 features: [
                     footprint ? {
@@ -257,7 +253,10 @@ function Pdc(props: Props) {
                             properties: {
                                 eventId: pointFeature?.properties?.hazard_id,
                                 eventName: pointFeature?.properties?.hazard_name,
-                                trackDate: pointFeature?.properties?.forecast_date_time,
+                                trackDate: formatDate(
+                                    pointFeature?.properties?.forecast_date_time,
+                                    'yyyy-MM-dd, hh:mm',
+                                ),
                                 windSpeedMph: pointFeature?.properties?.wind_speed_mph,
                                 stormName: pointFeature?.properties?.storm_name,
                                 description: pointFeature?.properties?.description,
@@ -306,7 +305,7 @@ function Pdc(props: Props) {
         [getFootprint],
     );
 
-    const handleCyclonePointClick = useCallback(
+    const handlePopupClick = useCallback(
         (feature: mapboxgl.MapboxGeoJSONFeature, lngLat: mapboxgl.LngLat) => {
             setClickedPointProperties({
                 feature: feature as unknown as ClickedPoint['feature'],
@@ -317,7 +316,7 @@ function Pdc(props: Props) {
         [setClickedPointProperties],
     );
 
-    const handleCyclonePointClose = useCallback(
+    const handlePopupClose = useCallback(
         () => {
             setClickedPointProperties(undefined);
         },
@@ -326,13 +325,13 @@ function Pdc(props: Props) {
 
     const handleLayerChange = useCallback((value: boolean, name: LayerType) => {
         if (name === LAYER_CYCLONE_NODES) {
-            handleCyclonePointClose();
+            handlePopupClose();
         }
         setLayers((prevValues) => ({
             ...prevValues,
             [name]: value,
         }));
-    }, [handleCyclonePointClose]);
+    }, [handlePopupClose]);
 
     return (
         <RiskImminentEventMap
@@ -348,12 +347,11 @@ function Pdc(props: Props) {
             activeEventExposure={exposureResponse}
             activeEventExposurePending={exposureResponsePending}
             onActiveEventChange={handleActiveEventChange}
-            activeView={activeView}
             activeLayersMapping={activeLayersMapping}
             layers={layers}
             onLayerChange={handleLayerChange}
-            handleCyclonePointClick={handleCyclonePointClick}
-            handleCyclonePointClose={handleCyclonePointClose}
+            handlePopupClick={handlePopupClick}
+            handlePopupClose={handlePopupClose}
             clickedPointProperties={clickedPointProperties}
         />
     );

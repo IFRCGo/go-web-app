@@ -9,7 +9,6 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import { isDefined } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
-import { EventGeoJsonProperties } from '#utils/constants';
 import {
     LayerOption,
     LayerType,

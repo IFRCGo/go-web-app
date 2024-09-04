@@ -5,11 +5,20 @@
         "backToEventsLabel": "Back to events",
         "emptyImminentEventMessage": "No imminent event forecasted",
         "eventLayerTitle": "Layers",
-        "eventLayerNodes": "Nodes",
-        "eventLayerTracks": "Tracks",
-        "eventLayerBuffers": "Buffers",
+        "eventLayerNodes": "Position of Storm",
+        "eventLayerTracks": "Forecast Track",
+        "eventLayerBuffers": "Wind speed Buffer",
         "eventLayerForecastUncertainty": "Forecast Uncertainty",
         "eventLayerForecastUncertaintyFiveDays": "Forecast Uncertainty (5 days)",
-        "eventLayerForecastUncertaintyThreeDays": "Forecast Uncertainty (3 days)"
+        "eventLayerForecastUncertaintyThreeDays": "Forecast Uncertainty (3 days)",
+        "popupStorm": "Storm",
+        "popupAlertLevel": "Alert Level",
+        "popupSeverity": "Severity",
+        "popupAdvisoryNumber": "Advisory Number",
+        "popupTrackSpeed": "Track Speed mph",
+        "popupWindSpeed": "Wind Speed mph",
+        "popupPopulationImpact": "Population Impact",
+        "popupMaxStormSurge": "Max Storm Surge",
+        "popupStormStatus": "Storm Status"
     }
 }

@@ -58,7 +58,7 @@ function LayerDetails(props: Props) {
             )}
             {options.key === LAYER_CYCLONE_BUFFERS && value[LAYER_CYCLONE_BUFFERS] && (
                 <Container
-                    heading="Alert Level"
+                    heading="GDACS Alert Level"
                     headingLevel={5}
                     childrenContainerClassName={styles.content}
                 >

@@ -39,14 +39,56 @@ type CountrySeasonal = RiskApiResponse<'/api/v1/country-seasonal/'>;
 type IpcData = CountrySeasonal[number]['ipc_displacement_data'];
 type GwisData = CountrySeasonal[number]['gwis'];
 
+export type CycloneFillLayerType = 'track-point' | 'track' | 'uncertainty' | 'exposure';
+
+export interface EventGeoJsonProperties {
+    eventId?: string;
+    type?: string;
+    alertLevel?: string;
+    eventName?: string;
+    eventType?: string;
+    alertType?: string;
+    source?: string;
+    severityData?: {
+        severity: string;
+        severitytext: string;
+        severityunit: string;
+    };
+    url?: {
+        report?: string;
+        details?: string;
+        geometry?: string;
+    },
+    trackDate?: string;
+    stormStatus?: string;
+
+    // PDC
+    stormName?: string;
+    windSpeedMph?: string;
+    description?: string;
+    startDate?: string;
+    pdcCreatedAt?: string;
+    pdcUpdatedAt?: string;
+    severity?: string;
+    advisoryNumber?: number;
+    trackSpeedMph?: string;
+
+    // ADAM
+    populationImpact?: string;
+    maxStormSurge?: string;
+}
+
+export interface ClickedPoint {
+    feature: GeoJSON.Feature<GeoJSON.Point, EventGeoJsonProperties>;
+    lngLat: mapboxgl.LngLatLike;
+}
+
 export const LAYER_CYCLONE_NODES = 1;
 export const LAYER_CYCLONE_TRACKS = 2;
 export const LAYER_CYCLONE_BUFFERS = 3;
 export const LAYER_CYCLONE_UNCERTAINTY = 4;
 export const LAYER_CYCLONE_UNCERTAINTY_FIVE_DAYS = 5;
 export const LAYER_CYCLONE_UNCERTAINTY_THREE_DAYS = 6;
-
-export type CycloneFillLayerType = 'track-point' | 'track' | 'uncertainty' | 'exposure';
 
 export type LayerType = typeof LAYER_CYCLONE_NODES
     | typeof LAYER_CYCLONE_TRACKS

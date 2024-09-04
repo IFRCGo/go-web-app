@@ -2,7 +2,10 @@ import {
     useCallback,
     useState,
 } from 'react';
-import { numericIdSelector } from '@ifrc-go/ui/utils';
+import {
+    formatDate,
+    numericIdSelector,
+} from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
@@ -12,12 +15,9 @@ import { type LngLatBoundsLike } from 'mapbox-gl';
 import RiskImminentEventMap, { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
 import {
     ClickedPoint,
-    EventGeoJsonProperties,
-} from '#utils/constants';
-import {
     CycloneFillLayerType,
     defaultLayersValue,
-    ImminentEventSource,
+    EventGeoJsonProperties,
     isValidFeatureCollection,
     LAYER_CYCLONE_BUFFERS,
     LAYER_CYCLONE_NODES,
@@ -71,7 +71,6 @@ type EventItem = NonNullable<ImminentEventResponse['results']>[number];
 type BaseProps = {
     title: React.ReactNode;
     bbox: LngLatBoundsLike | undefined;
-    activeView: ImminentEventSource;
 }
 
 type Props = BaseProps & ({
@@ -89,7 +88,6 @@ function Gdacs(props: Props) {
         title,
         bbox,
         variant,
-        activeView,
     } = props;
 
     const [
@@ -228,9 +226,7 @@ function Gdacs(props: Props) {
                 ? footprint_geojson
                 : undefined;
 
-            const geoJson: GeoJSON.FeatureCollection<
-                GeoJSON.Geometry, EventGeoJsonProperties
-            > = {
+            const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry, EventGeoJsonProperties> = {
                 type: 'FeatureCollection' as const,
                 features: [
                     ...footprint?.features?.map(
@@ -241,9 +237,10 @@ function Gdacs(props: Props) {
                                 eventName: feature?.properties?.name,
                                 eventType: feature?.properties?.eventtype,
                                 severityData: feature?.properties?.severitydata,
-                                trackDate: feature?.properties?.trackdate,
+                                trackDate: formatDate(feature?.properties?.trackdate, 'yyyy-MM-dd, hh:mm'),
                                 source: feature?.properties?.source,
                                 url: feature?.properties?.url,
+                                stormStatus: feature?.properties?.stormstatus,
                                 alertLevel: feature?.properties?.alertlevel,
                                 alertType: getAlertType(feature?.properties?.Class),
                                 type: getLayerType(feature),
@@ -269,6 +266,7 @@ function Gdacs(props: Props) {
                                         trackDate: feature?.properties?.trackdate,
                                         source: feature?.properties?.source,
                                         url: feature?.properties?.url,
+                                        stormStatus: feature?.properties?.stormstatus,
                                         alertLevel: feature?.properties?.alertlevel,
                                         alertType: getAlertType(feature?.properties?.Class),
                                         type: getLayerType({
@@ -301,7 +299,7 @@ function Gdacs(props: Props) {
         [getFootprint],
     );
 
-    const handleCyclonePointClick = useCallback(
+    const handlePopupClick = useCallback(
         (feature: mapboxgl.MapboxGeoJSONFeature, lngLat: mapboxgl.LngLat) => {
             setClickedPointProperties({
                 feature: feature as unknown as ClickedPoint['feature'],
@@ -312,7 +310,7 @@ function Gdacs(props: Props) {
         [setClickedPointProperties],
     );
 
-    const handleCyclonePointClose = useCallback(
+    const handlePopupClose = useCallback(
         () => {
             setClickedPointProperties(undefined);
         },
@@ -321,13 +319,13 @@ function Gdacs(props: Props) {
 
     const handleLayerChange = useCallback((value: boolean, name: LayerType) => {
         if (name === LAYER_CYCLONE_NODES) {
-            handleCyclonePointClose();
+            handlePopupClose();
         }
         setLayers((prevValues) => ({
             ...prevValues,
             [name]: value,
         }));
-    }, [handleCyclonePointClose]);
+    }, [handlePopupClose]);
 
     return (
         <RiskImminentEventMap
@@ -343,12 +341,11 @@ function Gdacs(props: Props) {
             activeEventExposure={exposureResponse}
             activeEventExposurePending={exposureResponsePending}
             onActiveEventChange={handleActiveEventChange}
-            activeView={activeView}
             activeLayersMapping={activeLayersMapping}
             layers={layers}
             onLayerChange={handleLayerChange}
-            handleCyclonePointClick={handleCyclonePointClick}
-            handleCyclonePointClose={handleCyclonePointClose}
+            handlePopupClick={handlePopupClick}
+            handlePopupClose={handlePopupClose}
             clickedPointProperties={clickedPointProperties}
         />
     );

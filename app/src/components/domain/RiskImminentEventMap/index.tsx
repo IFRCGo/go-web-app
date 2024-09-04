@@ -37,14 +37,13 @@ import MapPopup from '#components/MapPopup';
 import { type components } from '#generated/riskTypes';
 import useDebouncedValue from '#hooks/useDebouncedValue';
 import {
-    ClickedPoint,
     COLOR_WHITE,
     DEFAULT_MAP_PADDING,
     DURATION_MAP_ZOOM,
-    EventGeoJsonProperties,
 } from '#utils/constants';
 import {
-    ImminentEventSource,
+    ClickedPoint,
+    EventGeoJsonProperties,
     LAYER_CYCLONE_BUFFERS,
     LAYER_CYCLONE_NODES,
     LAYER_CYCLONE_TRACKS,
@@ -125,16 +124,15 @@ interface Props<EVENT, EXPOSURE, KEY extends string | number> {
     bbox: LngLatBoundsLike | undefined;
     onActiveEventChange: (eventId: KEY | undefined) => void;
     activeEventExposurePending: boolean;
-    activeView: ImminentEventSource;
     activeLayersMapping: Record<LayerType, boolean>;
     layers: Record<LayerType, boolean>;
     onLayerChange: (value: boolean, name: LayerType) => void;
     clickedPointProperties: ClickedPoint | undefined;
-    handleCyclonePointClick: (
+    handlePopupClick: (
         feature: mapboxgl.MapboxGeoJSONFeature,
         lngLat: mapboxgl.LngLat,
     ) => boolean;
-    handleCyclonePointClose: () => void;
+    handlePopupClose: () => void;
 }
 
 function RiskImminentEventMap<
@@ -155,13 +153,12 @@ function RiskImminentEventMap<
         bbox,
         onActiveEventChange,
         activeEventExposurePending,
-        activeView,
         activeLayersMapping,
         layers,
         onLayerChange,
         clickedPointProperties,
-        handleCyclonePointClick,
-        handleCyclonePointClose,
+        handlePopupClick,
+        handlePopupClose,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -267,8 +264,9 @@ function RiskImminentEventMap<
 
             setActiveEventId(eventIdSafe);
             onActiveEventChange(eventIdSafe);
+            handlePopupClose();
         },
-        [onActiveEventChange],
+        [onActiveEventChange, handlePopupClose],
     );
 
     const handlePointClick = useCallback(
@@ -328,7 +326,7 @@ function RiskImminentEventMap<
 
     const popupDetails = useMemo(() => {
         const eventDetails = clickedPointProperties
-            ? clickedPointProperties?.feature?.properties
+            ? clickedPointProperties.feature.properties
             : undefined;
         return eventDetails;
     }, [clickedPointProperties]);
@@ -430,7 +428,7 @@ function RiskImminentEventMap<
                                         <MapLayer
                                             layerKey="track-circle"
                                             layerOptions={cycloneTrackPointLayer}
-                                            onClick={handleCyclonePointClick}
+                                            onClick={handlePopupClick}
                                         />
                                         <MapLayer
                                             layerKey="track-point"
@@ -458,6 +456,7 @@ function RiskImminentEventMap<
                         layerOptions={hazardPointIconLayer}
                     />
                 </MapSource>
+
                 {boundsSafe && (
                     <MapBounds
                         duration={DURATION_MAP_ZOOM}
@@ -465,76 +464,86 @@ function RiskImminentEventMap<
                         padding={DEFAULT_MAP_PADDING}
                     />
                 )}
+
                 {isDefined(clickedPointProperties)
                     && clickedPointProperties.lngLat
-                    && isDefined(popupDetails) && (
-                    <MapPopup
-                        coordinates={clickedPointProperties.lngLat}
-                        onCloseButtonClick={handleCyclonePointClose}
-                        heading={popupDetails?.eventName}
-                        headingLevel={4}
-                        contentViewType="vertical"
-                        compactMessage
-                        ellipsizeHeading
-                    >
-                        {severityData?.severitytext && (
-                            <TextOutput
-                                label="Storm"
-                                value={severityData?.severitytext}
-                                strongLabel
-                            />
-                        )}
-                        {popupDetails?.alertType && (
-                            <TextOutput
-                                label="Alert Level"
-                                value={popupDetails?.alertType}
-                                strongLabel
-                            />
-                        )}
-                        {popupDetails?.source && (
-                            <TextOutput
-                                label="Source"
-                                value={popupDetails?.source}
-                                strongLabel
-                            />
-                        )}
-                        {popupDetails?.severity && (
-                            <TextOutput
-                                label="Severity"
-                                value={popupDetails?.severity}
-                                strongLabel
-                            />
-                        )}
-                        {popupDetails?.advisoryNumber && (
-                            <TextOutput
-                                label="Advisory Number"
-                                value={popupDetails?.advisoryNumber}
-                                strongLabel
-                            />
-                        )}
-                        {popupDetails?.trackSpeedMph && (
-                            <TextOutput
-                                label="Track Speed mph"
-                                value={popupDetails?.trackSpeedMph}
-                                strongLabel
-                            />
-                        )}
-                        {popupDetails?.populationImpact && (
-                            <TextOutput
-                                label="Population Impact"
-                                value={popupDetails?.populationImpact}
-                                strongLabel
-                            />
-                        )}
-                        {popupDetails?.maxStormSurge && (
-                            <TextOutput
-                                label="Max Storm Surge"
-                                value={popupDetails?.maxStormSurge}
-                                strongLabel
-                            />
-                        )}
-                    </MapPopup>
-                )}
+                    && isDefined(popupDetails)
+                    && (
+                        <MapPopup
+                            coordinates={clickedPointProperties.lngLat}
+                            onCloseButtonClick={handlePopupClose}
+                            heading={popupDetails.eventName}
+                            headingLevel={4}
+                            contentViewType="vertical"
+                            compactMessage
+                            // FIXME: bug on ellipsizeHeading
+                            // ellipsizeHeading
+                        >
+                            {severityData?.severitytext && (
+                                <TextOutput
+                                    label={strings.popupStorm}
+                                    value={severityData?.severitytext}
+                                    strongLabel
+                                />
+                            )}
+                            {popupDetails.alertType && (
+                                <TextOutput
+                                    label={strings.popupAlertLevel}
+                                    value={popupDetails.alertType}
+                                    strongLabel
+                                />
+                            )}
+                            {popupDetails.severity && (
+                                <TextOutput
+                                    label={strings.popupSeverity}
+                                    value={popupDetails.severity}
+                                    strongLabel
+                                />
+                            )}
+                            {popupDetails.advisoryNumber && (
+                                <TextOutput
+                                    label={strings.popupAdvisoryNumber}
+                                    value={popupDetails.advisoryNumber}
+                                    strongLabel
+                                />
+                            )}
+                            {popupDetails.trackSpeedMph && (
+                                <TextOutput
+                                    label={strings.popupTrackSpeed}
+                                    value={popupDetails.trackSpeedMph}
+                                    strongLabel
+                                />
+                            )}
+                            {popupDetails.windSpeedMph && (
+                                <TextOutput
+                                    label={strings.popupWindSpeed}
+                                    value={popupDetails.windSpeedMph}
+                                    strongLabel
+                                />
+                            )}
+                            {popupDetails.populationImpact && (
+                                <TextOutput
+                                    label={strings.popupPopulationImpact}
+                                    value={popupDetails.populationImpact}
+                                    strongLabel
+                                />
+                            )}
+                            {popupDetails.maxStormSurge && (
+                                <TextOutput
+                                    label={strings.popupMaxStormSurge}
+                                    value={popupDetails.maxStormSurge}
+                                    strongLabel
+                                />
+                            )}
+                            {popupDetails.stormStatus && (
+                                <TextOutput
+                                    label={strings.popupStormStatus}
+                                    value={popupDetails.stormStatus}
+                                    strongLabel
+                                />
+                            )}
+                        </MapPopup>
+                    )}
             </BaseMap>
             <Container
                 heading={sidePanelHeading}
@@ -576,8 +585,8 @@ function RiskImminentEventMap<
                         onLayerChange={onLayerChange}
                         layers={layers}
                         options={activeLayerOptions}
-                        handlePointClick={handleCyclonePointClick}
-                        handlePointClose={handleCyclonePointClose}
+                        handlePointClick={handlePopupClick}
+                        handlePointClose={handlePopupClose}
                         clickedPointProperties={clickedPointProperties}
                     />
                 )}
