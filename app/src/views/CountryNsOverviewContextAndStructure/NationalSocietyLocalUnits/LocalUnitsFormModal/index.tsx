@@ -4,6 +4,7 @@ import {
 } from 'react';
 import { Modal } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import { isDefined } from '@togglecorp/fujs';
 
 import LocalUnitsForm from './LocalUnitsForm';
 
@@ -13,6 +14,7 @@ import styles from './styles.module.css';
 interface Props {
     localUnitId?: number;
     readOnly?: boolean;
+    setReadOnly?: React.Dispatch<React.SetStateAction<boolean>>;
     onClose: (requestDone?: boolean) => void;
 }
 
@@ -21,6 +23,7 @@ function LocalUnitsFormModal(props: Props) {
         onClose,
         localUnitId,
         readOnly,
+        setReadOnly,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -29,8 +32,19 @@ function LocalUnitsFormModal(props: Props) {
     const headerDescriptionRef = useRef<HTMLDivElement>(null);
 
     const handleSuccess = useCallback(
-        () => { onClose(true); },
+        () => {
+            onClose(true);
+        },
         [onClose],
+    );
+
+    const handleEditButtonClick = useCallback(
+        () => {
+            if (isDefined(setReadOnly)) {
+                setReadOnly(false);
+            }
+        },
+        [setReadOnly],
     );
 
     return (
@@ -41,9 +55,7 @@ function LocalUnitsFormModal(props: Props) {
             size="pageWidth"
             withHeaderBorder
             headingLevel={2}
-            actions={!readOnly && (
-                <div ref={actionsContainerRef} />
-            )}
+            actions={<div ref={actionsContainerRef} />}
             headingContainerClassName={styles.headingContainer}
             headingDescription={
                 <div ref={headingDescriptionRef} />
@@ -58,6 +70,7 @@ function LocalUnitsFormModal(props: Props) {
                 localUnitId={localUnitId}
                 onSuccess={handleSuccess}
                 readOnly={readOnly}
+                onEditButtonClick={handleEditButtonClick}
                 actionsContainerRef={actionsContainerRef}
                 headingDescriptionRef={headingDescriptionRef}
                 headerDescriptionRef={headerDescriptionRef}

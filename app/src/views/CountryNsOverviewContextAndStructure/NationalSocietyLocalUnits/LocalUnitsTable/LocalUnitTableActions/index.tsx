@@ -1,4 +1,7 @@
-import { useCallback } from 'react';
+import {
+    useCallback,
+    useState,
+} from 'react';
 import { TableActions } from '@ifrc-go/ui';
 import {
     useBooleanState,
@@ -39,26 +42,37 @@ function LocalUnitsTableActions(props: Props) {
 
     const hasValidatePermission = !isGuestUser && (isSuperUser || isCountryAdmin(countryId));
 
-    const [showLocalUnitViewModal, {
-        setTrue: setShowLocalUnitViewModalTrue,
-        setFalse: setShowLocalUnitViewModalFalse,
-    }] = useBooleanState(false);
+    const [readOnlyLocalUnitModal, setReadOnlyLocalUnitModal] = useState(false);
 
-    const [showLocalUnitEditModal, {
-        setTrue: setShowLocalUnitEditModalTrue,
-        setFalse: setShowLocalUnitEditModalFalse,
+    const [showLocalUnitModal, {
+        setTrue: setShowLocalUnitModalTrue,
+        setFalse: setShowLocalUnitModalFalse,
     }] = useBooleanState(false);
 
     const handleLocalUnitsFormModalClose = useCallback(
         (shouldUpdate?: boolean) => {
-            setShowLocalUnitEditModalFalse();
-            setShowLocalUnitViewModalFalse();
+            setShowLocalUnitModalFalse();
 
             if (shouldUpdate) {
                 onActionSuccess();
             }
         },
-        [setShowLocalUnitViewModalFalse, setShowLocalUnitEditModalFalse, onActionSuccess],
+        [setShowLocalUnitModalFalse, onActionSuccess],
+    );
+
+    const handleViewLocalUnitClick = useCallback(
+        () => {
+            setReadOnlyLocalUnitModal(true);
+            setShowLocalUnitModalTrue();
+        },
+        [setShowLocalUnitModalTrue],
+    );
+    const handleEditLocalUnitClick = useCallback(
+        () => {
+            setReadOnlyLocalUnitModal(false);
+            setShowLocalUnitModalTrue();
+        },
+        [setShowLocalUnitModalTrue],
     );
 
     return (
@@ -70,7 +84,7 @@ function LocalUnitsTableActions(props: Props) {
                         <DropdownMenuItem
                             type="button"
                             name={localUnitId}
-                            onClick={setShowLocalUnitViewModalTrue}
+                            onClick={handleViewLocalUnitClick}
                             disabled={!hasValidatePermission}
                         >
                             {strings.localUnitsView}
@@ -78,7 +92,7 @@ function LocalUnitsTableActions(props: Props) {
                         <DropdownMenuItem
                             type="button"
                             name={localUnitId}
-                            onClick={setShowLocalUnitEditModalTrue}
+                            onClick={handleEditLocalUnitClick}
                             disabled={!hasValidatePermission}
                         >
                             {strings.localUnitsEdit}
@@ -101,11 +115,12 @@ function LocalUnitsTableActions(props: Props) {
                     localUnitId={localUnitId}
                 />
             </TableActions>
-            {(showLocalUnitViewModal || showLocalUnitEditModal) && (
+            {showLocalUnitModal && (
                 <LocalUnitsFormModal
                     onClose={handleLocalUnitsFormModalClose}
                     localUnitId={localUnitId}
-                    readOnly={showLocalUnitViewModal}
+                    readOnly={readOnlyLocalUnitModal}
+                    setReadOnly={setReadOnlyLocalUnitModal}
                 />
             )}
         </>
