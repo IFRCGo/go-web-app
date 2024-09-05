@@ -66,6 +66,7 @@ import {
     hazardPointIconLayout,
     hazardPointLayer,
     invisibleLayout,
+    uncertaintyTrackOutlineFiveDaysLayer,
     uncertaintyTrackOutlineLayer,
 } from './mapStyles';
 
@@ -216,6 +217,7 @@ function RiskImminentEventMap<
         [activeEventId, activeEventExposure, activeEventExposurePending, footprintSelector],
     );
 
+    console.log('active footprint', activeEventFootprint);
     const bounds = useMemo(
         () => {
             if (isNotDefined(activeEvent) || activeEventExposurePending) {
@@ -345,11 +347,12 @@ function RiskImminentEventMap<
                     getLayerName('active-event-footprint', 'exposure-fill', true),
                     getLayerName('active-event-footprint', 'cyclone-exposure-fill', true),
                     getLayerName('active-event-footprint', 'uncertainty-track-line', true),
+                    getLayerName('active-event-footprint', 'uncertainty-track-line-five-days', true),
+                    getLayerName('active-event-footprint', 'uncertainty-track-line-three-days', true),
                     getLayerName('active-event-footprint', 'track-outline', true),
                     getLayerName('active-event-footprint', 'track-circle', true),
                     getLayerName('active-event-footprint', 'track-point', true),
-                    // getLayerName('event-points', 'point-circle', true),
-                    // getLayerName('event-points', 'hazard-points-icon', true),
+                    getLayerName('active-event-footprint', 'track-point-label', true),
                 ]}
                 />
             );
@@ -405,10 +408,20 @@ function RiskImminentEventMap<
                                     />
                                 )}
                                 {(layers[LAYER_CYCLONE_UNCERTAINTY]) && (
-                                    <MapLayer
-                                        layerKey="uncertainty-track-line"
-                                        layerOptions={uncertaintyTrackOutlineLayer}
-                                    />
+                                    <>
+                                        <MapLayer
+                                            layerKey="uncertainty-track-line"
+                                            layerOptions={uncertaintyTrackOutlineLayer}
+                                        />
+                                        <MapLayer
+                                            layerKey="uncertainty-track-line-five-days"
+                                            layerOptions={uncertaintyTrackOutlineFiveDaysLayer}
+                                        />
+                                        <MapLayer
+                                            layerKey="uncertainty-track-line-three-days"
+                                            layerOptions={uncertaintyTrackOutlineFiveDaysLayer}
+                                        />
+                                    </>
                                 )}
                                 {layers[LAYER_CYCLONE_TRACKS] && (
                                     <>
@@ -417,12 +430,11 @@ function RiskImminentEventMap<
                                             layerOptions={cycloneTrackOutlineLayer}
                                         />
                                         <MapLayer
-                                            layerKey="track-points-label"
+                                            layerKey="track-point-label"
                                             layerOptions={cycloneTrackPointLabelLayer}
                                         />
                                     </>
                                 )}
-                                {/* {activeView !== 'gdacs' && layers[LAYER_CYCLONE_NODES] && ( */}
                                 {layers[LAYER_CYCLONE_NODES] && (
                                     <>
                                         <MapLayer

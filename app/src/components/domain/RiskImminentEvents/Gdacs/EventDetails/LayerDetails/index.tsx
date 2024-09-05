@@ -38,7 +38,7 @@ function LayerDetails(props: Props) {
             />
             {options.key === LAYER_CYCLONE_NODES && value[LAYER_CYCLONE_NODES] && (
                 <Container
-                    heading="Wind speed km/h"
+                    heading="windspeed km/h"
                     headingLevel={5}
                     childrenContainerClassName={styles.content}
                 >

@@ -38,45 +38,41 @@ function LayerDetails(props: Props) {
             />
             {options.key === LAYER_CYCLONE_NODES && value[LAYER_CYCLONE_NODES] && (
                 <Container
-                    heading="Wind speed km/h"
+                    heading="windspeed km/h"
                     headingLevel={5}
                     childrenContainerClassName={styles.content}
                 >
                     <TextOutput
                         icon={<CycloneIcon className={styles.iconRed} />}
-                        value="> 240 km/h"
-                    />
-                    <TextOutput
-                        icon={<CycloneIcon className={styles.iconRed} />}
-                        value="185 to 240 km/h"
+                        value="> 120 km/h"
                     />
                     <TextOutput
                         icon={<CycloneIcon className={styles.iconOrange} />}
-                        value="110 t0 185 km/h"
+                        value="90 to 120 km/h"
                     />
                     <TextOutput
                         icon={<CycloneIcon className={styles.iconGreen} />}
-                        value="<= 110 km/h"
+                        value="<= 60 km/h"
                     />
                 </Container>
             )}
             {options.key === LAYER_CYCLONE_BUFFERS && value[LAYER_CYCLONE_BUFFERS] && (
                 <Container
-                    heading="Wind Buffer"
+                    heading="WFP Alert Level"
                     headingLevel={5}
                     childrenContainerClassName={styles.content}
                 >
                     <TextOutput
                         icon={<div className={styles.stormRed} />}
-                        value="120 km/h"
+                        value="Red"
                     />
                     <TextOutput
                         icon={<div className={styles.stormOrange} />}
-                        value="90 km/h"
+                        value="Orange"
                     />
                     <TextOutput
                         icon={<div className={styles.stormGreen} />}
-                        value="60 km/h"
+                        value="Green"
                     />
                 </Container>
             )}

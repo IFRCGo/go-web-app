@@ -7,7 +7,7 @@
         "eventLayerTitle": "Layers",
         "eventLayerNodes": "Position of Storm",
         "eventLayerTracks": "Forecast Track",
-        "eventLayerBuffers": "Wind speed Buffer",
+        "eventLayerBuffers": "Windspeed Buffer",
         "eventLayerForecastUncertainty": "Forecast Uncertainty",
         "eventLayerForecastUncertaintyFiveDays": "Forecast Uncertainty (5 days)",
         "eventLayerForecastUncertaintyThreeDays": "Forecast Uncertainty (3 days)",

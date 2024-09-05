@@ -38,49 +38,49 @@ function LayerDetails(props: Props) {
             />
             {options.key === LAYER_CYCLONE_NODES && value[LAYER_CYCLONE_NODES] && (
                 <Container
-                    heading="Wind speed km/h"
+                    heading="windspeed km/h"
                     headingLevel={5}
                     childrenContainerClassName={styles.content}
                 >
                     <TextOutput
-                        icon={<CycloneIcon className={styles.iconBlue} />}
-                        value="63 km/h with no current threat"
-                    />
-                    <TextOutput
-                        icon={<CycloneIcon className={styles.iconGreen} />}
-                        value="63 km/h imapct within 5 days"
+                        icon={<CycloneIcon className={styles.iconRed} />}
+                        value="63 km/h impact within 36 hours"
                     />
                     <TextOutput
                         icon={<CycloneIcon className={styles.iconOrange} />}
-                        value="63 km/h imapct within 48 hours"
+                        value="63 km/h impact within 48 hours"
                     />
                     <TextOutput
-                        icon={<CycloneIcon className={styles.iconRed} />}
-                        value="63 km/h imapct within 36 hours"
+                        icon={<CycloneIcon className={styles.iconGreen} />}
+                        value="63 km/h impact within 5 days"
+                    />
+                    <TextOutput
+                        icon={<CycloneIcon className={styles.iconBlue} />}
+                        value="63 km/h with no current threat"
                     />
                 </Container>
             )}
             {options.key === LAYER_CYCLONE_BUFFERS && value[LAYER_CYCLONE_BUFFERS] && (
                 <Container
-                    heading="Alert Level"
+                    heading="PDC Alert Level"
                     headingLevel={5}
                     childrenContainerClassName={styles.content}
                 >
                     <TextOutput
-                        icon={<div className={styles.stormBlue} />}
-                        value="Information"
-                    />
-                    <TextOutput
-                        icon={<div className={styles.stormGreen} />}
-                        value="Advisory"
+                        icon={<div className={styles.stormRed} />}
+                        value="Warning"
                     />
                     <TextOutput
                         icon={<div className={styles.stormOrange} />}
                         value="Watch"
                     />
                     <TextOutput
-                        icon={<div className={styles.stormRed} />}
-                        value="Warning"
+                        icon={<div className={styles.stormGreen} />}
+                        value="Advisory"
+                    />
+                    <TextOutput
+                        icon={<div className={styles.stormBlue} />}
+                        value="Information"
                     />
                 </Container>
             )}
