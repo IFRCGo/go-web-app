@@ -40,15 +40,27 @@ To begin, ensure you have network access. Then, you'll need the following
   ```
 > [!IMPORTANT]\
 >  Ensure there are no lint errors before pushing the changes. Ensure the commit message is clear and concise, summarizing the changes made in the commit. Avoid vague and generic messages. Instead, provide specific details that describe the purpose or impact of the changes.
-6. Once you're happy with your changes, add and commit them to your branch, then push the branch to origin.
+6. Once you're happy with your changes, add and commit them to your branch.If your workflow requires changesets (e.g., when changes will impact versioning or are part of a release), create one before committing. Then push the branch to origin.
   ```bash
+  # Stage all changes
   git add .
+  # Create a changeset (if changes will affect versioning, like new features or bug fixes)
+  yarn changeset
+
+  # Commit your changes with a message
   git commit -m "some message"
+
+  # Push your branch to origin
   git push -u origin name-of-your-branch
   ```
-> [!NOTE]\
+
+>[!NOTE]\
+>Review the [Changesets documentation](./release.md#changesets) and the [versioning guidelines](./release.md#versioning-guidelines-for-ifrc-go-project) for more details on versioning and tracking changes.
+
+> [!IMPORTANT]\
 > Before committing and opening a Pull Request, please ensure there are no lint errors. Also please create a pull request only when the feature is ready to be merged.
 
+7. Create a Pull Request.
 Please read the [Issues and Pull Requests](./issues-and-pull-requests.md) guide for further information.
 
 ### CLI Commands

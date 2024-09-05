@@ -22,6 +22,9 @@ Add your changes, ensuring they follow code style guidelines. Run linting, perfo
 
 Run `yarn changeset` in the root of the repository and describe your changes. The resulting files should be committed as they will be used during release.
 
+>[!NOTE]\
+>Review the [Changesets documentation](./release.md#changesets) and the [versioning guidelines](./release.md#versioning-guidelines-for-ifrc-go-project) for more details.
+
 Commit your changes with a clear and descriptive message that adheres to our commit message conventions.
 
 Push your branch to GitHub following our branch naming conventions.

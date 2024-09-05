@@ -4,11 +4,37 @@ The IFRC Go web application deployment occurs across nightly, staging, and produ
 
 We use [changesets](https://github.com/changesets/changesets) to manage versioning and generate changelogs for each release. The version must be updated with each release, and the deployment is carried out through the `develop` branch.
 
+### Changesets
+[changesets](https://github.com/changesets/changesets) is used to manage versioning and changelogs across different packages within IFRC GO.
+
+#### When is changesets required in IFRC GO?
+- **New Features**: When you add new functionality that users can interact with. This requires version bumping to signal a feature addition.
+- **Bug Fixes**: For resolving issues that affect existing functionality, ensuring a version bump and clear changelog entries.
+- **Breaking Changes**: When changes may disrupt existing workflows or integrations, reflecting this with a major version increment.
+
+changesets isn't required for internal-only updates, minor refactoring, or documentation changes that don't impact functionality.
+
+### Versioning Guidelines for IFRC GO Project
+In the IFRC GO project, we follow [SemVer](https://semver.org/) (Semantic Versioning) to maintain consistency and clarity. Here's a quick guide to determine whether your changes should be categorized as a patch, minor, or major version update
+
+1. **Patch Version (x.y.*patch*)**
+    - Bug fixes, small tweaks, or performance improvements.
+
+2. **Minor Version (x.*minor*.z)**
+    - Adding new features.
+
+3. **Major Version (*major*.y.z)**
+    - Introducing breaking changes or significant new features.
+
+>[!TIP]\
+> When in doubt, favor **patch** or **minor** updates to avoid unnecessary major releases.
+
 ### Before Release
 
 1. Ensure all changes have been merged into the `develop` branch.
-2. Checkout the latest `develop` branch
+2. Fetch and checkout the latest `develop` branch
    ```bash
+   git fetch
    git checkout develop
    git pull --rebase
    ```
@@ -33,6 +59,9 @@ We use [changesets](https://github.com/changesets/changesets) to manage versioni
    ```bash
    yarn changeset tag
    ```
+> [!IMPORTANT]\
+> Ensure all existing tags are fetched from the remote repository before generating new tags with `yarn changeset tag`. This can be done using `git fetch --tags` to ensure you have the latest tags in your local repository, which helps avoid potential conflicts or issues with tag generation.
+
 8. Push the generated tags to the origin
    ```bash
    git push --follow-tags
