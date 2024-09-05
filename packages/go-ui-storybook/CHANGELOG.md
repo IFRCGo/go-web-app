@@ -3,11 +3,7 @@
 ## 1.0.1
 
 ### Patch Changes
-
-- 2ff7940: Link version number to release notes on GitHub
-- 72df1f2: Add new drone icon for UAV team
-
-  Updated @ifrc-go/icons to v2.0.1
+- 72df1f2: Updated @ifrc-go/icons to v2.0.1
 
 - Updated dependencies [72df1f2]
   - @ifrc-go/ui@1.1.6

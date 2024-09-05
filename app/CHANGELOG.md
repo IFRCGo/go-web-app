@@ -1,5 +1,17 @@
 # go-web-app
 
+## 7.5.1
+
+### Patch Changes
+- 2a5e4a1: Add Core Competency Framework link to Resources page in [#1331](https://github.com/IFRCGo/go-web-app/issues/1331)
+- 31eaa97: Add Health Mapping Report to Resources page in [#1331](https://github.com/IFRCGo/go-web-app/issues/1331)
+- 4192da1: - Local Units popup, view/edit mode improvements in [#1178](https://github.com/IFRCGo/go-web-app/issues/1178)
+  - Remove ellipsize heading option in local units map popup
+  - Local units title on popup are now clickable that opens up a modal to show details
+  - Added an Edit button to the View Mode for users with edit permissions
+  - Users will now see a **disabled grey button** when the content is already validated
+- 5c7ab88: Display the public visibility field report to public users in [#1743](https://github.com/IFRCGo/go-web-app/issues/1343)
+
 ## 7.5.0
 
 ### Minor Changes
@@ -22,6 +34,7 @@
 - 18d0dc9: Use `molnix status` to filter surge alerts in [#2208](https://github.com/IFRCGo/go-api/issues/2208)
 - b070c66: Check guest user permission for local units
 - 72df1f2: Add new drone icon for UAV team in [#1280](https://github.com/IFRCGo/go-web-app/issues/1280)
+- 2ff7940: Link version number to release notes on GitHub in [#1004](https://github.com/IFRCGo/go-web-app/issues/1004)
   Updated @ifrc-go/icons to v2.0.1
 - Updated dependencies [72df1f2]
   - @ifrc-go/ui@1.1.6

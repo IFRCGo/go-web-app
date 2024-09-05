@@ -1,6 +1,6 @@
 {
     "name": "go-web-app",
-    "version": "7.5.0",
+    "version": "7.5.1",
     "type": "module",
     "private": true,
     "license": "MIT",
