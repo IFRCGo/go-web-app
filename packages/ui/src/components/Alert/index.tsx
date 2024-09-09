@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import {
+    AlertLineIcon,
     CheckboxCircleLineIcon,
     CloseLineIcon,
-    ErrorWarningLineIcon,
     InformationLineIcon,
     QuestionLineIcon,
 } from '@ifrc-go/icons';
@@ -40,7 +40,7 @@ const icon: {
     [key in AlertType]: React.ReactNode;
 } = {
     success: <CheckboxCircleLineIcon className={styles.icon} />,
-    danger: <ErrorWarningLineIcon className={styles.icon} />,
+    danger: <AlertLineIcon className={styles.icon} />,
     info: <InformationLineIcon className={styles.icon} />,
     warning: <QuestionLineIcon className={styles.icon} />,
 };

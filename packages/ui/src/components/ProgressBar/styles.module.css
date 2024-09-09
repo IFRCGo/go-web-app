@@ -17,7 +17,7 @@
 
         .progress {
             transition: var(--go-ui-duration-transition-medium) width ease-in-out;
-        border-radius: 0 var(--go-ui-border-radius-md) var(--go-ui-border-radius-md) 0;
+            border-radius: 0 var(--go-ui-border-radius-md) var(--go-ui-border-radius-md) 0;
             background-color: currentColor;
         }
     }

@@ -20,13 +20,13 @@
         }
 
         .bar-track {
-            border-radius: 0.3rem;
+            border-radius: 0 var(--go-ui-border-radius-md) var(--go-ui-border-radius-md) 0;
             background-color: var(--go-ui-color-gray-30);
             width: 60%;
             height: 0.6rem;
 
             .bar {
-                border-radius: 0.3rem;
+                border-radius: 0 var(--go-ui-border-radius-md) var(--go-ui-border-radius-md) 0;
                 background-color: var(--go-ui-color-primary-red);
                 height: 100%;
             }

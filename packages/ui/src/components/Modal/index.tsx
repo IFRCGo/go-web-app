@@ -93,6 +93,7 @@ function Modal(props: Props) {
                 <Container
                     // eslint-disable-next-line react/jsx-props-no-spreading
                     {...containerProps}
+                    modalHeading
                     withInternalPadding
                     withoutWrapInHeading
                     className={_cs(styles.modal, className)}

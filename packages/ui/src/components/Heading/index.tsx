@@ -25,6 +25,7 @@ export interface Props {
     level?: HeadingLevel;
     children: ReactNode;
     ellipsize?: boolean;
+    modalHeading?: boolean;
 }
 
 function Heading(props: Props) {
@@ -33,6 +34,7 @@ function Heading(props: Props) {
         level = 3,
         children,
         ellipsize,
+        modalHeading,
     } = props;
 
     const HeadingTag = `h${level}` as ElementType;
@@ -47,6 +49,7 @@ function Heading(props: Props) {
     return (
         <HeadingTag
             className={_cs(
+                modalHeading && styles.modalFontWeight,
                 styles.heading,
                 ellipsize && styles.ellipsized,
                 levelToClassName[level],

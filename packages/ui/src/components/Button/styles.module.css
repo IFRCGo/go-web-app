@@ -64,7 +64,7 @@
         }
 
         &.default-spacing {
-            --padding: var(--go-ui-spacing-3xs) var(--go-ui-spacing-md);
+            --padding: var(--go-ui-spacing-3xs) var(--go-ui-spacing-lg);
         }
 
         &.comfortable-spacing {

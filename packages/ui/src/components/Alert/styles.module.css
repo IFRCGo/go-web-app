@@ -14,7 +14,7 @@
     }
 
     &.info {
-        background-color: var(--go-ui-color-gray-80);
+        background-color: var(--go-ui-color-gray-50);
     }
 
     &.success {

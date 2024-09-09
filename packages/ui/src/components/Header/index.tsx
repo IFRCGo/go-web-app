@@ -15,6 +15,7 @@ export interface Props {
     className?: string;
     elementRef?: React.Ref<HTMLDivElement>;
     ellipsizeHeading?: boolean;
+    modalHeading?: boolean;
 
     actions?: React.ReactNode;
     actionsContainerClassName?: string;
@@ -47,6 +48,7 @@ function Header(props: Props) {
         className,
         elementRef,
         ellipsizeHeading,
+        modalHeading,
         heading,
         headingClassName,
         headingLevel,
@@ -72,6 +74,7 @@ function Header(props: Props) {
                         level={headingLevel}
                         className={headingClassName}
                         ellipsize={ellipsizeHeading}
+                        modalHeading={modalHeading}
                     >
                         {heading}
                     </Heading>
@@ -80,10 +83,12 @@ function Header(props: Props) {
                             {headingDescription}
                         </div>
                     )}
+                    {modalHeading && <div className={styles.border} />}
                 </>
             );
         },
         [
+            modalHeading,
             heading,
             ellipsizeHeading,
             headingDescription,
