@@ -164,21 +164,6 @@ export const uncertaintyTrackOutlineLayer: Omit<LineLayer, 'id'> = {
     },
 };
 
-export const uncertaintyTrackOutlineFiveDaysLayer: Omit<LineLayer, 'id'> = {
-    type: 'line',
-    filter: [
-        '==',
-        ['get', 'type'],
-        'uncertainty-five-days',
-    ],
-    paint: {
-        'line-color': COLOR_BLACK,
-        'line-opacity': 0.5,
-        'line-dasharray': [4, 3],
-        'line-width': 1.5,
-    },
-};
-
 export const cycloneTrackOutlineLayer: Omit<LineLayer, 'id'> = {
     type: 'line',
     filter: ['==', ['get', 'type'], 'track'],

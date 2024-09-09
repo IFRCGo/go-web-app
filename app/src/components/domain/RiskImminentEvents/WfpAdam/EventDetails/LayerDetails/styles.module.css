@@ -1,28 +1,28 @@
 .content {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: var(--go-ui-spacing-xs);
     padding-left: var(--go-ui-spacing-lg);
 
     svg {
         padding: var(--go-ui-spacing-xs);
         width: 24px;
         height: 24px;
-        color: #fff;
+        color: var(--go-ui-color-white);
     }
 
     .icon-red {
-        border-radius: 50%;
+        border-radius: var(--go-ui-border-radius-full);
         background-color: var(--go-ui-color-red-90);
     }
 
     .icon-orange {
-        border-radius: 50%;
+        border-radius: var(--go-ui-border-radius-full);
         background-color: var(--go-ui-color-orange);
     }
 
     .icon-green {
-        border-radius: 50%;
+        border-radius: var(--go-ui-border-radius-full);
         background-color: var(--go-ui-color-green);
     }
 

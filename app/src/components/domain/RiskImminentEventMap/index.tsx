@@ -66,7 +66,6 @@ import {
     hazardPointIconLayout,
     hazardPointLayer,
     invisibleLayout,
-    uncertaintyTrackOutlineFiveDaysLayer,
     uncertaintyTrackOutlineLayer,
 } from './mapStyles';
 
@@ -217,7 +216,6 @@ function RiskImminentEventMap<
         [activeEventId, activeEventExposure, activeEventExposurePending, footprintSelector],
     );
 
-    console.log('active footprint', activeEventFootprint);
     const bounds = useMemo(
         () => {
             if (isNotDefined(activeEvent) || activeEventExposurePending) {
@@ -407,21 +405,23 @@ function RiskImminentEventMap<
                                         layerOptions={cycloneExposureFillLayer}
                                     />
                                 )}
+                                {(layers[LAYER_CYCLONE_UNCERTAINTY_FIVE_DAYS]) && (
+                                    <MapLayer
+                                        layerKey="uncertainty-track-line-five-days"
+                                        layerOptions={uncertaintyTrackOutlineLayer}
+                                    />
+                                )}
+                                {(layers[LAYER_CYCLONE_UNCERTAINTY_THREE_DAYS]) && (
+                                    <MapLayer
+                                        layerKey="uncertainty-track-line-three-days"
+                                        layerOptions={uncertaintyTrackOutlineLayer}
+                                    />
+                                )}
                                 {(layers[LAYER_CYCLONE_UNCERTAINTY]) && (
-                                    <>
-                                        <MapLayer
-                                            layerKey="uncertainty-track-line"
-                                            layerOptions={uncertaintyTrackOutlineLayer}
-                                        />
-                                        <MapLayer
-                                            layerKey="uncertainty-track-line-five-days"
-                                            layerOptions={uncertaintyTrackOutlineFiveDaysLayer}
-                                        />
-                                        <MapLayer
-                                            layerKey="uncertainty-track-line-three-days"
-                                            layerOptions={uncertaintyTrackOutlineFiveDaysLayer}
-                                        />
-                                    </>
+                                    <MapLayer
+                                        layerKey="uncertainty-track-line"
+                                        layerOptions={uncertaintyTrackOutlineLayer}
+                                    />
                                 )}
                                 {layers[LAYER_CYCLONE_TRACKS] && (
                                     <>
