@@ -66,7 +66,9 @@ import {
     hazardPointIconLayout,
     hazardPointLayer,
     invisibleLayout,
+    uncertaintyTrackOutlineFiveDaysLayer,
     uncertaintyTrackOutlineLayer,
+    uncertaintyTrackOutlineThreeDaysLayer,
 } from './mapStyles';
 
 import i18n from './i18n.json';
@@ -338,25 +340,38 @@ function RiskImminentEventMap<
         return true;
     }, [popupDetails]);
 
+    const visibleAllHazardPoints = activeEvent?.hazard_type !== 'TC' || isNotDefined(activeEventFootprint);
+
     const mapOrder = useMemo(() => {
-        if (activeEventFootprint) {
+        const hasLayerValue = Object.values(layers)?.find(isDefined);
+
+        if (hasLayerValue) {
             return (
-                <MapOrder ordering={[
-                    getLayerName('active-event-footprint', 'exposure-fill', true),
-                    getLayerName('active-event-footprint', 'cyclone-exposure-fill', true),
-                    getLayerName('active-event-footprint', 'uncertainty-track-line', true),
-                    getLayerName('active-event-footprint', 'uncertainty-track-line-five-days', true),
-                    getLayerName('active-event-footprint', 'uncertainty-track-line-three-days', true),
-                    getLayerName('active-event-footprint', 'track-outline', true),
-                    getLayerName('active-event-footprint', 'track-circle', true),
-                    getLayerName('active-event-footprint', 'track-point', true),
-                    getLayerName('active-event-footprint', 'track-point-label', true),
-                ]}
+                <MapOrder
+                    ordering={[
+                        getLayerName('active-event-footprint', 'exposure-fill', true),
+                        getLayerName('active-event-footprint', 'cyclone-exposure-fill', true),
+                        getLayerName('active-event-footprint', 'uncertainty-track-line', true),
+                        getLayerName('active-event-footprint', 'uncertainty-track-line-five-days', true),
+                        getLayerName('active-event-footprint', 'uncertainty-track-line-three-days', true),
+                        getLayerName('active-event-footprint', 'track-outline', true),
+                        getLayerName('active-event-footprint', 'track-circle', true),
+                        getLayerName('active-event-footprint', 'track-point', true),
+                        getLayerName('active-event-footprint', 'track-point-label', true),
+                    ]}
                 />
             );
         }
-        return null;
-    }, [activeEventFootprint]);
+        return (
+            <MapOrder
+                ordering={[
+                    getLayerName('active-event-footprint', 'exposure-fill', true),
+                    getLayerName('event-points', 'track-circle', true),
+                    getLayerName('event-points', 'hazard-points-icon', true),
+                ]}
+            />
+        );
+    }, [layers]);
 
     return (
         <div className={styles.riskImminentEventMap}>
@@ -405,35 +420,29 @@ function RiskImminentEventMap<
                                         layerOptions={cycloneExposureFillLayer}
                                     />
                                 )}
-                                {(layers[LAYER_CYCLONE_UNCERTAINTY_FIVE_DAYS]) && (
-                                    <MapLayer
-                                        layerKey="uncertainty-track-line-five-days"
-                                        layerOptions={uncertaintyTrackOutlineLayer}
-                                    />
-                                )}
-                                {(layers[LAYER_CYCLONE_UNCERTAINTY_THREE_DAYS]) && (
-                                    <MapLayer
-                                        layerKey="uncertainty-track-line-three-days"
-                                        layerOptions={uncertaintyTrackOutlineLayer}
-                                    />
-                                )}
                                 {(layers[LAYER_CYCLONE_UNCERTAINTY]) && (
                                     <MapLayer
                                         layerKey="uncertainty-track-line"
                                         layerOptions={uncertaintyTrackOutlineLayer}
                                     />
                                 )}
+                                {(layers[LAYER_CYCLONE_UNCERTAINTY_FIVE_DAYS]) && (
+                                    <MapLayer
+                                        layerKey="uncertainty-track-line-five-days"
+                                        layerOptions={uncertaintyTrackOutlineFiveDaysLayer}
+                                    />
+                                )}
+                                {(layers[LAYER_CYCLONE_UNCERTAINTY_THREE_DAYS]) && (
+                                    <MapLayer
+                                        layerKey="uncertainty-track-line-three-days"
+                                        layerOptions={uncertaintyTrackOutlineThreeDaysLayer}
+                                    />
+                                )}
                                 {layers[LAYER_CYCLONE_TRACKS] && (
-                                    <>
-                                        <MapLayer
-                                            layerKey="track-outline"
-                                            layerOptions={cycloneTrackOutlineLayer}
-                                        />
-                                        <MapLayer
-                                            layerKey="track-point-label"
-                                            layerOptions={cycloneTrackPointLabelLayer}
-                                        />
-                                    </>
+                                    <MapLayer
+                                        layerKey="track-outline"
+                                        layerOptions={cycloneTrackOutlineLayer}
+                                    />
                                 )}
                                 {layers[LAYER_CYCLONE_NODES] && (
                                     <>
@@ -446,6 +455,10 @@ function RiskImminentEventMap<
                                             layerKey="track-point"
                                             layerOptions={cycloneTrackPointIconLayer}
                                         />
+                                        <MapLayer
+                                            layerKey="track-point-label"
+                                            layerOptions={cycloneTrackPointLabelLayer}
+                                        />
                                     </>
                                 )}
                             </>
@@ -453,21 +466,23 @@ function RiskImminentEventMap<
                         {mapOrder}
                     </MapSource>
                 )}
-                <MapSource
-                    sourceKey="event-points"
-                    sourceOptions={geojsonSourceOptions}
-                    geoJson={pointFeatureCollection}
-                >
-                    <MapLayer
-                        onClick={handlePointClick}
-                        layerKey="point-circle"
-                        layerOptions={hazardPointLayer}
-                    />
-                    <MapLayer
-                        layerKey="hazard-points-icon"
-                        layerOptions={hazardPointIconLayer}
-                    />
-                </MapSource>
+                {!!visibleAllHazardPoints && (
+                    <MapSource
+                        sourceKey="event-points"
+                        sourceOptions={geojsonSourceOptions}
+                        geoJson={pointFeatureCollection}
+                    >
+                        <MapLayer
+                            onClick={handlePointClick}
+                            layerKey="point-circle"
+                            layerOptions={hazardPointLayer}
+                        />
+                        <MapLayer
+                            layerKey="hazard-points-icon"
+                            layerOptions={hazardPointIconLayer}
+                        />
+                    </MapSource>
+                )}
 
                 {boundsSafe && (
                     <MapBounds

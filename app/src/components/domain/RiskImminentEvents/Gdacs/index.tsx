@@ -237,7 +237,7 @@ function Gdacs(props: Props) {
                                 eventName: feature?.properties?.name,
                                 eventType: feature?.properties?.eventtype,
                                 severityData: feature?.properties?.severitydata,
-                                trackDate: formatDate(feature?.properties?.trackdate, 'yyyy-MM-dd, hh:mm'),
+                                trackDate: formatDate(feature?.properties?.trackdate, 'MM/dd hh:mm'),
                                 source: feature?.properties?.source,
                                 url: feature?.properties?.url,
                                 stormStatus: feature?.properties?.stormstatus,

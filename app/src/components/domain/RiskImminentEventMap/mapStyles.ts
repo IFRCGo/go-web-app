@@ -8,6 +8,7 @@ import type {
     FillLayer,
     Layout,
     LineLayer,
+    LinePaint,
     SymbolLayer,
     SymbolLayout,
 } from 'mapbox-gl';
@@ -85,6 +86,13 @@ export const hazardPointIconLayout: SymbolLayout = {
     'icon-ignore-placement': true,
 };
 
+const uncertaintyTrackLineLayout: LinePaint = {
+    'line-color': COLOR_BLACK,
+    'line-opacity': 0.5,
+    'line-dasharray': [4, 3],
+    'line-width': 2,
+};
+
 export const trackOutlineLayer: Omit<LineLayer, 'id'> = {
     type: 'line',
     filter: ['==', ['get', 'type'], 'track'],
@@ -156,12 +164,27 @@ export const uncertaintyTrackOutlineLayer: Omit<LineLayer, 'id'> = {
         ['get', 'type'],
         'uncertainty',
     ],
-    paint: {
-        'line-color': COLOR_BLACK,
-        'line-opacity': 0.5,
-        'line-dasharray': [4, 3],
-        'line-width': 1.5,
-    },
+    paint: uncertaintyTrackLineLayout,
+};
+
+export const uncertaintyTrackOutlineFiveDaysLayer: Omit<LineLayer, 'id'> = {
+    type: 'line',
+    filter: [
+        '==',
+        ['get', 'type'],
+        'uncertainty-five-days',
+    ],
+    paint: uncertaintyTrackLineLayout,
+};
+
+export const uncertaintyTrackOutlineThreeDaysLayer: Omit<LineLayer, 'id'> = {
+    type: 'line',
+    filter: [
+        '==',
+        ['get', 'type'],
+        'uncertainty-three-days',
+    ],
+    paint: uncertaintyTrackLineLayout,
 };
 
 export const cycloneTrackOutlineLayer: Omit<LineLayer, 'id'> = {
@@ -213,12 +236,13 @@ export const cycloneTrackPointLabelLayer: Omit<SymbolLayer, 'id'> = {
     paint: {
         'text-color': COLOR_BLACK,
         'text-halo-color': COLOR_WHITE,
+        'text-opacity': 0.9,
     },
     layout: {
-        'text-size': 12,
         'text-field': ['get', 'trackDate'],
+        'text-size': 12,
         'text-anchor': 'bottom-left',
         'text-offset': [0.5, 0],
-        'text-max-width': 20,
+        'text-letter-spacing': 0.1,
     },
 };
