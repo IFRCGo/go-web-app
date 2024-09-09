@@ -823,7 +823,7 @@ const allFlashUpdates = customWrapRoute({
     context: {
         title: 'All Flash Updates',
         visibility: 'is-authenticated',
-        permissions: ({ isIfrcAdmin, isGuestUser }) => !isGuestUser && isIfrcAdmin,
+        permissions: ({ isIfrcAdmin }) => isIfrcAdmin,
     },
 });
 
@@ -838,7 +838,7 @@ const flashUpdateFormNew = customWrapRoute({
     context: {
         title: 'New Flash Update',
         visibility: 'is-authenticated',
-        permissions: ({ isIfrcAdmin, isGuestUser }) => !isGuestUser && isIfrcAdmin,
+        permissions: ({ isIfrcAdmin }) => isIfrcAdmin,
     },
 });
 
@@ -853,7 +853,7 @@ const flashUpdateFormEdit = customWrapRoute({
     context: {
         title: 'Edit Flash Update',
         visibility: 'is-authenticated',
-        permissions: ({ isIfrcAdmin, isGuestUser }) => !isGuestUser && isIfrcAdmin,
+        permissions: ({ isIfrcAdmin }) => isIfrcAdmin,
     },
 });
 
@@ -869,7 +869,7 @@ const flashUpdateFormDetails = customWrapRoute({
     context: {
         title: 'Flash Update Details',
         visibility: 'anything',
-        permissions: ({ isIfrcAdmin, isGuestUser }) => !isGuestUser && isIfrcAdmin,
+        permissions: ({ isIfrcAdmin }) => isIfrcAdmin,
     },
 });
 
@@ -1083,8 +1083,7 @@ const newPerOverviewForm = customWrapRoute({
         permissions: ({
             isSuperUser,
             isPerAdmin,
-            isGuestUser,
-        }) => !isGuestUser && (isSuperUser || isPerAdmin),
+        }) => isSuperUser || isPerAdmin,
     },
 });
 

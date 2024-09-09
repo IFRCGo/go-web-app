@@ -13,16 +13,14 @@ export function Component() {
         isCountryPerAdmin,
         isSuperUser,
         isRegionPerAdmin,
-        isGuestUser,
     } = usePermissions();
 
     const countryDetails = useCountry({ id: Number(countryId) });
 
-    const hasPermission = !isGuestUser && (
-        isSuperUser
+    const hasPermission = isSuperUser
         || isCountryPerAdmin(Number(countryId))
-        || isRegionPerAdmin(Number(countryDetails?.region))
-    );
+        || isRegionPerAdmin(Number(countryDetails?.region));
+
     if (hasPermission) {
         return (
             <PrivateCountryPreparedness />

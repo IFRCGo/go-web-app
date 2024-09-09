@@ -111,8 +111,7 @@ function NationalSocietyLocalUnits(props: Props) {
 
     const strings = useTranslation(i18n);
 
-    const hasAddLocalUnitPermission = !isGuestUser
-        && (isCountryAdmin(countryResponse?.id) || isSuperUser);
+    const hasAddLocalUnitPermission = isCountryAdmin(countryResponse?.id) || isSuperUser;
 
     useEffect(() => {
         document.addEventListener('fullscreenchange', handleFullScreenChange);
