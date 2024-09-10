@@ -43,7 +43,6 @@ import {
 } from '#utils/constants';
 import {
     ClickedPoint,
-    EventGeoJsonProperties,
     LAYER_CYCLONE_BUFFERS,
     LAYER_CYCLONE_NODES,
     LAYER_CYCLONE_TRACKS,
@@ -108,9 +107,6 @@ interface EventDetailProps<EVENT, EXPOSURE> {
     layers: Record<LayerType, boolean>;
     onLayerChange: (value: boolean, name: LayerType) => void;
     options: LayerOption[];
-    clickedPointProperties: ClickedPoint | undefined;
-    handlePointClick: (feature: mapboxgl.MapboxGeoJSONFeature, lngLat: mapboxgl.LngLat) => boolean;
-    handlePointClose: () => void;
 }
 
 interface Props<EVENT, EXPOSURE, KEY extends string | number> {
@@ -192,7 +188,14 @@ function RiskImminentEventMap<
             key: LAYER_CYCLONE_UNCERTAINTY_THREE_DAYS,
             label: strings.eventLayerForecastUncertaintyThreeDays,
         },
-    ], [strings]);
+    ], [
+        strings.eventLayerNodes,
+        strings.eventLayerBuffers,
+        strings.eventLayerTracks,
+        strings.eventLayerForecastUncertainty,
+        strings.eventLayerForecastUncertaintyFiveDays,
+        strings.eventLayerForecastUncertaintyThreeDays,
+    ]);
 
     const activeEvent = useMemo(
         () => {
@@ -332,13 +335,6 @@ function RiskImminentEventMap<
             : undefined;
         return eventDetails;
     }, [clickedPointProperties]);
-
-    const severityData: EventGeoJsonProperties['severityData'] = useMemo(() => {
-        if (isDefined(popupDetails) && isDefined(popupDetails.severityData)) {
-            return JSON.parse(popupDetails.severityData);
-        }
-        return true;
-    }, [popupDetails]);
 
     const visibleAllHazardPoints = activeEvent?.hazard_type !== 'TC' || isNotDefined(activeEventFootprint);
 
@@ -506,13 +502,6 @@ function RiskImminentEventMap<
                             // FIXME: bug on ellipsizeHeading
                             // ellipsizeHeading
                         >
-                            {severityData?.severitytext && (
-                                <TextOutput
-                                    label={strings.popupStorm}
-                                    value={severityData?.severitytext}
-                                    strongLabel
-                                />
-                            )}
                             {popupDetails.alertType && (
                                 <TextOutput
                                     label={strings.popupAlertLevel}
@@ -612,9 +601,6 @@ function RiskImminentEventMap<
                         onLayerChange={onLayerChange}
                         layers={layers}
                         options={activeLayerOptions}
-                        handlePointClick={handlePopupClick}
-                        handlePointClose={handlePopupClose}
-                        clickedPointProperties={clickedPointProperties}
                     />
                 )}
             </Container>

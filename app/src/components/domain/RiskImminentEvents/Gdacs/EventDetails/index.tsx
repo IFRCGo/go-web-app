@@ -20,6 +20,8 @@ import LayerDetails, { Props as LayerInputProps } from './LayerDetails';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+const layerKeySelector = (item: LayerOption) => item.key;
+
 type GdacsResponse = RiskApiResponse<'/api/v1/gdacs/'>;
 type GdacsItem = NonNullable<GdacsResponse['results']>[number];
 export type GdacsExposure = RiskApiResponse<'/api/v1/gdacs/{id}/exposure/'>;
@@ -172,16 +174,9 @@ function EventDetails(props: Props) {
                         value={populationExposure?.impact}
                     />
                 )}
-                {isDefined(eventDetails?.severitydata)
-                    && (isDefined(eventDetails) && (eventDetails?.eventtype) && !(eventDetails.eventtype === 'FL')) && (
-                    <TextOutput
-                        label={strings.eventSeverityLabel}
-                        value={eventDetails?.severitydata?.severitytext}
-                    />
-                )}
                 {isDefined(eventDetails?.alertlevel) && (
                     <TextOutput
-                        label={strings.eventAlertType}
+                        label={strings.eventAlertLevel}
                         value={eventDetails?.alertlevel}
                     />
                 )}
@@ -205,7 +200,7 @@ function EventDetails(props: Props) {
                         data={options}
                         renderer={LayerDetails}
                         rendererParams={layerRendererParams}
-                        keySelector={(item: LayerOption) => item.key}
+                        keySelector={layerKeySelector}
                         withoutMessage
                         compact
                         pending={false}

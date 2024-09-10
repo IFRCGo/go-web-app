@@ -34,9 +34,6 @@ import {
 import EventDetails from './EventDetails';
 import EventListItem from './EventListItem';
 
-type ImminentEventResponse = RiskApiResponse<'/api/v1/adam-exposure/'>;
-type EventItem = NonNullable<ImminentEventResponse['results']>[number];
-
 function getLayerType(
     feature: GeoJSON.Feature<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>,
 ): CycloneFillLayerType {
@@ -54,6 +51,9 @@ function getLayerType(
 
     return 'exposure';
 }
+
+type ImminentEventResponse = RiskApiResponse<'/api/v1/adam-exposure/'>;
+type EventItem = NonNullable<ImminentEventResponse['results']>[number];
 
 type BaseProps = {
     title: React.ReactNode;
@@ -122,14 +122,14 @@ function WfpAdam(props: Props) {
                 return defaultLayersValue;
             }
 
-            const { storm_position_geojson } = res;
+            const { storm_position_geojson: stormPositionGeoJson } = res;
 
-            if (isNotDefined(storm_position_geojson)) {
+            if (isNotDefined(stormPositionGeoJson)) {
                 return defaultLayersValue;
             }
 
-            const stormPositions = isValidFeatureCollection(storm_position_geojson)
-                ? storm_position_geojson
+            const stormPositions = isValidFeatureCollection(stormPositionGeoJson)
+                ? stormPositionGeoJson
                 : undefined;
 
             const updatedLayers = {} as typeof defaultLayersValue;
@@ -201,14 +201,14 @@ function WfpAdam(props: Props) {
                 return undefined;
             }
 
-            const { storm_position_geojson } = exposure;
+            const { storm_position_geojson: stormPositionGeoJson } = exposure;
 
-            if (isNotDefined(storm_position_geojson)) {
+            if (isNotDefined(stormPositionGeoJson)) {
                 return undefined;
             }
 
-            const stormPositions = isValidFeatureCollection(storm_position_geojson)
-                ? storm_position_geojson
+            const stormPositions = isValidFeatureCollection(stormPositionGeoJson)
+                ? stormPositionGeoJson
                 : undefined;
 
             const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry, EventGeoJsonProperties> = {

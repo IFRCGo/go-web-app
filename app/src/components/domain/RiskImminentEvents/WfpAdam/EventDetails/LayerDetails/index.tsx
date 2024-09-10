@@ -4,6 +4,7 @@ import {
     Container,
     TextOutput,
 } from '@ifrc-go/ui';
+import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import {
     LAYER_CYCLONE_BUFFERS,
@@ -12,6 +13,7 @@ import {
     LayerType,
 } from '#utils/domain/risk';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export interface Props {
@@ -26,6 +28,7 @@ function LayerDetails(props: Props) {
         value,
         onChange,
     } = props;
+    const strings = useTranslation(i18n);
 
     return (
         <>
@@ -38,41 +41,41 @@ function LayerDetails(props: Props) {
             />
             {options.key === LAYER_CYCLONE_NODES && value[LAYER_CYCLONE_NODES] && (
                 <Container
-                    heading="windspeed km/h"
+                    heading={strings.wfpWindSpeedHeading}
                     headingLevel={5}
                     childrenContainerClassName={styles.content}
                 >
                     <TextOutput
                         icon={<CycloneIcon className={styles.iconRed} />}
-                        value="> 120 km/h"
+                        value={strings.wfpWindSpeedExtreme}
                     />
                     <TextOutput
                         icon={<CycloneIcon className={styles.iconOrange} />}
-                        value="90 to 120 km/h"
+                        value={strings.wfpWindSpeedModerate}
                     />
                     <TextOutput
                         icon={<CycloneIcon className={styles.iconGreen} />}
-                        value="<= 60 km/h"
+                        value={strings.wfpWindSpeedLow}
                     />
                 </Container>
             )}
             {options.key === LAYER_CYCLONE_BUFFERS && value[LAYER_CYCLONE_BUFFERS] && (
                 <Container
-                    heading="WFP Alert Level"
+                    heading={strings.wfpAlertLevelHeading}
                     headingLevel={5}
                     childrenContainerClassName={styles.content}
                 >
                     <TextOutput
                         icon={<div className={styles.stormRed} />}
-                        value="Red"
+                        value={strings.wfpAlertLevelRed}
                     />
                     <TextOutput
                         icon={<div className={styles.stormOrange} />}
-                        value="Orange"
+                        value={strings.wfpAlertLevelOrange}
                     />
                     <TextOutput
                         icon={<div className={styles.stormGreen} />}
-                        value="Green"
+                        value={strings.wfpAlertLevelGreen}
                     />
                 </Container>
             )}

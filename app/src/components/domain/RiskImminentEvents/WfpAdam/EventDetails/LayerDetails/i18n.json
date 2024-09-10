@@ -1,0 +1,13 @@
+{
+    "namespace": "common",
+    "strings": {
+        "wfpWindSpeedHeading": "windspeed km/h",
+        "wfpWindSpeedExtreme": "> 120 km/h",
+        "wfpWindSpeedModerate": "90 to 120 km/h",
+        "wfpWindSpeedLow": "<= 60 km/h",
+        "wfpAlertLevelHeading": "WFP Alert Level",
+        "wfpAlertLevelRed": "Red",
+        "wfpAlertLevelOrange": "Orange",
+        "wfpAlertLevelGreen": "Green"
+    }
+}

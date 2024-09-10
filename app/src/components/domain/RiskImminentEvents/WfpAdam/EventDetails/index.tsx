@@ -37,6 +37,8 @@ import LayerDetails, { Props as LayerInputProps } from './LayerDetails';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+const layerKeySelector = (item: LayerOption) => item.key;
+
 type WfpAdamResponse = RiskApiResponse<'/api/v1/adam-exposure/'>;
 type WfpAdamItem = NonNullable<WfpAdamResponse['results']>[number];
 type WfpAdamExposure = RiskApiResponse<'/api/v1/adam-exposure/{id}/exposure/'>;
@@ -385,7 +387,7 @@ function EventDetails(props: Props) {
                         data={options}
                         renderer={LayerDetails}
                         rendererParams={layerRendererParams}
-                        keySelector={(item: LayerOption) => item.key}
+                        keySelector={layerKeySelector}
                         withoutMessage
                         compact
                         pending={false}

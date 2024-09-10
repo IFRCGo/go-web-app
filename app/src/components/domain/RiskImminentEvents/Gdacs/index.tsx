@@ -15,6 +15,9 @@ import { type LngLatBoundsLike } from 'mapbox-gl';
 import RiskImminentEventMap, { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
 import {
     ClickedPoint,
+    CYCLONE_GREEN_ALERT_LEVEL,
+    CYCLONE_ORANGE_ALERT_LEVEL,
+    CYCLONE_RED_ALERT_LEVEL,
     CycloneFillLayerType,
     defaultLayersValue,
     EventGeoJsonProperties,
@@ -34,15 +37,21 @@ import {
 import EventDetails from './EventDetails';
 import EventListItem from './EventListItem';
 
-function getAlertType(alertClass: 'Poly_Red' | 'Poly_Orange' | 'Poly_Green') {
-    if (alertClass === 'Poly_Red') {
-        return 'Red';
+const RED_ALERT_CLASS = 'Poly_Red';
+const ORANGE_ALERT_CLASS = 'Poly_Orange';
+const GREEN_ALERT_CLASS = 'Poly_Green';
+
+type AlertClassType = typeof RED_ALERT_CLASS | typeof ORANGE_ALERT_CLASS | typeof GREEN_ALERT_CLASS;
+
+function getAlertType(alertClass: AlertClassType) {
+    if (alertClass === RED_ALERT_CLASS) {
+        return CYCLONE_RED_ALERT_LEVEL;
     }
-    if (alertClass === 'Poly_Orange') {
-        return 'Orange';
+    if (alertClass === ORANGE_ALERT_CLASS) {
+        return CYCLONE_ORANGE_ALERT_LEVEL;
     }
-    if (alertClass === 'Poly_Green') {
-        return 'Green';
+    if (alertClass === GREEN_ALERT_CLASS) {
+        return CYCLONE_GREEN_ALERT_LEVEL;
     }
     return 'none';
 }
@@ -236,10 +245,8 @@ function Gdacs(props: Props) {
                                 eventId: feature?.properties?.eventid,
                                 eventName: feature?.properties?.name,
                                 eventType: feature?.properties?.eventtype,
-                                severityData: feature?.properties?.severitydata,
                                 trackDate: formatDate(feature?.properties?.trackdate, 'MM/dd hh:mm'),
                                 source: feature?.properties?.source,
-                                url: feature?.properties?.url,
                                 stormStatus: feature?.properties?.stormstatus,
                                 alertLevel: feature?.properties?.alertlevel,
                                 alertType: getAlertType(feature?.properties?.Class),
@@ -247,40 +254,6 @@ function Gdacs(props: Props) {
                             },
                         }),
                     ) ?? [],
-
-                    // Convert LineString to Point and add them
-                    ...footprint?.features?.filter((feature) => feature.geometry.type === 'LineString')
-                        ?.map(
-                            (feature) => (feature.geometry as GeoJSON.LineString).coordinates.map(
-                                (coordinate) => ({
-                                    type: 'Feature' as const,
-                                    geometry: {
-                                        type: 'Point' as const,
-                                        coordinates: coordinate,
-                                    },
-                                    properties: {
-                                        eventId: feature?.properties?.eventid,
-                                        eventName: feature?.properties?.name,
-                                        eventType: feature?.properties?.eventtype,
-                                        severityData: feature?.properties?.severitydata,
-                                        trackDate: feature?.properties?.trackdate,
-                                        source: feature?.properties?.source,
-                                        url: feature?.properties?.url,
-                                        stormStatus: feature?.properties?.stormstatus,
-                                        alertLevel: feature?.properties?.alertlevel,
-                                        alertType: getAlertType(feature?.properties?.Class),
-                                        type: getLayerType({
-                                            ...feature,
-                                            geometry: {
-                                                type: 'Point',
-                                                coordinates: coordinate,
-                                            },
-                                        }),
-                                    },
-                                }),
-                            ),
-                        )
-                        ?.flat() ?? [],
                 ].filter(isDefined),
             };
             return geoJson;

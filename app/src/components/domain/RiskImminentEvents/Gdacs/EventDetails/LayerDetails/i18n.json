@@ -1,0 +1,13 @@
+{
+    "namespace": "common",
+    "strings": {
+        "gdacsWindSpeedHeading": "windspeed km/h",
+        "gdacsWindSpeedExtreme": "> 119 km/h",
+        "gdacsWindSpeedModerate": "93 to 118 km/h",
+        "gdacsWindSpeedLow": "63 to 92 km/h",
+        "gdacsAlertLevelHeading": "GDACS Alert Level",
+        "gdacsAlertLevelRed": "Red",
+        "gdacsAlertLevelOrange": "Orange",
+        "gdacsAlertLevelGreen": "Green"
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "namespace": "common",
+    "strings": {
+        "pdcWindSpeedHeading": "windspeed km/h",
+        "pdcWindSpeedWithThreat": "63 km/h impact within {time}",
+        "pdcWindSpeedWithNoThreat": "63 km/h impact with no current threat",
+        "pdcAlertLevelHeading": "PDC Alert Level",
+        "pdcAlertTypeWarning": "Warning",
+        "pdcAlertTypeWatch": "Watch",
+        "pdcAlertTypeAdvisory": "Advisory",
+        "pdcAlertTypeInformation": "Information"
+    }
+}

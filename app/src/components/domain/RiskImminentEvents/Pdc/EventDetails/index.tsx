@@ -35,6 +35,8 @@ import LayerDetails, { Props as LayerInputProps } from './LayerDetails';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+const layerKeySelector = (item: LayerOption) => item.key;
+
 type PdcResponse = RiskApiResponse<'/api/v1/pdc/'>;
 type PdcEventItem = NonNullable<PdcResponse['results']>[number];
 type PdcExposure = RiskApiResponse<'/api/v1/pdc/{id}/exposure/'>;
@@ -92,9 +94,9 @@ function EventDetails(props: Props) {
                 return undefined;
             }
 
-            const { storm_position_geojson } = exposure;
+            const { storm_position_geojson: stormPositionGeoJson } = exposure;
 
-            const stormPositions = (storm_position_geojson as unknown as unknown[] | undefined)
+            const stormPositions = (stormPositionGeoJson as unknown as unknown[] | undefined)
                 ?.filter(isValidPointFeature);
 
             const stormGeoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry> = {
@@ -125,19 +127,19 @@ function EventDetails(props: Props) {
                     }
 
                     const {
-                        wind_speed_mph,
-                        forecast_date_time,
+                        wind_speed_mph: windSpeed,
+                        forecast_date_time: forecastDate,
                     } = pointFeature.properties;
 
-                    if (isNotDefined(wind_speed_mph) || isFalsyString(forecast_date_time)) {
+                    if (isNotDefined(windSpeed) || isFalsyString(forecastDate)) {
                         return undefined;
                     }
 
-                    const date = new Date(forecast_date_time);
+                    const date = new Date(forecastDate);
 
                     return {
                         id: date.getTime(),
-                        windSpeed: wind_speed_mph,
+                        windSpeed,
                         date,
                     };
                 },
@@ -237,7 +239,7 @@ function EventDetails(props: Props) {
                                 data={options}
                                 renderer={LayerDetails}
                                 rendererParams={layerRendererParams}
-                                keySelector={(item: LayerOption) => item.key}
+                                keySelector={layerKeySelector}
                                 withoutMessage
                                 compact
                                 pending={false}

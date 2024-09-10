@@ -15,6 +15,10 @@ import { type LngLatBoundsLike } from 'mapbox-gl';
 import RiskImminentEventMap, { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
 import {
     ClickedPoint,
+    CYCLONE_BLUE_ALERT_LEVEL,
+    CYCLONE_GREEN_ALERT_LEVEL,
+    CYCLONE_ORANGE_ALERT_LEVEL,
+    CYCLONE_RED_ALERT_LEVEL,
     defaultLayersValue,
     EventGeoJsonProperties,
     isValidFeature,
@@ -35,18 +39,28 @@ import {
 import EventDetails from './EventDetails';
 import EventListItem from './EventListItem';
 
-function getAlertType(alertType: 'WARNING' | 'WATCH' | 'ADVISORY' | 'INFORMATION') {
-    if (alertType === 'WARNING') {
-        return 'Red';
+const WARNING_ALERT_TYPE = 'WARNING';
+const WATCH_ALERT_TYPE = 'WATCH';
+const ADVISORY_ALERT_TYPE = 'ADVISORY';
+const INFORMATION_ALERT_TYPE = 'INFORMATION';
+
+type AlertType = typeof WARNING_ALERT_TYPE
+    | typeof WATCH_ALERT_TYPE
+    | typeof ADVISORY_ALERT_TYPE
+    | typeof INFORMATION_ALERT_TYPE;
+
+function getAlertType(alertType: AlertType) {
+    if (alertType === WARNING_ALERT_TYPE) {
+        return CYCLONE_RED_ALERT_LEVEL;
     }
-    if (alertType === 'WATCH') {
-        return 'Orange';
+    if (alertType === WATCH_ALERT_TYPE) {
+        return CYCLONE_ORANGE_ALERT_LEVEL;
     }
-    if (alertType === 'ADVISORY') {
-        return 'Green';
+    if (alertType === ADVISORY_ALERT_TYPE) {
+        return CYCLONE_GREEN_ALERT_LEVEL;
     }
-    if (alertType === 'INFORMATION') {
-        return 'Blue';
+    if (alertType === INFORMATION_ALERT_TYPE) {
+        return CYCLONE_BLUE_ALERT_LEVEL;
     }
     return undefined;
 }
@@ -122,18 +136,18 @@ function Pdc(props: Props) {
             }
 
             const {
-                footprint_geojson,
-                storm_position_geojson,
-                cyclone_five_days_cou,
-                cyclone_three_days_cou,
+                footprint_geojson: footprintGeojson,
+                storm_position_geojson: stormPositionGeojson,
+                cyclone_five_days_cou: cycloneFiveDaysCou,
+                cyclone_three_days_cou: cycloneThreeDaysCou,
             } = res;
 
             const layersWithStatus = {
-                [LAYER_CYCLONE_NODES]: isDefined(storm_position_geojson),
-                [LAYER_CYCLONE_TRACKS]: isDefined(storm_position_geojson),
-                [LAYER_CYCLONE_BUFFERS]: isDefined(footprint_geojson),
-                [LAYER_CYCLONE_UNCERTAINTY_FIVE_DAYS]: isDefined(cyclone_five_days_cou),
-                [LAYER_CYCLONE_UNCERTAINTY_THREE_DAYS]: isDefined(cyclone_three_days_cou),
+                [LAYER_CYCLONE_NODES]: isDefined(stormPositionGeojson),
+                [LAYER_CYCLONE_TRACKS]: isDefined(stormPositionGeojson),
+                [LAYER_CYCLONE_BUFFERS]: isDefined(footprintGeojson),
+                [LAYER_CYCLONE_UNCERTAINTY_FIVE_DAYS]: isDefined(cycloneFiveDaysCou),
+                [LAYER_CYCLONE_UNCERTAINTY_THREE_DAYS]: isDefined(cycloneThreeDaysCou),
             } as typeof defaultLayersValue;
 
             setLayers(layersWithStatus);
@@ -185,36 +199,31 @@ function Pdc(props: Props) {
             }
 
             const {
-                footprint_geojson,
-                storm_position_geojson,
-                cyclone_five_days_cou,
-                cyclone_three_days_cou,
+                footprint_geojson: footprintGeojson,
+                storm_position_geojson: stormPositionGeojson,
+                cyclone_five_days_cou: cycloneFiveDaysCou,
+                cyclone_three_days_cou: cycloneThreeDaysCou,
             } = exposure;
 
             if (
-                isNotDefined(footprint_geojson)
-                && isNotDefined(storm_position_geojson)
-                && isNotDefined(cyclone_five_days_cou)
-                && isNotDefined(cyclone_three_days_cou)
+                isNotDefined(footprintGeojson)
+                && isNotDefined(stormPositionGeojson)
+                && isNotDefined(cycloneFiveDaysCou)
+                && isNotDefined(cycloneThreeDaysCou)
             ) {
                 return undefined;
             }
 
-            const footprint = isValidFeature(footprint_geojson) ? footprint_geojson : undefined;
+            const footprint = isValidFeature(footprintGeojson) ? footprintGeojson : undefined;
             // FIXME: fix typing in server (low priority)
-            const stormPositions = (storm_position_geojson as unknown as unknown[] | undefined)
+            const stormPositions = (stormPositionGeojson as unknown as unknown[] | undefined)
                 ?.filter(isValidPointFeature);
 
-            const cycloneFiveDays = (cyclone_five_days_cou as unknown as unknown[] | undefined)
+            const cycloneFiveDays = (cycloneFiveDaysCou as unknown as unknown[] | undefined)
                 ?.filter(isValidFeature);
 
-            const cycloneThreeDays = (cyclone_three_days_cou as unknown as unknown[] | undefined)
+            const cycloneThreeDays = (cycloneThreeDaysCou as unknown as unknown[] | undefined)
                 ?.filter(isValidFeature);
-            // forecast_date_time : "2023 SEP 04, 00:00Z"
-            // severity : "WARNING"
-            // storm_name : "HAIKUI"
-            // track_heading : "WNW"
-            // wind_speed_mph : 75
 
             const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry, EventGeoJsonProperties> = {
                 type: 'FeatureCollection' as const,

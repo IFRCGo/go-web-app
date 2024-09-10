@@ -49,16 +49,6 @@ export interface EventGeoJsonProperties {
     eventType?: string;
     alertType?: string;
     source?: string;
-    severityData?: {
-        severity: string;
-        severitytext: string;
-        severityunit: string;
-    };
-    url?: {
-        report?: string;
-        details?: string;
-        geometry?: string;
-    },
     trackDate?: string;
     stormStatus?: string;
 
@@ -83,6 +73,11 @@ export interface ClickedPoint {
     lngLat: mapboxgl.LngLatLike;
 }
 
+export const CYCLONE_RED_ALERT_LEVEL = 'Red';
+export const CYCLONE_ORANGE_ALERT_LEVEL = 'Orange';
+export const CYCLONE_GREEN_ALERT_LEVEL = 'Green';
+export const CYCLONE_BLUE_ALERT_LEVEL = 'Blue';
+
 export const LAYER_CYCLONE_NODES = 1;
 export const LAYER_CYCLONE_TRACKS = 2;
 export const LAYER_CYCLONE_BUFFERS = 3;
@@ -90,12 +85,7 @@ export const LAYER_CYCLONE_UNCERTAINTY = 4;
 export const LAYER_CYCLONE_UNCERTAINTY_FIVE_DAYS = 5;
 export const LAYER_CYCLONE_UNCERTAINTY_THREE_DAYS = 6;
 
-export type LayerType = typeof LAYER_CYCLONE_NODES
-    | typeof LAYER_CYCLONE_TRACKS
-    | typeof LAYER_CYCLONE_BUFFERS
-    | typeof LAYER_CYCLONE_UNCERTAINTY
-    | typeof LAYER_CYCLONE_UNCERTAINTY_FIVE_DAYS
-    | typeof LAYER_CYCLONE_UNCERTAINTY_THREE_DAYS;
+export type LayerType = 1 | 2 | 3 | 4 | 5 | 6;
 
 export interface LayerOption {
     key: LayerType;

@@ -4,6 +4,7 @@ import {
     Container,
     TextOutput,
 } from '@ifrc-go/ui';
+import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import {
     LAYER_CYCLONE_BUFFERS,
@@ -12,6 +13,7 @@ import {
     LayerType,
 } from '#utils/domain/risk';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export interface Props {
@@ -26,6 +28,7 @@ function LayerDetails(props: Props) {
         value,
         onChange,
     } = props;
+    const strings = useTranslation(i18n);
 
     return (
         <>
@@ -38,41 +41,41 @@ function LayerDetails(props: Props) {
             />
             {options.key === LAYER_CYCLONE_NODES && value[LAYER_CYCLONE_NODES] && (
                 <Container
-                    heading="windspeed km/h"
+                    heading={strings.gdacsWindSpeedHeading}
                     headingLevel={5}
                     childrenContainerClassName={styles.content}
                 >
                     <TextOutput
                         icon={<CycloneIcon className={styles.iconRed} />}
-                        value=">= 119 km/h"
+                        value={strings.gdacsWindSpeedExtreme}
                     />
                     <TextOutput
                         icon={<CycloneIcon className={styles.iconOrange} />}
-                        value="93 to 118 km/h"
+                        value={strings.gdacsWindSpeedModerate}
                     />
                     <TextOutput
                         icon={<CycloneIcon className={styles.iconGreen} />}
-                        value="63 to 92 km/h"
+                        value={strings.gdacsWindSpeedLow}
                     />
                 </Container>
             )}
             {options.key === LAYER_CYCLONE_BUFFERS && value[LAYER_CYCLONE_BUFFERS] && (
                 <Container
-                    heading="GDACS Alert Level"
+                    heading={strings.gdacsAlertLevelHeading}
                     headingLevel={5}
                     childrenContainerClassName={styles.content}
                 >
                     <TextOutput
                         icon={<div className={styles.stormRed} />}
-                        value="Red"
+                        value={strings.gdacsAlertLevelRed}
                     />
                     <TextOutput
                         icon={<div className={styles.stormOrange} />}
-                        value="Orange"
+                        value={strings.gdacsAlertLevelOrange}
                     />
                     <TextOutput
                         icon={<div className={styles.stormGreen} />}
-                        value="Green"
+                        value={strings.gdacsAlertLevelGreen}
                     />
                 </Container>
             )}

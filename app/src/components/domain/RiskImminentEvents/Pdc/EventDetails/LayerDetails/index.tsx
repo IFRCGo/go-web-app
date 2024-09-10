@@ -4,6 +4,8 @@ import {
     Container,
     TextOutput,
 } from '@ifrc-go/ui';
+import { useTranslation } from '@ifrc-go/ui/hooks';
+import { resolveToString } from '@ifrc-go/ui/utils';
 
 import {
     LAYER_CYCLONE_BUFFERS,
@@ -12,6 +14,7 @@ import {
     LayerType,
 } from '#utils/domain/risk';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export interface Props {
@@ -26,6 +29,7 @@ function LayerDetails(props: Props) {
         value,
         onChange,
     } = props;
+    const strings = useTranslation(i18n);
 
     return (
         <>
@@ -38,49 +42,58 @@ function LayerDetails(props: Props) {
             />
             {options.key === LAYER_CYCLONE_NODES && value[LAYER_CYCLONE_NODES] && (
                 <Container
-                    heading="windspeed km/h"
+                    heading={strings.pdcWindSpeedHeading}
                     headingLevel={5}
                     childrenContainerClassName={styles.content}
                 >
                     <TextOutput
                         icon={<CycloneIcon className={styles.iconRed} />}
-                        value="63 km/h impact within 36 hours"
+                        value={resolveToString(
+                            strings.pdcWindSpeedWithThreat,
+                            { time: '36 hours' },
+                        )}
                     />
                     <TextOutput
                         icon={<CycloneIcon className={styles.iconOrange} />}
-                        value="63 km/h impact within 48 hours"
+                        value={resolveToString(
+                            strings.pdcWindSpeedWithThreat,
+                            { time: '48 hours' },
+                        )}
                     />
                     <TextOutput
                         icon={<CycloneIcon className={styles.iconGreen} />}
-                        value="63 km/h impact within 5 days"
+                        value={resolveToString(
+                            strings.pdcWindSpeedWithThreat,
+                            { time: '5 days' },
+                        )}
                     />
                     <TextOutput
                         icon={<CycloneIcon className={styles.iconBlue} />}
-                        value="63 km/h with no current threat"
+                        value={strings.pdcWindSpeedWithNoThreat}
                     />
                 </Container>
             )}
             {options.key === LAYER_CYCLONE_BUFFERS && value[LAYER_CYCLONE_BUFFERS] && (
                 <Container
-                    heading="PDC Alert Level"
+                    heading={strings.pdcAlertLevelHeading}
                     headingLevel={5}
                     childrenContainerClassName={styles.content}
                 >
                     <TextOutput
                         icon={<div className={styles.stormRed} />}
-                        value="Warning"
+                        value={strings.pdcAlertTypeWarning}
                     />
                     <TextOutput
                         icon={<div className={styles.stormOrange} />}
-                        value="Watch"
+                        value={strings.pdcAlertTypeWatch}
                     />
                     <TextOutput
                         icon={<div className={styles.stormGreen} />}
-                        value="Advisory"
+                        value={strings.pdcAlertTypeAdvisory}
                     />
                     <TextOutput
                         icon={<div className={styles.stormBlue} />}
-                        value="Information"
+                        value={strings.pdcAlertTypeInformation}
                     />
                 </Container>
             )}
