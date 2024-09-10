@@ -132,25 +132,27 @@ function WfpAdam(props: Props) {
                 ? stormPositionGeoJson
                 : undefined;
 
-            const updatedLayers = {} as typeof defaultLayersValue;
+            const updatedLayers = { ...defaultLayersValue };
 
-            stormPositions?.features?.reduce((_, feature) => {
-                if (feature.geometry.type === 'Point' || feature.geometry.type === 'MultiPoint') {
+            stormPositions?.features?.forEach((feature) => {
+                const { geometry, properties } = feature;
+
+                if (geometry.type === 'Point' || geometry.type === 'MultiPoint') {
                     updatedLayers[LAYER_CYCLONE_NODES] = true;
                 }
 
-                if (feature.geometry.type === 'LineString' || feature.geometry.type === 'MultiLineString') {
+                if (geometry.type === 'LineString' || geometry.type === 'MultiLineString') {
                     updatedLayers[LAYER_CYCLONE_TRACKS] = true;
                 }
-                if (feature.geometry.type === 'Polygon' || feature.geometry.type === 'MultiPolygon') {
+                if (geometry.type === 'Polygon' || geometry.type === 'MultiPolygon') {
                     updatedLayers[LAYER_CYCLONE_BUFFERS] = true;
                 }
 
-                if (feature.properties?.alert_level === 'Cones') {
+                if (properties?.alert_level === 'Cones') {
                     updatedLayers[LAYER_CYCLONE_UNCERTAINTY] = true;
                 }
                 return updatedLayers as typeof defaultLayersValue;
-            }, { ...defaultLayersValue });
+            });
 
             setLayers(updatedLayers);
             setActiveLayersMapping(updatedLayers);
@@ -222,7 +224,7 @@ function WfpAdam(props: Props) {
                                 eventName: feature?.properties?.name,
                                 populationImpact: feature?.properties?.population_impact,
                                 windSpeedMph: feature?.properties?.wind_speed,
-                                trackDate: formatDate(feature?.properties?.track_date, 'yyyy-MM-dd, hh:mm'),
+                                trackDate: formatDate(feature?.properties?.track_date, 'MM/dd hh:mm'),
                                 maxStormSurge: feature?.properties?.max_storm_surge,
                                 alertType: feature?.properties?.alert_level,
                                 type: getLayerType(feature),

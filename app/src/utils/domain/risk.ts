@@ -60,8 +60,10 @@ export interface EventGeoJsonProperties {
     pdcCreatedAt?: string;
     pdcUpdatedAt?: string;
     severity?: string;
-    advisoryNumber?: number;
     trackSpeedMph?: string;
+    advisoryNumber?: number;
+    advisoryDate?: number;
+    advisoryTime?: number;
 
     // ADAM
     populationImpact?: string;

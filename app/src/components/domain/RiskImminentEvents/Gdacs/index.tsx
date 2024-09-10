@@ -144,40 +144,41 @@ function Gdacs(props: Props) {
                 return defaultLayersValue;
             }
 
-            const { footprint_geojson } = res;
+            const { footprint_geojson: footprintGeojson } = res;
 
-            if (isNotDefined(footprint_geojson)) {
+            if (isNotDefined(footprintGeojson)) {
                 return defaultLayersValue;
             }
 
-            const footprint = isValidFeatureCollection(footprint_geojson)
-                ? footprint_geojson
+            const footprint = isValidFeatureCollection(footprintGeojson)
+                ? footprintGeojson
                 : undefined;
 
             if (!footprint) {
                 return defaultLayersValue;
             }
-            const updatedLayers = {} as typeof defaultLayersValue;
-            footprint.features.reduce((_, feature) => {
-                if (feature.geometry.type === 'Point' || feature.geometry.type === 'MultiPoint') {
+            const updatedLayers = { ...defaultLayersValue };
+
+            footprint.features?.forEach((feature) => {
+                const { geometry, properties } = feature;
+
+                if (geometry.type === 'Point' || geometry.type === 'MultiPoint') {
                     updatedLayers[LAYER_CYCLONE_NODES] = true;
                 }
 
-                if (feature.geometry.type === 'LineString'
-                    || feature.geometry.type === 'MultiLineString') {
+                if (geometry.type === 'LineString' || geometry.type === 'MultiLineString') {
                     updatedLayers[LAYER_CYCLONE_TRACKS] = true;
                 }
 
-                if (feature.geometry.type === 'Polygon' || feature.geometry.type === 'MultiPolygon') {
+                if (geometry.type === 'Polygon' || geometry.type === 'MultiPolygon') {
                     updatedLayers[LAYER_CYCLONE_BUFFERS] = true;
                 }
 
-                if (feature.properties?.Class === 'Poly_Cones') {
+                if (properties?.Class === 'Poly_Cones') {
                     updatedLayers[LAYER_CYCLONE_UNCERTAINTY] = true;
                 }
+            });
 
-                return updatedLayers;
-            }, { ...defaultLayersValue });
             setLayers(updatedLayers);
             setActiveLayersMapping(updatedLayers);
 

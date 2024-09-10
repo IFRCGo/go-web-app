@@ -264,7 +264,7 @@ function Pdc(props: Props) {
                                 eventName: pointFeature?.properties?.hazard_name,
                                 trackDate: formatDate(
                                     pointFeature?.properties?.forecast_date_time,
-                                    'yyyy-MM-dd, hh:mm',
+                                    'MM/dd hh:mm',
                                 ),
                                 windSpeedMph: pointFeature?.properties?.wind_speed_mph,
                                 stormName: pointFeature?.properties?.storm_name,
@@ -274,6 +274,11 @@ function Pdc(props: Props) {
                                 updatedAt: pointFeature?.properties?.start_updated_at,
                                 severity: pointFeature?.properties?.severity,
                                 advisoryNumber: pointFeature?.properties?.advisory_number,
+                                advisoryDate: formatDate(
+                                    pointFeature?.properties?.advisory_date,
+                                    'MM/dd',
+                                ),
+                                advisoryTime: pointFeature?.properties?.advisory_time,
                                 trackSpeedMph: pointFeature?.properties?.track_speed_mph,
                                 alertType: getAlertType(pointFeature?.properties?.severity),
                                 type: 'track-point',

@@ -516,10 +516,24 @@ function RiskImminentEventMap<
                                     strongLabel
                                 />
                             )}
+                            {popupDetails.advisoryDate && (
+                                <TextOutput
+                                    label={strings.popupAdvisoryDate}
+                                    value={popupDetails.advisoryDate}
+                                    strongLabel
+                                />
+                            )}
                             {popupDetails.advisoryNumber && (
                                 <TextOutput
                                     label={strings.popupAdvisoryNumber}
                                     value={popupDetails.advisoryNumber}
+                                    strongLabel
+                                />
+                            )}
+                            {popupDetails.trackSpeedMph && (
+                                <TextOutput
+                                    label={strings.popupTrackDate}
+                                    value={popupDetails.trackDate}
                                     strongLabel
                                 />
                             )}
