@@ -17,6 +17,7 @@
     cursor: var(--cursor);
     padding: var(--padding);
     width: fit-content;
+    min-width: calc(var(--base-spacing) * 6.5);
     max-width: 100%;
     overflow: hidden;
     text-transform: var(--text-transform);

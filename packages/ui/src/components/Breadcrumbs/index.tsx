@@ -1,5 +1,5 @@
 import { Children } from 'react';
-import { ChevronRightLineIcon } from '@ifrc-go/icons';
+import { ArrowDropRightLineIcon } from '@ifrc-go/icons';
 import { _cs } from '@togglecorp/fujs';
 
 import styles from './styles.module.css';
@@ -15,7 +15,7 @@ function Breadcrumbs(props: BreadcrumbsProps) {
     const {
         className,
         children,
-        separator = <ChevronRightLineIcon />,
+        separator = <ArrowDropRightLineIcon />,
         itemClassName,
     } = props;
 

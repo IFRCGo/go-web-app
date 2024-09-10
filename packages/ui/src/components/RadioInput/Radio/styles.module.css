@@ -4,6 +4,7 @@
 
     .icon {
         transition: var(--go-ui-duration-transition-medium) color ease-in-out;
+        color: var(--go-ui-color-gray-40);
         font-size: var(--go-ui-height-icon-multiplier);
     }
 
@@ -11,6 +12,7 @@
         flex-direction: column;
         gap: 0;
         line-height: var(--go-ui-line-height-sm);
+        color: var(--go-ui-color-black);
     }
 
     .description {
