@@ -1,0 +1,12 @@
+diff --git a/dist/esm/index.d.ts b/dist/esm/index.d.ts
+index 15e036e254c7d72d4e2254e7192e0b2e07e5fb1d..4e91563f19a918b87db44219adab685fb2180b00 100644
+--- a/dist/esm/index.d.ts
++++ b/dist/esm/index.d.ts
+@@ -20,6 +20,6 @@ import { AllGeoJSON } from '@turf/helpers';
+  */
+ declare function bbox(geojson: AllGeoJSON, options?: {
+     recompute?: boolean;
+-}): BBox;
++}): [number, number, number, number];
+ 
+ export { bbox, bbox as default };

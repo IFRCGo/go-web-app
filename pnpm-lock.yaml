@@ -8,6 +8,9 @@ patchedDependencies:
   '@togglecorp/re-map':
     hash: slpq444xdid75zyvcexezavume
     path: patches/@togglecorp__re-map.patch
+  '@turf/bbox':
+    hash: i4x2lcdadra3lsju7oxz47m4pm
+    path: patches/@turf__bbox.patch
 
 importers:
 
@@ -48,7 +51,7 @@ importers:
         version: 1.0.0-beta.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@turf/bbox':
         specifier: ^7.1.0
-        version: 7.1.0
+        version: 7.1.0(patch_hash=i4x2lcdadra3lsju7oxz47m4pm)
       '@turf/buffer':
         specifier: ^7.1.0
         version: 7.1.0
@@ -9724,7 +9727,7 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@turf/bbox@7.1.0':
+  '@turf/bbox@7.1.0(patch_hash=i4x2lcdadra3lsju7oxz47m4pm)':
     dependencies:
       '@turf/helpers': 7.1.0
       '@turf/meta': 7.1.0
@@ -9733,7 +9736,7 @@ snapshots:
 
   '@turf/buffer@7.1.0':
     dependencies:
-      '@turf/bbox': 7.1.0
+      '@turf/bbox': 7.1.0(patch_hash=i4x2lcdadra3lsju7oxz47m4pm)
       '@turf/center': 7.1.0
       '@turf/helpers': 7.1.0
       '@turf/jsts': 2.7.1
@@ -9744,7 +9747,7 @@ snapshots:
 
   '@turf/center@7.1.0':
     dependencies:
-      '@turf/bbox': 7.1.0
+      '@turf/bbox': 7.1.0(patch_hash=i4x2lcdadra3lsju7oxz47m4pm)
       '@turf/helpers': 7.1.0
       '@types/geojson': 7946.0.14
       tslib: 2.7.0

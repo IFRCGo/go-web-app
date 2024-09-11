@@ -31,7 +31,8 @@
     ],
     "pnpm": {
         "patchedDependencies": {
-            "@togglecorp/re-map": "patches/@togglecorp__re-map.patch"
+            "@togglecorp/re-map": "patches/@togglecorp__re-map.patch",
+            "@turf/bbox": "patches/@turf__bbox.patch"
         }
     },
     "devDependencies": {
