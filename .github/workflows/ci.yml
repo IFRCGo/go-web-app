@@ -22,198 +22,87 @@ env:
   GITHUB_WORKFLOW: true
 
 jobs:
-  ui:
-    name: Build UI Library
-    environment: 'test'
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: packages/ui
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'yarn'
-
-      - name: Install dependencies on UI library
-        run: yarn install --frozen-lockfile
-
-      - name: Typecheck
-        run: yarn typecheck
-
-      - name: Lint CSS
-        run: yarn lint:css
-
-      - name: Lint JS
-        run: yarn lint:js
-
-      - name: build  UI library
-        run: yarn build
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: ui-build
-          path: packages/ui/dist
-
   test:
     name: Run tests
     environment: 'test'
     runs-on: ubuntu-latest
-    needs: [ui]
     steps:
       - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/actions-setup@v4
+        with:
+          version: 9
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'yarn'
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: ui-build
-          path: packages/ui/dist
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
-        working-directory: app
+        run: pnpm install --frozen-lockfile
 
       - name: Run test
-        run: yarn test
+        run: pnpm test
         working-directory: app
 
   translation:
     name: Identify error with translation files
     runs-on: ubuntu-latest
-    needs: [ui]
     steps:
       - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/actions-setup@v4
+        with:
+          version: 9
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'yarn'
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: ui-build
-          path: packages/ui/dist
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
-        working-directory: app
+        run: pnpm install --frozen-lockfile
 
       - name: Identify error with translation files
-        run: yarn lint:translation
-        working-directory: app
-
-  unimported:
-    name: Identify unused files
-    runs-on: ubuntu-latest
-    needs: [ui]
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'yarn'
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: ui-build
-          path: packages/ui/dist
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-        working-directory: app
-
-      - name: Identify unused files
-        run: yarn lint:unused
+        run: pnpm lint:translation
         working-directory: app
 
   lint:
-    name: Lint JS
+    name: Lint JS/CSS
     runs-on: ubuntu-latest
-    needs: [ui]
     steps:
       - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/actions-setup@v4
+        with:
+          version: 9
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'yarn'
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: ui-build
-          path: packages/ui/dist
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
-        working-directory: app
+        run: pnpm install --frozen-lockfile
 
       - name: Lint JS
-        run: yarn lint:js
-        working-directory: app
+        run: pnpm lint
 
-  lint-css:
-    name: Lint CSS
-    runs-on: ubuntu-latest
-    needs: [ui]
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'yarn'
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: ui-build
-          path: packages/ui/dist
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-        working-directory: app
-
-      - name: Lint CSS
-        run: yarn lint:css
-        working-directory: app
-
-  # FIXME: Identify a way to generate schema before we run typecheck
-  # typecheck:
-  #   name: Typecheck
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: actions/setup-node@v4
-  #       with:
-  #         node-version: 20
-  #         cache: 'yarn'
-
-  #     - name: Install dependencies
-  #       run: yarn install --frozen-lockfile
-
-  #     - name: Typecheck
-  #       run: yarn typecheck
   build:
     name: Build GO Web App
     environment: 'test'
-    needs: [lint, lint-css, test, ui]
+    needs: [lint]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/actions-setup@v4
+        with:
+          version: 9
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'yarn'
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: ui-build
-          path: packages/ui/dist
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
-        working-directory: app
+        run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: yarn build
-        working-directory: app
+        run: pnpm build
