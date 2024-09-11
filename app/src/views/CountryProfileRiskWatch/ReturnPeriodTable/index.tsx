@@ -28,7 +28,7 @@ import i18n from './i18n.json';
 
 type GetCountryRisk = paths['/api/v1/country-seasonal/']['get'];
 type CountryRiskResponse = GetCountryRisk['responses']['200']['content']['application/json'];
-type HazardType = components<'read'>['schemas']['HazardTypeEnum'];
+type HazardType = components['schemas']['HazardTypeEnum'];
 interface HazardTypeOption {
     hazard_type: HazardType;
     hazard_type_display: string;

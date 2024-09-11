@@ -23,7 +23,7 @@ import EmergencyResponseUnitOwnerCard from './EmergencyResponseUnitOwnerCard';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type DeploymentsEruTypeEnum = components<'read'>['schemas']['DeploymentsEruTypeEnum'];
+type DeploymentsEruTypeEnum = components['schemas']['DeploymentsEruTypeEnum'];
 
 type GetERUOwnersResponse = GoApiResponse<'/api/v2/eru_owner/'>;
 type ERUOwnerListItem = NonNullable<GetERUOwnersResponse['results']>[number];

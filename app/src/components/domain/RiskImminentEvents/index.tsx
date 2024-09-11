@@ -35,7 +35,7 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export type ImminentEventSource = 'pdc' | 'wfpAdam' | 'gdacs' | 'meteoSwiss';
-type HazardType = components<'read'>['schemas']['HazardTypeEnum'];
+type HazardType = components['schemas']['HazardTypeEnum'];
 
 type BaseProps = {
     className?: string;

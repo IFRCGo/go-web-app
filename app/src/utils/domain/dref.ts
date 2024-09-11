@@ -1,10 +1,10 @@
 import { components } from '#generated/types';
 
-type PlannedIntervention = components<'read'>['schemas']['PlannedIntervention'];
+type PlannedIntervention = components['schemas']['PlannedIntervention'];
 type PlannedInterventionTitle = NonNullable<PlannedIntervention['title']>;
-type IdentifiedNeeds = components<'read'>['schemas']['IdentifiedNeed'];
+type IdentifiedNeeds = components['schemas']['IdentifiedNeed'];
 type IdentifiedNeedsTitle = NonNullable<IdentifiedNeeds['title']>;
-type NsActions = components<'read'>['schemas']['NationalSocietyAction'];
+type NsActions = components['schemas']['NationalSocietyAction'];
 
 export const plannedInterventionOrder: Record<PlannedInterventionTitle, number> = {
     shelter_housing_and_settlements: 1,

@@ -27,7 +27,7 @@ interface Props {
     selectedYear: number;
     countryId: number;
 }
-type IncomeSource = components<'read'>['schemas']['FDRSIncome'];
+type IncomeSource = components['schemas']['FDRSIncome'];
 
 function incomeSourceLabelSelector(source: IncomeSource) {
     return source.indicator_details.title;

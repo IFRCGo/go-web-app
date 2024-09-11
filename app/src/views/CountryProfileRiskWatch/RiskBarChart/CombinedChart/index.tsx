@@ -44,7 +44,7 @@ import styles from './styles.module.css';
 
 type CountryRiskResponse = RiskApiResponse<'/api/v1/country-seasonal/'>;
 type RiskData = CountryRiskResponse[number];
-type HazardType = components<'read'>['schemas']['HazardTypeEnum'];
+type HazardType = components['schemas']['HazardTypeEnum'];
 
 const selectedMonths = {
     0: true,

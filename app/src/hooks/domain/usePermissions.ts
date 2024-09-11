@@ -27,7 +27,7 @@ function usePermissions() {
             const isPerAdmin = (userMe?.is_per_admin_for_countries.length ?? 0) > 0
                 || (userMe?.is_admin_for_regions.length ?? 0) > 0;
 
-            const isGuestUser = (userMe?.limit_access_to_guest);
+            const isGuestUser = !!(userMe?.limit_access_to_guest);
 
             return {
                 isDrefRegionalCoordinator,

@@ -57,7 +57,7 @@ const mapImageOption = {
     sdf: true,
 };
 
-type HazardType = components<'read'>['schemas']['HazardTypeEnum'];
+type HazardType = components['schemas']['HazardTypeEnum'];
 
 const hazardKeys = Object.keys(hazardKeyToIconmap) as HazardType[];
 

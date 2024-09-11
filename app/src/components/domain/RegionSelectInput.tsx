@@ -7,7 +7,7 @@ import { stringValueSelector } from '@ifrc-go/ui/utils';
 import { type components } from '#generated/types';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 
-export type RegionOption = components<'read'>['schemas']['ApiRegionNameEnum'];
+export type RegionOption = components['schemas']['ApiRegionNameEnum'];
 function regionKeySelector(option: RegionOption) {
     return option.key;
 }

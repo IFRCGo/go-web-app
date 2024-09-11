@@ -25,7 +25,7 @@ import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type TranslationModuleOriginalLanguageEnum = components<'read'>['schemas']['TranslationModuleOriginalLanguageEnum'];
+type TranslationModuleOriginalLanguageEnum = components['schemas']['TranslationModuleOriginalLanguageEnum'];
 
 interface Props {
     className?: string;

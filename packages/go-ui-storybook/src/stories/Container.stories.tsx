@@ -95,7 +95,6 @@ export const WithGridViewAndPadding: Story = {
         contentViewType: 'grid',
         spacing: 'default',
         numPreferredGridContentColumns: 2,
-        withGridViewInFilter: true,
     },
 };
 
@@ -158,7 +157,6 @@ export const Withspacing: Story = {
         contentViewType: 'default',
         spacing: 'none',
         numPreferredGridContentColumns: 2,
-        withGridViewInFilter: true,
     },
 };
 
@@ -172,7 +170,6 @@ export const WithGridViewInFilter: Story = {
         contentViewType: 'default',
         spacing: 'default',
         numPreferredGridContentColumns: 2,
-        withGridViewInFilter: true,
     },
 };
 

@@ -45,7 +45,7 @@ import styles from './styles.module.css';
 type FieldReportResponse = GoApiResponse<'/api/v2/field-report/'>;
 type FieldReportListItem = NonNullable<FieldReportResponse['results']>[number];
 
-type RegionOption = components<'read'>['schemas']['ApiRegionNameEnum'];
+type RegionOption = components['schemas']['ApiRegionNameEnum'];
 
 const fieldReportKeySelector = (item: FieldReportListItem) => item.id;
 

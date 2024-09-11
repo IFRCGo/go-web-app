@@ -73,17 +73,17 @@ export const COLOR_ACTIVE_REGION = '#7d8b9d';
 
 // Three W
 
-type OperationTypeEnum = components<'read'>['schemas']['DeploymentsProjectOperationTypeEnumKey'];
+type OperationTypeEnum = components['schemas']['DeploymentsProjectOperationTypeEnumKey'];
 export const OPERATION_TYPE_PROGRAMME = 0 satisfies OperationTypeEnum;
 export const OPERATION_TYPE_EMERGENCY = 1 satisfies OperationTypeEnum;
 export const OPERATION_TYPE_MULTI = -1;
 
-type ProgrammeTypeEnum = components<'read'>['schemas']['DeploymentsProjectProgrammeTypeEnumKey'];
+type ProgrammeTypeEnum = components['schemas']['DeploymentsProjectProgrammeTypeEnumKey'];
 export const PROGRAMME_TYPE_MULTILATERAL = 1 satisfies ProgrammeTypeEnum;
 export const PROGRAMME_TYPE_DOMESTIC = 2 satisfies ProgrammeTypeEnum;
 export const PROGRAMME_TYPE_BILATERAL = 0 satisfies ProgrammeTypeEnum;
 
-type StatusTypeEnum = components<'read'>['schemas']['DeploymentsProjectStatusEnumKey'];
+type StatusTypeEnum = components['schemas']['DeploymentsProjectStatusEnumKey'];
 export const PROJECT_STATUS_COMPLETED = 2 satisfies StatusTypeEnum;
 export const PROJECT_STATUS_ONGOING = 1 satisfies StatusTypeEnum;
 export const PROJECT_STATUS_PLANNED = 0 satisfies StatusTypeEnum;
@@ -92,20 +92,20 @@ export const PROJECT_STATUS_PLANNED = 0 satisfies StatusTypeEnum;
 
 // FIXME: fix typing in server (medium priority)
 // This should not be the same as OperationType.
-type DrefStatus = components<'read'>['schemas']['DrefDrefStatusEnumKey'];
+type DrefStatus = components['schemas']['DrefDrefStatusEnumKey'];
 export const DREF_STATUS_COMPLETED = 1 satisfies DrefStatus;
 export const DREF_STATUS_IN_PROGRESS = 0 satisfies DrefStatus;
-type TypeOfDrefEnum = components<'read'>['schemas']['DrefDrefDrefTypeEnumKey'];
+type TypeOfDrefEnum = components['schemas']['DrefDrefDrefTypeEnumKey'];
 export const DREF_TYPE_IMMINENT = 0 satisfies TypeOfDrefEnum;
 export const DREF_TYPE_ASSESSMENT = 1 satisfies TypeOfDrefEnum;
 export const DREF_TYPE_RESPONSE = 2 satisfies TypeOfDrefEnum;
 export const DREF_TYPE_LOAN = 3 satisfies TypeOfDrefEnum;
 
-type TypeOfOnsetEnum = components<'read'>['schemas']['TypeValidatedEnum'];
+type TypeOfOnsetEnum = components['schemas']['TypeValidatedEnum'];
 export const ONSET_SLOW = 1 satisfies TypeOfOnsetEnum;
 
 // Subscriptions
-type SubscriptionRecordTypeEnum = components<'read'>['schemas']['RtypeEnum'];
+type SubscriptionRecordTypeEnum = components['schemas']['RtypeEnum'];
 export const SUBSCRIPTION_SURGE_ALERT = 3 satisfies SubscriptionRecordTypeEnum;
 export const SUBSCRIPTION_COUNTRY = 4 satisfies SubscriptionRecordTypeEnum;
 export const SUBSCRIPTION_REGION = 5 satisfies SubscriptionRecordTypeEnum;
@@ -120,36 +120,36 @@ export const SUBSCRIPTION_GENERAL = 14 satisfies SubscriptionRecordTypeEnum;
 
 // Field Report
 
-export type FieldReportStatusEnum = components<'read'>['schemas']['ApiFieldReportStatusEnumKey'];
+export type FieldReportStatusEnum = components['schemas']['ApiFieldReportStatusEnumKey'];
 export const FIELD_REPORT_STATUS_EARLY_WARNING = 8 satisfies FieldReportStatusEnum;
 export const FIELD_REPORT_STATUS_EVENT = 9 satisfies FieldReportStatusEnum;
 
-export type Bulletin = components<'read'>['schemas']['ApiFieldReportBulletinEnumKey'];
+export type Bulletin = components['schemas']['ApiFieldReportBulletinEnumKey'];
 export const BULLETIN_PUBLISHED_NO = 0 satisfies Bulletin;
 export const BULLETIN_PUBLISHED_PLANNED = 2 satisfies Bulletin;
 export const BULLETIN_PUBLISHED_YES = 3 satisfies Bulletin;
 
 // FIXME: this should be fixed in the server
-type RequestChoices = components<'read'>['schemas']['ApiFieldReportBulletinEnumKey'];
+type RequestChoices = components['schemas']['ApiFieldReportBulletinEnumKey'];
 export const REQUEST_CHOICES_NO = 0 satisfies RequestChoices;
 
 export type ContactType = 'Originator' | 'NationalSociety' | 'Federation' | 'Media';
-export type OrganizationType = components<'read'>['schemas']['ApiActionOrgEnumKey'];
-export type ReportType = components<'read'>['schemas']['ApiActionTypeEnumKey'];
-export type CategoryType = components<'read'>['schemas']['ApiActionCategoryEnumKey'];
+export type OrganizationType = components['schemas']['ApiActionOrgEnumKey'];
+export type ReportType = components['schemas']['ApiActionTypeEnumKey'];
+export type CategoryType = components['schemas']['ApiActionCategoryEnumKey'];
 
 // Common
 
 // FIXME: we need to identify a typesafe way to get this value
 export const DISASTER_TYPE_EPIDEMIC = 1;
 
-export type Visibility = components<'read'>['schemas']['ApiVisibilityChoicesEnumKey'];
+export type Visibility = components['schemas']['ApiVisibilityChoicesEnumKey'];
 export const VISIBILITY_RCRC_MOVEMENT = 1 satisfies Visibility;
 export const VISIBILITY_IFRC_SECRETARIAT = 2 satisfies Visibility;
 export const VISIBILITY_PUBLIC = 3 satisfies Visibility;
 export const VISIBILITY_IFRC_NS = 4 satisfies Visibility;
 
-export type DisasterCategory = components<'read'>['schemas']['ApiAlertLevelEnumKey'];
+export type DisasterCategory = components['schemas']['ApiAlertLevelEnumKey'];
 export const DISASTER_CATEGORY_YELLOW = 0 satisfies DisasterCategory;
 export const DISASTER_CATEGORY_ORANGE = 1 satisfies DisasterCategory;
 export const DISASTER_CATEGORY_RED = 2 satisfies DisasterCategory;
@@ -160,21 +160,21 @@ export const COUNTRY_AFRICA_REGION = 285;
 export const COUNTRY_EUROPE_REGION = 286;
 export const COUNTRY_MENA_REGION = 287;
 
-export type Region = components<'read'>['schemas']['ApiRegionNameEnumKey'];
+export type Region = components['schemas']['ApiRegionNameEnumKey'];
 export const REGION_AFRICA = 0 satisfies Region;
 export const REGION_AMERICAS = 1 satisfies Region;
 export const REGION_ASIA = 2 satisfies Region;
 export const REGION_EUROPE = 3 satisfies Region;
 export const REGION_MENA = 4 satisfies Region;
 
-type CountryRecordTypeEnum = components<'read'>['schemas']['ApiCountryTypeEnumKey'];
+type CountryRecordTypeEnum = components['schemas']['ApiCountryTypeEnumKey'];
 export const COUNTRY_RECORD_TYPE_COUNTRY = 1 satisfies CountryRecordTypeEnum;
 export const COUNTRY_RECORD_TYPE_CLUSTER = 2 satisfies CountryRecordTypeEnum;
 export const COUNTRY_RECORD_TYPE_REGION = 3 satisfies CountryRecordTypeEnum;
 export const COUNTRY_RECORD_TYPE_COUNTRY_OFFICE = 4 satisfies CountryRecordTypeEnum;
 export const COUNTRY_RECORD_TYPE_REPRESENTATIVE_OFFICE = 5 satisfies CountryRecordTypeEnum;
 
-type SurgeAlertTypeEnum = components<'read'>['schemas']['NotificationsSurgeAlertStatusEnumKey'];
+type SurgeAlertTypeEnum = components['schemas']['NotificationsSurgeAlertStatusEnumKey'];
 export const SURGE_ALERT_STATUS_OPEN = 0 satisfies SurgeAlertTypeEnum;
 export const SURGE_ALERT_STATUS_STOOD_DOWN = 1 satisfies SurgeAlertTypeEnum;
 export const SURGE_ALERT_STATUS_CLOSED = 2 satisfies SurgeAlertTypeEnum;
@@ -186,7 +186,7 @@ export const DEFAULT_X_AXIS_HEIGHT = 26;
 export const DEFAULT_Y_AXIS_WIDTH = 46;
 export const DEFAULT_Y_AXIS_WIDTH_WITH_LABEL = 66;
 
-export type SupportedByOrganizationType = components<'read'>['schemas']['PerSupportedByOrganizationTypeEnumKey'];
+export type SupportedByOrganizationType = components['schemas']['PerSupportedByOrganizationTypeEnumKey'];
 export const UN_ORGANIZATION = 0;
 export const PRIVATE_SECTOR = 1;
 export const GOVERNMENT = 2;

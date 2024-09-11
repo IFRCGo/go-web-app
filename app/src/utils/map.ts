@@ -1,11 +1,13 @@
 import { isDefined } from '@togglecorp/fujs';
 import getBbox from '@turf/bbox';
+import type { Polygon } from 'geojson';
 import type {
     FillLayer,
     Map,
     NavigationControl,
     SymbolLayer,
 } from 'mapbox-gl';
+import mapboxgl from 'mapbox-gl';
 
 import { type Country } from '#hooks/domain/useCountryRaw';
 import {
@@ -193,7 +195,11 @@ export function getCountryListBoundingBox(countryList: Country[]) {
         type: 'FeatureCollection' as const,
         features: countryWithBbox.map((country) => ({
             type: 'Feature' as const,
-            geometry: country.bbox,
+            properties: {
+                id: country.id,
+            },
+            // TODO typing for bbox should be a Polygon in server
+            geometry: country.bbox as unknown as Polygon,
         })),
     };
 

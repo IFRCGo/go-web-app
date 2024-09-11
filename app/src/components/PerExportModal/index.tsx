@@ -18,7 +18,7 @@ import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 
-type ExportStatusEnum = components<'read'>['schemas']['ExportStatusEnum'];
+type ExportStatusEnum = components['schemas']['ExportStatusEnum'];
 
 const EXPORT_STATUS_PENDING = 0 satisfies ExportStatusEnum;
 const EXPORT_STATUS_COMPLETED = 1 satisfies ExportStatusEnum;

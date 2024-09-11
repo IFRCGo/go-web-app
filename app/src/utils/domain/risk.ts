@@ -32,8 +32,8 @@ import {
 } from '#utils/constants';
 import { type RiskApiResponse } from '#utils/restRequest';
 
-export type HazardType = components<'read'>['schemas']['HazardTypeEnum'];
-type IpcEstimationType = components<'read'>['schemas']['EstimationTypeEnum'];
+export type HazardType = components['schemas']['HazardTypeEnum'];
+type IpcEstimationType = components['schemas']['EstimationTypeEnum'];
 type CountrySeasonal = RiskApiResponse<'/api/v1/country-seasonal/'>;
 type IpcData = CountrySeasonal[number]['ipc_displacement_data'];
 type GwisData = CountrySeasonal[number]['gwis'];

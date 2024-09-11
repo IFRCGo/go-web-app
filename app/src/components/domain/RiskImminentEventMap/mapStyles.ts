@@ -24,7 +24,7 @@ import {
 } from '#utils/constants';
 import { hazardTypeToColorMap } from '#utils/domain/risk';
 
-type HazardType = components<'read'>['schemas']['HazardTypeEnum'];
+type HazardType = components['schemas']['HazardTypeEnum'];
 
 export const hazardKeyToIconmap: Record<HazardType, string | null> = {
     EQ: earthquakeIcon,

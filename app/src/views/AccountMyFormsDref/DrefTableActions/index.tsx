@@ -42,7 +42,7 @@ import { exportDrefAllocation } from './drefAllocationExport';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type DrefStatus = components<'read'>['schemas']['DrefDrefStatusEnumKey'];
+type DrefStatus = components['schemas']['DrefDrefStatusEnumKey'];
 
 export interface Props {
     drefId: number;

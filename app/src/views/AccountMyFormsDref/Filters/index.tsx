@@ -13,7 +13,7 @@ import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 
 import i18n from './i18n.json';
 
-type TypeOfDref = components<'read'>['schemas']['DrefDrefDrefTypeEnumKey'];
+type TypeOfDref = components['schemas']['DrefDrefDrefTypeEnumKey'];
 function typeOfDrefKeySelector({ key } : { key: TypeOfDref }) {
     return key;
 }

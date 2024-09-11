@@ -25,6 +25,7 @@ import {
     MapSource,
 } from '@togglecorp/re-map';
 import turfBbox from '@turf/bbox';
+import type { Polygon } from 'geojson';
 import {
     type FillLayer,
     type LineLayer,
@@ -141,10 +142,10 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
         }
 
         if (selectedDistrict && districtResponse?.bbox) {
-            return turfBbox(districtResponse.bbox);
+            return turfBbox(districtResponse.bbox as unknown as Polygon);
         }
 
-        return turfBbox(countryDetails.bbox);
+        return turfBbox(countryDetails.bbox as unknown as Polygon);
     }, [
         selectedDistrict,
         districtResponse,

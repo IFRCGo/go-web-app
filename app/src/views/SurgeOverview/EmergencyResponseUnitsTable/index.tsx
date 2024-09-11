@@ -26,7 +26,7 @@ import {
 
 import i18n from './i18n.json';
 
-type DeploymentsEruTypeEnum = components<'read'>['schemas']['DeploymentsEruTypeEnum'];
+type DeploymentsEruTypeEnum = components['schemas']['DeploymentsEruTypeEnum'];
 
 type GetEmergencyResponseUnitsResponse = GoApiResponse<'/api/v2/eru/'>;
 type EmergencyResponseUnitListItem = NonNullable<GetEmergencyResponseUnitsResponse['results']>[number];

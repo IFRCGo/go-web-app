@@ -32,7 +32,7 @@ export type LocalUnitsRequestPostBody = GoApiBody<'/api/v2/local-units/', 'POST'
         lat: number;
     }
 };
-export type TypeOfLocalUnits = components<'read'>['schemas']['LocalUnitType']['code'];
+export type TypeOfLocalUnits = components['schemas']['LocalUnitType']['code'];
 
 export type PartialLocalUnits = PartialForm<
     PurgeNull<LocalUnitsRequestBody>,

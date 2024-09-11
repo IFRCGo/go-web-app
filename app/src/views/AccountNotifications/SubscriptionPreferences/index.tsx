@@ -51,7 +51,7 @@ import {
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-export type RegionOption = components<'read'>['schemas']['ApiRegionNameEnum'];
+export type RegionOption = components['schemas']['ApiRegionNameEnum'];
 
 function regionKeySelector(option: RegionOption) {
     return option.key;
