@@ -3,30 +3,38 @@
     "version": "1.0.0",
     "type": "module",
     "license": "MIT",
+    "engines": {
+        "node": ">=18",
+        "pnpm": ">=7"
+    },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/IFRCGo/go-web-app.git"
     },
     "private": true,
     "scripts": {
-        "postinstall": "patch-package",
-        "build:ui": "yarn workspace @ifrc-go/ui build",
-        "build": "yarn build:ui && yarn workspace go-web-app build",
-        "start:ui": "yarn workspace @ifrc-go/ui start",
-        "start:app": "yarn build:ui && yarn workspace go-web-app start",
-        "generate:type": "yarn workspace go-web-app generate:type",
-        "preview": "yarn workspace go-web-app preview",
-        "storybook": "yarn workspace go-ui-storybook storybook",
-        "build-storybook": "yarn workspace go-ui-storybook build-storybook",
-        "chromatic": "yarn workspace go-ui-storybook chromatic"
-    },
-    "devDependencies": {
-        "patch-package": "^8.0.0",
-        "postinstall-postinstall": "^2.1.0"
+        "preinstall": "npx only-allow pnpm",
+        "build:ui": "pnpm --filter @ifrc-go/ui build",
+        "build": "pnpm -r build",
+        "start": "pnpm build:ui && pnpm --filter go-web-app start",
+        "storybook": "pnpm build:ui && pnpm --filter go-ui-storybook storybook",
+        "build:storybook": "pnpm build:ui && pnpm --filter go-ui-storybook build",
+        "chromatic": "pnpm build:ui && pnpm --filter go-ui-storybook chromatic",
+        "typecheck": "pnpm -r typecheck",
+        "lint": "pnpm -r lint",
+        "lint:fix": "pnpm -r lint:fix"
     },
     "workspaces": [
         "app",
         "packages/ui",
         "packages/go-ui-storybook"
-    ]
+    ],
+    "pnpm": {
+        "patchedDependencies": {
+            "@togglecorp/re-map": "patches/@togglecorp__re-map.patch"
+        }
+    },
+    "devDependencies": {
+        "@changesets/cli": "^2.27.1"
+    }
 }

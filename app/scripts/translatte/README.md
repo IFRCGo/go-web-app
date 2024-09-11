@@ -15,7 +15,7 @@ Developers can change the translations using their preferred choice of editor.
 
 Once all of the changes have been made, we can generate a migration file for the translations using:
 ```bash
-yarn translatte generate-migration ./src/translationMigrations ./src/**/i18n.json
+pnpm translatte generate-migration ./src/translationMigrations ./src/**/i18n.json
 ```
 Once the migration file has been created, the migration file can be commited to the VCS.
 
@@ -26,7 +26,7 @@ the strings in the server.
 
 We can generate the new set of strings for the server using:
 ```bash
-yarn translatte apply-migrations ./src/translationMigrations --last-migration "name_of_last_migration" --source "strings_json_from_server.json" --destination "new_strings_json_for_server.json"
+pnpm translatte apply-migrations ./src/translationMigrations --last-migration "name_of_last_migration" --source "strings_json_from_server.json" --destination "new_strings_json_for_server.json"
 ```
 
 ### Merge migrations
@@ -35,19 +35,19 @@ Once the migrations are applied to the strings in the server, we can merge the m
 
 To merge migrations, we can run the following command:
 ```bash
-yarn translatte merge-migrations ./src/translationMigrations --from 'initial_migration.json' --to 'final_migration.json'
+pnpm translatte merge-migrations ./src/translationMigrations --from 'initial_migration.json' --to 'final_migration.json'
 ```
 
 ### Checking migrations
 
 We can use the following command to check for valid migrations:
 ```bash
-yarn translatte lint ./src/**/i18n.json
+pnpm translatte lint ./src/**/i18n.json
 ```
 
 ### Listing migrations
 
 We can use the following command to list all migrations:
 ```bash
-yarn translatte list-migrations ./src/translationMigrations
+pnpm translatte list-migrations ./src/translationMigrations
 ```

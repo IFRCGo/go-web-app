@@ -105,7 +105,7 @@ Below are the steps to guide you through preparing your local environment for th
 To begin, ensure you have network access. Then, you'll need the following
 1. [Git](https://git-scm.com/)
 2. [Node.JS](https://nodejs.org/en/) version >=18 / 20+
-3. [Yarn 1](https://classic.yarnpkg.com/en/)
+3. [pnpm](https://pnpm.io/)
 4. Alternatively, you can use [Docker](https://www.docker.com/) to build the application.
 
 ### Local development
@@ -118,7 +118,7 @@ gh repo clone IFRCGo/go-web-app #Github CLI
 ```
 2. Install the dependencies
 ```bash
-yarn install
+pnpm install
 ```
 3. Copy `app/.env.example` to `app/.env` and update the variables
 ```bash
@@ -126,7 +126,7 @@ cp app/.env.example app/.env
 ```
 4. Start the development server
 ```bash
-yarn start:app
+pnpm start
 ```
 > [!NOTE]\
 > To work on a specific development task, ensure you have the backend setup appropriately and configured properly.
@@ -151,11 +151,11 @@ git push -u origin name-of-your-branch
 
 1. To build the application for production
 ```bash
-yarn build
+pnpm build
 ```
 2. To locally preview the production build
 ```bash
-yarn preview
+pnpm preview
 ```
 
 ### CLI Commands
@@ -164,23 +164,30 @@ This repository contains several scripts and commands for performing tasks. The 
 
 <details>
   <summary>Commands for Running & Building the Web Application</summary>
+  - `pnpm start` runs the Local Development Server, listening by default on `http://localhost:3000/`.
+  - `pnpm build` builds the Application in Production mode. The output is by default within the `build` folder. Additionally, This command builds both the `@ifrc-go/ui` library and the associated Storybook.
+    - This is used for Deployments (Preview & Production).
+  - `pnpm preview` previews the production build of the Application.
+  - `pnpm storybook` starts Storybook's local server for the `@ifrc-go/ui` components library, listening by default on `http://localhost:6006/`.
+  - `pnpm build:storybook` builds Storybook as a static web application for publishing.
+  - `pnpm build:ui` builds the `@ifrc-go/ui` components library. To reflect any new changes in the components library we must ensure that it is built beforehand.
+</details>
 
-- `yarn start:app` runs the Local Development Server, listening by default on `http://localhost:3000/`.
-- `yarn build` builds the Application in Production mode. The output is by default within the `build` folder.
-  - This is used for Deployments (Preview & Production).
-- `yarn preview` previews the production build of the Application.
-- `yarn generate:type` generates the Typescript types for the API using `openapi-typescript`. The output is by default within the `generated` folder within the `app` workspace.
-- `yarn storybook` starts Storybook's local server for the `@ifrc-go/ui` components library, listening by default on `http://localhost:6006/`.
-- `yarn storybook:build` builds Storybook as a static web application for publishing.
-- `yarn build:ui` builds the `@ifrc-go/ui` components library. To reflect any new changes in the components library we must ensure that it is built beforehand.
-
+<details>
+  <summary>Commands specific to the actual Web Application</summary>
+  > [!NOTE]\
+  > Execute the following commands within the `app` workspace.
+  - `pnpm generate:type` generates the Typescript types for the API using `openapi-typescript`. The output is by default within the `generated` folder within the `app` workspace.
+  - `pnpm preview` previews the production build of the Application.
+  - `pnpm surge:deploy` deploy the web application to [surge](https://surge.sh/) for feature tests.
+  - `pnpm surge:teardown` removes the deployed web application from [surge](https://surge.sh/).
+  > [!IMPORTANT]\
+  > Deploy to Surge only when necessary. A Surge account is required for deployment, and the deployment should always be torn down after the feature tests are completed.
 </details>
 
 <details>
   <summary>Commands for Maintenance Tasks</summary>
-Execute the following commands within the `app` workspace.
-
-- `yarn lint` runs the linter for all the css, js, ts, and translation files.
-  - `yarn turbo lint:fix` attempts to fix any linting errors for css, js and ts files.
-- `yarn translatte:generate` generates translation migration file.
+  - `pnpm lint`: Runs the linter for all CSS, JS, TS, and translation files across all packages.
+  - `pnpm lint:fix`: Attempts to fix linting errors in CSS, JS, and TS files for all packages.
+  - `pnpm typecheck`: Checks for type issues in all packages.
 </details>

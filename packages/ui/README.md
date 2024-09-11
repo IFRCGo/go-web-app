@@ -14,8 +14,8 @@
 Install the `@ifrc-go/ui` package and its peer dependencies.
 
 ```bash
-# using yarn
-yarn add @ifrc-go/ui
+# using pnpm
+pnpm add @ifrc-go/ui
 # using npm
 npm install @ifrc-go/ui
 ```

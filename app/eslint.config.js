@@ -1,6 +1,5 @@
 import { FlatCompat } from '@eslint/eslintrc';
 import js from '@eslint/js';
-import tseslint from '@typescript-eslint/eslint-plugin';
 import process from 'process';
 
 const dirname = process.cwd();
@@ -40,9 +39,7 @@ const appConfigs = compat.config({
         },
         'import/resolver': {
             typescript: {
-                project: [
-                    './tsconfig.json',
-                ],
+                project: './tsconfig.json'
             },
         },
     },
@@ -91,7 +88,7 @@ const appConfigs = compat.config({
         'react/require-default-props': ['warn', { ignoreFunctionalComponents: true }],
         'simple-import-sort/imports': 'warn',
         'simple-import-sort/exports': 'warn',
-        'import-newlines/enforce': ['warn', 1]
+        'import-newlines/enforce': ['warn', 1],
     },
     overrides: [
         {
@@ -127,7 +124,6 @@ const appConfigs = compat.config({
 const otherConfig = {
     files: ['*.js', '*.ts', '*.cjs'],
     ...js.configs.recommended,
-    ...tseslint.configs.recommended,
 };
 
 export default [

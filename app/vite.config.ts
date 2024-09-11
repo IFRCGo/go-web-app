@@ -10,6 +10,7 @@ import { compression } from 'vite-plugin-compression2';
 import { VitePluginRadar } from 'vite-plugin-radar';
 import svgr from 'vite-plugin-svgr';
 import pkg from './package.json';
+import process from 'process';
 
 import envConfig from './env';
 

@@ -24,7 +24,7 @@ Below are the steps to guide you through preparing your local environment for th
 To begin, ensure you have network access. Then, you'll need the following:
 1. [Git](https://git-scm.com/)
 2. [Node.JS](https://nodejs.org/en/) version >=18 / 20+
-3. [Yarn 1](https://classic.yarnpkg.com/en/)
+3. [pnpm](https://pnpm.io/)
 4. Alternatively, you can use [Docker](https://www.docker.com/) to build the application.
 
 ### Local development
@@ -37,7 +37,7 @@ gh repo clone IFRCGo/go-web-app #Github CLI
 ```
 2. Install the dependencies
 ```bash
-yarn install
+pnpm install
 ```
 3. Copy `app/.env.example` to `app/.env` and update the variables
 ```bash
@@ -45,7 +45,7 @@ cp app/.env.example app/.env
 ```
 4. Start the development server
 ```bash
-yarn start:app
+pnpm start
 ```
 ## Contributing
 

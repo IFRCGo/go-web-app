@@ -21,7 +21,8 @@
         "start": "vite build --watch",
         "lint:js": "eslint src",
         "lint:css": "stylelint \"./src/**/*.css\"",
-        "lint": "yarn lint:js && yarn lint:css"
+        "lint:fix": "eslint src --fix && stylelint \"./src/**/*.css\" --fix",
+        "lint": "pnpm lint:js && pnpm lint:css"
     },
     "files": [
         "dist/*"
@@ -56,6 +57,7 @@
         "@changesets/cli": "^2.27.1",
         "@ifrc-go/icons": "^2.0.1",
         "@togglecorp/fujs": "^2.1.1",
+        "@vitejs/plugin-react-swc": "^3.5.0",
         "react-focus-on": "^3.9.1",
         "sanitize-html": "^2.11.0"
     },
@@ -67,6 +69,7 @@
         "@eslint/eslintrc": "^2.0.3",
         "@types/react": "^18.0.28",
         "@types/react-dom": "^18.0.11",
+        "@types/sanitize-html": "^2.9.0",
         "@typescript-eslint/eslint-plugin": "^5.59.5",
         "@typescript-eslint/parser": "^5.59.5",
         "autoprefixer": "^10.4.16",
