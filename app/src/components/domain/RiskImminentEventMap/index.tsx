@@ -329,45 +329,11 @@ function RiskImminentEventMap<
         return layerOptions.filter((opt) => activeLayersMapping[opt?.key]);
     }, [activeLayersMapping, layerOptions]);
 
-    const popupDetails = useMemo(() => {
-        const eventDetails = clickedPointProperties
-            ? clickedPointProperties.feature.properties
-            : undefined;
-        return eventDetails;
-    }, [clickedPointProperties]);
+    const popupDetails = clickedPointProperties
+        ? clickedPointProperties.feature.properties
+        : undefined;
 
     const visibleAllHazardPoints = activeEvent?.hazard_type !== 'TC' || isNotDefined(activeEventFootprint);
-
-    const mapOrder = useMemo(() => {
-        const hasLayerValue = Object.values(layers)?.find(isDefined);
-
-        if (hasLayerValue) {
-            return (
-                <MapOrder
-                    ordering={[
-                        getLayerName('active-event-footprint', 'exposure-fill', true),
-                        getLayerName('active-event-footprint', 'cyclone-exposure-fill', true),
-                        getLayerName('active-event-footprint', 'uncertainty-track-line', true),
-                        getLayerName('active-event-footprint', 'uncertainty-track-line-five-days', true),
-                        getLayerName('active-event-footprint', 'uncertainty-track-line-three-days', true),
-                        getLayerName('active-event-footprint', 'track-outline', true),
-                        getLayerName('active-event-footprint', 'track-circle', true),
-                        getLayerName('active-event-footprint', 'track-point', true),
-                        getLayerName('active-event-footprint', 'track-point-label', true),
-                    ]}
-                />
-            );
-        }
-        return (
-            <MapOrder
-                ordering={[
-                    getLayerName('active-event-footprint', 'exposure-fill', true),
-                    getLayerName('event-points', 'track-circle', true),
-                    getLayerName('event-points', 'hazard-points-icon', true),
-                ]}
-            />
-        );
-    }, [layers]);
 
     return (
         <div className={styles.riskImminentEventMap}>
@@ -395,7 +361,7 @@ function RiskImminentEventMap<
                         />
                     );
                 })}
-                {/* FIXME: footprint layer should always be the bottom layer */}
+
                 {activeEventFootprint && (
                     <MapSource
                         sourceKey="active-event-footprint"
@@ -459,9 +425,9 @@ function RiskImminentEventMap<
                                 )}
                             </>
                         )}
-                        {mapOrder}
                     </MapSource>
                 )}
+
                 {!!visibleAllHazardPoints && (
                     <MapSource
                         sourceKey="event-points"
@@ -480,6 +446,23 @@ function RiskImminentEventMap<
                     </MapSource>
                 )}
 
+                <MapOrder
+                    ordering={[
+                        getLayerName('active-event-footprint', 'exposure-fill', true),
+                        getLayerName('event-points', 'track-circle', true),
+                        getLayerName('event-points', 'hazard-points-icon', true),
+                        getLayerName('event-points', 'track-circle', true),
+                        getLayerName('event-points', 'hazard-points-icon', true),
+                        getLayerName('active-event-footprint', 'cyclone-exposure-fill', true),
+                        getLayerName('active-event-footprint', 'uncertainty-track-line', true),
+                        getLayerName('active-event-footprint', 'uncertainty-track-line-five-days', true),
+                        getLayerName('active-event-footprint', 'uncertainty-track-line-three-days', true),
+                        getLayerName('active-event-footprint', 'track-outline', true),
+                        getLayerName('active-event-footprint', 'track-circle', true),
+                        getLayerName('active-event-footprint', 'track-point', true),
+                        getLayerName('active-event-footprint', 'track-point-label', true),
+                    ]}
+                />
                 {boundsSafe && (
                     <MapBounds
                         duration={DURATION_MAP_ZOOM}
@@ -495,7 +478,7 @@ function RiskImminentEventMap<
                         <MapPopup
                             coordinates={clickedPointProperties.lngLat}
                             onCloseButtonClick={handlePopupClose}
-                            heading={popupDetails.eventName}
+                            heading={popupDetails.eventName ?? '-'}
                             headingLevel={4}
                             contentViewType="vertical"
                             compactMessage

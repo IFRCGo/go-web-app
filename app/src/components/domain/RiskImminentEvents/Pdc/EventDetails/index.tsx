@@ -105,9 +105,6 @@ function EventDetails(props: Props) {
                     ...stormPositions?.map(
                         (pointFeature) => ({
                             ...pointFeature,
-                            properties: {
-                                ...pointFeature.properties,
-                            },
                         }),
                     ) ?? [],
                 ].filter(isDefined),
@@ -161,7 +158,6 @@ function EventDetails(props: Props) {
             options: layerOptions,
             value: layers,
             onChange: onLayerChange,
-
         }),
         [layers, onLayerChange],
     );

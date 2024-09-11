@@ -118,15 +118,7 @@ function WfpAdam(props: Props) {
         url: '/api/v1/adam-exposure/{id}/exposure/',
         pathVariables: ({ eventId }) => ({ id: Number(eventId) }),
         onSuccess: (res) => {
-            if (isNotDefined(res)) {
-                return defaultLayersValue;
-            }
-
             const { storm_position_geojson: stormPositionGeoJson } = res;
-
-            if (isNotDefined(stormPositionGeoJson)) {
-                return defaultLayersValue;
-            }
 
             const stormPositions = isValidFeatureCollection(stormPositionGeoJson)
                 ? stormPositionGeoJson
@@ -134,30 +126,36 @@ function WfpAdam(props: Props) {
 
             const updatedLayers = { ...defaultLayersValue };
 
-            stormPositions?.features?.forEach((feature) => {
-                const { geometry, properties } = feature;
-
-                if (geometry.type === 'Point' || geometry.type === 'MultiPoint') {
+            stormPositions?.features?.find((feature) => {
+                if (feature?.geometry.type === 'Point' || feature?.geometry.type === 'MultiPoint') {
                     updatedLayers[LAYER_CYCLONE_NODES] = true;
                 }
+                return undefined;
+            });
 
-                if (geometry.type === 'LineString' || geometry.type === 'MultiLineString') {
+            stormPositions?.features?.find((feature) => {
+                if (feature?.geometry.type === 'LineString' || feature?.geometry.type === 'MultiLineString') {
                     updatedLayers[LAYER_CYCLONE_TRACKS] = true;
                 }
-                if (geometry.type === 'Polygon' || geometry.type === 'MultiPolygon') {
+                return undefined;
+            });
+
+            stormPositions?.features?.find((feature) => {
+                if (feature?.geometry.type === 'Polygon' || feature?.geometry.type === 'MultiPolygon') {
                     updatedLayers[LAYER_CYCLONE_BUFFERS] = true;
                 }
+                return undefined;
+            });
 
-                if (properties?.alert_level === 'Cones') {
+            stormPositions?.features?.find((feature) => {
+                if (feature?.properties?.alert_level === 'Cones') {
                     updatedLayers[LAYER_CYCLONE_UNCERTAINTY] = true;
                 }
-                return updatedLayers as typeof defaultLayersValue;
+                return undefined;
             });
 
             setLayers(updatedLayers);
             setActiveLayersMapping(updatedLayers);
-
-            return true;
         },
     });
 

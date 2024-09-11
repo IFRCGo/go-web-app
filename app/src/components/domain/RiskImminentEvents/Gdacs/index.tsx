@@ -53,7 +53,7 @@ function getAlertType(alertClass: AlertClassType) {
     if (alertClass === GREEN_ALERT_CLASS) {
         return CYCLONE_GREEN_ALERT_LEVEL;
     }
-    return 'none';
+    return undefined;
 }
 
 function getLayerType(
@@ -140,49 +140,49 @@ function Gdacs(props: Props) {
         url: '/api/v1/gdacs/{id}/exposure/',
         pathVariables: ({ eventId }) => ({ id: Number(eventId) }),
         onSuccess: (res) => {
-            if (isNotDefined(res)) {
-                return defaultLayersValue;
-            }
-
             const { footprint_geojson: footprintGeojson } = res;
-
-            if (isNotDefined(footprintGeojson)) {
-                return defaultLayersValue;
-            }
 
             const footprint = isValidFeatureCollection(footprintGeojson)
                 ? footprintGeojson
                 : undefined;
 
             if (!footprint) {
-                return defaultLayersValue;
+                return undefined;
             }
             const updatedLayers = { ...defaultLayersValue };
 
-            footprint.features?.forEach((feature) => {
-                const { geometry, properties } = feature;
-
-                if (geometry.type === 'Point' || geometry.type === 'MultiPoint') {
+            footprint?.features?.find((feature) => {
+                if (feature?.geometry.type === 'Point' || feature?.geometry.type === 'MultiPoint') {
                     updatedLayers[LAYER_CYCLONE_NODES] = true;
                 }
+                return undefined;
+            });
 
-                if (geometry.type === 'LineString' || geometry.type === 'MultiLineString') {
+            footprint?.features?.find((feature) => {
+                if (feature?.geometry.type === 'LineString' || feature?.geometry.type === 'MultiLineString') {
                     updatedLayers[LAYER_CYCLONE_TRACKS] = true;
                 }
+                return undefined;
+            });
 
-                if (geometry.type === 'Polygon' || geometry.type === 'MultiPolygon') {
+            footprint?.features?.find((feature) => {
+                if (feature?.geometry.type === 'Polygon' || feature?.geometry.type === 'MultiPolygon') {
                     updatedLayers[LAYER_CYCLONE_BUFFERS] = true;
                 }
+                return undefined;
+            });
 
-                if (properties?.Class === 'Poly_Cones') {
+            footprint?.features?.find((feature) => {
+                if (feature?.properties?.Class === 'Poly_Cones') {
                     updatedLayers[LAYER_CYCLONE_UNCERTAINTY] = true;
                 }
+                return undefined;
             });
 
             setLayers(updatedLayers);
             setActiveLayersMapping(updatedLayers);
 
-            return true;
+            return undefined;
         },
     });
 
@@ -244,7 +244,7 @@ function Gdacs(props: Props) {
                             ...feature,
                             properties: {
                                 eventId: feature?.properties?.eventid,
-                                eventName: feature?.properties?.name,
+                                eventName: feature?.properties?.eventname,
                                 eventType: feature?.properties?.eventtype,
                                 trackDate: formatDate(feature?.properties?.trackdate, 'MM/dd hh:mm'),
                                 source: feature?.properties?.source,

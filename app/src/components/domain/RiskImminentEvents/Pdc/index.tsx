@@ -131,10 +131,6 @@ function Pdc(props: Props) {
         url: '/api/v1/pdc/{id}/exposure/',
         pathVariables: ({ eventId }) => ({ id: Number(eventId) }),
         onSuccess: (res) => {
-            if (isNotDefined(res)) {
-                return defaultLayersValue;
-            }
-
             const {
                 footprint_geojson: footprintGeojson,
                 storm_position_geojson: stormPositionGeojson,
@@ -148,12 +144,12 @@ function Pdc(props: Props) {
                 [LAYER_CYCLONE_BUFFERS]: isDefined(footprintGeojson),
                 [LAYER_CYCLONE_UNCERTAINTY_FIVE_DAYS]: isDefined(cycloneFiveDaysCou),
                 [LAYER_CYCLONE_UNCERTAINTY_THREE_DAYS]: isDefined(cycloneThreeDaysCou),
-            } as typeof defaultLayersValue;
+            };
 
             setLayers(layersWithStatus);
             setActiveLayersMapping(layersWithStatus);
 
-            return true;
+            return undefined;
         },
 
     });
@@ -219,11 +215,11 @@ function Pdc(props: Props) {
             const stormPositions = (stormPositionGeojson as unknown as unknown[] | undefined)
                 ?.filter(isValidPointFeature);
 
-            const cycloneFiveDays = (cycloneFiveDaysCou as unknown as unknown[] | undefined)
-                ?.filter(isValidFeature);
+            const cycloneFiveDaysUncertainty = (cycloneFiveDaysCou as unknown as unknown[]
+                | undefined)?.filter(isValidFeature);
 
-            const cycloneThreeDays = (cycloneThreeDaysCou as unknown as unknown[] | undefined)
-                ?.filter(isValidFeature);
+            const cycloneThreeDaysUncertainty = (cycloneThreeDaysCou as unknown as unknown[]
+                | undefined)?.filter(isValidFeature);
 
             const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry, EventGeoJsonProperties> = {
                 type: 'FeatureCollection' as const,
@@ -236,21 +232,19 @@ function Pdc(props: Props) {
                         },
                     } : undefined,
 
-                    ...cycloneFiveDays?.map(
+                    ...cycloneFiveDaysUncertainty?.map(
                         (feature) => ({
                             ...feature,
                             properties: {
-                                alertType: getAlertType(feature?.properties?.severity),
                                 type: 'uncertainty-five-days',
                             },
                         }),
                     ) ?? [],
 
-                    ...cycloneThreeDays?.map(
+                    ...cycloneThreeDaysUncertainty?.map(
                         (feature) => ({
                             ...feature,
                             properties: {
-                                alertType: getAlertType(feature?.properties?.severity),
                                 type: 'uncertainty-three-days',
                             },
                         }),
