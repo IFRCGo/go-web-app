@@ -15,6 +15,7 @@ export interface Props {
     totalValue?: number | null | undefined;
     showPercentageInTitle?: boolean;
     children?: React.ReactNode;
+    color?: string;
 }
 
 function ProgressBar(props: Props) {
@@ -26,6 +27,7 @@ function ProgressBar(props: Props) {
         value: valueUnsafe,
         showPercentageInTitle,
         children,
+        color,
     } = props;
 
     const value = isDefined(valueUnsafe)
@@ -60,6 +62,7 @@ function ProgressBar(props: Props) {
                     className={styles.progress}
                     style={{
                         width: `${percentage}%`,
+                        backgroundColor: color,
                     }}
                 />
             </div>

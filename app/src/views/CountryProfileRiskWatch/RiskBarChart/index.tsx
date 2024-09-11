@@ -45,7 +45,6 @@ import {
 } from '#utils/domain/risk';
 import { type RiskApiResponse } from '#utils/restRequest';
 
-import CountryRiskSourcesOutput from '../CountryRiskSourcesOutput';
 import CombinedChart from './CombinedChart';
 import FoodInsecurityChart from './FoodInsecurityChart';
 import WildfireChart from './WildfireChart';
@@ -273,7 +272,7 @@ function RiskBarChart(props: Props) {
             heading={strings.riskBarChartTitle}
             className={styles.riskBarChart}
             withHeaderBorder
-            footerActions={<CountryRiskSourcesOutput />}
+            // footerActions={<CountryRiskSourcesOutput />}
             filters={(
                 <>
                     <SelectInput

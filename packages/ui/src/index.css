@@ -151,6 +151,11 @@
     --go-ui-color-red-80: #F64752;
     --go-ui-color-red-90: #F5333F;
 
+    --go-ui-color-dark-blue-10: #009CDD;
+    --go-ui-color-dark-blue-20: #418FDE;
+    --go-ui-color-dark-blue-30: #236192;
+    --go-ui-color-dark-blue-40: #1B365D;
+
     --go-ui-color-blue-10: #E0E3E7;
     --go-ui-color-blue-20: #CCD2D9;
     --go-ui-color-blue-30: #AEB7C2;
@@ -167,6 +172,11 @@
 
     --go-ui-color-red-hover: #DE2934;
 
+    --go-ui-color-purple-per: #8648B3;
+    --go-ui-color-orange-per: #FF8654;
+    --go-ui-color-blue-per: #418FDE;
+    --go-ui-color-teal-per: #00B2A2;
+    --go-ui-color-red-per: #DA283D;
 
     --go-ui-color-text-black: rgb(0 0 0 / 1);
     --go-ui-color-text: rgb(0 0 0 / 0.8);

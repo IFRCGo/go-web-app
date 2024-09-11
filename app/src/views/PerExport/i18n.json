@@ -17,6 +17,8 @@
         "perNSResponseHeading":"NS Response Mechanism Performance",
         "perHighlightedTopRatedComponentHeading": "Highlighted Top Rated Components",
         "perComponentRatingResultsHeading": "Components Rating Results",
-        "perComponentNotReviewed": "0 - Not reviewed"
+        "perComponentNotReviewed": "0 - Not reviewed",
+        "typeOfOperation": "Type of Operation",
+        "areaLegend": "Area"
     }
 }

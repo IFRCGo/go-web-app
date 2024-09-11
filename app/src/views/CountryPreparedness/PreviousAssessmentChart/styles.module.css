@@ -2,7 +2,7 @@
     height: 20rem;
 
     .path {
-        stroke: var(--go-ui-color-primary-red);
+        stroke: #236192;
         fill: none;
         pointer-events: none;
     }
@@ -13,7 +13,7 @@
     }
 
     .circle {
-        color: var(--go-ui-color-primary-red);
+        color: #236192;
         pointer-events: none;
     }
 }

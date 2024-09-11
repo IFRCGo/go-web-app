@@ -22,6 +22,7 @@ interface Props {
         title: string | null | undefined;
         value: number;
     }[] | undefined;
+    colors: string[];
     ratingOptions: PerOptionsResponse['componentratings'] | undefined;
     formAreaOptions: PerFormAreaResponse['results'] | undefined;
 }
@@ -31,6 +32,7 @@ function RatingByAreaChart(props: Props) {
         data,
         ratingOptions,
         formAreaOptions,
+        colors,
     } = props;
 
     const ratingTitleMap = listToMap(
@@ -77,7 +79,7 @@ function RatingByAreaChart(props: Props) {
                 chartData={chartData}
             />
             {chartData.chartPoints.map(
-                (point) => (
+                (point, index) => (
                     <g key={point.key}>
                         {point.originalData.value !== 0 && (
                             <text
@@ -93,7 +95,7 @@ function RatingByAreaChart(props: Props) {
                             </text>
                         )}
                         <rect
-                            className={styles.rect}
+                            fill={colors[index % colors.length]}
                             x={point.x - barWidth / 2}
                             y={point.y}
                             ry={barWidth / 2}
@@ -101,8 +103,8 @@ function RatingByAreaChart(props: Props) {
                             height={
                                 Math.max(
                                     chartData.dataAreaSize.height
-                                        - point.y
-                                        + chartData.dataAreaOffset.top,
+                                    - point.y
+                                    + chartData.dataAreaOffset.top,
                                     0,
                                 )
                             }

@@ -127,17 +127,32 @@
                 grid-gap: var(--go-ui-spacing-sm) var(--go-ui-spacing-xl);
                 grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
 
-
                 .separator {
                     grid-column: 1 / -1;
                     background-color: var(--go-ui-color-separator);
                     height: var(--go-ui-width-separator-thin);
                 }
             }
+
+            .legend-content {
+                background-color: var(--go-ui-color-background);
+
+                .legend {
+                    display: flex;
+                    gap: var(--go-ui-spacing-xl);
+                    padding: var(--go-ui-spacing-md) var(--go-ui-spacing-md);
+
+                    .separator {
+                        background-color: var(--go-ui-color-separator);
+                        width: var(--go-ui-width-separator-thin);
+                        height: 100%;
+                    }
+                }
+            }
         }
 
         .relevant-documents {
-            grid-column: 1  / -1;
+            grid-column: 1 / -1;
 
             .upload-input-section {
                 gap: var(--go-ui-spacing-sm);

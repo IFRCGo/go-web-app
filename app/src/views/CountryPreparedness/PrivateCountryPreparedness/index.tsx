@@ -17,6 +17,7 @@ import {
     Grid,
     Heading,
     KeyFigure,
+    LegendItem,
     Message,
     PieChart,
     ProgressBar,
@@ -64,17 +65,25 @@ type PerDocumentUploadResponse = GoApiResponse<'/api/v2/per-document-upload/'>;
 type PerDocumentListItem = NonNullable<PerDocumentUploadResponse['results']>[number];
 
 const MAX_PER_DOCUMENT_COUNT = 10;
-const primaryRedColorShades = [
-    'var(--go-ui-color-red-90)',
-    'var(--go-ui-color-red-70)',
-    'var(--go-ui-color-red-50)',
-    'var(--go-ui-color-red-30)',
-    'var(--go-ui-color-red-20)',
-    'var(--go-ui-color-red-10)',
+const primaryBlueColorShades = [
+    'var(--go-ui-color-dark-blue-40)',
+    'var(--go-ui-color-dark-blue-30)',
+    'var(--go-ui-color-dark-blue-20)',
+    'var(--go-ui-color-dark-blue-10)',
+    'var(--go-ui-color-gray-40)',
+    'var(--go-ui-color-gray-30)',
 ];
 
-function primaryRedColorShadeSelector(_: unknown, i: number) {
-    return primaryRedColorShades[i];
+const areaComponentColorShades = [
+    'var(--go-ui-color-purple-per)',
+    'var(--go-ui-color-orange-per)',
+    'var(--go-ui-color-blue-per)',
+    'var(--go-ui-color-teal-per)',
+    'var(--go-ui-color-red-per)',
+];
+
+function primaryBlueColorShadeselector(_: unknown, i: number) {
+    return primaryBlueColorShades[i];
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -523,7 +532,7 @@ function PrivateCountryPreparedness() {
                         // FIXME: check why title can be undefined
                         labelSelector={(item) => item.title ?? '??'}
                         keySelector={numericIdSelector}
-                        colors={primaryRedColorShades}
+                        colors={primaryBlueColorShades}
                     />
                 </Container>
             )}
@@ -537,7 +546,7 @@ function PrivateCountryPreparedness() {
                         data={assessmentStats.answerCounts}
                         valueSelector={numericCountSelector}
                         labelSelector={stringLabelSelector}
-                        colorSelector={primaryRedColorShadeSelector}
+                        colorSelector={primaryBlueColorShadeselector}
                     />
                     <KeyFigure
                         className={styles.keyFigure}
@@ -555,6 +564,7 @@ function PrivateCountryPreparedness() {
                         ratingOptions={perOptionsResponse.componentratings}
                         formAreaOptions={perFormAreaResponse.results}
                         data={assessmentStats.ratingByArea}
+                        colors={areaComponentColorShades}
                     />
                 </Container>
             )}
@@ -601,25 +611,32 @@ function PrivateCountryPreparedness() {
                     withHeaderBorder
                 >
                     {prioritizationStats.componentsToBeStrengthened.map(
-                        (priorityComponent) => (
-                            <div
-                                className={styles.priorityComponent}
-                                key={priorityComponent.id}
-                            >
-                                <Heading level={5} className={styles.heading}>
-                                    {getFormattedComponentName({
-                                        component_num: priorityComponent.num,
-                                        component_letter: priorityComponent.letter,
-                                        title: priorityComponent.label,
-                                    })}
-                                </Heading>
-                                <ProgressBar
-                                    className={styles.progressBar}
-                                    value={priorityComponent.rating?.value ?? 0}
-                                    totalValue={5}
-                                />
-                            </div>
-                        ),
+                        (priorityComponent) => {
+                            const progressBarColor = priorityComponent.num !== undefined
+                                ? areaComponentColorShades[priorityComponent.num]
+                                : 'var(--go-ui-color-gray-40)';
+
+                            return (
+                                <div
+                                    className={styles.priorityComponent}
+                                    key={priorityComponent.id}
+                                >
+                                    <Heading level={5} className={styles.heading}>
+                                        {getFormattedComponentName({
+                                            component_num: priorityComponent.num,
+                                            component_letter: priorityComponent.letter,
+                                            title: priorityComponent.label,
+                                        })}
+                                    </Heading>
+                                    <ProgressBar
+                                        className={styles.progressBar}
+                                        value={priorityComponent.rating?.value ?? 0}
+                                        totalValue={5}
+                                        color={progressBarColor}
+                                    />
+                                </div>
+                            );
+                        },
                     )}
                 </Container>
             )}
@@ -629,9 +646,45 @@ function PrivateCountryPreparedness() {
                     heading={strings.componentRatingResultsHeading}
                     withHeaderBorder
                     childrenContainerClassName={styles.ratingResultsContent}
+                    footerClassName={styles.legendContent}
+                    footerContent={(
+                        <div className={styles.legend}>
+                            <Heading
+                                level={5}
+                            >
+                                {strings.typeOfOperation}
+                            </Heading>
+                            <div className={styles.separator} />
+                            {Object.entries(areaComponentColorShades).map(([areaNum, color]) => {
+                                const area = assessmentStats?.topRatedComponents.find(
+                                    (component) => component.area.area_num === Number(areaNum),
+                                );
+
+                                if (!area) {
+                                    return null;
+                                }
+
+                                return (
+                                    <LegendItem
+                                        key={areaNum}
+                                        label={
+                                            `
+                                            ${strings.areaLegend}
+                                            ${areaNum}
+                                            ${getFormattedComponentName(area.area)}
+                                            `
+                                        }
+                                        color={color}
+                                    />
+                                );
+                            })}
+                        </div>
+                    )}
                 >
-                    {assessmentStats.topRatedComponents.map(
-                        (component) => (
+                    {assessmentStats.topRatedComponents.map((component) => {
+                        const progressBarColor = areaComponentColorShades[component.area.id] || 'var(--go-ui-color-gray-40)';
+
+                        return (
                             <Fragment
                                 key={`${component.details.id}-${component.details.component_num}-${component.details.component_letter}`}
                             >
@@ -641,6 +694,7 @@ function PrivateCountryPreparedness() {
                                 <ProgressBar
                                     value={component.rating?.value ?? 0}
                                     totalValue={5}
+                                    color={progressBarColor}
                                     title={(
                                         isDefined(component.rating)
                                             ? `${component.rating.value} - ${component.rating.title}`
@@ -652,8 +706,8 @@ function PrivateCountryPreparedness() {
                                 </div>
                                 <div className={styles.separator} />
                             </Fragment>
-                        ),
-                    )}
+                        );
+                    })}
                 </Container>
             )}
             {!pending && !hasAssessmentStats && (

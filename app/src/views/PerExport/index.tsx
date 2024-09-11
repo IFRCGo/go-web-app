@@ -1,4 +1,5 @@
 import {
+    Fragment,
     useMemo,
     useState,
 } from 'react';
@@ -6,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import {
     BlockLoading,
     KeyFigure,
+    LegendItem,
     PieChart,
     ProgressBar,
     StackedProgressBar,
@@ -42,17 +44,25 @@ import RatingByAreaChart from '../CountryPreparedness/RatingByAreaChart';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-const primaryRedColorShades = [
-    'var(--go-ui-color-red-90)',
-    'var(--go-ui-color-red-70)',
-    'var(--go-ui-color-red-50)',
-    'var(--go-ui-color-red-30)',
-    'var(--go-ui-color-red-20)',
-    'var(--go-ui-color-red-10)',
+const primaryBlueColorShades = [
+    'var(--go-ui-color-dark-blue-40)',
+    'var(--go-ui-color-dark-blue-30)',
+    'var(--go-ui-color-dark-blue-20)',
+    'var(--go-ui-color-dark-blue-10)',
+    'var(--go-ui-color-gray-40)',
+    'var(--go-ui-color-gray-30)',
+];
+
+const areaComponentColorShades = [
+    'var(--go-ui-color-purple-per)',
+    'var(--go-ui-color-orange-per)',
+    'var(--go-ui-color-blue-per)',
+    'var(--go-ui-color-teal-per)',
+    'var(--go-ui-color-red-per)',
 ];
 
 function primaryRedColorShadeSelector(_: unknown, i: number) {
-    return primaryRedColorShades[i];
+    return primaryBlueColorShades[i];
 }
 
 // eslint-disable-next-line import/prefer-default-export
@@ -427,7 +437,7 @@ export function Component() {
                         // FIXME: Why can this be undefined?
                         labelSelector={(item) => item.title ?? '??'}
                         keySelector={numericIdSelector}
-                        colors={primaryRedColorShades}
+                        colors={primaryBlueColorShades}
                         showPercentageInLegend
                     />
                 </Container>
@@ -463,6 +473,7 @@ export function Component() {
                         ratingOptions={perOptionsResponse.componentratings}
                         formAreaOptions={perFormAreaResponse.results}
                         data={assessmentStats.ratingByArea}
+                        colors={areaComponentColorShades}
                     />
                 </Container>
             )}
@@ -505,18 +516,20 @@ export function Component() {
                     heading={strings.perComponentRatingResultsHeading}
                     headingLevel={3}
                 >
-                    {assessmentStats.topRatedComponents.map(
-                        (component) => (
-                            <div
+                    {assessmentStats.topRatedComponents.map((component) => {
+                        const progressBarColor = areaComponentColorShades[component.area.id] || 'var(--go-ui-color-gray-40)';
+
+                        return (
+                            <Fragment
                                 key={`${component.details.id}-${component.details.component_num}-${component.details.component_letter}`}
-                                className={styles.ratedComponent}
                             >
-                                <div className={styles.label}>
+                                <Heading level={5}>
                                     {getFormattedComponentName(component.details)}
-                                </div>
+                                </Heading>
                                 <ProgressBar
                                     value={component.rating?.value ?? 0}
                                     totalValue={5}
+                                    color={progressBarColor}
                                     title={(
                                         isDefined(component.rating)
                                             ? `${component.rating.value} - ${component.rating.title}`
@@ -526,9 +539,40 @@ export function Component() {
                                 <div>
                                     {component.notes}
                                 </div>
-                            </div>
-                        ),
-                    )}
+                                <div className={styles.separator} />
+                            </Fragment>
+                        );
+                    })}
+                    <div className={styles.legend}>
+                        <Heading
+                            level={5}
+                        >
+                            {strings.typeOfOperation}
+                        </Heading>
+                        {Object.entries(areaComponentColorShades).map(([areaNum, color]) => {
+                            const area = assessmentStats?.topRatedComponents.find(
+                                (component) => component.area.area_num === Number(areaNum),
+                            );
+
+                            if (!area) {
+                                return null;
+                            }
+
+                            return (
+                                <LegendItem
+                                    key={areaNum}
+                                    label={
+                                        `
+                                            ${strings.areaLegend}
+                                            ${areaNum}
+                                            ${getFormattedComponentName(area.area)}
+                                        `
+                                    }
+                                    color={color}
+                                />
+                            );
+                        })}
+                    </div>
                 </Container>
             )}
             {previewReady && <div id="pdf-preview-ready" />}

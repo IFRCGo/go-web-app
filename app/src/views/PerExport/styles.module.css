@@ -29,6 +29,7 @@
             width: 6rem;
             height: 6rem;
         }
+
         .country-name {
             display: flex;
             text-align: center;
@@ -82,6 +83,11 @@
                 font-size: var(--go-ui-font-size-sm);
                 font-weight: var(--go-ui-font-weight-semibold);
             }
+        }
+
+        .legend {
+            display: flex;
+            gap: var(--go-ui-spacing-xl);
         }
     }
 }
