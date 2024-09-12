@@ -1,3 +1,4 @@
+import { UploadTwoLineIcon } from '@ifrc-go/icons';
 import { RawFileInputProps } from '@ifrc-go/ui';
 import type {
     Meta,
@@ -50,6 +51,7 @@ export const WithAccept: Story = {
         name: 'RawFileInput',
         accept: 'image/png,image/jpeg',
         children: 'Upload Image',
+        variant: 'secondary',
         multiple: false,
         onChange: fn(),
     },
@@ -59,6 +61,7 @@ export const Disabled: Story = {
     args: {
         name: 'RawFileInput',
         children: 'Export',
+        variant: 'secondary',
         multiple: false,
         onChange: fn(),
         disabled: true,
@@ -69,7 +72,18 @@ export const ReadOnly: Story = {
     args: {
         name: 'RawFileInput',
         children: 'Export',
+        variant: 'secondary',
         readOnly: true,
+        multiple: false,
+        onChange: fn(),
+    },
+};
+export const WithIcon: Story = {
+    args: {
+        name: 'RawFileInput',
+        children: 'Export',
+        variant: 'secondary',
+        icons: <UploadTwoLineIcon />,
         multiple: false,
         onChange: fn(),
     },
