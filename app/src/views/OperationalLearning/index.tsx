@@ -27,10 +27,15 @@ import {
     mapToList,
     sum,
 } from '@togglecorp/fujs';
+import { saveAs } from 'file-saver';
+import Papa from 'papaparse';
 
+import ExportButton from '#components/domain/ExportButton';
 import Page from '#components/Page';
 import { type components } from '#generated/types';
+import useAlert from '#hooks/useAlert';
 import useFilterState from '#hooks/useFilterState';
+import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import {
     type GoApiResponse,
     useRequest,
@@ -83,6 +88,8 @@ export function Component() {
         filter: {},
     });
 
+    const alert = useAlert();
+
     const [selectedFilterLabel, setSelectedFilterLabel] = useState<FilterLabel>();
 
     const handleFilterChange = useCallback((...args: EntriesAsListWithString<FilterValue>) => {
@@ -116,28 +123,30 @@ export function Component() {
         (label, key) => ({ key, label } as FilterValueOption),
     );
 
+    const query = useMemo(() => ({
+        appeal_code__region: isDefined(filter.region) ? filter.region : undefined,
+        appeal_code__country: isDefined(filter.country) ? filter.country : undefined,
+        appeal_code__dtype: isDefined(filter.disasterType)
+            ? filter.disasterType : undefined,
+        sector_validated: isDefined(filter.secondarySector)
+            ? filter.secondarySector : undefined,
+        per_component_validated: isDefined(filter.perComponent)
+            ? filter.perComponent : undefined,
+        appeal_code__start_date__gte: isDefined(filter.appealStartDateAfter)
+            ? filter.appealStartDateAfter : undefined,
+        appeal_code__start_date__lte: isDefined(filter.appealStartDateBefore)
+            ? filter.appealStartDateBefore : undefined,
+        search_extracts: isTruthyString(filter.appealSearchText)
+            ? (filter.appealSearchText) : undefined,
+    }), [filter]);
+
     const {
         pending: opsLearningSummaryPending,
         response: opsLearningSummaryResponse,
         error: opsLearningSummaryError,
     } = useRequest({
         url: '/api/v2/ops-learning/summary/',
-        query: {
-            appeal_code__region: isDefined(filter.region) ? filter.region : undefined,
-            appeal_code__country: isDefined(filter.country) ? filter.country : undefined,
-            appeal_code__dtype: isDefined(filter.disasterType)
-                ? filter.disasterType : undefined,
-            sector_validated: isDefined(filter.secondarySector)
-                ? filter.secondarySector : undefined,
-            per_component_validated: isDefined(filter.perComponent)
-                ? filter.perComponent : undefined,
-            appeal_code__start_date__gte: isDefined(filter.appealStartDateAfter)
-                ? filter.appealStartDateAfter : undefined,
-            appeal_code__start_date__lte: isDefined(filter.appealStartDateBefore)
-                ? filter.appealStartDateBefore : undefined,
-            search_extracts: isTruthyString(filter.appealSearchText)
-                ? (filter.appealSearchText) : undefined,
-        },
+        query,
         shouldPoll: (poll) => {
             if (poll?.errored
                 || poll?.value?.status === SUMMARY_STATUS_FAILED
@@ -209,6 +218,59 @@ export function Component() {
         );
     }, [opsLearningSummaryResponse?.sectors, opsLearningSummaryResponse?.components, activeTab]);
 
+    const {
+        pending: opsLearningPending,
+        response: opsLearningResponse,
+    } = useRequest({
+        url: '/api/v2/ops-learning/',
+        query: {
+            ...query,
+            format: 'json',
+            is_validated: true,
+        },
+        preserveResponse: true,
+    });
+
+    const [
+        pendingExport,
+        progress,
+        triggerExportStart,
+    ] = useRecursiveCsvExport({
+        onFailure: () => {
+            alert.show(
+                strings.failedToCreateExport,
+                { variant: 'danger' },
+            );
+        },
+        onSuccess: (data) => {
+            const unparseData = Papa.unparse(data);
+            const blob = new Blob(
+                [unparseData],
+                { type: 'text/csv' },
+            );
+            saveAs(blob, 'operational-learning.csv');
+        },
+    });
+
+    const handleExportClick = useCallback(() => {
+        if (!opsLearningResponse?.count) {
+            return;
+        }
+        triggerExportStart(
+            '/api/v2/ops-learning/',
+            opsLearningResponse?.count,
+            {
+                ...query,
+                format: 'json',
+                is_validated: true,
+            },
+        );
+    }, [
+        triggerExportStart,
+        opsLearningResponse?.count,
+        query,
+    ]);
+
     return (
         <Page
             heading={strings.operationalLearningHeading}
@@ -217,11 +279,21 @@ export function Component() {
         >
             <Container
                 withGridViewInFilter
+                filtersContainerClassName={styles.filtersContainer}
                 filters={(
-                    <Filters
-                        value={rawFilter}
-                        onChange={handleFilterChange}
-                    />
+                    <>
+                        <Filters
+                            value={rawFilter}
+                            onChange={handleFilterChange}
+                        />
+                        <ExportButton
+                            onClick={handleExportClick}
+                            progress={progress}
+                            pendingExport={pendingExport}
+                            totalCount={opsLearningResponse?.count}
+                            disabled={opsLearningPending}
+                        />
+                    </>
                 )}
                 footerIcons={((selectedFilterOptions?.length ?? 0) > 0 && (
                     <TextOutput
