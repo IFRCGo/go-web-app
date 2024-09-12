@@ -111,38 +111,49 @@ To begin, ensure you have network access. Then, you'll need the following
 ### Local development
 
 1. Clone the repository using HTTPS, SSH, or Github CLI
-```bash
-git clone https://github.com/IFRCGo/go-web-app.git #HTTPS
-git clone git@github.com:IFRCGo/go-web-app.git #SSH
-gh repo clone IFRCGo/go-web-app #Github CLI
-```
+  ```bash
+  git clone https://github.com/IFRCGo/go-web-app.git #HTTPS
+  git clone git@github.com:IFRCGo/go-web-app.git #SSH
+  gh repo clone IFRCGo/go-web-app #Github CLI
+  ```
 2. Install the dependencies
-```bash
-yarn install
-```
+  ```bash
+  yarn install
+  ```
 3. Copy `app/.env.example` to `app/.env` and update the variables
-```bash
-cp app/.env.example app/.env
-```
+  ```bash
+  cp app/.env.example app/.env
+  ```
 4. Start the development server
-```bash
-yarn start:app
-```
+  ```bash
+  yarn start:app
+  ```
 > [!NOTE]\
 > To work on a specific development task, ensure you have the backend setup appropriately and configured properly.
 5. Create a new branch for your work.
-```bash
-git checkout -b name-of-your-branch
-```
+  ```bash
+  git checkout -b name-of-your-branch
+  ```
 > [!IMPORTANT]\
 >  Ensure there are no lint errors before pushing the changes. Ensure the commit message is clear and concise, summarizing the changes made in the commit. Avoid vague and generic messages. Instead, provide specific details that describe the purpose or impact of the changes.
-6. Once you're happy with your changes, add and commit them to your branch, then push the branch to origin.
-```bash
-git add .
-git commit -m "some message"
-git push -u origin name-of-your-branch
-```
-> [!NOTE]\
+6. Once you're happy with your changes, add and commit them to your branch.If your workflow requires changesets (e.g., when changes will impact versioning or are part of a release), create one before committing. Then push the branch to origin.
+  ```bash
+  # Stage all changes
+  git add .
+  # Create a changeset (if changes will affect versioning, like new features or bug fixes)
+  yarn changeset
+
+  # Commit your changes with a message
+  git commit -m "some message"
+
+  # Push your branch to origin
+  git push -u origin name-of-your-branch
+  ```
+
+>[!NOTE]\
+>Review the [Changesets documentation](./collaborating/release.md#changesets) and the [versioning guidelines](./collaborating/release.md#versioning-guidelines-for-ifrc-go-project) for more details on versioning and tracking changes.
+
+> [!IMPORTANT]\
 > Before committing and opening a Pull Request, please ensure there are no lint errors. Also please create a pull request only when the feature is ready to be merged.
 
 7. Create a Pull Request.
@@ -150,13 +161,13 @@ git push -u origin name-of-your-branch
 ### Build for Production
 
 1. To build the application for production
-```bash
-yarn build
-```
+  ```bash
+  yarn build
+  ```
 2. To locally preview the production build
-```bash
-yarn preview
-```
+  ```bash
+  yarn preview
+  ```
 
 ### CLI Commands
 
