@@ -15,6 +15,7 @@
         "noSummariesAvailableForSector": "No summaries available for sectors.",
         "noSummariesAvailableForComponent": "No summaries available for components.",
         "extractCount": "{count} extract",
-        "extractsCount": "{count} extracts"
+        "extractsCount": "{count} extracts",
+        "failedToCreateExport": "Failed to generate export."
     }
 }
