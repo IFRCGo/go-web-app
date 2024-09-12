@@ -41,6 +41,8 @@ type GwisData = CountrySeasonal[number]['gwis'];
 
 export type CycloneFillLayerType = 'track-point' | 'track' | 'uncertainty' | 'exposure';
 
+// NOTE: all the parameters are optional
+// because there is no common parameter in all the three different sources.
 export interface EventGeoJsonProperties {
     eventId?: string;
     type?: string;
@@ -75,19 +77,21 @@ export interface ClickedPoint {
     lngLat: mapboxgl.LngLatLike;
 }
 
-export const CYCLONE_RED_ALERT_LEVEL = 'Red';
-export const CYCLONE_ORANGE_ALERT_LEVEL = 'Orange';
-export const CYCLONE_GREEN_ALERT_LEVEL = 'Green';
-export const CYCLONE_BLUE_ALERT_LEVEL = 'Blue';
+type CycloneAlertLevel = 'Red' | 'Orange' | 'Green' | 'Blue';
 
-export const LAYER_CYCLONE_NODES = 1;
-export const LAYER_CYCLONE_TRACKS = 2;
-export const LAYER_CYCLONE_BUFFERS = 3;
-export const LAYER_CYCLONE_UNCERTAINTY = 4;
-export const LAYER_CYCLONE_UNCERTAINTY_FIVE_DAYS = 5;
-export const LAYER_CYCLONE_UNCERTAINTY_THREE_DAYS = 6;
+export const CYCLONE_RED_ALERT_LEVEL = 'Red' satisfies CycloneAlertLevel;
+export const CYCLONE_ORANGE_ALERT_LEVEL = 'Orange' satisfies CycloneAlertLevel;
+export const CYCLONE_GREEN_ALERT_LEVEL = 'Green' satisfies CycloneAlertLevel;
+export const CYCLONE_BLUE_ALERT_LEVEL = 'Blue' satisfies CycloneAlertLevel;
 
 export type LayerType = 1 | 2 | 3 | 4 | 5 | 6;
+
+export const LAYER_CYCLONE_NODES = 1 satisfies LayerType;
+export const LAYER_CYCLONE_TRACKS = 2 satisfies LayerType;
+export const LAYER_CYCLONE_BUFFERS = 3 satisfies LayerType;
+export const LAYER_CYCLONE_UNCERTAINTY = 4 satisfies LayerType;
+export const LAYER_CYCLONE_UNCERTAINTY_FIVE_DAYS = 5 satisfies LayerType;
+export const LAYER_CYCLONE_UNCERTAINTY_THREE_DAYS = 6 satisfies LayerType;
 
 export interface LayerOption {
     key: LayerType;

@@ -125,8 +125,8 @@ interface Props<EVENT, EXPOSURE, KEY extends string | number> {
     activeLayersMapping: Record<LayerType, boolean>;
     layers: Record<LayerType, boolean>;
     onLayerChange: (value: boolean, name: LayerType) => void;
-    clickedPointProperties: ClickedPoint | undefined;
-    handlePopupClick: (
+    clickedPointProperties?: ClickedPoint | undefined;
+    handlePopupClick?: (
         feature: mapboxgl.MapboxGeoJSONFeature,
         lngLat: mapboxgl.LngLat,
     ) => boolean;

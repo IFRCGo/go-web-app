@@ -9,12 +9,12 @@ import {
 import {
     isDefined,
     isNotDefined,
+    noOp,
 } from '@togglecorp/fujs';
 import { type LngLatBoundsLike } from 'mapbox-gl';
 
 import RiskImminentEventMap, { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
 import {
-    ClickedPoint,
     CYCLONE_GREEN_ALERT_LEVEL,
     CYCLONE_ORANGE_ALERT_LEVEL,
     CYCLONE_RED_ALERT_LEVEL,
@@ -37,11 +37,11 @@ import {
 import EventDetails from './EventDetails';
 import EventListItem from './EventListItem';
 
-const RED_ALERT_CLASS = 'Poly_Red';
-const ORANGE_ALERT_CLASS = 'Poly_Orange';
-const GREEN_ALERT_CLASS = 'Poly_Green';
+type AlertClassType = 'Poly_Red' | 'Poly_Orange' | 'Poly_Green';
 
-type AlertClassType = typeof RED_ALERT_CLASS | typeof ORANGE_ALERT_CLASS | typeof GREEN_ALERT_CLASS;
+const RED_ALERT_CLASS = 'Poly_Red' satisfies AlertClassType;
+const ORANGE_ALERT_CLASS = 'Poly_Orange' satisfies AlertClassType;
+const GREEN_ALERT_CLASS = 'Poly_Green' satisfies AlertClassType;
 
 function getAlertType(alertClass: AlertClassType) {
     if (alertClass === RED_ALERT_CLASS) {
@@ -104,11 +104,6 @@ function Gdacs(props: Props) {
         setActiveLayersMapping,
     ] = useState<Record<number, boolean>>(defaultLayersValue);
     const [layers, setLayers] = useState<Record<number, boolean>>(defaultLayersValue);
-
-    const [
-        clickedPointProperties,
-        setClickedPointProperties,
-    ] = useState<ClickedPoint | undefined>();
 
     const {
         pending: pendingCountryRiskResponse,
@@ -243,7 +238,6 @@ function Gdacs(props: Props) {
                         (feature) => ({
                             ...feature,
                             properties: {
-                                eventId: feature?.properties?.eventid,
                                 eventName: feature?.properties?.eventname,
                                 eventType: feature?.properties?.eventtype,
                                 trackDate: formatDate(feature?.properties?.trackdate, 'MM/dd hh:mm'),
@@ -273,33 +267,12 @@ function Gdacs(props: Props) {
         [getFootprint],
     );
 
-    const handlePopupClick = useCallback(
-        (feature: mapboxgl.MapboxGeoJSONFeature, lngLat: mapboxgl.LngLat) => {
-            setClickedPointProperties({
-                feature: feature as unknown as ClickedPoint['feature'],
-                lngLat,
-            });
-            return true;
-        },
-        [setClickedPointProperties],
-    );
-
-    const handlePopupClose = useCallback(
-        () => {
-            setClickedPointProperties(undefined);
-        },
-        [setClickedPointProperties],
-    );
-
     const handleLayerChange = useCallback((value: boolean, name: LayerType) => {
-        if (name === LAYER_CYCLONE_NODES) {
-            handlePopupClose();
-        }
         setLayers((prevValues) => ({
             ...prevValues,
             [name]: value,
         }));
-    }, [handlePopupClose]);
+    }, []);
 
     return (
         <RiskImminentEventMap
@@ -318,9 +291,9 @@ function Gdacs(props: Props) {
             activeLayersMapping={activeLayersMapping}
             layers={layers}
             onLayerChange={handleLayerChange}
-            handlePopupClick={handlePopupClick}
-            handlePopupClose={handlePopupClose}
-            clickedPointProperties={clickedPointProperties}
+            // NOTE: return type void function cannot be optional
+            // popup is not need in gdacs cyclone track points
+            handlePopupClose={noOp}
         />
     );
 }

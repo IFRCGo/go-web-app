@@ -1,3 +1,7 @@
+.header-class-name {
+    padding-left: var(--go-ui-spacing-lg);
+}
+
 .content {
     display: flex;
     flex-direction: column;

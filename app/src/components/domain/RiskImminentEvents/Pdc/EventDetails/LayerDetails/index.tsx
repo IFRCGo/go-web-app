@@ -44,6 +44,7 @@ function LayerDetails(props: Props) {
                 <Container
                     heading={strings.pdcWindSpeedHeading}
                     headingLevel={5}
+                    headerClassName={styles.headerClassName}
                     childrenContainerClassName={styles.content}
                 >
                     <TextOutput
@@ -77,6 +78,7 @@ function LayerDetails(props: Props) {
                 <Container
                     heading={strings.pdcAlertLevelHeading}
                     headingLevel={5}
+                    headerClassName={styles.headerClassName}
                     childrenContainerClassName={styles.content}
                 >
                     <TextOutput

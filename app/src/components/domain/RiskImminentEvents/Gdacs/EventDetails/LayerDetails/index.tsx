@@ -1,4 +1,3 @@
-import { CycloneIcon } from '@ifrc-go/icons';
 import {
     Checkbox,
     Container,
@@ -8,7 +7,6 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import {
     LAYER_CYCLONE_BUFFERS,
-    LAYER_CYCLONE_NODES,
     LayerOption,
     LayerType,
 } from '#utils/domain/risk';
@@ -39,30 +37,11 @@ function LayerDetails(props: Props) {
                 value={!!value[options.key]}
                 onChange={onChange}
             />
-            {options.key === LAYER_CYCLONE_NODES && value[LAYER_CYCLONE_NODES] && (
-                <Container
-                    heading={strings.gdacsWindSpeedHeading}
-                    headingLevel={5}
-                    childrenContainerClassName={styles.content}
-                >
-                    <TextOutput
-                        icon={<CycloneIcon className={styles.iconRed} />}
-                        value={strings.gdacsWindSpeedExtreme}
-                    />
-                    <TextOutput
-                        icon={<CycloneIcon className={styles.iconOrange} />}
-                        value={strings.gdacsWindSpeedModerate}
-                    />
-                    <TextOutput
-                        icon={<CycloneIcon className={styles.iconGreen} />}
-                        value={strings.gdacsWindSpeedLow}
-                    />
-                </Container>
-            )}
             {options.key === LAYER_CYCLONE_BUFFERS && value[LAYER_CYCLONE_BUFFERS] && (
                 <Container
                     heading={strings.gdacsAlertLevelHeading}
                     headingLevel={5}
+                    headerClassName={styles.headerClassName}
                     childrenContainerClassName={styles.content}
                 >
                     <TextOutput

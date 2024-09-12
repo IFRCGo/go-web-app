@@ -43,6 +43,7 @@ function LayerDetails(props: Props) {
                 <Container
                     heading={strings.wfpWindSpeedHeading}
                     headingLevel={5}
+                    headerClassName={styles.headerClassName}
                     childrenContainerClassName={styles.content}
                 >
                     <TextOutput
@@ -63,6 +64,7 @@ function LayerDetails(props: Props) {
                 <Container
                     heading={strings.wfpAlertLevelHeading}
                     headingLevel={5}
+                    headerClassName={styles.headerClassName}
                     childrenContainerClassName={styles.content}
                 >
                     <TextOutput

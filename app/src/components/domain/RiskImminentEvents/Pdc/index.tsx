@@ -39,15 +39,12 @@ import {
 import EventDetails from './EventDetails';
 import EventListItem from './EventListItem';
 
-const WARNING_ALERT_TYPE = 'WARNING';
-const WATCH_ALERT_TYPE = 'WATCH';
-const ADVISORY_ALERT_TYPE = 'ADVISORY';
-const INFORMATION_ALERT_TYPE = 'INFORMATION';
+type AlertType = 'WARNING' | 'WATCH' | 'ADVISORY' | 'INFORMATION';
 
-type AlertType = typeof WARNING_ALERT_TYPE
-    | typeof WATCH_ALERT_TYPE
-    | typeof ADVISORY_ALERT_TYPE
-    | typeof INFORMATION_ALERT_TYPE;
+const WARNING_ALERT_TYPE = 'WARNING' satisfies AlertType;
+const WATCH_ALERT_TYPE = 'WATCH' satisfies AlertType;
+const ADVISORY_ALERT_TYPE = 'ADVISORY' satisfies AlertType;
+const INFORMATION_ALERT_TYPE = 'INFORMATION' satisfies AlertType;
 
 function getAlertType(alertType: AlertType) {
     if (alertType === WARNING_ALERT_TYPE) {
