@@ -261,6 +261,25 @@ export function Component() {
         preserveResponse: true,
     });
 
+    const {
+        pending: secondarySectorsPending,
+        response: secondarySectors,
+        retrigger: secondarySectorsTrigger,
+    } = useRequest({
+        skip: !fetchDomainData['secondary-sector'],
+        url: '/api/v2/secondarysector',
+        preserveResponse: true,
+    });
+
+    const {
+        pending: perComponentsPending,
+        response: perComponents,
+        retrigger: perFormComponentsTrigger,
+    } = useRequest({
+        skip: !fetchDomainData['per-components'],
+        url: '/api/v2/per-formcomponent/',
+        preserveResponse: true,
+    });
     // NOTE: Always calling /api/v2/user/me to check validity of logged-in user
     const userSkip = !isAuthenticated;
     // const userSkip = !fetchDomainData['user-me'] || !isAuthenticated;
@@ -302,6 +321,12 @@ export function Component() {
                 case 'region':
                     regionsTrigger();
                     break;
+                case 'secondary-sector':
+                    secondarySectorsTrigger();
+                    break;
+                case 'per-components':
+                    perFormComponentsTrigger();
+                    break;
                 default:
                     // eslint-disable-next-line no-console
                     console.error(`Cannot call invalidate on '${name}'`);
@@ -312,6 +337,8 @@ export function Component() {
             regionsTrigger,
             globalEnumsTrigger,
             disasterTypesTrigger,
+            secondarySectorsTrigger,
+            perFormComponentsTrigger,
             userMeTrigger,
         ],
     );
@@ -335,6 +362,12 @@ export function Component() {
 
             regionsPending,
             regions,
+
+            secondarySectors,
+            secondarySectorsPending,
+
+            perComponents,
+            perComponentsPending,
         }),
         [
             userMe,
@@ -347,6 +380,10 @@ export function Component() {
             globalEnumsPending,
             regions,
             regionsPending,
+            secondarySectors,
+            secondarySectorsPending,
+            perComponents,
+            perComponentsPending,
             registerDomainData,
             invalidateDomainData,
         ],
