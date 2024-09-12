@@ -6,6 +6,7 @@ export interface Props {
     className?: string;
     colorClassName?: string;
     label?: React.ReactNode;
+    icons?:React.ReactNode
     iconSrc?: string;
     color?: string;
     iconClassName?: string;
@@ -18,6 +19,7 @@ function LegendItem(props: Props) {
         iconClassName,
         color,
         label,
+        icons,
         iconSrc,
     } = props;
 
@@ -41,6 +43,11 @@ function LegendItem(props: Props) {
                     style={{ backgroundColor: color }}
                     className={_cs(styles.color, colorClassName)}
                 />
+            )}
+            {icons && (
+                <div>
+                    {icons}
+                </div>
             )}
             <div className={styles.label}>
                 {label}

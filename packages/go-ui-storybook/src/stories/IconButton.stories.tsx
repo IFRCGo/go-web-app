@@ -36,6 +36,23 @@ export const Default: Story = {
         variant: 'primary',
     },
 };
+
+export const Secondary: Story = {
+    args: {
+        title: 'Add Item',
+        children: <AddFillIcon />,
+        variant: 'secondary',
+    },
+};
+
+export const Tertiary: Story = {
+    args: {
+        title: 'Add Item',
+        children: <AddFillIcon />,
+        variant: 'tertiary',
+    },
+};
+
 export const Disabled: Story = {
     args: {
         title: 'Download',
