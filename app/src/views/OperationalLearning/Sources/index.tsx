@@ -2,7 +2,6 @@ import { CopyLineIcon } from '@ifrc-go/icons';
 import {
     Button,
     Container,
-    type ContainerProps,
     List,
     Pager,
 } from '@ifrc-go/ui';
@@ -13,7 +12,6 @@ import {
 import { numericIdSelector } from '@ifrc-go/ui/utils';
 import { isDefined } from '@togglecorp/fujs';
 
-import Link from '#components/Link';
 import useFilterState from '#hooks/useFilterState';
 import {
     type GoApiResponse,
@@ -21,6 +19,7 @@ import {
 } from '#utils/restRequest';
 
 import AllExtractsModal from './AllExtractsModal';
+import Emergency from './Emergency';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -74,30 +73,11 @@ function Sources(props: Props) {
         preserveResponse: true,
     });
 
-    const appealRendererParams = (_: number, appealDocument: AppealDocument): ContainerProps => ({
-        childrenContainerClassName: styles.appeal,
-        children: (
-            <>
-                <Link
-                    to="emergencyDetails"
-                    urlParams={{
-                        emergencyId: appealDocument.appeal.event.id,
-                    }}
-                    withUnderline
-                >
-                    {appealDocument.appeal?.event.name}
-                </Link>
-                {isDefined(appealDocument?.document_url) && (
-                    <Link
-                        href={appealDocument?.document_url}
-                        withLinkIcon
-                        external
-                    >
-                        {appealDocument?.name}
-                    </Link>
-                )}
-            </>
-        ),
+    const appealRendererParams = (_: number, appealDocument: AppealDocument) => ({
+        emergencyId: appealDocument.appeal.event.id,
+        emergencyName: appealDocument.appeal.event.name,
+        appealDocumentURL: appealDocument.document_url,
+        appealDocumentName: appealDocument.name,
     });
 
     return (
@@ -118,7 +98,7 @@ function Sources(props: Props) {
             <List
                 className={styles.appealList}
                 data={appealDocumentResponse?.results}
-                renderer={Container}
+                renderer={Emergency}
                 keySelector={numericIdSelector}
                 rendererParams={appealRendererParams}
                 emptyMessage={strings.noSources}

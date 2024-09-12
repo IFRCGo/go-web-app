@@ -27,7 +27,6 @@ import {
     mapToList,
     sum,
 } from '@togglecorp/fujs';
-import { EntriesAsList } from '@togglecorp/toggle-form';
 
 import Page from '#components/Page';
 import { type components } from '#generated/types';
@@ -38,6 +37,7 @@ import {
 } from '#utils/restRequest';
 
 import Filters, {
+    type EntriesAsListWithString,
     type FilterLabel,
     type FilterValue,
 } from './Filters';
@@ -85,7 +85,7 @@ export function Component() {
 
     const [selectedFilterLabel, setSelectedFilterLabel] = useState<FilterLabel>();
 
-    const handleFilterChange = useCallback((...args: EntriesAsList<FilterValue>) => {
+    const handleFilterChange = useCallback((...args: EntriesAsListWithString<FilterValue>) => {
         const [, key, option] = args;
 
         setSelectedFilterLabel((oldFilterLabel) => {
@@ -94,7 +94,7 @@ export function Component() {
             if (isNotDefined(option)) {
                 delete newFilterLabel[key];
             } else {
-                newFilterLabel[key] = option as string;
+                newFilterLabel[key] = option;
             }
 
             return newFilterLabel;

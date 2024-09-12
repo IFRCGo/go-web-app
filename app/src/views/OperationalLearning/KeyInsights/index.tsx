@@ -68,7 +68,7 @@ function KeyInsights(props: Props) {
                     </span>
                     <Link
                         className={styles.reportIssue}
-                        href="/"
+                        href="/" // TODO: use an actual URL when available
                         external
                     >
                         {strings.keyInsightsReportIssue}
