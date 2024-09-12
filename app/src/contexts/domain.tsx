@@ -2,13 +2,15 @@ import { createContext } from 'react';
 
 import { type GoApiResponse } from '#utils/restRequest';
 
-export type CacheKey = 'country' | 'global-enums' | 'disaster-type' | 'user-me' | 'region';
+export type CacheKey = 'country' | 'global-enums' | 'disaster-type' | 'user-me' | 'region' | 'secondary-sector' | 'per-components';
 
 export type GlobalEnums = Partial<GoApiResponse<'/api/v2/global-enums/'>>;
 export type Countries = GoApiResponse<'/api/v2/country/'>;
 export type DisasterTypes = GoApiResponse<'/api/v2/disaster_type/'>;
 export type UserMe = GoApiResponse<'/api/v2/user/me/'>;
 export type Regions = GoApiResponse<'/api/v2/region/'>;
+export type SecondarySectors = GoApiResponse<'/api/v2/secondarysector'>;
+export type PerComponents = GoApiResponse<'/api/v2/per-formcomponent/'>;
 
 export interface Domain {
     register: (name: CacheKey) => void;
@@ -28,6 +30,12 @@ export interface Domain {
 
     globalEnums?: GlobalEnums;
     globalEnumsPending?: boolean;
+
+    secondarySectors?: SecondarySectors;
+    secondarySectorsPending?: boolean;
+
+    perComponents?: PerComponents;
+    perComponentsPending?: boolean;
 }
 
 const DomainContext = createContext<Domain>({
