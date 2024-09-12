@@ -40,15 +40,14 @@ export function Component() {
         isCountryPerAdmin,
         isSuperUser,
         isRegionPerAdmin,
-        isGuestUser,
     } = usePermissions();
 
     const countryDetails = useCountry({ id: Number(countryId) });
     const regionId = isDefined(countryDetails) ? Number(countryDetails?.region) : undefined;
 
     const isPerAdmin = isSuperUser
-        || (!isGuestUser && isCountryPerAdmin(Number(countryId)))
-        || (!isGuestUser && isRegionPerAdmin(regionId));
+        || isCountryPerAdmin(Number(countryId))
+        || isRegionPerAdmin(regionId);
 
     const {
         pending: publicPerStatsPending,

@@ -37,10 +37,10 @@ function LocalUnitsTableActions(props: Props) {
         onActionSuccess,
     } = props;
 
-    const { isCountryAdmin, isSuperUser, isGuestUser } = usePermissions();
+    const { isCountryAdmin, isSuperUser } = usePermissions();
     const strings = useTranslation(i18n);
 
-    const hasValidatePermission = !isGuestUser && (isSuperUser || isCountryAdmin(countryId));
+    const hasValidatePermission = isSuperUser || isCountryAdmin(countryId);
 
     const [readOnlyLocalUnitModal, setReadOnlyLocalUnitModal] = useState(false);
 

@@ -8,26 +8,42 @@ function usePermissions() {
 
     const perms = useMemo(
         () => {
+            const isGuestUser = !!userMe?.limit_access_to_guest;
+
             const isDrefRegionalCoordinator = (regionId: number | undefined) => (
-                isDefined(regionId) && !!userMe?.is_dref_coordinator_for_regions?.includes(regionId)
+                !isGuestUser
+                && isDefined(regionId)
+                && !!userMe?.is_dref_coordinator_for_regions?.includes(regionId)
             );
             const isCountryAdmin = (countryId: number | undefined) => (
-                isDefined(countryId) && !!userMe?.is_admin_for_countries?.includes(countryId)
+                !isGuestUser
+                && isDefined(countryId)
+                && !!userMe?.is_admin_for_countries?.includes(countryId)
             );
             const isRegionAdmin = (regionId: number | undefined) => (
-                isDefined(regionId) && !!userMe?.is_admin_for_regions?.includes(regionId)
+                !isGuestUser
+                && isDefined(regionId)
+                && !!userMe?.is_admin_for_regions?.includes(regionId)
             );
             const isRegionPerAdmin = (regionId: number | undefined) => (
-                isDefined(regionId) && !!userMe?.is_per_admin_for_regions.includes(regionId)
+                !isGuestUser
+                && isDefined(regionId)
+                && !!userMe?.is_per_admin_for_regions.includes(regionId)
             );
             const isCountryPerAdmin = (countryId: number | undefined) => (
-                isDefined(countryId) && !!userMe?.is_per_admin_for_countries.includes(countryId)
+                !isGuestUser
+                && isDefined(countryId)
+                && !!userMe?.is_per_admin_for_countries.includes(countryId)
             );
 
-            const isPerAdmin = (userMe?.is_per_admin_for_countries.length ?? 0) > 0
-                || (userMe?.is_admin_for_regions.length ?? 0) > 0;
+            const isPerAdmin = !isGuestUser
+                && ((userMe?.is_per_admin_for_countries.length ?? 0) > 0
+                || (userMe?.is_admin_for_regions.length ?? 0) > 0);
 
-            const isGuestUser = (userMe?.limit_access_to_guest);
+            const isIfrcAdmin = !isGuestUser
+                && (!!userMe?.is_ifrc_admin || !!userMe?.email?.toLowerCase().endsWith('@ifrc.org'));
+
+            const isSuperUser = !isGuestUser && !!userMe?.is_superuser;
 
             return {
                 isDrefRegionalCoordinator,
@@ -36,8 +52,8 @@ function usePermissions() {
                 isRegionPerAdmin,
                 isCountryPerAdmin,
                 isPerAdmin,
-                isIfrcAdmin: !!userMe?.is_ifrc_admin || !!userMe?.email?.toLowerCase().endsWith('@ifrc.org'),
-                isSuperUser: !!userMe?.is_superuser,
+                isIfrcAdmin,
+                isSuperUser,
                 isGuestUser,
             };
         },
