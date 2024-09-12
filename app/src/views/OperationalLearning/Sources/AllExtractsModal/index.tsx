@@ -1,11 +1,8 @@
 import {
     Chip,
-    Container,
-    type ContainerProps,
     List,
     Modal,
     Pager,
-    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -14,13 +11,14 @@ import {
 } from '@ifrc-go/ui/utils';
 import { isDefined } from '@togglecorp/fujs';
 
-import Link from '#components/Link';
 import useCountry from '#hooks/domain/useCountry';
 import useFilterState from '#hooks/useFilterState';
 import {
     type GoApiResponse,
     useRequest,
 } from '#utils/restRequest';
+
+import Extract from './Extract';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -73,41 +71,13 @@ function AllExtractsModal(props: Props) {
         preserveResponse: true,
     });
 
-    const extractsRendererParams = (_: number, learning: OpsLearning): ContainerProps => ({
-        headingContainerClassName: styles.extractHeadingContainer,
-        heading: countries.find((country) => country.id === learning.appeal?.country)?.name,
-        headingDescription: (
-            <Link
-                to="emergencyDetails"
-                urlParams={{
-                    emergencyId: learning.appeal?.event_details.id,
-                }}
-                withUnderline
-            >
-                {learning.appeal?.event_details.name}
-            </Link>
-        ),
-        actions: ((
-            <Link
-                variant="primary"
-                href={learning?.document_url}
-                withLinkIcon
-                external
-            >
-                {strings.source}
-            </Link>
-        )),
-        className: styles.extract,
-        children: learning.learning_validated,
-        withInternalPadding: true,
-        footerContent: (
-            <TextOutput
-                label={strings.dateOfLearning}
-                value={learning?.appeal?.event_details.start_date}
-                strongValue
-                valueType="date"
-            />
-        ),
+    const extractsRendererParams = (_: number, learning: OpsLearning) => ({
+        countryName: countries.find((country) => country.id === learning.appeal?.country)?.name,
+        emergencyId: learning.appeal?.event_details.id,
+        emergencyName: learning.appeal?.event_details.name,
+        appealDocumentURL: learning.document_url,
+        extract: learning.learning_validated,
+        extractCreatedAt: learning.created_at,
     });
 
     return (
@@ -148,7 +118,7 @@ function AllExtractsModal(props: Props) {
             <List
                 className={styles.extractList}
                 data={opsLearningResponse?.results}
-                renderer={Container}
+                renderer={Extract}
                 keySelector={numericIdSelector}
                 rendererParams={extractsRendererParams}
                 emptyMessage="No extracts"

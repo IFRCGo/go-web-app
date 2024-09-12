@@ -1,0 +1,7 @@
+.emergency {
+    .content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--go-ui-spacing-md);
+    }
+}
