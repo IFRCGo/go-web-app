@@ -7,7 +7,7 @@ import {
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { isDefined } from '@togglecorp/fujs';
-import { EntriesAsList } from '@togglecorp/toggle-form';
+import { SetValueArg } from '@togglecorp/toggle-form';
 
 import CountrySelectInput, { type CountryOption } from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput, { type DisasterTypeItem } from '#components/domain/DisasterTypeSelectInput';
@@ -38,9 +38,13 @@ export type FilterLabel = Partial<{
     [key in keyof FilterValue]: string;
 }>
 
+export type EntriesAsListWithString<T> = {
+    [K in keyof T]-?: [SetValueArg<T[K]>, K, string | null | undefined, ...unknown[]];
+}[keyof T];
+
 interface Props {
     value: FilterValue;
-    onChange: (...value: EntriesAsList<FilterValue>) => void;
+    onChange: (...value: EntriesAsListWithString<FilterValue>) => void;
     disabled?: boolean;
 }
 function Filters(props: Props) {
@@ -135,6 +139,7 @@ function Filters(props: Props) {
         onChange(
             newValue,
             key,
+            undefined,
         );
     }, [onChange]);
 
