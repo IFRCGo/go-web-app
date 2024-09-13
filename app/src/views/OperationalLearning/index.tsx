@@ -232,8 +232,7 @@ export function Component() {
     });
 
     const [
-        pendingExport,
-        progress,
+        pendingExport,,
         triggerExportStart,
     ] = useRecursiveCsvExport({
         onFailure: () => {
@@ -279,20 +278,23 @@ export function Component() {
         >
             <Container
                 withGridViewInFilter
-                filtersContainerClassName={styles.filtersContainer}
                 filters={(
                     <>
                         <Filters
                             value={rawFilter}
                             onChange={handleFilterChange}
                         />
-                        <ExportButton
-                            onClick={handleExportClick}
-                            progress={progress}
-                            pendingExport={pendingExport}
-                            totalCount={opsLearningResponse?.count}
-                            disabled={opsLearningPending}
-                        />
+                        <div className={styles.exportButton}>
+                            <ExportButton
+                                onClick={handleExportClick}
+                                pendingExport={pendingExport}
+                                totalCount={opsLearningResponse?.count}
+                                disabled={(
+                                    opsLearningSummaryResponse?.status !== SUMMARY_STATUS_SUCCESS
+                                    || opsLearningPending
+                                )}
+                            />
+                        </div>
                     </>
                 )}
                 footerIcons={((selectedFilterOptions?.length ?? 0) > 0 && (
