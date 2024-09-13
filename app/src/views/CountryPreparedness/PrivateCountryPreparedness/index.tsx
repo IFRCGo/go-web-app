@@ -82,6 +82,14 @@ const areaComponentColorShades = [
     'var(--go-ui-color-red-per)',
 ];
 
+const areaColorShades: { [key: number]: string } = {
+    1: 'var(--go-ui-color-purple-per)',
+    2: 'var(--go-ui-color-orange-per)',
+    3: 'var(--go-ui-color-blue-per)',
+    4: 'var(--go-ui-color-teal-per)',
+    5: 'var(--go-ui-color-red-per)',
+};
+
 function primaryBlueColorShadeselector(_: unknown, i: number) {
     return primaryBlueColorShades[i];
 }
@@ -612,8 +620,8 @@ function PrivateCountryPreparedness() {
                 >
                     {prioritizationStats.componentsToBeStrengthened.map(
                         (priorityComponent) => {
-                            const progressBarColor = priorityComponent.num !== undefined
-                                ? areaComponentColorShades[priorityComponent.num]
+                            const progressBarColor = isDefined(priorityComponent.num)
+                                ? areaColorShades[priorityComponent.num]
                                 : 'var(--go-ui-color-gray-40)';
 
                             return (
@@ -655,7 +663,7 @@ function PrivateCountryPreparedness() {
                                 {strings.typeOfOperation}
                             </Heading>
                             <div className={styles.separator} />
-                            {Object.entries(areaComponentColorShades).map(([areaNum, color]) => {
+                            {Object.entries(areaColorShades).map(([areaNum, color]) => {
                                 const area = assessmentStats?.topRatedComponents.find(
                                     (component) => component.area.area_num === Number(areaNum),
                                 );
@@ -667,13 +675,8 @@ function PrivateCountryPreparedness() {
                                 return (
                                     <LegendItem
                                         key={areaNum}
-                                        label={
-                                            `
-                                            ${strings.areaLegend}
-                                            ${areaNum}
-                                            ${getFormattedComponentName(area.area)}
-                                            `
-                                        }
+                                        label={`${strings.areaLegend} ${areaNum}
+                                            ${getFormattedComponentName(area.area)}`}
                                         color={color}
                                     />
                                 );
@@ -682,7 +685,7 @@ function PrivateCountryPreparedness() {
                     )}
                 >
                     {assessmentStats.topRatedComponents.map((component) => {
-                        const progressBarColor = areaComponentColorShades[component.area.id] || 'var(--go-ui-color-gray-40)';
+                        const progressBarColor = areaColorShades[component.area.id] || 'var(--go-ui-color-gray-40)';
 
                         return (
                             <Fragment

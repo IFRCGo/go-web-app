@@ -61,6 +61,14 @@ const areaComponentColorShades = [
     'var(--go-ui-color-red-per)',
 ];
 
+const areaColorShades: { [key: number]: string } = {
+    1: 'var(--go-ui-color-purple-per)',
+    2: 'var(--go-ui-color-orange-per)',
+    3: 'var(--go-ui-color-blue-per)',
+    4: 'var(--go-ui-color-teal-per)',
+    5: 'var(--go-ui-color-red-per)',
+};
+
 function primaryRedColorShadeSelector(_: unknown, i: number) {
     return primaryBlueColorShades[i];
 }
@@ -517,7 +525,7 @@ export function Component() {
                     headingLevel={3}
                 >
                     {assessmentStats.topRatedComponents.map((component) => {
-                        const progressBarColor = areaComponentColorShades[component.area.id] || 'var(--go-ui-color-gray-40)';
+                        const progressBarColor = areaColorShades[component.area.id] || 'var(--go-ui-color-gray-40)';
 
                         return (
                             <Fragment
@@ -549,7 +557,7 @@ export function Component() {
                         >
                             {strings.typeOfOperation}
                         </Heading>
-                        {Object.entries(areaComponentColorShades).map(([areaNum, color]) => {
+                        {Object.entries(areaColorShades).map(([areaNum, color]) => {
                             const area = assessmentStats?.topRatedComponents.find(
                                 (component) => component.area.area_num === Number(areaNum),
                             );
@@ -561,13 +569,8 @@ export function Component() {
                             return (
                                 <LegendItem
                                     key={areaNum}
-                                    label={
-                                        `
-                                            ${strings.areaLegend}
-                                            ${areaNum}
-                                            ${getFormattedComponentName(area.area)}
-                                        `
-                                    }
+                                    label={`${strings.areaLegend} ${areaNum}
+                                            ${getFormattedComponentName(area.area)}`}
                                     color={color}
                                 />
                             );

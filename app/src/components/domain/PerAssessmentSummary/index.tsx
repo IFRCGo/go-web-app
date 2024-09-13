@@ -44,13 +44,15 @@ interface Props {
 }
 
 const colors = [
-    'var(--go-ui-color-red-90)',
-    'var(--go-ui-color-red-70)',
-    'var(--go-ui-color-red-50)',
-    'var(--go-ui-color-red-40)',
-    'var(--go-ui-color-red-20)',
-    'var(--go-ui-color-red-10)',
+    'var(--go-ui-color-dark-blue-40)',
+    'var(--go-ui-color-dark-blue-30)',
+    'var(--go-ui-color-dark-blue-20)',
+    'var(--go-ui-color-dark-blue-10)',
+    'var(--go-ui-color-gray-40)',
+    'var(--go-ui-color-gray-30)',
 ];
+
+const progressBarColor = 'var(--go-ui-color-dark-blue-40)';
 
 function PerAssessmentSummary(props: Props) {
     const {
@@ -208,6 +210,7 @@ function PerAssessmentSummary(props: Props) {
                         },
                     )}
                     value={allAnsweredResponses?.length ?? 0}
+                    color={progressBarColor}
                     totalValue={totalQuestionCount}
                     description={(
                         <div className={styles.answerCounts}>
