@@ -2,21 +2,17 @@
     display: flex;
     flex-direction: column;
 
-
     .main-section-container {
         display: flex;
         flex-direction: column;
         flex-grow: 1;
-        background-image: url('./background.svg'); 
     }
-
     .main {
         display: flex;
         align-items: center;
         flex-direction: column;
         flex-grow: 1;
         gap: var(--go-ui-spacing-2xl);
-       
 
         .top-section {
             display: flex;
@@ -30,14 +26,13 @@
                 background: repeating-linear-gradient(
                     -50deg,
                     red 10px,
-                    transparent ,
+                    transparent,
                     transparent 20px
                 );
-                -webkit-background-clip: text;
-                -moz-background-clip: text;
-                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                color: transparent;
                 font-size: 8rem;
-                font-weight: bold;
+                font-weight: var(--go-ui-font-weight-bold);
             }
 
             .heading {
@@ -61,5 +56,10 @@
             text-align: center;
             gap: var(--go-ui-spacing-xs);
         }
+    }
+    .background-layer{
+        position: absolute;
+        top: 0;
+        opacity: 0.1;
     }
 }

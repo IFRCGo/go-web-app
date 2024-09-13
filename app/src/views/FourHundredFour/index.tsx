@@ -1,6 +1,7 @@
 import { Heading } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
+import backgroundImage from '#assets/content/fourhundredfour_background.svg';
 import Link from '#components/Link';
 import Page from '#components/Page';
 
@@ -17,6 +18,13 @@ export function Component() {
             title={strings.uhohPageNotFoundTitle}
             mainSectionContainerClassName={styles.mainSectionContainer}
             mainSectionClassName={styles.main}
+            beforeHeaderContent={(
+                <img
+                    className={styles.backgroundLayer}
+                    src={backgroundImage}
+                    alt=""
+                />
+            )}
         >
             <div className={styles.topSection}>
                 <div className={styles.fourHundredFourHeading}>
