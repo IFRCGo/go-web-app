@@ -53,7 +53,7 @@ export const hazardTypeToColorMap: Record<HazardType, string> = {
 
 export function getDataWithTruthyHazardType<
     HAZARD_TYPE extends HazardType,
-    DATA extends { hazard_type?: HAZARD_TYPE | undefined | null }
+    DATA extends { hazard_type?: '' | HAZARD_TYPE | undefined | null }
 >(data: DATA) {
     if (isFalsyString(data.hazard_type)) {
         return undefined;
@@ -61,7 +61,8 @@ export function getDataWithTruthyHazardType<
 
     return {
         ...data,
-        hazard_type: data.hazard_type as HazardType,
+        // FIXME: server should not pass emtpy string
+        hazard_type: data.hazard_type as Exclude<HazardType, ''>,
     };
 }
 
@@ -186,7 +187,9 @@ export function getPrioritizedIpcData(data: IpcData) {
     // duplicate, so we need to sort by highest priority first
     const sortedData = data?.map(
         (item) => {
-            if (isFalsyString(item.estimation_type)) {
+            // FIXME: Update isFalsyString to Exclude empty string
+            // FIXME: Also fix this in server
+            if (isFalsyString(item.estimation_type) || item.estimation_type === '') {
                 return undefined;
             }
 
