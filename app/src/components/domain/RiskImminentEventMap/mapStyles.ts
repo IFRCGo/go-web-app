@@ -205,7 +205,7 @@ export const cycloneTrackPointLayer: Omit<CircleLayer, 'id'> = {
         'circle-color': [
             'match',
             ['get', 'alertType'],
-            'Red', COLOR_LIGHT_GREY,
+            'Red', COLOR_RED,
             'Orange', COLOR_ORANGE,
             'Green', COLOR_GREEN,
             'Blue', COLOR_BLUE,
