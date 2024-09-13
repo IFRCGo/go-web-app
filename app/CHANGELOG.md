@@ -1,8 +1,15 @@
 # go-web-app
 
+## 7.5.2
+
+### Patch Changes
+
+- 37bba31: Add collaboration guide
+
 ## 7.5.1
 
 ### Patch Changes
+
 - 2a5e4a1: Add Core Competency Framework link to Resources page in [#1331](https://github.com/IFRCGo/go-web-app/issues/1331)
 - 31eaa97: Add Health Mapping Report to Resources page in [#1331](https://github.com/IFRCGo/go-web-app/issues/1331)
 - 4192da1: - Local Units popup, view/edit mode improvements in [#1178](https://github.com/IFRCGo/go-web-app/issues/1178)
