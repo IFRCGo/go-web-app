@@ -40,7 +40,7 @@ interface Props {
     perOptionsResponse: PerOptionsResponse | undefined;
     areaResponses: PartialAssessment['area_responses'] | undefined;
     totalQuestionCount: number | undefined;
-    areaIdToTitleMap: Record<number, string>;
+    areaIdToTitleMap: Record<number, string | undefined>;
 }
 
 const colors = [
@@ -166,6 +166,7 @@ function PerAssessmentSummary(props: Props) {
         },
     );
 
+    // FIXME: It does not make sense to receive a map to only use it's key
     const averageRatingByAreaList = mapToList(
         areaIdToTitleMap,
         (_, areaId) => ({

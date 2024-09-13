@@ -31,7 +31,6 @@ import {
     numericCountSelector,
     numericIdSelector,
     stringLabelSelector,
-    stringTitleSelector,
     sumSafe,
 } from '@ifrc-go/ui/utils';
 import {
@@ -521,7 +520,8 @@ function PrivateCountryPreparedness() {
                     <PieChart
                         data={assessmentStats.ratingCounts}
                         valueSelector={numericCountSelector}
-                        labelSelector={stringTitleSelector}
+                        // FIXME: check why title can be undefined
+                        labelSelector={(item) => item.title ?? '??'}
                         keySelector={numericIdSelector}
                         colors={primaryRedColorShades}
                     />

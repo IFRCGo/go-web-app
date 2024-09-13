@@ -129,7 +129,8 @@ function ComponentInput(props: Props) {
     const answerStats = formQuestions ? mapToList(
         listToGroupList(
             Object.values(mappedQuestionResponses ?? {}),
-            (response) => response.answerDisplay,
+            // FIXME: check why answerDisplay can be undefined
+            (response) => response.answerDisplay ?? '??',
         ),
         (item, key) => ({ answer: key, num: item.length }),
     ) : [];
