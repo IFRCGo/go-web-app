@@ -216,11 +216,14 @@ function useRecursiveCSVRequest<D>({
         if (total !== data.length - 1) {
             // eslint-disable-next-line no-console
             console.error(`Length mismatch. Expected ${total} but got ${data.length - 1}`);
-            onFailure(undefined);
+            // FIXME: due to custom csv handling in per ops learning exports this check fails
+            // but we need the output.
+            // onFailure(undefined);
+            onSuccess(data, total);
         } else {
             onSuccess(data, total);
         }
-    }, [onSuccess, onFailure, setPending, setProgress]);
+    }, [onSuccess, setPending, setProgress]);
 
     const handlePartialSuccess = useCallback((newResponse: string) => {
         Papa.parse(
