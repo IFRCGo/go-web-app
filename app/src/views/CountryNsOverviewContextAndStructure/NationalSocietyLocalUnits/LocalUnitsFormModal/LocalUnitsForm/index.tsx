@@ -40,6 +40,7 @@ import {
 import BaseMapPointInput from '#components/domain/BaseMapPointInput';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import NonFieldError from '#components/NonFieldError';
+import { environment } from '#config';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useAlert from '#hooks/useAlert';
 import { getFirstTruthyString } from '#utils/common';
@@ -182,8 +183,6 @@ function LocalUnitsForm(props: Props) {
         },
     });
 
-    const isValidated = localUnitDetailsResponse?.validated;
-
     const {
         response: localUnitsOptions,
         pending: localUnitsOptionsPending,
@@ -318,12 +317,14 @@ function LocalUnitsForm(props: Props) {
         <div className={styles.localUnitsForm}>
             {readOnly && isDefined(actionsContainerRef.current) && (
                 <Portal container={actionsContainerRef.current}>
-                    <Button
-                        name={undefined}
-                        onClick={onEditButtonClick}
-                    >
-                        {strings.editButtonLabel}
-                    </Button>
+                    {(environment !== 'production') && (
+                        <Button
+                            name={undefined}
+                            onClick={onEditButtonClick}
+                        >
+                            {strings.editButtonLabel}
+                        </Button>
+                    )}
                 </Portal>
             )}
             {!readOnly && isDefined(actionsContainerRef.current) && (
@@ -383,7 +384,8 @@ function LocalUnitsForm(props: Props) {
                             {isDefined(countryId)
                                 && isDefined(localUnitId)
                                 && isDefined(onSuccess)
-                                && isDefined(isValidated)
+                                && isDefined(localUnitDetailsResponse)
+                                && (environment !== 'production')
                                 && (
                                     <div className={styles.actions}>
                                         <LocalUnitDeleteButton
@@ -404,7 +406,7 @@ function LocalUnitsForm(props: Props) {
                                                 value.english_branch_name,
                                             )}
                                             onActionSuccess={onSuccess}
-                                            isValidated={isValidated}
+                                            isValidated={localUnitDetailsResponse.validated}
                                             disabled={!pristine}
                                             readOnly={!pristine}
                                         />
