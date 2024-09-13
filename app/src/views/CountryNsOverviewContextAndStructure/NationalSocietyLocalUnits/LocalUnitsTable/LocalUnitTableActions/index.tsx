@@ -2,13 +2,17 @@ import {
     useCallback,
     useState,
 } from 'react';
-import { TableActions } from '@ifrc-go/ui';
+import {
+    Button,
+    TableActions,
+} from '@ifrc-go/ui';
 import {
     useBooleanState,
     useTranslation,
 } from '@ifrc-go/ui/hooks';
 
 import DropdownMenuItem from '#components/DropdownMenuItem';
+import { environment } from '#config';
 import usePermissions from '#hooks/domain/usePermissions';
 import { type GoApiResponse } from '#utils/restRequest';
 
@@ -79,7 +83,7 @@ function LocalUnitsTableActions(props: Props) {
         <>
             <TableActions
                 persistent
-                extraActions={(
+                extraActions={environment !== 'production' && (
                     <>
                         <DropdownMenuItem
                             type="button"
@@ -107,13 +111,24 @@ function LocalUnitsTableActions(props: Props) {
                     </>
                 )}
             >
-                <LocalUnitValidateButton
-                    countryId={countryId}
-                    localUnitName={localUnitName}
-                    isValidated={isValidated}
-                    onActionSuccess={onActionSuccess}
-                    localUnitId={localUnitId}
-                />
+                {environment !== 'production' ? (
+                    <LocalUnitValidateButton
+                        countryId={countryId}
+                        localUnitName={localUnitName}
+                        isValidated={isValidated}
+                        onActionSuccess={onActionSuccess}
+                        localUnitId={localUnitId}
+                    />
+                ) : (
+                    <Button
+                        name={localUnitId}
+                        variant="tertiary"
+                        onClick={handleViewLocalUnitClick}
+                        disabled={!hasValidatePermission}
+                    >
+                        {strings.localUnitsView}
+                    </Button>
+                )}
             </TableActions>
             {showLocalUnitModal && (
                 <LocalUnitsFormModal
