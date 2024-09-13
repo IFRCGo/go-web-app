@@ -285,11 +285,7 @@ function ComponentInput(props: Props) {
                     withoutPadding
                     title={strings.epiConsiderationTitle}
                     description={(
-                        <ul className={styles.description}>
-                            <li>
-                                <HtmlOutput value={value?.epi_considerations_guidance} />
-                            </li>
-                        </ul>
+                        <HtmlOutput value={component?.epi_considerations_guidance} />
                     )}
                 >
                     <TextArea
@@ -307,7 +303,9 @@ function ComponentInput(props: Props) {
                 <InputSection
                     withoutPadding
                     title={strings.urbanConsiderationTitle}
-                    description={value?.urban_considerations_guidance}
+                    description={(
+                        <HtmlOutput value={component?.urban_considerations_guidance} />
+                    )}
                 >
                     <TextArea
                         name="urban_considerations"
@@ -325,11 +323,7 @@ function ComponentInput(props: Props) {
                     withoutPadding
                     title={strings.environmentConsiderationTitle}
                     description={(
-                        <ul className={styles.description}>
-                            <li>
-                                {value?.climate_environmental_considerations_guidance}
-                            </li>
-                        </ul>
+                        <HtmlOutput value={component?.climate_environmental_considerations_guidance} />
                     )}
                 >
                     <TextArea
