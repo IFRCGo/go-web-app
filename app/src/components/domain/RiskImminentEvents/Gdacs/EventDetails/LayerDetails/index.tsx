@@ -16,15 +16,15 @@ import styles from './styles.module.css';
 
 export interface Props {
     options: LayerOption;
-    value: Record<LayerType, boolean>;
-    onChange: (value: boolean, name: LayerType) => void;
+    layers: Record<LayerType, boolean>;
+    onLayerChange: (value: boolean, name: LayerType) => void;
 }
 
 function LayerDetails(props: Props) {
     const {
         options,
-        value,
-        onChange,
+        layers,
+        onLayerChange,
     } = props;
     const strings = useTranslation(i18n);
 
@@ -34,10 +34,10 @@ function LayerDetails(props: Props) {
                 label={options.label}
                 key={options.key}
                 name={options.key}
-                value={!!value[options.key]}
-                onChange={onChange}
+                value={!!layers[options.key]}
+                onChange={onLayerChange}
             />
-            {options.key === LAYER_CYCLONE_BUFFERS && value[LAYER_CYCLONE_BUFFERS] && (
+            {options.key === LAYER_CYCLONE_BUFFERS && layers[LAYER_CYCLONE_BUFFERS] && (
                 <Container
                     heading={strings.gdacsAlertLevelHeading}
                     headingLevel={5}

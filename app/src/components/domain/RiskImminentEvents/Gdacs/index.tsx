@@ -9,7 +9,6 @@ import {
 import {
     isDefined,
     isNotDefined,
-    noOp,
 } from '@togglecorp/fujs';
 import { type LngLatBoundsLike } from 'mapbox-gl';
 
@@ -141,41 +140,61 @@ function Gdacs(props: Props) {
                 ? footprintGeojson
                 : undefined;
 
-            if (!footprint) {
-                return undefined;
-            }
-            const updatedLayers = { ...defaultLayersValue };
-
             footprint?.features?.find((feature) => {
                 if (feature?.geometry.type === 'Point' || feature?.geometry.type === 'MultiPoint') {
-                    updatedLayers[LAYER_CYCLONE_NODES] = true;
+                    setLayers((prevValue) => ({
+                        ...prevValue,
+                        [LAYER_CYCLONE_NODES]: true,
+                    }));
+                    setActiveLayersMapping((prevValue) => ({
+                        ...prevValue,
+                        [LAYER_CYCLONE_NODES]: true,
+                    }));
                 }
                 return undefined;
             });
 
             footprint?.features?.find((feature) => {
                 if (feature?.geometry.type === 'LineString' || feature?.geometry.type === 'MultiLineString') {
-                    updatedLayers[LAYER_CYCLONE_TRACKS] = true;
+                    setLayers((prevValue) => ({
+                        ...prevValue,
+                        [LAYER_CYCLONE_TRACKS]: true,
+                    }));
+                    setActiveLayersMapping((prevValue) => ({
+                        ...prevValue,
+                        [LAYER_CYCLONE_TRACKS]: true,
+                    }));
                 }
                 return undefined;
             });
 
             footprint?.features?.find((feature) => {
                 if (feature?.geometry.type === 'Polygon' || feature?.geometry.type === 'MultiPolygon') {
-                    updatedLayers[LAYER_CYCLONE_BUFFERS] = true;
+                    setLayers((prevValue) => ({
+                        ...prevValue,
+                        [LAYER_CYCLONE_BUFFERS]: true,
+                    }));
+                    setActiveLayersMapping((prevValue) => ({
+                        ...prevValue,
+                        [LAYER_CYCLONE_BUFFERS]: true,
+                    }));
                 }
                 return undefined;
             });
 
             footprint?.features?.find((feature) => {
                 if (feature?.properties?.Class === 'Poly_Cones') {
-                    updatedLayers[LAYER_CYCLONE_UNCERTAINTY] = true;
+                    setLayers((prevValue) => ({
+                        ...prevValue,
+                        [LAYER_CYCLONE_UNCERTAINTY]: true,
+                    }));
+                    setActiveLayersMapping((prevValue) => ({
+                        ...prevValue,
+                        [LAYER_CYCLONE_UNCERTAINTY]: true,
+                    }));
                 }
                 return undefined;
             });
-
-            setLayers(updatedLayers);
-            setActiveLayersMapping(updatedLayers);
 
             return undefined;
         },
@@ -238,6 +257,7 @@ function Gdacs(props: Props) {
                         (feature) => ({
                             ...feature,
                             properties: {
+                                id: String(Date.now()),
                                 eventName: feature?.properties?.eventname,
                                 eventType: feature?.properties?.eventtype,
                                 trackDate: formatDate(feature?.properties?.trackdate, 'MM/dd hh:mm'),
@@ -251,6 +271,7 @@ function Gdacs(props: Props) {
                     ) ?? [],
                 ].filter(isDefined),
             };
+
             return geoJson;
         },
         [],
@@ -291,9 +312,6 @@ function Gdacs(props: Props) {
             activeLayersMapping={activeLayersMapping}
             layers={layers}
             onLayerChange={handleLayerChange}
-            // NOTE: return type void function cannot be optional
-            // popup is not need in gdacs cyclone track points
-            handlePopupClose={noOp}
         />
     );
 }

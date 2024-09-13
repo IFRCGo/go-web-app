@@ -45,8 +45,8 @@ interface Props {
     data: PdcEventItem;
     exposure: PdcExposure | undefined;
     pending: boolean;
-    onLayerChange: (value: boolean, name: LayerType) => void;
     layers: Record<LayerType, boolean>;
+    onLayerChange: (value: boolean, name: LayerType) => void;
     options: LayerOption[];
 }
 
@@ -156,8 +156,8 @@ function EventDetails(props: Props) {
     const layerRendererParams = useCallback(
         (_: number, layerOptions: LayerOption): LayerInputProps => ({
             options: layerOptions,
-            value: layers,
-            onChange: onLayerChange,
+            layers,
+            onLayerChange,
         }),
         [layers, onLayerChange],
     );

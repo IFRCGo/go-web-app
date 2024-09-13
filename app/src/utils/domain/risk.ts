@@ -41,20 +41,13 @@ type GwisData = CountrySeasonal[number]['gwis'];
 
 export type CycloneFillLayerType = 'track-point' | 'track' | 'uncertainty' | 'exposure';
 
-// NOTE: all the parameters are optional
-// because there is no common parameter in all the three different sources.
-export interface EventGeoJsonProperties {
-    eventId?: string;
-    type?: string;
-    alertLevel?: string;
-    eventName?: string;
-    eventType?: string;
-    alertType?: string;
-    source?: string;
-    trackDate?: string;
-    stormStatus?: string;
+// Common properties
+interface BaseEventProperties {
+    id: string;
+}
 
-    // PDC
+// PDC properties
+interface PDCEventProperties extends BaseEventProperties {
     stormName?: string;
     windSpeedMph?: string;
     description?: string;
@@ -66,11 +59,31 @@ export interface EventGeoJsonProperties {
     advisoryNumber?: number;
     advisoryDate?: number;
     advisoryTime?: number;
+}
 
-    // ADAM
+// Gdacs properties
+interface GDACSEventProperties extends BaseEventProperties {
+    eventId?: string;
+    type?: string;
+    alertLevel?: string;
+    eventName?: string;
+    eventType?: string;
+    alertType?: string;
+    source?: string;
+    trackDate?: string;
+    stormStatus?: string;
+}
+
+// ADAM properties
+interface ADAMEventProperties extends BaseEventProperties {
     populationImpact?: string;
     maxStormSurge?: string;
 }
+
+// Union type
+export type EventGeoJsonProperties = PDCEventProperties
+| GDACSEventProperties
+| ADAMEventProperties;
 
 export interface ClickedPoint {
     feature: GeoJSON.Feature<GeoJSON.Point, EventGeoJsonProperties>;

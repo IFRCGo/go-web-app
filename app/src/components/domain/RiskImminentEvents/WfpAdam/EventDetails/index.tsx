@@ -164,8 +164,8 @@ function EventDetails(props: Props) {
     const layerRendererParams = useCallback(
         (_: number, layerOptions: LayerOption): LayerInputProps => ({
             options: layerOptions,
-            value: layers,
-            onChange: onLayerChange,
+            layers,
+            onLayerChange,
 
         }),
         [layers, onLayerChange],

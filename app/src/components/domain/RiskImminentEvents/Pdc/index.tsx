@@ -224,6 +224,7 @@ function Pdc(props: Props) {
                     footprint ? {
                         ...footprint,
                         properties: {
+                            id: String(Date.now()),
                             alertType: getAlertType(footprint?.properties?.severity),
                             type: 'exposure',
                         },
@@ -233,6 +234,7 @@ function Pdc(props: Props) {
                         (feature) => ({
                             ...feature,
                             properties: {
+                                id: feature?.properties?.uuid,
                                 type: 'uncertainty-five-days',
                             },
                         }),
@@ -242,6 +244,7 @@ function Pdc(props: Props) {
                         (feature) => ({
                             ...feature,
                             properties: {
+                                id: feature?.properties?.uuid,
                                 type: 'uncertainty-three-days',
                             },
                         }),
@@ -251,6 +254,7 @@ function Pdc(props: Props) {
                         (pointFeature) => ({
                             ...pointFeature,
                             properties: {
+                                id: pointFeature?.properties?.uuid,
                                 eventId: pointFeature?.properties?.hazard_id,
                                 eventName: pointFeature?.properties?.hazard_name,
                                 trackDate: formatDate(
@@ -288,6 +292,7 @@ function Pdc(props: Props) {
                             ),
                         },
                         properties: {
+                            id: Date.now(),
                             type: 'track',
                         },
                     } : undefined,
@@ -329,6 +334,8 @@ function Pdc(props: Props) {
     );
 
     const handleLayerChange = useCallback((value: boolean, name: LayerType) => {
+        // NOTE: when tracked point layer is not active
+        // hiding the map popup
         if (name === LAYER_CYCLONE_NODES) {
             handlePopupClose();
         }

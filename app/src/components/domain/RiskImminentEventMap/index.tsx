@@ -130,7 +130,7 @@ interface Props<EVENT, EXPOSURE, KEY extends string | number> {
         feature: mapboxgl.MapboxGeoJSONFeature,
         lngLat: mapboxgl.LngLat,
     ) => boolean;
-    handlePopupClose: () => void;
+    handlePopupClose?: () => void;
 }
 
 function RiskImminentEventMap<
@@ -269,7 +269,9 @@ function RiskImminentEventMap<
 
             setActiveEventId(eventIdSafe);
             onActiveEventChange(eventIdSafe);
-            handlePopupClose();
+            if (handlePopupClose) {
+                handlePopupClose();
+            }
         },
         [onActiveEventChange, handlePopupClose],
     );
@@ -474,11 +476,12 @@ function RiskImminentEventMap<
                 {isDefined(clickedPointProperties)
                     && clickedPointProperties.lngLat
                     && isDefined(popupDetails)
+                    && isDefined(handlePopupClose)
                     && (
                         <MapPopup
                             coordinates={clickedPointProperties.lngLat}
                             onCloseButtonClick={handlePopupClose}
-                            heading={popupDetails.eventName ?? '-'}
+                            heading={popupDetails.eventName}
                             headingLevel={4}
                             contentViewType="vertical"
                             compactMessage

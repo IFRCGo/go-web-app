@@ -124,38 +124,61 @@ function WfpAdam(props: Props) {
                 ? stormPositionGeoJson
                 : undefined;
 
-            const updatedLayers = { ...defaultLayersValue };
-
             stormPositions?.features?.find((feature) => {
                 if (feature?.geometry.type === 'Point' || feature?.geometry.type === 'MultiPoint') {
-                    updatedLayers[LAYER_CYCLONE_NODES] = true;
+                    setLayers((prevValue) => ({
+                        ...prevValue,
+                        [LAYER_CYCLONE_NODES]: true,
+                    }));
+                    setActiveLayersMapping((prevValue) => ({
+                        ...prevValue,
+                        [LAYER_CYCLONE_NODES]: true,
+                    }));
                 }
                 return undefined;
             });
 
             stormPositions?.features?.find((feature) => {
                 if (feature?.geometry.type === 'LineString' || feature?.geometry.type === 'MultiLineString') {
-                    updatedLayers[LAYER_CYCLONE_TRACKS] = true;
+                    setLayers((prevValue) => ({
+                        ...prevValue,
+                        [LAYER_CYCLONE_TRACKS]: true,
+                    }));
+                    setActiveLayersMapping((prevValue) => ({
+                        ...prevValue,
+                        [LAYER_CYCLONE_TRACKS]: true,
+                    }));
                 }
                 return undefined;
             });
 
             stormPositions?.features?.find((feature) => {
                 if (feature?.geometry.type === 'Polygon' || feature?.geometry.type === 'MultiPolygon') {
-                    updatedLayers[LAYER_CYCLONE_BUFFERS] = true;
+                    setLayers((prevValue) => ({
+                        ...prevValue,
+                        [LAYER_CYCLONE_BUFFERS]: true,
+                    }));
+                    setActiveLayersMapping((prevValue) => ({
+                        ...prevValue,
+                        [LAYER_CYCLONE_BUFFERS]: true,
+                    }));
                 }
                 return undefined;
             });
 
             stormPositions?.features?.find((feature) => {
                 if (feature?.properties?.alert_level === 'Cones') {
-                    updatedLayers[LAYER_CYCLONE_UNCERTAINTY] = true;
+                    setLayers((prevValue) => ({
+                        ...prevValue,
+                        [LAYER_CYCLONE_UNCERTAINTY]: true,
+                    }));
+                    setActiveLayersMapping((prevValue) => ({
+                        ...prevValue,
+                        [LAYER_CYCLONE_UNCERTAINTY]: true,
+                    }));
                 }
                 return undefined;
             });
-
-            setLayers(updatedLayers);
-            setActiveLayersMapping(updatedLayers);
         },
     });
 
@@ -218,6 +241,7 @@ function WfpAdam(props: Props) {
                         (feature) => ({
                             ...feature,
                             properties: {
+                                id: String(Date.now()),
                                 eventId: feature?.properties?.event_id,
                                 eventName: feature?.properties?.name,
                                 populationImpact: feature?.properties?.population_impact,
