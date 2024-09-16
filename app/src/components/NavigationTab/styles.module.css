@@ -135,6 +135,24 @@
         }
     }
 
+
+    &.secondary {
+        border-right: var(--border-width) solid var(--border-color);
+        border-top-color: transparent;
+
+        .children-wrapper {
+            padding: var(--go-ui-spacing-md) var(--go-ui-spacing-lg);
+        }
+
+        &.active {
+            color: var(--go-ui-color-primary-red);
+        }
+
+        &:last-child {
+            border-color: transparent;
+        }
+    }
+
     &.primary {
         position: relative;
         font-size: var(--go-ui-font-size-lg);
@@ -173,16 +191,6 @@
             .active-border {
                 display: none;
             }
-        }
-    }
-
-    &.secondary {
-        border-radius: var(--go-ui-border-radius-full);
-        padding: var(--go-ui-spacing-sm) var(--go-ui-spacing-xl);
-
-        &.active {
-            background-color: var(--go-ui-color-primary-red);
-            color: var(--go-ui-color-white);
         }
     }
 
