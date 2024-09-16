@@ -80,9 +80,9 @@ interface Props {
     data: GdacsItem;
     exposure: GdacsExposure | undefined;
     pending: boolean;
-    onLayerChange: (value: boolean, name: LayerType) => void;
-    layers: Record<LayerType, boolean>;
-    options: LayerOption[];
+    visibleLayers: Record<LayerType, boolean>;
+    onLayerVisibilityChange: (value: boolean, name: LayerType) => void;
+    layerOptions: LayerOption[];
 }
 
 function EventDetails(props: Props) {
@@ -94,9 +94,9 @@ function EventDetails(props: Props) {
         },
         exposure,
         pending,
-        onLayerChange,
-        layers,
-        options,
+        visibleLayers,
+        onLayerVisibilityChange,
+        layerOptions,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -105,13 +105,12 @@ function EventDetails(props: Props) {
     const eventDetails = event_details as GdacsEventDetails | undefined;
 
     const layerRendererParams = useCallback(
-        (_: number, layerOptions: LayerOption): LayerInputProps => ({
-            options: layerOptions,
-            layers,
-            onLayerChange,
-
+        (_: number, layerOption: LayerOption): LayerInputProps => ({
+            layerOption,
+            visibleLayer: visibleLayers,
+            onLayerVisibilityChange,
         }),
-        [layers, onLayerChange],
+        [visibleLayers, onLayerVisibilityChange],
     );
 
     return (
@@ -197,7 +196,7 @@ function EventDetails(props: Props) {
                 <Container heading={strings.gdacsEventLayerTitle}>
                     <List
                         className={styles.layerDetail}
-                        data={options}
+                        data={layerOptions}
                         renderer={LayerDetails}
                         rendererParams={layerRendererParams}
                         keySelector={layerKeySelector}

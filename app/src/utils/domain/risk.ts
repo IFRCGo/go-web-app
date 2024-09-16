@@ -80,7 +80,6 @@ interface ADAMEventProperties extends BaseEventProperties {
     maxStormSurge?: string;
 }
 
-// Union type
 export type EventGeoJsonProperties = PDCEventProperties
 | GDACSEventProperties
 | ADAMEventProperties;

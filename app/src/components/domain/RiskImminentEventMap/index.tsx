@@ -104,9 +104,9 @@ interface EventDetailProps<EVENT, EXPOSURE> {
     data: EVENT;
     exposure: EXPOSURE | undefined;
     pending: boolean;
-    layers: Record<LayerType, boolean>;
-    onLayerChange: (value: boolean, name: LayerType) => void;
-    options: LayerOption[];
+    visibleLayers: Record<LayerType, boolean>;
+    onLayerVisibilityChange: (value: boolean, name: LayerType) => void;
+    layerOptions: LayerOption[];
 }
 
 interface Props<EVENT, EXPOSURE, KEY extends string | number> {
@@ -123,9 +123,9 @@ interface Props<EVENT, EXPOSURE, KEY extends string | number> {
     onActiveEventChange: (eventId: KEY | undefined) => void;
     activeEventExposurePending: boolean;
     activeLayersMapping: Record<LayerType, boolean>;
-    layers: Record<LayerType, boolean>;
-    onLayerChange: (value: boolean, name: LayerType) => void;
-    clickedPointProperties?: ClickedPoint | undefined;
+    visibleLayers: Record<LayerType, boolean>;
+    onLayerVisibilityChange: (value: boolean, name: LayerType) => void;
+    clickedPointProperties: ClickedPoint | undefined;
     handlePopupClick?: (
         feature: mapboxgl.MapboxGeoJSONFeature,
         lngLat: mapboxgl.LngLat,
@@ -152,8 +152,8 @@ function RiskImminentEventMap<
         onActiveEventChange,
         activeEventExposurePending,
         activeLayersMapping,
-        layers,
-        onLayerChange,
+        visibleLayers,
+        onLayerVisibilityChange,
         clickedPointProperties,
         handlePopupClick,
         handlePopupClose,
@@ -331,7 +331,7 @@ function RiskImminentEventMap<
         return layerOptions.filter((opt) => activeLayersMapping[opt?.key]);
     }, [activeLayersMapping, layerOptions]);
 
-    const popupDetails = clickedPointProperties
+    const popupDetails = isDefined(clickedPointProperties)
         ? clickedPointProperties.feature.properties
         : undefined;
 
@@ -378,37 +378,37 @@ function RiskImminentEventMap<
                         )}
                         {activeEvent?.hazard_type === 'TC' && (
                             <>
-                                {layers[LAYER_CYCLONE_BUFFERS] && (
+                                {visibleLayers[LAYER_CYCLONE_BUFFERS] && (
                                     <MapLayer
                                         layerKey="cyclone-exposure-fill"
                                         layerOptions={cycloneExposureFillLayer}
                                     />
                                 )}
-                                {(layers[LAYER_CYCLONE_UNCERTAINTY]) && (
+                                {(visibleLayers[LAYER_CYCLONE_UNCERTAINTY]) && (
                                     <MapLayer
                                         layerKey="uncertainty-track-line"
                                         layerOptions={uncertaintyTrackOutlineLayer}
                                     />
                                 )}
-                                {(layers[LAYER_CYCLONE_UNCERTAINTY_FIVE_DAYS]) && (
+                                {(visibleLayers[LAYER_CYCLONE_UNCERTAINTY_FIVE_DAYS]) && (
                                     <MapLayer
                                         layerKey="uncertainty-track-line-five-days"
                                         layerOptions={uncertaintyTrackOutlineFiveDaysLayer}
                                     />
                                 )}
-                                {(layers[LAYER_CYCLONE_UNCERTAINTY_THREE_DAYS]) && (
+                                {(visibleLayers[LAYER_CYCLONE_UNCERTAINTY_THREE_DAYS]) && (
                                     <MapLayer
                                         layerKey="uncertainty-track-line-three-days"
                                         layerOptions={uncertaintyTrackOutlineThreeDaysLayer}
                                     />
                                 )}
-                                {layers[LAYER_CYCLONE_TRACKS] && (
+                                {visibleLayers[LAYER_CYCLONE_TRACKS] && (
                                     <MapLayer
                                         layerKey="track-outline"
                                         layerOptions={cycloneTrackOutlineLayer}
                                     />
                                 )}
-                                {layers[LAYER_CYCLONE_NODES] && (
+                                {visibleLayers[LAYER_CYCLONE_NODES] && (
                                     <>
                                         <MapLayer
                                             layerKey="track-circle"
@@ -598,9 +598,9 @@ function RiskImminentEventMap<
                         data={activeEvent}
                         exposure={activeEventExposure}
                         pending={activeEventExposurePending}
-                        onLayerChange={onLayerChange}
-                        layers={layers}
-                        options={activeLayerOptions}
+                        onLayerVisibilityChange={onLayerVisibilityChange}
+                        visibleLayers={visibleLayers}
+                        layerOptions={activeLayerOptions}
                     />
                 )}
             </Container>

@@ -45,9 +45,9 @@ interface Props {
     data: PdcEventItem;
     exposure: PdcExposure | undefined;
     pending: boolean;
-    layers: Record<LayerType, boolean>;
-    onLayerChange: (value: boolean, name: LayerType) => void;
-    options: LayerOption[];
+    visibleLayers: Record<LayerType, boolean>;
+    onLayerVisibilityChange: (value: boolean, name: LayerType) => void;
+    layerOptions: LayerOption[];
 }
 
 function EventDetails(props: Props) {
@@ -62,9 +62,9 @@ function EventDetails(props: Props) {
         },
         exposure,
         pending,
-        layers,
-        onLayerChange,
-        options,
+        visibleLayers,
+        onLayerVisibilityChange,
+        layerOptions,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -154,12 +154,12 @@ function EventDetails(props: Props) {
     );
 
     const layerRendererParams = useCallback(
-        (_: number, layerOptions: LayerOption): LayerInputProps => ({
-            options: layerOptions,
-            layers,
-            onLayerChange,
+        (_: number, layerOption: LayerOption): LayerInputProps => ({
+            layerOption,
+            visibleLayer: visibleLayers,
+            onLayerVisibilityChange,
         }),
-        [layers, onLayerChange],
+        [visibleLayers, onLayerVisibilityChange],
     );
 
     return (
@@ -232,7 +232,7 @@ function EventDetails(props: Props) {
                         <Container heading={strings.pdcEventLayerTitle}>
                             <List
                                 className={styles.layerDetail}
-                                data={options}
+                                data={layerOptions}
                                 renderer={LayerDetails}
                                 rendererParams={layerRendererParams}
                                 keySelector={layerKeySelector}

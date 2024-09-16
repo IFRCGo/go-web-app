@@ -92,9 +92,9 @@ interface Props {
     data: WfpAdamItem;
     exposure: WfpAdamExposure | undefined;
     pending: boolean;
-    onLayerChange: (value: boolean, name: LayerType) => void;
-    layers: Record<LayerType, boolean>;
-    options: LayerOption[];
+    visibleLayers: Record<LayerType, boolean>;
+    onLayerVisibilityChange: (value: boolean, name: LayerType) => void;
+    layerOptions: LayerOption[];
 }
 
 function EventDetails(props: Props) {
@@ -107,9 +107,9 @@ function EventDetails(props: Props) {
         },
         exposure,
         pending,
-        onLayerChange,
-        layers,
-        options,
+        visibleLayers,
+        onLayerVisibilityChange,
+        layerOptions,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -162,14 +162,14 @@ function EventDetails(props: Props) {
     );
 
     const layerRendererParams = useCallback(
-        (_: number, layerOptions: LayerOption): LayerInputProps => ({
-            options: layerOptions,
-            layers,
-            onLayerChange,
-
+        (_: number, layerOption: LayerOption): LayerInputProps => ({
+            layerOption,
+            visibleLayer: visibleLayers,
+            onLayerVisibilityChange,
         }),
-        [layers, onLayerChange],
+        [visibleLayers, onLayerVisibilityChange],
     );
+
     const eventDetails = event_details as WfpAdamEventDetails | undefined;
 
     // eslint-disable-next-line max-len
@@ -384,7 +384,7 @@ function EventDetails(props: Props) {
                 <Container heading={strings.wfpEventLayerTitle}>
                     <List
                         className={styles.layerDetail}
-                        data={options}
+                        data={layerOptions}
                         renderer={LayerDetails}
                         rendererParams={layerRendererParams}
                         keySelector={layerKeySelector}

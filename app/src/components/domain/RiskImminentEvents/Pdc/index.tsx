@@ -92,7 +92,7 @@ function Pdc(props: Props) {
         setActiveLayersMapping,
     ] = useState<Record<number, boolean>>(defaultLayersValue);
 
-    const [layers, setLayers] = useState<Record<number, boolean>>(defaultLayersValue);
+    const [visibleLayers, setVisibleLayers] = useState<Record<number, boolean>>(defaultLayersValue);
     const [
         clickedPointProperties,
         setClickedPointProperties,
@@ -135,7 +135,7 @@ function Pdc(props: Props) {
                 cyclone_three_days_cou: cycloneThreeDaysCou,
             } = res;
 
-            const layersWithStatus = {
+            const layerWithVisibilityStatus = {
                 [LAYER_CYCLONE_NODES]: isDefined(stormPositionGeojson),
                 [LAYER_CYCLONE_TRACKS]: isDefined(stormPositionGeojson),
                 [LAYER_CYCLONE_BUFFERS]: isDefined(footprintGeojson),
@@ -143,8 +143,8 @@ function Pdc(props: Props) {
                 [LAYER_CYCLONE_UNCERTAINTY_THREE_DAYS]: isDefined(cycloneThreeDaysCou),
             };
 
-            setLayers(layersWithStatus);
-            setActiveLayersMapping(layersWithStatus);
+            setVisibleLayers(layerWithVisibilityStatus);
+            setActiveLayersMapping(layerWithVisibilityStatus);
 
             return undefined;
         },
@@ -339,7 +339,7 @@ function Pdc(props: Props) {
         if (name === LAYER_CYCLONE_NODES) {
             handlePopupClose();
         }
-        setLayers((prevValues) => ({
+        setVisibleLayers((prevValues) => ({
             ...prevValues,
             [name]: value,
         }));
@@ -359,9 +359,9 @@ function Pdc(props: Props) {
             activeEventExposure={exposureResponse}
             activeEventExposurePending={exposureResponsePending}
             onActiveEventChange={handleActiveEventChange}
+            visibleLayers={visibleLayers}
+            onLayerVisibilityChange={handleLayerChange}
             activeLayersMapping={activeLayersMapping}
-            layers={layers}
-            onLayerChange={handleLayerChange}
             handlePopupClick={handlePopupClick}
             handlePopupClose={handlePopupClose}
             clickedPointProperties={clickedPointProperties}

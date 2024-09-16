@@ -15,29 +15,29 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export interface Props {
-    options: LayerOption;
-    layers: Record<LayerType, boolean>;
-    onLayerChange: (value: boolean, name: LayerType) => void;
+    layerOption: LayerOption;
+    visibleLayer: Record<LayerType, boolean>;
+    onLayerVisibilityChange: (value: boolean, name: LayerType) => void;
 }
 
 function LayerDetails(props: Props) {
     const {
-        options,
-        layers,
-        onLayerChange,
+        layerOption,
+        visibleLayer,
+        onLayerVisibilityChange,
     } = props;
     const strings = useTranslation(i18n);
 
     return (
         <>
             <Checkbox
-                label={options.label}
-                key={options.key}
-                name={options.key}
-                value={!!layers[options.key]}
-                onChange={onLayerChange}
+                label={layerOption.label}
+                key={layerOption.key}
+                name={layerOption.key}
+                value={!!visibleLayer[layerOption.key]}
+                onChange={onLayerVisibilityChange}
             />
-            {options.key === LAYER_CYCLONE_BUFFERS && layers[LAYER_CYCLONE_BUFFERS] && (
+            {layerOption.key === LAYER_CYCLONE_BUFFERS && visibleLayer[LAYER_CYCLONE_BUFFERS] && (
                 <Container
                     heading={strings.gdacsAlertLevelHeading}
                     headingLevel={5}

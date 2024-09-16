@@ -81,7 +81,7 @@ function WfpAdam(props: Props) {
         activeLayersMapping,
         setActiveLayersMapping,
     ] = useState<Record<number, boolean>>(defaultLayersValue);
-    const [layers, setLayers] = useState<Record<number, boolean>>(defaultLayersValue);
+    const [visibleLayers, setVisibleLayers] = useState<Record<number, boolean>>(defaultLayersValue);
 
     const [
         clickedPointProperties,
@@ -126,7 +126,7 @@ function WfpAdam(props: Props) {
 
             stormPositions?.features?.find((feature) => {
                 if (feature?.geometry.type === 'Point' || feature?.geometry.type === 'MultiPoint') {
-                    setLayers((prevValue) => ({
+                    setVisibleLayers((prevValue) => ({
                         ...prevValue,
                         [LAYER_CYCLONE_NODES]: true,
                     }));
@@ -140,7 +140,7 @@ function WfpAdam(props: Props) {
 
             stormPositions?.features?.find((feature) => {
                 if (feature?.geometry.type === 'LineString' || feature?.geometry.type === 'MultiLineString') {
-                    setLayers((prevValue) => ({
+                    setVisibleLayers((prevValue) => ({
                         ...prevValue,
                         [LAYER_CYCLONE_TRACKS]: true,
                     }));
@@ -154,7 +154,7 @@ function WfpAdam(props: Props) {
 
             stormPositions?.features?.find((feature) => {
                 if (feature?.geometry.type === 'Polygon' || feature?.geometry.type === 'MultiPolygon') {
-                    setLayers((prevValue) => ({
+                    setVisibleLayers((prevValue) => ({
                         ...prevValue,
                         [LAYER_CYCLONE_BUFFERS]: true,
                     }));
@@ -168,7 +168,7 @@ function WfpAdam(props: Props) {
 
             stormPositions?.features?.find((feature) => {
                 if (feature?.properties?.alert_level === 'Cones') {
-                    setLayers((prevValue) => ({
+                    setVisibleLayers((prevValue) => ({
                         ...prevValue,
                         [LAYER_CYCLONE_UNCERTAINTY]: true,
                     }));
@@ -294,7 +294,7 @@ function WfpAdam(props: Props) {
         if (name === LAYER_CYCLONE_NODES) {
             handlePopupClose();
         }
-        setLayers((prevValues) => ({
+        setVisibleLayers((prevValues) => ({
             ...prevValues,
             [name]: value,
         }));
@@ -315,8 +315,8 @@ function WfpAdam(props: Props) {
             activeEventExposurePending={exposureResponsePending}
             onActiveEventChange={handleActiveEventChange}
             activeLayersMapping={activeLayersMapping}
-            layers={layers}
-            onLayerChange={handleLayerChange}
+            visibleLayers={visibleLayers}
+            onLayerVisibilityChange={handleLayerChange}
             handlePopupClick={handlePopupClick}
             handlePopupClose={handlePopupClose}
             clickedPointProperties={clickedPointProperties}

@@ -102,7 +102,7 @@ function Gdacs(props: Props) {
         activeLayersMapping,
         setActiveLayersMapping,
     ] = useState<Record<number, boolean>>(defaultLayersValue);
-    const [layers, setLayers] = useState<Record<number, boolean>>(defaultLayersValue);
+    const [visibleLayers, setVisibleLayers] = useState<Record<number, boolean>>(defaultLayersValue);
 
     const {
         pending: pendingCountryRiskResponse,
@@ -142,7 +142,7 @@ function Gdacs(props: Props) {
 
             footprint?.features?.find((feature) => {
                 if (feature?.geometry.type === 'Point' || feature?.geometry.type === 'MultiPoint') {
-                    setLayers((prevValue) => ({
+                    setVisibleLayers((prevValue) => ({
                         ...prevValue,
                         [LAYER_CYCLONE_NODES]: true,
                     }));
@@ -156,7 +156,7 @@ function Gdacs(props: Props) {
 
             footprint?.features?.find((feature) => {
                 if (feature?.geometry.type === 'LineString' || feature?.geometry.type === 'MultiLineString') {
-                    setLayers((prevValue) => ({
+                    setVisibleLayers((prevValue) => ({
                         ...prevValue,
                         [LAYER_CYCLONE_TRACKS]: true,
                     }));
@@ -170,7 +170,7 @@ function Gdacs(props: Props) {
 
             footprint?.features?.find((feature) => {
                 if (feature?.geometry.type === 'Polygon' || feature?.geometry.type === 'MultiPolygon') {
-                    setLayers((prevValue) => ({
+                    setVisibleLayers((prevValue) => ({
                         ...prevValue,
                         [LAYER_CYCLONE_BUFFERS]: true,
                     }));
@@ -184,7 +184,7 @@ function Gdacs(props: Props) {
 
             footprint?.features?.find((feature) => {
                 if (feature?.properties?.Class === 'Poly_Cones') {
-                    setLayers((prevValue) => ({
+                    setVisibleLayers((prevValue) => ({
                         ...prevValue,
                         [LAYER_CYCLONE_UNCERTAINTY]: true,
                     }));
@@ -289,7 +289,7 @@ function Gdacs(props: Props) {
     );
 
     const handleLayerChange = useCallback((value: boolean, name: LayerType) => {
-        setLayers((prevValues) => ({
+        setVisibleLayers((prevValues) => ({
             ...prevValues,
             [name]: value,
         }));
@@ -310,8 +310,8 @@ function Gdacs(props: Props) {
             activeEventExposurePending={exposureResponsePending}
             onActiveEventChange={handleActiveEventChange}
             activeLayersMapping={activeLayersMapping}
-            layers={layers}
-            onLayerChange={handleLayerChange}
+            visibleLayers={visibleLayers}
+            onLayerVisibilityChange={handleLayerChange}
         />
     );
 }
