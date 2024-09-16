@@ -83,9 +83,10 @@ function DefaultMessage(props: Props) {
             className={_cs(
                 styles.defaultMessage,
                 pending && overlayPending && styles.overlay,
+                empty && styles.emptyMessage,
                 className,
             )}
-            icon={<AnalysisIcon />}
+            icon={(!empty || filtered || errored) && <AnalysisIcon />}
             compact={compact}
             title={messageTitle}
             pending={pending}

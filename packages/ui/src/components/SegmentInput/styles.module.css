@@ -3,7 +3,7 @@
 
     .segment-list {
         flex-wrap: nowrap;
-        border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+        border:#F7F7F7 solid var(--go-ui-color-separator);
         border-radius: var(--go-ui-border-radius-full);
         background-color: var(--go-ui-color-background);
         padding: 0;
@@ -13,7 +13,7 @@
 
     .segment {
         border-radius: var(--go-ui-border-radius-full);
-        padding: var(--go-ui-spacing-3xs) var(--go-ui-spacing-md);
+        padding: var(--go-ui-spacing-3xs) var(--go-ui-spacing-md); 
 
         &.active {
             background-color: var(--go-ui-color-primary-red);

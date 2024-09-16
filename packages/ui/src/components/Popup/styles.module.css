@@ -1,6 +1,6 @@
 .popup {
     position: fixed;
-    border-radius: var(--go-ui-spacing-xs);
+    border-radius: 4px;
     box-shadow:  0px 0px 10px rgba(0, 0, 0, 0.08);
     background-color: var(--go-ui-color-white);
     max-height: 40vh;

@@ -138,3 +138,21 @@ export const DropdownItem: Story = {
         children: 'Dropdown Item',
     },
 };
+
+export const ProcessButtonWithIcon: Story = {
+    args: {
+        name: 'button',
+        variant: 'process',
+        children: 'Process Button',
+        // icons:<LoaderLineIcon/>
+    },
+};
+
+export const GreyTertiaryButtonWithIcon: Story = {
+    args: {
+        name: 'button',
+        variant: 'grey-tertiary',
+        children: 'Grey-Tertiary Button',
+        // icons:<LoaderLineIcon/>
+    },
+};

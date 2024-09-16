@@ -10,7 +10,7 @@
     align-items: center;
     transition: var(--go-ui-duration-transition-medium) background-color ease-in-out;
     border: var(--border-width) solid var(--border-color);
-    border-radius: .5em;
+    border-radius: 1em;
     background-color: var(--background-color);
     padding: var(--gap);
     width: calc(1em + var(--knob-diameter));

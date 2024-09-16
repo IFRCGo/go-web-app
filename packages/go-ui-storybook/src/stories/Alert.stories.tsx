@@ -30,7 +30,6 @@ type Story = StoryObj<typeof meta>;
 export const Info: Story = {
     args: {
         name: 'info',
-        title: 'Information',
         type: 'info',
         nonDismissable: true,
         description: 'This alert provides informative details to the user.',
@@ -47,7 +46,6 @@ export const Info: Story = {
 export const Success: Story = {
     args: {
         name: 'success',
-        title: 'Success',
         type: 'success',
         nonDismissable: true,
         description: 'This alert indicates a successful operation or task.',
@@ -64,7 +62,6 @@ export const Success: Story = {
 export const Warning : Story = {
     args: {
         name: 'warning',
-        title: 'Warning',
         type: 'warning',
         nonDismissable: true,
         description: 'This alert warns the user about potential issues or risks.',
@@ -74,7 +71,6 @@ export const Warning : Story = {
 export const Danger : Story = {
     args: {
         name: 'danger',
-        title: 'Danger',
         type: 'danger',
         nonDismissable: true,
         description: 'This alert indicates a dangerous or potentially harmful situation.',
@@ -91,7 +87,6 @@ export const Danger : Story = {
 export const NonDismissable: Story = {
     args: {
         name: 'danger',
-        title: 'Danger',
         type: 'danger',
         description: 'This alert indicates a dangerous or potentially harmful situation.',
         nonDismissable: true,

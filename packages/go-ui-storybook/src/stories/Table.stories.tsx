@@ -191,7 +191,12 @@ const columns = [
         'link',
         'Link',
         ({ link, title }) => (
-            <a href={link}>{title}</a>
+            <a
+                className="table-link"
+                href={link}
+            >
+                {title}
+            </a>
         ),
         (_, item) => ({ link: item.link, title: item.name }),
     ),
