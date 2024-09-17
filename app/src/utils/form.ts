@@ -52,6 +52,8 @@ export function nonZeroCondition(value: Maybe<number>) {
         : undefined;
 }
 
+// NOTE: This hook is an extension over useFormArray
+// If an element is empty, we remove that element from the array
 export function useFormArrayWithEmptyCheck<NAME, VALUE>(
     name: NAME,
     onChange: (
