@@ -24,7 +24,6 @@ import {
     COLOR_BLUE,
     COLOR_DARK_GREY,
     COLOR_GREEN,
-    COLOR_LIGHT_GREY,
     COLOR_ORANGE,
     COLOR_PRIMARY_BLUE,
     COLOR_RED,
@@ -153,7 +152,7 @@ export const cycloneExposureFillLayer: Omit<FillLayer, 'id'> = {
             'Orange', COLOR_ORANGE,
             'Green', COLOR_GREEN,
             'Blue', COLOR_BLUE,
-            COLOR_LIGHT_GREY,
+            COLOR_PRIMARY_BLUE,
         ],
         'fill-opacity': 0.5,
     },
@@ -212,7 +211,6 @@ export const cycloneTrackPointLayer: Omit<CircleLayer, 'id'> = {
             COLOR_DARK_GREY,
         ],
         'circle-radius': 12,
-        'circle-opacity': 1,
     },
 };
 

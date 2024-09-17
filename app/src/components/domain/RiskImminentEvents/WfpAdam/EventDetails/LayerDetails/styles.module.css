@@ -9,7 +9,7 @@
     padding-left: var(--go-ui-spacing-lg);
 
     svg {
-        padding: var(--go-ui-spacing-xs);
+        padding: var(--go-ui-spacing-2xs);
         width: 24px;
         height: 24px;
         color: var(--go-ui-color-white);
