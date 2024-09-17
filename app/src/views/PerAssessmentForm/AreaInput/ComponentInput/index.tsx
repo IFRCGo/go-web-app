@@ -122,6 +122,7 @@ function ComponentInput(props: Props) {
         [error],
     );
 
+    // FIXME: We might need to use useFormArrayWithEmptyCheck
     const {
         setValue: setQuestionValue,
     } = useFormArray<'question_responses', NonNullable<Value['question_responses']>[number]>(
@@ -150,6 +151,7 @@ function ComponentInput(props: Props) {
 
     const groupedQuestions = useMemo(
         () => listToGroupList(
+            // FIXME: this sort will mutate the data
             questions?.sort((q1, q2) => compareNumber(q1.question_num, q2.question_num)),
             (question) => question.question_group ?? NO_GROUP,
         ),

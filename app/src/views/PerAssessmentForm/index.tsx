@@ -310,6 +310,7 @@ export function Component() {
         formContentRef.current?.scrollIntoView();
     }, []);
 
+    // FIXME: We might need to use useFormArrayWithEmptyCheck
     const {
         setValue: setAreaResponsesValue,
     } = useFormArray('area_responses', setFieldValue);

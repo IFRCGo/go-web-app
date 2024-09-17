@@ -168,6 +168,7 @@ export function Component() {
                         return undefined;
                     }
 
+                    // FIXME: this sort will mutate the data
                     const orderedMonth = month.sort(
                         (a, b) => compareNumber(monthToOrderMap[a], monthToOrderMap[b]),
                     );
