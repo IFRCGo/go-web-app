@@ -2,7 +2,7 @@ import { Md5 } from 'ts-md5';
 import { join, isAbsolute } from 'path';
 
 import {
-    writeFilePromisify,
+    writeFileAsync,
     oneOneMapping,
     readTranslations,
     getTranslationFileNames,
@@ -184,7 +184,7 @@ async function generate(
         console.info(`Creating migration file '${outputMigrationFile}'`);
         console.info(migrationContent);
     } else {
-        await writeFilePromisify(
+        await writeFileAsync(
             outputMigrationFile,
             JSON.stringify(migrationContent, null, 4),
             'utf8',

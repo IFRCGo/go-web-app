@@ -9,17 +9,21 @@ import {
     mapToList,
     unique,
     difference,
+    isTruthyString,
 } from '@togglecorp/fujs';
 
 import {
     TranslationFileContent,
     MigrationFileContent,
-    SourceFileContent,
+    // SourceFileContent,
+    Language,
+    ServerActionItem,
+    SourceStringItem,
 } from './types';
 
-export const readFilePromisify = promisify(readFile);
-export const writeFilePromisify = promisify(writeFile);
-export const unlinkPromisify = promisify(unlink);
+export const readFileAsync = promisify(readFile);
+export const writeFileAsync = promisify(writeFile);
+export const unlinkAsync = promisify(unlink);
 export const glob = fg.glob;
 
 // Utilities
@@ -220,6 +224,35 @@ export function removeUndefinedKeys<T extends object>(itemFromArgs: T) {
     return item;
 }
 
+export async function getMigrationFilesAttrsFromDir(dir: string) {
+    const fullPath = join(dir, '[0-9]+-[0-9]+.json');
+    const files = await glob(fullPath, { ignore: ['node_modules'], absolute: true });
+
+    interface MigrationFileAttrs {
+        migrationName: string;
+        fileName: string;
+        num: string;
+        timestamp: string;
+    }
+
+    const migrationFiles = files
+        .map((file): MigrationFileAttrs | undefined => {
+            const migrationName = basename(file);
+            const attrs = migrationName.match(/(?<num>[0-9]+)-(?<timestamp>[0-9]+)/)?.groups as (Omit<MigrationFileAttrs, 'filename'> | undefined)
+            if (attrs) {
+                return {
+                    ...attrs,
+                    migrationName,
+                    fileName: file,
+                }
+            }
+            return undefined;
+        })
+        .filter(isDefined)
+        .sort((a, b) => a.migrationName.localeCompare(b.migrationName));
+    return migrationFiles;
+}
+
 export async function getMigrationFilesAttrs(basePath: string, pathName: string) {
     const fullPath = isAbsolute(pathName)
         ? join(pathName, '[0-9]+-[0-9]+.json')
@@ -268,7 +301,7 @@ export async function getTranslationFileNames(basePath: string, pathNames: strin
 
 export async function readJsonFilesContents(fileNames: string[]) {
     const contentsPromise = fileNames.map(async (fileName) => {
-        const fileDescriptor = await readFilePromisify(fileName);
+        const fileDescriptor = await readFileAsync(fileName);
         try {
             const content = JSON.parse(fileDescriptor.toString());
             return {
@@ -315,17 +348,129 @@ export async function readMigrations(fileNames: string[]) {
     return fileContents as { file: string, content: MigrationFileContent }[];
 }
 
-export async function readSource(fileName: string) {
+export async function readJsonSource(fileName: string) {
     const fileContents = await readJsonFilesContents([fileName]);
     // TODO: validate the schema for content
     return fileContents[0] as {
-        file: string, content: SourceFileContent
+        file: string,
+        // TODO: update test for this change
+        // content: SourceFileContent
+        content: SourceStringItem[],
     };
 }
 
 export async function removeFiles(files: string[]) {
     const removePromises = files.map(async (file) => (
-        unlinkPromisify(file)
+        unlinkAsync(file)
     ));
     await Promise.all(removePromises);
 }
+
+export function getCombinedKey(key: string, namespace: string) {
+    return `${namespace}:${key}`;
+}
+
+export function resolveUrl(from: string, to: string) {
+    const resolvedUrl = new URL(to, new URL(from, 'resolve://'));
+    if (resolvedUrl.protocol === 'resolve:') {
+        const { pathname, search, hash } = resolvedUrl;
+        return pathname + search + hash;
+    }
+    return resolvedUrl.toString();
+}
+
+export async function fetchLanguageStrings(language: Language, apiUrl: string, authToken?: string) {
+    const endpoint = resolveUrl(apiUrl, language);
+
+    const defaultHeaders = {
+        'Accept': 'application/json'
+    }
+
+    const headers = isDefined(authToken)
+        ? ({
+            ...defaultHeaders,
+            'Authorization': `Token ${authToken}`,
+        }) : defaultHeaders;
+
+    const promise = fetch(
+        endpoint,
+        {
+            method: 'GET',
+            headers,
+        }
+    );
+
+    return promise;
+}
+
+export async function postLanguageStrings(language: Language, actions: ServerActionItem[], apiUrl: string, authToken: string) {
+    const endpoint = resolveUrl(apiUrl, `${language}/bulk-action/`);
+    console.info(endpoint);
+    const promise = fetch(
+        endpoint,
+        {
+            method: 'POST',
+            headers: {
+                'Authorization': `Token ${authToken}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ actions }),
+        }
+    );
+
+    return promise;
+}
+
+const languages: Language[] = ['en', 'fr', 'es', 'ar'];
+const validLanguageMap = listToMap(
+    languages,
+    (language) => language,
+    () => true,
+);
+
+export function isValidLanguage(language: unknown): language is Language {
+    return isDefined(language)
+        && typeof language === 'string'
+        && isTruthyString(language)
+        && validLanguageMap[language];
+}
+
+export function isValidSourceStringItem(stringItem: Partial<SourceStringItem>): stringItem is SourceStringItem {
+    return isDefined(stringItem.key)
+        && isDefined(stringItem.page_name)
+        && isTruthyString(stringItem.value)
+        && isTruthyString(stringItem.hash)
+        && isValidLanguage(stringItem.language)
+}
+
+export async function fetchAllServerStrings(apiUrl: string, authToken?: string) {
+    const responsePromises = languages.map(
+        (language) => fetchLanguageStrings(language, apiUrl, authToken)
+    );
+
+    const responses = await Promise.all(responsePromises);
+
+    const languageJsonPromises = responses.map(
+        (response) => response.json()
+    );
+
+    const languageStrings = await Promise.all(languageJsonPromises);
+
+    const serverStrings = languageStrings.flatMap(
+        (languageString) => {
+            const language: Language = languageString.code;
+
+            const strings: SourceStringItem[] = languageString.strings.map(
+                (string: Omit<SourceStringItem, 'language'>) => ({
+                    ...string,
+                    language,
+                })
+            )
+
+            return strings.filter(isValidSourceStringItem);
+        }
+    );
+
+    return serverStrings;
+}
+

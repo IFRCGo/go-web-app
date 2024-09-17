@@ -7,7 +7,7 @@ import {
     getMigrationFilesAttrs,
     readMigrations,
     removeFiles,
-    writeFilePromisify
+    writeFileAsync
 } from '../utils';
 
 function getCanonicalKey(
@@ -209,7 +209,7 @@ async function mergeMigrations(
         console.info(`Creating migration file '${newFileName}'`);
         console.info(mergedMigrationContent);
     } else {
-        await writeFilePromisify(
+        await writeFileAsync(
             newFileName,
             JSON.stringify(mergedMigrationContent, null, 4),
             'utf8',
