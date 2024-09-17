@@ -84,6 +84,17 @@ export type EventGeoJsonProperties = PDCEventProperties
 | GDACSEventProperties
 | ADAMEventProperties;
 
+export const RISK_GEOMETRY_TYPE = {
+    POINT: 'Point',
+    MULTI_POINT: 'MultiPoint',
+    LINE_STRING: 'LineString',
+    MULTI_LINE_STRING: 'MultiLineString',
+    POLYGON: 'Polygon',
+    MULTI_POLYGON: 'MultiPolygon',
+    WFP_ADAM_UNCERTAINTY_CONES: 'Cones',
+    GDACS_UNCERTAINTY_CONES: 'Poly_Cones',
+};
+
 export interface ClickedPoint {
     feature: GeoJSON.Feature<GeoJSON.Point, EventGeoJsonProperties>;
     lngLat: mapboxgl.LngLatLike;

@@ -125,7 +125,7 @@ interface Props<EVENT, EXPOSURE, KEY extends string | number> {
     activeLayersMapping: Record<LayerType, boolean>;
     visibleLayers: Record<LayerType, boolean>;
     onLayerVisibilityChange: (value: boolean, name: LayerType) => void;
-    clickedPointProperties: ClickedPoint | undefined;
+    clickedPointProperties?: ClickedPoint | undefined;
     handlePopupClick?: (
         feature: mapboxgl.MapboxGeoJSONFeature,
         lngLat: mapboxgl.LngLat,
@@ -453,8 +453,6 @@ function RiskImminentEventMap<
                         getLayerName('active-event-footprint', 'exposure-fill', true),
                         getLayerName('event-points', 'track-circle', true),
                         getLayerName('event-points', 'hazard-points-icon', true),
-                        getLayerName('event-points', 'track-circle', true),
-                        getLayerName('event-points', 'hazard-points-icon', true),
                         getLayerName('active-event-footprint', 'cyclone-exposure-fill', true),
                         getLayerName('active-event-footprint', 'uncertainty-track-line', true),
                         getLayerName('active-event-footprint', 'uncertainty-track-line-five-days', true),
@@ -516,7 +514,7 @@ function RiskImminentEventMap<
                                     strongLabel
                                 />
                             )}
-                            {popupDetails.trackSpeedMph && (
+                            {popupDetails.trackDate && (
                                 <TextOutput
                                     label={strings.popupTrackDate}
                                     value={popupDetails.trackDate}

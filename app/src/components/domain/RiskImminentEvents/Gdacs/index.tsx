@@ -26,6 +26,7 @@ import {
     LAYER_CYCLONE_TRACKS,
     LAYER_CYCLONE_UNCERTAINTY,
     LayerType,
+    RISK_GEOMETRY_TYPE,
 } from '#utils/domain/risk';
 import {
     RiskApiResponse,
@@ -58,15 +59,21 @@ function getAlertType(alertClass: AlertClassType) {
 function getLayerType(
     feature: GeoJSON.Feature<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>,
 ): CycloneFillLayerType {
-    if (feature.geometry.type === 'Point' || feature.geometry.type === 'MultiPoint') {
+    if (
+        feature.geometry.type === RISK_GEOMETRY_TYPE.POINT
+            || feature.geometry.type === RISK_GEOMETRY_TYPE.MULTI_POINT
+    ) {
         return 'track-point';
     }
 
-    if (feature.geometry.type === 'LineString' || feature.geometry.type === 'MultiLineString') {
+    if (
+        feature.geometry.type === RISK_GEOMETRY_TYPE.LINE_STRING
+            || feature.geometry.type === RISK_GEOMETRY_TYPE.MULTI_LINE_STRING
+    ) {
         return 'track';
     }
 
-    if (feature.properties?.Class === 'Poly_Cones') {
+    if (feature.properties?.Class === RISK_GEOMETRY_TYPE.GDACS_UNCERTAINTY_CONES) {
         return 'uncertainty';
     }
 
@@ -123,6 +130,17 @@ function Gdacs(props: Props) {
         },
     });
 
+    const setLayerVisibility = useCallback((layer: LayerType) => {
+        setVisibleLayers((prevValue) => ({
+            ...prevValue,
+            [layer]: true,
+        }));
+        setActiveLayersMapping((prevValue) => ({
+            ...prevValue,
+            [layer]: true,
+        }));
+    }, []);
+
     const {
         response: exposureResponse,
         pending: exposureResponsePending,
@@ -141,62 +159,34 @@ function Gdacs(props: Props) {
                 : undefined;
 
             footprint?.features?.find((feature) => {
-                if (feature?.geometry.type === 'Point' || feature?.geometry.type === 'MultiPoint') {
-                    setVisibleLayers((prevValue) => ({
-                        ...prevValue,
-                        [LAYER_CYCLONE_NODES]: true,
-                    }));
-                    setActiveLayersMapping((prevValue) => ({
-                        ...prevValue,
-                        [LAYER_CYCLONE_NODES]: true,
-                    }));
+                if (
+                    feature?.geometry.type === RISK_GEOMETRY_TYPE.POINT
+                        || feature?.geometry.type === RISK_GEOMETRY_TYPE.MULTI_POINT
+                ) {
+                    setLayerVisibility(LAYER_CYCLONE_NODES);
+                } else if (
+                    feature?.geometry.type === RISK_GEOMETRY_TYPE.LINE_STRING
+                        || feature?.geometry.type === RISK_GEOMETRY_TYPE.MULTI_LINE_STRING
+                ) {
+                    setLayerVisibility(LAYER_CYCLONE_TRACKS);
+                } else if (
+                    feature?.geometry.type === RISK_GEOMETRY_TYPE.POLYGON
+                        || feature?.geometry.type === RISK_GEOMETRY_TYPE.MULTI_POLYGON
+                ) {
+                    setLayerVisibility(LAYER_CYCLONE_BUFFERS);
                 }
                 return undefined;
             });
 
+            // NOTE: Uncertainty is handled separately due to conflicting logic
+            // between the geometry type and the Class property.
             footprint?.features?.find((feature) => {
-                if (feature?.geometry.type === 'LineString' || feature?.geometry.type === 'MultiLineString') {
-                    setVisibleLayers((prevValue) => ({
-                        ...prevValue,
-                        [LAYER_CYCLONE_TRACKS]: true,
-                    }));
-                    setActiveLayersMapping((prevValue) => ({
-                        ...prevValue,
-                        [LAYER_CYCLONE_TRACKS]: true,
-                    }));
+                if (feature?.properties?.Class
+                    === RISK_GEOMETRY_TYPE.GDACS_UNCERTAINTY_CONES) {
+                    setLayerVisibility(LAYER_CYCLONE_UNCERTAINTY);
                 }
                 return undefined;
             });
-
-            footprint?.features?.find((feature) => {
-                if (feature?.geometry.type === 'Polygon' || feature?.geometry.type === 'MultiPolygon') {
-                    setVisibleLayers((prevValue) => ({
-                        ...prevValue,
-                        [LAYER_CYCLONE_BUFFERS]: true,
-                    }));
-                    setActiveLayersMapping((prevValue) => ({
-                        ...prevValue,
-                        [LAYER_CYCLONE_BUFFERS]: true,
-                    }));
-                }
-                return undefined;
-            });
-
-            footprint?.features?.find((feature) => {
-                if (feature?.properties?.Class === 'Poly_Cones') {
-                    setVisibleLayers((prevValue) => ({
-                        ...prevValue,
-                        [LAYER_CYCLONE_UNCERTAINTY]: true,
-                    }));
-                    setActiveLayersMapping((prevValue) => ({
-                        ...prevValue,
-                        [LAYER_CYCLONE_UNCERTAINTY]: true,
-                    }));
-                }
-                return undefined;
-            });
-
-            return undefined;
         },
     });
 

@@ -24,6 +24,7 @@ import {
     LAYER_CYCLONE_TRACKS,
     LAYER_CYCLONE_UNCERTAINTY,
     LayerType,
+    RISK_GEOMETRY_TYPE,
 } from '#utils/domain/risk';
 import {
     type RiskApiResponse,
@@ -37,15 +38,21 @@ import EventListItem from './EventListItem';
 function getLayerType(
     feature: GeoJSON.Feature<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>,
 ): CycloneFillLayerType {
-    if (feature.geometry.type === 'Point' || feature.geometry.type === 'MultiPoint') {
+    if (
+        feature.geometry.type === RISK_GEOMETRY_TYPE.POINT
+            || feature.geometry.type === RISK_GEOMETRY_TYPE.MULTI_POINT
+    ) {
         return 'track-point';
     }
 
-    if (feature.geometry.type === 'LineString' || feature.geometry.type === 'MultiLineString') {
+    if (
+        feature.geometry.type === RISK_GEOMETRY_TYPE.LINE_STRING
+            || feature.geometry.type === RISK_GEOMETRY_TYPE.MULTI_LINE_STRING
+    ) {
         return 'track';
     }
 
-    if (feature.properties?.alert_level === 'Cones') {
+    if (feature.properties?.alert_level === RISK_GEOMETRY_TYPE.WFP_ADAM_UNCERTAINTY_CONES) {
         return 'uncertainty';
     }
 
@@ -107,6 +114,17 @@ function WfpAdam(props: Props) {
         },
     });
 
+    const setLayerVisibility = useCallback((layer: LayerType) => {
+        setVisibleLayers((prevValue) => ({
+            ...prevValue,
+            [layer]: true,
+        }));
+        setActiveLayersMapping((prevValue) => ({
+            ...prevValue,
+            [layer]: true,
+        }));
+    }, []);
+
     const {
         response: exposureResponse,
         pending: exposureResponsePending,
@@ -125,57 +143,31 @@ function WfpAdam(props: Props) {
                 : undefined;
 
             stormPositions?.features?.find((feature) => {
-                if (feature?.geometry.type === 'Point' || feature?.geometry.type === 'MultiPoint') {
-                    setVisibleLayers((prevValue) => ({
-                        ...prevValue,
-                        [LAYER_CYCLONE_NODES]: true,
-                    }));
-                    setActiveLayersMapping((prevValue) => ({
-                        ...prevValue,
-                        [LAYER_CYCLONE_NODES]: true,
-                    }));
+                if (
+                    feature?.geometry.type === RISK_GEOMETRY_TYPE.POINT
+                        || feature?.geometry.type === RISK_GEOMETRY_TYPE.MULTI_POINT
+                ) {
+                    setLayerVisibility(LAYER_CYCLONE_NODES);
+                } else if (
+                    feature?.geometry.type === RISK_GEOMETRY_TYPE.LINE_STRING
+                        || feature?.geometry.type === RISK_GEOMETRY_TYPE.MULTI_LINE_STRING
+                ) {
+                    setLayerVisibility(LAYER_CYCLONE_TRACKS);
+                } else if (
+                    feature?.geometry.type === RISK_GEOMETRY_TYPE.POLYGON
+                        || feature?.geometry.type === RISK_GEOMETRY_TYPE.MULTI_POLYGON
+                ) {
+                    setLayerVisibility(LAYER_CYCLONE_BUFFERS);
                 }
                 return undefined;
             });
 
+            // NOTE: Uncertainty is handled separately due to conflicting logic
+            // between the geometry type and the alert_level property.
             stormPositions?.features?.find((feature) => {
-                if (feature?.geometry.type === 'LineString' || feature?.geometry.type === 'MultiLineString') {
-                    setVisibleLayers((prevValue) => ({
-                        ...prevValue,
-                        [LAYER_CYCLONE_TRACKS]: true,
-                    }));
-                    setActiveLayersMapping((prevValue) => ({
-                        ...prevValue,
-                        [LAYER_CYCLONE_TRACKS]: true,
-                    }));
-                }
-                return undefined;
-            });
-
-            stormPositions?.features?.find((feature) => {
-                if (feature?.geometry.type === 'Polygon' || feature?.geometry.type === 'MultiPolygon') {
-                    setVisibleLayers((prevValue) => ({
-                        ...prevValue,
-                        [LAYER_CYCLONE_BUFFERS]: true,
-                    }));
-                    setActiveLayersMapping((prevValue) => ({
-                        ...prevValue,
-                        [LAYER_CYCLONE_BUFFERS]: true,
-                    }));
-                }
-                return undefined;
-            });
-
-            stormPositions?.features?.find((feature) => {
-                if (feature?.properties?.alert_level === 'Cones') {
-                    setVisibleLayers((prevValue) => ({
-                        ...prevValue,
-                        [LAYER_CYCLONE_UNCERTAINTY]: true,
-                    }));
-                    setActiveLayersMapping((prevValue) => ({
-                        ...prevValue,
-                        [LAYER_CYCLONE_UNCERTAINTY]: true,
-                    }));
+                if (feature?.properties?.alert_level
+                    === RISK_GEOMETRY_TYPE.WFP_ADAM_UNCERTAINTY_CONES) {
+                    setLayerVisibility(LAYER_CYCLONE_UNCERTAINTY);
                 }
                 return undefined;
             });
@@ -247,6 +239,7 @@ function WfpAdam(props: Props) {
                                 populationImpact: feature?.properties?.population_impact,
                                 windSpeedMph: feature?.properties?.wind_speed,
                                 trackDate: formatDate(feature?.properties?.track_date, 'MM/dd hh:mm'),
+                                stormStatus: feature?.properties?.storm_status,
                                 maxStormSurge: feature?.properties?.max_storm_surge,
                                 alertType: feature?.properties?.alert_level,
                                 type: getLayerType(feature),
