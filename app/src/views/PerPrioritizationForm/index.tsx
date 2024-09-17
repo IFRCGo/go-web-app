@@ -305,7 +305,7 @@ export function Component() {
     const areaIdToTitleMap = listToMap(
         questionsResponse?.results ?? [],
         (question) => question.component.area.id,
-        (question) => question.component.area.title,
+        (question) => question.component.area.title ?? undefined,
     );
 
     const error = useMemo(

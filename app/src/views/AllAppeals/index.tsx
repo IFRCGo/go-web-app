@@ -143,8 +143,8 @@ export function Component() {
             ordering,
             atype: filterAppealType,
             dtype: filterDisasterType,
-            country: isDefined(filterCountry) ? filterCountry : undefined,
-            region: isDefined(filterRegion) ? filterRegion : undefined,
+            country: isDefined(filterCountry) ? [filterCountry] : undefined,
+            region: isDefined(filterRegion) ? [filterRegion] : undefined,
             start_date__gte: filter.startDateAfter,
             start_date__lte: filter.startDateBefore,
         }),
@@ -170,7 +170,7 @@ export function Component() {
 
     const columns = useMemo(
         () => ([
-            createDateColumn<AppealListItem, number>(
+            createDateColumn<AppealListItem, string>(
                 'start_date',
                 strings.allAppealsStartDate,
                 (item) => item.start_date,
@@ -179,7 +179,7 @@ export function Component() {
                     columnClassName: styles.startDate,
                 },
             ),
-            createStringColumn<AppealListItem, number>(
+            createStringColumn<AppealListItem, string>(
                 'atype',
                 strings.allAppealsType,
                 (item) => item.atype_display,
@@ -188,7 +188,7 @@ export function Component() {
                     columnClassName: styles.appealType,
                 },
             ),
-            createStringColumn<AppealListItem, number>(
+            createStringColumn<AppealListItem, string>(
                 'code',
                 strings.allAppealsCode,
                 (item) => item.code,
@@ -196,7 +196,7 @@ export function Component() {
                     columnClassName: styles.code,
                 },
             ),
-            createLinkColumn<AppealListItem, number>(
+            createLinkColumn<AppealListItem, string>(
                 'operation',
                 strings.allAppealsOperation,
                 (item) => item.name,
@@ -206,12 +206,12 @@ export function Component() {
                 }),
                 { sortable: true },
             ),
-            createStringColumn<AppealListItem, number>(
+            createStringColumn<AppealListItem, string>(
                 'dtype',
                 strings.allAppealsDisasterType,
                 (item) => item.dtype?.name,
             ),
-            createNumberColumn<AppealListItem, number>(
+            createNumberColumn<AppealListItem, string>(
                 'amount_requested',
                 strings.allAppealsRequestedAmount,
                 (item) => item.amount_requested,
@@ -220,7 +220,7 @@ export function Component() {
                     suffix: ' CHF',
                 },
             ),
-            createProgressColumn<AppealListItem, number>(
+            createProgressColumn<AppealListItem, string>(
                 'amount_funded',
                 strings.allAppealsFundedAmount,
                 // FIXME: use progress function
@@ -235,7 +235,7 @@ export function Component() {
                     columnClassName: styles.funding,
                 },
             ),
-            createLinkColumn<AppealListItem, number>(
+            createLinkColumn<AppealListItem, string>(
                 'country',
                 strings.allAppealsCountry,
                 (item) => item.country?.name,

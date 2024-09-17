@@ -193,7 +193,7 @@ export function Component(props: BaseProps) {
             return {
                 ...baseQuery,
                 region: undefined,
-                country: countryId ? Number(countryId) : undefined,
+                country: countryId ? [Number(countryId)] : undefined,
             };
         },
         [filter, limit, countryId],
@@ -234,7 +234,7 @@ export function Component(props: BaseProps) {
 
     const columns = useMemo(
         () => ([
-            createDateColumn<AppealListItem, number>(
+            createDateColumn<AppealListItem, string>(
                 'start_date',
                 strings.appealsTableStartDate,
                 (item) => item.start_date,
@@ -243,7 +243,7 @@ export function Component(props: BaseProps) {
                     columnClassName: styles.startDate,
                 },
             ),
-            createStringColumn<AppealListItem, number>(
+            createStringColumn<AppealListItem, string>(
                 'atype',
                 strings.appealsTableType,
                 (item) => item.atype_display,
@@ -252,7 +252,7 @@ export function Component(props: BaseProps) {
                     columnClassName: styles.appealType,
                 },
             ),
-            createStringColumn<AppealListItem, number>(
+            createStringColumn<AppealListItem, string>(
                 'code',
                 strings.appealsTableCode,
                 (item) => item.code,
@@ -260,7 +260,7 @@ export function Component(props: BaseProps) {
                     columnClassName: styles.code,
                 },
             ),
-            createLinkColumn<AppealListItem, number>(
+            createLinkColumn<AppealListItem, string>(
                 'operation',
                 strings.appealsTableOperation,
                 (item) => item.name,
@@ -269,13 +269,13 @@ export function Component(props: BaseProps) {
                     urlParams: { emergencyId: item.event },
                 }),
             ),
-            createStringColumn<AppealListItem, number>(
+            createStringColumn<AppealListItem, string>(
                 'dtype',
                 strings.appealsTableDisastertype,
                 (item) => item.dtype?.name,
                 { sortable: true },
             ),
-            createNumberColumn<AppealListItem, number>(
+            createNumberColumn<AppealListItem, string>(
                 'amount_requested',
                 strings.appealsTableRequestedAmount,
                 (item) => item.amount_requested,
@@ -284,7 +284,7 @@ export function Component(props: BaseProps) {
                     suffix: ' CHF',
                 },
             ),
-            createProgressColumn<AppealListItem, number>(
+            createProgressColumn<AppealListItem, string>(
                 'amount_funded',
                 strings.appealsTableFundedAmount,
                 // FIXME: use progress function

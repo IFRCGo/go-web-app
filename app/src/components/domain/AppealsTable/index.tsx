@@ -120,7 +120,7 @@ function AppealsTable(props: Props) {
 
     const columns = useMemo(
         () => ([
-            createDateColumn<AppealListItem, number>(
+            createDateColumn<AppealListItem, string>(
                 'start_date',
                 strings.appealsTableStartDate,
                 (item) => item.start_date,
@@ -129,7 +129,7 @@ function AppealsTable(props: Props) {
                     columnClassName: styles.startDate,
                 },
             ),
-            createStringColumn<AppealListItem, number>(
+            createStringColumn<AppealListItem, string>(
                 'atype',
                 strings.appealsTableType,
                 (item) => item.atype_display,
@@ -138,7 +138,7 @@ function AppealsTable(props: Props) {
                     columnClassName: styles.appealType,
                 },
             ),
-            createStringColumn<AppealListItem, number>(
+            createStringColumn<AppealListItem, string>(
                 'code',
                 strings.appealsTableCode,
                 (item) => item.code,
@@ -146,7 +146,7 @@ function AppealsTable(props: Props) {
                     columnClassName: styles.code,
                 },
             ),
-            createLinkColumn<AppealListItem, number>(
+            createLinkColumn<AppealListItem, string>(
                 'operation',
                 strings.appealsTableOperation,
                 (item) => item.name,
@@ -155,13 +155,13 @@ function AppealsTable(props: Props) {
                     urlParams: { emergencyId: item.event },
                 }),
             ),
-            createStringColumn<AppealListItem, number>(
+            createStringColumn<AppealListItem, string>(
                 'dtype',
                 strings.appealsTableDisastertype,
                 (item) => item.dtype?.name,
                 { sortable: true },
             ),
-            createNumberColumn<AppealListItem, number>(
+            createNumberColumn<AppealListItem, string>(
                 'amount_requested',
                 strings.appealsTableRequestedAmount,
                 (item) => item.amount_requested,
@@ -170,7 +170,7 @@ function AppealsTable(props: Props) {
                     suffix: ' CHF',
                 },
             ),
-            createProgressColumn<AppealListItem, number>(
+            createProgressColumn<AppealListItem, string>(
                 'amount_funded',
                 strings.appealsTableFundedAmount,
                 (item) => (
@@ -182,7 +182,7 @@ function AppealsTable(props: Props) {
                 { sortable: true },
             ),
             variant !== 'country'
-                ? createLinkColumn<AppealListItem, number>(
+                ? createLinkColumn<AppealListItem, string>(
                     'country',
                     strings.appealsTableCountry,
                     (item) => item.country?.name,
@@ -225,8 +225,8 @@ function AppealsTable(props: Props) {
 
             return {
                 ...baseQuery,
-                country: isDefined(countryId) ? countryId : undefined,
-                region: isDefined(regionId) ? regionId : undefined,
+                country: isDefined(countryId) ? [countryId] : undefined,
+                region: isDefined(regionId) ? [regionId] : undefined,
             };
         },
         [

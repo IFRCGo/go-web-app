@@ -20,7 +20,6 @@ import {
     numericCountSelector,
     numericIdSelector,
     stringLabelSelector,
-    stringTitleSelector,
     sumSafe,
 } from '@ifrc-go/ui/utils';
 import {
@@ -425,7 +424,8 @@ export function Component() {
                     <PieChart
                         data={assessmentStats.ratingCounts}
                         valueSelector={numericCountSelector}
-                        labelSelector={stringTitleSelector}
+                        // FIXME: Why can this be undefined?
+                        labelSelector={(item) => item.title ?? '??'}
                         keySelector={numericIdSelector}
                         colors={primaryRedColorShades}
                         showPercentageInLegend

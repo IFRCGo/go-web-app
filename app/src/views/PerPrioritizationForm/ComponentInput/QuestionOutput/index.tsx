@@ -3,8 +3,9 @@ import { isNotDefined } from '@togglecorp/fujs';
 import styles from './styles.module.css';
 
 interface Props {
-    question: string;
-    answer: string | undefined;
+    question: string | undefined | null;
+    answer: string | undefined | null;
+    // FIXME: Check why question number and even question can be undefined
     questionNum: number | undefined | null;
     componentNum: number;
     notes?: string | null;

@@ -18,7 +18,8 @@ interface Props {
     data: {
         id: number;
         areaNum: number | undefined;
-        title: string;
+        // FIXME: check why title can be undefined?
+        title: string | null | undefined;
         value: number;
     }[] | undefined;
     ratingOptions: PerOptionsResponse['componentratings'] | undefined;

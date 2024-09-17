@@ -64,7 +64,9 @@ function ReturnPeriodTable(props: Props) {
             unique(
                 data?.map(
                     (datum) => {
-                        if (isFalsyString(datum.hazard_type)) {
+                        // FIXME: Update isFalsyString to Exclude empty string
+                        // FIXME: Also fix this in server
+                        if (isFalsyString(datum.hazard_type) || datum.hazard_type === '') {
                             return undefined;
                         }
 

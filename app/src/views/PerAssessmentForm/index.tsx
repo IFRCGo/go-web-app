@@ -334,7 +334,8 @@ export function Component() {
     const areaIdToTitleMap = listToMap(
         questionsResponse?.results ?? [],
         (question) => question.component.area.id,
-        (question) => question.component.area.title,
+        // FIXME: Why can area be undefined
+        (question) => question.component.area.title ?? undefined,
     );
 
     const minArea = areas[0]?.area_num ?? 1;
