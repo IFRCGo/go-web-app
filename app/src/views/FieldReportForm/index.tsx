@@ -172,7 +172,7 @@ export function Component() {
     const {
         value,
         error,
-        setFieldValue: onValueChange,
+        setFieldValue,
         validate,
         setError: onErrorSet,
         setValue: onValueSet,
@@ -748,7 +748,7 @@ export function Component() {
                         <TabPanel name="context">
                             <ContextFields
                                 error={error}
-                                onValueChange={onValueChange}
+                                onValueChange={setFieldValue}
                                 value={value}
                                 reportType={reportType}
                                 setDistrictOptions={setDistrictOptions}
@@ -764,7 +764,7 @@ export function Component() {
                         <TabPanel name="risk-analysis">
                             <RiskAnalysisFields
                                 error={error}
-                                onValueChange={onValueChange}
+                                onValueChange={setFieldValue}
                                 value={value}
                                 disabled={pending}
                             />
@@ -772,7 +772,7 @@ export function Component() {
                         <TabPanel name="situation">
                             <SituationFields
                                 error={error}
-                                onValueChange={onValueChange}
+                                onValueChange={setFieldValue}
                                 value={value}
                                 reportType={reportType}
                                 disabled={pending}
@@ -782,7 +782,7 @@ export function Component() {
                             <EarlyActionsFields
                                 reportType={reportType}
                                 error={error}
-                                onValueChange={onValueChange}
+                                onValueChange={setFieldValue}
                                 value={value}
                                 actionOptions={actionsByOrganizationType}
                                 disabled={pending}
@@ -792,7 +792,7 @@ export function Component() {
                             <ActionsFields
                                 reportType={reportType}
                                 error={error}
-                                onValueChange={onValueChange}
+                                onValueChange={setFieldValue}
                                 value={value}
                                 actionOptions={actionsByOrganizationType}
                                 externalPartnerOptions={externalPartnersResponse?.results}
@@ -803,7 +803,7 @@ export function Component() {
                         <TabPanel name="response">
                             <ResponseFields
                                 error={error}
-                                onValueChange={onValueChange}
+                                onValueChange={setFieldValue}
                                 value={value}
                                 reportType={reportType}
                                 isReviewCountry={isReviewCountry}

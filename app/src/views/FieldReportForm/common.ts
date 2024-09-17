@@ -285,10 +285,23 @@ export const reportSchema: FormSchema = {
                 member: (): ContactListMember => ({
                     fields: (): ContactField => ({
                         ctype: { required: true },
-                        name: {},
-                        title: {},
-                        email: { validations: [emailCondition] },
-                        phone: {},
+                        name: {
+                            required: true,
+                            requiredValidation: requiredStringCondition,
+                        },
+                        title: {
+                            required: true,
+                            requiredValidation: requiredStringCondition,
+                        },
+                        email: {
+                            required: true,
+                            requiredValidation: requiredStringCondition,
+                            validations: [emailCondition],
+                        },
+                        phone: {
+                            required: true,
+                            requiredValidation: requiredStringCondition,
+                        },
                     }),
                 }),
             },
