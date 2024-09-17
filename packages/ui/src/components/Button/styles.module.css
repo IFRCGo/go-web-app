@@ -11,6 +11,7 @@
     display: inline-flex;
     position: relative;
     align-items: center;
+    text-align: center;
     border: var(--go-ui-width-separator-sm) solid var(--color-border);
     border-radius: var(--border-radius);
     background-color: var(--color-background);
@@ -21,7 +22,7 @@
     max-width: 100%;
     overflow: hidden;
     text-transform: var(--text-transform);
-    line-height: var(--go-ui-line-height-xs);
+    line-height: 21px;
     color: var(--color-text);
     font-family: inherit;
     font-size: var(--font-size);

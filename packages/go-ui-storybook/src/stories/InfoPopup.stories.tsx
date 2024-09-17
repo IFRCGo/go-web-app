@@ -6,7 +6,8 @@ import type {
 
 import InfoPopup from './InfoPopup';
 
-type Story = StoryObj<InfoPopupProps>;
+type InfoPoppupSpecificProps = InfoPopupProps<string>;
+type Story = StoryObj<InfoPoppupSpecificProps>;
 
 const meta: Meta<typeof InfoPopup> = {
     title: 'Components/InfoPopup',

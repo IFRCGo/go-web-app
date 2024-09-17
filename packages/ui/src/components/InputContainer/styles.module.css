@@ -10,7 +10,7 @@
         padding: 0 var(--go-ui-spacing-sm);
         
         .input {
-            padding: var(--go-ui-spacing-xs) 0;
+            padding-left:12px;
             height: 32px;
         }
     }

@@ -1,12 +1,18 @@
-import { InformationLineIcon } from '@ifrc-go/icons';
+import { useCallback } from 'react';
+import {
+    CloseLineIcon,
+    InformationLineIcon,
+} from '@ifrc-go/icons';
 import { _cs } from '@togglecorp/fujs';
 
+import Button from '#components/Button';
 import Container from '#components/Container';
 import DropdownMenu from '#components/DropdownMenu';
 
 import styles from './styles.module.css';
 
-export interface Props {
+export interface Props<N> {
+    name: N;
     icon?: React.ReactNode;
     withoutIcon?: boolean;
     infoLabel?: React.ReactNode;
@@ -15,19 +21,31 @@ export interface Props {
     descriptionClassName?: string;
     popupClassName?: string;
     className?: string;
+    onCloseButtonClick?: (name: string) => void;
 }
 
-function InfoPopup(props: Props) {
+function InfoPopup<N extends string>(props: Props<N>) {
     const {
+        name,
         className,
         icon = <InformationLineIcon />,
         infoLabel,
         title,
         description,
         withoutIcon,
+        onCloseButtonClick,
         popupClassName,
         descriptionClassName,
     } = props;
+
+    const handleCloseButtonClick = useCallback(
+        () => {
+            if (onCloseButtonClick) {
+                onCloseButtonClick(name);
+            }
+        },
+        [onCloseButtonClick, name],
+    );
 
     return (
         <DropdownMenu
@@ -50,6 +68,17 @@ function InfoPopup(props: Props) {
                 heading={title}
                 childrenContainerClassName={_cs(descriptionClassName, styles.content)}
                 withInternalPadding
+                withHeaderBorder
+                actions={(
+                    <Button
+                        name={undefined}
+                        onClick={handleCloseButtonClick}
+                        variant="tertiary"
+                        title="Close"
+                    >
+                        <CloseLineIcon className={styles.closeIcon} />
+                    </Button>
+                )}
             >
                 {description}
             </Container>

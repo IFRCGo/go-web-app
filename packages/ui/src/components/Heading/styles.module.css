@@ -4,7 +4,7 @@
     margin: 0;
     line-height: var(--line-height);
     font-size: var(--font-size);
-    font-weight: var(--go-ui-font-weight-semibold);
+    font-weight: 500;
 
     &.modal-font-weight {
         font-weight: var(--go-ui-font-weight-medium);
