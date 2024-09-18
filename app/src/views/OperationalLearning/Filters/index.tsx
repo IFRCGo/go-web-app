@@ -1,18 +1,24 @@
-import { useCallback } from 'react';
+import {
+    useCallback,
+    useState,
+} from 'react';
 import { SearchLineIcon } from '@ifrc-go/icons';
 import {
     DateInput,
-    SelectInput,
+    MultiSelectInput,
     TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { isDefined } from '@togglecorp/fujs';
-import { SetValueArg } from '@togglecorp/toggle-form';
+import { stringNameSelector } from '@ifrc-go/ui/utils';
+import {
+    EntriesAsList,
+    SetValueArg,
+} from '@togglecorp/toggle-form';
 
-import CountrySelectInput, { type CountryOption } from '#components/domain/CountrySelectInput';
-import DisasterTypeSelectInput, { type DisasterTypeItem } from '#components/domain/DisasterTypeSelectInput';
+import { type DisasterTypeItem } from '#components/domain/DisasterTypeSelectInput';
 import RegionSelectInput, { type RegionOption } from '#components/domain/RegionSelectInput';
-import useCountry from '#hooks/domain/useCountry';
+import useCountry, { Country } from '#hooks/domain/useCountry';
+import useDisasterTypes, { DisasterType } from '#hooks/domain/useDisasterType';
 import usePerComponent, { type PerComponent } from '#hooks/domain/usePerComponent';
 import useSecondarySector, { type SecondarySector } from '#hooks/domain/useSecondarySector';
 import { getFormattedComponentName } from '#utils/domain/per';
@@ -23,12 +29,23 @@ const sectorKeySelector = (d: SecondarySector) => d.key;
 const sectorLabelSelector = (d: SecondarySector) => d.label;
 const perComponentKeySelector = (option: PerComponent) => option.id;
 
+function countryKeySelector(country: { iso3: string }) {
+    return country.iso3;
+}
+
+function disasterTypeKeySelector(type: DisasterTypeItem) {
+    return type.id;
+}
+function disasterTypeLabelSelector(type: DisasterTypeItem) {
+    return type.name ?? '?';
+}
+
 export type FilterValue = Partial<{
     region: RegionOption['key'],
-    country: CountryOption['id'],
-    disasterType: DisasterTypeItem['id'],
-    secondarySector: SecondarySector['key'],
-    perComponent: PerComponent['id'],
+    countries: string[],
+    disasterTypes: DisasterTypeItem['id'][],
+    secondarySectors: SecondarySector['key'][],
+    perComponents: PerComponent['id'][],
     appealStartDateAfter: string,
     appealStartDateBefore: string,
     appealSearchText: string;
@@ -44,7 +61,7 @@ export type EntriesAsListWithString<T> = {
 
 interface Props {
     value: FilterValue;
-    onChange: (...value: EntriesAsListWithString<FilterValue>) => void;
+    onChange: (...value: EntriesAsList<FilterValue>) => void;
     disabled?: boolean;
 }
 function Filters(props: Props) {
@@ -55,60 +72,28 @@ function Filters(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
-    const countries = useCountry();
+    const [
+        selectedCountryOptions,
+        setSelectedCountryOptions,
+    ] = useState<Country[] | undefined | null>();
+
+    const [
+        selectedDisasterTypeOptions,
+        setSelectedDisasterTypeOptions,
+    ] = useState<DisasterType[] | undefined | null>();
+
+    const [
+        selectedSecondarySelectedSectorOptions,
+        setSelectedSecondarySectorOptions,
+    ] = useState<SecondarySector[] | undefined | null>();
+
+    const [
+        selectedPerComponentOptions,
+        setSelectedPerComponentOptions,
+    ] = useState<PerComponent[] | undefined | null>();
 
     const [secondarySectorOptions, secondarySectorOptionsPending] = useSecondarySector();
     const [perComponentOptions, perComponentOptionsPending] = usePerComponent();
-
-    const handleRegionSelect = useCallback((
-        newValue: RegionOption['key'] | undefined,
-        key: 'region',
-        selectedRegion: RegionOption | undefined,
-    ) => {
-        onChange(newValue, key, selectedRegion?.value);
-        if (value.country) {
-            const countryRegion = countries.find((country) => country.id === value.country);
-            if (countryRegion?.region !== newValue) {
-                onChange(undefined, 'country', undefined);
-            }
-        }
-    }, [onChange, value, countries]);
-
-    const handleCountrySelect = useCallback((
-        newValue: CountryOption['id'] | undefined,
-        key: 'country',
-        selectedCountry: CountryOption | undefined,
-    ) => {
-        onChange(newValue, key, selectedCountry?.name);
-    }, [onChange]);
-
-    const handleDisasterTypeSelect = useCallback((
-        newValue: DisasterTypeItem['id'] | undefined,
-        key: 'disasterType',
-        selectedDisasterType: DisasterTypeItem | undefined,
-    ) => {
-        onChange(newValue, key, selectedDisasterType?.name);
-    }, [onChange]);
-
-    const handleSecondarySectorSelect = useCallback((
-        newValue: SecondarySector['key'] | undefined,
-        key: 'secondarySector',
-        selectedSector: SecondarySector | undefined,
-    ) => {
-        onChange(newValue, key, selectedSector?.label);
-    }, [onChange]);
-
-    const handleComponentSelect = useCallback((
-        newValue: PerComponent['id'] | undefined,
-        key: 'perComponent',
-        selectedComponent: PerComponent | undefined,
-    ) => {
-        onChange(
-            newValue,
-            key,
-            isDefined(selectedComponent) ? getFormattedComponentName(selectedComponent) : undefined,
-        );
-    }, [onChange]);
 
     const handleStartDateSelect = useCallback((
         newValue: string | undefined,
@@ -143,6 +128,10 @@ function Filters(props: Props) {
         );
     }, [onChange]);
 
+    const countryList = useCountry({ region: value.region });
+
+    const disasterTypeOptions = useDisasterTypes();
+
     return (
         <>
             <RegionSelectInput
@@ -150,49 +139,59 @@ function Filters(props: Props) {
                 label={strings.filterRegionsLabel}
                 placeholder={strings.filterRegionsPlaceholder}
                 value={value.region}
-                onChange={handleRegionSelect}
+                onChange={onChange}
                 disabled={disabled}
             />
-            <CountrySelectInput
-                name="country"
+            <MultiSelectInput
+                name="countries"
                 label={strings.filterCountryLabel}
-                placeholder={strings.filterCountryPlaceholder}
-                value={value.country}
-                regionId={value.region}
-                onChange={handleCountrySelect}
-                disabled={disabled}
+                placeholder={strings.filterCountryLabel}
+                options={countryList}
+                keySelector={countryKeySelector}
+                labelSelector={stringNameSelector}
+                value={value.countries}
+                onChange={onChange}
+                onOptionsChange={setSelectedCountryOptions}
+                withSelectAll
             />
-            <DisasterTypeSelectInput
-                name="disasterType"
-                label={strings.filterDisasterTypeLabel}
+            <MultiSelectInput
+                name="disasterTypes"
+                label={strings.filterDisasterTypePlaceholder}
                 placeholder={strings.filterDisasterTypePlaceholder}
-                value={value.disasterType}
-                onChange={handleDisasterTypeSelect}
-                disabled={disabled}
+                options={disasterTypeOptions}
+                keySelector={disasterTypeKeySelector}
+                labelSelector={disasterTypeLabelSelector}
+                value={value.disasterTypes}
+                onChange={onChange}
+                onOptionsChange={setSelectedDisasterTypeOptions}
+                withSelectAll
             />
-            <SelectInput
-                name="secondarySector"
+            <MultiSelectInput
+                name="secondarySectors"
                 label={strings.filterBySectorLabel}
                 placeholder={strings.filterBySectorPlaceholder}
+                options={secondarySectorOptions}
                 keySelector={sectorKeySelector}
                 labelSelector={sectorLabelSelector}
-                options={secondarySectorOptions}
                 optionsPending={secondarySectorOptionsPending}
                 disabled={secondarySectorOptionsPending || disabled}
-                value={value.secondarySector}
-                onChange={handleSecondarySectorSelect}
-
+                value={value.secondarySectors}
+                onChange={onChange}
+                onOptionsChange={setSelectedSecondarySectorOptions}
+                withSelectAll
             />
-            <SelectInput
-                name="perComponent"
+            <MultiSelectInput
+                name="perComponents"
                 label={strings.filterByComponentLabel}
                 placeholder={strings.filterByComponentPlaceholder}
                 options={perComponentOptions}
                 keySelector={perComponentKeySelector}
                 labelSelector={getFormattedComponentName}
                 disabled={perComponentOptionsPending || disabled}
-                value={value.perComponent}
-                onChange={handleComponentSelect}
+                value={value.perComponents}
+                onChange={onChange}
+                onOptionsChange={setSelectedPerComponentOptions}
+                withSelectAll
             />
             <DateInput
                 name="appealStartDateAfter"
