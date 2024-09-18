@@ -155,6 +155,12 @@
         }
     }
 
+    &.grey-tertiary {
+        --border-radius: unset;
+        --padding: var(--go-ui-spacing-sm) var(--go-ui-spacing-lg);
+        background-color: var(--go-ui-color-background);
+    }
+    
     &.disabled {
         opacity: var(--go-ui-opacity-disabled-element);
         --cursor: not-allowed;

@@ -106,8 +106,8 @@ export const Tertiary: Story = {
 export const TertiaryButtonWithIcon: Story = {
     args: {
         name: 'button',
-        variant: 'primary',
-        children: 'Primary Button',
+        variant: 'tertiary',
+        children: 'tertiary Button',
         // icons: <DownloadTwoFillIcon /> ,
     },
     parameters: {
@@ -139,20 +139,20 @@ export const DropdownItem: Story = {
     },
 };
 
-export const ProcessButtonWithIcon: Story = {
-    args: {
-        name: 'button',
-        variant: 'process',
-        children: 'Process Button',
-        // icons:<LoaderLineIcon/>
-    },
-};
-
 export const GreyTertiaryButtonWithIcon: Story = {
     args: {
         name: 'button',
         variant: 'grey-tertiary',
         children: 'Grey-Tertiary Button',
+        // icons: <DownloadTwoFillIcon />
+    },
+};
+
+export const ProcessButtonWithIcon: Story = {
+    args: {
+        name: 'button',
+        variant: 'secondary',
+        children: 'Process Button',
         // icons:<LoaderLineIcon/>
     },
 };
