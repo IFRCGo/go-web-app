@@ -1,9 +1,11 @@
 import {
     useCallback,
+    useEffect,
     useMemo,
     useState,
 } from 'react';
 import {
+    Button,
     Chip,
     ChipProps,
     Container,
@@ -38,7 +40,7 @@ import useFilterState from '#hooks/useFilterState';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import {
     type GoApiResponse,
-    useRequest,
+    useLazyRequest,
 } from '#utils/restRequest';
 
 import Filters, {
@@ -83,6 +85,7 @@ export function Component() {
         filter,
         filtered,
         setFilterField,
+        resetFilter,
     } = useFilterState<FilterValue>({
         debounceTime: 300,
         filter: {},
@@ -92,6 +95,7 @@ export function Component() {
 
     const [selectedFilterLabel, setSelectedFilterLabel] = useState<FilterLabel>();
 
+    // TODO:
     const handleFilterChange = useCallback((...args: EntriesAsListWithString<FilterValue>) => {
         const [, key, option] = args;
 
@@ -125,13 +129,13 @@ export function Component() {
 
     const query = useMemo(() => ({
         appeal_code__region: isDefined(filter.region) ? filter.region : undefined,
-        appeal_code__country: isDefined(filter.country) ? filter.country : undefined,
-        appeal_code__dtype: isDefined(filter.disasterType)
-            ? filter.disasterType : undefined,
-        sector_validated: isDefined(filter.secondarySector)
-            ? filter.secondarySector : undefined,
-        per_component_validated: isDefined(filter.perComponent)
-            ? filter.perComponent : undefined,
+        appeal_code__country_in: isDefined(filter.countries) ? filter.countries : undefined,
+        appeal_code__dtype_in: isDefined(filter.disasterTypes)
+            ? filter.disasterTypes : undefined,
+        sector_validated_in: isDefined(filter.secondarySectors)
+            ? filter.secondarySectors : undefined,
+        per_component_validated_in: isDefined(filter.perComponents)
+            ? filter.perComponents : undefined,
         appeal_code__start_date__gte: isDefined(filter.appealStartDateAfter)
             ? filter.appealStartDateAfter : undefined,
         appeal_code__start_date__lte: isDefined(filter.appealStartDateBefore)
@@ -144,7 +148,8 @@ export function Component() {
         pending: opsLearningSummaryPending,
         response: opsLearningSummaryResponse,
         error: opsLearningSummaryError,
-    } = useRequest({
+        trigger: triggerSummary,
+    } = useLazyRequest({
         url: '/api/v2/ops-learning/summary/',
         query,
         shouldPoll: (poll) => {
@@ -221,7 +226,8 @@ export function Component() {
     const {
         pending: opsLearningPending,
         response: opsLearningResponse,
-    } = useRequest({
+        trigger: triggerOperationalLearning,
+    } = useLazyRequest({
         url: '/api/v2/ops-learning/',
         query: {
             ...query,
@@ -251,6 +257,13 @@ export function Component() {
         },
     });
 
+    // NOTE: This effect is intentionally run only once on the initial render
+    useEffect(() => {
+        triggerSummary(query);
+        triggerOperationalLearning(query);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     const handleExportClick = useCallback(() => {
         if (!opsLearningResponse?.count) {
             return;
@@ -270,6 +283,19 @@ export function Component() {
         query,
     ]);
 
+    const handleApplyFilters = useCallback(() => {
+        triggerSummary(query);
+        triggerOperationalLearning(query);
+    }, [
+        query,
+        triggerSummary,
+        triggerOperationalLearning,
+    ]);
+
+    const handleFilterCancel = useCallback(() => {
+        resetFilter();
+    }, [resetFilter]);
+
     return (
         <Page
             heading={strings.operationalLearningHeading}
@@ -282,7 +308,7 @@ export function Component() {
                     <>
                         <Filters
                             value={rawFilter}
-                            onChange={handleFilterChange}
+                            onChange={setFilterField}
                         />
                         <div className={styles.exportButton}>
                             <ExportButton
@@ -316,6 +342,24 @@ export function Component() {
                         label={strings.selectedFilters}
                     />
                 ))}
+                footerContent={(
+                    <>
+                        <Button
+                            name="apply"
+                            onClick={handleApplyFilters}
+                            variant="secondary"
+                        >
+                            Apply
+                        </Button>
+                        <Button
+                            name="cancel"
+                            onClick={handleFilterCancel}
+                            variant="primary"
+                        >
+                            Cancel
+                        </Button>
+                    </>
+                )}
             />
             {showKeyInsights && (
                 <KeyInsights
