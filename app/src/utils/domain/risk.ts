@@ -354,11 +354,23 @@ export function riskScoreToCategory(
 export function isValidFeature(
     maybeFeature: unknown,
 ): maybeFeature is GeoJSON.Feature {
+    if (typeof maybeFeature !== 'object') {
+        return false;
+    }
+
     if (isNotDefined(maybeFeature)) {
         return false;
     }
 
-    if (typeof maybeFeature !== 'object') {
+    if (
+        !('type' in maybeFeature)
+        || !('geometry' in maybeFeature)
+        || !('properties' in maybeFeature)
+    ) {
+        return false;
+    }
+
+    if (maybeFeature.type !== 'Feature' as const) {
         return false;
     }
 

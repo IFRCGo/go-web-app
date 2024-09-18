@@ -7,6 +7,10 @@ import {
 import { type LngLatBoundsLike } from 'mapbox-gl';
 
 import RiskImminentEventMap, { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
+import {
+    RiskLayerProperties,
+    RiskLayerSeverity,
+} from '#components/domain/RiskImminentEventMap/utils';
 import { isValidFeatureCollection } from '#utils/domain/risk';
 import {
     type RiskApiResponse,
@@ -20,16 +24,57 @@ import EventListItem from './EventListItem';
 type ImminentEventResponse = RiskApiResponse<'/api/v1/adam-exposure/'>;
 type EventItem = NonNullable<ImminentEventResponse['results']>[number];
 
-function getLayerType(geometryType: GeoJSON.Geometry['type']) {
+function hazardTypeSelector(item: EventItem) {
+    return item.hazard_type;
+}
+
+function getLayerProperties(
+    feature: GeoJSON.Feature<GeoJSON.Geometry>,
+): RiskLayerProperties {
+    if (isNotDefined(feature)
+        || isNotDefined(feature.properties)
+        || isNotDefined(feature.geometry)
+    ) {
+        return {
+            type: 'unknown',
+        };
+    }
+
+    const geometryType = feature.geometry.type;
+
     if (geometryType === 'Point' || geometryType === 'MultiPoint') {
-        return 'track-point';
+        return { type: 'track-point' };
     }
 
     if (geometryType === 'LineString' || geometryType === 'MultiLineString') {
-        return 'track';
+        return { type: 'track-linestring' };
     }
 
-    return 'exposure';
+    if (geometryType === 'Polygon' || geometryType === 'MultiPolygon') {
+        const alertLevel = feature.properties.alert_level;
+
+        if (alertLevel === 'Cones') {
+            return {
+                type: 'uncertainty-cone',
+                forecastDays: undefined,
+            };
+        }
+
+        const severityMapping: Record<string, RiskLayerSeverity> = {
+            Red: 'red',
+            Orange: 'orange',
+            Green: 'green',
+        };
+
+        return {
+            type: 'exposure',
+            severity: severityMapping[alertLevel] ?? 'unknown',
+        };
+    }
+
+    return {
+        type: 'unknown',
+    };
 }
 
 type BaseProps = {
@@ -137,7 +182,7 @@ function WfpAdam(props: Props) {
                 ? storm_position_geojson
                 : undefined;
 
-            const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry> = {
+            const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry, RiskLayerProperties> = {
                 type: 'FeatureCollection' as const,
                 features: [
                     ...stormPositions?.features?.map(
@@ -145,7 +190,7 @@ function WfpAdam(props: Props) {
                             ...feature,
                             properties: {
                                 ...feature.properties,
-                                type: getLayerType(feature.geometry.type),
+                                ...getLayerProperties(feature),
                             },
                         }),
                     ) ?? [],
@@ -173,6 +218,7 @@ function WfpAdam(props: Props) {
             events={countryRiskResponse?.results}
             pointFeatureSelector={pointFeatureSelector}
             keySelector={numericIdSelector}
+            hazardTypeSelector={hazardTypeSelector}
             listItemRenderer={EventListItem}
             detailRenderer={EventDetails}
             pending={pendingCountryRiskResponse}

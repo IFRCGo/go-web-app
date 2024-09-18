@@ -7,6 +7,7 @@ import {
 import { type LngLatBoundsLike } from 'mapbox-gl';
 
 import RiskImminentEventMap, { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
+import { RiskLayerProperties } from '#components/domain/RiskImminentEventMap/utils';
 import {
     isValidFeature,
     isValidPointFeature,
@@ -22,6 +23,10 @@ import EventListItem from './EventListItem';
 
 type ImminentEventResponse = RiskApiResponse<'/api/v1/pdc/'>;
 type EventItem = NonNullable<ImminentEventResponse['results']>[number];
+
+function hazardTypeSelector(item: EventItem) {
+    return item.hazard_type;
+}
 
 type BaseProps = {
     title: React.ReactNode;
@@ -119,6 +124,8 @@ function Pdc(props: Props) {
             const {
                 footprint_geojson,
                 storm_position_geojson,
+                // cyclone_five_days_cou,
+                cyclone_three_days_cou,
             } = exposure;
 
             if (isNotDefined(footprint_geojson) && isNotDefined(storm_position_geojson)) {
@@ -130,20 +137,46 @@ function Pdc(props: Props) {
             const stormPositions = (storm_position_geojson as unknown as unknown[] | undefined)
                 ?.filter(isValidPointFeature);
 
+            // FIXME: fix typing in server (low priority)
+            const forecastUncertainty = isValidFeature(cyclone_three_days_cou?.[0])
+                ? cyclone_three_days_cou[0]
+                : undefined;
+
+            // severity
+            // WARNING: Adverse or significant impacts to population are imminent or occuring.
+            // WATCH: Conditions are possible for adverse or significant impacts to population.
+            // ADVISORY: Conditions are possible for limited or minor impacts to population
+            // INFORMATION: Conditions are possible for limited or minor impacts to population
+
+            // advisory_date: "28-Sep-2024"
+            // advisory_number: 4
+            // advisory_time: "0000Z"
+            // hazard_name: "Super Typhoon - Krathon"
+            //
             // forecast_date_time : "2023 SEP 04, 00:00Z"
             // severity : "WARNING"
             // storm_name : "HAIKUI"
             // track_heading : "WNW"
             // wind_speed_mph : 75
+            // track_speed_mph: xx
 
-            const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry> = {
+            const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry, RiskLayerProperties> = {
                 type: 'FeatureCollection' as const,
                 features: [
                     footprint ? {
                         ...footprint,
                         properties: {
                             ...footprint.properties,
-                            type: 'exposure',
+                            type: 'exposure' as const,
+                            severity: 'unknown' as const,
+                        },
+                    } : undefined,
+                    forecastUncertainty ? {
+                        ...forecastUncertainty,
+                        properties: {
+                            ...forecastUncertainty.properties,
+                            type: 'uncertainty-cone' as const,
+                            forecastDays: 3,
                         },
                     } : undefined,
                     stormPositions ? {
@@ -157,7 +190,7 @@ function Pdc(props: Props) {
                             ),
                         },
                         properties: {
-                            type: 'track',
+                            type: 'track-linestring' as const,
                         },
                     } : undefined,
                     ...stormPositions?.map(
@@ -165,7 +198,7 @@ function Pdc(props: Props) {
                             ...pointFeature,
                             properties: {
                                 ...pointFeature.properties,
-                                type: 'track-point',
+                                type: 'track-point' as const,
                             },
                         }),
                     ) ?? [],
@@ -193,6 +226,7 @@ function Pdc(props: Props) {
             events={countryRiskResponse?.results}
             pointFeatureSelector={pointFeatureSelector}
             keySelector={numericIdSelector}
+            hazardTypeSelector={hazardTypeSelector}
             listItemRenderer={EventListItem}
             detailRenderer={EventDetails}
             pending={pendingCountryRiskResponse}

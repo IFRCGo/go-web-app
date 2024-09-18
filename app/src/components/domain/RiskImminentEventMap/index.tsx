@@ -16,10 +16,13 @@ import {
     mapToList,
 } from '@togglecorp/fujs';
 import {
+    getLayerName,
     MapBounds,
     MapImage,
     MapLayer,
+    MapOrder,
     MapSource,
+    MapState,
 } from '@togglecorp/re-map';
 import getBbox from '@turf/bbox';
 import getBuffer from '@turf/buffer';
@@ -38,17 +41,27 @@ import {
     DURATION_MAP_ZOOM,
 } from '#utils/constants';
 
+import LayerOptions, { LayerOptionsValue } from './LayerOptions';
 import {
+    activeHazardPointLayer,
     exposureFillLayer,
+    exposureFillOutlineLayer,
     geojsonSourceOptions,
     hazardKeyToIconmap,
     hazardPointIconLayout,
     hazardPointLayer,
+    invisibleCircleLayer,
+    invisibleFillLayer,
     invisibleLayout,
+    invisibleLineLayer,
+    invisibleSymbolLayer,
     trackArrowLayer,
-    trackOutlineLayer,
+    trackLineLayer,
     trackPointLayer,
+    trackPointOuterCircleLayer,
+    uncertaintyConeLayer,
 } from './mapStyles';
+import { RiskLayerProperties } from './utils';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -73,27 +86,30 @@ type EventPointProperties = {
 
 export type EventPointFeature = GeoJSON.Feature<GeoJSON.Point, EventPointProperties>;
 
-interface EventItemProps<EVENT> {
+export interface RiskEventListItemProps<EVENT> {
     data: EVENT;
     onExpandClick: (eventId: number | string) => void;
+    className?: string;
 }
 
-interface EventDetailProps<EVENT, EXPOSURE> {
+export interface RiskEventDetailProps<EVENT, EXPOSURE> {
     data: EVENT;
     exposure: EXPOSURE | undefined;
     pending: boolean;
+    children?: React.ReactNode;
 }
 
-type Footprint = GeoJSON.FeatureCollection<GeoJSON.Geometry> | undefined;
+type Footprint = GeoJSON.FeatureCollection<GeoJSON.Geometry, RiskLayerProperties> | undefined;
 
 interface Props<EVENT, EXPOSURE, KEY extends string | number> {
     events: EVENT[] | undefined;
     keySelector: (event: EVENT) => KEY;
+    hazardTypeSelector: (event: EVENT) => HazardType | '' | undefined;
     pointFeatureSelector: (event: EVENT) => EventPointFeature | undefined;
     footprintSelector: (activeEventExposure: EXPOSURE | undefined) => Footprint | undefined;
     activeEventExposure: EXPOSURE | undefined;
-    listItemRenderer: React.ComponentType<EventItemProps<EVENT>>;
-    detailRenderer: React.ComponentType<EventDetailProps<EVENT, EXPOSURE>>;
+    listItemRenderer: React.ComponentType<RiskEventListItemProps<EVENT>>;
+    detailRenderer: React.ComponentType<RiskEventDetailProps<EVENT, EXPOSURE>>;
     pending: boolean;
     sidePanelHeading: React.ReactNode;
     bbox: LngLatBoundsLike | undefined;
@@ -114,6 +130,7 @@ function RiskImminentEventMap<
         detailRenderer,
         pending,
         activeEventExposure,
+        hazardTypeSelector,
         footprintSelector,
         sidePanelHeading,
         bbox,
@@ -124,6 +141,12 @@ function RiskImminentEventMap<
     const strings = useTranslation(i18n);
 
     const [activeEventId, setActiveEventId] = useState<KEY | undefined>(undefined);
+    const [layerOptions, setLayerOptions] = useState<LayerOptionsValue>({
+        showStormPosition: true,
+        showForecastUncertainty: true,
+        showTrackLine: true,
+        showExposedArea: true,
+    });
     const activeEvent = useMemo(
         () => {
             if (isNotDefined(activeEventId)) {
@@ -135,6 +158,18 @@ function RiskImminentEventMap<
             );
         },
         [activeEventId, keySelector, events],
+    );
+
+    const eventVisibilityAttributes = useMemo(
+        () => events?.map((event) => {
+            const key = keySelector(event);
+
+            return {
+                id: key,
+                value: isNotDefined(activeEventId) || activeEventId === key,
+            };
+        }),
+        [events, activeEventId, keySelector],
     );
 
     const activeEventFootprint = useMemo(
@@ -184,10 +219,21 @@ function RiskImminentEventMap<
         () => ({
             type: 'FeatureCollection' as const,
             features: events?.map(
-                pointFeatureSelector,
+                (event) => {
+                    const feature = pointFeatureSelector(event);
+
+                    if (isNotDefined(feature)) {
+                        return undefined;
+                    }
+
+                    return {
+                        ...feature,
+                        id: keySelector(event),
+                    };
+                },
             ).filter(isDefined) ?? [],
         }),
-        [events, pointFeatureSelector],
+        [events, pointFeatureSelector, keySelector],
     );
 
     const setActiveEventIdSafe = useCallback(
@@ -210,9 +256,10 @@ function RiskImminentEventMap<
     );
 
     const eventListRendererParams = useCallback(
-        (_: string | number, event: EVENT): EventItemProps<EVENT> => ({
+        (_: string | number, event: EVENT): RiskEventListItemProps<EVENT> => ({
             data: event,
             onExpandClick: setActiveEventIdSafe,
+            className: styles.riskEventListItem,
         }),
         [setActiveEventIdSafe],
     );
@@ -242,7 +289,18 @@ function RiskImminentEventMap<
     const hazardPointIconLayer = useMemo<Omit<SymbolLayer, 'id'>>(
         () => ({
             type: 'symbol',
-            paint: { 'icon-color': COLOR_WHITE },
+            paint: {
+                'icon-color': COLOR_WHITE,
+                'icon-opacity': [
+                    'case',
+                    ['boolean', ['feature-state', 'eventVisible'], true],
+                    1,
+                    0,
+                ],
+                'icon-opacity-transition': {
+                    duration: 200,
+                },
+            },
             layout: allIconsLoaded ? hazardPointIconLayout : invisibleLayout,
         }),
         [allIconsLoaded],
@@ -274,7 +332,6 @@ function RiskImminentEventMap<
                         />
                     );
                 })}
-                {/* FIXME: footprint layer should always be the bottom layer */}
                 {activeEventFootprint && (
                     <MapSource
                         sourceKey="active-event-footprint"
@@ -283,19 +340,49 @@ function RiskImminentEventMap<
                     >
                         <MapLayer
                             layerKey="exposure-fill"
-                            layerOptions={exposureFillLayer}
+                            layerOptions={layerOptions.showExposedArea
+                                ? exposureFillLayer
+                                : invisibleFillLayer}
                         />
                         <MapLayer
-                            layerKey="track-outline"
-                            layerOptions={trackOutlineLayer}
+                            layerKey="exposure-fill-outline"
+                            layerOptions={layerOptions.showExposedArea
+                                ? exposureFillOutlineLayer
+                                : invisibleFillLayer}
+                        />
+                        <MapLayer
+                            layerKey="track-line"
+                            layerOptions={layerOptions.showTrackLine
+                                ? trackLineLayer
+                                : invisibleLineLayer}
                         />
                         <MapLayer
                             layerKey="track-arrow"
-                            layerOptions={trackArrowLayer}
+                            layerOptions={layerOptions.showTrackLine
+                                ? trackArrowLayer
+                                : invisibleSymbolLayer}
                         />
                         <MapLayer
                             layerKey="track-point"
-                            layerOptions={trackPointLayer}
+                            layerOptions={layerOptions.showStormPosition
+                                ? trackPointLayer
+                                : invisibleCircleLayer}
+                        />
+                        <MapLayer
+                            layerKey="track-point-outer-circle"
+                            layerOptions={layerOptions.showStormPosition
+                                ? trackPointOuterCircleLayer
+                                : invisibleCircleLayer}
+                        />
+                        <MapLayer
+                            layerKey="uncertainty-cone"
+                            layerOptions={layerOptions.showForecastUncertainty
+                                ? uncertaintyConeLayer
+                                : invisibleLineLayer}
+                        />
+                        <MapLayer
+                            layerKey="hazard-point"
+                            layerOptions={activeHazardPointLayer}
                         />
                     </MapSource>
                 )}
@@ -313,7 +400,27 @@ function RiskImminentEventMap<
                         layerKey="hazard-points-icon"
                         layerOptions={hazardPointIconLayer}
                     />
+                    <MapState
+                        // sourceLayer="event-points"
+                        attributeKey="eventVisible"
+                        // @ts-expect-error Wrong typing in @togglecorp/re-map
+                        attributes={eventVisibilityAttributes}
+                    />
                 </MapSource>
+                <MapOrder
+                    ordering={[
+                        getLayerName('active-event-footprint', 'exposure-fill', true),
+                        getLayerName('active-event-footprint', 'exposure-fill-outline', true),
+                        getLayerName('active-event-footprint', 'uncertainty-cone', true),
+                        getLayerName('active-event-footprint', 'track-point-outer-circle', true),
+                        getLayerName('active-event-footprint', 'track-line', true),
+                        getLayerName('active-event-footprint', 'track-arrow', true),
+                        getLayerName('active-event-footprint', 'track-point', true),
+                        getLayerName('active-event-footprint', 'hazard-point', true),
+                        getLayerName('event-points', 'point-circle', true),
+                        getLayerName('event-points', 'hazard-points-icon', true),
+                    ]}
+                />
                 {boundsSafe && (
                     <MapBounds
                         duration={DURATION_MAP_ZOOM}
@@ -328,6 +435,7 @@ function RiskImminentEventMap<
                 withHeaderBorder
                 withInternalPadding
                 childrenContainerClassName={styles.content}
+                spacing="cozy"
                 actions={isDefined(activeEventId) && (
                     <Button
                         name={undefined}
@@ -359,7 +467,14 @@ function RiskImminentEventMap<
                         data={activeEvent}
                         exposure={activeEventExposure}
                         pending={activeEventExposurePending}
-                    />
+                    >
+                        {hazardTypeSelector(activeEvent) === 'TC' && (
+                            <LayerOptions
+                                value={layerOptions}
+                                onChange={setLayerOptions}
+                            />
+                        )}
+                    </DetailComponent>
                 )}
             </Container>
         </div>

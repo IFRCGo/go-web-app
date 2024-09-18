@@ -65,6 +65,7 @@ export const COLOR_BLUE = '#4c5d9b';
 export const COLOR_LIGHT_BLUE = '#c7d3e0';
 export const COLOR_ORANGE = '#ff8000';
 export const COLOR_RED = '#f5333f';
+export const COLOR_GREEN = '#8BB656';
 export const COLOR_DARK_RED = '#730413';
 export const COLOR_PRIMARY_BLUE = '#011e41';
 export const COLOR_PRIMARY_RED = '#f5333f';
