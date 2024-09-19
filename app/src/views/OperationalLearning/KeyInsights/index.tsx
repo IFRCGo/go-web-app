@@ -65,6 +65,13 @@ function KeyInsights(props: Props) {
                                 'MMM-yyyy',
                             ),
                         })}
+                        <Link
+                            href="https://go-wiki.ifrc.org/en/user_guide/ops_learning"
+                            external
+                            withUnderline
+                        >
+                            {strings.keyInsightsDisclaimerClickHere}
+                        </Link>
                     </span>
                     <Link
                         className={styles.reportIssue}
