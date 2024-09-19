@@ -1,9 +1,10 @@
 {
     "namespace": "keyInsights",
     "strings": {
-    "opsLearningSummariesHeading":"Summary of Learning",
-    "keyInsightsDisclaimer":"THIS DATA WAS GENERATED USING AI AND LARGE LEARNING MODELS. THESE SUMMARIES REPRESENT {numOfExtractsUsed} PRIORITISED EXTRACTS OUT OF {totalNumberOfExtracts} FROM THE DREF AND EA DOCUMENTS BETWEEN {appealsFromDate} - {appealsToDate}, BASED ON AVAILABILITY.",
-    "keyInsightsReportIssue":"Report an issue",
+    "opsLearningSummariesHeading": "Summary of Learning",
+    "keyInsightsDisclaimer": "THESE SUMMARIES WERE GENERATED USING AI AND LARGE LANGUAGE MODELS. THEY REPRESENT {numOfExtractsUsed} PRIORITISED EXTRACTS OUT OF {totalNumberOfExtracts} FROM THE DREF AND EA DOCUMENTS BETWEEN {appealsFromDate} - {appealsToDate}. TO SEE THE METHODOLOGY BEHIND THE PRIORITISATION ",
+    "keyInsightsDisclaimerClickHere": "CLICK HERE.",
+    "keyInsightsReportIssue": "Report an issue",
     "closeSources": "Close Sources",
     "seeSources": "Show Sources"
     }
