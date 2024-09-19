@@ -28,17 +28,9 @@ import i18n from './i18n.json';
 const sectorKeySelector = (d: SecondarySector) => d.key;
 const sectorLabelSelector = (d: SecondarySector) => d.label;
 const perComponentKeySelector = (option: PerComponent) => option.id;
-
-function countryKeySelector(country: { iso3: string }) {
-    return country.iso3;
-}
-
-function disasterTypeKeySelector(type: DisasterTypeItem) {
-    return type.id;
-}
-function disasterTypeLabelSelector(type: DisasterTypeItem) {
-    return type.name ?? '?';
-}
+const countryKeySelector = (country: Country) => country.iso3;
+const disasterTypeKeySelector = (type: DisasterTypeItem) => type.id;
+const disasterTypeLabelSelector = (type: DisasterTypeItem) => type.name ?? '?';
 
 export type FilterValue = Partial<{
     region: RegionOption['key'],
@@ -51,6 +43,13 @@ export type FilterValue = Partial<{
     appealSearchText: string;
 }>
 
+type SelectedOptions = {
+    countries: Country[] | null | undefined;
+    disasterTypes: DisasterType[] | null | undefined;
+    secondarySectors: SecondarySector[] | null | undefined;
+    perComponents: PerComponent[] | null | undefined;
+};
+
 export type FilterLabel = Partial<{
     [key in keyof FilterValue]: string;
 }>
@@ -62,6 +61,7 @@ export type EntriesAsListWithString<T> = {
 interface Props {
     value: FilterValue;
     onChange: (...value: EntriesAsList<FilterValue>) => void;
+    // onChange: (...value: EntriesAsListWithString<FilterValue>) => void;
     disabled?: boolean;
 }
 function Filters(props: Props) {
@@ -72,28 +72,28 @@ function Filters(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
-    const [
-        selectedCountryOptions,
-        setSelectedCountryOptions,
-    ] = useState<Country[] | undefined | null>();
 
-    const [
-        selectedDisasterTypeOptions,
-        setSelectedDisasterTypeOptions,
-    ] = useState<DisasterType[] | undefined | null>();
-
-    const [
-        selectedSecondarySelectedSectorOptions,
-        setSelectedSecondarySectorOptions,
-    ] = useState<SecondarySector[] | undefined | null>();
-
-    const [
-        selectedPerComponentOptions,
-        setSelectedPerComponentOptions,
-    ] = useState<PerComponent[] | undefined | null>();
+    const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>({
+        countries: null,
+        disasterTypes: null,
+        secondarySectors: null,
+        perComponents: null,
+    });
 
     const [secondarySectorOptions, secondarySectorOptionsPending] = useSecondarySector();
     const [perComponentOptions, perComponentOptionsPending] = usePerComponent();
+
+    const handleOptionChange = useCallback(<K extends keyof SelectedOptions>(
+        newValue: React.SetStateAction<SelectedOptions[K]>,
+        name: K,
+    ) => {
+        setSelectedOptions((prev) => ({
+            ...prev,
+            [name]: typeof newValue === 'function'
+                ? newValue(prev[name])
+                : newValue,
+        }));
+    }, []);
 
     const handleStartDateSelect = useCallback((
         newValue: string | undefined,
@@ -151,7 +151,7 @@ function Filters(props: Props) {
                 labelSelector={stringNameSelector}
                 value={value.countries}
                 onChange={onChange}
-                onOptionsChange={setSelectedCountryOptions}
+                onOptionsChange={(newValue) => handleOptionChange(newValue, 'countries')}
                 withSelectAll
             />
             <MultiSelectInput
@@ -163,7 +163,7 @@ function Filters(props: Props) {
                 labelSelector={disasterTypeLabelSelector}
                 value={value.disasterTypes}
                 onChange={onChange}
-                onOptionsChange={setSelectedDisasterTypeOptions}
+                onOptionsChange={(newValue) => handleOptionChange(newValue, 'disasterTypes')}
                 withSelectAll
             />
             <MultiSelectInput
@@ -177,7 +177,7 @@ function Filters(props: Props) {
                 disabled={secondarySectorOptionsPending || disabled}
                 value={value.secondarySectors}
                 onChange={onChange}
-                onOptionsChange={setSelectedSecondarySectorOptions}
+                onOptionsChange={(newValue) => handleOptionChange(newValue, 'secondarySectors')}
                 withSelectAll
             />
             <MultiSelectInput
@@ -190,7 +190,7 @@ function Filters(props: Props) {
                 disabled={perComponentOptionsPending || disabled}
                 value={value.perComponents}
                 onChange={onChange}
-                onOptionsChange={setSelectedPerComponentOptions}
+                onOptionsChange={(newValue) => handleOptionChange(newValue, 'perComponents')}
                 withSelectAll
             />
             <DateInput

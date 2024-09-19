@@ -309,6 +309,8 @@ export function Component() {
                         <Filters
                             value={rawFilter}
                             onChange={setFilterField}
+                            // TODO:
+                            // onChange={handleFilterChange}
                         />
                         <div className={styles.exportButton}>
                             <ExportButton
