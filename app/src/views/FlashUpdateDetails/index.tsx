@@ -1,5 +1,6 @@
 import {
     Fragment,
+    useCallback,
     useMemo,
 } from 'react';
 import { useParams } from 'react-router-dom';
@@ -29,7 +30,7 @@ import {
 } from '@togglecorp/fujs';
 
 import DetailsFailedToLoadMessage from '#components/domain/DetailsFailedToLoadMessage';
-import Link from '#components/Link';
+import Link, { type InternalLinkProps } from '#components/Link';
 import Page from '#components/Page';
 import { useRequest } from '#utils/restRequest';
 
@@ -38,6 +39,15 @@ import FlashUpdateShareModal from './FlashUpdateShareModal';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+type BreadcrumbsDataType = {
+        to: InternalLinkProps['to'];
+        label: string;
+        urlParams?: Record<string, string | number | null | undefined>;
+};
+
+const keySelector = (option: BreadcrumbsDataType) => option.to;
+const labelSelector = (option: BreadcrumbsDataType) => option.label;
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -104,6 +114,36 @@ export function Component() {
         [flashUpdateResponse],
     );
 
+    const breadCrumbsData: BreadcrumbsDataType[] = useMemo(() => ([
+        {
+            to: 'home',
+            label: strings.home,
+        },
+        {
+            to: 'emergencies',
+            label: strings.emergencies,
+        },
+        {
+            to: 'flashUpdateFormDetails',
+            label: flashUpdateResponse?.title ?? '-',
+            urlParams: {
+                flashUpdateId,
+            },
+        },
+    ]), [
+        strings.home,
+        strings.emergencies,
+        flashUpdateId,
+        flashUpdateResponse?.title,
+    ]);
+
+    const rendererParams = useCallback((_: BreadcrumbsDataType['to'], item: BreadcrumbsDataType)
+    : InternalLinkProps => (
+        {
+            to: item.to,
+            urlParams: item.urlParams,
+        }
+    ), []);
     const shouldHideDetails = fetchingFlashUpdate
         || isDefined(flashUpdateResponseError);
 
@@ -115,24 +155,18 @@ export function Component() {
             className={styles.flashUpdateDetails}
             heading={flashUpdateResponse?.title ?? strings.flashUpdateDetailsHeading}
             breadCrumbs={(
-                <Breadcrumbs>
-                    <Link
-                        to="home"
+                <Breadcrumbs
+                    <
+                        BreadcrumbsDataType['to'],
+                        BreadcrumbsDataType,
+                        (InternalLinkProps & { children: React.ReactNode })
                     >
-                        {strings.home}
-                    </Link>
-                    <Link
-                        to="emergencies"
-                    >
-                        {strings.emergencies}
-                    </Link>
-                    <Link
-                        to="flashUpdateFormDetails"
-                        urlParams={{ flashUpdateId }}
-                    >
-                        {flashUpdateResponse?.title}
-                    </Link>
-                </Breadcrumbs>
+                    data={breadCrumbsData}
+                    keySelector={keySelector}
+                    labelSelector={labelSelector}
+                    renderer={Link}
+                    rendererParams={rendererParams}
+                />
             )}
             actions={flashUpdateResponse && (
                 <>

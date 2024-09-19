@@ -6,14 +6,18 @@
     .item {
         display: flex;
 
-        &:not(:last-child) {
-            color: var(--go-ui-color-gray-70);
-            font-weight: var(--go-ui-font-weight-light);
-        }
+            &:not(:last-child) {
+                .label {
+                    color: var(--go-ui-color-gray-70);
+                    font-weight: var(--go-ui-font-weight-light);
+                }
+            }
 
-        &:last-child {
-            color: var(--go-ui-color-black);
-        }
+            &:last-child {
+                .label {
+                    color: var(--go-ui-color-black);
+                }
+            }
     }
 
     .separator {

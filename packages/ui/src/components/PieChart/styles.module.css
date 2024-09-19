@@ -16,6 +16,7 @@
         gap: var(--go-ui-border-radius-lg);
 
         .legend-item {
+            text-transform: uppercase;
             font-size: var(--go-ui-font-size-xs);
         }
     }
