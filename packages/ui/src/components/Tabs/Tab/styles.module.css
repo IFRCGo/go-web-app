@@ -183,12 +183,20 @@
     }
 
     &.secondary {
-        border-radius: var(--go-ui-border-radius-full);
-        padding: var(--go-ui-spacing-md) var(--go-ui-spacing-xl);
-
+        border-right: var(--border-width) solid var(--border-color);
+        border-top-color: transparent;
+        
+      /* stylelint-disable-next-line no-descending-specificity */
+        .children-wrapper {
+            padding: var(--go-ui-spacing-md) var(--go-ui-spacing-lg);
+        }
+    
         &.active {
-            background-color: var(--go-ui-color-primary-red);
-            color: var(--go-ui-color-white);
+            color: var(--go-ui-color-primary-red);
+        }
+    
+        &:last-child {
+            border-color: transparent;
         }
     }
 
