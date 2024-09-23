@@ -3,9 +3,9 @@ import React, {
     useRef,
 } from 'react';
 import {
-    ArrowDownSmallFillIcon,
-    ArrowUpSmallFillIcon,
     CheckDoubleFillIcon,
+    ChevronDownLineIcon,
+    ChevronUpLineIcon,
     CloseLineIcon,
 } from '@ifrc-go/icons';
 import {
@@ -304,17 +304,6 @@ function SelectInputContainer<
                                 <CheckDoubleFillIcon className={styles.icon} />
                             </Button>
                         )}
-                        {!readOnly && !nonClearable && hasValue && (
-                            <Button
-                                onClick={onClearButtonClick}
-                                disabled={disabled}
-                                variant="tertiary"
-                                name={undefined}
-                                title={strings.buttonTitleClear}
-                            >
-                                <CloseLineIcon className={styles.icon} />
-                            </Button>
-                        )}
                         {!readOnly && (
                             <Button
                                 onClick={handleToggleDropdown}
@@ -325,8 +314,8 @@ function SelectInputContainer<
                                     : strings.buttonTitleOpen}
                             >
                                 {dropdownShownActual
-                                    ? <ArrowUpSmallFillIcon className={styles.icon} />
-                                    : <ArrowDownSmallFillIcon className={styles.icon} />}
+                                    ? <ChevronUpLineIcon className={styles.icon} />
+                                    : <ChevronDownLineIcon className={styles.icon} />}
                             </Button>
                         )}
                     </>
@@ -355,6 +344,21 @@ function SelectInputContainer<
                     parentRef={inputSectionRef}
                     className={_cs(optionsPopupClassName, styles.popup)}
                 >
+                    {!readOnly && !nonClearable && hasValue && !disabled && (
+                        <div className={styles.clearButton}>
+                            <Button
+                                onClick={onClearButtonClick}
+                                disabled={disabled}
+                                variant="secondary"
+                                name={undefined}
+                                title={strings.buttonTitleClear}
+                            >
+                                {strings.buttonClearAll}
+                                <CloseLineIcon className={styles.icon} />
+                            </Button>
+                            <div className={styles.clearAllBorder} />
+                        </div>
+                    )}
                     <List<OPTION, OPTION_KEY, GenericOptionProps<RENDER_PROPS, OPTION_KEY, OPTION>>
                         className={styles.list}
                         data={options}

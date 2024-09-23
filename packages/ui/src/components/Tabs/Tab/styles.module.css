@@ -89,7 +89,7 @@
 
             .step-circle {
                 position: absolute;
-                left: 40%;
+                left: 45%;
                 flex-shrink: 0;
                 transition: var(--go-ui-duration-transition-slow) border-color ease-in-out;
                 border: var(--border-width) solid transparent;
