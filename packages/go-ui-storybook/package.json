@@ -21,7 +21,7 @@
     "dependencies": {
         "@ifrc-go/icons": "^2.0.1",
         "@ifrc-go/ui": "^1.1.6",
-        "@storybook/preview-api": "^8.1.5",
+        "@storybook/preview-api": "^8.3.2",
         "@storybook/test": "^8.1.5",
         "@togglecorp/fujs": "^2.1.1",
         "react": "^18.2.0",
