@@ -177,4 +177,7 @@
 .table-link:hover {
     color: var(--go-ui-color-primary-red);
 }
+.table-header-row {
+    background:var(--go-ui-color-primary-gray-10);
+}
 

@@ -19,7 +19,7 @@
     flex-direction: column;
     padding-left: 24px;
 
-    :hover {
-        background-color:var(--go-ui-color-gray)
+    &:hover {
+        background-color: var(--go-ui-color-background-hover);
     }
 }

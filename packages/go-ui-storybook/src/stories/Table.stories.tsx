@@ -277,6 +277,7 @@ export const Default: Story = {
         filtered: false,
         pending: false,
         headersHidden: false,
+        headerRowClassName: 'table-header-row',
     },
 };
 
@@ -287,6 +288,7 @@ export const WithHeadersHidden: Story = {
         keySelector,
         caption: 'Animal Information Dataset',
         headersHidden: true,
+        headerRowClassName: 'table-header-row',
     },
 };
 
@@ -297,6 +299,7 @@ export const WithFixedColumnWidth: Story = {
         keySelector,
         caption: 'All columns utilize fixed width formatting.',
         fixedColumnWidth: true,
+        headerRowClassName: 'table-header-row',
     },
 };
 
@@ -307,5 +310,6 @@ export const WithResizableColumn: Story = {
         keySelector,
         caption: 'You can utilize the header column to adjust the width of each column.',
         resizableColumn: true,
+        headerRowClassName: 'table-header-row',
     },
 };

@@ -56,7 +56,13 @@ function InputSection(props: Props) {
                     headerClassName={styles.header}
                     headingClassName={styles.heading}
                     headingContainerClassName={styles.headingContainer}
-                    actions={tooltip && <InfoPopup description={tooltip} />}
+                    actions={tooltip
+                        && (
+                            <InfoPopup
+                                description={tooltip}
+                                name=""
+                            />
+                        )}
                     childrenContainerClassName={styles.description}
                     headingLevel={withCompactTitleSection ? 5 : 4}
                     spacing="cozy"

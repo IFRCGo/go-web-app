@@ -32,7 +32,7 @@ export const Info: Story = {
         name: 'info',
         type: 'info',
         nonDismissable: true,
-        description: 'This alert provides informative details to the user.',
+        title: 'This alert provides informative details to the user.',
     },
     parameters: {
         design: {
@@ -48,7 +48,7 @@ export const Success: Story = {
         name: 'success',
         type: 'success',
         nonDismissable: true,
-        description: 'This alert indicates a successful operation or task.',
+        title: 'This alert indicates a successful operation or task.',
     },
     parameters: {
         design: {
@@ -64,7 +64,7 @@ export const Warning : Story = {
         name: 'warning',
         type: 'warning',
         nonDismissable: true,
-        description: 'This alert warns the user about potential issues or risks.',
+        title: 'This alert warns the user about potential issues or risks.',
     },
 };
 
@@ -73,7 +73,7 @@ export const Danger : Story = {
         name: 'danger',
         type: 'danger',
         nonDismissable: true,
-        description: 'This alert indicates a dangerous or potentially harmful situation.',
+        title: 'This alert indicates a dangerous or potentially harmful situation.',
     },
     parameters: {
         design: {
@@ -88,7 +88,7 @@ export const NonDismissable: Story = {
     args: {
         name: 'danger',
         type: 'danger',
-        description: 'This alert indicates a dangerous or potentially harmful situation.',
+        title: 'This alert indicates a dangerous or potentially harmful situation.',
         nonDismissable: true,
     },
 };

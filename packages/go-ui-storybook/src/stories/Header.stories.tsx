@@ -31,7 +31,7 @@ export const Default: Story = {
     args: {
         heading: 'Overview of the International Federation of Red Cross and Red Crescent Societies (IFRC)',
         headingDescription: 'The International Federation of Red Cross and Red Crescent Societies (IFRC) is the world’s largest humanitarian network.',
-        headingLevel: 2,
+        headingLevel: 1,
         headingContainerClassName: 'header-children',
     },
 };

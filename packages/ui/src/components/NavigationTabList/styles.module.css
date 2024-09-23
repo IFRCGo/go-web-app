@@ -23,8 +23,8 @@
 
         .content {
             display: flex;
-            padding: 0 0 2px 0;
             border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+            padding: 0 0 2px 0;
         }
 
         .start-dummy-content,

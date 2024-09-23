@@ -96,6 +96,7 @@ function ReducedListDisplay<LIST_ITEM, RENDERER_PROPS>(props: Props<LIST_ITEM, R
         <div className={styles.reducedListDisplay}>
             {newJoinedList}
             <InfoPopup
+                name="infoPopup"
                 className={styles.reducedListLabel}
                 infoLabel={infoLabel}
                 withoutIcon

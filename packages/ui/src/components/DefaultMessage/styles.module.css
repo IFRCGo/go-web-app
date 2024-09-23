@@ -7,7 +7,7 @@
         height: 100%;
     }
     &.empty-message {
-        height: 200px;
         padding-top: 40px;
+        height: 200px;
     }
 }
