@@ -425,7 +425,7 @@ function ActiveOperationMap(props: Props) {
                         value={rawFilter.displacement}
                         onChange={setFilterField}
                     />
-                    <div>
+                    <div className={styles.filterActions}>
                         <Button
                             name={undefined}
                             onClick={handleClearFiltersButtonclick}
