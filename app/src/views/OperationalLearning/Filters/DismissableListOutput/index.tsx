@@ -7,7 +7,7 @@ import {
     List,
 } from '@ifrc-go/ui';
 import {
-    doesObjectHaveNoData,
+    isNotDefined,
     listToMap,
 } from '@togglecorp/fujs';
 
@@ -66,17 +66,17 @@ function DismissableListOutput<
     ), [options, keySelector, labelSelector]);
 
     const handleDismiss = React.useCallback((val: string) => {
-        const filterValue = value?.filter((item) => item !== val);
-        onDismiss(filterValue ?? [], name);
+        const updatedValue = value?.filter((item) => item !== val) ?? [];
+        onDismiss(updatedValue, name);
     }, [name, onDismiss, value]);
 
-    const tagRendererParams = useCallback((key: string): TagProps => ({
-        label: labelMap?.[key] as string,
-        tagValue: key,
+    const tagRendererParams = useCallback((key: V): TagProps => ({
+        label: labelMap?.[key] ?? '',
+        tagValue: String(key),
         onDelete: handleDismiss,
     }), [handleDismiss, labelMap]);
 
-    if (doesObjectHaveNoData(value)) {
+    if (isNotDefined(value)) {
         return null;
     }
     return (
@@ -85,7 +85,7 @@ function DismissableListOutput<
             data={value}
             renderer={tagItem}
             rendererParams={tagRendererParams}
-            keySelector={(d) => d as string}
+            keySelector={(d) => d}
             errored={false}
             pending={false}
             filtered={false}
