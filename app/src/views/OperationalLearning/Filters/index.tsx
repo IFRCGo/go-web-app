@@ -1,5 +1,6 @@
 import {
     useCallback,
+    useMemo,
     useState,
 } from 'react';
 import { SearchLineIcon } from '@ifrc-go/icons';
@@ -15,6 +16,7 @@ import {
     SetValueArg,
 } from '@togglecorp/toggle-form';
 
+import { CountryOption } from '#components/domain/CountrySelectInput';
 import { type DisasterTypeItem } from '#components/domain/DisasterTypeSelectInput';
 import RegionSelectInput, { type RegionOption } from '#components/domain/RegionSelectInput';
 import useCountry, { Country } from '#hooks/domain/useCountry';
@@ -51,86 +53,40 @@ type SelectedOptions = {
 };
 
 export type FilterLabel = Partial<{
-    [key in keyof FilterValue]: string;
+    [key in keyof FilterValue]: string | string[];
 }>
 
 export type EntriesAsListWithString<T> = {
-    [K in keyof T]-?: [SetValueArg<T[K]>, K, string | null | undefined, ...unknown[]];
+    [K in keyof T]-?: [SetValueArg<T[K]>, K, string | string[] | null | undefined, ...unknown[]];
 }[keyof T];
 
 interface Props {
     value: FilterValue;
     onChange: (...value: EntriesAsList<FilterValue>) => void;
+    countryList: CountryOption[];
+    disasterTypeOptions: DisasterType[] | undefined;
+    secondarySectorOptions: SecondarySector[] | undefined;
+    perComponentOptions: PerComponent[] | undefined;
+    secondarySectorOptionsPending: boolean;
+    perComponentOptionsPending: boolean;
     // onChange: (...value: EntriesAsListWithString<FilterValue>) => void;
+    // onSelectedFilters: React.Dispatch<React.SetStateAction<FilterValueOption[]>>;
     disabled?: boolean;
 }
 function Filters(props: Props) {
     const {
         value,
         onChange,
+        countryList,
+        disasterTypeOptions,
+        secondarySectorOptions,
+        perComponentOptions,
+        secondarySectorOptionsPending,
+        perComponentOptionsPending,
         disabled,
     } = props;
 
     const strings = useTranslation(i18n);
-
-    const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>({
-        countries: null,
-        disasterTypes: null,
-        secondarySectors: null,
-        perComponents: null,
-    });
-
-    const [secondarySectorOptions, secondarySectorOptionsPending] = useSecondarySector();
-    const [perComponentOptions, perComponentOptionsPending] = usePerComponent();
-
-    const handleOptionChange = useCallback(<K extends keyof SelectedOptions>(
-        newValue: React.SetStateAction<SelectedOptions[K]>,
-        name: K,
-    ) => {
-        setSelectedOptions((prev) => ({
-            ...prev,
-            [name]: typeof newValue === 'function'
-                ? newValue(prev[name])
-                : newValue,
-        }));
-    }, []);
-
-    const handleStartDateSelect = useCallback((
-        newValue: string | undefined,
-        key: 'appealStartDateAfter',
-    ) => {
-        onChange(
-            newValue,
-            key,
-            newValue,
-        );
-    }, [onChange]);
-
-    const handleEndDateSelect = useCallback((
-        newValue: string | undefined,
-        key: 'appealStartDateBefore',
-    ) => {
-        onChange(
-            newValue,
-            key,
-            newValue,
-        );
-    }, [onChange]);
-
-    const handleSearch = useCallback((
-        newValue: string | undefined,
-        key: 'appealSearchText',
-    ) => {
-        onChange(
-            newValue,
-            key,
-            undefined,
-        );
-    }, [onChange]);
-
-    const countryList = useCountry({ region: value.region });
-
-    const disasterTypeOptions = useDisasterTypes();
 
     return (
         <>
@@ -151,7 +107,6 @@ function Filters(props: Props) {
                 labelSelector={stringNameSelector}
                 value={value.countries}
                 onChange={onChange}
-                onOptionsChange={(newValue) => handleOptionChange(newValue, 'countries')}
                 withSelectAll
             />
             <MultiSelectInput
@@ -163,7 +118,6 @@ function Filters(props: Props) {
                 labelSelector={disasterTypeLabelSelector}
                 value={value.disasterTypes}
                 onChange={onChange}
-                onOptionsChange={(newValue) => handleOptionChange(newValue, 'disasterTypes')}
                 withSelectAll
             />
             <MultiSelectInput
@@ -177,7 +131,6 @@ function Filters(props: Props) {
                 disabled={secondarySectorOptionsPending || disabled}
                 value={value.secondarySectors}
                 onChange={onChange}
-                onOptionsChange={(newValue) => handleOptionChange(newValue, 'secondarySectors')}
                 withSelectAll
             />
             <MultiSelectInput
@@ -190,20 +143,19 @@ function Filters(props: Props) {
                 disabled={perComponentOptionsPending || disabled}
                 value={value.perComponents}
                 onChange={onChange}
-                onOptionsChange={(newValue) => handleOptionChange(newValue, 'perComponents')}
                 withSelectAll
             />
             <DateInput
                 name="appealStartDateAfter"
                 label={strings.appealStartDate}
-                onChange={handleStartDateSelect}
+                onChange={onChange}
                 value={value.appealStartDateAfter}
                 disabled={disabled}
             />
             <DateInput
                 name="appealStartDateBefore"
                 label={strings.appealEndDate}
-                onChange={handleEndDateSelect}
+                onChange={onChange}
                 value={value.appealStartDateBefore}
                 disabled={disabled}
             />
@@ -212,7 +164,7 @@ function Filters(props: Props) {
                 label={strings.filterOpsLearningSearchLabel}
                 placeholder={strings.filterOpsLearningSearchPlaceholder}
                 value={value.appealSearchText}
-                onChange={handleSearch}
+                onChange={onChange}
                 icons={<SearchLineIcon />}
                 disabled={disabled}
             />
