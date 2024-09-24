@@ -1,5 +1,6 @@
 .list {
     display: flex;
+    flex-wrap: wrap;
     gap: var(--go-ui-spacing-2xs);
     min-height: auto;
 }
