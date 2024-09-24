@@ -34,6 +34,7 @@ import Page from '#components/Page';
 import { type components } from '#generated/types';
 import useCountry, { Country } from '#hooks/domain/useCountry';
 import useDisasterTypes, { DisasterType } from '#hooks/domain/useDisasterType';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import usePerComponent, { type PerComponent } from '#hooks/domain/usePerComponent';
 import useSecondarySector, { type SecondarySector } from '#hooks/domain/useSecondarySector';
 import useAlert from '#hooks/useAlert';
@@ -46,6 +47,7 @@ import {
 } from '#utils/restRequest';
 
 import DismissableListOutput from './Filters/DismissableListOutput';
+import DismissableTextOutput from './Filters/DismissableTextOutput';
 import Filters, { type FilterValue } from './Filters';
 import KeyInsights from './KeyInsights';
 import Summary, { type Props as SummaryProps } from './Summary';
@@ -89,6 +91,13 @@ export function Component() {
     });
 
     const alert = useAlert();
+    const [secondarySectorOptions, secondarySectorOptionsPending] = useSecondarySector();
+    const [perComponentOptions, perComponentOptionsPending] = usePerComponent();
+
+    const countryList = useCountry({ region: filter.region });
+
+    const disasterTypeOptions = useDisasterTypes();
+    const { api_region_name: regionOptions } = useGlobalEnums();
 
     const query = useMemo(() => ({
         appeal_code__region: isDefined(filter.region) ? filter.region : undefined,
@@ -150,17 +159,6 @@ export function Component() {
         extractsCount: summary.extracts_count,
         summaryContent: summary.content,
     });
-
-    // TODO:
-    // const chipRendererParams = useCallback((
-    //     key: keyof FilterValue,
-    //     option: FilterValueOption,
-    // ): ChipProps<keyof FilterValue> => ({
-    //     label: option?.label,
-    //     name: key,
-    //     variant: 'tertiary' as const,
-    //     onDelete: handleFilterRemove,
-    // }), [handleFilterRemove]);
 
     const showKeyInsights = !opsLearningSummaryPending
         && isDefined(opsLearningSummaryResponse)
@@ -256,12 +254,9 @@ export function Component() {
         triggerOperationalLearning,
     ]);
 
-    const [secondarySectorOptions, secondarySectorOptionsPending] = useSecondarySector();
-    const [perComponentOptions, perComponentOptionsPending] = usePerComponent();
-
-    const countryList = useCountry({ region: filter.region });
-
-    const disasterTypeOptions = useDisasterTypes();
+    const getRegionName = useCallback((regionId: FilterValue['region']) => (
+        regionOptions?.find((region) => region.key === regionId)?.value
+    ), [regionOptions]);
 
     return (
         <Page
@@ -304,6 +299,11 @@ export function Component() {
                         valueClassName={styles.options}
                         value={(
                             <>
+                                <DismissableTextOutput
+                                    name="region"
+                                    value={getRegionName(filter.region)}
+                                    onDismiss={setFilterField}
+                                />
                                 <DismissableListOutput
                                     name="countries"
                                     onDismiss={setFilterField}
@@ -335,6 +335,21 @@ export function Component() {
                                     options={perComponentOptions}
                                     labelSelector={getFormattedComponentName}
                                     keySelector={perComponentKeySelector}
+                                />
+                                <DismissableTextOutput
+                                    name="appealStartDateAfter"
+                                    value={filter.appealStartDateAfter}
+                                    onDismiss={setFilterField}
+                                />
+                                <DismissableTextOutput
+                                    name="appealStartDateBefore"
+                                    value={filter.appealStartDateBefore}
+                                    onDismiss={setFilterField}
+                                />
+                                <DismissableTextOutput
+                                    name="appealSearchText"
+                                    value={filter.appealSearchText}
+                                    onDismiss={setFilterField}
                                 />
                             </>
                         )}
