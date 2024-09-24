@@ -1,8 +1,3 @@
-import {
-    useCallback,
-    useMemo,
-    useState,
-} from 'react';
 import { SearchLineIcon } from '@ifrc-go/icons';
 import {
     DateInput,
@@ -19,10 +14,10 @@ import {
 import { CountryOption } from '#components/domain/CountrySelectInput';
 import { type DisasterTypeItem } from '#components/domain/DisasterTypeSelectInput';
 import RegionSelectInput, { type RegionOption } from '#components/domain/RegionSelectInput';
-import useCountry, { Country } from '#hooks/domain/useCountry';
-import useDisasterTypes, { DisasterType } from '#hooks/domain/useDisasterType';
-import usePerComponent, { type PerComponent } from '#hooks/domain/usePerComponent';
-import useSecondarySector, { type SecondarySector } from '#hooks/domain/useSecondarySector';
+import { Country } from '#hooks/domain/useCountry';
+import { DisasterType } from '#hooks/domain/useDisasterType';
+import { type PerComponent } from '#hooks/domain/usePerComponent';
+import { type SecondarySector } from '#hooks/domain/useSecondarySector';
 import { getFormattedComponentName } from '#utils/domain/per';
 
 import i18n from './i18n.json';
@@ -45,13 +40,6 @@ export type FilterValue = Partial<{
     appealSearchText: string;
 }>
 
-type SelectedOptions = {
-    countries: Country[] | null | undefined;
-    disasterTypes: DisasterType[] | null | undefined;
-    secondarySectors: SecondarySector[] | null | undefined;
-    perComponents: PerComponent[] | null | undefined;
-};
-
 export type FilterLabel = Partial<{
     [key in keyof FilterValue]: string | string[];
 }>
@@ -69,8 +57,6 @@ interface Props {
     perComponentOptions: PerComponent[] | undefined;
     secondarySectorOptionsPending: boolean;
     perComponentOptionsPending: boolean;
-    // onChange: (...value: EntriesAsListWithString<FilterValue>) => void;
-    // onSelectedFilters: React.Dispatch<React.SetStateAction<FilterValueOption[]>>;
     disabled?: boolean;
 }
 function Filters(props: Props) {
