@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { SearchLineIcon } from '@ifrc-go/icons';
 import {
     DateInput,
@@ -41,11 +42,16 @@ export type FilterValue = Partial<{
 }>
 
 export type FilterLabel = Partial<{
-    [key in keyof FilterValue]: string | string[];
+    [key in keyof FilterValue]: string;
 }>
 
 export type EntriesAsListWithString<T> = {
-    [K in keyof T]-?: [SetValueArg<T[K]>, K, string | string[] | null | undefined, ...unknown[]];
+    [K in keyof T]-?: [
+        SetValueArg<T[K]>,
+        K,
+        string | null | undefined,
+        ...unknown[]
+    ];
 }[keyof T];
 
 interface Props {
@@ -74,6 +80,18 @@ function Filters(props: Props) {
 
     const strings = useTranslation(i18n);
 
+    const handleRegionSelect = useCallback((
+        newValue: RegionOption['key'] | undefined,
+        key: 'region',
+        selectedRegion: RegionOption | undefined,
+    ) => {
+        onChange(newValue, key, selectedRegion?.value);
+
+        if (value.region !== newValue) {
+            onChange(undefined, 'countries', undefined);
+        }
+    }, [onChange, value.region]);
+
     return (
         <>
             <RegionSelectInput
@@ -81,7 +99,7 @@ function Filters(props: Props) {
                 label={strings.filterRegionsLabel}
                 placeholder={strings.filterRegionsPlaceholder}
                 value={value.region}
-                onChange={onChange}
+                onChange={handleRegionSelect}
                 disabled={disabled}
             />
             <MultiSelectInput
