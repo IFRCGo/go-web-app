@@ -21,6 +21,7 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     numericIdSelector,
     resolveToString,
+    stringNameSelector,
 } from '@ifrc-go/ui/utils';
 import {
     isDefined,
@@ -35,6 +36,10 @@ import Papa from 'papaparse';
 import ExportButton from '#components/domain/ExportButton';
 import Page from '#components/Page';
 import { type components } from '#generated/types';
+import useCountry, { Country } from '#hooks/domain/useCountry';
+import useDisasterTypes from '#hooks/domain/useDisasterType';
+import usePerComponent from '#hooks/domain/usePerComponent';
+import useSecondarySector from '#hooks/domain/useSecondarySector';
 import useAlert from '#hooks/useAlert';
 import useFilterState from '#hooks/useFilterState';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
@@ -43,6 +48,7 @@ import {
     useLazyRequest,
 } from '#utils/restRequest';
 
+import DismissableListOutput from './Filters/DismissableListOutput';
 import Filters, {
     type EntriesAsListWithString,
     type FilterLabel,
@@ -67,9 +73,12 @@ type OpsLearningSectorSummary = OpsLearningSummaryResponse['sectors'][number];
 type OpsLearningComponentSummary = OpsLearningSummaryResponse['components'][number];
 
 interface FilterValueOption {
-    key: keyof FilterValue;
-    label: string;
+    key: string;
+    // key: keyof FilterValue;
+    label: string | undefined | null;
 }
+
+const countryKeySelector = (country: Country) => country.iso3;
 
 function filterValueOptionKeySelector(option: FilterValueOption) {
     return option.key;
@@ -95,6 +104,7 @@ export function Component() {
 
     const [selectedFilterLabel, setSelectedFilterLabel] = useState<FilterLabel>();
 
+    // const [selectedFilters, setSelectedFilters] = useState<FilterValueOption[]>([]);
     // TODO:
     const handleFilterChange = useCallback((...args: EntriesAsListWithString<FilterValue>) => {
         const [, key, option] = args;
@@ -113,8 +123,8 @@ export function Component() {
         setFilterField(...args);
     }, [setFilterField]);
 
-    const handleFilterRemove = useCallback((filterKey: keyof FilterValue) => {
-        setFilterField(undefined, filterKey);
+    const handleFilterRemove = useCallback((filterKey: string) => {
+        // setFilterField(undefined, filterKey);
         setSelectedFilterLabel((oldFilterLabel) => {
             const newFilterLabel = { ...oldFilterLabel };
             delete newFilterLabel[filterKey];
@@ -122,10 +132,10 @@ export function Component() {
         });
     }, [setFilterField]);
 
-    const selectedFilterOptions = mapToList(
-        selectedFilterLabel,
-        (label, key) => ({ key, label } as FilterValueOption),
-    );
+    // const selectedFilterOptions = mapToList(
+    //     selectedFilterLabel,
+    //     (label, key) => ({ key, label } as FilterValueOption),
+    // );
 
     const query = useMemo(() => ({
         appeal_code__region: isDefined(filter.region) ? filter.region : undefined,
@@ -192,7 +202,7 @@ export function Component() {
         key: keyof FilterValue,
         option: FilterValueOption,
     ): ChipProps<keyof FilterValue> => ({
-        label: option.label,
+        label: option?.label,
         name: key,
         variant: 'tertiary' as const,
         onDelete: handleFilterRemove,
@@ -296,6 +306,85 @@ export function Component() {
         resetFilter();
     }, [resetFilter]);
 
+    const [secondarySectorOptions, secondarySectorOptionsPending] = useSecondarySector();
+    const [perComponentOptions, perComponentOptionsPending] = usePerComponent();
+
+    const countryList = useCountry({ region: filter.region });
+
+    const disasterTypeOptions = useDisasterTypes();
+
+    const getCountryLabel = useCallback((key: string | undefined) => (
+        countryList?.find((country) => country?.iso3 === key)?.name
+    ), [countryList]);
+
+    const getDisasterTypeLabel = useCallback((key: number) => (
+        disasterTypeOptions?.find((disaster) => disaster?.id === key)?.name
+    ), [disasterTypeOptions]);
+
+    const getSecondarySectorLabel = useCallback((key: number) => (
+        secondarySectorOptions?.find((sector) => sector?.key === key)?.label
+    ), [secondarySectorOptions]);
+
+    const getPerComponentLabel = useCallback((key: number) => (
+        perComponentOptions?.find((perComponent) => perComponent?.id === key)?.title
+    ), [perComponentOptions]);
+
+    const filterMapping = useMemo(() => ({
+        region: (id: string) => ({
+            key: `region_${id}`,
+            label: id,
+        }),
+        countries: (val: string[]) => val.map((iso3) => ({
+            key: `country_${iso3}`,
+            label: getCountryLabel(iso3),
+        })),
+        disasterTypes: (val: number[]) => val.map((id) => ({
+            key: `disaster_${id}`,
+            label: getDisasterTypeLabel(id),
+        })),
+        secondarySectors: (val: number[]) => val.map((id) => ({
+            key: `disaster_${id}`,
+            label: getSecondarySectorLabel(id),
+        })),
+        perComponents: (val: number[]) => val.map((id) => ({
+            key: `disaster_${id}`,
+            label: getPerComponentLabel(id),
+        })),
+        appealStartDateAfter: (val: string) => ({
+            key: 'appealStartDateAfter',
+            label: val,
+        }),
+        appealStartDateBefore: (val: string) => ({
+            key: 'appealStartDateBefore',
+            label: val,
+        }),
+        appealSearchText: () => 'aaa',
+    }), [
+        getCountryLabel,
+        getDisasterTypeLabel,
+        getSecondarySectorLabel,
+        getPerComponentLabel,
+    ]);
+
+    const selectedFilterOptions: FilterValueOption[] = useMemo(() => {
+        const selectedFilters: FilterValueOption[] = [];
+
+        // Iterate over filterValue keys and map
+        Object.keys(filter).forEach((key) => {
+            const filterHandler = filterMapping[key as keyof typeof filterMapping];
+            if (filterHandler) {
+                const result = filterHandler(filter[key]);
+                if (Array.isArray(result)) {
+                    selectedFilters.push(...result);
+                } else {
+                    selectedFilters.push(result as FilterValueOption);
+                }
+            }
+        });
+
+        return selectedFilters;
+    }, [filterMapping, filter]);
+
     return (
         <Page
             heading={strings.operationalLearningHeading}
@@ -309,8 +398,12 @@ export function Component() {
                         <Filters
                             value={rawFilter}
                             onChange={setFilterField}
-                            // TODO:
-                            // onChange={handleFilterChange}
+                            countryList={countryList}
+                            disasterTypeOptions={disasterTypeOptions}
+                            secondarySectorOptions={secondarySectorOptions}
+                            perComponentOptions={perComponentOptions}
+                            secondarySectorOptionsPending={secondarySectorOptionsPending}
+                            perComponentOptionsPending={perComponentOptionsPending}
                         />
                         <div className={styles.exportButton}>
                             <ExportButton
@@ -329,16 +422,27 @@ export function Component() {
                     <TextOutput
                         className={styles.selectedFilters}
                         valueClassName={styles.options}
+                        // value={(
+                        //     <RawList<
+                        //         FilterValueOption,
+                        //         keyof FilterValue,
+                        //         ChipProps<keyof FilterValue
+                        //         >>
+                        //         data={filter.countries}
+                        //         renderer={Chip}
+                        //         keySelector={filterValueOptionKeySelector}
+                        //         rendererParams={chipRendererParams}
+                        //     />
+                        // )}
                         value={(
-                            <RawList<
-                                FilterValueOption,
-                                keyof FilterValue,
-                                ChipProps<keyof FilterValue
-                                >>
-                                data={selectedFilterOptions}
-                                renderer={Chip}
-                                keySelector={filterValueOptionKeySelector}
-                                rendererParams={chipRendererParams}
+                            <DismissableListOutput
+                                label="Countries"
+                                name="countries"
+                                onChange={setFilterField}
+                                value={filter.countries}
+                                options={countryList}
+                                labelSelector={stringNameSelector}
+                                keySelector={countryKeySelector}
                             />
                         )}
                         label={strings.selectedFilters}
