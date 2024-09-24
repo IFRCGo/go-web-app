@@ -30,6 +30,17 @@
         align-self: center;
         margin-top: var(--go-ui-spacing-md);
     }
+
+    .footer {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .footer-content {
+        display: flex;
+        flex-grow: 0;
+        justify-content: flex-end;
+    }
 }
 
 
