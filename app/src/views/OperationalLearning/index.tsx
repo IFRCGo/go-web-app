@@ -8,6 +8,9 @@ import {
     Button,
     Chip,
     Container,
+    DismissableListOutput,
+    DismissableMultiListOutput,
+    DismissableTextOutput,
     List,
     Tab,
     TabList,
@@ -17,9 +20,11 @@ import {
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
+    hasSomeDefinedValue,
     numericIdSelector,
     resolveToString,
     stringNameSelector,
+    stringValueSelector,
 } from '@ifrc-go/ui/utils';
 import {
     isDefined,
@@ -30,6 +35,7 @@ import { saveAs } from 'file-saver';
 import Papa from 'papaparse';
 
 import ExportButton from '#components/domain/ExportButton';
+import { type RegionOption } from '#components/domain/RegionSelectInput';
 import Page from '#components/Page';
 import { type components } from '#generated/types';
 import useCountry, { Country } from '#hooks/domain/useCountry';
@@ -46,8 +52,6 @@ import {
     useLazyRequest,
 } from '#utils/restRequest';
 
-import DismissableListOutput from './Filters/DismissableListOutput';
-import DismissableTextOutput from './Filters/DismissableTextOutput';
 import Filters, { type FilterValue } from './Filters';
 import KeyInsights from './KeyInsights';
 import Summary, { type Props as SummaryProps } from './Summary';
@@ -67,7 +71,8 @@ type OpsLearningSummaryResponse = GoApiResponse<'/api/v2/ops-learning/summary/'>
 type OpsLearningSectorSummary = OpsLearningSummaryResponse['sectors'][number];
 type OpsLearningComponentSummary = OpsLearningSummaryResponse['components'][number];
 
-const countryKeySelector = (country: Country) => country.iso3;
+const regionKeySelector = (region: RegionOption) => region.key;
+const countryKeySelector = (country: Country) => country.id;
 const sectorKeySelector = (d: SecondarySector) => d.key;
 const sectorLabelSelector = (d: SecondarySector) => d.label;
 const perComponentKeySelector = (option: PerComponent) => option.id;
@@ -91,13 +96,12 @@ export function Component() {
     });
 
     const alert = useAlert();
+
+    const { api_region_name: regionList } = useGlobalEnums();
+    const countryList = useCountry({ region: filter.region });
+    const disasterTypeOptions = useDisasterTypes();
     const [secondarySectorOptions, secondarySectorOptionsPending] = useSecondarySector();
     const [perComponentOptions, perComponentOptionsPending] = usePerComponent();
-
-    const countryList = useCountry({ region: filter.region });
-
-    const disasterTypeOptions = useDisasterTypes();
-    const { api_region_name: regionOptions } = useGlobalEnums();
 
     const query = useMemo(() => ({
         appeal_code__region: isDefined(filter.region) ? filter.region : undefined,
@@ -254,10 +258,6 @@ export function Component() {
         triggerOperationalLearning,
     ]);
 
-    const getRegionName = useCallback((regionId: FilterValue['region']) => (
-        regionOptions?.find((region) => region.key === regionId)?.value
-    ), [regionOptions]);
-
     return (
         <Page
             heading={strings.operationalLearningHeading}
@@ -273,14 +273,33 @@ export function Component() {
                         <Filters
                             value={rawFilter}
                             onChange={setFilterField}
-                            countryList={countryList}
                             disasterTypeOptions={disasterTypeOptions}
                             secondarySectorOptions={secondarySectorOptions}
                             perComponentOptions={perComponentOptions}
                             secondarySectorOptionsPending={secondarySectorOptionsPending}
                             perComponentOptionsPending={perComponentOptionsPending}
                         />
-                        <div className={styles.exportButton}>
+                        <div className={styles.actionButtons}>
+                            {filtered && (
+                                <Button
+                                    name={undefined}
+                                    onClick={resetFilter}
+                                    variant="secondary"
+                                >
+                                    {strings.clearFilters}
+                                </Button>
+                            )}
+                            {filtered && (
+                                <Button
+                                    name="apply"
+                                    onClick={handleApplyFilters}
+                                    variant="primary"
+                                >
+                                    {strings.applyFilters}
+                                </Button>
+                            )}
+                        </div>
+                        <div className={styles.actionButtons}>
                             <ExportButton
                                 onClick={handleExportClick}
                                 pendingExport={pendingExport}
@@ -293,18 +312,24 @@ export function Component() {
                         </div>
                     </>
                 )}
-                footerIcons={isDefined(filter) && (
+                footerContent={isDefined(filter) && hasSomeDefinedValue(filter) && (
                     <TextOutput
                         className={styles.selectedFilters}
                         valueClassName={styles.options}
+                        withoutLabelColon
+                        strongLabel
+                        label={strings.selectedFilters}
                         value={(
                             <>
-                                <DismissableTextOutput
-                                    name="region"
-                                    value={getRegionName(filter.region)}
-                                    onDismiss={setFilterField}
-                                />
                                 <DismissableListOutput
+                                    name="region"
+                                    value={filter.region}
+                                    onDismiss={setFilterField}
+                                    options={regionList}
+                                    labelSelector={stringValueSelector}
+                                    keySelector={regionKeySelector}
+                                />
+                                <DismissableMultiListOutput
                                     name="countries"
                                     onDismiss={setFilterField}
                                     value={filter.countries}
@@ -312,7 +337,7 @@ export function Component() {
                                     labelSelector={stringNameSelector}
                                     keySelector={countryKeySelector}
                                 />
-                                <DismissableListOutput
+                                <DismissableMultiListOutput
                                     name="disasterTypes"
                                     onDismiss={setFilterField}
                                     value={filter.disasterTypes}
@@ -320,7 +345,7 @@ export function Component() {
                                     labelSelector={disasterTypeLabelSelector}
                                     keySelector={disasterTypeKeySelector}
                                 />
-                                <DismissableListOutput
+                                <DismissableMultiListOutput
                                     name="secondarySectors"
                                     onDismiss={setFilterField}
                                     value={filter.secondarySectors}
@@ -328,7 +353,7 @@ export function Component() {
                                     labelSelector={sectorLabelSelector}
                                     keySelector={sectorKeySelector}
                                 />
-                                <DismissableListOutput
+                                <DismissableMultiListOutput
                                     name="perComponents"
                                     onDismiss={setFilterField}
                                     value={filter.perComponents}
@@ -353,26 +378,7 @@ export function Component() {
                                 />
                             </>
                         )}
-                        label={strings.selectedFilters}
                     />
-                )}
-                footerContent={(
-                    <>
-                        <Button
-                            name="apply"
-                            onClick={handleApplyFilters}
-                            variant="primary"
-                        >
-                            Apply
-                        </Button>
-                        <Button
-                            name="cancel"
-                            onClick={resetFilter}
-                            variant="secondary"
-                        >
-                            Cancel
-                        </Button>
-                    </>
                 )}
             />
             {showKeyInsights && (
