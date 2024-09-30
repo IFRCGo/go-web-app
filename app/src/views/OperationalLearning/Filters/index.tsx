@@ -6,16 +6,13 @@ import {
     TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { stringNameSelector } from '@ifrc-go/ui/utils';
 import {
     EntriesAsList,
     SetValueArg,
 } from '@togglecorp/toggle-form';
 
-import { CountryOption } from '#components/domain/CountrySelectInput';
-import { type DisasterTypeItem } from '#components/domain/DisasterTypeSelectInput';
+import CountryMultiSelectInput, { type CountryOption } from '#components/domain/CountryMultiSelectInput';
 import RegionSelectInput, { type RegionOption } from '#components/domain/RegionSelectInput';
-import { Country } from '#hooks/domain/useCountry';
 import { DisasterType } from '#hooks/domain/useDisasterType';
 import { type PerComponent } from '#hooks/domain/usePerComponent';
 import { type SecondarySector } from '#hooks/domain/useSecondarySector';
@@ -26,14 +23,13 @@ import i18n from './i18n.json';
 const sectorKeySelector = (d: SecondarySector) => d.key;
 const sectorLabelSelector = (d: SecondarySector) => d.label;
 const perComponentKeySelector = (option: PerComponent) => option.id;
-const countryKeySelector = (country: Country) => country.iso3;
-const disasterTypeKeySelector = (type: DisasterTypeItem) => type.id;
-const disasterTypeLabelSelector = (type: DisasterTypeItem) => type.name ?? '?';
+const disasterTypeKeySelector = (type: DisasterType) => type.id;
+const disasterTypeLabelSelector = (type: DisasterType) => type.name ?? '?';
 
 export type FilterValue = Partial<{
     region: RegionOption['key'],
-    countries: string[],
-    disasterTypes: DisasterTypeItem['id'][],
+    countries: CountryOption['id'][],
+    disasterTypes: DisasterType['id'][],
     secondarySectors: SecondarySector['key'][],
     perComponents: PerComponent['id'][],
     appealStartDateAfter: string,
@@ -57,7 +53,6 @@ export type EntriesAsListWithString<T> = {
 interface Props {
     value: FilterValue;
     onChange: (...value: EntriesAsList<FilterValue>) => void;
-    countryList: CountryOption[];
     disasterTypeOptions: DisasterType[] | undefined;
     secondarySectorOptions: SecondarySector[] | undefined;
     perComponentOptions: PerComponent[] | undefined;
@@ -69,7 +64,6 @@ function Filters(props: Props) {
     const {
         value,
         onChange,
-        countryList,
         disasterTypeOptions,
         secondarySectorOptions,
         perComponentOptions,
@@ -102,13 +96,10 @@ function Filters(props: Props) {
                 onChange={handleRegionSelect}
                 disabled={disabled}
             />
-            <MultiSelectInput
+            <CountryMultiSelectInput
                 name="countries"
                 label={strings.filterCountryLabel}
                 placeholder={strings.filterCountryLabel}
-                options={countryList}
-                keySelector={countryKeySelector}
-                labelSelector={stringNameSelector}
                 value={value.countries}
                 onChange={onChange}
                 withSelectAll
