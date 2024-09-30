@@ -1,6 +1,6 @@
 import {
     Container as PureContainer,
-    ContainerProps,
+    type ContainerProps,
 } from '@ifrc-go/ui';
 
 function Container(props: ContainerProps) {

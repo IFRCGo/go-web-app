@@ -1,7 +1,7 @@
 import { WikiLineIcon } from '@ifrc-go/icons';
 import {
     Button,
-    ContainerProps,
+    type ContainerProps,
 } from '@ifrc-go/ui';
 import type {
     Meta,

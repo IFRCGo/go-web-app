@@ -1,4 +1,4 @@
-import { ReducedListDisplayProps } from '@ifrc-go/ui';
+import { type ReducedListDisplayProps } from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,
@@ -18,9 +18,9 @@ const options: Option[] = [
     { label: 'Black' },
 ];
 
-type RendererProps = {
+interface RendererProps {
     value: React.ReactNode
-};
+}
 
 type ReducedListDisplaySpecificProps = ReducedListDisplayProps<Option, RendererProps>;
 

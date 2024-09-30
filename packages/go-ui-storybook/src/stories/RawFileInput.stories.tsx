@@ -1,4 +1,4 @@
-import { RawFileInputProps } from '@ifrc-go/ui';
+import { type RawFileInputProps } from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,

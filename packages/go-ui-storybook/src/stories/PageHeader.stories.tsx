@@ -1,5 +1,5 @@
 import {
-    PageHeaderProps,
+    type PageHeaderProps,
     Tab,
     TabList,
 } from '@ifrc-go/ui';

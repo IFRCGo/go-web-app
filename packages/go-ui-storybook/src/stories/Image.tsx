@@ -1,6 +1,6 @@
 import {
     Image as PureImage,
-    ImageProps,
+    type ImageProps,
 } from '@ifrc-go/ui';
 
 function Image(props: ImageProps) {

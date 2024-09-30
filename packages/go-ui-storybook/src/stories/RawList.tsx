@@ -1,7 +1,7 @@
 import {
-    ListKey,
+    type ListKey,
     RawList as PureRawList,
-    RawListProps,
+    type RawListProps,
 } from '@ifrc-go/ui';
 
 function RawList

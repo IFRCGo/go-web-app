@@ -1,4 +1,4 @@
-import { BarChartProps } from '@ifrc-go/ui';
+import { type BarChartProps } from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,

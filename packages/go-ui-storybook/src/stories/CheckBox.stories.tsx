@@ -1,6 +1,6 @@
 import {
     Checkbox,
-    CheckboxProps,
+    type CheckboxProps,
 } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {
@@ -35,15 +35,20 @@ const meta: Meta<typeof CheckBox> = {
 
 export default meta;
 
-function Template(args: Args) {
+interface CheckboxArgs extends Args {
+    value: boolean | null | undefined;
+    onChange: (val: boolean, id: string) => void;
+}
+
+function Template(args: CheckboxArgs) {
     const [
-        { value },
+        { value, onChange },
         setArgs,
-    ] = useArgs();
-    const onChange = (val: boolean, name: string) => {
+    ] = useArgs<CheckboxArgs>();
+
+    const handleChange = (val: boolean, name: string) => {
         setArgs({ value: val });
-        // eslint-disable-next-line react/destructuring-assignment
-        args.onChange(val, name);
+        onChange(val, name);
     };
 
     return (
@@ -51,7 +56,7 @@ function Template(args: Args) {
             name="checkbox"
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...args}
-            onChange={onChange}
+            onChange={handleChange}
             value={value}
         />
     );

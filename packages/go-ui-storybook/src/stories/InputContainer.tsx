@@ -1,6 +1,6 @@
 import {
     InputContainer as PureInputContainer,
-    InputContainerProps as PureInputContainerProps,
+    type InputContainerProps as PureInputContainerProps,
 } from '@ifrc-go/ui';
 
 export type InputContainerProps = PureInputContainerProps;

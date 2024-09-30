@@ -1,6 +1,6 @@
 import {
     Switch as PureSwitch,
-    SwitchProps,
+    type SwitchProps,
 } from '@ifrc-go/ui';
 
 function Switch<N extends string>(props: SwitchProps<N>) {

@@ -1,6 +1,6 @@
 import {
     DateRangeOutput as PureDateRangeOutput,
-    DateRangeOutputProps,
+    type DateRangeOutputProps,
 } from '@ifrc-go/ui';
 
 function DateRangeOutput(props: DateRangeOutputProps) {

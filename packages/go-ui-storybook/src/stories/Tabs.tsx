@@ -1,6 +1,6 @@
 import {
     Tabs as PureTabs,
-    TabsProps,
+    type TabsProps,
 } from '@ifrc-go/ui';
 
 function Tabs<T extends string | number>(props: TabsProps<T>) {

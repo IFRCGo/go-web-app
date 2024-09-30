@@ -1,0 +1,21 @@
+{
+    "$schema": "https://unpkg.com/knip@5/schema.json",
+    "workspaces": {
+        "packages/ui": {
+            "entry": "{index}.tsx",
+            "project": "**/*.{ts,js,tsx,jsx}"
+        },
+        "app": {
+            "entry": "{index}.tsx",
+            "project": "**/*.{ts,js,tsx,jsx}"
+        },
+    },
+    "eslint": {
+        "config": [
+            ".eslintrc.cjs",
+        ],
+        "entry": [
+            ".eslintrc.cjs",
+        ]
+    }
+}

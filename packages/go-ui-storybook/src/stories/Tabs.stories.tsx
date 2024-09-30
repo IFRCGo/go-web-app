@@ -3,7 +3,7 @@ import {
     Tab,
     TabList,
     TabPanel,
-    TabsProps,
+    type TabsProps,
 } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {
@@ -36,13 +36,16 @@ const meta: Meta<typeof Tabs> = {
 };
 export default meta;
 
-function Template(args:Args) {
+interface TabsArgs extends Args {
+    onChange: (key: string) => void;
+}
+function Template(args: TabsArgs) {
     const [
         {
             onChange,
         },
         updateArgs,
-    ] = useArgs();
+    ] = useArgs<TabsArgs>();
 
     const handleChange = useCallback((key: string) => {
         updateArgs({ value: key });

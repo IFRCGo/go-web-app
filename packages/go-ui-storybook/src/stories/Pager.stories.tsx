@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { PagerProps } from '@ifrc-go/ui';
+import { type PagerProps } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {
     Args,
@@ -29,13 +29,18 @@ const meta = {
 } satisfies Meta<typeof Pager>;
 
 export default meta;
+interface PagerArgs extends Args {
+    activePage: number;
+    maxItemsPerPage: number;
+    onActivePageChange: (page: number) => void;
+}
 
-function Template(args:Args) {
+function Template(args: PagerArgs) {
     const [{
         activePage,
         maxItemsPerPage,
         onActivePageChange,
-    }, handleArgsChange] = useArgs();
+    }, handleArgsChange] = useArgs<PagerArgs>();
 
     const onChange = useCallback((currentPage: number) => {
         handleArgsChange({ activePage: currentPage });

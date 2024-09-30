@@ -1,8 +1,8 @@
 /* eslint-disable max-len */
 import {
-    Column,
+    type Column,
     Table as PureTable,
-    TableProps as PureTableProps,
+    type TableProps as PureTableProps,
 } from '@ifrc-go/ui';
 
 type TableProps<

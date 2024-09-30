@@ -1,6 +1,6 @@
 import {
-    ListKey,
-    RawListProps,
+    type ListKey,
+    type RawListProps,
 } from '@ifrc-go/ui';
 import type {
     Meta,
@@ -25,9 +25,9 @@ const options: Option[] = [
     { id: '5', label: 'Spain' },
 ];
 
-type RendererProps = {
+interface RendererProps {
     label: React.ReactNode
-};
+}
 
 function Option({ label }: RendererProps) {
     return (

@@ -29,12 +29,15 @@ const meta: Meta<typeof ConfirmButton> = {
 
 export default meta;
 
-function Template(args:Args) {
+interface ConfirmButtonArgs extends Args {
+    onConfirm: (name: string) => void;
+}
+function Template(args: ConfirmButtonArgs) {
     const [
         {
             onConfirm,
         },
-    ] = useArgs();
+    ] = useArgs<ConfirmButtonArgs>();
 
     const handleConfirm = (name: string) => {
         onConfirm(name);

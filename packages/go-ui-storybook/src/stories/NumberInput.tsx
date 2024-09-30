@@ -1,6 +1,6 @@
 import {
     NumberInput as PureNumberInput,
-    NumberInputProps,
+    type NumberInputProps,
 } from '@ifrc-go/ui';
 
 function NumberInput<const T>(props: NumberInputProps<T>) {

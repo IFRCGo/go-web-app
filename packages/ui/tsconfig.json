@@ -28,7 +28,7 @@
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true,
         "declaration": true,
-        "baseUrl": "."
+        "baseUrl": ".",
     },
     "include": [
         "src"

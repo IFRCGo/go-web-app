@@ -1,6 +1,6 @@
 import {
     NavigationTabList as PureNavigationTabList,
-    NavigationTabListProps,
+    type NavigationTabListProps,
 } from '@ifrc-go/ui';
 
 function NavigationTabList(props: NavigationTabListProps) {

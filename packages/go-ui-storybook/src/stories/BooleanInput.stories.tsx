@@ -34,13 +34,18 @@ const meta: Meta<typeof BooleanInput> = {
 
 export default meta;
 
-function Template(args: Args) {
+interface BooleanInputArgs extends Args {
+    value: boolean | null | undefined;
+    onChange: (val: boolean, id: string) => void;
+}
+
+function Template(args: BooleanInputArgs) {
     const [
         { value, onChange },
         updateArgs,
-    ] = useArgs();
+    ] = useArgs<BooleanInputArgs>();
 
-    const handleChange = (val: boolean | undefined, id: string) => {
+    const handleChange = (val: boolean, id: string) => {
         onChange(val, id);
         updateArgs({ value: val });
     };

@@ -1,5 +1,5 @@
 import { AddFillIcon } from '@ifrc-go/icons';
-import { IconButtonProps } from '@ifrc-go/ui';
+import { type IconButtonProps } from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,

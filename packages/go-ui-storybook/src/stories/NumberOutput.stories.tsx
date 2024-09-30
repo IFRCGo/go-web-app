@@ -1,4 +1,4 @@
-import { NumberOutputProps } from '@ifrc-go/ui';
+import { type NumberOutputProps } from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,

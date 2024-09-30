@@ -4,7 +4,7 @@ import {
     SocialTwitterIcon,
     SocialYoutubeIcon,
 } from '@ifrc-go/icons';
-import { FooterProps } from '@ifrc-go/ui';
+import { type FooterProps } from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,

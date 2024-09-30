@@ -1,6 +1,6 @@
 import {
     BlockLoading as PureBlockLoading,
-    BlockLoadingProps,
+    type BlockLoadingProps,
 } from '@ifrc-go/ui';
 
 function Blockloading(props: BlockLoadingProps) {

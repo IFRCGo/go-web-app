@@ -1,4 +1,4 @@
-import { ImageProps } from '@ifrc-go/ui';
+import { type ImageProps } from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,

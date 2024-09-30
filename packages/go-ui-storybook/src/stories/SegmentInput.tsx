@@ -1,7 +1,7 @@
 import {
-    RadioProps,
+    type RadioProps,
     SegmentInput as PureSegmentInput,
-    SegmentInputProps as PureSegmentInputProps,
+    type SegmentInputProps as PureSegmentInputProps,
 } from '@ifrc-go/ui';
 
 // eslint-disable-next-line max-len

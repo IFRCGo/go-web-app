@@ -3,8 +3,8 @@ import {
     useState,
 } from 'react';
 import {
-    OptionKey,
-    SearchMultiSelectInputProps,
+    type OptionKey,
+    type SearchMultiSelectInputProps,
 } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {
@@ -66,18 +66,23 @@ const meta: Meta<typeof SearchMultiSelectInput> = {
 
 export default meta;
 
-function Template(args:Args) {
+interface SearchMultiSelectInputArgs extends Args {
+    value: OptionKey[] | null | undefined;
+    onChange: (val: OptionKey[], name: string) => void;
+}
+
+function Template(args: SearchMultiSelectInputArgs) {
     const [
         {
             value,
             onChange,
         },
         updateArgs,
-    ] = useArgs();
+    ] = useArgs<SearchMultiSelectInputArgs>();
 
     const [filteredOptions, setFilteredOptions] = useState(options);
 
-    const handleChange = useCallback((val: string[], name: string) => {
+    const handleChange = useCallback((val: OptionKey[], name: string) => {
         onChange(val, name);
         updateArgs({ value: val });
     }, [onChange, updateArgs]);

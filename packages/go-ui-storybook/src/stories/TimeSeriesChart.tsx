@@ -1,6 +1,6 @@
 import {
     TimeSeriesChart as PureTimeSeriesChart,
-    TimeSeriesChartProps,
+    type TimeSeriesChartProps,
 } from '@ifrc-go/ui';
 
 function TimeSeriesChart<const K extends string>(props: TimeSeriesChartProps<K>) {

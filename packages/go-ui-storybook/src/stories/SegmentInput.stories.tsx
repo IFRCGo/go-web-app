@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { SegmentInputProps } from '@ifrc-go/ui';
+import { type SegmentInputProps } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {
     Args,
@@ -45,14 +45,18 @@ const meta = {
 
 export default meta;
 
-function Template(args:Args) {
+interface SegmentArgs extends Args {
+    value: string | null | undefined;
+    onChange: (val: string, name: string) => void;
+}
+function Template(args: SegmentArgs) {
     const [
         {
             value,
             onChange,
         },
         setArgs,
-    ] = useArgs();
+    ] = useArgs<SegmentArgs>();
     // NOTE: We are casting args as props because of discriminated union
     // used in SegmentInput
     const handleChange = useCallback((val: string, name: string) => {

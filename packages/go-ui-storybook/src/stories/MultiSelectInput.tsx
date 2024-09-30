@@ -1,7 +1,7 @@
 import {
     MultiSelectInput as PureMultiSelectInput,
-    MultiSelectInputProps as PureMultiSelectInputProps,
-    OptionKey,
+    type MultiSelectInputProps as PureMultiSelectInputProps,
+    type OptionKey,
 } from '@ifrc-go/ui';
 
 // eslint-disable-next-line max-len

@@ -1,6 +1,6 @@
 import {
     DropdownMenu as PureDropdownMenu,
-    DropdownMenuProps,
+    type DropdownMenuProps,
 } from '@ifrc-go/ui';
 
 function DropdownMenu(props: DropdownMenuProps) {

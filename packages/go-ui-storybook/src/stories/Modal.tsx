@@ -1,9 +1,9 @@
 import {
     Modal as PureModal,
-    ModalProps as PureModalProps,
+    type ModalProps as PureModalProps,
 } from '@ifrc-go/ui';
 
-interface ModalProps extends PureModalProps {}
+type ModalProps = PureModalProps
 
 function Modal(props: ModalProps) {
     return (

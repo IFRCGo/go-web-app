@@ -1,4 +1,4 @@
-import { MessageProps } from '@ifrc-go/ui';
+import { type MessageProps } from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,

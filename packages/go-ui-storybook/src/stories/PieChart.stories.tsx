@@ -1,4 +1,4 @@
-import { PieChartProps } from '@ifrc-go/ui';
+import { type PieChartProps } from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,

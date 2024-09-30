@@ -1,4 +1,4 @@
-import { InfoPopupProps } from '@ifrc-go/ui';
+import { type InfoPopupProps } from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,

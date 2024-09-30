@@ -1,4 +1,4 @@
-import { NavigationTabListProps } from '@ifrc-go/ui';
+import { type NavigationTabListProps } from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,

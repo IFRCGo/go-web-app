@@ -1,4 +1,4 @@
-import { PopupProps } from '@ifrc-go/ui';
+import { type PopupProps } from '@ifrc-go/ui';
 import { useRef } from '@storybook/preview-api';
 import type {
     Meta,

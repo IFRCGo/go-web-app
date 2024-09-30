@@ -1,6 +1,6 @@
 import {
-    Column,
-    TableProps,
+    type Column,
+    type TableProps,
 } from '@ifrc-go/ui';
 import {
     createDateColumn,

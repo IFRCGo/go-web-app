@@ -1,7 +1,7 @@
 import { WikiHelpSectionLineIcon } from '@ifrc-go/icons';
 import {
     Button,
-    HeaderProps,
+    type HeaderProps,
 } from '@ifrc-go/ui';
 import type {
     Meta,

@@ -1,7 +1,7 @@
 import {
-    OptionKey,
+    type OptionKey,
     SearchSelectInput as PureSearchSelectInput,
-    SearchSelectInputProps as PureSearchSelectInputProps,
+    type SearchSelectInputProps as PureSearchSelectInputProps,
 } from '@ifrc-go/ui';
 
 // eslint-disable-next-line max-len

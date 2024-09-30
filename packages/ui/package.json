@@ -54,7 +54,6 @@
         }
     },
     "dependencies": {
-        "@changesets/cli": "^2.27.1",
         "@ifrc-go/icons": "^2.0.1",
         "@togglecorp/fujs": "^2.1.1",
         "@vitejs/plugin-react-swc": "^3.5.0",

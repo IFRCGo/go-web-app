@@ -1,6 +1,6 @@
 import {
     ReducedListDisplay as PureReducedListDisplay,
-    ReducedListDisplayProps as PureReducedListDisplayProps,
+    type ReducedListDisplayProps as PureReducedListDisplayProps,
 } from '@ifrc-go/ui';
 
 // eslint-disable-next-line max-len

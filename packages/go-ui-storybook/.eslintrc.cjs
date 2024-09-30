@@ -1,15 +1,4 @@
-import { FlatCompat } from '@eslint/eslintrc';
-import js from '@eslint/js';
-import process from 'process';
-
-const dirname = process.cwd();
-
-const compat = new FlatCompat({
-    baseDirectory: dirname,
-    resolvePluginsRelativeTo: dirname,
-});
-
-const appConfigs = compat.config({
+const config = {
     env: {
         node: true,
         browser: true,
@@ -19,23 +8,29 @@ const appConfigs = compat.config({
     extends: [
         'airbnb',
         'airbnb/hooks',
-        'plugin:@typescript-eslint/recommended',
+        'plugin:@typescript-eslint/recommended-type-checked',
+        'plugin:@typescript-eslint/stylistic',
         'plugin:react-hooks/recommended',
+        'plugin:storybook/recommended'
     ],
     parser: '@typescript-eslint/parser',
     parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
+        tsconfigRootDir: __dirname,
+        project: [
+            './tsconfig.json',
+        ],
     },
     plugins: [
         '@typescript-eslint',
         'react-refresh',
         'simple-import-sort',
-        'import-newlines'
+        'import-newlines',
     ],
     settings: {
         'import/parsers': {
-            '@typescript-eslint/parser': ['.ts', '.tsx']
+            '@typescript-eslint/parser': ['.ts', '.tsx'],
         },
         'import/resolver': {
             typescript: {
@@ -57,6 +52,7 @@ const appConfigs = compat.config({
         'no-shadow': 0,
         '@typescript-eslint/no-shadow': ['error'],
 
+        'import/no-unresolved': ['error', { ignore: ['^virtual:'] }],
         'import/no-extraneous-dependencies': [
             'error',
             {
@@ -76,7 +72,7 @@ const appConfigs = compat.config({
         'import/no-cycle': ['error', { allowUnsafeDynamicCyclicDependency: true }],
 
         'react/react-in-jsx-scope': 'off',
-        'camelcase': 'off',
+        camelcase: 'off',
 
         'react/jsx-indent': ['error', 4],
         'react/jsx-indent-props': ['error', 4],
@@ -90,7 +86,14 @@ const appConfigs = compat.config({
         'react/require-default-props': ['warn', { ignoreFunctionalComponents: true }],
         'simple-import-sort/imports': 'warn',
         'simple-import-sort/exports': 'warn',
-        'import-newlines/enforce': ['warn', 1]
+        'import-newlines/enforce': ['warn', 1],
+        '@typescript-eslint/consistent-type-imports': [
+            'error',
+            {
+                fixStyle: 'inline-type-imports',
+            },
+        ],
+        '@typescript-eslint/consistent-type-exports': 'error'
     },
     overrides: [
         {
@@ -99,7 +102,7 @@ const appConfigs = compat.config({
                 'simple-import-sort/imports': [
                     'error',
                     {
-                        'groups': [
+                        groups: [
                             // side effect imports
                             ['^\\u0000'],
                             // packages `react` related packages come first
@@ -111,24 +114,12 @@ const appConfigs = compat.config({
                             ['^\\.\\.(?!/?$)', '^\\.\\./?$', '^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$'],
                             // style imports
                             ['^.+\\.json$', '^.+\\.module.css$'],
-                        ]
-                    }
-                ]
-            }
-        }
-    ]
-}).map((conf) => ({
-    ...conf,
-    files: ['src/**/*.tsx', 'src/**/*.jsx', 'src/**/*.ts', 'src/**/*.js'],
-    ignores: ['src/generated/types.ts'],
-}));
-
-const otherConfig = {
-    files: ['*.js', '*.ts', '*.cjs'],
-    ...js.configs.recommended,
+                        ],
+                    },
+                ],
+            },
+        },
+    ],
 };
 
-export default [
-    ...appConfigs,
-    otherConfig,
-];
+module.exports = config;

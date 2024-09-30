@@ -1,4 +1,4 @@
-import { GridProps } from '@ifrc-go/ui';
+import { type GridProps } from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,
@@ -19,9 +19,9 @@ const options: Option[] = [
     { key: '5', label: 'Lion' },
 ];
 
-type RendererProps = {
+interface RendererProps {
     label: string;
-};
+}
 
 type GridSpecificProps = GridProps<Option, string, RendererProps>;
 type Story = StoryObj<GridSpecificProps>;

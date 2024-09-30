@@ -1,7 +1,7 @@
 import {
     Grid as PureGrid,
-    GridProps,
-    ListKey,
+    type GridProps,
+    type ListKey,
 } from '@ifrc-go/ui';
 
 function Grid<

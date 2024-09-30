@@ -1,7 +1,7 @@
 import {
     Footer,
     Header,
-    PageContainerProps,
+    type PageContainerProps,
 } from '@ifrc-go/ui';
 import type {
     Meta,

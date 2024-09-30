@@ -1,7 +1,4 @@
-import {
-    MultiSelectInputProps,
-    OptionKey,
-} from '@ifrc-go/ui';
+import { type OptionKey } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {
     Args,
@@ -40,8 +37,7 @@ const keySelector = (d: Option) => d.key;
 const labelSelector = (d: Option) => d.label;
 
 // eslint-disable-next-line max-len
-type MultiSelectInputSpecificProps = MultiSelectInputProps<OptionKey, string[], Option, object, never>; // Change the type of `value` to `string[]`
-type Story = StoryObj<MultiSelectInputSpecificProps>;
+type Story = StoryObj<typeof MultiSelectInput>;
 
 const meta: Meta<typeof MultiSelectInput> = {
     title: 'Components/MultiSelectInput',
@@ -62,16 +58,21 @@ const meta: Meta<typeof MultiSelectInput> = {
 
 export default meta;
 
-function Template(args:Args) {
+interface MultiSelectInputArgs extends Args {
+    value: OptionKey[] | null | undefined;
+    onChange: (value: OptionKey[], name: string) => void;
+}
+
+function Template(args: MultiSelectInputArgs) {
     const [
         {
             value,
             onChange,
         },
         updateArgs,
-    ] = useArgs();
+    ] = useArgs<MultiSelectInputArgs>();
 
-    const setValue = (val: string[], name: string) => {
+    const setValue = (val: OptionKey[], name: string) => {
         onChange(val, name);
         updateArgs({ value: val });
     };

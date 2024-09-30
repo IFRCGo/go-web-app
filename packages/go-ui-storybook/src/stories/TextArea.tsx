@@ -1,6 +1,6 @@
 import {
     TextArea as PureTextArea,
-    TextAreaProps,
+    type TextAreaProps,
 } from '@ifrc-go/ui';
 
 function TextArea<const N>(props: TextAreaProps<N>) {

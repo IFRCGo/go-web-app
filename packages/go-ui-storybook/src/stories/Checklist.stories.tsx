@@ -1,4 +1,4 @@
-import { ChecklistProps } from '@ifrc-go/ui';
+import { type ChecklistProps } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {
     Args,
@@ -51,11 +51,16 @@ const meta: Meta<typeof Checklist> = {
 
 export default meta;
 
-function Template(args:Args) {
+interface ChecklistArgs extends Args {
+    value: ListKey[] | undefined | null;
+    onChange: (val: ListKey[], id: string) => void;
+}
+
+function Template(args: ChecklistArgs) {
     const [
         { value, onChange },
         setArgs,
-    ] = useArgs();
+    ] = useArgs<ChecklistArgs>();
 
     const handleChange = (val: ListKey[], key: string) => {
         onChange(val, key);

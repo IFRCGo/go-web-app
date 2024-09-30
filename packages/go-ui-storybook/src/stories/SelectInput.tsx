@@ -1,7 +1,7 @@
 import {
-    OptionKey,
+    type OptionKey,
     SelectInput as PureSelectInput,
-    SelectInputProps as PureSelectInputProps,
+    type SelectInputProps as PureSelectInputProps,
 } from '@ifrc-go/ui';
 
 // eslint-disable-next-line max-len

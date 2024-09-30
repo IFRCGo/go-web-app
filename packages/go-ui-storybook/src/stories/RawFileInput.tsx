@@ -1,6 +1,6 @@
 import {
     RawFileInput as PureRawFileInput,
-    RawFileInputProps,
+    type RawFileInputProps,
 } from '@ifrc-go/ui';
 
 function RawFileInput< const N>(props: RawFileInputProps<N>) {

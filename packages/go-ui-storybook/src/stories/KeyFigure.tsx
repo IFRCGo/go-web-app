@@ -1,6 +1,6 @@
 import {
     KeyFigure as PureKeyFigure,
-    KeyFigureProps,
+    type KeyFigureProps,
 } from '@ifrc-go/ui';
 
 function KeyFigure(props: KeyFigureProps) {

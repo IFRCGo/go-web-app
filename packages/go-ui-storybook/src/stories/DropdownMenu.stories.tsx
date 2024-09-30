@@ -1,4 +1,4 @@
-import { DropdownMenuProps } from '@ifrc-go/ui';
+import { type DropdownMenuProps } from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,

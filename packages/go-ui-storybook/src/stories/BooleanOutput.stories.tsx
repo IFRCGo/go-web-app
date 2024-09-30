@@ -1,4 +1,4 @@
-import { BooleanOutputProps } from '@ifrc-go/ui';
+import { type BooleanOutputProps } from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,

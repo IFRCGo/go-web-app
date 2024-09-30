@@ -1,6 +1,6 @@
 import {
     BooleanInput as PureBooleanInput,
-    BooleanInputProps as PureBooleanInputProps,
+    type BooleanInputProps as PureBooleanInputProps,
 } from '@ifrc-go/ui';
 
 type WrappedBooleanInputProps = PureBooleanInputProps<string>;

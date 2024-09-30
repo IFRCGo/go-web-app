@@ -1,6 +1,6 @@
 import {
     PageContainer as PurePageContainer,
-    PageContainerProps,
+    type PageContainerProps,
 } from '@ifrc-go/ui';
 
 function PageContainer(props: PageContainerProps) {

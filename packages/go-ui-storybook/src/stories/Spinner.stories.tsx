@@ -1,4 +1,4 @@
-import { SpinnerProps } from '@ifrc-go/ui';
+import { type SpinnerProps } from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,

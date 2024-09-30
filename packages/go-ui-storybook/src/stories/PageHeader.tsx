@@ -1,6 +1,6 @@
 import {
     PageHeader as PurePageHeader,
-    PageHeaderProps,
+    type PageHeaderProps,
 } from '@ifrc-go/ui';
 
 function PageHeader(props: PageHeaderProps) {

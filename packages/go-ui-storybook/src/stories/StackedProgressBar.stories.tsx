@@ -1,4 +1,4 @@
-import { StackedProgressBarProps } from '@ifrc-go/ui';
+import { type StackedProgressBarProps } from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,

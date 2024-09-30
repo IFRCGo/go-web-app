@@ -1,6 +1,6 @@
 import {
     StackedProgressBar as PureStackedProgressBar,
-    StackedProgressBarProps,
+    type StackedProgressBarProps,
 } from '@ifrc-go/ui';
 
 function StackedProgressBar<const N>(props: StackedProgressBarProps<N>) {

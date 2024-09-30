@@ -1,4 +1,4 @@
-import { TextInputProps } from '@ifrc-go/ui';
+import { type TextInputProps } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {
     Args,
@@ -31,16 +31,19 @@ const meta: Meta<typeof TextInput> = {
 
 export default meta;
 
-function Template(args:Args) {
+interface TextInputArgs extends Args {
+    value: string | null | undefined;
+    onChange: (value: string | undefined, name: string) => void;
+}
+function Template(args: TextInputArgs) {
     const [
         { value },
         setArgs,
-    ] = useArgs();
+    ] = useArgs<TextInputArgs>();
 
     const onChange = (val:string | undefined, name: string) => {
         setArgs({ value: val });
-        // eslint-disable-next-line react/destructuring-assignment
-        args.onChange(val, name);
+        onChange(val, name);
     };
 
     return (

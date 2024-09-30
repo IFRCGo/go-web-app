@@ -1,6 +1,6 @@
 import {
     Message as PureMessage,
-    MessageProps,
+    type MessageProps,
 } from '@ifrc-go/ui';
 
 function Message(props: MessageProps) {

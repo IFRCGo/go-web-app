@@ -1,4 +1,4 @@
-import { ListProps } from '@ifrc-go/ui';
+import { type ListProps } from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,

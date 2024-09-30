@@ -1,4 +1,4 @@
-import { SwitchProps } from '@ifrc-go/ui';
+import { type SwitchProps } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {
     Args,
@@ -31,11 +31,15 @@ const meta: Meta<typeof Switch> = {
 
 export default meta;
 
-function Template(args:Args) {
+interface SwitchArgs extends Args {
+    value: boolean | null | undefined;
+}
+
+function Template(args: SwitchArgs) {
     const [
         { value },
         updateArgs,
-    ] = useArgs();
+    ] = useArgs<SwitchArgs>();
 
     const onChange = (
         newValue: boolean | undefined,

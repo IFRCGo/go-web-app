@@ -3,8 +3,8 @@ import {
     useState,
 } from 'react';
 import {
-    OptionKey,
-    SearchSelectInputProps,
+    type OptionKey,
+    type SearchSelectInputProps,
 } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {
@@ -71,14 +71,23 @@ const meta: Meta<typeof SearchSelectInput> = {
 
 export default meta;
 
-function Template(args:Args) {
+interface SearchSelectInputArgs extends Args {
+    value: OptionKey | null | undefined;
+    onChange: (
+        value: OptionKey | undefined,
+        name: string,
+        selectedOption: Option | undefined,
+    ) => void;
+}
+
+function Template(args: SearchSelectInputArgs) {
     const [
         {
             value,
             onChange,
         },
         setArgs,
-    ] = useArgs();
+    ] = useArgs<SearchSelectInputArgs>();
     const [filteredOptions, setFilteredOptions] = useState(options);
 
     const handleChange = useCallback((

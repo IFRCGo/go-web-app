@@ -1,4 +1,4 @@
-import { RadioInputProps } from '@ifrc-go/ui';
+import { type RadioInputProps } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {
     Args,
@@ -25,7 +25,14 @@ const options: Option[] = [
 const keySelector = (o: Option) => o.key;
 const labelSelector = (o: Option) => o.label;
 
-type RadioInputSpecificProps = RadioInputProps<string, Option, string, never, never>;
+type RadioInputSpecificProps = RadioInputProps<
+    string,
+    Option,
+    string | undefined | null,
+    never,
+    never
+>;
+
 type Story = StoryObj<RadioInputSpecificProps>;
 
 const meta: Meta<typeof RadioInput> = {
@@ -46,19 +53,22 @@ const meta: Meta<typeof RadioInput> = {
 };
 
 export default meta;
-
-function Template(args:Args) {
+interface RadioInputArgs extends Args {
+    value: string | undefined | null;
+    onChange: (val: string | undefined | null, id: string) => void;
+}
+function Template(args: RadioInputArgs) {
     const [
         {
             value,
             onChange,
         },
         setArgs,
-    ] = useArgs();
+    ] = useArgs<RadioInputArgs>();
 
     // NOTE: We are casting args as props because of discriminated union
     // used in RadionInputProps
-    const handleChange = (val: string | undefined, name: string) => {
+    const handleChange = (val: string | undefined | null, name: string) => {
         setArgs({ value: val });
         // eslint-disable-next-line react/destructuring-assignment
         if (args.clearable) {

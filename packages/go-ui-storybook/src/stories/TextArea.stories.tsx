@@ -28,15 +28,24 @@ const meta: Meta<typeof TextArea> = {
 
 export default meta;
 
-function Template(args:Args) {
+interface TextAreaArgs extends Args {
+    value: string | undefined | null;
+    onChange: (value: string | undefined, name: string) => void;
+}
+
+function Template(args: TextAreaArgs) {
     const [
-        { value },
+        {
+            value,
+            onChange,
+        },
         setArgs,
-    ] = useArgs<{ value: string | undefined }>();
-    const onChange = (val: string | undefined, name: string) => {
+    ] = useArgs<TextAreaArgs>();
+
+    const handleChange = (val: string | undefined, name: string) => {
         setArgs({ value: val });
         // eslint-disable-next-line react/destructuring-assignment
-        args.onChange(val, name);
+        onChange(val, name);
     };
 
     return (
@@ -45,7 +54,7 @@ function Template(args:Args) {
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...args}
             value={value}
-            onChange={onChange}
+            onChange={handleChange}
         />
     );
 }

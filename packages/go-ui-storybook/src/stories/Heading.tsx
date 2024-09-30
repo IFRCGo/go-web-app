@@ -1,6 +1,6 @@
 import {
     Heading as PureHeading,
-    HeadingProps,
+    type HeadingProps,
 } from '@ifrc-go/ui';
 
 function Heading(props: HeadingProps) {

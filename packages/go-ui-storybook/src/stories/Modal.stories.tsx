@@ -4,7 +4,7 @@ import {
 } from 'react';
 import {
     Button,
-    ModalProps,
+    type ModalProps,
 } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {
@@ -13,6 +13,7 @@ import type {
     StoryObj,
 } from '@storybook/react';
 import { fn } from '@storybook/test';
+import { isDefined } from '@togglecorp/fujs';
 
 import Modal from './Modal';
 
@@ -38,13 +39,17 @@ const meta: Meta<ModalSpecificProps> = {
 
 export default meta;
 
-function Template(args:Args) {
+interface ModalArgs extends Args {
+    onClose?: () => void;
+}
+
+function Template(args: ModalArgs) {
     const [isOpen, setIsOpen] = useState(false);
     const [
         {
             onClose,
         },
-    ] = useArgs();
+    ] = useArgs<ModalArgs>();
 
     const handleClick = useCallback(() => {
         setIsOpen(true);
@@ -52,7 +57,9 @@ function Template(args:Args) {
 
     const handleClose = useCallback(() => {
         setIsOpen(false);
-        onClose();
+        if (isDefined(onClose)) {
+            onClose();
+        }
     }, [onClose]);
     return (
         // eslint-disable-next-line react/jsx-no-useless-fragment

@@ -1,6 +1,6 @@
 import {
-    OptionKey,
-    SelectInputProps,
+    type OptionKey,
+    type SelectInputProps,
 } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {

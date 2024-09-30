@@ -1,7 +1,7 @@
 import {
     RadioInput as PureRadioInput,
-    RadioInputProps,
-    RadioProps,
+    type RadioInputProps,
+    type RadioProps,
 } from '@ifrc-go/ui';
 
 // eslint-disable-next-line max-len

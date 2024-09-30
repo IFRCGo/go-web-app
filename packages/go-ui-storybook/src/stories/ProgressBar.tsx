@@ -1,6 +1,6 @@
 import {
     ProgressBar as PureProgressBar,
-    ProgressBarProps,
+    type ProgressBarProps,
 } from '@ifrc-go/ui';
 
 function ProgressBar(props: ProgressBarProps) {

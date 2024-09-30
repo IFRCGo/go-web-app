@@ -1,4 +1,4 @@
-import { TooltipProps } from '@ifrc-go/ui';
+import { type TooltipProps } from '@ifrc-go/ui';
 import type {
     Args,
     Meta,

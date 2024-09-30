@@ -1,4 +1,4 @@
-import { ProgressBarProps } from '@ifrc-go/ui';
+import { type ProgressBarProps } from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,

@@ -1,4 +1,4 @@
-import { DateInputProps } from '@ifrc-go/ui';
+import { type DateInputProps } from '@ifrc-go/ui';
 import { useArgs } from '@storybook/preview-api';
 import type {
     Args,
@@ -31,11 +31,15 @@ const meta: Meta<typeof DateInput> = {
 
 export default meta;
 
-function Template(args:Args) {
+interface DateInputArgs extends Args {
+    value: string | null | undefined;
+    onChange:(val: string | undefined, name: string) => void;
+}
+function Template(args: DateInputArgs) {
     const [
         { value },
         setArgs,
-    ] = useArgs<{ value: string }>();
+    ] = useArgs<DateInputArgs>();
     const onChange = (val:string | undefined, name: string) => {
         setArgs({ value: val });
         // eslint-disable-next-line react/destructuring-assignment

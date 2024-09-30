@@ -1,6 +1,6 @@
 import {
     Pager as PurePager,
-    PagerProps,
+    type PagerProps,
 } from '@ifrc-go/ui';
 
 function Pager(props: PagerProps) {

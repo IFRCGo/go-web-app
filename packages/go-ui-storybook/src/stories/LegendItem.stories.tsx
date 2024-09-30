@@ -1,4 +1,4 @@
-import { LegendItemProps } from '@ifrc-go/ui';
+import { type LegendItemProps } from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,

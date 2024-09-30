@@ -1,6 +1,6 @@
 import {
     PieChart as PurePieChart,
-    PieChartProps,
+    type PieChartProps,
 } from '@ifrc-go/ui';
 
 function PieChart<const D>(props: PieChartProps<D>) {

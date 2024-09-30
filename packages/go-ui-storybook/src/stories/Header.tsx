@@ -1,6 +1,6 @@
 import {
     Header as PureHeader,
-    HeaderProps,
+    type HeaderProps,
 } from '@ifrc-go/ui';
 
 function Header(props: HeaderProps) {

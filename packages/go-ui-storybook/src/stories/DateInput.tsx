@@ -1,6 +1,6 @@
 import {
     DateInput as PureDateInput,
-    DateInputProps,
+    type DateInputProps,
 } from '@ifrc-go/ui';
 
 function DateInput<T>(props: DateInputProps<T>) {

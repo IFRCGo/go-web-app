@@ -1,4 +1,4 @@
-import { DateRangeOutputProps } from '@ifrc-go/ui';
+import { type DateRangeOutputProps } from '@ifrc-go/ui';
 import type {
     Meta,
     StoryObj,

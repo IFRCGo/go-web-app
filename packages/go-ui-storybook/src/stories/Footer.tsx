@@ -1,6 +1,6 @@
 import {
     Footer as PureFooter,
-    FooterProps,
+    type FooterProps,
 } from '@ifrc-go/ui';
 
 function Footer(props: FooterProps) {

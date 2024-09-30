@@ -1,6 +1,6 @@
 import {
     IconButton as PureIconButton,
-    IconButtonProps,
+    type IconButtonProps,
 } from '@ifrc-go/ui';
 
 function IconButton<const N>(props: IconButtonProps<N>) {
