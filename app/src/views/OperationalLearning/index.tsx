@@ -1,6 +1,5 @@
 import {
     useCallback,
-    useEffect,
     useMemo,
     useState,
 } from 'react';
@@ -49,7 +48,8 @@ import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import { getFormattedComponentName } from '#utils/domain/per';
 import {
     type GoApiResponse,
-    useLazyRequest,
+    GoApiUrlQuery,
+    useRequest,
 } from '#utils/restRequest';
 
 import Filters, { type FilterValue } from './Filters';
@@ -64,12 +64,25 @@ type SummaryStatusEnum = components<'read'>['schemas']['OpsLearningSummaryStatus
 const SUMMARY_STATUS_PENDING = 1 satisfies SummaryStatusEnum;
 const SUMMARY_STATUS_STARTED = 2 satisfies SummaryStatusEnum;
 const SUMMARY_STATUS_SUCCESS = 3 satisfies SummaryStatusEnum;
-const SUMMARY_NO_EXTRACT_AVAILBLE = 4 satisfies SummaryStatusEnum;
+const SUMMARY_NO_EXTRACT_AVAILABLE = 4 satisfies SummaryStatusEnum;
 const SUMMARY_STATUS_FAILED = 5 satisfies SummaryStatusEnum;
 
 type OpsLearningSummaryResponse = GoApiResponse<'/api/v2/ops-learning/summary/'>;
 type OpsLearningSectorSummary = OpsLearningSummaryResponse['sectors'][number];
 type OpsLearningComponentSummary = OpsLearningSummaryResponse['components'][number];
+
+type OpsLearningQuery = GoApiUrlQuery<'/api/v2/ops-learning/'>;
+type QueryType = Pick<
+    OpsLearningQuery,
+    | 'appeal_code__region'
+    | 'appeal_code__country__in'
+    | 'appeal_code__dtype__in'
+    | 'appeal_code__start_date__gte'
+    | 'appeal_code__start_date__lte'
+    | 'sector_validated__in'
+    | 'per_component_validated__in'
+    | 'search_extracts'
+>;
 
 const regionKeySelector = (region: RegionOption) => region.key;
 const countryKeySelector = (country: Country) => country.id;
@@ -102,38 +115,24 @@ export function Component() {
     const disasterTypeOptions = useDisasterTypes();
     const [secondarySectorOptions, secondarySectorOptionsPending] = useSecondarySector();
     const [perComponentOptions, perComponentOptionsPending] = usePerComponent();
-
-    const query = useMemo(() => ({
-        appeal_code__region: isDefined(filter.region) ? filter.region : undefined,
-        appeal_code__country_in: isDefined(filter.countries) ? filter.countries : undefined,
-        appeal_code__dtype_in: isDefined(filter.disasterTypes)
-            ? filter.disasterTypes : undefined,
-        sector_validated_in: isDefined(filter.secondarySectors)
-            ? filter.secondarySectors : undefined,
-        per_component_validated_in: isDefined(filter.perComponents)
-            ? filter.perComponents : undefined,
-        appeal_code__start_date__gte: isDefined(filter.appealStartDateAfter)
-            ? filter.appealStartDateAfter : undefined,
-        appeal_code__start_date__lte: isDefined(filter.appealStartDateBefore)
-            ? filter.appealStartDateBefore : undefined,
-        search_extracts: isTruthyString(filter.appealSearchText)
-            ? (filter.appealSearchText) : undefined,
-    }), [filter]);
+    const [query, setQuery] = useState<QueryType>();
 
     const {
         pending: opsLearningSummaryPending,
         response: opsLearningSummaryResponse,
         error: opsLearningSummaryError,
-        trigger: triggerSummary,
-    } = useLazyRequest({
+    } = useRequest({
         url: '/api/v2/ops-learning/summary/',
         query,
         shouldPoll: (poll) => {
-            if (poll?.errored
-                || poll?.value?.status === SUMMARY_STATUS_FAILED
-                || poll?.value?.status === SUMMARY_STATUS_SUCCESS
-                || poll?.value.status === SUMMARY_NO_EXTRACT_AVAILBLE
-            ) {
+            const { errored, value } = poll;
+
+            const stopPolling = errored
+                || value?.status === SUMMARY_STATUS_FAILED
+                || value?.status === SUMMARY_STATUS_SUCCESS
+                || value?.status === SUMMARY_NO_EXTRACT_AVAILABLE;
+
+            if (stopPolling) {
                 return -1;
             }
 
@@ -192,8 +191,7 @@ export function Component() {
     const {
         pending: opsLearningPending,
         response: opsLearningResponse,
-        trigger: triggerOperationalLearning,
-    } = useLazyRequest({
+    } = useRequest({
         url: '/api/v2/ops-learning/',
         query: {
             ...query,
@@ -223,13 +221,6 @@ export function Component() {
         },
     });
 
-    // NOTE: This effect is intentionally run only once on the initial render
-    useEffect(() => {
-        triggerSummary(query);
-        triggerOperationalLearning(query);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
     const handleExportClick = useCallback(() => {
         if (!opsLearningResponse?.count) {
             return;
@@ -250,13 +241,25 @@ export function Component() {
     ]);
 
     const handleApplyFilters = useCallback(() => {
-        triggerSummary(query);
-        triggerOperationalLearning(query);
-    }, [
-        query,
-        triggerSummary,
-        triggerOperationalLearning,
-    ]);
+        const newQuery = {
+            appeal_code__region: isDefined(filter.region) ? filter.region : undefined,
+            appeal_code__country__in: isDefined(filter.countries) ? filter.countries : undefined,
+            appeal_code__dtype__in: isDefined(filter.disasterTypes)
+                ? filter.disasterTypes : undefined,
+            appeal_code__start_date__gte: isDefined(filter.appealStartDateAfter)
+                ? filter.appealStartDateAfter : undefined,
+            appeal_code__start_date__lte: isDefined(filter.appealStartDateBefore)
+                ? filter.appealStartDateBefore : undefined,
+            sector_validated__in: isDefined(filter.secondarySectors)
+                ? filter.secondarySectors : undefined,
+            per_component_validated__in: isDefined(filter.perComponents)
+                ? filter.perComponents : undefined,
+            search_extracts: isTruthyString(filter.appealSearchText)
+                ? (filter.appealSearchText) : undefined,
+        };
+
+        setQuery(newQuery);
+    }, [filter]);
 
     return (
         <Page
@@ -398,7 +401,7 @@ export function Component() {
                 empty={isDefined(opsLearningSummaryResponse) && ((
                     opsLearningSummaryResponse?.components.length < 1
                     && opsLearningSummaryResponse?.sectors.length < 1
-                ) || opsLearningSummaryResponse?.status === SUMMARY_NO_EXTRACT_AVAILBLE)}
+                ) || opsLearningSummaryResponse?.status === SUMMARY_NO_EXTRACT_AVAILABLE)}
                 emptyMessage={strings.emptyMessage}
                 filteredEmptyMessage={strings.filteredEmptyMessage}
             >
