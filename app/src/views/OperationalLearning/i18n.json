@@ -12,6 +12,7 @@
         "filteredEmptyMessage": "Current filters did not return any operational learning summaries. Please try adjusting or clearing your filters to check for available operational learning summaries.",
         "selectedFilters": "Selected Filters",
         "clearFilters": "Clear Filters",
+        "applyFilters": "Apply Filters",
         "noSummariesAvailableForSector": "No summaries available for sectors.",
         "noSummariesAvailableForComponent": "No summaries available for components.",
         "extractCount": "{count} extract",
