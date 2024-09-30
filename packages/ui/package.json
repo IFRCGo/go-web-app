@@ -56,7 +56,7 @@
         "@changesets/cli": "^2.27.1",
         "@ifrc-go/icons": "^2.0.1",
         "@togglecorp/fujs": "^2.1.1",
-        "react-focus-on": "^3.9.1",
+        "react-focus-on": "^3.9.4",
         "sanitize-html": "^2.11.0"
     },
     "peerDependencies": {
@@ -84,7 +84,7 @@
         "postcss-nested": "^6.0.1",
         "postcss-normalize": "^10.0.1",
         "postcss-preset-env": "^8.3.2",
-        "react-focus-on": "^3.9.1",
+        "react-focus-on": "^3.9.4",
         "sanitize-html": "^2.11.0",
         "stylelint": "^16.7.0",
         "stylelint-config-concentric": "^2.0.2",
