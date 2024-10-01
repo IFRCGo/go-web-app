@@ -42,4 +42,8 @@
             gap: var(--go-ui-spacing-xs);
         }
     }
+    .ifrc-disclaimer {
+        display: flex;
+        gap: var(--go-ui-spacing-xs);
+    }
 }

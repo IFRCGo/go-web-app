@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import {
     Container,
+    InfoPopup,
     RawList,
     TextOutput,
 } from '@ifrc-go/ui';
@@ -23,7 +24,7 @@ import styles from './styles.module.css';
 
 const year = new Date().getFullYear();
 
-const legalStatusLink = 'https://fednet.ifrc.org/en/support/legal/legal/legal-status/';
+const legalStatusLink = 'https://ifrcorg.sharepoint.com/sites/OurIFRCLegal/SitePages/Legal-Resources.aspx';
 
 interface DelegationInformationProps {
     name: string | null | undefined;
@@ -142,14 +143,20 @@ function Presence() {
                     />
                 </div>
                 <div className={styles.ifrcPresenceItem}>
-                    <Link
-                        href={legalStatusLink}
-                        external
-                        variant="tertiary"
-                        withUnderline
-                    >
-                        {strings.countryIFRCLegalStatus}
-                    </Link>
+                    <div className={styles.ifrcDisclaimer}>
+                        <Link
+                            href={legalStatusLink}
+                            external
+                            variant="tertiary"
+                            withUnderline
+                        >
+                            {strings.countryIFRCLegalStatus}
+                        </Link>
+                        <InfoPopup
+                            description={strings.disclaimer}
+                        />
+                    </div>
+
                     {isDefined(countryResponse?.disaster_law_url) && (
                         <Link
                             href={countryResponse.disaster_law_url}
