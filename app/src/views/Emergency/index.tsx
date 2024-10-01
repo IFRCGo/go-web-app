@@ -1,5 +1,4 @@
 import {
-    useCallback,
     useContext,
     useMemo,
 } from 'react';
@@ -14,7 +13,6 @@ import {
     TargetedPopulationIcon,
 } from '@ifrc-go/icons';
 import {
-    Breadcrumbs,
     Button,
     KeyFigure,
     NavigationTabList,
@@ -27,6 +25,7 @@ import {
     listToMap,
 } from '@togglecorp/fujs';
 
+import GoBreadcrumbs from '#components/GoBreadcrumbs';
 import Link, { type InternalLinkProps } from '#components/Link';
 import NavigationTab from '#components/NavigationTab';
 import Page from '#components/Page';
@@ -51,9 +50,6 @@ type BreadcrumbsDataType = {
         label: string;
         urlParams?: Record<string, string | number | null | undefined>;
 };
-
-const keySelector = (option: BreadcrumbsDataType) => option.to;
-const labelSelector = (option: BreadcrumbsDataType) => option.label;
 
 /*
 function getRouteIdFromName(text: string) {
@@ -242,14 +238,6 @@ export function Component() {
         emergencyResponse?.name,
     ]);
 
-    const rendererParams = useCallback((_: BreadcrumbsDataType['to'], item: BreadcrumbsDataType)
-    : InternalLinkProps => (
-        {
-            to: item.to,
-            urlParams: item.urlParams,
-        }
-    ), []);
-
     const outletContext = useMemo<EmergencyOutletContext>(
         () => ({
             emergencyResponse,
@@ -266,17 +254,8 @@ export function Component() {
             className={styles.emergency}
             title={strings.emergencyPageTitle}
             breadCrumbs={(
-                <Breadcrumbs
-                    <
-                        BreadcrumbsDataType['to'],
-                        BreadcrumbsDataType,
-                        (InternalLinkProps & { children: React.ReactNode })
-                    >
-                    keySelector={keySelector}
-                    labelSelector={labelSelector}
-                    data={breadCrumbsData}
-                    rendererParams={rendererParams}
-                    renderer={Link}
+                <GoBreadcrumbs
+                    routeData={breadCrumbsData}
                 />
             )}
             actions={isAuthenticated && (

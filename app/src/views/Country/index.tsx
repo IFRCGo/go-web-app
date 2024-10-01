@@ -1,5 +1,4 @@
 import {
-    useCallback,
     useContext,
     useMemo,
 } from 'react';
@@ -11,7 +10,6 @@ import {
 } from 'react-router-dom';
 import { PencilFillIcon } from '@ifrc-go/icons';
 import {
-    Breadcrumbs,
     Message,
     NavigationTabList,
 } from '@ifrc-go/ui';
@@ -24,6 +22,7 @@ import {
     isTruthyString,
 } from '@togglecorp/fujs';
 
+import GoBreadcrumbs from '#components/GoBreadcrumbs';
 import Link, { type InternalLinkProps } from '#components/Link';
 import NavigationTab from '#components/NavigationTab';
 import Page from '#components/Page';
@@ -49,9 +48,6 @@ type BreadcrumbsDataType = {
         label: string;
         urlParams?: Record<string, string | number | null | undefined>;
 };
-
-const keySelector = (option: BreadcrumbsDataType) => option.to;
-const labelSelector = (option: BreadcrumbsDataType) => option.label;
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -131,14 +127,6 @@ export function Component() {
         country?.name,
     ]);
 
-    const rendererParams = useCallback((_: BreadcrumbsDataType['to'], item: BreadcrumbsDataType)
-    : InternalLinkProps => (
-        {
-            to: item.to,
-            urlParams: item.urlParams,
-        }
-    ), []);
-
     if (isDefined(numericCountryId) && isRegion) {
         const regionId = countryIdToRegionIdMap[numericCountryId];
 
@@ -188,18 +176,7 @@ export function Component() {
             title={pageTitle}
             heading={country?.name ?? '--'}
             breadCrumbs={(
-                <Breadcrumbs
-                    <
-                        BreadcrumbsDataType['to'],
-                        BreadcrumbsDataType,
-                        (InternalLinkProps & { children: React.ReactNode })
-                    >
-                    data={breadCrumbsData}
-                    keySelector={keySelector}
-                    labelSelector={labelSelector}
-                    renderer={Link}
-                    rendererParams={rendererParams}
-                />
+                <GoBreadcrumbs routeData={breadCrumbsData} />
             )}
             description={
                 isDefined(countryResponse)

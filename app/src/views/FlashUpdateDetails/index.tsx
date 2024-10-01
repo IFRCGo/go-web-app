@@ -1,6 +1,5 @@
 import {
     Fragment,
-    useCallback,
     useMemo,
 } from 'react';
 import { useParams } from 'react-router-dom';
@@ -9,7 +8,6 @@ import {
     PencilFillIcon,
 } from '@ifrc-go/icons';
 import {
-    Breadcrumbs,
     Button,
     Container,
     DateOutput,
@@ -30,6 +28,7 @@ import {
 } from '@togglecorp/fujs';
 
 import DetailsFailedToLoadMessage from '#components/domain/DetailsFailedToLoadMessage';
+import GoBreadcrumbs from '#components/GoBreadcrumbs';
 import Link, { type InternalLinkProps } from '#components/Link';
 import Page from '#components/Page';
 import { useRequest } from '#utils/restRequest';
@@ -45,9 +44,6 @@ type BreadcrumbsDataType = {
         label: string;
         urlParams?: Record<string, string | number | null | undefined>;
 };
-
-const keySelector = (option: BreadcrumbsDataType) => option.to;
-const labelSelector = (option: BreadcrumbsDataType) => option.label;
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -137,13 +133,6 @@ export function Component() {
         flashUpdateResponse?.title,
     ]);
 
-    const rendererParams = useCallback((_: BreadcrumbsDataType['to'], item: BreadcrumbsDataType)
-    : InternalLinkProps => (
-        {
-            to: item.to,
-            urlParams: item.urlParams,
-        }
-    ), []);
     const shouldHideDetails = fetchingFlashUpdate
         || isDefined(flashUpdateResponseError);
 
@@ -155,18 +144,7 @@ export function Component() {
             className={styles.flashUpdateDetails}
             heading={flashUpdateResponse?.title ?? strings.flashUpdateDetailsHeading}
             breadCrumbs={(
-                <Breadcrumbs
-                    <
-                        BreadcrumbsDataType['to'],
-                        BreadcrumbsDataType,
-                        (InternalLinkProps & { children: React.ReactNode })
-                    >
-                    data={breadCrumbsData}
-                    keySelector={keySelector}
-                    labelSelector={labelSelector}
-                    renderer={Link}
-                    rendererParams={rendererParams}
-                />
+                <GoBreadcrumbs routeData={breadCrumbsData} />
             )}
             actions={flashUpdateResponse && (
                 <>

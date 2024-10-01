@@ -1,12 +1,10 @@
 import {
     Fragment,
-    useCallback,
     useMemo,
 } from 'react';
 import { useParams } from 'react-router-dom';
 import { CheckboxCircleLineIcon } from '@ifrc-go/icons';
 import {
-    Breadcrumbs,
     Container,
     DateOutput,
     HtmlOutput,
@@ -29,6 +27,7 @@ import {
 } from '@togglecorp/fujs';
 
 import DetailsFailedToLoadMessage from '#components/domain/DetailsFailedToLoadMessage';
+import GoBreadcrumbs from '#components/GoBreadcrumbs';
 import Link, { type InternalLinkProps } from '#components/Link';
 import Page from '#components/Page';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
@@ -54,9 +53,6 @@ type BreadcrumbsDataType = {
         label: string;
         urlParams?: Record<string, string | number | null | undefined>;
 };
-
-const keySelector = (option: BreadcrumbsDataType) => option.to;
-const labelSelector = (option: BreadcrumbsDataType) => option.label;
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -242,15 +238,7 @@ export function Component() {
         fieldReportId,
     ]);
 
-    const rendererParams = useCallback((_: BreadcrumbsDataType['to'], item: BreadcrumbsDataType)
-    : InternalLinkProps => (
-        {
-            to: item.to,
-            urlParams: item.urlParams,
-        }
-    ), []);
     // FIXME: Translation Warning Banner should be shown
-    // FIXME: Breadcrumbs
 
     const shouldHideDetails = fetchingFieldReport
         || isDefined(fieldReportResponseError);
@@ -261,18 +249,7 @@ export function Component() {
             className={styles.fieldReportDetails}
             heading={shouldHideDetails ? strings.fieldReportDefaultHeading : summary}
             breadCrumbs={(
-                <Breadcrumbs
-                    <
-                        BreadcrumbsDataType['to'],
-                        BreadcrumbsDataType,
-                        (InternalLinkProps & { children: React.ReactNode })
-                    >
-                    data={breadCrumbsData}
-                    keySelector={keySelector}
-                    labelSelector={labelSelector}
-                    renderer={Link}
-                    rendererParams={rendererParams}
-                />
+                <GoBreadcrumbs routeData={breadCrumbsData} />
             )}
             actions={(
                 <Link
