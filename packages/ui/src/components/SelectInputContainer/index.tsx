@@ -62,6 +62,7 @@ export type SelectInputContainerProps<
         autoFocus?: boolean;
         hasValue: boolean;
         nonClearable?: boolean;
+        selectedOptions?: Record<OPTION_KEY, OPTION>[OPTION_KEY][];
         onClearButtonClick: () => void;
         onSelectAllButtonClick?: () => void;
         onEnterWithoutOption?: () => void;
@@ -130,6 +131,7 @@ function SelectInputContainer<
         variant,
         errorOnTooltip,
         dropdownHidden,
+        selectedOptions,
     } = props;
 
     const options = optionsFromProps ?? (emptyList as OPTION[]);
@@ -191,7 +193,6 @@ function SelectInputContainer<
         },
         [readOnly, handleShowDropdown],
     );
-
     const handlePopupBlur = useCallback(
         (clickedInside: boolean, clickedInParent: boolean) => {
             const isClickedWithin = clickedInside || clickedInParent;
@@ -207,11 +208,8 @@ function SelectInputContainer<
     const handleOptionClick = useCallback(
         (valueKey: OPTION_KEY, value: OPTION) => {
             onOptionClick(valueKey, value, name);
-            if (!persistentOptionPopup) {
-                handleHideDropdown();
-            }
         },
-        [onOptionClick, handleHideDropdown, persistentOptionPopup, name],
+        [onOptionClick, name],
     );
 
     const optionListRendererParams = useCallback(
@@ -263,7 +261,14 @@ function SelectInputContainer<
 
     const dropdownShownActual = dropdownShown && !dropdownHidden;
 
-    console.log('has', hasValue);
+    const availableOptions = options.filter(
+        (option) => !selectedOptions?.some(
+            (selectedOption) => optionKeySelector(
+                selectedOption,
+                0,
+            ) === optionKeySelector(option, 0),
+        ),
+    );
 
     return (
         <>
@@ -359,11 +364,30 @@ function SelectInputContainer<
                                 {strings.buttonTitleSelect}
                             </Button>
                         )}
+                        {selectedOptions && selectedOptions.length > 0 && (
+                            <div className={styles.selectedOptionsContainer}>
+                                <List<
+                                OPTION,
+                                OPTION_KEY,
+                                GenericOptionProps<RENDER_PROPS, OPTION_KEY, OPTION>
+                            >
+                                    className={styles.list}
+                                    data={selectedOptions}
+                                    keySelector={optionKeySelector}
+                                    renderer={GenericOption}
+                                    rendererParams={optionListRendererParams}
+                                    compact
+                                    pending={false}
+                                    errored={false}
+                                    filtered={false}
+                                />
+                            </div>
+                        )}
                         <div className={styles.clearAllBorder} />
                     </div>
                     <List<OPTION, OPTION_KEY, GenericOptionProps<RENDER_PROPS, OPTION_KEY, OPTION>>
                         className={styles.list}
-                        data={options}
+                        data={availableOptions}
                         keySelector={optionKeySelector}
                         renderer={GenericOption}
                         rendererParams={optionListRendererParams}

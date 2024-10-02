@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import {
     CheckboxBlankLineIcon,
-    CheckboxLineIcon,
+    CheckboxFillIcon,
 } from '@ifrc-go/icons';
 
 interface OptionProps {
@@ -21,7 +21,7 @@ function Option(props: OptionProps) {
     return (
         <>
             <div className={iconClassName}>
-                { isActive ? <CheckboxLineIcon /> : <CheckboxBlankLineIcon /> }
+                { isActive ? <CheckboxFillIcon /> : <CheckboxBlankLineIcon /> }
             </div>
             <div className={labelClassName}>
                 { children }

@@ -288,7 +288,17 @@ function SearchMultiSelectInput<
         },
         [name, onChange],
     );
+    const handleSelectAll = useCallback(
+        () => {
+            if (isNotDefined(options)) {
+                return;
+            }
 
+            const allValues = options.map(keySelector);
+            onChange(allValues, name);
+        },
+        [options, name, onChange, keySelector],
+    );
     return (
         <SelectInputContainer
             // eslint-disable-next-line react/jsx-props-no-spreading
@@ -296,6 +306,7 @@ function SearchMultiSelectInput<
             name={name}
             options={realOptions}
             optionsPending={optionsPending}
+            selectedOptions={selectedOptions}
             optionsFiltered={isTruthyString(searchInputValue) && searchInputValue.length > 0}
             optionsErrored={optionsErrored}
             optionKeySelector={keySelector}
@@ -315,6 +326,7 @@ function SearchMultiSelectInput<
             onFocusedKeyChange={setFocusedKey}
             persistentOptionPopup
             nonClearable={false}
+            onSelectAllButtonClick={handleSelectAll}
             hasValue={isDefined(value) && value.length > 0}
         />
     );
