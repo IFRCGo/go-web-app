@@ -87,7 +87,6 @@ export const Danger : Story = {
 export const NonDismissable: Story = {
     args: {
         name: 'danger',
-        type: 'danger',
         title: 'This alert indicates a dangerous or potentially harmful situation.',
         nonDismissable: true,
     },
