@@ -3,15 +3,10 @@ import React, {
     useRef,
 } from 'react';
 import {
-    CheckDoubleFillIcon,
     ChevronDownLineIcon,
     ChevronUpLineIcon,
-    CloseLineIcon,
 } from '@ifrc-go/icons';
-import {
-    _cs,
-    isTruthyString,
-} from '@togglecorp/fujs';
+import { _cs } from '@togglecorp/fujs';
 
 import Button, { Props as ButtonProps } from '#components/Button';
 import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';
@@ -268,6 +263,8 @@ function SelectInputContainer<
 
     const dropdownShownActual = dropdownShown && !dropdownHidden;
 
+    console.log('has', hasValue);
+
     return (
         <>
             <InputContainer
@@ -293,17 +290,6 @@ function SelectInputContainer<
                 actions={(
                     <>
                         {actions}
-                        {!readOnly && onSelectAllButtonClick && (
-                            <Button
-                                onClick={onSelectAllButtonClick}
-                                disabled={disabled}
-                                variant="tertiary"
-                                name={undefined}
-                                title={strings.buttonTitleSelect}
-                            >
-                                <CheckDoubleFillIcon className={styles.icon} />
-                            </Button>
-                        )}
                         {!readOnly && (
                             <Button
                                 onClick={handleToggleDropdown}
@@ -331,7 +317,7 @@ function SelectInputContainer<
                         onClick={handleSearchInputClick}
                         onFocus={() => onFocusedChange(true)}
                         onBlur={() => onFocusedChange(false)}
-                        placeholder={isTruthyString(valueDisplay) ? valueDisplay : placeholder}
+                        placeholder={placeholder}
                         autoComplete="off"
                         onKeyDown={handleKeyDown}
                         autoFocus={autoFocus}
@@ -344,21 +330,37 @@ function SelectInputContainer<
                     parentRef={inputSectionRef}
                     className={_cs(optionsPopupClassName, styles.popup)}
                 >
-                    {!readOnly && !nonClearable && hasValue && !disabled && (
-                        <div className={styles.clearButton}>
+                    <div className={styles.clearButtonContainer}>
+                        {!readOnly
+                            && !nonClearable
+                            && hasValue
+                            && !disabled
+                            && (
+                                <Button
+                                    className={styles.clearButton}
+                                    onClick={onClearButtonClick}
+                                    disabled={disabled}
+                                    variant="tertiary"
+                                    name={undefined}
+                                    title={strings.buttonTitleClear}
+                                >
+                                    {strings.buttonClearAll}
+                                </Button>
+                            )}
+                        {!readOnly && onSelectAllButtonClick && (
                             <Button
-                                onClick={onClearButtonClick}
+                                className={styles.clearButton}
+                                onClick={onSelectAllButtonClick}
                                 disabled={disabled}
-                                variant="secondary"
+                                variant="tertiary"
                                 name={undefined}
-                                title={strings.buttonTitleClear}
+                                title={strings.buttonTitleSelect}
                             >
-                                {strings.buttonClearAll}
-                                <CloseLineIcon className={styles.icon} />
+                                {strings.buttonTitleSelect}
                             </Button>
-                            <div className={styles.clearAllBorder} />
-                        </div>
-                    )}
+                        )}
+                        <div className={styles.clearAllBorder} />
+                    </div>
                     <List<OPTION, OPTION_KEY, GenericOptionProps<RENDER_PROPS, OPTION_KEY, OPTION>>
                         className={styles.list}
                         data={options}
