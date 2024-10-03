@@ -15,27 +15,33 @@ function VideoList() {
     }[] = [
         {
             id: 1,
-            embedId: 'https://www.youtube.com/embed/7PvsxM_nzBo',
-            heading: strings.videoCarouselHeading3w,
-            description: strings.videoCarouselHeading3wsub,
-        },
-        {
-            id: 2,
             embedId: 'https://www.youtube.com/embed/BEWxqYfrQek',
             heading: strings.videoCarouselHeadingMontandon,
             description: strings.videoCarouselSubHeadingMontandon,
         },
         {
-            id: 3,
+            id: 2,
             embedId: 'https://www.youtube.com/embed/E1TuUEEMBRM',
             heading: strings.videoCarouselHeading3W,
             description: strings.videoCarouselSubHeading3W,
+        },
+        {
+            id: 3,
+            embedId: 'https://www.youtube.com/embed/Oyy_JboK9uY',
+            heading: strings.videoCarouselHeadingHealth,
+            description: strings.videoCarouselSubHeadingHealth,
         },
         {
             id: 4,
             embedId: 'https://www.youtube.com/embed/wEz70tcwWx8',
             heading: strings.videoCarouselHeadingSubscribe,
             description: strings.videoCarouselSubHeadingSubscribe,
+        },
+        {
+            id: 5,
+            embedId: 'https://www.youtube.com/embed/7PvsxM_nzBo',
+            heading: strings.videoCarouselHeading3wDataCollection,
+            description: strings.videoCarouselSubHeading3wDataCollection,
         },
     ];
 
