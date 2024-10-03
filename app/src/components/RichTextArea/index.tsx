@@ -18,6 +18,7 @@ type RawEditorOptions = NonNullable<IAllProps['init']>;
 const editorOptions: Omit<RawEditorOptions, 'selector' | 'target'> = {
     menubar: false, // https://www.tiny.cloud/docs/advanced/available-toolbar-buttons
     statusbar: false,
+    paste_data_images: false,
     plugins: ['advlist autolink code help link lists preview'],
     toolbar: 'formatselect | bold italic superscript link | '
     + 'alignleft aligncenter alignright alignjustify | '
