@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { numericIdSelector } from '@ifrc-go/ui/utils';
 import {
     isDefined,
@@ -7,6 +7,7 @@ import {
 import { type LngLatBoundsLike } from 'mapbox-gl';
 
 import RiskImminentEventMap, { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
+import { RiskLayerProperties } from '#components/domain/RiskImminentEventMap/utils';
 import {
     isValidFeature,
     isValidPointFeature,
@@ -22,6 +23,10 @@ import EventListItem from './EventListItem';
 
 type ImminentEventResponse = RiskApiResponse<'/api/v1/pdc/'>;
 type EventItem = NonNullable<ImminentEventResponse['results']>[number];
+
+function hazardTypeSelector(item: EventItem) {
+    return item.hazard_type;
+}
 
 type BaseProps = {
     title: React.ReactNode;
@@ -45,6 +50,8 @@ function Pdc(props: Props) {
         variant,
     } = props;
 
+    const [activeEventId, setActiveEventId] = useState<number | undefined>();
+
     const {
         pending: pendingCountryRiskResponse,
         response: countryRiskResponse,
@@ -67,7 +74,7 @@ function Pdc(props: Props) {
     const {
         response: exposureResponse,
         pending: exposureResponsePending,
-        trigger: getFootprint,
+        trigger: fetchExposure,
     } = useRiskLazyRequest<'/api/v1/pdc/{id}/exposure/', {
         eventId: number | string,
     }>({
@@ -110,6 +117,10 @@ function Pdc(props: Props) {
         [],
     );
 
+    const activeEvent = countryRiskResponse?.results?.find(
+        (item) => item.id === activeEventId,
+    );
+
     const footprintSelector = useCallback(
         (exposure: RiskApiResponse<'/api/v1/pdc/{id}/exposure/'> | undefined) => {
             if (isNotDefined(exposure)) {
@@ -119,7 +130,12 @@ function Pdc(props: Props) {
             const {
                 footprint_geojson,
                 storm_position_geojson,
+                cyclone_five_days_cou,
+                cyclone_three_days_cou,
             } = exposure;
+
+            // FIXME: showing five days cou when three days cou is not available
+            const cyclone_cou = cyclone_three_days_cou?.[0] ?? cyclone_five_days_cou?.[0];
 
             if (isNotDefined(footprint_geojson) && isNotDefined(storm_position_geojson)) {
                 return undefined;
@@ -130,20 +146,46 @@ function Pdc(props: Props) {
             const stormPositions = (storm_position_geojson as unknown as unknown[] | undefined)
                 ?.filter(isValidPointFeature);
 
+            // FIXME: fix typing in server (low priority)
+            const forecastUncertainty = isValidFeature(cyclone_cou)
+                ? cyclone_cou
+                : undefined;
+
+            // severity
+            // WARNING: Adverse or significant impacts to population are imminent or occuring.
+            // WATCH: Conditions are possible for adverse or significant impacts to population.
+            // ADVISORY: Conditions are possible for limited or minor impacts to population
+            // INFORMATION: Conditions are possible for limited or minor impacts to population
+
+            // advisory_date: "28-Sep-2024"
+            // advisory_number: 4
+            // advisory_time: "0000Z"
+            // hazard_name: "Super Typhoon - Krathon"
+            //
             // forecast_date_time : "2023 SEP 04, 00:00Z"
             // severity : "WARNING"
             // storm_name : "HAIKUI"
             // track_heading : "WNW"
             // wind_speed_mph : 75
+            // track_speed_mph: xx
 
-            const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry> = {
+            const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry, RiskLayerProperties> = {
                 type: 'FeatureCollection' as const,
                 features: [
                     footprint ? {
                         ...footprint,
                         properties: {
                             ...footprint.properties,
-                            type: 'exposure',
+                            type: 'exposure' as const,
+                            severity: 'unknown' as const,
+                        },
+                    } : undefined,
+                    forecastUncertainty ? {
+                        ...forecastUncertainty,
+                        properties: {
+                            ...forecastUncertainty.properties,
+                            type: 'uncertainty-cone' as const,
+                            forecastDays: 3,
                         },
                     } : undefined,
                     stormPositions ? {
@@ -157,7 +199,7 @@ function Pdc(props: Props) {
                             ),
                         },
                         properties: {
-                            type: 'track',
+                            type: 'track-linestring' as const,
                         },
                     } : undefined,
                     ...stormPositions?.map(
@@ -165,7 +207,17 @@ function Pdc(props: Props) {
                             ...pointFeature,
                             properties: {
                                 ...pointFeature.properties,
-                                type: 'track-point',
+                                type: 'track-point' as const,
+                                isFuture: (
+                                    activeEvent
+                                    && activeEvent.pdc_updated_at
+                                    && pointFeature.properties?.forecast_date_time
+                                        ? (
+                                            new Date(pointFeature.properties.forecast_date_time)
+                                            > new Date(activeEvent.pdc_updated_at)
+                                        )
+                                        : false
+                                ),
                             },
                         }),
                     ) ?? [],
@@ -174,18 +226,19 @@ function Pdc(props: Props) {
 
             return geoJson;
         },
-        [],
+        [activeEvent],
     );
 
     const handleActiveEventChange = useCallback(
         (eventId: number | undefined) => {
             if (isDefined(eventId)) {
-                getFootprint({ eventId });
+                fetchExposure({ eventId });
             } else {
-                getFootprint(undefined);
+                fetchExposure(undefined);
             }
+            setActiveEventId(eventId);
         },
-        [getFootprint],
+        [fetchExposure],
     );
 
     return (
@@ -193,6 +246,7 @@ function Pdc(props: Props) {
             events={countryRiskResponse?.results}
             pointFeatureSelector={pointFeatureSelector}
             keySelector={numericIdSelector}
+            hazardTypeSelector={hazardTypeSelector}
             listItemRenderer={EventListItem}
             detailRenderer={EventDetails}
             pending={pendingCountryRiskResponse}

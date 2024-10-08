@@ -20,6 +20,7 @@ interface BaseProps {
     strongDescription?: boolean;
     withoutLabelColon?: boolean;
     invalidText?: React.ReactNode;
+    withBackground?: boolean;
 }
 
 interface BooleanProps extends BooleanOutputProps {
@@ -61,6 +62,7 @@ function TextOutput(props: Props) {
         strongValue,
         strongDescription,
         withoutLabelColon,
+        withBackground,
         invalidText = DEFAULT_INVALID_TEXT,
         ...otherProps
     } = props;
@@ -97,7 +99,13 @@ function TextOutput(props: Props) {
     }
 
     return (
-        <div className={_cs(styles.textOutput, className)}>
+        <div
+            className={_cs(
+                styles.textOutput,
+                withBackground && styles.withBackground,
+                className,
+            )}
+        >
             {icon}
             {label && (
                 <div

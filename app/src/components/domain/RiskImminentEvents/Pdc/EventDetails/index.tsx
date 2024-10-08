@@ -1,24 +1,19 @@
 import {
-    BlockLoading,
     Container,
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
+import { type RiskEventDetailProps } from '#components/domain/RiskImminentEventMap';
 import { type RiskApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 type PdcResponse = RiskApiResponse<'/api/v1/pdc/'>;
 type PdcEventItem = NonNullable<PdcResponse['results']>[number];
 type PdcExposure = RiskApiResponse<'/api/v1/pdc/{id}/exposure/'>;
 
-interface Props {
-    data: PdcEventItem;
-    exposure: PdcExposure | undefined;
-    pending: boolean;
-}
+type Props = RiskEventDetailProps<PdcEventItem, PdcExposure | undefined>;
 
 function EventDetails(props: Props) {
     const {
@@ -31,6 +26,7 @@ function EventDetails(props: Props) {
         },
         exposure,
         pending,
+        children,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -56,75 +52,81 @@ function EventDetails(props: Props) {
 
     return (
         <Container
-            className={styles.eventDetails}
-            childrenContainerClassName={styles.content}
+            contentViewType="vertical"
             heading={hazard_name}
-            headingLevel={4}
-            spacing="compact"
-            headerDescriptionContainerClassName={styles.eventMeta}
+            headingLevel={5}
+            spacing="cozy"
             headerDescription={(
-                <>
-                    <TextOutput
-                        label={strings.eventDetailsViewDetails}
-                        value={start_date}
-                        valueType="date"
-                        strongValue
-                    />
-                    <TextOutput
-                        label={strings.eventDetailsCreatedOn}
-                        value={pdc_created_at}
-                        valueType="date"
-                        strongValue
-                    />
-                    <TextOutput
-                        label={strings.eventDetailsUpdatedOn}
-                        value={pdc_updated_at}
-                        valueType="date"
-                        strongValue
-                    />
-                </>
+                <TextOutput
+                    label={strings.eventDetailsStartedOn}
+                    value={start_date}
+                    valueType="date"
+                />
             )}
+            withBorderAndHeaderBackground
+            pending={pending}
         >
-            {pending && <BlockLoading />}
-            {!pending && (
-                <>
-                    <div className={styles.exposureDetails}>
-                        <TextOutput
-                            label={strings.eventDetailsPeopleExposed}
-                            value={popExposure?.total?.valueFormatted}
-                            strongValue
-                        />
-                        <TextOutput
-                            label={strings.eventDetailsHouseholdExposed}
-                            value={popExposure?.households?.valueFormatted}
-                            strongValue
-                        />
-                        <TextOutput
-                            label={strings.eventDetailsPeopleGroups}
-                            value={popExposure?.vulnerable?.valueFormatted}
-                            strongValue
-                        />
-                        <TextOutput
-                            label={strings.eventDetailsValueExposed}
-                            value={capitalExposure?.total?.valueFormatted}
-                            strongValue
-                        />
-                        <TextOutput
-                            label={strings.eventDetailsSchoolExposed}
-                            value={capitalExposure?.school?.valueFormatted}
-                            strongValue
-                        />
-                        <TextOutput
-                            label={strings.eventHospitalsExposed}
-                            value={capitalExposure?.hospital?.valueFormatted}
-                            strongValue
-                        />
-                    </div>
-                    <div className={styles.description}>
-                        {description}
-                    </div>
-                </>
-            )}
+            <Container
+                contentViewType="vertical"
+                spacing="compact"
+            >
+                <TextOutput
+                    label={strings.eventDetailsCreatedOn}
+                    value={pdc_created_at}
+                    valueType="date"
+                    strongValue
+                    withBackground
+                />
+                <TextOutput
+                    label={strings.eventDetailsUpdatedOn}
+                    value={pdc_updated_at}
+                    valueType="date"
+                    strongValue
+                    withBackground
+                />
+                <TextOutput
+                    label={strings.eventDetailsPeopleExposed}
+                    value={popExposure?.total?.valueFormatted}
+                    strongValue
+                    withBackground
+                />
+                <TextOutput
+                    label={strings.eventDetailsHouseholdExposed}
+                    value={popExposure?.households?.valueFormatted}
+                    strongValue
+                    withBackground
+                />
+                <TextOutput
+                    label={strings.eventDetailsPeopleGroups}
+                    value={popExposure?.vulnerable?.valueFormatted}
+                    strongValue
+                    withBackground
+                />
+                <TextOutput
+                    label={strings.eventDetailsValueExposed}
+                    value={capitalExposure?.total?.valueFormatted}
+                    strongValue
+                    withBackground
+                />
+                <TextOutput
+                    label={strings.eventDetailsSchoolExposed}
+                    value={capitalExposure?.school?.valueFormatted}
+                    strongValue
+                    withBackground
+                />
+                <TextOutput
+                    label={strings.eventHospitalsExposed}
+                    value={capitalExposure?.hospital?.valueFormatted}
+                    strongValue
+                    withBackground
+                />
+            </Container>
+            <TextOutput
+                valueType="text"
+                value={description}
+                withBackground
+            />
+            {children}
         </Container>
     );
 }

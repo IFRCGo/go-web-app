@@ -8,6 +8,7 @@ import type { LngLatBoundsLike } from 'mapbox-gl';
 
 import type { EventPointFeature } from '#components/domain/RiskImminentEventMap';
 import RiskImminentEventMap from '#components/domain/RiskImminentEventMap';
+import { RiskLayerProperties } from '#components/domain/RiskImminentEventMap/utils';
 import { isValidFeatureCollection } from '#utils/domain/risk';
 import {
     type RiskApiResponse,
@@ -21,16 +22,43 @@ import EventListItem from './EventListItem';
 type ImminentEventResponse = RiskApiResponse<'/api/v1/meteoswiss/'>;
 type EventItem = NonNullable<ImminentEventResponse['results']>[number];
 
-function getLayerType(geometryType: GeoJSON.Geometry['type']) {
+function hazardTypeSelector(item: EventItem) {
+    return item.hazard_type;
+}
+
+function getLayerProperties(
+    feature: GeoJSON.Feature<GeoJSON.Geometry>,
+): RiskLayerProperties {
+    if (isNotDefined(feature)
+        || isNotDefined(feature.properties)
+        || isNotDefined(feature.geometry)
+    ) {
+        return {
+            type: 'unknown',
+        };
+    }
+
+    const geometryType = feature.geometry.type;
+
     if (geometryType === 'Point' || geometryType === 'MultiPoint') {
-        return 'track-point';
+        // FIXME: calculate isFuture
+        return { type: 'track-point', isFuture: true };
     }
 
     if (geometryType === 'LineString' || geometryType === 'MultiLineString') {
-        return 'track';
+        return { type: 'track-linestring' };
     }
 
-    return 'exposure';
+    if (geometryType === 'Polygon' || geometryType === 'MultiPolygon') {
+        return {
+            type: 'exposure',
+            severity: 'unknown',
+        };
+    }
+
+    return {
+        type: 'unknown',
+    };
 }
 
 type BaseProps = {
@@ -77,7 +105,7 @@ function MeteoSwiss(props: Props) {
     const {
         response: exposureResponse,
         pending: exposureResponsePending,
-        trigger: getFootprint,
+        trigger: fetchExposure,
     } = useRiskLazyRequest<'/api/v1/meteoswiss/{id}/exposure/', {
         eventId: number | string,
     }>({
@@ -137,7 +165,7 @@ function MeteoSwiss(props: Props) {
                 ? footprint_geojson
                 : undefined;
 
-            const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry> = {
+            const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry, RiskLayerProperties> = {
                 type: 'FeatureCollection' as const,
                 features: [
                     ...footprint?.features?.map(
@@ -155,7 +183,7 @@ function MeteoSwiss(props: Props) {
                                 ...feature,
                                 properties: {
                                     ...feature.properties,
-                                    type: getLayerType(feature.geometry.type),
+                                    ...getLayerProperties(feature),
                                 },
                             };
                         },
@@ -171,12 +199,12 @@ function MeteoSwiss(props: Props) {
     const handleActiveEventChange = useCallback(
         (eventId: number | undefined) => {
             if (isDefined(eventId)) {
-                getFootprint({ eventId });
+                fetchExposure({ eventId });
             } else {
-                getFootprint(undefined);
+                fetchExposure(undefined);
             }
         },
-        [getFootprint],
+        [fetchExposure],
     );
 
     return (
@@ -184,6 +212,7 @@ function MeteoSwiss(props: Props) {
             events={countryRiskResponse?.results}
             pointFeatureSelector={pointFeatureSelector}
             keySelector={numericIdSelector}
+            hazardTypeSelector={hazardTypeSelector}
             listItemRenderer={EventListItem}
             detailRenderer={EventDetails}
             pending={pendingCountryRiskResponse}

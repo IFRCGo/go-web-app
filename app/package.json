@@ -49,7 +49,7 @@
         "@togglecorp/fujs": "^2.1.1",
         "@togglecorp/re-map": "^0.2.0-beta-6",
         "@togglecorp/toggle-form": "^2.0.4",
-        "@togglecorp/toggle-request": "^1.0.0-beta.2",
+        "@togglecorp/toggle-request": "^1.0.0-beta.3",
         "@turf/bbox": "^6.5.0",
         "@turf/buffer": "^6.5.0",
         "exceljs": "^4.3.0",

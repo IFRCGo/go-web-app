@@ -5,7 +5,9 @@ import {
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import { _cs } from '@togglecorp/fujs';
 
+import { RiskEventListItemProps } from '#components/domain/RiskImminentEventMap';
 import { type RiskApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -14,10 +16,7 @@ import styles from './styles.module.css';
 type ImminentEventResponse = RiskApiResponse<'/api/v1/meteoswiss/'>;
 type EventItem = NonNullable<ImminentEventResponse['results']>[number];
 
-interface Props {
-    data: EventItem;
-    onExpandClick: (eventId: string | number) => void;
-}
+type Props = RiskEventListItemProps<EventItem>;
 
 function EventListItem(props: Props) {
     const {
@@ -29,6 +28,7 @@ function EventListItem(props: Props) {
             hazard_name,
         },
         onExpandClick,
+        className,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -37,7 +37,7 @@ function EventListItem(props: Props) {
 
     return (
         <Header
-            className={styles.eventListItem}
+            className={_cs(styles.eventListItem, className)}
             heading={hazardName ?? '--'}
             headingLevel={5}
             actions={(

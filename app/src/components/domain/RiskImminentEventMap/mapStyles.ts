@@ -5,6 +5,7 @@ import {
 import type {
     CircleLayer,
     CirclePaint,
+    Expression,
     FillLayer,
     Layout,
     LineLayer,
@@ -20,9 +21,18 @@ import wildfireIcon from '#assets/icons/risk/wildfire.png';
 import { type components } from '#generated/riskTypes';
 import {
     COLOR_BLACK,
-    COLOR_PRIMARY_BLUE,
+    COLOR_DARK_GREY,
+    COLOR_GREEN,
+    COLOR_ORANGE,
+    COLOR_RED,
+    COLOR_WHITE,
 } from '#utils/constants';
 import { hazardTypeToColorMap } from '#utils/domain/risk';
+
+import {
+    type RiskLayerSeverity,
+    type RiskLayerTypes,
+} from './utils';
 
 type HazardType = components<'read'>['schemas']['HazardTypeEnum'];
 
@@ -51,6 +61,18 @@ const iconImage: SymbolLayout['icon-image'] = [
     '',
 ];
 
+const severityColorStyle: Expression = [
+    'match',
+    ['get', 'severity'],
+    'red' satisfies RiskLayerSeverity,
+    COLOR_RED,
+    'orange' satisfies RiskLayerSeverity,
+    COLOR_ORANGE,
+    'green' satisfies RiskLayerSeverity,
+    COLOR_GREEN,
+    COLOR_DARK_GREY,
+];
+
 export const geojsonSourceOptions: mapboxgl.GeoJSONSourceRaw = { type: 'geojson' };
 export const hazardTypeColorPaint: CirclePaint['circle-color'] = [
     'match',
@@ -59,17 +81,59 @@ export const hazardTypeColorPaint: CirclePaint['circle-color'] = [
     COLOR_BLACK,
 ];
 
+export const activeHazardPointLayer: Omit<CircleLayer, 'id'> = {
+    type: 'circle',
+    filter: [
+        '==',
+        ['get', 'type'],
+        'hazard-point' satisfies RiskLayerTypes,
+    ],
+    paint: {
+        'circle-radius': 12,
+        'circle-color': severityColorStyle,
+        'circle-opacity': 1,
+    },
+};
+
 export const hazardPointLayer: Omit<CircleLayer, 'id'> = {
     type: 'circle',
     paint: {
         'circle-radius': 12,
         'circle-color': hazardTypeColorPaint,
-        'circle-opacity': 1,
+        'circle-opacity': [
+            'case',
+            ['boolean', ['feature-state', 'eventVisible'], true],
+            1,
+            0,
+        ],
+        /*
+        'circle-opacity-transition': { duration: 2000, delay: 0 },
+        */
     },
 };
 
 export const invisibleLayout: Layout = {
     visibility: 'none',
+};
+
+export const invisibleFillLayer: Omit<FillLayer, 'id'> = {
+    type: 'fill',
+    layout: invisibleLayout,
+};
+
+export const invisibleLineLayer: Omit<LineLayer, 'id'> = {
+    type: 'line',
+    layout: invisibleLayout,
+};
+
+export const invisibleSymbolLayer: Omit<SymbolLayer, 'id'> = {
+    type: 'symbol',
+    layout: invisibleLayout,
+};
+
+export const invisibleCircleLayer: Omit<CircleLayer, 'id'> = {
+    type: 'circle',
+    layout: invisibleLayout,
 };
 
 export const hazardPointIconLayout: SymbolLayout = {
@@ -84,39 +148,75 @@ export const exposureFillLayer: Omit<FillLayer, 'id'> = {
     filter: [
         '==',
         ['get', 'type'],
-        'exposure',
+        'exposure' satisfies RiskLayerTypes,
     ],
     paint: {
-        'fill-color': COLOR_PRIMARY_BLUE,
-        'fill-opacity': 0.3,
+        'fill-color': severityColorStyle,
+        'fill-opacity': 0.4,
     },
+    layout: { visibility: 'visible' },
 };
 
-export const trackOutlineLayer: Omit<LineLayer, 'id'> = {
+export const exposureFillOutlineLayer: Omit<LineLayer, 'id'> = {
     type: 'line',
     filter: [
         '==',
         ['get', 'type'],
-        'track',
+        'exposure' satisfies RiskLayerTypes,
+    ],
+    paint: {
+        'line-color': COLOR_WHITE,
+        'line-width': 1,
+        'line-opacity': 1,
+    },
+    layout: { visibility: 'visible' },
+};
+
+export const uncertaintyConeLayer: Omit<LineLayer, 'id'> = {
+    type: 'line',
+    filter: [
+        '==',
+        ['get', 'type'],
+        'uncertainty-cone' satisfies RiskLayerTypes,
     ],
     paint: {
         'line-color': COLOR_BLACK,
-        'line-opacity': 0.5,
+        'line-opacity': 1,
+        'line-width': 1,
+        'line-dasharray': [5, 7],
     },
+    layout: { visibility: 'visible' },
 };
 
+export const trackLineLayer: Omit<LineLayer, 'id'> = {
+    type: 'line',
+    filter: [
+        '==',
+        ['get', 'type'],
+        'track-linestring' satisfies RiskLayerTypes,
+    ],
+    paint: {
+        'line-color': COLOR_BLACK,
+        'line-width': 2,
+        'line-opacity': 1,
+    },
+    layout: { visibility: 'visible' },
+};
+
+/*
 export const trackArrowLayer: Omit<SymbolLayer, 'id'> = {
     type: 'symbol',
     filter: [
         '==',
         ['get', 'type'],
-        'track',
+        'track-linestring' satisfies RiskLayerTypes,
     ],
     paint: {
         'icon-color': COLOR_BLACK,
         'icon-opacity': 0.6,
     },
     layout: {
+        visibility: 'visible',
         'icon-allow-overlap': true,
         'symbol-placement': 'line',
         'icon-image': 'triangle-11',
@@ -124,17 +224,53 @@ export const trackArrowLayer: Omit<SymbolLayer, 'id'> = {
         'icon-rotate': 90,
     },
 };
+*/
 
 export const trackPointLayer: Omit<CircleLayer, 'id'> = {
     type: 'circle',
     filter: [
         '==',
         ['get', 'type'],
-        'track-point',
+        'track-point' satisfies RiskLayerTypes,
     ],
     paint: {
         'circle-radius': 4,
         'circle-color': COLOR_BLACK,
-        'circle-opacity': 0.5,
+        'circle-opacity': 1,
+        'circle-stroke-color': COLOR_WHITE,
+        'circle-stroke-width': [
+            'case',
+            ['boolean', ['get', 'isFuture'], true],
+            0,
+            1,
+        ],
     },
+    layout: { visibility: 'visible' },
+};
+
+export const trackPointOuterCircleLayer: Omit<CircleLayer, 'id'> = {
+    type: 'circle',
+    filter: [
+        '==',
+        ['get', 'type'],
+        'track-point' satisfies RiskLayerTypes,
+    ],
+    paint: {
+        'circle-radius': 12,
+        'circle-color': COLOR_BLACK,
+        'circle-opacity': [
+            'case',
+            ['boolean', ['get', 'isFuture'], true],
+            0.2,
+            0.0,
+        ],
+        'circle-stroke-color': COLOR_WHITE,
+        'circle-stroke-width': [
+            'case',
+            ['boolean', ['get', 'isFuture'], true],
+            1,
+            0,
+        ],
+    },
+    layout: { visibility: 'visible' },
 };

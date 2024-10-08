@@ -3,6 +3,11 @@
     flex-wrap: wrap;
     gap: 0 var(--go-ui-spacing-sm);
 
+    &.with-background {
+        background-color: var(--go-ui-color-background);
+        padding: var(--go-ui-spacing-sm);
+    }
+
     .label {
         &.with-colon::after {
             content: ':';

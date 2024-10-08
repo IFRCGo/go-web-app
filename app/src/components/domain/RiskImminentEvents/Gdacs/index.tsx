@@ -7,6 +7,10 @@ import {
 import { type LngLatBoundsLike } from 'mapbox-gl';
 
 import RiskImminentEventMap, { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
+import {
+    RiskLayerProperties,
+    RiskLayerSeverity,
+} from '#components/domain/RiskImminentEventMap/utils';
 import { isValidFeatureCollection } from '#utils/domain/risk';
 import {
     RiskApiResponse,
@@ -20,16 +24,105 @@ import EventListItem from './EventListItem';
 type ImminentEventResponse = RiskApiResponse<'/api/v1/gdacs/'>;
 type EventItem = NonNullable<ImminentEventResponse['results']>[number];
 
-function getLayerType(geometryType: GeoJSON.Geometry['type']) {
-    if (geometryType === 'Point' || geometryType === 'MultiPoint') {
-        return 'track-point';
+function hazardTypeSelector(item: EventItem) {
+    return item.hazard_type;
+}
+
+interface CommonFeatureProperties {
+    Class: string;
+}
+
+type FeatureAlertLevel = 'Green' | 'Red' | 'Orange';
+
+interface HazardPointFeatureProperties extends CommonFeatureProperties {
+    alertlevel: FeatureAlertLevel,
+}
+
+const severityMapping: Record<string, RiskLayerSeverity> = {
+    Red: 'red',
+    Orange: 'orange',
+    Green: 'green',
+};
+
+// Currently observed classes for TC are
+// Point_ are points
+// Poly_ are polygons
+// Line_ are linestrings
+// Point_0 is track point
+// Poly_Green is exposure polygon
+// Poly_Polygon_Point_0 is circle around the Point_0
+// Line_Line_0 is a line from Point_0 to Point_1
+// Poly_Cones is cone of uncertainty
+function getLayerProperties(
+    feature: GeoJSON.Feature<GeoJSON.Geometry>,
+    hazardDate: string | undefined,
+): RiskLayerProperties {
+    if (isNotDefined(feature.properties) || !('Class' in feature.properties)) {
+        return {
+            type: 'unknown',
+        };
     }
 
-    if (geometryType === 'LineString' || geometryType === 'MultiLineString') {
-        return 'track';
+    const {
+        Class: featureClass,
+    } = feature.properties;
+
+    const splits = featureClass.split('_');
+
+    if (splits[0] === 'Point') {
+        if (splits[1] === 'Centroid') {
+            const severityStr = (feature.properties as HazardPointFeatureProperties).alertlevel;
+
+            return {
+                type: 'hazard-point',
+                severity: severityMapping[severityStr] ?? 'unknown',
+            };
+        }
+
+        // Converting format from 'dd/MM/yyyy hh:mm:ss' to 'yyyy-MM-ddThh:mm:ss.sssZ'
+        const [date, time] = feature.properties.trackdate.split(' ');
+        const [d, m, y] = date.split('/');
+        const standardDateTime = `${y}-${m}-${d}T${time}.000Z`;
+
+        return {
+            type: 'track-point',
+            isFuture: hazardDate
+                ? new Date(standardDateTime).getTime() > new Date(hazardDate).getTime()
+                : false,
+        };
     }
 
-    return 'exposure';
+    if (splits[0] === 'Line') {
+        return {
+            type: 'track-linestring',
+        };
+    }
+
+    if (splits[0] === 'Poly') {
+        if (splits[1] === 'Cones') {
+            return {
+                type: 'uncertainty-cone',
+                forecastDays: undefined,
+            };
+        }
+
+        if (splits[1] === 'Red' || splits[1] === 'Orange' || splits[1] === 'Green') {
+            return {
+                type: 'exposure',
+                severity: severityMapping[splits[1]] ?? 'unknown',
+            };
+        }
+
+        if (splits[1] === 'Polygon' && splits[2] === 'Point') {
+            return {
+                type: 'track-point-boundary',
+            };
+        }
+    }
+
+    return {
+        type: 'unknown',
+    };
 }
 
 type BaseProps = {
@@ -76,7 +169,7 @@ function Gdacs(props: Props) {
     const {
         response: exposureResponse,
         pending: exposureResponsePending,
-        trigger: getFootprint,
+        trigger: fetchExposure,
     } = useRiskLazyRequest<'/api/v1/gdacs/{id}/exposure/', {
         eventId: number | string,
     }>({
@@ -131,11 +224,14 @@ function Gdacs(props: Props) {
                 return undefined;
             }
 
+            // FIXME: the type from server is not correct
             const footprint = isValidFeatureCollection(footprint_geojson)
                 ? footprint_geojson
                 : undefined;
 
-            const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry> = {
+            const hazardDate = (footprint?.metadata as ({ todate?: string } | undefined))?.todate;
+
+            const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry, RiskLayerProperties> = {
                 type: 'FeatureCollection' as const,
                 features: [
                     ...footprint?.features?.map(
@@ -143,7 +239,8 @@ function Gdacs(props: Props) {
                             ...feature,
                             properties: {
                                 ...feature.properties,
-                                type: getLayerType(feature.geometry.type),
+                                // NOTE: the todate format is 'dd MMM yyyy hh:mm:ss'
+                                ...getLayerProperties(feature, hazardDate),
                             },
                         }),
                     ) ?? [],
@@ -158,12 +255,12 @@ function Gdacs(props: Props) {
     const handleActiveEventChange = useCallback(
         (eventId: number | undefined) => {
             if (isDefined(eventId)) {
-                getFootprint({ eventId });
+                fetchExposure({ eventId });
             } else {
-                getFootprint(undefined);
+                fetchExposure(undefined);
             }
         },
-        [getFootprint],
+        [fetchExposure],
     );
 
     return (
@@ -171,6 +268,7 @@ function Gdacs(props: Props) {
             events={countryRiskResponse?.results}
             pointFeatureSelector={pointFeatureSelector}
             keySelector={numericIdSelector}
+            hazardTypeSelector={hazardTypeSelector}
             listItemRenderer={EventListItem}
             detailRenderer={EventDetails}
             pending={pendingCountryRiskResponse}
