@@ -56,8 +56,6 @@ interface Props {
     disasterTypeOptions: DisasterType[] | undefined;
     secondarySectorOptions: SecondarySector[] | undefined;
     perComponentOptions: PerComponent[] | undefined;
-    secondarySectorOptionsPending: boolean;
-    perComponentOptionsPending: boolean;
     disabled?: boolean;
 }
 function Filters(props: Props) {
@@ -67,8 +65,6 @@ function Filters(props: Props) {
         disasterTypeOptions,
         secondarySectorOptions,
         perComponentOptions,
-        secondarySectorOptionsPending,
-        perComponentOptionsPending,
         disabled,
     } = props;
 
@@ -122,8 +118,7 @@ function Filters(props: Props) {
                 options={secondarySectorOptions}
                 keySelector={sectorKeySelector}
                 labelSelector={sectorLabelSelector}
-                optionsPending={secondarySectorOptionsPending}
-                disabled={secondarySectorOptionsPending || disabled}
+                disabled={disabled}
                 value={value.secondarySectors}
                 onChange={onChange}
                 withSelectAll
@@ -135,7 +130,7 @@ function Filters(props: Props) {
                 options={perComponentOptions}
                 keySelector={perComponentKeySelector}
                 labelSelector={getFormattedComponentName}
-                disabled={perComponentOptionsPending || disabled}
+                disabled={disabled}
                 value={value.perComponents}
                 onChange={onChange}
                 withSelectAll

@@ -113,8 +113,8 @@ export function Component() {
     const { api_region_name: regionList } = useGlobalEnums();
     const countryList = useCountry({ region: filter.region });
     const disasterTypeOptions = useDisasterTypes();
-    const [secondarySectorOptions, secondarySectorOptionsPending] = useSecondarySector();
-    const [perComponentOptions, perComponentOptionsPending] = usePerComponent();
+    const secondarySectorOptions = useSecondarySector();
+    const perComponentOptions = usePerComponent();
     const [query, setQuery] = useState<QueryType>();
 
     const {
@@ -205,6 +205,7 @@ export function Component() {
         pendingExport,,
         triggerExportStart,
     ] = useRecursiveCsvExport({
+        disableProgress: true,
         onFailure: () => {
             alert.show(
                 strings.failedToCreateExport,
@@ -279,8 +280,6 @@ export function Component() {
                             disasterTypeOptions={disasterTypeOptions}
                             secondarySectorOptions={secondarySectorOptions}
                             perComponentOptions={perComponentOptions}
-                            secondarySectorOptionsPending={secondarySectorOptionsPending}
-                            perComponentOptionsPending={perComponentOptionsPending}
                         />
                         <div className={styles.actionButtons}>
                             {filtered && (
