@@ -36,6 +36,7 @@ import {
 } from '#utils/domain/dref';
 import {
     createImportTemplate,
+    getCombinedKey,
     type TemplateField,
 } from '#utils/importTemplate';
 import {
@@ -49,7 +50,7 @@ import {
 import {
     addHeadingRow,
     addInputRow,
-    buildCoverWorksheet,
+    buildCoverWorksheetForDrefApplication,
     headerRowStyle,
     hexToArgb,
 } from '../utils';
@@ -57,8 +58,8 @@ import useImportTemplateSchema from './useImportTemplateSchema';
 
 import i18n from './i18n.json';
 
-function typeOfDrefKeySelector(option: { value: TypeOfDrefEnum }) {
-    return option.value;
+function typeOfDrefKeySelector(option: { key: TypeOfDrefEnum }) {
+    return option.key;
 }
 
 async function generateTemplate(
@@ -78,7 +79,7 @@ async function generateTemplate(
         'DREF Import',
         { properties: { tabColor: { argb: hexToArgb(COLOR_PRIMARY_RED, '10') } } },
     );
-    await buildCoverWorksheet(coverWorksheet, workbook);
+    await buildCoverWorksheetForDrefApplication(coverWorksheet, workbook);
 
     const fieldNameToTabNameMap: Record<string, string> = {
         ...listToMap(
@@ -151,9 +152,9 @@ async function generateTemplate(
         if (isDefined(options)) {
             const column = optionsWorksheet.getColumnKey(key);
 
-            options.forEach((option: TypeOfDrefEnum, i: number) => {
+            options.forEach((option, i) => {
                 const cell = optionsWorksheet.getCell(i + 2, column.number);
-                cell.name = `${key}____${option.key}`;
+                cell.name = getCombinedKey(option.key, key);
                 cell.value = option.label;
             });
         }
@@ -163,6 +164,7 @@ async function generateTemplate(
         return listToGroupList(
             templateActions,
             (templateAction) => {
+                // FIXME: We should instead use a helper function to get the fieldName
                 const fieldName = String(templateAction.name).split('__')[0];
                 return fieldNameToTabNameMap[fieldName];
             },
@@ -201,12 +203,12 @@ async function generateTemplate(
                 worksheet.mergeCells(i + ROW_OFFSET, 1, i + ROW_OFFSET, 3);
                 lastHeadingIndex = i + 1;
             } else if (templateAction.type === 'input') {
-                // NOTE: Determines the headingLevel based on the index
+                // NOTE: Determines the headingType based on the index
                 // position relative to the last heading, list heading is for list section.
-                const headingLevel = (i - lastHeadingIndex) % 2 === 0 ? 'listHeading' : 'heading';
+                const headingType = (i - lastHeadingIndex) % 2 === 0 ? 'listHeading' : 'heading';
                 if (templateAction.dataValidation === 'list') {
                     addInputRow(
-                        headingLevel,
+                        headingType,
                         worksheet,
                         i + ROW_OFFSET,
                         templateAction.outlineLevel,
@@ -219,7 +221,7 @@ async function generateTemplate(
                     );
                 } else if (templateAction.dataValidation === 'textArea') {
                     addInputRow(
-                        headingLevel,
+                        headingType,
                         worksheet,
                         i + ROW_OFFSET,
                         templateAction.outlineLevel,
@@ -232,7 +234,7 @@ async function generateTemplate(
                     row.height = 100;
                 } else {
                     addInputRow(
-                        headingLevel,
+                        headingType,
                         worksheet,
                         i + ROW_OFFSET,
                         templateAction.outlineLevel,
@@ -314,10 +316,10 @@ function DownloadImportTemplateModal(props: Props) {
 
     const drefTypeLabelMap = useMemo(
         () => (
-            listToMap<TypeOfDrefEnum, string, string>(
+            listToMap(
                 dref_dref_dref_type,
                 (option) => option.key,
-                (option) => option.label,
+                (option) => option.value,
             )
         ),
         [dref_dref_dref_type],
@@ -377,7 +379,7 @@ function DownloadImportTemplateModal(props: Props) {
                 value={typeOfDref}
                 onChange={setTypeOfDref}
                 // Only response type is available for now
-                disabled
+                readOnly
             />
             <div>
                 {strings.description}

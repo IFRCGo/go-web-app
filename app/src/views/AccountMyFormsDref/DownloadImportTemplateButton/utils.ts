@@ -15,6 +15,7 @@ import {
     COLOR_PRIMARY_BLUE,
     COLOR_PRIMARY_RED,
     COLOR_WHITE,
+    FONT_FAMILY_HEADER,
 } from '#utils/constants';
 
 export function hexToArgb(hexStr: string, alphaStr = 'ff') {
@@ -25,7 +26,7 @@ export function hexToArgb(hexStr: string, alphaStr = 'ff') {
 
 export const headerRowStyle: Partial<Style> = {
     font: {
-        name: 'Montserrat',
+        name: FONT_FAMILY_HEADER,
         bold: true,
     },
     fill: {
@@ -41,7 +42,7 @@ export const headerRowStyle: Partial<Style> = {
 
 const headingStyle: Partial<Style> = {
     font: {
-        name: 'Montserrat',
+        name: FONT_FAMILY_HEADER,
         color: { argb: hexToArgb(COLOR_WHITE, '10') },
     },
     alignment: {
@@ -57,7 +58,7 @@ const headingStyle: Partial<Style> = {
 
 const subHeadingStyle: Partial<Style> = {
     font: {
-        name: 'Montserrat',
+        name: FONT_FAMILY_HEADER,
         color: { argb: hexToArgb(COLOR_PRIMARY_RED, '10') },
     },
     alignment: {
@@ -83,7 +84,7 @@ const alternateRowFill: Style['fill'] = {
     fgColor: { argb: hexToArgb(COLOR_LIGHT_GREY, '10') },
 };
 
-export async function buildCoverWorksheet(
+export async function buildCoverWorksheetForDrefApplication(
     coverWorksheet: Worksheet,
     workbook: Workbook,
 ) {
@@ -102,7 +103,7 @@ export async function buildCoverWorksheet(
     // eslint-disable-next-line no-param-reassign
     coverWorksheet.getCell('C1:L3').style = {
         font: {
-            name: 'Montserrat',
+            name: FONT_FAMILY_HEADER,
             family: 2,
             bold: true,
             size: 20,
@@ -120,7 +121,10 @@ export async function buildCoverWorksheet(
     // eslint-disable-next-line no-param-reassign
     coverWorksheet.getCell('C4').style = {
         font: {
-            bold: true, size: 18, name: 'Montserrat', family: 2,
+            bold: true,
+            size: 18,
+            name: FONT_FAMILY_HEADER,
+            family: 2,
         },
         alignment: { horizontal: 'center', vertical: 'middle' },
     };
@@ -134,7 +138,7 @@ export async function buildCoverWorksheet(
         },
         font: {
             size: 12,
-            name: 'Montserrat',
+            name: FONT_FAMILY_HEADER,
             family: 2,
         },
     };
@@ -198,36 +202,36 @@ export function addHeadingRow(
 }
 
 export function addInputRow(
-    headingLevel: 'heading' | 'listHeading',
+    headingType: 'heading' | 'listHeading',
     sheet: Worksheet,
     rowNum: number,
     outlineLevel: number,
     name: string,
     label: string,
-    description?: string,
+    description: string | undefined,
     dataValidation?: 'number' | 'integer' | 'date' | 'text',
 ): Row
 export function addInputRow(
-    headingLevel: 'heading' | 'listHeading',
+    headingType: 'heading' | 'listHeading',
     sheet: Worksheet,
     rowNum: number,
     outlineLevel: number,
     name: string,
     label: string,
-    description?: string,
+    description: string | undefined,
     dataValidation?: 'list',
     optionKey?: string,
     optionsWorksheet?: Worksheet,
 ): Row
 export function addInputRow(
-    headingLevel: 'heading' | 'listHeading',
+    headingType: 'heading' | 'listHeading',
     sheet: Worksheet,
     rowNum: number,
     outlineLevel: number,
     name: string,
     label: string,
     description?: string,
-    dataValidation?: 'number' | 'integer' | 'date' | 'list',
+    dataValidation?: 'number' | 'integer' | 'date' | 'text' | 'list',
     optionKey?: string,
     optionsWorksheet?: Worksheet,
 ): Row {
@@ -243,7 +247,7 @@ export function addInputRow(
 
     const inputCell = row.getCell(col + 1);
 
-    if (headingLevel === 'listHeading') {
+    if (headingType === 'listHeading') {
         const firstCell = row.getCell(col);
         firstCell.style = {
             ...firstCell.style,

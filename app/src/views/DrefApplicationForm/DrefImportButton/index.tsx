@@ -4,13 +4,13 @@ import {
     useTranslation,
 } from '@ifrc-go/ui/hooks';
 
-import { DrefRequestBody } from '../schema';
+import { PartialDref } from '../schema';
 import DrefImportModal from './DrefImportModal';
 
 import i18n from './i18n.json';
 
 interface Props {
-    onImport?: (formFields?: DrefRequestBody) => void;
+    onImport?: (formFields: PartialDref) => void;
 }
 
 function DrefImportButton(props: Props) {

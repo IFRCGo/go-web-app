@@ -177,7 +177,7 @@ export function createImportTemplate<
     if (isDefined(schema.headingBefore)) {
         fields.push({
             type: 'heading',
-            name: `${fieldName}__headingBefore`,
+            name: getCombinedKey('headingBefore', fieldName),
             label: schema.headingBefore,
             outlineLevel,
         } satisfies HeadingTemplateField);
@@ -257,6 +257,10 @@ export function createImportTemplate<
     ];
 }
 
+function addClientId(item: object): object {
+    return { ...item, clientId: randomString() };
+}
+
 // TODO: add test
 export function getValueFromImportTemplate<
     TEMPLATE_SCHEMA,
@@ -266,14 +270,14 @@ export function getValueFromImportTemplate<
     optionsMap: OPTIONS_MAPPING,
     formValues: Record<string, string | number | boolean>,
     fieldName: string | undefined = undefined,
+    transformListObject: (item: object) => object = addClientId,
 ): unknown {
     const optionsReverseMap = mapToMap(
         optionsMap,
         (key) => key,
-        (optionList) => (
+        (optionList: TemplateOptionItem<ValidationType>[]) => (
             listToMap(
-                // FIXME: inspect this
-                optionList as TemplateOptionItem<string>[],
+                optionList,
                 ({ label }) => label,
                 ({ key }) => key,
             )
@@ -332,10 +336,7 @@ export function getValueFromImportTemplate<
                     ...value,
                 };
             }
-            return {
-                client_id: randomString(),
-                ...value,
-            };
+            return transformListObject(value);
         }
         return undefined;
     }).filter(isDefined);

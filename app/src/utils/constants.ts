@@ -72,6 +72,10 @@ export const COLOR_PRIMARY_RED = '#f5333f';
 
 export const COLOR_ACTIVE_REGION = '#7d8b9d';
 
+// Import template
+
+export const FONT_FAMILY_HEADER = 'Montserrat';
+
 // Three W
 
 type OperationTypeEnum = components<'read'>['schemas']['DeploymentsProjectOperationTypeEnumKey'];

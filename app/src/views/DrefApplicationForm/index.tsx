@@ -283,6 +283,7 @@ export function Component() {
                 source_information,
                 ...otherValues
             } = removeNull(response);
+
             setValue({
                 ...otherValues,
                 planned_interventions: planned_interventions?.map(

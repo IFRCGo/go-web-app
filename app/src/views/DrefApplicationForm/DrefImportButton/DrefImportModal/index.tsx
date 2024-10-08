@@ -30,7 +30,7 @@ import {
 } from '#utils/domain/dref';
 import { getValueFromImportTemplate } from '#utils/importTemplate';
 import useImportTemplateSchema from '#views/AccountMyFormsDref/DownloadImportTemplateButton/DownloadImportTemplateModal/useImportTemplateSchema';
-import { DrefRequestBody } from '#views/DrefApplicationForm/schema';
+import { PartialDref } from '#views/DrefApplicationForm/schema';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -86,7 +86,7 @@ function getNameAndValueFromRow(row: Row) {
 
 interface Props {
     onClose: () => void;
-    onImport?: (formFields?: DrefRequestBody) => void;
+    onImport?: (formFields: PartialDref) => void;
 }
 
 function DrefImportModal(props: Props) {
@@ -149,7 +149,7 @@ function DrefImportModal(props: Props) {
 
                 if (onImport && isObject(formValuesFromExcel)) {
                     onImport({
-                        ...(formValuesFromExcel as unknown as DrefRequestBody),
+                        ...(formValuesFromExcel as unknown as PartialDref),
                         // FIXME: get this from template
                         type_of_dref: DREF_TYPE_RESPONSE,
                     });
