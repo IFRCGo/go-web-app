@@ -62,7 +62,7 @@ function useNationalSociety(
 
     const nationalSocieties = useMemo(
         () => (
-            countriesUnsafe?.results?.filter(isValidNationalSociety)
+            countriesUnsafe?.results?.filter(isValidNationalSociety) ?? []
         ),
         [countriesUnsafe],
     );

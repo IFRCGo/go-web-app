@@ -65,6 +65,7 @@ import {
     TYPE_LOAN,
     type TypeOfDrefEnum,
 } from './common';
+import DrefImportButton from './DrefImportButton';
 import EventDetail from './EventDetail';
 import ObsoletePayloadModal from './ObsoletePayloadModal';
 import Operation from './Operation';
@@ -282,6 +283,7 @@ export function Component() {
                 source_information,
                 ...otherValues
             } = removeNull(response);
+
             setValue({
                 ...otherValues,
                 planned_interventions: planned_interventions?.map(
@@ -572,6 +574,11 @@ export function Component() {
                 )}
                 actions={(
                     <>
+                        {isNotDefined(drefId) && (
+                            <DrefImportButton
+                                onImport={setValue}
+                            />
+                        )}
                         {isDefined(drefId) && (
                             <>
                                 <Button

@@ -72,6 +72,10 @@ export const COLOR_PRIMARY_RED = '#f5333f';
 
 export const COLOR_ACTIVE_REGION = '#7d8b9d';
 
+// Import template
+
+export const FONT_FAMILY_HEADER = 'Montserrat';
+
 // Three W
 
 type OperationTypeEnum = components<'read'>['schemas']['DeploymentsProjectOperationTypeEnumKey'];
@@ -93,10 +97,11 @@ export const PROJECT_STATUS_PLANNED = 0 satisfies StatusTypeEnum;
 
 // FIXME: fix typing in server (medium priority)
 // This should not be the same as OperationType.
-type DrefStatus = components<'read'>['schemas']['DrefDrefStatusEnumKey'];
+export type DrefStatus = components<'read'>['schemas']['DrefDrefStatusEnumKey'];
 export const DREF_STATUS_COMPLETED = 1 satisfies DrefStatus;
 export const DREF_STATUS_IN_PROGRESS = 0 satisfies DrefStatus;
-type TypeOfDrefEnum = components<'read'>['schemas']['DrefDrefDrefTypeEnumKey'];
+
+export type TypeOfDrefEnum = components<'read'>['schemas']['DrefDrefDrefTypeEnumKey'];
 export const DREF_TYPE_IMMINENT = 0 satisfies TypeOfDrefEnum;
 export const DREF_TYPE_ASSESSMENT = 1 satisfies TypeOfDrefEnum;
 export const DREF_TYPE_RESPONSE = 2 satisfies TypeOfDrefEnum;
