@@ -17,15 +17,14 @@ type PropsForId = {
     id: number;
 }
 
-function usePerComponent(props?: ListProps): [Array<PerComponent> | undefined, boolean]
-function usePerComponent(props: PropsForId): [PerComponent | undefined, boolean]
+function usePerComponent(props?: ListProps): Array<PerComponent> | undefined
+function usePerComponent(props: PropsForId): PerComponent | undefined
 function usePerComponent(
     props?: ListProps | PropsForId,
-): [PerComponent | undefined | Array<PerComponent> | undefined, boolean | undefined] {
+): PerComponent | undefined | Array<PerComponent> | undefined {
     const {
         register,
         perComponents,
-        perComponentsPending,
     } = useContext(DomainContext);
 
     useEffect(
@@ -51,7 +50,7 @@ function usePerComponent(
         [perComponents, props?.id],
     );
 
-    return [returnValue, perComponentsPending];
+    return returnValue;
 }
 
 export default usePerComponent;

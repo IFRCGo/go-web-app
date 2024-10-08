@@ -17,15 +17,14 @@ type PropsForId = {
     id: number;
 }
 
-function useSecondarySector(props?: ListProps): [Array<SecondarySector> | undefined, boolean]
-function useSecondarySector(props: PropsForId): [SecondarySector | undefined, boolean]
+function useSecondarySector(props?: ListProps): Array<SecondarySector> | undefined
+function useSecondarySector(props: PropsForId): SecondarySector | undefined
 function useSecondarySector(
     props?: ListProps | PropsForId,
-): [SecondarySector | undefined | Array<SecondarySector> | undefined, boolean | undefined ] {
+): SecondarySector | undefined | Array<SecondarySector> | undefined {
     const {
         register,
         secondarySectors,
-        secondarySectorsPending,
     } = useContext(DomainContext);
 
     useEffect(
@@ -47,7 +46,7 @@ function useSecondarySector(
         [secondarySectors, props?.id],
     );
 
-    return [returnValue, secondarySectorsPending];
+    return returnValue;
 }
 
 export default useSecondarySector;
