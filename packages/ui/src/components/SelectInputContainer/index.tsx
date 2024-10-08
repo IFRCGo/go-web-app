@@ -383,7 +383,8 @@ function SelectInputContainer<
                                 />
                             </div>
                         )}
-                        <div className={styles.clearAllBorder} />
+                        {!readOnly && onSelectAllButtonClick
+                        && <div className={styles.clearAllBorder} />}
                     </div>
                     <List<OPTION, OPTION_KEY, GenericOptionProps<RENDER_PROPS, OPTION_KEY, OPTION>>
                         className={styles.list}

@@ -138,6 +138,7 @@ function DropdownMenu(props: Props) {
                     className={_cs(styles.dropdownContent, popupClassName)}
                     parentRef={buttonRef}
                     preferredWidth={preferredPopupWidth}
+                    preferredVerticalOrientation
                 >
                     {children}
                 </Popup>

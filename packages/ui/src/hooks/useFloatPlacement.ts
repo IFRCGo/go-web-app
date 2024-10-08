@@ -54,6 +54,7 @@ const defaultPlacement: Placement = {
 function useFloatPlacement(
     parentRef: React.RefObject<HTMLElement | undefined>,
     preferredWidth?: number,
+    perferredVerticalOrientation?: 'top' | 'bottom',
 ) {
     const [placements, setPlacements] = useState<{
         content: Placement,
@@ -86,6 +87,10 @@ function useFloatPlacement(
         const maxWidth = window.innerWidth - 2 * horizontalPadding;
 
         const orientation = getPreferredOrientation(parentBCR);
+
+        if (perferredVerticalOrientation) {
+            orientation.vertical = perferredVerticalOrientation;
+        }
         const parentCenterX = parentX + parentWidth / 2;
 
         const width = bound(
