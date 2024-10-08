@@ -141,6 +141,7 @@ export function Component() {
         [value?.prioritized_action_responses],
     );
 
+    // FIXME: Not sure if this is required
     const customComponentResponseMapping = useMemo(
         () => (
             listToMap(
@@ -211,6 +212,7 @@ export function Component() {
         },
     });
 
+    // FIXME: We might need to use useFormArrayWithEmptyCheck
     const {
         setValue: setComponentValue,
     } = useFormArray<'prioritized_action_responses', NonNullable<PartialWorkPlan['prioritized_action_responses']>[number]>(
@@ -218,6 +220,7 @@ export function Component() {
         setFieldValue,
     );
 
+    // FIXME: We might need to use useFormArrayWithEmptyCheck
     const {
         setValue: setCustomComponentValue,
         removeValue: removeCustomComponentValue,

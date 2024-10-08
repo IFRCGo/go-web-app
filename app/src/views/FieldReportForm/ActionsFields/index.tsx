@@ -114,6 +114,7 @@ function ActionsFields(props: Props) {
 
     const actionsError = getErrorObject(error?.actions_taken);
 
+    // FIXME: We might need to use useFormArrayWithEmptyCheck
     const {
         setValue: setActionValue,
     } = useFormArray<'actions_taken', ActionValue>(

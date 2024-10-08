@@ -81,6 +81,7 @@ function AreaInput(props: Props) {
         }),
     );
 
+    // FIXME: We might need to use useFormArrayWithEmptyCheck
     const {
         setValue: setQuestionResponseValue,
     } = useFormArray('component_responses', setFieldValue);

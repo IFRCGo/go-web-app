@@ -151,6 +151,7 @@ export function Component() {
         },
     });
 
+    // FIXME: We might need to use useFormArrayWithEmptyCheck
     const {
         setValue: setComponentValue,
         removeValue: removeComponentValue,

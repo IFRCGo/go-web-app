@@ -139,6 +139,7 @@ export function Component() {
             const numAffectedCalculated = sumSafe(
                 (events?.map(
                     (event) => {
+                        // FIXME: this sort will mutate the data
                         const latestFieldReport = event.field_reports.sort(
                             (a, b) => (
                                 new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
