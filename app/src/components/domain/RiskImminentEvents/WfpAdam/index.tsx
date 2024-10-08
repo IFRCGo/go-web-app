@@ -43,7 +43,8 @@ function getLayerProperties(
     const geometryType = feature.geometry.type;
 
     if (geometryType === 'Point' || geometryType === 'MultiPoint') {
-        return { type: 'track-point' };
+        // FIXME: calculate isFuture
+        return { type: 'track-point', isFuture: true };
     }
 
     if (geometryType === 'LineString' || geometryType === 'MultiLineString') {
@@ -121,7 +122,7 @@ function WfpAdam(props: Props) {
     const {
         response: exposureResponse,
         pending: exposureResponsePending,
-        trigger: getFootprint,
+        trigger: fetchExposure,
     } = useRiskLazyRequest<'/api/v1/adam-exposure/{id}/exposure/', {
         eventId: number | string,
     }>({
@@ -205,12 +206,12 @@ function WfpAdam(props: Props) {
     const handleActiveEventChange = useCallback(
         (eventId: number | undefined) => {
             if (isDefined(eventId)) {
-                getFootprint({ eventId });
+                fetchExposure({ eventId });
             } else {
-                getFootprint(undefined);
+                fetchExposure(undefined);
             }
         },
-        [getFootprint],
+        [fetchExposure],
     );
 
     return (

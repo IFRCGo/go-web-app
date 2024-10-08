@@ -98,16 +98,7 @@ export const activeHazardPointLayer: Omit<CircleLayer, 'id'> = {
 export const hazardPointLayer: Omit<CircleLayer, 'id'> = {
     type: 'circle',
     paint: {
-        'circle-radius': [
-            'case',
-            ['boolean', ['feature-state', 'eventVisible'], true],
-            12,
-            0,
-        ],
-        'circle-radius-transition': {
-            delay: 200,
-            duration: 200,
-        },
+        'circle-radius': 12,
         'circle-color': hazardTypeColorPaint,
         'circle-opacity': [
             'case',
@@ -115,7 +106,9 @@ export const hazardPointLayer: Omit<CircleLayer, 'id'> = {
             1,
             0,
         ],
-        'circle-opacity-transition': { duration: 200 },
+        /*
+        'circle-opacity-transition': { duration: 2000, delay: 0 },
+        */
     },
 };
 
@@ -204,11 +197,13 @@ export const trackLineLayer: Omit<LineLayer, 'id'> = {
     ],
     paint: {
         'line-color': COLOR_BLACK,
-        'line-opacity': 0.5,
+        'line-width': 2,
+        'line-opacity': 1,
     },
     layout: { visibility: 'visible' },
 };
 
+/*
 export const trackArrowLayer: Omit<SymbolLayer, 'id'> = {
     type: 'symbol',
     filter: [
@@ -229,6 +224,7 @@ export const trackArrowLayer: Omit<SymbolLayer, 'id'> = {
         'icon-rotate': 90,
     },
 };
+*/
 
 export const trackPointLayer: Omit<CircleLayer, 'id'> = {
     type: 'circle',
@@ -238,9 +234,16 @@ export const trackPointLayer: Omit<CircleLayer, 'id'> = {
         'track-point' satisfies RiskLayerTypes,
     ],
     paint: {
-        'circle-radius': 3,
+        'circle-radius': 4,
         'circle-color': COLOR_BLACK,
         'circle-opacity': 1,
+        'circle-stroke-color': COLOR_WHITE,
+        'circle-stroke-width': [
+            'case',
+            ['boolean', ['get', 'isFuture'], true],
+            0,
+            1,
+        ],
     },
     layout: { visibility: 'visible' },
 };
@@ -253,9 +256,21 @@ export const trackPointOuterCircleLayer: Omit<CircleLayer, 'id'> = {
         'track-point' satisfies RiskLayerTypes,
     ],
     paint: {
-        'circle-radius': 7,
+        'circle-radius': 12,
         'circle-color': COLOR_BLACK,
-        'circle-opacity': 0.3,
+        'circle-opacity': [
+            'case',
+            ['boolean', ['get', 'isFuture'], true],
+            0.2,
+            0.0,
+        ],
+        'circle-stroke-color': COLOR_WHITE,
+        'circle-stroke-width': [
+            'case',
+            ['boolean', ['get', 'isFuture'], true],
+            1,
+            0,
+        ],
     },
     layout: { visibility: 'visible' },
 };

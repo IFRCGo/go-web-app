@@ -19,6 +19,8 @@ export interface HazardPointLayerProperties extends BaseLayerProperties {
 
 export interface TrackPointLayerProperties extends BaseLayerProperties {
     type: 'track-point';
+    // FIXME: added this
+    isFuture: boolean;
 }
 
 export interface TrackPointBoundaryLayerProperties extends BaseLayerProperties {

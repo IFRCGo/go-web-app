@@ -128,6 +128,7 @@ function EventDetails(props: Props) {
                     const date = new Date(track_date);
 
                     return {
+                        // NOTE: using date.getTime() caused duplicate ids
                         id: track_date,
                         windSpeed: wind_speed,
                         date,

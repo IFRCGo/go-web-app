@@ -54,8 +54,6 @@ import {
     invisibleFillLayer,
     invisibleLayout,
     invisibleLineLayer,
-    invisibleSymbolLayer,
-    trackArrowLayer,
     trackLineLayer,
     trackPointLayer,
     trackPointOuterCircleLayer,
@@ -297,9 +295,11 @@ function RiskImminentEventMap<
                     1,
                     0,
                 ],
+                /*
                 'icon-opacity-transition': {
                     duration: 200,
                 },
+                */
             },
             layout: allIconsLoaded ? hazardPointIconLayout : invisibleLayout,
         }),
@@ -356,12 +356,14 @@ function RiskImminentEventMap<
                                 ? trackLineLayer
                                 : invisibleLineLayer}
                         />
+                        {/*
                         <MapLayer
                             layerKey="track-arrow"
                             layerOptions={layerOptions.showTrackLine
                                 ? trackArrowLayer
                                 : invisibleSymbolLayer}
                         />
+                        */}
                         <MapLayer
                             layerKey="track-point"
                             layerOptions={layerOptions.showStormPosition

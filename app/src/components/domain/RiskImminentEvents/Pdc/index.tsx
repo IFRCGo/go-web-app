@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { numericIdSelector } from '@ifrc-go/ui/utils';
 import {
     isDefined,
@@ -50,6 +50,8 @@ function Pdc(props: Props) {
         variant,
     } = props;
 
+    const [activeEventId, setActiveEventId] = useState<number | undefined>();
+
     const {
         pending: pendingCountryRiskResponse,
         response: countryRiskResponse,
@@ -72,7 +74,7 @@ function Pdc(props: Props) {
     const {
         response: exposureResponse,
         pending: exposureResponsePending,
-        trigger: getFootprint,
+        trigger: fetchExposure,
     } = useRiskLazyRequest<'/api/v1/pdc/{id}/exposure/', {
         eventId: number | string,
     }>({
@@ -115,6 +117,10 @@ function Pdc(props: Props) {
         [],
     );
 
+    const activeEvent = countryRiskResponse?.results?.find(
+        (item) => item.id === activeEventId,
+    );
+
     const footprintSelector = useCallback(
         (exposure: RiskApiResponse<'/api/v1/pdc/{id}/exposure/'> | undefined) => {
             if (isNotDefined(exposure)) {
@@ -124,9 +130,12 @@ function Pdc(props: Props) {
             const {
                 footprint_geojson,
                 storm_position_geojson,
-                // cyclone_five_days_cou,
+                cyclone_five_days_cou,
                 cyclone_three_days_cou,
             } = exposure;
+
+            // FIXME: showing five days cou when three days cou is not available
+            const cyclone_cou = cyclone_three_days_cou?.[0] ?? cyclone_five_days_cou?.[0];
 
             if (isNotDefined(footprint_geojson) && isNotDefined(storm_position_geojson)) {
                 return undefined;
@@ -138,8 +147,8 @@ function Pdc(props: Props) {
                 ?.filter(isValidPointFeature);
 
             // FIXME: fix typing in server (low priority)
-            const forecastUncertainty = isValidFeature(cyclone_three_days_cou?.[0])
-                ? cyclone_three_days_cou[0]
+            const forecastUncertainty = isValidFeature(cyclone_cou)
+                ? cyclone_cou
                 : undefined;
 
             // severity
@@ -199,6 +208,16 @@ function Pdc(props: Props) {
                             properties: {
                                 ...pointFeature.properties,
                                 type: 'track-point' as const,
+                                isFuture: (
+                                    activeEvent
+                                    && activeEvent.pdc_updated_at
+                                    && pointFeature.properties?.forecast_date_time
+                                        ? (
+                                            new Date(pointFeature.properties.forecast_date_time)
+                                            > new Date(activeEvent.pdc_updated_at)
+                                        )
+                                        : false
+                                ),
                             },
                         }),
                     ) ?? [],
@@ -207,18 +226,19 @@ function Pdc(props: Props) {
 
             return geoJson;
         },
-        [],
+        [activeEvent],
     );
 
     const handleActiveEventChange = useCallback(
         (eventId: number | undefined) => {
             if (isDefined(eventId)) {
-                getFootprint({ eventId });
+                fetchExposure({ eventId });
             } else {
-                getFootprint(undefined);
+                fetchExposure(undefined);
             }
+            setActiveEventId(eventId);
         },
-        [getFootprint],
+        [fetchExposure],
     );
 
     return (

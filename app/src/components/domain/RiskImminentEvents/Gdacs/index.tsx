@@ -55,6 +55,7 @@ const severityMapping: Record<string, RiskLayerSeverity> = {
 // Poly_Cones is cone of uncertainty
 function getLayerProperties(
     feature: GeoJSON.Feature<GeoJSON.Geometry>,
+    hazardDate: string | undefined,
 ): RiskLayerProperties {
     if (isNotDefined(feature.properties) || !('Class' in feature.properties)) {
         return {
@@ -78,8 +79,16 @@ function getLayerProperties(
             };
         }
 
+        // Converting format from 'dd/MM/yyyy hh:mm:ss' to 'yyyy-MM-ddThh:mm:ss.sssZ'
+        const [date, time] = feature.properties.trackdate.split(' ');
+        const [d, m, y] = date.split('/');
+        const standardDateTime = `${y}-${m}-${d}T${time}.000Z`;
+
         return {
             type: 'track-point',
+            isFuture: hazardDate
+                ? new Date(standardDateTime).getTime() > new Date(hazardDate).getTime()
+                : false,
         };
     }
 
@@ -160,7 +169,7 @@ function Gdacs(props: Props) {
     const {
         response: exposureResponse,
         pending: exposureResponsePending,
-        trigger: getExposureDetails,
+        trigger: fetchExposure,
     } = useRiskLazyRequest<'/api/v1/gdacs/{id}/exposure/', {
         eventId: number | string,
     }>({
@@ -215,9 +224,12 @@ function Gdacs(props: Props) {
                 return undefined;
             }
 
+            // FIXME: the type from server is not correct
             const footprint = isValidFeatureCollection(footprint_geojson)
                 ? footprint_geojson
                 : undefined;
+
+            const hazardDate = (footprint?.metadata as ({ todate?: string } | undefined))?.todate;
 
             const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry, RiskLayerProperties> = {
                 type: 'FeatureCollection' as const,
@@ -227,7 +239,8 @@ function Gdacs(props: Props) {
                             ...feature,
                             properties: {
                                 ...feature.properties,
-                                ...getLayerProperties(feature),
+                                // NOTE: the todate format is 'dd MMM yyyy hh:mm:ss'
+                                ...getLayerProperties(feature, hazardDate),
                             },
                         }),
                     ) ?? [],
@@ -242,12 +255,12 @@ function Gdacs(props: Props) {
     const handleActiveEventChange = useCallback(
         (eventId: number | undefined) => {
             if (isDefined(eventId)) {
-                getExposureDetails({ eventId });
+                fetchExposure({ eventId });
             } else {
-                getExposureDetails(undefined);
+                fetchExposure(undefined);
             }
         },
-        [getExposureDetails],
+        [fetchExposure],
     );
 
     return (
