@@ -1,12 +1,12 @@
 :root {
+    --base-font-size: 0.875rem;
+
     --go-ui-font-family-sans-serif: Poppins, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     --go-ui-font-family-serif: Georgia, Cambria, "Times New Roman", Times, serif;
     --go-ui-font-family-mono: SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     --go-ui-font-family-montserrat: Montserrat,
 
-    --base-font-size: 0.875rem;
     --go-ui-font-size-export: 0.6875rem;
-
     --go-ui-font-size-2xs: calc(var(--base-font-size) * 0.625);
     --go-ui-font-size-xs: calc(var(--base-font-size) * 0.75);
     --go-ui-font-size-sm: calc(var(--base-font-size) * 0.875);
