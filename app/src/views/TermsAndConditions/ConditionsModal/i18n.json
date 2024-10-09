@@ -1,5 +1,5 @@
 {
-    "namespace": "ConditionsModal",
+    "namespace": "conditionsModal",
     "strings": {
         "hereConditionTitle": "Title",
         "srcDbCodeDescriptionOne": "EMDAT",
@@ -11,7 +11,7 @@
         "srcDbLabDescriptionTwo": "Disaster Inventory System (Desinventar)",
         "srcOrgCodeDescriptionTwo": "UNDRR",
         "srcOrgLabDescriptionTwo": "United Nations Disaster Risk Reduction (UNDRR)",
-        "srcOrgtypeCodeDescriptionTwo": "orgtypegov",       
+        "srcOrgtypeCodeDescriptionTwo": "orgtypegov",
         "srcDbCodeDescriptionThree": "UNO_damass",
         "srcDbLabDescriptionThree": "UNOSAT Satellite Image-based Damage Assessment Data",
         "srcOrgCodeDescriptionThree": "UNOSAT",
@@ -73,7 +73,7 @@
         "srcOrgLabDescriptionFourteen": "European Commission - Joint Research Center",
         "srcOrgtypeCodeDescriptionFourteen": "orgtyperio",
         "srcDbCodeDescriptionFifteen": "GLIDE",
-        "srcDbLabDescriptionFifteen": "GLobal Identifier numbers (GLIDE)",
+        "srcDbLabDescriptionFifteen": "Global Identifier numbers (GLIDE)",
         "srcOrgCodeDescriptionFifteen": "ADRC",
         "srcOrgLabDescriptionFifteen": "Asian Disaster Reduction Center (ADRC)",
         "srcOrgtypeCodeDescriptionFifteen": "orgtyperio",

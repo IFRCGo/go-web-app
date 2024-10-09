@@ -1,15 +1,11 @@
-.terms-wrapper{
-    display: flex;
-}
-.aside-titles{
-    display: flex;
-    flex-direction: column;
-    padding: var(--go-ui-spacing-sm);
-    gap: var(--go-ui-spacing-xl);
-}
-.header-description {
-    display: flex;
-    flex-direction: column;
-    gap: var(--go-ui-spacing-md);
-  } 
+.terms-and-conditions {
+    .main-section {
+        display: flex;
+        gap: var(--go-ui-spacing-xl);
 
+        .side-titles {
+            flex-shrink: 0;
+            max-width: 16rem;
+        }
+    }
+}

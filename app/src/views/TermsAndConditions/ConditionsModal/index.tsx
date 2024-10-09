@@ -3,17 +3,14 @@ import {
     Modal,
     Table,
 } from '@ifrc-go/ui';
-import { SortContext } from '@ifrc-go/ui/contexts';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { createStringColumn } from '@ifrc-go/ui/utils';
 import { isDefined } from '@togglecorp/fujs';
 
-import useFilterState from '#hooks/useFilterState';
-
 import i18n from './i18n.json';
 
 interface Props {
-    onCancel: () => void;
+    onClose: () => void;
 }
 
 interface TableData {
@@ -28,22 +25,8 @@ const keySelector = (d: TableData) => d.id;
 
 function ConditionalModal(props: Props) {
     const strings = useTranslation(i18n);
-    const {
-        onCancel,
-    } = props;
 
-    const {
-        filtered,
-        sortState,
-    } = useFilterState<{
-        srcDbCode?: string,
-        srcDbLab?: string,
-        srcOrgCode?: string
-        srcOrgLab?: string
-        srcOrgtypeCode?: string
-    }>({
-        filter: {},
-    });
+    const { onClose } = props;
 
     const tableData: TableData[] = useMemo(() => [
         {
@@ -247,18 +230,17 @@ function ConditionalModal(props: Props) {
     return (
         <Modal
             heading={strings.hereConditionTitle}
-            onClose={onCancel}
-            size="xl"
+            onClose={onClose}
+            size="full"
+            withOverflowInContent
         >
-            <SortContext.Provider value={sortState}>
-                <Table
-                    filtered={filtered}
-                    columns={columns}
-                    keySelector={keySelector}
-                    data={tableData}
-                    pending={false}
-                />
-            </SortContext.Provider>
+            <Table
+                filtered={false}
+                columns={columns}
+                keySelector={keySelector}
+                data={tableData}
+                pending={false}
+            />
         </Modal>
     );
 }
