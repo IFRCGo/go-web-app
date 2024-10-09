@@ -6,13 +6,13 @@
         align-items: flex-end;
         justify-content: flex-end;
 
-        .footer-icons {
-            display: flex;
-            justify-content: space-between;
+        .footer-icons-text {
+            color: var(--go-ui-color-text-light);
+        }
 
-            .report-issue {
-                flex-shrink: 0;
-            }
+        .report-issue {
+            flex-shrink: 0;
+            color: var(--go-ui-color-negative);
         }
     }
 

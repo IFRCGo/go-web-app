@@ -30,6 +30,7 @@ import {
     isTruthyString,
     sum,
 } from '@togglecorp/fujs';
+import { EntriesAsList } from '@togglecorp/toggle-form';
 import { saveAs } from 'file-saver';
 import Papa from 'papaparse';
 
@@ -108,6 +109,10 @@ export function Component() {
         filter: {},
     });
 
+    const onFilterChange = useCallback((...args: EntriesAsList<FilterValue>) => {
+        setFilterField(...args);
+    }, [setFilterField]);
+
     const alert = useAlert();
 
     const { api_region_name: regionList } = useGlobalEnums();
@@ -116,6 +121,7 @@ export function Component() {
     const secondarySectorOptions = useSecondarySector();
     const perComponentOptions = usePerComponent();
     const [query, setQuery] = useState<QueryType>();
+    const [filterPristine, setFilterPristine] = useState(true);
 
     const {
         pending: opsLearningSummaryPending,
@@ -259,8 +265,15 @@ export function Component() {
                 ? (filter.appealSearchText) : undefined,
         };
 
+        setFilterPristine(true);
         setQuery(newQuery);
     }, [filter]);
+
+    const handleResetFilters = useCallback(() => {
+        resetFilter();
+        setFilterPristine(true);
+        setQuery(undefined);
+    }, [resetFilter]);
 
     return (
         <Page
@@ -271,37 +284,105 @@ export function Component() {
             <Container
                 footerClassName={styles.footer}
                 footerContentClassName={styles.footerContent}
-                withGridViewInFilter
+                contentViewType="grid"
                 filters={(
+                    <Filters
+                        value={rawFilter}
+                        onChange={onFilterChange}
+                        disasterTypeOptions={disasterTypeOptions}
+                        secondarySectorOptions={secondarySectorOptions}
+                        perComponentOptions={perComponentOptions}
+                    />
+                )}
+                footerContent={(
                     <>
-                        <Filters
-                            value={rawFilter}
-                            onChange={setFilterField}
-                            disasterTypeOptions={disasterTypeOptions}
-                            secondarySectorOptions={secondarySectorOptions}
-                            perComponentOptions={perComponentOptions}
-                        />
-                        <div className={styles.actionButtons}>
-                            {filtered && (
-                                <Button
-                                    name={undefined}
-                                    onClick={resetFilter}
-                                    variant="secondary"
-                                >
-                                    {strings.clearFilters}
-                                </Button>
-                            )}
-                            {filtered && (
-                                <Button
-                                    name="apply"
-                                    onClick={handleApplyFilters}
-                                    variant="primary"
-                                >
-                                    {strings.applyFilters}
-                                </Button>
+                        <div className={styles.filterChips}>
+                            {isDefined(filter) && hasSomeDefinedValue(filter) && (
+                                <TextOutput
+                                    className={styles.selectedFilters}
+                                    valueClassName={styles.options}
+                                    withoutLabelColon
+                                    strongLabel
+                                    label={strings.selectedFilters}
+                                    value={(
+                                        <>
+                                            <DismissableListOutput
+                                                name="region"
+                                                value={filter.region}
+                                                onDismiss={onFilterChange}
+                                                options={regionList}
+                                                labelSelector={stringValueSelector}
+                                                keySelector={regionKeySelector}
+                                            />
+                                            <DismissableMultiListOutput
+                                                name="countries"
+                                                onDismiss={onFilterChange}
+                                                value={filter.countries}
+                                                options={countryList}
+                                                labelSelector={stringNameSelector}
+                                                keySelector={countryKeySelector}
+                                            />
+                                            <DismissableMultiListOutput
+                                                name="disasterTypes"
+                                                onDismiss={onFilterChange}
+                                                value={filter.disasterTypes}
+                                                options={disasterTypeOptions}
+                                                labelSelector={disasterTypeLabelSelector}
+                                                keySelector={disasterTypeKeySelector}
+                                            />
+                                            <DismissableMultiListOutput
+                                                name="secondarySectors"
+                                                onDismiss={onFilterChange}
+                                                value={filter.secondarySectors}
+                                                options={secondarySectorOptions}
+                                                labelSelector={sectorLabelSelector}
+                                                keySelector={sectorKeySelector}
+                                            />
+                                            <DismissableMultiListOutput
+                                                name="perComponents"
+                                                onDismiss={onFilterChange}
+                                                value={filter.perComponents}
+                                                options={perComponentOptions}
+                                                labelSelector={getFormattedComponentName}
+                                                keySelector={perComponentKeySelector}
+                                            />
+                                            <DismissableTextOutput
+                                                name="appealStartDateAfter"
+                                                value={filter.appealStartDateAfter}
+                                                onDismiss={onFilterChange}
+                                            />
+                                            <DismissableTextOutput
+                                                name="appealStartDateBefore"
+                                                value={filter.appealStartDateBefore}
+                                                onDismiss={onFilterChange}
+                                            />
+                                            <DismissableTextOutput
+                                                name="appealSearchText"
+                                                value={filter.appealSearchText}
+                                                onDismiss={onFilterChange}
+                                            />
+                                        </>
+                                    )}
+                                />
                             )}
                         </div>
                         <div className={styles.actionButtons}>
+                            <Button
+                                name={undefined}
+                                onClick={handleResetFilters}
+                                disabled={!filtered}
+                                variant="secondary"
+                            >
+                                {strings.clearFilters}
+                            </Button>
+                            <Button
+                                name="apply"
+                                onClick={handleApplyFilters}
+                                disabled={filterPristine}
+                                variant="primary"
+                            >
+                                {strings.applyFilters}
+                            </Button>
                             <ExportButton
                                 onClick={handleExportClick}
                                 pendingExport={pendingExport}
@@ -313,74 +394,6 @@ export function Component() {
                             />
                         </div>
                     </>
-                )}
-                footerContent={isDefined(filter) && hasSomeDefinedValue(filter) && (
-                    <TextOutput
-                        className={styles.selectedFilters}
-                        valueClassName={styles.options}
-                        withoutLabelColon
-                        strongLabel
-                        label={strings.selectedFilters}
-                        value={(
-                            <>
-                                <DismissableListOutput
-                                    name="region"
-                                    value={filter.region}
-                                    onDismiss={setFilterField}
-                                    options={regionList}
-                                    labelSelector={stringValueSelector}
-                                    keySelector={regionKeySelector}
-                                />
-                                <DismissableMultiListOutput
-                                    name="countries"
-                                    onDismiss={setFilterField}
-                                    value={filter.countries}
-                                    options={countryList}
-                                    labelSelector={stringNameSelector}
-                                    keySelector={countryKeySelector}
-                                />
-                                <DismissableMultiListOutput
-                                    name="disasterTypes"
-                                    onDismiss={setFilterField}
-                                    value={filter.disasterTypes}
-                                    options={disasterTypeOptions}
-                                    labelSelector={disasterTypeLabelSelector}
-                                    keySelector={disasterTypeKeySelector}
-                                />
-                                <DismissableMultiListOutput
-                                    name="secondarySectors"
-                                    onDismiss={setFilterField}
-                                    value={filter.secondarySectors}
-                                    options={secondarySectorOptions}
-                                    labelSelector={sectorLabelSelector}
-                                    keySelector={sectorKeySelector}
-                                />
-                                <DismissableMultiListOutput
-                                    name="perComponents"
-                                    onDismiss={setFilterField}
-                                    value={filter.perComponents}
-                                    options={perComponentOptions}
-                                    labelSelector={getFormattedComponentName}
-                                    keySelector={perComponentKeySelector}
-                                />
-                                <DismissableTextOutput
-                                    name="appealStartDateAfter"
-                                    value={filter.appealStartDateAfter}
-                                    onDismiss={setFilterField}
-                                />
-                                <DismissableTextOutput
-                                    name="appealStartDateBefore"
-                                    value={filter.appealStartDateBefore}
-                                    onDismiss={setFilterField}
-                                />
-                                <DismissableTextOutput
-                                    name="appealSearchText"
-                                    value={filter.appealSearchText}
-                                    onDismiss={setFilterField}
-                                />
-                            </>
-                        )}
-                    />
                 )}
             />
             {showKeyInsights && (
