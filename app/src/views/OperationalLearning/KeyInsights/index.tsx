@@ -1,4 +1,5 @@
 import {
+    AlertFillIcon,
     ArrowDownSmallFillIcon,
     ArrowUpSmallFillIcon,
 } from '@ifrc-go/icons';
@@ -50,9 +51,10 @@ function KeyInsights(props: Props) {
             heading={strings.opsLearningSummariesHeading}
             withInternalPadding
             withOverflowInContent
+            footerIconsClassName={styles.footerIcons}
             footerIcons={(
-                <div className={styles.footerIcons}>
-                    <span>
+                <>
+                    <span className={styles.footerIconsText}>
                         {resolveToString(strings.keyInsightsDisclaimer, {
                             numOfExtractsUsed: opsLearningSummaryResponse.used_extracts_count,
                             totalNumberOfExtracts: opsLearningSummaryResponse.total_extracts_count,
@@ -76,11 +78,12 @@ function KeyInsights(props: Props) {
                     <Link
                         className={styles.reportIssue}
                         href="/" // TODO: use an actual URL when available
+                        actions={<AlertFillIcon />}
                         external
                     >
                         {strings.keyInsightsReportIssue}
                     </Link>
-                </div>
+                </>
             )}
             footerClassName={styles.footer}
             footerActions={(

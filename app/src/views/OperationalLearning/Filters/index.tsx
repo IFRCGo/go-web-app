@@ -98,6 +98,7 @@ function Filters(props: Props) {
                 placeholder={strings.filterCountryLabel}
                 value={value.countries}
                 onChange={onChange}
+                filterByRegion={value.region}
                 withSelectAll
             />
             <MultiSelectInput
