@@ -51,7 +51,6 @@ function KeyInsights(props: Props) {
             heading={strings.opsLearningSummariesHeading}
             withInternalPadding
             withOverflowInContent
-            footerIconsClassName={styles.footerIcons}
             footerIcons={(
                 <>
                     <span className={styles.footerIconsText}>
@@ -77,7 +76,7 @@ function KeyInsights(props: Props) {
                     </span>
                     <Link
                         className={styles.reportIssue}
-                        href="/" // TODO: use an actual URL when available
+                        href="https://forms.office.com/pages/responsepage.aspx?id=5Tu1ok5zbE6rDdGE9g_ZF4KwLxGrbflAt2rbQ7DtFG5UQU1CTEZTSldLQ0ZTVEtPSVdQQklOVzBDVi4u"
                         actions={<AlertFillIcon />}
                         external
                     >

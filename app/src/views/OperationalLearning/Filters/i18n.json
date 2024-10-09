@@ -1,18 +1,18 @@
 {
     "namespace": "operationalLearningFilters",
     "strings": {
-        "filterRegionsLabel": "Region",
-        "filterRegionsPlaceholder": "All Regions",
+        "filterRegionLabel": "Region",
+        "filterRegionPlaceholder": "All Regions",
         "filterCountryLabel": "Country",
         "filterCountryPlaceholder": "All Countries",
         "filterDisasterTypeLabel": "Disaster Type",
         "filterDisasterTypePlaceholder": "All Disaster Types",
-        "filterBySectorLabel": "Sector",
-        "filterBySectorPlaceholder": "All Sectors",
-        "filterByComponentLabel": "Component",
-        "filterByComponentPlaceholder": "All Components",
-        "filterOpsLearningSearchLabel": "Search Appeals and Extracts",
-        "filterOpsLearningSearchPlaceholder": "Search Appeals and Extracts",
+        "filterSectorLabel": "Sector",
+        "filterSectorPlaceholder": "All Sectors",
+        "filterComponentLabel": "Component",
+        "filterComponentPlaceholder": "All Components",
+        "filterOpsLearningSearchLabel": "Search",
+        "filterOpsLearningSearchPlaceholder": "Search",
         "appealStartDate": "Appeal Start Date",
         "appealEndDate": "Appeal End Date"
     }

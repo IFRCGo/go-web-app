@@ -86,8 +86,8 @@ function Filters(props: Props) {
         <>
             <RegionSelectInput
                 name="region"
-                label={strings.filterRegionsLabel}
-                placeholder={strings.filterRegionsPlaceholder}
+                label={strings.filterRegionLabel}
+                placeholder={strings.filterRegionPlaceholder}
                 value={value.region}
                 onChange={handleRegionSelect}
                 disabled={disabled}
@@ -95,7 +95,7 @@ function Filters(props: Props) {
             <CountryMultiSelectInput
                 name="countries"
                 label={strings.filterCountryLabel}
-                placeholder={strings.filterCountryLabel}
+                placeholder={strings.filterCountryPlaceholder}
                 value={value.countries}
                 onChange={onChange}
                 filterByRegion={value.region}
@@ -103,7 +103,7 @@ function Filters(props: Props) {
             />
             <MultiSelectInput
                 name="disasterTypes"
-                label={strings.filterDisasterTypePlaceholder}
+                label={strings.filterDisasterTypeLabel}
                 placeholder={strings.filterDisasterTypePlaceholder}
                 options={disasterTypeOptions}
                 keySelector={disasterTypeKeySelector}
@@ -114,8 +114,8 @@ function Filters(props: Props) {
             />
             <MultiSelectInput
                 name="secondarySectors"
-                label={strings.filterBySectorLabel}
-                placeholder={strings.filterBySectorPlaceholder}
+                label={strings.filterSectorLabel}
+                placeholder={strings.filterSectorPlaceholder}
                 options={secondarySectorOptions}
                 keySelector={sectorKeySelector}
                 labelSelector={sectorLabelSelector}
@@ -126,8 +126,8 @@ function Filters(props: Props) {
             />
             <MultiSelectInput
                 name="perComponents"
-                label={strings.filterByComponentLabel}
-                placeholder={strings.filterByComponentPlaceholder}
+                label={strings.filterComponentLabel}
+                placeholder={strings.filterComponentPlaceholder}
                 options={perComponentOptions}
                 keySelector={perComponentKeySelector}
                 labelSelector={getFormattedComponentName}
