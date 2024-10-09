@@ -101,7 +101,9 @@ function useNumericChartData<DATUM>(data: DATUM[] | null | undefined, options: O
                     yValue,
                 };
             },
-        ).filter(isDefined) ?? [],
+        ).filter(isDefined).sort(
+            (a, b) => compareNumber(a.xValue, b.xValue),
+        ) ?? [],
         [data, keySelector, xValueSelector, yValueSelector],
     );
 
