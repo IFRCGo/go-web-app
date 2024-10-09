@@ -97,6 +97,8 @@ const disasterTypeLabelSelector = (type: DisasterType) => type.name ?? '?';
 export function Component() {
     const strings = useTranslation(i18n);
     const [activeTab, setActiveTab] = useState<'sector' | 'component'>('sector');
+    const [query, setQuery] = useState<QueryType>();
+    const [filterPristine, setFilterPristine] = useState(true);
 
     const {
         rawFilter,
@@ -110,6 +112,7 @@ export function Component() {
     });
 
     const onFilterChange = useCallback((...args: EntriesAsList<FilterValue>) => {
+        setFilterPristine(false);
         setFilterField(...args);
     }, [setFilterField]);
 
@@ -120,8 +123,6 @@ export function Component() {
     const disasterTypeOptions = useDisasterTypes();
     const secondarySectorOptions = useSecondarySector();
     const perComponentOptions = usePerComponent();
-    const [query, setQuery] = useState<QueryType>();
-    const [filterPristine, setFilterPristine] = useState(true);
 
     const {
         pending: opsLearningSummaryPending,
@@ -249,22 +250,22 @@ export function Component() {
 
     const handleApplyFilters = useCallback(() => {
         const newQuery = {
-            appeal_code__region: isDefined(filter.region) ? filter.region : undefined,
-            appeal_code__country__in: isDefined(filter.countries) ? filter.countries : undefined,
-            appeal_code__dtype__in: isDefined(filter.disasterTypes)
+            appeal_code__region: hasSomeDefinedValue(filter.region) ? filter.region : undefined,
+            appeal_code__country__in: hasSomeDefinedValue(filter.countries)
+                ? filter.countries : undefined,
+            appeal_code__dtype__in: hasSomeDefinedValue(filter.disasterTypes)
                 ? filter.disasterTypes : undefined,
-            appeal_code__start_date__gte: isDefined(filter.appealStartDateAfter)
+            appeal_code__start_date__gte: hasSomeDefinedValue(filter.appealStartDateAfter)
                 ? filter.appealStartDateAfter : undefined,
-            appeal_code__start_date__lte: isDefined(filter.appealStartDateBefore)
+            appeal_code__start_date__lte: hasSomeDefinedValue(filter.appealStartDateBefore)
                 ? filter.appealStartDateBefore : undefined,
-            sector_validated__in: isDefined(filter.secondarySectors)
+            sector_validated__in: hasSomeDefinedValue(filter.secondarySectors)
                 ? filter.secondarySectors : undefined,
-            per_component_validated__in: isDefined(filter.perComponents)
+            per_component_validated__in: hasSomeDefinedValue(filter.perComponents)
                 ? filter.perComponents : undefined,
             search_extracts: isTruthyString(filter.appealSearchText)
                 ? (filter.appealSearchText) : undefined,
         };
-
         setFilterPristine(true);
         setQuery(newQuery);
     }, [filter]);
@@ -284,7 +285,6 @@ export function Component() {
             <Container
                 footerClassName={styles.footer}
                 footerContentClassName={styles.footerContent}
-                contentViewType="grid"
                 filters={(
                     <Filters
                         value={rawFilter}
