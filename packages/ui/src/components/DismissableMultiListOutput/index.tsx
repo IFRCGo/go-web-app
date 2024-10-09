@@ -37,7 +37,7 @@ function DismissableMultiListOutput<
     } = props;
 
     const values = useMemo(() => {
-        if (!Array.isArray(options) || !Array.isArray(value)) {
+        if (isNotDefined(options) || !Array.isArray(value)) {
             return undefined;
         }
         return options?.filter((option) => value?.includes(keySelector(option)));

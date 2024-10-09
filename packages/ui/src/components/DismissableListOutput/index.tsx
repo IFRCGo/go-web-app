@@ -36,14 +36,14 @@ function DismissableListOutput<
     } = props;
 
     const item = useMemo(() => {
-        if (!Array.isArray(options) || isNotDefined(value)) {
+        if (isNotDefined(options) || isNotDefined(value)) {
             return undefined;
         }
         return options?.find((option) => keySelector(option) === value);
     }, [value, options, keySelector]);
 
-    const handleDismiss = useCallback((val: V) => {
-        onDismiss(val, name);
+    const handleDismiss = useCallback(() => {
+        onDismiss(undefined, name);
     }, [name, onDismiss]);
 
     if (isNotDefined(value) || isNotDefined(item)) {
