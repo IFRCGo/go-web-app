@@ -2,11 +2,11 @@
     "namespace": "common",
     "strings": {
         "uhohPageNotFoundTitle":"IFRC GO - Page not found",
-        "uhohPageNotFound":"Page not found",
-        "uhohPageDescription":"The requested page does not exist or may have been removed.",
-        "uhohAreYouSureUrlIsCorrect":"Are you sure the URL is correct?",
-        "uhohGetInTouch":"Get in touch",
-        "uhohWithThePlatformTeam":"with the platform team.",
-        "uhohExploreOurHomepage":"Explore our homepage"
+        "uhohOops":"Oops!",
+        "uhohPageDescriptionOne": "This page seems to have wandered off.",
+        "uhohPageDescriptionTwo":"Let's go back home and try again.",
+        "uhohBackToHome":"Back to Home",
+        "fourHundredFourBackgroundImage": "Four hundred four background image",
+        "fourHundredFour":"Four hundred four"
     }
 }
