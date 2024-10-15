@@ -51,40 +51,6 @@ function KeyInsights(props: Props) {
             heading={strings.opsLearningSummariesHeading}
             withInternalPadding
             withOverflowInContent
-            footerIcons={(
-                <>
-                    <span className={styles.footerIconsText}>
-                        {resolveToString(strings.keyInsightsDisclaimer, {
-                            numOfExtractsUsed: opsLearningSummaryResponse.used_extracts_count,
-                            totalNumberOfExtracts: opsLearningSummaryResponse.total_extracts_count,
-                            appealsFromDate: formatDate(
-                                opsLearningSummaryResponse.earliest_appeal_date,
-                                'MMM-yyyy',
-                            ),
-                            appealsToDate: formatDate(
-                                opsLearningSummaryResponse.latest_appeal_date,
-                                'MMM-yyyy',
-                            ),
-                        })}
-                        <Link
-                            href="https://go-wiki.ifrc.org/en/user_guide/ops_learning"
-                            external
-                            withUnderline
-                        >
-                            {strings.keyInsightsDisclaimerClickHere}
-                        </Link>
-                    </span>
-                    <Link
-                        className={styles.reportIssue}
-                        href="https://forms.office.com/pages/responsepage.aspx?id=5Tu1ok5zbE6rDdGE9g_ZF4KwLxGrbflAt2rbQ7DtFG5UQU1CTEZTSldLQ0ZTVEtPSVdQQklOVzBDVi4u"
-                        actions={<AlertFillIcon />}
-                        external
-                    >
-                        {strings.keyInsightsReportIssue}
-                    </Link>
-                </>
-            )}
-            footerClassName={styles.footer}
             footerActions={(
                 <Button
                     name={opsLearningSummaryResponse.id}
@@ -98,30 +64,63 @@ function KeyInsights(props: Props) {
                     {isExpanded ? strings.closeSources : strings.seeSources}
                 </Button>
             )}
-            footerContent={isExpanded && (
+            childrenContainerClassName={styles.insights}
+        >
+            <div className={styles.insightTexts}>
+                {isDefined(opsLearningSummaryResponse?.insights1_title) && (
+                    <Container
+                        heading={opsLearningSummaryResponse.insights1_title}
+                        headerDescription={opsLearningSummaryResponse.insights1_content}
+                    />
+                )}
+                {isDefined(opsLearningSummaryResponse?.insights2_title) && (
+                    <Container
+                        heading={opsLearningSummaryResponse.insights2_title}
+                        headerDescription={opsLearningSummaryResponse.insights2_content}
+                    />
+                )}
+                {isDefined(opsLearningSummaryResponse?.insights3_title) && (
+                    <Container
+                        heading={opsLearningSummaryResponse.insights3_title}
+                        headerDescription={opsLearningSummaryResponse.insights3_content}
+                    />
+                )}
+            </div>
+            <div className={styles.summaries}>
+                <span className={styles.text}>
+                    {resolveToString(strings.keyInsightsDisclaimer, {
+                        numOfExtractsUsed: opsLearningSummaryResponse.used_extracts_count,
+                        totalNumberOfExtracts: opsLearningSummaryResponse.total_extracts_count,
+                        appealsFromDate: formatDate(
+                            opsLearningSummaryResponse.earliest_appeal_date,
+                            'MMM-yyyy',
+                        ),
+                        appealsToDate: formatDate(
+                            opsLearningSummaryResponse.latest_appeal_date,
+                            'MMM-yyyy',
+                        ),
+                    })}
+                    <Link
+                        href="https://go-wiki.ifrc.org/en/user_guide/ops_learning"
+                        external
+                        withUnderline
+                    >
+                        {strings.keyInsightsDisclaimerClickHere}
+                    </Link>
+                </span>
+                <Link
+                    className={styles.reportIssue}
+                    href="https://forms.office.com/pages/responsepage.aspx?id=5Tu1ok5zbE6rDdGE9g_ZF4KwLxGrbflAt2rbQ7DtFG5UQU1CTEZTSldLQ0ZTVEtPSVdQQklOVzBDVi4u"
+                    actions={<AlertFillIcon />}
+                    external
+                >
+                    {strings.keyInsightsReportIssue}
+                </Link>
+            </div>
+            {isExpanded && (
                 <Sources
                     summaryId={opsLearningSummaryResponse.id}
                     summaryType="insight"
-                />
-            )}
-            childrenContainerClassName={styles.insights}
-        >
-            {isDefined(opsLearningSummaryResponse?.insights1_title) && (
-                <Container
-                    heading={opsLearningSummaryResponse.insights1_title}
-                    headerDescription={opsLearningSummaryResponse.insights1_content}
-                />
-            )}
-            {isDefined(opsLearningSummaryResponse?.insights2_title) && (
-                <Container
-                    heading={opsLearningSummaryResponse.insights2_title}
-                    headerDescription={opsLearningSummaryResponse.insights2_content}
-                />
-            )}
-            {isDefined(opsLearningSummaryResponse?.insights3_title) && (
-                <Container
-                    heading={opsLearningSummaryResponse.insights3_title}
-                    headerDescription={opsLearningSummaryResponse.insights3_content}
                 />
             )}
         </Container>

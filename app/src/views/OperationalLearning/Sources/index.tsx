@@ -1,3 +1,4 @@
+import ReactDOMServer from 'react-dom/server';
 import { CopyLineIcon } from '@ifrc-go/icons';
 import {
     Button,
@@ -23,6 +24,13 @@ import Emergency from './Emergency';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+// FIXME: move this to utils
+// NOTE: this may be slower on the long run
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, react-refresh/only-export-components
+export function isChildNull(children: any) {
+    return !ReactDOMServer.renderToStaticMarkup(children);
+}
 
 type AppealDocumentResponse = GoApiResponse<'/api/v2/appeal_document/'>;
 type AppealDocument = NonNullable<AppealDocumentResponse['results']>[number];
@@ -80,20 +88,20 @@ function Sources(props: Props) {
         appealDocumentName: appealDocument.name,
     });
 
+    const pager = (
+        <Pager
+            activePage={appealDocumentActivePage}
+            onActivePageChange={setAppealDocumentActivePage}
+            itemsCount={appealDocumentResponse?.count ?? 0}
+            maxItemsPerPage={appealDocumentLimit}
+        />
+    );
+
     return (
         <Container
             className={styles.sources}
-            footerContent={(
-                <Pager
-                    activePage={appealDocumentActivePage}
-                    onActivePageChange={setAppealDocumentActivePage}
-                    itemsCount={appealDocumentResponse?.count ?? 0}
-                    maxItemsPerPage={appealDocumentLimit}
-                />
-            )}
+            footerContent={isChildNull(pager) ? undefined : pager}
             childrenContainerClassName={styles.content}
-            errored={isDefined(appealDocumentError)}
-            pending={appealDocumentPending}
         >
             <List
                 className={styles.appealList}
@@ -103,7 +111,7 @@ function Sources(props: Props) {
                 rendererParams={appealRendererParams}
                 emptyMessage={strings.noSources}
                 errored={isDefined(appealDocumentError)}
-                pending={false}
+                pending={appealDocumentPending}
                 filtered={false}
                 compact
             />
