@@ -76,7 +76,7 @@ This repository contains several scripts and commands for performing tasks. The 
 - `yarn preview` previews the production build of the Application.
 - `yarn generate:type` generates the Typescript types for the API using `openapi-typescript`. The output is by default within the `generated` folder within the `app` workspace.
 - `yarn storybook` starts Storybook's local server for the `@ifrc-go/ui` components library, listening by default on `http://localhost:6006/`.
-- `yarn build:storybook` builds Storybook as a static web application for publishing.
+- `yarn build-storybook` builds Storybook as a static web application for publishing.
 - `yarn build:ui` builds the `@ifrc-go/ui` components library. To reflect any new changes in the components library we must ensure that it is built beforehand.
 </details>
 

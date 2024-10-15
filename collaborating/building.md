@@ -16,5 +16,5 @@ To build different components of the IFRC GO project, use the following commands
 
 **UI Library Storybook**
   ```bash
-  yarn build:storybook
+  yarn build-storybook
   ```

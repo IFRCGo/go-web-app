@@ -17,7 +17,7 @@
         "generate:type": "yarn workspace go-web-app generate:type",
         "preview": "yarn workspace go-web-app preview",
         "storybook": "yarn workspace go-ui-storybook storybook",
-        "build:storybook": "yarn workspace go-ui-storybook build:storybook",
+        "build-storybook": "yarn workspace go-ui-storybook build-storybook",
         "chromatic": "yarn workspace go-ui-storybook chromatic"
     },
     "devDependencies": {
