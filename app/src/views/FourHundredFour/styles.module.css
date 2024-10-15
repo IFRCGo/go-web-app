@@ -1,14 +1,4 @@
 .four-hundred-four {
-    display: flex;
-    flex-direction: column;
-    /* FIXME: To be moved to go-ui */
-    --four-hundred-four-heading-gradient: repeating-linear-gradient(
-        -50deg,
-        red 10px,
-        transparent,
-        transparent 20px
-    )
-
     .main-section-container {
         display: flex;
         flex-direction: column;
@@ -30,11 +20,11 @@
             gap: var(--go-ui-spacing-xs);
 
             .four-hundred-four-heading {
-                background: var(--four-hundred-four-heading-gradient);
-                background-clip: text;
-                color: transparent;
-                font-size: 8rem;
-                font-weight: var(--go-ui-font-weight-bold);
+                width: 16rem;
+
+                .image {
+                    width: 100%;
+                }
             }
 
             .heading {

@@ -1,7 +1,8 @@
 import { Heading } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
-import backgroundImage from '#assets/content/fourhundredfour_background.svg';
+import FourHundredFour from '#assets/content/four_hundred_four.svg';
+import FourHundredFourBackgroundImage from '#assets/content/fourhundredfour_background.svg';
 import Link from '#components/Link';
 import Page from '#components/Page';
 
@@ -21,16 +22,19 @@ export function Component() {
             beforeHeaderContent={(
                 <img
                     className={styles.backgroundLayer}
-                    src={backgroundImage}
-                    alt=""
+                    src={FourHundredFourBackgroundImage}
+                    alt="Four Hundred Four Background"
                 />
             )}
         >
             <div className={styles.topSection}>
                 <div className={styles.fourHundredFourHeading}>
-                    404
+                    <img
+                        className={styles.image}
+                        src={FourHundredFour}
+                        alt="Four Hundred Four"
+                    />
                 </div>
-
                 <Heading
                     level={1}
                     className={styles.heading}
