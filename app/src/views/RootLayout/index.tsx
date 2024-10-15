@@ -16,6 +16,7 @@ import {
     AlertContainer,
     Button,
     Container,
+    PageContainer,
 } from '@ifrc-go/ui';
 import { LanguageContext } from '@ifrc-go/ui/contexts';
 import {
@@ -65,11 +66,16 @@ export function Component() {
 
     const [languagePending, setLanguagePending] = useState(false);
 
-    const [isCookiesBannerVisible, { setFalse }] = useBooleanState(true);
+    // FIXME: To be made functional after the implications of cookie rejections are finalized
+    const [
+        isCookiesBannerVisible,
+        { setFalse: hideCookiesBanner },
+    ] = useBooleanState(false);
 
     const handleClick = useCallback(() => {
-        setFalse();
-    }, [setFalse]);
+        // FIXME: Add cookies permission to session storage
+        hideCookiesBanner();
+    }, [hideCookiesBanner]);
 
     const {
         currentLanguage,
@@ -430,40 +436,45 @@ export function Component() {
                 </div>
                 <GlobalFooter className={styles.footer} />
                 <AlertContainer />
-                {environment !== 'production' && (
-                    <div className={styles.banner}>
-                        {/* NOTE: We are not translating alpha server names */}
-                        {environmentTexts[environment] ?? environment}
-                    </div>
-                )}
-                {isCookiesBannerVisible && (
-                    <div className={styles.cookiesBanner}>
-                        <Container
-                            headingDescription={strings.cookiesBannerDescription}
-                            icons={(
-                                <AlertInformationLineIcon
-                                    className={styles.alertInfoIcon}
+                {(isCookiesBannerVisible || environment !== 'production') && (
+                    <div className={styles.bannersContainer}>
+                        {isCookiesBannerVisible && (
+                            <PageContainer className={styles.cookiesBanner}>
+                                <Container
+                                    withoutWrapInHeading
+                                    headingDescription={strings.cookiesBannerDescription}
+                                    icons={(
+                                        <AlertInformationLineIcon
+                                            className={styles.alertInfoIcon}
+                                        />
+                                    )}
+                                    spacing="comfortable"
+                                    actions={(
+                                        <>
+                                            <Link
+                                                to="cookiePolicy"
+                                                variant="tertiary"
+                                            >
+                                                {strings.cookiesBannerLearnMore}
+                                            </Link>
+                                            <Button
+                                                name={undefined}
+                                                variant="primary"
+                                                onClick={handleClick}
+                                            >
+                                                {strings.cookiesBannerIAccept}
+                                            </Button>
+                                        </>
+                                    )}
                                 />
-                            )}
-                            footerActions={(
-                                <>
-                                    <Link
-                                        to="cookiePolicy"
-                                        variant="tertiary"
-                                        onClick={handleClick}
-                                    >
-                                        {strings.cookiesBannerLearnMore}
-                                    </Link>
-                                    <Button
-                                        name={undefined}
-                                        variant="primary"
-                                        onClick={handleClick}
-                                    >
-                                        {strings.cookiesBannerIAccept}
-                                    </Button>
-                                </>
-                            )}
-                        />
+                            </PageContainer>
+                        )}
+                        {environment !== 'production' && (
+                            <div className={styles.environmentBanner}>
+                                {/* NOTE: We are not translating alpha server names */}
+                                {environmentTexts[environment] ?? environment}
+                            </div>
+                        )}
                     </div>
                 )}
             </div>

@@ -20,13 +20,14 @@ import Page from '#components/Page';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+type TitlesOptionKey = 'disclaimer' | 'use-of-our-information' | 'our-privacy-policy';
+
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-    type TitlesOptionKey = 'declaimer' | 'use-of-our-information' | 'our-privacy-policy';
-    const [activeTitlesOption, setActiveTitleOption] = useState<TitlesOptionKey>('declaimer');
+    const [activeTitlesOption, setActiveTitleOption] = useState<TitlesOptionKey>('disclaimer');
 
-    const declaimerRef = useRef<HTMLDivElement>(null);
+    const disclaimerRef = useRef<HTMLDivElement>(null);
     const useOfOurInformationRef = useRef<HTMLDivElement>(null);
     const ourPrivacyPolicyRef = useRef<HTMLDivElement>(null);
 
@@ -34,7 +35,7 @@ export function Component() {
         setActiveTitleOption(newTab);
 
         const tabRefs = {
-            declaimer: declaimerRef,
+            disclaimer: disclaimerRef,
             'use-of-our-information': useOfOurInformationRef,
             'our-privacy-policy': ourPrivacyPolicyRef,
         };
@@ -52,7 +53,7 @@ export function Component() {
                     variant="vertical"
                 >
                     <TabList className={styles.sideTitles}>
-                        <Tab name="declaimer">
+                        <Tab name="disclaimer">
                             {strings.disclaimerTitle}
                         </Tab>
                         <Tab name="use-of-our-information">
@@ -63,13 +64,13 @@ export function Component() {
                         </Tab>
                     </TabList>
                 </Tabs>
-                <div>
+                <div className={styles.mainContent}>
                     <Container
                         heading={strings.disclaimerTitle}
                         footerIcons={strings.disclaimerDescription}
                         withHeaderBorder
                         withInternalPadding
-                        containerRef={declaimerRef}
+                        containerRef={disclaimerRef}
                     />
                     <Container
                         heading={strings.useOfOurInformationTitle}
@@ -114,6 +115,7 @@ export function Component() {
                         withHeaderBorder
                         withInternalPadding
                         containerRef={ourPrivacyPolicyRef}
+                        childrenContainerClassName={styles.firstLevelContent}
                     >
                         <div>
                             {resolveToString(strings.ourPrivacyPolicyContent, {
@@ -124,13 +126,12 @@ export function Component() {
                         </div>
                         <Container
                             heading={strings.dataCollectedByAccessingHeading}
-                            withInternalPadding
+                            childrenContainerClassName={styles.secondLevelContent}
                             headingLevel={4}
                         >
                             <Container
                                 heading={strings.informationProvideHeading}
                                 headingLevel={5}
-                                withInternalPadding
                                 footerContentClassName={styles.headerDescription}
                                 footerContent={(
                                     <>
@@ -142,7 +143,6 @@ export function Component() {
                             <Container
                                 heading={strings.automaticallyCollectedHeading}
                                 headingLevel={5}
-                                withInternalPadding
                                 footerContentClassName={styles.headerDescription}
                                 footerContent={(
                                     <>
@@ -160,7 +160,6 @@ export function Component() {
                             <Container
                                 heading={strings.ifrcLimitedCookiesAnalyticHeading}
                                 headingLevel={5}
-                                withInternalPadding
                                 footerContentClassName={styles.headerDescription}
                                 footerContent={(
                                     <>
@@ -179,8 +178,8 @@ export function Component() {
                         </Container>
                         <Container
                             heading={strings.howInformationUsedHeading}
-                            withInternalPadding
                             headingLevel={4}
+                            childrenContainerClassName={styles.secondLevelContent}
                             footerContentClassName={styles.headerDescription}
                             footerContent={(
                                 <>
@@ -198,9 +197,9 @@ export function Component() {
                         />
                         <Container
                             heading={strings.dataAccessSharingHeading}
-                            withInternalPadding
                             headingLevel={4}
                             footerContentClassName={styles.headerDescription}
+                            childrenContainerClassName={styles.secondLevelContent}
                             footerContent={(
                                 <>
                                     <div>{strings.dataAccessSharingDescription1}</div>
@@ -211,9 +210,9 @@ export function Component() {
                         />
                         <Container
                             heading={strings.storageSecurityQuestionsAboutDataHeading}
-                            withInternalPadding
                             headingLevel={4}
                             footerContentClassName={styles.headerDescription}
+                            childrenContainerClassName={styles.secondLevelContent}
                             footerContent={(
                                 <>
                                     <div>{strings.storageSecurityQuestionsDataDescription1}</div>
@@ -346,8 +345,8 @@ export function Component() {
                         />
                         <Container
                             heading={strings.privilegesAndImmunitiesHeading}
-                            withInternalPadding
                             headingLevel={4}
+                            childrenContainerClassName={styles.secondLevelContent}
                             footerContent={(
                                 <div>
                                     {strings.privilegesAndImmunitiesDescription}
@@ -356,9 +355,9 @@ export function Component() {
                         />
                         <Container
                             heading={strings.noteOnLinksToExternalWebsitesHeading}
-                            withInternalPadding
                             headingLevel={4}
                             footerContentClassName={styles.headerDescription}
+                            childrenContainerClassName={styles.secondLevelContent}
                             footerContent={(
                                 <>
                                     <div>{strings.noteOnLinksToExternalWebsitesDescription1}</div>
