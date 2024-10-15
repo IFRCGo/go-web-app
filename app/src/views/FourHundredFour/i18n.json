@@ -3,8 +3,10 @@
     "strings": {
         "uhohPageNotFoundTitle":"IFRC GO - Page not found",
         "uhohOops":"Oops!",
-        "uhohPageDescription1": "This page seems to have wandered off.",
-        "uhohPageDescription2":"Let's go back home and try again.",
-        "uhohBackToHome":"Back to Home"
+        "uhohPageDescriptionOne": "This page seems to have wandered off.",
+        "uhohPageDescriptionTwo":"Let's go back home and try again.",
+        "uhohBackToHome":"Back to Home",
+        "fourHundredFourBackgroundImage": "Four hundred four background image",
+        "fourHundredFour":"Four hundred four"
     }
 }

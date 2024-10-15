@@ -1,8 +1,8 @@
 import { Heading } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
-import FourHundredFour from '#assets/content/four_hundred_four.svg';
-import FourHundredFourBackgroundImage from '#assets/content/fourhundredfour_background.svg';
+import fourHundredFour from '#assets/content/four_hundred_four.svg';
+import fourHundredFourBackgroundImage from '#assets/content/four_hundred_four_background.svg';
 import Link from '#components/Link';
 import Page from '#components/Page';
 
@@ -15,47 +15,43 @@ export function Component() {
 
     return (
         <Page
-            className={styles.fourHundredFour}
             title={strings.uhohPageNotFoundTitle}
-            mainSectionContainerClassName={styles.mainSectionContainer}
             mainSectionClassName={styles.main}
-            beforeHeaderContent={(
-                <img
-                    className={styles.backgroundLayer}
-                    src={FourHundredFourBackgroundImage}
-                    alt="Four Hundred Four Background"
-                />
-            )}
+            mainSectionContainerClassName={styles.mainContainer}
         >
-            <div className={styles.topSection}>
-                <div className={styles.fourHundredFourHeading}>
-                    <img
-                        className={styles.image}
-                        src={FourHundredFour}
-                        alt="Four Hundred Four"
-                    />
-                </div>
+            <div className={styles.backgroundLayer}>
+                <img
+                    className={styles.image}
+                    src={fourHundredFourBackgroundImage}
+                    alt={strings.fourHundredFourBackgroundImage}
+                />
+            </div>
+            <div className={styles.fourHundredFourHeading}>
+                <img
+                    className={styles.image}
+                    src={fourHundredFour}
+                    alt={strings.fourHundredFour}
+                />
+            </div>
+            <div className={styles.content}>
                 <Heading
                     level={1}
-                    className={styles.heading}
                 >
                     {strings.uhohOops}
                 </Heading>
                 <div className={styles.description}>
-                    {strings.uhohPageDescription1}
+                    {strings.uhohPageDescriptionOne}
                 </div>
                 <div className={styles.description}>
-                    {strings.uhohPageDescription2}
+                    {strings.uhohPageDescriptionTwo}
                 </div>
             </div>
-            <div className={styles.bottomSection}>
-                <Link
-                    to="home"
-                    variant="primary"
-                >
-                    {strings.uhohBackToHome}
-                </Link>
-            </div>
+            <Link
+                to="home"
+                variant="primary"
+            >
+                {strings.uhohBackToHome}
+            </Link>
         </Page>
     );
 }
