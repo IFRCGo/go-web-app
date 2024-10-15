@@ -80,6 +80,8 @@ function AllExtractsModal(props: Props) {
         extractCreatedAt: learning.created_at,
     });
 
+    const opsLearningCount = opsLearningResponse?.count ?? 0;
+
     return (
         <Modal
             className={styles.modal}
@@ -91,15 +93,15 @@ function AllExtractsModal(props: Props) {
             headerDescription={(
                 <Chip
                     name="extractsCount"
-                    label={((opsLearningResponse?.count ?? 0) > 1) ? (
+                    label={(opsLearningCount > 1) ? (
                         resolveToString(
                             strings.extractsCount,
-                            { count: opsLearningResponse?.count },
+                            { count: opsLearningCount },
                         )
                     ) : (
                         resolveToString(
                             strings.extractCount,
-                            { count: opsLearningResponse?.count },
+                            { count: opsLearningCount },
                         )
                     )}
                     variant="tertiary"
@@ -109,7 +111,7 @@ function AllExtractsModal(props: Props) {
                 <Pager
                     activePage={opsLearningActivePage}
                     onActivePageChange={setOpsLearningActivePage}
-                    itemsCount={opsLearningResponse?.count ?? 0}
+                    itemsCount={opsLearningCount}
                     maxItemsPerPage={opsLearningLimit}
                 />
             )}

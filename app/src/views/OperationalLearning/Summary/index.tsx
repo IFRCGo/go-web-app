@@ -60,6 +60,7 @@ function Summary(props: Props) {
                 )
             )}
             withInternalPadding
+            childrenContainerClassName={styles.content}
             footerClassName={styles.footer}
             footerActions={(
                 <Button
@@ -74,11 +75,11 @@ function Summary(props: Props) {
                     {isExpanded ? strings.closeSources : strings.seeSources}
                 </Button>
             )}
-            footerContent={isExpanded && (
-                <Sources summaryId={id} summaryType={summaryType} />
-            )}
         >
             {summaryContent}
+            {isExpanded && (
+                <Sources summaryId={id} summaryType={summaryType} />
+            )}
         </Container>
     );
 }

@@ -188,9 +188,14 @@ function useFilterState<FILTER extends object>(options: {
         () => hasSomeDefinedValue(debouncedState.filter),
         [debouncedState.filter],
     );
+    const rawFiltered = useMemo(
+        () => hasSomeDefinedValue(state.filter),
+        [state.filter],
+    );
 
     return {
         rawFilter: state.filter,
+        rawFiltered,
 
         filter: debouncedState.filter,
         filtered,

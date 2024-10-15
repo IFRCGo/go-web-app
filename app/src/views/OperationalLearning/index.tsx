@@ -103,6 +103,7 @@ export function Component() {
     const {
         rawFilter,
         filter,
+        rawFiltered,
         filtered,
         setFilterField,
         resetFilter,
@@ -119,7 +120,7 @@ export function Component() {
     const alert = useAlert();
 
     const { api_region_name: regionList } = useGlobalEnums();
-    const countryList = useCountry({ region: filter.region });
+    const countryList = useCountry({ region: rawFilter.region });
     const disasterTypeOptions = useDisasterTypes();
     const secondarySectorOptions = useSecondarySector();
     const perComponentOptions = usePerComponent();
@@ -285,6 +286,7 @@ export function Component() {
             <Container
                 footerClassName={styles.footer}
                 footerContentClassName={styles.footerContent}
+                // withGridViewInFilter
                 filters={(
                     <Filters
                         value={rawFilter}
@@ -297,7 +299,7 @@ export function Component() {
                 footerContent={(
                     <>
                         <div className={styles.filterChips}>
-                            {isDefined(filter) && hasSomeDefinedValue(filter) && (
+                            {isDefined(rawFilter) && hasSomeDefinedValue(rawFilter) && (
                                 <TextOutput
                                     className={styles.selectedFilters}
                                     valueClassName={styles.options}
@@ -308,7 +310,7 @@ export function Component() {
                                         <>
                                             <DismissableListOutput
                                                 name="region"
-                                                value={filter.region}
+                                                value={rawFilter.region}
                                                 onDismiss={onFilterChange}
                                                 options={regionList}
                                                 labelSelector={stringValueSelector}
@@ -317,7 +319,7 @@ export function Component() {
                                             <DismissableMultiListOutput
                                                 name="countries"
                                                 onDismiss={onFilterChange}
-                                                value={filter.countries}
+                                                value={rawFilter.countries}
                                                 options={countryList}
                                                 labelSelector={stringNameSelector}
                                                 keySelector={countryKeySelector}
@@ -325,7 +327,7 @@ export function Component() {
                                             <DismissableMultiListOutput
                                                 name="disasterTypes"
                                                 onDismiss={onFilterChange}
-                                                value={filter.disasterTypes}
+                                                value={rawFilter.disasterTypes}
                                                 options={disasterTypeOptions}
                                                 labelSelector={disasterTypeLabelSelector}
                                                 keySelector={disasterTypeKeySelector}
@@ -333,7 +335,7 @@ export function Component() {
                                             <DismissableMultiListOutput
                                                 name="secondarySectors"
                                                 onDismiss={onFilterChange}
-                                                value={filter.secondarySectors}
+                                                value={rawFilter.secondarySectors}
                                                 options={secondarySectorOptions}
                                                 labelSelector={sectorLabelSelector}
                                                 keySelector={sectorKeySelector}
@@ -341,24 +343,24 @@ export function Component() {
                                             <DismissableMultiListOutput
                                                 name="perComponents"
                                                 onDismiss={onFilterChange}
-                                                value={filter.perComponents}
+                                                value={rawFilter.perComponents}
                                                 options={perComponentOptions}
                                                 labelSelector={getFormattedComponentName}
                                                 keySelector={perComponentKeySelector}
                                             />
                                             <DismissableTextOutput
                                                 name="appealStartDateAfter"
-                                                value={filter.appealStartDateAfter}
+                                                value={rawFilter.appealStartDateAfter}
                                                 onDismiss={onFilterChange}
                                             />
                                             <DismissableTextOutput
                                                 name="appealStartDateBefore"
-                                                value={filter.appealStartDateBefore}
+                                                value={rawFilter.appealStartDateBefore}
                                                 onDismiss={onFilterChange}
                                             />
                                             <DismissableTextOutput
                                                 name="appealSearchText"
-                                                value={filter.appealSearchText}
+                                                value={rawFilter.appealSearchText}
                                                 onDismiss={onFilterChange}
                                             />
                                         </>
@@ -367,22 +369,25 @@ export function Component() {
                             )}
                         </div>
                         <div className={styles.actionButtons}>
-                            <Button
-                                name={undefined}
-                                onClick={handleResetFilters}
-                                disabled={!filtered}
-                                variant="secondary"
-                            >
-                                {strings.clearFilters}
-                            </Button>
-                            <Button
-                                name="apply"
-                                onClick={handleApplyFilters}
-                                disabled={filterPristine}
-                                variant="primary"
-                            >
-                                {strings.applyFilters}
-                            </Button>
+                            {!filterPristine && (
+                                <Button
+                                    name="apply"
+                                    onClick={handleApplyFilters}
+                                    disabled={filterPristine}
+                                    variant="primary"
+                                >
+                                    {strings.applyFilters}
+                                </Button>
+                            )}
+                            {rawFiltered && (
+                                <Button
+                                    name={undefined}
+                                    onClick={handleResetFilters}
+                                    variant="secondary"
+                                >
+                                    {strings.clearFilters}
+                                </Button>
+                            )}
                             <ExportButton
                                 onClick={handleExportClick}
                                 pendingExport={pendingExport}

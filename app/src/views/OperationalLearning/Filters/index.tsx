@@ -6,10 +6,7 @@ import {
     TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import {
-    EntriesAsList,
-    SetValueArg,
-} from '@togglecorp/toggle-form';
+import { EntriesAsList } from '@togglecorp/toggle-form';
 
 import CountryMultiSelectInput, { type CountryOption } from '#components/domain/CountryMultiSelectInput';
 import RegionSelectInput, { type RegionOption } from '#components/domain/RegionSelectInput';
@@ -40,15 +37,6 @@ export type FilterValue = Partial<{
 export type FilterLabel = Partial<{
     [key in keyof FilterValue]: string;
 }>
-
-export type EntriesAsListWithString<T> = {
-    [K in keyof T]-?: [
-        SetValueArg<T[K]>,
-        K,
-        string | null | undefined,
-        ...unknown[]
-    ];
-}[keyof T];
 
 interface Props {
     value: FilterValue;
