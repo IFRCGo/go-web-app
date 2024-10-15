@@ -183,9 +183,11 @@ async function fetchRecursive({
 function useRecursiveCSVRequest<D>({
     onFailure,
     onSuccess,
+    disableProgress,
 } : {
     onFailure: (error: unknown) => void;
     onSuccess: (data: D[], total: number) => void;
+    disableProgress?: boolean,
 }) {
     const [pending, setPending] = useState(false);
     const [progress, setProgress] = useState(0);
@@ -213,14 +215,14 @@ function useRecursiveCSVRequest<D>({
         setPending(false);
         setProgress(0);
 
-        if (total !== data.length - 1) {
+        if (total !== data.length - 1 && !disableProgress) {
             // eslint-disable-next-line no-console
             console.error(`Length mismatch. Expected ${total} but got ${data.length - 1}`);
             onFailure(undefined);
         } else {
             onSuccess(data, total);
         }
-    }, [onSuccess, onFailure, setPending, setProgress]);
+    }, [onSuccess, onFailure, setPending, setProgress, disableProgress]);
 
     const handlePartialSuccess = useCallback((newResponse: string) => {
         Papa.parse(
@@ -243,6 +245,8 @@ function useRecursiveCSVRequest<D>({
 
                     if (totalRef.current === 0 || dataRef.current.length === 0) {
                         setProgress(0);
+                    } else if (disableProgress) {
+                        setProgress(0);
                     } else {
                         // NOTE: we are negating one because we have a header as well
                         setProgress((dataRef.current.length - 1) / totalRef.current);
@@ -250,7 +254,7 @@ function useRecursiveCSVRequest<D>({
                 },
             },
         );
-    }, []);
+    }, [disableProgress]);
 
     const trigger = useCallback((url: string, total: number, newUrlParams: UrlParams) => {
         dataRef.current = [];

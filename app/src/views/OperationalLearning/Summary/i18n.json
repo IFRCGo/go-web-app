@@ -1,0 +1,9 @@
+{
+    "namespace": "operationalLearningSummary",
+    "strings": {
+    "extractsCount":"({count} extracts)",
+    "extractCount": "({count} extract)",
+    "closeSources": "Close Sources",
+    "seeSources": "Show Sources"
+    }
+}

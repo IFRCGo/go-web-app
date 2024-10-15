@@ -1,0 +1,17 @@
+.modal {
+    max-height: 90vh;
+
+    .header-description {
+        display: flex;
+    }
+
+    .extract-list-container {
+        overflow: auto;
+
+        .extract-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-md);
+        }
+    }
+}

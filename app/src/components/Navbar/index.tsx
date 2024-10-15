@@ -44,8 +44,8 @@ function Navbar(props: Props) {
     type RespondOptionKey = 'emergencies' | 'early-warning' | 'dref-process' | 'surge';
     const [activeRespondOption, setActiveRespondOption] = useState<RespondOptionKey>('emergencies');
 
-    type LearnOptionKey = 'tools' | 'resources';
-    const [activeLearnOption, setActiveLearnOption] = useState<LearnOptionKey>('tools');
+    type LearnOptionKey = 'tools' | 'resources' | 'operational-learning';
+    const [activeLearnOption, setActiveLearnOption] = useState<LearnOptionKey>('operational-learning');
 
     return (
         <nav className={_cs(styles.navbar, className)}>
@@ -415,6 +415,12 @@ function Navbar(props: Props) {
                                 contentClassName={styles.optionListContent}
                             >
                                 <Tab
+                                    name="operational-learning"
+                                    className={styles.option}
+                                >
+                                    {strings.userMenuOperationalLearning}
+                                </Tab>
+                                <Tab
                                     name="tools"
                                     className={styles.option}
                                 >
@@ -438,6 +444,21 @@ function Navbar(props: Props) {
                                 </DropdownMenuItem>
                             </TabList>
                             <div className={styles.optionBorder} />
+                            <TabPanel
+                                name="operational-learning"
+                                className={styles.optionDetail}
+                            >
+                                <DropdownMenuItem
+                                    type="link"
+                                    to="operationalLearning"
+                                    variant="tertiary"
+                                >
+                                    {strings.userMenuOperationalLearning}
+                                </DropdownMenuItem>
+                                <div className={styles.description}>
+                                    {strings.userMenuOperationalLearningDescription}
+                                </div>
+                            </TabPanel>
                             <TabPanel
                                 name="tools"
                                 className={styles.optionDetail}

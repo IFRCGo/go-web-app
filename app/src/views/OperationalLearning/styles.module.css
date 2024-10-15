@@ -1,0 +1,55 @@
+.mainSection {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-xl);
+
+    .selected-filters {
+        display: flex;
+        padding: var(--go-ui-spacing-sm) 0;
+        gap: var(--go-ui-spacing-sm);
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--go-ui-spacing-sm);
+        }
+    }
+
+    .summary-heading {
+        gap: var(--go-ui-spacing-xl);
+    }
+
+    .summary-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-md);
+    }
+
+    .action-buttons {
+        display: flex;
+        align-items: flex-end;
+        gap: var(--go-ui-spacing-sm);
+    }
+
+    .footer {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .filter-chips {
+        width: 100%;
+    }
+
+    .footer-content {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 0;
+        width: 100%;
+
+        .action-buttons {
+            align-self: flex-end;
+        }
+    }
+}
+
+
