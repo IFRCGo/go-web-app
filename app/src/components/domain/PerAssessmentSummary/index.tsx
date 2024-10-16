@@ -145,8 +145,8 @@ function PerAssessmentSummary(props: Props) {
             // NOTE: do we take the average of only rated components or of all the
             // components?
             const filteredComponents = areaResponse?.component_responses?.filter(
-                (component) => isDefined(component?.rating)
-                    && component.rating !== 0,
+                (component) => isDefined(component?.rating_details?.value)
+                    && component.rating_details?.value !== 0,
             ) ?? [];
 
             if (filteredComponents.length === 0) {
@@ -155,8 +155,8 @@ function PerAssessmentSummary(props: Props) {
 
             const ratings = filteredComponents.map(
                 (component) => (
-                    isDefined(component.rating)
-                        ? ratingIdToValueMap?.[component.rating]
+                    isDefined(component.rating_details?.value)
+                        ? component.rating_details.value
                         : 0
                 ),
             );
@@ -167,6 +167,7 @@ function PerAssessmentSummary(props: Props) {
             return avgRating;
         },
     );
+
 
     // FIXME: It does not make sense to receive a map to only use it's key
     const averageRatingByAreaList = mapToList(
