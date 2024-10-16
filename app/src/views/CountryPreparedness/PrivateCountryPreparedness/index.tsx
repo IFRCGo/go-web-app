@@ -65,22 +65,17 @@ type PerDocumentUploadResponse = GoApiResponse<'/api/v2/per-document-upload/'>;
 type PerDocumentListItem = NonNullable<PerDocumentUploadResponse['results']>[number];
 
 const MAX_PER_DOCUMENT_COUNT = 10;
-const primaryBlueColorShades = [
-    'var(--go-ui-color-dark-blue-40)',
-    'var(--go-ui-color-dark-blue-30)',
-    'var(--go-ui-color-dark-blue-20)',
-    'var(--go-ui-color-dark-blue-10)',
-    'var(--go-ui-color-gray-40)',
-    'var(--go-ui-color-gray-30)',
-];
 
-const areaComponentColorShades = [
-    'var(--go-ui-color-purple-per)',
-    'var(--go-ui-color-orange-per)',
-    'var(--go-ui-color-blue-per)',
-    'var(--go-ui-color-teal-per)',
-    'var(--go-ui-color-red-per)',
-];
+const perRatingColors: {
+    [key: string]: string;
+} = {
+    5: 'var(--go-ui-color-dark-blue-40)',
+    4: 'var(--go-ui-color-dark-blue-30)',
+    3: 'var(--go-ui-color-dark-blue-20)',
+    2: 'var(--go-ui-color-dark-blue-10)',
+    1: 'var(--go-ui-color-gray-40)',
+    0: 'var(--go-ui-color-gray-30)',
+};
 
 const areaColorShades: { [key: number]: string } = {
     1: 'var(--go-ui-color-purple-per)',
@@ -90,12 +85,16 @@ const areaColorShades: { [key: number]: string } = {
     5: 'var(--go-ui-color-red-per)',
 };
 
-function primaryBlueColorShadeselector(_: unknown, i: number) {
-    return primaryBlueColorShades[i];
-}
+const benchmarksColors: {
+    [key: string]: string;
+} = {
+    1: 'var(--go-ui-color-dark-blue-40)',
+    2: 'var(--go-ui-color-dark-blue-30)',
+    5: 'var(--go-ui-color-dark-blue-10)',
+};
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-const noOp = () => {};
+const noOp = () => { };
 
 // eslint-disable-next-line import/prefer-default-export
 function PrivateCountryPreparedness() {
@@ -452,6 +451,32 @@ function PrivateCountryPreparedness() {
         [countryId, perId],
     );
 
+    const topRatedComponentsByArea = assessmentStats?.topRatedComponents?.reduce(
+        (acc, component) => {
+            acc[component.area.area_num] = component;
+            return acc;
+        },
+        {},
+    );
+
+    const getPerRatingColors = (ratingCounts: {
+        id: number;
+        value: number;
+        count: number;
+        title: string;
+    }[]) => ratingCounts.map((rating) => perRatingColors[rating.value]);
+
+    const benchmarkColorSelector = (dataItem: {
+        id: number;
+        label: string;
+        count: number;
+    }) => benchmarksColors[dataItem.id];
+
+    const ratingByAreaWithColors = assessmentStats?.ratingByArea.map((area) => ({
+        ...area,
+        color: areaColorShades[area.areaNum ?? 0],
+    })) ?? [];
+
     return (
         <Container
             className={styles.privateCountryPreparedness}
@@ -540,7 +565,7 @@ function PrivateCountryPreparedness() {
                         // FIXME: check why title can be undefined
                         labelSelector={(item) => item.title ?? '??'}
                         keySelector={numericIdSelector}
-                        colors={primaryBlueColorShades}
+                        colors={getPerRatingColors(assessmentStats.ratingCounts)}
                     />
                 </Container>
             )}
@@ -554,7 +579,7 @@ function PrivateCountryPreparedness() {
                         data={assessmentStats.answerCounts}
                         valueSelector={numericCountSelector}
                         labelSelector={stringLabelSelector}
-                        colorSelector={primaryBlueColorShadeselector}
+                        colorSelector={benchmarkColorSelector}
                     />
                     <KeyFigure
                         className={styles.keyFigure}
@@ -571,8 +596,8 @@ function PrivateCountryPreparedness() {
                     <RatingByAreaChart
                         ratingOptions={perOptionsResponse.componentratings}
                         formAreaOptions={perFormAreaResponse.results}
-                        data={assessmentStats.ratingByArea}
-                        colors={areaComponentColorShades}
+                        data={ratingByAreaWithColors}
+                        colors={ratingByAreaWithColors.map((area) => area.color)}
                     />
                 </Container>
             )}
@@ -664,9 +689,7 @@ function PrivateCountryPreparedness() {
                             </Heading>
                             <div className={styles.separator} />
                             {Object.entries(areaColorShades).map(([areaNum, color]) => {
-                                const area = assessmentStats?.topRatedComponents.find(
-                                    (component) => component.area.area_num === Number(areaNum),
-                                );
+                                const area = topRatedComponentsByArea?.[Number(areaNum)];
 
                                 if (!area) {
                                     return null;
@@ -675,7 +698,7 @@ function PrivateCountryPreparedness() {
                                 return (
                                     <LegendItem
                                         key={areaNum}
-                                        label={`${strings.areaLegend} ${areaNum}
+                                        label={`${strings.areaLegend} ${areaNum} 
                                             ${getFormattedComponentName(area.area)}`}
                                         color={color}
                                     />

@@ -43,14 +43,24 @@ interface Props {
     areaIdToTitleMap: Record<number, string | undefined>;
 }
 
-const colors = [
-    'var(--go-ui-color-dark-blue-40)',
-    'var(--go-ui-color-dark-blue-30)',
-    'var(--go-ui-color-dark-blue-20)',
-    'var(--go-ui-color-dark-blue-10)',
-    'var(--go-ui-color-gray-40)',
-    'var(--go-ui-color-gray-30)',
-];
+const perRatingColors: {
+    [key: string]: string;
+} = {
+    5: 'var(--go-ui-color-dark-blue-40)',
+    4: 'var(--go-ui-color-dark-blue-30)',
+    3: 'var(--go-ui-color-dark-blue-20)',
+    2: 'var(--go-ui-color-dark-blue-10)',
+    1: 'var(--go-ui-color-gray-40)',
+    0: 'var(--go-ui-color-gray-30)',
+};
+
+const areaColorShades: { [key: string]: string } = {
+    1: 'var(--go-ui-color-purple-per)',
+    2: 'var(--go-ui-color-orange-per)',
+    3: 'var(--go-ui-color-blue-per)',
+    4: 'var(--go-ui-color-teal-per)',
+    5: 'var(--go-ui-color-red-per)',
+};
 
 const progressBarColor = 'var(--go-ui-color-dark-blue-40)';
 
@@ -239,7 +249,9 @@ function PerAssessmentSummary(props: Props) {
                     )
                 }
                 // FIXME: don't use inline selectors
-                colorSelector={(_, i) => colors[i]}
+                colorSelector={(statusGroupedComponent) => (
+                    perRatingColors[statusGroupedComponent.ratingValue ?? 0]
+                )}
                 // FIXME: don't use inline selectors
                 labelSelector={
                     (statusGroupedComponent) => `${statusGroupedComponent.ratingValue}-${statusGroupedComponent.ratingDisplay}`
@@ -261,6 +273,7 @@ function PerAssessmentSummary(props: Props) {
                                     className={styles.filledBar}
                                     style={{
                                         height: `${getPercentage(rating.rating, averageRatingByAreaList.length)}%`,
+                                        backgroundColor: areaColorShades[rating.areaId],
                                     }}
                                 />
                             </div>

@@ -53,14 +53,6 @@ const primaryBlueColorShades = [
     'var(--go-ui-color-gray-30)',
 ];
 
-const areaComponentColorShades = [
-    'var(--go-ui-color-purple-per)',
-    'var(--go-ui-color-orange-per)',
-    'var(--go-ui-color-blue-per)',
-    'var(--go-ui-color-teal-per)',
-    'var(--go-ui-color-red-per)',
-];
-
 const areaColorShades: { [key: number]: string } = {
     1: 'var(--go-ui-color-purple-per)',
     2: 'var(--go-ui-color-orange-per)',
@@ -378,6 +370,11 @@ export function Component() {
         || assessmentResponsePending
         || perFetching;
 
+    const ratingByAreaWithColors = assessmentStats?.ratingByArea.map((area) => ({
+        ...area,
+        color: areaColorShades[area.areaNum ?? 0],
+    })) ?? [];
+
     return (
         <div className={styles.perExport}>
             <Container childrenContainerClassName={styles.pageTitleSection}>
@@ -480,8 +477,8 @@ export function Component() {
                     <RatingByAreaChart
                         ratingOptions={perOptionsResponse.componentratings}
                         formAreaOptions={perFormAreaResponse.results}
-                        data={assessmentStats.ratingByArea}
-                        colors={areaComponentColorShades}
+                        data={ratingByAreaWithColors}
+                        colors={ratingByAreaWithColors.map((area) => area.color)}
                     />
                 </Container>
             )}

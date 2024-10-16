@@ -323,7 +323,9 @@ function ComponentInput(props: Props) {
                     withoutPadding
                     title={strings.environmentConsiderationTitle}
                     description={(
-                        <HtmlOutput value={component?.climate_environmental_considerations_guidance} />
+                        <HtmlOutput
+                            value={component?.climate_environmental_considerations_guidance}
+                        />
                     )}
                 >
                     <TextArea
