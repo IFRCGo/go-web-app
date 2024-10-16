@@ -75,6 +75,7 @@ export interface Props<D> {
     valueSelector: (datum: D) => number | undefined | null;
     labelSelector: (datum: D) => React.ReactNode;
     keySelector: (datum: D) => number | string;
+    colorSelector?: (datum: D) => string;
     colors: string[];
     pieRadius?: number;
     chartPadding?: number;
@@ -88,6 +89,7 @@ function PieChart<D>(props: Props<D>) {
         valueSelector,
         labelSelector,
         keySelector,
+        colorSelector,
         colors,
         pieRadius = DEFAULT_PIE_RADIUS,
         chartPadding = DEFAULT_CHART_PADDING,
@@ -113,6 +115,7 @@ function PieChart<D>(props: Props<D>) {
                 return {
                     key: keySelector(datum),
                     value,
+                    color: isDefined(colorSelector) ? colorSelector(datum) : undefined,
                     label: labelSelector(datum),
                     startAngle: endAngle - currentAngle,
                     percentage: getPercentage(value, totalValueSafe),
@@ -120,7 +123,7 @@ function PieChart<D>(props: Props<D>) {
                 };
             }).filter(isDefined) ?? [];
         },
-        [data, keySelector, valueSelector, labelSelector, totalValueSafe],
+        [data, keySelector, valueSelector, labelSelector, totalValueSafe, colorSelector],
     );
 
     return (
@@ -138,7 +141,7 @@ function PieChart<D>(props: Props<D>) {
                             key={datum.key}
                             className={styles.path}
                             d={getPathData(pieRadius, datum.startAngle, datum.endAngle)}
-                            fill={colors[i % colors.length]}
+                            fill={isDefined(datum.color) ? datum.color : colors[i % colors.length]}
                         >
                             <Tooltip
                                 description={(
@@ -167,7 +170,7 @@ function PieChart<D>(props: Props<D>) {
                                 withoutLabelColon
                             />
                         ) : datum.label}
-                        color={colors[i % colors.length]}
+                        color={isDefined(datum.color) ? datum.color : colors[i % colors.length]}
                     />
                 ))}
             </div>

@@ -31,6 +31,7 @@ import {
 import {
     numericCountSelector,
     numericIdSelector,
+    resolveToString,
     stringLabelSelector,
     sumSafe,
 } from '@ifrc-go/ui/utils';
@@ -48,7 +49,14 @@ import GoSingleFileInput from '#components/domain/GoSingleFileInput';
 import PerExportModal from '#components/PerExportModal';
 import WikiLink from '#components/WikiLink';
 import useRouting from '#hooks/useRouting';
-import { getFormattedComponentName } from '#utils/domain/per';
+import {
+    getFormattedComponentName,
+    PER_FALLBACK_COLOR,
+    perAreaColorMap,
+    perBenchmarkColorSelector,
+    perRatingColors,
+    perRatingColorSelector,
+} from '#utils/domain/per';
 import {
     type GoApiResponse,
     useRequest,
@@ -66,35 +74,8 @@ type PerDocumentListItem = NonNullable<PerDocumentUploadResponse['results']>[num
 
 const MAX_PER_DOCUMENT_COUNT = 10;
 
-const perRatingColors: {
-    [key: string]: string;
-} = {
-    5: 'var(--go-ui-color-dark-blue-40)',
-    4: 'var(--go-ui-color-dark-blue-30)',
-    3: 'var(--go-ui-color-dark-blue-20)',
-    2: 'var(--go-ui-color-dark-blue-10)',
-    1: 'var(--go-ui-color-gray-40)',
-    0: 'var(--go-ui-color-gray-30)',
-};
-
-const areaColorShades: { [key: number]: string } = {
-    1: 'var(--go-ui-color-purple-per)',
-    2: 'var(--go-ui-color-orange-per)',
-    3: 'var(--go-ui-color-blue-per)',
-    4: 'var(--go-ui-color-teal-per)',
-    5: 'var(--go-ui-color-red-per)',
-};
-
-const benchmarksColors: {
-    [key: string]: string;
-} = {
-    1: 'var(--go-ui-color-dark-blue-40)',
-    2: 'var(--go-ui-color-dark-blue-30)',
-    5: 'var(--go-ui-color-dark-blue-10)',
-};
-
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-const noOp = () => { };
+const noOp = () => {};
 
 // eslint-disable-next-line import/prefer-default-export
 function PrivateCountryPreparedness() {
@@ -269,6 +250,9 @@ function PrivateCountryPreparedness() {
                     id: groupedComponentList[0].area.id,
                     areaNum: groupedComponentList[0].area.area_num,
                     title: groupedComponentList[0].area.title,
+                    color: isDefined(groupedComponentList[0].area.area_num)
+                        ? perAreaColorMap[groupedComponentList[0].area.area_num]
+                        : PER_FALLBACK_COLOR,
                     value: getAverage(
                         groupedComponentList.map(
                             (component) => (
@@ -385,6 +369,7 @@ function PrivateCountryPreparedness() {
                     label: component.details.title,
                     num: component.details.component_num,
                     letter: component.details.component_letter,
+                    areaNumber: component.details.area.area_num,
                     rating: component.rating,
                 }),
             ).sort(
@@ -450,32 +435,6 @@ function PrivateCountryPreparedness() {
         },
         [countryId, perId],
     );
-
-    const topRatedComponentsByArea = assessmentStats?.topRatedComponents?.reduce(
-        (acc, component) => {
-            acc[component.area.area_num] = component;
-            return acc;
-        },
-        {},
-    );
-
-    const getPerRatingColors = (ratingCounts: {
-        id: number;
-        value: number;
-        count: number;
-        title: string;
-    }[]) => ratingCounts.map((rating) => perRatingColors[rating.value]);
-
-    const benchmarkColorSelector = (dataItem: {
-        id: number;
-        label: string;
-        count: number;
-    }) => benchmarksColors[dataItem.id];
-
-    const ratingByAreaWithColors = assessmentStats?.ratingByArea.map((area) => ({
-        ...area,
-        color: areaColorShades[area.areaNum ?? 0],
-    })) ?? [];
 
     return (
         <Container
@@ -565,7 +524,8 @@ function PrivateCountryPreparedness() {
                         // FIXME: check why title can be undefined
                         labelSelector={(item) => item.title ?? '??'}
                         keySelector={numericIdSelector}
-                        colors={getPerRatingColors(assessmentStats.ratingCounts)}
+                        colorSelector={perRatingColorSelector}
+                        colors={perRatingColors}
                     />
                 </Container>
             )}
@@ -579,7 +539,7 @@ function PrivateCountryPreparedness() {
                         data={assessmentStats.answerCounts}
                         valueSelector={numericCountSelector}
                         labelSelector={stringLabelSelector}
-                        colorSelector={benchmarkColorSelector}
+                        colorSelector={perBenchmarkColorSelector}
                     />
                     <KeyFigure
                         className={styles.keyFigure}
@@ -596,8 +556,7 @@ function PrivateCountryPreparedness() {
                     <RatingByAreaChart
                         ratingOptions={perOptionsResponse.componentratings}
                         formAreaOptions={perFormAreaResponse.results}
-                        data={ratingByAreaWithColors}
-                        colors={ratingByAreaWithColors.map((area) => area.color)}
+                        data={assessmentStats.ratingByArea}
                     />
                 </Container>
             )}
@@ -645,9 +604,9 @@ function PrivateCountryPreparedness() {
                 >
                     {prioritizationStats.componentsToBeStrengthened.map(
                         (priorityComponent) => {
-                            const progressBarColor = isDefined(priorityComponent.num)
-                                ? areaColorShades[priorityComponent.num]
-                                : 'var(--go-ui-color-gray-40)';
+                            const progressBarColor = isDefined(priorityComponent.areaNumber)
+                                ? perAreaColorMap[priorityComponent.areaNumber]
+                                : PER_FALLBACK_COLOR;
 
                             return (
                                 <div
@@ -679,36 +638,41 @@ function PrivateCountryPreparedness() {
                     heading={strings.componentRatingResultsHeading}
                     withHeaderBorder
                     childrenContainerClassName={styles.ratingResultsContent}
-                    footerClassName={styles.legendContent}
+                    footerContentClassName={styles.legend}
                     footerContent={(
-                        <div className={styles.legend}>
+                        <>
                             <Heading
                                 level={5}
                             >
                                 {strings.typeOfOperation}
                             </Heading>
                             <div className={styles.separator} />
-                            {Object.entries(areaColorShades).map(([areaNum, color]) => {
-                                const area = topRatedComponentsByArea?.[Number(areaNum)];
-
-                                if (!area) {
+                            {perFormAreaResponse?.results?.map((perFormArea) => {
+                                if (isNotDefined(perFormArea.area_num)) {
                                     return null;
                                 }
-
+                                const color = perAreaColorMap?.[perFormArea?.area_num];
                                 return (
                                     <LegendItem
-                                        key={areaNum}
-                                        label={`${strings.areaLegend} ${areaNum} 
-                                            ${getFormattedComponentName(area.area)}`}
+                                        key={perFormArea.id}
+                                        label={resolveToString(
+                                            strings.perArea,
+                                            {
+                                                areaNumber: perFormArea.area_num,
+                                                title: perFormArea.title,
+                                            },
+                                        )}
                                         color={color}
                                     />
                                 );
                             })}
-                        </div>
+                        </>
                     )}
                 >
                     {assessmentStats.topRatedComponents.map((component) => {
-                        const progressBarColor = areaColorShades[component.area.id] || 'var(--go-ui-color-gray-40)';
+                        const progressBarColor = isDefined(component.area.area_num)
+                            ? perAreaColorMap[component.area.area_num]
+                            : PER_FALLBACK_COLOR;
 
                         return (
                             <Fragment

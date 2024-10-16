@@ -121,6 +121,7 @@
 
         .rating-results {
             grid-column: 1 / -1;
+            grid-gap: var(--go-ui-spacing-md);
 
             .rating-results-content {
                 display: grid;
@@ -134,19 +135,17 @@
                 }
             }
 
-            .legend-content {
+            .legend {
+                display: flex;
+                flex-wrap: wrap;
                 background-color: var(--go-ui-color-background);
+                padding: var(--go-ui-spacing-lg);
+                gap: var(--go-ui-spacing-lg);
 
-                .legend {
-                    display: flex;
-                    gap: var(--go-ui-spacing-xl);
-                    padding: var(--go-ui-spacing-md) var(--go-ui-spacing-md);
-
-                    .separator {
-                        background-color: var(--go-ui-color-separator);
-                        width: var(--go-ui-width-separator-thin);
-                        height: 100%;
-                    }
+                .separator {
+                    align-self: stretch;
+                    background-color: var(--go-ui-color-separator);
+                    width: var(--go-ui-width-separator-thin);
                 }
             }
         }

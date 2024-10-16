@@ -87,7 +87,7 @@
 
         .legend {
             display: flex;
-            gap: var(--go-ui-spacing-xl);
+            gap: var(--go-ui-spacing-sm);
         }
     }
 }

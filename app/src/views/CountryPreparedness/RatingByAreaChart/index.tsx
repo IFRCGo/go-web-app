@@ -20,9 +20,9 @@ interface Props {
         areaNum: number | undefined;
         // FIXME: check why title can be undefined?
         title: string | null | undefined;
+        color: string;
         value: number;
     }[] | undefined;
-    colors: string[];
     ratingOptions: PerOptionsResponse['componentratings'] | undefined;
     formAreaOptions: PerFormAreaResponse['results'] | undefined;
 }
@@ -32,7 +32,6 @@ function RatingByAreaChart(props: Props) {
         data,
         ratingOptions,
         formAreaOptions,
-        colors,
     } = props;
 
     const ratingTitleMap = listToMap(
@@ -44,7 +43,7 @@ function RatingByAreaChart(props: Props) {
     const formAreaMap = listToMap(
         formAreaOptions,
         (option) => option.area_num ?? DEFAULT_INVALID_TEXT,
-        (option) => option.title,
+        (option) => `Area ${option.area_num}: ${option.title}`,
     );
 
     const chartData = useNumericChartData(
@@ -52,8 +51,9 @@ function RatingByAreaChart(props: Props) {
         {
             chartMargin: {
                 ...defaultChartMargin,
-                top: 10,
+                top: 30,
             },
+            colorSelector: (datum) => datum.color,
             keySelector: (datum) => datum.id,
             xValueSelector: (datum) => datum.areaNum,
             yValueSelector: (datum) => datum.value,
@@ -64,7 +64,7 @@ function RatingByAreaChart(props: Props) {
             xDomain: { min: 1, max: 5 },
             numXAxisTicks: 5,
             yAxisWidth: 100,
-            xAxisHeight: 36,
+            xAxisHeight: 50,
         },
     );
 
@@ -79,7 +79,7 @@ function RatingByAreaChart(props: Props) {
                 chartData={chartData}
             />
             {chartData.chartPoints.map(
-                (point, index) => (
+                (point) => (
                     <g key={point.key}>
                         {point.originalData.value !== 0 && (
                             <text
@@ -95,7 +95,7 @@ function RatingByAreaChart(props: Props) {
                             </text>
                         )}
                         <rect
-                            fill={colors[index % colors.length]}
+                            fill={point.color}
                             x={point.x - barWidth / 2}
                             y={point.y}
                             ry={barWidth / 2}

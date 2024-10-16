@@ -57,7 +57,7 @@ function PreviousAssessmentCharts(props: Props) {
         {
             chartMargin: {
                 ...defaultChartMargin,
-                top: 10,
+                top: 30,
             },
             keySelector: (datum) => datum.assessment_number,
             xValueSelector: (datum) => datum.assessment_number,

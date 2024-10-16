@@ -21,6 +21,7 @@ import {
 import {
     numericCountSelector,
     numericIdSelector,
+    resolveToString,
     stringLabelSelector,
     sumSafe,
 } from '@ifrc-go/ui/utils';
@@ -35,7 +36,14 @@ import {
 } from '@togglecorp/fujs';
 
 import ifrcLogo from '#assets/icons/ifrc-square.png';
-import { getFormattedComponentName } from '#utils/domain/per';
+import {
+    getFormattedComponentName,
+    PER_FALLBACK_COLOR,
+    perAreaColorMap,
+    perBenchmarkColorSelector,
+    perRatingColors,
+    perRatingColorSelector,
+} from '#utils/domain/per';
 import { useRequest } from '#utils/restRequest';
 
 import PreviousAssessmentCharts from '../CountryPreparedness/PreviousAssessmentChart';
@@ -43,27 +51,6 @@ import RatingByAreaChart from '../CountryPreparedness/RatingByAreaChart';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-const primaryBlueColorShades = [
-    'var(--go-ui-color-dark-blue-40)',
-    'var(--go-ui-color-dark-blue-30)',
-    'var(--go-ui-color-dark-blue-20)',
-    'var(--go-ui-color-dark-blue-10)',
-    'var(--go-ui-color-gray-40)',
-    'var(--go-ui-color-gray-30)',
-];
-
-const areaColorShades: { [key: number]: string } = {
-    1: 'var(--go-ui-color-purple-per)',
-    2: 'var(--go-ui-color-orange-per)',
-    3: 'var(--go-ui-color-blue-per)',
-    4: 'var(--go-ui-color-teal-per)',
-    5: 'var(--go-ui-color-red-per)',
-};
-
-function primaryRedColorShadeSelector(_: unknown, i: number) {
-    return primaryBlueColorShades[i];
-}
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -260,6 +247,9 @@ export function Component() {
                     id: groupedComponentList[0].area.id,
                     areaNum: groupedComponentList[0].area.area_num,
                     title: groupedComponentList[0].area.title,
+                    color: isDefined(groupedComponentList[0].area.area_num)
+                        ? perAreaColorMap[groupedComponentList[0].area.area_num]
+                        : PER_FALLBACK_COLOR,
                     value: getAverage(
                         groupedComponentList.map(
                             (component) => (
@@ -370,11 +360,6 @@ export function Component() {
         || assessmentResponsePending
         || perFetching;
 
-    const ratingByAreaWithColors = assessmentStats?.ratingByArea.map((area) => ({
-        ...area,
-        color: areaColorShades[area.areaNum ?? 0],
-    })) ?? [];
-
     return (
         <div className={styles.perExport}>
             <Container childrenContainerClassName={styles.pageTitleSection}>
@@ -442,7 +427,8 @@ export function Component() {
                         // FIXME: Why can this be undefined?
                         labelSelector={(item) => item.title ?? '??'}
                         keySelector={numericIdSelector}
-                        colors={primaryBlueColorShades}
+                        colorSelector={perRatingColorSelector}
+                        colors={perRatingColors}
                         showPercentageInLegend
                     />
                 </Container>
@@ -457,7 +443,7 @@ export function Component() {
                             data={assessmentStats.answerCounts}
                             valueSelector={numericCountSelector}
                             labelSelector={stringLabelSelector}
-                            colorSelector={primaryRedColorShadeSelector}
+                            colorSelector={perBenchmarkColorSelector}
                         />
                     </Container>
                     <Container>
@@ -477,8 +463,7 @@ export function Component() {
                     <RatingByAreaChart
                         ratingOptions={perOptionsResponse.componentratings}
                         formAreaOptions={perFormAreaResponse.results}
-                        data={ratingByAreaWithColors}
-                        colors={ratingByAreaWithColors.map((area) => area.color)}
+                        data={assessmentStats.ratingByArea}
                     />
                 </Container>
             )}
@@ -522,7 +507,9 @@ export function Component() {
                     headingLevel={3}
                 >
                     {assessmentStats.topRatedComponents.map((component) => {
-                        const progressBarColor = areaColorShades[component.area.id] || 'var(--go-ui-color-gray-40)';
+                        const progressBarColor = isDefined(component.area.area_num)
+                            ? perAreaColorMap[component.area.area_num]
+                            : PER_FALLBACK_COLOR;
 
                         return (
                             <Fragment
@@ -554,20 +541,23 @@ export function Component() {
                         >
                             {strings.typeOfOperation}
                         </Heading>
-                        {Object.entries(areaColorShades).map(([areaNum, color]) => {
-                            const area = assessmentStats?.topRatedComponents.find(
-                                (component) => component.area.area_num === Number(areaNum),
-                            );
-
-                            if (!area) {
+                        <div className={styles.separator} />
+                        {perFormAreaResponse?.results?.map((perFormArea) => {
+                            if (isNotDefined(perFormArea.area_num)) {
                                 return null;
                             }
 
+                            const color = perAreaColorMap?.[perFormArea?.area_num];
                             return (
                                 <LegendItem
-                                    key={areaNum}
-                                    label={`${strings.areaLegend} ${areaNum}
-                                            ${getFormattedComponentName(area.area)}`}
+                                    key={perFormArea.id}
+                                    label={resolveToString(
+                                        strings.perArea,
+                                        {
+                                            areaNumber: perFormArea.area_num,
+                                            title: perFormArea.title,
+                                        },
+                                    )}
                                     color={color}
                                 />
                             );

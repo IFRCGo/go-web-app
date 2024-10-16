@@ -38,6 +38,7 @@ interface Options<DATUM> {
     keySelector: (d: DATUM, index: number) => number | string;
     xValueSelector: (d: DATUM, index: number) => number | undefined | null;
     yValueSelector: (d: DATUM, index: number) => number | undefined | null;
+    colorSelector?: (d: DATUM, index: number) => string;
     xAxisHeight?: number;
     yAxisWidth?: number;
     chartMargin?: Rect;
@@ -57,6 +58,7 @@ function useNumericChartData<DATUM>(data: DATUM[] | null | undefined, options: O
         keySelector,
         xValueSelector,
         yValueSelector,
+        colorSelector,
         chartMargin = defaultChartMargin,
         chartPadding = defaultChartPadding,
         numXAxisTicks: numXAxisTicksFromProps = 'auto',
@@ -87,6 +89,7 @@ function useNumericChartData<DATUM>(data: DATUM[] | null | undefined, options: O
         () => data?.map(
             (datum, i) => {
                 const key = keySelector(datum, i);
+                const color = isDefined(colorSelector) ? colorSelector(datum, i) : undefined;
                 const xValue = xValueSelector(datum, i);
                 const yValue = yValueSelector(datum, i);
 
@@ -96,6 +99,7 @@ function useNumericChartData<DATUM>(data: DATUM[] | null | undefined, options: O
 
                 return {
                     key,
+                    color,
                     originalData: datum,
                     xValue,
                     yValue,
@@ -104,7 +108,7 @@ function useNumericChartData<DATUM>(data: DATUM[] | null | undefined, options: O
         ).filter(isDefined).sort(
             (a, b) => compareNumber(a.xValue, b.xValue),
         ) ?? [],
-        [data, keySelector, xValueSelector, yValueSelector],
+        [data, keySelector, xValueSelector, yValueSelector, colorSelector],
     );
 
     const dataDomain = useMemo(

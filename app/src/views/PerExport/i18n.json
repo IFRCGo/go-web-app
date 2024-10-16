@@ -19,6 +19,6 @@
         "perComponentRatingResultsHeading": "Components Rating Results",
         "perComponentNotReviewed": "0 - Not reviewed",
         "typeOfOperation": "Type of Operation",
-        "areaLegend": "Area"
+        "perArea": "Area {areaNumber}: {title}"
     }
 }

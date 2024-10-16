@@ -29,8 +29,8 @@
         "perExport": "Export",
         "upload": "Upload",
         "typeOfOperation": "Type of Operation",
-        "areaLegend": "Area",
         "relevantDocumentHeader": "Relevant Documents",
-        "uploadLimitDisclaimer": "Note: You can only upload upto 10 documents."
+        "uploadLimitDisclaimer": "Note: You can only upload upto 10 documents.",
+        "perArea": "Area {areaNumber}: {title}"
     }
 }

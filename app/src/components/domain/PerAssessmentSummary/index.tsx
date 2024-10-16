@@ -178,7 +178,6 @@ function PerAssessmentSummary(props: Props) {
         },
     );
 
-
     // FIXME: It does not make sense to receive a map to only use it's key
     const averageRatingByAreaList = mapToList(
         areaIdToTitleMap,
