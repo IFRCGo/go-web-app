@@ -51,10 +51,8 @@ import WikiLink from '#components/WikiLink';
 import useRouting from '#hooks/useRouting';
 import {
     getFormattedComponentName,
-    PER_FALLBACK_COLOR,
-    perAreaColorMap,
+    getPerAreaColor,
     perBenchmarkColorSelector,
-    perRatingColors,
     perRatingColorSelector,
 } from '#utils/domain/per';
 import {
@@ -250,9 +248,7 @@ function PrivateCountryPreparedness() {
                     id: groupedComponentList[0].area.id,
                     areaNum: groupedComponentList[0].area.area_num,
                     title: groupedComponentList[0].area.title,
-                    color: isDefined(groupedComponentList[0].area.area_num)
-                        ? perAreaColorMap[groupedComponentList[0].area.area_num]
-                        : PER_FALLBACK_COLOR,
+                    color: getPerAreaColor(groupedComponentList[0].area.area_num),
                     value: getAverage(
                         groupedComponentList.map(
                             (component) => (
@@ -525,7 +521,6 @@ function PrivateCountryPreparedness() {
                         labelSelector={(item) => item.title ?? '??'}
                         keySelector={numericIdSelector}
                         colorSelector={perRatingColorSelector}
-                        colors={perRatingColors}
                     />
                 </Container>
             )}
@@ -604,9 +599,7 @@ function PrivateCountryPreparedness() {
                 >
                     {prioritizationStats.componentsToBeStrengthened.map(
                         (priorityComponent) => {
-                            const progressBarColor = isDefined(priorityComponent.areaNumber)
-                                ? perAreaColorMap[priorityComponent.areaNumber]
-                                : PER_FALLBACK_COLOR;
+                            const progressBarColor = getPerAreaColor(priorityComponent.areaNumber);
 
                             return (
                                 <div
@@ -651,7 +644,7 @@ function PrivateCountryPreparedness() {
                                 if (isNotDefined(perFormArea.area_num)) {
                                     return null;
                                 }
-                                const color = perAreaColorMap?.[perFormArea?.area_num];
+                                const color = getPerAreaColor(perFormArea?.area_num);
                                 return (
                                     <LegendItem
                                         key={perFormArea.id}
@@ -670,9 +663,7 @@ function PrivateCountryPreparedness() {
                     )}
                 >
                     {assessmentStats.topRatedComponents.map((component) => {
-                        const progressBarColor = isDefined(component.area.area_num)
-                            ? perAreaColorMap[component.area.area_num]
-                            : PER_FALLBACK_COLOR;
+                        const progressBarColor = getPerAreaColor(component.area.area_num);
 
                         return (
                             <Fragment

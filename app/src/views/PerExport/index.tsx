@@ -38,10 +38,8 @@ import {
 import ifrcLogo from '#assets/icons/ifrc-square.png';
 import {
     getFormattedComponentName,
-    PER_FALLBACK_COLOR,
-    perAreaColorMap,
+    getPerAreaColor,
     perBenchmarkColorSelector,
-    perRatingColors,
     perRatingColorSelector,
 } from '#utils/domain/per';
 import { useRequest } from '#utils/restRequest';
@@ -247,9 +245,7 @@ export function Component() {
                     id: groupedComponentList[0].area.id,
                     areaNum: groupedComponentList[0].area.area_num,
                     title: groupedComponentList[0].area.title,
-                    color: isDefined(groupedComponentList[0].area.area_num)
-                        ? perAreaColorMap[groupedComponentList[0].area.area_num]
-                        : PER_FALLBACK_COLOR,
+                    color: getPerAreaColor(groupedComponentList[0].area.area_num),
                     value: getAverage(
                         groupedComponentList.map(
                             (component) => (
@@ -428,7 +424,6 @@ export function Component() {
                         labelSelector={(item) => item.title ?? '??'}
                         keySelector={numericIdSelector}
                         colorSelector={perRatingColorSelector}
-                        colors={perRatingColors}
                         showPercentageInLegend
                     />
                 </Container>
@@ -507,9 +502,7 @@ export function Component() {
                     headingLevel={3}
                 >
                     {assessmentStats.topRatedComponents.map((component) => {
-                        const progressBarColor = isDefined(component.area.area_num)
-                            ? perAreaColorMap[component.area.area_num]
-                            : PER_FALLBACK_COLOR;
+                        const progressBarColor = getPerAreaColor(component.area.area_num);
 
                         return (
                             <Fragment
@@ -547,7 +540,7 @@ export function Component() {
                                 return null;
                             }
 
-                            const color = perAreaColorMap?.[perFormArea.area_num];
+                            const color = getPerAreaColor(perFormArea.area_num);
                             return (
                                 <LegendItem
                                     key={perFormArea.id}

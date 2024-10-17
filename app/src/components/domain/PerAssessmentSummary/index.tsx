@@ -23,9 +23,8 @@ import {
 import { PartialForm } from '@togglecorp/toggle-form';
 
 import {
-    PER_FALLBACK_COLOR,
-    perAreaColorMap,
-    perRatingColorMap,
+    getPerAreaColor,
+    getPerRatingColor,
 } from '#utils/domain/per';
 import { type GoApiResponse } from '#utils/restRequest';
 
@@ -55,10 +54,7 @@ function numberOfComponentsSelector({ components } : { components: unknown[]}) {
 }
 
 function perRatingColorSelector({ ratingValue }: { ratingValue: number | undefined }) {
-    if (isDefined(ratingValue)) {
-        return perRatingColorMap[ratingValue];
-    }
-    return PER_FALLBACK_COLOR;
+    return getPerRatingColor(ratingValue);
 }
 
 function perRatingLabelSelector({
@@ -269,7 +265,7 @@ function PerAssessmentSummary(props: Props) {
                                     className={styles.filledBar}
                                     style={{
                                         height: `${getPercentage(rating.rating, averageRatingByAreaList.length)}%`,
-                                        backgroundColor: perAreaColorMap[Number(rating.areaId)],
+                                        backgroundColor: getPerAreaColor(Number(rating.areaId)),
                                     }}
                                 />
                             </div>

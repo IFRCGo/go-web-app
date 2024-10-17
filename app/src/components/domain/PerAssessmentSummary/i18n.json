@@ -1,9 +1,9 @@
 {
-    "namespace": "perAssessmentSummary",
+    "namespace": "common",
     "strings": {
         "perArea": "Area {areaId}",
         "benchmarksAssessed": "{totalQuestionCount} benchmarks assessed",
         "perAssessmentSummaryHeading": "Summary",
-        "benchmarksAssessedTitle": "benchmarks assessed : {allAnsweredResponses} / {totalQuestionCount}"
+        "benchmarksAssessedTitle": "Benchmarks assessed : {allAnsweredResponses} / {totalQuestionCount}"
     }
 }

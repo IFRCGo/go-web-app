@@ -1,5 +1,5 @@
 {
-    "namespace": "ratingByAreaChart",
+    "namespace": "countryPreparedness",
     "strings": {
         "perArea": "Area {areaNumber}: {areaTitle}"
     }
