@@ -10,8 +10,11 @@ interface RouteData {
 }
 
 interface GoBreadcrumbsProps {
-    routeData: RouteData[]
+    routeData: RouteData[];
 }
+
+const keySelector = (datum: RouteData) => datum.to;
+const labelSelector = (datum: RouteData) => datum.label;
 
 function GoBreadcrumbs(props: GoBreadcrumbsProps) {
     const { routeData } = props;
@@ -32,8 +35,8 @@ function GoBreadcrumbs(props: GoBreadcrumbsProps) {
                 (InternalLinkProps & { children: React.ReactNode })
             >
             data={routeData}
-            keySelector={(datum) => datum.to}
-            labelSelector={(datum) => datum.label}
+            keySelector={keySelector}
+            labelSelector={labelSelector}
             renderer={Link}
             rendererParams={rendererParams}
         />
