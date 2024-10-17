@@ -22,6 +22,10 @@ import {
 } from '@togglecorp/fujs';
 import { PartialForm } from '@togglecorp/toggle-form';
 
+import {
+    getPerAreaColor,
+    getPerRatingColor,
+} from '#utils/domain/per';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -43,14 +47,25 @@ interface Props {
     areaIdToTitleMap: Record<number, string | undefined>;
 }
 
-const colors = [
-    'var(--go-ui-color-red-90)',
-    'var(--go-ui-color-red-70)',
-    'var(--go-ui-color-red-50)',
-    'var(--go-ui-color-red-40)',
-    'var(--go-ui-color-red-20)',
-    'var(--go-ui-color-red-10)',
-];
+const progressBarColor = 'var(--go-ui-color-dark-blue-40)';
+
+function numberOfComponentsSelector({ components } : { components: unknown[]}) {
+    return components.length;
+}
+
+function perRatingColorSelector({ ratingValue }: { ratingValue: number | undefined }) {
+    return getPerRatingColor(ratingValue);
+}
+
+function perRatingLabelSelector({
+    ratingValue,
+    ratingDisplay,
+}: {
+    ratingValue?: number;
+    ratingDisplay?: string;
+}): string {
+    return `${ratingValue}-${ratingDisplay}`;
+}
 
 function PerAssessmentSummary(props: Props) {
     const {
@@ -142,9 +157,10 @@ function PerAssessmentSummary(props: Props) {
         (areaResponse) => {
             // NOTE: do we take the average of only rated components or of all the
             // components?
+            // Also, 'component.rating' refers to the component ID and is misnamed.
             const filteredComponents = areaResponse?.component_responses?.filter(
                 (component) => isDefined(component?.rating)
-                    && component.rating !== 0,
+                    && component.rating !== 1,
             ) ?? [];
 
             if (filteredComponents.length === 0) {
@@ -173,7 +189,7 @@ function PerAssessmentSummary(props: Props) {
             areaId,
             rating: averageRatingByAreaMap[Number(areaId)] ?? 0,
             areaDisplay: resolveToString(
-                strings.multiImageArea,
+                strings.perArea,
                 { areaId },
             ),
         }),
@@ -208,6 +224,7 @@ function PerAssessmentSummary(props: Props) {
                         },
                     )}
                     value={allAnsweredResponses?.length ?? 0}
+                    color={progressBarColor}
                     totalValue={totalQuestionCount}
                     description={(
                         <div className={styles.answerCounts}>
@@ -228,18 +245,9 @@ function PerAssessmentSummary(props: Props) {
             <StackedProgressBar
                 className={styles.componentRating}
                 data={statusGroupedComponentList ?? []}
-                // FIXME: don't use inline selectors
-                valueSelector={
-                    (statusGroupedComponent) => (
-                        statusGroupedComponent.components.length
-                    )
-                }
-                // FIXME: don't use inline selectors
-                colorSelector={(_, i) => colors[i]}
-                // FIXME: don't use inline selectors
-                labelSelector={
-                    (statusGroupedComponent) => `${statusGroupedComponent.ratingValue}-${statusGroupedComponent.ratingDisplay}`
-                }
+                valueSelector={numberOfComponentsSelector}
+                colorSelector={perRatingColorSelector}
+                labelSelector={perRatingLabelSelector}
             />
             <div className={styles.avgComponentRating}>
                 {averageRatingByAreaList.map(
@@ -257,6 +265,7 @@ function PerAssessmentSummary(props: Props) {
                                     className={styles.filledBar}
                                     style={{
                                         height: `${getPercentage(rating.rating, averageRatingByAreaList.length)}%`,
+                                        backgroundColor: getPerAreaColor(Number(rating.areaId)),
                                     }}
                                 />
                             </div>

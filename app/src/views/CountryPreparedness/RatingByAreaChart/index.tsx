@@ -2,13 +2,18 @@ import {
     ChartAxes,
     ChartContainer,
 } from '@ifrc-go/ui';
-import { DEFAULT_INVALID_TEXT } from '@ifrc-go/ui/utils';
+import { useTranslation } from '@ifrc-go/ui/hooks';
+import {
+    DEFAULT_INVALID_TEXT,
+    resolveToString,
+} from '@ifrc-go/ui/utils';
 import { listToMap } from '@togglecorp/fujs';
 
 import useNumericChartData from '#hooks/useNumericChartData';
 import { defaultChartMargin } from '#utils/constants';
 import { type GoApiResponse } from '#utils/restRequest';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type PerOptionsResponse = GoApiResponse<'/api/v2/per-options/'>;
@@ -20,6 +25,7 @@ interface Props {
         areaNum: number | undefined;
         // FIXME: check why title can be undefined?
         title: string | null | undefined;
+        color: string;
         value: number;
     }[] | undefined;
     ratingOptions: PerOptionsResponse['componentratings'] | undefined;
@@ -33,16 +39,24 @@ function RatingByAreaChart(props: Props) {
         formAreaOptions,
     } = props;
 
+    const strings = useTranslation(i18n);
+
     const ratingTitleMap = listToMap(
         ratingOptions,
         (option) => option.value,
-        (option) => option.title,
+        (option) => `${option.title} ${option.value}`,
     );
 
     const formAreaMap = listToMap(
         formAreaOptions,
         (option) => option.area_num ?? DEFAULT_INVALID_TEXT,
-        (option) => option.title,
+        (option) => resolveToString(
+            strings.perArea,
+            {
+                areaNumber: option.area_num,
+                areaTitle: option.title,
+            },
+        ),
     );
 
     const chartData = useNumericChartData(
@@ -50,8 +64,9 @@ function RatingByAreaChart(props: Props) {
         {
             chartMargin: {
                 ...defaultChartMargin,
-                top: 10,
+                top: 30,
             },
+            colorSelector: (datum) => datum.color,
             keySelector: (datum) => datum.id,
             xValueSelector: (datum) => datum.areaNum,
             yValueSelector: (datum) => datum.value,
@@ -62,7 +77,7 @@ function RatingByAreaChart(props: Props) {
             xDomain: { min: 1, max: 5 },
             numXAxisTicks: 5,
             yAxisWidth: 100,
-            xAxisHeight: 36,
+            xAxisHeight: 50,
         },
     );
 
@@ -93,7 +108,7 @@ function RatingByAreaChart(props: Props) {
                             </text>
                         )}
                         <rect
-                            className={styles.rect}
+                            fill={point.color}
                             x={point.x - barWidth / 2}
                             y={point.y}
                             ry={barWidth / 2}
@@ -101,8 +116,8 @@ function RatingByAreaChart(props: Props) {
                             height={
                                 Math.max(
                                     chartData.dataAreaSize.height
-                                        - point.y
-                                        + chartData.dataAreaOffset.top,
+                                    - point.y
+                                    + chartData.dataAreaOffset.top,
                                     0,
                                 )
                             }

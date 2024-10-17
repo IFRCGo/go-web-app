@@ -1,4 +1,5 @@
 import {
+    Fragment,
     useMemo,
     useState,
 } from 'react';
@@ -6,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import {
     BlockLoading,
     KeyFigure,
+    LegendItem,
     PieChart,
     ProgressBar,
     StackedProgressBar,
@@ -19,6 +21,7 @@ import {
 import {
     numericCountSelector,
     numericIdSelector,
+    resolveToString,
     stringLabelSelector,
     sumSafe,
 } from '@ifrc-go/ui/utils';
@@ -33,7 +36,12 @@ import {
 } from '@togglecorp/fujs';
 
 import ifrcLogo from '#assets/icons/ifrc-square.png';
-import { getFormattedComponentName } from '#utils/domain/per';
+import {
+    getFormattedComponentName,
+    getPerAreaColor,
+    perBenchmarkColorSelector,
+    perRatingColorSelector,
+} from '#utils/domain/per';
 import { useRequest } from '#utils/restRequest';
 
 import PreviousAssessmentCharts from '../CountryPreparedness/PreviousAssessmentChart';
@@ -41,19 +49,6 @@ import RatingByAreaChart from '../CountryPreparedness/RatingByAreaChart';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-const primaryRedColorShades = [
-    'var(--go-ui-color-red-90)',
-    'var(--go-ui-color-red-70)',
-    'var(--go-ui-color-red-50)',
-    'var(--go-ui-color-red-30)',
-    'var(--go-ui-color-red-20)',
-    'var(--go-ui-color-red-10)',
-];
-
-function primaryRedColorShadeSelector(_: unknown, i: number) {
-    return primaryRedColorShades[i];
-}
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -250,6 +245,7 @@ export function Component() {
                     id: groupedComponentList[0].area.id,
                     areaNum: groupedComponentList[0].area.area_num,
                     title: groupedComponentList[0].area.title,
+                    color: getPerAreaColor(groupedComponentList[0].area.area_num),
                     value: getAverage(
                         groupedComponentList.map(
                             (component) => (
@@ -427,7 +423,7 @@ export function Component() {
                         // FIXME: Why can this be undefined?
                         labelSelector={(item) => item.title ?? '??'}
                         keySelector={numericIdSelector}
-                        colors={primaryRedColorShades}
+                        colorSelector={perRatingColorSelector}
                         showPercentageInLegend
                     />
                 </Container>
@@ -442,7 +438,7 @@ export function Component() {
                             data={assessmentStats.answerCounts}
                             valueSelector={numericCountSelector}
                             labelSelector={stringLabelSelector}
-                            colorSelector={primaryRedColorShadeSelector}
+                            colorSelector={perBenchmarkColorSelector}
                         />
                     </Container>
                     <Container>
@@ -505,18 +501,20 @@ export function Component() {
                     heading={strings.perComponentRatingResultsHeading}
                     headingLevel={3}
                 >
-                    {assessmentStats.topRatedComponents.map(
-                        (component) => (
-                            <div
+                    {assessmentStats.topRatedComponents.map((component) => {
+                        const progressBarColor = getPerAreaColor(component.area.area_num);
+
+                        return (
+                            <Fragment
                                 key={`${component.details.id}-${component.details.component_num}-${component.details.component_letter}`}
-                                className={styles.ratedComponent}
                             >
-                                <div className={styles.label}>
+                                <Heading level={5}>
                                     {getFormattedComponentName(component.details)}
-                                </div>
+                                </Heading>
                                 <ProgressBar
                                     value={component.rating?.value ?? 0}
                                     totalValue={5}
+                                    color={progressBarColor}
                                     title={(
                                         isDefined(component.rating)
                                             ? `${component.rating.value} - ${component.rating.title}`
@@ -526,9 +524,38 @@ export function Component() {
                                 <div>
                                     {component.notes}
                                 </div>
-                            </div>
-                        ),
-                    )}
+                                <div className={styles.separator} />
+                            </Fragment>
+                        );
+                    })}
+                    <div className={styles.legend}>
+                        <Heading
+                            level={5}
+                        >
+                            {strings.typeOfOperation}
+                        </Heading>
+                        <div className={styles.separator} />
+                        {perFormAreaResponse?.results?.map((perFormArea) => {
+                            if (isNotDefined(perFormArea.area_num)) {
+                                return null;
+                            }
+
+                            const color = getPerAreaColor(perFormArea.area_num);
+                            return (
+                                <LegendItem
+                                    key={perFormArea.id}
+                                    label={resolveToString(
+                                        strings.perArea,
+                                        {
+                                            areaNumber: perFormArea.area_num,
+                                            title: perFormArea.title,
+                                        },
+                                    )}
+                                    color={color}
+                                />
+                            );
+                        })}
+                    </div>
                 </Container>
             )}
             {previewReady && <div id="pdf-preview-ready" />}

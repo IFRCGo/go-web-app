@@ -17,6 +17,7 @@ import {
     Grid,
     Heading,
     KeyFigure,
+    LegendItem,
     Message,
     PieChart,
     ProgressBar,
@@ -30,6 +31,7 @@ import {
 import {
     numericCountSelector,
     numericIdSelector,
+    resolveToString,
     stringLabelSelector,
     sumSafe,
 } from '@ifrc-go/ui/utils';
@@ -47,7 +49,12 @@ import GoSingleFileInput from '#components/domain/GoSingleFileInput';
 import PerExportModal from '#components/PerExportModal';
 import WikiLink from '#components/WikiLink';
 import useRouting from '#hooks/useRouting';
-import { getFormattedComponentName } from '#utils/domain/per';
+import {
+    getFormattedComponentName,
+    getPerAreaColor,
+    perBenchmarkColorSelector,
+    perRatingColorSelector,
+} from '#utils/domain/per';
 import {
     type GoApiResponse,
     useRequest,
@@ -64,18 +71,6 @@ type PerDocumentUploadResponse = GoApiResponse<'/api/v2/per-document-upload/'>;
 type PerDocumentListItem = NonNullable<PerDocumentUploadResponse['results']>[number];
 
 const MAX_PER_DOCUMENT_COUNT = 10;
-const primaryRedColorShades = [
-    'var(--go-ui-color-red-90)',
-    'var(--go-ui-color-red-70)',
-    'var(--go-ui-color-red-50)',
-    'var(--go-ui-color-red-30)',
-    'var(--go-ui-color-red-20)',
-    'var(--go-ui-color-red-10)',
-];
-
-function primaryRedColorShadeSelector(_: unknown, i: number) {
-    return primaryRedColorShades[i];
-}
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noOp = () => {};
@@ -253,6 +248,7 @@ function PrivateCountryPreparedness() {
                     id: groupedComponentList[0].area.id,
                     areaNum: groupedComponentList[0].area.area_num,
                     title: groupedComponentList[0].area.title,
+                    color: getPerAreaColor(groupedComponentList[0].area.area_num),
                     value: getAverage(
                         groupedComponentList.map(
                             (component) => (
@@ -369,6 +365,7 @@ function PrivateCountryPreparedness() {
                     label: component.details.title,
                     num: component.details.component_num,
                     letter: component.details.component_letter,
+                    areaNumber: component.details.area.area_num,
                     rating: component.rating,
                 }),
             ).sort(
@@ -523,7 +520,7 @@ function PrivateCountryPreparedness() {
                         // FIXME: check why title can be undefined
                         labelSelector={(item) => item.title ?? '??'}
                         keySelector={numericIdSelector}
-                        colors={primaryRedColorShades}
+                        colorSelector={perRatingColorSelector}
                     />
                 </Container>
             )}
@@ -537,7 +534,7 @@ function PrivateCountryPreparedness() {
                         data={assessmentStats.answerCounts}
                         valueSelector={numericCountSelector}
                         labelSelector={stringLabelSelector}
-                        colorSelector={primaryRedColorShadeSelector}
+                        colorSelector={perBenchmarkColorSelector}
                     />
                     <KeyFigure
                         className={styles.keyFigure}
@@ -601,25 +598,30 @@ function PrivateCountryPreparedness() {
                     withHeaderBorder
                 >
                     {prioritizationStats.componentsToBeStrengthened.map(
-                        (priorityComponent) => (
-                            <div
-                                className={styles.priorityComponent}
-                                key={priorityComponent.id}
-                            >
-                                <Heading level={5} className={styles.heading}>
-                                    {getFormattedComponentName({
-                                        component_num: priorityComponent.num,
-                                        component_letter: priorityComponent.letter,
-                                        title: priorityComponent.label,
-                                    })}
-                                </Heading>
-                                <ProgressBar
-                                    className={styles.progressBar}
-                                    value={priorityComponent.rating?.value ?? 0}
-                                    totalValue={5}
-                                />
-                            </div>
-                        ),
+                        (priorityComponent) => {
+                            const progressBarColor = getPerAreaColor(priorityComponent.areaNumber);
+
+                            return (
+                                <div
+                                    className={styles.priorityComponent}
+                                    key={priorityComponent.id}
+                                >
+                                    <Heading level={5} className={styles.heading}>
+                                        {getFormattedComponentName({
+                                            component_num: priorityComponent.num,
+                                            component_letter: priorityComponent.letter,
+                                            title: priorityComponent.label,
+                                        })}
+                                    </Heading>
+                                    <ProgressBar
+                                        className={styles.progressBar}
+                                        value={priorityComponent.rating?.value ?? 0}
+                                        totalValue={5}
+                                        color={progressBarColor}
+                                    />
+                                </div>
+                            );
+                        },
                     )}
                 </Container>
             )}
@@ -629,9 +631,41 @@ function PrivateCountryPreparedness() {
                     heading={strings.componentRatingResultsHeading}
                     withHeaderBorder
                     childrenContainerClassName={styles.ratingResultsContent}
+                    footerContentClassName={styles.legend}
+                    footerContent={(
+                        <>
+                            <Heading
+                                level={5}
+                            >
+                                {strings.typeOfOperation}
+                            </Heading>
+                            <div className={styles.separator} />
+                            {perFormAreaResponse?.results?.map((perFormArea) => {
+                                if (isNotDefined(perFormArea.area_num)) {
+                                    return null;
+                                }
+                                const color = getPerAreaColor(perFormArea?.area_num);
+                                return (
+                                    <LegendItem
+                                        key={perFormArea.id}
+                                        label={resolveToString(
+                                            strings.perArea,
+                                            {
+                                                areaNumber: perFormArea.area_num,
+                                                title: perFormArea.title,
+                                            },
+                                        )}
+                                        color={color}
+                                    />
+                                );
+                            })}
+                        </>
+                    )}
                 >
-                    {assessmentStats.topRatedComponents.map(
-                        (component) => (
+                    {assessmentStats.topRatedComponents.map((component) => {
+                        const progressBarColor = getPerAreaColor(component.area.area_num);
+
+                        return (
                             <Fragment
                                 key={`${component.details.id}-${component.details.component_num}-${component.details.component_letter}`}
                             >
@@ -641,6 +675,7 @@ function PrivateCountryPreparedness() {
                                 <ProgressBar
                                     value={component.rating?.value ?? 0}
                                     totalValue={5}
+                                    color={progressBarColor}
                                     title={(
                                         isDefined(component.rating)
                                             ? `${component.rating.value} - ${component.rating.title}`
@@ -652,8 +687,8 @@ function PrivateCountryPreparedness() {
                                 </div>
                                 <div className={styles.separator} />
                             </Fragment>
-                        ),
-                    )}
+                        );
+                    })}
                 </Container>
             )}
             {!pending && !hasAssessmentStats && (

@@ -5,6 +5,7 @@ import {
 import {
     Container,
     ExpandableContainer,
+    HtmlOutput,
     InputSection,
     SelectInput,
     TextArea,
@@ -284,14 +285,7 @@ function ComponentInput(props: Props) {
                     withoutPadding
                     title={strings.epiConsiderationTitle}
                     description={(
-                        <ul className={styles.description}>
-                            <li>
-                                {strings.epiConsiderationDescriptionOne}
-                            </li>
-                            <li>
-                                {strings.epiConsiderationDescriptionTwo}
-                            </li>
-                        </ul>
+                        <HtmlOutput value={component?.epi_considerations_guidance} />
                     )}
                 >
                     <TextArea
@@ -309,7 +303,9 @@ function ComponentInput(props: Props) {
                 <InputSection
                     withoutPadding
                     title={strings.urbanConsiderationTitle}
-                    description={strings.urbanConsiderationDescription}
+                    description={(
+                        <HtmlOutput value={component?.urban_considerations_guidance} />
+                    )}
                 >
                     <TextArea
                         name="urban_considerations"
@@ -327,14 +323,9 @@ function ComponentInput(props: Props) {
                     withoutPadding
                     title={strings.environmentConsiderationTitle}
                     description={(
-                        <ul className={styles.description}>
-                            <li>
-                                {strings.environmentConsiderationDescriptionOne}
-                            </li>
-                            <li>
-                                {strings.environmentConsiderationDescriptionTwo}
-                            </li>
-                        </ul>
+                        <HtmlOutput
+                            value={component?.climate_environmental_considerations_guidance}
+                        />
                     )}
                 >
                     <TextArea
