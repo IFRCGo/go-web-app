@@ -3,12 +3,13 @@
     "strings": {
         "videoCarouselHeading3W": "3W – Who does What, Where.",
         "videoCarouselSubHeading3W": "The 'Who does What, Where', or 3W, is a GO platform tool to enhance coordination, improve disaster analysis, and elevate the speed and quality of Red Cross Red Crescent emergency response.",
-        "videoCarouselSubHeading3WInstructional": "View this video tutorial on how to manage the 3W tool data  (Who, What, Where) and generate useful and visually pleasant information products on the GO Platform - International Federation of Red Cross Red Crescent (IFRC).",
         "videoCarouselHeadingSubscribe": "Subscriptions to User Notifications",
         "videoCarouselSubHeadingSubscribe": "View this video tutorial on how to 'Subscribe to User Notifications' on the GO Platform - International Federation of Red Cross Red Crescent (IFRC).",
         "videoCarouselHeadingMontandon": "Montandon – the Global Crisis Data Bank",
         "videoCarouselSubHeadingMontandon": "Mapping global crises' historical data. The IFRC GO Platform uses Montandon, the Global Crisis Data Bank, the world's largest repository of information on past natural hazards and their impact.",
-        "videoCarouselHeading3w": "3W (who-what-where) data collection for emergencies",
-        "videoCarouselHeading3wsub": "View this video tutorial about the 3W for emergencies tool. The video demonstrates the data collection and display activity of who-what-where data."
+        "videoCarouselHeading3wDataCollection": "3W (who-what-where) data collection for emergencies",
+        "videoCarouselSubHeading3wDataCollection": "View this video tutorial about the 3W for emergencies tool. The video demonstrates the data collection and display activity of who-what-where data.",
+        "videoCarouselHeadingHealth": "Mapping on professional Health Services",
+        "videoCarouselSubHeadingHealth": "View this video tutorial on the extensive mapping results and a wide range of information provided by Red Cross and Red Crescent National Societies on their health services and local branches."
     }
 }
