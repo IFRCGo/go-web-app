@@ -161,9 +161,10 @@ function PerAssessmentSummary(props: Props) {
         (areaResponse) => {
             // NOTE: do we take the average of only rated components or of all the
             // components?
+            // Also, 'component.rating' refers to the component ID and is misnamed.
             const filteredComponents = areaResponse?.component_responses?.filter(
-                (component) => isDefined(component?.rating_details?.value)
-                    && component.rating_details.value !== 0,
+                (component) => isDefined(component?.rating)
+                    && component.rating !== 1,
             ) ?? [];
 
             if (filteredComponents.length === 0) {
@@ -172,8 +173,8 @@ function PerAssessmentSummary(props: Props) {
 
             const ratings = filteredComponents.map(
                 (component) => (
-                    isDefined(component.rating_details?.value)
-                        ? component.rating_details.value
+                    isDefined(component.rating)
+                        ? ratingIdToValueMap?.[component.rating]
                         : 0
                 ),
             );
