@@ -22,6 +22,11 @@ import {
 } from '@togglecorp/fujs';
 import { PartialForm } from '@togglecorp/toggle-form';
 
+import {
+    PER_FALLBACK_COLOR,
+    perAreaColorMap,
+    perRatingColorMap,
+} from '#utils/domain/per';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -43,26 +48,28 @@ interface Props {
     areaIdToTitleMap: Record<number, string | undefined>;
 }
 
-const perRatingColors: {
-    [key: string]: string;
-} = {
-    5: 'var(--go-ui-color-dark-blue-40)',
-    4: 'var(--go-ui-color-dark-blue-30)',
-    3: 'var(--go-ui-color-dark-blue-20)',
-    2: 'var(--go-ui-color-dark-blue-10)',
-    1: 'var(--go-ui-color-gray-40)',
-    0: 'var(--go-ui-color-gray-30)',
-};
-
-const areaColorShades: { [key: string]: string } = {
-    1: 'var(--go-ui-color-purple-per)',
-    2: 'var(--go-ui-color-orange-per)',
-    3: 'var(--go-ui-color-blue-per)',
-    4: 'var(--go-ui-color-teal-per)',
-    5: 'var(--go-ui-color-red-per)',
-};
-
 const progressBarColor = 'var(--go-ui-color-dark-blue-40)';
+
+function numberOfComponentsSelector({ components } : { components: unknown[]}) {
+    return components.length;
+}
+
+function perRatingColorSelector({ ratingValue }: { ratingValue: number | undefined }) {
+    if (isDefined(ratingValue)) {
+        return perRatingColorMap[ratingValue];
+    }
+    return PER_FALLBACK_COLOR;
+}
+
+function perRatingLabelSelector({
+    ratingValue,
+    ratingDisplay,
+}: {
+    ratingValue?: number;
+    ratingDisplay?: string;
+}): string {
+    return `${ratingValue}-${ratingDisplay}`;
+}
 
 function PerAssessmentSummary(props: Props) {
     const {
@@ -156,7 +163,7 @@ function PerAssessmentSummary(props: Props) {
             // components?
             const filteredComponents = areaResponse?.component_responses?.filter(
                 (component) => isDefined(component?.rating_details?.value)
-                    && component.rating_details?.value !== 0,
+                    && component.rating_details.value !== 0,
             ) ?? [];
 
             if (filteredComponents.length === 0) {
@@ -185,7 +192,7 @@ function PerAssessmentSummary(props: Props) {
             areaId,
             rating: averageRatingByAreaMap[Number(areaId)] ?? 0,
             areaDisplay: resolveToString(
-                strings.multiImageArea,
+                strings.perArea,
                 { areaId },
             ),
         }),
@@ -241,20 +248,9 @@ function PerAssessmentSummary(props: Props) {
             <StackedProgressBar
                 className={styles.componentRating}
                 data={statusGroupedComponentList ?? []}
-                // FIXME: don't use inline selectors
-                valueSelector={
-                    (statusGroupedComponent) => (
-                        statusGroupedComponent.components.length
-                    )
-                }
-                // FIXME: don't use inline selectors
-                colorSelector={(statusGroupedComponent) => (
-                    perRatingColors[statusGroupedComponent.ratingValue ?? 0]
-                )}
-                // FIXME: don't use inline selectors
-                labelSelector={
-                    (statusGroupedComponent) => `${statusGroupedComponent.ratingValue}-${statusGroupedComponent.ratingDisplay}`
-                }
+                valueSelector={numberOfComponentsSelector}
+                colorSelector={perRatingColorSelector}
+                labelSelector={perRatingLabelSelector}
             />
             <div className={styles.avgComponentRating}>
                 {averageRatingByAreaList.map(
@@ -272,7 +268,7 @@ function PerAssessmentSummary(props: Props) {
                                     className={styles.filledBar}
                                     style={{
                                         height: `${getPercentage(rating.rating, averageRatingByAreaList.length)}%`,
-                                        backgroundColor: areaColorShades[rating.areaId],
+                                        backgroundColor: perAreaColorMap[Number(rating.areaId)],
                                     }}
                                 />
                             </div>

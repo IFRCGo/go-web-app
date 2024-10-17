@@ -81,10 +81,24 @@ export const perBenchmarkColorMap: {
     5: 'var(--go-ui-color-dark-blue-10)',
 };
 
+export const PER_FALLBACK_COLOR = 'var(--go-ui-color-gray-40)';
+
 export function perRatingColorSelector(item: {
-    value: number;
+    value: number | undefined;
 }) {
-    return perRatingColorMap[item.value];
+    if (isDefined(item.value)) {
+        return perRatingColorMap[item.value];
+    }
+    return PER_FALLBACK_COLOR;
+}
+
+export function perAreaColorSelector(item: {
+    value: number | undefined;
+}) {
+    if (isDefined(item.value)) {
+        return perRatingColorMap[item.value];
+    }
+    return PER_FALLBACK_COLOR;
 }
 
 export function perBenchmarkColorSelector(item: {
@@ -94,5 +108,3 @@ export function perBenchmarkColorSelector(item: {
 }) {
     return perBenchmarkColorMap[item.id];
 }
-
-export const PER_FALLBACK_COLOR = 'var(--go-ui-color-gray-40)';

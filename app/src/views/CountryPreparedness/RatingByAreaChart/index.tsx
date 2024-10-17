@@ -2,13 +2,18 @@ import {
     ChartAxes,
     ChartContainer,
 } from '@ifrc-go/ui';
-import { DEFAULT_INVALID_TEXT } from '@ifrc-go/ui/utils';
+import { useTranslation } from '@ifrc-go/ui/hooks';
+import {
+    DEFAULT_INVALID_TEXT,
+    resolveToString,
+} from '@ifrc-go/ui/utils';
 import { listToMap } from '@togglecorp/fujs';
 
 import useNumericChartData from '#hooks/useNumericChartData';
 import { defaultChartMargin } from '#utils/constants';
 import { type GoApiResponse } from '#utils/restRequest';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type PerOptionsResponse = GoApiResponse<'/api/v2/per-options/'>;
@@ -34,6 +39,8 @@ function RatingByAreaChart(props: Props) {
         formAreaOptions,
     } = props;
 
+    const strings = useTranslation(i18n);
+
     const ratingTitleMap = listToMap(
         ratingOptions,
         (option) => option.value,
@@ -43,7 +50,13 @@ function RatingByAreaChart(props: Props) {
     const formAreaMap = listToMap(
         formAreaOptions,
         (option) => option.area_num ?? DEFAULT_INVALID_TEXT,
-        (option) => `Area ${option.area_num}: ${option.title}`,
+        (option) => resolveToString(
+            strings.perArea,
+            {
+                areaNumber: option.area_num,
+                areaTitle: option.title,
+            },
+        ),
     );
 
     const chartData = useNumericChartData(

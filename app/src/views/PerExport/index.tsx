@@ -547,7 +547,7 @@ export function Component() {
                                 return null;
                             }
 
-                            const color = perAreaColorMap?.[perFormArea?.area_num];
+                            const color = perAreaColorMap?.[perFormArea.area_num];
                             return (
                                 <LegendItem
                                     key={perFormArea.id}

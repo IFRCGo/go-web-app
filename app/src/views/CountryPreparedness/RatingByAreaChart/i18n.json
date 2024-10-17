@@ -1,0 +1,6 @@
+{
+    "namespace": "ratingByAreaChart",
+    "strings": {
+        "perArea": "Area {areaNumber}: {areaTitle}"
+    }
+}

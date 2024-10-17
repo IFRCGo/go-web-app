@@ -88,6 +88,12 @@
         .legend {
             display: flex;
             gap: var(--go-ui-spacing-sm);
+
+            .separator {
+                align-self: stretch;
+                background-color: var(--go-ui-color-separator);
+                width: var(--go-ui-width-separator-thin);
+            }
         }
     }
 }

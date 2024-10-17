@@ -1,7 +1,7 @@
 {
-    "namespace": "common",
+    "namespace": "perAssessmentSummary",
     "strings": {
-        "multiImageArea": "Area {areaId}",
+        "perArea": "Area {areaId}",
         "benchmarksAssessed": "{totalQuestionCount} benchmarks assessed",
         "perAssessmentSummaryHeading": "Summary",
         "benchmarksAssessedTitle": "benchmarks assessed : {allAnsweredResponses} / {totalQuestionCount}"
