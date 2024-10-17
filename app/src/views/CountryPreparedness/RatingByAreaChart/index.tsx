@@ -44,7 +44,7 @@ function RatingByAreaChart(props: Props) {
     const ratingTitleMap = listToMap(
         ratingOptions,
         (option) => option.value,
-        (option) => option.title,
+        (option) => `${option.title} ${option.value}`,
     );
 
     const formAreaMap = listToMap(
