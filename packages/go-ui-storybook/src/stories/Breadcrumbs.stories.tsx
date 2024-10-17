@@ -5,6 +5,21 @@ import type {
 
 import Breadcrumbs from './Breadcrumbs';
 
+interface Datum {
+    id: number;
+    label: string;
+}
+
+const data: Datum[] = [
+    { id: 1, label: 'Home' },
+    { id: 2, label: 'Africa' },
+    { id: 3, label: 'Benin' },
+];
+
+const keySelector = (datum: Datum) => datum.id;
+const labelSelector = (datum: Datum) => datum.label;
+const rendererParams = () => ({});
+
 type Story = StoryObj<typeof Breadcrumbs>;
 
 const meta: Meta<typeof Breadcrumbs> = {
@@ -25,7 +40,12 @@ export default meta;
 
 export const Default: Story = {
     args: {
-        children: ['Home', 'Africa', 'Angola'],
+        data,
+        keySelector,
+        labelSelector,
+        rendererParams,
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        renderer: (props) => <div {...props} />,
     },
 };
 

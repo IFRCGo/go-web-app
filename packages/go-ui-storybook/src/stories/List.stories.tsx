@@ -89,6 +89,15 @@ export const Filtered: Story = {
         renderer: Option,
         rendererParams,
         filtered: true,
-        filteredEmptyMessage: 'Data is not available for selected filters',
+    },
+};
+
+export const Empty: Story = {
+    args: {
+        className: 'list-story',
+        keySelector,
+        renderer: Option,
+        rendererParams,
+        errorMessage: 'Data is not available for selected filters',
     },
 };

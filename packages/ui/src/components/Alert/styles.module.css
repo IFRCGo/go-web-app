@@ -1,7 +1,7 @@
 .alert {
     display: flex;
     border-radius: var(--go-ui-border-radius-md);
-    box-shadow: var(--go-ui-box-shadow-2xl);
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.2);
     width: calc(14rem + 16vw);
     color: var(--go-ui-color-white);
 
@@ -14,7 +14,7 @@
     }
 
     &.info {
-        background-color: var(--go-ui-color-gray-80);
+        background-color: var(--go-ui-color-gray-50);
     }
 
     &.success {

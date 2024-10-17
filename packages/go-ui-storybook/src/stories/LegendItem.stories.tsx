@@ -1,3 +1,4 @@
+import { AlertInformationLineIcon } from '@ifrc-go/icons';
 import { LegendItemProps } from '@ifrc-go/ui';
 import type {
     Meta,
@@ -34,5 +35,12 @@ export const WithDifferentColor: Story = {
     args: {
         label: 'Multiple types',
         color: 'orange',
+    },
+};
+export const WithIcon: Story = {
+    args: {
+        label: 'Emergency appeal',
+        color: 'green',
+        icons: <AlertInformationLineIcon />,
     },
 };

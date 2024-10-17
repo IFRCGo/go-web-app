@@ -1,0 +1,6 @@
+.disabled {
+    border-color: var(--go-ui-color-gray-40);
+    background-color: var(--go-ui-color-gray-40);
+    color: var(--go-ui-color-black);
+}
+

@@ -21,7 +21,6 @@ const meta = {
         onClick: fn(),
     },
     tags: ['autodocs'],
-    argTypes: {},
 } satisfies Meta<typeof Button>;
 
 export default meta;
@@ -32,6 +31,22 @@ export const Primary: Story = {
         name: 'button',
         variant: 'primary',
         children: 'Primary Button',
+    },
+    parameters: {
+        design: {
+            type: 'figma',
+            url: 'https://www.figma.com/file/k9SOqgh5jk9PxzuBKdMKsA/IFRC-GO---UI-Library?type=design&node-id=11261-189962&mode=design&t=H77btqXhNDop8ZRl-4',
+            allowFullscreen: false,
+        },
+    },
+};
+
+export const PrimaryButtonWithIcon: Story = {
+    args: {
+        name: 'button',
+        variant: 'primary',
+        children: 'Primary Button',
+        // icons: <DownloadTwoFillIcon /> ,
     },
     parameters: {
         design: {
@@ -57,6 +72,22 @@ export const Secondary: Story = {
     },
 };
 
+export const SecondaryButtonWithIcon: Story = {
+    args: {
+        name: 'button',
+        variant: 'primary',
+        children: 'Primary Button',
+        // icons: <DownloadTwoFillIcon /> ,
+    },
+    parameters: {
+        design: {
+            type: 'figma',
+            url: 'https://www.figma.com/file/k9SOqgh5jk9PxzuBKdMKsA/IFRC-GO---UI-Library?type=design&node-id=11261-189950&mode=design&t=H77btqXhNDop8ZRl-4',
+            allowFullscreen: false,
+        },
+    },
+};
+
 export const Tertiary: Story = {
     args: {
         name: 'button',
@@ -72,6 +103,21 @@ export const Tertiary: Story = {
     },
 };
 
+export const TertiaryButtonWithIcon: Story = {
+    args: {
+        name: 'button',
+        variant: 'tertiary',
+        children: 'tertiary Button',
+        // icons: <DownloadTwoFillIcon /> ,
+    },
+    parameters: {
+        design: {
+            type: 'figma',
+            url: 'https://www.figma.com/file/k9SOqgh5jk9PxzuBKdMKsA/IFRC-GO---UI-Library?type=design&node-id=11261-189955&mode=design&t=H77btqXhNDop8ZRl-4',
+            allowFullscreen: false,
+        },
+    },
+};
 export const TertiaryOnDark: Story = {
     args: {
         name: 'button',
@@ -90,5 +136,23 @@ export const DropdownItem: Story = {
         name: 'button',
         variant: 'dropdown-item',
         children: 'Dropdown Item',
+    },
+};
+
+export const GreyTertiaryButtonWithIcon: Story = {
+    args: {
+        name: 'button',
+        variant: 'grey-tertiary',
+        children: 'Grey-Tertiary Button',
+        // icons: <DownloadTwoFillIcon />
+    },
+};
+
+export const ProcessButtonWithIcon: Story = {
+    args: {
+        name: 'button',
+        variant: 'secondary',
+        children: 'Process Button',
+        // icons:<LoaderLineIcon/>
     },
 };

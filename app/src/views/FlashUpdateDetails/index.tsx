@@ -8,7 +8,6 @@ import {
     PencilFillIcon,
 } from '@ifrc-go/icons';
 import {
-    Breadcrumbs,
     Button,
     Container,
     DateOutput,
@@ -29,7 +28,8 @@ import {
 } from '@togglecorp/fujs';
 
 import DetailsFailedToLoadMessage from '#components/domain/DetailsFailedToLoadMessage';
-import Link from '#components/Link';
+import GoBreadcrumbs from '#components/GoBreadcrumbs';
+import Link, { type InternalLinkProps } from '#components/Link';
 import Page from '#components/Page';
 import { useRequest } from '#utils/restRequest';
 
@@ -38,6 +38,12 @@ import FlashUpdateShareModal from './FlashUpdateShareModal';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+type BreadcrumbsDataType = {
+        to: InternalLinkProps['to'];
+        label: string;
+        urlParams?: Record<string, string | number | null | undefined>;
+};
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -104,6 +110,29 @@ export function Component() {
         [flashUpdateResponse],
     );
 
+    const breadCrumbsData: BreadcrumbsDataType[] = useMemo(() => ([
+        {
+            to: 'home',
+            label: strings.home,
+        },
+        {
+            to: 'emergencies',
+            label: strings.emergencies,
+        },
+        {
+            to: 'flashUpdateFormDetails',
+            label: flashUpdateResponse?.title ?? '-',
+            urlParams: {
+                flashUpdateId,
+            },
+        },
+    ]), [
+        strings.home,
+        strings.emergencies,
+        flashUpdateId,
+        flashUpdateResponse?.title,
+    ]);
+
     const shouldHideDetails = fetchingFlashUpdate
         || isDefined(flashUpdateResponseError);
 
@@ -115,24 +144,7 @@ export function Component() {
             className={styles.flashUpdateDetails}
             heading={flashUpdateResponse?.title ?? strings.flashUpdateDetailsHeading}
             breadCrumbs={(
-                <Breadcrumbs>
-                    <Link
-                        to="home"
-                    >
-                        {strings.home}
-                    </Link>
-                    <Link
-                        to="emergencies"
-                    >
-                        {strings.emergencies}
-                    </Link>
-                    <Link
-                        to="flashUpdateFormDetails"
-                        urlParams={{ flashUpdateId }}
-                    >
-                        {flashUpdateResponse?.title}
-                    </Link>
-                </Breadcrumbs>
+                <GoBreadcrumbs routeData={breadCrumbsData} />
             )}
             actions={flashUpdateResponse && (
                 <>

@@ -11,13 +11,13 @@
     .total {
         display: flex;
         flex-shrink: 0;
-        border-radius: var(--go-ui-border-radius-md);
+        border-radius: 0 var(--go-ui-border-radius-md) var(--go-ui-border-radius-md) 0;
         background-color: var(--go-ui-color-separator);
         height: 0.5rem;
 
         .progress {
             transition: var(--go-ui-duration-transition-medium) width ease-in-out;
-            border-radius: var(--go-ui-border-radius-md);
+            border-radius: 0 var(--go-ui-border-radius-md) var(--go-ui-border-radius-md) 0;
             background-color: currentColor;
         }
     }

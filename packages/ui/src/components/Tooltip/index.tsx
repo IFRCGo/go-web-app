@@ -89,6 +89,7 @@ function Tooltip(props: Props) {
                     <Container
                         heading={title}
                         withInternalPadding
+                        withHeaderBorder
                         contentViewType="vertical"
                     >
                         {description}

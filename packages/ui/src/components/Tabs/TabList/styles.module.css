@@ -16,16 +16,9 @@
             border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
         }
     }
-
     &.secondary {
         display: flex;
         overflow-x: auto;
-
-        .content {
-            display: flex;
-            border-radius: var(--go-ui-border-radius-full);
-            background-color: var(--go-ui-color-element-background);
-        }
 
         .start-dummy-content,
         .end-dummy-content {

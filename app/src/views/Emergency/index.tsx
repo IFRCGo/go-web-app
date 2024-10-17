@@ -13,7 +13,6 @@ import {
     TargetedPopulationIcon,
 } from '@ifrc-go/icons';
 import {
-    Breadcrumbs,
     Button,
     KeyFigure,
     NavigationTabList,
@@ -26,7 +25,8 @@ import {
     listToMap,
 } from '@togglecorp/fujs';
 
-import Link from '#components/Link';
+import GoBreadcrumbs from '#components/GoBreadcrumbs';
+import Link, { type InternalLinkProps } from '#components/Link';
 import NavigationTab from '#components/NavigationTab';
 import Page from '#components/Page';
 import { adminUrl } from '#config';
@@ -44,6 +44,12 @@ import {
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+type BreadcrumbsDataType = {
+        to: InternalLinkProps['to'];
+        label: string;
+        urlParams?: Record<string, string | number | null | undefined>;
+};
 
 /*
 function getRouteIdFromName(text: string) {
@@ -209,6 +215,29 @@ export function Component() {
         ].filter((tabInfo) => tabInfo.snippets.length > 0);
     }, [emergencyResponse, emergencySnippetResponse]);
 
+    const breadCrumbsData: BreadcrumbsDataType[] = useMemo(() => ([
+        {
+            to: 'home',
+            label: strings.home,
+        },
+        {
+            to: 'emergencies',
+            label: strings.emergencies,
+        },
+        {
+            to: 'emergencyDetails',
+            label: emergencyResponse?.name ?? '-',
+            urlParams: {
+                emergencyId,
+            },
+        },
+    ]), [
+        strings.home,
+        strings.emergencies,
+        emergencyId,
+        emergencyResponse?.name,
+    ]);
+
     const outletContext = useMemo<EmergencyOutletContext>(
         () => ({
             emergencyResponse,
@@ -225,20 +254,9 @@ export function Component() {
             className={styles.emergency}
             title={strings.emergencyPageTitle}
             breadCrumbs={(
-                <Breadcrumbs>
-                    <Link to="home">
-                        {strings.home}
-                    </Link>
-                    <Link to="emergencies">
-                        {strings.emergencies}
-                    </Link>
-                    <Link
-                        to="emergencyDetails"
-                        urlParams={{ emergencyId }}
-                    >
-                        {emergencyResponse?.name}
-                    </Link>
-                </Breadcrumbs>
+                <GoBreadcrumbs
+                    routeData={breadCrumbsData}
+                />
             )}
             actions={isAuthenticated && (
                 <>

@@ -5,7 +5,6 @@ import {
 import { useParams } from 'react-router-dom';
 import { CheckboxCircleLineIcon } from '@ifrc-go/icons';
 import {
-    Breadcrumbs,
     Container,
     DateOutput,
     HtmlOutput,
@@ -28,7 +27,8 @@ import {
 } from '@togglecorp/fujs';
 
 import DetailsFailedToLoadMessage from '#components/domain/DetailsFailedToLoadMessage';
-import Link from '#components/Link';
+import GoBreadcrumbs from '#components/GoBreadcrumbs';
+import Link, { type InternalLinkProps } from '#components/Link';
 import Page from '#components/Page';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import {
@@ -47,6 +47,12 @@ import EventNumericDetails from './EventNumericDetails';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+type BreadcrumbsDataType = {
+        to: InternalLinkProps['to'];
+        label: string;
+        urlParams?: Record<string, string | number | null | undefined>;
+};
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -209,8 +215,30 @@ export function Component() {
         },
     ].filter((plannedResponse) => isDefined(plannedResponse.value) && plannedResponse.value !== 0);
 
+    const breadCrumbsData: BreadcrumbsDataType[] = useMemo(() => ([
+        {
+            to: 'home',
+            label: strings.home,
+        },
+        {
+            to: 'emergencies',
+            label: strings.emergencies,
+        },
+        {
+            to: 'fieldReportDetails',
+            label: fieldReportResponse?.summary ?? '-',
+            urlParams: {
+                fieldReportId,
+            },
+        },
+    ]), [
+        strings.home,
+        strings.emergencies,
+        fieldReportResponse?.summary,
+        fieldReportId,
+    ]);
+
     // FIXME: Translation Warning Banner should be shown
-    // FIXME: Breadcrumbs
 
     const shouldHideDetails = fetchingFieldReport
         || isDefined(fieldReportResponseError);
@@ -221,24 +249,7 @@ export function Component() {
             className={styles.fieldReportDetails}
             heading={shouldHideDetails ? strings.fieldReportDefaultHeading : summary}
             breadCrumbs={(
-                <Breadcrumbs>
-                    <Link
-                        to="home"
-                    >
-                        {strings.home}
-                    </Link>
-                    <Link
-                        to="emergencies"
-                    >
-                        {strings.emergencies}
-                    </Link>
-                    <Link
-                        to="fieldReportDetails"
-                        urlParams={{ fieldReportId }}
-                    >
-                        {fieldReportResponse?.summary}
-                    </Link>
-                </Breadcrumbs>
+                <GoBreadcrumbs routeData={breadCrumbsData} />
             )}
             actions={(
                 <Link

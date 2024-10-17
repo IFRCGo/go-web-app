@@ -4,13 +4,19 @@
     flex-wrap: wrap;
     gap: var(--go-ui-spacing-md);
 
+    .path {
+        stroke: var(--go-ui-color-white);
+    }
+
     .legend {
         display: flex;
         flex-direction: column;
         flex-grow: 1;
         justify-content: center;
+        gap: var(--go-ui-border-radius-lg);
 
         .legend-item {
+            text-transform: uppercase;
             font-size: var(--go-ui-font-size-xs);
         }
     }

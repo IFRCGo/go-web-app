@@ -30,9 +30,9 @@ type Story = StoryObj<typeof meta>;
 export const Info: Story = {
     args: {
         name: 'info',
-        title: 'Information',
         type: 'info',
-        description: 'This alert provides informative details to the user.',
+        nonDismissable: true,
+        title: 'This alert provides informative details to the user.',
     },
     parameters: {
         design: {
@@ -46,9 +46,9 @@ export const Info: Story = {
 export const Success: Story = {
     args: {
         name: 'success',
-        title: 'Success',
         type: 'success',
-        description: 'This alert indicates a successful operation or task.',
+        nonDismissable: true,
+        title: 'This alert indicates a successful operation or task.',
     },
     parameters: {
         design: {
@@ -62,18 +62,18 @@ export const Success: Story = {
 export const Warning : Story = {
     args: {
         name: 'warning',
-        title: 'Warning',
         type: 'warning',
-        description: 'This alert warns the user about potential issues or risks.',
+        nonDismissable: true,
+        title: 'This alert warns the user about potential issues or risks.',
     },
 };
 
 export const Danger : Story = {
     args: {
         name: 'danger',
-        title: 'Danger',
         type: 'danger',
-        description: 'This alert indicates a dangerous or potentially harmful situation.',
+        nonDismissable: true,
+        title: 'This alert indicates a dangerous or potentially harmful situation.',
     },
     parameters: {
         design: {
@@ -87,9 +87,7 @@ export const Danger : Story = {
 export const NonDismissable: Story = {
     args: {
         name: 'danger',
-        title: 'Danger',
-        type: 'danger',
-        description: 'This alert indicates a dangerous or potentially harmful situation.',
+        title: 'This alert indicates a dangerous or potentially harmful situation.',
         nonDismissable: true,
     },
 };

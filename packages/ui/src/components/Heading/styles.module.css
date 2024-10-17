@@ -4,7 +4,10 @@
     margin: 0;
     line-height: var(--line-height);
     font-size: var(--font-size);
-    font-weight: var(--go-ui-font-weight-semibold);
+
+    &.modal-font-weight {
+        font-weight: var(--go-ui-font-weight-medium);
+    }
 
     &.level-one {
         --font-size: var(--go-ui-font-size-4xl);

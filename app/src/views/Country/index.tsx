@@ -10,7 +10,6 @@ import {
 } from 'react-router-dom';
 import { PencilFillIcon } from '@ifrc-go/icons';
 import {
-    Breadcrumbs,
     Message,
     NavigationTabList,
 } from '@ifrc-go/ui';
@@ -23,7 +22,8 @@ import {
     isTruthyString,
 } from '@togglecorp/fujs';
 
-import Link from '#components/Link';
+import GoBreadcrumbs from '#components/GoBreadcrumbs';
+import Link, { type InternalLinkProps } from '#components/Link';
 import NavigationTab from '#components/NavigationTab';
 import Page from '#components/Page';
 import { adminUrl } from '#config';
@@ -42,6 +42,12 @@ import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+type BreadcrumbsDataType = {
+        to: InternalLinkProps['to'];
+        label: string;
+        urlParams?: Record<string, string | number | null | undefined>;
+};
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -94,6 +100,33 @@ export function Component() {
         { countryName: country?.name ?? strings.countryPageTitleFallbackCountry },
     );
 
+    const breadCrumbsData: BreadcrumbsDataType[] = useMemo(() => ([
+        {
+            to: 'home',
+            label: strings.home,
+        },
+        {
+            to: 'regionsLayout',
+            label: region?.region_name ?? '-',
+            urlParams: {
+                regionId: country?.region,
+            },
+        },
+        {
+            to: 'countriesLayout',
+            label: country?.name ?? '-',
+            urlParams: {
+                countryId,
+            },
+        },
+    ]), [
+        strings.home,
+        region?.region_name,
+        country?.region,
+        countryId,
+        country?.name,
+    ]);
+
     if (isDefined(numericCountryId) && isRegion) {
         const regionId = countryIdToRegionIdMap[numericCountryId];
 
@@ -143,29 +176,7 @@ export function Component() {
             title={pageTitle}
             heading={country?.name ?? '--'}
             breadCrumbs={(
-                <Breadcrumbs>
-                    <Link
-                        to="home"
-                    >
-                        {strings.home}
-                    </Link>
-                    <Link
-                        to="regionsLayout"
-                        urlParams={{
-                            regionId: country?.region,
-                        }}
-                    >
-                        {region?.region_name}
-                    </Link>
-                    <Link
-                        to="countriesLayout"
-                        urlParams={{
-                            countryId,
-                        }}
-                    >
-                        {country?.name}
-                    </Link>
-                </Breadcrumbs>
+                <GoBreadcrumbs routeData={breadCrumbsData} />
             )}
             description={
                 isDefined(countryResponse)

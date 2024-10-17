@@ -1,15 +1,10 @@
 .popup {
     position: fixed;
-    border-radius: var(--go-ui-spacing-xs);
-    box-shadow: var(--go-ui-box-shadow-2xl);
+    border-radius: 4px;
+    box-shadow:  0px 0px 10px rgba(0, 0, 0, 0.08);
     background-color: var(--go-ui-color-white);
     max-height: 40vh;
     overflow: auto;
-
-    &.top-orientation {
-        /* FIXME: add variable */
-        box-shadow: 0 -8pt 20pt -5pt rgb(0 0 0 / 0.5);
-    }
 }
 
 .pointer {

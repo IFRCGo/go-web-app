@@ -19,8 +19,9 @@
     width: fit-content;
     max-width: 100%;
     overflow: hidden;
+    text-align: center;
     text-transform: var(--text-transform);
-    line-height: var(--go-ui-line-height-xs);
+    line-height: 21px;
     color: var(--color-text);
     font-family: inherit;
     font-size: var(--font-size);
@@ -43,6 +44,8 @@
 
     &.primary,
     &.secondary {
+        min-width: calc(var(--base-spacing) * 6.5);
+
         .children {
             text-align: center;
         }
@@ -64,7 +67,7 @@
         }
 
         &.default-spacing {
-            --padding: var(--go-ui-spacing-3xs) var(--go-ui-spacing-md);
+            --padding: var(--go-ui-spacing-3xs) var(--go-ui-spacing-lg);
         }
 
         &.comfortable-spacing {
@@ -140,7 +143,7 @@
             }
         }
     }
-
+    
     &.dropdown-item {
         display: flex;
         width: 100%;
@@ -153,6 +156,12 @@
         }
     }
 
+    &.grey-tertiary {
+        --border-radius: unset;
+        --padding: var(--go-ui-spacing-sm) var(--go-ui-spacing-lg);
+        background-color: var(--go-ui-color-background);
+    }
+    
     &.disabled {
         opacity: var(--go-ui-opacity-disabled-element);
         --cursor: not-allowed;

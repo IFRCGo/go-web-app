@@ -12,6 +12,7 @@ export interface Props {
     parentRef: React.RefObject<HTMLElement | undefined>;
     children?: React.ReactNode;
     preferredWidth?: number;
+    preferredVerticalOrientation?: boolean;
 }
 
 function Popup(props: Props) {
@@ -22,6 +23,7 @@ function Popup(props: Props) {
         className,
         pointerClassName,
         preferredWidth,
+        preferredVerticalOrientation = false,
     } = props;
 
     const {
@@ -29,7 +31,11 @@ function Popup(props: Props) {
         pointer,
         width,
         orientation,
-    } = useFloatPlacement(parentRef, preferredWidth);
+    } = useFloatPlacement(
+        parentRef,
+        preferredWidth,
+        preferredVerticalOrientation ? 'top' : undefined,
+    );
 
     return (
         <Portal>

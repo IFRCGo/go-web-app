@@ -30,6 +30,7 @@ export interface Props {
     className?: string;
     contentViewType?: 'grid' | 'vertical' | 'default';
     ellipsizeHeading?: boolean;
+    modalHeading?: boolean;
     filters?: React.ReactNode;
     filterActions?: React.ReactNode;
     footerActions?: React.ReactNode;
@@ -86,6 +87,7 @@ function Container(props: Props) {
         containerRef,
         contentViewType = 'default',
         ellipsizeHeading,
+        modalHeading,
         filters,
         filterActions,
         footerActions,
@@ -212,6 +214,7 @@ function Container(props: Props) {
                     elementRef={headerElementRef}
                     actionsContainerClassName={actionsContainerClassName}
                     ellipsizeHeading={ellipsizeHeading}
+                    modalHeading={modalHeading}
                     heading={heading}
                     headingLevel={headingLevel}
                     icons={icons}

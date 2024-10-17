@@ -23,8 +23,8 @@
 
         .content {
             display: flex;
-            border-radius: var(--go-ui-border-radius-full);
-            background-color: var(--go-ui-color-element-background);
+            border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+            padding: 0 0 2px 0;
         }
 
         .start-dummy-content,

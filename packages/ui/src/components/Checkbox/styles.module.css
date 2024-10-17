@@ -28,6 +28,10 @@
                 outline: var(--go-ui-width-separator-thin) dashed var(--go-ui-color-gray-40);
             }
         }
+
+        .checkmark {
+            color: var(--go-ui-color-gray-40);
+        }
     }
 
     .content {

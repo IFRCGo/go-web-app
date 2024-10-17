@@ -3,15 +3,10 @@ import React, {
     useRef,
 } from 'react';
 import {
-    ArrowDownSmallFillIcon,
-    ArrowUpSmallFillIcon,
-    CheckDoubleFillIcon,
-    CloseLineIcon,
+    ChevronDownLineIcon,
+    ChevronUpLineIcon,
 } from '@ifrc-go/icons';
-import {
-    _cs,
-    isTruthyString,
-} from '@togglecorp/fujs';
+import { _cs } from '@togglecorp/fujs';
 
 import Button, { Props as ButtonProps } from '#components/Button';
 import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';
@@ -67,6 +62,7 @@ export type SelectInputContainerProps<
         autoFocus?: boolean;
         hasValue: boolean;
         nonClearable?: boolean;
+        selectedOptions?: Record<OPTION_KEY, OPTION>[OPTION_KEY][];
         onClearButtonClick: () => void;
         onSelectAllButtonClick?: () => void;
         onEnterWithoutOption?: () => void;
@@ -135,6 +131,7 @@ function SelectInputContainer<
         variant,
         errorOnTooltip,
         dropdownHidden,
+        selectedOptions,
     } = props;
 
     const options = optionsFromProps ?? (emptyList as OPTION[]);
@@ -196,7 +193,6 @@ function SelectInputContainer<
         },
         [readOnly, handleShowDropdown],
     );
-
     const handlePopupBlur = useCallback(
         (clickedInside: boolean, clickedInParent: boolean) => {
             const isClickedWithin = clickedInside || clickedInParent;
@@ -212,11 +208,8 @@ function SelectInputContainer<
     const handleOptionClick = useCallback(
         (valueKey: OPTION_KEY, value: OPTION) => {
             onOptionClick(valueKey, value, name);
-            if (!persistentOptionPopup) {
-                handleHideDropdown();
-            }
         },
-        [onOptionClick, handleHideDropdown, persistentOptionPopup, name],
+        [onOptionClick, name],
     );
 
     const optionListRendererParams = useCallback(
@@ -268,6 +261,15 @@ function SelectInputContainer<
 
     const dropdownShownActual = dropdownShown && !dropdownHidden;
 
+    const availableOptions = options.filter(
+        (option) => !selectedOptions?.some(
+            (selectedOption) => optionKeySelector(
+                selectedOption,
+                0,
+            ) === optionKeySelector(option, 0),
+        ),
+    );
+
     return (
         <>
             <InputContainer
@@ -293,28 +295,6 @@ function SelectInputContainer<
                 actions={(
                     <>
                         {actions}
-                        {!readOnly && onSelectAllButtonClick && (
-                            <Button
-                                onClick={onSelectAllButtonClick}
-                                disabled={disabled}
-                                variant="tertiary"
-                                name={undefined}
-                                title={strings.buttonTitleSelect}
-                            >
-                                <CheckDoubleFillIcon className={styles.icon} />
-                            </Button>
-                        )}
-                        {!readOnly && !nonClearable && hasValue && (
-                            <Button
-                                onClick={onClearButtonClick}
-                                disabled={disabled}
-                                variant="tertiary"
-                                name={undefined}
-                                title={strings.buttonTitleClear}
-                            >
-                                <CloseLineIcon className={styles.icon} />
-                            </Button>
-                        )}
                         {!readOnly && (
                             <Button
                                 onClick={handleToggleDropdown}
@@ -325,8 +305,8 @@ function SelectInputContainer<
                                     : strings.buttonTitleOpen}
                             >
                                 {dropdownShownActual
-                                    ? <ArrowUpSmallFillIcon className={styles.icon} />
-                                    : <ArrowDownSmallFillIcon className={styles.icon} />}
+                                    ? <ChevronUpLineIcon className={styles.icon} />
+                                    : <ChevronDownLineIcon className={styles.icon} />}
                             </Button>
                         )}
                     </>
@@ -342,7 +322,7 @@ function SelectInputContainer<
                         onClick={handleSearchInputClick}
                         onFocus={() => onFocusedChange(true)}
                         onBlur={() => onFocusedChange(false)}
-                        placeholder={isTruthyString(valueDisplay) ? valueDisplay : placeholder}
+                        placeholder={placeholder}
                         autoComplete="off"
                         onKeyDown={handleKeyDown}
                         autoFocus={autoFocus}
@@ -355,9 +335,60 @@ function SelectInputContainer<
                     parentRef={inputSectionRef}
                     className={_cs(optionsPopupClassName, styles.popup)}
                 >
+                    <div className={styles.clearButtonContainer}>
+                        {!readOnly
+                            && !nonClearable
+                            && hasValue
+                            && !disabled
+                            && (
+                                <Button
+                                    className={styles.clearButton}
+                                    onClick={onClearButtonClick}
+                                    disabled={disabled}
+                                    variant="tertiary"
+                                    name={undefined}
+                                    title={strings.buttonTitleClear}
+                                >
+                                    {strings.buttonClearAll}
+                                </Button>
+                            )}
+                        {!readOnly && onSelectAllButtonClick && (
+                            <Button
+                                className={styles.clearButton}
+                                onClick={onSelectAllButtonClick}
+                                disabled={disabled}
+                                variant="tertiary"
+                                name={undefined}
+                                title={strings.buttonTitleSelect}
+                            >
+                                {strings.buttonTitleSelect}
+                            </Button>
+                        )}
+                        {selectedOptions && selectedOptions.length > 0 && (
+                            <div className={styles.selectedOptionsContainer}>
+                                <List<
+                                OPTION,
+                                OPTION_KEY,
+                                GenericOptionProps<RENDER_PROPS, OPTION_KEY, OPTION>
+                            >
+                                    className={styles.list}
+                                    data={selectedOptions}
+                                    keySelector={optionKeySelector}
+                                    renderer={GenericOption}
+                                    rendererParams={optionListRendererParams}
+                                    compact
+                                    pending={false}
+                                    errored={false}
+                                    filtered={false}
+                                />
+                            </div>
+                        )}
+                        {!readOnly && onSelectAllButtonClick
+                        && <div className={styles.clearAllBorder} />}
+                    </div>
                     <List<OPTION, OPTION_KEY, GenericOptionProps<RENDER_PROPS, OPTION_KEY, OPTION>>
                         className={styles.list}
-                        data={options}
+                        data={availableOptions}
                         keySelector={optionKeySelector}
                         renderer={GenericOption}
                         rendererParams={optionListRendererParams}

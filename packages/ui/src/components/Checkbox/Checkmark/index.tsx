@@ -1,7 +1,7 @@
 import {
     CheckboxBlankLineIcon,
+    CheckboxFillIcon,
     CheckboxIndeterminateLineIcon,
-    CheckboxLineIcon,
 } from '@ifrc-go/icons';
 
 export interface CheckmarkProps {
@@ -25,7 +25,7 @@ function Checkmark(props: CheckmarkProps) {
                 />
             )}
             {value && !indeterminate && (
-                <CheckboxLineIcon
+                <CheckboxFillIcon
                     className={className}
                 />
             )}

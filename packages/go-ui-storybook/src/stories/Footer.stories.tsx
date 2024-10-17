@@ -1,6 +1,5 @@
 import {
     SocialFacebookIcon,
-    SocialInstagramIcon,
     SocialTwitterIcon,
     SocialYoutubeIcon,
 } from '@ifrc-go/icons';
@@ -39,9 +38,6 @@ function FooterActions() {
                 <a href="https://twitter.com/" aria-label="twitter" className="footer-link">
                     <SocialTwitterIcon />
                 </a>
-                <a href="https://www.instagram.com/" aria-label="instagram" className="footer-link">
-                    <SocialInstagramIcon />
-                </a>
                 <a href="https://www.youtube.com/" aria-label="youtube" className="footer-link">
                     <SocialYoutubeIcon />
                 </a>
@@ -55,16 +51,33 @@ function FooterIcons() {
         <div>
             <div className="footer-items">
                 <a href="/" className="footer-text">
-                    Home
+                    About Go
+                    <div className="footer-items-link">
+                        <a href="/" className="footer-items-link">
+                            © IFRC 2024 v
+                            7.5.2
+                        </a>
+                    </div>
                 </a>
                 <a href="/" className="footer-text">
-                    About
+                    Find Out More
+                    <div className="footer-items-link">
+                        <a href="/" className="footer-items-link">
+                            ifrc.org
+                        </a>
+                    </div>
                 </a>
                 <a href="/" className="footer-text">
-                    Services
+                    Helpful Links
+                    <div className="footer-items-link">
+                        <a href="/" className="footer-items-link">
+                            Open Source Code
+                        </a>
+                    </div>
                 </a>
                 <a href="/" className="footer-text">
-                    Contact
+                    Contact us
+                    <FooterActions />
                 </a>
             </div>
         </div>
@@ -74,8 +87,14 @@ function FooterIcons() {
 export const Default: Story = {
     args: {
         className: 'footer',
+        icons: <FooterIcons />,
+    },
+};
+
+export const WithChildren: Story = {
+    args: {
+        className: 'footer',
         children: 'IFRC GO Component Library',
         icons: <FooterIcons />,
-        actions: <FooterActions />,
     },
 };

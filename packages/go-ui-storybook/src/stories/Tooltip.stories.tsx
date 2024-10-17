@@ -43,3 +43,11 @@ export const Default: Story = {
         preferredWidth: 20,
     },
 };
+
+export const WithoutTitle: Story = {
+    render: Template,
+    args: {
+        description: 'Click here to access our help documentation and support resources.',
+        preferredWidth: 20,
+    },
+};

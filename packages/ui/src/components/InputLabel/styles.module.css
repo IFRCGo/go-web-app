@@ -1,6 +1,5 @@
 .input-label {
     display: flex;
-    padding: 0 var(--go-ui-spacing-2xs);
     color: var(--go-ui-color-gray-70);
     gap: var(--go-ui-spacing-xs);
 

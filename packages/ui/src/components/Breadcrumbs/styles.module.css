@@ -6,19 +6,25 @@
     .item {
         display: flex;
 
-        &:not(:last-child) {
-            color: var(--go-ui-color-gray-70);
-        }
+            &:not(:last-child) {
+                .label {
+                    color: var(--go-ui-color-gray-70);
+                    font-weight: var(--go-ui-font-weight-light);
+                }
+            }
 
-        &:last-child {
-            color: var(--go-ui-color-black);
-        }
+            &:last-child {
+                .label {
+                    color: var(--go-ui-color-black);
+                }
+            }
     }
 
     .separator {
         display: flex;
         justify-content: center;
-        color: var(--go-ui-color-gray-70);
-        font-size: var(--go-ui-font-size-xl);
+        color: var(--go-ui-color-gray-90);
+        font-size: var(--go-ui-font-size-3xl);
+        font-weight: var(--go-ui-font-weight-medium);
     }
 }
