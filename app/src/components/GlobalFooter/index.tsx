@@ -108,8 +108,7 @@ function GlobalFooter(props: Props) {
                         {strings.cookiePolicy}
                     </Link>
                     <Link
-                        // FIXME: Add termsAndConditions link after the page is created
-                        to="cookiePolicy"
+                        to="termsAndConditions"
                     >
                         {strings.termsAndConditions}
                     </Link>

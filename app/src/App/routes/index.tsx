@@ -625,6 +625,18 @@ const accountDetails = customWrapRoute({
     },
 });
 
+const termsAndConditions = customWrapRoute({
+    parent: rootLayout,
+    path: 'terms-and-conditions',
+    component: {
+        render: () => import('#views/TermsAndConditions'),
+        props: {},
+    },
+    context: {
+        title: 'Terms And Conditions',
+        visibility: 'anything',
+    },
+});
 type DefaultAccountMyFormsChild = 'field-report';
 const accountMyFormsLayout = customWrapRoute({
     parent: accountLayout,
@@ -1258,6 +1270,7 @@ const wrappedRoutes = {
     perPrioritizationForm,
     perWorkPlanForm,
     threeWProjectDetail,
+    termsAndConditions,
     // TODO: unhide operational learning
     // operationalLearning,
     ...regionRoutes,

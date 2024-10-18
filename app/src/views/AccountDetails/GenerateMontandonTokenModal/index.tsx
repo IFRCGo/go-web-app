@@ -75,8 +75,7 @@ function GenerateMontandonTokenModal(props: Props) {
                 {
                     termsLink: (
                         <Link
-                            external
-                            href="https://docs.google.com/spreadsheets/d/1kQZQmWk8W4tyE3fhi54Oc2Q-TiLJVUj0/"
+                            to="termsAndConditions"
                             withLinkIcon
                             withUnderline
                         >
