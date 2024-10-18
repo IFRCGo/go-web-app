@@ -1,5 +1,32 @@
 # go-web-app
 
+## 7.5.3
+
+### Patch Changes
+
+- d7f5f53: Revamp risk imminent events for cyclone
+  - Visualize storm position, forecast uncertainty, track line and exposed area differently
+  - Add option to toggle visibility of these different layers
+  - Add severity legend for exposure
+  - Update styling for items in event list
+  - Update styling for event details page
+- 36a64fa: Integrate multi-select functionality in operational learning filters to allow selection of multiple filter items.
+- 894d00c: Add a new 404 page
+- 7757e54: Add an option to download excel import template for DREF (Response) which user can fill up and import.
+- a8d021d: Update resources page
+  - Add a new video for LocalUnits
+  - Update ordering of videos
+- aea512d: Prevent users from pasting images into rich text field
+- fd54657: Add Terms and Conditions page
+- bf55ccc: Add Cookie Policy page
+- df80c4f: Fix contact details in Field Report being always required when filled once
+- 81dc3bd: Added color mapping based on PER Area and Rating across all PER charts
+- Updated dependencies [dd92691]
+- Updated dependencies [d7f5f53]
+- Updated dependencies [fe6a455]
+- Updated dependencies [81dc3bd]
+  - @ifrc-go/ui@1.2.0
+
 ## 7.5.2
 
 ### Patch Changes

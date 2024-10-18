@@ -1,6 +1,6 @@
 {
     "name": "go-web-app",
-    "version": "7.5.2",
+    "version": "7.5.3",
     "type": "module",
     "private": true,
     "license": "MIT",
@@ -42,7 +42,7 @@
     },
     "dependencies": {
         "@ifrc-go/icons": "^2.0.1",
-        "@ifrc-go/ui": "^1.1.6",
+        "@ifrc-go/ui": "^1.2.0",
         "@mapbox/mapbox-gl-draw": "^1.2.0",
         "@sentry/react": "^7.81.1",
         "@tinymce/tinymce-react": "^4.3.0",

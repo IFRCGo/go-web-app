@@ -1,5 +1,24 @@
 # @ifrc-go/ui
 
+## 1.2.0
+
+### Minor Changes
+
+- fe6a455: Add Chip component
+
+### Patch Changes
+
+- dd92691: Add DismissableListOutput, DismissableMultListOutput and DismissableTextOutput components
+- d7f5f53: - Add support for background in Checkbox, TextOutput
+  - Add support for inverted view in Switch
+  - Add new view withBorderAndHeaderBackground in Container
+  - Add option to set className for label and list container in Legend
+- 81dc3bd: - Improve PieChart component and ProgresBar component
+  - PieChart component
+    - Added a `colorSelector` prop to select color for each pie
+  - ProgressBar component
+    - Introduced a `color` prop to customize the progress bar's color
+
 ## 1.1.6
 
 ### Patch Changes
