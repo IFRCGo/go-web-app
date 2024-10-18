@@ -32,5 +32,10 @@
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true
     },
-    "include": ["src", "env.ts"]
+    "include": ["src", "env.ts"],
+
+    /* TODO: unhide operational learning */
+    "exclude": [
+        "src/views/OperationalLearning/*"
+    ]
 }

@@ -4,7 +4,11 @@
     "ignoreUnimported": [
         "**/*.d.ts",
         "**/*.test.*",
-        "src/views/CountryNsOverviewCapacity/CountryNsOrganisationalCapacity/index.tsx"
+        "src/views/CountryNsOverviewCapacity/CountryNsOrganisationalCapacity/index.tsx",
+        "src/views/OperationalLearning/*",
+        "src/views/OperationalLearning/**/*",
+        "src/hooks/domain/usePerComponent.ts",
+        "src/hooks/domain/useSecondarySector.ts"
     ],
     "ignoreUnresolved": [
         "#assets/content/operational_timeline_title.svg?react",
