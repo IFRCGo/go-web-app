@@ -44,8 +44,11 @@ export const Default: Story = {
         keySelector,
         labelSelector,
         rendererParams,
-        // eslint-disable-next-line react/jsx-props-no-spreading
-        renderer: (props) => <div {...props} />,
+        renderer: ({ children }) => (
+            <div>
+                {children}
+            </div>
+        ),
     },
 };
 
