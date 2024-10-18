@@ -1,0 +1,251 @@
+{
+    "parent": "000004-1716961946995.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "alertCopyErrorDetails",
+            "namespace": "common",
+            "value": "Copy error details"
+        },
+        {
+            "action": "add",
+            "key": "booleanNoLabel",
+            "namespace": "common",
+            "value": "No"
+        },
+        {
+            "action": "add",
+            "key": "booleanYesLabel",
+            "namespace": "common",
+            "value": "Yes"
+        },
+        {
+            "action": "add",
+            "key": "buttonCancel",
+            "namespace": "common",
+            "value": "Cancel"
+        },
+        {
+            "action": "add",
+            "key": "buttonOk",
+            "namespace": "common",
+            "value": "Ok"
+        },
+        {
+            "action": "add",
+            "key": "buttonTitleClear",
+            "namespace": "common",
+            "value": "Clear"
+        },
+        {
+            "action": "add",
+            "key": "buttonTitleClose",
+            "namespace": "common",
+            "value": "Close"
+        },
+        {
+            "action": "add",
+            "key": "buttonTitleOpen",
+            "namespace": "common",
+            "value": "Open"
+        },
+        {
+            "action": "add",
+            "key": "buttonTitleSelect",
+            "namespace": "common",
+            "value": "Select all"
+        },
+        {
+            "action": "add",
+            "key": "buttonTitleTab",
+            "namespace": "common",
+            "value": "Tab"
+        },
+        {
+            "action": "add",
+            "key": "closeButtonLabel",
+            "namespace": "common",
+            "value": "Close"
+        },
+        {
+            "action": "add",
+            "key": "closeButtonTitle",
+            "namespace": "common",
+            "value": "Close"
+        },
+        {
+            "action": "add",
+            "key": "confirmation",
+            "namespace": "common",
+            "value": "Confirmation"
+        },
+        {
+            "action": "add",
+            "key": "confirmMessage",
+            "namespace": "common",
+            "value": "Are you sure you want to continue?"
+        },
+        {
+            "action": "add",
+            "key": "expandableContainerCollapse",
+            "namespace": "common",
+            "value": "Collapse"
+        },
+        {
+            "action": "add",
+            "key": "expandableContainerExpand",
+            "namespace": "common",
+            "value": "Expand"
+        },
+        {
+            "action": "add",
+            "key": "gridEmptyMessage",
+            "namespace": "common",
+            "value": "Data is not available!"
+        },
+        {
+            "action": "add",
+            "key": "gridFailedToFetch",
+            "namespace": "common",
+            "value": "Failed to fetch data!"
+        },
+        {
+            "action": "add",
+            "key": "gridFilteredMessage",
+            "namespace": "common",
+            "value": "Data is not available for the selected filter!"
+        },
+        {
+            "action": "add",
+            "key": "gridPendingMessage",
+            "namespace": "common",
+            "value": "Fetching data..."
+        },
+        {
+            "action": "add",
+            "key": "hidePassword",
+            "namespace": "common",
+            "value": "Hide password"
+        },
+        {
+            "action": "add",
+            "key": "infoMessageAnd",
+            "namespace": "common",
+            "value": "and"
+        },
+        {
+            "action": "add",
+            "key": "infoMessageMore",
+            "namespace": "common",
+            "value": "more"
+        },
+        {
+            "action": "add",
+            "key": "messageTitleDataFailedToFetch",
+            "namespace": "common",
+            "value": "Failed to fetch data!"
+        },
+        {
+            "action": "add",
+            "key": "messageTitleDataNotAvailable",
+            "namespace": "common",
+            "value": "Data is not available!"
+        },
+        {
+            "action": "add",
+            "key": "messageTitleFetching",
+            "namespace": "common",
+            "value": "Fetching data..."
+        },
+        {
+            "action": "add",
+            "key": "messageTitleFilterdDataNotAvailable",
+            "namespace": "common",
+            "value": "Data is not available for selected filter!"
+        },
+        {
+            "action": "add",
+            "key": "noLabel",
+            "namespace": "common",
+            "value": "No"
+        },
+        {
+            "action": "add",
+            "key": "rawButtonGoTo",
+            "namespace": "common",
+            "value": "Go to"
+        },
+        {
+            "action": "add",
+            "key": "rawButtonGoToPage",
+            "namespace": "common",
+            "value": "Go to page"
+        },
+        {
+            "action": "add",
+            "key": "reducedListDisplayMoreLabel",
+            "namespace": "common",
+            "value": "... and {n} more"
+        },
+        {
+            "action": "add",
+            "key": "selectInputEmptyMessage",
+            "namespace": "common",
+            "value": "No option available"
+        },
+        {
+            "action": "add",
+            "key": "selectInputErrorMessage",
+            "namespace": "common",
+            "value": "Could not load options"
+        },
+        {
+            "action": "add",
+            "key": "selectInputFilteredMessage",
+            "namespace": "common",
+            "value": "No option available for the search"
+        },
+        {
+            "action": "add",
+            "key": "selectInputPendingMessage",
+            "namespace": "common",
+            "value": "Fetching options..."
+        },
+        {
+            "action": "add",
+            "key": "showPassword",
+            "namespace": "common",
+            "value": "Show password"
+        },
+        {
+            "action": "add",
+            "key": "sortTableButtonTitle",
+            "namespace": "common",
+            "value": "Sort Table"
+        },
+        {
+            "action": "add",
+            "key": "yesLabel",
+            "namespace": "common",
+            "value": "Yes"
+        },
+        {
+            "action": "update",
+            "key": "linkOne",
+            "namespace": "surgeCatalogueOtherStrategicPartnershipsResourceMobilisation",
+            "newValue": "Rapid Response Strategic Partnerships and Resource Mobilisation (SPRM) Officer role profile"
+        },
+        {
+            "action": "update",
+            "key": "linkTwo",
+            "namespace": "surgeCatalogueOtherStrategicPartnershipsResourceMobilisation",
+            "newValue": "Rapid Response Strategic Partnerships and Resource Mobilisation (SPRM) Coordinator role profile"
+        },
+        {
+            "action": "update",
+            "key": "otherOverviewDetail",
+            "namespace": "surgeCatalogueOtherStrategicPartnershipsResourceMobilisation",
+            "newValue": "The IFRC provides both strategic and technical support in partnerships and resource mobilisation to National Societies who are working to increase their capacity. The IFRC partnership and resource mobilisation function provides support to the operational leadership, through engagement with partners and donors, coordination of contributions, resource mobilisation efforts, and pledge management, among others. In addition, the function may support National Societies in building their capacities to develop domestic fundraising portfolios. The IFRC also coordinates global initiatives when the IFRC is best placed to do so."
+        }
+    ]
+}
