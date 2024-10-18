@@ -12,6 +12,9 @@
         "footerContactUs":"Contact Us",
         "footerIFRC":"© IFRC {year} v{appVersion}",
         "globalFindOut": "Find Out More",
+        "policies": "Policies",
+        "cookiePolicy": "Cookie Policy",
+        "termsAndConditions": "Terms and Conditions",
         "globalHelpfulLinks": "Helpful links"
     }
 }

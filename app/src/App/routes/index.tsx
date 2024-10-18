@@ -122,6 +122,19 @@ const emergencies = customWrapRoute({
         visibility: 'anything',
     },
 });
+const cookiePolicy = customWrapRoute({
+    parent: rootLayout,
+    path: 'cookie-policy',
+    component: {
+        render: () => import('#views/CookiePolicy'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Cookie Policy',
+        visibility: 'anything',
+    },
+});
 
 type DefaultEmergenciesChild = 'details';
 const emergenciesLayout = customWrapRoute({
@@ -1172,6 +1185,7 @@ const wrappedRoutes = {
     resendValidationEmail,
     home,
     emergencies,
+    cookiePolicy,
     emergencySlug,
     emergencyFollow,
     emergenciesLayout,

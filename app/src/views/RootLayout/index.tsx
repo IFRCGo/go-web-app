@@ -11,9 +11,18 @@ import {
     Outlet,
     useNavigation,
 } from 'react-router-dom';
-import { AlertContainer } from '@ifrc-go/ui';
+import { AlertInformationLineIcon } from '@ifrc-go/icons';
+import {
+    AlertContainer,
+    Button,
+    Container,
+    PageContainer,
+} from '@ifrc-go/ui';
 import { LanguageContext } from '@ifrc-go/ui/contexts';
-import { useTranslation } from '@ifrc-go/ui/hooks';
+import {
+    useBooleanState,
+    useTranslation,
+} from '@ifrc-go/ui/hooks';
 import {
     _cs,
     isDefined,
@@ -25,6 +34,7 @@ import {
 } from '@togglecorp/fujs';
 
 import GlobalFooter from '#components/GlobalFooter';
+import Link from '#components/Link';
 import Navbar from '#components/Navbar';
 import { environment } from '#config';
 import DomainContext, {
@@ -55,6 +65,17 @@ export function Component() {
     const [fetchDomainData, setFetchDomainData] = useState<{ [key in CacheKey]?: boolean }>({});
 
     const [languagePending, setLanguagePending] = useState(false);
+
+    // FIXME: To be made functional after the implications of cookie rejections are finalized
+    const [
+        isCookiesBannerVisible,
+        { setFalse: hideCookiesBanner },
+    ] = useBooleanState(false);
+
+    const handleClick = useCallback(() => {
+        // FIXME: Add cookies permission to session storage
+        hideCookiesBanner();
+    }, [hideCookiesBanner]);
 
     const {
         currentLanguage,
@@ -415,10 +436,45 @@ export function Component() {
                 </div>
                 <GlobalFooter className={styles.footer} />
                 <AlertContainer />
-                {environment !== 'production' && (
-                    <div className={styles.banner}>
-                        {/* NOTE: We are not translating alpha server names */}
-                        {environmentTexts[environment] ?? environment}
+                {(isCookiesBannerVisible || environment !== 'production') && (
+                    <div className={styles.bannersContainer}>
+                        {isCookiesBannerVisible && (
+                            <PageContainer className={styles.cookiesBanner}>
+                                <Container
+                                    withoutWrapInHeading
+                                    headingDescription={strings.cookiesBannerDescription}
+                                    icons={(
+                                        <AlertInformationLineIcon
+                                            className={styles.alertInfoIcon}
+                                        />
+                                    )}
+                                    spacing="comfortable"
+                                    actions={(
+                                        <>
+                                            <Link
+                                                to="cookiePolicy"
+                                                variant="tertiary"
+                                            >
+                                                {strings.cookiesBannerLearnMore}
+                                            </Link>
+                                            <Button
+                                                name={undefined}
+                                                variant="primary"
+                                                onClick={handleClick}
+                                            >
+                                                {strings.cookiesBannerIAccept}
+                                            </Button>
+                                        </>
+                                    )}
+                                />
+                            </PageContainer>
+                        )}
+                        {environment !== 'production' && (
+                            <div className={styles.environmentBanner}>
+                                {/* NOTE: We are not translating alpha server names */}
+                                {environmentTexts[environment] ?? environment}
+                            </div>
+                        )}
                     </div>
                 )}
             </div>

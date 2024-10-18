@@ -4,18 +4,31 @@
     flex-direction: column;
     min-height: 100vh;
 
-    .banner {
+    .banners-container {
         position: sticky;
         bottom: 0;
-        background-color: var(--go-ui-color-orange);
-        padding: var(--go-ui-spacing-xs);
-        text-align: center;
-        text-transform: uppercase;
-        color: var(--go-ui-color-white);
-        font-weight: var(--go-ui-font-weight-medium);
 
-        @media print {
-            display: none;
+        .environment-banner {
+            background-color: var(--go-ui-color-orange);
+            padding: var(--go-ui-spacing-xs);
+            text-align: center;
+            text-transform: uppercase;
+            color: var(--go-ui-color-white);
+            font-weight: var(--go-ui-font-weight-medium);
+
+            @media print {
+                display: none;
+            }
+        }
+
+        .cookies-banner {
+            background-color: var(--go-ui-color-primary-blue);
+            width: 100%;
+            color: var(--go-ui-color-white);
+
+            .alert-info-icon {
+                font-size: 3rem;
+            }
         }
     }
 
