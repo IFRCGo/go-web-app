@@ -740,6 +740,9 @@ const resources = customWrapRoute({
         visibility: 'anything',
     },
 });
+
+// TODO: unhide operational learning
+/*
 const operationalLearning = customWrapRoute({
     parent: rootLayout,
     path: 'operational-learning',
@@ -753,6 +756,7 @@ const operationalLearning = customWrapRoute({
         visibility: 'anything',
     },
 });
+*/
 
 const search = customWrapRoute({
     parent: rootLayout,
@@ -1254,7 +1258,8 @@ const wrappedRoutes = {
     perPrioritizationForm,
     perWorkPlanForm,
     threeWProjectDetail,
-    operationalLearning,
+    // TODO: unhide operational learning
+    // operationalLearning,
     ...regionRoutes,
     ...countryRoutes,
     ...surgeRoutes,
