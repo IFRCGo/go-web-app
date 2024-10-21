@@ -92,10 +92,10 @@
         "stylelint-no-unused-selectors": "git+https://github.com/toggle-corp/stylelint-no-unused-selectors#e0831e1",
         "stylelint-value-no-unknown-custom-properties": "^6.0.1",
         "typescript": "^5.2.2",
-        "vite": "^5.0.8",
-        "vite-plugin-dts": "^3.7.0",
-        "vite-plugin-lib-inject-css": "^1.3.0",
-        "vite-tsconfig-paths": "^4.2.3",
-        "vitest": "^1.1.1"
+        "vite": "^5.4.9",
+        "vite-plugin-dts": "^4.2.4",
+        "vite-plugin-lib-inject-css": "^2.1.1",
+        "vite-tsconfig-paths": "^5.0.1",
+        "vitest": "^2.1.3"
     }
 }
