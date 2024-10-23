@@ -21,7 +21,7 @@
     overflow: hidden;
     text-align: center;
     text-transform: var(--text-transform);
-    line-height: 21px;
+    line-height: var(--go-ui-line-height-md);
     color: var(--color-text);
     font-family: inherit;
     font-size: var(--font-size);
@@ -89,7 +89,9 @@
         --color-text: var(--go-ui-color-white);
 
         &.disabled {
-            filter: saturate(50%);
+            border-color: var(--go-ui-color-gray-40);
+            background-color: var(--go-ui-color-gray-40);
+            color: var(--go-ui-color-black);
         }
 
         &:not(.disabled) {

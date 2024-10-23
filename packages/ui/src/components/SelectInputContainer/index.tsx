@@ -208,8 +208,11 @@ function SelectInputContainer<
     const handleOptionClick = useCallback(
         (valueKey: OPTION_KEY, value: OPTION) => {
             onOptionClick(valueKey, value, name);
+            if (!persistentOptionPopup) {
+                handleHideDropdown();
+            }
         },
-        [onOptionClick, name],
+        [onOptionClick, name, persistentOptionPopup, handleHideDropdown],
     );
 
     const optionListRendererParams = useCallback(
@@ -335,7 +338,7 @@ function SelectInputContainer<
                     parentRef={inputSectionRef}
                     className={_cs(optionsPopupClassName, styles.popup)}
                 >
-                    <div className={styles.clearButtonContainer}>
+                    <div className={styles.dropdownContainerButtons}>
                         {!readOnly
                             && !nonClearable
                             && hasValue
@@ -347,12 +350,12 @@ function SelectInputContainer<
                                     disabled={disabled}
                                     variant="tertiary"
                                     name={undefined}
-                                    title={strings.buttonTitleClear}
+                                    title={strings.buttonClearAll}
                                 >
                                     {strings.buttonClearAll}
                                 </Button>
                             )}
-                        {!readOnly && onSelectAllButtonClick && (
+                        {!readOnly && !disabled && onSelectAllButtonClick && (
                             <Button
                                 className={styles.clearButton}
                                 onClick={onSelectAllButtonClick}
@@ -383,8 +386,9 @@ function SelectInputContainer<
                                 />
                             </div>
                         )}
-                        {!readOnly && onSelectAllButtonClick
-                        && <div className={styles.clearAllBorder} />}
+                        {!readOnly && onSelectAllButtonClick && (
+                            <div className={styles.clearAllSeparator} />
+                        )}
                     </div>
                     <List<OPTION, OPTION_KEY, GenericOptionProps<RENDER_PROPS, OPTION_KEY, OPTION>>
                         className={styles.list}

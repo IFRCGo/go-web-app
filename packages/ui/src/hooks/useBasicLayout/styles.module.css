@@ -1,6 +1,5 @@
 .basic-layout {
     display: flex;
-    align-items: flex-start;
 
     &.with-wrap {
         flex-wrap: wrap;

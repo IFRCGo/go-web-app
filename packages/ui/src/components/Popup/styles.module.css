@@ -1,7 +1,7 @@
 .popup {
     position: fixed;
     border-radius: 4px;
-    box-shadow:  0px 0px 10px rgba(0, 0, 0, 0.08);
+    box-shadow:  var(--go-ui-box-shadow-popup);
     background-color: var(--go-ui-color-white);
     max-height: 40vh;
     overflow: auto;

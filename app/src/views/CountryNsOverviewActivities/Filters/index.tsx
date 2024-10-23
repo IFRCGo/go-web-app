@@ -67,6 +67,7 @@ function Filters(props: Props) {
                 labelSelector={countryNameSelector}
                 onChange={onChange}
                 disabled={disabled}
+                withSelectAll
             />
             <MultiSelectInput
                 name="operation_type"
@@ -77,6 +78,7 @@ function Filters(props: Props) {
                 labelSelector={stringValueSelector}
                 onChange={onChange}
                 disabled={disabled}
+                withSelectAll
             />
             <MultiSelectInput
                 name="programme_type"
@@ -87,6 +89,7 @@ function Filters(props: Props) {
                 labelSelector={stringValueSelector}
                 onChange={onChange}
                 disabled={disabled}
+                withSelectAll
             />
             <MultiSelectInput
                 name="primary_sector"
@@ -97,6 +100,7 @@ function Filters(props: Props) {
                 labelSelector={stringLabelSelector}
                 onChange={onChange}
                 disabled={disabled}
+                withSelectAll
             />
             <MultiSelectInput
                 name="secondary_sectors"
@@ -107,6 +111,7 @@ function Filters(props: Props) {
                 labelSelector={stringLabelSelector}
                 onChange={onChange}
                 disabled={disabled}
+                withSelectAll
             />
         </>
     );

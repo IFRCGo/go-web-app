@@ -8,10 +8,10 @@
         border-radius: var(--go-ui-border-radius-md);
         background-color: var(--go-ui-color-element-background);
         padding: 0 var(--go-ui-spacing-sm);
-        
+
         .input {
             padding-left:12px;
-            height: 24px;
+            height: var(--go-ui-height-compact-status-icon);
         }
     }
 

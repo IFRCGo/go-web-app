@@ -1,6 +1,6 @@
 .dropdown-menu {
     align-items: center;
-    height: 32px;
+    height: var(--go-ui-height-compact-status-icon);
 
     .icons,
     .content,
@@ -17,5 +17,5 @@
 .dropdown-content {
     display: flex;
     flex-direction: column;
-    padding-left: 24px;
+    padding-left: var(--go-ui-spacing-lg);
 }

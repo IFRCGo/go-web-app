@@ -44,7 +44,6 @@
             border-radius: var(--go-ui-border-radius-lg);
             box-shadow: var(--go-ui-box-shadow-2xl);
             background-color: var(--go-ui-color-white);
-            width: 420px;
             min-width: var(--go-ui-width-min-modal);
             height: 100%;
             min-height: var(--go-ui-height-min-modal);

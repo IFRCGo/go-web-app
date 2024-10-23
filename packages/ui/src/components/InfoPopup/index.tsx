@@ -8,11 +8,12 @@ import { _cs } from '@togglecorp/fujs';
 import Button from '#components/Button';
 import Container from '#components/Container';
 import DropdownMenu from '#components/DropdownMenu';
+import useTranslation from '#hooks/useTranslation';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-export interface Props<N> {
-    name: N;
+export interface Props {
     icon?: React.ReactNode;
     withoutIcon?: boolean;
     infoLabel?: React.ReactNode;
@@ -21,12 +22,11 @@ export interface Props<N> {
     descriptionClassName?: string;
     popupClassName?: string;
     className?: string;
-    onCloseButtonClick?: (name: string) => void;
+    onCloseButtonClick?: () => void;
 }
 
-function InfoPopup<N extends string>(props: Props<N>) {
+function InfoPopup(props: Props) {
     const {
-        name,
         className,
         icon = <InformationLineIcon />,
         infoLabel,
@@ -38,13 +38,14 @@ function InfoPopup<N extends string>(props: Props<N>) {
         descriptionClassName,
     } = props;
 
+    const strings = useTranslation(i18n);
     const handleCloseButtonClick = useCallback(
         () => {
             if (onCloseButtonClick) {
-                onCloseButtonClick(name);
+                onCloseButtonClick();
             }
         },
-        [onCloseButtonClick, name],
+        [onCloseButtonClick],
     );
 
     return (
@@ -74,7 +75,7 @@ function InfoPopup<N extends string>(props: Props<N>) {
                         name={undefined}
                         onClick={handleCloseButtonClick}
                         variant="tertiary"
-                        title="Close"
+                        title={strings.closeButtonLabel}
                     >
                         <CloseLineIcon className={styles.closeIcon} />
                     </Button>

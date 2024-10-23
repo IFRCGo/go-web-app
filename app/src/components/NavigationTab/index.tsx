@@ -188,7 +188,9 @@ function NavigationTab(props: Props) {
             )}
             <div className={styles.childrenWrapper}>
                 {children}
-                <div className={styles.activeChildrenBorder} />
+                {variant === 'primary' && (
+                    <div className={styles.activeChildrenBorder} />
+                )}
             </div>
             {variant === 'primary' && (
                 <div className={styles.dummy} />

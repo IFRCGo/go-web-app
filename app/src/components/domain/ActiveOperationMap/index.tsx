@@ -425,16 +425,14 @@ function ActiveOperationMap(props: Props) {
                         value={rawFilter.displacement}
                         onChange={setFilterField}
                     />
-                    <div className={styles.filterActions}>
-                        <Button
-                            name={undefined}
-                            onClick={handleClearFiltersButtonclick}
-                            variant="secondary"
-                            disabled={!filtered}
-                        >
-                            {strings.operationMapClearFilters}
-                        </Button>
-                    </div>
+                    <Button
+                        name={undefined}
+                        onClick={handleClearFiltersButtonclick}
+                        variant="secondary"
+                        disabled={!filtered}
+                    >
+                        {strings.operationMapClearFilters}
+                    </Button>
                 </>
             )}
             actions={!presentationMode && (

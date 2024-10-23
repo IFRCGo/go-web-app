@@ -5,10 +5,6 @@
     line-height: var(--line-height);
     font-size: var(--font-size);
 
-    &.modal-font-weight {
-        font-weight: var(--go-ui-font-weight-medium);
-    }
-
     &.level-one {
         --font-size: var(--go-ui-font-size-4xl);
 

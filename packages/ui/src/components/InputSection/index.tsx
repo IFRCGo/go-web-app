@@ -60,7 +60,6 @@ function InputSection(props: Props) {
                         && (
                             <InfoPopup
                                 description={tooltip}
-                                name=""
                             />
                         )}
                     childrenContainerClassName={styles.description}

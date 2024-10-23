@@ -1,8 +1,4 @@
 .header {
     display: flex;
     flex-direction: column;
-
-    .border {
-        border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
-    }
 }

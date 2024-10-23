@@ -168,9 +168,8 @@
         }
 
         .active-children-border {
-            background-color: transparent;
+            border: var(--go-ui-width-separator-small) solid transparent;
             width: 100%;
-            height: var(--go-ui-width-separator-small);
         }
 
         &.active {
@@ -182,7 +181,7 @@
                 background-color: var(--go-ui-color-white);
 
                 .active-children-border {
-                    background-color: var(--go-ui-color-primary-red);
+                    border-color: var(--go-ui-color-primary-red);
                 }
             }
         }

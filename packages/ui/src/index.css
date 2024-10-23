@@ -61,6 +61,7 @@
     --go-ui-spacing-2xs: calc(var(--base-spacing) * 0.25);
     --go-ui-spacing-xs: calc(var(--base-spacing) * 0.4);
     --go-ui-spacing-sm: calc(var(--base-spacing) * 0.625);
+    --go-ui-spacing-ssm: calc(var(--base-spacing) * 0.750);
     --go-ui-spacing-md: calc(var(--base-spacing) * 1);
     --go-ui-spacing-lg: calc(var(--base-spacing) * 1.5);
     --go-ui-spacing-xl: calc(var(--base-spacing) * 2.25);
@@ -108,11 +109,14 @@
 
     --go-ui-box-shadow-xs: 0 1pt 2pt rgb(0 0 0 / 0.2);
     --go-ui-box-shadow-sm: 0 1pt 4pt rgb(0 0 0 / 0.2);
+    --go-ui-box-shadow-ssm: 0 0 10px rgb(0 0 0 / 0.08);
     --go-ui-box-shadow-md: 0 1pt 5pt -2pt rgb(0 0 0 / 0.375);
     --go-ui-box-shadow-lg: 0 2pt 8pt -4pt rgb(0 0 0 / 0.5);
     --go-ui-box-shadow-xl: 0 3pt 16pt -6pt rgb(0 0 0 / 0.5);
     --go-ui-box-shadow-2xl: 0 4pt 16pt -6pt rgb(0 0 0 / 1);
     --go-ui-box-shadow-inner: inset 0 2pt 4pt 0 rgb(0 0 0 / 0.375);
+    --go-ui-box-shadow-alert: 0 3px 8px 8px rgb(0 0 0 / 0.2);
+    --go-ui-box-shadow-popup: 0 0 10px rgb(0 0 0 / 0.08);
     --go-ui-box-shadow-none: 0 0 #0000;
 
     --go-ui-duration-transition-fast: .1s;
@@ -199,16 +203,16 @@
     --go-ui-width-min-modal: 18rem;
     --go-ui-height-min-modal: 11rem;
 
-    --go-ui-width-modal-sm: 32rem;
+    --go-ui-width-modal-sm: 20rem;
     --go-ui-height-modal-sm: 100%;
 
-    --go-ui-width-modal-md: 42rem;
+    --go-ui-width-modal-md: 26.25rem;
     --go-ui-height-modal-md: 100%;
 
-    --go-ui-width-modal-lg: 64rem;
+    --go-ui-width-modal-lg: 40rem;
     --go-ui-height-modal-lg: 100%;
 
-    --go-ui-width-modal-xl: 92rem;
+    --go-ui-width-modal-xl: 57.5rem;
     --go-ui-height-modal-xl: 100%;
 
     --go-ui-saturate-0: 0;

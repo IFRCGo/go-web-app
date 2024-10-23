@@ -12,7 +12,7 @@ export interface Props {
     parentRef: React.RefObject<HTMLElement | undefined>;
     children?: React.ReactNode;
     preferredWidth?: number;
-    preferredVerticalOrientation?: boolean;
+    overrideVerticalOrientation?: boolean;
 }
 
 function Popup(props: Props) {
@@ -23,7 +23,7 @@ function Popup(props: Props) {
         className,
         pointerClassName,
         preferredWidth,
-        preferredVerticalOrientation = false,
+        overrideVerticalOrientation = false,
     } = props;
 
     const {
@@ -34,7 +34,7 @@ function Popup(props: Props) {
     } = useFloatPlacement(
         parentRef,
         preferredWidth,
-        preferredVerticalOrientation ? 'top' : undefined,
+        overrideVerticalOrientation ? 'top' : undefined,
     );
 
     return (
@@ -47,7 +47,6 @@ function Popup(props: Props) {
                 }}
                 className={_cs(
                     styles.popup,
-                    orientation.vertical === 'bottom' && styles.topOrientation,
                     className,
                 )}
             >

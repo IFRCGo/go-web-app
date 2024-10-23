@@ -24,9 +24,6 @@
         gap: var(--go-ui-spacing-xs);
         font-size: var(--go-ui-font-size-sm);
 
-        .heading {
-            font-weight: 500;
-        }
     }
     .close-icon {
         font-size: var(--go-ui-font-size-2xl);

@@ -9,7 +9,6 @@ import Modal from '#components/Modal';
 import useTranslation from '#hooks/useTranslation';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 export interface Props<NAME> extends ButtonProps<NAME> {
     confirmMessage?: React.ReactNode;
@@ -59,7 +58,7 @@ function ConfirmButton<NAME>(props: Props<NAME>) {
             <Button
                 // eslint-disable-next-line react/jsx-props-no-spreading
                 {...buttonProps}
-                className={_cs(className, disabled && styles.disabled)}
+                className={className}
                 name={name}
                 onClick={handleOnClick}
                 disabled={disabled}

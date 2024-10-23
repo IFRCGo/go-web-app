@@ -24,7 +24,7 @@
         .content {
             display: flex;
             border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
-            padding: 0 0 2px 0;
+            padding: 0 0 var(--go-ui-spacing-3xs) 0;
         }
 
         .start-dummy-content,

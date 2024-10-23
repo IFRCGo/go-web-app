@@ -53,6 +53,7 @@ export type SearchMultiSelectInputProps<
         ) => OPTION[];
         onSearchValueChange?: (value: string | undefined) => void;
         onShowDropdownChange?: (value: boolean) => void;
+        onSelectAllButtonClick?: () => void;
 
         selectedOnTop: boolean;
     }, OMISSION>
@@ -108,6 +109,7 @@ function SearchMultiSelectInput<
         onShowDropdownChange,
         hideOptionFilter,
         selectedOnTop,
+        onSelectAllButtonClick,
         ...otherProps
     } = props;
 
@@ -288,17 +290,7 @@ function SearchMultiSelectInput<
         },
         [name, onChange],
     );
-    const handleSelectAll = useCallback(
-        () => {
-            if (isNotDefined(options)) {
-                return;
-            }
 
-            const allValues = options.map(keySelector);
-            onChange(allValues, name);
-        },
-        [options, name, onChange, keySelector],
-    );
     return (
         <SelectInputContainer
             // eslint-disable-next-line react/jsx-props-no-spreading
@@ -326,7 +318,7 @@ function SearchMultiSelectInput<
             onFocusedKeyChange={setFocusedKey}
             persistentOptionPopup
             nonClearable={false}
-            onSelectAllButtonClick={handleSelectAll}
+            onSelectAllButtonClick={onSelectAllButtonClick}
             hasValue={isDefined(value) && value.length > 0}
         />
     );
