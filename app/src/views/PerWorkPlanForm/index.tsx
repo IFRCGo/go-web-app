@@ -386,7 +386,6 @@ export function Component() {
                     <TextOutput
                         label={strings.perResponsibleLabel}
                         value={workPlanResponse?.overview_details?.ns_focal_point_name}
-                        // eslint-disable-next-line max-len
                         description={workPlanResponse?.overview_details?.ns_focal_point_email}
                         strongValue
                     />
@@ -410,7 +409,7 @@ export function Component() {
                 spacing="comfortable"
             >
                 <NonFieldError error={componentResponseError} />
-                {/* eslint-disable-next-line max-len */}
+                { }
                 {prioritizationResponse?.prioritized_action_responses?.map((componentResponse) => (
                     <PrioritizedActionInput
                         key={componentResponse.component}

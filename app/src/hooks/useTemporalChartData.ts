@@ -6,9 +6,9 @@ import {
 } from 'react';
 import { useSizeTracking } from '@ifrc-go/ui/hooks';
 import {
-    Bounds,
-    ChartScale,
-    DateLike,
+    type Bounds,
+    type ChartScale,
+    type DateLike,
     formatNumber,
     getBounds,
     getChartDimensions,
@@ -20,7 +20,7 @@ import {
     getTemporalDiff,
     maxSafe,
     minSafe,
-    Rect,
+    type Rect,
 } from '@ifrc-go/ui/utils';
 import {
     bound,

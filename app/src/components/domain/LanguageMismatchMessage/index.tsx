@@ -1,5 +1,5 @@
 import { Message } from '@ifrc-go/ui';
-import { Language } from '@ifrc-go/ui/contexts';
+import { type Language } from '@ifrc-go/ui/contexts';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     languageNameMapEn,

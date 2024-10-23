@@ -206,7 +206,6 @@ function CountryThreeWMap(props: Props) {
                 return undefined;
             }
 
-            // eslint-disable-next-line max-len
             const selectedDistrictProjectList = districtGroupedProjects[id];
 
             if (isNotDefined(selectedDistrictProjectList)) {

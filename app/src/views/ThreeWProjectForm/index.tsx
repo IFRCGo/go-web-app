@@ -1049,7 +1049,6 @@ export function Component() {
                             )}
                             readOnly
                             name={undefined}
-                            // eslint-disable-next-line @typescript-eslint/no-empty-function
                             onChange={() => {}}
                         />
                         <Checkbox

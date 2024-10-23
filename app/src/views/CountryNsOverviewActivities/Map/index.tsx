@@ -438,7 +438,7 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
                             />
                         </MapSource>
                     )}
-                    {/* eslint-disable-next-line max-len */}
+                    { }
                     {clickedPointProperties?.lngLat
                         && isDefined(projectCountryId)
                         && (

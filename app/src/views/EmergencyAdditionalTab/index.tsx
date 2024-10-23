@@ -34,7 +34,7 @@ export function Component(props: Props) {
 
     if (isDefined(additionalTab) && `#${additionalTab.tabId}` === location.hash) {
         const newPath = generatePath(
-            // eslint-disable-next-line react/destructuring-assignment
+
             routes.emergencyAdditionalInfo.absoluteForwardPath,
             {
                 ...urlParams,

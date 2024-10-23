@@ -282,7 +282,7 @@ function CombinedChart(props: Props) {
                                 const numItems = hazardListForDisplay.length;
 
                                 const width = Math.max(
-                                    // eslint-disable-next-line max-len
+
                                     (xAxisDiff / numItems) - offsetX * 2,
                                     0,
                                 );
@@ -306,13 +306,11 @@ function CombinedChart(props: Props) {
                                                     {selectedRiskMetricDetail.key === 'riskScore' ? (
                                                         <TextOutput
                                                             label={strings.riskScoreLabel}
-                                                            // eslint-disable-next-line max-len
                                                             value={riskCategoryToLabelMap[value]}
                                                             strongValue
                                                         />
                                                     ) : (
                                                         <TextOutput
-                                                            // eslint-disable-next-line max-len
                                                             label={selectedRiskMetricDetail.label}
                                                             value={value}
                                                             valueType="number"

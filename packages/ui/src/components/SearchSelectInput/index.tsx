@@ -29,7 +29,6 @@ type OptionKey = string | number;
 export type Props<
     OPTION_KEY extends OptionKey,
     NAME,
-    // eslint-disable-next-line @typescript-eslint/ban-types
     OPTION extends object,
     RENDER_PROPS extends Def,
     OMISSION extends string,
@@ -100,7 +99,6 @@ const emptyList: unknown[] = [];
 function SearchSelectInput<
     OPTION_KEY extends OptionKey,
     const NAME,
-    // eslint-disable-next-line @typescript-eslint/ban-types
     OPTION extends object,
     RENDER_PROPS extends Def,
 >(

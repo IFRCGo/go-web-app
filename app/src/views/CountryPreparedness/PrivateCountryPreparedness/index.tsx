@@ -72,10 +72,8 @@ type PerDocumentListItem = NonNullable<PerDocumentUploadResponse['results']>[num
 
 const MAX_PER_DOCUMENT_COUNT = 10;
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 const noOp = () => {};
 
-// eslint-disable-next-line import/prefer-default-export
 function PrivateCountryPreparedness() {
     const strings = useTranslation(i18n);
     const { perId, countryId } = useParams<{ perId: string, countryId: string }>();

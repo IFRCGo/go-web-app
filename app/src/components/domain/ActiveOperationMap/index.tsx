@@ -161,7 +161,6 @@ function ActiveOperationMap(props: Props) {
     const regionId = variant === 'region' ? props.regionId : undefined;
     // eslint-disable-next-line react/destructuring-assignment
     const countryId = variant === 'country' ? props.countryId : undefined;
-    // eslint-disable-next-line react/destructuring-assignment
 
     const query = useMemo<AppealQueryParams>(
         () => {

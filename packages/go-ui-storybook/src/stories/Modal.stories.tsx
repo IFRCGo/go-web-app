@@ -55,7 +55,7 @@ function Template(args:Args) {
         onClose();
     }, [onClose]);
     return (
-        // eslint-disable-next-line react/jsx-no-useless-fragment
+
         <>
             <Button
                 name={undefined}
