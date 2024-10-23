@@ -306,7 +306,23 @@ export async function readTranslations(fileNames: string[]) {
             }),
         );
     });
-    return translations;
+
+    const metadata = filesContents.map((fileContent) => {
+        // TODO: validate the schema for content
+        const {
+            file,
+            content,
+        } = fileContent as {
+            file: string,
+            content: TranslationFileContent,
+        };
+        return {
+            fileName: file,
+            namespace: content.namespace,
+        };
+    });
+
+    return { translations, metadata };
 }
 
 export async function readMigrations(fileNames: string[]) {

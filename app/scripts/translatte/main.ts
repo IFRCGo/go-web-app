@@ -184,4 +184,5 @@ yargs(hideBin(process.argv))
         },
     )
     .strictCommands()
+    .showHelpOnFail(false)
     .parse()
