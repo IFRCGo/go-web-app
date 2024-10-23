@@ -1,0 +1,1741 @@
+{
+    "parent": "000003-1712631208970.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "externalConnectionMontandonDescription",
+            "namespace": "accountDetails",
+            "value": "The Montandon is the world’s largest disaster database: a public good with applications beyond IFRC. It contains information about natural hazards (both forecasted and observed), their impacts (also modeled and observed) as well as what actions were taken when, where, by whom and to what effect."
+        },
+        {
+            "action": "add",
+            "key": "externalConnectionMontandonTitle",
+            "namespace": "accountDetails",
+            "value": "Montandon - Global Crisis Data Bank"
+        },
+        {
+            "action": "add",
+            "key": "externalConnectionsDescription",
+            "namespace": "accountDetails",
+            "value": "You can connect and recieve the data to use it in the external platform or dashboard using the GO APIs. You'll need an access token to make the connection."
+        },
+        {
+            "action": "add",
+            "key": "externalConnectionsTitle",
+            "namespace": "accountDetails",
+            "value": "External Connections"
+        },
+        {
+            "action": "add",
+            "key": "generateNewTokenLabel",
+            "namespace": "accountDetails",
+            "value": "Generate new token"
+        },
+        {
+            "action": "add",
+            "key": "viewMoreDetailsLabel",
+            "namespace": "accountDetails",
+            "value": "View more details"
+        },
+        {
+            "action": "add",
+            "key": "latitude",
+            "namespace": "common",
+            "value": "Latitude"
+        },
+        {
+            "action": "add",
+            "key": "longitude",
+            "namespace": "common",
+            "value": "Longitude"
+        },
+        {
+            "action": "remove",
+            "key": "alertCopyErrorDetails",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "booleanNoLabel",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "booleanYesLabel",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "buttonCancel",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "buttonOk",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "buttonTitleClear",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "buttonTitleClose",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "buttonTitleOpen",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "buttonTitleSelect",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "buttonTitleTab",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "closeButtonLabel",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "closeButtonTitle",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "confirmation",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "confirmMessage",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "expandableContainerCollapse",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "expandableContainerExpand",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "gridEmptyMessage",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "gridFailedToFetch",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "gridFilteredMessage",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "gridPendingMessage",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "hidePassword",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "infoMessageAnd",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "infoMessageMore",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "messageTitleDataFailedToFetch",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "messageTitleDataNotAvailable",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "messageTitleFetching",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "messageTitleFilterdDataNotAvailable",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "noLabel",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "rawButtonGoTo",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "rawButtonGoToPage",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "reducedListDisplayMoreLabel",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "selectInputEmptyMessage",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "selectInputErrorMessage",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "selectInputFilteredMessage",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "selectInputPendingMessage",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "showPassword",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "sortTableButtonTitle",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "yesLabel",
+            "namespace": "common"
+        },
+        {
+            "action": "add",
+            "key": "countryHistoricalDREFOperations",
+            "namespace": "countryHistoricalKeyFigures",
+            "value": "DREF Operations"
+        },
+        {
+            "action": "add",
+            "key": "countryHistoricalFigureEmergencyAppealDescription",
+            "namespace": "countryHistoricalKeyFigures",
+            "value": "These are medium to large scale emergency operations funded through a public appeal for funds."
+        },
+        {
+            "action": "add",
+            "key": "keyFiguresAppealsFundingCoverage",
+            "namespace": "countryHistoricalKeyFigures",
+            "value": "Funding Coverage"
+        },
+        {
+            "action": "add",
+            "key": "keyFiguresDref",
+            "namespace": "countryHistoricalKeyFigures",
+            "value": "These are small to medium scale emergency operations funded through the Disaster Relief Emergency Fund (DREF).The DREF provides immediate financial support to National Red Cross and Red Crescent Societies, enabling them to carry out their unique role as first responders after a disaster."
+        },
+        {
+            "action": "add",
+            "key": "keyFiguresDrefTitle",
+            "namespace": "countryHistoricalKeyFigures",
+            "value": "DREF"
+        },
+        {
+            "action": "add",
+            "key": "keyFiguresEmergencyAppeals",
+            "namespace": "countryHistoricalKeyFigures",
+            "value": "Emergency Appeals"
+        },
+        {
+            "action": "add",
+            "key": "keyFiguresEmergencyAppealTitle",
+            "namespace": "countryHistoricalKeyFigures",
+            "value": "Emergency Appeal"
+        },
+        {
+            "action": "add",
+            "key": "keyFiguresFundingRequirements",
+            "namespace": "countryHistoricalKeyFigures",
+            "value": "Funding Requirements"
+        },
+        {
+            "action": "add",
+            "key": "keyFiguresTargetPopulation",
+            "namespace": "countryHistoricalKeyFigures",
+            "value": "Targeted Population"
+        },
+        {
+            "action": "add",
+            "key": "globalOCAC",
+            "namespace": "countryNsCapacityStrengthening",
+            "value": "Global OCAC Assessments Overview"
+        },
+        {
+            "action": "add",
+            "key": "moreDetails",
+            "namespace": "countryNsCapacityStrengthening",
+            "value": "More Details"
+        },
+        {
+            "action": "remove",
+            "key": "capacityListItemViewDetails",
+            "namespace": "countryNsCapacityStrengthening"
+        },
+        {
+            "action": "remove",
+            "key": "ifrc",
+            "namespace": "countryNsCapacityStrengthening"
+        },
+        {
+            "action": "remove",
+            "key": "viewDetails",
+            "namespace": "countryNsCapacityStrengthening"
+        },
+        {
+            "action": "update",
+            "key": "source",
+            "namespace": "countryNsCapacityStrengthening",
+            "newNamespace": "countryNsOverviewStrategicPriorities"
+        },
+        {
+            "action": "add",
+            "key": "partnersTabTitle",
+            "namespace": "countryNsOverview",
+            "value": "Partners"
+        },
+        {
+            "action": "remove",
+            "key": "supportingPartnersTabTitle",
+            "namespace": "countryNsOverview"
+        },
+        {
+            "action": "add",
+            "key": "nsActivitiesTitle",
+            "namespace": "countryNsOverviewActivities",
+            "value": "NS Activities ({count})"
+        },
+        {
+            "action": "remove",
+            "key": "nsInternationalWorkHeading",
+            "namespace": "countryNsOverviewActivities"
+        },
+        {
+            "action": "remove",
+            "key": "nsInternationalWorkTitle",
+            "namespace": "countryNsOverviewActivities"
+        },
+        {
+            "action": "update",
+            "key": "nSActivityDescription",
+            "namespace": "countryNsOverviewActivities",
+            "newValue": "The following data displays international and domestic activities of the National Society reported through GO, which may include emergency and non-emergency related projects. The displayed data is based on reporting and so may not include all the activities of the National Society."
+        },
+        {
+            "action": "add",
+            "key": "moreDetails",
+            "namespace": "countryNsOverviewCapacity",
+            "value": "More Details"
+        },
+        {
+            "action": "add",
+            "key": "perGlobalSummary",
+            "namespace": "countryNsOverviewCapacity",
+            "value": "PER Global Summary"
+        },
+        {
+            "action": "remove",
+            "key": "sourceFDRS",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "fdrs",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "newNamespace": "countryPresence"
+        },
+        {
+            "action": "update",
+            "key": "incomeSourceBreakdownHeading",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "newNamespace": "nationalSocietyIncomeSourceBreakdown"
+        },
+        {
+            "action": "update",
+            "key": "incomeSourceBreakdownNotAvailableMessage",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "newNamespace": "nationalSocietyIncomeSourceBreakdown"
+        },
+        {
+            "action": "update",
+            "key": "nsIncomeOverTimeChartAxisLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "newNamespace": "nationalSocietyIncomeOverTime"
+        },
+        {
+            "action": "update",
+            "key": "nsIncomeOverTimeHeading",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "newNamespace": "nationalSocietyIncomeOverTime"
+        },
+        {
+            "action": "update",
+            "key": "nsIncomeOverTimeTooltipTotalLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "newNamespace": "nationalSocietyIncomeOverTime"
+        },
+        {
+            "action": "update",
+            "key": "source",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "newNamespace": "nationalSocietyDevelopmentInitiatives"
+        },
+        {
+            "action": "update",
+            "key": "sourceLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "newNamespace": "nationalSocietyIncomeOverTime"
+        },
+        {
+            "action": "add",
+            "key": "countryPlan",
+            "namespace": "countryNsOverviewStrategicPriorities",
+            "value": "IFRC Network Plan"
+        },
+        {
+            "action": "add",
+            "key": "countryPlanInternal",
+            "namespace": "countryNsOverviewStrategicPriorities",
+            "value": "Unified Plan"
+        },
+        {
+            "action": "add",
+            "key": "strategicPlan",
+            "namespace": "countryNsOverviewStrategicPriorities",
+            "value": "NS Strategic Plan ({year})"
+        },
+        {
+            "action": "add",
+            "key": "unifiedPlanning",
+            "namespace": "countryNsOverviewStrategicPriorities",
+            "value": "IFRC Unified Planning"
+        },
+        {
+            "action": "remove",
+            "key": "countryPlanDownloadPlan",
+            "namespace": "countryNsOverviewStrategicPriorities"
+        },
+        {
+            "action": "remove",
+            "key": "countryPlanDownloadPlanInternal",
+            "namespace": "countryNsOverviewStrategicPriorities"
+        },
+        {
+            "action": "remove",
+            "key": "notAvailableMessage",
+            "namespace": "countryNsOverviewStrategicPriorities"
+        },
+        {
+            "action": "add",
+            "key": "countryIFRCDelegationType",
+            "namespace": "countryPresence",
+            "value": "Office Type"
+        },
+        {
+            "action": "add",
+            "key": "countryIFRCLocation",
+            "namespace": "countryPresence",
+            "value": "Location"
+        },
+        {
+            "action": "remove",
+            "key": "ifrc",
+            "namespace": "countryPresence"
+        },
+        {
+            "action": "update",
+            "key": "countryIFRCPresenceHeadOfDelegation",
+            "namespace": "countryPresence",
+            "newValue": "Head of {delegationOfficeType}"
+        },
+        {
+            "action": "remove",
+            "key": "dataLoadFailureMessage",
+            "namespace": "countryProfilePreviousEvents"
+        },
+        {
+            "action": "add",
+            "key": "returnPeriodIfrcMontandon",
+            "namespace": "countryProfileRiskWatch",
+            "value": "UNDRR, World Bank / GFDRR and IDMC"
+        },
+        {
+            "action": "add",
+            "key": "returnPeriodSource",
+            "namespace": "countryProfileRiskWatch",
+            "value": "Source"
+        },
+        {
+            "action": "add",
+            "key": "unifiedPlanning",
+            "namespace": "countryProfileSupportingPartners",
+            "value": "IFRC Unified Planning"
+        },
+        {
+            "action": "remove",
+            "key": "gotoIfrcLinkLabel",
+            "namespace": "countryProfileSupportingPartners"
+        },
+        {
+            "action": "add",
+            "key": "idmc",
+            "namespace": "countryRiskSourcesOutput",
+            "value": "IDMC"
+        },
+        {
+            "action": "add",
+            "key": "inform",
+            "namespace": "countryRiskSourcesOutput",
+            "value": "INFORM"
+        },
+        {
+            "action": "add",
+            "key": "ipc",
+            "namespace": "countryRiskSourcesOutput",
+            "value": "IPC"
+        },
+        {
+            "action": "add",
+            "key": "source",
+            "namespace": "countryRiskSourcesOutput",
+            "value": "Source"
+        },
+        {
+            "action": "add",
+            "key": "sourceIDMC",
+            "namespace": "countryRiskSourcesOutput",
+            "value": "{link} for the expected displacements"
+        },
+        {
+            "action": "add",
+            "key": "sourceINFORM",
+            "namespace": "countryRiskSourcesOutput",
+            "value": "{link} for each country's level of risk"
+        },
+        {
+            "action": "add",
+            "key": "sourceIPC",
+            "namespace": "countryRiskSourcesOutput",
+            "value": "{link} for food insecurity"
+        },
+        {
+            "action": "add",
+            "key": "sourceUNDRR",
+            "namespace": "countryRiskSourcesOutput",
+            "value": "{link} for the population exposure"
+        },
+        {
+            "action": "add",
+            "key": "undrr",
+            "namespace": "countryRiskSourcesOutput",
+            "value": "UNDRR"
+        },
+        {
+            "action": "add",
+            "key": "acceptButtonLabel",
+            "namespace": "generateMontandonTokenModal",
+            "value": "Accept & Generate"
+        },
+        {
+            "action": "add",
+            "key": "cancelButtonLabel",
+            "namespace": "generateMontandonTokenModal",
+            "value": "Cancel"
+        },
+        {
+            "action": "add",
+            "key": "description",
+            "namespace": "generateMontandonTokenModal",
+            "value": "By clicking 'Accept & Generate' button, you'll  accept the {termsLink} of the Montandon API. Please make sure to review it."
+        },
+        {
+            "action": "add",
+            "key": "doneButtonLabel",
+            "namespace": "generateMontandonTokenModal",
+            "value": "Done"
+        },
+        {
+            "action": "add",
+            "key": "termsAndConditionLabel",
+            "namespace": "generateMontandonTokenModal",
+            "value": "Terms & Conditions"
+        },
+        {
+            "action": "add",
+            "key": "title",
+            "namespace": "generateMontandonTokenModal",
+            "value": "Generate token for Montandon"
+        },
+        {
+            "action": "add",
+            "key": "titleInputHint",
+            "namespace": "generateMontandonTokenModal",
+            "value": "Note: title should contain at least {minCharacters} characters"
+        },
+        {
+            "action": "add",
+            "key": "titleInputLabel",
+            "namespace": "generateMontandonTokenModal",
+            "value": "Title for token"
+        },
+        {
+            "action": "add",
+            "key": "titleInputPlaceholder",
+            "namespace": "generateMontandonTokenModal",
+            "value": "Enter a descriptive title for the token"
+        },
+        {
+            "action": "add",
+            "key": "tokenNote",
+            "namespace": "generateMontandonTokenModal",
+            "value": "Please make sure to copy and store the token safely. Once you close this modal, you'll not be able to see the token again!"
+        },
+        {
+            "action": "add",
+            "key": "address",
+            "namespace": "localUnitsForm",
+            "value": "Address"
+        },
+        {
+            "action": "add",
+            "key": "addressAndContactTitle",
+            "namespace": "localUnitsForm",
+            "value": "Address and Contact"
+        },
+        {
+            "action": "add",
+            "key": "affiliation",
+            "namespace": "localUnitsForm",
+            "value": "Affiliation"
+        },
+        {
+            "action": "add",
+            "key": "ambulanceTypeA",
+            "namespace": "localUnitsForm",
+            "value": "Ambulance Type A"
+        },
+        {
+            "action": "add",
+            "key": "ambulanceTypeB",
+            "namespace": "localUnitsForm",
+            "value": "Ambulance Type B"
+        },
+        {
+            "action": "add",
+            "key": "ambulanceTypeC",
+            "namespace": "localUnitsForm",
+            "value": "Ambulance Type C"
+        },
+        {
+            "action": "add",
+            "key": "bloodServices",
+            "namespace": "localUnitsForm",
+            "value": "Blood Services"
+        },
+        {
+            "action": "add",
+            "key": "coldChain",
+            "namespace": "localUnitsForm",
+            "value": "Cold chain"
+        },
+        {
+            "action": "add",
+            "key": "commentsNS",
+            "namespace": "localUnitsForm",
+            "value": "Comments by the NS"
+        },
+        {
+            "action": "add",
+            "key": "country",
+            "namespace": "localUnitsForm",
+            "value": "Country"
+        },
+        {
+            "action": "add",
+            "key": "coverage",
+            "namespace": "localUnitsForm",
+            "value": "Coverage"
+        },
+        {
+            "action": "add",
+            "key": "dateOfUpdate",
+            "namespace": "localUnitsForm",
+            "value": "Date of update"
+        },
+        {
+            "action": "add",
+            "key": "dentist",
+            "namespace": "localUnitsForm",
+            "value": "Dentist"
+        },
+        {
+            "action": "add",
+            "key": "email",
+            "namespace": "localUnitsForm",
+            "value": "Local unit email"
+        },
+        {
+            "action": "add",
+            "key": "englishLabel",
+            "namespace": "localUnitsForm",
+            "value": "English"
+        },
+        {
+            "action": "add",
+            "key": "facilityCapacityTitle",
+            "namespace": "localUnitsForm",
+            "value": "Facility Capacity"
+        },
+        {
+            "action": "add",
+            "key": "facilityCategoryTitle",
+            "namespace": "localUnitsForm",
+            "value": "Facility Category"
+        },
+        {
+            "action": "add",
+            "key": "failedMessage",
+            "namespace": "localUnitsForm",
+            "value": "Failed to add local unit"
+        },
+        {
+            "action": "add",
+            "key": "focalPerson",
+            "namespace": "localUnitsForm",
+            "value": "Focal person name"
+        },
+        {
+            "action": "add",
+            "key": "focalPointEmail",
+            "namespace": "localUnitsForm",
+            "value": "Email"
+        },
+        {
+            "action": "add",
+            "key": "focalPointLabel",
+            "namespace": "localUnitsForm",
+            "value": "Focal point"
+        },
+        {
+            "action": "add",
+            "key": "focalPointName",
+            "namespace": "localUnitsForm",
+            "value": "Name"
+        },
+        {
+            "action": "add",
+            "key": "focalPointPhoneNumber",
+            "namespace": "localUnitsForm",
+            "value": "Phone number"
+        },
+        {
+            "action": "add",
+            "key": "focalPointPosition",
+            "namespace": "localUnitsForm",
+            "value": "Position"
+        },
+        {
+            "action": "add",
+            "key": "functionality",
+            "namespace": "localUnitsForm",
+            "value": "Functionality"
+        },
+        {
+            "action": "add",
+            "key": "generalMedicalServices",
+            "namespace": "localUnitsForm",
+            "value": "General medical services"
+        },
+        {
+            "action": "add",
+            "key": "generalPractitioner",
+            "namespace": "localUnitsForm",
+            "value": "General Practitioner"
+        },
+        {
+            "action": "add",
+            "key": "healthCareDetails",
+            "namespace": "localUnitsForm",
+            "value": "Health care details"
+        },
+        {
+            "action": "add",
+            "key": "healthFacilityType",
+            "namespace": "localUnitsForm",
+            "value": "Health Facility type"
+        },
+        {
+            "action": "add",
+            "key": "hospitalType",
+            "namespace": "localUnitsForm",
+            "value": "Hospital type"
+        },
+        {
+            "action": "add",
+            "key": "humanResourcesTitle",
+            "namespace": "localUnitsForm",
+            "value": "Human Resources"
+        },
+        {
+            "action": "add",
+            "key": "inPatientCapacity",
+            "namespace": "localUnitsForm",
+            "value": "In-patient capacity"
+        },
+        {
+            "action": "add",
+            "key": "isolationRoomsWards",
+            "namespace": "localUnitsForm",
+            "value": "Isolation rooms wards"
+        },
+        {
+            "action": "add",
+            "key": "locality",
+            "namespace": "localUnitsForm",
+            "value": "Locality"
+        },
+        {
+            "action": "add",
+            "key": "localLabel",
+            "namespace": "localUnitsForm",
+            "value": "Local"
+        },
+        {
+            "action": "add",
+            "key": "localUnitDetail",
+            "namespace": "localUnitsForm",
+            "value": "Local Unit detail"
+        },
+        {
+            "action": "add",
+            "key": "localUnitName",
+            "namespace": "localUnitsForm",
+            "value": "Local unit name"
+        },
+        {
+            "action": "add",
+            "key": "maximumCapacity",
+            "namespace": "localUnitsForm",
+            "value": "Maximum capacity"
+        },
+        {
+            "action": "add",
+            "key": "midwife",
+            "namespace": "localUnitsForm",
+            "value": "Midwife"
+        },
+        {
+            "action": "add",
+            "key": "numberOfIsolationRooms",
+            "namespace": "localUnitsForm",
+            "value": "Number of isolation rooms"
+        },
+        {
+            "action": "add",
+            "key": "nurse",
+            "namespace": "localUnitsForm",
+            "value": "Nurse"
+        },
+        {
+            "action": "add",
+            "key": "nursingAid",
+            "namespace": "localUnitsForm",
+            "value": "Nursing aid"
+        },
+        {
+            "action": "add",
+            "key": "otherAffiliation",
+            "namespace": "localUnitsForm",
+            "value": "Other Affiliation"
+        },
+        {
+            "action": "add",
+            "key": "otherFacilityType",
+            "namespace": "localUnitsForm",
+            "value": "Other Facility type"
+        },
+        {
+            "action": "add",
+            "key": "otherMedicalHeal",
+            "namespace": "localUnitsForm",
+            "value": "Other medical heal"
+        },
+        {
+            "action": "add",
+            "key": "otherProfiles",
+            "namespace": "localUnitsForm",
+            "value": "Other profiles"
+        },
+        {
+            "action": "add",
+            "key": "otherServices",
+            "namespace": "localUnitsForm",
+            "value": "Other Services"
+        },
+        {
+            "action": "add",
+            "key": "phone",
+            "namespace": "localUnitsForm",
+            "value": "Local unit phone number"
+        },
+        {
+            "action": "add",
+            "key": "postCode",
+            "namespace": "localUnitsForm",
+            "value": "Local unit post code"
+        },
+        {
+            "action": "add",
+            "key": "primaryHealthCareCenter",
+            "namespace": "localUnitsForm",
+            "value": "Primary health care center"
+        },
+        {
+            "action": "add",
+            "key": "professionalTrainingFacilities",
+            "namespace": "localUnitsForm",
+            "value": "Professional training facilities"
+        },
+        {
+            "action": "add",
+            "key": "residentsDoctor",
+            "namespace": "localUnitsForm",
+            "value": "Residents doctor"
+        },
+        {
+            "action": "add",
+            "key": "servicesTitle",
+            "namespace": "localUnitsForm",
+            "value": "Services"
+        },
+        {
+            "action": "add",
+            "key": "source",
+            "namespace": "localUnitsForm",
+            "value": "Source"
+        },
+        {
+            "action": "add",
+            "key": "specialist",
+            "namespace": "localUnitsForm",
+            "value": "Specialist"
+        },
+        {
+            "action": "add",
+            "key": "specializedMedicalService",
+            "namespace": "localUnitsForm",
+            "value": "Specialized medical beyond primary level"
+        },
+        {
+            "action": "add",
+            "key": "specialties",
+            "namespace": "localUnitsForm",
+            "value": "Specialties"
+        },
+        {
+            "action": "add",
+            "key": "submitButtonLabel",
+            "namespace": "localUnitsForm",
+            "value": "Submit"
+        },
+        {
+            "action": "add",
+            "key": "subtype",
+            "namespace": "localUnitsForm",
+            "value": "Sub-type"
+        },
+        {
+            "action": "add",
+            "key": "subtypeDescription",
+            "namespace": "localUnitsForm",
+            "value": "(e.g. hospital)"
+        },
+        {
+            "action": "add",
+            "key": "successMessage",
+            "namespace": "localUnitsForm",
+            "value": "Local unit added successfully!"
+        },
+        {
+            "action": "add",
+            "key": "teachingHospital",
+            "namespace": "localUnitsForm",
+            "value": "Teaching Hospital"
+        },
+        {
+            "action": "add",
+            "key": "totalNumberOfHumanResources",
+            "namespace": "localUnitsForm",
+            "value": "Total number of human resource"
+        },
+        {
+            "action": "add",
+            "key": "type",
+            "namespace": "localUnitsForm",
+            "value": "Local unit type"
+        },
+        {
+            "action": "add",
+            "key": "updateFailedMessage",
+            "namespace": "localUnitsForm",
+            "value": "Failed to update local unit"
+        },
+        {
+            "action": "add",
+            "key": "updateMessage",
+            "namespace": "localUnitsForm",
+            "value": "Local unit updated successfully!"
+        },
+        {
+            "action": "add",
+            "key": "visibility",
+            "namespace": "localUnitsForm",
+            "value": "Visibility"
+        },
+        {
+            "action": "add",
+            "key": "warehousing",
+            "namespace": "localUnitsForm",
+            "value": "Warehousing"
+        },
+        {
+            "action": "add",
+            "key": "website",
+            "namespace": "localUnitsForm",
+            "value": "Local unit website"
+        },
+        {
+            "action": "add",
+            "key": "deleteLocalUnitHeading",
+            "namespace": "localUnitsTableActions",
+            "value": "Delete Local Unit Confirmation"
+        },
+        {
+            "action": "add",
+            "key": "deleteLocalUnitMessage",
+            "namespace": "localUnitsTableActions",
+            "value": "Are you sure you want to delete \"{localUnitName}\"?"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsDelete",
+            "namespace": "localUnitsTableActions",
+            "value": "Delete"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsEdit",
+            "namespace": "localUnitsTableActions",
+            "value": "Edit"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsValidate",
+            "namespace": "localUnitsTableActions",
+            "value": "Validate"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsView",
+            "namespace": "localUnitsTableActions",
+            "value": "View"
+        },
+        {
+            "action": "add",
+            "key": "validateLocalUnitHeading",
+            "namespace": "localUnitsTableActions",
+            "value": "Validate Local Unit Confirmation"
+        },
+        {
+            "action": "add",
+            "key": "validateLocalUnitMessage",
+            "namespace": "localUnitsTableActions",
+            "value": "Are you sure you want to validate \"{localUnitName}\"?"
+        },
+        {
+            "action": "add",
+            "key": "validationMessage",
+            "namespace": "localUnitsTableActions",
+            "value": "{localUnitName} was validated."
+        },
+        {
+            "action": "add",
+            "key": "ifrcNSDFunds",
+            "namespace": "nationalSocietyDevelopmentInitiatives",
+            "value": "IFRC NSD Funds"
+        },
+        {
+            "action": "remove",
+            "key": "ifrc",
+            "namespace": "nationalSocietyDirectory"
+        },
+        {
+            "action": "add",
+            "key": "sourceFDRS",
+            "namespace": "nationalSocietyIncomeOverTime",
+            "value": "{nationalSociety} on FDRS"
+        },
+        {
+            "action": "add",
+            "key": "incomeSourceBreakdownSource",
+            "namespace": "nationalSocietyIncomeSourceBreakdown",
+            "value": "{nationalSociety} on FDRS"
+        },
+        {
+            "action": "add",
+            "key": "incomeSourceBreakdownSourceLabel",
+            "namespace": "nationalSocietyIncomeSourceBreakdown",
+            "value": "Source"
+        },
+        {
+            "action": "add",
+            "key": "sourceFDRS",
+            "namespace": "nationalSocietyIndicators",
+            "value": "{nationalSociety} on FDRS"
+        },
+        {
+            "action": "remove",
+            "key": "fdrs",
+            "namespace": "nationalSocietyIndicators"
+        },
+        {
+            "action": "add",
+            "key": "sourceFDRS",
+            "namespace": "nationalSocietyKeyDocuments",
+            "value": "{nationalSociety} on FDRS"
+        },
+        {
+            "action": "remove",
+            "key": "ifrc",
+            "namespace": "nationalSocietyKeyDocuments"
+        },
+        {
+            "action": "add",
+            "key": "addLocalUnitLabel",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Add a Local Unit"
+        },
+        {
+            "action": "add",
+            "key": "closePresentationLabel",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Close"
+        },
+        {
+            "action": "add",
+            "key": "localUnitHealthFacilityType",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Health Facility Type"
+        },
+        {
+            "action": "add",
+            "key": "localUnitLegendHealthCareTitle",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Health Care Local Units"
+        },
+        {
+            "action": "add",
+            "key": "localUnitLegendLocalUnitTitle",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Local Units"
+        },
+        {
+            "action": "add",
+            "key": "localUnitLocalUnitType",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Local Unit Type"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsListView",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "List view"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsMapView",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Map view"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsModalHeading",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Local Unit Form"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsTableAddress",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Address"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsTableEmail",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Email"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsTableFocal",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Focal Person"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsTableName",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Name"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsTablePhoneNumber",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Phone Number"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsTableType",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Type"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsTableValidated",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Validated"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsTitle",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "NS Local Units"
+        },
+        {
+            "action": "add",
+            "key": "localUnitTooltipMoreDetails",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "More Details"
+        },
+        {
+            "action": "add",
+            "key": "presentationModeButton",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Presentation Mode"
+        },
+        {
+            "action": "remove",
+            "key": "editLocalUnitLink",
+            "namespace": "nationalSocietyLocalUnitsMap"
+        },
+        {
+            "action": "remove",
+            "key": "localUnitsFilterClear",
+            "namespace": "nationalSocietyLocalUnitsMap"
+        },
+        {
+            "action": "remove",
+            "key": "localUnitsMapTitle",
+            "namespace": "nationalSocietyLocalUnitsMap"
+        },
+        {
+            "action": "update",
+            "key": "localUnitDetailAddress",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "newNamespace": "nationalSocietyLocalUnits"
+        },
+        {
+            "action": "update",
+            "key": "localUnitDetailAddressValue",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "newNamespace": "nationalSocietyLocalUnits"
+        },
+        {
+            "action": "update",
+            "key": "localUnitDetailEmail",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "newNamespace": "nationalSocietyLocalUnits"
+        },
+        {
+            "action": "update",
+            "key": "localUnitDetailFocalPerson",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "newNamespace": "nationalSocietyLocalUnits"
+        },
+        {
+            "action": "update",
+            "key": "localUnitDetailLastUpdate",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "newNamespace": "nationalSocietyLocalUnits"
+        },
+        {
+            "action": "update",
+            "key": "localUnitDetailPhoneNumber",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "newNamespace": "nationalSocietyLocalUnits"
+        },
+        {
+            "action": "update",
+            "key": "localUnitDetailType",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "newNamespace": "nationalSocietyLocalUnits"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsFilterSearchLabel",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "newNamespace": "nsLocalUnitsFilters"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsFilterSearchPlaceholderLabel",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "newNamespace": "nsLocalUnitsFilters"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsFilterTypeLabel",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "newNamespace": "nsLocalUnitsFilters"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsFilterTypePlaceholder",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "newNamespace": "nsLocalUnitsFilters"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsFilterValidatedLabel",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "newNamespace": "nsLocalUnitsFilters"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsFilterValidatedPlaceholder",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "newNamespace": "nsLocalUnitsFilters"
+        },
+        {
+            "action": "update",
+            "key": "notValidated",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "newNamespace": "nsLocalUnitsFilters"
+        },
+        {
+            "action": "update",
+            "key": "validated",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "newNamespace": "nsLocalUnitsFilters"
+        },
+        {
+            "action": "remove",
+            "key": "ifrc",
+            "namespace": "nsDirectoryInitiatives"
+        },
+        {
+            "action": "update",
+            "key": "nSDirectoryInitiativesDescription",
+            "namespace": "nsDirectoryInitiatives",
+            "newNamespace": "nationalSocietyDevelopmentInitiatives"
+        },
+        {
+            "action": "update",
+            "key": "nSDirectoryInitiativesTitle",
+            "namespace": "nsDirectoryInitiatives",
+            "newNamespace": "nationalSocietyDevelopmentInitiatives"
+        },
+        {
+            "action": "update",
+            "key": "source",
+            "namespace": "nsDirectoryInitiatives",
+            "newNamespace": "countryProfileSupportingPartners"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsFilterClear",
+            "namespace": "nsLocalUnitsFilters",
+            "value": "Clear filters"
+        },
+        {
+            "action": "add",
+            "key": "catalogueCMR",
+            "namespace": "surgeCatalogue",
+            "value": "Civil Military Relations (CMR)"
+        },
+        {
+            "action": "add",
+            "key": "catalogueDDR",
+            "namespace": "surgeCatalogue",
+            "value": "Disaster Risk Reduction (DRR)"
+        },
+        {
+            "action": "add",
+            "key": "catalogueGR",
+            "namespace": "surgeCatalogue",
+            "value": "Green Response (GR)"
+        },
+        {
+            "action": "add",
+            "key": "catalogueHR",
+            "namespace": "surgeCatalogue",
+            "value": "Human Resources (HR)"
+        },
+        {
+            "action": "add",
+            "key": "catalogueIDRL",
+            "namespace": "surgeCatalogue",
+            "value": "International Disaster Response Law (IDRL)"
+        },
+        {
+            "action": "add",
+            "key": "catalogueMigration",
+            "namespace": "surgeCatalogue",
+            "value": "Migration"
+        },
+        {
+            "action": "add",
+            "key": "catalogueNSD",
+            "namespace": "surgeCatalogue",
+            "value": "National Society Development (NSD)"
+        },
+        {
+            "action": "add",
+            "key": "cataloguePER",
+            "namespace": "surgeCatalogue",
+            "value": "Preparedness for Effective Response (PER)"
+        },
+        {
+            "action": "add",
+            "key": "catalogueRecovery",
+            "namespace": "surgeCatalogue",
+            "value": "Recovery"
+        },
+        {
+            "action": "add",
+            "key": "catalogueSPRD",
+            "namespace": "surgeCatalogue",
+            "value": "Strategic Partnerships and Resource Mobilisation (SPRM)"
+        },
+        {
+            "action": "add",
+            "key": "catalogueUAV",
+            "namespace": "surgeCatalogue",
+            "value": "Drones – Uncrewed Aerial Vehicles (UAV)"
+        },
+        {
+            "action": "remove",
+            "key": "catalogueOther",
+            "namespace": "surgeCatalogue"
+        },
+        {
+            "action": "update",
+            "key": "catalogueLivelihoodsAndBasicNeeds",
+            "namespace": "surgeCatalogue",
+            "newValue": "Livelihoods and Basic Needs (LBN)"
+        },
+        {
+            "action": "add",
+            "key": "technicalCompetencyFramework",
+            "namespace": "surgeCatalogueLivelihood",
+            "value": "Technical Competency Framework"
+        },
+        {
+            "action": "add",
+            "key": "technicalCompetencyFrameworkDetails",
+            "namespace": "surgeCatalogueLivelihood",
+            "value": "Tiered competencies describing the knowledge and skills expected of personnel in this sector."
+        },
+        {
+            "action": "add",
+            "key": "technicalCompetencyFrameworkItemTitle",
+            "namespace": "surgeCatalogueLivelihood",
+            "value": "Livelihoods and Basic Needs Technical Competency Framework"
+        },
+        {
+            "action": "update",
+            "key": "catalogueLivelihoodServicesTitle",
+            "namespace": "surgeCatalogueLivelihood",
+            "newValue": "Livelihoods and Basic Needs (LBN)"
+        },
+        {
+            "action": "update",
+            "key": "catalogueLivelihoodTitle",
+            "namespace": "surgeCatalogueLivelihood",
+            "newValue": "Livelihoods and Basic Needs (LBN)"
+        },
+        {
+            "action": "remove",
+            "key": "otherAdditionalServicesHeading",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherCivilMilitaryRelations",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherCivilMilitaryRelationsDetail",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherDetail",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherDisaster",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherDisasterDetail",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherGreen",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherGreenDetail",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherHuman",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherHumanDetail",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherInternational",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherInternationalDetail",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherLearnMore",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherMigration",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherMigrationDetail",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherNSDevelopment",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherNSDevelopmentDetail",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherPartnership",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherPartnershipDetail",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherPreparedness",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherPreparednessDetail",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherRecovery",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherRecoveryDetail",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherTitle",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherUAV",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherUAVDetail",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "update",
+            "key": "otherLinkOne",
+            "newKey": "otherLinkOneCoord",
+            "namespace": "surgeCatalogueOtherHumanResources"
+        },
+        {
+            "action": "update",
+            "key": "otherLinkTwo",
+            "newKey": "otherLinkTwoOffic",
+            "namespace": "surgeCatalogueOtherHumanResources"
+        },
+        {
+            "action": "remove",
+            "key": "otherLinkOne",
+            "namespace": "surgeCatalogueOtherPartnershipResourceDevelopment"
+        },
+        {
+            "action": "remove",
+            "key": "otherLinkTwo",
+            "namespace": "surgeCatalogueOtherPartnershipResourceDevelopment"
+        },
+        {
+            "action": "remove",
+            "key": "partnershipHeading",
+            "namespace": "surgeCatalogueOtherPartnershipResourceDevelopment"
+        },
+        {
+            "action": "update",
+            "key": "otherOverview",
+            "namespace": "surgeCatalogueOtherPartnershipResourceDevelopment",
+            "newNamespace": "surgeCatalogueOtherStrategicPartnershipsResourceMobilisation"
+        },
+        {
+            "action": "update",
+            "key": "otherOverviewDetail",
+            "namespace": "surgeCatalogueOtherPartnershipResourceDevelopment",
+            "newNamespace": "surgeCatalogueOtherStrategicPartnershipsResourceMobilisation"
+        },
+        {
+            "action": "update",
+            "key": "rapidResponse",
+            "namespace": "surgeCatalogueOtherPartnershipResourceDevelopment",
+            "newNamespace": "surgeCatalogueOtherStrategicPartnershipsResourceMobilisation"
+        },
+        {
+            "action": "update",
+            "key": "rapidResponseDetail",
+            "namespace": "surgeCatalogueOtherPartnershipResourceDevelopment",
+            "newNamespace": "surgeCatalogueOtherStrategicPartnershipsResourceMobilisation"
+        },
+        {
+            "action": "add",
+            "key": "catalogueRoleHeading",
+            "namespace": "surgeCatalogueOtherStrategicPartnershipsResourceMobilisation",
+            "value": "Rapid Response Personnel"
+        },
+        {
+            "action": "add",
+            "key": "catalogueRoleTitle",
+            "namespace": "surgeCatalogueOtherStrategicPartnershipsResourceMobilisation",
+            "value": "Role Profiles"
+        },
+        {
+            "action": "add",
+            "key": "linkOne",
+            "namespace": "surgeCatalogueOtherStrategicPartnershipsResourceMobilisation",
+            "value": "Rapid Response Strategic Partnerships and Resource Mobilisation Officer role profile."
+        },
+        {
+            "action": "add",
+            "key": "linkTwo",
+            "namespace": "surgeCatalogueOtherStrategicPartnershipsResourceMobilisation",
+            "value": "Rapid Response SPRM Officer National Society Support role profile."
+        },
+        {
+            "action": "add",
+            "key": "partnershipHeading",
+            "namespace": "surgeCatalogueOtherStrategicPartnershipsResourceMobilisation",
+            "value": "Strategic Partnerships and Resource Mobilisation (SPRM)"
+        },
+        {
+            "action": "add",
+            "key": "copyButtonLabel",
+            "namespace": "tokenDetails",
+            "value": "Copy to clipboard"
+        },
+        {
+            "action": "add",
+            "key": "copySuccessMessage",
+            "namespace": "tokenDetails",
+            "value": "Token copied to the clipboard!"
+        },
+        {
+            "action": "add",
+            "key": "createdAtLabel",
+            "namespace": "tokenDetails",
+            "value": "Created at"
+        },
+        {
+            "action": "add",
+            "key": "expiresOnLabel",
+            "namespace": "tokenDetails",
+            "value": "Expires on"
+        }
+    ]
+}
