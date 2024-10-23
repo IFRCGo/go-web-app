@@ -1,5 +1,5 @@
 {
-    "namespace": "DownloadImportTemplateModal",
+    "namespace": "accountMyFormsDref",
     "strings": {
         "heading": "Download DREF import template",
         "typeOfDrefInputLabel": "Select type of DREF for template",

@@ -238,7 +238,7 @@ function ResponseFields(props: Props) {
                             value={value.appeal}
                             clearable
                             disabled={disabled}
-                        // eslint-disable-next-line max-len
+
                         // withAsterisk={isDefined(value.appeal_amount) || isDefined(value.appeal)}
                         />
                         <NumberInput
@@ -301,7 +301,6 @@ function ResponseFields(props: Props) {
                         // withAsterisk={isDefined(value.num_ifrc_staff) || isDefined(value.ifrc_staff)}
                         />
                         <NumberInput
-                            // eslint-disable-next-line max-len
                             label={strings.fieldsStep4PlannedResponseRowsIFRCStaffValueFieldLabel}
                             name="num_ifrc_staff"
                             value={value.num_ifrc_staff}

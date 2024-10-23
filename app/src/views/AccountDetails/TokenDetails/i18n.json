@@ -1,5 +1,5 @@
 {
-    "namespace": "tokenDetails",
+    "namespace": "accountDetails",
     "strings": {
         "copyButtonLabel": "Copy to clipboard",
         "createdAtLabel": "Created at",

@@ -1,5 +1,5 @@
 {
-    "namespace": "countryRiskSourcesOutput",
+    "namespace": "countryProfileRiskWatch",
     "strings": {
         "source": "Source",
         "inform": "INFORM",

@@ -4,8 +4,8 @@ import {
 } from '@ifrc-go/ui';
 
 type ListKey = string | number;
-interface ChecklistProps<KEY extends ListKey, NAME, OPTION extends object>
-extends PureChecklistProps<KEY, NAME, OPTION> {}
+// eslint-disable-next-line max-len
+type ChecklistProps<KEY extends ListKey, NAME, OPTION extends object> = PureChecklistProps<KEY, NAME, OPTION>
 
 function Checklist
 <KEY extends ListKey, NAME, OPTION extends object>(props: ChecklistProps<KEY, NAME, OPTION>) {

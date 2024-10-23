@@ -1,15 +1,15 @@
 {
-    "namespace": "common",
+    "namespace": "regionKeyFigures",
     "strings": {
         "regionKeyFiguresCountryPlan": "Active Country Plan",
-        "regionKeyFiguresActiveDrefs":"Active DREF Operations",
-        "regionKeyFiguresActiveAppeals":"Active Emergency Appeals",
+        "regionKeyFiguresActiveDrefs": "Active DREF Operations",
+        "regionKeyFiguresActiveAppeals": "Active Emergency Appeals",
         "regionKeyFiguresDrefTitle": "DREF",
         "regionKeyFiguresDrefDescription": "These are small to medium scale emergency operations funded through the Disaster Relief Emergency Fund (DREF).The DREF provides immediate financial support to National Red Cross and Red Crescent Societies, enabling them to carry out their unique role as first responders after a disaster.",
         "regionKeyFiguresActiveAppealsTitle": "Emergency Appeal",
         "regionKeyFigureActiveAppealDescription": "These are medium to large scale emergency operations funded through a public appeal for funds.",
-        "regionKeyFiguresBudget":"Funding Requirements (CHF)",
-        "regionKeyFiguresAppealsFunding":"Funding Coverage",
-        "regionKeyFiguresTargetPop":"Targeted Population"
+        "regionKeyFiguresBudget": "Funding Requirements (CHF)",
+        "regionKeyFiguresAppealsFunding": "Funding Coverage",
+        "regionKeyFiguresTargetPop": "Targeted Population"
     }
 }

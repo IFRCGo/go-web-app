@@ -1,4 +1,4 @@
-import { DeepReplace } from '@ifrc-go/ui/utils';
+import { type DeepReplace } from '@ifrc-go/ui/utils';
 import {
     ObjectSchema,
     PartialForm,

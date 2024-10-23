@@ -1,5 +1,4 @@
 {
-    "oldNamespace": "countryRiskWatch",
     "namespace": "countryProfileRiskWatch",
     "strings": {
         "risksByMonthHeading": "Risks by Month",

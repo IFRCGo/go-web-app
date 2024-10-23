@@ -1,5 +1,5 @@
 {
-    "namespace": "localUnitDeleteButton",
+    "namespace": "countryNsOverviewContextAndStructure",
     "strings": {
         "localUnitsDelete": "Delete",
         "deleteSuccessMessage": "{localUnitName} was deleted.",

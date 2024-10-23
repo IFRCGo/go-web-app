@@ -146,7 +146,6 @@ function TooltipContent(props: TooltipContentProps) {
                     <div className={styles.tooltipHazardIndicator}>
                         <div
                             className={styles.color}
-                            // eslint-disable-next-line max-len
                             style={{ backgroundColor: hazardTypeToColorMap[hazard_type] }}
                         />
                     </div>

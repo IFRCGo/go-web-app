@@ -1,5 +1,5 @@
 {
-    "namespace": "common",
+    "namespace": "baseMapPointInput",
     "strings": {
         "latitude": "Latitude",
         "longitude": "Longitude"

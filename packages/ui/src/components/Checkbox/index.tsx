@@ -74,7 +74,7 @@ function Checkbox<const NAME>(props: Props<NAME>) {
     );
 
     return (
-        <label // eslint-disable-line jsx-a11y/label-has-associated-control, jsx-a11y/label-has-for
+        <label // eslint-disable-line jsx-a11y/label-has-associated-control
             className={className}
             title={tooltip}
         >

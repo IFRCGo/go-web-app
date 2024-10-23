@@ -1,5 +1,5 @@
 {
-    "namespace": "drefApplicationForm",
+    "namespace": "sourceInformationInput",
     "strings": {
         "sourceInformationNameLabel": "Name",
         "sourceInformationLinkLabel": "Link",

@@ -1,5 +1,5 @@
 {
-    "namespace": "drefImportModel",
+    "namespace": "drefApplicationForm",
     "strings": {
         "drefImportApplication": "Import DREF Application",
         "drefImportButton": "Invalid import file",

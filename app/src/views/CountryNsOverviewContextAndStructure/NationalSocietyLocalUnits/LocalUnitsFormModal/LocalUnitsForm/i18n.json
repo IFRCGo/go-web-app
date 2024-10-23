@@ -1,5 +1,5 @@
 {
-    "namespace": "localUnitsForm",
+    "namespace": "countryNsOverviewContextAndStructure",
     "strings": {
         "lastUpdateLabel": "Last update: {modifiedAt} by {modifiedBy}",
         "successMessage": "Local unit added successfully!",

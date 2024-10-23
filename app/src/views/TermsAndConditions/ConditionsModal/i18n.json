@@ -1,5 +1,5 @@
 {
-    "namespace": "conditionsModal",
+    "namespace": "termsAndConditions",
     "strings": {
         "hereConditionTitle": "Title",
         "srcDbCodeDescriptionOne": "EMDAT",

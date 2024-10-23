@@ -1,5 +1,5 @@
 {
-    "namespace": "foodInsecurityChart",
+    "namespace": "countryProfileRiskWatch",
     "strings": {
         "foodInsecurityChartAverage": "Average for",
         "foodInsecurityAnalysisDate": "Analysis date",

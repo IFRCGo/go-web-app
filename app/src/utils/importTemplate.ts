@@ -288,7 +288,7 @@ export function getValueFromImportTemplate<
         return mapToMap(
             schema.fields,
             (key) => key,
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
             (fieldSchema, key) => getValueFromImportTemplate(
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 fieldSchema as TemplateSchema<any, OPTIONS_MAPPING>,

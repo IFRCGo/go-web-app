@@ -62,10 +62,8 @@ function Template(args:Args) {
         setArgs({ value: val });
         // eslint-disable-next-line react/destructuring-assignment
         if (args.clearable) {
-            // eslint-disable-next-line react/destructuring-assignment
             onChange(val, name);
         } else if (isDefined(val)) {
-            // eslint-disable-next-line react/destructuring-assignment
             onChange(val, name);
         }
     };

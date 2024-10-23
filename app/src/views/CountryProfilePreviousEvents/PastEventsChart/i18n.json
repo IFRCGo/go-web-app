@@ -1,5 +1,5 @@
 {
-    "namespace": "pastEventsChart",
+    "namespace": "countryProfilePreviousEvents",
     "strings": {
         "pastEventsChartEvents": "Past events",
         "pastEventsPeopleExposed": "People Exposed / Affected",

@@ -225,7 +225,7 @@ type Story = StoryObj<
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     TableProps<Data, number, Column<Data, number, any, any>>
 >;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 const meta: Meta<typeof Table> = {
     title: 'Components/Table',
     component: Table,

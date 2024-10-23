@@ -68,7 +68,7 @@ function Radio<N, IN>(props: Props<N, IN>) {
     });
 
     return (
-        // eslint-disable-next-line jsx-a11y/label-has-associated-control, jsx-a11y/label-has-for
+        // eslint-disable-next-line jsx-a11y/label-has-associated-control
         <label
             className={_cs(
                 styles.radio,

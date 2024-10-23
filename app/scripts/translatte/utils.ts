@@ -306,7 +306,8 @@ export async function readTranslations(fileNames: string[]) {
             }),
         );
     });
-    return translations;
+
+    return { translations, filesContents };
 }
 
 export async function readMigrations(fileNames: string[]) {

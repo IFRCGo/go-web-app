@@ -147,7 +147,7 @@ export function Component() {
 
     const sortedPlannedInterventions = useMemo(
         () => filteredPlannedIntervention?.sort(
-            // eslint-disable-next-line max-len
+
             (a, b) => plannedInterventionOrder[a.title] - plannedInterventionOrder[b.title],
         ),
         [filteredPlannedIntervention],
@@ -155,7 +155,7 @@ export function Component() {
 
     const sortedIdentifiedNeedsAndGaps = useMemo(
         () => filteredIdentifiedNeedsAndGaps?.sort(
-            // eslint-disable-next-line max-len
+
             (a, b) => identifiedNeedsAndGapsOrder[a.title] - identifiedNeedsAndGapsOrder[b.title],
         ),
         [filteredIdentifiedNeedsAndGaps],
@@ -163,7 +163,7 @@ export function Component() {
 
     const sortedNsActions = useMemo(
         () => filteredNsActions?.sort((a, b) => (
-            // eslint-disable-next-line max-len
+
             nsActionsOrder[a.title] - nsActionsOrder[b.title]
         )),
         [filteredNsActions],

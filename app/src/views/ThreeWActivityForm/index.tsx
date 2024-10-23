@@ -307,7 +307,7 @@ export function Component() {
                     match = matchArray(locations, ['activities', NUM]);
                     if (isDefined(match)) {
                         const [activity_index] = match;
-                        // eslint-disable-next-line max-len
+
                         return value?.activities?.[activity_index]?.client_id;
                     }
                     return undefined;
@@ -380,7 +380,7 @@ export function Component() {
                     match = matchArray(locations, ['activities', NUM]);
                     if (isDefined(match)) {
                         const [activity_index] = match;
-                        // eslint-disable-next-line max-len
+
                         return value?.activities?.[activity_index]?.client_id;
                     }
                     return undefined;
@@ -729,7 +729,6 @@ export function Component() {
                                 : undefined}
                             readOnly
                             name={undefined}
-                            // eslint-disable-next-line @typescript-eslint/no-empty-function
                             onChange={() => {}}
                             // strongValue
                         />

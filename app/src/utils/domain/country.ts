@@ -14,7 +14,6 @@ import {
     REGION_MENA,
 } from '#utils/constants';
 
-// eslint-disable-next-line import/prefer-default-export
 export const countryIdToRegionIdMap: Record<number, Region> = {
     [COUNTRY_AFRICA_REGION]: REGION_AFRICA,
     [COUNTRY_AMERICAS_REGION]: REGION_AMERICAS,

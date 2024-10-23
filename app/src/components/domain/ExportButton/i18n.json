@@ -1,5 +1,5 @@
 {
-    "namespace": "common",
+    "namespace": "exportButton",
     "strings": {
         "exportTableButtonLabel": "Export",
         "exportTableDownloadingButtonLabel": "Downloading... ({progress}%)",

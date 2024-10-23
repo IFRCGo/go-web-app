@@ -153,7 +153,7 @@ async function generate(
         projectPath,
         Array.isArray(translationFileName) ? translationFileName : [translationFileName],
     );
-    const translations = await readTranslations(translationFiles);
+    const { translations } = await readTranslations(translationFiles);
     const fileState = translations.map((item) => ({
         ...item,
     }));

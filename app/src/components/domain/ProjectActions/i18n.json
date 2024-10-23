@@ -1,5 +1,5 @@
 {
-    "namespace": "common",
+    "namespace": "projectActions",
     "strings": {
         "projectViewDetails": "View Project Details",
         "actionDropdownEditLabel": "Edit Project",

@@ -147,7 +147,7 @@ type CommonOptions<METHOD, PARAMETERS, RESPONSES, CONTEXT> = {
         context: CONTEXT
     ) => number;
     onSuccess?: (val: ResolveResponseContent<RESPONSES, METHOD>, context: CONTEXT) => void;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     onFailure?: (val: TransformedError, context: CONTEXT) => void;
 }
 

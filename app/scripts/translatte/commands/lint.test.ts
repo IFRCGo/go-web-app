@@ -22,7 +22,7 @@ testWithTmpDir('test lint with duplicate file', async ({ tmpdir }) => {
     await Promise.all(writes);
 
     await expect(
-        () => lint(tmpdir, ['**/*.i18n.json'])
+        () => lint(tmpdir, ['**/*.i18n.json'], false)
     ).rejects.toThrow('Found 12 duplicated strings.');
 });
 
@@ -46,7 +46,7 @@ testWithTmpDir('test lint with duplicate string and same text', async ({ tmpdir 
     await Promise.all(writes);
 
     await expect(
-        () => lint(tmpdir, ['**/*.i18n.json'])
+        () => lint(tmpdir, ['**/*.i18n.json'], false)
     ).rejects.toThrow('Found 2 duplicated strings.');
 });
 
@@ -70,6 +70,6 @@ testWithTmpDir('test lint with duplicate string and different text', async ({ tm
     await Promise.all(writes);
 
     await expect(
-        () => lint(tmpdir, ['**/*.i18n.json'])
+        () => lint(tmpdir, ['**/*.i18n.json'], false)
     ).rejects.toThrow('Found 2 duplicated strings.');
 });

@@ -99,7 +99,7 @@ function NavigationTab(props: Props) {
 
             const match = matchPath(
                 {
-                    // eslint-disable-next-line react/destructuring-assignment
+
                     path: routes[to].absolutePath,
                     end: !parentRoute,
                 },

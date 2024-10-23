@@ -609,7 +609,6 @@ export function Component() {
                 </InputSection>
                 <InputSection
                     title={strings.climateAndEnvironmentalConsiderationsInputLabel}
-                    // eslint-disable-next-line max-len
                     description={strings.climateAndEnvironmentalConsiderationsInputDescription}
                     withoutPadding
                 >

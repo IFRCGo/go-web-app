@@ -100,7 +100,7 @@ function ContextFields(props: Props) {
     ]);
 
     type MapByReportType = {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
         [key in ReportType]: string | undefined;
     }
 
@@ -306,7 +306,6 @@ function ContextFields(props: Props) {
                         label={summaryVisible ? strings.fieldPrefix : strings.titleSecondaryLabel}
                         name={undefined}
                         value={titlePrefix}
-                        // eslint-disable-next-line @typescript-eslint/no-empty-function
                         onChange={() => { }}
                     />
                 )}
@@ -328,7 +327,6 @@ function ContextFields(props: Props) {
                         label={strings.fieldReportFormSuffix}
                         name={undefined}
                         value={titleSuffix}
-                        // eslint-disable-next-line @typescript-eslint/no-empty-function
                         onChange={() => { }}
                     // readOnly
                     />

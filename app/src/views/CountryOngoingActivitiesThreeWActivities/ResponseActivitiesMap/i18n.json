@@ -1,5 +1,5 @@
 {
-    "namespace": "countryResponseActivities",
+    "namespace": "countryOngoingActivitiesThreeWActivities",
     "strings": {
         "countryResponseActivitiesSeverityLow": "Less than 2",
         "countryResponseActivitiesSeverityMedium": "2 to 4",

@@ -1,5 +1,5 @@
 {
-    "namespace": "common",
+    "namespace": "riskImminentEvents",
     "strings": {
         "meteoSwissEventListViewDetails": "View Details",
         "meteoSwissEventListStartedOn": "Started On"
