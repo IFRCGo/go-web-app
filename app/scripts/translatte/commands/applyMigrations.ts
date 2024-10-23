@@ -1,11 +1,11 @@
 import { Md5 } from 'ts-md5';
 import { listToMap, isDefined, unique } from '@togglecorp/fujs';
-import { isAbsolute, join, basename } from 'path';
+import { basename } from 'path';
 import {
-    readSource,
-    getMigrationFilesAttrs,
+    readJsonSource,
     readMigrations,
-    writeFilePromisify,
+    writeFileAsync,
+    getMigrationFilesAttrsFromDir,
 } from '../utils';
 import { merge } from './mergeMigrations';
 import {
@@ -39,10 +39,13 @@ function apply(
                 const prevValue = stringsMapping[key];
                 // NOTE: we are comparing hash instead of value so that this works for source language as well as other languages
                 if (prevValue && prevValue.hash !== hash) {
-                    throw `Add: We already have string with different value for namespace '${action.namespace}' and key '${action.key}'`;
+                    // console.info(prevValue, action);
+                    // throw `Add: We already have string with different value for namespace '${action.namespace}' and key '${action.key}'`;
+                    console.info(`Add: We already have string with different value for namespace '${action.namespace}' and key '${action.key}'`);
                 }
 
                 if (newMapping[key]) {
+                    console.info(prevValue, action, newMapping);
                     throw `Add: We already have string for namespace '${action.namespace}' and key '${action.key}' in migration`;
                 }
 
@@ -114,20 +117,16 @@ function apply(
 }
 
 async function applyMigrations(
-    projectPath: string,
-    sourceFileName: string,
+    migrationDir: string,
+    sourceFilePath: string,
     destinationFileName: string,
-    migrationFilePath: string,
     languages: string[],
     from: string | undefined,
     dryRun: boolean | undefined,
 ) {
-    const sourcePath = isAbsolute(sourceFileName)
-        ? sourceFileName
-        : join(projectPath, sourceFileName)
-    const sourceFile = await readSource(sourcePath)
+    const sourceFile = await readJsonSource(sourceFilePath)
 
-    const migrationFilesAttrs = await getMigrationFilesAttrs(projectPath, migrationFilePath);
+    const migrationFilesAttrs = await getMigrationFilesAttrsFromDir(migrationDir);
     const selectedMigrationFilesAttrs = from
         ? migrationFilesAttrs.filter((item) => (item.migrationName > from))
         : migrationFilesAttrs;
@@ -149,25 +148,23 @@ async function applyMigrations(
     );
 
     const outputSourceFileContent: SourceFileContent = {
-        ...sourceFile.content,
+        // ...sourceFile.content,
         last_migration: basename(lastMigration.file),
         strings: apply(
-            sourceFile.content.strings,
+            sourceFile.content.filter(
+                ({ page_name }) => isDefined(page_name)
+            ),
             mergedMigrationActions,
             languages,
         ),
     };
 
-    const destinationPath = isAbsolute(destinationFileName)
-        ? destinationFileName
-        : join(projectPath, destinationFileName)
-
     if (dryRun) {
-        console.info(`Creating file '${destinationPath}'`);
+        console.info(`Creating file '${destinationFileName}'`);
         console.info(outputSourceFileContent);
     } else {
-        await writeFilePromisify(
-            destinationPath,
+        await writeFileAsync(
+            destinationFileName,
             JSON.stringify(outputSourceFileContent, null, 4),
             'utf8',
         );
