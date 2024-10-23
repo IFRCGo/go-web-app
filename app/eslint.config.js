@@ -1,6 +1,6 @@
 import { FlatCompat } from '@eslint/eslintrc';
 import js from '@eslint/js';
-// import json from "@eslint/json";
+import json from "@eslint/json";
 import tseslint from '@typescript-eslint/eslint-plugin';
 import process from 'process';
 
@@ -131,16 +131,21 @@ const otherConfig = {
     ...tseslint.configs.recommended,
 };
 
-//const jsonConfig = {
-//    files: ['**/*.json'],
-//    language: 'json/json',
-//    rules: {
-//        'json/no-duplicate-keys': 'error',
-//    },
-//};
+const jsonConfig = {
+    files: ['**/*.json'],
+    language: 'json/json',
+    rules: {
+        'json/no-duplicate-keys': 'error',
+    },
+};
 
 export default [
+    {
+        plugins: {
+            json,
+        },
+    },
     ...appConfigs,
     otherConfig,
-    // jsonConfig,
+    jsonConfig,
 ];
