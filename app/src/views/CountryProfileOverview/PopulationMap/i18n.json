@@ -1,5 +1,5 @@
 {
-    "namespace": "populationMap",
+    "namespace": "countryProfileOverview",
     "strings": {
         "populationMapTitle": "Population Map",
         "source": "Source",

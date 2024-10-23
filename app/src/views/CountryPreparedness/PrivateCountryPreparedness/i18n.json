@@ -1,5 +1,5 @@
 {
-    "namespace": "privateCountryPreparedness",
+    "namespace": "countryPreparedness",
     "strings": {
         "nsPreparednessAndResponseCapacityHeading": "NS Preparedness and Response Capacity",
         "goBackButtonTitle": "Go back",
@@ -11,7 +11,7 @@
         "focalPointEmailTitle": "Email",
         "perAssessmentHeading": "PER Process Results",
         "totalBenchmarkSummaryHeading": "Total Benchmark Summary: ",
-        "NSResponseHeading":"NS Response Mechanism Performance",
+        "NSResponseHeading": "NS Response Mechanism Performance",
         "componentsByAreaHeading": "Components by Area",
         "highlightedTopRatedComponentHeading": "Highlighted Top Rated Components",
         "priorityComponentToBeStrengthenedHeading": "Priority Components To Be Strengthened",

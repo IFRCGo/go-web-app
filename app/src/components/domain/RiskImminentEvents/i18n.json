@@ -1,5 +1,5 @@
 {
-    "namespace": "common",
+    "namespace": "riskImminentEvents",
     "strings": {
         "imminentEventsHeading": "Imminent Events",
         "imminentEventsDescription": "This map displays information about the modeled impact of specific forecasted or detected natural hazards (floods, storms, droughts, wildfires, earthquakes). By hovering over the icons, if available, you can see the forecasted/observed footprint of the hazard; when you click on it, the table of modeled impact estimates will appear, as well as an information about who produced the impact estimate.",

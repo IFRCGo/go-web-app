@@ -1,5 +1,5 @@
 {
-    "namespace": "initiativeCard",
+    "namespace": "countryNsOverviewActivities",
     "strings": {
         "initiativeFundNameTitle": "Fund initiative name",
         "initiativeFund": "Fund({fundType})",

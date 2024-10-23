@@ -1,5 +1,5 @@
 {
-    "namespace": "countryClimateChart",
+    "namespace": "countryProfileOverview",
     "strings": {
         "climateChartMax": "Max",
         "climateChangeAverage": "Average",

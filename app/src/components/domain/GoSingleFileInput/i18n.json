@@ -1,5 +1,5 @@
 {
-    "namespace": "common",
+    "namespace": "goSingleFileInput",
     "strings": {
         "failedUploadMessage": "Failed to upload the file!",
         "removeFileButtonTitle": "Remove",

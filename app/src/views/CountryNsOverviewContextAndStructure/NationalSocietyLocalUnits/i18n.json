@@ -1,5 +1,5 @@
 {
-    "namespace": "nationalSocietyLocalUnits",
+    "namespace": "countryNsOverviewContextAndStructure",
     "strings": {
         "localUnitsTitle": "NS Local Units",
         "localUnitDetailAddressValue": "{address}, {city}, {country}",

@@ -1,5 +1,5 @@
 {
-    "namespace": "countryPresence",
+    "namespace": "countryNsOverviewSupportingPartners",
     "strings": {
         "countryIFRCPresenceTitle": "IFRC Presence",
         "countryIFRCPresenceHeadOfDelegation": "Head of {delegationOfficeType}",
@@ -15,6 +15,6 @@
         "icrc": "ICRC",
         "countryIFRCDelegationType": "Office Type",
         "countryIFRCLocation": "Location",
-        "disclaimer":"This link will only be accessible to IFRC staff."
+        "disclaimer": "This link will only be accessible to IFRC staff."
     }
 }

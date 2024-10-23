@@ -1,5 +1,5 @@
 {
-    "namespace": "common",
+    "namespace": "multiImageWithCaptionInput",
     "strings": {
         "removeImagesButtonTitle": "Remove",
         "imagePreviewAlt": "preview",

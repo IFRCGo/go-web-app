@@ -1,5 +1,5 @@
 {
-    "namespace": "sources",
+    "namespace": "operationalLearning",
     "strings": {
         "noSources": "The extract doesn't have any source.",
         "viewAllExtracts": "View All Extracts"

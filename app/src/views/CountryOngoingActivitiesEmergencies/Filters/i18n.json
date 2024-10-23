@@ -1,5 +1,5 @@
 {
-    "namespace": "countryOngoingActivitiesEmergenciesFilters",
+    "namespace": "countryOngoingActivitiesEmergencies",
     "strings": {
         "appealsTableStartDate": "Start Date",
         "appealsTableStartDateAfter": "Start After",

@@ -1,5 +1,5 @@
 {
-    "namespace": "common",
+    "namespace": "riskImminentEvents",
     "strings": {
         "eventListViewDetails": "View Details",
         "eventListStartedOn": "Started on"

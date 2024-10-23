@@ -1,5 +1,5 @@
 {
-    "namespace": "countryNsOrganisationalCapacity",
+    "namespace": "countryNsOverviewCapacity",
     "strings": {
         "countryNsOrganisationalCapacityHeading": "Organisational Capacity",
         "countryNsLeadershipCapacityLabel": "Leadership Capacity",

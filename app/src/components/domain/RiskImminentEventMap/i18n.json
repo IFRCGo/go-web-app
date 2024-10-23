@@ -1,5 +1,5 @@
 {
-    "namespace": "common",
+    "namespace": "riskImminentEventMap",
     "strings": {
         "riskImminentEventsMap": "Risk Imminent Events Map",
         "backToEventsLabel": "Back to events",
