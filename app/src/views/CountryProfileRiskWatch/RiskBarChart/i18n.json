@@ -1,5 +1,4 @@
 {
-    "oldNamespace": "countryRiskWatch",
     "namespace": "countryProfileRiskWatch",
     "strings": {
         "riskBarChartTitle": "Average Risks by Month",

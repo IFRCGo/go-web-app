@@ -1,5 +1,4 @@
 {
-    "oldNamespace": "countryRiskWatch",
     "namespace": "countryProfileRiskWatch",
     "strings": {
         "returnPeriodTableHeading": "Expected Return Periods",
