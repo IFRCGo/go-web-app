@@ -1,5 +1,6 @@
 import { FlatCompat } from '@eslint/eslintrc';
 import js from '@eslint/js';
+import json from "@eslint/json";
 import process from 'process';
 
 const dirname = process.cwd();
@@ -127,7 +128,21 @@ const otherConfig = {
     ...js.configs.recommended,
 };
 
+const jsonConfig = {
+    files: ['**/*.json'],
+    language: 'json/json',
+    rules: {
+        'json/no-duplicate-keys': 'error',
+    },
+};
+
 export default [
+    {
+        plugins: {
+            json,
+        },
+    },
     ...appConfigs,
     otherConfig,
+    jsonConfig,
 ];
