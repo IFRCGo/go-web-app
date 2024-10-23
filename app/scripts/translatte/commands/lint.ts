@@ -1,16 +1,23 @@
+import { listToMap } from '@togglecorp/fujs';
+
 import {
     getDuplicateItems,
     getTranslationFileNames,
     readTranslations,
+    writeFilePromisify,
 } from '../utils';
 
 function lowercaseFirstChar(chars: string) {
     return chars.charAt(0).toLowerCase() + chars.slice(1);
 }
 
-async function lint(projectPath: string, translationFileName: string[]) {
+async function lint(
+    projectPath: string,
+    translationFileName: string[],
+    fix: boolean | undefined,
+) {
     const fileNames = await getTranslationFileNames(projectPath, translationFileName);
-    const { translations, metadata } = await readTranslations(fileNames);
+    const { translations, filesContents } = await readTranslations(fileNames);
 
     const namespaces = new Set(translations.map((item) => item.namespace));
 
@@ -43,8 +50,8 @@ async function lint(projectPath: string, translationFileName: string[]) {
         expectedNamespace: string,
         receivedNamespace: string,
     }[] = [];
-    for (const item of metadata) {
-        const { fileName, namespace } = item;
+    for (const item of filesContents) {
+        const { file: fileName, content: { namespace } } = item;
         for (const rule of customRules) {
             const match = fileName.match(new RegExp(rule.location));
             if (match) {
@@ -64,8 +71,30 @@ async function lint(projectPath: string, translationFileName: string[]) {
     };
 
     if (namespaceErrors.length > 0) {
-        console.info(JSON.stringify(namespaceErrors, null, 2));
-        throw `Found ${namespaceErrors.length} issues with namespaces.`;
+        if (fix) {
+            const metadataMapping = listToMap(
+                filesContents,
+                (fileContents) => fileContents.file,
+                (fileContents) => fileContents.content,
+            );
+            const updates = namespaceErrors.map((namespaceError) => {
+                const content = metadataMapping[namespaceError.fileName];
+                const updatedContent = {
+                    ...content,
+                    namespace: namespaceError.expectedNamespace,
+                }
+                return writeFilePromisify(
+                    namespaceError.fileName,
+                    JSON.stringify(updatedContent, null, 4),
+                    'utf8',
+                );
+            });
+            await Promise.all(updates);
+            console.info(`Fixed namespace in ${namespaceErrors.length} files`);
+        } else {
+            console.info(JSON.stringify(namespaceErrors, null, 2));
+            throw `Found ${namespaceErrors.length} issues with namespaces.`;
+        }
     }
 
     // TODO: Throw error
