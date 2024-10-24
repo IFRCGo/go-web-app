@@ -73,8 +73,8 @@ function AllExtractsModal(props: Props) {
 
     const extractsRendererParams = (_: number, learning: OpsLearning) => ({
         countryName: countries.find((country) => country.id === learning.appeal?.country)?.name,
-        emergencyId: learning.appeal?.event_details.id,
-        emergencyName: learning.appeal?.event_details.name,
+        emergencyId: learning.appeal?.event_details?.id,
+        emergencyName: learning.appeal?.event_details?.name,
         appealDocumentURL: learning.document_url,
         extract: learning.learning_validated,
         extractCreatedAt: learning.created_at,
