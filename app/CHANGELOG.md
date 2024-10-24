@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.6.1
+
+### Patch Changes
+
+- 7afaf34: Fix null event in appeal for operational learning
+
 ## 7.6.0
 
 ### Minor Changes
