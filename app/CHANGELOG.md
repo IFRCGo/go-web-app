@@ -1,5 +1,14 @@
 # go-web-app
 
+## 7.6.0
+
+### Minor Changes
+
+- Add new Operational Learning Page
+
+  - Add link to Operational Learning page under `Learn` navigation menu
+  - Integrate LLM summaries for Operational Learning
+
 ## 7.5.3
 
 ### Patch Changes
