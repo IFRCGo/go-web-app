@@ -187,14 +187,11 @@
     padding-top: var(--go-ui-spacing-md);
     padding-bottom: var(--go-ui-spacing-md);
 }
-
+/*NOTE:*/
 .table-link{
     color: var(--go-ui-color-text);
 }
 .table-link:hover {
     color: var(--go-ui-color-primary-red);
-}
-.table-header-row {
-    background:var(--go-ui-color-primary-gray-10);
 }
 

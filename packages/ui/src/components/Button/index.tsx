@@ -14,7 +14,7 @@ import useBasicLayout from '#hooks/useBasicLayout';
 import styles from './styles.module.css';
 
 // NOTE: Adding a 'tertiary-on-dark' to use 'tertiary' button on darker backgrounds
-export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'tertiary-on-dark' | 'dropdown-item' | 'process' | 'grey-tertiary';
+export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'tertiary-on-dark' | 'dropdown-item' | 'grey-tertiary';
 
 const buttonVariantToClassNameMap: Record<ButtonVariant, string> = {
     primary: styles.primary,
@@ -22,7 +22,6 @@ const buttonVariantToClassNameMap: Record<ButtonVariant, string> = {
     tertiary: styles.tertiary,
     'tertiary-on-dark': styles.tertiaryOnDark,
     'dropdown-item': styles.dropdownItem,
-    process: styles.process,
     'grey-tertiary': styles.greyTertiary,
 };
 

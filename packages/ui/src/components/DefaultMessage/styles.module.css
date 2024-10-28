@@ -7,7 +7,7 @@
         height: 100%;
     }
     &.empty-message {
-        padding-top: 40px;
-        height: 200px;
+        padding-top: var(--go-ui-spacing-xxl);
+        height:12.5rem;
     }
 }

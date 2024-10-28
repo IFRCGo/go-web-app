@@ -21,6 +21,7 @@
             font-size: inherit;
 
             .header-row {
+                background:var(--go-ui-color-primary-gray-10);
                 .header-element {
                     position: sticky;
                     top: 0;
