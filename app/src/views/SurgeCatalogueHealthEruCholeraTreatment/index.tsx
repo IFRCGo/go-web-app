@@ -127,4 +127,4 @@ export function Component() {
     );
 }
 
-Component.displayName = 'SurgeCatalogueHealthEruChloreaTreatment';
+Component.displayName = 'SurgeCatalogueHealthEruCholeraTreatment';

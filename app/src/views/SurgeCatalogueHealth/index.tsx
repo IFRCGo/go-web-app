@@ -50,10 +50,10 @@ export function Component() {
         },
     ];
 
-    const emergencyChloreaTreatment: LinkData[] = [
+    const emergencyCholeraTreatment: LinkData[] = [
         {
             title: strings.emergencyCholeraTreatmentTitleLink,
-            to: 'surgeCatalogueHealthEruChloreaTreatment',
+            to: 'surgeCatalogueHealthEruCholeraTreatment',
             withLinkIcon: true,
         },
     ];
@@ -61,7 +61,7 @@ export function Component() {
     const healthCCMC: LinkData[] = [
         {
             title: strings.healthCCMCLink,
-            to: 'surgeCatalogueHealthCommunityCaseManagementChlorea',
+            to: 'surgeCatalogueHealthCommunityCaseManagementCholera',
             withLinkIcon: true,
         },
     ];
@@ -74,6 +74,14 @@ export function Component() {
         },
     ];
 
+    const healthIPC: LinkData[] = [
+        {
+            title: strings.healthIPCTitle,
+            to: 'surgeCatalogueHealthInfectionPreventionAndControl',
+            withLinkIcon: true,
+        },
+    ];
+
     const healthBurials: LinkData[] = [
         {
             title: strings.healthBurialsTitle,
@@ -82,13 +90,13 @@ export function Component() {
         },
     ];
 
-    const healthCCMM: LinkData[] = [
-        {
-            title: strings.communityCaseLink,
-            to: 'surgeCatalogueHealthCommunityManagementMalnutrition',
-            withLinkIcon: true,
-        },
-    ];
+    // const healthCCMM: LinkData[] = [
+    //     {
+    //         title: strings.communityCaseLink,
+    //         to: 'surgeCatalogueHealthCommunityManagementMalnutrition',
+    //         withLinkIcon: true,
+    //     },
+    // ];
 
     const healthPSS: LinkData[] = [
         {
@@ -243,7 +251,7 @@ export function Component() {
                 />
                 <CatalogueInfoCard
                     title={strings.healthServicesEruClinicTitle}
-                    data={emergencyChloreaTreatment}
+                    data={emergencyCholeraTreatment}
                     description={strings.emergencyCholeraTreatmentDetails}
                 />
                 <CatalogueInfoCard
@@ -256,11 +264,11 @@ export function Component() {
                 />
                 <CatalogueInfoCard
                     title={strings.publicHealth}
-                    data={healthBurials}
+                    data={healthIPC}
                 />
                 <CatalogueInfoCard
                     title={strings.publicHealth}
-                    data={healthCCMM}
+                    data={healthBurials}
                 />
                 <CatalogueInfoCard
                     title={strings.nonClinicalTitle}

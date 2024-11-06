@@ -1,0 +1,33 @@
+{
+    "namespace": "surgeCatalogueHealthCommunityCaseManagementCholera",
+    "strings": {
+        "communityCaseTitle": "Community Case Management Of Cholera (CCMC)",
+        "communityCaseImageCaption": "ORP in Somaliland",
+        "communityCaseCapacity": "Capacity",
+        "communityCaseCapacityDetail": "The overall goal of the CCMC  configuration is to contribute to the reduction of mortality and morbidity due to cholera through early response to a declared cholera or acute watery diarrhoea outbreak and promptly treat people infected with mild cholera/acute watery diarrhoea at community level.",
+        "communityCaseEmergencyServices": "Emergency Services",
+        "communityCaseEmergencyServicesDetail": "Oral Rehydration Therapy at community level through Oral Rehydration Points (ORP). This is a public health intervention to reduce the morbidity and mortality due to cholera. This includes provision of oral rehydration solution at the ORP and given for home use as well as distribution of Zinc to eligible patient as defined in WHO guidelines. Referral of severely dehydrated and sick patients. WASH activities at the ORP for patients, including hygiene promotion, household water treatment, distribution of hygiene and water items in alignment with activities outside the ORP. Social mobilisation and community engagement and accountability (CEA). Data collection, analysis, interpretation and taking action (at ORP level). Safe management of dead bodies if someone dies at the ORP. One ORP kit can produce enough water each day to treat approximately 35 patients per day using the safe water from the filter. In order to calculate how many ORP kits will be needed, it is important to know the population size and how many people will get sick in the community (attack rate).",
+        "communityCaseDesignedFor": "Designed For",
+        "communityCaseDesignedForDetail": "Unit can be deployed within  48 hours upon receiving a deployment request, is self-sufficient for 1 month and can operate for up to 4 months. Designed for the provision of fixed but redeployable oral rehydration points in communities affected by cholera, with the goal of providing treatment in the community for les acute cases, and to reduce the burden on health services.",
+        "communityCasePersonnel": "Personnel",
+        "communityCasePersonnelLabel": "Typically",
+        "communityCasePersonnelValue": "7 people.",
+        "communityCasePersonnelCompositionLabel": "Composition",
+        "communityCasePersonnelCompositionValue": "Team Leader, Public Health / Epidemiologist, ORP Delegate, Hygiene Promotion and Community Engagement and Accountability,  WASH, Logistics, and Finance/Admin.",
+        "communityCaseStandardComponents": "Standard Components",
+        "communityCaseStandardListItemOne": "ORP kits",
+        "communityCaseStandardListItemTwo": "An ORP kit consists of 2 modules. The infrastructure module contains various equipment to set up an ORP (e.g. table, chairs, buckets, water filters, slabs etc.). Additionally, a simple tent (gazebo) is included. The medical module contains basic medical supplies needed at the ORP, including the Oral Rehydration Salts (ORS), Zinc and Chlorine. A medical module, which should be sufficient for supporting one ORP for the first 6 weeks, weighs about 300 kg and fits on one pallet.  20 infrastructure modules (22 pallets, 2’950 kg in total) are ready to dispatch, 20 medical modules are prepositioned.",
+        "communityCaseStandardListItemThree": "Hygiene promotion kit",
+        "communityCaseStandardListItemFour": "Digital Data gathering kit",
+        "communityCaseStandardListItemFive": "Vehicles (rent or supply)",
+        "communityCaseSpecifications": "Specifications",
+        "communityCaseSpecificationsWeightLabel": "Weight",
+        "communityCaseSpecificationsWeightValue": "170 kg (infrastructure module + gazebo) + 300 kg (medical module)  = 470 kg per ORP",
+        "communityCaseSpecificationsVolumeLabel": "Volume",
+        "communityCaseSpecificationsVolumeValue": "1 pallet (infrastructure module) + gazebo + 1 pallet (medical kit) = 2 pallets + gazebo per ORP",
+        "communityCaseSpecificationNationalSocietiesLabel": "National societies providing this service",
+        "communityCaseSpecificationNationalSocietiesValue": "Swiss RC",
+        "communityCaseVariationOnConfiguration": "Variation On Configuration",
+        "communityCaseVariationOnConfigurationDetail": "Number of ORPs and kits required to be scaled based on population and geography affected by outbreak."
+    }
+}

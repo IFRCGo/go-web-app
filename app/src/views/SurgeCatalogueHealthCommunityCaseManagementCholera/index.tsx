@@ -65,9 +65,11 @@ export function Component() {
                     <li>
                         {strings.communityCaseStandardListItemOne}
                     </li>
-                    <li>
-                        {strings.communityCaseStandardListItemTwo}
-                    </li>
+                    <ul>
+                        <li>
+                            {strings.communityCaseStandardListItemTwo}
+                        </li>
+                    </ul>
                     <li>
                         {strings.communityCaseStandardListItemThree}
                     </li>
@@ -107,4 +109,4 @@ export function Component() {
     );
 }
 
-Component.displayName = 'SurgeCatalogueHealthCommunityCaseManagementChlorea';
+Component.displayName = 'SurgeCatalogueHealthCommunityCaseManagementCholera';
