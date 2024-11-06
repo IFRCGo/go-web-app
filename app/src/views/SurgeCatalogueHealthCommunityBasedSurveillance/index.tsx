@@ -48,9 +48,6 @@ export function Component() {
                     )}
                     strongLabel
                 />
-                <div>
-                    {strings.communityBasedPersonnelCompositionDescription}
-                </div>
             </SurgeContentContainer>
             <SurgeContentContainer
                 heading={strings.communityBasedStandardComponentsLabel}
@@ -69,13 +66,8 @@ export function Component() {
                     strongLabel
                 />
                 <TextOutput
-                    value={strings.communityBasedSpecificationsVolumeValue}
-                    label={strings.communityBasedSpecificationsVolumeLabel}
-                    strongLabel
-                />
-                <TextOutput
-                    value={strings.communityBasedSpecificationsCostValue}
-                    label={strings.communityBasedSpecificationsCostLabel}
+                    value={strings.communityBasedSpecificationsVolumeLabel}
+                    label={strings.communityBasedSpecificationsVolumeValue}
                     strongLabel
                 />
                 <TextOutput
