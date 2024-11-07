@@ -99,7 +99,11 @@ export interface RiskEventDetailProps<EVENT, EXPOSURE> {
 
 type Footprint = GeoJSON.FeatureCollection<GeoJSON.Geometry, RiskLayerProperties> | undefined;
 
+// FIXME: read this from common type
+export type ImminentEventSource = 'pdc' | 'wfpAdam' | 'gdacs' | 'meteoSwiss';
+
 interface Props<EVENT, EXPOSURE, KEY extends string | number> {
+    source: ImminentEventSource;
     events: EVENT[] | undefined;
     keySelector: (event: EVENT) => KEY;
     hazardTypeSelector: (event: EVENT) => HazardType | '' | undefined;
@@ -134,6 +138,7 @@ function RiskImminentEventMap<
         bbox,
         onActiveEventChange,
         activeEventExposurePending,
+        source,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -473,6 +478,8 @@ function RiskImminentEventMap<
                         {hazardTypeSelector(activeEvent) === 'TC' && (
                             <LayerOptions
                                 value={layerOptions}
+                                // NOTE: Currently the information is only visible in gdacas
+                                exposureAreaControlHidden={source !== 'gdacs'}
                                 onChange={setLayerOptions}
                             />
                         )}

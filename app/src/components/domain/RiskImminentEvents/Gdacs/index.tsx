@@ -265,6 +265,7 @@ function Gdacs(props: Props) {
 
     return (
         <RiskImminentEventMap
+            source="gdacs"
             events={countryRiskResponse?.results}
             pointFeatureSelector={pointFeatureSelector}
             keySelector={numericIdSelector}

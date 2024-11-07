@@ -216,6 +216,7 @@ function WfpAdam(props: Props) {
 
     return (
         <RiskImminentEventMap
+            source="wfpAdam"
             events={countryRiskResponse?.results}
             pointFeatureSelector={pointFeatureSelector}
             keySelector={numericIdSelector}

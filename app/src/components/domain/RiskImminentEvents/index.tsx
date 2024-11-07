@@ -195,33 +195,35 @@ function RiskImminentEvents(props: Props) {
                             />
                         )}
                     />
-                    <Radio
-                        name="wfpAdam"
-                        value={activeView === 'wfpAdam'}
-                        onClick={handleRadioClick}
-                        label={strings.imminentEventsSourceWfpAdamLabel}
-                        actions={(
-                            <InfoPopup
-                                title={strings.wfpAdamTitle}
-                                popupClassName={styles.popup}
-                                descriptionClassName={styles.description}
-                                description={resolveToComponent(
-                                    strings.wfpAdamDescription,
-                                    {
-                                        here: (
-                                            <Link
-                                                href="https://gis.wfp.org/adam/"
-                                                variant="tertiary"
-                                                external
-                                            >
-                                                {strings.here}
-                                            </Link>
-                                        ),
-                                    },
-                                )}
-                            />
-                        )}
-                    />
+                    {environment !== 'production' && (
+                        <Radio
+                            name="wfpAdam"
+                            value={activeView === 'wfpAdam'}
+                            onClick={handleRadioClick}
+                            label={strings.imminentEventsSourceWfpAdamLabel}
+                            actions={(
+                                <InfoPopup
+                                    title={strings.wfpAdamTitle}
+                                    popupClassName={styles.popup}
+                                    descriptionClassName={styles.description}
+                                    description={resolveToComponent(
+                                        strings.wfpAdamDescription,
+                                        {
+                                            here: (
+                                                <Link
+                                                    href="https://gis.wfp.org/adam/"
+                                                    variant="tertiary"
+                                                    external
+                                                >
+                                                    {strings.here}
+                                                </Link>
+                                            ),
+                                        },
+                                    )}
+                                />
+                            )}
+                        />
+                    )}
                     <Radio
                         name="gdacs"
                         value={activeView === 'gdacs'}
