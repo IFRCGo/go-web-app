@@ -1,5 +1,14 @@
 # go-web-app
 
+## 7.6.4
+
+### Patch Changes
+
+- d85f64d: Update Imminent Events
+
+  - Hide WFP ADAM temporarily from list sources
+  - Show exposure control for cyclones from GDACS only
+
 ## 7.6.3
 
 ### Patch Changes
