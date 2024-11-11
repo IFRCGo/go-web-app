@@ -86,7 +86,7 @@
         "postcss-preset-env": "^8.3.2",
         "react-focus-on": "^3.9.1",
         "sanitize-html": "^2.11.0",
-        "stylelint": "^16.7.0",
+        "stylelint": "^16.10.0",
         "stylelint-config-concentric": "^2.0.2",
         "stylelint-config-recommended": "^14.0.1",
         "stylelint-no-unused-selectors": "git+https://github.com/toggle-corp/stylelint-no-unused-selectors#e0831e1",
