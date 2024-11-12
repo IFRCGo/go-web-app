@@ -1,7 +1,6 @@
 {
     "namespace": "common",
     "strings": {
-        "eventStartOnLabel": "Started on",
         "eventMoreDetailsLink": "More Details",
         "eventSourceLabel": "Forecast provider",
         "eventDeathLabel": "Estimated deaths",

@@ -1,7 +1,6 @@
 {
     "namespace": "common",
     "strings": {
-        "eventDetailsStartedOn": "Started on",
         "eventDetailsCreatedOn": "Created on",
         "eventDetailsUpdatedOn": "Updated on",
         "eventDetailsPeopleExposed": "People exposed / Potentially affected",

@@ -18,8 +18,6 @@ type Props = RiskEventDetailProps<PdcEventItem, PdcExposure | undefined>;
 function EventDetails(props: Props) {
     const {
         data: {
-            hazard_name,
-            start_date,
             pdc_created_at,
             pdc_updated_at,
             description,
@@ -53,16 +51,7 @@ function EventDetails(props: Props) {
     return (
         <Container
             contentViewType="vertical"
-            heading={hazard_name}
-            headingLevel={5}
             spacing="cozy"
-            headerDescription={(
-                <TextOutput
-                    label={strings.eventDetailsStartedOn}
-                    value={start_date}
-                    valueType="date"
-                />
-            )}
             withBorderAndHeaderBackground
             pending={pending}
         >

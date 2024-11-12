@@ -3,9 +3,7 @@ import {
     useMemo,
     useState,
 } from 'react';
-import { ChevronLeftLineIcon } from '@ifrc-go/icons';
 import {
-    Button,
     Container,
     List,
 } from '@ifrc-go/ui';
@@ -86,8 +84,10 @@ export type EventPointFeature = GeoJSON.Feature<GeoJSON.Point, EventPointPropert
 
 export interface RiskEventListItemProps<EVENT> {
     data: EVENT;
+    expanded: boolean;
     onExpandClick: (eventId: number | string) => void;
     className?: string;
+    children?: React.ReactNode;
 }
 
 export interface RiskEventDetailProps<EVENT, EXPOSURE> {
@@ -243,10 +243,15 @@ function RiskImminentEventMap<
         (eventId: string | number | undefined) => {
             const eventIdSafe = eventId as KEY | undefined;
 
-            setActiveEventId(eventIdSafe);
-            onActiveEventChange(eventIdSafe);
+            if (activeEventId === eventIdSafe) {
+                setActiveEventId(undefined);
+                onActiveEventChange(undefined);
+            } else {
+                setActiveEventId(eventIdSafe);
+                onActiveEventChange(eventIdSafe);
+            }
         },
-        [onActiveEventChange],
+        [onActiveEventChange, activeEventId],
     );
 
     const handlePointClick = useCallback(
@@ -258,16 +263,43 @@ function RiskImminentEventMap<
         [setActiveEventIdSafe],
     );
 
+    const DetailComponent = detailRenderer;
+
     const eventListRendererParams = useCallback(
         (_: string | number, event: EVENT): RiskEventListItemProps<EVENT> => ({
             data: event,
             onExpandClick: setActiveEventIdSafe,
+            expanded: activeEventId === keySelector(event),
             className: styles.riskEventListItem,
+            children: activeEventId === keySelector(event) && (
+                <DetailComponent
+                    data={event}
+                    exposure={activeEventExposure}
+                    pending={activeEventExposurePending}
+                >
+                    {hazardTypeSelector(event) === 'TC' && (
+                        <LayerOptions
+                            value={layerOptions}
+                            // NOTE: Currently the information is only visible in gdacas
+                            exposureAreaControlHidden={source !== 'gdacs'}
+                            onChange={setLayerOptions}
+                        />
+                    )}
+                </DetailComponent>
+            ),
         }),
-        [setActiveEventIdSafe],
+        [
+            setActiveEventIdSafe,
+            activeEventExposure,
+            activeEventExposurePending,
+            layerOptions,
+            hazardTypeSelector,
+            DetailComponent,
+            activeEventId,
+            keySelector,
+            source,
+        ],
     );
-
-    const DetailComponent = detailRenderer;
 
     const [loadedIcons, setLoadedIcons] = useState<Record<string, boolean>>({});
 
@@ -443,48 +475,18 @@ function RiskImminentEventMap<
                 withInternalPadding
                 childrenContainerClassName={styles.content}
                 spacing="cozy"
-                actions={isDefined(activeEventId) && (
-                    <Button
-                        name={undefined}
-                        onClick={setActiveEventIdSafe}
-                        variant="tertiary"
-                        icons={(
-                            <ChevronLeftLineIcon className={styles.icon} />
-                        )}
-                    >
-                        {strings.backToEventsLabel}
-                    </Button>
-                )}
             >
-                {isNotDefined(activeEventId) && (
-                    <List
-                        className={styles.eventList}
-                        filtered={false}
-                        pending={pending}
-                        errored={false}
-                        data={events}
-                        keySelector={keySelector}
-                        renderer={listItemRenderer}
-                        rendererParams={eventListRendererParams}
-                        emptyMessage={strings.emptyImminentEventMessage}
-                    />
-                )}
-                {isDefined(activeEvent) && (
-                    <DetailComponent
-                        data={activeEvent}
-                        exposure={activeEventExposure}
-                        pending={activeEventExposurePending}
-                    >
-                        {hazardTypeSelector(activeEvent) === 'TC' && (
-                            <LayerOptions
-                                value={layerOptions}
-                                // NOTE: Currently the information is only visible in gdacas
-                                exposureAreaControlHidden={source !== 'gdacs'}
-                                onChange={setLayerOptions}
-                            />
-                        )}
-                    </DetailComponent>
-                )}
+                <List
+                    className={styles.eventList}
+                    filtered={false}
+                    pending={pending}
+                    errored={false}
+                    data={events}
+                    keySelector={keySelector}
+                    renderer={listItemRenderer}
+                    rendererParams={eventListRendererParams}
+                    emptyMessage={strings.emptyImminentEventMessage}
+                />
             </Container>
         </div>
     );

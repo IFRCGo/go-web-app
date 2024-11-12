@@ -102,9 +102,11 @@ export function parsePseudoHtml(
                 (acc, plugin) => plugin.transformer(token, acc),
                 { text: token },
             );
+        if (richTextItem.text === '') {
+            return undefined;
+        }
         return richTextItem;
     }).filter(isDefined);
 
-    // TODO: Check correctness to check that stack is empty
     return { richText };
 }

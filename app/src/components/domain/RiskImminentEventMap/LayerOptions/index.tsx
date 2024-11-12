@@ -57,20 +57,22 @@ function LayerOptions(props: Props) {
     const setFieldValue = useSetFieldValue(onChange);
 
     // FIXME: use strings
+    // FIXME: These are hard-coded for Gdacs source.
+    // Currently we are only showing severity control for Gdacs
     const severityLegendItems = useMemo<SeverityLegendItem[]>(() => ([
         {
             severity: 'green',
-            label: 'Green',
+            label: '60 km/h',
             color: COLOR_GREEN,
         },
         {
             severity: 'orange',
-            label: 'Orange',
+            label: '90 km/h',
             color: COLOR_ORANGE,
         },
         {
             severity: 'red',
-            label: 'Red',
+            label: '120 km/h',
             color: COLOR_RED,
         },
         {

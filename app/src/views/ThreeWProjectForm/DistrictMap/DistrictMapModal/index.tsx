@@ -360,7 +360,6 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
     );
 
     const handleDistrictClick = useCallback((clickedFeature: MapboxGeoJSONFeature) => {
-        // console.log('single click register', new Date().getTime());
         const properties = clickedFeature.properties as {
             country_id?: number;
             district_id?: number;
@@ -395,7 +394,6 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
                     );
                 });
                 handleDistrictChange((oldVal = []) => {
-                    // console.log('single click call', new Date().getTime());
                     const index = oldVal?.indexOf(id);
                     if (isNotDefined(index) || index === -1) {
                         return [
@@ -422,7 +420,6 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
     ]);
 
     const handleDistrictDoubleClick = useCallback((clickedFeature: MapboxGeoJSONFeature) => {
-        // console.log('double click call', new Date().getTime());
         const properties = clickedFeature?.properties as {
             country_id?: number;
             district_id?: number;

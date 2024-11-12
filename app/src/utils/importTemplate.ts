@@ -300,7 +300,7 @@ export function createImportTemplate<
 }
 
 function addClientId(item: object): object {
-    return { ...item, clientId: randomString() };
+    return { ...item, client_id: randomString() };
 }
 
 export function getValueFromImportTemplate<
@@ -311,7 +311,7 @@ export function getValueFromImportTemplate<
     optionsMap: OPTIONS_MAPPING,
     formValues: Record<string, string | number | boolean>,
     fieldName: string | undefined = undefined,
-    transformListObject: (item: object) => object = addClientId,
+    transformListObject: ((item: object) => object) = addClientId,
 ): unknown {
     const optionsReverseMap = mapToMap(
         optionsMap,
@@ -374,7 +374,7 @@ export function getValueFromImportTemplate<
             if (schema.keyFieldName) {
                 return {
                     [schema.keyFieldName]: option.key,
-                    ...value,
+                    ...transformListObject(value),
                 };
             }
             return transformListObject(value);
