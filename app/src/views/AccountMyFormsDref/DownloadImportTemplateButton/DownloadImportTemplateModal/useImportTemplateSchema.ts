@@ -234,7 +234,7 @@ function useImportTemplateSchema() {
                 optionsKey: '__boolean',
                 validation: 'boolean',
                 description: (
-                    'Indicate only if there was a similar event affecting the same area in the last 3 years.\n'
+                    'Indicate only if it affected the same population groups\n'
                     + 'Otherwise, leave the box empty.'
                 ),
             },
@@ -245,7 +245,7 @@ function useImportTemplateSchema() {
                 optionsKey: '__boolean',
                 validation: 'boolean',
                 description: (
-                    'Indicate only if there was a similar event affecting the same area in the last 3 years.\n'
+                    'Indicate only if the national society responded\n'
                     + 'Otherwise, leave the box empty.'
                 ),
             },
@@ -255,7 +255,7 @@ function useImportTemplateSchema() {
                 label: '<i>If yes, please specify which operations</i>',
                 validation: 'string',
                 description: (
-                    'Indicate only if there was a similar event affecting the same area in the last 3 years.\n'
+                    'Indicate only if the national society requested funding from DREF for that event(s).\n'
                     + 'Otherwise, leave the box empty.'
                 ),
             },
@@ -462,6 +462,17 @@ function useImportTemplateSchema() {
                     '- Inform on the inter-agency / inter-governmental coordination that has been formally or informally set up.\n'
                     + '- If possible, include the methods of coordination / information sharing.\n'
                     + '- If possible, include brief information how task / locations / etc. are coordinated and divided.\n'
+                ),
+            },
+
+            major_coordination_mechanism: {
+                type: 'input',
+                validation: 'textArea',
+                label: 'Major coordination mechanism',
+                description: (
+                    'List coordination mechanisms/platform in place at local/district and national level. Indicate the lead authorities/agencies. How the National Society is involved/positioned in this coordination. Does the NS in any lead/co-lead role? Any identified gap/overlap in the coordination (e.g., sector missing…)?\n'
+                    + 'Indicate only if there are major coordination mechanism in place\n'
+                    + 'Otherwise, leave the box empty.'
                 ),
             },
 
