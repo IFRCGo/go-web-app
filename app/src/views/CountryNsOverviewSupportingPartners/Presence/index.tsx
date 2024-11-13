@@ -169,49 +169,53 @@ function Presence() {
                     )}
                 </div>
             </Container>
-            <Container
-                className={styles.presenceCard}
-                heading={strings.countryICRCPresenceTitle}
-                footerActions={isDefined(countryResponse?.icrc_presence?.url) && (
-                    <TextOutput
-                        label={strings.source}
-                        value={(
+            {countryResponse?.icrc_presence?.icrc_presence && (
+                <Container
+                    className={styles.presenceCard}
+                    heading={strings.countryICRCPresenceTitle}
+                    footerActions={isDefined(countryResponse.icrc_presence.url) && (
+                        <TextOutput
+                            label={strings.source}
+                            value={(
+                                <Link
+                                    variant="tertiary"
+                                    href={countryResponse.icrc_presence.url}
+                                    external
+                                    withUnderline
+                                >
+                                    {strings.icrc}
+                                </Link>
+                            )}
+                        />
+                    )}
+                    withHeaderBorder
+                    withInternalPadding
+                >
+                    {
+                        resolveToString(
+                            strings.countryICRCConfirmedPartner,
+                            { year },
+                        )
+                    }
+                    {countryResponse.icrc_presence.key_operation && (
+                        <div className={styles.icrcPresenceItem}>
                             <Link
-                                variant="tertiary"
+                                key={countryResponse.icrc_presence.id}
                                 href={countryResponse.icrc_presence.url}
                                 external
+                                variant="tertiary"
                                 withUnderline
                             >
-                                {strings.icrc}
+                                {strings.countryICRCKeyOperations}
                             </Link>
-                        )}
-                    />
-                )}
-                withHeaderBorder
-                withInternalPadding
-            >
-                {resolveToString(
-                    strings.countryICRCConfirmedPartner,
-                    { year },
-                )}
-                {countryResponse?.icrc_presence?.key_operation && (
-                    <div className={styles.icrcPresenceItem}>
-                        <Link
-                            key={countryResponse?.icrc_presence.id}
-                            href={countryResponse?.icrc_presence.url}
-                            external
-                            variant="tertiary"
-                            withUnderline
-                        >
-                            {strings.countryICRCKeyOperations}
-                        </Link>
-                        {resolveToString(
-                            strings.countryICRCWithin,
-                            { name: countryResponse?.name ?? '--' },
-                        )}
-                    </div>
-                )}
-            </Container>
+                            {resolveToString(
+                                strings.countryICRCWithin,
+                                { name: countryResponse.name ?? '--' },
+                            )}
+                        </div>
+                    )}
+                </Container>
+            )}
         </Container>
     );
 }
