@@ -1,5 +1,18 @@
 # go-web-app
 
+## 7.6.5
+
+### Patch Changes
+
+- 478e73b: Update labels for severity control in Imminent Risk Map
+  Update navigation for the events in Imminent Risk Map
+  Fix issue displayed when opening a DREF import template
+  Fix submission issue when importing a DREF import file
+- f82f846: Update Health Section in Catalogue of Surge Services
+- ade84aa: Display ICRC Presence
+  - Display ICRC presence across partner countries
+  - Highlight key operational countries
+
 ## 7.6.4
 
 ### Patch Changes
