@@ -11,10 +11,7 @@ import {
     TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import {
-    isNotDefined,
-    isTruthyString,
-} from '@togglecorp/fujs';
+import { isNotDefined } from '@togglecorp/fujs';
 import {
     type EntriesAsList,
     type Error,
@@ -54,10 +51,6 @@ interface Props {
     setDistrictOptions: React.Dispatch<React.SetStateAction<DistrictItem[] | null | undefined>>;
     setEventOptions: React.Dispatch<React.SetStateAction<EventItem[] | null | undefined>>;
     disabled?: boolean;
-
-    fieldReportId: string | undefined;
-    titlePrefix: string | undefined;
-    titleSuffix: string | undefined;
 }
 
 function ContextFields(props: Props) {
@@ -71,9 +64,6 @@ function ContextFields(props: Props) {
         setDistrictOptions,
         setEventOptions,
         disabled,
-        titlePrefix,
-        titleSuffix,
-        fieldReportId,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -171,14 +161,10 @@ function ContextFields(props: Props) {
         [onValueChange, value.dtype],
     );
 
-    const prefixVisible = !fieldReportId && isTruthyString(titlePrefix);
     const summaryVisible = !value.is_covid_report;
-    const suffixVisible = !fieldReportId && isTruthyString(titleSuffix);
 
     const preferredColumnNoForSummary = Math.max(
-        (prefixVisible ? 1 : 0)
-        + (summaryVisible ? 1 : 0)
-        + (suffixVisible ? 1 : 0),
+        summaryVisible ? 1 : 0,
         1,
     ) as 1 | 2 | 3;
 
@@ -301,36 +287,17 @@ function ContextFields(props: Props) {
                 withAsteriskOnTitle
                 numPreferredColumns={preferredColumnNoForSummary}
             >
-                {prefixVisible && (
-                    <TextInput
-                        label={summaryVisible ? strings.fieldPrefix : strings.titleSecondaryLabel}
-                        name={undefined}
-                        value={titlePrefix}
-                        // eslint-disable-next-line @typescript-eslint/no-empty-function
-                        onChange={() => { }}
-                    />
-                )}
                 {summaryVisible && (
                     <TextInput
                         label={strings.titleSecondaryLabel}
                         placeholder={strings.titleInputPlaceholder}
-                        name="summary"
-                        value={value.summary}
+                        name="title"
+                        value={value.title}
                         maxLength={256}
                         onChange={onValueChange}
-                        error={error?.summary}
+                        error={error?.title}
                         disabled={disabled}
                         withAsterisk
-                    />
-                )}
-                {suffixVisible && (
-                    <TextInput
-                        label={strings.fieldReportFormSuffix}
-                        name={undefined}
-                        value={titleSuffix}
-                        // eslint-disable-next-line @typescript-eslint/no-empty-function
-                        onChange={() => { }}
-                    // readOnly
                     />
                 )}
             </InputSection>

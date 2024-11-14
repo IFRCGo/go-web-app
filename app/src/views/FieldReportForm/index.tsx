@@ -18,12 +18,9 @@ import {
     Tabs,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { formatDate } from '@ifrc-go/ui/utils';
 import {
     isDefined,
-    isFalsyString,
     isNotDefined,
-    isTruthyString,
     listToGroupList,
 } from '@togglecorp/fujs';
 import {
@@ -38,9 +35,7 @@ import FormFailedToLoadMessage from '#components/domain/FormFailedToLoadMessage'
 import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage';
 import NonFieldError from '#components/NonFieldError';
 import Page from '#components/Page';
-import useCountryRaw from '#hooks/domain/useCountryRaw';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
-import useDisasterType from '#hooks/domain/useDisasterType';
 import useAlert from '#hooks/useAlert';
 import useRouting from '#hooks/useRouting';
 import {
@@ -83,31 +78,6 @@ import SituationFields from './SituationFields';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-interface Part {
-    value: string | null | undefined;
-    compose?: string;
-}
-function concat(parts: Part[]) {
-    const validParts = parts
-        .map((part) => {
-            if (isFalsyString(part.value)) {
-                return undefined;
-            }
-            return {
-                value: part.value,
-                compose: part.compose ?? ' ',
-            };
-        })
-        .filter(isDefined)
-        .flatMap((validPart, index) => {
-            if (index === 0) {
-                return [validPart.value];
-            }
-            return [validPart.compose, validPart.value];
-        });
-    return validParts.join('');
-}
 
 function getNextStep(
     current: TabKeys,
@@ -156,8 +126,6 @@ export function Component() {
     const alert = useAlert();
     const strings = useTranslation(i18n);
     const formContentRef = useRef<ElementRef<'div'>>(null);
-    const countries = useCountryRaw();
-    const disasterTypeOptions = useDisasterType();
     const currentLanguage = useCurrentLanguage();
     const { state } = useLocation();
 
@@ -214,34 +182,6 @@ export function Component() {
     } = useRequest({
         url: '/api/v2/review-country/',
     });
-
-    const {
-        response: eventResponse,
-    } = useRequest({
-        url: '/api/v2/event/{id}/',
-        skip: isNotDefined(value.event),
-        pathVariables: isDefined(value.event) ? {
-            id: value.event,
-        } : undefined,
-    });
-
-    const fieldReportNumber = useMemo(
-        () => {
-            if (isNotDefined(value.country)) {
-                return 1;
-            }
-            const reports = eventResponse?.field_reports?.filter(
-                (fieldReport) => (
-                    isDefined(fieldReport.countries.find((country) => country.id === value.country))
-                ),
-            );
-            if (isNotDefined(reports)) {
-                return 1;
-            }
-            return reports.length + 1;
-        },
-        [eventResponse, value.country],
-    );
 
     const {
         pending: fieldReportPending,
@@ -381,118 +321,6 @@ export function Component() {
         },
     });
 
-    const countryIsoOptions = useMemo(
-        () => (
-            countries?.map((country) => {
-                // FIXME: why are we using this filter for independent and record_type
-                if (
-                    !country.independent
-                    // FIXME: Use named constant
-                    || country.record_type !== 1
-                    || isFalsyString(country.iso3)
-                ) {
-                    return undefined;
-                }
-                return {
-                    ...country,
-                    iso3: country.iso3,
-                    independent: country.independent,
-                    recort_type: country.record_type,
-                };
-            }).filter(isDefined)
-        ),
-        [countries],
-    );
-
-    const getTitle = useCallback(
-        (
-            event: number | null | undefined,
-            country: number | null | undefined,
-            is_covid_report: boolean | undefined,
-            start_date: string | null | undefined,
-            dtype: number | null | undefined,
-            // summary: string | null | undefined,
-        ) => {
-            const dateLabel = formatDate(new Date(), 'yyyy-MM-dd');
-            const iso3Label = isDefined(country)
-                ? countryIsoOptions?.find(({ id }) => id === country)?.iso3
-                : undefined;
-
-            // COVID-19
-            if (is_covid_report && isDefined(event)) {
-                // eslint-disable-next-line max-len
-                return isTruthyString(iso3Label) && isDefined(fieldReportNumber) && isTruthyString(dateLabel)
-                    ? {
-                        titlePrefix: `${iso3Label}: COVID-19`,
-                        titleSuffix: `#${fieldReportNumber} (${dateLabel})`,
-                    }
-                    : undefined;
-            }
-            if (is_covid_report && isNotDefined(event)) {
-                return isTruthyString(iso3Label)
-                    ? {
-                        titlePrefix: `${iso3Label}: COVID-19`,
-                        titleSuffix: undefined,
-                    }
-                    : undefined;
-            }
-
-            // NON-COVID-19
-            const disasterLabel = isDefined(dtype)
-                ? disasterTypeOptions?.find(({ id }) => id === dtype)?.name
-                : undefined;
-
-            const shortDate = formatDate(start_date, 'MM-yyyy');
-
-            if (isDefined(event)) {
-                // eslint-disable-next-line max-len
-                return isTruthyString(iso3Label) && isTruthyString(disasterLabel) && isTruthyString(shortDate) && isDefined(fieldReportNumber) && isTruthyString(dateLabel)
-                    ? {
-                        titlePrefix: `${iso3Label}: ${disasterLabel} - ${shortDate}`,
-                        titleSuffix: `#${fieldReportNumber} (${dateLabel})`,
-                    }
-                    : undefined;
-            }
-            // eslint-disable-next-line max-len
-            return isTruthyString(iso3Label) && isTruthyString(disasterLabel) && isTruthyString(shortDate)
-                ? {
-                    titlePrefix: `${iso3Label}: ${disasterLabel} - ${shortDate}`,
-                    titleSuffix: undefined,
-                }
-                : undefined;
-        },
-        [countryIsoOptions, disasterTypeOptions, fieldReportNumber],
-    );
-
-    const generatedTitle = useMemo(
-        () => {
-            if (isNotDefined(fieldReportId)) {
-                return getTitle(
-                    value.event,
-                    value.country,
-                    value.is_covid_report,
-                    value.start_date,
-                    value.dtype,
-                    // value.summary ?? '',
-                );
-            }
-            return undefined;
-        },
-        [
-            getTitle,
-            fieldReportId,
-            value.event,
-            value.country,
-            value.is_covid_report,
-            value.start_date,
-            value.dtype,
-            // value.summary,
-        ],
-    );
-
-    const titlePrefix = generatedTitle?.titlePrefix;
-    const titleSuffix = generatedTitle?.titleSuffix;
-
     const isReviewCountry = useMemo(() => {
         if (isNotDefined(value.country)) {
             return false;
@@ -577,37 +405,12 @@ export function Component() {
                     ...sanitizedValues,
                 } as FieldReportBody);
             } else {
-                const title = getTitle(
-                    formValues.event,
-                    formValues.country,
-                    sanitizedValues.is_covid_report,
-                    sanitizedValues.start_date,
-                    sanitizedValues.dtype,
-                );
-
-                const generatedTitlePrefix = title?.titlePrefix;
-                const generatedTitleSuffix = title?.titleSuffix;
-
-                const summary = concat([
-                    { value: generatedTitlePrefix },
-                    {
-                        // NOTE: We do not use summary field on covid report
-                        value: sanitizedValues.is_covid_report
-                            ? undefined
-                            : sanitizedValues.summary,
-                        compose: ' - ',
-                    },
-                    { value: generatedTitleSuffix },
-                ]);
-
                 createSubmitRequest({
                     ...sanitizedValues,
-                    summary,
                 } as FieldReportPostBody);
             }
         },
         [
-            getTitle,
             fieldReportId,
             editSubmitRequest,
             createSubmitRequest,
@@ -756,9 +559,6 @@ export function Component() {
                                 setEventOptions={setEventOptions}
                                 eventOptions={eventOptions}
                                 disabled={pending}
-                                titlePrefix={titlePrefix}
-                                titleSuffix={titleSuffix}
-                                fieldReportId={fieldReportId}
                             />
                         </TabPanel>
                         <TabPanel name="risk-analysis">

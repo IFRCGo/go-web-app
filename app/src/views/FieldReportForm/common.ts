@@ -152,6 +152,7 @@ const fieldsInContext = [
     'summary',
     'request_assistance',
     'ns_request_assistance',
+    'title',
 ] satisfies (keyof PartialFormValue)[];
 const fieldsInSituation = [
     'affected_pop_centres',
@@ -274,6 +275,7 @@ export const reportSchema: FormSchema = {
             country: { required: true },
             districts: { defaultValue: [] },
             dtype: { required: true },
+            title: { required: true },
             start_date: { required: true },
             request_assistance: {},
             ns_request_assistance: {},
@@ -309,23 +311,23 @@ export const reportSchema: FormSchema = {
         });
 
         // CONTEXT
-        baseSchema = addCondition(
-            baseSchema,
-            value,
-            ['status', 'is_covid_report', 'dtype'],
-            ['summary'],
-            (val): Pick<FormSchemaFields, 'summary'> => {
-                const reportType = getReportType(val?.status, val?.is_covid_report, val?.dtype);
-                if (reportType === 'COVID') {
-                    return {
-                        summary: { forceValue: nullValue },
-                    };
-                }
-                return {
-                    summary: { required: true, requiredValidation: requiredStringCondition },
-                };
-            },
-        );
+        // baseSchema = addCondition(
+        //     baseSchema,
+        //     value,
+        //     ['status', 'is_covid_report', 'dtype'],
+        //     ['summary'],
+        //     (val): Pick<FormSchemaFields, 'summary'> => {
+        //         const reportType = getReportType(val?.status, val?.is_covid_report, val?.dtype);
+        //         if (reportType === 'COVID') {
+        //             return {
+        //                 summary: { forceValue: nullValue },
+        //             };
+        //         }
+        //         return {
+        //             summary: { required: true, requiredValidation: requiredStringCondition },
+        //         };
+        //     },
+        // );
 
         // SITUATION / RISK ANALYSIS
 
