@@ -102,6 +102,8 @@
                     font-size: var(--go-ui-font-size-sm);
                 }
             }
+            font-size: var(--go-ui-font-size-sm);
+            font-style: italic;
         }
     }
 }
