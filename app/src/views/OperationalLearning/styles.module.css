@@ -64,13 +64,10 @@
         color: var(--go-ui-color-text-light);
         gap: var(--go-ui-spacing-xs);
 
-        .icon {
-            flex-shrink: 0;
-            font-size: var(--go-ui-height-icon-multiplier);
-        }
-
         .info-text {
             display: inline;
+            font-size: var(--go-ui-font-size-sm);
+            font-style: italic;
         }
     }
 }

@@ -83,8 +83,8 @@ function Sources(props: Props) {
     });
 
     const appealRendererParams = (_: number, appealDocument: AppealDocument) => ({
-        emergencyId: appealDocument.appeal.event.id,
-        emergencyName: appealDocument.appeal.event.name,
+        emergencyId: appealDocument.appeal.event?.id,
+        emergencyName: appealDocument.appeal.event?.name,
         appealDocumentURL: appealDocument.document_url,
         appealDocumentName: appealDocument.name,
     });
