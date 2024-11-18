@@ -3,7 +3,6 @@ import {
     useMemo,
     useState,
 } from 'react';
-import { InfoIcon } from '@ifrc-go/icons';
 import {
     Button,
     Chip,
@@ -303,26 +302,23 @@ export function Component() {
             mainSectionClassName={styles.mainSection}
             infoContainerClassName={styles.oldDashboardInfo}
             info={(
-                <>
-                    <InfoIcon className={styles.icon} />
-                    <div className={styles.infoText}>
-                        {resolveToComponent(
-                            strings.disclaimerMessage,
-                            {
-                                link: (
-                                    <Link
-                                        href={opsLearningDashboardURL}
-                                        external
-                                        variant="tertiary"
-                                        withLinkIcon
-                                    >
-                                        {strings.here}
-                                    </Link>
-                                ),
-                            },
-                        )}
-                    </div>
-                </>
+                <div className={styles.infoText}>
+                    {resolveToComponent(
+                        strings.disclaimerMessage,
+                        {
+                            link: (
+                                <Link
+                                    href={opsLearningDashboardURL}
+                                    external
+                                    variant="tertiary"
+                                    withLinkIcon
+                                >
+                                    {strings.here}
+                                </Link>
+                            ),
+                        },
+                    )}
+                </div>
             )}
         >
             <Container

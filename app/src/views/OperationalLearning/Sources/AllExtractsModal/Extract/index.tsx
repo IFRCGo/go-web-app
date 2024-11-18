@@ -15,7 +15,7 @@ interface Props {
     emergencyName: string | null | undefined;
     appealDocumentURL: string;
     extract: string | null | undefined;
-    extractCreatedAt: string;
+    operationStartDate: string;
 }
 function Extract(props: Props) {
     const {
@@ -24,7 +24,7 @@ function Extract(props: Props) {
         emergencyName,
         appealDocumentURL,
         extract,
-        extractCreatedAt,
+        operationStartDate,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -57,8 +57,8 @@ function Extract(props: Props) {
             )}
             footerContent={(
                 <TextOutput
-                    label={strings.dateOfLearning}
-                    value={extractCreatedAt}
+                    label={strings.dateOfOperation}
+                    value={operationStartDate}
                     strongValue
                     valueType="date"
                 />

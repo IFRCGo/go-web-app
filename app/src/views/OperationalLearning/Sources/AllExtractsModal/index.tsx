@@ -75,9 +75,9 @@ function AllExtractsModal(props: Props) {
         countryName: countries.find((country) => country.id === learning.appeal?.country)?.name,
         emergencyId: learning.appeal?.event_details?.id,
         emergencyName: learning.appeal?.event_details?.name,
-        appealDocumentURL: learning.document_url,
+        appealDocumentURL: learning?.document_url,
         extract: learning.learning_validated,
-        extractCreatedAt: learning.created_at,
+        operationStartDate: learning.appeal?.start_date,
     });
 
     const opsLearningCount = opsLearningResponse?.count ?? 0;
