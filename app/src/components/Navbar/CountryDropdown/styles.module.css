@@ -4,7 +4,7 @@
     padding: var(--go-ui-spacing-md);
     max-width: 64rem;
     min-height: 16rem;
-    gap: var(--go-ui-spacing-md);
+    gap: var(--go-ui-spacing-sm);
     overflow: auto;
 
     .region-list {

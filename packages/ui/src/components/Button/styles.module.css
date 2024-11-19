@@ -19,7 +19,6 @@
     width: fit-content;
     max-width: 100%;
     overflow: hidden;
-    text-align: center;
     text-transform: var(--text-transform);
     line-height: var(--go-ui-line-height-md);
     color: var(--color-text);
@@ -45,7 +44,6 @@
     &.primary,
     &.secondary {
         min-width: calc(var(--base-spacing) * 6.5);
-
         .children {
             text-align: center;
         }

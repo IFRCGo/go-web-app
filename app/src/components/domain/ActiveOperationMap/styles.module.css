@@ -7,6 +7,10 @@
             top: var(--go-ui-spacing-md);
             left: var(--go-ui-spacing-md);
         }
+     
+    }
+    .filter-actions {
+        align-self: end;
     }
 
     .map-container {

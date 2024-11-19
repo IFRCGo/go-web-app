@@ -2,6 +2,7 @@
     display: flex;
     color: var(--go-ui-color-gray-70);
     gap: var(--go-ui-spacing-xs);
+    padding-left: 12px;
 
     &.disabled {
         color: var(--go-ui-color-gray-40);

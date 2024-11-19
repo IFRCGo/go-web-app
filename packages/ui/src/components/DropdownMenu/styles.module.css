@@ -17,5 +17,5 @@
 .dropdown-content {
     display: flex;
     flex-direction: column;
-    padding-left: var(--go-ui-spacing-lg);
+    padding: var(--go-ui-spacing-sm) 0;
 }

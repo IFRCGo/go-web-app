@@ -5,6 +5,7 @@
 }
 
 .local-unit-validated-button {
+    align-items: center;
     border: none;
     background-color: var(--go-ui-color-gray-40);
 
