@@ -12,6 +12,8 @@ import exportMigration from './commands/exportMigration';
 import { join, basename } from 'path';
 import pushMigration from './commands/pushMigration';
 import importExcel from './commands/importExcel';
+import exportStrings from './commands/exportStrings';
+import uploadJson from './commands/uploadJson';
 
 const currentDir = cwd();
 
@@ -95,7 +97,7 @@ yargs(hideBin(process.argv))
         (yargs) => {
             yargs.positional('MIGRATION_FILE_PATH', {
                 type: 'string',
-                describe: 'Find the migration file on MIGRATION_FILE_PATH',
+                describe: 'Find the migration files on MIGRATION_FILE_PATH',
             });
             yargs.options({
                 'dry-run': {
@@ -114,20 +116,19 @@ yargs(hideBin(process.argv))
                 },
                 'destination': {
                     type: 'string',
-                    description: 'The file where new source file is saved',
+                    description: 'The path where new source file is saved',
                     demandOption: true,
                 },
             });
         },
         async (argv) => {
-            console.warn(argv);
             await applyMigrations(
                 currentDir,
-                argv.SOURCE_FILE as string,
-                argv.DESTINATION_FILE as string,
+                argv.source as string,
+                argv.destination as string,
                 argv.MIGRATION_FILE_PATH as string,
                 ['es', 'ar', 'fr'],
-                argv.lastMigration as (string | undefined),
+                argv.lastMigration as string | undefined,
                 argv.dryRun as (boolean | undefined),
             );
         },
@@ -162,6 +163,7 @@ yargs(hideBin(process.argv))
             );
         },
     )
+    // FIXME: move this to plugins
     .command(
         'export-migration <MIGRATION_FILE_PATH> <OUTPUT_DIR>',
         'Export migration file to excel format which can be used to translate the new and updated strings',
@@ -191,6 +193,31 @@ yargs(hideBin(process.argv))
             );
         },
     )
+    // FIXME: move this to plugins
+    .command(
+        'export-strings <SERVER_URL> <OUTPUT_DIR>',
+        'Export strings from the server to a json file',
+        (yargs) => {
+            yargs.positional('SERVER_URL', {
+                type: 'string',
+                describe: 'URL from which strings are to be fetched',
+            });
+            yargs.positional('OUTPUT_DIR', {
+                type: 'string',
+                describe: 'Directory where the output xlsx should be saved',
+            });
+        },
+        async (argv) => {
+            const outputDir = argv.OUTPUT_DIR as string;
+            const serverUrl = argv.SERVER_URL as string;
+
+            await exportStrings(
+                serverUrl,
+                outputDir,
+            );
+        },
+    )
+    // FIXME: move this to plugins
     .command(
         'push-migration <MIGRATION_FILE_PATH>',
         'Push migration file to the server',
@@ -222,6 +249,7 @@ yargs(hideBin(process.argv))
             );
         },
     )
+    // FIXME: move this to plugins
     .command(
         'import-excel <IMPORT_FILE_PATH>',
         'Import migration from excel file',
@@ -229,6 +257,46 @@ yargs(hideBin(process.argv))
             yargs.positional('IMPORT_FILE_PATH', {
                 type: 'string',
                 describe: 'Find the import file on IMPORT_FILE_PATH',
+            });
+            yargs.options({
+                /*
+                'auth-token': {
+                    type: 'string',
+                    describe: 'Authentication token to access the API server',
+                    require: true,
+                },
+                */
+                'api-url': {
+                    type: 'string',
+                    describe: 'URL for the API server',
+                    require: true,
+                },
+                'generated-string': {
+                    type: 'string',
+                    describe: 'file for generated strings',
+                    require: true,
+                },
+            });
+        },
+        async (argv) => {
+            const importFilePath = (argv.IMPORT_FILE_PATH as string);
+
+            await importExcel(
+                importFilePath,
+                argv.apiUrl as string,
+                argv.generatedString as string,
+                // argv.authToken as string,
+            );
+        },
+    )
+    // FIXME: move this to plugins
+    .command(
+        'upload-json <FILE_PATH>',
+        'Upload to server from json file',
+        (yargs) => {
+            yargs.positional('FILE_PATH', {
+                type: 'string',
+                describe: 'Find the json file on FILE_PATH',
             });
             yargs.options({
                 'auth-token': {
@@ -240,13 +308,13 @@ yargs(hideBin(process.argv))
                     type: 'string',
                     describe: 'URL for the API server',
                     require: true,
-                }
+                },
             });
         },
         async (argv) => {
-            const importFilePath = (argv.IMPORT_FILE_PATH as string);
+            const importFilePath = (argv.FILE_PATH as string);
 
-            await importExcel(
+            await uploadJson(
                 importFilePath,
                 argv.apiUrl as string,
                 argv.authToken as string,

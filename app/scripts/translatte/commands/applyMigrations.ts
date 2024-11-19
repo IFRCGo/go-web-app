@@ -12,12 +12,13 @@ import {
     SourceFileContent,
     MigrationFileContent,
     SourceStringItem,
+    Language,
 } from '../types';
 
 function apply(
     strings: SourceStringItem[],
     migrationActions: MigrationFileContent['actions'],
-    languages: string[],
+    languages: Language[],
 ): SourceStringItem[] {
     const stringsMapping = listToMap(
         strings,
@@ -29,7 +30,7 @@ function apply(
         [key: string]: SourceStringItem | null;
     } = { };
 
-    unique(['en', ...languages]).forEach((language) => {
+    unique(['en' as const, ...languages]).forEach((language) => {
         migrationActions.forEach((action) => {
             const isSourceLanguage = language === 'en';
             const key = `${action.namespace}:${action.key}:${language}`;
@@ -39,7 +40,7 @@ function apply(
                 const prevValue = stringsMapping[key];
                 // NOTE: we are comparing hash instead of value so that this works for source language as well as other languages
                 if (prevValue && prevValue.hash !== hash) {
-                    throw `Add: We already have string with different value for namespace '${action.namespace}' and key '${action.key}'`;
+                    console.info(`Add: We already have string with different value for namespace '${action.namespace}' and key '${action.key}'`);
                 }
 
                 if (newMapping[key]) {
@@ -118,7 +119,7 @@ async function applyMigrations(
     sourceFileName: string,
     destinationFileName: string,
     migrationFilePath: string,
-    languages: string[],
+    languages: Language[],
     from: string | undefined,
     dryRun: boolean | undefined,
 ) {
@@ -149,10 +150,11 @@ async function applyMigrations(
     );
 
     const outputSourceFileContent: SourceFileContent = {
-        ...sourceFile.content,
         last_migration: basename(lastMigration.file),
         strings: apply(
-            sourceFile.content.strings,
+            sourceFile.content.filter(
+                ({ page_name }) => isDefined(page_name),
+            ),
             mergedMigrationActions,
             languages,
         ),

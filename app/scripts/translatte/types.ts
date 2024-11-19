@@ -47,11 +47,21 @@ export interface MigrationFileContent {
     actions: MigrationActionItem[],
 }
 
+export type Language = 'en' | 'fr' | 'es' | 'ar'
+
+export interface StringItem {
+    key: string;
+    namespace: string;
+    language: Language;
+    value: string;
+    hash: string;
+}
+
 export interface SourceStringItem {
     hash: string;
     // id: string;
     key: string;
-    language: string;
+    language: Language;
     page_name: string;
     value: string;
 }
@@ -61,4 +71,3 @@ export interface SourceFileContent {
     strings: SourceStringItem[];
 }
 
-export type Language = 'en' | 'fr' | 'es' | 'ar'
