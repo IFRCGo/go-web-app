@@ -12,13 +12,10 @@
         "lint:unused": "knip --tags=-knipignore",
         "build:ui": "pnpm -F @ifrc-go/ui build",
         "start:ui": "pnpm -F @ifrc-go/ui start",
-        "build": "pnpm build:ui && pnpm -F go-web-app build",
+        "build:app": "pnpm build:ui && pnpm -F go-web-app build",
         "start:app": "pnpm build:ui && pnpm -F go-web-app start",
-        "generate:type": "pnpm -F go-web-app generate:type",
-        "preview": "pnpm -F go-web-app preview",
-        "storybook": "pnpm -F go-ui-storybook storybook",
-        "build-storybook": "pnpm -F go-ui-storybook build-storybook",
-        "chromatic": "pnpm -F go-ui-storybook chromatic"
+        "start:storybook": "pnpm -F go-ui-storybook storybook",
+        "build:storybook": "pnpm -F go-ui-storybook build-storybook"
     },
     "devDependencies": {
         "knip": "^5.36.3"

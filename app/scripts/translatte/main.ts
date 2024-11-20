@@ -163,6 +163,7 @@ yargs(hideBin(process.argv))
             );
         },
     )
+    // TODO: Use dynamic choices to inject plugins
     // FIXME: move this to plugins
     .command(
         'export-migration <MIGRATION_FILE_PATH> <OUTPUT_DIR>',

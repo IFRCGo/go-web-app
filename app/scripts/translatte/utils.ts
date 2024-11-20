@@ -223,35 +223,6 @@ export function removeUndefinedKeys<T extends object>(itemFromArgs: T) {
     return item;
 }
 
-export async function getMigrationFilesAttrsFromDir(dir: string) {
-    const fullPath = join(dir, '[0-9]+-[0-9]+.json');
-    const files = await glob(fullPath, { ignore: ['node_modules'], absolute: true });
-
-    interface MigrationFileAttrs {
-        migrationName: string;
-        fileName: string;
-        num: string;
-        timestamp: string;
-    }
-
-    const migrationFiles = files
-        .map((file): MigrationFileAttrs | undefined => {
-            const migrationName = basename(file);
-            const attrs = migrationName.match(/(?<num>[0-9]+)-(?<timestamp>[0-9]+)/)?.groups as (Omit<MigrationFileAttrs, 'filename'> | undefined)
-            if (attrs) {
-                return {
-                    ...attrs,
-                    migrationName,
-                    fileName: file,
-                }
-            }
-            return undefined;
-        })
-        .filter(isDefined)
-        .sort((a, b) => a.migrationName.localeCompare(b.migrationName));
-    return migrationFiles;
-}
-
 export async function getMigrationFilesAttrs(basePath: string, pathName: string) {
     const fullPath = isAbsolute(pathName)
         ? join(pathName, '[0-9]+-[0-9]+.json')
@@ -371,7 +342,7 @@ export function getCombinedKey(key: string, namespace: string) {
     return `${namespace}:${key}`;
 }
 
-export function resolveUrl(from: string, to: string) {
+function resolveUrl(from: string, to: string) {
     const resolvedUrl = new URL(to, new URL(from, 'resolve://'));
     if (resolvedUrl.protocol === 'resolve:') {
         const { pathname, search, hash } = resolvedUrl;
@@ -428,7 +399,7 @@ const validLanguageMap = listToMap(
     () => true,
 );
 
-export function isValidLanguage(language: unknown): language is Language {
+function isValidLanguage(language: unknown): language is Language {
     return isDefined(language)
         && typeof language === 'string'
         && isTruthyString(language)
