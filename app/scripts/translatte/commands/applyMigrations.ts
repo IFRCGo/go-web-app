@@ -152,7 +152,7 @@ async function applyMigrations(
     const outputSourceFileContent: SourceFileContent = {
         last_migration: basename(lastMigration.file),
         strings: apply(
-            sourceFile.content.filter(
+            sourceFile.content.strings.filter(
                 ({ page_name }) => isDefined(page_name),
             ),
             mergedMigrationActions,

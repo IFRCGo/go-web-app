@@ -15,7 +15,7 @@ import {
 import {
     TranslationFileContent,
     MigrationFileContent,
-    // SourceFileContent,
+    SourceFileContent,
     Language,
     ServerActionItem,
     SourceStringItem,
@@ -325,9 +325,7 @@ export async function readSource(fileName: string) {
     // TODO: validate the schema for content
     return fileContents[0] as {
         file: string,
-        // TODO: update test for this change
-        // content: SourceFileContent
-        content: SourceStringItem[],
+        content: SourceFileContent
     };
 }
 

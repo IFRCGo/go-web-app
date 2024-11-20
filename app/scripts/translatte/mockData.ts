@@ -243,7 +243,7 @@ export const strings1: SourceFileContent = {
             hash: 'c1e1b9ea3f9cfc3eb3e7b8804139ed00',
             key: 'emailLabel',
             page_name: 'login',
-            language: 'np',
+            language: 'fr',
             value: '',
         },
         {
@@ -256,7 +256,7 @@ export const strings1: SourceFileContent = {
         {
            hash: '7257816a20f2dda660c44809235ea44a',
            key: 'emailPlaceholder',
-           language: 'np',
+           language: 'fr',
            page_name: 'login',
            value: '',
         },
@@ -271,7 +271,7 @@ export const strings1: SourceFileContent = {
             hash: 'd7d3cc6191dfa630aaa8bcf8d83d8a71',
             key: 'header',
             page_name: 'login',
-            language: 'np',
+            language: 'fr',
             value: '',
         },
         {
@@ -285,7 +285,7 @@ export const strings1: SourceFileContent = {
             hash: '99dea78007133396a7b8ed70578ac6ae',
             key: 'loginButton',
             page_name: 'login',
-            language: 'np',
+            language: 'fr',
             value: '',
         },
         {
@@ -299,7 +299,7 @@ export const strings1: SourceFileContent = {
             hash: 'dc647eb65e6711e155375218212b3964',
             key: 'passwordLabel',
             page_name: 'login',
-            language: 'np',
+            language: 'fr',
             value: '',
         },
         {
@@ -313,7 +313,7 @@ export const strings1: SourceFileContent = {
             hash: '887f7db126221fe60d18c895d41dc8f6',
             key: 'confirmPasswordLabel',
             page_name: 'register',
-            language: 'np',
+            language: 'fr',
             value: '',
         },
         {
@@ -327,7 +327,7 @@ export const strings1: SourceFileContent = {
             hash: 'ce8ae9da5b7cd6c3df2929543a9af92d',
             key: 'emailLabel',
             page_name: 'register',
-            language: 'np',
+            language: 'fr',
             value: '',
         },
         {
@@ -341,7 +341,7 @@ export const strings1: SourceFileContent = {
             hash: 'bc910f8bdf70f29374f496f05be0330c',
             key: 'firstNameLabel',
             page_name: 'register',
-            language: 'np',
+            language: 'fr',
             value: '',
         },
         {
@@ -355,7 +355,7 @@ export const strings1: SourceFileContent = {
             hash: '77587239bf4c54ea493c7033e1dbf636',
             key: 'lastNameLabel',
             page_name: 'register',
-            language: 'np',
+            language: 'fr',
             value: '',
         },
         {
@@ -369,7 +369,7 @@ export const strings1: SourceFileContent = {
             hash: 'dc647eb65e6711e155375218212b3964',
             key: 'passwordLabel',
             page_name: 'register',
-            language: 'np',
+            language: 'fr',
             value: '',
         },
         {
@@ -383,7 +383,7 @@ export const strings1: SourceFileContent = {
             hash: '0ba7583639a274c434bbe6ef797115a4',
             key: 'registerButton',
             page_name: 'register',
-            language: 'np',
+            language: 'fr',
             value: '',
         },
     ],
@@ -507,7 +507,7 @@ export const strings2: SourceFileContent = {
             hash: 'c1e1b9ea3f9cfc3eb3e7b8804139ed00',
             key: 'emailLabel',
             page_name: 'login',
-            language: 'np',
+            language: 'fr',
             value: '',
         },
         {
@@ -520,7 +520,7 @@ export const strings2: SourceFileContent = {
         {
            hash: '7257816a20f2dda660c44809235ea44a',
            key: 'emailPlaceholder',
-           language: 'np',
+           language: 'fr',
            page_name: 'login',
            value: '',
         },
@@ -535,7 +535,7 @@ export const strings2: SourceFileContent = {
             hash: 'bc910f8bdf70f29374f496f05be0330c',
             key: 'firstNameLabel',
             page_name: 'login',
-            language: 'np',
+            language: 'fr',
             value: '',
         },
         {
@@ -549,7 +549,7 @@ export const strings2: SourceFileContent = {
             hash: '1efc109bdddbb6e51e9b69cc0a1b0701',
             key: 'footer',
             page_name: 'login',
-            language: 'np',
+            language: 'fr',
             value: '',
         },
         {
@@ -563,7 +563,7 @@ export const strings2: SourceFileContent = {
             hash: '77587239bf4c54ea493c7033e1dbf636',
             key: 'lastNameLabel',
             page_name: 'login',
-            language: 'np',
+            language: 'fr',
             value: '',
         },
         {
@@ -577,7 +577,7 @@ export const strings2: SourceFileContent = {
             hash: '99dea78007133396a7b8ed70578ac6ae',
             key: 'loginBtn',
             page_name: 'login',
-            language: 'np',
+            language: 'fr',
             value: '',
         },
         {
@@ -591,7 +591,7 @@ export const strings2: SourceFileContent = {
             hash: 'dc647eb65e6711e155375218212b3964',
             key: 'passwordLabel',
             page_name: 'login',
-            language: 'np',
+            language: 'fr',
             value: '',
         },
         {
@@ -605,7 +605,7 @@ export const strings2: SourceFileContent = {
             hash: '463e58c1d35fb5a4a8d717c99a60d257',
             key: 'backLink',
             page_name: 'register',
-            language: 'np',
+            language: 'fr',
             value: '',
         },
         {
@@ -619,7 +619,7 @@ export const strings2: SourceFileContent = {
             hash: 'ce8ae9da5b7cd6c3df2929543a9af92d',
             key: 'emailLabel',
             page_name: 'register',
-            language: 'np',
+            language: 'fr',
             value: '',
         },
         {
@@ -633,7 +633,7 @@ export const strings2: SourceFileContent = {
             hash: 'dc647eb65e6711e155375218212b3964',
             key: 'passwordLabel',
             page_name: 'register',
-            language: 'np',
+            language: 'fr',
             value: '',
         },
         {
@@ -647,7 +647,7 @@ export const strings2: SourceFileContent = {
             hash: '0ba7583639a274c434bbe6ef797115a4',
             key: 'registerBtn',
             page_name: 'register',
-            language: 'np',
+            language: 'fr',
             value: '',
         },
     ],

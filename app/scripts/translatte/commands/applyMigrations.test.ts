@@ -53,7 +53,7 @@ testWithTmpDir('test applyMigrations with no data in server', async ({ tmpdir })
         join(tmpdir, 'strings', 'before.json'),
         join(tmpdir, 'strings', 'after.json'),
         'migrations',
-        ['np'],
+        ['fr'],
         undefined,
         false,
     );
@@ -90,7 +90,7 @@ testWithTmpDir('test applyMigrations with data in server', async ({ tmpdir }) =>
         join(tmpdir, 'strings', 'before.json'),
         join(tmpdir, 'strings', 'after.json'),
         'migrations',
-        ['np'],
+        ['fr'],
         undefined,
         false,
     );
