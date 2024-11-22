@@ -2848,13 +2848,13 @@
   resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-14.5.2.tgz#db7257d727c891905947bd1c1a99da20e03c2ebd"
   integrity sha512-YAh82Wh4TIrxYLmfGcixwD18oIjyC1pFQC2Y01F2lzV2HTMiYrI0nze0FD0ocB//CKS/7jIUgae+adPqxK5yCQ==
 
-"@tinymce/tinymce-react@^4.3.0":
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/@tinymce/tinymce-react/-/tinymce-react-4.3.2.tgz#fbe05e35e948b0e577eddf639bfe7ee2158fdc10"
-  integrity sha512-wJHZhPf2Mk3yTtdVC/uIGh+kvDgKuTw/qV13uzdChTNo68JI1l7jYMrSQOpyimDyn5LHAw0E1zFByrm1WHAVeA==
+"@tinymce/tinymce-react@^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/@tinymce/tinymce-react/-/tinymce-react-5.1.1.tgz#3b8555ceaccfa6bb8bb03c3b0c8baaccde138bde"
+  integrity sha512-DQ0wpvnf/9z8RsOEAmrWZ1DN1PKqcQHfU+DpM3llLze7FHmxVtzuN8O+FYh0oAAF4stzAXwiCIVacfqjMwRieQ==
   dependencies:
     prop-types "^15.6.2"
-    tinymce "^6.0.0 || ^5.5.1"
+    tinymce "^7.0.0 || ^6.0.0 || ^5.5.1"
 
 "@togglecorp/fujs@^2.1.0", "@togglecorp/fujs@^2.1.1":
   version "2.1.1"
@@ -11328,10 +11328,10 @@ tinybench@^2.5.1:
   resolved "https://registry.yarnpkg.com/tinybench/-/tinybench-2.8.0.tgz#30e19ae3a27508ee18273ffed9ac7018949acd7b"
   integrity sha512-1/eK7zUnIklz4JUUlL+658n58XO2hHLQfSk1Zf2LKieUjxidN16eKFEoDEfjHc3ohofSSqK3X5yO6VGb6iW8Lw==
 
-"tinymce@^6.0.0 || ^5.5.1":
-  version "6.8.4"
-  resolved "https://registry.yarnpkg.com/tinymce/-/tinymce-6.8.4.tgz#53e1313ebfe5524b24c0fa45937d51fda058632d"
-  integrity sha512-okoJyxuPv1gzASxQDNgQbnUXOdAIyoOSXcXcZZu7tiW0PSKEdf3SdASxPBupRj+64/E3elHwVRnzSdo82Emqbg==
+"tinymce@^7.0.0 || ^6.0.0 || ^5.5.1":
+  version "7.5.1"
+  resolved "https://registry.yarnpkg.com/tinymce/-/tinymce-7.5.1.tgz#4c207ab930d3a073bf851ddd3a8aa44d8d94d7bd"
+  integrity sha512-GRXJUB0BEIOUHUEC+q9IjsgWGIAQ4Tn5t5hfpB/YR7No3oPgKHG03v1d3nbov9aqdyVW7Be+UD4I3ZerQG30VQ==
 
 tinypool@^0.8.3:
   version "0.8.4"
