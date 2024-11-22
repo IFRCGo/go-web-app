@@ -111,7 +111,7 @@ function NationalSocietyLocalUnits(props: Props) {
 
     const strings = useTranslation(i18n);
 
-    const hasAddLocalUnitPermission = isCountryAdmin(countryResponse?.id) || isSuperUser;
+    const hasAddEditLocalUnitPermission = isCountryAdmin(countryResponse?.id) || isSuperUser;
 
     useEffect(() => {
         document.addEventListener('fullscreenchange', handleFullScreenChange);
@@ -148,7 +148,7 @@ function NationalSocietyLocalUnits(props: Props) {
                     />
                 )}
                 // NOTE: disable local units add/edit for now
-                actions={hasAddLocalUnitPermission && (environment !== 'production') && (
+                actions={hasAddEditLocalUnitPermission && (environment !== 'production') && (
                     <Button
                         name={undefined}
                         variant="secondary"
