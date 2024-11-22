@@ -19,6 +19,7 @@ import {
     isNotDefined,
 } from '@togglecorp/fujs';
 
+import usePermissions from '#hooks/domain/usePermissions';
 import useFilterState from '#hooks/useFilterState';
 import { getFirstTruthyString } from '#utils/common';
 import { type CountryOutletContext } from '#utils/outletContext';
@@ -52,6 +53,8 @@ function LocalUnitsTable(props: Props) {
 
     const strings = useTranslation(i18n);
     const { countryResponse } = useOutletContext<CountryOutletContext>();
+    const { isSuperUser, isCountryAdmin } = usePermissions();
+    const hasAddEditLocalUnitPermission = isCountryAdmin(countryResponse?.id) || isSuperUser;
 
     const {
         limit,
@@ -89,57 +92,111 @@ function LocalUnitsTable(props: Props) {
     });
 
     const columns = useMemo(
-        () => ([
-            createStringColumn<LocalUnitsTableListItem, number>(
-                'branch_name',
-                strings.localUnitsTableName,
-                (item) => getFirstTruthyString(item.local_branch_name, item.english_branch_name),
-            ),
-            createStringColumn<LocalUnitsTableListItem, number>(
-                'address',
-                strings.localUnitsTableAddress,
-                (item) => getFirstTruthyString(item.address_loc, item.address_en),
-            ),
-            createStringColumn<LocalUnitsTableListItem, number>(
-                'type',
-                strings.localUnitsTableType,
-                (item) => item.type_details.name,
-                { columnClassName: styles.type },
-            ),
-            createStringColumn<LocalUnitsTableListItem, number>(
-                'focal',
-                strings.localUnitsTableFocal,
-                (item) => getFirstTruthyString(item.focal_person_loc, item.focal_person_en),
-            ),
-            createStringColumn<LocalUnitsTableListItem, number>(
-                'phone',
-                strings.localUnitsTablePhoneNumber,
-                (item) => item.phone,
-            ),
-            createStringColumn<LocalUnitsTableListItem, number>(
-                'email',
-                strings.localUnitsTableEmail,
-                (item) => item.email,
-            ),
-            createElementColumn<LocalUnitsTableListItem, number, LocalUnitsTableActionsProps>(
-                'actions',
-                '',
-                LocalUnitsTableActions,
-                // FIXME: this should be added to a callback
-                (_, item) => ({
-                    countryId: item.country,
-                    localUnitId: item.id,
-                    isValidated: item.validated,
-                    localUnitName: getFirstTruthyString(
+        () => {
+            if (hasAddEditLocalUnitPermission) {
+                return [
+                    createStringColumn<LocalUnitsTableListItem, number>(
+                        'branch_name',
+                        strings.localUnitsTableName,
+                        (item) => getFirstTruthyString(
+                            item.local_branch_name,
+                            item.english_branch_name,
+                        ),
+                    ),
+                    createStringColumn<LocalUnitsTableListItem, number>(
+                        'address',
+                        strings.localUnitsTableAddress,
+                        (item) => getFirstTruthyString(item.address_loc, item.address_en),
+                    ),
+                    createStringColumn<LocalUnitsTableListItem, number>(
+                        'type',
+                        strings.localUnitsTableType,
+                        (item) => item.type_details.name,
+                        { columnClassName: styles.type },
+                    ),
+                    createStringColumn<LocalUnitsTableListItem, number>(
+                        'focal',
+                        strings.localUnitsTableFocal,
+                        (item) => getFirstTruthyString(
+                            item.focal_person_loc,
+                            item.focal_person_en,
+                        ),
+                    ),
+                    createStringColumn<LocalUnitsTableListItem, number>(
+                        'phone',
+                        strings.localUnitsTablePhoneNumber,
+                        (item) => item.phone,
+                    ),
+                    createStringColumn<LocalUnitsTableListItem, number>(
+                        'email',
+                        strings.localUnitsTableEmail,
+                        (item) => item.email,
+                    ),
+                    createElementColumn<
+                        LocalUnitsTableListItem,
+                        number,
+                        LocalUnitsTableActionsProps
+                    >(
+                        'actions',
+                        '',
+                        LocalUnitsTableActions,
+                        // FIXME: this should be added to a callback
+                        (_, item) => ({
+                            countryId: item.country,
+                            localUnitId: item.id,
+                            isValidated: item.validated,
+                            localUnitName: getFirstTruthyString(
+                                item.local_branch_name,
+                                item.english_branch_name,
+                            ),
+                            onActionSuccess: refetchLocalUnits,
+                        }),
+                        { columnClassName: styles.actions },
+                    ),
+                ];
+            }
+            return [
+                createStringColumn<LocalUnitsTableListItem, number>(
+                    'branch_name',
+                    strings.localUnitsTableName,
+                    (item) => getFirstTruthyString(
                         item.local_branch_name,
                         item.english_branch_name,
                     ),
-                    onActionSuccess: refetchLocalUnits,
-                }),
-                { columnClassName: styles.actions },
-            ),
-        ]),
+                ),
+                createStringColumn<LocalUnitsTableListItem, number>(
+                    'address',
+                    strings.localUnitsTableAddress,
+                    (item) => getFirstTruthyString(item.address_loc, item.address_en),
+                ),
+                createStringColumn<LocalUnitsTableListItem, number>(
+                    'type',
+                    strings.localUnitsTableType,
+                    (item) => item.type_details.name,
+                    { columnClassName: styles.type },
+                ),
+                createElementColumn<LocalUnitsTableListItem, number, LocalUnitsTableActionsProps>(
+                    'actions',
+                    '',
+                    LocalUnitsTableActions,
+                    // FIXME: this should be added to a callback
+                    (_, item) => ({
+                        countryId: item.country,
+                        localUnitId: item.id,
+                        isValidated: item.validated,
+                        localUnitName: getFirstTruthyString(
+                            item.local_branch_name,
+                            item.english_branch_name,
+                        ),
+                        onActionSuccess: refetchLocalUnits,
+                        hasAddEditLocalUnitPermission,
+                    }),
+                    { columnClassName: styles.actions },
+                ),
+            ];
+        },
         [
+            hasAddEditLocalUnitPermission,
             strings.localUnitsTableAddress,
             strings.localUnitsTableName,
             strings.localUnitsTableType,

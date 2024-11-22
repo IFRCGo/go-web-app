@@ -135,7 +135,7 @@ function LocalUnitsMap(props: Props) {
         localUnitsOptions,
     } = props;
     const { countryResponse } = useOutletContext<CountryOutletContext>();
-
+    const { isAuthenticated } = useAuth();
     const [showLocalUnitModal, {
         setTrue: setShowLocalUnitViewModalTrue,
         setFalse: setShowLocalUnitViewModalFalse,
@@ -154,7 +154,6 @@ function LocalUnitsMap(props: Props) {
         [filter, countryResponse],
     );
 
-    const { isAuthenticated } = useAuth();
     const { isGuestUser } = usePermissions();
 
     const requestType = useMemo(
@@ -448,6 +447,7 @@ function LocalUnitsMap(props: Props) {
                                     name=""
                                     variant="tertiary"
                                     onClick={handleLocalUnitHeadingClick}
+                                    disabled={!isAuthenticated}
                                 >
                                     {localUnitName}
                                 </Button>
@@ -470,7 +470,7 @@ function LocalUnitsMap(props: Props) {
                                 value={localUnitAddress}
                             />
                             <TextOutput
-                                label={strings.localUnitLocalUnitType}
+                                label={strings.localUnitType}
                                 strongLabel
                                 value={localUnitDetail?.type_details.name}
                             />
