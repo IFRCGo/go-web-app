@@ -346,6 +346,18 @@ export function getValueFromImportTemplate<
 
     if (schema.type === 'input') {
         const value = formValues[fieldName];
+        if (
+            (fieldName === 'source_information__source__0__source_link'
+                || fieldName === 'source_information__source__1__source_link'
+                || fieldName === 'source_information__source__2__source_link'
+                || fieldName === 'source_information__source__3__source_link'
+                || fieldName === 'source_information__source__4__source_link'
+            )
+            && isDefined(value) && (typeof value === 'string') && !value.includes('://')
+        ) {
+            // TODO: we need to find a better solution to this
+            return `https://${value}`;
+        }
         // TODO: add validation from schema.validation
         return value;
     }
