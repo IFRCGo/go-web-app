@@ -57,7 +57,7 @@ type Props = BaseProps & ({
 function RiskImminentEvents(props: Props) {
     const {
         className,
-        defaultSource = 'pdc',
+        defaultSource = 'gdacs',
         ...otherProps
     } = props;
     const [activeView, setActiveView] = useState<ImminentEventSource>(defaultSource);
@@ -169,6 +169,33 @@ function RiskImminentEvents(props: Props) {
             footerActions={(
                 <>
                     <Radio
+                        name="gdacs"
+                        value={activeView === 'gdacs'}
+                        onClick={handleRadioClick}
+                        label={strings.imminentEventsSourceGdacsLabel}
+                        actions={(
+                            <InfoPopup
+                                title={strings.gdacsTitle}
+                                popupClassName={styles.popup}
+                                descriptionClassName={styles.description}
+                                description={resolveToComponent(
+                                    strings.gdacsDescription,
+                                    {
+                                        here: (
+                                            <Link
+                                                href="https://www.gdacs.org/default.aspx"
+                                                variant="tertiary"
+                                                external
+                                            >
+                                                {strings.here}
+                                            </Link>
+                                        ),
+                                    },
+                                )}
+                            />
+                        )}
+                    />
+                    <Radio
                         name="pdc"
                         value={activeView === 'pdc'}
                         onClick={handleRadioClick}
@@ -224,33 +251,6 @@ function RiskImminentEvents(props: Props) {
                             )}
                         />
                     )}
-                    <Radio
-                        name="gdacs"
-                        value={activeView === 'gdacs'}
-                        onClick={handleRadioClick}
-                        label={strings.imminentEventsSourceGdacsLabel}
-                        actions={(
-                            <InfoPopup
-                                title={strings.gdacsTitle}
-                                popupClassName={styles.popup}
-                                descriptionClassName={styles.description}
-                                description={resolveToComponent(
-                                    strings.gdacsDescription,
-                                    {
-                                        here: (
-                                            <Link
-                                                href="https://www.gdacs.org/default.aspx"
-                                                variant="tertiary"
-                                                external
-                                            >
-                                                {strings.here}
-                                            </Link>
-                                        ),
-                                    },
-                                )}
-                            />
-                        )}
-                    />
                     {environment !== 'production' && (
                         <Radio
                             name="meteoSwiss"
