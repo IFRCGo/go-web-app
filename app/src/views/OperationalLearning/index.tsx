@@ -22,9 +22,12 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     hasSomeDefinedValue,
     numericIdSelector,
+    numericKeySelector,
     resolveToComponent,
     resolveToString,
+    stringLabelSelector,
     stringNameSelector,
+    stringTitleSelector,
     stringValueSelector,
 } from '@ifrc-go/ui/utils';
 import {
@@ -41,11 +44,11 @@ import { type RegionOption } from '#components/domain/RegionSelectInput';
 import Link from '#components/Link';
 import Page from '#components/Page';
 import { type components } from '#generated/types';
-import useCountry, { Country } from '#hooks/domain/useCountry';
+import useCountry from '#hooks/domain/useCountry';
 import useDisasterTypes, { DisasterType } from '#hooks/domain/useDisasterType';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import usePerComponent, { type PerComponent } from '#hooks/domain/usePerComponent';
-import useSecondarySector, { type SecondarySector } from '#hooks/domain/useSecondarySector';
+import usePerComponent from '#hooks/domain/usePerComponent';
+import useSecondarySector from '#hooks/domain/useSecondarySector';
 import useAlert from '#hooks/useAlert';
 import useFilterState from '#hooks/useFilterState';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
@@ -56,7 +59,10 @@ import {
     useRequest,
 } from '#utils/restRequest';
 
-import Filters, { type FilterValue } from './Filters';
+import Filters, {
+    type FilterValue,
+    type PerLearningType,
+} from './Filters';
 import KeyInsights from './KeyInsights';
 import Summary, { type Props as SummaryProps } from './Summary';
 
@@ -89,12 +95,8 @@ type QueryType = Pick<
 >;
 
 const regionKeySelector = (region: RegionOption) => region.key;
-const countryKeySelector = (country: Country) => country.id;
-const sectorKeySelector = (d: SecondarySector) => d.key;
-const sectorLabelSelector = (d: SecondarySector) => d.label;
-const perComponentKeySelector = (option: PerComponent) => option.id;
-const disasterTypeKeySelector = (type: DisasterType) => type.id;
 const disasterTypeLabelSelector = (type: DisasterType) => type.name ?? '?';
+const perLearningTypeKeySelector = (perLearningType: PerLearningType) => perLearningType.key;
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -122,7 +124,10 @@ export function Component() {
 
     const alert = useAlert();
 
-    const { api_region_name: regionList } = useGlobalEnums();
+    const {
+        api_region_name: regionList,
+        per_learning_type: perLearningTypeOptions,
+    } = useGlobalEnums();
     const countryList = useCountry({ region: rawFilter.region });
     const disasterTypeOptions = useDisasterTypes();
     const secondarySectorOptions = useSecondarySector();
@@ -212,8 +217,16 @@ export function Component() {
         preserveResponse: true,
     });
 
+    const {
+        pending: opsLearningOrganizationTypePending,
+        response: opsLearningOrganizationTypes,
+    } = useRequest({
+        url: '/api/v2/ops-learning/organization-type/',
+        preserveResponse: true,
+    });
+
     const [
-        pendingExport,,
+        pendingExport, ,
         triggerExportStart,
     ] = useRecursiveCsvExport({
         disableProgress: true,
@@ -269,6 +282,10 @@ export function Component() {
                 ? filter.perComponents : undefined,
             search_extracts: isTruthyString(filter.appealSearchText)
                 ? (filter.appealSearchText) : undefined,
+            type_validated__in: hasSomeDefinedValue(filter.perLearningTypes)
+                ? filter.perLearningTypes : undefined,
+            organization_validated__in: hasSomeDefinedValue(filter.organizationTypes)
+                ? filter.organizationTypes : undefined,
         };
         setFilterPristine(true);
         setQuery(newQuery);
@@ -332,6 +349,9 @@ export function Component() {
                         disasterTypeOptions={disasterTypeOptions}
                         secondarySectorOptions={secondarySectorOptions}
                         perComponentOptions={perComponentOptions}
+                        organizationTypeOptions={opsLearningOrganizationTypes?.results}
+                        perLearningTypeOptions={perLearningTypeOptions}
+                        organizationTypePending={opsLearningOrganizationTypePending}
                     />
                 )}
                 footerContent={(
@@ -360,7 +380,7 @@ export function Component() {
                                                 value={rawFilter.countries}
                                                 options={countryList}
                                                 labelSelector={stringNameSelector}
-                                                keySelector={countryKeySelector}
+                                                keySelector={numericIdSelector}
                                             />
                                             <DismissableMultiListOutput
                                                 name="disasterTypes"
@@ -368,15 +388,15 @@ export function Component() {
                                                 value={rawFilter.disasterTypes}
                                                 options={disasterTypeOptions}
                                                 labelSelector={disasterTypeLabelSelector}
-                                                keySelector={disasterTypeKeySelector}
+                                                keySelector={numericIdSelector}
                                             />
                                             <DismissableMultiListOutput
                                                 name="secondarySectors"
                                                 onDismiss={onFilterChange}
                                                 value={rawFilter.secondarySectors}
                                                 options={secondarySectorOptions}
-                                                labelSelector={sectorLabelSelector}
-                                                keySelector={sectorKeySelector}
+                                                labelSelector={stringLabelSelector}
+                                                keySelector={numericKeySelector}
                                             />
                                             <DismissableMultiListOutput
                                                 name="perComponents"
@@ -384,7 +404,23 @@ export function Component() {
                                                 value={rawFilter.perComponents}
                                                 options={perComponentOptions}
                                                 labelSelector={getFormattedComponentName}
-                                                keySelector={perComponentKeySelector}
+                                                keySelector={numericIdSelector}
+                                            />
+                                            <DismissableMultiListOutput
+                                                name="organizationTypes"
+                                                onDismiss={onFilterChange}
+                                                value={rawFilter.organizationTypes}
+                                                options={opsLearningOrganizationTypes?.results}
+                                                labelSelector={stringTitleSelector}
+                                                keySelector={numericIdSelector}
+                                            />
+                                            <DismissableMultiListOutput
+                                                name="perLearningTypes"
+                                                onDismiss={onFilterChange}
+                                                value={rawFilter.perLearningTypes}
+                                                options={perLearningTypeOptions}
+                                                labelSelector={stringValueSelector}
+                                                keySelector={perLearningTypeKeySelector}
                                             />
                                             <DismissableTextOutput
                                                 name="appealStartDateAfter"

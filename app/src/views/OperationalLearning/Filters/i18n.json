@@ -14,6 +14,10 @@
         "filterOpsLearningSearchLabel": "Search",
         "filterOpsLearningSearchPlaceholder": "Search",
         "appealStartDate": "Appeal Start Date",
-        "appealEndDate": "Appeal End Date"
+        "appealEndDate": "Appeal End Date",
+        "organizationTypesLabel": "Organization Type",
+        "organizationTypesLabelPlaceholder": "All Organization Types",
+        "perLearningTypesLabel": "Learning Type",
+        "perLearningTypesLabelPlaceholder": "All Learning Type"
     }
 }
