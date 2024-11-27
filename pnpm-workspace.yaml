@@ -2,3 +2,4 @@ packages:
   - "app"
   - "packages/ui"
   - "packages/go-ui-storybook"
+  - "e23-tests"

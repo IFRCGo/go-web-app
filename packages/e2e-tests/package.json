@@ -13,7 +13,7 @@
         "typecheck": "tsc --noEmit",
         "test": "playwright test",
         "format": "biome format ./tests/* ./utils/*",
-        "lint": "yarn biome lint ./tests/* ./utils/*",
+        "lint": "pnpm biome lint ./tests/* ./utils/*",
         "biome:check": "biome check ./tests/* ./utils/*",
         "biome:ci": "biome ci ./tests/* ./utils/*",
         "biome:fix": "biome check --apply ./tests/* ./utils/*"

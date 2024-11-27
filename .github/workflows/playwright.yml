@@ -9,12 +9,10 @@ on:
   push:
     branches:
       - develop
-      - 'project/playwright'
   pull_request:
     branches:
       - develop
-      - 'project/playwright'
-# Allows you to run this workflow manually from the Actions tab
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
@@ -35,13 +33,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'yarn'
+          cache: 'pnpm'
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: pnpm install
       - name: Run Typecheck
-        run: yarn typecheck
+        run: pnpm typecheck
       - name: Run Biome Check
-        run: yarn biome:ci
+        run: pnpm biome:ci
   test-e2e:
     name: E2E Tests
     environment: 'test'
@@ -55,12 +53,10 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: lts/*
-    - name: Install dependencies
-      run: npm install -g yarn && yarn
     - name: Install Playwright Browsers
-      run: yarn playwright install --with-deps
+      run: pnpmx playwright install --with-deps
     - name: Run Playwright Tests
-      run: yarn playwright test
+      run: pnpmx playwright test
     - uses: actions/upload-artifact@v4
       id: playwright-report-artifact
       if: ${{ !cancelled() }}
