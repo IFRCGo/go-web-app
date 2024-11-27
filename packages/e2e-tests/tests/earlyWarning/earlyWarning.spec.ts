@@ -265,6 +265,8 @@ test.describe('Field Report', () => {
             .filter({ hasText: visibiltyOptTwo })
             .click();
         await page.getByRole('button', { name: 'Submit' }).click();
+        // Wait for redirection to field reports listing page
+        await page.waitForURL(/\/field-reports\/\d+/);
         await expect(page.locator('h1')).toContainText(
             `${newtitle} - ${title}`,
         );

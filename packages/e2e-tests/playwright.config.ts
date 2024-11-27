@@ -8,7 +8,7 @@ import 'dotenv/config';
 require('dotenv').config();
 
 /**
- * See https://playwright.dev/docs/test-configuration.
+ * See https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({
     testDir: './tests',
@@ -22,7 +22,7 @@ export default defineConfig({
     workers: process.env.CI ? 1 : undefined,
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
     reporter: 'html',
-    /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+    /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions */
     use: {
         /* Base URL to use in actions like `await page.goto('/')`. */
         baseURL: process.env.PLAYWRIGHT_APP_BASE_URL,
@@ -93,11 +93,4 @@ export default defineConfig({
                   dependencies: ['setup'],
               },
           ],
-
-    /* Run your local dev server before starting the tests */
-    // webServer: {
-    //   command: 'npm run start',
-    //   url: 'http://127.0.0.1:3000',
-    //   reuseExistingServer: !process.env.CI,
-    // },
 });

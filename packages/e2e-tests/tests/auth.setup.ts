@@ -4,12 +4,12 @@ const authFile = 'playwright/.auth/user.json';
 
 setup('authenticate', async ({ page }) => {
     if (
-        process.env.PLAYWRIGHT_USER_NAME &&
+        process.env.PLAYWRIGHT_USER_EMAIL &&
         process.env.PLAYWRIGHT_USER_PASSWORD
     ) {
         await login(
             page,
-            process.env.PLAYWRIGHT_USER_NAME,
+            process.env.PLAYWRIGHT_USER_EMAIL,
             process.env.PLAYWRIGHT_USER_PASSWORD,
         );
     }

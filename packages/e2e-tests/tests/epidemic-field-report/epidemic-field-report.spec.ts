@@ -252,9 +252,8 @@ test.describe('Field report flow', async () => {
             .filter({ hasText: visibiltyOptTwo })
             .click();
         await page.getByRole('button', { name: 'Submit' }).click();
-        await expect(page.locator('body')).toContainText(
-            'Field report updated, redirecting...',
-        );
+        // Wait for redirection to field reports listing page
+        await page.waitForURL(/\/field-reports\/\d+/);
         // Title Assertion
         await expect(page.locator('h1')).toContainText(
             `${newtitle} - ${title}`,
