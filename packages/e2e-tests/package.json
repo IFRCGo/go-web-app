@@ -6,7 +6,8 @@
     "devDependencies": {
         "@biomejs/biome": "1.7.3",
         "@playwright/test": "^1.44.0",
-        "@types/node": "^20.12.12"
+        "@types/node": "^20.14.11",
+        "typescript": "^5.7.2"
     },
     "scripts": {
         "install": "playwright install",
