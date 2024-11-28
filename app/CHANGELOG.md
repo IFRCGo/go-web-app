@@ -1,5 +1,16 @@
 # go-web-app
 
+## 7.6.6
+
+### Patch Changes
+
+- 8cdc946: Hide Local unit contact details on the list view for logged in users in [#1485](https://github.com/ifRCGo/go-web-app/issues/1485)
+  Update `tinymce-react` plugin to the latest version and enabled additional plugins, including support for lists in [#1481](https://github.com/ifRCGo/go-web-app/issues/1481)
+- ecca810: Replace the from-communication-copied text of CoS Health header
+- 7cf2514: Prioritize GDACS as the Primary Source for Imminent Risk Watch in [#1547](https://github.com/IFRCGo/go-web-app/issues/1547)
+- 8485076: Add Organization type and Learning type filter in Operational learning in [#1469](https://github.com/IFRCGo/go-web-app/issues/1469)
+- 766d98d: Auto append https:// for incomplete URLs in [#1505](https://github.com/IFRCGo/go-web-app/issues/1505)
+
 ## 7.6.5
 
 ### Patch Changes
