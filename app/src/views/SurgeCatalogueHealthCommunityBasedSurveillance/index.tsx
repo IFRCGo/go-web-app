@@ -25,7 +25,11 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.communityBasedEmergencyServices}
             >
-                <div>{strings.communityBasedEmergencyDetail}</div>
+                <div>
+                    {strings.communityBasedEmergencyDetailOne}
+                    <br />
+                    {strings.communityBasedEmergencyDetailTwo}
+                </div>
             </SurgeContentContainer>
             <SurgeContentContainer
                 heading={strings.communityBasedDesignedFor}
@@ -36,23 +40,14 @@ export function Component() {
                 heading={strings.communityBasedPersonnel}
             >
                 <TextOutput
-                    value={strings.communityBasedPersonnelValue}
-                    label={strings.communityBasedPersonnelLabel}
-                    strongLabel
-                />
-                <TextOutput
                     value={(
                         <ul>
-                            <li>{strings.communityBasedPersonnelCompositionListItemOne}</li>
-                            <li>{strings.communityBasedPersonnelCompositionListItemTwo}</li>
+                            <li>{strings.communityBasedPersonnelListItemOne}</li>
+                            <li>{strings.communityBasedPersonnelListItemTwo}</li>
                         </ul>
                     )}
-                    label={strings.communityBasedPersonnelCompositionLabel}
                     strongLabel
                 />
-                <div>
-                    {strings.communityBasedPersonnelCompositionDescription}
-                </div>
             </SurgeContentContainer>
             <SurgeContentContainer
                 heading={strings.communityBasedStandardComponentsLabel}
@@ -60,8 +55,6 @@ export function Component() {
                 <ul>
                     <li>{strings.communityBasedStandardComponentsListItemOne}</li>
                     <li>{strings.communityBasedStandardComponentsListItemTwo}</li>
-                    <li>{strings.communityBasedStandardComponentsListItemThree}</li>
-                    <li>{strings.communityBasedStandardComponentsListItemFour}</li>
                 </ul>
             </SurgeContentContainer>
             <SurgeContentContainer
@@ -73,13 +66,8 @@ export function Component() {
                     strongLabel
                 />
                 <TextOutput
-                    value={strings.communityBasedSpecificationsVolumeValue}
-                    label={strings.communityBasedSpecificationsVolumeLabel}
-                    strongLabel
-                />
-                <TextOutput
-                    value={strings.communityBasedSpecificationsCostValue}
-                    label={strings.communityBasedSpecificationsCostLabel}
+                    value={strings.communityBasedSpecificationsVolumeLabel}
+                    label={strings.communityBasedSpecificationsVolumeValue}
                     strongLabel
                 />
                 <TextOutput
@@ -87,16 +75,6 @@ export function Component() {
                     label={strings.communityBasedSpecificationsNationLabel}
                     strongLabel
                 />
-            </SurgeContentContainer>
-            <SurgeContentContainer
-                heading={strings.communityBasedStandardComponentsLabel}
-            >
-                <ul>
-                    <li>{strings.communityBasedStandardComponentsListItemOne}</li>
-                    <li>{strings.communityBasedStandardComponentsListItemTwo}</li>
-                    <li>{strings.communityBasedStandardComponentsListItemThree}</li>
-                    <li>{strings.communityBasedStandardComponentsListItemFour}</li>
-                </ul>
             </SurgeContentContainer>
             <SurgeContentContainer
                 heading={strings.communityBasedAdditionalResources}

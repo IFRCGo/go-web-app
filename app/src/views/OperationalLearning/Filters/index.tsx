@@ -6,22 +6,32 @@ import {
     TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import {
+    numericIdSelector,
+    numericKeySelector,
+    stringLabelSelector,
+    stringTitleSelector,
+    stringValueSelector,
+} from '@ifrc-go/ui/utils';
 import { EntriesAsList } from '@togglecorp/toggle-form';
 
 import CountryMultiSelectInput, { type CountryOption } from '#components/domain/CountryMultiSelectInput';
 import RegionSelectInput, { type RegionOption } from '#components/domain/RegionSelectInput';
+import { type components } from '#generated/types';
 import { DisasterType } from '#hooks/domain/useDisasterType';
 import { type PerComponent } from '#hooks/domain/usePerComponent';
 import { type SecondarySector } from '#hooks/domain/useSecondarySector';
 import { getFormattedComponentName } from '#utils/domain/per';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 
-const sectorKeySelector = (d: SecondarySector) => d.key;
-const sectorLabelSelector = (d: SecondarySector) => d.label;
-const perComponentKeySelector = (option: PerComponent) => option.id;
-const disasterTypeKeySelector = (type: DisasterType) => type.id;
-const disasterTypeLabelSelector = (type: DisasterType) => type.name ?? '?';
+type OpsLearningOrganizationType = NonNullable<GoApiResponse<'/api/v2/ops-learning/organization-type/'>['results']>[number];
+export type PerLearningType = components<'read'>['schemas']['PerLearningTypeEnum'];
+
+const disasterTypeLabelSelector = (disasterType: DisasterType) => disasterType.name ?? '?';
+
+const perLearningTypeKeySelector = (perLearningType: PerLearningType) => perLearningType.key;
 
 export type FilterValue = Partial<{
     region: RegionOption['key'],
@@ -29,6 +39,8 @@ export type FilterValue = Partial<{
     disasterTypes: DisasterType['id'][],
     secondarySectors: SecondarySector['key'][],
     perComponents: PerComponent['id'][],
+    organizationTypes: OpsLearningOrganizationType['id'][],
+    perLearningTypes: PerLearningType['key'][],
     appealStartDateAfter: string,
     appealStartDateBefore: string,
     appealSearchText: string;
@@ -44,8 +56,12 @@ interface Props {
     disasterTypeOptions: DisasterType[] | undefined;
     secondarySectorOptions: SecondarySector[] | undefined;
     perComponentOptions: PerComponent[] | undefined;
+    organizationTypeOptions: OpsLearningOrganizationType[] | undefined,
+    organizationTypePending: boolean;
+    perLearningTypeOptions: PerLearningType[] | undefined;
     disabled?: boolean;
 }
+
 function Filters(props: Props) {
     const {
         value,
@@ -53,6 +69,9 @@ function Filters(props: Props) {
         disasterTypeOptions,
         secondarySectorOptions,
         perComponentOptions,
+        organizationTypeOptions,
+        organizationTypePending,
+        perLearningTypeOptions,
         disabled,
     } = props;
 
@@ -94,7 +113,7 @@ function Filters(props: Props) {
                 label={strings.filterDisasterTypeLabel}
                 placeholder={strings.filterDisasterTypePlaceholder}
                 options={disasterTypeOptions}
-                keySelector={disasterTypeKeySelector}
+                keySelector={numericIdSelector}
                 labelSelector={disasterTypeLabelSelector}
                 value={value.disasterTypes}
                 onChange={onChange}
@@ -105,8 +124,8 @@ function Filters(props: Props) {
                 label={strings.filterSectorLabel}
                 placeholder={strings.filterSectorPlaceholder}
                 options={secondarySectorOptions}
-                keySelector={sectorKeySelector}
-                labelSelector={sectorLabelSelector}
+                keySelector={numericKeySelector}
+                labelSelector={stringLabelSelector}
                 disabled={disabled}
                 value={value.secondarySectors}
                 onChange={onChange}
@@ -117,10 +136,34 @@ function Filters(props: Props) {
                 label={strings.filterComponentLabel}
                 placeholder={strings.filterComponentPlaceholder}
                 options={perComponentOptions}
-                keySelector={perComponentKeySelector}
+                keySelector={numericIdSelector}
                 labelSelector={getFormattedComponentName}
                 disabled={disabled}
                 value={value.perComponents}
+                onChange={onChange}
+                withSelectAll
+            />
+            <MultiSelectInput
+                name="organizationTypes"
+                label={strings.organizationTypesLabel}
+                placeholder={strings.organizationTypesLabelPlaceholder}
+                options={organizationTypeOptions}
+                keySelector={numericIdSelector}
+                labelSelector={stringTitleSelector}
+                disabled={disabled || organizationTypePending}
+                value={value.organizationTypes}
+                onChange={onChange}
+                withSelectAll
+            />
+            <MultiSelectInput
+                name="perLearningTypes"
+                label={strings.perLearningTypesLabel}
+                placeholder={strings.perLearningTypesLabelPlaceholder}
+                options={perLearningTypeOptions}
+                keySelector={perLearningTypeKeySelector}
+                labelSelector={stringValueSelector}
+                disabled={disabled}
+                value={value.perLearningTypes}
                 onChange={onChange}
                 withSelectAll
             />

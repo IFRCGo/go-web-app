@@ -1,7 +1,7 @@
 {
     "namespace": "common",
     "strings": {
-        "wfpEventListViewDetails": "View Details",
+        "wfpEventListViewDetails": "View / Hide Details",
         "wfpEventListPublishedOn": "Published on"
     }
 }

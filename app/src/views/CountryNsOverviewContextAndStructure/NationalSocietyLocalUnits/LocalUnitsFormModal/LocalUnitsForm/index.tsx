@@ -42,6 +42,7 @@ import CountrySelectInput from '#components/domain/CountrySelectInput';
 import NonFieldError from '#components/NonFieldError';
 import { environment } from '#config';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import usePermissions from '#hooks/domain/usePermissions';
 import useAlert from '#hooks/useAlert';
 import { getFirstTruthyString } from '#utils/common';
 import { VISIBILITY_PUBLIC } from '#utils/constants';
@@ -129,10 +130,13 @@ function LocalUnitsForm(props: Props) {
 
     const alert = useAlert();
     const strings = useTranslation(i18n);
+    const { isSuperUser, isCountryAdmin } = usePermissions();
     const formFieldsContainerRef = useRef<HTMLDivElement>(null);
 
     const { api_visibility_choices: visibilityOptions } = useGlobalEnums();
     const { countryId } = useOutletContext<CountryOutletContext>();
+    const hasAddEditLocalUnitPermission = isCountryAdmin(Number(countryId)) || isSuperUser;
+
     const {
         value,
         error: formError,
@@ -317,7 +321,7 @@ function LocalUnitsForm(props: Props) {
         <div className={styles.localUnitsForm}>
             {readOnly && isDefined(actionsContainerRef.current) && (
                 <Portal container={actionsContainerRef.current}>
-                    {(environment !== 'production') && (
+                    {hasAddEditLocalUnitPermission && environment !== 'production' && (
                         <Button
                             name={undefined}
                             onClick={onEditButtonClick}
@@ -483,7 +487,7 @@ function LocalUnitsForm(props: Props) {
                                 error={error?.level}
                             />
                         )}
-                        {value.type !== TYPE_HEALTH_CARE && (
+                        {hasAddEditLocalUnitPermission && value.type !== TYPE_HEALTH_CARE && (
                             <>
                                 <TextInput
                                     name="focal_person_en"
@@ -705,8 +709,25 @@ function LocalUnitsForm(props: Props) {
                                     />
                                 </>
                             )}
-                            {value.type === TYPE_HEALTH_CARE && (
+                            {hasAddEditLocalUnitPermission && value.type === TYPE_HEALTH_CARE && (
                                 <>
+                                    <TextInput
+                                        name="focal_person_en"
+                                        label={strings.focalPersonEn}
+                                        value={value.focal_person_en}
+                                        onChange={setFieldValue}
+                                        readOnly={readOnly}
+                                        error={error?.focal_person_en}
+                                    />
+                                    <TextInput
+                                        required
+                                        label={strings.focalPersonLocal}
+                                        name="focal_person_loc"
+                                        value={value.focal_person_loc}
+                                        onChange={setFieldValue}
+                                        readOnly={readOnly}
+                                        error={error?.focal_person_loc}
+                                    />
                                     <TextInput
                                         label={strings.focalPointPosition}
                                         name="focal_point_position"

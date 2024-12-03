@@ -70,8 +70,6 @@ type Props = RiskEventDetailProps<GdacsItem, GdacsExposure | undefined>;
 function EventDetails(props: Props) {
     const {
         data: {
-            hazard_name,
-            start_date,
             event_details,
         },
         exposure,
@@ -87,16 +85,7 @@ function EventDetails(props: Props) {
     return (
         <Container
             contentViewType="vertical"
-            heading={hazard_name}
-            headingLevel={5}
             spacing="cozy"
-            headerDescription={(
-                <TextOutput
-                    label={strings.eventStartOnLabel}
-                    value={start_date}
-                    valueType="date"
-                />
-            )}
             withBorderAndHeaderBackground
             pending={pending}
         >

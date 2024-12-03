@@ -29,11 +29,11 @@ function ExportButton(props: Props) {
 
     const exportButtonLabel = useMemo(() => {
         if (!pendingExport) {
-            return strings.exportTableButtonLabel;
+            return strings.exportButtonLabel;
         }
         if (progress) {
             return resolveToComponent(
-                strings.exportTableDownloadingButtonLabel,
+                strings.exportDownloadingButtonLabel,
                 {
                     progress: (
                         <NumberOutput
@@ -46,8 +46,8 @@ function ExportButton(props: Props) {
         }
         return strings.pendingExportLabel;
     }, [
-        strings.exportTableButtonLabel,
-        strings.exportTableDownloadingButtonLabel,
+        strings.exportButtonLabel,
+        strings.exportDownloadingButtonLabel,
         strings.pendingExportLabel,
         progress,
         pendingExport,

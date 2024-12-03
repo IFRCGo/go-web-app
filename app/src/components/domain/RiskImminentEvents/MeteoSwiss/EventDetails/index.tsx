@@ -41,8 +41,6 @@ interface Props {
 function EventDetails(props: Props) {
     const {
         data: {
-            // id,
-            hazard_type_display,
             country_details,
             start_date,
             updated_at,
@@ -54,14 +52,6 @@ function EventDetails(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
-
-    const hazardName = resolveToString(
-        strings.meteoSwissHazardName,
-        {
-            hazardType: hazard_type_display,
-            hazardName: country_details?.name ?? hazard_name,
-        },
-    );
 
     const getSaffirSimpsonScaleDescription = useCallback((windspeed: number) => {
         if (windspeed < 33) {
@@ -179,25 +169,6 @@ function EventDetails(props: Props) {
         <Container
             className={styles.eventDetails}
             childrenContainerClassName={styles.content}
-            heading={hazardName}
-            headingLevel={4}
-            headerDescription={(
-                <>
-                    <TextOutput
-                        label={strings.meteoSwissEventDetailsStartedOnLabel}
-                        value={start_date}
-                        valueType="date"
-                        strongValue
-                    />
-                    <TextOutput
-                        label={strings.meteoSwissEventDetailsUpdatedAtLabel}
-                        value={updated_at}
-                        valueType="date"
-                        format={UPDATED_AT_FORMAT}
-                        strongValue
-                    />
-                </>
-            )}
             contentViewType="vertical"
         >
             {pending && <BlockLoading />}

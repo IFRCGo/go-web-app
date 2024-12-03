@@ -416,30 +416,30 @@ const surgeCatalogueHealthEmergencyClinic = customWrapRoute({
     },
 });
 
-const surgeCatalogueHealthEruChloreaTreatment = customWrapRoute({
+const surgeCatalogueHealthEruCholeraTreatment = customWrapRoute({
     parent: surgeCatalogueLayout,
-    path: 'health/eru-chlorea-treatment',
+    path: 'health/eru-cholera-treatment',
     component: {
-        render: () => import('#views/SurgeCatalogueHealthEruChloreaTreatment'),
+        render: () => import('#views/SurgeCatalogueHealthEruCholeraTreatment'),
         props: {},
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Emergency Response Unit Chlorea Treatment Center',
+        title: 'Emergency Response Unit Cholera Treatment Center',
         visibility: 'anything',
     },
 });
 
-const surgeCatalogueHealthCommunityCaseManagementChlorea = customWrapRoute({
+const surgeCatalogueHealthCommunityCaseManagementCholera = customWrapRoute({
     parent: surgeCatalogueLayout,
-    path: 'health/community-case-management-chlorea',
+    path: 'health/community-case-management-cholera',
     component: {
-        render: () => import('#views/SurgeCatalogueHealthCommunityCaseManagementChlorea'),
+        render: () => import('#views/SurgeCatalogueHealthCommunityCaseManagementCholera'),
         props: {},
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Community Case Management of Chlorea',
+        title: 'Community Case Management of Cholera',
         visibility: 'anything',
     },
 });
@@ -468,6 +468,20 @@ const surgeCatalogueHealthSafeDignifiedBurials = customWrapRoute({
     wrapperComponent: Auth,
     context: {
         title: 'Safe and Dignified Burials',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueHealthInfectionPreventionAndControl = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'health/infection-prevention-and-control',
+    component: {
+        render: () => import('#views/SurgeCatalogueHealthInfectionPreventionAndControl'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Infection Prevention and Control',
         visibility: 'anything',
     },
 });
@@ -1301,9 +1315,10 @@ function DeploymentCatalogueNavigate() {
             'eru-pss-module': surgeCatalogueHealthEruPsychosocialSupport,
             'community-case-management-of-malnutrition-ccmm': surgeCatalogueHealthCommunityManagementMalnutrition,
             'safe-and-dignified-burials': surgeCatalogueHealthSafeDignifiedBurials,
+            'infection-prevention-and-control': surgeCatalogueHealthInfectionPreventionAndControl,
             'community-based-surveillance-cbs': surgeCatalogueHealthCommunityBasedSurveillance,
-            'community-case-management-of-cholera-ccmc': surgeCatalogueHealthCommunityCaseManagementChlorea,
-            'eru-cholera-treatment-center': surgeCatalogueHealthEruChloreaTreatment,
+            'community-case-management-of-cholera-ccmc': surgeCatalogueHealthCommunityCaseManagementCholera,
+            'eru-cholera-treatment-center': surgeCatalogueHealthEruCholeraTreatment,
             'emergency-mobile-clinic': surgeCatalogueHealthEmergencyClinic,
             'maternal-newborn-health-clinic': surgeCatalogueHealthMaternalNewbornClinic,
             'surgical-surge': surgeCatalogueHealthEruSurgical,
@@ -1457,10 +1472,11 @@ export default {
     surgeCatalogueHealthEruSurgical,
     surgeCatalogueHealthMaternalNewbornClinic,
     surgeCatalogueHealthEmergencyClinic,
-    surgeCatalogueHealthEruChloreaTreatment,
-    surgeCatalogueHealthCommunityCaseManagementChlorea,
+    surgeCatalogueHealthEruCholeraTreatment,
+    surgeCatalogueHealthCommunityCaseManagementCholera,
     surgeCatalogueHealthCommunityBasedSurveillance,
     surgeCatalogueHealthSafeDignifiedBurials,
+    surgeCatalogueHealthInfectionPreventionAndControl,
     surgeCatalogueHealthCommunityManagementMalnutrition,
     surgeCatalogueHealthEruPsychosocialSupport,
     surgeCatalogueInformationManagement,

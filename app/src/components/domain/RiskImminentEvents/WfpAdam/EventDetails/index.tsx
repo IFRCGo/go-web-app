@@ -84,8 +84,6 @@ type Props = RiskEventDetailProps<WfpAdamItem, WfpAdamExposure | undefined>;
 function EventDetails(props: Props) {
     const {
         data: {
-            title,
-            publish_date,
             event_details,
         },
         exposure,
@@ -162,17 +160,7 @@ function EventDetails(props: Props) {
             className={styles.eventDetails}
             contentViewType="vertical"
             childrenContainerClassName={styles.content}
-            heading={title}
-            headingLevel={5}
             spacing="cozy"
-            headerDescription={(
-                <TextOutput
-                    label={strings.wfpEventDetailsPublishedOn}
-                    value={publish_date}
-                    valueType="date"
-                    strongValue
-                />
-            )}
             pending={pending}
         >
             {stormPoints && stormPoints.length > 0 && isDefined(maxWindSpeed) && (

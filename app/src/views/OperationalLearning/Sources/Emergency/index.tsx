@@ -6,9 +6,9 @@ import Link from '#components/Link';
 import styles from './styles.module.css';
 
 interface Props {
-    emergencyId?: number;
+    emergencyId: number | null | undefined;
     emergencyName: string | null | undefined;
-    appealDocumentURL?: string;
+    appealDocumentURL: string | null | undefined;
     appealDocumentName: string | null | undefined;
 }
 function Emergency(props: Props) {

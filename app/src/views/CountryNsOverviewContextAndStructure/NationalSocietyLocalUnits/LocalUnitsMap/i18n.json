@@ -6,8 +6,8 @@
         "localUnitDetailLastUpdate": "Last updated",
         "localUnitDetailFocalPerson": "Focal person",
         "localUnitTooltipMoreDetails": "More details",
-        "localUnitLocalUnitType": "Local unit types",
-        "localUnitHealthFacilityType": "Health facility types",
+        "localUnitType": "Local unit type",
+        "localUnitHealthFacilityType": "Health facility type",
         "presentationModeButton":"Presentation mode",
         "localUnitDetailEmail": "Email"
     }

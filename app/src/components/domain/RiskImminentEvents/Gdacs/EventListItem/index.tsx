@@ -1,4 +1,11 @@
-import { ChevronRightLineIcon } from '@ifrc-go/icons';
+import {
+    useEffect,
+    useRef,
+} from 'react';
+import {
+    ChevronDownLineIcon,
+    ChevronUpLineIcon,
+} from '@ifrc-go/icons';
 import {
     Button,
     Header,
@@ -25,35 +32,62 @@ function EventListItem(props: Props) {
             hazard_name,
             start_date,
         },
+        expanded,
         onExpandClick,
         className,
+        children,
     } = props;
 
     const strings = useTranslation(i18n);
 
+    const elementRef = useRef<HTMLDivElement>(null);
+
+    useEffect(
+        () => {
+            if (expanded && elementRef.current) {
+                const y = window.scrollY;
+                const x = window.scrollX;
+                elementRef.current.scrollIntoView({
+                    behavior: 'instant',
+                    block: 'start',
+                });
+                // NOTE: We need to scroll back because scrollIntoView also
+                // scrolls the parent container
+                window.scroll(x, y);
+            }
+        },
+        [expanded],
+    );
+
     return (
-        <Header
-            className={_cs(styles.eventListItem, className)}
-            heading={hazard_name ?? '--'}
-            headingLevel={5}
-            actions={(
-                <Button
-                    name={id}
-                    onClick={onExpandClick}
-                    variant="tertiary"
-                    title={strings.gdacsEventViewDetails}
-                >
-                    <ChevronRightLineIcon className={styles.icon} />
-                </Button>
-            )}
-            spacing="cozy"
-        >
-            <TextOutput
-                label={strings.gdacsEventStartedOn}
-                value={start_date}
-                valueType="date"
-            />
-        </Header>
+        <>
+            <Header
+                elementRef={elementRef}
+                className={_cs(styles.eventListItem, className)}
+                heading={hazard_name ?? '--'}
+                headingLevel={5}
+                actions={(
+                    <Button
+                        name={id}
+                        onClick={onExpandClick}
+                        variant="tertiary"
+                        title={strings.gdacsEventViewDetails}
+                    >
+                        {expanded
+                            ? <ChevronUpLineIcon className={styles.icon} />
+                            : <ChevronDownLineIcon className={styles.icon} />}
+                    </Button>
+                )}
+                spacing="cozy"
+            >
+                <TextOutput
+                    label={strings.gdacsEventStartedOn}
+                    value={start_date}
+                    valueType="date"
+                />
+            </Header>
+            {children}
+        </>
     );
 }
 

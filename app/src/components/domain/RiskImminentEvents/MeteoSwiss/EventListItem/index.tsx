@@ -1,4 +1,11 @@
-import { ChevronRightLineIcon } from '@ifrc-go/icons';
+import {
+    useEffect,
+    useRef,
+} from 'react';
+import {
+    ChevronDownLineIcon,
+    ChevronUpLineIcon,
+} from '@ifrc-go/icons';
 import {
     Button,
     Header,
@@ -27,37 +34,64 @@ function EventListItem(props: Props) {
             start_date,
             hazard_name,
         },
+        expanded,
         onExpandClick,
         className,
+        children,
     } = props;
 
     const strings = useTranslation(i18n);
 
     const hazardName = `${hazard_type_display} - ${country_details?.name ?? hazard_name}`;
 
+    const elementRef = useRef<HTMLDivElement>(null);
+
+    useEffect(
+        () => {
+            if (expanded && elementRef.current) {
+                const y = window.scrollY;
+                const x = window.scrollX;
+                elementRef.current.scrollIntoView({
+                    behavior: 'instant',
+                    block: 'start',
+                });
+                // NOTE: We need to scroll back because scrollIntoView also
+                // scrolls the parent container
+                window.scroll(x, y);
+            }
+        },
+        [expanded],
+    );
+
     return (
-        <Header
-            className={_cs(styles.eventListItem, className)}
-            heading={hazardName ?? '--'}
-            headingLevel={5}
-            actions={(
-                <Button
-                    name={id}
-                    onClick={onExpandClick}
-                    variant="tertiary"
-                    title={strings.meteoSwissEventListViewDetails}
-                >
-                    <ChevronRightLineIcon className={styles.icon} />
-                </Button>
-            )}
-            spacing="condensed"
-        >
-            <TextOutput
-                label={strings.meteoSwissEventListStartedOn}
-                value={start_date}
-                valueType="date"
-            />
-        </Header>
+        <>
+            <Header
+                elementRef={elementRef}
+                className={_cs(styles.eventListItem, className)}
+                heading={hazardName ?? '--'}
+                headingLevel={5}
+                actions={(
+                    <Button
+                        name={id}
+                        onClick={onExpandClick}
+                        variant="tertiary"
+                        title={strings.meteoSwissEventListViewDetails}
+                    >
+                        {expanded
+                            ? <ChevronUpLineIcon className={styles.icon} />
+                            : <ChevronDownLineIcon className={styles.icon} />}
+                    </Button>
+                )}
+                spacing="condensed"
+            >
+                <TextOutput
+                    label={strings.meteoSwissEventListStartedOn}
+                    value={start_date}
+                    valueType="date"
+                />
+            </Header>
+            {children}
+        </>
     );
 }
 

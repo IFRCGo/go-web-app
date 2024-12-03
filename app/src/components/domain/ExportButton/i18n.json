@@ -1,8 +1,8 @@
 {
     "namespace": "common",
     "strings": {
-        "exportTableButtonLabel": "Export",
-        "exportTableDownloadingButtonLabel": "Downloading... ({progress}%)",
+        "exportButtonLabel": "Export",
+        "exportDownloadingButtonLabel": "Downloading... ({progress}%)",
         "pendingExportLabel": "Downloading..."
     }
 }

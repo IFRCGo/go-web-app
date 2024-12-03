@@ -43,10 +43,13 @@ function colorSelector(item: SeverityLegendItem) {
 interface Props {
     value: LayerOptionsValue;
     onChange: React.Dispatch<React.SetStateAction<LayerOptionsValue>>;
+
+    exposureAreaControlHidden?: boolean;
 }
 
 function LayerOptions(props: Props) {
     const {
+        exposureAreaControlHidden,
         value,
         onChange,
     } = props;
@@ -54,20 +57,22 @@ function LayerOptions(props: Props) {
     const setFieldValue = useSetFieldValue(onChange);
 
     // FIXME: use strings
+    // FIXME: These are hard-coded for Gdacs source.
+    // Currently we are only showing severity control for Gdacs
     const severityLegendItems = useMemo<SeverityLegendItem[]>(() => ([
         {
             severity: 'green',
-            label: 'Green',
+            label: '60 km/h',
             color: COLOR_GREEN,
         },
         {
             severity: 'orange',
-            label: 'Orange',
+            label: '90 km/h',
             color: COLOR_ORANGE,
         },
         {
             severity: 'red',
-            label: 'Red',
+            label: '120 km/h',
             color: COLOR_RED,
         },
         {
@@ -92,28 +97,30 @@ function LayerOptions(props: Props) {
                 withBackground
                 withInvertedView
             />
-            <div className={styles.exposedAreaInputWrapper}>
-                <Switch
-                    // FIXME: use strings
-                    label="Exposed area to tropical storm or cyclone strength wind"
-                    name="showExposedArea"
-                    value={value.showExposedArea}
-                    onChange={setFieldValue}
-                    withInvertedView
-                />
-                {value.showExposedArea && (
-                    <Legend
-                        className={styles.exposedAreaLegend}
+            {!exposureAreaControlHidden && (
+                <div className={styles.exposedAreaInputWrapper}>
+                    <Switch
                         // FIXME: use strings
-                        label="Severity:"
-                        items={severityLegendItems}
-                        keySelector={severitySelector}
-                        labelSelector={labelSelector}
-                        colorSelector={colorSelector}
-                        labelClassName={styles.legendLabel}
+                        label="Exposed area to tropical storm or cyclone strength wind"
+                        name="showExposedArea"
+                        value={value.showExposedArea}
+                        onChange={setFieldValue}
+                        withInvertedView
                     />
-                )}
-            </div>
+                    {value.showExposedArea && (
+                        <Legend
+                            className={styles.exposedAreaLegend}
+                            // FIXME: use strings
+                            label="Severity:"
+                            items={severityLegendItems}
+                            keySelector={severitySelector}
+                            labelSelector={labelSelector}
+                            colorSelector={colorSelector}
+                            labelClassName={styles.legendLabel}
+                        />
+                    )}
+                </div>
+            )}
             <Switch
                 // FIXME: use strings
                 label="Storm track"

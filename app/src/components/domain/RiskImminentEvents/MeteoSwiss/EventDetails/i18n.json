@@ -9,8 +9,6 @@
         "meteoSwissAuthoritativeMessage": "Please also consider {link} and classification of {classificationLink}.",
         "meteoSwissAuthoritativeLinkLabel": "authoritative information about the hazard",
         "meteoSwissTropicalStorm": "tropical storm",
-        "meteoSwissEventDetailsStartedOnLabel": "Started on",
-        "meteoSwissEventDetailsUpdatedAtLabel": "Updated at",
         "meteoSwissHazardName": "{hazardType} - {hazardName}",
         "meteoSwissImpactValue": "{value} ({fivePercent} - {ninetyFivePercent}) {unit}",
         "beta": "beta",

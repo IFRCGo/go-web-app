@@ -1,7 +1,7 @@
 {
     "namespace": "common",
     "strings": {
-        "gdacsEventViewDetails": "View Details",
+        "gdacsEventViewDetails": "View / Hide Details",
         "gdacsEventStartedOn": "Started On"
     }
 }
