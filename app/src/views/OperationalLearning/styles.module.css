@@ -70,7 +70,6 @@
             font-style: italic;
         }
     }
-
     .key-figure-card-list {
         display: grid;
         grid-gap: var(--go-ui-spacing-md);
@@ -102,10 +101,6 @@
                     font-size: var(--go-ui-font-size-sm);
                 }
             }
-            font-size: var(--go-ui-font-size-sm);
-            font-style: italic;
         }
     }
 }
-
-
