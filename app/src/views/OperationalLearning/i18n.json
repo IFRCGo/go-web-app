@@ -20,6 +20,10 @@
         "failedToCreateExport": "Failed to generate export.",
         "disclaimerMessage": "This is an updated implementation of the Operational Learning project started by the DREF and PER teams at IFRC. The previous dashboard can be found {link}.",
         "here": "here",
-        "beta": "beta"
+        "beta": "beta",
+        "operationsIncluded": "Operations Included",
+        "sourcesUsed": "Sources Used",
+        "learningExtract": "Learning Extracts",
+        "sectorsCovered": "Sectors Covered"
     }
 }

@@ -12,6 +12,7 @@ import {
     DismissableMultiListOutput,
     DismissableTextOutput,
     Header,
+    KeyFigure,
     List,
     Tab,
     TabList,
@@ -444,6 +445,40 @@ export function Component() {
                     </>
                 )}
             />
+            <div
+                className={styles.keyFigureCardList}
+            >
+                <div className={styles.keyFigureCard}>
+                    <KeyFigure
+                        className={styles.keyFigure}
+                        value={undefined}
+                        label={strings.operationsIncluded}
+                        labelClassName={styles.keyFigureDescription}
+                    />
+                    <div className={styles.separator} />
+                    <KeyFigure
+                        className={styles.keyFigure}
+                        value={undefined}
+                        label={strings.sourcesUsed}
+                        labelClassName={styles.keyFigureDescription}
+                    />
+                    <div className={styles.separator} />
+                    <KeyFigure
+                        className={styles.keyFigure}
+                        value={undefined}
+                        label={strings.learningExtract}
+                        labelClassName={styles.keyFigureDescription}
+                    />
+                    <div className={styles.separator} />
+                    <KeyFigure
+                        className={styles.keyFigure}
+                        value={undefined}
+                        label={strings.sectorsCovered}
+                        labelClassName={styles.keyFigureDescription}
+                    />
+                </div>
+            </div>
+
             {showKeyInsights && (
                 <KeyInsights
                     opsLearningSummaryResponse={opsLearningSummaryResponse}
