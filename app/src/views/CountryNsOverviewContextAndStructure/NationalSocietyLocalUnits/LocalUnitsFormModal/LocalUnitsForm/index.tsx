@@ -2,6 +2,7 @@ import {
     RefObject,
     useCallback,
     useRef,
+    useState,
 } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import {
@@ -14,10 +15,12 @@ import {
     MultiSelectInput,
     NumberInput,
     Portal,
+    RawList,
     SelectInput,
     TextArea,
     TextInput,
     TextOutput,
+    TextOutputProps,
 } from '@ifrc-go/ui';
 import {
     useBooleanState,
@@ -26,6 +29,7 @@ import {
 import {
     numericIdSelector,
     resolveToComponent,
+    stringKeySelector,
     stringNameSelector,
     stringValueSelector,
 } from '@ifrc-go/ui/utils';
@@ -61,7 +65,7 @@ import { transformObjectError } from '#utils/restRequest/error';
 
 import LocalUnitDeleteButton from '../../LocalUnitDeleteButton';
 import LocalUnitValidateButton from '../../LocalUnitValidateButton';
-import formValueKeyName from './formValuesKeyName.ts';
+import localUnitFormFieldLabels from './localUnitFormFieldLabels.ts';
 import schema, {
     type LocalUnitsRequestPostBody,
     type PartialLocalUnits,
@@ -73,22 +77,57 @@ import styles from './styles.module.css';
 
 type HealthLocalUnitFormFields = PartialLocalUnits['health'];
 type VisibilityOptions = NonNullable<GoApiResponse<'/api/v2/global-enums/'>['api_visibility_choices']>[number]
+type LocalUnitOptions = GoApiResponse<'/api/v2/local-units-options/'>;
+type LocalUnitResponse = GoApiResponse<'/api/v2/local-units/{id}/'>;
 
-type LocalUnitFormValues = NonNullable<GoApiResponse<'/api/v2/local-units/{id}/'>>;
-type KeyOfNewValues = keyof LocalUnitFormValues;
+interface Option {
+    id: number;
+    name: string;
+}
+
+function compareArrays(newArray: unknown[], oldArray: unknown[]): boolean {
+    if (newArray.length !== oldArray.length) {
+        return false;
+    }
+    return newArray.every((id) => oldArray.includes(id));
+}
+
+function flattenObject<T extends Record<string, unknown>>(
+    inputObject: T,
+    prefix?: string,
+): Record<string, unknown> {
+    return Object.entries(inputObject).reduce((acc, [key, value]) => {
+        const newKey = prefix ? `${prefix}.${key}` : key;
+        if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+            return { ...acc, ...flattenObject(value as Record<string, unknown>, newKey) };
+        }
+        return { ...acc, [newKey]: value };
+    }, {} as Record<string, unknown>);
+}
+
+function getNestedValue<T extends Record<string, unknown>>(key: string, inputObject: T) {
+    const flattenedValues = flattenObject(inputObject);
+    return flattenedValues?.[key] as string;
+}
+
+function getLastSegment(str: string, delimiter: string) {
+    const parts = str.split(delimiter);
+    return parts[parts.length - 1];
+}
+
+interface ChangedFormField {
+    key: string,
+    value: string | undefined,
+    name: string,
+}
 
 const VisibilityOptions = (option: VisibilityOptions) => option.key;
+
 const defaultHealthValue = {};
 
 interface FormGridProps {
     className?: string;
     children?: React.ReactNode;
-}
-
-interface ChangedKeys {
-    key: KeyOfNewValues;
-    name: string | undefined;
-    value: string | null | number | boolean | undefined;
 }
 
 function FormGrid(props: FormGridProps) {
@@ -104,28 +143,52 @@ function FormGrid(props: FormGridProps) {
     );
 }
 
-function getChangedFormValues(newValues: LocalUnitFormValues, oldValues: LocalUnitFormValues) {
-    const changedKeys: ChangedKeys[] = [];
+function getChangedFormFields(
+    newValues: PartialLocalUnits,
+    oldValues: LocalUnitResponse,
+    formFieldOptions: LocalUnitOptions,
+) {
+    const flattenedValues = flattenObject(newValues);
+    const flattenedOldValues = flattenObject(oldValues);
 
-    Object.keys(newValues).forEach((key) => {
-        const typedKey = key as KeyOfNewValues;
+    const changedValues: ChangedFormField[] = [];
 
-        if (typeof newValues?.[typedKey] === 'object' && newValues?.[typedKey] !== null) {
-            const nestedChanges = getChangedFormValues(
-                newValues?.[typedKey] as LocalUnitFormValues,
-                (oldValues?.[typedKey] as LocalUnitFormValues) || {},
-            );
-            changedKeys.push(...nestedChanges);
-        } else if (newValues?.[typedKey] !== oldValues?.[typedKey]) {
-            changedKeys.push({
-                key: typedKey,
-                name: formValueKeyName?.[typedKey],
-                value: newValues?.[typedKey],
-            });
+    Object.keys(flattenedValues).forEach((key) => {
+        const newValue = flattenedValues[key];
+        const oldValue = flattenedOldValues[key];
+
+        if ((newValue === undefined || newValue === null)
+            && (oldValue === undefined || oldValue === null)
+        ) {
+            return;
+        }
+
+        const name = getNestedValue(key, localUnitFormFieldLabels);
+        const actualKey = getLastSegment(key, '.');
+        if (Array.isArray(newValue) && Array.isArray(oldValue)) {
+            if (!compareArrays(newValue, oldValue)) {
+                const options: Option[] = formFieldOptions?.[actualKey as keyof LocalUnitOptions];
+                const valuesLabels = newValue.map(
+                    (v: number) => options.find((option: Option) => option.id === v),
+                ).filter(isDefined).map((option) => option.name).join(', ');
+                changedValues.push({ key, value: valuesLabels, name });
+            }
+        } else if (newValue !== oldValue) {
+            const options: Option[] = formFieldOptions?.[actualKey as keyof LocalUnitOptions];
+            if (isDefined(options)) {
+                const valueLabel = options.find(
+                    (option: Option) => option.id === newValue,
+                )?.name;
+                changedValues.push({ key, value: valueLabel, name });
+            } else if (typeof newValue === 'boolean') {
+                changedValues.push({ key, value: newValue ? 'Yes' : 'No', name });
+            } else {
+                changedValues.push({ key, value: newValue as string, name });
+            }
         }
     });
 
-    return changedKeys;
+    return changedValues;
 }
 
 interface FormColumnContainerProps {
@@ -195,6 +258,11 @@ function LocalUnitsForm(props: Props) {
         },
     );
 
+    const [
+        localUnitChangedFormFields,
+        setLocalUnitChangedFormFields,
+    ] = useState<ChangedFormField[]>();
+
     const onHealthFieldChange = useFormObject<'health', HealthLocalUnitFormFields>(
         'health',
         setFieldValue,
@@ -211,18 +279,95 @@ function LocalUnitsForm(props: Props) {
         pathVariables: isDefined(localUnitId) ? { id: localUnitId } : undefined,
         onSuccess: (response) => {
             const {
+                type,
+                visibility,
+                country,
+                subtype,
+                local_branch_name,
+                english_branch_name,
+                level,
+                focal_person_en,
+                date_of_data,
+                source_loc,
+                source_en,
+                address_en,
+                address_loc,
+                postcode,
+                phone,
+                email,
+                city_en,
+                city_loc,
+                link,
+                health,
                 location_details,
-                ...other
             } = removeNull(response);
 
             const point = location_details.coordinates as [number, number];
 
             setValue({
+                type,
+                visibility,
+                country,
+                subtype,
+                local_branch_name,
+                english_branch_name,
+                level,
+                focal_person_en,
+                date_of_data,
+                source_loc,
+                source_en,
+                address_en,
+                address_loc,
+                postcode,
+                phone,
+                email,
+                city_en,
+                city_loc,
+                link,
                 location_json: {
                     lng: point[0],
                     lat: point[1],
                 },
-                ...other,
+                health: {
+                    affiliation: health?.affiliation,
+                    functionality: health?.functionality,
+                    health_facility_type: health?.health_facility_type,
+                    other_facility_type: health?.other_facility_type,
+                    other_affiliation: health?.other_affiliation,
+                    is_teaching_hospital: health?.is_teaching_hospital,
+                    is_in_patient_capacity: health?.is_in_patient_capacity,
+                    is_isolation_rooms_wards: health?.is_isolation_rooms_wards,
+                    focal_point_email: health?.focal_point_email,
+                    focal_point_position: health?.focal_point_position,
+                    focal_point_phone_number: health?.focal_point_phone_number,
+                    hospital_type: health?.hospital_type,
+                    specialized_medical_beyond_primary_level: health
+                        ?.specialized_medical_beyond_primary_level,
+                    primary_health_care_center: health?.primary_health_care_center,
+                    other_services: health?.other_services,
+                    blood_services: health?.blood_services,
+                    professional_training_facilities: health?.professional_training_facilities,
+                    general_medical_services: health?.general_medical_services,
+                    speciality: health?.speciality,
+                    maximum_capacity: health?.maximum_capacity,
+                    number_of_isolation_rooms: health?.number_of_isolation_rooms,
+                    is_warehousing: health?.is_warehousing,
+                    is_cold_chain: health?.is_cold_chain,
+                    ambulance_type_a: health?.ambulance_type_a,
+                    ambulance_type_b: health?.ambulance_type_b,
+                    ambulance_type_c: health?.ambulance_type_c,
+                    total_number_of_human_resource: health?.total_number_of_human_resource,
+                    general_practitioner: health?.general_practitioner,
+                    specialist: health?.specialist,
+                    residents_doctor: health?.residents_doctor,
+                    nurse: health?.nurse,
+                    dentist: health?.dentist,
+                    nursing_aid: health?.nursing_aid,
+                    midwife: health?.midwife,
+                    other_medical_heal: health?.other_medical_heal,
+                    other_profiles: health?.other_profiles,
+                    feedback: health?.feedback,
+                },
             });
         },
     });
@@ -325,6 +470,7 @@ function LocalUnitsForm(props: Props) {
             formFieldsContainerRef.current?.scrollIntoView({ block: 'start' });
         },
     });
+
     const handleFormSubmit = useCallback(
         () => {
             const result = validate();
@@ -345,9 +491,22 @@ function LocalUnitsForm(props: Props) {
 
     const onDoneButtonClick = useCallback(
         () => {
+            if (isDefined(localUnitDetailsResponse) && isDefined(localUnitsOptions)) {
+                const changedFormFields = getChangedFormFields(
+                    value,
+                    localUnitDetailsResponse,
+                    localUnitsOptions,
+                );
+                setLocalUnitChangedFormFields(() => changedFormFields);
+            }
             setShowChangesModalTrue();
         },
-        [setShowChangesModalTrue],
+        [
+            setShowChangesModalTrue,
+            localUnitDetailsResponse,
+            value,
+            localUnitsOptions,
+        ],
     );
 
     const error = getErrorObject(formError);
@@ -358,11 +517,20 @@ function LocalUnitsForm(props: Props) {
             name={undefined}
             onClick={handleFormSubmit}
             disabled={addLocalUnitsPending
-            || updateLocalUnitsPending}
+                || updateLocalUnitsPending}
         >
             {strings.submitButtonLabel}
         </Button>
     );
+
+    const localUnitFormFieldRendererParams = useCallback((
+        _: string,
+        item: ChangedFormField,
+    ): TextOutputProps => ({
+        label: item.name,
+        value: item.value,
+        strongLabel: true,
+    }), []);
 
     return (
         <div className={styles.localUnitsForm}>
@@ -1124,14 +1292,12 @@ function LocalUnitsForm(props: Props) {
                     footerActions={submitButton}
                     headerDescription={strings.confirmChangesContentQuestion}
                 >
-                    {getChangedFormValues(value, localUnitDetailsResponse).map((changes) => (
-                        <TextOutput
-                            strongLabel
-                            strongValue
-                            label={changes.name}
-                            value={changes.value}
-                        />
-                    ))}
+                    <RawList
+                        data={localUnitChangedFormFields}
+                        renderer={TextOutput}
+                        keySelector={stringKeySelector}
+                        rendererParams={localUnitFormFieldRendererParams}
+                    />
                 </Modal>
             )}
         </div>
