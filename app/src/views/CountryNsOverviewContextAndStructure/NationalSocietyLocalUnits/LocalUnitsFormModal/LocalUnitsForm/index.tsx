@@ -10,14 +10,19 @@ import {
     Container,
     DateInput,
     DateOutput,
+    Modal,
     MultiSelectInput,
     NumberInput,
     Portal,
     SelectInput,
     TextArea,
     TextInput,
+    TextOutput,
 } from '@ifrc-go/ui';
-import { useTranslation } from '@ifrc-go/ui/hooks';
+import {
+    useBooleanState,
+    useTranslation,
+} from '@ifrc-go/ui/hooks';
 import {
     numericIdSelector,
     resolveToComponent,
@@ -56,6 +61,7 @@ import { transformObjectError } from '#utils/restRequest/error';
 
 import LocalUnitDeleteButton from '../../LocalUnitDeleteButton';
 import LocalUnitValidateButton from '../../LocalUnitValidateButton';
+import formValueKeyName from './formValuesKeyName.ts';
 import schema, {
     type LocalUnitsRequestPostBody,
     type PartialLocalUnits,
@@ -68,12 +74,21 @@ import styles from './styles.module.css';
 type HealthLocalUnitFormFields = PartialLocalUnits['health'];
 type VisibilityOptions = NonNullable<GoApiResponse<'/api/v2/global-enums/'>['api_visibility_choices']>[number]
 
+type LocalUnitFormValues = NonNullable<GoApiResponse<'/api/v2/local-units/{id}/'>>;
+type KeyOfNewValues = keyof LocalUnitFormValues;
+
 const VisibilityOptions = (option: VisibilityOptions) => option.key;
 const defaultHealthValue = {};
 
 interface FormGridProps {
     className?: string;
     children?: React.ReactNode;
+}
+
+interface ChangedKeys {
+    key: KeyOfNewValues;
+    name: string | undefined;
+    value: string | null | number | boolean | undefined;
 }
 
 function FormGrid(props: FormGridProps) {
@@ -87,6 +102,30 @@ function FormGrid(props: FormGridProps) {
             {children}
         </div>
     );
+}
+
+function getChangedFormValues(newValues: LocalUnitFormValues, oldValues: LocalUnitFormValues) {
+    const changedKeys: ChangedKeys[] = [];
+
+    Object.keys(newValues).forEach((key) => {
+        const typedKey = key as KeyOfNewValues;
+
+        if (typeof newValues?.[typedKey] === 'object' && newValues?.[typedKey] !== null) {
+            const nestedChanges = getChangedFormValues(
+                newValues?.[typedKey] as LocalUnitFormValues,
+                (oldValues?.[typedKey] as LocalUnitFormValues) || {},
+            );
+            changedKeys.push(...nestedChanges);
+        } else if (newValues?.[typedKey] !== oldValues?.[typedKey]) {
+            changedKeys.push({
+                key: typedKey,
+                name: formValueKeyName?.[typedKey],
+                value: newValues?.[typedKey],
+            });
+        }
+    });
+
+    return changedKeys;
 }
 
 interface FormColumnContainerProps {
@@ -126,6 +165,11 @@ function LocalUnitsForm(props: Props) {
         headingDescriptionRef,
         headerDescriptionRef,
     } = props;
+
+    const [showChangesModal, {
+        setTrue: setShowChangesModalTrue,
+        setFalse: setShowChangesModalFalse,
+    }] = useBooleanState(false);
 
     const alert = useAlert();
     const strings = useTranslation(i18n);
@@ -299,6 +343,13 @@ function LocalUnitsForm(props: Props) {
         [validate, localUnitId, setError, updateLocalUnit, addLocalUnit],
     );
 
+    const onDoneButtonClick = useCallback(
+        () => {
+            setShowChangesModalTrue();
+        },
+        [setShowChangesModalTrue],
+    );
+
     const error = getErrorObject(formError);
     const healthFormError = getErrorObject(error?.health);
 
@@ -327,7 +378,17 @@ function LocalUnitsForm(props: Props) {
                     )}
                 </Portal>
             )}
-            {!readOnly && isDefined(actionsContainerRef.current) && (
+            {!readOnly && isDefined(localUnitId) && isDefined(actionsContainerRef.current) && (
+                <Portal container={actionsContainerRef.current}>
+                    <Button
+                        name={undefined}
+                        onClick={onDoneButtonClick}
+                    >
+                        {strings.doneButtonLabel}
+                    </Button>
+                </Portal>
+            )}
+            {!readOnly && isNotDefined(localUnitId) && isDefined(actionsContainerRef.current) && (
                 <Portal container={actionsContainerRef.current}>
                     {submitButton}
                 </Portal>
@@ -1055,6 +1116,24 @@ function LocalUnitsForm(props: Props) {
                     </>
                 )}
             </Container>
+            {showChangesModal && (
+                <Modal
+                    heading={strings.confirmChangesModalHeading}
+                    withHeaderBorder
+                    onClose={setShowChangesModalFalse}
+                    footerActions={submitButton}
+                    headerDescription={strings.confirmChangesContentQuestion}
+                >
+                    {getChangedFormValues(value, localUnitDetailsResponse).map((changes) => (
+                        <TextOutput
+                            strongLabel
+                            strongValue
+                            label={changes.name}
+                            value={changes.value}
+                        />
+                    ))}
+                </Modal>
+            )}
         </div>
     );
 }

@@ -73,6 +73,9 @@
         "otherProfiles": "Other profiles",
         "commentsNS": "Comments by the NS",
         "submitButtonLabel": "Submit",
-        "editButtonLabel": "Edit"
+        "editButtonLabel": "Edit",
+        "doneButtonLabel": "Done",
+        "confirmChangesModalHeading": "Confirm the Changes",
+        "confirmChangesContentQuestion": "Are you sure you want to have these changes in this project?"
     }
 }
