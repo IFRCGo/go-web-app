@@ -52,3 +52,28 @@ export function getFirstTruthyString(
 
     return invalidText;
 }
+
+export function compareArrays(newArray: unknown[], oldArray: unknown[]): boolean {
+    if (newArray.length !== oldArray.length) {
+        return false;
+    }
+    return newArray.every((id) => oldArray.includes(id));
+}
+
+export function flattenObject<T extends Record<string, unknown>>(
+    inputObject: T,
+    prefix?: string,
+): Record<string, unknown> {
+    return Object.entries(inputObject).reduce((acc, [key, value]) => {
+        const newKey = prefix ? `${prefix}.${key}` : key;
+        if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+            return { ...acc, ...flattenObject(value as Record<string, unknown>, newKey) };
+        }
+        return { ...acc, [newKey]: value };
+    }, {} as Record<string, unknown>);
+}
+
+export function getLastSegment(str: string, delimiter: string) {
+    const parts = str.split(delimiter);
+    return parts[parts.length - 1];
+}

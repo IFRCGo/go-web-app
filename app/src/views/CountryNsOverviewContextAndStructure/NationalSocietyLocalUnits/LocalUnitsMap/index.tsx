@@ -271,7 +271,7 @@ function LocalUnitsMap(props: Props) {
             features: localUnits?.results?.map(
                 (localUnit) => ({
                     type: 'Feature' as const,
-                    geometry: localUnit.location_details as unknown as {
+                    geometry: localUnit.location_geojson as unknown as {
                         type: 'Point',
                         coordinates: [number, number],
                     },
