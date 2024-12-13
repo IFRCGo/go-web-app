@@ -16,6 +16,7 @@ interface Props {
     readOnly?: boolean;
     setReadOnly?: React.Dispatch<React.SetStateAction<boolean>>;
     onClose: (requestDone?: boolean) => void;
+    onDeleteActionSuccess?: () => void;
 }
 
 function LocalUnitsFormModal(props: Props) {
@@ -24,6 +25,7 @@ function LocalUnitsFormModal(props: Props) {
         localUnitId,
         readOnly,
         setReadOnly,
+        onDeleteActionSuccess,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -74,6 +76,7 @@ function LocalUnitsFormModal(props: Props) {
                 actionsContainerRef={actionsContainerRef}
                 headingDescriptionRef={headingDescriptionRef}
                 headerDescriptionRef={headerDescriptionRef}
+                onDeleteActionSuccess={onDeleteActionSuccess}
             />
         </Modal>
     );

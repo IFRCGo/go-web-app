@@ -13,9 +13,10 @@ import {
 
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import { environment } from '#config';
+import useAuth from '#hooks/domain/useAuth';
 import usePermissions from '#hooks/domain/usePermissions';
 
-import LocalUnitDeleteButton from '../../LocalUnitDeleteButton';
+import LocalUnitDeleteModal from '../../LocalUnitDeleteModal';
 import LocalUnitsFormModal from '../../LocalUnitsFormModal';
 import LocalUnitValidateButton from '../../LocalUnitValidateButton';
 
@@ -23,10 +24,11 @@ import i18n from './i18n.json';
 
 export interface Props {
     countryId: number;
-    localUnitName: string | null | undefined;
+    localUnitName: string;
     localUnitId: number;
     isValidated: boolean;
-    onActionSuccess: () => void;
+    onDeleteActionSuccess: () => void;
+    onValidationActionSuccess: () => void;
 }
 
 function LocalUnitsTableActions(props: Props) {
@@ -35,13 +37,17 @@ function LocalUnitsTableActions(props: Props) {
         localUnitName,
         localUnitId,
         isValidated,
-        onActionSuccess,
+        onValidationActionSuccess,
+        onDeleteActionSuccess,
     } = props;
 
     const { isCountryAdmin, isSuperUser } = usePermissions();
+    const { isAuthenticated } = useAuth();
     const strings = useTranslation(i18n);
 
     const hasValidatePermission = isSuperUser || isCountryAdmin(countryId);
+
+    const hasDeletePermission = isAuthenticated;
 
     const [readOnlyLocalUnitModal, setReadOnlyLocalUnitModal] = useState(false);
 
@@ -50,15 +56,20 @@ function LocalUnitsTableActions(props: Props) {
         setFalse: setShowLocalUnitModalFalse,
     }] = useBooleanState(false);
 
+    const [showDeleteLocalUnitModal, {
+        setTrue: setShowDeleteLocalUnitModalTrue,
+        setFalse: setShowDeleteLocalUnitModalFalse,
+    }] = useBooleanState(false);
+
     const handleLocalUnitsFormModalClose = useCallback(
         (shouldUpdate?: boolean) => {
             setShowLocalUnitModalFalse();
 
             if (shouldUpdate) {
-                onActionSuccess();
+                onDeleteActionSuccess();
             }
         },
-        [setShowLocalUnitModalFalse, onActionSuccess],
+        [setShowLocalUnitModalFalse, onDeleteActionSuccess],
     );
 
     const handleViewLocalUnitClick = useCallback(
@@ -68,6 +79,7 @@ function LocalUnitsTableActions(props: Props) {
         },
         [setShowLocalUnitModalTrue],
     );
+
     const handleEditLocalUnitClick = useCallback(
         () => {
             setReadOnlyLocalUnitModal(false);
@@ -98,13 +110,14 @@ function LocalUnitsTableActions(props: Props) {
                         >
                             {strings.localUnitsEdit}
                         </DropdownMenuItem>
-                        <LocalUnitDeleteButton
-                            variant="dropdown-item"
-                            countryId={countryId}
-                            localUnitName={localUnitName}
-                            onActionSuccess={onActionSuccess}
-                            localUnitId={localUnitId}
-                        />
+                        <DropdownMenuItem
+                            type="button"
+                            name={undefined}
+                            onClick={setShowDeleteLocalUnitModalTrue}
+                            disabled={!hasDeletePermission}
+                        >
+                            {strings.localUnitsDelete}
+                        </DropdownMenuItem>
                     </>
                 )}
             >
@@ -113,7 +126,7 @@ function LocalUnitsTableActions(props: Props) {
                         countryId={countryId}
                         localUnitName={localUnitName}
                         isValidated={isValidated}
-                        onActionSuccess={onActionSuccess}
+                        onActionSuccess={onValidationActionSuccess}
                         localUnitId={localUnitId}
                     />
                 ) : (
@@ -133,6 +146,15 @@ function LocalUnitsTableActions(props: Props) {
                     localUnitId={localUnitId}
                     readOnly={readOnlyLocalUnitModal}
                     setReadOnly={setReadOnlyLocalUnitModal}
+                    onDeleteActionSuccess={onDeleteActionSuccess}
+                />
+            )}
+            {showDeleteLocalUnitModal && (
+                <LocalUnitDeleteModal
+                    onClose={setShowDeleteLocalUnitModalFalse}
+                    localUnitName={localUnitName}
+                    onDeleteActionSuccess={onDeleteActionSuccess}
+                    localUnitId={localUnitId}
                 />
             )}
         </>

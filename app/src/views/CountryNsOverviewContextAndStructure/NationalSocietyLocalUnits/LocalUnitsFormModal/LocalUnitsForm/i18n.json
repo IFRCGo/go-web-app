@@ -73,6 +73,7 @@
         "otherProfiles": "Other profiles",
         "commentsNS": "Comments by the NS",
         "submitButtonLabel": "Submit",
-        "editButtonLabel": "Edit"
+        "editButtonLabel": "Edit",
+        "localUnitDeleteButtonLabel": "Delete"
     }
 }
