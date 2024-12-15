@@ -38,6 +38,7 @@ import {
     isNotDefined,
 } from '@togglecorp/fujs';
 import {
+    createSubmitHandler,
     getErrorObject,
     getErrorString,
     removeNull,
@@ -73,7 +74,10 @@ import LocalUnitDeleteModal from '../../LocalUnitDeleteModal';
 import LocalUnitValidateButton from '../../LocalUnitValidateButton';
 import schema, {
     type LocalUnitsRequestPostBody,
+    LocalUnitsRevertRequestPostBody,
     type PartialLocalUnits,
+    PartialLocalUnitsRevertForm,
+    revertSchema,
     TYPE_HEALTH_CARE,
 } from './schema';
 import useLocalUnitFormFieldLabels from './useLocalUnitFormFieldLabels';
@@ -104,6 +108,7 @@ type ChangedFormField = {
 const VisibilityOptions = (option: VisibilityOptions) => option.key;
 
 const defaultHealthValue = {};
+const defaultRevertChangesValue: PartialLocalUnitsRevertForm = {};
 
 interface FormGridProps {
     className?: string;
@@ -232,7 +237,7 @@ interface Props {
 
 function LocalUnitsForm(props: Props) {
     const {
-        readOnly = false,
+        readOnly: readOnlyFromProps = false,
         onSuccess,
         onEditButtonClick,
         localUnitId,
@@ -245,6 +250,11 @@ function LocalUnitsForm(props: Props) {
     const [showChangesModal, {
         setTrue: setShowChangesModalTrue,
         setFalse: setShowChangesModalFalse,
+    }] = useBooleanState(false);
+
+    const [showRevertChangesModal, {
+        setTrue: setShowRevertChangesModalTrue,
+        setFalse: setShowRevertChangesModalFalse,
     }] = useBooleanState(false);
 
     const alert = useAlert();
@@ -293,6 +303,17 @@ function LocalUnitsForm(props: Props) {
                 country: Number(countryId),
             },
         },
+    );
+
+    const {
+        value: revertChangesValue,
+        error: revertChangesError,
+        setFieldValue: setRevertChangesFieldValue,
+        validate: revertChangesValidate,
+        setError: setRevertChangesError,
+    } = useForm(
+        revertSchema,
+        { value: defaultRevertChangesValue },
     );
 
     const [
@@ -403,6 +424,8 @@ function LocalUnitsForm(props: Props) {
             });
         },
     });
+
+    const readOnly = readOnlyFromProps || localUnitDetailsResponse?.is_locked;
 
     const {
         response: localUnitsOptions,
@@ -521,6 +544,44 @@ function LocalUnitsForm(props: Props) {
         [validate, localUnitId, setError, updateLocalUnit, addLocalUnit],
     );
 
+    const {
+        pending: revertChangesPending,
+        trigger: revertChanges,
+    } = useLazyRequest({
+        method: 'POST',
+        url: '/api/v2/local-units/{id}/revert/',
+        pathVariables: isDefined(localUnitId) ? { id: localUnitId } : undefined,
+        body: (formFields: LocalUnitsRevertRequestPostBody) => formFields,
+        onSuccess: () => {
+            alert.show(
+                strings.revertChangesSuccessMessage,
+                { variant: 'success' },
+            );
+        },
+        onFailure: (response) => {
+            const {
+                value: { messageForNotification },
+                debugMessage,
+            } = response;
+
+            alert.show(
+                strings.revertChangesfailedMessage,
+                {
+                    variant: 'danger',
+                    description: messageForNotification,
+                    debugMessage,
+                },
+            );
+        },
+    });
+
+    const handleRevertChangesFormSubmit = useCallback(
+        (formValues: PartialLocalUnitsRevertForm) => {
+            revertChanges(formValues as LocalUnitsRevertRequestPostBody);
+        },
+        [revertChanges],
+    );
+
     const onDoneButtonClick = useCallback(
         () => {
             if (isDefined(localUnitDetailsResponse) && isDefined(localUnitsOptions)) {
@@ -543,6 +604,7 @@ function LocalUnitsForm(props: Props) {
 
     const error = getErrorObject(formError);
     const healthFormError = getErrorObject(error?.health);
+    const revertChangesFormError = getErrorObject(revertChangesError);
 
     const submitButton = readOnly ? null : (
         <Button
@@ -575,7 +637,9 @@ function LocalUnitsForm(props: Props) {
 
     return (
         <div className={styles.localUnitsForm}>
-            {readOnly && isDefined(actionsContainerRef.current) && (
+            {!localUnitDetailsResponse?.is_locked
+                && readOnlyFromProps
+                && isDefined(actionsContainerRef.current) && (
                 <Portal container={actionsContainerRef.current}>
                     {(environment !== 'production') && (
                         <Button
@@ -679,6 +743,15 @@ function LocalUnitsForm(props: Props) {
                                                 disabled={!pristine}
                                                 readOnly={!pristine}
                                             />
+                                        )}
+                                        {localUnitDetailsResponse?.is_locked && (
+                                            <Button
+                                                name={undefined}
+                                                onClick={setShowRevertChangesModalTrue}
+                                                variant="secondary"
+                                            >
+                                                {strings.revertButtonLabel}
+                                            </Button>
                                         )}
                                     </div>
                                 )}
@@ -1335,6 +1408,35 @@ function LocalUnitsForm(props: Props) {
                     onDeleteActionSuccess={onDeleteActionSuccess}
                     localUnitId={localUnitId}
                 />
+            )}
+            {showRevertChangesModal && (
+                <Modal
+                    heading={strings.revertChangesModalHeading}
+                    headerDescription={strings.revertChangesContentQuestion}
+                    onClose={setShowRevertChangesModalFalse}
+                    footerActions={(
+                        <Button
+                            name={undefined}
+                            onClick={createSubmitHandler(
+                                revertChangesValidate,
+                                setRevertChangesError,
+                                handleRevertChangesFormSubmit,
+                            )}
+                            disabled={revertChangesPending}
+                        >
+                            {strings.submitButtonLabel}
+                        </Button>
+                    )}
+                >
+                    <TextArea
+                        name="reason"
+                        required
+                        label={strings.reasonLabel}
+                        value={revertChangesValue.reason}
+                        onChange={setRevertChangesFieldValue}
+                        error={getErrorString(revertChangesFormError?.reason)}
+                    />
+                </Modal>
             )}
             {showChangesModal && (
                 <Modal
