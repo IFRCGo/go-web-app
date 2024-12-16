@@ -425,7 +425,9 @@ function LocalUnitsForm(props: Props) {
         },
     });
 
-    const readOnly = readOnlyFromProps || localUnitDetailsResponse?.is_locked;
+    const readOnly = readOnlyFromProps
+        || isNotDefined(localUnitDetailsResponse)
+        || localUnitDetailsResponse?.is_locked;
 
     const {
         response: localUnitsOptions,
@@ -558,18 +560,19 @@ function LocalUnitsForm(props: Props) {
                 { variant: 'success' },
             );
         },
-        onFailure: (response) => {
+        onFailure: (error) => {
             const {
-                value: { messageForNotification },
-                debugMessage,
-            } = response;
+                value: {
+                    formErrors,
+                },
+            } = error;
+
+            setError(transformObjectError(formErrors, () => undefined));
 
             alert.show(
-                strings.revertChangesfailedMessage,
+                strings.revertChangesFailedMessage,
                 {
                     variant: 'danger',
-                    description: messageForNotification,
-                    debugMessage,
                 },
             );
         },
@@ -639,6 +642,7 @@ function LocalUnitsForm(props: Props) {
         <div className={styles.localUnitsForm}>
             {!localUnitDetailsResponse?.is_locked
                 && readOnlyFromProps
+                && isNotDefined(localUnitDetailsResponse)
                 && isDefined(actionsContainerRef.current) && (
                 <Portal container={actionsContainerRef.current}>
                     {(environment !== 'production') && (
