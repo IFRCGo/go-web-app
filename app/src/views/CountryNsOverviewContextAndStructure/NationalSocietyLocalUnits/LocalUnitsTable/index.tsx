@@ -130,6 +130,7 @@ function LocalUnitsTable(props: Props) {
                     countryId: item.country,
                     localUnitId: item.id,
                     isValidated: item.validated,
+                    isLocked: item.is_locked,
                     localUnitName: getFirstTruthyString(
                         item.local_branch_name,
                         item.english_branch_name,
