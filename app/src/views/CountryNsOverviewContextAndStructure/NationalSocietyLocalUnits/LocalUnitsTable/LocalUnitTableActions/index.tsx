@@ -13,6 +13,7 @@ import {
 
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import { environment } from '#config';
+import useAuth from '#hooks/domain/useAuth';
 import useCountry from '#hooks/domain/useCountry';
 import usePermissions from '#hooks/domain/usePermissions';
 
@@ -41,26 +42,45 @@ function LocalUnitsTableActions(props: Props) {
         onDeleteActionSuccess,
     } = props;
 
-    const countryDetails = useCountry({ id: Number(countryId) });
-
-    const { isCountryAdmin, isSuperUser, isRegionAdmin } = usePermissions();
     const strings = useTranslation(i18n);
 
-    const hasDeleteAndValidatePermission = isSuperUser
-        || isCountryAdmin(countryId)
+    const countryDetails = useCountry({ id: Number(countryId) });
+
+    const {
+        isSuperUser,
+        isRegionAdmin,
+        isCountryAdmin,
+        isGuestUser,
+    } = usePermissions();
+
+    const { isAuthenticated } = useAuth();
+
+    const hasValidatePermission = isSuperUser
+        || isCountryAdmin(Number(countryId))
         || isRegionAdmin(Number(countryDetails?.region));
+
+    const hasDeletePermission = isSuperUser
+        || isCountryAdmin(Number(countryId))
+        || isRegionAdmin(Number(countryDetails?.region))
+        || (isAuthenticated && !isGuestUser);
 
     const [readOnlyLocalUnitModal, setReadOnlyLocalUnitModal] = useState(false);
 
-    const [showLocalUnitModal, {
-        setTrue: setShowLocalUnitModalTrue,
-        setFalse: setShowLocalUnitModalFalse,
-    }] = useBooleanState(false);
+    const [
+        showLocalUnitModal,
+        {
+            setTrue: setShowLocalUnitModalTrue,
+            setFalse: setShowLocalUnitModalFalse,
+        },
+    ] = useBooleanState(false);
 
-    const [showDeleteLocalUnitModal, {
-        setTrue: setShowDeleteLocalUnitModalTrue,
-        setFalse: setShowDeleteLocalUnitModalFalse,
-    }] = useBooleanState(false);
+    const [
+        showDeleteLocalUnitModal,
+        {
+            setTrue: setShowDeleteLocalUnitModalTrue,
+            setFalse: setShowDeleteLocalUnitModalFalse,
+        },
+    ] = useBooleanState(false);
 
     const handleLocalUnitsFormModalClose = useCallback(
         (shouldUpdate?: boolean) => {
@@ -99,7 +119,7 @@ function LocalUnitsTableActions(props: Props) {
                             type="button"
                             name={localUnitId}
                             onClick={handleViewLocalUnitClick}
-                            disabled={!hasDeleteAndValidatePermission}
+                            disabled={isGuestUser}
                         >
                             {strings.localUnitsView}
                         </DropdownMenuItem>
@@ -107,22 +127,23 @@ function LocalUnitsTableActions(props: Props) {
                             type="button"
                             name={localUnitId}
                             onClick={handleEditLocalUnitClick}
-                            disabled={!hasDeleteAndValidatePermission}
+                            disabled={isGuestUser}
                         >
                             {strings.localUnitsEdit}
                         </DropdownMenuItem>
-                        <DropdownMenuItem
-                            type="button"
-                            name={undefined}
-                            onClick={setShowDeleteLocalUnitModalTrue}
-                            disabled={!hasDeleteAndValidatePermission}
-                        >
-                            {strings.localUnitsDelete}
-                        </DropdownMenuItem>
+                        {hasDeletePermission && (
+                            <DropdownMenuItem
+                                type="button"
+                                name={undefined}
+                                onClick={setShowDeleteLocalUnitModalTrue}
+                            >
+                                {strings.localUnitsDelete}
+                            </DropdownMenuItem>
+                        )}
                     </>
                 )}
             >
-                {environment !== 'production' ? (
+                {hasValidatePermission && environment !== 'production' ? (
                     <LocalUnitValidateButton
                         countryId={countryId}
                         localUnitName={localUnitName}
@@ -135,7 +156,6 @@ function LocalUnitsTableActions(props: Props) {
                         name={localUnitId}
                         variant="tertiary"
                         onClick={handleViewLocalUnitClick}
-                        disabled={!hasDeleteAndValidatePermission}
                     >
                         {strings.localUnitsView}
                     </Button>

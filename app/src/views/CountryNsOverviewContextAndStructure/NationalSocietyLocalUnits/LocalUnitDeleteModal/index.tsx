@@ -66,7 +66,6 @@ interface Props {
     onDeleteActionSuccess?: () => void;
     onClose: () => void;
     localUnitName: string;
-    disabled?: boolean;
 }
 
 function LocalUnitDeleteModal(props: Props) {
@@ -76,7 +75,6 @@ function LocalUnitDeleteModal(props: Props) {
         localUnitName,
         onDeleteActionSuccess,
         onClose,
-        disabled,
     } = props;
 
     const {
@@ -99,8 +97,8 @@ function LocalUnitDeleteModal(props: Props) {
     const alert = useAlert();
 
     const {
-        pending: deleteLocalUnitPending,
-        trigger: deleteLocalUnit,
+        pending: deprecateLocalUnitPending,
+        trigger: deprecateLocalUnit,
     } = useLazyRequest({
         method: 'POST',
         url: '/api/v2/local-units/{id}/deprecate/',
@@ -122,7 +120,6 @@ function LocalUnitDeleteModal(props: Props) {
         onFailure: (response) => {
             const {
                 value: { messageForNotification },
-                debugMessage,
             } = response;
 
             alert.show(
@@ -133,7 +130,6 @@ function LocalUnitDeleteModal(props: Props) {
                 {
                     variant: 'danger',
                     description: messageForNotification,
-                    debugMessage,
                 },
             );
         },
@@ -141,9 +137,9 @@ function LocalUnitDeleteModal(props: Props) {
 
     const handleFormSubmit = useCallback(
         (formValues: DeprecateFormType) => {
-            deleteLocalUnit(formValues as LocalUnitDeprecateBody);
+            deprecateLocalUnit(formValues as LocalUnitDeprecateBody);
         },
-        [deleteLocalUnit],
+        [deprecateLocalUnit],
     );
 
     return (
@@ -153,24 +149,24 @@ function LocalUnitDeleteModal(props: Props) {
                 { localUnitName },
             )}
             withHeaderBorder
-            childrenContainerClassName={styles.modalChildren}
+            childrenContainerClassName={styles.localUnitDeleteFormContent}
             onClose={onClose}
             footerActions={(
                 <Button
                     name={undefined}
                     onClick={createSubmitHandler(validate, setError, handleFormSubmit)}
-                    disabled={deleteLocalUnitPending}
+                    disabled={deprecateLocalUnitPending}
                 >
-                    {strings.localUnitsDeleteSubmitLabel}
+                    {strings.submitLabel}
                 </Button>
             )}
         >
             <RadioInput
                 required
                 name="deprecated_reason"
-                listContainerClassName={styles.radioList}
+                listContainerClassName={styles.reasonList}
                 value={value.deprecated_reason}
-                label={strings.deleteLocalUnitChooseMessage}
+                label={strings.chooseDeleteReasonMessage}
                 onChange={setFieldValue}
                 options={deprecateReasonOptions}
                 keySelector={deprecateReasonKeySelector}
@@ -179,9 +175,8 @@ function LocalUnitDeleteModal(props: Props) {
             />
             <TextArea
                 required
-                label={strings.deleteLocalUnitReason}
                 name="deprecated_reason_overview"
-                disabled={disabled}
+                label={strings.deleteReasonExplanation}
                 value={value.deprecated_reason_overview}
                 onChange={setFieldValue}
                 error={error?.deprecated_reason_overview}

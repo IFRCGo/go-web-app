@@ -1,11 +1,11 @@
 {
     "namespace": "localUnitDeleteModal",
     "strings": {
-        "localUnitsDeleteSubmitLabel": "Submit",
-        "deleteSuccessMessage": "{localUnitName} was deleted.",
-        "deleteFailureMessage": "Failed to validate {localUnitName}",
-        "deleteLocalUnitChooseMessage": "Choose the reason to delete local unit.",
-        "deleteLocalUnitReason": "Explain the reason why the local unit is being deleted.",
+        "submitLabel": "Submit",
+        "deleteSuccessMessage": "{localUnitName} has been successfully deleted.",
+        "deleteFailureMessage": "Unable to delete {localUnitName}. Please try again.",
+        "chooseDeleteReasonMessage": "Choose the reason to delete local unit.",
+        "deleteReasonExplanation": "Explain the reason why the local unit is being deleted.",
         "deleteLocalUnitHeading": "Are you sure you want to delete \"{localUnitName}\"?"
     }
 }

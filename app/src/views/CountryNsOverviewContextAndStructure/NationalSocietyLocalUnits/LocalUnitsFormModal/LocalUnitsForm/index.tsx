@@ -44,7 +44,9 @@ import BaseMapPointInput from '#components/domain/BaseMapPointInput';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import NonFieldError from '#components/NonFieldError';
 import { environment } from '#config';
+import useAuth from '#hooks/domain/useAuth';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import usePermissions from '#hooks/domain/usePermissions';
 import useAlert from '#hooks/useAlert';
 import { getFirstTruthyString } from '#utils/common';
 import { VISIBILITY_PUBLIC } from '#utils/constants';
@@ -67,7 +69,6 @@ import schema, {
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-import usePermissions from '#hooks/domain/usePermissions';
 
 type HealthLocalUnitFormFields = PartialLocalUnits['health'];
 type VisibilityOptions = NonNullable<GoApiResponse<'/api/v2/global-enums/'>['api_visibility_choices']>[number]
@@ -137,19 +138,34 @@ function LocalUnitsForm(props: Props) {
     const strings = useTranslation(i18n);
     const formFieldsContainerRef = useRef<HTMLDivElement>(null);
 
-    const [showDeleteLocalUnitModal, {
-        setTrue: setShowDeleteLocalUnitModalTrue,
-        setFalse: setShowDeleteLocalUnitModalFalse,
-    }] = useBooleanState(false);
+    const [
+        showDeleteLocalUnitModal,
+        {
+            setTrue: setShowDeleteLocalUnitModalTrue,
+            setFalse: setShowDeleteLocalUnitModalFalse,
+        },
+    ] = useBooleanState(false);
 
-    const { isCountryAdmin, isSuperUser, isRegionAdmin } = usePermissions();
+    const {
+        isSuperUser,
+        isRegionAdmin,
+        isCountryAdmin,
+        isGuestUser,
+    } = usePermissions();
+    const { isAuthenticated } = useAuth();
+
     const { api_visibility_choices: visibilityOptions } = useGlobalEnums();
 
     const { countryId, countryResponse } = useOutletContext<CountryOutletContext>();
 
-    const hasDeleteAndValidatePermission = isSuperUser
+    const hasValidatePermission = isSuperUser
         || isCountryAdmin(Number(countryId))
         || isRegionAdmin(Number(countryResponse?.region));
+
+    const hasDeletePermission = isSuperUser
+        || isCountryAdmin(Number(countryId))
+        || isRegionAdmin(Number(countryResponse?.region))
+        || (isAuthenticated && !isGuestUser);
 
     const {
         value,
@@ -403,28 +419,31 @@ function LocalUnitsForm(props: Props) {
                                 && isDefined(localUnitId)
                                 && isDefined(onSuccess)
                                 && isDefined(localUnitDetailsResponse)
-                                && hasDeleteAndValidatePermission
                                 && (environment !== 'production')
                                 && (
                                     <div className={styles.actions}>
-                                        <Button
-                                            name={undefined}
-                                            onClick={setShowDeleteLocalUnitModalTrue}
-                                        >
-                                            {strings.localUnitDeleteButtonLabel}
-                                        </Button>
-                                        <LocalUnitValidateButton
-                                            countryId={Number(countryId)}
-                                            localUnitId={localUnitId}
-                                            localUnitName={getFirstTruthyString(
-                                                value.local_branch_name,
-                                                value.english_branch_name,
-                                            )}
-                                            onActionSuccess={onSuccess}
-                                            isValidated={localUnitDetailsResponse.validated}
-                                            disabled={!pristine}
-                                            readOnly={!pristine}
-                                        />
+                                        {hasDeletePermission && (
+                                            <Button
+                                                name={undefined}
+                                                onClick={setShowDeleteLocalUnitModalTrue}
+                                            >
+                                                {strings.localUnitDeleteButtonLabel}
+                                            </Button>
+                                        )}
+                                        {hasValidatePermission && (
+                                            <LocalUnitValidateButton
+                                                countryId={Number(countryId)}
+                                                localUnitId={localUnitId}
+                                                localUnitName={getFirstTruthyString(
+                                                    value.local_branch_name,
+                                                    value.english_branch_name,
+                                                )}
+                                                onActionSuccess={onSuccess}
+                                                isValidated={localUnitDetailsResponse.validated}
+                                                disabled={!pristine}
+                                                readOnly={!pristine}
+                                            />
+                                        )}
                                     </div>
                                 )}
                         </FormGrid>
