@@ -5,7 +5,7 @@
         "successMessage": "Local unit added successfully!",
         "revertChangesSuccessMessage": "Local unit reverted successfully!",
         "failedMessage": "Failed to add local unit",
-        "revertChangesFailedMessage": "Failed to revert changes in local unit",
+        "revertChangesFailedMessage": "Failed to revert changes in the local unit",
         "updateMessage": "Local unit updated successfully!",
         "updateFailedMessage": "Failed to update local unit",
         "specialitiesAndCapacityTitle": "Specialities & Capacity",
