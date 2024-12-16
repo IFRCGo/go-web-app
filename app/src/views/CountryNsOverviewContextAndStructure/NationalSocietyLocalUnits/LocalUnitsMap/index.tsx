@@ -57,8 +57,10 @@ import {
 import { localUnitMapStyle } from '#utils/map';
 import { type CountryOutletContext } from '#utils/outletContext';
 import {
-    GoApiResponse,
-    GoApiUrlQuery,
+    type GoApiBody,
+    type GoApiResponse,
+    type GoApiUrlQuery,
+    useLazyRequest,
     useRequest,
 } from '#utils/restRequest';
 
@@ -73,6 +75,9 @@ import { TYPE_HEALTH_CARE } from '../LocalUnitsFormModal/LocalUnitsForm/schema';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+type LocalUnitResponse = GoApiResponse<'/api/v2/local-units/{id}/'>;
+type LocalUnitLatestChangesBody = GoApiBody<'/api/v2/local-units/{id}/latest-change-request/', 'POST'>
 
 const LOCAL_UNIT_ICON_KEY = 'local-units';
 const HEALTHCARE_ICON_KEY = 'healthcare';
@@ -253,6 +258,18 @@ function LocalUnitsMap(props: Props) {
         }) : undefined,
     });
 
+    const {
+        response: previousData,
+        trigger: latestChanges,
+    } = useLazyRequest({
+        url: '/api/v2/local-units/{id}/latest-change-request/',
+        method: 'POST',
+        pathVariables: isDefined(clickedPointProperties) ? ({
+            id: clickedPointProperties.localUnitId,
+        }) : undefined,
+        body: (ctx: LocalUnitLatestChangesBody) => ctx,
+    });
+
     const localUnitDetail = requestType !== AUTHENTICATED
         ? publicLocalUnitDetailResponse
         : superLocalUnitDetailResponse;
@@ -318,10 +335,11 @@ function LocalUnitsMap(props: Props) {
 
     const handleLocalUnitHeadingClick = useCallback(
         () => {
+            latestChanges(clickedPointProperties?.localUnitId as never);
             setReadOnlyLocalUnitModal(true);
             setShowLocalUnitViewModalTrue();
         },
-        [setShowLocalUnitViewModalTrue],
+        [setShowLocalUnitViewModalTrue, latestChanges, clickedPointProperties?.localUnitId],
     );
 
     const handleLocalUnitsFormModalClose = useCallback(
@@ -585,6 +603,9 @@ function LocalUnitsMap(props: Props) {
                     readOnly={readOnlyLocalUnitModal}
                     setReadOnly={setReadOnlyLocalUnitModal}
                     onDeleteActionSuccess={refetchLocalUnits}
+                    previousData={
+                        previousData?.previous_data_details as unknown as LocalUnitResponse
+                    }
                 />
             ))}
         </Container>

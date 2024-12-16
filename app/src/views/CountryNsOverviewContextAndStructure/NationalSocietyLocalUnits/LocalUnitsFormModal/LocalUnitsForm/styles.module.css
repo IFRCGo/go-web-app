@@ -3,6 +3,11 @@
         background-color: var(--go-ui-color-background);
         height: 32rem;
     }
+
+}
+
+.changes {
+    background-color: var(--go-ui-color-semantic-yellow) !important;
 }
 
 /* NOTE: this element is portaled */

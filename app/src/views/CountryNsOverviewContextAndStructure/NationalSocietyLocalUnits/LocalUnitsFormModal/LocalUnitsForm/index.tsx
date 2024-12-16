@@ -1,6 +1,7 @@
 import {
     RefObject,
     useCallback,
+    useMemo,
     useRef,
     useState,
 } from 'react';
@@ -174,6 +175,33 @@ function getChangedFormFields(
     return changedValues;
 }
 
+function getLatestChangesFormFields(
+    newValues: LocalUnitResponse,
+    oldValues: LocalUnitResponse,
+) {
+    const flattenedOldValues = flattenObject(oldValues);
+    const flattenedNewValues = flattenObject(newValues);
+
+    const changedKeys: Record<
+        keyof typeof flattenedOldValues, boolean
+    > = {};
+
+    Object.keys(flattenedNewValues).forEach((key) => {
+        const newValue = flattenedNewValues[key];
+        const oldValue = flattenedOldValues[key];
+
+        if (Array.isArray(newValue) && Array.isArray(oldValue)) {
+            if (!doArraysContainSameElements(newValue, oldValue)) {
+                changedKeys[key] = true;
+            }
+        } else if (newValue !== oldValue) {
+            changedKeys[key] = true;
+        }
+    });
+
+    return changedKeys;
+}
+
 interface FormColumnContainerProps {
     children: React.ReactNode;
 }
@@ -233,6 +261,7 @@ interface Props {
     actionsContainerRef: RefObject<HTMLDivElement>;
     headingDescriptionRef?: RefObject<HTMLDivElement>;
     headerDescriptionRef: RefObject<HTMLDivElement>;
+    previousData?: LocalUnitResponse;
 }
 
 function LocalUnitsForm(props: Props) {
@@ -245,6 +274,7 @@ function LocalUnitsForm(props: Props) {
         headingDescriptionRef,
         headerDescriptionRef,
         onDeleteActionSuccess,
+        previousData,
     } = props;
 
     const [showChangesModal, {
@@ -345,6 +375,7 @@ function LocalUnitsForm(props: Props) {
                 english_branch_name,
                 level,
                 focal_person_en,
+                focal_person_loc,
                 date_of_data,
                 source_loc,
                 source_en,
@@ -369,6 +400,7 @@ function LocalUnitsForm(props: Props) {
                 english_branch_name,
                 level,
                 focal_person_en,
+                focal_person_loc,
                 date_of_data,
                 source_loc,
                 source_en,
@@ -585,6 +617,21 @@ function LocalUnitsForm(props: Props) {
         [revertChanges],
     );
 
+    const latestChangesFormFields = useMemo(() => {
+        if (isDefined(localUnitDetailsResponse) && isDefined(previousData)) {
+            return getLatestChangesFormFields(
+                localUnitDetailsResponse,
+                previousData,
+            );
+        }
+        return undefined;
+    }, [localUnitDetailsResponse, previousData]);
+
+    const baseMapFormFieldsChanges = useMemo(() => ({
+        lat: latestChangesFormFields?.['location_json.lat'],
+        lng: latestChangesFormFields?.['location_json.lng'],
+    }), [latestChangesFormFields]);
+
     const onDoneButtonClick = useCallback(
         () => {
             if (isDefined(localUnitDetailsResponse) && isDefined(localUnitsOptions)) {
@@ -692,6 +739,9 @@ function LocalUnitsForm(props: Props) {
                 <Portal container={headerDescriptionRef.current}>
                     <FormGrid>
                         <SelectInput
+                            inputSectionClassName={_cs(
+                                latestChangesFormFields?.type && styles.changes,
+                            )}
                             label={strings.type}
                             required
                             name="type"
@@ -706,6 +756,9 @@ function LocalUnitsForm(props: Props) {
                         />
                         <FormGrid>
                             <SelectInput
+                                inputSectionClassName={_cs(
+                                    latestChangesFormFields?.visibility && styles.changes,
+                                )}
                                 label={strings.visibility}
                                 name="visibility"
                                 required
@@ -783,6 +836,9 @@ function LocalUnitsForm(props: Props) {
                     <FormColumnContainer>
                         <DateInput
                             required
+                            inputSectionClassName={_cs(
+                                latestChangesFormFields?.date_of_data && styles.changes,
+                            )}
                             name="date_of_data"
                             label={strings.dateOfUpdate}
                             value={value.date_of_data}
@@ -791,6 +847,9 @@ function LocalUnitsForm(props: Props) {
                             error={error?.date_of_data}
                         />
                         <TextInput
+                            inputSectionClassName={_cs(
+                                latestChangesFormFields?.subtype && styles.changes,
+                            )}
                             label={strings.subtype}
                             placeholder={strings.subtypeDescription}
                             name="subtype"
@@ -800,6 +859,9 @@ function LocalUnitsForm(props: Props) {
                             error={error?.subtype}
                         />
                         <TextInput
+                            inputSectionClassName={_cs(
+                                latestChangesFormFields?.english_branch_name && styles.changes,
+                            )}
                             label={strings.localUnitNameEn}
                             name="english_branch_name"
                             value={value.english_branch_name}
@@ -808,6 +870,9 @@ function LocalUnitsForm(props: Props) {
                             error={error?.english_branch_name}
                         />
                         <TextInput
+                            inputSectionClassName={_cs(
+                                latestChangesFormFields?.local_branch_name && styles.changes,
+                            )}
                             name="local_branch_name"
                             required
                             label={strings.localUnitNameLocal}
@@ -818,6 +883,9 @@ function LocalUnitsForm(props: Props) {
                         />
                         {value.type !== TYPE_HEALTH_CARE && (
                             <SelectInput
+                                inputSectionClassName={_cs(
+                                    latestChangesFormFields?.level && styles.changes,
+                                )}
                                 label={strings.coverage}
                                 name="level"
                                 options={localUnitsOptions?.level}
@@ -832,6 +900,9 @@ function LocalUnitsForm(props: Props) {
                         {value.type !== TYPE_HEALTH_CARE && (
                             <>
                                 <TextInput
+                                    inputSectionClassName={_cs(
+                                        latestChangesFormFields?.focal_person_en && styles.changes,
+                                    )}
                                     name="focal_person_en"
                                     label={strings.focalPersonEn}
                                     value={value.focal_person_en}
@@ -840,6 +911,9 @@ function LocalUnitsForm(props: Props) {
                                     error={error?.focal_person_en}
                                 />
                                 <TextInput
+                                    inputSectionClassName={_cs(
+                                        latestChangesFormFields?.focal_person_loc && styles.changes,
+                                    )}
                                     required
                                     label={strings.focalPersonLocal}
                                     name="focal_person_loc"
@@ -853,6 +927,9 @@ function LocalUnitsForm(props: Props) {
                         {value.type !== TYPE_HEALTH_CARE && (
                             <>
                                 <TextInput
+                                    inputSectionClassName={_cs(
+                                        latestChangesFormFields?.source_en && styles.changes,
+                                    )}
                                     name="source_en"
                                     label={strings.sourceEn}
                                     value={value.source_en}
@@ -861,6 +938,9 @@ function LocalUnitsForm(props: Props) {
                                     error={error?.source_en}
                                 />
                                 <TextInput
+                                    inputSectionClassName={_cs(
+                                        latestChangesFormFields?.source_loc && styles.changes,
+                                    )}
                                     name="source_loc"
                                     label={strings.sourceLocal}
                                     value={value.source_loc}
@@ -873,6 +953,9 @@ function LocalUnitsForm(props: Props) {
                         {value.type === TYPE_HEALTH_CARE && (
                             <>
                                 <SelectInput
+                                    inputSectionClassName={_cs(
+                                        latestChangesFormFields?.['health.affiliation'] && styles.changes,
+                                    )}
                                     label={strings.affiliation}
                                     required
                                     name="affiliation"
@@ -885,6 +968,10 @@ function LocalUnitsForm(props: Props) {
                                     error={healthFormError?.affiliation}
                                 />
                                 <TextInput
+                                    inputSectionClassName={_cs(
+                                        latestChangesFormFields?.['health.other_affiliation']
+                                            && styles.changes,
+                                    )}
                                     label={strings.otherAffiliation}
                                     name="other_affiliation"
                                     value={value.health?.other_affiliation}
@@ -893,6 +980,10 @@ function LocalUnitsForm(props: Props) {
                                     error={healthFormError?.other_affiliation}
                                 />
                                 <SelectInput
+                                    inputSectionClassName={_cs(
+                                        latestChangesFormFields?.['health.functionality']
+                                            && styles.changes,
+                                    )}
                                     required
                                     label={strings.functionality}
                                     name="functionality"
@@ -905,6 +996,10 @@ function LocalUnitsForm(props: Props) {
                                     error={healthFormError?.functionality}
                                 />
                                 <SelectInput
+                                    inputSectionClassName={_cs(
+                                        latestChangesFormFields?.['health.hospital_type']
+                                            && styles.changes,
+                                    )}
                                     label={strings.hospitalType}
                                     name="hospital_type"
                                     options={localUnitsOptions?.hospital_type}
@@ -916,6 +1011,10 @@ function LocalUnitsForm(props: Props) {
                                     error={healthFormError?.hospital_type}
                                 />
                                 <BooleanInput
+                                    className={_cs(
+                                        latestChangesFormFields?.['health.is_teaching_hospital']
+                                            && styles.changes,
+                                    )}
                                     required
                                     label={strings.teachingHospital}
                                     name="is_teaching_hospital"
@@ -925,6 +1024,10 @@ function LocalUnitsForm(props: Props) {
                                     error={healthFormError?.is_teaching_hospital}
                                 />
                                 <BooleanInput
+                                    className={_cs(
+                                        latestChangesFormFields?.['health.is_in_patient_capacity']
+                                            && styles.changes,
+                                    )}
                                     required
                                     label={strings.inPatientCapacity}
                                     name="is_in_patient_capacity"
@@ -934,6 +1037,10 @@ function LocalUnitsForm(props: Props) {
                                     error={healthFormError?.is_in_patient_capacity}
                                 />
                                 <BooleanInput
+                                    className={_cs(
+                                        latestChangesFormFields?.['health.is_isolation_rooms_wards']
+                                            && styles.changes,
+                                    )}
                                     required
                                     label={strings.isolationRoomsWards}
                                     name="is_isolation_rooms_wards"
@@ -947,6 +1054,10 @@ function LocalUnitsForm(props: Props) {
                     </FormColumnContainer>
                     <FormColumnContainer>
                         <CountrySelectInput
+                            inputSectionClassName={_cs(
+                                latestChangesFormFields?.country
+                                    && styles.changes,
+                            )}
                             required
                             label={strings.country}
                             name="country"
@@ -965,6 +1076,7 @@ function LocalUnitsForm(props: Props) {
                             onChange={setFieldValue}
                             readOnly={readOnly}
                             error={getErrorObject(error?.location_json)}
+                            baseMapFormFieldsChanges={baseMapFormFieldsChanges}
                             required
                         />
                     </FormColumnContainer>
@@ -979,6 +1091,10 @@ function LocalUnitsForm(props: Props) {
                             spacing="comfortable"
                         >
                             <TextInput
+                                inputSectionClassName={_cs(
+                                    latestChangesFormFields?.address_en
+                                        && styles.changes,
+                                )}
                                 name="address_en"
                                 label={strings.addressEn}
                                 value={value.address_en}
@@ -987,6 +1103,10 @@ function LocalUnitsForm(props: Props) {
                                 error={error?.address_en}
                             />
                             <TextInput
+                                inputSectionClassName={_cs(
+                                    latestChangesFormFields?.address_loc
+                                        && styles.changes,
+                                )}
                                 name="address_loc"
                                 label={strings.addressLocal}
                                 value={value.address_loc}
@@ -995,6 +1115,10 @@ function LocalUnitsForm(props: Props) {
                                 error={error?.address_loc}
                             />
                             <TextInput
+                                inputSectionClassName={_cs(
+                                    latestChangesFormFields?.city_cn
+                                        && styles.changes,
+                                )}
                                 label={strings.localityEn}
                                 name="city_en"
                                 value={value.city_en}
@@ -1003,6 +1127,10 @@ function LocalUnitsForm(props: Props) {
                                 error={error?.city_en}
                             />
                             <TextInput
+                                inputSectionClassName={_cs(
+                                    latestChangesFormFields?.city_loc
+                                        && styles.changes,
+                                )}
                                 label={strings.localityLocal}
                                 name="city_loc"
                                 value={value.city_loc}
@@ -1011,6 +1139,10 @@ function LocalUnitsForm(props: Props) {
                                 error={error?.city_loc}
                             />
                             <TextInput
+                                inputSectionClassName={_cs(
+                                    latestChangesFormFields?.postcode
+                                        && styles.changes,
+                                )}
                                 label={strings.postCode}
                                 name="postcode"
                                 value={value.postcode}
@@ -1026,6 +1158,10 @@ function LocalUnitsForm(props: Props) {
                             {value.type !== TYPE_HEALTH_CARE && (
                                 <>
                                     <TextInput
+                                        inputSectionClassName={_cs(
+                                            latestChangesFormFields?.phone
+                                                && styles.changes,
+                                        )}
                                         label={strings.phone}
                                         name="phone"
                                         value={value.phone}
@@ -1034,6 +1170,10 @@ function LocalUnitsForm(props: Props) {
                                         error={error?.phone}
                                     />
                                     <TextInput
+                                        inputSectionClassName={_cs(
+                                            latestChangesFormFields?.email
+                                                && styles.changes,
+                                        )}
                                         label={strings.email}
                                         name="email"
                                         value={value.email}
@@ -1042,6 +1182,10 @@ function LocalUnitsForm(props: Props) {
                                         error={error?.email}
                                     />
                                     <TextInput
+                                        inputSectionClassName={_cs(
+                                            latestChangesFormFields?.link
+                                                && styles.changes,
+                                        )}
                                         label={strings.website}
                                         name="link"
                                         value={value.link}
@@ -1054,6 +1198,10 @@ function LocalUnitsForm(props: Props) {
                             {value.type === TYPE_HEALTH_CARE && (
                                 <>
                                     <TextInput
+                                        inputSectionClassName={_cs(
+                                            latestChangesFormFields?.['health.focal_point_position']
+                                                && styles.changes,
+                                        )}
                                         label={strings.focalPointPosition}
                                         name="focal_point_position"
                                         value={value.health?.focal_point_position}
@@ -1062,6 +1210,10 @@ function LocalUnitsForm(props: Props) {
                                         error={healthFormError?.focal_point_position}
                                     />
                                     <TextInput
+                                        inputSectionClassName={_cs(
+                                            latestChangesFormFields?.['health.focal_point_email']
+                                                && styles.changes,
+                                        )}
                                         label={strings.focalPointEmail}
                                         required
                                         name="focal_point_email"
@@ -1071,6 +1223,10 @@ function LocalUnitsForm(props: Props) {
                                         error={healthFormError?.focal_point_email}
                                     />
                                     <TextInput
+                                        inputSectionClassName={_cs(
+                                            latestChangesFormFields?.['health.focal_point_phone_number']
+                                                && styles.changes,
+                                        )}
                                         label={strings.focalPointPhoneNumber}
                                         name="focal_point_phone_number"
                                         value={value.health?.focal_point_phone_number}
@@ -1093,6 +1249,10 @@ function LocalUnitsForm(props: Props) {
                             <FormGrid>
                                 <FormColumnContainer>
                                     <SelectInput
+                                        inputSectionClassName={_cs(
+                                            latestChangesFormFields?.['health.health_facility_type']
+                                                && styles.changes,
+                                        )}
                                         label={strings.healthFacilityType}
                                         required
                                         name="health_facility_type"
@@ -1105,6 +1265,10 @@ function LocalUnitsForm(props: Props) {
                                         error={healthFormError?.health_facility_type}
                                     />
                                     <TextInput
+                                        inputSectionClassName={_cs(
+                                            latestChangesFormFields?.['health.other_facility_type']
+                                                && styles.changes,
+                                        )}
                                         label={strings.otherFacilityType}
                                         name="other_facility_type"
                                         value={value.health?.other_facility_type}
@@ -1113,6 +1277,10 @@ function LocalUnitsForm(props: Props) {
                                         error={healthFormError?.other_facility_type}
                                     />
                                     <SelectInput
+                                        inputSectionClassName={_cs(
+                                            latestChangesFormFields?.['health.primary_health_care_center']
+                                                && styles.changes,
+                                        )}
                                         label={strings.primaryHealthCareCenter}
                                         name="primary_health_care_center"
                                         options={localUnitsOptions?.primary_health_care_center}
@@ -1124,6 +1292,10 @@ function LocalUnitsForm(props: Props) {
                                         error={healthFormError?.primary_health_care_center}
                                     />
                                     <TextInput
+                                        inputSectionClassName={_cs(
+                                            latestChangesFormFields?.['health.speciality']
+                                                && styles.changes,
+                                        )}
                                         label={strings.specialties}
                                         name="speciality"
                                         value={value.health?.speciality}
@@ -1132,6 +1304,10 @@ function LocalUnitsForm(props: Props) {
                                         error={healthFormError?.speciality}
                                     />
                                     <MultiSelectInput
+                                        inputSectionClassName={_cs(
+                                            latestChangesFormFields?.['health.general_medical_services']
+                                            && styles.changes,
+                                        )}
                                         required
                                         label={strings.generalMedicalServices}
                                         name="general_medical_services"
@@ -1146,6 +1322,11 @@ function LocalUnitsForm(props: Props) {
                                         )}
                                     />
                                     <MultiSelectInput
+                                        inputSectionClassName={_cs(
+                                            latestChangesFormFields
+                                                ?.['health.specialized_medical_beyond_primary_level']
+                                            && styles.changes,
+                                        )}
                                         label={strings.specializedMedicalService}
                                         required
                                         name="specialized_medical_beyond_primary_level"
@@ -1162,6 +1343,10 @@ function LocalUnitsForm(props: Props) {
                                         )}
                                     />
                                     <TextInput
+                                        inputSectionClassName={_cs(
+                                            latestChangesFormFields?.['health.other_services']
+                                            && styles.changes,
+                                        )}
                                         label={strings.otherServices}
                                         name="other_services"
                                         value={value.health?.other_services}
@@ -1170,6 +1355,10 @@ function LocalUnitsForm(props: Props) {
                                         error={healthFormError?.other_services}
                                     />
                                     <MultiSelectInput
+                                        inputSectionClassName={_cs(
+                                            latestChangesFormFields?.['health.blood_services']
+                                            && styles.changes,
+                                        )}
                                         label={strings.bloodServices}
                                         required
                                         name="blood_services"
@@ -1182,6 +1371,11 @@ function LocalUnitsForm(props: Props) {
                                         error={getErrorString(healthFormError?.blood_services)}
                                     />
                                     <MultiSelectInput
+                                        inputSectionClassName={_cs(
+                                            latestChangesFormFields
+                                                ?.['health.professional_training_facilities']
+                                            && styles.changes,
+                                        )}
                                         label={strings.professionalTrainingFacilities}
                                         name="professional_training_facilities"
                                         options={localUnitsOptions
@@ -1196,6 +1390,11 @@ function LocalUnitsForm(props: Props) {
                                         )}
                                     />
                                     <NumberInput
+                                        inputSectionClassName={_cs(
+                                            latestChangesFormFields
+                                                ?.['health.number_of_isolation_rooms']
+                                            && styles.changes,
+                                        )}
                                         label={strings.numberOfIsolationRooms}
                                         name="number_of_isolation_rooms"
                                         value={value.health?.number_of_isolation_rooms}
@@ -1208,6 +1407,11 @@ function LocalUnitsForm(props: Props) {
                                 </FormColumnContainer>
                                 <FormColumnContainer>
                                     <NumberInput
+                                        inputSectionClassName={_cs(
+                                            latestChangesFormFields
+                                                ?.['health.maximum_capacity']
+                                            && styles.changes,
+                                        )}
                                         label={strings.maximumCapacity}
                                         name="maximum_capacity"
                                         value={value.health?.maximum_capacity}
@@ -1218,6 +1422,11 @@ function LocalUnitsForm(props: Props) {
                                         )}
                                     />
                                     <BooleanInput
+                                        className={_cs(
+                                            latestChangesFormFields
+                                                ?.['health.is_warehousing']
+                                            && styles.changes,
+                                        )}
                                         clearable
                                         label={strings.warehousing}
                                         name="is_warehousing"
@@ -1229,6 +1438,11 @@ function LocalUnitsForm(props: Props) {
                                         )}
                                     />
                                     <BooleanInput
+                                        className={_cs(
+                                            latestChangesFormFields
+                                                ?.['health.is_cold_chain']
+                                            && styles.changes,
+                                        )}
                                         clearable
                                         label={strings.coldChain}
                                         name="is_cold_chain"
@@ -1240,6 +1454,11 @@ function LocalUnitsForm(props: Props) {
                                         )}
                                     />
                                     <NumberInput
+                                        inputSectionClassName={_cs(
+                                            latestChangesFormFields
+                                                ?.['health.ambulance_type_a']
+                                            && styles.changes,
+                                        )}
                                         label={strings.ambulanceTypeA}
                                         name="ambulance_type_a"
                                         value={value.health?.ambulance_type_a}
@@ -1250,6 +1469,11 @@ function LocalUnitsForm(props: Props) {
                                         )}
                                     />
                                     <NumberInput
+                                        inputSectionClassName={_cs(
+                                            latestChangesFormFields
+                                                ?.['health.ambulance_type_b']
+                                            && styles.changes,
+                                        )}
                                         label={strings.ambulanceTypeB}
                                         name="ambulance_type_b"
                                         value={value.health?.ambulance_type_b}
@@ -1260,6 +1484,11 @@ function LocalUnitsForm(props: Props) {
                                         )}
                                     />
                                     <NumberInput
+                                        inputSectionClassName={_cs(
+                                            latestChangesFormFields
+                                                ?.['health.ambulance_type_c']
+                                            && styles.changes,
+                                        )}
                                         label={strings.ambulanceTypeC}
                                         name="ambulance_type_c"
                                         value={value.health?.ambulance_type_c}
@@ -1280,6 +1509,11 @@ function LocalUnitsForm(props: Props) {
                             <FormGrid>
                                 <FormColumnContainer>
                                     <NumberInput
+                                        inputSectionClassName={_cs(
+                                            latestChangesFormFields
+                                                ?.['health.total_number_of_human_resource']
+                                            && styles.changes,
+                                        )}
                                         required
                                         label={strings.totalNumberOfHumanResources}
                                         name="total_number_of_human_resource"
@@ -1291,6 +1525,11 @@ function LocalUnitsForm(props: Props) {
                                         )}
                                     />
                                     <NumberInput
+                                        inputSectionClassName={_cs(
+                                            latestChangesFormFields
+                                                ?.['health.general_practitioner']
+                                            && styles.changes,
+                                        )}
                                         label={strings.generalPractitioner}
                                         name="general_practitioner"
                                         value={value.health?.general_practitioner}
@@ -1301,6 +1540,11 @@ function LocalUnitsForm(props: Props) {
                                         )}
                                     />
                                     <NumberInput
+                                        inputSectionClassName={_cs(
+                                            latestChangesFormFields
+                                                ?.['health.specialist']
+                                            && styles.changes,
+                                        )}
                                         label={strings.specialist}
                                         name="specialist"
                                         value={value.health?.specialist}
@@ -1311,6 +1555,11 @@ function LocalUnitsForm(props: Props) {
                                         )}
                                     />
                                     <NumberInput
+                                        inputSectionClassName={_cs(
+                                            latestChangesFormFields
+                                                ?.['health.residents_doctor']
+                                            && styles.changes,
+                                        )}
                                         label={strings.residentsDoctor}
                                         name="residents_doctor"
                                         value={value.health?.residents_doctor}
@@ -1321,6 +1570,11 @@ function LocalUnitsForm(props: Props) {
                                         )}
                                     />
                                     <NumberInput
+                                        inputSectionClassName={_cs(
+                                            latestChangesFormFields
+                                                ?.['health.nurse']
+                                            && styles.changes,
+                                        )}
                                         label={strings.nurse}
                                         name="nurse"
                                         value={value.health?.nurse}
@@ -1333,6 +1587,11 @@ function LocalUnitsForm(props: Props) {
                                 </FormColumnContainer>
                                 <FormColumnContainer>
                                     <NumberInput
+                                        inputSectionClassName={_cs(
+                                            latestChangesFormFields
+                                                ?.['health.dentist']
+                                            && styles.changes,
+                                        )}
                                         label={strings.dentist}
                                         name="dentist"
                                         value={value.health?.dentist}
@@ -1343,6 +1602,11 @@ function LocalUnitsForm(props: Props) {
                                         )}
                                     />
                                     <NumberInput
+                                        inputSectionClassName={_cs(
+                                            latestChangesFormFields
+                                                ?.['health.nursing_aid']
+                                            && styles.changes,
+                                        )}
                                         label={strings.nursingAid}
                                         name="nursing_aid"
                                         value={value.health?.nursing_aid}
@@ -1353,6 +1617,11 @@ function LocalUnitsForm(props: Props) {
                                         )}
                                     />
                                     <NumberInput
+                                        inputSectionClassName={_cs(
+                                            latestChangesFormFields
+                                                ?.['health.midwife']
+                                            && styles.changes,
+                                        )}
                                         label={strings.midwife}
                                         name="midwife"
                                         value={value.health?.midwife}
@@ -1366,6 +1635,11 @@ function LocalUnitsForm(props: Props) {
                             </FormGrid>
                             <FormGrid>
                                 <TextInput
+                                    inputSectionClassName={_cs(
+                                        latestChangesFormFields
+                                            ?.['health.other_profiles']
+                                        && styles.changes,
+                                    )}
                                     label={strings.otherProfiles}
                                     name="other_profiles"
                                     value={value.health?.other_profiles}
@@ -1374,6 +1648,11 @@ function LocalUnitsForm(props: Props) {
                                     error={healthFormError?.other_profiles}
                                 />
                                 <BooleanInput
+                                    className={_cs(
+                                        latestChangesFormFields
+                                            ?.['health.other_medical_heal']
+                                        && styles.changes,
+                                    )}
                                     clearable
                                     label={strings.otherMedicalHeal}
                                     name="other_medical_heal"
@@ -1388,6 +1667,11 @@ function LocalUnitsForm(props: Props) {
                         </Container>
                         <Container>
                             <TextArea
+                                inputSectionClassName={_cs(
+                                    latestChangesFormFields
+                                        ?.['health.feedback']
+                                    && styles.changes,
+                                )}
                                 label={strings.commentsNS}
                                 name="feedback"
                                 value={value.health?.feedback}

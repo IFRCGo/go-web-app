@@ -6,10 +6,14 @@ import { Modal } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { isDefined } from '@togglecorp/fujs';
 
+import { GoApiResponse } from '#utils/restRequest';
+
 import LocalUnitsForm from './LocalUnitsForm';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+type LocalUnitResponse = GoApiResponse<'/api/v2/local-units/{id}/'>;
 
 interface Props {
     localUnitId?: number;
@@ -17,6 +21,7 @@ interface Props {
     setReadOnly?: React.Dispatch<React.SetStateAction<boolean>>;
     onClose: (requestDone?: boolean) => void;
     onDeleteActionSuccess?: () => void;
+    previousData?: LocalUnitResponse;
 }
 
 function LocalUnitsFormModal(props: Props) {
@@ -26,6 +31,7 @@ function LocalUnitsFormModal(props: Props) {
         readOnly,
         setReadOnly,
         onDeleteActionSuccess,
+        previousData,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -77,6 +83,7 @@ function LocalUnitsFormModal(props: Props) {
                 headingDescriptionRef={headingDescriptionRef}
                 headerDescriptionRef={headerDescriptionRef}
                 onDeleteActionSuccess={onDeleteActionSuccess}
+                previousData={previousData}
             />
         </Modal>
     );
