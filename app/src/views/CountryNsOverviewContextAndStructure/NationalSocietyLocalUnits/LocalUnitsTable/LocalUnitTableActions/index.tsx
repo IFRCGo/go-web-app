@@ -30,6 +30,7 @@ export interface Props {
     isValidated: boolean;
     onDeleteActionSuccess: () => void;
     onValidationActionSuccess: () => void;
+    isLocked: boolean;
 }
 
 function LocalUnitsTableActions(props: Props) {
@@ -40,6 +41,7 @@ function LocalUnitsTableActions(props: Props) {
         isValidated,
         onValidationActionSuccess,
         onDeleteActionSuccess,
+        isLocked,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -120,14 +122,6 @@ function LocalUnitsTableActions(props: Props) {
                         >
                             {strings.localUnitsView}
                         </DropdownMenuItem>
-                        <DropdownMenuItem
-                            type="button"
-                            name={localUnitId}
-                            onClick={handleEditLocalUnitClick}
-                            disabled={isGuestUser}
-                        >
-                            {strings.localUnitsEdit}
-                        </DropdownMenuItem>
                         {hasDeletePermission && (
                             <DropdownMenuItem
                                 type="button"
@@ -135,6 +129,16 @@ function LocalUnitsTableActions(props: Props) {
                                 onClick={setShowDeleteLocalUnitModalTrue}
                             >
                                 {strings.localUnitsDelete}
+                            </DropdownMenuItem>
+                        )}
+                        {!isLocked && (
+                            <DropdownMenuItem
+                                type="button"
+                                name={localUnitId}
+                                onClick={handleEditLocalUnitClick}
+                                disabled={isGuestUser}
+                            >
+                                {strings.localUnitsEdit}
                             </DropdownMenuItem>
                         )}
                     </>
@@ -153,6 +157,7 @@ function LocalUnitsTableActions(props: Props) {
                         name={localUnitId}
                         variant="tertiary"
                         onClick={handleViewLocalUnitClick}
+                        disabled={isGuestUser}
                     >
                         {strings.localUnitsView}
                     </Button>

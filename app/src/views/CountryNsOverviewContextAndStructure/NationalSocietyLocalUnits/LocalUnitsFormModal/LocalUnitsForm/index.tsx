@@ -427,7 +427,7 @@ function LocalUnitsForm(props: Props) {
 
     const readOnly = readOnlyFromProps
         || isNotDefined(localUnitDetailsResponse)
-        || localUnitDetailsResponse?.is_locked;
+        || localUnitDetailsResponse.is_locked;
 
     const {
         response: localUnitsOptions,
@@ -640,9 +640,8 @@ function LocalUnitsForm(props: Props) {
 
     return (
         <div className={styles.localUnitsForm}>
-            {!localUnitDetailsResponse?.is_locked
-                && readOnlyFromProps
-                && isNotDefined(localUnitDetailsResponse)
+            {isDefined(localUnitDetailsResponse)
+                && !readOnly
                 && isDefined(actionsContainerRef.current) && (
                 <Portal container={actionsContainerRef.current}>
                     {(environment !== 'production') && (
@@ -748,7 +747,7 @@ function LocalUnitsForm(props: Props) {
                                                 readOnly={!pristine}
                                             />
                                         )}
-                                        {localUnitDetailsResponse?.is_locked && (
+                                        {localUnitDetailsResponse.is_locked && (
                                             <Button
                                                 name={undefined}
                                                 onClick={setShowRevertChangesModalTrue}
