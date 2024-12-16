@@ -20,7 +20,6 @@ import {
 } from '@togglecorp/toggle-form';
 
 import type { GlobalEnums } from '#contexts/domain';
-import useAuth from '#hooks/domain/useAuth';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useAlert from '#hooks/useAlert';
 import {
@@ -97,10 +96,6 @@ function LocalUnitDeleteModal(props: Props) {
         [formError],
     );
 
-    const { isAuthenticated } = useAuth();
-
-    const hasDeletePermission = isAuthenticated;
-
     const alert = useAlert();
 
     const {
@@ -155,7 +150,7 @@ function LocalUnitDeleteModal(props: Props) {
         <Modal
             heading={resolveToString(
                 strings.deleteLocalUnitHeading,
-                { localUnitName: localUnitName ?? '' },
+                { localUnitName },
             )}
             withHeaderBorder
             childrenContainerClassName={styles.modalChildren}
@@ -164,7 +159,7 @@ function LocalUnitDeleteModal(props: Props) {
                 <Button
                     name={undefined}
                     onClick={createSubmitHandler(validate, setError, handleFormSubmit)}
-                    disabled={deleteLocalUnitPending || !hasDeletePermission}
+                    disabled={deleteLocalUnitPending}
                 >
                     {strings.localUnitsDeleteSubmitLabel}
                 </Button>

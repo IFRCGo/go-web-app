@@ -13,7 +13,7 @@ import {
 
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import { environment } from '#config';
-import useAuth from '#hooks/domain/useAuth';
+import useCountry from '#hooks/domain/useCountry';
 import usePermissions from '#hooks/domain/usePermissions';
 
 import LocalUnitDeleteModal from '../../LocalUnitDeleteModal';
@@ -41,13 +41,14 @@ function LocalUnitsTableActions(props: Props) {
         onDeleteActionSuccess,
     } = props;
 
-    const { isCountryAdmin, isSuperUser } = usePermissions();
-    const { isAuthenticated } = useAuth();
+    const countryDetails = useCountry({ id: Number(countryId) });
+
+    const { isCountryAdmin, isSuperUser, isRegionAdmin } = usePermissions();
     const strings = useTranslation(i18n);
 
-    const hasValidatePermission = isSuperUser || isCountryAdmin(countryId);
-
-    const hasDeletePermission = isAuthenticated;
+    const hasDeleteAndValidatePermission = isSuperUser
+        || isCountryAdmin(countryId)
+        || isRegionAdmin(Number(countryDetails?.region));
 
     const [readOnlyLocalUnitModal, setReadOnlyLocalUnitModal] = useState(false);
 
@@ -98,7 +99,7 @@ function LocalUnitsTableActions(props: Props) {
                             type="button"
                             name={localUnitId}
                             onClick={handleViewLocalUnitClick}
-                            disabled={!hasValidatePermission}
+                            disabled={!hasDeleteAndValidatePermission}
                         >
                             {strings.localUnitsView}
                         </DropdownMenuItem>
@@ -106,7 +107,7 @@ function LocalUnitsTableActions(props: Props) {
                             type="button"
                             name={localUnitId}
                             onClick={handleEditLocalUnitClick}
-                            disabled={!hasValidatePermission}
+                            disabled={!hasDeleteAndValidatePermission}
                         >
                             {strings.localUnitsEdit}
                         </DropdownMenuItem>
@@ -114,7 +115,7 @@ function LocalUnitsTableActions(props: Props) {
                             type="button"
                             name={undefined}
                             onClick={setShowDeleteLocalUnitModalTrue}
-                            disabled={!hasDeletePermission}
+                            disabled={!hasDeleteAndValidatePermission}
                         >
                             {strings.localUnitsDelete}
                         </DropdownMenuItem>
@@ -134,7 +135,7 @@ function LocalUnitsTableActions(props: Props) {
                         name={localUnitId}
                         variant="tertiary"
                         onClick={handleViewLocalUnitClick}
-                        disabled={!hasValidatePermission}
+                        disabled={!hasDeleteAndValidatePermission}
                     >
                         {strings.localUnitsView}
                     </Button>

@@ -67,6 +67,7 @@ import schema, {
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+import usePermissions from '#hooks/domain/usePermissions';
 
 type HealthLocalUnitFormFields = PartialLocalUnits['health'];
 type VisibilityOptions = NonNullable<GoApiResponse<'/api/v2/global-enums/'>['api_visibility_choices']>[number]
@@ -141,8 +142,15 @@ function LocalUnitsForm(props: Props) {
         setFalse: setShowDeleteLocalUnitModalFalse,
     }] = useBooleanState(false);
 
+    const { isCountryAdmin, isSuperUser, isRegionAdmin } = usePermissions();
     const { api_visibility_choices: visibilityOptions } = useGlobalEnums();
-    const { countryId } = useOutletContext<CountryOutletContext>();
+
+    const { countryId, countryResponse } = useOutletContext<CountryOutletContext>();
+
+    const hasDeleteAndValidatePermission = isSuperUser
+        || isCountryAdmin(Number(countryId))
+        || isRegionAdmin(Number(countryResponse?.region));
+
     const {
         value,
         error: formError,
@@ -395,6 +403,7 @@ function LocalUnitsForm(props: Props) {
                                 && isDefined(localUnitId)
                                 && isDefined(onSuccess)
                                 && isDefined(localUnitDetailsResponse)
+                                && hasDeleteAndValidatePermission
                                 && (environment !== 'production')
                                 && (
                                     <div className={styles.actions}>
