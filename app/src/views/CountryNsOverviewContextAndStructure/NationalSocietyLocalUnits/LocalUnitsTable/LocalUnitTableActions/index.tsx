@@ -16,12 +16,20 @@ import { environment } from '#config';
 import useAuth from '#hooks/domain/useAuth';
 import useCountry from '#hooks/domain/useCountry';
 import usePermissions from '#hooks/domain/usePermissions';
+import {
+    type GoApiBody,
+    type GoApiResponse,
+    useLazyRequest,
+} from '#utils/restRequest';
 
 import LocalUnitDeleteModal from '../../LocalUnitDeleteModal';
 import LocalUnitsFormModal from '../../LocalUnitsFormModal';
 import LocalUnitValidateButton from '../../LocalUnitValidateButton';
 
 import i18n from './i18n.json';
+
+type LocalUnitLatestChangesBody = GoApiBody<'/api/v2/local-units/{id}/latest-change-request/', 'POST'>
+type LocalUnitResponse = GoApiResponse<'/api/v2/local-units/{id}/'>;
 
 export interface Props {
     countryId: number;
@@ -63,6 +71,16 @@ function LocalUnitsTableActions(props: Props) {
 
     const hasDeletePermission = isAuthenticated && !isGuestUser;
 
+    const {
+        response: previousData,
+        trigger: latestChanges,
+    } = useLazyRequest({
+        url: '/api/v2/local-units/{id}/latest-change-request/',
+        method: 'POST',
+        pathVariables: { id: localUnitId },
+        body: (ctx: LocalUnitLatestChangesBody) => ctx,
+    });
+
     const [readOnlyLocalUnitModal, setReadOnlyLocalUnitModal] = useState(false);
 
     const [
@@ -91,21 +109,22 @@ function LocalUnitsTableActions(props: Props) {
         },
         [setShowLocalUnitModalFalse, onDeleteActionSuccess],
     );
-
     const handleViewLocalUnitClick = useCallback(
         () => {
+            latestChanges(localUnitId as never);
             setReadOnlyLocalUnitModal(true);
             setShowLocalUnitModalTrue();
         },
-        [setShowLocalUnitModalTrue],
+        [setShowLocalUnitModalTrue, latestChanges, localUnitId],
     );
 
     const handleEditLocalUnitClick = useCallback(
         () => {
+            latestChanges(localUnitId as never);
             setReadOnlyLocalUnitModal(false);
             setShowLocalUnitModalTrue();
         },
-        [setShowLocalUnitModalTrue],
+        [setShowLocalUnitModalTrue, latestChanges, localUnitId],
     );
 
     return (
@@ -170,6 +189,9 @@ function LocalUnitsTableActions(props: Props) {
                     readOnly={readOnlyLocalUnitModal}
                     setReadOnly={setReadOnlyLocalUnitModal}
                     onDeleteActionSuccess={onDeleteActionSuccess}
+                    previousData={
+                        previousData?.previous_data_details as unknown as LocalUnitResponse
+                    }
                 />
             )}
             {showDeleteLocalUnitModal && (
