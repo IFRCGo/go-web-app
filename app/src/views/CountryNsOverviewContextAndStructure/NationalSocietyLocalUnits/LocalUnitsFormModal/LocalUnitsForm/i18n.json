@@ -77,6 +77,8 @@
         "localUnitDeleteButtonLabel": "Delete",
         "doneButtonLabel": "Done",
         "confirmChangesModalHeading": "Confirm the Changes",
-        "confirmChangesContentQuestion": "Are you sure you want to have these changes in this project?"
+        "confirmChangesContentQuestion": "Are you sure you want to have these changes in this project?",
+        "latitude": "Latitude",
+        "longitude": "Longitude"
     }
 }
