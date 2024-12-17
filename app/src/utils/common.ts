@@ -53,13 +53,15 @@ export function getFirstTruthyString(
     return invalidText;
 }
 
-export function compareArrays(newArray: unknown[], oldArray: unknown[]): boolean {
+// TODO: write tests for the function
+export function doArraysContainSameElements(newArray: unknown[], oldArray: unknown[]): boolean {
     if (newArray.length !== oldArray.length) {
         return false;
     }
     return newArray.every((id) => oldArray.includes(id));
 }
 
+// TODO: write tests for the function
 export function flattenObject<T extends Record<string, unknown>>(
     inputObject: T,
     prefix?: string,
@@ -73,6 +75,7 @@ export function flattenObject<T extends Record<string, unknown>>(
     }, {} as Record<string, unknown>);
 }
 
+// TODO: write tests for the function
 export function getLastSegment(str: string, delimiter: string) {
     const parts = str.split(delimiter);
     return parts[parts.length - 1];
