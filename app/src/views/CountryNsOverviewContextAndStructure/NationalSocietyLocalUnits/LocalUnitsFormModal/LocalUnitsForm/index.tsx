@@ -72,12 +72,12 @@ import { transformObjectError } from '#utils/restRequest/error';
 
 import LocalUnitDeleteModal from '../../LocalUnitDeleteModal';
 import LocalUnitValidateButton from '../../LocalUnitValidateButton';
-import localUnitFormFieldLabels from './localUnitFormFieldLabels.ts';
 import schema, {
     type LocalUnitsRequestPostBody,
     type PartialLocalUnits,
     TYPE_HEALTH_CARE,
 } from './schema';
+import useLocalUnitFormFieldLabels from './useLocalUnitFormFieldLabels';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -87,11 +87,6 @@ type VisibilityOptions = NonNullable<GoApiResponse<'/api/v2/global-enums/'>['api
 type LocalUnitOptions = GoApiResponse<'/api/v2/local-units-options/'>;
 type LocalUnitResponse = GoApiResponse<'/api/v2/local-units/{id}/'>;
 
-function getNestedValue<T extends Record<string, unknown>>(key: string, inputObject: T) {
-    const flattenedValues = flattenObject(inputObject);
-    return flattenedValues?.[key] as string;
-}
-
 interface Option {
     id: number;
     name: string;
@@ -100,7 +95,6 @@ interface Option {
 interface ChangedFormField {
     key: string,
     value: string | undefined,
-    name: string,
 }
 
 const VisibilityOptions = (option: VisibilityOptions) => option.key;
@@ -145,7 +139,6 @@ function getChangedFormFields(
             return;
         }
 
-        const name = getNestedValue(key, localUnitFormFieldLabels);
         const actualKey = getLastSegment(key, '.');
         if (Array.isArray(newValue) && Array.isArray(oldValue)) {
             if (!compareArrays(newValue, oldValue)) {
@@ -153,7 +146,7 @@ function getChangedFormFields(
                 const valuesLabels = newValue.map(
                     (v: number) => options.find((option: Option) => option.id === v),
                 ).filter(isDefined).map((option) => option.name).join(', ');
-                changedValues.push({ key, value: valuesLabels, name });
+                changedValues.push({ key, value: valuesLabels });
             }
         } else if (newValue !== oldValue) {
             const options: Option[] = formFieldOptions?.[actualKey as keyof LocalUnitOptions];
@@ -161,11 +154,11 @@ function getChangedFormFields(
                 const valueLabel = options.find(
                     (option: Option) => option.id === newValue,
                 )?.name;
-                changedValues.push({ key, value: valueLabel, name });
+                changedValues.push({ key, value: valueLabel });
             } else if (typeof newValue === 'boolean') {
-                changedValues.push({ key, value: newValue ? 'Yes' : 'No', name });
+                changedValues.push({ key, value: newValue ? 'Yes' : 'No' }); // TODO: use translations
             } else {
-                changedValues.push({ key, value: newValue as string, name });
+                changedValues.push({ key, value: newValue as string });
             }
         }
     });
@@ -187,6 +180,23 @@ function FormColumnContainer(props: FormColumnContainerProps) {
         >
             {children}
         </Container>
+    );
+}
+
+type LocalUnitTextOutputProps = TextOutputProps & {
+    localUnitFormKey: string;
+}
+
+function LocalUnitTextOutput(props: LocalUnitTextOutputProps) {
+    const { localUnitFormKey, ...otherProps } = props;
+    const name = useLocalUnitFormFieldLabels({ key: localUnitFormKey });
+
+    return (
+        <TextOutput
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...otherProps}
+            label={name}
+        />
     );
 }
 
@@ -529,8 +539,8 @@ function LocalUnitsForm(props: Props) {
     const localUnitFormFieldRendererParams = useCallback((
         _: string,
         item: ChangedFormField,
-    ): TextOutputProps => ({
-        label: item.name,
+    ): LocalUnitTextOutputProps => ({
+        localUnitFormKey: item.key,
         value: item.value,
         strongLabel: true,
     }), []);
@@ -1308,7 +1318,7 @@ function LocalUnitsForm(props: Props) {
                 >
                     <RawList
                         data={localUnitChangedFormFields}
-                        renderer={TextOutput}
+                        renderer={LocalUnitTextOutput}
                         keySelector={stringKeySelector}
                         rendererParams={localUnitFormFieldRendererParams}
                     />
