@@ -184,6 +184,7 @@ function LocalUnitsMap(props: Props) {
     const {
         response: localUnitsResponse,
         pending: localUnitsPending,
+        retrigger: refetchLocalUnits,
     } = useRequest({
         skip: requestType !== AUTHENTICATED || isNotDefined(countryResponse),
         url: '/api/v2/local-units/',
@@ -583,6 +584,7 @@ function LocalUnitsMap(props: Props) {
                     localUnitId={clickedPointProperties?.localUnitId}
                     readOnly={readOnlyLocalUnitModal}
                     setReadOnly={setReadOnlyLocalUnitModal}
+                    onDeleteActionSuccess={refetchLocalUnits}
                 />
             ))}
         </Container>

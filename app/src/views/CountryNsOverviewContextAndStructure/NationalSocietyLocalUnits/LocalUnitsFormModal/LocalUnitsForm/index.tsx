@@ -17,7 +17,10 @@ import {
     TextArea,
     TextInput,
 } from '@ifrc-go/ui';
-import { useTranslation } from '@ifrc-go/ui/hooks';
+import {
+    useBooleanState,
+    useTranslation,
+} from '@ifrc-go/ui/hooks';
 import {
     numericIdSelector,
     resolveToComponent,
@@ -41,7 +44,9 @@ import BaseMapPointInput from '#components/domain/BaseMapPointInput';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import NonFieldError from '#components/NonFieldError';
 import { environment } from '#config';
+import useAuth from '#hooks/domain/useAuth';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import usePermissions from '#hooks/domain/usePermissions';
 import useAlert from '#hooks/useAlert';
 import { getFirstTruthyString } from '#utils/common';
 import { VISIBILITY_PUBLIC } from '#utils/constants';
@@ -54,7 +59,7 @@ import {
 } from '#utils/restRequest';
 import { transformObjectError } from '#utils/restRequest/error';
 
-import LocalUnitDeleteButton from '../../LocalUnitDeleteButton';
+import LocalUnitDeleteModal from '../../LocalUnitDeleteModal';
 import LocalUnitValidateButton from '../../LocalUnitValidateButton';
 import schema, {
     type LocalUnitsRequestPostBody,
@@ -110,6 +115,7 @@ interface Props {
     readOnly?: boolean;
     onSuccess?: () => void;
     onEditButtonClick?: () => void;
+    onDeleteActionSuccess?: () => void;
     localUnitId?: number;
     actionsContainerRef: RefObject<HTMLDivElement>;
     headingDescriptionRef?: RefObject<HTMLDivElement>;
@@ -125,14 +131,39 @@ function LocalUnitsForm(props: Props) {
         actionsContainerRef,
         headingDescriptionRef,
         headerDescriptionRef,
+        onDeleteActionSuccess,
     } = props;
 
     const alert = useAlert();
     const strings = useTranslation(i18n);
     const formFieldsContainerRef = useRef<HTMLDivElement>(null);
 
+    const [
+        showDeleteLocalUnitModal,
+        {
+            setTrue: setShowDeleteLocalUnitModalTrue,
+            setFalse: setShowDeleteLocalUnitModalFalse,
+        },
+    ] = useBooleanState(false);
+
+    const {
+        isSuperUser,
+        isRegionAdmin,
+        isCountryAdmin,
+        isGuestUser,
+    } = usePermissions();
+    const { isAuthenticated } = useAuth();
+
     const { api_visibility_choices: visibilityOptions } = useGlobalEnums();
-    const { countryId } = useOutletContext<CountryOutletContext>();
+
+    const { countryId, countryResponse } = useOutletContext<CountryOutletContext>();
+
+    const hasValidatePermission = isSuperUser
+        || isCountryAdmin(Number(countryId))
+        || isRegionAdmin(Number(countryResponse?.region));
+
+    const hasDeletePermission = isAuthenticated && !isGuestUser;
+
     const {
         value,
         error: formError,
@@ -388,28 +419,28 @@ function LocalUnitsForm(props: Props) {
                                 && (environment !== 'production')
                                 && (
                                     <div className={styles.actions}>
-                                        <LocalUnitDeleteButton
-                                            countryId={Number(countryId)}
-                                            localUnitId={localUnitId}
-                                            localUnitName={getFirstTruthyString(
-                                                value.local_branch_name,
-                                                value.english_branch_name,
-                                            )}
-                                            onActionSuccess={onSuccess}
-                                            disabled={!pristine}
-                                        />
-                                        <LocalUnitValidateButton
-                                            countryId={Number(countryId)}
-                                            localUnitId={localUnitId}
-                                            localUnitName={getFirstTruthyString(
-                                                value.local_branch_name,
-                                                value.english_branch_name,
-                                            )}
-                                            onActionSuccess={onSuccess}
-                                            isValidated={localUnitDetailsResponse.validated}
-                                            disabled={!pristine}
-                                            readOnly={!pristine}
-                                        />
+                                        {hasDeletePermission && (
+                                            <Button
+                                                name={undefined}
+                                                onClick={setShowDeleteLocalUnitModalTrue}
+                                            >
+                                                {strings.localUnitDeleteButtonLabel}
+                                            </Button>
+                                        )}
+                                        {hasValidatePermission && (
+                                            <LocalUnitValidateButton
+                                                countryId={Number(countryId)}
+                                                localUnitId={localUnitId}
+                                                localUnitName={getFirstTruthyString(
+                                                    value.local_branch_name,
+                                                    value.english_branch_name,
+                                                )}
+                                                onActionSuccess={onSuccess}
+                                                isValidated={localUnitDetailsResponse.validated}
+                                                disabled={!pristine}
+                                                readOnly={!pristine}
+                                            />
+                                        )}
                                     </div>
                                 )}
                         </FormGrid>
@@ -1055,6 +1086,17 @@ function LocalUnitsForm(props: Props) {
                     </>
                 )}
             </Container>
+            {showDeleteLocalUnitModal && isDefined(localUnitId) && (
+                <LocalUnitDeleteModal
+                    onClose={setShowDeleteLocalUnitModalFalse}
+                    localUnitName={getFirstTruthyString(
+                        value.local_branch_name,
+                        value.english_branch_name,
+                    )}
+                    onDeleteActionSuccess={onDeleteActionSuccess}
+                    localUnitId={localUnitId}
+                />
+            )}
         </div>
     );
 }
