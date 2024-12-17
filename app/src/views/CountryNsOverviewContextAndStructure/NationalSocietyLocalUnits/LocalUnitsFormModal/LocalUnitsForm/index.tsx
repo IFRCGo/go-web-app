@@ -20,7 +20,6 @@ import {
     TextArea,
     TextInput,
     TextOutput,
-    TextOutputProps,
 } from '@ifrc-go/ui';
 import {
     useBooleanState,
@@ -55,7 +54,7 @@ import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import usePermissions from '#hooks/domain/usePermissions';
 import useAlert from '#hooks/useAlert';
 import {
-    compareArrays,
+    doArraysContainSameElements,
     flattenObject,
     getFirstTruthyString,
     getLastSegment,
@@ -92,9 +91,14 @@ interface Option {
     name: string;
 }
 
-interface ChangedFormField {
+type ChangedFormField = {
     key: string,
-    value: string | undefined,
+    value: string;
+    valueType: 'text';
+} | {
+    key: string,
+    value: boolean;
+    valueType: 'boolean';
 }
 
 const VisibilityOptions = (option: VisibilityOptions) => option.key;
@@ -119,11 +123,12 @@ function FormGrid(props: FormGridProps) {
     );
 }
 
+// TODO: write tests for the function and maybe consider refactoring
 function getChangedFormFields(
     newValues: PartialLocalUnits,
     oldValues: LocalUnitResponse,
     formFieldOptions: LocalUnitOptions,
-) {
+): ChangedFormField[] {
     const flattenedValues = flattenObject(newValues);
     const flattenedOldValues = flattenObject(oldValues);
 
@@ -133,32 +138,30 @@ function getChangedFormFields(
         const newValue = flattenedValues[key];
         const oldValue = flattenedOldValues[key];
 
-        if ((newValue === undefined || newValue === null)
-            && (oldValue === undefined || oldValue === null)
-        ) {
+        if (isNotDefined(newValue) && isNotDefined(oldValue)) {
             return;
         }
 
         const actualKey = getLastSegment(key, '.');
         if (Array.isArray(newValue) && Array.isArray(oldValue)) {
-            if (!compareArrays(newValue, oldValue)) {
+            if (!doArraysContainSameElements(newValue, oldValue)) {
                 const options: Option[] = formFieldOptions?.[actualKey as keyof LocalUnitOptions];
                 const valuesLabels = newValue.map(
                     (v: number) => options.find((option: Option) => option.id === v),
                 ).filter(isDefined).map((option) => option.name).join(', ');
-                changedValues.push({ key, value: valuesLabels });
+                changedValues.push({ key, value: valuesLabels, valueType: 'text' });
             }
         } else if (newValue !== oldValue) {
             const options: Option[] = formFieldOptions?.[actualKey as keyof LocalUnitOptions];
             if (isDefined(options)) {
                 const valueLabel = options.find(
                     (option: Option) => option.id === newValue,
-                )?.name;
-                changedValues.push({ key, value: valueLabel });
+                )?.name ?? '';
+                changedValues.push({ key, value: valueLabel, valueType: 'text' });
             } else if (typeof newValue === 'boolean') {
-                changedValues.push({ key, value: newValue ? 'Yes' : 'No' }); // TODO: use translations
+                changedValues.push({ key, value: newValue, valueType: 'boolean' });
             } else {
-                changedValues.push({ key, value: newValue as string });
+                changedValues.push({ key, value: newValue as string, valueType: 'text' });
             }
         }
     });
@@ -183,19 +186,35 @@ function FormColumnContainer(props: FormColumnContainerProps) {
     );
 }
 
-type LocalUnitTextOutputProps = TextOutputProps & {
+type LocalUnitTextOutputProps = {
     localUnitFormKey: string;
+    value: string;
+    valueType: 'text';
+} | {
+    localUnitFormKey: string;
+    value: boolean;
+    valueType: 'boolean';
 }
 
 function LocalUnitTextOutput(props: LocalUnitTextOutputProps) {
-    const { localUnitFormKey, ...otherProps } = props;
+    const { localUnitFormKey, value, valueType } = props;
     const name = useLocalUnitFormFieldLabels({ key: localUnitFormKey });
+
+    if (valueType === 'boolean') {
+        return (
+            <TextOutput
+                label={name}
+                value={value}
+                valueType={valueType}
+            />
+        );
+    }
 
     return (
         <TextOutput
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...otherProps}
             label={name}
+            value={value}
+            valueType={valueType}
         />
     );
 }
@@ -510,7 +529,7 @@ function LocalUnitsForm(props: Props) {
                     localUnitDetailsResponse,
                     localUnitsOptions,
                 );
-                setLocalUnitChangedFormFields(() => changedFormFields);
+                setLocalUnitChangedFormFields(changedFormFields);
             }
             setShowChangesModalTrue();
         },
@@ -539,11 +558,20 @@ function LocalUnitsForm(props: Props) {
     const localUnitFormFieldRendererParams = useCallback((
         _: string,
         item: ChangedFormField,
-    ): LocalUnitTextOutputProps => ({
-        localUnitFormKey: item.key,
-        value: item.value,
-        strongLabel: true,
-    }), []);
+    ) => {
+        if (item.valueType === 'boolean') {
+            return {
+                localUnitFormKey: item.key,
+                value: item.value,
+                valueType: item.valueType,
+            };
+        }
+        return {
+            localUnitFormKey: item.key,
+            value: item.value,
+            valueType: item.valueType,
+        };
+    }, []);
 
     return (
         <div className={styles.localUnitsForm}>
