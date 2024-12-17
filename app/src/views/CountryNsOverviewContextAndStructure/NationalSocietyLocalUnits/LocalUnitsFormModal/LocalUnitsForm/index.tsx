@@ -162,10 +162,7 @@ function LocalUnitsForm(props: Props) {
         || isCountryAdmin(Number(countryId))
         || isRegionAdmin(Number(countryResponse?.region));
 
-    const hasDeletePermission = isSuperUser
-        || isCountryAdmin(Number(countryId))
-        || isRegionAdmin(Number(countryResponse?.region))
-        || (isAuthenticated && !isGuestUser);
+    const hasDeletePermission = isAuthenticated && !isGuestUser;
 
     const {
         value,
