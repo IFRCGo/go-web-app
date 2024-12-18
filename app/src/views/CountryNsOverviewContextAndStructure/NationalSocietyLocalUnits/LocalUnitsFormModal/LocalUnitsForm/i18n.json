@@ -84,6 +84,7 @@
         "revertChangesContentQuestion": "Are you sure you want to have these changes revert in this project?",
         "confirmChangesModalHeading": "Confirm the Changes",
         "confirmChangesContentQuestion": "Are you sure you want to have these changes in this local unit?",
+        "newLocalUnitDescription": "New local unit",
         "latitude": "Latitude",
         "longitude": "Longitude"
     }

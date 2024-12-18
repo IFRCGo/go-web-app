@@ -630,7 +630,9 @@ function LocalUnitsMap(props: Props) {
                     setReadOnly={setReadOnlyLocalUnitModal}
                     onDeleteActionSuccess={refetchLocalUnits}
                     previousData={
-                        previousData?.previous_data_details as unknown as LocalUnitResponse
+                        superLocalUnitDetailResponse?.validated
+                            ? undefined
+                            : previousData?.previous_data_details as unknown as LocalUnitResponse
                     }
                 />
             ))}

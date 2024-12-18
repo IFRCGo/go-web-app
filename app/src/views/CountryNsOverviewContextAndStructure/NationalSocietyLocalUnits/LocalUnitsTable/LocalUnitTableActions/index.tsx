@@ -127,6 +127,7 @@ function LocalUnitsTableActions(props: Props) {
         },
         [setShowLocalUnitModalFalse, onDeleteActionSuccess],
     );
+
     const handleViewLocalUnitClick = useCallback(
         () => {
             if (!isValidated) {
@@ -209,7 +210,9 @@ function LocalUnitsTableActions(props: Props) {
                     setReadOnly={setReadOnlyLocalUnitModal}
                     onDeleteActionSuccess={onDeleteActionSuccess}
                     previousData={
-                        previousData?.previous_data_details as unknown as LocalUnitResponse
+                        isValidated
+                            ? undefined
+                            : previousData?.previous_data_details as unknown as LocalUnitResponse
                     }
                 />
             )}
