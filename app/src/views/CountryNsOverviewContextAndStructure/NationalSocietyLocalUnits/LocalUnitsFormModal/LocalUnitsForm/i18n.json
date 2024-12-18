@@ -83,7 +83,7 @@
         "revertChangesModalHeading": "Revert the Changes",
         "revertChangesContentQuestion": "Are you sure you want to have these changes revert in this project?",
         "confirmChangesModalHeading": "Confirm the Changes",
-        "confirmChangesContentQuestion": "Are you sure you want to have these changes in this project?",
+        "confirmChangesContentQuestion": "Are you sure you want to have these changes in this local unit?",
         "latitude": "Latitude",
         "longitude": "Longitude"
     }
