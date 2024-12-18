@@ -1,5 +1,9 @@
 import { DEFAULT_INVALID_TEXT } from '@ifrc-go/ui/utils';
-import { isTruthyString } from '@togglecorp/fujs';
+import {
+    isDefined,
+    isNotDefined,
+    isTruthyString,
+} from '@togglecorp/fujs';
 
 import type { GoApiResponse } from '#utils/restRequest';
 
@@ -54,11 +58,20 @@ export function getFirstTruthyString(
 }
 
 // TODO: write tests for the function
-export function doArraysContainSameElements(newArray: unknown[], oldArray: unknown[]): boolean {
-    if (newArray.length !== oldArray.length) {
-        return false;
+export function doArraysContainSameElements(
+    newArray: unknown[] | undefined,
+    oldArray: unknown[] | undefined,
+): boolean {
+    if (isNotDefined(newArray) && isNotDefined(oldArray)) {
+        return true;
     }
-    return newArray.every((id) => oldArray.includes(id));
+    if (isDefined(newArray) && isDefined(oldArray)) {
+        if (newArray.length !== oldArray.length) {
+            return false;
+        }
+        return newArray.every((id) => oldArray.includes(id));
+    }
+    return false;
 }
 
 // TODO: write tests for the function
