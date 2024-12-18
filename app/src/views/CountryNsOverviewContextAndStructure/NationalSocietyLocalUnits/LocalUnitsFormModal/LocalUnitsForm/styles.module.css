@@ -33,5 +33,10 @@
 
 .last-update-label {
     color: var(--go-ui-color-text-light);
+
+    .new-local-unit {
+        color: var(--go-ui-color-positive);
+    }
+
 }
 

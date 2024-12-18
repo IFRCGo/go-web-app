@@ -37,6 +37,7 @@ import {
     _cs,
     isDefined,
     isNotDefined,
+    isObject,
 } from '@togglecorp/fujs';
 import {
     createSubmitHandler,
@@ -646,7 +647,7 @@ function LocalUnitsForm(props: Props) {
             revertChanges(formValues as LocalUnitsRevertRequestPostBody);
             setShowRevertChangesModalFalse();
         },
-        [revertChanges],
+        [revertChanges, setShowRevertChangesModalFalse],
     );
 
     const latestChangesFormFields = useMemo(() => {
@@ -692,6 +693,8 @@ function LocalUnitsForm(props: Props) {
             setShowChangesModalTrue();
         },
         [
+            setError,
+            validate,
             setShowChangesModalTrue,
             localUnitDetailsResponse,
             value,
@@ -733,6 +736,15 @@ function LocalUnitsForm(props: Props) {
         };
     }, []);
 
+    const isNewLocalUnit = useMemo(() => {
+        if (isObject(previousData)) {
+            if (Object.keys(previousData).length <= 0) {
+                return true;
+            }
+        }
+        return false;
+    }, [previousData]);
+
     return (
         <div className={styles.localUnitsForm}>
             {isDefined(localUnitDetailsResponse)
@@ -769,6 +781,13 @@ function LocalUnitsForm(props: Props) {
             {isDefined(headingDescriptionRef) && isDefined(headingDescriptionRef.current) && (
                 <Portal container={headingDescriptionRef.current}>
                     <div className={styles.lastUpdateLabel}>
+                        {isNewLocalUnit && (
+                            <TextOutput
+                                className={styles.newLocalUnit}
+                                value={strings.newLocalUnitDescription}
+                                strongValue
+                            />
+                        )}
                         {resolveToComponent(
                             strings.lastUpdateLabel,
                             {
@@ -850,7 +869,8 @@ function LocalUnitsForm(props: Props) {
                                                 readOnly={!pristine}
                                             />
                                         )}
-                                        {localUnitDetailsResponse.is_locked && isDefined(previousData) && (
+                                        {localUnitDetailsResponse.is_locked
+                                            && !isNewLocalUnit && (
                                             <Button
                                                 name={undefined}
                                                 onClick={setShowRevertChangesModalTrue}
