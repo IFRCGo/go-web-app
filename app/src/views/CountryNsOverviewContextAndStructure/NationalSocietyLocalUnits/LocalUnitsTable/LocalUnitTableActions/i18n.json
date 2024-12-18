@@ -4,6 +4,7 @@
         "localUnitsEdit": "Edit",
         "localUnitsView": "View",
         "localUnitsDelete": "Delete",
+        "latestChangesFailureMessage": "Failed to get latest changes",
         "deleteLocalUnitHeading": "Delete Local Unit Confirmation",
         "deleteLocalUnitMessage": "Are you sure you want to delete \"{localUnitName}\"?"
     }

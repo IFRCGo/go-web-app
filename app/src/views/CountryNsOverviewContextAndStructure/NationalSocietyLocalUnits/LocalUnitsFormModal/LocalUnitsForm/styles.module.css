@@ -4,10 +4,11 @@
         height: 32rem;
     }
 
-}
-
-.changes {
-    background-color: var(--go-ui-color-semantic-yellow) !important;
+    /* FIXME: styling gets overridden by readonly */
+    /* TODO: implement this variant in go-ui */
+    .changes {
+         background-color: var(--go-ui-color-semantic-yellow) !important;
+    }
 }
 
 /* NOTE: this element is portaled */

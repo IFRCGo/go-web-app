@@ -16,6 +16,7 @@ import { environment } from '#config';
 import useAuth from '#hooks/domain/useAuth';
 import useCountry from '#hooks/domain/useCountry';
 import usePermissions from '#hooks/domain/usePermissions';
+import useAlert from '#hooks/useAlert';
 import {
     type GoApiBody,
     type GoApiResponse,
@@ -63,6 +64,7 @@ function LocalUnitsTableActions(props: Props) {
         isGuestUser,
     } = usePermissions();
 
+    const alert = useAlert();
     const { isAuthenticated } = useAuth();
 
     const hasValidatePermission = isSuperUser
@@ -79,6 +81,22 @@ function LocalUnitsTableActions(props: Props) {
         method: 'POST',
         pathVariables: { id: localUnitId },
         body: (ctx: LocalUnitLatestChangesBody) => ctx,
+        onFailure: (error) => {
+            const {
+                value: {
+                    messageForNotification,
+                },
+                debugMessage,
+            } = error;
+            alert.show(
+                strings.latestChangesFailureMessage,
+                {
+                    variant: 'danger',
+                    description: messageForNotification,
+                    debugMessage,
+                },
+            );
+        },
     });
 
     const [readOnlyLocalUnitModal, setReadOnlyLocalUnitModal] = useState(false);
@@ -111,20 +129,21 @@ function LocalUnitsTableActions(props: Props) {
     );
     const handleViewLocalUnitClick = useCallback(
         () => {
-            latestChanges(localUnitId as never);
+            if (!isValidated) {
+                latestChanges(localUnitId as never);
+            }
             setReadOnlyLocalUnitModal(true);
             setShowLocalUnitModalTrue();
         },
-        [setShowLocalUnitModalTrue, latestChanges, localUnitId],
+        [setShowLocalUnitModalTrue, latestChanges, localUnitId, isValidated],
     );
 
     const handleEditLocalUnitClick = useCallback(
         () => {
-            latestChanges(localUnitId as never);
             setReadOnlyLocalUnitModal(false);
             setShowLocalUnitModalTrue();
         },
-        [setShowLocalUnitModalTrue, latestChanges, localUnitId],
+        [setShowLocalUnitModalTrue],
     );
 
     return (

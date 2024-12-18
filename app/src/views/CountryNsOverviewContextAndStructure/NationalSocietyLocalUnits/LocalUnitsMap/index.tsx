@@ -46,6 +46,7 @@ import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import MapPopup from '#components/MapPopup';
 import useAuth from '#hooks/domain/useAuth';
 import usePermissions from '#hooks/domain/usePermissions';
+import useAlert from '#hooks/useAlert';
 import { getFirstTruthyString } from '#utils/common';
 import {
     COLOR_PRIMARY_RED,
@@ -140,6 +141,8 @@ function LocalUnitsMap(props: Props) {
         localUnitsOptions,
     } = props;
     const { countryResponse } = useOutletContext<CountryOutletContext>();
+
+    const alert = useAlert();
 
     const [showLocalUnitModal, {
         setTrue: setShowLocalUnitViewModalTrue,
@@ -268,6 +271,22 @@ function LocalUnitsMap(props: Props) {
             id: clickedPointProperties.localUnitId,
         }) : undefined,
         body: (ctx: LocalUnitLatestChangesBody) => ctx,
+        onFailure: (error) => {
+            const {
+                value: {
+                    messageForNotification,
+                },
+                debugMessage,
+            } = error;
+            alert.show(
+                strings.latestChangesFailureMessage,
+                {
+                    variant: 'danger',
+                    description: messageForNotification,
+                    debugMessage,
+                },
+            );
+        },
     });
 
     const localUnitDetail = requestType !== AUTHENTICATED
@@ -335,11 +354,18 @@ function LocalUnitsMap(props: Props) {
 
     const handleLocalUnitHeadingClick = useCallback(
         () => {
-            latestChanges(clickedPointProperties?.localUnitId as never);
+            if (!superLocalUnitDetailResponse?.validated) {
+                latestChanges(clickedPointProperties?.localUnitId as never);
+            }
             setReadOnlyLocalUnitModal(true);
             setShowLocalUnitViewModalTrue();
         },
-        [setShowLocalUnitViewModalTrue, latestChanges, clickedPointProperties?.localUnitId],
+        [
+            setShowLocalUnitViewModalTrue,
+            latestChanges,
+            clickedPointProperties?.localUnitId,
+            superLocalUnitDetailResponse?.validated,
+        ],
     );
 
     const handleLocalUnitsFormModalClose = useCallback(

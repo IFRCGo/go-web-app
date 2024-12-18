@@ -152,16 +152,28 @@ function getChangedFormFields(
         if (isNotDefined(newValue) && isNotDefined(oldValue)) {
             return;
         }
-
         const actualKey = getLastSegment(key, '.');
-        if (Array.isArray(newValue) && Array.isArray(oldValue)) {
-            if (!doArraysContainSameElements(newValue, oldValue)) {
+        if (Array.isArray(newValue) || Array.isArray(oldValue)) {
+            if (Array.isArray(newValue) && isNotDefined(oldValue)) {
                 const options: Option[] | undefined = formFieldOptions
                     ?.[actualKey as keyof LocalUnitOptions];
                 const valuesLabels = newValue.map(
                     (v: number) => options.find((option: Option) => option.id === v),
                 ).filter(isDefined).map((option) => option.name).join(', ');
                 changedValues.push({ key, value: valuesLabels, valueType: 'text' });
+            }
+            if (isNotDefined(newValue)) {
+                changedValues.push({ key, value: '', valueType: 'text' });
+            }
+            if (Array.isArray(newValue) && Array.isArray((oldValue))) {
+                if (!doArraysContainSameElements(newValue, oldValue)) {
+                    const options: Option[] | undefined = formFieldOptions
+                        ?.[actualKey as keyof LocalUnitOptions];
+                    const valuesLabels = newValue.map(
+                        (v: number) => options.find((option: Option) => option.id === v),
+                    ).filter(isDefined).map((option) => option.name).join(', ');
+                    changedValues.push({ key, value: valuesLabels, valueType: 'text' });
+                }
             }
         } else if (newValue !== oldValue) {
             const options: Option[] | undefined = formFieldOptions
@@ -197,9 +209,17 @@ function getLatestChangesFormFields(
         const newValue = flattenedNewValues[key];
         const oldValue = flattenedOldValues[key];
 
-        if (Array.isArray(newValue) && Array.isArray(oldValue)) {
-            if (!doArraysContainSameElements(newValue, oldValue)) {
+        if (Array.isArray(newValue) || Array.isArray(oldValue)) {
+            if (Array.isArray(newValue) && isNotDefined(oldValue)) {
                 changedKeys[key] = true;
+            }
+            if (isNotDefined(newValue) && Array.isArray((oldValue))) {
+                changedKeys[key] = true;
+            }
+            if (Array.isArray((newValue)) && Array.isArray((oldValue))) {
+                if (!doArraysContainSameElements(newValue, oldValue)) {
+                    changedKeys[key] = true;
+                }
             }
         } else if (newValue !== oldValue) {
             changedKeys[key] = true;
@@ -467,8 +487,7 @@ function LocalUnitsForm(props: Props) {
     });
 
     const readOnly = readOnlyFromProps
-        || isNotDefined(localUnitDetailsResponse)
-        || localUnitDetailsResponse.is_locked;
+        || localUnitDetailsResponse?.is_locked;
 
     const {
         response: localUnitsOptions,
@@ -600,6 +619,9 @@ function LocalUnitsForm(props: Props) {
                 strings.revertChangesSuccessMessage,
                 { variant: 'success' },
             );
+            if (onSuccess) {
+                onSuccess();
+            }
         },
         onFailure: (error) => {
             const {
@@ -622,6 +644,7 @@ function LocalUnitsForm(props: Props) {
     const handleRevertChangesFormSubmit = useCallback(
         (formValues: PartialLocalUnitsRevertForm) => {
             revertChanges(formValues as LocalUnitsRevertRequestPostBody);
+            setShowRevertChangesModalFalse();
         },
         [revertChanges],
     );
@@ -643,6 +666,12 @@ function LocalUnitsForm(props: Props) {
 
     const onDoneButtonClick = useCallback(
         () => {
+            const result = validate();
+            if (result.errored) {
+                setError(result.error);
+                formFieldsContainerRef.current?.scrollIntoView({ block: 'start' });
+                return;
+            }
             if (isDefined(localUnitDetailsResponse)
                 && isDefined(localUnitsOptions)
                 && isDefined(visibilityOptions)
@@ -707,7 +736,8 @@ function LocalUnitsForm(props: Props) {
     return (
         <div className={styles.localUnitsForm}>
             {isDefined(localUnitDetailsResponse)
-                && !readOnly
+                && readOnlyFromProps
+                && !localUnitDetailsResponse.is_locked
                 && isDefined(actionsContainerRef.current) && (
                 <Portal container={actionsContainerRef.current}>
                     {(environment !== 'production') && (
@@ -718,6 +748,7 @@ function LocalUnitsForm(props: Props) {
                             {strings.editButtonLabel}
                         </Button>
                     )}
+
                 </Portal>
             )}
             {!readOnly && isDefined(localUnitId) && isDefined(actionsContainerRef.current) && (
@@ -819,7 +850,7 @@ function LocalUnitsForm(props: Props) {
                                                 readOnly={!pristine}
                                             />
                                         )}
-                                        {localUnitDetailsResponse.is_locked && (
+                                        {localUnitDetailsResponse.is_locked && isDefined(previousData) && (
                                             <Button
                                                 name={undefined}
                                                 onClick={setShowRevertChangesModalTrue}
@@ -836,6 +867,7 @@ function LocalUnitsForm(props: Props) {
             )}
             <Container
                 containerRef={formFieldsContainerRef}
+                footerActionsContainerClassName={styles.footerActions}
                 footerActions={!readOnly && isNotDefined(actionsContainerRef) && submitButton}
                 contentViewType="vertical"
                 spacing="loose"

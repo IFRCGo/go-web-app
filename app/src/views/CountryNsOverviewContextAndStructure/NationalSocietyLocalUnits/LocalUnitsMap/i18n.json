@@ -9,6 +9,7 @@
         "localUnitLocalUnitType": "Local unit types",
         "localUnitHealthFacilityType": "Health facility types",
         "presentationModeButton":"Presentation mode",
+        "latestChangesFailureMessage": "Failed to get latest changes",
         "localUnitDetailEmail": "Email"
     }
 }
