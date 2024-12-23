@@ -650,21 +650,6 @@ function LocalUnitsForm(props: Props) {
         [revertChanges, setShowRevertChangesModalFalse],
     );
 
-    const latestChangesFormFields = useMemo(() => {
-        if (isDefined(localUnitDetailsResponse) && isDefined(previousData)) {
-            return getLatestChangesFormFields(
-                localUnitDetailsResponse,
-                previousData,
-            );
-        }
-        return undefined;
-    }, [localUnitDetailsResponse, previousData]);
-
-    const baseMapFormFieldsChanges = useMemo(() => ({
-        lat: latestChangesFormFields?.['location_json.lat'],
-        lng: latestChangesFormFields?.['location_json.lng'],
-    }), [latestChangesFormFields]);
-
     const onDoneButtonClick = useCallback(
         () => {
             const result = validate();
@@ -744,6 +729,24 @@ function LocalUnitsForm(props: Props) {
         }
         return false;
     }, [previousData]);
+
+    const latestChangesFormFields = useMemo(() => {
+        if (isNewLocalUnit) {
+            return undefined;
+        }
+        if (isDefined(localUnitDetailsResponse) && isDefined(previousData)) {
+            return getLatestChangesFormFields(
+                localUnitDetailsResponse,
+                previousData,
+            );
+        }
+        return undefined;
+    }, [localUnitDetailsResponse, previousData, isNewLocalUnit]);
+
+    const baseMapFormFieldsChanges = useMemo(() => ({
+        lat: latestChangesFormFields?.['location_json.lat'],
+        lng: latestChangesFormFields?.['location_json.lng'],
+    }), [latestChangesFormFields]);
 
     return (
         <div className={styles.localUnitsForm}>
@@ -1187,7 +1190,7 @@ function LocalUnitsForm(props: Props) {
                             />
                             <TextInput
                                 inputSectionClassName={_cs(
-                                    latestChangesFormFields?.city_cn
+                                    latestChangesFormFields?.city_en
                                     && styles.changes,
                                 )}
                                 label={strings.localityEn}
