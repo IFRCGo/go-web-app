@@ -28,7 +28,7 @@ function useLocalUnitFormFieldLabels(props: Props) {
         address_loc: strings.addressLocal,
         city_en: strings.localityEn,
         city_loc: strings.localityLocal,
-        postCode: strings.postCode,
+        postcode: strings.postCode,
         phone: strings.phone,
         email: strings.email,
         link: strings.website,
