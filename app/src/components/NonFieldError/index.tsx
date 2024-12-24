@@ -8,7 +8,7 @@ import {
 } from '@togglecorp/fujs';
 import {
     analyzeErrors,
-    Error,
+    type Error,
     getErrorObject,
     nonFieldError,
 } from '@togglecorp/toggle-form';

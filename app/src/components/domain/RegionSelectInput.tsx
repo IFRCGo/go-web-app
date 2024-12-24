@@ -1,6 +1,6 @@
 import {
     SelectInput,
-    SelectInputProps,
+    type SelectInputProps,
 } from '@ifrc-go/ui';
 import { stringValueSelector } from '@ifrc-go/ui/utils';
 

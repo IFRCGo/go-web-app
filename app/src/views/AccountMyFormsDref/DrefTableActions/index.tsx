@@ -30,10 +30,10 @@ import {
     DREF_STATUS_IN_PROGRESS,
     DREF_TYPE_IMMINENT,
     DREF_TYPE_LOAN,
-    DrefStatus,
+    type DrefStatus,
 } from '#utils/constants';
 import {
-    GoApiBody,
+    type GoApiBody,
     useLazyRequest,
 } from '#utils/restRequest';
 

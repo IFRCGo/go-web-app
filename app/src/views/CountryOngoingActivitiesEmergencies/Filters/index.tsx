@@ -5,7 +5,7 @@ import {
     SelectInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { EntriesAsList } from '@togglecorp/toggle-form';
+import { type EntriesAsList } from '@togglecorp/toggle-form';
 
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';

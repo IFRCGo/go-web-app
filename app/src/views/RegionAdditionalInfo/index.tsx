@@ -3,7 +3,7 @@ import { useOutletContext } from 'react-router-dom';
 import {
     Container,
     HtmlOutput,
-    HtmlOutputProps,
+    type HtmlOutputProps,
     KeyFigure,
     List,
     Message,

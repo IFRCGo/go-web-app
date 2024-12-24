@@ -5,7 +5,7 @@ import {
 import {
     generatePath,
     Link as InternalLink,
-    LinkProps as RouterLinkProps,
+    type LinkProps as RouterLinkProps,
 } from 'react-router-dom';
 import {
     ChevronRightLineIcon,

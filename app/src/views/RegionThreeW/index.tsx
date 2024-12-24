@@ -7,7 +7,7 @@ import {
     BlockLoading,
     Container,
     ExpandableContainer,
-    ExpandableContainerProps,
+    type ExpandableContainerProps,
     KeyFigure,
     List,
     PieChart,

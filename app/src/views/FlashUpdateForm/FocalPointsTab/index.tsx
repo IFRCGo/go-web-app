@@ -5,12 +5,12 @@ import {
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
-    EntriesAsList,
-    Error,
+    type EntriesAsList,
+    type Error,
     getErrorObject,
 } from '@togglecorp/toggle-form';
 
-import { FormType } from '../schema';
+import { type FormType } from '../schema';
 
 import i18n from './i18n.json';
 

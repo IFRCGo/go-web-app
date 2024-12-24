@@ -9,10 +9,10 @@ import {
     stringValueSelector,
 } from '@ifrc-go/ui/utils';
 import { _cs } from '@togglecorp/fujs';
-import { EntriesAsList } from '@togglecorp/toggle-form';
+import { type EntriesAsList } from '@togglecorp/toggle-form';
 
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import useNationalSociety, { NationalSociety } from '#hooks/domain/useNationalSociety';
+import useNationalSociety, { type NationalSociety } from '#hooks/domain/useNationalSociety';
 import type { GoApiResponse } from '#utils/restRequest';
 import { useRequest } from '#utils/restRequest';
 

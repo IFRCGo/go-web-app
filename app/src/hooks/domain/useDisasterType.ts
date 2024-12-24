@@ -5,7 +5,7 @@ import {
 } from 'react';
 import { isTruthyString } from '@togglecorp/fujs';
 
-import DomainContext, { DisasterTypes } from '#contexts/domain';
+import DomainContext, { type DisasterTypes } from '#contexts/domain';
 
 type PartialDisasterType = NonNullable<DisasterTypes['results']>[number];
 

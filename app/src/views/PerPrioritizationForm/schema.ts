@@ -1,6 +1,6 @@
 import {
-    ObjectSchema,
-    PartialForm,
+    type ObjectSchema,
+    type PartialForm,
 } from '@togglecorp/toggle-form';
 
 import { type GoApiBody } from '#utils/restRequest';

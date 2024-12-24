@@ -20,7 +20,7 @@ import {
     listToMap,
     mapToList,
 } from '@togglecorp/fujs';
-import { PartialForm } from '@togglecorp/toggle-form';
+import { type PartialForm } from '@togglecorp/toggle-form';
 
 import {
     getPerAreaColor,

@@ -7,7 +7,7 @@ import { useOutletContext } from 'react-router-dom';
 import {
     RawList,
     TextOutput,
-    TextOutputProps,
+    type TextOutputProps,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { numericIdSelector } from '@ifrc-go/ui/utils';
@@ -27,7 +27,7 @@ import BaseMap from '#components/domain/BaseMap';
 import Link from '#components/Link';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import MapPopup from '#components/MapPopup';
-import useCountryRaw, { Country } from '#hooks/domain/useCountryRaw';
+import useCountryRaw, { type Country } from '#hooks/domain/useCountryRaw';
 import {
     COLOR_RED,
     DEFAULT_MAP_PADDING,

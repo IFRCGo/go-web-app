@@ -32,7 +32,7 @@ import {
     DISASTER_CATEGORY_ORANGE,
     DISASTER_CATEGORY_RED,
     DISASTER_CATEGORY_YELLOW,
-    DisasterCategory,
+    type DisasterCategory,
     DREF_TYPE_ASSESSMENT,
     DREF_TYPE_IMMINENT,
     ONSET_SLOW,

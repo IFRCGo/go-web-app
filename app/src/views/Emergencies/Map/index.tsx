@@ -50,7 +50,7 @@ import {
     RESPONSE_LEVEL_MIXED_RESPONSE,
     RESPONSE_LEVEL_WITH_IFRC_RESPONSE,
     RESPONSE_LEVEL_WITHOUT_IFRC_RESPONSE,
-    ScaleOption,
+    type ScaleOption,
 } from './utils';
 
 import i18n from './i18n.json';

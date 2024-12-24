@@ -29,10 +29,10 @@ import {
 } from '@togglecorp/re-map';
 import getBbox from '@turf/bbox';
 import {
-    LineLayout,
-    LinePaint,
-    SymbolLayout,
-    SymbolPaint,
+    type LineLayout,
+    type LinePaint,
+    type SymbolLayout,
+    type SymbolPaint,
 } from 'mapbox-gl';
 
 import BaseMap from '#components/domain/BaseMap';
@@ -40,7 +40,7 @@ import Link from '#components/Link';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import MapPopup from '#components/MapPopup';
 import useCountry from '#hooks/domain/useCountry';
-import useCountryRaw, { Country } from '#hooks/domain/useCountryRaw';
+import useCountryRaw, { type Country } from '#hooks/domain/useCountryRaw';
 import {
     COLOR_BLACK,
     COLOR_BLUE,
@@ -53,7 +53,7 @@ import {
     getPointCircleHaloPaint,
     getPointCirclePaint,
 } from '#utils/map';
-import { CountryOutletContext } from '#utils/outletContext';
+import { type CountryOutletContext } from '#utils/outletContext';
 import {
     type GoApiResponse,
     useRequest,

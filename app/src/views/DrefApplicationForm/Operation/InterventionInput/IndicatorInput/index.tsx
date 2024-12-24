@@ -14,7 +14,7 @@ import {
 
 import NonFieldError from '#components/NonFieldError';
 
-import { PartialDref } from '../../../schema';
+import { type PartialDref } from '../../../schema';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';

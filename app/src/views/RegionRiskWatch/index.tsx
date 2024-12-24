@@ -9,7 +9,7 @@ import { isFalsyString } from '@togglecorp/fujs';
 
 import NavigationTab from '#components/NavigationTab';
 import WikiLink from '#components/WikiLink';
-import { RegionOutletContext } from '#utils/outletContext';
+import { type RegionOutletContext } from '#utils/outletContext';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';

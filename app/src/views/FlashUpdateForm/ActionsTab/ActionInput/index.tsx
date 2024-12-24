@@ -4,10 +4,10 @@ import {
 } from '@ifrc-go/ui';
 import { randomString } from '@togglecorp/fujs';
 import {
-    ArrayError,
+    type ArrayError,
     getErrorObject,
     getErrorString,
-    SetValueArg,
+    type SetValueArg,
     useFormObject,
 } from '@togglecorp/toggle-form';
 

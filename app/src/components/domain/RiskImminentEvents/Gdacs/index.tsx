@@ -8,12 +8,12 @@ import { type LngLatBoundsLike } from 'mapbox-gl';
 
 import RiskImminentEventMap, { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
 import {
-    RiskLayerProperties,
-    RiskLayerSeverity,
+    type RiskLayerProperties,
+    type RiskLayerSeverity,
 } from '#components/domain/RiskImminentEventMap/utils';
 import { isValidFeatureCollection } from '#utils/domain/risk';
 import {
-    RiskApiResponse,
+    type RiskApiResponse,
     useRiskLazyRequest,
     useRiskRequest,
 } from '#utils/restRequest';

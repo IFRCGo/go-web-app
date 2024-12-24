@@ -4,14 +4,14 @@ import {
 } from 'react';
 import {
     Button,
-    ButtonProps,
+    type ButtonProps,
     ConfirmButton,
-    ConfirmButtonProps,
+    type ConfirmButtonProps,
 } from '@ifrc-go/ui';
 import { DropdownMenuContext } from '@ifrc-go/ui/contexts';
 import { isDefined } from '@togglecorp/fujs';
 
-import Link, { Props as LinkProps } from '#components/Link';
+import Link, { type Props as LinkProps } from '#components/Link';
 
 type CommonProp = {
     persist?: boolean;

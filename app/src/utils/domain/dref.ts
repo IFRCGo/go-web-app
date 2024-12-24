@@ -1,4 +1,4 @@
-import { components } from '#generated/types';
+import { type components } from '#generated/types';
 
 type PlannedIntervention = components<'read'>['schemas']['PlannedIntervention'];
 type PlannedInterventionTitle = NonNullable<PlannedIntervention['title']>;

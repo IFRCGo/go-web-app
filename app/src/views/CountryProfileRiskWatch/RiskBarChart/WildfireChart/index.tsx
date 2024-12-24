@@ -25,7 +25,7 @@ import {
     mapToList,
 } from '@togglecorp/fujs';
 
-import { paths } from '#generated/riskTypes';
+import { type paths } from '#generated/riskTypes';
 import useTemporalChartData from '#hooks/useTemporalChartData';
 import {
     COLOR_PRIMARY_BLUE,

@@ -5,7 +5,7 @@ import {
     ReducedListDisplay,
     type ReducedListDisplayProps,
     type SortDirection,
-    TableActionsProps,
+    type TableActionsProps,
 } from '@ifrc-go/ui';
 import { numericIdSelector } from '@ifrc-go/ui/utils';
 

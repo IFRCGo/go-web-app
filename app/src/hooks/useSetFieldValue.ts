@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import {
-    EntriesAsList,
+    type EntriesAsList,
     isCallable,
 } from '@togglecorp/toggle-form';
 

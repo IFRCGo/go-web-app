@@ -1,6 +1,6 @@
 import {
-    ElementRef,
-    RefObject,
+    type ElementRef,
+    type RefObject,
     useEffect,
 } from 'react';
 import {
@@ -19,7 +19,7 @@ import {
     isNotDefined,
 } from '@togglecorp/fujs';
 
-import { components } from '#generated/types';
+import { type components } from '#generated/types';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 
 import i18n from './i18n.json';

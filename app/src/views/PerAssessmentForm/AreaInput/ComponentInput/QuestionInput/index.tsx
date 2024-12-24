@@ -7,9 +7,9 @@ import {
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { isDefined } from '@togglecorp/fujs';
 import {
-    Error,
+    type Error,
     getErrorObject,
-    SetValueArg,
+    type SetValueArg,
     useFormObject,
 } from '@togglecorp/toggle-form';
 

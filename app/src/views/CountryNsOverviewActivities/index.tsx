@@ -35,7 +35,7 @@ import { saveAs } from 'file-saver';
 import { unparse } from 'papaparse';
 
 import ExportButton from '#components/domain/ExportButton';
-import ProjectActions, { Props as ProjectActionsProps } from '#components/domain/ProjectActions';
+import ProjectActions, { type Props as ProjectActionsProps } from '#components/domain/ProjectActions';
 import Link from '#components/Link';
 import WikiLink from '#components/WikiLink';
 import useAlert from '#hooks/useAlert';
@@ -46,7 +46,7 @@ import type { CountryOutletContext } from '#utils/outletContext';
 import { type GoApiResponse } from '#utils/restRequest';
 import { useRequest } from '#utils/restRequest';
 
-import Filter, { FilterValue } from './Filters';
+import Filter, { type FilterValue } from './Filters';
 import Map from './Map';
 import NationalSocietyDevelopmentInitiatives from './NationalSocietyDevelopmentInitiatives';
 

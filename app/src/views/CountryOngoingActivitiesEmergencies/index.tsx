@@ -58,7 +58,7 @@ import {
     optionLabelSelector,
     outerCircleLayerOptionsForFinancialRequirements,
     outerCircleLayerOptionsForPeopleTargeted,
-    ScaleOption,
+    type ScaleOption,
 } from '#components/domain/ActiveOperationMap/utils';
 import BaseMap from '#components/domain/BaseMap';
 import HighlightedOperations from '#components/domain/HighlightedOperations';

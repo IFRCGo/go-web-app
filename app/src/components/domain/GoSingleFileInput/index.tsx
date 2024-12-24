@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { DeleteBinLineIcon } from '@ifrc-go/icons';
 import {
-    ButtonVariant,
+    type ButtonVariant,
     IconButton,
     InputError,
     type NameType,

@@ -39,7 +39,7 @@ import {
     DURATION_MAP_ZOOM,
 } from '#utils/constants';
 
-import LayerOptions, { LayerOptionsValue } from './LayerOptions';
+import LayerOptions, { type LayerOptionsValue } from './LayerOptions';
 import {
     activeHazardPointLayer,
     exposureFillLayer,
@@ -57,7 +57,7 @@ import {
     trackPointOuterCircleLayer,
     uncertaintyConeLayer,
 } from './mapStyles';
-import { RiskLayerProperties } from './utils';
+import { type RiskLayerProperties } from './utils';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';

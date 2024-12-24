@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {
     SearchMultiSelectInput,
-    SearchMultiSelectInputProps,
+    type SearchMultiSelectInputProps,
 } from '@ifrc-go/ui';
 
 import useDebouncedValue from '#hooks/useDebouncedValue';

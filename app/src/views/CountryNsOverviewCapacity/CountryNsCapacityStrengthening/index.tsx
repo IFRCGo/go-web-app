@@ -13,8 +13,8 @@ import {
 } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
-import { components } from '#generated/types';
-import { CountryOutletContext } from '#utils/outletContext';
+import { type components } from '#generated/types';
+import { type CountryOutletContext } from '#utils/outletContext';
 
 import OCACListItem from './OCACListItem';
 

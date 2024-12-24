@@ -33,7 +33,7 @@ import NonFieldError from '#components/NonFieldError';
 import Page from '#components/Page';
 import WikiLink from '#components/WikiLink';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import useNationalSociety, { NationalSociety } from '#hooks/domain/useNationalSociety';
+import useNationalSociety, { type NationalSociety } from '#hooks/domain/useNationalSociety';
 import useAlert from '#hooks/useAlert';
 import useRouting from '#hooks/useRouting';
 import {

@@ -17,9 +17,9 @@ import {
 } from '@ifrc-go/ui/utils';
 import { randomString } from '@togglecorp/fujs';
 import {
-    Error,
+    type Error,
     getErrorObject,
-    SetValueArg,
+    type SetValueArg,
     useFormObject,
 } from '@togglecorp/toggle-form';
 
@@ -29,7 +29,7 @@ import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { NATIONAL_SOCIETY } from '#utils/constants';
 import { type GoApiResponse } from '#utils/restRequest';
 
-import { PartialWorkPlan } from '../schema';
+import { type PartialWorkPlan } from '../schema';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';

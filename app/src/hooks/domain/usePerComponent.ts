@@ -5,7 +5,7 @@ import {
 } from 'react';
 import { isDefined } from '@togglecorp/fujs';
 
-import DomainContext, { PerComponents } from '#contexts/domain';
+import DomainContext, { type PerComponents } from '#contexts/domain';
 
 export type PerComponent = NonNullable<PerComponents['results']>[number];
 

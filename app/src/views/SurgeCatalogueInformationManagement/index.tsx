@@ -2,7 +2,7 @@ import { Image } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import pyramidImage from '#assets/images/surge-im-pyramid.png';
-import CatalogueInfoCard, { LinkData } from '#components/CatalogueInfoCard';
+import CatalogueInfoCard, { type LinkData } from '#components/CatalogueInfoCard';
 import SurgeCardContainer from '#components/domain/SurgeCardContainer';
 import SurgeCatalogueContainer from '#components/domain/SurgeCatalogueContainer';
 

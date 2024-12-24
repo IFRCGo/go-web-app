@@ -13,7 +13,7 @@ import {
 
 import Link from '#components/Link';
 import { type CountryOutletContext } from '#utils/outletContext';
-import { GoApiResponse } from '#utils/restRequest';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';

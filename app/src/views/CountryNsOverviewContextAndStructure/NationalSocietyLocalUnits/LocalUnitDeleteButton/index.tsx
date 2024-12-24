@@ -1,5 +1,5 @@
 import {
-    ButtonVariant,
+    type ButtonVariant,
     ConfirmButton,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';

@@ -1,11 +1,11 @@
 import React from 'react';
 import {
     InputContainer,
-    InputContainerProps,
+    type InputContainerProps,
 } from '@ifrc-go/ui';
 import {
     Editor,
-    IAllProps,
+    type IAllProps,
 } from '@tinymce/tinymce-react';
 import { _cs } from '@togglecorp/fujs';
 

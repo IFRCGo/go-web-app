@@ -69,7 +69,7 @@ import {
     optionLabelSelector,
     outerCircleLayerOptionsForFinancialRequirements,
     outerCircleLayerOptionsForPeopleTargeted,
-    ScaleOption,
+    type ScaleOption,
 } from './utils';
 
 import i18n from './i18n.json';

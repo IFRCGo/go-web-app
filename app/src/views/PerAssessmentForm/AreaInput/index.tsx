@@ -5,7 +5,7 @@ import {
     listToMap,
 } from '@togglecorp/fujs';
 import {
-    Error,
+    type Error,
     getErrorObject,
     type SetValueArg,
     useFormArray,
@@ -15,7 +15,7 @@ import {
 import NonFieldError from '#components/NonFieldError';
 import {
     type GoApiResponse,
-    ListResponseItem,
+    type ListResponseItem,
 } from '#utils/restRequest';
 
 import { type PartialAssessment } from '../schema';

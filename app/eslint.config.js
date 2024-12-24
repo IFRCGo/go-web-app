@@ -59,6 +59,15 @@ const appConfigs = compat.config({
         'no-shadow': 0,
         '@typescript-eslint/no-shadow': ['error'],
 
+        '@typescript-eslint/consistent-type-imports': [
+            'warn',
+            {
+                disallowTypeAnnotations: false,
+                fixStyle: 'inline-type-imports',
+                prefer: 'type-imports',
+            },
+        ],
+
         'import/no-extraneous-dependencies': [
             'error',
             {

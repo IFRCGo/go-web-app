@@ -1,13 +1,13 @@
 import {
     MultiSelectInput,
-    MultiSelectInputProps,
+    type MultiSelectInputProps,
 } from '@ifrc-go/ui';
 import {
     numericIdSelector,
     stringNameSelector,
 } from '@ifrc-go/ui/utils';
 
-import useCountry, { Country } from '#hooks/domain/useCountry';
+import useCountry, { type Country } from '#hooks/domain/useCountry';
 
 export type CountryOption = Country;
 

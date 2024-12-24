@@ -59,7 +59,7 @@ import {
 import AreaInput from './AreaInput';
 import {
     assessmentSchema,
-    PartialAssessment,
+    type PartialAssessment,
 } from './schema';
 
 import i18n from './i18n.json';

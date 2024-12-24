@@ -13,12 +13,12 @@ import {
     stringTitleSelector,
     stringValueSelector,
 } from '@ifrc-go/ui/utils';
-import { EntriesAsList } from '@togglecorp/toggle-form';
+import { type EntriesAsList } from '@togglecorp/toggle-form';
 
 import CountryMultiSelectInput, { type CountryOption } from '#components/domain/CountryMultiSelectInput';
 import RegionSelectInput, { type RegionOption } from '#components/domain/RegionSelectInput';
 import { type components } from '#generated/types';
-import { DisasterType } from '#hooks/domain/useDisasterType';
+import { type DisasterType } from '#hooks/domain/useDisasterType';
 import { type PerComponent } from '#hooks/domain/usePerComponent';
 import { type SecondarySector } from '#hooks/domain/useSecondarySector';
 import { getFormattedComponentName } from '#utils/domain/per';

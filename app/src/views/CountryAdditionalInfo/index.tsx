@@ -9,7 +9,7 @@ import {
 import {
     Container,
     HtmlOutput,
-    HtmlOutputProps,
+    type HtmlOutputProps,
     List,
     Message,
     Table,

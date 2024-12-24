@@ -1,8 +1,8 @@
 import { type DeepReplace } from '@ifrc-go/ui/utils';
 import {
-    ObjectSchema,
-    PartialForm,
-    PurgeNull,
+    type ObjectSchema,
+    type PartialForm,
+    type PurgeNull,
 } from '@togglecorp/toggle-form';
 
 import { type GoApiResponse } from '#utils/restRequest';

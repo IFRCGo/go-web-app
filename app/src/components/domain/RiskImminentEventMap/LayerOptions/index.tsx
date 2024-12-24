@@ -13,7 +13,7 @@ import {
     COLOR_RED,
 } from '#utils/constants';
 
-import { RiskLayerSeverity } from '../utils';
+import { type RiskLayerSeverity } from '../utils';
 
 import styles from './styles.module.css';
 

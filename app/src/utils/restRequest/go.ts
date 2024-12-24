@@ -4,7 +4,7 @@ import {
     isFalsyString,
     isNotDefined,
 } from '@togglecorp/fujs';
-import { ContextInterface } from '@togglecorp/toggle-request';
+import { type ContextInterface } from '@togglecorp/toggle-request';
 
 import {
     api,

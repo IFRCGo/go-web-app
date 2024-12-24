@@ -1,11 +1,11 @@
 import { type DeepReplace } from '@ifrc-go/ui/utils';
 import {
     addCondition,
-    ArraySchema,
+    type ArraySchema,
     emailCondition,
     nullValue,
-    ObjectSchema,
-    PartialForm,
+    type ObjectSchema,
+    type PartialForm,
     requiredStringCondition,
     undefinedValue,
 } from '@togglecorp/toggle-form';

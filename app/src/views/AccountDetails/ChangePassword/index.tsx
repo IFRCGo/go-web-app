@@ -13,8 +13,8 @@ import {
     addCondition,
     createSubmitHandler,
     getErrorObject,
-    ObjectSchema,
-    PartialForm,
+    type ObjectSchema,
+    type PartialForm,
     requiredStringCondition,
     undefinedValue,
     useForm,
@@ -23,7 +23,7 @@ import {
 import NonFieldError from '#components/NonFieldError';
 import useAlert from '#hooks/useAlert';
 import {
-    GoApiBody,
+    type GoApiBody,
     useLazyRequest,
 } from '#utils/restRequest';
 import { transformObjectError } from '#utils/restRequest/error';

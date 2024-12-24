@@ -5,7 +5,7 @@ import {
     useRef,
 } from 'react';
 import {
-    NavigateOptions,
+    type NavigateOptions,
     useSearchParams,
 } from 'react-router-dom';
 import {

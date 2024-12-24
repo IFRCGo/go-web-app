@@ -1,5 +1,5 @@
 import {
-    RefObject,
+    type RefObject,
     useCallback,
     useRef,
 } from 'react';
@@ -47,7 +47,7 @@ import useAlert from '#hooks/useAlert';
 import { getFirstTruthyString } from '#utils/common';
 import { VISIBILITY_PUBLIC } from '#utils/constants';
 import { getUserName } from '#utils/domain/user';
-import { CountryOutletContext } from '#utils/outletContext';
+import { type CountryOutletContext } from '#utils/outletContext';
 import {
     type GoApiResponse,
     useLazyRequest,

@@ -17,7 +17,7 @@ import {
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
 import NonFieldError from '#components/NonFieldError';
 
-import { PartialReferenceType } from '../../schema';
+import { type PartialReferenceType } from '../../schema';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';

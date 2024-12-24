@@ -18,7 +18,7 @@ import {
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import {
     DREF_TYPE_RESPONSE,
-    TypeOfDrefEnum,
+    type TypeOfDrefEnum,
 } from '#utils/constants';
 import { createImportTemplate } from '#utils/importTemplate';
 

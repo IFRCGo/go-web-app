@@ -6,7 +6,7 @@ import {
 } from 'react';
 import { hasSomeDefinedValue } from '@ifrc-go/ui/utils';
 import { isNotDefined } from '@togglecorp/fujs';
-import { EntriesAsList } from '@togglecorp/toggle-form';
+import { type EntriesAsList } from '@togglecorp/toggle-form';
 
 import useDebouncedValue from '#hooks/useDebouncedValue';
 

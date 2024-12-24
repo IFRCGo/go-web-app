@@ -70,7 +70,7 @@ import {
     type HazardTypeOption,
     hazardTypeToColorMap,
     type RiskDataItem,
-    RiskMetric,
+    type RiskMetric,
     type RiskMetricOption,
     riskScoreToCategory,
 } from '#utils/domain/risk';
@@ -536,15 +536,19 @@ function RiskSeasonalMap(props: Props) {
             ) ?? 1;
             */
 
-            const totalPopulation = sumSafe(
-                populationListSafe.map(
-                    (item) => item.population_in_thousands,
-                ),
-            ) ?? 1;
+            const totalPopulation = Math.max(
+                sumSafe(
+                    populationListSafe.map(
+                        (item) => item.population_in_thousands,
+                    ),
+                ) ?? 0,
+                1,
+            );
 
             const populationFactorMap = listToMap(
                 populationListSafe,
                 (result) => result.iso3,
+                // FIXME: Let's try to update this logic later
                 (result) => 1 - (result.population_in_thousands / totalPopulation) ** (1 / 4),
             );
 

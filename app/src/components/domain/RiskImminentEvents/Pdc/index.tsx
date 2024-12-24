@@ -10,7 +10,7 @@ import {
 import { type LngLatBoundsLike } from 'mapbox-gl';
 
 import RiskImminentEventMap, { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
-import { RiskLayerProperties } from '#components/domain/RiskImminentEventMap/utils';
+import { type RiskLayerProperties } from '#components/domain/RiskImminentEventMap/utils';
 import {
     isValidFeature,
     isValidPointFeature,

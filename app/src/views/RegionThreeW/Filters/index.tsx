@@ -5,7 +5,7 @@ import {
     stringLabelSelector,
     stringValueSelector,
 } from '@ifrc-go/ui/utils';
-import { EntriesAsList } from '@togglecorp/toggle-form';
+import { type EntriesAsList } from '@togglecorp/toggle-form';
 
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import {

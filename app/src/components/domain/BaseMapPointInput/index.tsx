@@ -14,18 +14,18 @@ import {
     MapLayer,
     MapSource,
 } from '@togglecorp/re-map';
-import { ObjectError } from '@togglecorp/toggle-form';
+import { type ObjectError } from '@togglecorp/toggle-form';
 import getBbox from '@turf/bbox';
 import {
-    CircleLayer,
-    FillLayer,
-    LngLat,
-    Map,
-    MapboxGeoJSONFeature,
-    Point,
+    type CircleLayer,
+    type FillLayer,
+    type LngLat,
+    type Map,
+    type MapboxGeoJSONFeature,
+    type Point,
 } from 'mapbox-gl';
 
-import BaseMap, { Props as BaseMapProps } from '#components/domain/BaseMap';
+import BaseMap, { type Props as BaseMapProps } from '#components/domain/BaseMap';
 import useCountry from '#hooks/domain/useCountry';
 import {
     COLOR_LIGHT_GREY,

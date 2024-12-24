@@ -22,9 +22,9 @@ import {
     mapToList,
 } from '@togglecorp/fujs';
 import {
-    Error,
+    type Error,
     getErrorObject,
-    SetValueArg,
+    type SetValueArg,
     useFormArray,
     useFormObject,
 } from '@togglecorp/toggle-form';
@@ -32,7 +32,7 @@ import {
 import NonFieldError from '#components/NonFieldError';
 import {
     type GoApiResponse,
-    ListResponseItem,
+    type ListResponseItem,
 } from '#utils/restRequest';
 
 import { type PartialAssessment } from '../../schema';

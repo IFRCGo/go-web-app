@@ -21,7 +21,7 @@ import Page from '#components/Page';
 import useAlert from '#hooks/useAlert';
 import useRouting from '#hooks/useRouting';
 import {
-    GoApiBody,
+    type GoApiBody,
     useLazyRequest,
 } from '#utils/restRequest';
 import { transformObjectError } from '#utils/restRequest/error';

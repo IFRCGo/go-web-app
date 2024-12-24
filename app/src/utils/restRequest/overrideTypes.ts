@@ -1,14 +1,14 @@
 import { type DeepNevaRemove } from '@ifrc-go/ui/utils';
 import {
-    LazyRequestOptions,
-    RequestOptions,
-    useLazyRequest,
-    useRequest,
+    type LazyRequestOptions,
+    type RequestOptions,
+    type useLazyRequest,
+    type useRequest,
 } from '@togglecorp/toggle-request';
 
 import {
-    AdditionalOptions,
-    TransformedError,
+    type AdditionalOptions,
+    type TransformedError,
 } from './go';
 
 export type VALID_METHOD = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';

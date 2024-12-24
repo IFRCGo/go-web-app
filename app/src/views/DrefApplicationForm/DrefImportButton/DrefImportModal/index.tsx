@@ -15,8 +15,8 @@ import {
     isObject,
 } from '@togglecorp/fujs';
 import xlsx, {
-    CellValue,
-    Row,
+    type CellValue,
+    type Row,
 } from 'exceljs';
 
 import useAlert from '#hooks/useAlert';
@@ -30,7 +30,7 @@ import {
 } from '#utils/domain/dref';
 import { getValueFromImportTemplate } from '#utils/importTemplate';
 import useImportTemplateSchema from '#views/AccountMyFormsDref/DownloadImportTemplateButton/DownloadImportTemplateModal/useImportTemplateSchema';
-import { PartialDref } from '#views/DrefApplicationForm/schema';
+import { type PartialDref } from '#views/DrefApplicationForm/schema';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';

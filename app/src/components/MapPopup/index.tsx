@@ -3,7 +3,7 @@ import { CloseLineIcon } from '@ifrc-go/icons';
 import {
     Button,
     Container,
-    ContainerProps,
+    type ContainerProps,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { _cs } from '@togglecorp/fujs';

@@ -4,7 +4,7 @@ import {
     useTranslation,
 } from '@ifrc-go/ui/hooks';
 
-import { PartialDref } from '../schema';
+import { type PartialDref } from '../schema';
 import DrefImportModal from './DrefImportModal';
 
 import i18n from './i18n.json';

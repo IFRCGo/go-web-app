@@ -7,7 +7,7 @@ import {
 } from '@togglecorp/fujs';
 import {
     isCallable,
-    SetValueArg,
+    type SetValueArg,
 } from '@togglecorp/toggle-form';
 
 function isNumber(value: unknown): value is number {

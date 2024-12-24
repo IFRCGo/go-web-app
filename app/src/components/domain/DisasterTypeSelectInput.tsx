@@ -1,9 +1,9 @@
 import {
     SelectInput,
-    SelectInputProps,
+    type SelectInputProps,
 } from '@ifrc-go/ui';
 
-import { DisasterTypes } from '#contexts/domain';
+import { type DisasterTypes } from '#contexts/domain';
 import useDisasterType from '#hooks/domain/useDisasterType';
 
 export type DisasterTypeItem = NonNullable<DisasterTypes['results']>[number];

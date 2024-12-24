@@ -31,8 +31,8 @@ import {
 } from '#config';
 import RouteContext from '#contexts/route';
 import UserContext, {
-    UserAuth,
-    UserContextProps,
+    type UserAuth,
+    type UserContextProps,
 } from '#contexts/user';
 import {
     KEY_LANGUAGE_STORAGE,

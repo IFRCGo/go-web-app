@@ -48,8 +48,8 @@ import {
 import AdditionalActionInput from './AdditionalActionInput';
 import PrioritizedActionInput from './PrioritizedActionInput';
 import {
-    PartialWorkPlan,
-    WorkPlanBody,
+    type PartialWorkPlan,
+    type WorkPlanBody,
     workplanSchema,
 } from './schema';
 

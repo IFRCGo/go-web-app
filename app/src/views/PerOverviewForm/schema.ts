@@ -6,8 +6,8 @@ import {
 import {
     addCondition,
     emailCondition,
-    ObjectSchema,
-    PartialForm,
+    type ObjectSchema,
+    type PartialForm,
     undefinedValue,
 } from '@togglecorp/toggle-form';
 

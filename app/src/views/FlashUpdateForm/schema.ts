@@ -4,7 +4,7 @@ import { isDefined } from '@togglecorp/fujs';
 import {
     type ArraySchema,
     emailCondition,
-    ObjectSchema,
+    type ObjectSchema,
     type PartialForm,
     type PurgeNull,
     requiredStringCondition,

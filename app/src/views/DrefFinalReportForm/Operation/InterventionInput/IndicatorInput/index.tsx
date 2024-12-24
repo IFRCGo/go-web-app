@@ -14,7 +14,7 @@ import {
 
 import NonFieldError from '#components/NonFieldError';
 
-import { PartialFinalReport } from '../../../schema';
+import { type PartialFinalReport } from '../../../schema';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';

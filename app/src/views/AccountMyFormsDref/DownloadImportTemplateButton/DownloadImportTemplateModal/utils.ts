@@ -22,10 +22,10 @@ import {
     COLOR_WHITE,
     DREF_TYPE_RESPONSE,
     FONT_FAMILY_HEADER,
-    TypeOfDrefEnum,
+    type TypeOfDrefEnum,
 } from '#utils/constants';
 import {
-    DrefSheetName,
+    type DrefSheetName,
     SHEET_ACTIONS_NEEDS,
     SHEET_EVENT_DETAIL,
     SHEET_OPERATION,
@@ -45,7 +45,7 @@ import {
     timeframeAndContactsTabFields,
 } from '#views/DrefApplicationForm/common';
 
-import { OptionsMapping } from './useImportTemplateSchema';
+import { type OptionsMapping } from './useImportTemplateSchema';
 
 // FIXME: move to utils
 function hexToArgb(hexStr: string, alphaStr = 'ff') {

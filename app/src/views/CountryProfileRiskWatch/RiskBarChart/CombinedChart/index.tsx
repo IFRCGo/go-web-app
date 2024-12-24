@@ -34,7 +34,7 @@ import {
     getWfRiskDataItem,
     hazardTypeToColorMap,
     monthNumberToNameMap,
-    RiskMetricOption,
+    type RiskMetricOption,
     riskScoreToCategory,
 } from '#utils/domain/risk';
 import { type RiskApiResponse } from '#utils/restRequest';

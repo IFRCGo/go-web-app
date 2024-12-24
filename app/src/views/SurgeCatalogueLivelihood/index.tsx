@@ -1,6 +1,6 @@
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
-import CatalogueInfoCard, { LinkData } from '#components/CatalogueInfoCard';
+import CatalogueInfoCard, { type LinkData } from '#components/CatalogueInfoCard';
 import SurgeCardContainer from '#components/domain/SurgeCardContainer';
 import SurgeCatalogueContainer from '#components/domain/SurgeCatalogueContainer';
 

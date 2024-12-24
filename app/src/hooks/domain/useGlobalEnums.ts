@@ -3,7 +3,7 @@ import {
     useEffect,
 } from 'react';
 
-import DomainContext, { GlobalEnums } from '#contexts/domain';
+import DomainContext, { type GlobalEnums } from '#contexts/domain';
 
 const defaultGlobalEnums: GlobalEnums = {};
 

@@ -35,7 +35,7 @@ import {
     isTruthyString,
     sum,
 } from '@togglecorp/fujs';
-import { EntriesAsList } from '@togglecorp/toggle-form';
+import { type EntriesAsList } from '@togglecorp/toggle-form';
 import { saveAs } from 'file-saver';
 import Papa from 'papaparse';
 
@@ -45,7 +45,7 @@ import Link from '#components/Link';
 import Page from '#components/Page';
 import { type components } from '#generated/types';
 import useCountry from '#hooks/domain/useCountry';
-import useDisasterTypes, { DisasterType } from '#hooks/domain/useDisasterType';
+import useDisasterTypes, { type DisasterType } from '#hooks/domain/useDisasterType';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import usePerComponent from '#hooks/domain/usePerComponent';
 import useSecondarySector from '#hooks/domain/useSecondarySector';
@@ -55,7 +55,7 @@ import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import { getFormattedComponentName } from '#utils/domain/per';
 import {
     type GoApiResponse,
-    GoApiUrlQuery,
+    type GoApiUrlQuery,
     useRequest,
 } from '#utils/restRequest';
 

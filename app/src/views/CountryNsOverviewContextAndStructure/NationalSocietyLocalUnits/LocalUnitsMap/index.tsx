@@ -57,8 +57,8 @@ import {
 import { localUnitMapStyle } from '#utils/map';
 import { type CountryOutletContext } from '#utils/outletContext';
 import {
-    GoApiResponse,
-    GoApiUrlQuery,
+    type GoApiResponse,
+    type GoApiUrlQuery,
     useRequest,
 } from '#utils/restRequest';
 

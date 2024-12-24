@@ -38,7 +38,7 @@ import { saveAs } from 'file-saver';
 import { unparse } from 'papaparse';
 
 import ExportButton from '#components/domain/ExportButton';
-import ProjectActions, { Props as ProjectActionsProps } from '#components/domain/ProjectActions';
+import ProjectActions, { type Props as ProjectActionsProps } from '#components/domain/ProjectActions';
 import Link from '#components/Link';
 import WikiLink from '#components/WikiLink';
 import useUserMe from '#hooks/domain/useUserMe';
@@ -47,11 +47,11 @@ import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import { PROJECT_STATUS_ONGOING } from '#utils/constants';
 import type { CountryOutletContext } from '#utils/outletContext';
 import {
-    GoApiResponse,
+    type GoApiResponse,
     useRequest,
 } from '#utils/restRequest';
 
-import Filter, { FilterValue } from './Filters';
+import Filter, { type FilterValue } from './Filters';
 import Map from './Map';
 
 import i18n from './i18n.json';

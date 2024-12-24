@@ -26,7 +26,7 @@ import {
     unique,
 } from '@togglecorp/fujs';
 
-import Link, { Props as LinkProps } from '#components/Link';
+import Link, { type Props as LinkProps } from '#components/Link';
 import { adminUrl } from '#config';
 import useRegion, { type Region } from '#hooks/domain/useRegion';
 import useFilterState from '#hooks/useFilterState';

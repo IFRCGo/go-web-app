@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import useCountry from '#hooks/domain/useCountry';
-import useDisasterTypes, { DisasterType } from '#hooks/domain/useDisasterType';
+import useDisasterTypes, { type DisasterType } from '#hooks/domain/useDisasterType';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useNationalSociety from '#hooks/domain/useNationalSociety';
 import { type TemplateSchema } from '#utils/importTemplate';

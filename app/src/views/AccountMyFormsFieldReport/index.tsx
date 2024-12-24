@@ -23,7 +23,7 @@ import {
     createLinkColumn,
 } from '#utils/domain/tableHelpers';
 import {
-    GoApiResponse,
+    type GoApiResponse,
     useRequest,
 } from '#utils/restRequest';
 

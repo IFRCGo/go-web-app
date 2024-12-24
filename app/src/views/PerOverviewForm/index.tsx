@@ -61,8 +61,8 @@ import { transformObjectError } from '#utils/restRequest/error';
 
 import {
     overviewSchema,
-    PartialOverviewFormFields,
-    PerOverviewRequestBody,
+    type PartialOverviewFormFields,
+    type PerOverviewRequestBody,
 } from './schema';
 
 import i18n from './i18n.json';

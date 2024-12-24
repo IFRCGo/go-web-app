@@ -1,13 +1,13 @@
 import {
     SelectInput,
-    SelectInputProps,
+    type SelectInputProps,
 } from '@ifrc-go/ui';
 import {
     numericIdSelector,
     stringNameSelector,
 } from '@ifrc-go/ui/utils';
 
-import useCountry, { Country } from '#hooks/domain/useCountry';
+import useCountry, { type Country } from '#hooks/domain/useCountry';
 
 type Props<NAME> = SelectInputProps<
     number,

@@ -3,7 +3,7 @@ import { useOutletContext } from 'react-router-dom';
 import getBbox from '@turf/bbox';
 
 import RiskImminentEvents from '#components/domain/RiskImminentEvents';
-import { RegionOutletContext } from '#utils/outletContext';
+import { type RegionOutletContext } from '#utils/outletContext';
 
 import styles from './styles.module.css';
 

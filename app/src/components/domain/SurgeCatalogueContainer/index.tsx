@@ -10,7 +10,7 @@ import { isDefined } from '@togglecorp/fujs';
 
 import useRouting from '#hooks/useRouting';
 
-import { WrappedRoutes } from '../../../App/routes';
+import { type WrappedRoutes } from '../../../App/routes';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';

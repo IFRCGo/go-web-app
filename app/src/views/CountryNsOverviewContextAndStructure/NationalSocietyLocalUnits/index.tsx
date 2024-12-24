@@ -29,10 +29,10 @@ import { environment } from '#config';
 import useAuth from '#hooks/domain/useAuth';
 import usePermissions from '#hooks/domain/usePermissions';
 import useFilterState from '#hooks/useFilterState';
-import { CountryOutletContext } from '#utils/outletContext';
+import { type CountryOutletContext } from '#utils/outletContext';
 import { useRequest } from '#utils/restRequest';
 
-import Filters, { FilterValue } from './Filters';
+import Filters, { type FilterValue } from './Filters';
 import LocalUnitsFormModal from './LocalUnitsFormModal';
 import LocalUnitsMap from './LocalUnitsMap';
 import LocalUnitsTable from './LocalUnitsTable';

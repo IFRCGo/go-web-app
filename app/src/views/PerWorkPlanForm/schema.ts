@@ -1,8 +1,8 @@
 import {
     addCondition,
     nullValue,
-    ObjectSchema,
-    PartialForm,
+    type ObjectSchema,
+    type PartialForm,
     requiredStringCondition,
 } from '@togglecorp/toggle-form';
 
