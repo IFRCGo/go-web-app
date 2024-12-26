@@ -147,7 +147,7 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
                 <div className={styles.fileList}>
                     {value?.map((fileValue, index) => {
                         // NOTE: Not sure why this is here, need to
-                        // talk with @frozenhelium
+                        // TODO: talk with @frozenhelium
                         if (isNotDefined(fileValue.id)) {
                             return null;
                         }

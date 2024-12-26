@@ -74,7 +74,7 @@ function getMaxPopulation(data: PopulationData) {
     return maxPopulation;
 }
 
-function PopulatioMap(props: Props) {
+function PopulationMap(props: Props) {
     const { data } = props;
     const [
         clickedPointProperties,
@@ -406,4 +406,4 @@ function PopulatioMap(props: Props) {
     );
 }
 
-export default PopulatioMap;
+export default PopulationMap;

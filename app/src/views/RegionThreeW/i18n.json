@@ -2,7 +2,7 @@
     "namespace": "regionThreeW",
     "strings": {
         "nationalSocietyWithOngoingActivities": "NS with ongoing activities",
-        "totalBuget": "Total Budget",
+        "totalBudget": "Total Budget",
         "totalPeopleReached": "Total Number of People Reached",
         "targetedPopulation": "Targeted Population",
         "totalProjectsByStatus": "Total Activities By Status",

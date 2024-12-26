@@ -24,4 +24,4 @@ export function Component() {
     );
 }
 
-Component.displayName = 'RiskWatchImminnet';
+Component.displayName = 'RiskWatchImminent';

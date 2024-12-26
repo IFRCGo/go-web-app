@@ -46,13 +46,13 @@ export function Component() {
 
     const technicalCompetencyFrameworkInfo: LinkData[] = useMemo(() => ([
         {
-            title: strings.technicalCompetencyFrameworkAssesment,
+            title: strings.technicalCompetencyFrameworkAssessment,
             href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EbmgwMFvUHtFkkc26GZhAo0BIuwI2UWSkrFyehAq7ZfT6g',
             external: true,
             withLinkIcon: true,
         },
     ]), [
-        strings.technicalCompetencyFrameworkAssesment,
+        strings.technicalCompetencyFrameworkAssessment,
     ]);
 
     const assessmentCellInfo: LinkData[] = useMemo(() => ([

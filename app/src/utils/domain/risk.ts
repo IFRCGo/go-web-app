@@ -61,7 +61,7 @@ export function getDataWithTruthyHazardType<
 
     return {
         ...data,
-        // FIXME: server should not pass emtpy string
+        // FIXME: server should not pass empty string
         hazard_type: data.hazard_type as Exclude<HazardType, ''>,
     };
 }
@@ -176,7 +176,7 @@ export function getPrioritizedIpcData(data: IpcData) {
     // For IPC, we can have multiple estimations or observed value
     // for same year and month.
     // So we need to prioritize entries that is from latest
-    // observation or predection
+    // observation or prediction
     // So the priority order is
     // Observed > Estimated
     // Latest analysis date

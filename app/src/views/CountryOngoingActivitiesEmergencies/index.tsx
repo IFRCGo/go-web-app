@@ -255,7 +255,7 @@ export function Component(props: BaseProps) {
             ),
             createStringColumn<AppealListItem, string>(
                 'dtype',
-                strings.appealsTableDisastertype,
+                strings.appealsTableDisasterType,
                 (item) => item.dtype?.name,
                 { sortable: true },
             ),
@@ -286,7 +286,7 @@ export function Component(props: BaseProps) {
             strings.appealsTableType,
             strings.appealsTableCode,
             strings.appealsTableOperation,
-            strings.appealsTableDisastertype,
+            strings.appealsTableDisasterType,
             strings.appealsTableRequestedAmount,
             strings.appealsTableFundedAmount,
         ],

@@ -97,7 +97,7 @@ function ActivitiesMap(props: Props) {
         [districtIdList],
     );
 
-    const adminOneHightlightLayerOptions = useMemo<Omit<FillLayer, 'id'>>(
+    const adminOneHighlightLayerOptions = useMemo<Omit<FillLayer, 'id'>>(
         () => {
             if (isNotDefined((emergencyProjectCountByDistrictList))
                 || emergencyProjectCountByDistrictList.length < 1) {
@@ -149,7 +149,7 @@ function ActivitiesMap(props: Props) {
                         <>
                             <MapLayer
                                 layerKey="admin-1-highlight"
-                                layerOptions={adminOneHightlightLayerOptions}
+                                layerOptions={adminOneHighlightLayerOptions}
                             />
                             <MapLayer
                                 layerKey="admin-1-label-selected"

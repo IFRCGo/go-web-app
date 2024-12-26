@@ -46,7 +46,7 @@ function Filters(props: Props) {
     const strings = useTranslation(i18n);
     const { api_appeal_type: appealTypeOptions } = useGlobalEnums();
 
-    const handleClearFiltersButtonclick = useCallback(() => {
+    const handleClearFiltersButtonClick = useCallback(() => {
         setFilter({});
     }, [setFilter]);
 
@@ -76,7 +76,7 @@ function Filters(props: Props) {
             />
             <DisasterTypeSelectInput
                 placeholder={strings.appealsFilterDisastersPlaceholder}
-                label={strings.appealsDisastertype}
+                label={strings.appealsDisasterType}
                 name="displacement"
                 value={value.displacement}
                 onChange={onChange}
@@ -85,7 +85,7 @@ function Filters(props: Props) {
                 <Button
                     name={undefined}
                     className={styles.clearFilter}
-                    onClick={handleClearFiltersButtonclick}
+                    onClick={handleClearFiltersButtonClick}
                     variant="secondary"
                     disabled={!filtered}
                 >

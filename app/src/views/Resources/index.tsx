@@ -386,7 +386,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={nlrcLogo}
-                        alt={strings.redCrossImageNetherlandAlt}
+                        alt={strings.redCrossImageNetherlandsAlt}
                     />
                 </Link>
                 <Link
@@ -441,7 +441,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={pdcLogo}
-                        alt={strings.vistPDCImageAlt}
+                        alt={strings.visitPDCImageAlt}
                     />
                 </Link>
             </Container>

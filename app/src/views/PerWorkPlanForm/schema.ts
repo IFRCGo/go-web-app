@@ -75,7 +75,7 @@ export const workplanSchema: WorkPlanFormScheme = {
             keySelector: (customComponentResponse) => customComponentResponse.client_id,
             member: () => ({
                 fields: (additionalActionFormValue): AdditionalActionResponseFields => {
-                    let addtionalActionFormFields: AdditionalActionResponseFields = {
+                    let additionalActionFormFields: AdditionalActionResponseFields = {
                         client_id: {},
                         actions: {
                             required: true,
@@ -89,8 +89,8 @@ export const workplanSchema: WorkPlanFormScheme = {
                         },
                     };
 
-                    addtionalActionFormFields = addCondition(
-                        addtionalActionFormFields,
+                    additionalActionFormFields = addCondition(
+                        additionalActionFormFields,
                         additionalActionFormValue,
                         ['supported_by_organization_type'] as const,
                         ['supported_by'] as const,
@@ -110,7 +110,7 @@ export const workplanSchema: WorkPlanFormScheme = {
                         },
                     );
 
-                    return addtionalActionFormFields;
+                    return additionalActionFormFields;
                 },
             }),
         },

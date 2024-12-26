@@ -11,7 +11,7 @@ const nationalSocietyActionsDescMap: Record<string, string> = {
     shelter_housing_and_settlements: 'Actions related to immediate shelter needs and the recovery of housing for displaced or affected populations. It includes emergency shelter provisions, housing repairs, and support for longer-term settlement planning.',
     livelihoods_and_basic_needs: 'Providing basic survival needs like food, clothing, and essential household items, as well as restoring livelihoods (e.g., farming, small businesses) to help affected communities regain economic stability.',
     multi_purpose_cash: 'Providing cash assistance that can be used flexibly by households to meet their most urgent needs, such as food, shelter, healthcare, or other expenses.',
-    health: 'Healthcare services for affected communities, including medical assistance, mental health and psychosocial support, and the prevention of disease outbreaks.\n\nBackground on affected / not-affected health service delivery, supply chain, and logistics, and what different actors (hospitals, clinics, government, partners, etc…) are doing to support the health-related needs.\n\nCommon types of infectious diseases in the area / prone in that particular crisis.\n\nHow affected peopla re reacting and coping (positive and/or negative coping strategies), and what is the availability and accessibility of MHPSS services and mental health institutions.',
+    health: 'Healthcare services for affected communities, including medical assistance, mental health and psychosocial support, and the prevention of disease outbreaks.\n\nBackground on affected / not-affected health service delivery, supply chain, and logistics, and what different actors (hospitals, clinics, government, partners, etc…) are doing to support the health-related needs.\n\nCommon types of infectious diseases in the area / prone in that particular crisis.\n\nHow affected people are reacting and coping (positive and/or negative coping strategies), and what is the availability and accessibility of MHPSS services and mental health institutions.',
     water_sanitation_and_hygiene: 'Provision of clean water, adequate sanitation, and hygiene support to prevent waterborne diseases and ensure healthy living conditions.',
     protection_gender_and_inclusion: 'Protection of vulnerable groups, including women, children, older people, people with disabilities, minority groups, etc. It ensures gender-sensitive approaches and promotes inclusivity in emergency response efforts.',
     education: 'Actions related to ensuring that children and youth have access to education, even in emergencies. This includes temporary learning spaces, educational materials, and efforts to keep the youth engaged in learning during crises.',
@@ -519,7 +519,7 @@ function useImportTemplateSchema() {
                 description: (
                     'The objective statement should clearly and concisely describe the primary goal of the operation, focusing on the humanitarian impact and the specific needs the operation aims to address.\n'
                     + '\n'
-                    + '<b>The IFRC-DREF operation aims to <i>[primary action]</i> in order to <i>[desired impact]</i> for <i>[target population]</i> affected by <i>[event/disasted]</i>, by providing <i>[key services/interventions]</i> and ensuring <i>[core outcomes such as protection, dignity, and resilience]</i> over <i>[operation period]</i></b>.'
+                    + '<b>The IFRC-DREF operation aims to <i>[primary action]</i> in order to <i>[desired impact]</i> for <i>[target population]</i> affected by <i>[event/disaster]</i>, by providing <i>[key services/interventions]</i> and ensuring <i>[core outcomes such as protection, dignity, and resilience]</i> over <i>[operation period]</i></b>.'
                 ),
             },
 
@@ -530,10 +530,10 @@ function useImportTemplateSchema() {
                 description: (
                     'Elaborate on the overall plan, strategy and approach of the operation; explain the reasoning behind the chosen strategy for the emergency operation.\n'
                     + '\n'
-                    + '<b>Explain how the identified needs/gaps and actions taken/plannes are linked.</b>\n'
+                    + '<b>Explain how the identified needs/gaps and actions taken/plans are linked.</b>\n'
                     + '\n'
                     + '- Highlight the most urgent needs the operation aims to address.\n'
-                    + '- Describe the main priorities and explain why these priorities were chosed based on the specific context of the emergency.\n'
+                    + '- Describe the main priorities and explain why these priorities were chosen based on the specific context of the emergency.\n'
                     + '- Justify why particular methods and actions were selected and how they are expected to achieve the desired outcomes.\n'
                     + '- Include any key factors that influence the strategy; mention how these factors were considered in shaping the operation.'
                 ),

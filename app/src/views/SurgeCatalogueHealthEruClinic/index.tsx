@@ -189,8 +189,8 @@ export function Component() {
                     </li>
                     <li>
                         <TextOutput
-                            value={strings.adminstrationModuleValue}
-                            label={strings.adminstrationModuleLabel}
+                            value={strings.administrationModuleValue}
+                            label={strings.administrationModuleLabel}
                             withoutLabelColon
                             strongLabel
                         />

@@ -31,7 +31,7 @@ import {
 } from '#utils/restRequest';
 
 import ClimateChart from './ClimateChart';
-import PopulatioMap from './PopulationMap';
+import PopulationMap from './PopulationMap';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -346,7 +346,7 @@ export function Component() {
                 spacing="relaxed"
             >
                 {isDefined(databankResponse) && (
-                    <PopulatioMap
+                    <PopulationMap
                         data={databankResponse.wb_population}
                     />
                 )}

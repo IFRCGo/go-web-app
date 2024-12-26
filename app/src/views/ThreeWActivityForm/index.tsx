@@ -834,7 +834,7 @@ export function Component() {
                         </InputSection>
                     )}
                     <Container
-                        heading={strings.activityReportingheading}
+                        heading={strings.activityReportingHeading}
                         childrenContainerClassName={styles.sectorsContainer}
                     >
                         <InputSection

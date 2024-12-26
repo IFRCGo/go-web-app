@@ -234,7 +234,7 @@ export function Component() {
                         <KeyFigure
                             className={styles.keyFigure}
                             value={regionProjectOverviewResponse?.total_budget}
-                            label={strings.totalBuget}
+                            label={strings.totalBudget}
                             compactValue
                         />
                     </div>

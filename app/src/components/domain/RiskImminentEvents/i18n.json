@@ -2,7 +2,7 @@
     "namespace": "riskImminentEvents",
     "strings": {
         "imminentEventsHeading": "Imminent Events",
-        "imminentEventsDescription": "This map displays information about the modeled impact of specific forecasted or detected natural hazards (floods, storms, droughts, wildfires, earthquakes). By hovering over the icons, if available, you can see the forecasted/observed footprint of the hazard; when you click on it, the table of modeled impact estimates will appear, as well as an information about who produced the impact estimate.",
+        "imminentEventsDescription": "This map displays information about the modelled impact of specific forecasted or detected natural hazards (floods, storms, droughts, wildfires, earthquakes). By hovering over the icons, if available, you can see the forecasted/observed footprint of the hazard; when you click on it, the table of modelled impact estimates will appear, as well as an information about who produced the impact estimate.",
         "imminentEventsSourcePdcLabel": "PDC",
         "imminentEventsSourceWfpAdamLabel": "WFP ADAM",
         "imminentEventsSourceGdacsLabel": "GDACS",
@@ -11,7 +11,7 @@
         "pdcTooltipDescription": "These impacts are produced by the Pacific Disaster Center's All-hazards Impact Model (AIM) 3.0. Click {here} for more information about the model and its inputs.",
         "here": "here",
         "wfpAdamTitle": "Source: WFP ADAM",
-        "wfpAdamDescription": "These data points are recieved from the WFP ADAM, which performs a 24/7 automated data harvesting, analysis and mapping of natural hazards events. Click {here} for more information.",
+        "wfpAdamDescription": "These data points are received from the WFP ADAM, which performs a 24/7 automated data harvesting, analysis and mapping of natural hazards events. Click {here} for more information.",
         "gdacsTitle": "Source: GDACS",
         "gdacsDescription": "Click {here} for more information about the model and its inputs.",
         "meteoSwissTitle": "Source: MeteoSwiss",

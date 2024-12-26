@@ -61,10 +61,10 @@ interface ClickedPoint {
 type ProjectGeoJson = GeoJSON.FeatureCollection<GeoJSON.Point, MovementActivityByCountry>;
 
 function getGeoJson(
-    actvities?: MovementActivityByCountry[],
+    activities?: MovementActivityByCountry[],
     countries?: Country[],
 ): ProjectGeoJson {
-    if (isNotDefined(actvities)) {
+    if (isNotDefined(activities)) {
         return {
             type: 'FeatureCollection' as const,
             features: [],
@@ -73,7 +73,7 @@ function getGeoJson(
 
     return {
         type: 'FeatureCollection' as const,
-        features: actvities?.map((activity) => ({
+        features: activities?.map((activity) => ({
             type: 'Feature' as const,
             id: activity.id,
             geometry: countries?.find(

@@ -107,7 +107,7 @@ function AppealsTable(props: Props) {
     const strings = useTranslation(i18n);
     const { api_appeal_type: appealTypeOptions } = useGlobalEnums();
 
-    const handleClearFiltersButtonclick = useCallback(() => {
+    const handleClearFiltersButtonClick = useCallback(() => {
         setFilter({});
     }, [setFilter]);
 
@@ -157,7 +157,7 @@ function AppealsTable(props: Props) {
             ),
             createStringColumn<AppealListItem, string>(
                 'dtype',
-                strings.appealsTableDisastertype,
+                strings.appealsTableDisasterType,
                 (item) => item.dtype?.name,
                 { sortable: true },
             ),
@@ -198,7 +198,7 @@ function AppealsTable(props: Props) {
             strings.appealsTableType,
             strings.appealsTableCode,
             strings.appealsTableOperation,
-            strings.appealsTableDisastertype,
+            strings.appealsTableDisasterType,
             strings.appealsTableRequestedAmount,
             strings.appealsTableFundedAmount,
             strings.appealsTableCountry,
@@ -294,7 +294,7 @@ function AppealsTable(props: Props) {
                     />
                     <DisasterTypeSelectInput
                         placeholder={strings.appealsTableFilterDisastersPlaceholder}
-                        label={strings.appealsTableDisastertype}
+                        label={strings.appealsTableDisasterType}
                         name="displacement"
                         value={rawFilter.displacement}
                         onChange={setFilterField}
@@ -302,7 +302,7 @@ function AppealsTable(props: Props) {
                     <div className={styles.filterActions}>
                         <Button
                             name={undefined}
-                            onClick={handleClearFiltersButtonclick}
+                            onClick={handleClearFiltersButtonClick}
                             variant="secondary"
                             disabled={!filtered}
                         >

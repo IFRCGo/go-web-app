@@ -85,11 +85,11 @@ export function Component() {
                 <div>{strings.satelliteUNOSATTextTwo}</div>
                 <div>{strings.satelliteUNOSATTextThree}</div>
                 <ol>
-                    <li>{strings.satelliteUNOSATTItemOne}</li>
+                    <li>{strings.satelliteUNOSATItemOne}</li>
                     <ol type="a">
                         <li>
                             {resolveToComponent(
-                                strings.satelliteUNOSATTItemOneListOne,
+                                strings.satelliteUNOSATItemOneListOne,
                                 {
                                     link: (
                                         <Link
@@ -104,7 +104,7 @@ export function Component() {
                         </li>
                         <li>
                             {resolveToComponent(
-                                strings.satelliteUNOSATTItemOneListTwo,
+                                strings.satelliteUNOSATItemOneListTwo,
                                 {
                                     link: (
                                         <Link
@@ -120,7 +120,7 @@ export function Component() {
                     </ol>
                     <li>
                         {resolveToComponent(
-                            strings.satelliteUNOSATTItemTwo,
+                            strings.satelliteUNOSATItemTwo,
                             {
                                 link: (
                                     <Link
@@ -134,29 +134,29 @@ export function Component() {
                         )}
                     </li>
                     <ol type="a">
-                        <li>{strings.satelliteUNOSATTItemTwoListOne}</li>
-                        <li>{strings.satelliteUNOSATTItemTwoListTwo}</li>
-                        <li>{strings.satelliteUNOSATTItemTwoListThree}</li>
-                        <li>{strings.satelliteUNOSATTItemTwoListFour}</li>
-                        <li>{strings.satelliteUNOSATTItemTwoListFive}</li>
-                        <li>{strings.satelliteUNOSATTItemTwoListSix}</li>
+                        <li>{strings.satelliteUNOSATItemTwoListOne}</li>
+                        <li>{strings.satelliteUNOSATItemTwoListTwo}</li>
+                        <li>{strings.satelliteUNOSATItemTwoListThree}</li>
+                        <li>{strings.satelliteUNOSATItemTwoListFour}</li>
+                        <li>{strings.satelliteUNOSATItemTwoListFive}</li>
+                        <li>{strings.satelliteUNOSATItemTwoListSix}</li>
                     </ol>
                     <li>
                         {resolveToComponent(
-                            strings.satelliteUNOSATTItemThree,
+                            strings.satelliteUNOSATItemThree,
                             {
                                 link: (
                                     <Link
                                         href="https://unosat.org/products/"
                                         external
                                     >
-                                        {strings.satelliteUNOSATTItemThreeLink}
+                                        {strings.satelliteUNOSATItemThreeLink}
                                     </Link>
                                 ),
                             },
                         )}
                     </li>
-                    <li>{strings.satelliteUNOSATTItemFour}</li>
+                    <li>{strings.satelliteUNOSATItemFour}</li>
                 </ol>
             </SurgeContentContainer>
             <SurgeContentContainer

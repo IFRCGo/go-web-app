@@ -45,7 +45,7 @@ import {
     exposureFillLayer,
     exposureFillOutlineLayer,
     geojsonSourceOptions,
-    hazardKeyToIconmap,
+    hazardKeyToIconMap,
     hazardPointIconLayout,
     hazardPointLayer,
     invisibleCircleLayer,
@@ -68,10 +68,10 @@ const mapImageOption = {
 
 type HazardType = components<'read'>['schemas']['HazardTypeEnum'];
 
-const hazardKeys = Object.keys(hazardKeyToIconmap) as HazardType[];
+const hazardKeys = Object.keys(hazardKeyToIconMap) as HazardType[];
 
 const mapIcons = mapToList(
-    hazardKeyToIconmap,
+    hazardKeyToIconMap,
     (icon, key) => (icon ? ({ key, icon }) : undefined),
 ).filter(isDefined);
 
@@ -282,7 +282,7 @@ function RiskImminentEventMap<
                     {hazardTypeSelector(event) === 'TC' && (
                         <LayerOptions
                             value={layerOptions}
-                            // NOTE: Currently the information is only visible in gdacas
+                            // NOTE: Currently the information is only visible in gdacs
                             exposureAreaControlHidden={source !== 'gdacs'}
                             onChange={setLayerOptions}
                         />
@@ -355,7 +355,7 @@ function RiskImminentEventMap<
                     className={styles.mapContainer}
                 />
                 {hazardKeys.map((key) => {
-                    const url = hazardKeyToIconmap[key];
+                    const url = hazardKeyToIconMap[key];
 
                     if (isNotDefined(url)) {
                         return null;

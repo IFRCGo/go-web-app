@@ -3,7 +3,7 @@
     "strings": {
         "operationCardLastUpdated": "Last updated",
         "operationCardTargetedPopulation": "Targeted Population",
-        "operationCardDepoloyedUnits": "Deployed Emergency Response Units",
+        "operationCardDeployedUnits": "Deployed Emergency Response Units",
         "operationCardFunding": "Funding Requirements",
         "operationCardIFRCSurgePersonnel": "IFRC Surge Personnel",
         "operationCardNSReportingActivities": "NS Reporting Activities",

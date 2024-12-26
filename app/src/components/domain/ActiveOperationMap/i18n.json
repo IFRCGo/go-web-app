@@ -15,7 +15,7 @@
         "operationPopoverEmpty": "No Current Operations",
         "operationType": "Type of Appeal",
         "operationFilterTypePlaceholder": "All Appeal Types",
-        "operationDisastertype": "Disaster Type",
+        "operationDisasterType": "Disaster Type",
         "operationFilterDisastersPlaceholder": "All Disaster Types",
         "mapStartDateAfter": "Start After",
         "mapStartDateBefore": "Start Before",

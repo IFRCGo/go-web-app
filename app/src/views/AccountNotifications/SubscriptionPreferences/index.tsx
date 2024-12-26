@@ -110,43 +110,43 @@ function SubscriptionPreferences() {
                 return;
             }
 
-            const groupedSubcriptions = listToGroupList(
+            const groupedSubscriptions = listToGroupList(
                 user.subscription ?? [],
                 (sub) => sub.rtype ?? '-1',
             );
 
             const weeklyDigest = isDefined(
-                groupedSubcriptions[SUBSCRIPTION_WEEKLY_DIGEST]?.[0],
+                groupedSubscriptions[SUBSCRIPTION_WEEKLY_DIGEST]?.[0],
             );
             const newEmergencies = isDefined(
-                groupedSubcriptions[SUBSCRIPTION_NEW_EMERGENCIES]?.[0],
+                groupedSubscriptions[SUBSCRIPTION_NEW_EMERGENCIES]?.[0],
             );
             const newOperations = isDefined(
-                groupedSubcriptions[SUBSCRIPTION_NEW_OPERATIONS]?.[0],
+                groupedSubscriptions[SUBSCRIPTION_NEW_OPERATIONS]?.[0],
             );
             const general = isDefined(
-                groupedSubcriptions[SUBSCRIPTION_GENERAL]?.[0],
+                groupedSubscriptions[SUBSCRIPTION_GENERAL]?.[0],
             );
             const surge = isDefined(
-                groupedSubcriptions[SUBSCRIPTION_SURGE_ALERT]?.[0],
+                groupedSubscriptions[SUBSCRIPTION_SURGE_ALERT]?.[0],
             );
             const surgeDM = isDefined(
-                groupedSubcriptions[SUBSCRIPTION_SURGE_DEPLOYMENT_MESSAGES]?.[0],
+                groupedSubscriptions[SUBSCRIPTION_SURGE_DEPLOYMENT_MESSAGES]?.[0],
             );
             const perDueDate = isDefined(
-                groupedSubcriptions[SUBSCRIPTION_PER_DUE_DATE]?.[0],
+                groupedSubscriptions[SUBSCRIPTION_PER_DUE_DATE]?.[0],
             );
 
-            const region = groupedSubcriptions[SUBSCRIPTION_REGION]?.map(
+            const region = groupedSubscriptions[SUBSCRIPTION_REGION]?.map(
                 (record) => record.region,
             ).filter(isDefined) ?? [];
-            const country = groupedSubcriptions[SUBSCRIPTION_COUNTRY]?.map(
+            const country = groupedSubscriptions[SUBSCRIPTION_COUNTRY]?.map(
                 (record) => record.country,
             ).filter(isDefined) ?? [];
-            const disasterType = groupedSubcriptions[SUBSCRIPTION_DISASTER_TYPE]?.map(
+            const disasterType = groupedSubscriptions[SUBSCRIPTION_DISASTER_TYPE]?.map(
                 (record) => record.dtype,
             ).filter(isDefined) ?? [];
-            const followedEvent = groupedSubcriptions[SUBSCRIPTION_FOLLOWED_EVENTS]?.map(
+            const followedEvent = groupedSubscriptions[SUBSCRIPTION_FOLLOWED_EVENTS]?.map(
                 (record) => record.event,
             ).filter(isDefined) ?? [];
 

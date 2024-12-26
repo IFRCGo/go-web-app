@@ -328,7 +328,7 @@ function useColumns(searchResponse: SearchResponse | undefined) {
             (surgeDeployment) => surgeDeployment.deployed_country,
             (surgeDeployment) => ({
                 to: 'countriesLayout',
-                urlParams: { countdryId: surgeDeployment.deployed_country_id },
+                urlParams: { countryId: surgeDeployment.deployed_country_id },
             }),
         ),
         createLinkColumn<SurgeDeploymentResult, number>(

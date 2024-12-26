@@ -30,7 +30,7 @@
         "upload": "Upload",
         "perAreas": "PER Areas",
         "relevantDocumentHeader": "Relevant Documents",
-        "uploadLimitDisclaimer": "Note: You can only upload upto 10 documents.",
+        "uploadLimitDisclaimer": "Note: You can only upload up to 10 documents.",
         "perArea": "Area {areaNumber}: {title}"
     }
 }

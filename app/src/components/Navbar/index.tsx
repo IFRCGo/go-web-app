@@ -21,7 +21,7 @@ import useAuth from '#hooks/domain/useAuth';
 
 import AuthenticatedUserDropdown from './AuthenticatedUserDropdown';
 import CountryDropdown from './CountryDropdown';
-import LangaugeDropdown from './LanguageDropdown';
+import LanguageDropdown from './LanguageDropdown';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -71,7 +71,7 @@ function Navbar(props: Props) {
                     className={styles.actions}
                     variant="tertiary"
                 >
-                    <LangaugeDropdown />
+                    <LanguageDropdown />
                     {!isAuthenticated && (
                         <>
                             <NavigationTab

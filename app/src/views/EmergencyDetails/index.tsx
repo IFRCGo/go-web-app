@@ -233,14 +233,14 @@ export function Component() {
                     />
                     <TextOutput
                         className={styles.overviewItem}
-                        label={strings.assisanceRequestedByNS}
+                        label={strings.assistanceRequestedByNS}
                         valueType="boolean"
                         value={assistanceIsRequestedByNS}
                         strongValue
                     />
                     <TextOutput
                         className={styles.overviewItem}
-                        label={strings.assisanceRequestedByGovernment}
+                        label={strings.assistanceRequestedByGovernment}
                         valueType="boolean"
                         value={assistanceIsRequestedByCountry}
                         strongValue

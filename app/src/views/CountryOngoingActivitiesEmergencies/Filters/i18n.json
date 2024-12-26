@@ -6,7 +6,7 @@
         "appealsStartDateBefore": "Start Before",
         "appealsTypeLabel": "Appeal Type",
         "activeOperationLabel": "Active Operation",
-        "appealsDisastertype": "Disaster Type",
+        "appealsDisasterType": "Disaster Type",
         "appealsRequestedAmount": "Funding Requirements",
         "appealsFundedAmount": "Funding Coverage",
         "appealsFilterTypePlaceholder": "All Appeal Types",

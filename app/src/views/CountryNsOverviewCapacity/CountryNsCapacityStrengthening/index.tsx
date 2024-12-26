@@ -53,7 +53,7 @@ function CountryNsCapacityStrengthening() {
 
     const uniqueLocalUnits = unique(
         bocaAssessments?.map(
-            (bocaAsssement) => bocaAsssement.branch_name,
+            (bocaAssessment) => bocaAssessment.branch_name,
         ).filter(isDefined) ?? [],
     );
 

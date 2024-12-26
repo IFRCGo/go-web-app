@@ -169,7 +169,7 @@ function Actions(props: Props) {
         [nsActionsMap, nsActionOptions],
     );
 
-    const needsIdenfiedTitleDisplayMap = useMemo(
+    const needsIdentifiedTitleDisplayMap = useMemo(
         () => (
             listToMap(
                 needOptions,
@@ -447,7 +447,7 @@ function Actions(props: Props) {
                             onChange={onNeedChange}
                             onRemove={onNeedRemove}
                             error={getErrorObject(error?.needs_identified)}
-                            titleDisplayMap={needsIdenfiedTitleDisplayMap}
+                            titleDisplayMap={needsIdentifiedTitleDisplayMap}
                             disabled={disabled}
                         />
                     ))}

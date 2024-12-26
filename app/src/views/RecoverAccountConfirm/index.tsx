@@ -172,7 +172,7 @@ export function Component() {
                 />
                 <PasswordInput
                     name="confirmPassword"
-                    label={strings.confrimPassword}
+                    label={strings.confirmPassword}
                     value={formValue.confirmPassword}
                     onChange={setFieldValue}
                     error={fieldError?.confirmPassword}

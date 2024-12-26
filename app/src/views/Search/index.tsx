@@ -235,12 +235,12 @@ export function Component() {
                 return strings.searchHint;
             }
 
-            return strings.searchResultforQuery;
+            return strings.searchResultQuery;
         },
         [
             strings.searchThreeCharactersRequired,
             strings.searchHint,
-            strings.searchResultforQuery,
+            strings.searchResultQuery,
             urlSearchValue,
             trimmedSearchString,
         ],

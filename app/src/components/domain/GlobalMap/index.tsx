@@ -78,14 +78,14 @@ function GlobalMap(props: Props) {
         ...baseMapProps
     } = props;
 
-    const [hoveredCountryIso3, setHoverdCountryIso3] = useState<string | undefined>();
+    const [hoveredCountryIso3, setHoveredCountryIso3] = useState<string | undefined>();
 
     const handleFeatureMouseEnter = (feature: MapboxGeoJSONFeature) => {
         const hoveredFeatureProperties = feature.properties as (
             AdminZeroFeatureProperties | undefined
         );
 
-        setHoverdCountryIso3(hoveredFeatureProperties?.iso3);
+        setHoveredCountryIso3(hoveredFeatureProperties?.iso3);
 
         if (onHover) {
             onHover(hoveredFeatureProperties);
@@ -93,7 +93,7 @@ function GlobalMap(props: Props) {
     };
 
     const handleFeatureMouseLeave = () => {
-        setHoverdCountryIso3(undefined);
+        setHoveredCountryIso3(undefined);
 
         if (onHover) {
             onHover(undefined);

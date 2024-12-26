@@ -35,7 +35,7 @@ import {
 
 type HazardType = components<'read'>['schemas']['HazardTypeEnum'];
 
-export const hazardKeyToIconmap: Record<HazardType, string | null> = {
+export const hazardKeyToIconMap: Record<HazardType, string | null> = {
     EQ: earthquakeIcon,
     FL: floodIcon,
     TC: cycloneIcon,
@@ -49,7 +49,7 @@ export const hazardKeyToIconmap: Record<HazardType, string | null> = {
 };
 
 const mapIcons = mapToList(
-    hazardKeyToIconmap,
+    hazardKeyToIconMap,
     (icon, key) => (icon ? ({ key, icon }) : undefined),
 ).filter(isDefined);
 

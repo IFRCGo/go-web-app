@@ -638,7 +638,7 @@ export function Component() {
                     )}
                     {responseStrategyDefined && (
                         <Container
-                            heading={strings.operationStragegyHeading}
+                            heading={strings.operationStrategyHeading}
                         >
                             <DescriptionText>
                                 {drefResponse?.response_strategy}
@@ -717,7 +717,7 @@ export function Component() {
                 )}
                 <BlockTextOutput
                     className={styles.disabilitiesPopulation}
-                    label={strings.peopleWithDisabilitesLabel}
+                    label={strings.peopleWithDisabilitiesLabel}
                     value={drefResponse?.disability_people_per}
                     suffix="%"
                     valueType="number"

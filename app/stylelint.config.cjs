@@ -1,3 +1,10 @@
+const path = require('path');
+
+const cssPaths = [
+    path.resolve(__dirname, './src/index.css'),
+    path.resolve(__dirname, './node_modules/@ifrc-go/ui/dist/index.css'),
+];
+
 module.exports = {
     plugins: [
         'stylelint-no-unused-selectors',
@@ -18,7 +25,7 @@ module.exports = {
         },
         'csstools/value-no-unknown-custom-properties': [
             true, {
-                importFrom: ['./src/index.css', './node_modules/@ifrc-go/ui/dist/index.css']
+                importFrom: cssPaths,
             },
         ],
         'selector-pseudo-class-no-unknown': [

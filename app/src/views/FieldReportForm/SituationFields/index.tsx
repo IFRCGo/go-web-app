@@ -86,7 +86,7 @@ function SituationFields(props: Props) {
                     />
                     <NumberInput
                         label={strings.fieldReportCasesSince}
-                        hint={strings.fieldsStep2SituationFieldsEPICasesSinceDesciption}
+                        hint={strings.fieldsStep2SituationFieldsEPICasesSinceDescription}
                         placeholder={strings.fieldsStep2SituationFieldsEstimation}
                         name="epi_cases_since_last_fr"
                         value={value.epi_cases_since_last_fr}

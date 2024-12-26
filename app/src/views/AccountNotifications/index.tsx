@@ -60,7 +60,7 @@ export function Component() {
             data: unknown[],
         ): OperationListItemProps => ({
             eventItem: operation,
-            updateSubscibedEvents: updateSubscribedEventsResponse,
+            updateSubscribedEvents: updateSubscribedEventsResponse,
             isLastItem: i === (data.length - 1),
         }),
         [updateSubscribedEventsResponse],

@@ -33,8 +33,8 @@ interface DelegationInformationProps {
     address: string;
 }
 
-type CountryDelgation = NonNullable<CountryResponse>['country_delegation'][number];
-const countryDelegationKeySelector = (countryDelegation: CountryDelgation) => (
+type CountryDelegation = NonNullable<CountryResponse>['country_delegation'][number];
+const countryDelegationKeySelector = (countryDelegation: CountryDelegation) => (
     `${countryDelegation.dotype_name}-${countryDelegation.hod_first_name}-${countryDelegation.hod_last_name}`
 );
 
@@ -86,7 +86,7 @@ function Presence() {
 
     const { countryResponse } = useOutletContext<CountryOutletContext>();
 
-    const countryDelegationRendererParams = useCallback((_: string, value: CountryDelgation) => {
+    const countryDelegationRendererParams = useCallback((_: string, value: CountryDelegation) => {
         const hodName = [
             value.hod_first_name,
             value.hod_last_name,

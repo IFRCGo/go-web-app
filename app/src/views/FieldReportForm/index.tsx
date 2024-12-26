@@ -398,7 +398,7 @@ export function Component() {
                     ...country,
                     iso3: country.iso3,
                     independent: country.independent,
-                    recort_type: country.record_type,
+                    record_type: country.record_type,
                 };
             }).filter(isDefined)
         ),

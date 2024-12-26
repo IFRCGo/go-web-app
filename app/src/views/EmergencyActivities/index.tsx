@@ -44,7 +44,7 @@ import type { EmergencyOutletContext } from '#utils/outletContext';
 import { type GoApiResponse } from '#utils/restRequest';
 import { useRequest } from '#utils/restRequest';
 
-import ActivitiesMap from './ActivitesMap';
+import ActivitiesMap from './ActivitiesMap';
 import ActivityActions, { type Props as ActivityActionsProps } from './ActivityActions';
 import ActivityDetail from './ActivityDetail';
 import Filters, { type FilterValue } from './Filters';
@@ -259,11 +259,11 @@ export function Component() {
         ],
     );
 
-    const aggreatedProjectCountListBySector = useMemo(() => (
+    const aggregatedProjectCountListBySector = useMemo(() => (
         getAggregatedValues(emergencyProjectCountListBySector)
     ), [emergencyProjectCountListBySector]);
 
-    const aggreatedProjectCountListByStatus = useMemo(() => (
+    const aggregatedProjectCountListByStatus = useMemo(() => (
         getAggregatedValues(emergencyProjectCountListByStatus)
     ), [emergencyProjectCountListByStatus]);
 
@@ -374,7 +374,7 @@ export function Component() {
                             />
                             <PieChart
                                 className={styles.pieChart}
-                                data={aggreatedProjectCountListBySector}
+                                data={aggregatedProjectCountListBySector}
                                 valueSelector={numericCountSelector}
                                 labelSelector={stringTitleSelector}
                                 keySelector={stringTitleSelector}
@@ -391,7 +391,7 @@ export function Component() {
                             />
                             <PieChart
                                 className={styles.pieChart}
-                                data={aggreatedProjectCountListByStatus}
+                                data={aggregatedProjectCountListByStatus}
                                 valueSelector={numericCountSelector}
                                 labelSelector={stringTitleSelector}
                                 keySelector={stringTitleSelector}

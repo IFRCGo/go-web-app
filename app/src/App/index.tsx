@@ -157,9 +157,9 @@ function Application() {
     ] = useState<Record<string, LanguageNamespaceStatus>>({});
 
     const setAndStoreCurrentLanguage = useCallback(
-        (newLanugage: Language) => {
-            setCurrentLanguage(newLanugage);
-            setToStorage(KEY_LANGUAGE_STORAGE, newLanugage);
+        (newLanguage: Language) => {
+            setCurrentLanguage(newLanguage);
+            setToStorage(KEY_LANGUAGE_STORAGE, newLanguage);
         },
         [],
     );

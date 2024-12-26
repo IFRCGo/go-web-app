@@ -3,9 +3,9 @@ import React, {
     useRef,
 } from 'react';
 import { DeleteBinFillIcon } from '@ifrc-go/icons';
-import type {
+import {
     Button,
-    ButtonVariant,
+    type ButtonVariant,
     InputError,
     type NameType,
     RawFileInput,

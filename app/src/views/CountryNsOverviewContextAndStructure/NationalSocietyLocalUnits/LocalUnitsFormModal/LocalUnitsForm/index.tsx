@@ -799,7 +799,7 @@ function LocalUnitsForm(props: Props) {
                                         error={healthFormError?.primary_health_care_center}
                                     />
                                     <TextInput
-                                        label={strings.specialties}
+                                        label={strings.specialities}
                                         name="speciality"
                                         value={value.health?.speciality}
                                         onChange={onHealthFieldChange}

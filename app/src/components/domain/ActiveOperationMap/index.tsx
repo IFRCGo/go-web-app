@@ -349,7 +349,7 @@ function ActiveOperationMap(props: Props) {
         [setClickedPoint],
     );
 
-    const handleClearFiltersButtonclick = useCallback(() => {
+    const handleClearFiltersButtonClick = useCallback(() => {
         setFilter({});
     }, [setFilter]);
 
@@ -403,7 +403,7 @@ function ActiveOperationMap(props: Props) {
                     />
                     <DisasterTypeSelectInput
                         placeholder={strings.operationFilterDisastersPlaceholder}
-                        label={strings.operationDisastertype}
+                        label={strings.operationDisasterType}
                         name="displacement"
                         value={rawFilter.displacement}
                         onChange={setFilterField}
@@ -411,7 +411,7 @@ function ActiveOperationMap(props: Props) {
                     <div>
                         <Button
                             name={undefined}
-                            onClick={handleClearFiltersButtonclick}
+                            onClick={handleClearFiltersButtonClick}
                             variant="secondary"
                             disabled={!filtered}
                         >

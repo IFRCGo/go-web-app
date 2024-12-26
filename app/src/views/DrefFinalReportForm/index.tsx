@@ -357,7 +357,7 @@ export function Component() {
         [validate, setError, updateFinalReport],
     );
 
-    const handleObsoletePayloadOverwiteButtonClick = useCallback(
+    const handleObsoletePayloadOverwriteButtonClick = useCallback(
         (newModifiedAt: string | undefined) => {
             setShowObsoletePayloadModal(false);
             // FIXME: Why not just set lastModifiedAtRef.current,
@@ -588,7 +588,7 @@ export function Component() {
                 {isTruthyString(finalReportId) && showObsoletePayloadModal && (
                     <ObsoletePayloadModal
                         finalReportId={+finalReportId}
-                        onOverwriteButtonClick={handleObsoletePayloadOverwiteButtonClick}
+                        onOverwriteButtonClick={handleObsoletePayloadOverwriteButtonClick}
                         onCancelButtonClick={setShowObsoletePayloadModal}
                     />
                 )}

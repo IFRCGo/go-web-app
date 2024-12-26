@@ -222,7 +222,7 @@ export function Component() {
 
                     fetchLanguage({ pages: keys });
                 },
-                // FIXME: use constatnt
+                // FIXME: use constant
                 200,
             );
 
