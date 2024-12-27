@@ -436,7 +436,7 @@ export function getEvenDistribution(min: number, max: number, distribution: numb
     return getEvenlyDistributedExcess(additional);
 }
 
-export function getEvenlyDistributibleBounds(bounds: Bounds, numBreaks: number): Bounds {
+export function getEvenlyDistributableBounds(bounds: Bounds, numBreaks: number): Bounds {
     const { left, right } = getEvenDistribution(
         bounds.min,
         bounds.max,

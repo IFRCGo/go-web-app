@@ -37,7 +37,7 @@ const options: Option[] = [
     },
     {
         key: '4',
-        label: 'Forecasst Based Action',
+        label: 'Forecast Based Action',
     },
 ];
 const keySelector = (d: Option) => d.key;
@@ -106,7 +106,7 @@ function Template(args:Args) {
             keySelector={keySelector}
             labelSelector={labelSelector}
             placeholder="Select an emergency type"
-            name="searchmultiselectinput"
+            name="search"
         />
     );
 }

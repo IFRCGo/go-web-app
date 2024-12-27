@@ -19,7 +19,7 @@ export { default as BarChart } from './components/BarChart';
 export type { Props as BlockLoadingProps } from './components/BlockLoading';
 export { default as BlockLoading } from './components/BlockLoading';
 
-// NOTE: Ovearlay needs to be exported before
+// NOTE: Overlay needs to be exported before
 // BodyOverlay for styling to work properly
 // eslint-disable-next-line simple-import-sort/exports
 export { default as Portal } from './components/Portal';

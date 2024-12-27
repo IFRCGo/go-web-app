@@ -19,7 +19,7 @@ import Table from './Table';
 interface Data {
     id: number;
     name: string;
-    dateofbirth: string;
+    dateOfBirth: string;
     link: string;
     characteristics: string[];
     status: string;
@@ -31,7 +31,7 @@ const data = [
     {
         id: 1,
         name: 'African Elephant',
-        dateofbirth: '2010-05-12',
+        dateOfBirth: '2010-05-12',
         link: 'https://en.wikipedia.org/wiki/african_elephant',
         characteristics: [
             'Large',
@@ -45,7 +45,7 @@ const data = [
     {
         id: 2,
         name: 'Bald Eagle',
-        dateofbirth: '2012-07-04',
+        dateOfBirth: '2012-07-04',
         link: 'https://en.wikipedia.org/wiki/bald_eagle',
         characteristics: [
             'Large wingspan',
@@ -59,7 +59,7 @@ const data = [
     {
         id: 3,
         name: 'Cheetah',
-        dateofbirth: '2015-03-22',
+        dateOfBirth: '2015-03-22',
         link: 'https://en.wikipedia.org/wiki/cheetah',
         characteristics: [
             'Fast',
@@ -73,7 +73,7 @@ const data = [
     {
         id: 4,
         name: 'Dolphin',
-        dateofbirth: '2013-09-18',
+        dateOfBirth: '2013-09-18',
         link: 'https://en.wikipedia.org/wiki/dolphin',
         characteristics: [
             'Intelligent',
@@ -87,7 +87,7 @@ const data = [
     {
         id: 5,
         name: 'Emperor Penguin',
-        dateofbirth: '2011-12-01',
+        dateOfBirth: '2011-12-01',
         link: 'https://en.wikipedia.org/wiki/emperor_penguin',
         characteristics: [
             'Large',
@@ -101,7 +101,7 @@ const data = [
     {
         id: 6,
         name: 'Fennec Fox',
-        dateofbirth: '2016-01-10',
+        dateOfBirth: '2016-01-10',
         link: 'https://en.wikipedia.org/wiki/fennec_fox',
         characteristics: [
             'Small',
@@ -115,7 +115,7 @@ const data = [
     {
         id: 7,
         name: 'Giant Panda',
-        dateofbirth: '2014-08-23',
+        dateOfBirth: '2014-08-23',
         link: 'https://en.wikipedia.org/wiki/giant_panda',
         characteristics: [
             'Black and white',
@@ -129,7 +129,7 @@ const data = [
     {
         id: 8,
         name: 'Great White Shark',
-        dateofbirth: '2009-06-15',
+        dateOfBirth: '2009-06-15',
         link: 'https://en.wikipedia.org/wiki/great_white_shark',
         characteristics: [
             'Large',
@@ -143,11 +143,11 @@ const data = [
     {
         id: 9,
         name: 'Hummingbird',
-        dateofbirth: '2018-04-05',
+        dateOfBirth: '2018-04-05',
         link: 'https://en.wikipedia.org/wiki/hummingbird',
         characteristics: [
             'Small',
-            'Colorful',
+            'Colourful',
             'Fast wings',
         ],
         status: 'Least Concern',
@@ -157,7 +157,7 @@ const data = [
     {
         id: 10,
         name: 'Indian Tiger',
-        dateofbirth: '2013-11-11',
+        dateOfBirth: '2013-11-11',
         link: 'https://en.wikipedia.org/wiki/indian_tiger',
         characteristics: [
             'Striped',
@@ -183,9 +183,9 @@ const columns = [
         (item) => item.name,
     ),
     createDateColumn<Data, number>(
-        'dateofbirth',
+        'dateOfBirth',
         'Date of Birth',
-        (item) => item.dateofbirth,
+        (item) => item.dateOfBirth,
     ),
     createElementColumn<Data, number, { link: string, title: string }>(
         'link',

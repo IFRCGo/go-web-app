@@ -95,7 +95,6 @@ export const WithGridViewAndPadding: Story = {
         contentViewType: 'grid',
         spacing: 'default',
         numPreferredGridContentColumns: 2,
-        withGridViewInFilter: true,
     },
 };
 
@@ -109,7 +108,7 @@ export const ContainerElementRef: Story = {
     },
 };
 
-export const WithHeadinglevel: Story = {
+export const WithHeadingLevel: Story = {
     args: {
         heading: 'Container Heading',
         headerDescription: 'This is a description for the header',
@@ -148,7 +147,7 @@ export const NumPreferredGridContentColumns: Story = {
         numPreferredGridContentColumns: 2,
     },
 };
-export const Withspacing: Story = {
+export const WithSpacing: Story = {
     args: {
         heading: 'Container Heading',
         headerDescription: 'This is a description for the header',
@@ -158,7 +157,6 @@ export const Withspacing: Story = {
         contentViewType: 'default',
         spacing: 'none',
         numPreferredGridContentColumns: 2,
-        withGridViewInFilter: true,
     },
 };
 
@@ -172,7 +170,6 @@ export const WithGridViewInFilter: Story = {
         contentViewType: 'default',
         spacing: 'default',
         numPreferredGridContentColumns: 2,
-        withGridViewInFilter: true,
     },
 };
 

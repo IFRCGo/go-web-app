@@ -70,7 +70,7 @@ test('Denormalize List', () => {
         districts: [1, 2, 3],
     }, {
         id: 2,
-        country: 'Afganistan',
+        country: 'Afghanistan',
         districts: [1, 2, 3, 4, 5],
     }];
     const expected = [
@@ -91,27 +91,27 @@ test('Denormalize List', () => {
         },
         {
             id: 2,
-            country: 'Afganistan',
+            country: 'Afghanistan',
             district: 1,
         },
         {
             id: 2,
-            country: 'Afganistan',
+            country: 'Afghanistan',
             district: 2,
         },
         {
             id: 2,
-            country: 'Afganistan',
+            country: 'Afghanistan',
             district: 3,
         },
         {
             id: 2,
-            country: 'Afganistan',
+            country: 'Afghanistan',
             district: 4,
         },
         {
             id: 2,
-            country: 'Afganistan',
+            country: 'Afghanistan',
             district: 5,
         },
     ];
