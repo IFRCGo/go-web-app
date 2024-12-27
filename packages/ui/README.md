@@ -1,4 +1,4 @@
-## IFRC GO UI
+# IFRC GO UI
 
 [![npm (scoped)](https://img.shields.io/npm/v/@ifrc-go/ui)](https://github.com/IFRCGo/go-web-app/blob/develop/LICENSE)
 [![npm (scoped)](https://img.shields.io/npm/l/@ifrc-go/ui)](https://github.com/IFRCGo/go-web-app/blob/develop/LICENSE)
@@ -11,6 +11,7 @@
  [![React][react-shields]][react-url] [![Vite][vite-shields]][vite-url] [![Typescript][typescript-shields]][typescript-url]
 
 ## Installation
+
 Install the `@ifrc-go/ui` package and its peer dependencies.
 
 ```bash

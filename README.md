@@ -22,6 +22,7 @@ Below are the steps to guide you through preparing your local environment for th
 ### Prerequisites
 
 To begin, ensure you have network access. Then, you'll need the following:
+
 1. [Git](https://git-scm.com/)
 2. [Node.JS](https://nodejs.org/en/) version >=18 / 20+
 3. [Pnpm](https://pnpm.io/)
@@ -29,24 +30,32 @@ To begin, ensure you have network access. Then, you'll need the following:
 
 ### Local development
 
-1. Clone the repository using HTTPS, SSH, or Github CLI
+1.Clone the repository using HTTPS, SSH, or Github CLI
+
 ```bash
 git clone https://github.com/IFRCGo/go-web-app.git #HTTPS
 git clone git@github.com:IFRCGo/go-web-app.git #SSH
 gh repo clone IFRCGo/go-web-app #Github CLI
 ```
-2. Install the dependencies
+
+2.Install the dependencies
+
 ```bash
 pnpm install
 ```
-3. Copy `app/.env.example` to `app/.env` and update the variables
+
+3.Copy `app/.env.example` to `app/.env` and update the variables
+
 ```bash
 cp app/.env.example app/.env
 ```
-4. Start the development server
+
+4.Start the development server
+
 ```bash
 pnpm start:app
 ```
+
 ## Contributing
 
 Have a look through existing [Issues](https://github.com/IFRCGo/go-web-app/issues) and [Pull Requests](https://github.com/IFRCGo/go-web-app/pulls) that you could help with. If you'd like to request a feature or report a bug, please [create a GitHub Issue](https://github.com/IFRCGo/go-web-app/issues/new/choose) using one of the templates provided.
@@ -55,11 +64,10 @@ Have a look through existing [Issues](https://github.com/IFRCGo/go-web-app/issue
 
 [See collaboration guide →](./COLLABORATING.md)
 
-
-
 ## Additional packages
 
 The repository hosts multiple packages under `packages` directory.
+
  1. [IFRC GO UI](https://github.com/IFRCGo/go-web-app/tree/develop/packages/ui) is a React UI components library tailored to meet the specific requirements of the IFRC GO community and its associated projects.
  2. [IFRC GO UI Storybook](https://github.com/IFRCGo/go-web-app/tree/develop/packages/go-ui-storybook) serves as the comprehensive showcase for the components library.It is hosted on [chromatic](https://66557be6b68dacbf0a96db23-zctxglhsnk.chromatic.com/).
 

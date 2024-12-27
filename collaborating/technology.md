@@ -1,8 +1,8 @@
-## Technologies Used to Build the IFRC GO Website
+# Technologies Used to Build the IFRC GO Website
 
 The IFRC GO web application is built using [React](https://react.dev/) and [Vite](https://vitejs.dev/), with [TypeScript](https://www.typescriptlang.org/) as the primary programming language.
 
-### Libraries and Tools
+## Libraries and Tools
 
 - **Styling**
   - [PostCSS](https://postcss.org/) with CSS Modules
