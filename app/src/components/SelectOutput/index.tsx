@@ -3,6 +3,7 @@ import { TextOutput } from '@ifrc-go/ui';
 import { isDefined } from '@togglecorp/fujs';
 
 interface Props<VALUE, OPTION> {
+    className: string;
     value: VALUE | undefined;
     options: OPTION[] | undefined;
     keySelector: (datum: OPTION) => VALUE;
@@ -12,6 +13,7 @@ interface Props<VALUE, OPTION> {
 
 function SelectOutput<VALUE, OPTION>(props: Props<VALUE, OPTION>) {
     const {
+        className,
         value,
         options,
         keySelector,
@@ -31,6 +33,7 @@ function SelectOutput<VALUE, OPTION>(props: Props<VALUE, OPTION>) {
 
     return (
         <TextOutput
+            className={className}
             label={label}
             value={valueLabel}
             strongLabel

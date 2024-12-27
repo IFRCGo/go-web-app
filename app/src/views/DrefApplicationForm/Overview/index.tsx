@@ -46,6 +46,7 @@ import {
     DISASTER_FIRE,
     DISASTER_FLASH_FLOOD,
     DISASTER_FLOOD,
+    ONSET_SUDDEN,
     TYPE_IMMINENT,
     TYPE_LOAN,
 } from '../common';
@@ -154,6 +155,16 @@ function Overview(props: Props) {
         ],
     );
 
+    const handleTypeofDrefChange = useCallback((
+        typeOfDref: DrefTypeOption['key'] | undefined,
+        name: 'type_of_dref',
+    ) => {
+        setFieldValue(typeOfDref, name);
+        if (typeOfDref === TYPE_IMMINENT) {
+            setFieldValue(ONSET_SUDDEN, 'type_of_onset');
+        }
+    }, [setFieldValue]);
+
     const userRendererParams = useCallback((userId: number, user: User) => ({
         userId,
         user,
@@ -225,7 +236,7 @@ function Overview(props: Props) {
                         options={typeOfDrefOptions}
                         keySelector={typeOfDrefKeySelector}
                         labelSelector={stringValueSelector}
-                        onChange={setFieldValue}
+                        onChange={handleTypeofDrefChange}
                         value={value?.type_of_dref}
                         error={error?.type_of_dref}
                         disabled={disabled}
@@ -263,6 +274,9 @@ function Overview(props: Props) {
                             error={error?.type_of_onset}
                             disabled={disabled}
                             withAsterisk
+                            readOnly={
+                                value?.type_of_dref === TYPE_IMMINENT
+                            }
                         />
                         {(
                             value?.disaster_type === DISASTER_FIRE
@@ -279,56 +293,53 @@ function Overview(props: Props) {
                             ) : (
                                 <div />
                             )}
-
-                        <SelectInput
-                            name="disaster_category"
-                            label={(
-                                <>
-                                    {/* FIXME: use string template */}
-                                    {value?.type_of_dref === TYPE_IMMINENT
-
-                                        ? strings.drefFormImminentDisasterCategoryLabel
-                                        : strings.drefFormDisasterCategoryLabel}
-                                    <Link
-                                        title={strings.drefFormClickEmergencyResponseFrameworkLabel}
-                                        href={disasterCategoryLink}
-                                        external
-                                        variant="tertiary"
-                                    >
-                                        <WikiHelpSectionLineIcon />
-                                    </Link>
-                                </>
-                            )}
-                            options={drefDisasterCategoryOptions}
-                            keySelector={disasterCategoryKeySelector}
-                            labelSelector={stringValueSelector}
-                            value={value?.disaster_category}
-                            onChange={setFieldValue}
-                            error={error?.disaster_category}
-                            disabled={disabled}
-                        />
+                        {value?.type_of_dref !== TYPE_IMMINENT && (
+                            <SelectInput
+                                name="disaster_category"
+                                label={(
+                                    <>
+                                        {strings.drefFormDisasterCategoryLabel}
+                                        <Link
+                                            title={strings.drefFormClickEmergencyResponseLabel}
+                                            href={disasterCategoryLink}
+                                            external
+                                            variant="tertiary"
+                                        >
+                                            <WikiHelpSectionLineIcon />
+                                        </Link>
+                                    </>
+                                )}
+                                options={drefDisasterCategoryOptions}
+                                keySelector={disasterCategoryKeySelector}
+                                labelSelector={stringValueSelector}
+                                value={value?.disaster_category}
+                                onChange={setFieldValue}
+                                error={error?.disaster_category}
+                                disabled={disabled}
+                            />
+                        )}
                     </InputSection>
                     {(
                         value?.disaster_category === DISASTER_CATEGORY_ORANGE
                         || value?.disaster_category === DISASTER_CATEGORY_RED)
-                        && (
-                            <InputSection title={strings.drefFormUploadCrisisDocument}>
-                                <GoSingleFileInput
-                                    name="disaster_category_analysis"
-                                    accept=".pdf, .docx, .pptx"
-                                    fileIdToUrlMap={fileIdToUrlMap}
-                                    onChange={setFieldValue}
-                                    url="/api/v2/dref-files/"
-                                    value={value.disaster_category_analysis}
-                                    error={error?.disaster_category_analysis}
-                                    setFileIdToUrlMap={setFileIdToUrlMap}
-                                    clearable
-                                    disabled={disabled}
-                                >
-                                    {strings.drefFormUploadDocumentButtonLabel}
-                                </GoSingleFileInput>
-                            </InputSection>
-                        )}
+                        && value?.type_of_dref !== TYPE_IMMINENT && (
+                        <InputSection title={strings.drefFormUploadCrisisDocument}>
+                            <GoSingleFileInput
+                                name="disaster_category_analysis"
+                                accept=".pdf, .docx, .pptx"
+                                fileIdToUrlMap={fileIdToUrlMap}
+                                onChange={setFieldValue}
+                                url="/api/v2/dref-files/"
+                                value={value.disaster_category_analysis}
+                                error={error?.disaster_category_analysis}
+                                setFileIdToUrlMap={setFileIdToUrlMap}
+                                clearable
+                                disabled={disabled}
+                            >
+                                {strings.drefFormOverviewUploadDocumentButtonLabel}
+                            </GoSingleFileInput>
+                        </InputSection>
+                    )}
                 </Container>
                 <InputSection
                     title={
@@ -387,7 +398,7 @@ function Overview(props: Props) {
                         </Button>
                     </div>
                 </InputSection>
-                {value?.type_of_dref !== TYPE_LOAN && (
+                {value?.type_of_dref !== TYPE_LOAN && value?.type_of_dref !== TYPE_IMMINENT && (
                     <InputSection
                         title={strings.drefFormEmergencyAppealPlanned}
                     >
@@ -400,7 +411,7 @@ function Overview(props: Props) {
                         />
                     </InputSection>
                 )}
-                {value?.type_of_dref !== TYPE_LOAN && (
+                {value?.type_of_dref !== TYPE_LOAN && value?.type_of_dref !== TYPE_IMMINENT && (
                     <InputSection
                         title={strings.drefFormUploadMap}
                         description={strings.drefFormUploadMapDescription}
