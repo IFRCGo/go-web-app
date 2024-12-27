@@ -62,6 +62,7 @@ import {
 import Actions from './Actions';
 import {
     checkTabErrors,
+    TYPE_IMMINENT,
     TYPE_LOAN,
     type TypeOfDrefEnum,
 } from './common';
@@ -95,6 +96,22 @@ function getNextStep(current: TabKeys, direction: 1 | -1, typeOfDref: TypeOfDref
     if (typeOfDref === TYPE_LOAN && direction === -1) {
         const mapping: { [key in TabKeys]?: TabKeys } = {
             submission: 'eventDetail',
+            eventDetail: 'overview',
+        };
+        return mapping[current];
+    }
+    if (typeOfDref === TYPE_IMMINENT && direction === 1) {
+        const mapping: { [key in TabKeys]?: TabKeys } = {
+            overview: 'eventDetail',
+            eventDetail: 'operation',
+            operation: 'submission',
+        };
+        return mapping[current];
+    }
+    if (typeOfDref === TYPE_IMMINENT && direction === -1) {
+        const mapping: { [key in TabKeys]?: TabKeys } = {
+            submission: 'operation',
+            operation: 'eventDetail',
             eventDetail: 'overview',
         };
         return mapping[current];
@@ -190,6 +207,8 @@ export function Component() {
                     disaster_category_analysis_details,
                     targeting_strategy_support_file_details,
                     budget_file_details,
+                    scenario_analysis_supporting_document_details,
+                    contingency_plans_supporting_document_details,
                 } = response;
 
                 if (
@@ -248,6 +267,23 @@ export function Component() {
                     newMap[
                         targeting_strategy_support_file_details.id
                     ] = targeting_strategy_support_file_details.file;
+                }
+                if (
+                    scenario_analysis_supporting_document_details
+                    && scenario_analysis_supporting_document_details.file
+                ) {
+                    newMap[
+                        scenario_analysis_supporting_document_details.id
+                    ] = scenario_analysis_supporting_document_details.file;
+                }
+
+                if (
+                    contingency_plans_supporting_document_details
+                    && contingency_plans_supporting_document_details.file
+                ) {
+                    newMap[
+                        contingency_plans_supporting_document_details.id
+                    ] = contingency_plans_supporting_document_details.file;
                 }
 
                 if (budget_file_details && budget_file_details.file) {
@@ -639,9 +675,12 @@ export function Component() {
                             step={2}
                             errored={checkTabErrors(formError, 'eventDetail')}
                         >
-                            {strings.formTabEventDetailLabel}
+                            {value?.type_of_dref === TYPE_IMMINENT
+                                ? strings.formTabScenarioAnalysisLabel
+                                : strings.formTabEventDetailLabel}
                         </Tab>
-                        {value.type_of_dref !== TYPE_LOAN && (
+                        {value.type_of_dref !== TYPE_LOAN
+                            && value.type_of_dref !== TYPE_IMMINENT && (
                             <Tab
                                 name="actions"
                                 step={3}
@@ -656,7 +695,9 @@ export function Component() {
                                 step={4}
                                 errored={checkTabErrors(formError, 'operation')}
                             >
-                                {strings.formTabOperationLabel}
+                                {value?.type_of_dref === TYPE_IMMINENT
+                                    ? strings.formTabPlanLabel
+                                    : strings.formTabOperationLabel}
                             </Tab>
                         )}
                         <Tab
@@ -795,6 +836,7 @@ export function Component() {
                         onCancel={setShowExportModalFalse}
                         id={Number(drefId)}
                         applicationType="DREF"
+                        drefType={value?.type_of_dref}
                     />
                 )}
             </Page>

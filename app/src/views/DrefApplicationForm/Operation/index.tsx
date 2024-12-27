@@ -46,6 +46,8 @@ import {
 } from '#utils/restRequest';
 
 import {
+    EARLY_ACTIONS,
+    EARLY_RESPONSE,
     recalculateProposedActionValues,
     TYPE_ASSESSMENT,
     TYPE_IMMINENT,
@@ -79,9 +81,6 @@ function activityLabelSelector(option: ActivityOptions) {
 function plannedInterventionKeySelector(option: PlannedInterventionOption) {
     return option.key;
 }
-
-const EARLY_ACTIONS = 1 satisfies ProposedActionOption['key'];
-const EARLY_RESPONSE = 2 satisfies ProposedActionOption['key'];
 
 interface Props {
     value: Value;
@@ -397,84 +396,88 @@ function Operation(props: Props) {
 
     return (
         <div className={styles.operation}>
-            <Container
-                heading={strings.drefFormObjectiveAndStrategy}
-                className={styles.objectiveRationale}
-            >
-                <InputSection
-                    title={strings.drefFormObjectiveOperation}
+            {value?.type_of_dref !== TYPE_IMMINENT && (
+                <Container
+                    heading={strings.drefFormObjectiveAndStrategy}
+                    className={styles.objectiveRationale}
                 >
-                    <TextArea
-                        name="operation_objective"
-                        onChange={setFieldValue}
-                        value={value.operation_objective}
-                        error={error?.operation_objective}
-                        placeholder={strings.drefFormObjectiveOperationPlaceholder}
-                        disabled={disabled}
-                    />
-                </InputSection>
-                <InputSection
-                    title={strings.drefFormResponseRationale}
-                    description={value?.type_of_dref === TYPE_ASSESSMENT
-                        && strings.drefFormResponseRationaleDescription}
-                >
-                    <TextArea
-                        name="response_strategy"
-                        onChange={setFieldValue}
-                        value={value.response_strategy}
-                        error={error?.response_strategy}
-                        placeholder={strings.drefFormResponseRationalePlaceholder}
-                        disabled={disabled}
-                    />
-                </InputSection>
-            </Container>
-            <Container
-                heading={strings.drefFormTargetingStrategy}
-                className={styles.targetingStrategy}
-            >
-                <InputSection
-                    title={strings.drefFormPeopleAssistedThroughOperation}
-                    description={strings.drefFormPeopleAssistedThroughOperationDescription}
-                >
-                    <TextArea
-                        label={strings.drefFormOperationDescription}
-                        name="people_assisted"
-                        onChange={setFieldValue}
-                        value={value.people_assisted}
-                        error={error?.people_assisted}
-                        disabled={disabled}
-                    />
-                </InputSection>
-                <InputSection
-                    title={strings.drefFormSelectionCriteria}
-                    description={strings.drefFormSelectionCriteriaDescription}
-                >
-                    <TextArea
-                        label={strings.drefFormOperationDescription}
-                        name="selection_criteria"
-                        onChange={setFieldValue}
-                        value={value.selection_criteria}
-                        error={error?.selection_criteria}
-                        disabled={disabled}
-                    />
-                </InputSection>
-                <InputSection title={strings.drefFormUploadTargetingSupportingDocument}>
-                    <GoSingleFileInput
-                        name="targeting_strategy_support_file"
-                        accept=".pdf, .docx, .pptx"
-                        fileIdToUrlMap={fileIdToUrlMap}
-                        onChange={setFieldValue}
-                        url="/api/v2/dref-files/"
-                        value={value.targeting_strategy_support_file}
-                        error={error?.targeting_strategy_support_file}
-                        setFileIdToUrlMap={setFileIdToUrlMap}
-                        clearable
-                        disabled={disabled}
+                    <InputSection
+                        title={strings.drefFormObjectiveOperation}
                     >
-                        {strings.drefFormUploadTargetingDocumentButtonLabel}
-                    </GoSingleFileInput>
-                </InputSection>
-            </Container>
+                        <TextArea
+                            name="operation_objective"
+                            onChange={setFieldValue}
+                            value={value.operation_objective}
+                            error={error?.operation_objective}
+                            placeholder={strings.drefFormObjectiveOperationPlaceholder}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                    <InputSection
+                        title={strings.drefFormResponseRationale}
+                        description={value?.type_of_dref === TYPE_ASSESSMENT
+                            && strings.drefFormResponseRationaleDescription}
+                    >
+                        <TextArea
+                            name="response_strategy"
+                            onChange={setFieldValue}
+                            value={value.response_strategy}
+                            error={error?.response_strategy}
+                            placeholder={strings.drefFormResponseRationalePlaceholder}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                </Container>
+            )}
+            {value?.type_of_dref !== TYPE_IMMINENT && (
+                <Container
+                    heading={strings.drefFormTargetingStrategy}
+                    className={styles.targetingStrategy}
+                >
+                    <InputSection
+                        title={strings.drefFormPeopleAssistedThroughOperation}
+                        description={strings.drefFormPeopleAssistedThroughOperationDescription}
+                    >
+                        <TextArea
+                            label={strings.drefFormOperationDescription}
+                            name="people_assisted"
+                            onChange={setFieldValue}
+                            value={value.people_assisted}
+                            error={error?.people_assisted}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                    <InputSection
+                        title={strings.drefFormSelectionCriteria}
+                        description={strings.drefFormSelectionCriteriaDescription}
+                    >
+                        <TextArea
+                            label={strings.drefFormOperationDescription}
+                            name="selection_criteria"
+                            onChange={setFieldValue}
+                            value={value.selection_criteria}
+                            error={error?.selection_criteria}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                    <InputSection title={strings.drefFormUploadTargetingSupportingDocument}>
+                        <GoSingleFileInput
+                            name="targeting_strategy_support_file"
+                            accept=".pdf, .docx, .pptx"
+                            fileIdToUrlMap={fileIdToUrlMap}
+                            onChange={setFieldValue}
+                            url="/api/v2/dref-files/"
+                            value={value.targeting_strategy_support_file}
+                            error={error?.targeting_strategy_support_file}
+                            setFileIdToUrlMap={setFileIdToUrlMap}
+                            clearable
+                            disabled={disabled}
+                        >
+                            {strings.drefFormUploadSupportingDocumentButtonLabel}
+                        </GoSingleFileInput>
+                    </InputSection>
+                </Container>
+            )}
             <Container
                 heading={strings.drefFormAssistedPopulation}
                 headerDescription={(
@@ -594,170 +597,176 @@ function Operation(props: Props) {
                     )}
                 </InputSection>
             </Container>
-            <Container
-                heading={strings.drefFormRiskSecurity}
-            >
-                <InputSection
-                    title={strings.drefFormRiskSecurityPotentialRisk}
-                    description={value?.type_of_dref === TYPE_ASSESSMENT
-                        && strings.drefFormRiskSecurityPotentialRiskDescription}
+            {value?.type_of_dref !== TYPE_IMMINENT && (
+                <Container
+                    heading={strings.drefFormRiskSecurity}
                 >
-                    <NonFieldError error={getErrorObject(error?.risk_security)} />
-                    {value.risk_security?.map((rs, i) => (
-                        <RiskSecurityInput
-                            key={rs.client_id}
+                    <InputSection
+                        title={strings.drefFormRiskSecurityPotentialRisk}
+                        description={value?.type_of_dref === TYPE_ASSESSMENT
+                            && strings.drefFormRiskSecurityPotentialRiskDescription}
+                    >
+                        <NonFieldError error={getErrorObject(error?.risk_security)} />
+                        {value.risk_security?.map((rs, i) => (
+                            <RiskSecurityInput
+                                key={rs.client_id}
+                                index={i}
+                                value={rs}
+                                onChange={onRiskSecurityChange}
+                                onRemove={onRiskSecurityRemove}
+                                error={getErrorObject(error?.risk_security)}
+                                disabled={disabled}
+                            />
+                        ))}
+                        <div className={styles.actions}>
+                            <Button
+                                name={undefined}
+                                onClick={handleRiskSecurityAdd}
+                                variant="secondary"
+                                disabled={disabled}
+                            >
+                                {strings.drefFormRiskSecurityAddButton}
+                            </Button>
+                        </div>
+                    </InputSection>
+                    <InputSection
+                        title={strings.drefFormRiskSecuritySafetyConcern}
+                    >
+                        <TextArea
+                            name="risk_security_concern"
+                            value={value.risk_security_concern}
+                            error={error?.risk_security_concern}
+                            onChange={setFieldValue}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                    <InputSection
+                        title={strings.drefFormRiskSecurityHasChildRiskCompleted}
+                        description={(
+                            <>
+                                {strings.drefFormRiskSecurityHasChildRiskCompletedDescription}
+                                <Link
+                                    href="https://www.ifrc.org/document/child-safeguarding-policy"
+                                    withLinkIcon
+                                    external
+                                >
+                                    {strings.drefChildSafeguardingPolicyDescription}
+                                </Link>
+                                <Link
+                                    href="https://pgi.ifrc.org/resources/qa-child-safeguarding-risk-analysis-ifrc-programmes"
+                                    withLinkIcon
+                                    external
+                                >
+                                    {strings.drefChildSafeguardingRiskAnalysisDescription}
+                                </Link>
+                            </>
+                        )}
+                    >
+                        <BooleanInput
+                            name="has_child_safeguarding_risk_analysis_assessment"
+                            value={value.has_child_safeguarding_risk_analysis_assessment}
+                            onChange={setFieldValue}
+                            error={error?.has_child_safeguarding_risk_analysis_assessment}
+                        />
+                    </InputSection>
+                </Container>
+            )}
+            {value?.type_of_dref !== TYPE_IMMINENT && (
+                <Container
+                    heading={strings.drefFormPlannedIntervention}
+                    className={styles.plannedIntervention}
+                >
+                    <InputSection>
+                        <GoSingleFileInput
+                            accept=".pdf"
+                            name="budget_file"
+                            onChange={setFieldValue}
+                            url="/api/v2/dref-files/"
+                            value={value?.budget_file}
+                            fileIdToUrlMap={fileIdToUrlMap}
+                            setFileIdToUrlMap={setFileIdToUrlMap}
+                            error={error?.budget_file}
+                            disabled={disabled}
+                            clearable
+                        >
+                            {strings.drefFormBudgetTemplateUploadButtonLabel}
+                        </GoSingleFileInput>
+                    </InputSection>
+                    <InputSection
+                        title={strings.drefFormRequestAmount}
+                        numPreferredColumns={2}
+                    >
+                        <NumberInput
+                            name="amount_requested"
+                            value={value?.amount_requested}
+                            onChange={setFieldValue}
+                            error={error?.amount_requested}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                    <InputSection
+                        description={!plannedBudgetMatchRequestedAmount && (
+                            <div className={styles.warning}>
+                                <ErrorWarningFillIcon className={styles.icon} />
+                                {strings.drefFormResponseTotalAmountOfPlannedBudget}
+                            </div>
+                        )}
+                    >
+                        <div className={styles.interventionSelectionContainer}>
+                            <SelectInput
+                                className={styles.input}
+                                name={undefined}
+                                label={strings.drefFormInterventionsLabel}
+                                options={filteredInterventionOptions}
+                                keySelector={plannedInterventionKeySelector}
+                                labelSelector={stringValueSelector}
+                                onChange={setSelectedIntervention}
+                                value={selectedIntervention}
+                                disabled={disabled}
+                            />
+                            <Button
+                                className={styles.action}
+                                variant="secondary"
+                                name={selectedIntervention}
+                                onClick={handleInterventionAddButtonClick}
+                                disabled={isNotDefined(selectedIntervention) || disabled}
+                            >
+                                {strings.drefFormResponseAddButton}
+                            </Button>
+                        </div>
+                    </InputSection>
+                    <NonFieldError error={getErrorObject(error?.planned_interventions)} />
+                    {value?.planned_interventions?.map((intervention, i) => (
+                        <InterventionInput
+                            key={intervention.client_id}
                             index={i}
-                            value={rs}
-                            onChange={onRiskSecurityChange}
-                            onRemove={onRiskSecurityRemove}
-                            error={getErrorObject(error?.risk_security)}
+                            value={intervention}
+                            onChange={onInterventionChange}
+                            onRemove={onInterventionRemove}
+                            error={getErrorObject(error?.planned_interventions)}
+                            titleMap={interventionTitleMap}
                             disabled={disabled}
                         />
                     ))}
-                    <div className={styles.actions}>
-                        <Button
-                            name={undefined}
-                            onClick={handleRiskSecurityAdd}
-                            variant="secondary"
-                            disabled={disabled}
-                        >
-                            {strings.drefFormRiskSecurityAddButton}
-                        </Button>
-                    </div>
-                </InputSection>
-                <InputSection
-                    title={strings.drefFormRiskSecuritySafetyConcern}
-                >
-                    <TextArea
-                        name="risk_security_concern"
-                        value={value.risk_security_concern}
-                        error={error?.risk_security_concern}
-                        onChange={setFieldValue}
-                        disabled={disabled}
-                    />
-                </InputSection>
-                <InputSection
-                    title={strings.drefFormRiskSecurityHasChildRiskCompleted}
-                    description={(
-                        <>
-                            {strings.drefFormRiskSecurityHasChildRiskCompletedDescription}
-                            <Link
-                                href="https://www.ifrc.org/document/child-safeguarding-policy"
-                                withLinkIcon
-                                external
-                            >
-                                {strings.drefChildSafeguardingPolicyDescription}
-                            </Link>
-                            <Link
-                                href="https://pgi.ifrc.org/resources/qa-child-safeguarding-risk-analysis-ifrc-programmes"
-                                withLinkIcon
-                                external
-                            >
-                                {strings.drefChildSafeguardingRiskAnalysisDescription}
-                            </Link>
-                        </>
-                    )}
-                >
-                    <BooleanInput
-                        name="has_child_safeguarding_risk_analysis_assessment"
-                        value={value.has_child_safeguarding_risk_analysis_assessment}
-                        onChange={setFieldValue}
-                        error={error?.has_child_safeguarding_risk_analysis_assessment}
-                    />
-                </InputSection>
-            </Container>
-            <Container
-                heading={strings.drefFormPlannedIntervention}
-                className={styles.plannedIntervention}
-            >
-                <InputSection>
-                    <GoSingleFileInput
-                        accept=".pdf"
-                        name="budget_file"
-                        onChange={setFieldValue}
-                        url="/api/v2/dref-files/"
-                        value={value?.budget_file}
-                        fileIdToUrlMap={fileIdToUrlMap}
-                        setFileIdToUrlMap={setFileIdToUrlMap}
-                        error={error?.budget_file}
-                        disabled={disabled}
-                        clearable
-                    >
-                        {strings.drefFormBudgetTemplateUploadButtonLabel}
-                    </GoSingleFileInput>
-                </InputSection>
-                <InputSection
-                    title={strings.drefFormRequestAmount}
-                    numPreferredColumns={2}
-                >
-                    <NumberInput
-                        name="amount_requested"
-                        value={value?.amount_requested}
-                        onChange={setFieldValue}
-                        error={error?.amount_requested}
-                        disabled={disabled}
-                    />
-                </InputSection>
-                <InputSection
-                    description={!plannedBudgetMatchRequestedAmount && (
-                        <div className={styles.warning}>
-                            <ErrorWarningFillIcon className={styles.icon} />
-                            {strings.drefFormResponseTotalAmountOfPlannedBudget}
-                        </div>
-                    )}
-                >
-                    <div className={styles.selectionContainer}>
-                        <SelectInput
-                            className={styles.input}
-                            name={undefined}
-                            label={strings.drefFormInterventionsLabel}
-                            options={filteredInterventionOptions}
-                            keySelector={plannedInterventionKeySelector}
-                            labelSelector={stringValueSelector}
-                            onChange={setSelectedIntervention}
-                            value={selectedIntervention}
-                            disabled={disabled}
-                        />
-                        <Button
-                            className={styles.action}
-                            variant="secondary"
-                            name={selectedIntervention}
-                            onClick={handleInterventionAddButtonClick}
-                            disabled={isNotDefined(selectedIntervention) || disabled}
-                        >
-                            {strings.drefFormResponseAddButton}
-                        </Button>
-                    </div>
-                </InputSection>
-                <NonFieldError error={getErrorObject(error?.planned_interventions)} />
-                {value?.planned_interventions?.map((intervention, i) => (
-                    <InterventionInput
-                        key={intervention.client_id}
-                        index={i}
-                        value={intervention}
-                        onChange={onInterventionChange}
-                        onRemove={onInterventionRemove}
-                        error={getErrorObject(error?.planned_interventions)}
-                        titleMap={interventionTitleMap}
-                        disabled={disabled}
-                    />
-                ))}
-            </Container>
+                </Container>
+            )}
             <Container
                 heading={strings.drefFormSupportServices}
             >
-                <InputSection
-                    title={strings.drefFormHumanResourceDescription}
-                >
-                    <TextArea
-                        label={strings.drefFormOperationDescription}
-                        name="human_resource"
-                        onChange={setFieldValue}
-                        value={value.human_resource}
-                        error={error?.human_resource}
-                        disabled={disabled}
-                    />
-                </InputSection>
+                {value?.type_of_dref !== TYPE_IMMINENT && (
+                    <InputSection
+                        title={strings.drefFormHumanResourceDescription}
+                    >
+                        <TextArea
+                            label={strings.drefFormOperationDescription}
+                            name="human_resource"
+                            onChange={setFieldValue}
+                            value={value.human_resource}
+                            error={error?.human_resource}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                )}
                 <InputSection
                     title={strings.drefFormSurgePersonnelDeployed}
                     description={value?.is_surge_personnel_deployed
@@ -783,7 +792,43 @@ function Operation(props: Props) {
                         />
                     )}
                 </InputSection>
-                {value?.type_of_dref !== TYPE_ASSESSMENT && (
+                {value?.type_of_dref === TYPE_IMMINENT && (
+                    <InputSection
+                        title={strings.drefHumanitarianTitle}
+                        description={strings.drefHumanitarianDescription}
+                    >
+                        <TextArea
+                            name="addressed_humanitarian_impacts"
+                            onChange={setFieldValue}
+                            value={value.addressed_humanitarian_impacts}
+                            error={error?.addressed_humanitarian_impacts}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                )}
+                {value.type_of_dref === TYPE_IMMINENT && (
+                    <InputSection
+                        title={strings.drefFormUploadSupportingDocumentButtonLabel}
+                        description={strings.drefUploadSupportingDocumentTitle}
+                    >
+                        <GoSingleFileInput
+                            name="contingency_plans_supporting_document"
+                            accept=".pdf, .docx, .pptx"
+                            fileIdToUrlMap={fileIdToUrlMap}
+                            onChange={setFieldValue}
+                            url="/api/v2/dref-files/"
+                            value={value.contingency_plans_supporting_document}
+                            error={error?.contingency_plans_supporting_document}
+                            setFileIdToUrlMap={setFileIdToUrlMap}
+                            clearable
+                            disabled={disabled}
+                        >
+                            {strings.drefFormOperationUploadDocumentButtonLabel}
+                        </GoSingleFileInput>
+                    </InputSection>
+                )}
+                {value?.type_of_dref !== TYPE_ASSESSMENT
+                    && value?.type_of_dref !== TYPE_IMMINENT && (
                     <>
                         <InputSection
                             title={strings.drefFormLogisticCapacityOfNs}

@@ -30,6 +30,7 @@ import {
     TYPE_ASSESSMENT,
     TYPE_IMMINENT,
     TYPE_LOAN,
+    TYPE_RESPONSE,
 } from './common';
 
 // FIXME: Do we need this limit?
@@ -277,11 +278,13 @@ const schema: DrefFormSchema = {
             'event_scope',
             'event_text',
             'anticipatory_actions',
-            'supporting_document',
+            'scenario_analysis_supporting_document',
             'event_date',
             'event_description',
             'images_file',
             'source_information',
+            'hazard_date_and_location',
+            'hazard_vulnerabilities_and_risks',
         ] as const;
         type EventDetailDrefTypeRelatedFields = Pick<
             DrefFormSchemaFields,
@@ -305,16 +308,15 @@ const schema: DrefFormSchema = {
                     source_information: { forceValue: [] },
                     event_text: { forceValue: nullValue },
                     anticipatory_actions: { forceValue: nullValue },
-                    supporting_document: { forceValue: nullValue },
+                    scenario_analysis_supporting_document: { forceValue: nullValue },
                     event_date: { forceValue: nullValue },
                     event_description: { forceValue: nullValue },
                     images_file: { forceValue: [] },
+                    hazard_date_and_location: { forceValue: nullValue },
+                    hazard_vulnerabilities_and_risks: { forceValue: nullValue },
                 };
 
-                if (
-                    val?.type_of_dref !== TYPE_ASSESSMENT
-                    && val?.type_of_dref !== TYPE_LOAN
-                ) {
+                if (val?.type_of_dref === TYPE_RESPONSE) {
                     conditionalFields = {
                         ...conditionalFields,
                         did_it_affect_same_area: {},
@@ -331,8 +333,9 @@ const schema: DrefFormSchema = {
                     conditionalFields = {
                         ...conditionalFields,
                         event_text: { validations: [max500CharCondition] },
-                        anticipatory_actions: {},
-                        supporting_document: {},
+                        scenario_analysis_supporting_document: {},
+                        hazard_date_and_location: {},
+                        hazard_vulnerabilities_and_risks: {},
                     };
                 } else {
                     conditionalFields = {
@@ -601,6 +604,8 @@ const schema: DrefFormSchema = {
             'surge_deployment_cost',
             'indirect_cost',
             'total',
+            'addressed_humanitarian_impacts',
+            'contingency_plans_supporting_document',
         ] as const;
         type OperationDrefTypeRelatedFields = Pick<
             DrefFormSchemaFields,
@@ -642,6 +647,8 @@ const schema: DrefFormSchema = {
                     surge_deployment_cost: { forceValue: nullValue },
                     indirect_cost: { forceValue: nullValue },
                     total: { forceValue: nullValue },
+                    addressed_humanitarian_impacts: { forceValue: nullValue },
+                    contingency_plans_supporting_document: { forceValue: nullValue },
                 };
                 if (val?.type_of_dref === TYPE_LOAN) {
                     return conditionalFields;
@@ -782,6 +789,15 @@ const schema: DrefFormSchema = {
                                 ),
                             ],
                         },
+                        total: {
+                            required: true,
+                            validations: [
+                                positiveIntegerCondition,
+                                lessThanOrEqualToCondition(MAX_INT_LIMIT),
+                            ],
+                        },
+                        addressed_humanitarian_impacts: {},
+                        contingency_plans_supporting_document: {},
                     };
 
                     conditionalFields = addCondition(

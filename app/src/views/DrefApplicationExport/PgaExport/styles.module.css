@@ -1,0 +1,40 @@
+.pga-export {
+    margin: var(--go-ui-spacing-xl) auto;
+
+    .description {
+        margin: 0;
+        padding: 0;
+        list-style-position: inside;
+    }
+
+    .table-description {
+        font-weight: var(--go-ui-font-weight-bold);
+    }
+
+    .bank-details {
+        display: grid;
+        grid-gap: var(--go-ui-width-separator-md);
+        grid-template-columns: 1fr 1fr;
+        page-break-inside: avoid;
+    }
+
+    .dref-signed {
+        display: grid;
+        grid-gap: var(--go-ui-spacing-xl);
+        grid-template-columns: 1fr 1fr;
+        page-break-inside: avoid;
+
+        .dref-table {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .signature {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            border-top: var(--go-ui-width-separator-md) solid var(--go-ui-color-separator);
+        }
+    }
+}

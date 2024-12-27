@@ -18,7 +18,10 @@ import {
     getErrorObject,
 } from '@togglecorp/toggle-form';
 
-import { TYPE_LOAN } from '../common';
+import {
+    TYPE_IMMINENT,
+    TYPE_LOAN,
+} from '../common';
 import { type PartialDref } from '../schema';
 
 import i18n from './i18n.json';
@@ -160,7 +163,7 @@ function Submission(props: Props) {
                         disabled={disabled}
                     />
                 </InputSection>
-                {value?.type_of_dref !== TYPE_LOAN && (
+                {value?.type_of_dref !== TYPE_LOAN && value?.type_of_dref !== TYPE_IMMINENT && (
                     <InputSection
                         title={strings.drefFormGlideNum}
                         numPreferredColumns={2}

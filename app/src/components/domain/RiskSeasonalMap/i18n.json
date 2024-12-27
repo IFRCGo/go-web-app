@@ -17,6 +17,7 @@
         "riskCategoryVeryHigh": "Very High",
         "riskSeasonalMapHeading": "Risk Map",
         "riskSeasonalCountriesByRiskHeading": "Countries by Risk",
-        "riskPopupLabel": "Risk"
+        "riskPopupLabel": "Risk",
+        "riskDataNotAvailable": "Data not available for selected filters"
     }
 }

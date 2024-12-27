@@ -29,9 +29,9 @@
         "drefFormUploadCoverImage": "Cover image",
         "drefFormUploadCoverImageDescription": "Upload a image for the cover page of the publicly published DREF application.",
         "drefFormDrefTypeTitle": "DREF Type",
-        "drefFormClickEmergencyResponseFrameworkLabel": "Click to view Emergency Response Framework",
+        "drefFormClickEmergencyResponseLabel": "Click to view Emergency Response Framework",
         "userListEmptyMessage": "The DREF Application is not shared with anyone.",
         "drefFormUploadCrisisDocument": "If available please upload Crisis categorization Analysis",
-        "drefFormUploadDocumentButtonLabel": "Upload document"
+        "drefFormOverviewUploadDocumentButtonLabel": "Upload document"
     }
 }

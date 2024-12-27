@@ -980,8 +980,7 @@ function RiskSeasonalMap(props: Props) {
                 {dataPending && <BlockLoading />}
                 {!dataPending && (isNotDefined(filteredData) || filteredData?.length === 0) && (
                     <Message
-                        // FIXME: add translations
-                        title="Data not available for selected filters"
+                        title={strings.riskDataNotAvailable}
                     />
                 )}
                 {/* FIXME: use List */}
