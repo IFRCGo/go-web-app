@@ -1187,6 +1187,21 @@ const preparednessOperationalLearning = customWrapRoute({
     },
 });
 
+// Temporary Routes
+const chidoTwentyFive = customWrapRoute({
+    parent: rootLayout,
+    path: 'chido-25',
+    component: {
+        render: () => import('#views/ChidoTwentyFive'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Chido-25',
+        visibility: 'anything',
+    },
+});
+
 const wrappedRoutes = {
     fourHundredFour,
     rootLayout,
@@ -1267,6 +1282,7 @@ const wrappedRoutes = {
     threeWProjectDetail,
     termsAndConditions,
     operationalLearning,
+    chidoTwentyFive,
     ...regionRoutes,
     ...countryRoutes,
     ...surgeRoutes,
