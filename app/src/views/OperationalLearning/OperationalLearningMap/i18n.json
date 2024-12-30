@@ -1,0 +1,8 @@
+{
+    "namespace": "operationalLearning",
+    "strings": {
+        "downloadMapTitle": "Operational learning map",
+        "learningLegendLabel": "Learnings",
+        "learningCountLegendLabel":"Learning count"
+    }
+}

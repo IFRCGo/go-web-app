@@ -24,6 +24,10 @@
         "operationsIncluded": "Operations Included",
         "sourcesUsed": "Sources Used",
         "learningExtract": "Learning Extracts",
-        "sectorsCovered": "Sectors Covered"
+        "sectorsCovered": "Sectors Covered",
+        "learningBySector": "Learning by sectors",
+        "learningByRegions": "Learning by regions",
+        "sourceOvertime": "Sources overtime",
+        "sourceOvertimeResponseError" :"Chart not available" 
     }
 }
