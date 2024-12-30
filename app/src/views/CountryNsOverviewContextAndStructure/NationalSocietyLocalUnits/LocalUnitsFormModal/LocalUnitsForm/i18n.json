@@ -86,6 +86,7 @@
         "confirmChangesContentQuestion": "Are you sure you want to have these changes in this local unit?",
         "newLocalUnitDescription": "New local unit",
         "latitude": "Latitude",
-        "longitude": "Longitude"
+        "longitude": "Longitude",
+        "noChangesMessage": "You have made no changes to this local unit."
     }
 }

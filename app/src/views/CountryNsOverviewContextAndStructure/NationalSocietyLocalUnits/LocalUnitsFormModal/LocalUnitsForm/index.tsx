@@ -490,6 +490,9 @@ function LocalUnitsForm(props: Props) {
     const readOnly = readOnlyFromProps
         || localUnitDetailsResponse?.is_locked;
 
+    const emptyLocalUnitChangesFormFields = localUnitChangedFormFields
+        && localUnitChangedFormFields.length <= 0;
+
     const {
         response: localUnitsOptions,
         pending: localUnitsOptionsPending,
@@ -696,8 +699,11 @@ function LocalUnitsForm(props: Props) {
         <Button
             name={undefined}
             onClick={handleFormSubmit}
-            disabled={addLocalUnitsPending
-                || updateLocalUnitsPending}
+            disabled={
+                addLocalUnitsPending
+                || updateLocalUnitsPending
+                || emptyLocalUnitChangesFormFields
+            }
         >
             {strings.submitButtonLabel}
         </Button>
@@ -1807,6 +1813,8 @@ function LocalUnitsForm(props: Props) {
                     onClose={setShowChangesModalFalse}
                     footerActions={submitButton}
                     headerDescription={strings.confirmChangesContentQuestion}
+                    empty={emptyLocalUnitChangesFormFields}
+                    emptyMessage={strings.noChangesMessage}
                 >
                     <RawList
                         data={localUnitChangedFormFields}
