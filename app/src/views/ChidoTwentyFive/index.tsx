@@ -22,6 +22,7 @@ import {
 import {
     _cs,
     isDefined,
+    isFalsyString,
     isNotDefined,
     mapToList,
 } from '@togglecorp/fujs';
@@ -98,6 +99,47 @@ import data27 from './data/geojson_1001131_27.json';
 import data28 from './data/geojson_1001131_28.json';
 import data29 from './data/geojson_1001131_29.json';
 import styles from './styles.module.css';
+
+const additionalDetails: Record<string, Record<string, string | undefined | null>> = {};
+function getAdditionalDetails() {
+    for (let i = 0; i < 29; i += 1) {
+        import(`./data/rss_1001131_${i + 1}.xml?raw`).then((fileContent) => {
+            const domParser = new DOMParser();
+            const dom = domParser.parseFromString(`<gdacs>${fileContent.default}</gdacs>`, 'text/xml');
+
+            const alertLevel = dom.getElementsByTagName('gdacs:episodealertlevel').item(0)?.innerHTML;
+            const alertScore = dom.getElementsByTagName('gdacs:episodealertscore').item(0)?.innerHTML;
+            const eventId = dom.getElementsByTagName('gdacs:eventid').item(0)?.innerHTML;
+            const episodeId = dom.getElementsByTagName('gdacs:episodeid').item(0)?.innerHTML;
+            const severityLabel = dom.getElementsByTagName('gdacs:severity').item(0)?.innerHTML;
+            const populationEl = dom.getElementsByTagName('gdacs:population').item(0);
+            const affectedPopulation = populationEl?.getAttribute('value');
+            const affectedPopulationUnit = populationEl?.getAttribute('unit');
+            const affectedPopulationLabel = populationEl?.innerHTML;
+            const vulnerabilityEl = dom.getElementsByTagName('gdacs:vulnerability').item(0);
+            const vulnerability = vulnerabilityEl?.getAttribute('value');
+            const vulnerabilityLabel = vulnerabilityEl?.innerHTML;
+
+            if (isFalsyString(episodeId)) {
+                return;
+            }
+
+            additionalDetails[episodeId] = {
+                alertLevel,
+                alertScore,
+                eventId,
+                episodeId,
+                severityLabel,
+                affectedPopulation,
+                affectedPopulationUnit,
+                affectedPopulationLabel,
+                vulnerability,
+                vulnerabilityLabel,
+            };
+        });
+    }
+}
+getAdditionalDetails();
 
 interface CommonFeatureProperties {
     Class: string;
@@ -584,6 +626,30 @@ export function Component() {
                         strongLabel
                         label="Storm category"
                         value={activeSnapshot.metadata.current_stormstatus}
+                    />
+                    <TextOutput
+                        strongLabel
+                        label="Alert level"
+                        value={additionalDetails[activeSnapshot.metadata.episodeid]?.alertLevel}
+                    />
+                    <TextOutput
+                        strongLabel
+                        label="Severity"
+                        value={additionalDetails[activeSnapshot.metadata.episodeid]?.severityLabel}
+                    />
+                    <TextOutput
+                        strongLabel
+                        label="Affected population"
+                        value={additionalDetails[
+                            activeSnapshot.metadata.episodeid
+                        ]?.affectedPopulationLabel}
+                    />
+                    <TextOutput
+                        strongLabel
+                        label="vulnerability"
+                        value={additionalDetails[
+                            activeSnapshot.metadata.episodeid
+                        ]?.vulnerabilityLabel}
                     />
                     <Link
                         external
