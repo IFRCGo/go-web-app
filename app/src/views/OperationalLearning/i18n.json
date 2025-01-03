@@ -21,13 +21,7 @@
         "disclaimerMessage": "This is an updated implementation of the Operational Learning project started by the DREF and PER teams at IFRC. The previous dashboard can be found {link}.",
         "here": "here",
         "beta": "beta",
-        "operationsIncluded": "Operations Included",
-        "sourcesUsed": "Sources Used",
-        "learningExtract": "Learning Extracts",
-        "sectorsCovered": "Sectors Covered",
-        "learningBySector": "Learning by sectors",
-        "learningByRegions": "Learning by regions",
-        "sourceOvertime": "Sources overtime",
-        "sourceOvertimeResponseError" :"Chart not available" 
+        "failedToFetchSummary": "Failed to fetch operational learning summary",
+        "failedToFetchLearning": "Failed to fetch operational learning"
     }
 }

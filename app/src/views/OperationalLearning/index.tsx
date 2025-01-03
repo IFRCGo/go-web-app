@@ -4,8 +4,6 @@ import {
     useState,
 } from 'react';
 import {
-    BarChart,
-    BlockLoading,
     Button,
     Chip,
     Container,
@@ -13,20 +11,15 @@ import {
     DismissableMultiListOutput,
     DismissableTextOutput,
     Header,
-    KeyFigure,
     List,
-    Message,
     Tab,
     TabList,
     TabPanel,
     Tabs,
     TextOutput,
-    TimeSeriesChart,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
-    getDatesSeparatedByYear,
-    getFormattedDateKey,
     hasSomeDefinedValue,
     numericIdSelector,
     numericKeySelector,
@@ -39,7 +32,6 @@ import {
 } from '@ifrc-go/ui/utils';
 import {
     isDefined,
-    isNotDefined,
     isTruthyString,
     sum,
 } from '@togglecorp/fujs';
@@ -72,7 +64,7 @@ import Filters, {
     type PerLearningType,
 } from './Filters';
 import KeyInsights from './KeyInsights';
-import OperationalLearningMap from './OperationalLearningMap';
+import Stats from './Stats';
 import Summary, { type Props as SummaryProps } from './Summary';
 
 import i18n from './i18n.json';
@@ -105,65 +97,6 @@ type QueryType = Pick<
 const regionKeySelector = (region: RegionOption) => region.key;
 const disasterTypeLabelSelector = (type: DisasterType) => type.name ?? '?';
 const perLearningTypeKeySelector = (perLearningType: PerLearningType) => perLearningType.key;
-
-type DATA_KEY = 'dref' | 'emergencyAppeal';
-
-const dataKeys: DATA_KEY[] = [
-    'dref',
-    'emergencyAppeal',
-];
-
-const dataKeyToClassNameMap = {
-    dref: styles.dref,
-    emergencyAppeal: styles.emergencyAppeal,
-};
-const now = new Date();
-
-// FIXME : ADD START DATE PROPERLY
-const startDate = new Date(now.getFullYear() - 20, 0, 1);
-const endDate = new Date(now.getFullYear(), 11, 31);
-const dateList = getDatesSeparatedByYear(startDate, endDate);
-
-const classNameSelector = (dataKey: DATA_KEY) => dataKeyToClassNameMap[dataKey];
-const xAxisFormatter = (date: Date) => date.toLocaleString(
-    navigator.language,
-    { year: 'numeric' },
-);
-
-const sectorsKeySelector = (datum:
-    { count: number; title: string; sector_id: number; }) => datum.sector_id;
-const sectorsValueSelector = (datum: { count: number }) => datum.count;
-const sectorsLabelSelector = (datum: { title: string }) => datum.title;
-
-const regionsKeySelector = (datum: { region_id: number }) => datum.region_id;
-const regionValueSelector = (datum: { count: number }) => datum.count;
-const regionLabelSelector = (datum: { region_name: string }) => datum.region_name;
-
-const transformSourcesOvertimeData = (data: {
-    date: string;
-    type_display: string;
-    count: number;
-}[]) => {
-    const groupedData: Record<string, { dref: number; emergencyAppeal: number }> = {};
-
-    data.forEach((entry: {
-        date: string | number | Date;
-        type_display: string;
-        count: number;
-    }) => {
-        const year = new Date(entry.date).getFullYear().toString();
-        if (!groupedData[year]) {
-            groupedData[year] = { dref: 0, emergencyAppeal: 0 };
-        }
-        if (entry.type_display === 'DREF') {
-            groupedData[year].dref = entry.count;
-        } else if (entry.type_display === 'Emergency Appeal') {
-            groupedData[year].emergencyAppeal += entry.count;
-        }
-    });
-
-    return groupedData;
-};
 
 /** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
@@ -223,6 +156,12 @@ export function Component() {
             return 5000;
         },
         preserveResponse: true,
+        onFailure: () => {
+            alert.show(
+                strings.failedToFetchSummary,
+                { variant: 'danger' },
+            );
+        },
     });
 
     const sectorSummaryRendererParams = (
@@ -283,6 +222,12 @@ export function Component() {
             is_validated: true,
         },
         preserveResponse: true,
+        onFailure: () => {
+            alert.show(
+                strings.failedToFetchLearning,
+                { variant: 'danger' },
+            );
+        },
     });
 
     const {
@@ -364,36 +309,6 @@ export function Component() {
         setFilterPristine(true);
         setQuery(undefined);
     }, [resetFilter]);
-
-    const {
-        error: learningStatsResponseError,
-        response: learningStatsResponse,
-        pending: learningStatsPending,
-    } = useRequest({
-        url: '/api/v2/ops-learning/stats/',
-        query,
-    });
-
-    const [activePointKey, setActivePointKey] = useState<string>(
-        () => getFormattedDateKey(dateList[dateList.length - 1]),
-    );
-
-    const sourceOvertimeData = useMemo(
-        () => {
-            if (isNotDefined(learningStatsResponse)) {
-                return undefined;
-            }
-            return transformSourcesOvertimeData(learningStatsResponse.sources_overtime);
-        },
-        [learningStatsResponse],
-    );
-
-    const chartValueSelector = useCallback(
-        (key: DATA_KEY, date: Date) => (
-            sourceOvertimeData?.[date.getFullYear()]?.[key]
-        ),
-        [sourceOvertimeData],
-    );
 
     return (
         <Page
@@ -573,97 +488,9 @@ export function Component() {
                     </>
                 )}
             />
-            {learningStatsPending && <BlockLoading />}
-            <div className={styles.keyFigureCardList}>
-                <div className={styles.keyFigureCard}>
-                    <KeyFigure
-                        className={styles.keyFigure}
-                        value={learningStatsResponse?.operations_included}
-                        label={strings.operationsIncluded}
-                        labelClassName={styles.keyFigureDescription}
-                    />
-                    <div className={styles.separator} />
-                    <KeyFigure
-                        className={styles.keyFigure}
-                        value={learningStatsResponse?.sources_used}
-                        label={strings.sourcesUsed}
-                        labelClassName={styles.keyFigureDescription}
-                    />
-                    <div className={styles.separator} />
-                    <KeyFigure
-                        className={styles.keyFigure}
-                        value={learningStatsResponse?.learning_extracts}
-                        label={strings.learningExtract}
-                        labelClassName={styles.keyFigureDescription}
-                    />
-                    <div className={styles.separator} />
-                    <KeyFigure
-                        className={styles.keyFigure}
-                        value={learningStatsResponse?.sectors_covered}
-                        label={strings.sectorsCovered}
-                        labelClassName={styles.keyFigureDescription}
-                    />
-                </div>
-            </div>
-            <div
-                className={styles.learningOverview}
-            >
-                <OperationalLearningMap
-                    learning={learningStatsResponse}
-                />
-                <div className={styles.charts}>
-                    <Container
-                        heading={strings.learningBySector}
-                        className={styles.learningChart}
-                        withHeaderBorder
-                        withInternalPadding
-                    >
-                        <BarChart
-                            data={learningStatsResponse?.learning_by_sector}
-                            keySelector={sectorsKeySelector}
-                            valueSelector={sectorsValueSelector}
-                            labelSelector={sectorsLabelSelector}
-                        />
-                    </Container>
-                    <Container
-                        heading={strings.learningByRegions}
-                        className={styles.learningChart}
-                        withHeaderBorder
-                        withInternalPadding
-                    >
-                        <BarChart
-                            data={learningStatsResponse?.learning_by_region}
-                            keySelector={regionsKeySelector}
-                            valueSelector={regionValueSelector}
-                            labelSelector={regionLabelSelector}
-                        />
-                    </Container>
-                    <Container
-                        heading={strings.sourceOvertime}
-                        className={styles.learningChart}
-                        withHeaderBorder
-                        withInternalPadding
-                    >
-                        {isDefined(learningStatsResponseError) && (
-                            <Message
-                                title={strings.sourceOvertimeResponseError}
-                            />
-                        )}
-                        {!learningStatsResponseError && (
-                            <TimeSeriesChart
-                                className={styles.timeSeriesChart}
-                                timePoints={dateList}
-                                dataKeys={dataKeys}
-                                valueSelector={chartValueSelector}
-                                classNameSelector={classNameSelector}
-                                activePointKey={activePointKey}
-                                onTimePointClick={setActivePointKey}
-                                xAxisFormatter={xAxisFormatter}
-                            />
-                        )}
-                    </Container>
-                </div>
-            </div>
+            <Stats
+                query={query}
+            />
             {showKeyInsights && (
                 <KeyInsights
                     opsLearningSummaryResponse={opsLearningSummaryResponse}
