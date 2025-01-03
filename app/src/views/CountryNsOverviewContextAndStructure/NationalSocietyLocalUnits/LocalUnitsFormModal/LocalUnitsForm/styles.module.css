@@ -4,21 +4,26 @@
         height: 32rem;
     }
 
-    /* FIXME: styling gets overridden by readonly */
-    /* TODO: implement this variant in go-ui */
-    .changes {
-         background-color: var(--go-ui-color-semantic-yellow) !important;
+}
+
+.latitude-diff-wrapper {
+    .latitude-changes {
+        /* NOTE: normal override not possible without force */
+        background-color: var(--go-ui-color-semantic-yellow) !important;
     }
 }
 
-/* NOTE: this element is portaled */
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--go-ui-spacing-lg);
+.longitude-diff-wrapper {
+    .longitude-changes {
+        /* NOTE: normal override not possible without force */
+        background-color: var(--go-ui-color-semantic-yellow) !important;
+    }
+}
 
-    @media screen and (max-width: 60rem) {
-        grid-template-columns: 1fr;
+.diff-container {
+    .changes {
+        /* NOTE: normal override not possible without force */
+        background-color: var(--go-ui-color-semantic-yellow) !important;
     }
 }
 

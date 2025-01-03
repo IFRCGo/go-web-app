@@ -56,10 +56,9 @@ interface Props<NAME> extends BaseMapProps {
     readOnly?: boolean;
     required?: boolean;
     error?: ObjectError<Value>;
-    baseMapFormFieldsChanges: {
-        lat: boolean | undefined;
-        lng: boolean | undefined;
-    } | undefined;
+    showChanges: boolean;
+    latitudeInputSectionClassName?: string;
+    longitudeInputSectionClassName?: string;
 }
 
 function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
@@ -78,7 +77,8 @@ function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
         country,
         required,
         error,
-        baseMapFormFieldsChanges,
+        latitudeInputSectionClassName,
+        longitudeInputSectionClassName,
         ...otherProps
     } = props;
 
@@ -188,10 +188,7 @@ function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
         <div className={_cs(styles.baseMapPointInput, className)}>
             <div className={styles.locationInputs}>
                 <NumberInput
-                    inputSectionClassName={_cs(
-                        baseMapFormFieldsChanges?.lat
-                            && styles.changes,
-                    )}
+                    inputSectionClassName={latitudeInputSectionClassName}
                     className={styles.input}
                     name="lat"
                     label={strings.latitude}
@@ -202,10 +199,7 @@ function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
                     required={required}
                 />
                 <NumberInput
-                    inputSectionClassName={_cs(
-                        baseMapFormFieldsChanges?.lng
-                            && styles.changes,
-                    )}
+                    inputSectionClassName={longitudeInputSectionClassName}
                     className={styles.input}
                     name="lng"
                     label={strings.longitude}

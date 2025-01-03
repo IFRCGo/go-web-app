@@ -26,6 +26,7 @@ import {
 import LocalUnitDeleteModal from '../../LocalUnitDeleteModal';
 import LocalUnitsFormModal from '../../LocalUnitsFormModal';
 import LocalUnitValidateButton from '../../LocalUnitValidateButton';
+import LocalUnitValidateModal from '../../LocalUnitValidateModal';
 
 import i18n from './i18n.json';
 
@@ -117,6 +118,14 @@ function LocalUnitsTableActions(props: Props) {
         },
     ] = useBooleanState(false);
 
+    const [
+        showValidateLocalUnitModal,
+        {
+            setTrue: setShowValidateLocalUnitModalTrue,
+            setFalse: setShowValidateLocalUnitModalFalse,
+        },
+    ] = useBooleanState(false);
+
     const handleLocalUnitsFormModalClose = useCallback(
         (shouldUpdate?: boolean) => {
             setShowLocalUnitModalFalse();
@@ -137,6 +146,16 @@ function LocalUnitsTableActions(props: Props) {
             setShowLocalUnitModalTrue();
         },
         [setShowLocalUnitModalTrue, latestChanges, localUnitId, isValidated],
+    );
+
+    const handleValidateLocalUnitClick = useCallback(
+        () => {
+            if (!isValidated) {
+                latestChanges(localUnitId as never);
+            }
+            setShowValidateLocalUnitModalTrue();
+        },
+        [setShowValidateLocalUnitModalTrue, latestChanges, localUnitId, isValidated],
     );
 
     const handleEditLocalUnitClick = useCallback(
@@ -183,25 +202,35 @@ function LocalUnitsTableActions(props: Props) {
                     </>
                 )}
             >
-                {hasValidatePermission && environment !== 'production' ? (
-                    <LocalUnitValidateButton
-                        countryId={countryId}
-                        localUnitName={localUnitName}
-                        isValidated={isValidated}
-                        onActionSuccess={onValidationActionSuccess}
-                        localUnitId={localUnitId}
-                    />
-                ) : (
-                    <Button
-                        name={localUnitId}
-                        variant="tertiary"
-                        onClick={handleViewLocalUnitClick}
-                        disabled={isGuestUser}
-                    >
-                        {strings.localUnitsView}
-                    </Button>
-                )}
+                {hasValidatePermission
+                    && environment !== 'production' ? (
+                        <LocalUnitValidateButton
+                            onClick={handleValidateLocalUnitClick}
+                            isValidated={isValidated}
+                            hasValidatePermission={hasValidatePermission}
+                        />
+                    ) : (
+                        <Button
+                            name={localUnitId}
+                            variant="tertiary"
+                            onClick={handleViewLocalUnitClick}
+                            disabled={isGuestUser}
+                        >
+                            {strings.localUnitsView}
+                        </Button>
+                    )}
             </TableActions>
+            {showValidateLocalUnitModal && (
+                <LocalUnitValidateModal
+                    localUnitId={localUnitId}
+                    onClose={setShowValidateLocalUnitModalFalse}
+                    localUnitName={localUnitName}
+                    oldValue={
+                        previousData?.previous_data_details as unknown as LocalUnitResponse
+                    }
+                    onActionSuccess={onValidationActionSuccess}
+                />
+            )}
             {showLocalUnitModal && (
                 <LocalUnitsFormModal
                     onClose={handleLocalUnitsFormModalClose}

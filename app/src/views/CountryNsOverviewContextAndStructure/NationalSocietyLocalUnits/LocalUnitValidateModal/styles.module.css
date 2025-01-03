@@ -1,0 +1,14 @@
+.local-unit-validate-button {
+    .icon {
+        font-size: var(--go-ui-height-icon-multiplier);
+    }
+}
+
+.local-unit-validated-button {
+    border: none;
+    background-color: var(--go-ui-color-gray-40);
+
+    .icon {
+        font-size: var(--go-ui-height-icon-multiplier);
+    }
+}
