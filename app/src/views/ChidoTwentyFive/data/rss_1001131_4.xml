@@ -1,8 +1,0 @@
-﻿<gdacs:episodealertlevel>Orange</gdacs:episodealertlevel>
-<gdacs:episodealertscore>2</gdacs:episodealertscore>
-<gdacs:eventid>1001131</gdacs:eventid>
-<gdacs:episodeid>4</gdacs:episodeid>
-<gdacs:calculationtype>tropicalcyclonewithstormsurge</gdacs:calculationtype>
-<gdacs:severity unit="km/h" value="147.776832">Severe Tropical Storm (maximum wind speed of 148 km/h)</gdacs:severity>
-<gdacs:population unit="Pop74" value="371791">Population affected by Category 1 (120 km/h) wind speeds or higher is 0.372 million </gdacs:population>
-<gdacs:vulnerability value="3">High</gdacs:vulnerability>

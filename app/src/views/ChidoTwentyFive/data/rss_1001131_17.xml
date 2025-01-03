@@ -1,8 +1,0 @@
-﻿<gdacs:episodealertlevel>Red</gdacs:episodealertlevel>
-<gdacs:episodealertscore>3</gdacs:episodealertscore>
-<gdacs:eventid>1001131</gdacs:eventid>
-<gdacs:episodeid>17</gdacs:episodeid>
-<gdacs:calculationtype>tropicalcyclonewithstormsurge</gdacs:calculationtype>
-<gdacs:severity unit="km/h" value="189.998784">Intense Tropical Cyclone (maximum wind speed of 190 km/h)</gdacs:severity>
-<gdacs:population unit="Pop74" value="1050800">Population affected by Category 1 (120 km/h) wind speeds or higher is 1.051 million </gdacs:population>
-<gdacs:vulnerability value="3">High</gdacs:vulnerability>

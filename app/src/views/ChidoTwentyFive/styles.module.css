@@ -127,8 +127,7 @@
 
             .wind-speed-list {
                 position: absolute;
-                top: var(--go-ui-spacing-xs);
-                bottom: 1rem;
+                top: 0;
                 width: 100%;
                 height: 3rem;
                 pointer-events: none;

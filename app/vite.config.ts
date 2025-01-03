@@ -54,7 +54,6 @@ export default defineConfig(({ mode }) => {
                 },
             })
         ],
-        assetsInclude:['**/*.xml'],
         css: {
             devSourcemap: isProd,
             modules: {

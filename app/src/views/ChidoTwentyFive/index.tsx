@@ -22,7 +22,6 @@ import {
 import {
     _cs,
     isDefined,
-    isFalsyString,
     isNotDefined,
     mapToList,
 } from '@togglecorp/fujs';
@@ -100,46 +99,344 @@ import data28 from './data/geojson_1001131_28.json';
 import data29 from './data/geojson_1001131_29.json';
 import styles from './styles.module.css';
 
-const additionalDetails: Record<string, Record<string, string | undefined | null>> = {};
-function getAdditionalDetails() {
-    for (let i = 0; i < 29; i += 1) {
-        import(`./data/rss_1001131_${i + 1}.xml?raw`).then((fileContent) => {
-            const domParser = new DOMParser();
-            const dom = domParser.parseFromString(`<gdacs>${fileContent.default}</gdacs>`, 'text/xml');
-
-            const alertLevel = dom.getElementsByTagName('gdacs:episodealertlevel').item(0)?.innerHTML;
-            const alertScore = dom.getElementsByTagName('gdacs:episodealertscore').item(0)?.innerHTML;
-            const eventId = dom.getElementsByTagName('gdacs:eventid').item(0)?.innerHTML;
-            const episodeId = dom.getElementsByTagName('gdacs:episodeid').item(0)?.innerHTML;
-            const severityLabel = dom.getElementsByTagName('gdacs:severity').item(0)?.innerHTML;
-            const populationEl = dom.getElementsByTagName('gdacs:population').item(0);
-            const affectedPopulation = populationEl?.getAttribute('value');
-            const affectedPopulationUnit = populationEl?.getAttribute('unit');
-            const affectedPopulationLabel = populationEl?.innerHTML;
-            const vulnerabilityEl = dom.getElementsByTagName('gdacs:vulnerability').item(0);
-            const vulnerability = vulnerabilityEl?.getAttribute('value');
-            const vulnerabilityLabel = vulnerabilityEl?.innerHTML;
-
-            if (isFalsyString(episodeId)) {
-                return;
-            }
-
-            additionalDetails[episodeId] = {
-                alertLevel,
-                alertScore,
-                eventId,
-                episodeId,
-                severityLabel,
-                affectedPopulation,
-                affectedPopulationUnit,
-                affectedPopulationLabel,
-                vulnerability,
-                vulnerabilityLabel,
-            };
-        });
-    }
-}
-getAdditionalDetails();
+const additionalDetails: Record<string, Record<string, string | undefined | null>> = {
+    1: {
+        alertLevel: 'Green',
+        alertScore: '1',
+        eventId: '1001131',
+        episodeId: '1',
+        severityLabel: 'Tropical Depression (maximum wind speed of 63 km/h)',
+        affectedPopulation: '0',
+        affectedPopulationUnit: 'Pop74',
+        affectedPopulationLabel: 'Population affected by Category 1 (120 km/h) wind speeds or higher is 0 (0 in Tropical Storm)',
+        vulnerability: '0',
+        vulnerabilityLabel: '',
+    },
+    2: {
+        alertLevel: 'Green',
+        alertScore: '1',
+        eventId: '1001131',
+        episodeId: '2',
+        severityLabel: 'Tropical Depression (maximum wind speed of 63 km/h)',
+        affectedPopulation: '0',
+        affectedPopulationUnit: 'Pop74',
+        affectedPopulationLabel: 'Population affected by Category 1 (120 km/h) wind speeds or higher is 0 (0 in Tropical Storm)',
+        vulnerability: '0',
+        vulnerabilityLabel: '',
+    },
+    3: {
+        alertLevel: 'Orange',
+        alertScore: '2',
+        eventId: '1001131',
+        episodeId: '3',
+        severityLabel: 'Moderate Tropical Storm (maximum wind speed of 137 km/h)',
+        affectedPopulation: '111452',
+        affectedPopulationUnit: 'Pop74',
+        affectedPopulationLabel: 'Population affected by Category 1 (120 km/h) wind speeds or higher is 0.111 million ',
+        vulnerability: '3',
+        vulnerabilityLabel: 'High',
+    },
+    4: {
+        alertLevel: 'Orange',
+        alertScore: '2',
+        eventId: '1001131',
+        episodeId: '4',
+        severityLabel: 'Severe Tropical Storm (maximum wind speed of 148 km/h)',
+        affectedPopulation: '371791',
+        affectedPopulationUnit: 'Pop74',
+        affectedPopulationLabel: 'Population affected by Category 1 (120 km/h) wind speeds or higher is 0.372 million ',
+        vulnerability: '3',
+        vulnerabilityLabel: 'High',
+    },
+    5: {
+        alertLevel: 'Orange',
+        alertScore: '2',
+        eventId: '1001131',
+        episodeId: '5',
+        severityLabel: 'Severe Tropical Storm (maximum wind speed of 158 km/h)',
+        affectedPopulation: '362821',
+        affectedPopulationUnit: 'Pop74',
+        affectedPopulationLabel: 'Population affected by Category 1 (120 km/h) wind speeds or higher is 0.363 million ',
+        vulnerability: '3',
+        vulnerabilityLabel: 'High',
+    },
+    6: {
+        alertLevel: 'Orange',
+        alertScore: '2',
+        eventId: '1001131',
+        episodeId: '6',
+        severityLabel: 'Severe Tropical Storm (maximum wind speed of 158 km/h)',
+        affectedPopulation: '392085',
+        affectedPopulationUnit: 'Pop74',
+        affectedPopulationLabel: 'Population affected by Category 1 (120 km/h) wind speeds or higher is 0.392 million ',
+        vulnerability: '3',
+        vulnerabilityLabel: 'High',
+    },
+    7: {
+        alertLevel: 'Orange',
+        alertScore: '2',
+        eventId: '1001131',
+        episodeId: '7',
+        severityLabel: 'Severe Tropical Storm (maximum wind speed of 169 km/h)',
+        affectedPopulation: '230814',
+        affectedPopulationUnit: 'Pop74',
+        affectedPopulationLabel: 'Population affected by Category 1 (120 km/h) wind speeds or higher is 0.231 million ',
+        vulnerability: '3',
+        vulnerabilityLabel: 'High',
+    },
+    8: {
+        alertLevel: 'Orange',
+        alertScore: '2',
+        eventId: '1001131',
+        episodeId: '8',
+        severityLabel: 'Tropical Cyclone (maximum wind speed of 137 km/h)',
+        affectedPopulation: '1013445',
+        affectedPopulationUnit: 'Pop74',
+        affectedPopulationLabel: 'Population affected by Category 1 (120 km/h) wind speeds or higher is 1.013 million ',
+        vulnerability: '3',
+        vulnerabilityLabel: 'High',
+    },
+    9: {
+        alertLevel: 'Orange',
+        alertScore: '2',
+        eventId: '1001131',
+        episodeId: '9',
+        severityLabel: 'Tropical Cyclone (maximum wind speed of 169 km/h)',
+        affectedPopulation: '634247',
+        affectedPopulationUnit: 'Pop74',
+        affectedPopulationLabel: 'Population affected by Category 1 (120 km/h) wind speeds or higher is 0.634 million ',
+        vulnerability: '3',
+        vulnerabilityLabel: 'High',
+    },
+    10: {
+        alertLevel: 'Orange',
+        alertScore: '2',
+        eventId: '1001131',
+        episodeId: '10',
+        severityLabel: 'Intense Tropical Cyclone (maximum wind speed of 169 km/h)',
+        affectedPopulation: '772876',
+        affectedPopulationUnit: 'Pop74',
+        affectedPopulationLabel: 'Population affected by Category 1 (120 km/h) wind speeds or higher is 0.773 million ',
+        vulnerability: '3',
+        vulnerabilityLabel: 'High',
+    },
+    11: {
+        alertLevel: 'Orange',
+        alertScore: '2',
+        eventId: '1001131',
+        episodeId: '11',
+        severityLabel: 'Intense Tropical Cyclone (maximum wind speed of 169 km/h)',
+        affectedPopulation: '927580',
+        affectedPopulationUnit: 'Pop74',
+        affectedPopulationLabel: 'Population affected by Category 1 (120 km/h) wind speeds or higher is 0.928 million ',
+        vulnerability: '3',
+        vulnerabilityLabel: 'High',
+    },
+    12: {
+        alertLevel: 'Red',
+        alertScore: '3',
+        eventId: '1001131',
+        episodeId: '12',
+        severityLabel: 'Intense Tropical Cyclone (maximum wind speed of 190 km/h)',
+        affectedPopulation: '1268379',
+        affectedPopulationUnit: 'Pop74',
+        affectedPopulationLabel: 'Population affected by Category 1 (120 km/h) wind speeds or higher is 1.268 million ',
+        vulnerability: '3',
+        vulnerabilityLabel: 'High',
+    },
+    13: {
+        alertLevel: 'Red',
+        alertScore: '3',
+        eventId: '1001131',
+        episodeId: '13',
+        severityLabel: 'Intense Tropical Cyclone (maximum wind speed of 201 km/h)',
+        affectedPopulation: '1346168',
+        affectedPopulationUnit: 'Pop74',
+        affectedPopulationLabel: 'Population affected by Category 1 (120 km/h) wind speeds or higher is 1.346 million ',
+        vulnerability: '3',
+        vulnerabilityLabel: 'High',
+    },
+    14: {
+        alertLevel: 'Red',
+        alertScore: '3',
+        eventId: '1001131',
+        episodeId: '14',
+        severityLabel: 'Intense Tropical Cyclone (maximum wind speed of 190 km/h)',
+        affectedPopulation: '1732716',
+        affectedPopulationUnit: 'Pop74',
+        affectedPopulationLabel: 'Population affected by Category 1 (120 km/h) wind speeds or higher is 1.733 million ',
+        vulnerability: '3',
+        vulnerabilityLabel: 'High',
+    },
+    15: {
+        alertLevel: 'Red',
+        alertScore: '3',
+        eventId: '1001131',
+        episodeId: '15',
+        severityLabel: 'Intense Tropical Cyclone (maximum wind speed of 201 km/h)',
+        affectedPopulation: '842995',
+        affectedPopulationUnit: 'Pop74',
+        affectedPopulationLabel: 'Population affected by Category 1 (120 km/h) wind speeds or higher is 0.843 million ',
+        vulnerability: '3',
+        vulnerabilityLabel: 'High',
+    },
+    16: {
+        alertLevel: 'Red',
+        alertScore: '3',
+        eventId: '1001131',
+        episodeId: '16',
+        severityLabel: 'Intense Tropical Cyclone (maximum wind speed of 201 km/h)',
+        affectedPopulation: '1422146',
+        affectedPopulationUnit: 'Pop74',
+        affectedPopulationLabel: 'Population affected by Category 1 (120 km/h) wind speeds or higher is 1.422 million ',
+        vulnerability: '3',
+        vulnerabilityLabel: 'High',
+    },
+    17: {
+        alertLevel: 'Red',
+        alertScore: '3',
+        eventId: '1001131',
+        episodeId: '17',
+        severityLabel: 'Intense Tropical Cyclone (maximum wind speed of 190 km/h)',
+        affectedPopulation: '1050800',
+        affectedPopulationUnit: 'Pop74',
+        affectedPopulationLabel: 'Population affected by Category 1 (120 km/h) wind speeds or higher is 1.051 million ',
+        vulnerability: '3',
+        vulnerabilityLabel: 'High',
+    },
+    18: {
+        alertLevel: 'Red',
+        alertScore: '3',
+        eventId: '1001131',
+        episodeId: '18',
+        severityLabel: 'Intense Tropical Cyclone (maximum wind speed of 222 km/h)',
+        affectedPopulation: '1428200',
+        affectedPopulationUnit: 'Pop74',
+        affectedPopulationLabel: 'Population affected by Category 1 (120 km/h) wind speeds or higher is 1.428 million ',
+        vulnerability: '3',
+        vulnerabilityLabel: 'High',
+    },
+    19: {
+        alertLevel: 'Red',
+        alertScore: '3',
+        eventId: '1001131',
+        episodeId: '19',
+        severityLabel: 'Intense Tropical Cyclone (maximum wind speed of 211 km/h)',
+        affectedPopulation: '1104789',
+        affectedPopulationUnit: 'Pop74',
+        affectedPopulationLabel: 'Population affected by Category 1 (120 km/h) wind speeds or higher is 1.105 million ',
+        vulnerability: '3',
+        vulnerabilityLabel: 'High',
+    },
+    20: {
+        alertLevel: 'Red',
+        alertScore: '3',
+        eventId: '1001131',
+        episodeId: '20',
+        severityLabel: 'Intense Tropical Cyclone (maximum wind speed of 211 km/h)',
+        affectedPopulation: '1685251',
+        affectedPopulationUnit: 'Pop74',
+        affectedPopulationLabel: 'Population affected by Category 1 (120 km/h) wind speeds or higher is 1.685 million ',
+        vulnerability: '3',
+        vulnerabilityLabel: 'High',
+    },
+    21: {
+        alertLevel: 'Red',
+        alertScore: '3',
+        eventId: '1001131',
+        episodeId: '21',
+        severityLabel: 'Intense Tropical Cyclone (maximum wind speed of 253 km/h)',
+        affectedPopulation: '1121371',
+        affectedPopulationUnit: 'Pop74',
+        affectedPopulationLabel: 'Population affected by Category 1 (120 km/h) wind speeds or higher is 1.121 million ',
+        vulnerability: '3',
+        vulnerabilityLabel: 'High',
+    },
+    22: {
+        alertLevel: 'Red',
+        alertScore: '3',
+        eventId: '1001131',
+        episodeId: '22',
+        severityLabel: 'Intense Tropical Cyclone (maximum wind speed of 232 km/h)',
+        affectedPopulation: '1036709',
+        affectedPopulationUnit: 'Pop74',
+        affectedPopulationLabel: 'Population affected by Category 1 (120 km/h) wind speeds or higher is 1.037 million ',
+        vulnerability: '3',
+        vulnerabilityLabel: 'High',
+    },
+    23: {
+        alertLevel: 'Red',
+        alertScore: '3',
+        eventId: '1001131',
+        episodeId: '23',
+        severityLabel: 'Intense Tropical Cyclone (maximum wind speed of 232 km/h)',
+        affectedPopulation: '670477',
+        affectedPopulationUnit: 'Pop74',
+        affectedPopulationLabel: 'Population affected by Category 1 (120 km/h) wind speeds or higher is 0.67 million ',
+        vulnerability: '3',
+        vulnerabilityLabel: 'High',
+    },
+    24: {
+        alertLevel: 'Red',
+        alertScore: '3',
+        eventId: '1001131',
+        episodeId: '24',
+        severityLabel: 'Intense Tropical Cyclone (maximum wind speed of 211 km/h)',
+        affectedPopulation: '933462',
+        affectedPopulationUnit: 'Pop74',
+        affectedPopulationLabel: 'Population affected by Category 1 (120 km/h) wind speeds or higher is 0.933 million ',
+        vulnerability: '3',
+        vulnerabilityLabel: 'High',
+    },
+    25: {
+        alertLevel: 'Green',
+        alertScore: '1',
+        eventId: '1001131',
+        episodeId: '25',
+        severityLabel: 'Severe Tropical Storm (maximum wind speed of 106 km/h)',
+        affectedPopulation: '853331',
+        affectedPopulationUnit: 'Pop74',
+        affectedPopulationLabel: 'Population affected by Category 1 (120 km/h) wind speeds or higher is 0.853 million ',
+        vulnerability: '3',
+        vulnerabilityLabel: 'High',
+    },
+    26: {
+        alertLevel: 'Green',
+        alertScore: '1',
+        eventId: '1001131',
+        episodeId: '26',
+        severityLabel: 'Moderate Tropical Storm (maximum wind speed of 84 km/h)',
+        affectedPopulation: '951707',
+        affectedPopulationUnit: 'Pop74',
+        affectedPopulationLabel: 'Population affected by Category 1 (120 km/h) wind speeds or higher is 0.952 million ',
+        vulnerability: '3',
+        vulnerabilityLabel: 'High',
+    },
+    27: {
+        alertLevel: 'Green',
+        alertScore: '1',
+        eventId: '1001131',
+        episodeId: '27',
+        severityLabel: 'Moderate Tropical Storm (maximum wind speed of 74 km/h)',
+        affectedPopulation: '952831',
+        affectedPopulationUnit: 'Pop74',
+        affectedPopulationLabel: 'Population affected by Category 1 (120 km/h) wind speeds or higher is 0.953 million ',
+        vulnerability: '3',
+        vulnerabilityLabel: 'High',
+    },
+    28: {
+        alertLevel: 'Green',
+        alertScore: '1',
+        eventId: '1001131',
+        episodeId: '28',
+        severityLabel: 'Moderate Tropical Storm (maximum wind speed of 74 km/h)',
+        affectedPopulation: '954356',
+        affectedPopulationUnit: 'Pop74',
+        affectedPopulationLabel: 'Population affected by Category 1 (120 km/h) wind speeds or higher is 0.954 million ',
+        vulnerability: '3',
+        vulnerabilityLabel: 'High',
+    },
+} as const;
 
 interface CommonFeatureProperties {
     Class: string;
@@ -153,6 +450,7 @@ const mapImageOption = {
 
 interface HazardPointFeatureProperties extends CommonFeatureProperties {
     alertlevel: FeatureAlertLevel,
+    alertlevelepisode: FeatureAlertLevel,
 }
 
 const severityMapping: Record<string, RiskLayerSeverity> = {
@@ -179,7 +477,8 @@ function getLayerProperties(
 
     if (splits[0] === 'Point') {
         if (splits[1] === 'Centroid') {
-            const severityStr = (feature.properties as HazardPointFeatureProperties).alertlevel;
+            const properties = (feature.properties as HazardPointFeatureProperties);
+            const severityStr = properties.alertlevelepisode ?? properties.alertlevel;
 
             return {
                 type: 'hazard-point',
@@ -606,6 +905,11 @@ export function Component() {
                 >
                     <TextOutput
                         strongLabel
+                        label="Episode ID"
+                        value={activeSnapshot.metadata.episodeid}
+                    />
+                    <TextOutput
+                        strongLabel
                         label="Snapshot date"
                         value={activeSnapshot.metadata.todate}
                         valueType="date"
@@ -646,7 +950,7 @@ export function Component() {
                     />
                     <TextOutput
                         strongLabel
-                        label="vulnerability"
+                        label="Vulnerability"
                         value={additionalDetails[
                             activeSnapshot.metadata.episodeid
                         ]?.vulnerabilityLabel}

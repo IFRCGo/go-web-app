@@ -1,8 +1,0 @@
-﻿<gdacs:episodealertlevel>Green</gdacs:episodealertlevel>
-<gdacs:episodealertscore>1</gdacs:episodealertscore>
-<gdacs:eventid>1001131</gdacs:eventid>
-<gdacs:episodeid>25</gdacs:episodeid>
-<gdacs:calculationtype>tropicalcyclonewithstormsurge</gdacs:calculationtype>
-<gdacs:severity unit="km/h" value="105.55488">Severe Tropical Storm (maximum wind speed of 106 km/h)</gdacs:severity>
-<gdacs:population unit="Pop74" value="853331">Population affected by Category 1 (120 km/h) wind speeds or higher is 0.853 million </gdacs:population>
-<gdacs:vulnerability value="3">High</gdacs:vulnerability>
