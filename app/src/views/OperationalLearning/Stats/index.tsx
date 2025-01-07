@@ -8,6 +8,7 @@ import {
     BlockLoading,
     Container,
     KeyFigure,
+    LegendItem,
     TimeSeriesChart,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -17,6 +18,7 @@ import {
     isNotDefined,
 } from '@togglecorp/fujs';
 
+import { type components } from '#generated/types';
 import useAlert from '#hooks/useAlert';
 import {
     type GoApiResponse,
@@ -24,7 +26,7 @@ import {
     useRequest,
 } from '#utils/restRequest';
 
-import OperationalLearningMap from '../OperationalLearningMap';
+import OperationalLearningMap from './OperationalLearningMap';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -44,25 +46,30 @@ const regionValueSelector = (datum: RegionStatItem) => datum.count;
 const regionLabelSelector = (datum: RegionStatItem) => datum.region_name;
 
 type SourceType = 'dref' | 'emergencyAppeal' | 'others';
-const dataKeyToClassNameMap: Record<SourceType, string> = {
-    dref: styles.dref,
-    emergencyAppeal: styles.emergencyAppeal,
-    others: styles.others,
-};
 const dataKeys: SourceType[] = [
     'dref',
     'emergencyAppeal',
     'others',
 ];
+const dataKeyToClassNameMap: Record<SourceType, string> = {
+    dref: styles.dref,
+    emergencyAppeal: styles.emergencyAppeal,
+    others: styles.others,
+};
 const sourceClassNameSelector = (dataKey: SourceType) => dataKeyToClassNameMap[dataKey];
 const xAxisFormatter = (date: Date) => date.toLocaleString(
     navigator.language,
     { year: 'numeric' },
 );
 
-interface Props {
-    query: OpsLearningQuery | undefined
+interface SourceTypeOption {
+    key: SourceType;
+    label: string;
+    color: string;
 }
+type SourceTypeEnum = components<'read'>['schemas']['ApiAppealTypeEnumKey'];
+const SOURCE_TYPE_EMERGENCY = 1 satisfies SourceTypeEnum;
+const SOURCE_TYPE_DREF = 0 satisfies SourceTypeEnum;
 
 const transformSourcesOverTimeData = (data: SourcesOverTimeItem[]) => {
     const groupedData: Record<string, Record<SourceType, number>> = {};
@@ -72,9 +79,9 @@ const transformSourcesOverTimeData = (data: SourcesOverTimeItem[]) => {
         if (!groupedData[year]) {
             groupedData[year] = { dref: 0, emergencyAppeal: 0, others: 0 };
         }
-        if (entry.type_display === 'DREF') {
+        if (entry.type === SOURCE_TYPE_DREF) {
             groupedData[year].dref += entry.count;
-        } else if (entry.type_display === 'Emergency Appeal') {
+        } else if (entry.type === SOURCE_TYPE_EMERGENCY) {
             groupedData[year].emergencyAppeal += entry.count;
         } else {
             groupedData[year].others += entry.count;
@@ -83,6 +90,10 @@ const transformSourcesOverTimeData = (data: SourcesOverTimeItem[]) => {
 
     return groupedData;
 };
+
+interface Props {
+    query: OpsLearningQuery | undefined
+}
 
 function Stats(props: Props) {
     const {
@@ -137,33 +148,48 @@ function Stats(props: Props) {
         [sourcesOverTimeData],
     );
 
+    const sourceTypeOptions: SourceTypeOption[] = useMemo(() => ([
+        {
+            key: 'dref',
+            label: strings.sourceDREF,
+            color: 'var(--color-source-dref)',
+        },
+        {
+            key: 'emergencyAppeal',
+            label: strings.sourceEmergencyAppeal,
+            color: 'var(--color-source-emergency-appeal)',
+        },
+        {
+            key: 'others',
+            label: strings.sourceOthers,
+            color: 'var(--color-source-others)',
+        },
+    ]), [
+        strings.sourceDREF,
+        strings.sourceEmergencyAppeal,
+        strings.sourceOthers,
+    ]);
+
     return (
         <div className={styles.stats}>
             {learningStatsPending && <BlockLoading />}
             <div className={styles.keyFigureCard}>
                 <KeyFigure
-                    className={styles.keyFigure}
                     value={learningStatsResponse?.operations_included}
                     label={strings.operationsIncluded}
                     labelClassName={styles.keyFigureDescription}
                 />
-                <div className={styles.separator} />
                 <KeyFigure
-                    className={styles.keyFigure}
                     value={learningStatsResponse?.sources_used}
                     label={strings.sourcesUsed}
                     labelClassName={styles.keyFigureDescription}
                 />
-                <div className={styles.separator} />
                 <KeyFigure
-                    className={styles.keyFigure}
                     value={learningStatsResponse?.learning_extracts}
                     label={strings.learningExtract}
                     labelClassName={styles.keyFigureDescription}
                 />
-                <div className={styles.separator} />
                 <KeyFigure
-                    className={styles.keyFigure}
                     value={learningStatsResponse?.sectors_covered}
                     label={strings.sectorsCovered}
                     labelClassName={styles.keyFigureDescription}
@@ -171,20 +197,22 @@ function Stats(props: Props) {
             </div>
             <div className={styles.learningOverview}>
                 <OperationalLearningMap
-                    learning={learningStatsResponse}
+                    learningByCountry={learningStatsResponse?.learning_by_country}
                 />
                 <div className={styles.charts}>
                     <Container
                         heading={strings.learningBySector}
-                        className={styles.learningChart}
+                        className={styles.chart}
                         withHeaderBorder
                         withInternalPadding
                         compactMessage
+                        pending={learningStatsPending}
                         empty={isDefined(learningStatsResponse?.learning_by_sector) && (
-                            learningStatsResponse?.learning_by_sector.length < 1
+                            (learningStatsResponse?.learning_by_sector.length ?? 0) < 1
                         )}
                     >
                         <BarChart
+                            barClassName={styles.bar}
                             data={learningStatsResponse?.learning_by_sector}
                             keySelector={sectorKeySelector}
                             valueSelector={sectorValueSelector}
@@ -193,15 +221,17 @@ function Stats(props: Props) {
                     </Container>
                     <Container
                         heading={strings.learningByRegions}
-                        className={styles.learningChart}
+                        className={styles.chart}
                         withHeaderBorder
                         withInternalPadding
                         compactMessage
+                        pending={learningStatsPending}
                         empty={isDefined(learningStatsResponse?.learning_by_region) && (
-                            learningStatsResponse?.learning_by_region?.length < 1
+                            (learningStatsResponse?.learning_by_region.length ?? 0) < 1
                         )}
                     >
                         <BarChart
+                            barClassName={styles.bar}
                             data={learningStatsResponse?.learning_by_region}
                             keySelector={regionKeySelector}
                             valueSelector={regionValueSelector}
@@ -210,17 +240,35 @@ function Stats(props: Props) {
                     </Container>
                     <Container
                         heading={strings.sourcesOverTime}
-                        className={styles.learningChart}
+                        className={styles.chart}
                         withHeaderBorder
                         withInternalPadding
                         compactMessage
+                        pending={learningStatsPending}
                         empty={isDefined(learningStatsResponse?.sources_overtime) && (
-                            learningStatsResponse?.sources_overtime?.length < 1
+                            (learningStatsResponse?.sources_overtime.length ?? 0) < 1
+                        )}
+                        footerIcons={(
+                            <div className={styles.typeOfSourceLegend}>
+                                <div className={styles.legendLabel}>
+                                    {strings.sourcesTypeLegendLabel}
+                                </div>
+                                <div className={styles.legendContent}>
+                                    {sourceTypeOptions.map((source) => (
+                                        <LegendItem
+                                            key={source.key}
+                                            label={source.label}
+                                            color={source.color}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
                         )}
                     >
                         {isDefined(dateList) && (
                             <TimeSeriesChart
                                 className={styles.timeSeriesChart}
+                                xAxisTickClassName={styles.xAxisTick}
                                 timePoints={dateList}
                                 dataKeys={dataKeys}
                                 valueSelector={sourcesOverTimeValueSelector}

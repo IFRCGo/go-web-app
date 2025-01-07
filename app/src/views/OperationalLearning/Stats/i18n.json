@@ -8,6 +8,10 @@
         "learningBySector": "Learning by sectors",
         "learningByRegions": "Learning by regions",
         "sourcesOverTime": "Sources over time",
-        "failedToFetchStats": "Failed To fetch Operational Learning statistics."
+        "failedToFetchStats": "Failed To fetch operational learning statistics.",
+        "sourcesTypeLegendLabel": "Type of source",
+        "sourceDREF": "DREF",
+        "sourceEmergencyAppeal": "Emergency Appeal",
+        "sourceOthers": "Others"
     }
 }
