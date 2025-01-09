@@ -154,7 +154,7 @@ export function getDatesSeparatedByYear(startDate: Date, endDate: Date) {
 
     const dates = [];
 
-    while (currentDate.getTime() < targetDate.getTime()) {
+    while (currentDate.getTime() <= targetDate.getTime()) {
         dates.push(new Date(currentDate));
         currentDate.setFullYear(currentDate.getFullYear() + 1);
         currentDate.setHours(0, 0, 0, 0);

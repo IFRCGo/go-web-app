@@ -206,7 +206,7 @@ function OperationalLearningMap(props: Props) {
             footerClassName={styles.footer}
             footerContent={(
                 <div className={styles.legend}>
-                    <div className={styles.legendLabel}>{strings.legendLabel}</div>
+                    <div className={styles.legendLabel}>{strings.learningCount}</div>
                     <div className={styles.legendContent}>
                         <div
                             className={styles.gradient}
@@ -267,7 +267,7 @@ function OperationalLearningMap(props: Props) {
                         >
                             <TextOutput
                                 value={clickedPointProperties.feature.properties.learningCount}
-                                label={strings.learningCountLegendLabel}
+                                label={strings.learningCount}
                                 valueType="number"
                             />
                         </Container>
