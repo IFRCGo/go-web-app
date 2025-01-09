@@ -5,7 +5,7 @@ import { PHASE_COLORS } from '../constants';
 import Container from '#components/Container';
 import Button from '#components/Button';
 import PageContainer from '#components/PageContainer';
-// import PageHeader from '../../PageHeader/index.tsx';
+import PageHeader from '#components/PageHeader';
 import PERDonutChart from '#components/PERDonutChart';
 import PERStackedBarChart from '#components/PERStackedBarChart';
 import PERTreemapChart from '#components/PERTreemapChart';
@@ -197,7 +197,10 @@ function PERSummaryDashboard(props: Props) {
     <PageContainer
       className={_cs(styles.perSummaryDashboard, className)}
     >
-     
+      <PageHeader 
+        heading="NS Preparedness and Response Capacity Strengthening (PER)" 
+        description="The National Society Preparedness for Effective Response (PER) Approach is a structured and systematic way of interacting with the knowledge, capacity, systems, and processes a National Society uses to respond to an emergency, fulfilling its mandate to meet the needs of those most affected by disasters and crises with timely, relevant, and effective humanitarian assistance."
+      />
       <div className={styles.content}>
         <PERKPITabs
           kpis={getKPIData(activeFilters)}

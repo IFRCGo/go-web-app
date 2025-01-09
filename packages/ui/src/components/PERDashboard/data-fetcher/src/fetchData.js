@@ -8,6 +8,7 @@ const PER_PRIORITIZATION_URL = 'https://goadmin.ifrc.org/api/v2/public-per-prior
 const PER_ASSESSMENTS_URL = 'https://goadmin.ifrc.org/api/v2/public-per-assessment/'
 
 async function fetchData() {
+  console.log('Starting fetchData function...');
   try {
     console.log('Fetching PER status data...');
     const perStatusData = await fetchPaginatedData(PER_STATUS_URL);
@@ -44,8 +45,40 @@ async function fetchData() {
     console.log('All data fetched successfully');
   } catch (error) {
     console.error('Error fetching data:', error.message);
+    if (error.response) {
+      console.error('Response error:', {
+        status: error.response.status,
+        data: error.response.data
+      });
+    }
     throw error;
   }
 }
+
+// Ensure the data directory exists
+async function ensureDataDirectory() {
+  console.log('Checking data directory...');
+  const dataDir = path.join(__dirname, '../data');
+  try {
+    await fs.access(dataDir);
+    console.log('Data directory exists');
+  } catch {
+    console.log('Creating data directory...');
+    await fs.mkdir(dataDir, { recursive: true });
+    console.log('Created data directory');
+  }
+}
+
+// Execute the fetch process
+console.log('Script starting...');
+(async () => {
+  try {
+    await ensureDataDirectory();
+    await fetchData();
+  } catch (error) {
+    console.error('Failed to fetch data:', error);
+    process.exit(1);
+  }
+})();
 
 module.exports = { fetchData };

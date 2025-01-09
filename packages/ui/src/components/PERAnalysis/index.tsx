@@ -134,11 +134,9 @@ const CustomLegend: React.FC = () => (
 );
 
 function PERAnalysis({ data, summary, onCycleClick, activeCycle }: Props) {
-  const handleCycleCardClick = (cycleNumber: number) => {
-    const card = document.querySelector(`[data-cycle="${cycleNumber}"]`);
-    if (card) {
-      card.classList.add(styles.active);
-    }
+  const handleCycleCardClick = (event: React.MouseEvent<HTMLDivElement>, cycleNumber: number) => {
+    event.preventDefault();
+    event.stopPropagation();
     
     if (onCycleClick) {
       onCycleClick(cycleNumber);
@@ -261,8 +259,9 @@ function PERAnalysis({ data, summary, onCycleClick, activeCycle }: Props) {
             key={index}
             data-cycle={item.cycleNumber}
             className={`${styles.summaryCard} ${activeCycle === item.cycleNumber ? styles.active : ''}`}
-            onClick={() => handleCycleCardClick(item.cycleNumber)}
-            style={{ cursor: 'pointer' }}
+            onClick={(event) => handleCycleCardClick(event, item.cycleNumber)}
+            role="button"
+            tabIndex={0}
           >
             <div className={styles.metricsRow}>
               <div className={styles.metricGroup}>

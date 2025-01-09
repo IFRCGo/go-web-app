@@ -4,12 +4,32 @@ async function fetchPaginatedData(baseUrl) {
   let allResults = [];
   let nextUrl = baseUrl;
   
+  console.log('Starting data fetch from:', baseUrl);
+  
   while (nextUrl) {
     try {
-      console.log(`Fetching data from: ${nextUrl}`);
-      const response = await axios.get(nextUrl);
+      console.log(`Making request to: ${nextUrl}`);
+      const response = await axios.get(nextUrl, {
+        headers: {
+          'Accept': 'application/json',
+          'User-Agent': 'IFRC-Data-Fetcher'
+        }
+      });
+      
+      console.log('Response status:', response.status);
+      
+      if (!response.data) {
+        console.error('No data in response');
+        break;
+      }
+
       const { results, next, count } = response.data;
       
+      if (!results) {
+        console.error('No results in response data:', response.data);
+        break;
+      }
+
       if (!allResults.length) {
         console.log(`Total records to fetch: ${count}`);
       }
@@ -19,7 +39,19 @@ async function fetchPaginatedData(baseUrl) {
       
       nextUrl = next;
     } catch (error) {
-      console.error('Error fetching page:', error.message);
+      console.error('Error details:', {
+        message: error.message,
+        response: error.response ? {
+          status: error.response.status,
+          statusText: error.response.statusText,
+          data: error.response.data
+        } : 'No response',
+        config: error.config ? {
+          url: error.config.url,
+          method: error.config.method,
+          headers: error.config.headers
+        } : 'No config'
+      });
       throw error;
     }
   }

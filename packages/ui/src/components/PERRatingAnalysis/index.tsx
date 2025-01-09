@@ -4,8 +4,8 @@ import { RATING_COLORS } from '../PERDashboard/constants';
 import type { Props, RatingStatus } from './types';
 
 import RatingBar from './RatingBar';
-import RatingStatusBadge from './RatingBar';
-import RatingChange from './RatingBar';
+import RatingStatusBadge from './RatingStatusBadge';
+import RatingChange from './RatingChange';
 import RatingScale from './RatingScale';
 import Sparkline from './Sparkline';
 import styles from './styles.module.css';
@@ -55,9 +55,9 @@ function PERRatingAnalysis({
                     </div>
                     <div className={styles.ratingValueContainer} style={{ marginTop: 3 }}>
                         <span className={styles.ratingValue}>
-                            {overallRating.rating.toFixed(1)}
+                            {overallRating?.rating ? overallRating.rating.toFixed(1) : '-'}
                         </span>
-                        <RatingStatusBadge status={overallRating.status} />
+                        <RatingStatusBadge status={overallRating.status} rating={overallRating.rating} />
                         <Sparkline 
                             ratings={overallRating.cycleRatings.map(c => c.rating)}
                             colors={overallRating.cycleRatings.map(c => c.color)}
@@ -93,9 +93,9 @@ function PERRatingAnalysis({
                                 </div>
                                 <div className={styles.ratingValueContainer}>
                                     <span className={styles.ratingValue}>
-                                        {area?.rating?.toFixed(1)}
+                                        {area?.rating ? area.rating.toFixed(1) : '-'}
                                     </span>
-                                    <RatingStatusBadge status={area.status} />
+                                    <RatingStatusBadge status={area.status} rating={area.rating} />
                                     <Sparkline 
                                         ratings={area.cycleRatings.map(c => c.rating)}
                                         colors={area.cycleRatings.map(c => c.color)}
@@ -151,7 +151,7 @@ function PERRatingAnalysis({
                                     <span className={styles.ratingValue}>
                                         {component.rating.toFixed(1)}
                                     </span>
-                                    <RatingStatusBadge status={component.status} />
+                                    <RatingStatusBadge status={component.status} rating={component.rating} />
                                     <Sparkline 
                                         ratings={component.cycleRatings.map(c => c.rating)}
                                         colors={component.cycleRatings.map(c => c.color)}

@@ -50,7 +50,7 @@ export interface Props {
     /**
      * Additional actions to be rendered in the header.
      */
-    actions?: React.ReactNode;
+    actions?: React.ReactNode | React.ReactNode[];
 
     /**
      * Whether the container is disabled.

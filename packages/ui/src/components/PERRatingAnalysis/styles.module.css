@@ -113,6 +113,14 @@
   flex-shrink: 0;
 }
 
+.ratingStatusBadge {
+  padding: 0 var(--go-ui-spacing-xs);
+  border-radius: var(--go-ui-border-radius-full);
+  background-color: var(--go-ui-color-primary-red);
+  color: var(--go-ui-color-white);
+  font-size: var(--go-ui-font-size-sm);
+}
+
 .ratingStatus {
   display: inline-flex;
   align-items: center;
@@ -127,10 +135,21 @@
 }
 
 .ratingChange {
-  font-size: var(--go-ui-font-size-xs);
-  font-weight: var(--go-ui-font-weight-medium);
-  /* margin-left: var(--go-ui-spacing-xs); */
-  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--go-ui-spacing-2xs);
+  padding: 0 var(--go-ui-spacing-xs);
+  border-radius: var(--go-ui-border-radius-full);
+  background-color: var(--go-ui-color-gray-10);
+  font-size: var(--go-ui-font-size-sm);
+}
+
+.upIcon {
+  color: var(--go-ui-color-success);
+}
+
+.downIcon {
+  color: var(--go-ui-color-danger);
 }
 
 .ratingChange.positive {
