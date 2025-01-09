@@ -1,0 +1,22 @@
+.responsiveContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+  
+.chartWrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Style for tooltip value */
+:global(.chartjs-tooltip-value) {
+    font-weight: bold;
+}

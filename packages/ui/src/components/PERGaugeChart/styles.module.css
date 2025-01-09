@@ -1,0 +1,44 @@
+.container {
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+    font-family: var(--go-ui-font-family-sans-serif);
+}
+
+.container:focus-visible {
+    outline: var(--go-ui-width-separator-thin) solid var(--go-ui-color-primary);
+    outline-offset: var(--go-ui-spacing-xs);
+}
+
+.title {
+    text-align: center;
+    padding-bottom: var(--go-ui-spacing-lg);
+    font-size: var(--go-ui-font-size-sm);
+    font-weight: var(--go-ui-font-weight-medium);
+    color: var(--go-ui-color-text);
+    white-space: nowrap;
+}
+
+.label {
+    position: absolute;
+    bottom: -26%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: var(--go-ui-font-weight-regular);
+    font-size: var(--go-ui-font-size-sm);
+    color: var(--go-ui-color-text);
+}
+
+.percentage {
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    font-weight: var(--go-ui-font-weight-bold);
+    font-size: var(--go-ui-font-size-md);
+    color: var(--go-ui-color-text-dark);
+}

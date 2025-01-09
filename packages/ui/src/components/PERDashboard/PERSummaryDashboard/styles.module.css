@@ -1,0 +1,71 @@
+.per-summary-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-md);
+    background-color: var(--go-ui-color-background);
+    padding: var(--go-ui-spacing-2xl) 0;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-sm);
+    background-color: var(--go-ui-color-background);
+    /* padding: var(--go-ui-spacing-md); */
+    font-size: var(--go-ui-font-size-sm);
+    margin-bottom: var(--go-ui-spacing-md);
+}
+
+.title {
+    font-size: var(--go-ui-font-size-lg);
+    font-weight: var(--go-ui-font-weight-medium);
+    color: var(--go-ui-color-heading);
+    text-align: center;
+}
+
+.last-updated {
+    color: var(--go-ui-color-text-light);
+    font-size: var(--go-ui-font-size-sm);
+}
+
+.header-body {
+    color: var(--go-ui-color-text);
+    font-size: var(--go-ui-font-size-md);
+    line-height: var(--go-ui-line-height-md);
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-md);
+    background-color: var(--go-ui-color-white);
+    padding: var(--go-ui-spacing-lg);
+}
+
+.charts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--go-ui-spacing-md);
+}
+
+.charts > div {
+    height: 100%;
+}
+
+.charts > div > div:last-child {
+    height: calc(100% - 80px);  /* Subtract header height */
+    display: flex;
+    flex-direction: column;
+}
+
+.assessmentTypesContent {
+    display: flex;
+    gap: var(--go-ui-spacing-md);
+    flex: 1;
+}
+
+.regionsContent {
+    display: flex;
+    gap: var(--go-ui-spacing-md);
+    flex: 1;
+}

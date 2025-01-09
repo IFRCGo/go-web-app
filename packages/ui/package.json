@@ -56,7 +56,14 @@
     "dependencies": {
         "@ifrc-go/icons": "^2.0.1",
         "@togglecorp/fujs": "^2.1.1",
+        "@types/mapbox-gl": "^1.13.0",
+        "chart.js": "^4.4.1",
+        "chartjs-plugin-datalabels": "^2.2.0",
+        "d3": "^7.8.5",
+        "mapbox-gl": "^1.13.0",
+        "react-chartjs-2": "^5.2.0",
         "react-focus-on": "^3.9.1",
+        "recharts": "^2.10.3",
         "sanitize-html": "^2.11.0"
     },
     "peerDependencies": {

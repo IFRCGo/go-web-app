@@ -1,0 +1,81 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--go-ui-color-white);
+    border-radius: var(--go-ui-border-radius-lg);
+    height: 100%;
+    border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+    box-shadow: var(--go-ui-box-shadow-md);
+    transition: var(--go-ui-duration-transition-medium) box-shadow ease-in-out;
+    width: 100%;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-xs);
+    padding: var(--go-ui-spacing-md);
+    border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+}
+
+.titleSection {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--go-ui-spacing-md);
+}
+
+.title {
+    margin: 0;
+    font-size: var(--go-ui-font-size-lg);
+    font-weight: var(--go-ui-font-weight-medium);
+    color: var(--go-ui-color-heading);
+    font-family: var(--go-ui-font-family-heading);
+    line-height: var(--go-ui-line-height-md);
+    letter-spacing: 0.5px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+}
+
+.subtitle {
+    font-family: var(--go-ui-font-family-sans-serif);
+    font-size: var(--go-ui-font-size-sm);
+    font-weight: var(--go-ui-font-weight-regular);
+    line-height: var(--go-ui-line-height-sm);
+    text-align: left;
+    text-underline-position: from-font;
+    margin: var(--go-ui-spacing-xs) 0 0 0;
+    color: var(--go-ui-color-text-light);
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    position: relative;
+}
+
+.resetButton {
+    display: flex;
+    align-items: center;
+    gap: var(--go-ui-spacing-xs);
+    padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-sm);
+    font-size: var(--go-ui-font-size-sm);
+    font-weight: var(--go-ui-font-weight-medium);
+    color: var(--go-ui-color-primary);
+    background-color: var(--go-ui-color-background);
+    border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+    border-radius: var(--go-ui-border-radius-md);
+    cursor: pointer;
+    transition: all var(--go-ui-duration-transition-medium) ease-in-out;
+
+    &:hover {
+        background-color: var(--go-ui-color-background-hover);
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}

@@ -1,0 +1,64 @@
+.chartWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-md);
+    align-items: center;
+    font-family: var(--go-ui-font-family-sans-serif);
+}
+
+
+.chartContainer {
+    position: relative;
+    margin: auto;
+    padding: var(--go-ui-spacing-md);
+}
+
+.chartContainer canvas {
+    position: relative; 
+    z-index: 99;
+}
+
+.centerText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 1;
+}
+
+.centerTextPrimary {
+    color: var(--go-ui-color-text);
+    font-size: var(--go-ui-font-size-2xl);
+    font-weight: var(--go-ui-font-weight-semibold);
+    line-height: var(--go-ui-line-height-sm);
+}
+
+.centerTextSecondary {
+    color: var(--go-ui-color-text-light);
+    font-size: var(--go-ui-font-size-sm);
+    margin-top: var(--go-ui-spacing-2xs);
+}
+
+.customTooltip {
+    background-color: var(--go-ui-color-background-dark);
+    color: var(--go-ui-color-white);
+    padding: var(--go-ui-spacing-sm);
+    border-radius: var(--go-ui-border-radius-md);
+    font-size: var(--go-ui-font-size-xs);
+    max-width: 200px;
+    pointer-events: none;
+    position: absolute;
+    opacity: 0;
+    transition: opacity var(--go-ui-duration-transition-medium) ease;
+    box-shadow: var(--go-ui-box-shadow-md);
+}
+
+.tooltipTitle {
+    font-weight: var(--go-ui-font-weight-semibold);
+    margin-bottom: var(--go-ui-spacing-xs);
+}
+
+.tooltipBody {
+    font-weight: var(--go-ui-font-weight-normal);
+}

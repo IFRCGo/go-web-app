@@ -1,0 +1,140 @@
+.container {
+    background-color: var(--go-ui-color-white);
+}
+
+.toggleGroup {
+    display: flex;
+    justify-content: center;
+}
+
+.toggleBody {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: var(--go-ui-color-white);
+    padding: var(--go-ui-spacing-2xs);
+    justify-content: center;
+    border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-gray-30);
+}
+
+.toggleButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.2vw 0;
+    background: var(--go-ui-color-white);
+    cursor: pointer;
+    min-width: 138px;
+    max-width: 150px;
+    width: 15vw;
+    color: var(--go-ui-color-text);
+    border: none;
+    transform: scale(1);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s var(--go-ui-cubic-bezier);
+}
+
+.toggleButton:not(:first-child) {
+    border-left: var(--go-ui-width-separator-thin) solid var(--go-ui-color-gray-30);
+}
+
+.toggleButton::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(var(--go-ui-color-red-rgb), 0.03),
+        rgba(var(--go-ui-color-red-rgb), 0.05),
+        rgba(var(--go-ui-color-red-rgb), 0.03),
+        transparent
+    );
+    transition: transform 0.6s var(--go-ui-cubic-bezier);
+}
+
+.toggleButton:hover {
+    background: var(--go-ui-color-gray-10);
+    color: var(--go-ui-color-gray-90);
+}
+
+.toggleButton:active {
+    transform: scale(0.97) translateY(1px);
+    opacity: 0.8;
+}
+
+.toggleButton.active {
+    background: var(--go-ui-color-white);
+    color: var(--go-ui-color-red);
+}
+
+.toggleButton.active::before {
+    transform: translateX(200%);
+    transition: transform 1.2s var(--go-ui-cubic-bezier);
+}
+
+.label {
+    font-size: var(--go-ui-font-size-2xs);
+    font-family: var(--go-ui-font-family-sans);
+    font-weight: var(--go-ui-font-weight-medium);
+    line-height: var(--go-ui-line-height-md);
+    letter-spacing: 0.05em;
+    text-align: center;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.count {
+    background: var(--go-ui-color-gray-10);
+    padding: var(--go-ui-spacing-2xs) var(--go-ui-spacing-xs);
+    border-radius: var(--go-ui-border-radius-full);
+    font-size: var(--go-ui-font-size-2xs);
+    font-weight: var(--go-ui-font-weight-semibold);
+    color: var(--go-ui-color-text);
+    min-width: 2rem;
+    text-align: center;
+    margin-left: var(--go-ui-spacing-xs);
+}
+
+.active .count {
+    background: var(--go-ui-color-gray-20);
+}
+
+.line {
+    margin-top: var(--go-ui-spacing-2xs);
+    border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-gray-30);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .toggleGroup {
+        flex-direction: column;
+    }
+
+    .toggleButton {
+        width: 100%;
+        min-width: auto;
+        border-top: none;
+        border-left: none !important;
+        max-width: unset;
+    }
+
+    .toggleBody {
+        border-bottom: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: var(--go-ui-spacing-sm);
+    }
+
+    .toggleButton {
+        padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-sm);
+    }
+}

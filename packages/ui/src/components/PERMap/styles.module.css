@@ -1,0 +1,156 @@
+.map {
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+    position: relative;
+}
+
+.map-container {
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+    position: relative;
+    overflow: hidden;
+}
+
+.map-container :global(.mapboxgl-map) {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.customTooltip {
+    font-family: 'Poppins';
+    padding: 0;
+    min-width: 200px;
+    width: fit-content;
+    max-width: none;
+}
+
+.customTooltip > div {
+    padding: 0;
+    width: fit-content;
+}
+
+.tooltip {
+    white-space: nowrap;
+    max-width: unset;
+    min-width: fit-content;
+    padding-bottom: 8px;
+}
+
+.tooltipTitle {
+    font-weight: 500;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #E0E0E0;
+    text-transform: uppercase;
+    padding: 7px 10px;
+    color: #323232;
+    font-family: Poppins;
+    font-weight: 500;
+    line-height: 21px;
+    letter-spacing: 0.05em;
+    padding-right: 32px;
+}
+
+.tooltipGrid {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 4px;
+    font-size: 11px;
+    padding: 10px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.tooltipLabel {
+    color: #666;
+    white-space: nowrap;
+}
+
+.tooltipValue {
+    font-weight: 500;
+}
+
+.tooltipFooter {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #eee;
+}
+
+.tooltipPhase {
+    background: #7E57C2;
+    color: white;
+    padding: 1px 8px;
+    border-radius: 16px;
+    font-size: 11px;
+    white-space: nowrap;
+    margin-left: 3px;
+    width: fit-content;
+}
+
+.filterButton {
+    display: block;
+    width: calc(100% - 24px);
+    margin: 7px 12px 0 12px;
+    background-color: #FFF;
+    color: #F5333F;
+    border: 1px solid #F5333F;
+    padding: 2px 12px;
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: 500;
+    border-radius: 12px;
+    font-family: 'Poppins';
+    transition: all 0.2s ease;
+}
+
+.filterButton:hover {
+    background-color: #f6efef;
+}
+
+.closeButton {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    color: #666;
+}
+
+.closeButton svg {
+    width: 18px;
+    height: 18px;
+}
+
+.closeButton:hover {
+    opacity: 1;
+    color: #F5333F;
+}
+
+.closeButton:focus {
+    outline: none;
+}
+
+.error {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--go-ui-color-danger);
+    color: var(--go-ui-color-white);
+    padding: var(--go-ui-spacing-md);
+    border-radius: var(--go-ui-border-radius-md);
+}
+
+/* Make zoom controls smaller */
+:global(.mapboxgl-ctrl-group) {
+    transform: scale(0.8);
+    transform-origin: top right;
+}

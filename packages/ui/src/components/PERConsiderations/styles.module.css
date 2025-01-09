@@ -1,0 +1,49 @@
+.chartWrapper {
+  width: 100%;
+  padding: var(--go-ui-spacing-md);
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.perConsiderationsContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--go-ui-spacing-md);
+  margin-bottom: var(--go-ui-spacing-md);
+  max-width: 100%;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--go-ui-spacing-sm);
+  min-width: 0;
+}
+
+.spacer {
+  height: var(--go-ui-spacing-md);
+}
+
+.stackedBarTitle {
+  font-size: var(--go-ui-font-size-sm);
+  color: var(--go-ui-color-text-light);
+  text-align: center;
+  margin-bottom: var(--go-ui-spacing-sm);
+}
+
+@media (max-width: 1200px) {
+  .perConsiderationsContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .perConsiderationsContainer {
+    grid-template-columns: 1fr;
+  }
+  
+  .chartWrapper {
+    padding: var(--go-ui-spacing-sm);
+  }
+}
