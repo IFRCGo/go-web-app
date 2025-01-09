@@ -1,0 +1,20 @@
+{
+    "namespace": "PERSummaryDashboard",
+    "strings": {
+        "summaryLastUpdate": "Last updated:",
+        "summaryResetFilter": "Clear Filter",
+        "summaryResetFilterAriaLabel": "Reset all active filters",
+        "summaryContainerAriaLabel": "PER Summary Dashboard",
+        "summaryHeaderDescription": "This dashboard contains a summary of National Societies around the world engaged in the Preparedness for Effective Response (PER) Approach. The visuals below show regional and country-level information on the number of National Societies engaged in the PER Approach, as well as the current phase of the PER Process the NS is in. It also includes information on the PER Components which have been identified as 'High Priority' indicating it requires improvement. Finally, this dashboard includes the types of PER assessments conducted and the year of the assessment by region. Several National Societies have gone through multiple cycles of the PER process and evidence indicates that there have been improvements in NS preparedness and response capacity which has been supported by the PER Approach.",
+        "mapHeading": "PER Global Distribution",
+        "mapDescription": "Click on a NS to filter",
+        "assessmentTypeHeading": "PER Process by Assessment Type",
+        "assessmentTypeDescription": "Click on an assessment type to filter",
+        "yearAndRegionHeading": "PER Process by Year and Region",
+        "yearAndRegionDescription": "Click on a year or region to filter",
+        "highPriorityComponentsHeading": "High Priority Components",
+        "highPriorityComponentsDescription": "Click on a component to filter",
+        "perConsiderationsHeading": "PER Considerations",
+        "perConsiderationsDescription": "Click on a PER consideration type to filter"
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "namespace": "common",
+    "strings": {
+        "perMapContainerLabel": "PER Map",
+        "perMapTooltipCloseLabel": "Close tooltip",
+        "perMapFilterButtonLabel": "Filter by this assessment",
+        "perMapUnknownCountryLabel": "Unknown",
+        "perMapCurrentPhaseLabel": "Current PER phase",
+        "perMapCycleYearLabel": "Cycle year",
+        "perMapCycleIterationLabel": "Cycle iteration",
+        "perMapFilterLabel": "Filter",
+        "perMapInitializationErrorLabel": "Failed to initialize map",
+        "perMapDismissErrorLabel": "Dismiss error"
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "namespace": "common",
+    "strings": {
+        "analysisAssessmentCountLabel": "Number of PER assessments / process cycle iterations",
+        "analysisContainerLabel": "PER analysis chart and summary",
+        "analysisCycleCardLabel": "PER cycle {cycle} details",
+        "analysisChartLabel": "PER analysis chart showing completed cycles and average ratings",
+        "analysisTooltipLabel": "Cycle details for {cycle}",
+        "analysisAverageRatingLabel": "According to the latest assessment in each NS",
+        "analysisRatingChangeLabel": "Rating change of {value} points",
+        "analysisAxisNsCountLabel": "# OF NS",
+        "analysisAxisRatingLabel": "AVERAGE PER RATING",
+        "analysisLegendCompletedLabel": "Completed cycles",
+        "analysisLegendProgressLabel": "Yet to progress",
+        "analysisLegendAverageLabel": "Average PER rating",
+        "analysisPerRatingLabel": "PER Rating",
+        "analysisNsUnitLabel": "NSs"
+    }
+}

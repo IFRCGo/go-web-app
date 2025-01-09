@@ -1,0 +1,19 @@
+{
+    "namespace": "common",
+    "strings": {
+        "ratingContainerLabel": "PER rating analysis",
+        "ratingBarLabel": "Rating bar showing {value} out of {maxValue}",
+        "ratingSparklineLabel": "Rating trend chart",
+        "ratingChangeLabel": "Rating change of {value}",
+        "ratingSortButtonLabel": "Sort {type} {direction}",
+        "ratingSortButton": "Sort button",
+        "ratingSortByNumber": "by number",
+        "ratingSortByRating": "by rating",
+        "ratingValueLabel": "Rating value: {value}",
+        "ratingComponentPrefixLabel": "Component {number}",
+        "ratingAverageLabel": "Average PER rating",
+        "ratingTrendLabel": "Rating trend",
+        "ratingTopRatedLabel": "Top rated components",
+        "ratingBottomRatedLabel": "Bottom rated components"
+    }
+}
