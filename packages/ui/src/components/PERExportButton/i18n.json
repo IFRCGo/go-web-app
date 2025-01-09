@@ -1,0 +1,7 @@
+{
+    "namespace": "common",
+    "strings": {
+        "buttonLabel": "Export",
+        "buttonAriaLabel": "Export PER data"
+    }
+}

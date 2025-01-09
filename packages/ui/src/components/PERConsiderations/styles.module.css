@@ -1,0 +1,65 @@
+.chartWrapper {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.perConsiderationsContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--go-ui-spacing-md);
+  max-width: 100%;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s ease-in-out;
+  border-radius: var(--go-ui-border-radius-lg);
+  background-color: var(--go-ui-color-white);
+  padding: var(--go-ui-spacing-md);
+  padding-top: 0px;
+  padding-bottom: 0px;
+  /* gap: var(--go-ui-spacing-sm); */
+  min-width: 0;
+}
+
+.inactiveColumn {
+  opacity: 0.6;
+  filter: grayscale(0.8);
+  /* transform: scale(0.98); */
+}
+
+.spacer {
+  height: var(--go-ui-spacing-md);
+}
+
+.stackedBarTitle {
+  position: relative;
+  top: 18px;
+  left: 0px;
+  margin-bottom: var(--go-ui-spacing-sm);
+  text-align: left;
+  color: var(--go-ui-color-gray-70);
+  font-size: var(--go-ui-font-size-sm);
+  font-weight: var(--go-ui-font-weight-medium);
+}
+
+@media (max-width: 1200px) {
+  .perConsiderationsContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .perConsiderationsContainer {
+    grid-template-columns: 1fr;
+  }
+  
+  .chartWrapper {
+    padding: var(--go-ui-spacing-sm);
+  }
+}
