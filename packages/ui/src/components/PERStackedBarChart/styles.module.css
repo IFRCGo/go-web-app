@@ -1,0 +1,30 @@
+.responsiveContainer {
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+    width: 100%;
+    height: 200px; /* Fixed height matching component default */
+}
+  
+.chartWrapper {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    transition: width 0.3s ease; /* Smooth width transitions */
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    will-change: transform; /* Optimize for animations */
+}
+
+/* Style for tooltip value */
+:global(.chartjs-tooltip-value) {
+    font-weight: bold;
+}
+
+/* Ensure canvas maintains dimensions */
+.chartWrapper canvas {
+    width: 100% !important;
+    height: 100% !important;
+}

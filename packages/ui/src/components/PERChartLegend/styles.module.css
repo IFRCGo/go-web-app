@@ -1,0 +1,67 @@
+.legend {
+    display: flex;
+    /* border-radius: 0 0 var(--go-ui-border-radius-lg) var(--go-ui-border-radius-lg); */
+    /* border-top: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator); */
+    position: relative;
+    bottom: 0px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin-top: auto;
+    background-color: var(--go-ui-color-background);
+    padding: var(--go-ui-spacing-sm);
+    font-family: var(--go-ui-font-family-sans-serif);
+    gap: var(--go-ui-spacing-xs);
+}
+
+.vertical {
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.horizontal {
+    align-items: center;
+    flex-direction: row;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    transition: all var(--go-ui-duration-transition-medium) ease-in-out;
+    border: 0;
+    border-radius: var(--go-ui-border-radius-sm);
+    background: transparent;
+    cursor: pointer;
+    padding: var(--go-ui-spacing-2xs) var(--go-ui-spacing-xs);
+    color: var(--go-ui-color-text);
+    font-size: var(--go-ui-font-size-sm);
+    font-weight: var(--go-ui-font-weight-light);
+    gap: var(--go-ui-spacing-xs);
+
+    &:hover { 
+        border-radius: var(--go-ui-border-radius-sm);
+        background-color: var(--go-ui-color-background-hover);
+    }
+
+    &.active {
+        border-radius: var(--go-ui-border-radius-sm);
+        background-color: var(--go-ui-color-background-hover);
+    }
+
+    &.disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+}
+
+.color {
+    flex-shrink: 0;
+    border-radius: 50%;
+    width: var(--go-ui-spacing-sm);
+    height: var(--go-ui-spacing-sm);
+}
+
+.label {
+    line-height: var(--go-ui-line-height-xs);
+    font-family: var(--go-ui-font-family-sans-serif);
+
+}

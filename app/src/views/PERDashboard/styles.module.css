@@ -1,0 +1,28 @@
+.perDashboard {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-md);
+    font-family: var(--go-ui-font-family-sans-serif);
+}
+
+button {
+    font-size: var(--go-ui-font-size-sm) !important;
+}
+
+.perDashboard > :first-child {
+    padding: 0px !important;
+}
+
+.header > div {
+    width: auto !important;
+    /* padding: 0px !important; */
+}
+
+
+.header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-sm);
+    background-color: var(--go-ui-color-background);
+    font-size: var(--go-ui-font-size-sm);
+}

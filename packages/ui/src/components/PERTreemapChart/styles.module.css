@@ -1,0 +1,53 @@
+.container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+}
+
+.container svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.container svg rect {
+    outline: none !important;
+}
+
+:global(.tippy-box[data-theme~='light-border']) {
+    border: 1px solid var(--go-ui-color-gray-20);
+    border-radius: var(--go-ui-border-radius-md);
+    box-shadow: var(--go-ui-box-shadow-md);
+    background-color: var(--go-ui-color-white);
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: var(--go-ui-font-size-sm);
+}
+
+.tooltipContent {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-xs);
+    padding: var(--go-ui-spacing-xs);
+}
+
+.tooltipTitle {
+    font-weight: 600;
+}
+
+.tooltipTag {
+    display: inline-block;
+    opacity: 0.9;
+    border-radius: 9px;
+    padding: 1px 5px;
+    width: fit-content;
+    color: #FFF;
+    font-size: 9px;
+    font-weight: 500;
+}
+
+.tooltipValue {
+    opacity: 0.9;
+}

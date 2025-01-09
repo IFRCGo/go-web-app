@@ -1,0 +1,717 @@
+{
+    "parent": "000060-1764233906932.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "analysisAssessmentCountLabel",
+            "namespace": "common",
+            "value": "Number of PER assessments / process cycle iterations"
+        },
+        {
+            "action": "add",
+            "key": "analysisAverageRatingLabel",
+            "namespace": "common",
+            "value": "According to the latest assessment in each NS"
+        },
+        {
+            "action": "add",
+            "key": "analysisAxisNsCountLabel",
+            "namespace": "common",
+            "value": "# OF NS"
+        },
+        {
+            "action": "add",
+            "key": "analysisAxisRatingLabel",
+            "namespace": "common",
+            "value": "AVERAGE PER RATING"
+        },
+        {
+            "action": "add",
+            "key": "analysisChartLabel",
+            "namespace": "common",
+            "value": "PER analysis chart showing completed cycles and average ratings"
+        },
+        {
+            "action": "add",
+            "key": "analysisContainerLabel",
+            "namespace": "common",
+            "value": "PER analysis chart and summary"
+        },
+        {
+            "action": "add",
+            "key": "analysisCycleCardLabel",
+            "namespace": "common",
+            "value": "PER cycle {cycle} details"
+        },
+        {
+            "action": "add",
+            "key": "analysisLegendAverageLabel",
+            "namespace": "common",
+            "value": "Average PER rating"
+        },
+        {
+            "action": "add",
+            "key": "analysisLegendCompletedLabel",
+            "namespace": "common",
+            "value": "Completed cycles"
+        },
+        {
+            "action": "add",
+            "key": "analysisLegendProgressLabel",
+            "namespace": "common",
+            "value": "Yet to progress"
+        },
+        {
+            "action": "add",
+            "key": "analysisNsUnitLabel",
+            "namespace": "common",
+            "value": "NSs"
+        },
+        {
+            "action": "add",
+            "key": "analysisPerRatingLabel",
+            "namespace": "common",
+            "value": "PER Rating"
+        },
+        {
+            "action": "add",
+            "key": "analysisRatingChangeLabel",
+            "namespace": "common",
+            "value": "Rating change of {value} points"
+        },
+        {
+            "action": "add",
+            "key": "analysisTooltipLabel",
+            "namespace": "common",
+            "value": "Cycle details for {cycle}"
+        },
+        {
+            "action": "add",
+            "key": "buttonAriaLabel",
+            "namespace": "common",
+            "value": "Export PER data"
+        },
+        {
+            "action": "add",
+            "key": "buttonLabel",
+            "namespace": "common",
+            "value": "Export"
+        },
+        {
+            "action": "add",
+            "key": "considerationByRegionTypeLabel",
+            "namespace": "common",
+            "value": "By region & type"
+        },
+        {
+            "action": "add",
+            "key": "considerationClimateReady",
+            "namespace": "common",
+            "value": "Climate-ready"
+        },
+        {
+            "action": "add",
+            "key": "considerationColumnLabel",
+            "namespace": "common",
+            "value": "PER consideration column for {type}"
+        },
+        {
+            "action": "add",
+            "key": "considerationEpiReady",
+            "namespace": "common",
+            "value": "EPI-ready"
+        },
+        {
+            "action": "add",
+            "key": "considerationGaugeChartLabel",
+            "namespace": "common",
+            "value": "Gauge chart showing {type} considerations"
+        },
+        {
+            "action": "add",
+            "key": "considerationMigrationReady",
+            "namespace": "common",
+            "value": "Migration-ready"
+        },
+        {
+            "action": "add",
+            "key": "considerationOperationalLabel",
+            "namespace": "common",
+            "value": "Operational"
+        },
+        {
+            "action": "add",
+            "key": "considerationPostOperationalLabel",
+            "namespace": "common",
+            "value": "Post-operational"
+        },
+        {
+            "action": "add",
+            "key": "considerationSelfAssessmentLabel",
+            "namespace": "common",
+            "value": "Self assessment"
+        },
+        {
+            "action": "add",
+            "key": "considerationSimulationLabel",
+            "namespace": "common",
+            "value": "Simulation"
+        },
+        {
+            "action": "add",
+            "key": "considerationStackedBarLabel",
+            "namespace": "common",
+            "value": "Stacked bar chart showing {type} considerations by region"
+        },
+        {
+            "action": "add",
+            "key": "considerationTitleTemplate",
+            "namespace": "common",
+            "value": "PER {type} Considerations"
+        },
+        {
+            "action": "add",
+            "key": "considerationUrbanReady",
+            "namespace": "common",
+            "value": "Urban-ready"
+        },
+        {
+            "action": "add",
+            "key": "donutChartLabel",
+            "namespace": "common",
+            "value": "Donut chart showing {data}"
+        },
+        {
+            "action": "add",
+            "key": "donutSegmentLabel",
+            "namespace": "common",
+            "value": "Chart segment for {label} with value {value}"
+        },
+        {
+            "action": "add",
+            "key": "donutTooltipFormat",
+            "namespace": "common",
+            "value": "{label}: {value}"
+        },
+        {
+            "action": "add",
+            "key": "gaugeButtonLabel",
+            "namespace": "common",
+            "value": "Click to view details for {label}"
+        },
+        {
+            "action": "add",
+            "key": "gaugeContainerLabel",
+            "namespace": "common",
+            "value": "Gauge chart showing {percentage}% for {label}"
+        },
+        {
+            "action": "add",
+            "key": "gaugeIconLabel",
+            "namespace": "common",
+            "value": "Icon for {label}"
+        },
+        {
+            "action": "add",
+            "key": "gaugeValueLabel",
+            "namespace": "common",
+            "value": "Gauge value: {percentage}%"
+        },
+        {
+            "action": "add",
+            "key": "horizontalBarChartLabel",
+            "namespace": "common",
+            "value": "Horizontal stacked bar chart showing assessment types"
+        },
+        {
+            "action": "add",
+            "key": "horizontalBarContainerLabel",
+            "namespace": "common",
+            "value": "Horizontal stacked bar chart"
+        },
+        {
+            "action": "add",
+            "key": "horizontalBarItemLabel",
+            "namespace": "common",
+            "value": "Bar for {category} with value {value}"
+        },
+        {
+            "action": "add",
+            "key": "horizontalBarTooltipFormat",
+            "namespace": "common",
+            "value": "{category}: {value}"
+        },
+        {
+            "action": "add",
+            "key": "kpiDescriptionLabel",
+            "namespace": "common",
+            "value": "KPI description: {description}"
+        },
+        {
+            "action": "add",
+            "key": "kpiTabLabel",
+            "namespace": "common",
+            "value": "KPI tab for {description}"
+        },
+        {
+            "action": "add",
+            "key": "kpiTabsContainerLabel",
+            "namespace": "common",
+            "value": "KPI tabs container"
+        },
+        {
+            "action": "add",
+            "key": "kpiValueLabel",
+            "namespace": "common",
+            "value": "KPI value: {value}"
+        },
+        {
+            "action": "add",
+            "key": "legendColorIndicatorLabel",
+            "namespace": "common",
+            "value": "Color indicator for {label}"
+        },
+        {
+            "action": "add",
+            "key": "legendContainerLabel",
+            "namespace": "common",
+            "value": "Chart legend"
+        },
+        {
+            "action": "add",
+            "key": "legendItemActiveLabel",
+            "namespace": "common",
+            "value": "Legend item for {label} (active)"
+        },
+        {
+            "action": "add",
+            "key": "legendItemDisabledLabel",
+            "namespace": "common",
+            "value": "Legend item for {label} (disabled)"
+        },
+        {
+            "action": "add",
+            "key": "legendItemLabel",
+            "namespace": "common",
+            "value": "Legend item for {label}"
+        },
+        {
+            "action": "add",
+            "key": "perMapContainerLabel",
+            "namespace": "common",
+            "value": "PER Map"
+        },
+        {
+            "action": "add",
+            "key": "perMapCurrentPhaseLabel",
+            "namespace": "common",
+            "value": "Current PER phase"
+        },
+        {
+            "action": "add",
+            "key": "perMapCycleIterationLabel",
+            "namespace": "common",
+            "value": "Cycle iteration"
+        },
+        {
+            "action": "add",
+            "key": "perMapCycleYearLabel",
+            "namespace": "common",
+            "value": "Cycle year"
+        },
+        {
+            "action": "add",
+            "key": "perMapDismissErrorLabel",
+            "namespace": "common",
+            "value": "Dismiss error"
+        },
+        {
+            "action": "add",
+            "key": "perMapFilterButtonLabel",
+            "namespace": "common",
+            "value": "Filter by this assessment"
+        },
+        {
+            "action": "add",
+            "key": "perMapFilterLabel",
+            "namespace": "common",
+            "value": "Filter"
+        },
+        {
+            "action": "add",
+            "key": "perMapInitializationErrorLabel",
+            "namespace": "common",
+            "value": "Failed to initialize map"
+        },
+        {
+            "action": "add",
+            "key": "perMapTooltipCloseLabel",
+            "namespace": "common",
+            "value": "Close tooltip"
+        },
+        {
+            "action": "add",
+            "key": "perMapUnknownCountryLabel",
+            "namespace": "common",
+            "value": "Unknown"
+        },
+        {
+            "action": "add",
+            "key": "ratingAverageLabel",
+            "namespace": "common",
+            "value": "Average PER rating"
+        },
+        {
+            "action": "add",
+            "key": "ratingBarLabel",
+            "namespace": "common",
+            "value": "Rating bar showing {value} out of {maxValue}"
+        },
+        {
+            "action": "add",
+            "key": "ratingBottomRatedLabel",
+            "namespace": "common",
+            "value": "Bottom rated components"
+        },
+        {
+            "action": "add",
+            "key": "ratingChangeLabel",
+            "namespace": "common",
+            "value": "Rating change of {value}"
+        },
+        {
+            "action": "add",
+            "key": "ratingComponentPrefixLabel",
+            "namespace": "common",
+            "value": "Component {number}"
+        },
+        {
+            "action": "add",
+            "key": "ratingContainerLabel",
+            "namespace": "common",
+            "value": "PER rating analysis"
+        },
+        {
+            "action": "add",
+            "key": "ratingSortButton",
+            "namespace": "common",
+            "value": "Sort button"
+        },
+        {
+            "action": "add",
+            "key": "ratingSortButtonLabel",
+            "namespace": "common",
+            "value": "Sort {type} {direction}"
+        },
+        {
+            "action": "add",
+            "key": "ratingSortByNumber",
+            "namespace": "common",
+            "value": "by number"
+        },
+        {
+            "action": "add",
+            "key": "ratingSortByRating",
+            "namespace": "common",
+            "value": "by rating"
+        },
+        {
+            "action": "add",
+            "key": "ratingSparklineLabel",
+            "namespace": "common",
+            "value": "Rating trend chart"
+        },
+        {
+            "action": "add",
+            "key": "ratingTopRatedLabel",
+            "namespace": "common",
+            "value": "Top rated components"
+        },
+        {
+            "action": "add",
+            "key": "ratingTrendLabel",
+            "namespace": "common",
+            "value": "Rating trend"
+        },
+        {
+            "action": "add",
+            "key": "ratingValueLabel",
+            "namespace": "common",
+            "value": "Rating value: {value}"
+        },
+        {
+            "action": "add",
+            "key": "regionButtonActiveLabel",
+            "namespace": "common",
+            "value": "{region} filter active"
+        },
+        {
+            "action": "add",
+            "key": "regionButtonInactiveLabel",
+            "namespace": "common",
+            "value": "{region} filter inactive"
+        },
+        {
+            "action": "add",
+            "key": "regionButtonLabel",
+            "namespace": "common",
+            "value": "Toggle {region} filter"
+        },
+        {
+            "action": "add",
+            "key": "regionContainerLabel",
+            "namespace": "common",
+            "value": "Region filter"
+        },
+        {
+            "action": "add",
+            "key": "stackedBarChartLabel",
+            "namespace": "common",
+            "value": "Stacked bar chart showing data over time"
+        },
+        {
+            "action": "add",
+            "key": "stackedBarContainerLabel",
+            "namespace": "common",
+            "value": "Stacked bar chart"
+        },
+        {
+            "action": "add",
+            "key": "stackedBarItemLabel",
+            "namespace": "common",
+            "value": "Bar for {category} with value {value}"
+        },
+        {
+            "action": "add",
+            "key": "stackedBarTooltipFormat",
+            "namespace": "common",
+            "value": "{category}: {value}"
+        },
+        {
+            "action": "add",
+            "key": "stackedBarTooltipLabel",
+            "namespace": "common",
+            "value": "Value for {category}: {value}"
+        },
+        {
+            "action": "add",
+            "key": "stackedBarXAxisLabel",
+            "namespace": "common",
+            "value": ""
+        },
+        {
+            "action": "add",
+            "key": "stackedBarYAxisLabel",
+            "namespace": "common",
+            "value": ""
+        },
+        {
+            "action": "add",
+            "key": "treemapChartLabel",
+            "namespace": "common",
+            "value": "Interactive treemap chart showing hierarchical data"
+        },
+        {
+            "action": "add",
+            "key": "treemapComponentLabel",
+            "namespace": "common",
+            "value": "{name} {value}"
+        },
+        {
+            "action": "add",
+            "key": "treemapContainerLabel",
+            "namespace": "common",
+            "value": "Treemap chart"
+        },
+        {
+            "action": "add",
+            "key": "treemapSectionLabel",
+            "namespace": "common",
+            "value": "{name}"
+        },
+        {
+            "action": "add",
+            "key": "treemapSelectedLabel",
+            "namespace": "common",
+            "value": "{name}"
+        },
+        {
+            "action": "add",
+            "key": "treemapTooltipTagLabel",
+            "namespace": "common",
+            "value": "{name}"
+        },
+        {
+            "action": "add",
+            "key": "treemapTooltipTitleLabel",
+            "namespace": "common",
+            "value": "{name}"
+        },
+        {
+            "action": "add",
+            "key": "treemapTooltipValueLabel",
+            "namespace": "common",
+            "value": "{value}"
+        },
+        {
+            "action": "add",
+            "key": "globalRatingsDescription",
+            "namespace": "PERDashboard",
+            "value": "Overview of PER ratings and performance metrics"
+        },
+        {
+            "action": "add",
+            "key": "globalRatingsHeading",
+            "namespace": "PERDashboard",
+            "value": "Global Performance Ratings"
+        },
+        {
+            "action": "add",
+            "key": "overviewDescription",
+            "namespace": "PERDashboard",
+            "value": "Click on a PER assessment cycle to filter"
+        },
+        {
+            "action": "add",
+            "key": "overviewHeading",
+            "namespace": "PERDashboard",
+            "value": "Performance Overview"
+        },
+        {
+            "action": "add",
+            "key": "performanceContainerAriaLabel",
+            "namespace": "PERDashboard",
+            "value": "PER Performance Dashboard"
+        },
+        {
+            "action": "add",
+            "key": "performanceFetchFailedError",
+            "namespace": "PERDashboard",
+            "value": "Failed to load dashboard data"
+        },
+        {
+            "action": "add",
+            "key": "performanceHeaderDescription",
+            "namespace": "PERDashboard",
+            "value": "This dashboard contains a summary of the overall preparedness and response capacity among National Societies engaged in the PER Approach. The values presented represent the ratings for each component within National Societies' PER Mechanism aggregated at global and regional levels. The visualisations show average rating, the changes in capacity over time, as well as top and bottom-rated components. You can filter the components by region."
+        },
+        {
+            "action": "add",
+            "key": "performanceLastUpdate",
+            "namespace": "PERDashboard",
+            "value": "Last updated:"
+        },
+        {
+            "action": "add",
+            "key": "performanceResetFilter",
+            "namespace": "PERDashboard",
+            "value": "Clear Filter"
+        },
+        {
+            "action": "add",
+            "key": "performanceResetFilterAriaLabel",
+            "namespace": "PERDashboard",
+            "value": "Reset all active filters"
+        },
+        {
+            "action": "add",
+            "key": "assessmentTypeDescription",
+            "namespace": "PERSummaryDashboard",
+            "value": "Click on an assessment type to filter"
+        },
+        {
+            "action": "add",
+            "key": "assessmentTypeHeading",
+            "namespace": "PERSummaryDashboard",
+            "value": "PER Process by Assessment Type"
+        },
+        {
+            "action": "add",
+            "key": "highPriorityComponentsDescription",
+            "namespace": "PERSummaryDashboard",
+            "value": "Click on a component to filter"
+        },
+        {
+            "action": "add",
+            "key": "highPriorityComponentsHeading",
+            "namespace": "PERSummaryDashboard",
+            "value": "High Priority Components"
+        },
+        {
+            "action": "add",
+            "key": "mapDescription",
+            "namespace": "PERSummaryDashboard",
+            "value": "Click on a NS to filter"
+        },
+        {
+            "action": "add",
+            "key": "mapHeading",
+            "namespace": "PERSummaryDashboard",
+            "value": "PER Global Distribution"
+        },
+        {
+            "action": "add",
+            "key": "perConsiderationsDescription",
+            "namespace": "PERSummaryDashboard",
+            "value": "Click on a PER consideration type to filter"
+        },
+        {
+            "action": "add",
+            "key": "perConsiderationsHeading",
+            "namespace": "PERSummaryDashboard",
+            "value": "PER Considerations"
+        },
+        {
+            "action": "add",
+            "key": "summaryContainerAriaLabel",
+            "namespace": "PERSummaryDashboard",
+            "value": "PER Summary Dashboard"
+        },
+        {
+            "action": "add",
+            "key": "summaryHeaderDescription",
+            "namespace": "PERSummaryDashboard",
+            "value": "This dashboard contains a summary of National Societies around the world engaged in the Preparedness for Effective Response (PER) Approach. The visuals below show regional and country-level information on the number of National Societies engaged in the PER Approach, as well as the current phase of the PER Process the NS is in. It also includes information on the PER Components which have been identified as 'High Priority' indicating it requires improvement. Finally, this dashboard includes the types of PER assessments conducted and the year of the assessment by region. Several National Societies have gone through multiple cycles of the PER process and evidence indicates that there have been improvements in NS preparedness and response capacity which has been supported by the PER Approach."
+        },
+        {
+            "action": "add",
+            "key": "summaryLastUpdate",
+            "namespace": "PERSummaryDashboard",
+            "value": "Last updated:"
+        },
+        {
+            "action": "add",
+            "key": "summaryResetFilter",
+            "namespace": "PERSummaryDashboard",
+            "value": "Clear Filter"
+        },
+        {
+            "action": "add",
+            "key": "summaryResetFilterAriaLabel",
+            "namespace": "PERSummaryDashboard",
+            "value": "Reset all active filters"
+        },
+        {
+            "action": "add",
+            "key": "yearAndRegionDescription",
+            "namespace": "PERSummaryDashboard",
+            "value": "Click on a year or region to filter"
+        },
+        {
+            "action": "add",
+            "key": "yearAndRegionHeading",
+            "namespace": "PERSummaryDashboard",
+            "value": "PER Process by Year and Region"
+        },
+        {
+            "action": "remove",
+            "key": "globalPerformanceTitle",
+            "namespace": "preparednessGlobalPerformance"
+        },
+        {
+            "action": "remove",
+            "key": "globalSummaryTitle",
+            "namespace": "preparednessGlobalSummary"
+        }
+    ]
+}

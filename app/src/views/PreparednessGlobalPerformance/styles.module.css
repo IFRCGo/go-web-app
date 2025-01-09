@@ -1,6 +1,7 @@
 .preparedness-global-performance {
     width: 100%;
-    aspect-ratio: 3 / 4;
+    height: 100%;
+    min-height: 800px;
 
     .performance-iframe {
         border: none;

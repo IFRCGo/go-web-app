@@ -1,0 +1,18 @@
+{
+    "namespace": "common",
+    "strings": {
+        "considerationColumnLabel": "PER consideration column for {type}",
+        "considerationGaugeChartLabel": "Gauge chart showing {type} considerations",
+        "considerationStackedBarLabel": "Stacked bar chart showing {type} considerations by region",
+        "considerationSelfAssessmentLabel": "Self assessment",
+        "considerationSimulationLabel": "Simulation",
+        "considerationOperationalLabel": "Operational",
+        "considerationPostOperationalLabel": "Post-operational",
+        "considerationByRegionTypeLabel": "By region & type",
+        "considerationTitleTemplate": "PER {type} Considerations",
+        "considerationEpiReady": "EPI-ready",
+        "considerationClimateReady": "Climate-ready",
+        "considerationUrbanReady": "Urban-ready",
+        "considerationMigrationReady": "Migration-ready"
+    }
+}
