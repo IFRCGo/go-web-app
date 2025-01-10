@@ -1,5 +1,8 @@
 const fs = require('fs');
+const path = require('path');
 
+// Get target directory from command line arguments, default to '../data'
+const targetDir = process.argv[2] || path.join(__dirname, '../data');
 
 function analyzeAssessments(filePath) {
   const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
@@ -68,8 +71,8 @@ function analyzeDashboardData(filePath) {
 }
   
   // Replace paths with the actual paths to your JSON files
-  analyzeAssessments('./data/per-assessments.json');
-  analyzeStatus('./data/per-status.json');
-  analyzeMapData('./data/map-data.json');
-  analyzeProcessedAssessments('./data/per-assessments-processed.json');
-  analyzeDashboardData('./data/per-dashboard-data.json');
+  analyzeAssessments(path.join(targetDir, 'per-assessments.json'));
+  analyzeStatus(path.join(targetDir, 'per-status.json'));
+  analyzeMapData(path.join(targetDir, 'map-data.json'));
+  analyzeProcessedAssessments(path.join(targetDir, 'per-assessments-processed.json'));
+  analyzeDashboardData(path.join(targetDir, 'per-dashboard-data.json'));

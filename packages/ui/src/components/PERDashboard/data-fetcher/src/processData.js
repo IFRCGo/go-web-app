@@ -1,32 +1,29 @@
 const fs = require('fs').promises;
 const path = require('path');
 
+// Get target directory from command line arguments, default to '../data'
+const targetDir = process.argv[2] || path.join(__dirname, '../data');
+
 async function processData() {
   try {
     // Update last update timestamp
     await fs.writeFile(
-      path.join(__dirname, '../data/last-update.json'),
+      path.join(targetDir, 'last-update.json'),
       JSON.stringify({ lastUpdate: new Date().toISOString() }, null, 2)
     );
 
     // Read the downloaded files
     const perStatusData = JSON.parse(
-      await fs.readFile(path.join(__dirname, '../data/per-status.json'), 'utf8')
+      await fs.readFile(path.join(targetDir, 'per-status.json'), 'utf8')
     );
     const countriesData = JSON.parse(
-      await fs.readFile(path.join(__dirname, '../data/countries.json'), 'utf8')
+      await fs.readFile(path.join(targetDir, 'countries.json'), 'utf8')
     );
     const prioritizationData = JSON.parse(
-      await fs.readFile(
-        path.join(__dirname, '../data/prioritization.json'),
-        'utf8'
-      )
+      await fs.readFile(path.join(targetDir, 'prioritization.json'), 'utf8')
     );
     const assessments = JSON.parse(
-      await fs.readFile(
-        path.join(__dirname, '../data/per-assessments.json'),
-        'utf8'
-      )
+      await fs.readFile(path.join(targetDir, 'per-assessments.json'), 'utf8')
     );
 
     console.log('Total input assessments:', assessments.results.length);
@@ -367,26 +364,26 @@ async function processData() {
 
     // Write the joined data to new files
     await fs.writeFile(
-      path.join(__dirname, '../data/map-data.json'),
+      path.join(targetDir, 'map-data.json'),
       JSON.stringify(joinedData, null, 2)
     );
 
     // Write the component descriptions to a separate file
     await fs.writeFile(
-      path.join(__dirname, '../data/component-descriptions.json'),
+      path.join(targetDir, 'component-descriptions.json'),
       JSON.stringify(componentDescriptions, null, 2)
     );
 
     // Save the processed data to per-assessments-processed.json
     await fs.writeFile(
-      path.join(__dirname, '../data/per-assessments-processed.json'),
+      path.join(targetDir, 'per-assessments-processed.json'),
       JSON.stringify({ results: processedAssessments }, null, 2),
       'utf8'
     );
 
     // Add new dashboard data file
     await fs.writeFile(
-      path.join(__dirname, '../data/per-dashboard-data.json'),
+      path.join(targetDir, 'per-dashboard-data.json'),
       JSON.stringify(
         {
           assessments: grouped,

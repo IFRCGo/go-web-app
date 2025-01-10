@@ -24,10 +24,11 @@ import {
   getComponentSummaryForTreemap,
   getPERConsiderations,
   getKPIData,
+  getFilterOptions,
   getLastUpdateDate,
-} from './data/dataHandler.js';
+} from './dataHandler';
 
-import { AssessmentType } from './data/types.js';
+import { AssessmentType } from './types.js';
 import styles from './styles.module.css';
 
 interface Props {

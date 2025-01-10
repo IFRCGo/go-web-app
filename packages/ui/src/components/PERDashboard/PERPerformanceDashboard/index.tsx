@@ -16,7 +16,7 @@ import {
     getLastUpdateDate,
     groupDataByRegion,
     summarizeData,
-} from './data/dataHandler';
+} from './dataHandler';
 
 import styles from './styles.module.css';
 
