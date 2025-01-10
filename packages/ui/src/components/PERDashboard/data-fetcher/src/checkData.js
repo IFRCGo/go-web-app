@@ -68,8 +68,8 @@ function analyzeDashboardData(filePath) {
 }
   
   // Replace paths with the actual paths to your JSON files
-  analyzeAssessments('./../data/per-assessments.json');
-  analyzeStatus('./../data/per-status.json');
-  analyzeMapData('./../data/map-data.json');
-  analyzeProcessedAssessments('./../data/per-assessments-processed.json');
-  analyzeDashboardData('./../data/per-dashboard-data.json');
+  analyzeAssessments('./data/per-assessments.json');
+  analyzeStatus('./data/per-status.json');
+  analyzeMapData('./data/map-data.json');
+  analyzeProcessedAssessments('./data/per-assessments-processed.json');
+  analyzeDashboardData('./data/per-dashboard-data.json');

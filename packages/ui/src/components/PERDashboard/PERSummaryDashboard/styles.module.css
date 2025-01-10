@@ -28,6 +28,13 @@
     font-size: var(--go-ui-font-size-sm);
 }
 
+.lastUpdate {
+    color: var(--go-ui-color-gray-60);
+    font-size: var(--go-ui-font-size-sm);
+    padding: 0 var(--go-ui-spacing-2x);
+    margin-bottom: var(--go-ui-spacing-2x);
+}
+
 .header-body {
     color: var(--go-ui-color-text);
     font-size: var(--go-ui-font-size-md);

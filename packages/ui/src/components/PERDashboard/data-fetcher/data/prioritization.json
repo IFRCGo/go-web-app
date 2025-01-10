@@ -1581,46 +1581,6 @@
       "overview": 117,
       "prioritized_action_responses": [
         {
-          "id": 92,
-          "component": 2,
-          "component_details": {
-            "id": 2,
-            "component_num": 2,
-            "title": "DRM Strategy",
-            "area": {
-              "id": 1,
-              "area_num": 1,
-              "title": "Policy Strategy and Standards",
-              "translation_module_original_language": "en"
-            },
-            "description": "An outline of the overall goal that the NS seeks to achieve in its disaster and crisis response operations. The goal considers: context analysis, ongoing/regular all-hazards risk assessments: it may define the target proportion of affected population that will be reached, and a definition of the areas/sectors where a NS will usually respond during an emergency.",
-            "component_letter": "",
-            "is_parent": null
-          },
-          "justification_text": "",
-          "translation_module_original_language": "en"
-        },
-        {
-          "id": 93,
-          "component": 5,
-          "component_details": {
-            "id": 5,
-            "component_num": 5,
-            "title": "Quality and accountability",
-            "area": {
-              "id": 1,
-              "area_num": 1,
-              "title": "Policy Strategy and Standards",
-              "translation_module_original_language": "en"
-            },
-            "description": "Describes the essential elements of principled, accountable, and high-quality humanitarian action. The RCRC Movement provides support to the most vulnerable people in line with the Sphere and CHS standards, Code of Conduct for the RCRC Movement and NGOS in Disaster Relief and the Code for Good Partnership of the RCRC Movement, Gender & Diversity, inclusion and protection, BPI/ Do no harm, context-sensitive analysis, violence prevention, accountability to affected population and disability considerations, Community engagement and accountability (CEA).",
-            "component_letter": "",
-            "is_parent": null
-          },
-          "justification_text": "",
-          "translation_module_original_language": "en"
-        },
-        {
           "id": 94,
           "component": 8,
           "component_details": {
@@ -1914,6 +1874,46 @@
               "translation_module_original_language": "en"
             },
             "description": "A documented strategy for raising domestic funds from the government, private sector, general public and other in-country actors to support the national society’s response. This would include allocation of responsibilities, practical mechanisms for accepting funds and for being accountable on funds.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 92,
+          "component": 2,
+          "component_details": {
+            "id": 2,
+            "component_num": 2,
+            "title": "DRM Strategy",
+            "area": {
+              "id": 1,
+              "area_num": 1,
+              "title": "Policy Strategy and Standards",
+              "translation_module_original_language": "en"
+            },
+            "description": "An outline of the overall goal that the NS seeks to achieve in its disaster and crisis response operations. The goal considers: context analysis, ongoing/regular all-hazards risk assessments: it may define the target proportion of affected population that will be reached, and a definition of the areas/sectors where a NS will usually respond during an emergency.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 93,
+          "component": 5,
+          "component_details": {
+            "id": 5,
+            "component_num": 5,
+            "title": "Quality and accountability",
+            "area": {
+              "id": 1,
+              "area_num": 1,
+              "title": "Policy Strategy and Standards",
+              "translation_module_original_language": "en"
+            },
+            "description": "Describes the essential elements of principled, accountable, and high-quality humanitarian action. The RCRC Movement provides support to the most vulnerable people in line with the Sphere and CHS standards, Code of Conduct for the RCRC Movement and NGOS in Disaster Relief and the Code for Good Partnership of the RCRC Movement, Gender & Diversity, inclusion and protection, BPI/ Do no harm, context-sensitive analysis, violence prevention, accountability to affected population and disability considerations, Community engagement and accountability (CEA).",
             "component_letter": "",
             "is_parent": null
           },
@@ -2649,6 +2649,46 @@
       "overview": 91,
       "prioritized_action_responses": [
         {
+          "id": 177,
+          "component": 55,
+          "component_details": {
+            "id": 55,
+            "component_num": 36,
+            "title": "Communication in emergencies",
+            "area": {
+              "id": 5,
+              "area_num": 5,
+              "title": "Operations support",
+              "translation_module_original_language": "en"
+            },
+            "description": "Incorporates a system of public messaging to enable the NS to share timely, accurate information before, during, and after a disaster or crisis.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 178,
+          "component": 56,
+          "component_details": {
+            "id": 56,
+            "component_num": 37,
+            "title": "Resource Mobilisation",
+            "area": {
+              "id": 5,
+              "area_num": 5,
+              "title": "Operations support",
+              "translation_module_original_language": "en"
+            },
+            "description": "A documented strategy for raising domestic funds from the government, private sector, general public and other in-country actors to support the national society’s response. This would include allocation of responsibilities, practical mechanisms for accepting funds and for being accountable on funds.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
           "id": 165,
           "component": 6,
           "component_details": {
@@ -2782,46 +2822,6 @@
               "translation_module_original_language": "en"
             },
             "description": "Well-functioning staff and volunteer management systems and practices allow for effective recruitment, supervision, support and encouragement of staff and volunteers.",
-            "component_letter": "",
-            "is_parent": null
-          },
-          "justification_text": "",
-          "translation_module_original_language": "en"
-        },
-        {
-          "id": 177,
-          "component": 55,
-          "component_details": {
-            "id": 55,
-            "component_num": 36,
-            "title": "Communication in emergencies",
-            "area": {
-              "id": 5,
-              "area_num": 5,
-              "title": "Operations support",
-              "translation_module_original_language": "en"
-            },
-            "description": "Incorporates a system of public messaging to enable the NS to share timely, accurate information before, during, and after a disaster or crisis.",
-            "component_letter": "",
-            "is_parent": null
-          },
-          "justification_text": "",
-          "translation_module_original_language": "en"
-        },
-        {
-          "id": 178,
-          "component": 56,
-          "component_details": {
-            "id": 56,
-            "component_num": 37,
-            "title": "Resource Mobilisation",
-            "area": {
-              "id": 5,
-              "area_num": 5,
-              "title": "Operations support",
-              "translation_module_original_language": "en"
-            },
-            "description": "A documented strategy for raising domestic funds from the government, private sector, general public and other in-country actors to support the national society’s response. This would include allocation of responsibilities, practical mechanisms for accepting funds and for being accountable on funds.",
             "component_letter": "",
             "is_parent": null
           },
@@ -4490,6 +4490,66 @@
       "overview": 38,
       "prioritized_action_responses": [
         {
+          "id": 272,
+          "component": 35,
+          "component_details": {
+            "id": 35,
+            "component_num": 21,
+            "title": "Information Management (IM)",
+            "area": {
+              "id": 3,
+              "area_num": 3,
+              "title": "Operational capacity",
+              "translation_module_original_language": "en"
+            },
+            "description": "Ability to manage information including requesting, receiving, analyzing and disseminating as per its procedures and partner requirements (IFRC and public authorities in particular). There should be a clear digital/paper trail that documents what, when and how the NS has acted and provides key information for the development of Emergency Plan of Actions. Includes IM between levels, between departments and Situational Reports, mapping, visualisation of data, GO platform (IFRC).",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 273,
+          "component": 54,
+          "component_details": {
+            "id": 54,
+            "component_num": 35,
+            "title": "Staff and volunteer management",
+            "area": {
+              "id": 5,
+              "area_num": 5,
+              "title": "Operations support",
+              "translation_module_original_language": "en"
+            },
+            "description": "Well-functioning staff and volunteer management systems and practices allow for effective recruitment, supervision, support and encouragement of staff and volunteers.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 274,
+          "component": 56,
+          "component_details": {
+            "id": 56,
+            "component_num": 37,
+            "title": "Resource Mobilisation",
+            "area": {
+              "id": 5,
+              "area_num": 5,
+              "title": "Operations support",
+              "translation_module_original_language": "en"
+            },
+            "description": "A documented strategy for raising domestic funds from the government, private sector, general public and other in-country actors to support the national society’s response. This would include allocation of responsibilities, practical mechanisms for accepting funds and for being accountable on funds.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
           "id": 268,
           "component": 3,
           "component_details": {
@@ -4564,66 +4624,6 @@
             },
             "description": "",
             "component_letter": "C",
-            "is_parent": null
-          },
-          "justification_text": "",
-          "translation_module_original_language": "en"
-        },
-        {
-          "id": 272,
-          "component": 35,
-          "component_details": {
-            "id": 35,
-            "component_num": 21,
-            "title": "Information Management (IM)",
-            "area": {
-              "id": 3,
-              "area_num": 3,
-              "title": "Operational capacity",
-              "translation_module_original_language": "en"
-            },
-            "description": "Ability to manage information including requesting, receiving, analyzing and disseminating as per its procedures and partner requirements (IFRC and public authorities in particular). There should be a clear digital/paper trail that documents what, when and how the NS has acted and provides key information for the development of Emergency Plan of Actions. Includes IM between levels, between departments and Situational Reports, mapping, visualisation of data, GO platform (IFRC).",
-            "component_letter": "",
-            "is_parent": null
-          },
-          "justification_text": "",
-          "translation_module_original_language": "en"
-        },
-        {
-          "id": 273,
-          "component": 54,
-          "component_details": {
-            "id": 54,
-            "component_num": 35,
-            "title": "Staff and volunteer management",
-            "area": {
-              "id": 5,
-              "area_num": 5,
-              "title": "Operations support",
-              "translation_module_original_language": "en"
-            },
-            "description": "Well-functioning staff and volunteer management systems and practices allow for effective recruitment, supervision, support and encouragement of staff and volunteers.",
-            "component_letter": "",
-            "is_parent": null
-          },
-          "justification_text": "",
-          "translation_module_original_language": "en"
-        },
-        {
-          "id": 274,
-          "component": 56,
-          "component_details": {
-            "id": 56,
-            "component_num": 37,
-            "title": "Resource Mobilisation",
-            "area": {
-              "id": 5,
-              "area_num": 5,
-              "title": "Operations support",
-              "translation_module_original_language": "en"
-            },
-            "description": "A documented strategy for raising domestic funds from the government, private sector, general public and other in-country actors to support the national society’s response. This would include allocation of responsibilities, practical mechanisms for accepting funds and for being accountable on funds.",
-            "component_letter": "",
             "is_parent": null
           },
           "justification_text": "",
@@ -6106,6 +6106,26 @@
       "overview": 40,
       "prioritized_action_responses": [
         {
+          "id": 376,
+          "component": 47,
+          "component_details": {
+            "id": 47,
+            "component_num": 33,
+            "title": "Information and Communication Technology (ICT)",
+            "area": {
+              "id": 5,
+              "area_num": 5,
+              "title": "Operations support",
+              "translation_module_original_language": "en"
+            },
+            "description": "Refers to technologies that provide access to information through telecommunications. This includes the Internet, wireless networks, mobile phones, radios and other communication mediums.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
           "id": 367,
           "component": 2,
           "component_details": {
@@ -6279,26 +6299,6 @@
               "translation_module_original_language": "en"
             },
             "description": "Addresses policy and procedures to ensure the safety of staff and volunteers. This include awareness, effective recruitment, training and management processes in place to ensure that personnel are capable of undertaking the roles demanded of them (from NS operational, management and leaders) according to the Stay Safe (IFRC) and Safer Access (ICRC). Based on safer access framework, including concepts of access, perception, identification and acceptance, and protection and violence prevention.",
-            "component_letter": "",
-            "is_parent": null
-          },
-          "justification_text": "",
-          "translation_module_original_language": "en"
-        },
-        {
-          "id": 376,
-          "component": 47,
-          "component_details": {
-            "id": 47,
-            "component_num": 33,
-            "title": "Information and Communication Technology (ICT)",
-            "area": {
-              "id": 5,
-              "area_num": 5,
-              "title": "Operations support",
-              "translation_module_original_language": "en"
-            },
-            "description": "Refers to technologies that provide access to information through telecommunications. This includes the Internet, wireless networks, mobile phones, radios and other communication mediums.",
             "component_letter": "",
             "is_parent": null
           },
@@ -8108,46 +8108,6 @@
       "overview": 92,
       "prioritized_action_responses": [
         {
-          "id": 478,
-          "component": 2,
-          "component_details": {
-            "id": 2,
-            "component_num": 2,
-            "title": "DRM Strategy",
-            "area": {
-              "id": 1,
-              "area_num": 1,
-              "title": "Policy Strategy and Standards",
-              "translation_module_original_language": "en"
-            },
-            "description": "An outline of the overall goal that the NS seeks to achieve in its disaster and crisis response operations. The goal considers: context analysis, ongoing/regular all-hazards risk assessments: it may define the target proportion of affected population that will be reached, and a definition of the areas/sectors where a NS will usually respond during an emergency.",
-            "component_letter": "",
-            "is_parent": null
-          },
-          "justification_text": "",
-          "translation_module_original_language": "en"
-        },
-        {
-          "id": 479,
-          "component": 3,
-          "component_details": {
-            "id": 3,
-            "component_num": 3,
-            "title": "DRM Policy",
-            "area": {
-              "id": 1,
-              "area_num": 1,
-              "title": "Policy Strategy and Standards",
-              "translation_module_original_language": "en"
-            },
-            "description": "Reflects the NS mission, RCRC principles and mandate. It acknowledges other relevant NS policies, and aligns with the government policy (where applicable), incorporating the general rules that the NS will obey in order to achieve something (i.e mandate, strategy, etc.)",
-            "component_letter": "",
-            "is_parent": null
-          },
-          "justification_text": "",
-          "translation_module_original_language": "en"
-        },
-        {
           "id": 480,
           "component": 11,
           "component_details": {
@@ -8241,6 +8201,46 @@
               "translation_module_original_language": "en"
             },
             "description": "The PMERL is designed to implement a results-based planning, monitoring and evaluation system that provides an evidence base of NS performance, including relevance, efficiency, effectiveness, sustainability and impact. A reliable and trusted organization is accountable, providing transparent and timely information and building systems to strengthen data collection and reporting. It is data-driven, analytical and results-based.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 478,
+          "component": 2,
+          "component_details": {
+            "id": 2,
+            "component_num": 2,
+            "title": "DRM Strategy",
+            "area": {
+              "id": 1,
+              "area_num": 1,
+              "title": "Policy Strategy and Standards",
+              "translation_module_original_language": "en"
+            },
+            "description": "An outline of the overall goal that the NS seeks to achieve in its disaster and crisis response operations. The goal considers: context analysis, ongoing/regular all-hazards risk assessments: it may define the target proportion of affected population that will be reached, and a definition of the areas/sectors where a NS will usually respond during an emergency.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 479,
+          "component": 3,
+          "component_details": {
+            "id": 3,
+            "component_num": 3,
+            "title": "DRM Policy",
+            "area": {
+              "id": 1,
+              "area_num": 1,
+              "title": "Policy Strategy and Standards",
+              "translation_module_original_language": "en"
+            },
+            "description": "Reflects the NS mission, RCRC principles and mandate. It acknowledges other relevant NS policies, and aligns with the government policy (where applicable), incorporating the general rules that the NS will obey in order to achieve something (i.e mandate, strategy, etc.)",
             "component_letter": "",
             "is_parent": null
           },
@@ -11797,26 +11797,6 @@
       "overview": 103,
       "prioritized_action_responses": [
         {
-          "id": 716,
-          "component": 56,
-          "component_details": {
-            "id": 56,
-            "component_num": 37,
-            "title": "Resource Mobilisation",
-            "area": {
-              "id": 5,
-              "area_num": 5,
-              "title": "Operations support",
-              "translation_module_original_language": "en"
-            },
-            "description": "A documented strategy for raising domestic funds from the government, private sector, general public and other in-country actors to support the national society’s response. This would include allocation of responsibilities, practical mechanisms for accepting funds and for being accountable on funds.",
-            "component_letter": "",
-            "is_parent": null
-          },
-          "justification_text": "",
-          "translation_module_original_language": "en"
-        },
-        {
           "id": 705,
           "component": 30,
           "component_details": {
@@ -11930,6 +11910,26 @@
               "translation_module_original_language": "en"
             },
             "description": "Well-functioning staff and volunteer management systems and practices allow for effective recruitment, supervision, support and encouragement of staff and volunteers.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 716,
+          "component": 56,
+          "component_details": {
+            "id": 56,
+            "component_num": 37,
+            "title": "Resource Mobilisation",
+            "area": {
+              "id": 5,
+              "area_num": 5,
+              "title": "Operations support",
+              "translation_module_original_language": "en"
+            },
+            "description": "A documented strategy for raising domestic funds from the government, private sector, general public and other in-country actors to support the national society’s response. This would include allocation of responsibilities, practical mechanisms for accepting funds and for being accountable on funds.",
             "component_letter": "",
             "is_parent": null
           },
@@ -13252,26 +13252,6 @@
       "overview": 87,
       "prioritized_action_responses": [
         {
-          "id": 799,
-          "component": 14,
-          "component_details": {
-            "id": 14,
-            "component_num": 14,
-            "title": "NS-specific areas of intervention",
-            "area": {
-              "id": 3,
-              "area_num": 3,
-              "title": "Operational capacity",
-              "translation_module_original_language": "en"
-            },
-            "description": "Sector-specific or services provided by the NS in case of emergencies, it is in line with the NS mandate and legislation in country. It includes Community Based DP/DRR, Evacuation, Health in Emergencies, Epidemic and Pandemic, First aid, WASH, Food security and Livelihoods, Search and rRescue, Shelter, Management of dead bodies, RFL, Transition to recovery, and CBRN preparedness.",
-            "component_letter": "",
-            "is_parent": true
-          },
-          "justification_text": "",
-          "translation_module_original_language": "en"
-        },
-        {
           "id": 800,
           "component": 12,
           "component_details": {
@@ -13387,6 +13367,26 @@
             "description": "",
             "component_letter": "",
             "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 799,
+          "component": 14,
+          "component_details": {
+            "id": 14,
+            "component_num": 14,
+            "title": "NS-specific areas of intervention",
+            "area": {
+              "id": 3,
+              "area_num": 3,
+              "title": "Operational capacity",
+              "translation_module_original_language": "en"
+            },
+            "description": "Sector-specific or services provided by the NS in case of emergencies, it is in line with the NS mandate and legislation in country. It includes Community Based DP/DRR, Evacuation, Health in Emergencies, Epidemic and Pandemic, First aid, WASH, Food security and Livelihoods, Search and rRescue, Shelter, Management of dead bodies, RFL, Transition to recovery, and CBRN preparedness.",
+            "component_letter": "",
+            "is_parent": true
           },
           "justification_text": "",
           "translation_module_original_language": "en"
@@ -14160,126 +14160,6 @@
       "overview": 138,
       "prioritized_action_responses": [
         {
-          "id": 853,
-          "component": 1,
-          "component_details": {
-            "id": 1,
-            "component_num": 1,
-            "title": "RC auxiliary role, Mandate and Law",
-            "area": {
-              "id": 1,
-              "area_num": 1,
-              "title": "Policy Strategy and Standards",
-              "translation_module_original_language": "en"
-            },
-            "description": "A constitutional reference to the role of the NS in responding to disasters and crises, which may be legislated or included/ recognized in the National Response System.",
-            "component_letter": "",
-            "is_parent": null
-          },
-          "justification_text": "",
-          "translation_module_original_language": "en"
-        },
-        {
-          "id": 854,
-          "component": 4,
-          "component_details": {
-            "id": 4,
-            "component_num": 4,
-            "title": "DRM Laws, Advocacy and Dissemination",
-            "area": {
-              "id": 1,
-              "area_num": 1,
-              "title": "Policy Strategy and Standards",
-              "translation_module_original_language": "en"
-            },
-            "description": "Designed to support the NS in improving legal preparedness for disasters and crisis and to promote the use of the IDRL Guidelines in order to reduce human vulnerability.",
-            "component_letter": "",
-            "is_parent": null
-          },
-          "justification_text": "",
-          "translation_module_original_language": "en"
-        },
-        {
-          "id": 855,
-          "component": 5,
-          "component_details": {
-            "id": 5,
-            "component_num": 5,
-            "title": "Quality and accountability",
-            "area": {
-              "id": 1,
-              "area_num": 1,
-              "title": "Policy Strategy and Standards",
-              "translation_module_original_language": "en"
-            },
-            "description": "Describes the essential elements of principled, accountable, and high-quality humanitarian action. The RCRC Movement provides support to the most vulnerable people in line with the Sphere and CHS standards, Code of Conduct for the RCRC Movement and NGOS in Disaster Relief and the Code for Good Partnership of the RCRC Movement, Gender & Diversity, inclusion and protection, BPI/ Do no harm, context-sensitive analysis, violence prevention, accountability to affected population and disability considerations, Community engagement and accountability (CEA).",
-            "component_letter": "",
-            "is_parent": null
-          },
-          "justification_text": "",
-          "translation_module_original_language": "en"
-        },
-        {
-          "id": 856,
-          "component": 7,
-          "component_details": {
-            "id": 7,
-            "component_num": 7,
-            "title": "Scenario planning",
-            "area": {
-              "id": 2,
-              "area_num": 2,
-              "title": "Analysis and planning",
-              "translation_module_original_language": "en"
-            },
-            "description": "A set of practical operation plans that closely mirror the generic disaster or crisis response plan but are tailored to a specific hazard type (e.g. earthquake, dengue epidemic, floods, cyclone) and a specific scenario (i.e. number of people affected, their locations and other important factors).",
-            "component_letter": "",
-            "is_parent": null
-          },
-          "justification_text": "",
-          "translation_module_original_language": "en"
-        },
-        {
-          "id": 857,
-          "component": 9,
-          "component_details": {
-            "id": 9,
-            "component_num": 9,
-            "title": "Preparedness plans and budgets",
-            "area": {
-              "id": 2,
-              "area_num": 2,
-              "title": "Analysis and planning",
-              "translation_module_original_language": "en"
-            },
-            "description": "Plans identifying organisational resources, determining roles and responsibilities, and developing policies, procedures and activities in order to reach a level of preparedness to be able to respond effectively to a disaster or crisis. Budgets ensure that the necessary financial support is secured to allow capacities to be built and readiness maintained.",
-            "component_letter": "",
-            "is_parent": null
-          },
-          "justification_text": "",
-          "translation_module_original_language": "en"
-        },
-        {
-          "id": 858,
-          "component": 12,
-          "component_details": {
-            "id": 12,
-            "component_num": 12,
-            "title": "Response and recovery planning",
-            "area": {
-              "id": 2,
-              "area_num": 2,
-              "title": "Analysis and planning",
-              "translation_module_original_language": "en"
-            },
-            "description": "A documented set of procedures for the disaster/crisis response and recovery process. Including use of local capacities, transition to recovery, type of activities and serivices provided during response and recovery activities and exit strategies, procedures for DREF & EA, and templates for planning, budgeting and accessing funds.",
-            "component_letter": "",
-            "is_parent": null
-          },
-          "justification_text": "",
-          "translation_module_original_language": "en"
-        },
-        {
           "id": 859,
           "component": 15,
           "component_details": {
@@ -14453,6 +14333,126 @@
               "translation_module_original_language": "en"
             },
             "description": "A documented strategy for raising domestic funds from the government, private sector, general public and other in-country actors to support the national society’s response. This would include allocation of responsibilities, practical mechanisms for accepting funds and for being accountable on funds.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 853,
+          "component": 1,
+          "component_details": {
+            "id": 1,
+            "component_num": 1,
+            "title": "RC auxiliary role, Mandate and Law",
+            "area": {
+              "id": 1,
+              "area_num": 1,
+              "title": "Policy Strategy and Standards",
+              "translation_module_original_language": "en"
+            },
+            "description": "A constitutional reference to the role of the NS in responding to disasters and crises, which may be legislated or included/ recognized in the National Response System.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 854,
+          "component": 4,
+          "component_details": {
+            "id": 4,
+            "component_num": 4,
+            "title": "DRM Laws, Advocacy and Dissemination",
+            "area": {
+              "id": 1,
+              "area_num": 1,
+              "title": "Policy Strategy and Standards",
+              "translation_module_original_language": "en"
+            },
+            "description": "Designed to support the NS in improving legal preparedness for disasters and crisis and to promote the use of the IDRL Guidelines in order to reduce human vulnerability.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 855,
+          "component": 5,
+          "component_details": {
+            "id": 5,
+            "component_num": 5,
+            "title": "Quality and accountability",
+            "area": {
+              "id": 1,
+              "area_num": 1,
+              "title": "Policy Strategy and Standards",
+              "translation_module_original_language": "en"
+            },
+            "description": "Describes the essential elements of principled, accountable, and high-quality humanitarian action. The RCRC Movement provides support to the most vulnerable people in line with the Sphere and CHS standards, Code of Conduct for the RCRC Movement and NGOS in Disaster Relief and the Code for Good Partnership of the RCRC Movement, Gender & Diversity, inclusion and protection, BPI/ Do no harm, context-sensitive analysis, violence prevention, accountability to affected population and disability considerations, Community engagement and accountability (CEA).",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 856,
+          "component": 7,
+          "component_details": {
+            "id": 7,
+            "component_num": 7,
+            "title": "Scenario planning",
+            "area": {
+              "id": 2,
+              "area_num": 2,
+              "title": "Analysis and planning",
+              "translation_module_original_language": "en"
+            },
+            "description": "A set of practical operation plans that closely mirror the generic disaster or crisis response plan but are tailored to a specific hazard type (e.g. earthquake, dengue epidemic, floods, cyclone) and a specific scenario (i.e. number of people affected, their locations and other important factors).",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 857,
+          "component": 9,
+          "component_details": {
+            "id": 9,
+            "component_num": 9,
+            "title": "Preparedness plans and budgets",
+            "area": {
+              "id": 2,
+              "area_num": 2,
+              "title": "Analysis and planning",
+              "translation_module_original_language": "en"
+            },
+            "description": "Plans identifying organisational resources, determining roles and responsibilities, and developing policies, procedures and activities in order to reach a level of preparedness to be able to respond effectively to a disaster or crisis. Budgets ensure that the necessary financial support is secured to allow capacities to be built and readiness maintained.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 858,
+          "component": 12,
+          "component_details": {
+            "id": 12,
+            "component_num": 12,
+            "title": "Response and recovery planning",
+            "area": {
+              "id": 2,
+              "area_num": 2,
+              "title": "Analysis and planning",
+              "translation_module_original_language": "en"
+            },
+            "description": "A documented set of procedures for the disaster/crisis response and recovery process. Including use of local capacities, transition to recovery, type of activities and serivices provided during response and recovery activities and exit strategies, procedures for DREF & EA, and templates for planning, budgeting and accessing funds.",
             "component_letter": "",
             "is_parent": null
           },
@@ -15683,6 +15683,820 @@
         }
       ],
       "is_draft": false
+    },
+    {
+      "id": 108,
+      "overview": 150,
+      "prioritized_action_responses": [
+        {
+          "id": 973,
+          "component": 2,
+          "component_details": {
+            "id": 2,
+            "component_num": 2,
+            "title": "DRM Strategy",
+            "area": {
+              "id": 1,
+              "area_num": 1,
+              "title": "Policy Strategy and Standards",
+              "translation_module_original_language": "en"
+            },
+            "description": "An outline of the overall goal that the NS seeks to achieve in its disaster and crisis response operations. The goal considers: context analysis, ongoing/regular all-hazards risk assessments: it may define the target proportion of affected population that will be reached, and a definition of the areas/sectors where a NS will usually respond during an emergency.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "to produce dm strategy",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 974,
+          "component": 3,
+          "component_details": {
+            "id": 3,
+            "component_num": 3,
+            "title": "DRM Policy",
+            "area": {
+              "id": 1,
+              "area_num": 1,
+              "title": "Policy Strategy and Standards",
+              "translation_module_original_language": "en"
+            },
+            "description": "Reflects the NS mission, RCRC principles and mandate. It acknowledges other relevant NS policies, and aligns with the government policy (where applicable), incorporating the general rules that the NS will obey in order to achieve something (i.e mandate, strategy, etc.)",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "to produce dm policy",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 975,
+          "component": 6,
+          "component_details": {
+            "id": 6,
+            "component_num": 6,
+            "title": "Hazard, Context and Risk Analysis, Monitoring and Early Warning",
+            "area": {
+              "id": 2,
+              "area_num": 2,
+              "title": "Analysis and planning",
+              "translation_module_original_language": "en"
+            },
+            "description": "Describes how the NS monitors and maps past, present and potential hazards, disasters and crises (e.g. hazard, vulnerability assessments, gathering information from communities and government authorities) and systematically evaluates the damage that could be caused by a potential disaster/crisis, the frequency, severity of the impact, and the alert the relevant areas to scale the preparedness actions to reduce population vulnerability.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "to develop scenarios",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 976,
+          "component": 7,
+          "component_details": {
+            "id": 7,
+            "component_num": 7,
+            "title": "Scenario planning",
+            "area": {
+              "id": 2,
+              "area_num": 2,
+              "title": "Analysis and planning",
+              "translation_module_original_language": "en"
+            },
+            "description": "A set of practical operation plans that closely mirror the generic disaster or crisis response plan but are tailored to a specific hazard type (e.g. earthquake, dengue epidemic, floods, cyclone) and a specific scenario (i.e. number of people affected, their locations and other important factors).",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 977,
+          "component": 8,
+          "component_details": {
+            "id": 8,
+            "component_num": 8,
+            "title": "Risk management",
+            "area": {
+              "id": 2,
+              "area_num": 2,
+              "title": "Analysis and planning",
+              "translation_module_original_language": "en"
+            },
+            "description": "A mapping of the potential risks in every area, along with its related mitigation measures. Including financial, reputational, organizational risks etc.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 978,
+          "component": 11,
+          "component_details": {
+            "id": 11,
+            "component_num": 11,
+            "title": "Emergency Response Procedures (SOPs)",
+            "area": {
+              "id": 2,
+              "area_num": 2,
+              "title": "Analysis and planning",
+              "translation_module_original_language": "en"
+            },
+            "description": "Written guidelines that describe duties and rights of personnel, command structures, coordination with other organizations, and reporting requirements, etc. Includes detailed organogram, decision-making flow chart, and defined roles and responsibilities.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 979,
+          "component": 32,
+          "component_details": {
+            "id": 32,
+            "component_num": 18,
+            "title": "Emergency Needs Assessment",
+            "area": {
+              "id": 3,
+              "area_num": 3,
+              "title": "Operational capacity",
+              "translation_module_original_language": "en"
+            },
+            "description": "Assess the extent and impact of the damage caused by the disaster/crisis and the degree of vulnerability of the affected population. The first step in any emergency response, such an assessment will identify the needs that require external intervention and the gaps to be filled. It is a vital component of the programme-planning process.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "training and update of formats",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 980,
+          "component": 33,
+          "component_details": {
+            "id": 33,
+            "component_num": 19,
+            "title": "Affected population selection",
+            "area": {
+              "id": 3,
+              "area_num": 3,
+              "title": "Operational capacity",
+              "translation_module_original_language": "en"
+            },
+            "description": "Identification and selection of target Affected population for interventions, using a pre-defined set of criteria based on need and vulnerability. This includes consideration of specific vulnerabilities such as disability, age and gender.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "policy to share personal data with operational actors, Jelena",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 981,
+          "component": 44,
+          "component_details": {
+            "id": 44,
+            "component_num": 30,
+            "title": "Safety and security management",
+            "area": {
+              "id": 5,
+              "area_num": 5,
+              "title": "Operations support",
+              "translation_module_original_language": "en"
+            },
+            "description": "Addresses policy and procedures to ensure the safety of staff and volunteers. This include awareness, effective recruitment, training and management processes in place to ensure that personnel are capable of undertaking the roles demanded of them (from NS operational, management and leaders) according to the Stay Safe (IFRC) and Safer Access (ICRC). Based on safer access framework, including concepts of access, perception, identification and acceptance, and protection and violence prevention.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "Security framework for operation and training",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 982,
+          "component": 47,
+          "component_details": {
+            "id": 47,
+            "component_num": 33,
+            "title": "Information and Communication Technology (ICT)",
+            "area": {
+              "id": 5,
+              "area_num": 5,
+              "title": "Operations support",
+              "translation_module_original_language": "en"
+            },
+            "description": "Refers to technologies that provide access to information through telecommunications. This includes the Internet, wireless networks, mobile phones, radios and other communication mediums.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "radio veza",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 983,
+          "component": 54,
+          "component_details": {
+            "id": 54,
+            "component_num": 35,
+            "title": "Staff and volunteer management",
+            "area": {
+              "id": 5,
+              "area_num": 5,
+              "title": "Operations support",
+              "translation_module_original_language": "en"
+            },
+            "description": "Well-functioning staff and volunteer management systems and practices allow for effective recruitment, supervision, support and encouragement of staff and volunteers.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "trained in quality and accountability standards (Sphere, Code of Conduct, etc...) around the protection, sexual abuse, exploitation, child protection, gender-based violence and other forms of abuse. appreciation system, priority to develop psp system and system on self-care, violence and harassment. Code of Conduct to be checked if signed by all",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 984,
+          "component": 55,
+          "component_details": {
+            "id": 55,
+            "component_num": 36,
+            "title": "Communication in emergencies",
+            "area": {
+              "id": 5,
+              "area_num": 5,
+              "title": "Operations support",
+              "translation_module_original_language": "en"
+            },
+            "description": "Incorporates a system of public messaging to enable the NS to share timely, accurate information before, during, and after a disaster or crisis.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        }
+      ],
+      "is_draft": false
+    },
+    {
+      "id": 109,
+      "overview": 139,
+      "prioritized_action_responses": [
+        {
+          "id": 992,
+          "component": 46,
+          "component_details": {
+            "id": 46,
+            "component_num": 32,
+            "title": "Finance and Admin policy and emergency procedures",
+            "area": {
+              "id": 5,
+              "area_num": 5,
+              "title": "Operations support",
+              "translation_module_original_language": "en"
+            },
+            "description": "Overall budgeting, accounting, treasury, assets, financial reporting and financial services operations. it also includes the efficient delivery , cost effective and timely services to the NS. Pre-approved, auditable, expedited procedures that allow for flexibility during a disaster/crisis. These must meet transparency, oversight and accountability standards. Procedures may include faster approval processes, fewer signatures, different authority levels. The Emergency Procedures are activated for a specific period of time.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 993,
+          "component": 47,
+          "component_details": {
+            "id": 47,
+            "component_num": 33,
+            "title": "Information and Communication Technology (ICT)",
+            "area": {
+              "id": 5,
+              "area_num": 5,
+              "title": "Operations support",
+              "translation_module_original_language": "en"
+            },
+            "description": "Refers to technologies that provide access to information through telecommunications. This includes the Internet, wireless networks, mobile phones, radios and other communication mediums.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 994,
+          "component": 48,
+          "component_details": {
+            "id": 48,
+            "component_num": 34,
+            "title": "Logistics, procurement and supply chain",
+            "area": {
+              "id": 5,
+              "area_num": 5,
+              "title": "Operations support",
+              "translation_module_original_language": "en"
+            },
+            "description": "",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 995,
+          "component": 54,
+          "component_details": {
+            "id": 54,
+            "component_num": 35,
+            "title": "Staff and volunteer management",
+            "area": {
+              "id": 5,
+              "area_num": 5,
+              "title": "Operations support",
+              "translation_module_original_language": "en"
+            },
+            "description": "Well-functioning staff and volunteer management systems and practices allow for effective recruitment, supervision, support and encouragement of staff and volunteers.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 996,
+          "component": 55,
+          "component_details": {
+            "id": 55,
+            "component_num": 36,
+            "title": "Communication in emergencies",
+            "area": {
+              "id": 5,
+              "area_num": 5,
+              "title": "Operations support",
+              "translation_module_original_language": "en"
+            },
+            "description": "Incorporates a system of public messaging to enable the NS to share timely, accurate information before, during, and after a disaster or crisis.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 997,
+          "component": 56,
+          "component_details": {
+            "id": 56,
+            "component_num": 37,
+            "title": "Resource Mobilisation",
+            "area": {
+              "id": 5,
+              "area_num": 5,
+              "title": "Operations support",
+              "translation_module_original_language": "en"
+            },
+            "description": "A documented strategy for raising domestic funds from the government, private sector, general public and other in-country actors to support the national society’s response. This would include allocation of responsibilities, practical mechanisms for accepting funds and for being accountable on funds.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 985,
+          "component": 11,
+          "component_details": {
+            "id": 11,
+            "component_num": 11,
+            "title": "Emergency Response Procedures (SOPs)",
+            "area": {
+              "id": 2,
+              "area_num": 2,
+              "title": "Analysis and planning",
+              "translation_module_original_language": "en"
+            },
+            "description": "Written guidelines that describe duties and rights of personnel, command structures, coordination with other organizations, and reporting requirements, etc. Includes detailed organogram, decision-making flow chart, and defined roles and responsibilities.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 986,
+          "component": 13,
+          "component_details": {
+            "id": 13,
+            "component_num": 13,
+            "title": "Pre-disaster meetings and agreements",
+            "area": {
+              "id": 2,
+              "area_num": 2,
+              "title": "Analysis and planning",
+              "translation_module_original_language": "en"
+            },
+            "description": "A commitment to arrange meetings and agreements with Movement stakeholders and external actors to identify, plan for and address gaps for any upcoming disaster season (e.g. monsoon, floods or cyclones, or for any generic disaster/crisis event (e.g Epidemic, pandemic, confilict situations). Pre-disaster agreements should set out each partner's role in the event of a disaster/crisis.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "CVA /preagreements",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 987,
+          "component": 31,
+          "component_details": {
+            "id": 31,
+            "component_num": 17,
+            "title": "Cash Based Intervention (CBI)",
+            "area": {
+              "id": 3,
+              "area_num": 3,
+              "title": "Operational capacity",
+              "translation_module_original_language": "en"
+            },
+            "description": "An effective and flexible way, including all forms of cash and voucher-based assistance, to support people affected by emergencies, maintaining their dignity and choice, while fostering local economies. Cash should also be mainstreamed into other sectors (including Relief, shelter, livelihoods) and services (Logistics, Finance, etc.)",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 988,
+          "component": 34,
+          "component_details": {
+            "id": 34,
+            "component_num": 20,
+            "title": "Emergency Operations Centre (EOC)",
+            "area": {
+              "id": 3,
+              "area_num": 3,
+              "title": "Operational capacity",
+              "translation_module_original_language": "en"
+            },
+            "description": "A central command and control facility responsible for carrying out disaster/crisis management functions at a strategic level in an emergency situation. The common functions are to collect and analyze data; facilitate decision making that protects life and livelihoods; and disseminate those decisions to all concerned agencies and individuals. Generally located at the headquarter level of an organization.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 989,
+          "component": 35,
+          "component_details": {
+            "id": 35,
+            "component_num": 21,
+            "title": "Information Management (IM)",
+            "area": {
+              "id": 3,
+              "area_num": 3,
+              "title": "Operational capacity",
+              "translation_module_original_language": "en"
+            },
+            "description": "Ability to manage information including requesting, receiving, analyzing and disseminating as per its procedures and partner requirements (IFRC and public authorities in particular). There should be a clear digital/paper trail that documents what, when and how the NS has acted and provides key information for the development of Emergency Plan of Actions. Includes IM between levels, between departments and Situational Reports, mapping, visualisation of data, GO platform (IFRC).",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 990,
+          "component": 44,
+          "component_details": {
+            "id": 44,
+            "component_num": 30,
+            "title": "Safety and security management",
+            "area": {
+              "id": 5,
+              "area_num": 5,
+              "title": "Operations support",
+              "translation_module_original_language": "en"
+            },
+            "description": "Addresses policy and procedures to ensure the safety of staff and volunteers. This include awareness, effective recruitment, training and management processes in place to ensure that personnel are capable of undertaking the roles demanded of them (from NS operational, management and leaders) according to the Stay Safe (IFRC) and Safer Access (ICRC). Based on safer access framework, including concepts of access, perception, identification and acceptance, and protection and violence prevention.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 991,
+          "component": 45,
+          "component_details": {
+            "id": 45,
+            "component_num": 31,
+            "title": "Operations Monitoring, Evaluation, Reporting and Learning",
+            "area": {
+              "id": 5,
+              "area_num": 5,
+              "title": "Operations support",
+              "translation_module_original_language": "en"
+            },
+            "description": "The PMERL is designed to implement a results-based planning, monitoring and evaluation system that provides an evidence base of NS performance, including relevance, efficiency, effectiveness, sustainability and impact. A reliable and trusted organization is accountable, providing transparent and timely information and building systems to strengthen data collection and reporting. It is data-driven, analytical and results-based.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "DREF training",
+          "translation_module_original_language": "en"
+        }
+      ],
+      "is_draft": false
+    },
+    {
+      "id": 110,
+      "overview": 149,
+      "prioritized_action_responses": [
+        {
+          "id": 1005,
+          "component": 1,
+          "component_details": {
+            "id": 1,
+            "component_num": 1,
+            "title": "RC auxiliary role, Mandate and Law",
+            "area": {
+              "id": 1,
+              "area_num": 1,
+              "title": "Policy Strategy and Standards",
+              "translation_module_original_language": "en"
+            },
+            "description": "A constitutional reference to the role of the NS in responding to disasters and crises, which may be legislated or included/ recognized in the National Response System.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 1006,
+          "component": 2,
+          "component_details": {
+            "id": 2,
+            "component_num": 2,
+            "title": "DRM Strategy",
+            "area": {
+              "id": 1,
+              "area_num": 1,
+              "title": "Policy Strategy and Standards",
+              "translation_module_original_language": "en"
+            },
+            "description": "An outline of the overall goal that the NS seeks to achieve in its disaster and crisis response operations. The goal considers: context analysis, ongoing/regular all-hazards risk assessments: it may define the target proportion of affected population that will be reached, and a definition of the areas/sectors where a NS will usually respond during an emergency.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 1007,
+          "component": 3,
+          "component_details": {
+            "id": 3,
+            "component_num": 3,
+            "title": "DRM Policy",
+            "area": {
+              "id": 1,
+              "area_num": 1,
+              "title": "Policy Strategy and Standards",
+              "translation_module_original_language": "en"
+            },
+            "description": "Reflects the NS mission, RCRC principles and mandate. It acknowledges other relevant NS policies, and aligns with the government policy (where applicable), incorporating the general rules that the NS will obey in order to achieve something (i.e mandate, strategy, etc.)",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 1008,
+          "component": 11,
+          "component_details": {
+            "id": 11,
+            "component_num": 11,
+            "title": "Emergency Response Procedures (SOPs)",
+            "area": {
+              "id": 2,
+              "area_num": 2,
+              "title": "Analysis and planning",
+              "translation_module_original_language": "en"
+            },
+            "description": "Written guidelines that describe duties and rights of personnel, command structures, coordination with other organizations, and reporting requirements, etc. Includes detailed organogram, decision-making flow chart, and defined roles and responsibilities.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 1009,
+          "component": 47,
+          "component_details": {
+            "id": 47,
+            "component_num": 33,
+            "title": "Information and Communication Technology (ICT)",
+            "area": {
+              "id": 5,
+              "area_num": 5,
+              "title": "Operations support",
+              "translation_module_original_language": "en"
+            },
+            "description": "Refers to technologies that provide access to information through telecommunications. This includes the Internet, wireless networks, mobile phones, radios and other communication mediums.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 1010,
+          "component": 54,
+          "component_details": {
+            "id": 54,
+            "component_num": 35,
+            "title": "Staff and volunteer management",
+            "area": {
+              "id": 5,
+              "area_num": 5,
+              "title": "Operations support",
+              "translation_module_original_language": "en"
+            },
+            "description": "Well-functioning staff and volunteer management systems and practices allow for effective recruitment, supervision, support and encouragement of staff and volunteers.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 1011,
+          "component": 55,
+          "component_details": {
+            "id": 55,
+            "component_num": 36,
+            "title": "Communication in emergencies",
+            "area": {
+              "id": 5,
+              "area_num": 5,
+              "title": "Operations support",
+              "translation_module_original_language": "en"
+            },
+            "description": "Incorporates a system of public messaging to enable the NS to share timely, accurate information before, during, and after a disaster or crisis.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 1012,
+          "component": 39,
+          "component_details": {
+            "id": 39,
+            "component_num": 25,
+            "title": "Coordination with authorities",
+            "area": {
+              "id": 4,
+              "area_num": 4,
+              "title": "Coordination",
+              "translation_module_original_language": "en"
+            },
+            "description": "Mechanism that facilitates coordination and cooperation with local and national authorities. It is connected to the NS auxiliary role for humanitarian assistance.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        }
+      ],
+      "is_draft": false
+    },
+    {
+      "id": 111,
+      "overview": 151,
+      "prioritized_action_responses": [
+        {
+          "id": 1013,
+          "component": 1,
+          "component_details": {
+            "id": 1,
+            "component_num": 1,
+            "title": "RC auxiliary role, Mandate and Law",
+            "area": {
+              "id": 1,
+              "area_num": 1,
+              "title": "Policy Strategy and Standards",
+              "translation_module_original_language": "en"
+            },
+            "description": "A constitutional reference to the role of the NS in responding to disasters and crises, which may be legislated or included/ recognized in the National Response System.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 1014,
+          "component": 2,
+          "component_details": {
+            "id": 2,
+            "component_num": 2,
+            "title": "DRM Strategy",
+            "area": {
+              "id": 1,
+              "area_num": 1,
+              "title": "Policy Strategy and Standards",
+              "translation_module_original_language": "en"
+            },
+            "description": "An outline of the overall goal that the NS seeks to achieve in its disaster and crisis response operations. The goal considers: context analysis, ongoing/regular all-hazards risk assessments: it may define the target proportion of affected population that will be reached, and a definition of the areas/sectors where a NS will usually respond during an emergency.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 1015,
+          "component": 6,
+          "component_details": {
+            "id": 6,
+            "component_num": 6,
+            "title": "Hazard, Context and Risk Analysis, Monitoring and Early Warning",
+            "area": {
+              "id": 2,
+              "area_num": 2,
+              "title": "Analysis and planning",
+              "translation_module_original_language": "en"
+            },
+            "description": "Describes how the NS monitors and maps past, present and potential hazards, disasters and crises (e.g. hazard, vulnerability assessments, gathering information from communities and government authorities) and systematically evaluates the damage that could be caused by a potential disaster/crisis, the frequency, severity of the impact, and the alert the relevant areas to scale the preparedness actions to reduce population vulnerability.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 1016,
+          "component": 15,
+          "component_details": {
+            "id": 15,
+            "component_num": 14,
+            "title": "COMMUNITY-BASED DP AND DRR",
+            "area": {
+              "id": 3,
+              "area_num": 3,
+              "title": "Operational capacity",
+              "translation_module_original_language": "en"
+            },
+            "description": "",
+            "component_letter": "A",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 1017,
+          "component": 54,
+          "component_details": {
+            "id": 54,
+            "component_num": 35,
+            "title": "Staff and volunteer management",
+            "area": {
+              "id": 5,
+              "area_num": 5,
+              "title": "Operations support",
+              "translation_module_original_language": "en"
+            },
+            "description": "Well-functioning staff and volunteer management systems and practices allow for effective recruitment, supervision, support and encouragement of staff and volunteers.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        },
+        {
+          "id": 1018,
+          "component": 56,
+          "component_details": {
+            "id": 56,
+            "component_num": 37,
+            "title": "Resource Mobilisation",
+            "area": {
+              "id": 5,
+              "area_num": 5,
+              "title": "Operations support",
+              "translation_module_original_language": "en"
+            },
+            "description": "A documented strategy for raising domestic funds from the government, private sector, general public and other in-country actors to support the national society’s response. This would include allocation of responsibilities, practical mechanisms for accepting funds and for being accountable on funds.",
+            "component_letter": "",
+            "is_parent": null
+          },
+          "justification_text": "",
+          "translation_module_original_language": "en"
+        }
+      ],
+      "is_draft": false
+    },
+    {
+      "id": 112,
+      "overview": 152,
+      "prioritized_action_responses": [],
+      "is_draft": true
     }
   ]
 }

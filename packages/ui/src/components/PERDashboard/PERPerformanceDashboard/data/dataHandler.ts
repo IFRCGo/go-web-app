@@ -1,8 +1,7 @@
 import type { ActiveFilters } from '../types';
 import type { Assessment } from '../../data-fetcher/types';
-import perAssessmentsProcessedDataRaw from '../../data-fetcher/data/per-assessments-processed.json';
 import perDashboardDataRaw from '../../data-fetcher/data/per-dashboard-data.json';
-import perAssessmentsDataRaw from '../../data-fetcher/data/per-assessments.json';
+import lastUpdateData from '../../data-fetcher/data/last-update.json';
 import { PHASE_COLORS, AREA_COLORS } from '../../constants';
 
 // Rating scale colors
@@ -14,9 +13,7 @@ const RATING_SCALE_COLORS = {
     "High performing": '#011E41',
 } as const;
 
-const perAssessmentsProcessedData = perAssessmentsProcessedDataRaw;
 const perDashboardData = perDashboardDataRaw;
-const perAssessmentsData = perAssessmentsDataRaw;
 
 // Helper function to get unique key for assessment
 const getAssessmentKey = (assessment: Assessment): string => {
@@ -585,4 +582,8 @@ export function getCycles(filters: ActiveFilters | null = null, includeAllCycles
         total_cycles: filteredCycles.reduce((sum, cycle) => sum + cycle.totalNS, 0),
         cycles: filteredCycles
     };
+}
+
+export function getLastUpdateDate(): string {
+    return lastUpdateData.lastUpdate;
 }

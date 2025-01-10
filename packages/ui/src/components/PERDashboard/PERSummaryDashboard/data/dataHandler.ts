@@ -20,8 +20,7 @@ import {
 // Import JSON data
 import mapDataRaw from '../../data-fetcher/data/map-data.json';
 import perDashboardDataRaw from '../../data-fetcher/data/per-dashboard-data.json';
-import perAssessmentsDataRaw from '../../data-fetcher/data/per-assessments.json';
-import perAssessmentsProcessedDataRaw from '../../data-fetcher/data/per-assessments-processed.json';
+import lastUpdateData from '../../data-fetcher/data/last-update.json';
 
 const mapData = (mapDataRaw as any[]).map((record) => ({
   id: record.id,
@@ -43,8 +42,6 @@ const mapData = (mapDataRaw as any[]).map((record) => ({
 })) as AssessmentRecord[];
 
 const perDashboardData = perDashboardDataRaw;
-const perAssessmentsData = perAssessmentsDataRaw;
-const perAssessmentsProcessedData = perAssessmentsProcessedDataRaw;
 
 function groupByAndFilter(
   data: Array<AssessmentRecord>,
@@ -578,6 +575,10 @@ const allProcessedData = {
   recordsByRegion,
   filterOptions: getFilterOptions(),
 };
+
+export function getLastUpdateDate(): string {
+  return lastUpdateData.lastUpdate;
+}
 
 export {
   groupByAndFilter,

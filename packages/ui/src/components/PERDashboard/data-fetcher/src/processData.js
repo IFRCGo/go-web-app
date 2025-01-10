@@ -3,6 +3,12 @@ const path = require('path');
 
 async function processData() {
   try {
+    // Update last update timestamp
+    await fs.writeFile(
+      path.join(__dirname, '../data/last-update.json'),
+      JSON.stringify({ lastUpdate: new Date().toISOString() }, null, 2)
+    );
+
     // Read the downloaded files
     const perStatusData = JSON.parse(
       await fs.readFile(path.join(__dirname, '../data/per-status.json'), 'utf8')
