@@ -1,0 +1,3 @@
+[submodule "go-api"]
+	path = go-api
+	url = git@github.com:IFRCGo/go-api.git

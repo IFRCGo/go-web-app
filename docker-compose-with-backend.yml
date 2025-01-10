@@ -1,0 +1,12 @@
+name: IFRC GO
+
+services:
+  react:
+    build: ../
+    command: sh -c 'pnpm install && pnpm start:app --host'
+    volumes:
+      - ../:/code
+    ports:
+      - '3000:3000'
+    depends_on:
+      - serve
