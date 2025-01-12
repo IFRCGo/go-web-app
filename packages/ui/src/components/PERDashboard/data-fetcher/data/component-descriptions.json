@@ -1,0 +1,247 @@
+{
+  "1": {
+    "componentTitle": "RC auxiliary role, Mandate and Law",
+    "areaTitle": "Policy Strategy and Standards",
+    "description": "A constitutional reference to the role of the NS in responding to disasters and crises, which may be legislated or included/ recognized in the National Response System."
+  },
+  "2": {
+    "componentTitle": "DRM Strategy",
+    "areaTitle": "Policy Strategy and Standards",
+    "description": "An outline of the overall goal that the NS seeks to achieve in its disaster and crisis response operations. The goal considers: context analysis, ongoing/regular all-hazards risk assessments: it may define the target proportion of affected population that will be reached, and a definition of the areas/sectors where a NS will usually respond during an emergency."
+  },
+  "3": {
+    "componentTitle": "DRM Policy",
+    "areaTitle": "Policy Strategy and Standards",
+    "description": "Reflects the NS mission, RCRC principles and mandate. It acknowledges other relevant NS policies, and aligns with the government policy (where applicable), incorporating the general rules that the NS will obey in order to achieve something (i.e mandate, strategy, etc.)"
+  },
+  "4": {
+    "componentTitle": "DRM Laws, Advocacy and Dissemination",
+    "areaTitle": "Policy Strategy and Standards",
+    "description": "Designed to support the NS in improving legal preparedness for disasters and crisis and to promote the use of the IDRL Guidelines in order to reduce human vulnerability."
+  },
+  "5": {
+    "componentTitle": "Quality and accountability",
+    "areaTitle": "Policy Strategy and Standards",
+    "description": "Describes the essential elements of principled, accountable, and high-quality humanitarian action. The RCRC Movement provides support to the most vulnerable people in line with the Sphere and CHS standards, Code of Conduct for the RCRC Movement and NGOS in Disaster Relief and the Code for Good Partnership of the RCRC Movement, Gender & Diversity, inclusion and protection, BPI/ Do no harm, context-sensitive analysis, violence prevention, accountability to affected population and disability considerations, Community engagement and accountability (CEA)."
+  },
+  "6": {
+    "componentTitle": "Hazard, Context and Risk Analysis, Monitoring and Early Warning",
+    "areaTitle": "Analysis and planning",
+    "description": "Describes how the NS monitors and maps past, present and potential hazards, disasters and crises (e.g. hazard, vulnerability assessments, gathering information from communities and government authorities) and systematically evaluates the damage that could be caused by a potential disaster/crisis, the frequency, severity of the impact, and the alert the relevant areas to scale the preparedness actions to reduce population vulnerability."
+  },
+  "7": {
+    "componentTitle": "Scenario planning",
+    "areaTitle": "Analysis and planning",
+    "description": "A set of practical operation plans that closely mirror the generic disaster or crisis response plan but are tailored to a specific hazard type (e.g. earthquake, dengue epidemic, floods, cyclone) and a specific scenario (i.e. number of people affected, their locations and other important factors)."
+  },
+  "8": {
+    "componentTitle": "Risk management",
+    "areaTitle": "Analysis and planning",
+    "description": "A mapping of the potential risks in every area, along with its related mitigation measures. Including financial, reputational, organizational risks etc."
+  },
+  "9": {
+    "componentTitle": "Preparedness plans and budgets",
+    "areaTitle": "Analysis and planning",
+    "description": "Plans identifying organisational resources, determining roles and responsibilities, and developing policies, procedures and activities in order to reach a level of preparedness to be able to respond effectively to a disaster or crisis. Budgets ensure that the necessary financial support is secured to allow capacities to be built and readiness maintained."
+  },
+  "10": {
+    "componentTitle": "Business continuity",
+    "areaTitle": "Analysis and planning",
+    "description": "A strategy to counter any potential or anticipated obstacles to effective functioning of the NS, with an eye to ensuring that personnel and assets are protected and able to function in the event of a disaster/crisis."
+  },
+  "11": {
+    "componentTitle": "Emergency Response Procedures (SOPs)",
+    "areaTitle": "Analysis and planning",
+    "description": "Written guidelines that describe duties and rights of personnel, command structures, coordination with other organizations, and reporting requirements, etc. Includes detailed organogram, decision-making flow chart, and defined roles and responsibilities."
+  },
+  "12": {
+    "componentTitle": "Response and recovery planning",
+    "areaTitle": "Analysis and planning",
+    "description": "A documented set of procedures for the disaster/crisis response and recovery process. Including use of local capacities, transition to recovery, type of activities and serivices provided during response and recovery activities and exit strategies, procedures for DREF & EA, and templates for planning, budgeting and accessing funds."
+  },
+  "13": {
+    "componentTitle": "Pre-disaster meetings and agreements",
+    "areaTitle": "Analysis and planning",
+    "description": "A commitment to arrange meetings and agreements with Movement stakeholders and external actors to identify, plan for and address gaps for any upcoming disaster season (e.g. monsoon, floods or cyclones, or for any generic disaster/crisis event (e.g Epidemic, pandemic, confilict situations). Pre-disaster agreements should set out each partner's role in the event of a disaster/crisis."
+  },
+  "14": {
+    "componentTitle": "NS-specific areas of intervention",
+    "areaTitle": "Operational capacity",
+    "description": "Sector-specific or services provided by the NS in case of emergencies, it is in line with the NS mandate and legislation in country. It includes Community Based DP/DRR, Evacuation, Health in Emergencies, Epidemic and Pandemic, First aid, WASH, Food security and Livelihoods, Search and rRescue, Shelter, Management of dead bodies, RFL, Transition to recovery, and CBRN preparedness."
+  },
+  "15": {
+    "componentTitle": "COMMUNITY-BASED DP AND DRR",
+    "areaTitle": "Operational capacity",
+    "description": ""
+  },
+  "16": {
+    "componentTitle": "EVACUATION",
+    "areaTitle": "Operational capacity",
+    "description": ""
+  },
+  "17": {
+    "componentTitle": "HEALTH IN EMERGENCIES",
+    "areaTitle": "Operational capacity",
+    "description": ""
+  },
+  "18": {
+    "componentTitle": "FIRST AID",
+    "areaTitle": "Operational capacity",
+    "description": ""
+  },
+  "19": {
+    "componentTitle": "WATER AND SANITATION",
+    "areaTitle": "Operational capacity",
+    "description": ""
+  },
+  "20": {
+    "componentTitle": "FOOD SECURITY",
+    "areaTitle": "Operational capacity",
+    "description": ""
+  },
+  "21": {
+    "componentTitle": "LIVELIHOOD SECURITY AND SAFETY NETS",
+    "areaTitle": "Operational capacity",
+    "description": ""
+  },
+  "22": {
+    "componentTitle": "SEARCH AND RESCUE",
+    "areaTitle": "Operational capacity",
+    "description": ""
+  },
+  "23": {
+    "componentTitle": "SHELTER, HOUSEHOLD ITEMS, SETTLEMENTS",
+    "areaTitle": "Operational capacity",
+    "description": ""
+  },
+  "24": {
+    "componentTitle": "MANAGEMENT OF DEAD BODIES TO FACILITATE THEIR IDENTIFICATION",
+    "areaTitle": "Operational capacity",
+    "description": ""
+  },
+  "26": {
+    "componentTitle": "TRANSITION TO RECOVERY",
+    "areaTitle": "Operational capacity",
+    "description": ""
+  },
+  "27": {
+    "componentTitle": "CHEMICAL, BIOLOGICAL, RADIOLOGICAL AND NUCLEAR (CBRN) EMERGENCY PREPAREDNESS",
+    "areaTitle": "Operational capacity",
+    "description": ""
+  },
+  "28": {
+    "componentTitle": "COMMUNITY BASED HEALTH & FIRST AID (CBHFA)",
+    "areaTitle": "Operational capacity",
+    "description": ""
+  },
+  "29": {
+    "componentTitle": "Mapping of NS capacities",
+    "areaTitle": "Operational capacity",
+    "description": "A list of the NS capacities including HR (staff, response teams and volunteers) and equipment that are available for disaster/crisis response. Teams could include branch and national response teams. This should be defined by technical speciality where relevant."
+  },
+  "30": {
+    "componentTitle": "Early Action Mechanisms",
+    "areaTitle": "Operational capacity",
+    "description": "Designed to translate warnings into anticipatory actions to help reduce the impact of specific disaster or crisis events. They focus on consolidating available forecasting information and putting procedures in place to ensure that a NS can act ahead of any disaster/crisis. Forecast-based financing is included within the scope of this area."
+  },
+  "31": {
+    "componentTitle": "Cash Based Intervention (CBI)",
+    "areaTitle": "Operational capacity",
+    "description": "An effective and flexible way, including all forms of cash and voucher-based assistance, to support people affected by emergencies, maintaining their dignity and choice, while fostering local economies. Cash should also be mainstreamed into other sectors (including Relief, shelter, livelihoods) and services (Logistics, Finance, etc.)"
+  },
+  "32": {
+    "componentTitle": "Emergency Needs Assessment",
+    "areaTitle": "Operational capacity",
+    "description": "Assess the extent and impact of the damage caused by the disaster/crisis and the degree of vulnerability of the affected population. The first step in any emergency response, such an assessment will identify the needs that require external intervention and the gaps to be filled. It is a vital component of the programme-planning process."
+  },
+  "33": {
+    "componentTitle": "Affected population selection",
+    "areaTitle": "Operational capacity",
+    "description": "Identification and selection of target Affected population for interventions, using a pre-defined set of criteria based on need and vulnerability. This includes consideration of specific vulnerabilities such as disability, age and gender."
+  },
+  "34": {
+    "componentTitle": "Emergency Operations Centre (EOC)",
+    "areaTitle": "Operational capacity",
+    "description": "A central command and control facility responsible for carrying out disaster/crisis management functions at a strategic level in an emergency situation. The common functions are to collect and analyze data; facilitate decision making that protects life and livelihoods; and disseminate those decisions to all concerned agencies and individuals. Generally located at the headquarter level of an organization."
+  },
+  "35": {
+    "componentTitle": "Information Management (IM)",
+    "areaTitle": "Operational capacity",
+    "description": "Ability to manage information including requesting, receiving, analyzing and disseminating as per its procedures and partner requirements (IFRC and public authorities in particular). There should be a clear digital/paper trail that documents what, when and how the NS has acted and provides key information for the development of Emergency Plan of Actions. Includes IM between levels, between departments and Situational Reports, mapping, visualisation of data, GO platform (IFRC)."
+  },
+  "36": {
+    "componentTitle": "Testing and Learning",
+    "areaTitle": "Operational capacity",
+    "description": "Drills and Simulations allow the organization to test, identify and learn from the results of these type of exercises and incorporate learning into future preparedness and response planning."
+  },
+  "37": {
+    "componentTitle": "Activation of regional and international support",
+    "areaTitle": "Operational capacity",
+    "description": "Procedures for requesting and accepting regional and international support in operations, including triggering coordination mechanisms for funding, materials and human resources deployments."
+  },
+  "38": {
+    "componentTitle": "Coordination with Movement",
+    "areaTitle": "Coordination",
+    "description": "Mechanisms that facilitate the coordination with ICRC, IFRC, and PNS in-country."
+  },
+  "39": {
+    "componentTitle": "Coordination with authorities",
+    "areaTitle": "Coordination",
+    "description": "Mechanism that facilitates coordination and cooperation with local and national authorities. It is connected to the NS auxiliary role for humanitarian assistance."
+  },
+  "40": {
+    "componentTitle": "Coordination with External Agencies and NGOs",
+    "areaTitle": "Coordination",
+    "description": "Mechanism that facilitates coordination and collaboration with Non-Governmental Organization (NGO), both local and international NGOs, civil society organizations (CSOs) and United Nations agencies in country."
+  },
+  "42": {
+    "componentTitle": "Coordination with local community level responders",
+    "areaTitle": "Coordination",
+    "description": "Engagement with Community Disaster Response Teams (CDRTs), through training, coordination, and the development of community disaster preparedness and response plans."
+  },
+  "43": {
+    "componentTitle": "Cooperation with private sector",
+    "areaTitle": "Coordination",
+    "description": "Mechanism that allows cooperation with private sector that often plays a strong role in response, particularly if there is impact on their staff and businesses. There is often a willingness to donate goods and services. Advance agreements help to expedite response actions."
+  },
+  "44": {
+    "componentTitle": "Safety and security management",
+    "areaTitle": "Operations support",
+    "description": "Addresses policy and procedures to ensure the safety of staff and volunteers. This include awareness, effective recruitment, training and management processes in place to ensure that personnel are capable of undertaking the roles demanded of them (from NS operational, management and leaders) according to the Stay Safe (IFRC) and Safer Access (ICRC). Based on safer access framework, including concepts of access, perception, identification and acceptance, and protection and violence prevention."
+  },
+  "45": {
+    "componentTitle": "Operations Monitoring, Evaluation, Reporting and Learning",
+    "areaTitle": "Operations support",
+    "description": "The PMERL is designed to implement a results-based planning, monitoring and evaluation system that provides an evidence base of NS performance, including relevance, efficiency, effectiveness, sustainability and impact. A reliable and trusted organization is accountable, providing transparent and timely information and building systems to strengthen data collection and reporting. It is data-driven, analytical and results-based."
+  },
+  "46": {
+    "componentTitle": "Finance and Admin policy and emergency procedures",
+    "areaTitle": "Operations support",
+    "description": "Overall budgeting, accounting, treasury, assets, financial reporting and financial services operations. it also includes the efficient delivery , cost effective and timely services to the NS. Pre-approved, auditable, expedited procedures that allow for flexibility during a disaster/crisis. These must meet transparency, oversight and accountability standards. Procedures may include faster approval processes, fewer signatures, different authority levels. The Emergency Procedures are activated for a specific period of time."
+  },
+  "47": {
+    "componentTitle": "Information and Communication Technology (ICT)",
+    "areaTitle": "Operations support",
+    "description": "Refers to technologies that provide access to information through telecommunications. This includes the Internet, wireless networks, mobile phones, radios and other communication mediums."
+  },
+  "48": {
+    "componentTitle": "Logistics, procurement and supply chain",
+    "areaTitle": "Operations support",
+    "description": ""
+  },
+  "54": {
+    "componentTitle": "Staff and volunteer management",
+    "areaTitle": "Operations support",
+    "description": "Well-functioning staff and volunteer management systems and practices allow for effective recruitment, supervision, support and encouragement of staff and volunteers."
+  },
+  "55": {
+    "componentTitle": "Communication in emergencies",
+    "areaTitle": "Operations support",
+    "description": "Incorporates a system of public messaging to enable the NS to share timely, accurate information before, during, and after a disaster or crisis."
+  },
+  "56": {
+    "componentTitle": "Resource Mobilisation",
+    "areaTitle": "Operations support",
+    "description": "A documented strategy for raising domestic funds from the government, private sector, general public and other in-country actors to support the national society’s response. This would include allocation of responsibilities, practical mechanisms for accepting funds and for being accountable on funds."
+  }
+}

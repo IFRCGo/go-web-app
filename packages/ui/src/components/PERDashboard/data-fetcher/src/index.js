@@ -2,12 +2,12 @@ require('dotenv').config();
 const { processData } = require('./processData');
 
 async function main() {
-    try {
+  try {
     // await fetchData();
-        await processData();
-    } catch (error) {
-        console.error('Error:', error.message);
-    }
+    await processData();
+  } catch (error) {
+    console.error('Error:', error.message);
+  }
 }
 
 main();

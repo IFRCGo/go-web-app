@@ -5,8 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "fetch": "node src/fetchData.js",
-    "process": "node src/processData.js \"../data\"",
-    "check": "node src/checkData.js \"../data\"",
+    "process": "node src/processData.js \"./data\"",
+    "check": "node src/checkData.js \"./data\"",
     "update-data": "npm run fetch && npm run process && npm run check"
   },
   "keywords": ["ifrc", "data", "api"],

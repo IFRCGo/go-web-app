@@ -8,8 +8,8 @@ import type {
     RegionData,
 } from '../types';
 
-import lastUpdateData from '../data/last-update.json';
-import perDashboardDataRaw from '../data/per-dashboard-data.json';
+import lastUpdateData from '../data-fetcher/data/last-update.json';
+import perDashboardDataRaw from '../data-fetcher/data/per-dashboard-data.json';
 
 // Rating scale colors
 const RATING_SCALE_COLORS = {
