@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import Button from '#components/Button';
@@ -78,26 +78,6 @@ function PERSummaryDashboard(props: Props) {
             [key]: prev[key] === value ? null : value,
         }));
     };
-
-    const regionColors = {
-        Africa: '#1B365D',
-        Americas: '#236192',
-        'Asia Pacific': '#418FDE',
-        Europe: '#009CDD',
-        MENA: '#C6C6C6',
-    };
-
-    const regionCategories = ['Africa', 'Americas', 'Asia Pacific', 'Europe', 'MENA'].map((region) => ({
-        label: region,
-        fillColor: regionColors[region as keyof typeof regionColors],
-    }));
-
-    const regionLegendCategories = ['Africa', 'Americas', 'Asia Pacific', 'Europe', 'MENA'].map(
-        (region) => ({
-            label: region,
-            color: regionColors[region as keyof typeof regionColors],
-        }),
-    );
 
     const handleRegionStackedClick = (item: { label: string; year?: string | number | null }) => {
         if (item.year) {
@@ -187,19 +167,38 @@ function PERSummaryDashboard(props: Props) {
         }
     };
 
-    const handleYearClick = (year: string) => {
-        updateFilter('year', Number(year));
+    const regionColors = {
+        Africa: '#1B365D',
+        Americas: '#236192',
+        'Asia Pacific': '#418FDE',
+        Europe: '#009CDD',
+        MENA: '#C6C6C6',
     };
 
-    const handlePERClick = (item: string): void => {
-        updateFilter('perConsiderations', item);
-    };
+    const regionCategories = ['Africa', 'Americas', 'Asia Pacific', 'Europe', 'MENA'].map((region) => ({
+        label: region,
+        fillColor: regionColors[region as keyof typeof regionColors],
+    }));
+
+    const regionLegendCategories = ['Africa', 'Americas', 'Asia Pacific', 'Europe', 'MENA'].map(
+        (region) => ({
+            label: region,
+            color: regionColors[region as keyof typeof regionColors],
+        }),
+    );
 
     return (
         <PageContainer className={_cs(styles.perSummaryDashboard, className)}>
             <PageHeader
                 heading="NS Preparedness and Response Capacity Strengthening (PER)"
-                description="The National Society Preparedness for Effective Response (PER) Approach is a structured and systematic way of interacting with the knowledge, capacity, systems, and processes a National Society uses to respond to an emergency, fulfilling its mandate to meet the needs of those most affected by disasters and crises with timely, relevant, and effective humanitarian assistance."
+                description={[
+                    'The National Society Preparedness for Effective Response (PER) ',
+                    'Approach is a structured and systematic way of interacting with ',
+                    'the knowledge, capacity, systems, and processes a National Society ',
+                    'uses to respond to an emergency, fulfilling its mandate to meet ',
+                    'the needs of those most affected by disasters and crises with ',
+                    'timely, relevant, and effective humanitarian assistance.',
+                ].join('')}
             />
             <div className={styles.lastUpdate}>
                 Last updated:
@@ -236,7 +235,8 @@ function PERSummaryDashboard(props: Props) {
                 || activeFilters?.id !== null
                 || activeFilters?.region !== null
                 || activeFilters?.numberOfCycles !== null
-                || activeFilters?.completedAssessment !== null) && (
+                || activeFilters?.completedAssessment !== null
+                            ) && (
                                 <Button
                                     name={undefined}
                                     onClick={() => {
@@ -324,7 +324,10 @@ function PERSummaryDashboard(props: Props) {
                         heading="PER process by year and region"
                         headerDescription="Click on a year or region to filter"
                         withHeaderBorder
-                        actions={(activeFilters?.region !== null || activeFilters?.year !== null) && (
+                        actions={(
+                            activeFilters?.region !== null
+                            || activeFilters?.year !== null
+                        ) && (
                             <Button
                                 name={undefined}
                                 onClick={() => {
@@ -386,7 +389,10 @@ function PERSummaryDashboard(props: Props) {
                     heading="PER Considerations"
                     headerDescription="Click on a PER consideration type to filter"
                     withHeaderBorder
-                    actions={(activeFilters?.perConsiderations !== null || activeFilters?.assessmentType !== null) && (
+                    actions={(
+                        activeFilters?.perConsiderations !== null
+                        || activeFilters?.assessmentType !== null
+                    ) && (
                         <Button
                             name={undefined}
                             onClick={() => {
@@ -401,7 +407,9 @@ function PERSummaryDashboard(props: Props) {
                 >
                     <PERConsiderations
                         data={getPERConsiderations(activeFilters)}
-                        onClickAssessmentType={(index) => handleAssessmentTypeClick({ label: index })}
+                        onClickAssessmentType={(index) => {
+                            handleAssessmentTypeClick({ label: index });
+                        }}
                         onClickPER={(index) => updateFilter('perConsiderations', index)}
                         activeIndex={activeFilters?.assessmentType}
                     />

@@ -14,7 +14,6 @@ import {
 import lastUpdateData from '../data/last-update.json';
 // Import JSON data
 import mapDataRaw from '../data/map-data.json';
-import perDashboardDataRaw from '../data/per-dashboard-data.json';
 
 const mapData = (mapDataRaw as any[]).map((record) => ({
     id: record.id,
@@ -35,8 +34,6 @@ const mapData = (mapDataRaw as any[]).map((record) => ({
     latitude: record.latitude,
     longitude: record.longitude,
 })) as AssessmentRecord[];
-
-const perDashboardData = perDashboardDataRaw;
 
 function groupByAndFilter(
     data: Array<AssessmentRecord>,
@@ -85,9 +82,10 @@ function getFilterOptions(): FilterOptions {
         ].filter(Boolean),
         years: [
             ...new Set(
-                mapData.map((record: AssessmentRecord) =>
-                    new Date(record.date_of_assessment).getFullYear()
-                ),
+                mapData.map((record: AssessmentRecord) => {
+                    const date = new Date(record.date_of_assessment);
+                    return date.getFullYear();
+                }),
             ),
         ].sort((a, b) => b - a),
         phases: [
@@ -122,9 +120,8 @@ function applyFilters(
     if (filters.year) {
         const yearStr = filters.year.toString();
         filteredData = filteredData.filter(
-            (record) =>
-                new Date(record.date_of_assessment).getFullYear().toString() ===
-                yearStr,
+            (record) => new Date(record.date_of_assessment).getFullYear().toString()
+                === yearStr,
         );
     }
 
@@ -149,12 +146,9 @@ function applyFilters(
     }
 
     if (filters.highPriorityComponent) {
-        filteredData = filteredData.filter((record) =>
-            record.prioritized_components.some(
-                (component) =>
-                    component.componentTitle === filters.highPriorityComponent,
-            ),
-        );
+        filteredData = filteredData.filter((record) => record.prioritized_components.some(
+            (component) => component.componentTitle === filters.highPriorityComponent,
+        ));
     }
 
     if (filters.assessmentType) {
@@ -263,9 +257,7 @@ function getStackedBarDataByYearAndRegion(
     // Get all possible years from the data
     const allYears = [
         ...new Set(
-            mapData.map((record) =>
-                new Date(record.date_of_assessment).getFullYear().toString(),
-            ),
+            mapData.map((record) => new Date(record.date_of_assessment).getFullYear().toString()),
         ),
     ].sort();
 
@@ -471,13 +463,21 @@ function getPERConsiderations(
     );
 
     // Calculate percentages
-    const epiPercentage = totalAssessments > 0 ? (totalEpiConsiderations / totalAssessments) * 100 : 0;
+    const epiPercentage = totalAssessments > 0
+        ? (totalEpiConsiderations / totalAssessments) * 100
+        : 0;
 
-    const climatePercentage = totalAssessments > 0 ? (totalClimateConsiderations / totalAssessments) * 100 : 0;
+    const climatePercentage = totalAssessments > 0
+        ? (totalClimateConsiderations / totalAssessments) * 100
+        : 0;
 
-    const urbanPercentage = totalAssessments > 0 ? (totalUrbanConsiderations / totalAssessments) * 100 : 0;
+    const urbanPercentage = totalAssessments > 0
+        ? (totalUrbanConsiderations / totalAssessments) * 100
+        : 0;
 
-    const migrationPercentage = totalAssessments > 0 ? (totalMigrationConsiderations / totalAssessments) * 100 : 0;
+    const migrationPercentage = totalAssessments > 0
+        ? (totalMigrationConsiderations / totalAssessments) * 100
+        : 0;
 
     // Return the summarized data
     return {
@@ -495,10 +495,10 @@ function getPERConsiderations(
             totalMigrationConsiderations,
         },
         percentages: {
-            epiPercentage: epiPercentage | 0,
-            climatePercentage: climatePercentage | 0,
-            urbanPercentage: urbanPercentage | 0,
-            migrationPercentage: migrationPercentage | 0,
+            epiPercentage: Math.floor(epiPercentage),
+            climatePercentage: Math.floor(climatePercentage),
+            urbanPercentage: Math.floor(urbanPercentage),
+            migrationPercentage: Math.floor(migrationPercentage),
         },
     };
 }

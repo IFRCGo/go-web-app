@@ -12,8 +12,6 @@ import {
 } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-import PERChartLegend from '../PERChartLegend';
-
 import styles from './styles.module.css';
 
 // Register required ChartJS components
@@ -62,8 +60,6 @@ export interface Props {
     responsive?: boolean;
     /** Percentage to darken colors on hover */
     hoverDarkenPercent?: number;
-    /** Currently active region */
-    activeRegion?: string | null;
     /** Array of colors to use for chart segments */
     colors?: string[];
 }
@@ -113,7 +109,6 @@ function PERDonutChart(props: Props) {
         maintainAspectRatio = false,
         responsive = true,
         hoverDarkenPercent = -5,
-        activeRegion = null,
         colors = ['#236192', '#418FDE', '#009CDD', '#C6C6C6'],
     } = props;
 
@@ -218,18 +213,13 @@ function PERDonutChart(props: Props) {
             },
         },
         onHover: handleHover,
-        onClick: (event: ChartEvent, elements: any[]) => {
+        onClick: (event: ChartEvent, elements: { index: number }[]) => {
             if (onClick && elements.length > 0) {
                 const { index } = elements[0];
                 onClick(data[index]);
             }
         },
     };
-
-    const legendData = data.map((item, index) => ({
-        label: item.label,
-        color: colors[index % colors.length],
-    }));
 
     return (
         <div className={_cs(styles.chartWrapper, className)}>

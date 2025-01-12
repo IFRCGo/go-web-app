@@ -12,7 +12,6 @@ import PERRegionToggle from '#components/PERRegionToggle';
 import {
     getComponentRatings,
     getCycles,
-    getFilteredData,
     getLastUpdateDate,
     groupDataByRegion,
     summarizeData,

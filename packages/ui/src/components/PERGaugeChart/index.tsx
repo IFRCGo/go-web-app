@@ -93,65 +93,8 @@ function PERGaugeChart({
     const height = svgWidth / 2;
     const radius = svgWidth / 2;
 
-    useEffect(() => {
-        const svg = d3
-            .select(svgRef.current)
-            .attr('viewBox', `0 0 ${svgWidth} ${height}`)
-            .style('width', '100%')
-            .style('height', 'auto');
-
-        svg.selectAll('*').remove();
-
-        // Define the background arc
-        const backgroundArc = d3
-            .arc<unknown>()
-            .innerRadius(radius * 0.74)
-            .outerRadius(radius)
-            .startAngle(-Math.PI / 2)
-            .endAngle(Math.PI / 2);
-
-        // Append the background arc
-        svg
-            .append('path')
-            .attr('d', backgroundArc(null)!)
-            .attr('fill', backgroundColor)
-            .attr('transform', `translate(${radius}, ${radius})`);
-
-        // Define the arc generator with datum type 'number'
-        const arcGenerator = d3
-            .arc<d3.BaseType, number>()
-            .innerRadius(radius * 0.74)
-            .outerRadius(radius)
-            .startAngle(-Math.PI / 2)
-            .endAngle((d) => -Math.PI / 2 + d * Math.PI);
-
-        // Append the gauge arc
-        svg
-            .append('path')
-            .datum(percentage / 100)
-            .attr('d', arcGenerator)
-            .attr('fill', gaugeColor)
-            .attr('transform', `translate(${radius}, ${radius})`)
-            .attr('class', 'gauge-arc');
-
-        if (icon) {
-            svg
-                .append('image')
-                .attr('href', icon)
-                .attr('x', radius - 15)
-                .attr('y', radius / 2)
-                .attr('width', 30)
-                .attr('height', 30)
-                .attr('preserveAspectRatio', 'xMidYMid meet');
-        }
-
-        // Initialize the previous percentage
-        previousPercentageRef.current = percentage;
-    }, [backgroundColor, gaugeColor, icon, label, fontSize, height, percentage, radius, chartWidth]);
-
-    useEffect(handleUpdate, [percentage, radius, transitionSpeed, svgWidth]);
-
-    function handleUpdate() {
+    // Define the update function for gauge animation
+    const handleUpdate = () => {
         if (!svgRef.current) {
             return;
         }
@@ -178,7 +121,78 @@ function PERGaugeChart({
                 const arcTween = (t: number) => arcGenerator(interpolate(t))!;
                 return arcTween;
             });
-    }
+    };
+
+    useEffect(() => {
+        if (!svgRef.current) {
+            return;
+        }
+
+        const svg = d3.select(svgRef.current);
+
+        svg.selectAll('*').remove();
+
+        // Define the background arc
+        const backgroundArc = d3
+            .arc<unknown>()
+            .innerRadius(radius * 0.74)
+            .outerRadius(radius)
+            .startAngle(-Math.PI / 2)
+            .endAngle(Math.PI / 2);
+
+        // Append the background arc
+        svg
+            .append('path')
+            .attr('d', backgroundArc(null)!)
+            .attr('fill', backgroundColor)
+            .attr('transform', `translate(${radius}, ${radius})`)
+            .attr('class', 'gauge-background');
+
+        // Define the arc generator with datum type 'number'
+        const arcGenerator = d3
+            .arc<d3.BaseType, number>()
+            .innerRadius(radius * 0.74)
+            .outerRadius(radius)
+            .startAngle(-Math.PI / 2)
+            .endAngle((d) => -Math.PI / 2 + d * Math.PI);
+
+        // Append the gauge arc
+        svg
+            .append('path')
+            .datum(percentage / 100)
+            .attr('d', arcGenerator)
+            .attr('fill', gaugeColor)
+            .attr('transform', `translate(${radius}, ${radius})`)
+            .attr('class', 'gauge-arc');
+
+        if (icon) {
+            svg
+                .append('image')
+                .attr('href', icon)
+                .attr('x', radius - 15)
+                .attr('y', radius / 2)
+                .attr('width', 30)
+                .attr('height', 30)
+                .attr('preserveAspectRatio', 'xMidYMid meet')
+                .attr('class', 'icon-image');
+        }
+
+        // Initialize the previous percentage
+        previousPercentageRef.current = percentage;
+    }, [
+        backgroundColor,
+        gaugeColor,
+        icon,
+        label,
+        fontSize,
+        height,
+        percentage,
+        radius,
+        chartWidth,
+        svgWidth,
+    ]);
+
+    useEffect(handleUpdate, [percentage, radius, transitionSpeed, svgWidth]);
 
     return (
         <div

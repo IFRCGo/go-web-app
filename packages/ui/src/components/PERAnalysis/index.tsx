@@ -51,7 +51,7 @@ interface Props {
   activeCycle?: number;
 }
 
-const CustomTooltip: React.FC<TooltipProps> = ({ active, payload }) => {
+function CustomTooltip({ active, payload }: TooltipProps) {
     if (!active || !payload || !payload.length) return null;
 
     const cycleData = payload[0].payload;
@@ -105,9 +105,13 @@ const CustomTooltip: React.FC<TooltipProps> = ({ active, payload }) => {
                     </div>
                     {ratingChange !== 0 && (
                         <div
-                            className={`${styles.tooltipChange} ${
-                                isPositiveRating ? styles.tooltipChangePositive : styles.tooltipChangeNegative
-                            }`}
+                            className={
+                                `${styles.tooltipChange} ${
+                                    isPositiveRating 
+                                        ? styles.tooltipChangePositive 
+                                        : styles.tooltipChangeNegative
+                                }`
+                            }
                         >
                             {isPositiveRating ? '↗' : '↘'}
                             <span>
@@ -122,38 +126,46 @@ const CustomTooltip: React.FC<TooltipProps> = ({ active, payload }) => {
             </div>
         </div>
     );
-};
+}
 
-const CustomLegend: React.FC = () => (
-    <div className={styles.legend}>
-        <div className={styles.legendItem}>
-            <div
-                className={styles.legendMarker}
-                style={{ backgroundColor: COLORS.primary }}
-            />
-            <span>Completed cycles</span>
+function CustomLegend() {
+    return (
+        <div className={styles.legend}>
+            <div className={styles.legendItem}>
+                <div
+                    className={styles.legendMarker}
+                    style={{ backgroundColor: COLORS.primary }}
+                />
+                <span>Completed cycles</span>
+            </div>
+            <div className={styles.legendItem}>
+                <div
+                    className={styles.legendMarker}
+                    style={{ backgroundColor: COLORS.primaryLight }}
+                />
+                <span>Yet to progress</span>
+            </div>
+            <div className={styles.legendItem}>
+                <div
+                    className={styles.legendLine}
+                    style={{ backgroundColor: COLORS.accent }}
+                />
+                <span>Average PER rating</span>
+            </div>
         </div>
-        <div className={styles.legendItem}>
-            <div
-                className={styles.legendMarker}
-                style={{ backgroundColor: COLORS.primaryLight }}
-            />
-            <span>Yet to progress</span>
-        </div>
-        <div className={styles.legendItem}>
-            <div
-                className={styles.legendLine}
-                style={{ backgroundColor: COLORS.accent }}
-            />
-            <span>Average PER rating</span>
-        </div>
-    </div>
-);
+    );
+}
 
 function PERAnalysis({
-    data, summary, onCycleClick, activeCycle,
+    data: chartData,
+    summary,
+    onCycleClick,
+    activeCycle,
 }: Props) {
-    const handleCycleCardClick = (event: React.MouseEvent<HTMLDivElement>, cycleNumber: number) => {
+    const handleCycleCardClick = (
+        event: React.MouseEvent<HTMLDivElement>,
+        cycleNumber: number,
+    ) => {
         event.preventDefault();
         event.stopPropagation();
 
@@ -172,7 +184,7 @@ function PERAnalysis({
                                 Number of PER assessments / process cycle iterations
                                 <span className={styles.totalNumber}>
                                     {' '}
-                                    {data.total_cycles}
+                                    {chartData.total_cycles}
                                 </span>
                             </h2>
                         </div>
@@ -184,16 +196,21 @@ function PERAnalysis({
                                     {summary.averageRating.toFixed(1)}
                                 </span>
                             </h2>
-                            <span className={styles.subtitle}>According to the latest assessment in each NS</span>
+                            <span className={styles.subtitle}>
+                                According to the latest assessment in each NS
+                            </span>
                         </div>
                     </div>
 
                     <div className={styles.chartContainer}>
                         <ResponsiveContainer>
                             <ComposedChart
-                                data={data.cycles}
+                                data={chartData.cycles}
                                 margin={{
-                                    top: 10, right: 50, left: 30, bottom: 0,
+                                    top: 10,
+                                    right: 50,
+                                    left: 30,
+                                    bottom: 0,
                                 }}
                                 barSize={100}
                             >
@@ -280,45 +297,43 @@ function PERAnalysis({
                 </div>
             </div>
 
-            <div className={styles.summaryGrid}>
-                {data.cycles.map((item, index) => (
-                    <div
-                        key={index}
-                        data-cycle={item.cycleNumber}
-                        className={`${styles.summaryCard} ${activeCycle === item.cycleNumber ? styles.active : ''}`}
-                        onClick={(event) => handleCycleCardClick(event, item.cycleNumber)}
-                        role="button"
-                        tabIndex={0}
+            <div className={styles.cycleCards}>
+                {chartData.cycles.map((cycleData, index) => (
+                    <button
+                        type="button"
+                        key={`cycle-${cycleData.cycleNumber}`}
+                        onClick={(e) => handleCycleCardClick(e, cycleData.cycleNumber)}
+                        className={styles.cycleCard}
                     >
                         <div className={styles.metricsRow}>
                             <div className={styles.metricGroup}>
-                                <span className={styles.metricLabel}>{item?.cycle || ''}</span>
+                                <span className={styles.metricLabel}>{cycleData?.cycle || ''}</span>
                                 <div className={styles.metricValue}>
-                                    <span className={styles.nsCount}>{(item?.completed ?? 0) + (item?.inProgress ?? 0)}</span>
+                                    <span className={styles.nsCount}>{(cycleData?.completed ?? 0) + (cycleData?.inProgress ?? 0)}</span>
                                     <span className={styles.nsUnit}>NSs</span>
                                 </div>
                             </div>
                             <div className={styles.metricGroup}>
                                 <span className={styles.metricLabel}>PER Rating</span>
                                 <div className={styles.ratingGroup}>
-                                    <span className={styles.ratingValue}>{item?.rating?.toFixed(1) ?? '0.0'}</span>
-                                    {(item?.ratingChange ?? 0) > 0 && index > 0 && (
+                                    <span className={styles.ratingValue}>{cycleData?.rating?.toFixed(1) ?? '0.0'}</span>
+                                    {(cycleData?.ratingChange ?? 0) > 0 && index > 0 && (
                                         <span className={styles.ratingChange}>
                                             ↗ +
-                                            {item?.ratingChange?.toFixed(1)}
+                                            {cycleData?.ratingChange?.toFixed(1)}
                                         </span>
                                     )}
-                                    {(item?.ratingChange ?? 0) < 0 && index > 0 && (
+                                    {(cycleData?.ratingChange ?? 0) < 0 && index > 0 && (
                                         <span className={styles.ratingChange}>
                                             ↘
                                             {' '}
-                                            {item?.ratingChange?.toFixed(1)}
+                                            {cycleData?.ratingChange?.toFixed(1)}
                                         </span>
                                     )}
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </button>
                 ))}
             </div>
         </div>

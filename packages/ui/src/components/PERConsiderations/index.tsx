@@ -1,7 +1,5 @@
 import React from 'react';
-import { _cs } from '@togglecorp/fujs';
 
-import Container from '../Container';
 import PERChartLegend from '../PERChartLegend';
 import {
     ASSESSMENT_COLORS,
@@ -10,7 +8,6 @@ import {
 import PERGaugeChart from '../PERGaugeChart';
 import PERStackedHorizontalBarChart from '../PERStackedHorizontalBarChart';
 import environmentIcon from './assets/environment.png';
-// Import icons
 import epidemicIcon from './assets/epidemic.png';
 import migrationIcon from './assets/migration.png';
 import urbanIcon from './assets/urban.png';
@@ -102,7 +99,10 @@ function PERConsiderations({
         <div className={styles.chartWrapper}>
             <div className={styles.perConsiderationsContainer}>
                 {data.data.map((chartData, index) => (
-                    <div className={styles.column} key={index}>
+                    <div 
+                        className={styles.column} 
+                        key={`per-consideration-${key[index]}`}
+                    >
                         <PERGaugeChart
                             title={`PER ${labels[index]} Considerations`}
                             percentage={percentageArray[index]}

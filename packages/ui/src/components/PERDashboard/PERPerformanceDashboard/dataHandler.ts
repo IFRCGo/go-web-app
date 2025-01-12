@@ -1,10 +1,5 @@
-import {
-    AREA_COLORS,
-} from '../constants';
-import type {
-    ActiveFilters,
-    Assessment,
-} from './types';
+import { AREA_COLORS } from '../constants';
+import type { ActiveFilters, Assessment } from './types';
 
 import lastUpdateData from '../data/last-update.json';
 import perDashboardDataRaw from '../data/per-dashboard-data.json';
@@ -22,9 +17,9 @@ const perDashboardData = perDashboardDataRaw;
 
 // Helper function to get unique key for assessment
 const getAssessmentKey = (assessment: Assessment): string => (
-    `${assessment.assessment_id}_${assessment.assessment_number}_` +
-    `${assessment.component_num}_${assessment.country_id}_` +
-    `${assessment.rating_value}_${assessment.date_of_assessment}`
+    `${assessment.assessment_id}_${assessment.assessment_number}`
+    + `_${assessment.component_num}_${assessment.country_id}`
+    + `_${assessment.rating_value}_${assessment.date_of_assessment}`
 );
 
 // Helper function to filter duplicate assessments
@@ -32,7 +27,12 @@ const filterDuplicateAssessments = (assessments: Assessment[]): Assessment[] => 
     const groups = new Map<string, Assessment[]>();
 
     assessments.forEach((assessment) => {
-        const key = `${assessment.assessment_id}_${assessment.assessment_number}_${assessment.component_num}`;
+        const key = [
+            assessment.assessment_id,
+            assessment.assessment_number,
+            assessment.component_num,
+        ].join('_');
+        
         if (!groups.has(key)) {
             groups.set(key, []);
         }
@@ -78,7 +78,6 @@ const applyFilters = (filters: ActiveFilters | null = null): Assessment[] => {
     // For each group of duplicates, select the best assessment
     uniqueAssessmentsMap.forEach((duplicates) => {
         const sortedDuplicates = duplicates.sort((a, b) => b.rating_value - a.rating_value);
-
         if (sortedDuplicates[0].rating_value > 0 || sortedDuplicates.length === 1) {
             assessments.push(sortedDuplicates[0]);
         }
@@ -96,8 +95,8 @@ const applyFilters = (filters: ActiveFilters | null = null): Assessment[] => {
         }
 
         if (filters.year) {
-            assessments = assessments.filter((assessment) =>
-                new Date(assessment.date_of_assessment).getFullYear() === filters.year
+            assessments = assessments.filter(
+                (assessment) => new Date(assessment.date_of_assessment).getFullYear() === filters.year,
             );
         }
 
@@ -195,7 +194,6 @@ export function groupDataByRegion(): Array<{
 
 export function getComponentRatings(
     filters: ActiveFilters | null = null,
-    includeLatest = false
 ): Record<string, {
     component_num: number;
     component_name: string;
