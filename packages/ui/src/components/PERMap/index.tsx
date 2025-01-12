@@ -1,12 +1,9 @@
 import 'mapbox-gl/dist/mapbox-gl.css';
 
+import React from 'react';
 import {
-    useEffect,
-    useRef,
-    useState,
-} from 'react';
-import { IoClose } from 'react-icons/io5';
-import { _cs } from '@togglecorp/fujs';
+    CloseLineIcon,
+} from '@ifrc-go/icons';
 import * as d3 from 'd3';
 import mapboxgl from 'mapbox-gl';
 
@@ -45,16 +42,16 @@ function PERMap({
     onMapLoad,
     showLabels = false,
 }: Props) {
-    const mapContainer = useRef<HTMLDivElement>(null);
-    const map = useRef<mapboxgl.Map | null>(null);
-    const bubbleContainer = useRef<{
+    const mapContainer = React.useRef<HTMLDivElement>(null);
+    const map = React.useRef<mapboxgl.Map | null>(null);
+    const bubbleContainer = React.useRef<{
         main: d3.Selection<SVGGElement, unknown, null, undefined>;
         hover: d3.Selection<SVGGElement, unknown, null, undefined>;
     } | null>(null);
-    const tooltipRef = useRef<mapboxgl.Popup | null>(null);
-    const [error, setError] = useState<string | null>(null);
+    const tooltipRef = React.useRef<mapboxgl.Popup | null>(null);
+    const [error, setError] = React.useState<string | null>(null);
 
-    useEffect(() => {
+    React.useEffect(() => {
         const handleFilter = (event: CustomEvent<unknown>) => {
             if (onClick) {
                 onClick(event.detail as any);
@@ -290,7 +287,7 @@ function PERMap({
             });
     };
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (!mapContainer.current || !accessToken) return;
 
         if (map.current) {
@@ -347,19 +344,28 @@ function PERMap({
         };
     }, [accessToken, mapboxStyle, showLabels]);
 
-    useEffect(() => {
+    React.useEffect(() => {
         updatePositions();
     }, [data, valueField]);
 
     return (
         <div
             ref={mapContainer}
-            className={_cs(styles['map-container'], className)}
+            className={styles['map-container']}
             style={{ width: '100%', height: '100%', minHeight: '400px' }}
         >
             {error && (
                 <div className={styles.error}>
-                    {error}
+                    <div className={styles.errorContent}>
+                        {error}
+                        <button
+                            type="button"
+                            className={styles.closeButton}
+                            onClick={() => setError(null)}
+                        >
+                            <CloseLineIcon />
+                        </button>
+                    </div>
                 </div>
             )}
         </div>
