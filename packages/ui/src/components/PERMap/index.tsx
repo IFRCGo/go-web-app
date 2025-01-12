@@ -1,18 +1,16 @@
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import React from 'react';
-import {
-    CloseLineIcon,
-} from '@ifrc-go/icons';
+import { CloseLineIcon } from '@ifrc-go/icons';
 import * as d3 from 'd3';
 import mapboxgl from 'mapbox-gl';
+import { AssessmentRecord } from '../PERDashboard/types';
 
 import styles from './styles.module.css';
 
 export interface Props {
-    className?: string;
     accessToken?: string;
-    data?: any[];
+    data?: AssessmentRecord[];
     valueField?: string;
     mapboxStyle?: string;
     center?: [number, number];
@@ -21,13 +19,12 @@ export interface Props {
     maxRadius?: number;
     tooltipTrigger?: 'click' | 'hover';
     enableClickToFilter?: boolean;
-    onClick?: (item: any) => void;
+    onClick?: (item: AssessmentRecord) => void;
     onMapLoad?: () => void;
     showLabels?: boolean;
 }
 
 function PERMap({
-    className,
     accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN,
     data = [],
     valueField = 'assessment_number',
@@ -52,9 +49,9 @@ function PERMap({
     const [error, setError] = React.useState<string | null>(null);
 
     React.useEffect(() => {
-        const handleFilter = (event: CustomEvent<unknown>) => {
+        const handleFilter = (event: CustomEvent<AssessmentRecord>) => {
             if (onClick) {
-                onClick(event.detail as any);
+                onClick(event.detail);
             }
         };
 
@@ -84,7 +81,7 @@ function PERMap({
             .nice()(value);
     };
 
-    const showTooltip = (d: any) => {
+    const showTooltip = (d: AssessmentRecord) => {
         if (!map.current) return;
 
         // Remove any existing tooltips
@@ -172,9 +169,9 @@ function PERMap({
         }
 
         const circles = bubbleContainer.current.main.selectAll('circle')
-            .data(data, (d: any) => d.id);
+            .data(data, (d: AssessmentRecord) => d.id);
 
-        const values = data.map((d: any) => d[valueField] || 0);
+        const values = data.map((d: AssessmentRecord) => d[valueField] || 0);
         const minValue = Math.min(...values);
         const maxValue = Math.max(...values);
 
@@ -195,18 +192,18 @@ function PERMap({
             .style('stroke-opacity', 0.33)
             .style('cursor', 'pointer')
             .style('pointer-events', 'all')
-            .style('stroke-width', (d: any) => calculateStrokeWidth(d[valueField] || 0, minValue, maxValue));
+            .style('stroke-width', (d: AssessmentRecord) => calculateStrokeWidth(d[valueField] || 0, minValue, maxValue));
 
         // Update all circles
         circles.merge(circlesEnter as any)
-            .style('fill', (d: any) => d.color || '#007CE0')
-            .style('stroke', (d: any) => d.color || '#007CE0')
-            .attr('cx', (d: any) => {
+            .style('fill', (d: AssessmentRecord) => d.color || '#007CE0')
+            .style('stroke', (d: AssessmentRecord) => d.color || '#007CE0')
+            .attr('cx', (d: AssessmentRecord) => {
                 if (!map.current) return 0;
                 const point = map.current.project([d.longitude, d.latitude]);
                 return point.x;
             })
-            .attr('cy', (d: any) => {
+            .attr('cy', (d: AssessmentRecord) => {
                 if (!map.current) return 0;
                 const point = map.current.project([d.longitude, d.latitude]);
                 return point.y;
@@ -214,13 +211,13 @@ function PERMap({
             .transition()
             .duration(500)
             .style('opacity', 1)
-            .attr('r', (d: any) => calculateRadius(d[valueField] || 0, minValue, maxValue))
-            .style('stroke-width', (d: any) => calculateStrokeWidth(d[valueField] || 0, minValue, maxValue));
+            .attr('r', (d: AssessmentRecord) => calculateRadius(d[valueField] || 0, minValue, maxValue))
+            .style('stroke-width', (d: AssessmentRecord) => calculateStrokeWidth(d[valueField] || 0, minValue, maxValue));
 
         // Add hover circles
         const hoverCircles = bubbleContainer.current.hover
             .selectAll('circle')
-            .data(data, (d: any) => d.id);
+            .data(data, (d: AssessmentRecord) => d.id);
 
         hoverCircles.exit().remove();
 
@@ -234,25 +231,25 @@ function PERMap({
             .attr('r', 0);
 
         hoverCircles.merge(hoverCirclesEnter as any)
-            .attr('cx', (d: any) => {
+            .attr('cx', (d: AssessmentRecord) => {
                 if (!map.current) return 0;
                 const point = map.current.project([d.longitude, d.latitude]);
                 return point.x;
             })
-            .attr('cy', (d: any) => {
+            .attr('cy', (d: AssessmentRecord) => {
                 if (!map.current) return 0;
                 const point = map.current.project([d.longitude, d.latitude]);
                 return point.y;
             })
-            .attr('r', (d: any) => calculateRadius(d[valueField] || 0, minValue, maxValue) + 2);
+            .attr('r', (d: AssessmentRecord) => calculateRadius(d[valueField] || 0, minValue, maxValue) + 2);
 
         // Handle click/hover events
         circles.merge(circlesEnter as any)
-            .on(tooltipTrigger, function (this: SVGCircleElement, event: any, d: any) {
+            .on(tooltipTrigger, function (this: SVGCircleElement, event: any, d: AssessmentRecord) {
                 showTooltip(d);
                 const hoverCircle = bubbleContainer.current?.hover
                     .selectAll('circle')
-                    .filter((hd: any) => hd.id === d.id);
+                    .filter((hd: AssessmentRecord) => hd.id === d.id);
 
                 hoverCircle
                     .transition()
@@ -265,14 +262,14 @@ function PERMap({
                     .style('fill-opacity', 1)
                     .style('stroke-opacity', 1);
             })
-            .on('mouseleave', function (this: SVGCircleElement, event: any, d: any) {
+            .on('mouseleave', function (this: SVGCircleElement, event: any, d: AssessmentRecord) {
                 if (tooltipTrigger === 'hover') {
                     hideTooltip();
                 }
 
                 const hoverCircle = bubbleContainer.current?.hover
                     .selectAll('circle')
-                    .filter((hd: any) => hd.id === d.id);
+                    .filter((hd: AssessmentRecord) => hd.id === d.id);
 
                 hoverCircle
                     .transition()
