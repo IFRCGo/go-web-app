@@ -68,8 +68,8 @@ export interface Props {
     colors?: string[];
 }
 
-const adjustColor = (hex: string, percent: number): string => {
-    const cleanHex = hex.replace(/^#/, '');
+const adjustColor = (color: string, percent: number): string => {
+    const cleanHex = color.replace(/^#/, '');
     const r = parseInt(cleanHex.substring(0, 2), 16);
     const g = parseInt(cleanHex.substring(2, 4), 16);
     const b = parseInt(cleanHex.substring(4, 6), 16);
@@ -117,9 +117,15 @@ function PERDonutChart(props: Props) {
         colors = ['#236192', '#418FDE', '#009CDD', '#C6C6C6'],
     } = props;
 
-    const handleHover = useCallback((event: ChartEvent, elements: any[]) => {
+    const handleHover = useCallback((
+        event: ChartEvent,
+        elements: { index: number }[],
+    ) => {
         if (onHover) {
-            onHover(event.native as MouseEvent, elements.length > 0 ? elements[0].index : null);
+            onHover(
+                event.native as MouseEvent,
+                elements.length > 0 ? elements[0].index : null,
+            );
         }
     }, [onHover]);
 
@@ -128,8 +134,15 @@ function PERDonutChart(props: Props) {
         datasets: [
             {
                 data: data.map((item) => item.count),
-                backgroundColor: data.map((_, index) => colors[index % colors.length]),
-                hoverBackgroundColor: data.map((_, index) => adjustColor(colors[index % colors.length], hoverDarkenPercent)),
+                backgroundColor: data.map(
+                    (_, index) => colors[index % colors.length],
+                ),
+                hoverBackgroundColor: data.map(
+                    (_, index) => adjustColor(
+                        colors[index % colors.length],
+                        hoverDarkenPercent,
+                    ),
+                ),
                 borderWidth: 0,
                 hoverOffset,
             },
@@ -190,7 +203,7 @@ function PERDonutChart(props: Props) {
                 },
                 boxPadding: 7,
             },
-            // @ts-ignore
+            // @ts-expect-error chartjs-plugin-datalabels types are not complete
             datalabels: {
                 color: '#FFFFFF',
                 font: {

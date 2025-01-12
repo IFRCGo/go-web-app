@@ -149,7 +149,12 @@ function PERGaugeChart({
         previousPercentageRef.current = percentage;
     }, [backgroundColor, gaugeColor, icon, label, fontSize, height, percentage, radius, chartWidth]);
 
-    useEffect(() => {
+    useEffect(handleUpdate, [percentage, radius, transitionSpeed, svgWidth]);
+
+    function handleUpdate() {
+        if (!svgRef.current) {
+            return;
+        }
         const svg = d3.select(svgRef.current);
 
         const arcGenerator = d3
@@ -170,11 +175,10 @@ function PERGaugeChart({
             .duration(transitionSpeed)
             .attrTween('d', (d) => {
                 const interpolate = d3.interpolate(previousPercentage, d);
-                return function (t: number) {
-                    return arcGenerator(interpolate(t))!;
-                };
+                const arcTween = (t: number) => arcGenerator(interpolate(t))!;
+                return arcTween;
             });
-    }, [percentage, radius, transitionSpeed]);
+    }
 
     return (
         <div

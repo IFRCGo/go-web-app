@@ -7,11 +7,6 @@ import styles from './styles.module.css';
 
 export interface Props {
     /**
-     * Additional CSS class names to apply to the button.
-     */
-    className?: string;
-
-    /**
      * Position of the button relative to its container.
      * @default { right: '16px', top: '15px' }
      */
@@ -32,7 +27,6 @@ export interface Props {
 }
 
 function PERExportButton({
-    className,
     position = { right: '16px', top: '15px' },
     onExportClick,
     disabled,
