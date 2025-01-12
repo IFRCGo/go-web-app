@@ -4,6 +4,7 @@ import React from 'react';
 import { CloseLineIcon } from '@ifrc-go/icons';
 import * as d3 from 'd3';
 import mapboxgl from 'mapbox-gl';
+
 import { AssessmentRecord } from '../PERDashboard/types';
 
 import styles from './styles.module.css';
@@ -62,21 +63,17 @@ function PERMap({
     }, [onClick]);
 
     const calculateRadius = (value: number, minValue: number, maxValue: number) => {
-        if (minValue === maxValue) {
-            maxValue += 1;
-        }
+        const adjustedMaxValue = minValue === maxValue ? maxValue + 1 : maxValue;
         return d3.scaleLinear()
-            .domain([minValue, maxValue])
+            .domain([minValue, adjustedMaxValue])
             .range([minRadius, maxRadius])
             .nice()(value);
     };
 
     const calculateStrokeWidth = (value: number, minValue: number, maxValue: number) => {
-        if (minValue === maxValue) {
-            maxValue += 1;
-        }
+        const adjustedMaxValue = minValue === maxValue ? maxValue + 1 : maxValue;
         return d3.scaleLinear()
-            .domain([minValue, maxValue])
+            .domain([minValue, adjustedMaxValue])
             .range([6, 9])
             .nice()(value);
     };
@@ -139,12 +136,14 @@ function PERMap({
 
     const initializeD3Overlay = () => {
         if (!map.current) {
+            // eslint-disable-next-line no-console
             console.warn('Map not initialized');
             return;
         }
         const container = map.current.getCanvasContainer();
 
         if (bubbleContainer.current) {
+            // eslint-disable-next-line no-console
             console.warn('D3 overlay already initialized');
             return;
         }
@@ -164,16 +163,19 @@ function PERMap({
 
     const updatePositions = () => {
         if (!map.current || !bubbleContainer.current) {
+            // eslint-disable-next-line no-console
             console.warn('Map or bubble container not initialized');
             return;
         }
 
-        const circles = bubbleContainer.current.main.selectAll('circle')
-            .data(data, (d: AssessmentRecord) => d.id);
-
         const values = data.map((d: AssessmentRecord) => d[valueField] || 0);
         const minValue = Math.min(...values);
         const maxValue = Math.max(...values);
+
+        // Explicitly type the selection
+        const circles = bubbleContainer.current.main
+            .selectAll<SVGCircleElement, AssessmentRecord>('circle')
+            .data(data, (d) => d.id);
 
         // Remove old circles
         circles.exit()
@@ -194,8 +196,9 @@ function PERMap({
             .style('pointer-events', 'all')
             .style('stroke-width', (d: AssessmentRecord) => calculateStrokeWidth(d[valueField] || 0, minValue, maxValue));
 
-        // Update all circles
-        circles.merge(circlesEnter as d3.Selection<SVGCircleElement, AssessmentRecord, SVGGElement, unknown>)
+        // Update all circles with proper typing
+        circles
+            .merge(circlesEnter)
             .style('fill', (d: AssessmentRecord) => d.color || '#007CE0')
             .style('stroke', (d: AssessmentRecord) => d.color || '#007CE0')
             .attr('cx', (d: AssessmentRecord) => {
@@ -230,7 +233,14 @@ function PERMap({
             .style('opacity', 0)
             .attr('r', 0);
 
-        hoverCircles.merge(hoverCirclesEnter as d3.Selection<SVGCircleElement, AssessmentRecord, SVGGElement, unknown>)
+        const mergedHoverCircles = hoverCircles.merge(hoverCirclesEnter as d3.Selection<
+            SVGCircleElement,
+            AssessmentRecord,
+            SVGGElement,
+            unknown
+        >);
+
+        mergedHoverCircles
             .attr('cx', (d: AssessmentRecord) => {
                 if (!map.current) return 0;
                 const point = map.current.project([d.longitude, d.latitude]);
@@ -244,25 +254,35 @@ function PERMap({
             .attr('r', (d: AssessmentRecord) => calculateRadius(d[valueField] || 0, minValue, maxValue) + 2);
 
         // Handle click/hover events
-        circles.merge(circlesEnter as d3.Selection<SVGCircleElement, AssessmentRecord, SVGGElement, unknown>)
-            .on(tooltipTrigger, function (this: SVGCircleElement, event: MouseEvent, d: AssessmentRecord) {
-                showTooltip(d);
-                const hoverCircle = bubbleContainer.current?.hover
-                    .selectAll('circle')
-                    .filter((hd: AssessmentRecord) => hd.id === d.id);
+        const handleTooltipTrigger = function handleTooltipTrigger(
+            this: SVGCircleElement,
+            event: MouseEvent,
+            d: AssessmentRecord,
+        ) {
+            showTooltip(d);
+            const hoverCircle = bubbleContainer.current?.hover
+                .selectAll('circle')
+                .filter((hd: AssessmentRecord) => hd.id === d.id);
 
-                hoverCircle
-                    .transition()
-                    .duration(200)
-                    .style('opacity', 1);
+            hoverCircle
+                .transition()
+                .duration(200)
+                .style('opacity', 1);
 
-                d3.select(this)
-                    .transition()
-                    .duration(200)
-                    .style('fill-opacity', 1)
-                    .style('stroke-opacity', 1);
-            })
-            .on('mouseleave', function (this: SVGCircleElement, event: MouseEvent, d: AssessmentRecord) {
+            d3.select(this)
+                .transition()
+                .duration(200)
+                .style('fill-opacity', 1)
+                .style('stroke-opacity', 1);
+        };
+
+        circles
+            .merge(circlesEnter)
+            .on(
+                tooltipTrigger,
+                handleTooltipTrigger,
+            )
+            .on('mouseleave', function handleMouseLeave(this: SVGCircleElement, event: MouseEvent, d: AssessmentRecord) {
                 if (tooltipTrigger === 'hover') {
                     hideTooltip();
                 }
@@ -288,6 +308,7 @@ function PERMap({
         if (!mapContainer.current || !accessToken) return;
 
         if (map.current) {
+            // eslint-disable-next-line no-console
             console.warn('Map already initialized');
             return;
         }
@@ -340,11 +361,13 @@ function PERMap({
                 map.current = null;
             }
         };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [accessToken, mapboxStyle, showLabels]);
 
     React.useEffect(() => {
         updatePositions();
-    }, [data, valueField, updatePositions]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [data, valueField]);
 
     return (
         <div
