@@ -1,8 +1,12 @@
 import { AREA_COLORS } from '../constants';
 import type {
-    ActiveFilters,
+    AreaSummary,
     Assessment,
-} from './types';
+    ComponentRating,
+    ComponentRatingsResult,
+    Filters,
+    RegionData,
+} from '../types';
 
 import lastUpdateData from '../data/last-update.json';
 import perDashboardDataRaw from '../data/per-dashboard-data.json';
@@ -60,7 +64,7 @@ const filterDuplicateAssessments = (assessments: Assessment[]): Assessment[] => 
 };
 
 // Helper function to apply filters
-const applyFilters = (filters: ActiveFilters | null = null): Assessment[] => {
+const applyFilters = (filters: Filters | null = null): Assessment[] => {
     const data = perDashboardData;
     let assessments: Assessment[] = [];
     const uniqueAssessmentsMap = new Map<string, Assessment[]>();
@@ -135,15 +139,12 @@ function getRoundedRating(rating: number): number {
     return Math.round(rating * 10) / 10;
 }
 
-interface RegionData {
-  name: string;
-  count: number;
-  totalComponents: number;
-}
-
 export function groupDataByRegion(): RegionData[] {
     const assessments = applyFilters();
-    const regionComponentAverages: Record<string, Map<number, { total: number; count: number }>> = {};
+    const regionComponentAverages: Record<
+        string,
+        Map<number, { total: number; count: number }>
+    > = {};
 
     // First pass: identify latest assessments for each country-component combination
     const latestAssessments = new Map<string, Assessment>();
@@ -204,21 +205,8 @@ export {
 };
 
 export function getComponentRatings(
-    filters: ActiveFilters | null = null,
-): Record<string, {
-  component_num: number;
-  component_name: string;
-  area_id: number;
-  area_name: string;
-  cycleRatings: Array<{
-    cycle: number;
-    rating: number;
-    rating_display: string;
-    rating_color: string;
-  }>;
-  total: number;
-  count: number;
-}> {
+    filters: Filters | null = null,
+): ComponentRatingsResult {
     const assessments = applyFilters(filters);
     const componentGroups = new Map<number, Assessment[]>();
     assessments.forEach((assessment) => {
@@ -228,7 +216,7 @@ export function getComponentRatings(
         componentGroups.get(assessment.component_num)?.push(assessment);
     });
 
-    const componentMap = new Map<number, any>();
+    const componentMap = new Map<number, ComponentRating>();
 
     componentGroups.forEach((componentAssessments, componentId) => {
     // Filter out duplicate zero ratings when better ratings exist
@@ -253,16 +241,28 @@ export function getComponentRatings(
         });
 
         const latestAssessments = Array.from(latestAssessmentsByCountry.values());
+        const sum = latestAssessments.reduce((s, a) => s + a.rating_value, 0);
+        const average = sum / latestAssessments.length;
         const currentRating = latestAssessments.length > 0
-            ? parseFloat((latestAssessments.reduce((sum, a) => sum + a.rating_value, 0) / latestAssessments.length).toFixed(2))
+            ? parseFloat(average.toFixed(2))
             : 0;
 
         // Cycle Ratings Calculation
-        const cycles = [...new Set(filteredComponentAssessments.map((a) => a.assessment_number))].sort((a, b) => a - b);
+        const cycles = [...new Set(
+            filteredComponentAssessments.map((a) => a.assessment_number),
+        )].sort((a, b) => a - b);
         const cycleRatings = cycles.map((cycle) => {
-            const cycleAssessments = filteredComponentAssessments.filter((a) => a.assessment_number === cycle);
+            const cycleAssessments = filteredComponentAssessments
+                .filter((a) => a.assessment_number === cycle);
             const averageRating = cycleAssessments.length > 0
-                ? parseFloat((cycleAssessments.reduce((sum, a) => sum + a.rating_value, 0) / cycleAssessments.length).toFixed(2))
+                ? parseFloat(
+                    (
+                        cycleAssessments.reduce(
+                            (sm, a) => sm + a.rating_value,
+                            0,
+                        ) / cycleAssessments.length
+                    ).toFixed(2),
+                )
                 : 0;
             const roundedRating = getRoundedRating(averageRating);
             const status = getRatingStatus(roundedRating);
@@ -286,7 +286,7 @@ export function getComponentRatings(
     });
 
     // Calculate area ratings by aggregating component data
-    const areaMap = new Map<string, any>();
+    const areaMap = new Map<string, AreaSummary>();
 
     componentGroups.forEach((componentAssessments, componentId) => {
         const component = componentMap.get(componentId);
@@ -297,9 +297,9 @@ export function getComponentRatings(
                 status: '',
                 change: 0,
                 changeDirection: '',
-                areaColor: AREA_COLORS[component.area_name] || '#000000',
-                components: [component],
                 cycleRatings: [],
+                components: [component],
+                areaColor: AREA_COLORS[component.area_name] || '#000000',
             });
         } else {
             const area = areaMap.get(component.area_name);
@@ -427,7 +427,7 @@ export function getComponentRatings(
     };
 }
 
-export function summarizeData(filters: ActiveFilters | null = null, includeLatest: boolean = false) {
+export function summarizeData(filters: Filters | null = null, includeLatest: boolean = false) {
     let assessments = applyFilters(filters);
 
     if (includeLatest) {
@@ -501,7 +501,7 @@ export function summarizeData(filters: ActiveFilters | null = null, includeLates
     };
 }
 
-export function getCycles(filters: ActiveFilters | null = null, includeAllCycles: boolean = false) {
+export function getCycles(filters: Filters | null = null, includeAllCycles: boolean = false) {
     // Get all assessments without cycle filter first
     const allAssessments = applyFilters({
         ...filters,

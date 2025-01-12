@@ -111,3 +111,66 @@ export interface PERConsiderationsData {
     totals: TotalsData;
     data: ChartData;
 }
+
+export interface RegionData {
+    name: string;
+    count: number;
+    totalComponents: number;
+}
+
+export interface AreaSummary {
+    name: string;
+    rating: number;
+    status: string;
+    change: number;
+    changeDirection: string;
+    cycleRatings: Assessment[];
+    components: Component[];
+    areaColor: string;
+}
+
+export interface CycleRating {
+    cycle: number;
+    rating: number;
+    rating_display: string;
+    rating_color: string;
+    color?: string;
+}
+
+export interface OverallRating {
+    rating: number;
+    status: string;
+    change: number;
+    changeDirection: 'up' | 'down';
+    cycleRatings: CycleRating[];
+    color: string;
+}
+
+export interface ComponentRating {
+    id: number;
+    name: string;
+    rating: number;
+    status: string;
+    change: number;
+    changeDirection: 'up' | 'down';
+    cycleRatings: CycleRating[];
+    areaColor: string;
+    type: 'component';
+}
+
+export interface AreaRating {
+    name: string;
+    rating: number;
+    status: string;
+    change: number;
+    changeDirection: 'up' | 'down';
+    cycleRatings: CycleRating[];
+    components: ComponentRating[];
+    areaColor: string;
+}
+
+export interface ComponentRatingsResult {
+    overallRating: OverallRating;
+    areaData: AreaRating[];
+    componentData: ComponentRating[];
+}
