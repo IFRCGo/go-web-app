@@ -99,8 +99,8 @@ function PERConsiderations({
         <div className={styles.chartWrapper}>
             <div className={styles.perConsiderationsContainer}>
                 {data.data.map((chartData, index) => (
-                    <div 
-                        className={styles.column} 
+                    <div
+                        className={styles.column}
                         key={`per-consideration-${key[index]}`}
                     >
                         <PERGaugeChart
@@ -120,7 +120,7 @@ function PERConsiderations({
 
                         {/* Conditionally render the title for the first column */}
                         <div className={styles.stackedBarTitle}>
-                            {index === 0 ? 'By region & type' : ' '}
+                            {index === 0 ? 'By region & type' : ''}
                         </div>
 
                         <PERStackedHorizontalBarChart

@@ -1,4 +1,5 @@
 import React from 'react';
+import { _cs } from '@togglecorp/fujs';
 import {
     Bar,
     ComposedChart,
@@ -107,8 +108,8 @@ function CustomTooltip({ active, payload }: TooltipProps) {
                         <div
                             className={
                                 `${styles.tooltipChange} ${
-                                    isPositiveRating 
-                                        ? styles.tooltipChangePositive 
+                                    isPositiveRating
+                                        ? styles.tooltipChangePositive
                                         : styles.tooltipChangeNegative
                                 }`
                             }
@@ -297,26 +298,33 @@ function PERAnalysis({
                 </div>
             </div>
 
-            <div className={styles.cycleCards}>
+            <div className={styles.summaryGrid}>
                 {chartData.cycles.map((cycleData, index) => (
                     <button
                         type="button"
                         key={`cycle-${cycleData.cycleNumber}`}
                         onClick={(e) => handleCycleCardClick(e, cycleData.cycleNumber)}
-                        className={styles.cycleCard}
+                        className={_cs(
+                            styles.summaryCard,
+                            activeCycle === cycleData.cycleNumber && styles.active,
+                        )}
                     >
                         <div className={styles.metricsRow}>
                             <div className={styles.metricGroup}>
                                 <span className={styles.metricLabel}>{cycleData?.cycle || ''}</span>
                                 <div className={styles.metricValue}>
-                                    <span className={styles.nsCount}>{(cycleData?.completed ?? 0) + (cycleData?.inProgress ?? 0)}</span>
+                                    <span className={styles.nsCount}>
+                                        {(cycleData?.completed ?? 0) + (cycleData?.inProgress ?? 0)}
+                                    </span>
                                     <span className={styles.nsUnit}>NSs</span>
                                 </div>
                             </div>
                             <div className={styles.metricGroup}>
                                 <span className={styles.metricLabel}>PER Rating</span>
                                 <div className={styles.ratingGroup}>
-                                    <span className={styles.ratingValue}>{cycleData?.rating?.toFixed(1) ?? '0.0'}</span>
+                                    <span className={styles.ratingValue}>
+                                        {cycleData?.rating?.toFixed(1) ?? '0.0'}
+                                    </span>
                                     {(cycleData?.ratingChange ?? 0) > 0 && index > 0 && (
                                         <span className={styles.ratingChange}>
                                             ↗ +
@@ -326,7 +334,6 @@ function PERAnalysis({
                                     {(cycleData?.ratingChange ?? 0) < 0 && index > 0 && (
                                         <span className={styles.ratingChange}>
                                             ↘
-                                            {' '}
                                             {cycleData?.ratingChange?.toFixed(1)}
                                         </span>
                                     )}
