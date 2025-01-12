@@ -1,5 +1,10 @@
-import React, { useRef, useEffect, useMemo } from 'react';
+import React, {
+    useEffect,
+    useMemo,
+    useRef,
+} from 'react';
 import * as d3 from 'd3';
+
 import styles from './styles.module.css';
 
 interface Props {
@@ -82,12 +87,12 @@ function RatingScale(props: Props) {
             const xAxis = d3.axisBottom(xScale)
                 .ticks(tickCount)
                 .tickSize(-SCALE_HEIGHT)
-                .tickFormat(d => d.toString());
+                .tickFormat((d) => d.toString());
 
             const axisGroup = svg.append('g')
                 .attr('transform', `translate(0, ${SCALE_HEIGHT})`)
                 .call(xAxis)
-                .call(g => g.selectAll('.domain').remove());
+                .call((g) => g.selectAll('.domain').remove());
 
             // Hide first and last tick lines
             axisGroup.selectAll('.tick:first-of-type line, .tick:last-of-type line')

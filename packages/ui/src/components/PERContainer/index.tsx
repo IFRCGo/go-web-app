@@ -1,4 +1,5 @@
 import { _cs } from '@togglecorp/fujs';
+
 import styles from './styles.module.css';
 
 export interface Props {
@@ -82,7 +83,8 @@ function PERContainer({
             <div className={styles.header}>
                 <div className={styles.titleSection}>
                     <h2 className={styles.title}>
-                        {title}{' '}
+                        {title}
+                        {' '}
                         {showResetFilter && (
                             <button
                                 onClick={onResetFilter}

@@ -1,6 +1,10 @@
-import { useEffect, useRef } from 'react';
-import * as d3 from 'd3';
+import {
+    useEffect,
+    useRef,
+} from 'react';
 import { _cs } from '@togglecorp/fujs';
+import * as d3 from 'd3';
+
 import styles from './styles.module.css';
 
 export interface Props {
@@ -164,7 +168,7 @@ function PERGaugeChart({
             .datum(newPercentage)
             .transition()
             .duration(transitionSpeed)
-            .attrTween('d', function (d) {
+            .attrTween('d', (d) => {
                 const interpolate = d3.interpolate(previousPercentage, d);
                 return function (t: number) {
                     return arcGenerator(interpolate(t))!;
@@ -206,7 +210,8 @@ function PERGaugeChart({
                 </div>
             )}
             <div className={styles.percentage}>
-                {percentage}%
+                {percentage}
+                %
             </div>
         </div>
     );

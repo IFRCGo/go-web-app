@@ -1,5 +1,6 @@
 import React from 'react';
 import { _cs } from '@togglecorp/fujs';
+
 import styles from './styles.module.css';
 
 interface Props {
@@ -10,25 +11,25 @@ interface Props {
 
 const STATUS_COLORS = {
     "Doesn't exist": '#E0E3E7',
-    "Partially exists": '#99A5B3',
-    "Needs improvement": '#7D8B9D',
-    "Good performing": '#4D617A',
-    "High performing": '#011E41',
+    'Partially exists': '#99A5B3',
+    'Needs improvement': '#7D8B9D',
+    'Good performing': '#4D617A',
+    'High performing': '#011E41',
 } as const;
 
 function RatingStatusBadge({ status, rating, className }: Props) {
     const fillWidth = `${(rating / 5) * 100}%`;
 
     return (
-        <div 
+        <div
             className={_cs(styles.ratingStatus, className)}
-            style={{ 
+            style={{
                 backgroundColor: STATUS_COLORS[status as keyof typeof STATUS_COLORS] || '#000000',
                 position: 'relative',
                 overflow: 'hidden',
             }}
         >
-            <div 
+            <div
                 style={{
                     position: 'absolute',
                     left: 0,
@@ -39,7 +40,7 @@ function RatingStatusBadge({ status, rating, className }: Props) {
                     opacity: 1,
                 }}
             />
-            <div 
+            <div
                 style={{
                     position: 'absolute',
                     left: fillWidth,

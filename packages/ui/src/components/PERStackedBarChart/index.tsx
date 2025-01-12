@@ -16,80 +16,44 @@ import {
     Tooltip,
 } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+
 import { getContrastColor } from '../../utils/common';
 
 import styles from './styles.module.css';
 
 export interface StackedBarDataItem {
-    year?: number | string | null;
-    values?: { [key: string]: number };
-    label?: string;
+    year: number | string | null;
+    values: { [key: string]: number };
+    label: string;
 }
 
 export interface Props {
-    /**
-     * Array of data items for the chart
-     */
+
     data: StackedBarDataItem[];
 
-    /**
-     * Height of the chart in pixels
-     * @default 300
-     */
     height?: number;
 
-    /**
-     * Minimum width of the chart in pixels
-     * @default 300
-     */
     minWidth?: number;
 
-    /**
-     * Callback when a bar is clicked
-     */
     onClick?: (item: StackedBarDataItem) => void;
 
-    /**
-     * Callback when hovering over a bar
-     */
     onHover?: (item: StackedBarDataItem) => void;
 
-    /**
-     * Enable tooltips
-     * @default true
-     */
     tooltipEnabled?: boolean;
 
-    /**
-     * Additional CSS class name
-     */
     className?: string;
 
-    /**
-     * Categories for the stacked bars
-     */
-    categories?: { label: string; fillColor: string; hoverFillColor?: string }[];
-
-    /**
-     * Show data labels on bars
-     * @default false
-     */
+    categories: {
+        label: string;
+        fillColor: string;
+        hoverFillColor?: string;
+    }[];
     showDataLabels?: boolean;
+    activeRegion: string | null;
 
-    /**
-     * Currently active region
-     */
-    activeRegion?: string | null;
+    yAxisMin: number;
 
-    /**
-     * Minimum value for Y axis
-     */
-    yAxisMin?: number;
-
-    /**
-     * Maximum value for Y axis
-     */
-    yAxisMax?: number;
+    yAxisMax: number;
 }
 
 ChartJS.register(
@@ -112,7 +76,7 @@ function PERStackedBarChart({
     className = '',
     categories,
     showDataLabels = false,
-    activeRegion = null,
+    activeRegion,
     yAxisMin,
     yAxisMax,
 }: Props) {
@@ -123,14 +87,12 @@ function PERStackedBarChart({
         if (!containerRef.current) return;
 
         const resizeObserver = new ResizeObserver((entries) => {
-            for (const entry of entries) {
+            entries.forEach((entry) => {
                 setContainerWidth(Math.max(entry.contentRect.width, minWidth));
-            }
+            });
         });
 
         resizeObserver.observe(containerRef.current);
-
-        return () => resizeObserver.disconnect();
     }, [minWidth]);
 
     const reversedCategories = [...categories].reverse();
@@ -170,9 +132,7 @@ function PERStackedBarChart({
             },
             tooltip: {
                 enabled: tooltipEnabled,
-                itemSort: (a, b) =>
-                    // Reverse the order of tooltip items
-                    b.datasetIndex - a.datasetIndex,
+                itemSort: (a, b) => b.datasetIndex - a.datasetIndex,
                 callbacks: {
                     label: (context) => {
                         const label = context.dataset.label ?? '';
@@ -243,21 +203,22 @@ function PERStackedBarChart({
                 min: yAxisMin,
                 max: yAxisMax,
                 position: 'left',
-                afterFit: (axis: any) => {
-                    axis.width = 50;  // Fixed width in pixels
-                },
+                afterFit: (axis: any) => ({
+                    ...axis,
+                    width: 50,
+                }),
                 ticks: {
                     font: {
                         size: 12,
                     },
                     padding: 10,
                     stepSize: 1,
-                    callback: function(value: any) {
+                    callback(value: any) {
                         if (Math.floor(value) !== value) {
                             return '';
                         }
                         return value;
-                    }
+                    },
                 },
             },
         },

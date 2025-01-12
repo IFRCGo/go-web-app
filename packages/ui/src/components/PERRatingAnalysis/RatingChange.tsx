@@ -1,6 +1,10 @@
 import React from 'react';
+import {
+    CaretDownLineIcon,
+    CaretUpLineIcon,
+} from '@ifrc-go/icons';
 import { _cs } from '@togglecorp/fujs';
-import { CaretUpLineIcon, CaretDownLineIcon } from '@ifrc-go/icons';
+
 import styles from './styles.module.css';
 
 interface Props {

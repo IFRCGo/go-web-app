@@ -1,11 +1,11 @@
 // Re-export types needed for Performance Dashboard
 export type {
-    AssessmentType,
     Assessment,
-    Component,
     AssessmentRecord,
-    KPIData,
+    AssessmentType,
+    Component,
     ComponentSummary,
     FilterOptions,
     Filters,
+    KPIData,
 } from '../types';

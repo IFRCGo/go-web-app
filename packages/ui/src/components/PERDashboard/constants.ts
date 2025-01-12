@@ -1,10 +1,10 @@
 // Rating colors for different PER statuses
 export const RATING_COLORS = {
     "Doesn't exist": '#F5333F',
-    "Partially exists": '#FB8C00',
-    "Needs improvement": '#FFC107',
-    "Good performing": '#8BC34A',
-    "High performing": '#7CB342',
+    'Partially exists': '#FB8C00',
+    'Needs improvement': '#FFC107',
+    'Good performing': '#8BC34A',
+    'High performing': '#7CB342',
     primary: '#F5333F',
     coordination: '#7CB342',
     operational: '#3F51B5',
@@ -81,5 +81,5 @@ export const AREA_COLORS = {
     'Analysis and planning': '#ff8655',
     'Operations support': '#da283d',
     'Operational capacity': '#3478ec',
-    'Coordination': '#00B2A2',
+    Coordination: '#00B2A2',
 } as const;

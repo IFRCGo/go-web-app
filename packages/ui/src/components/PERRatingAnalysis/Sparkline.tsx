@@ -1,4 +1,5 @@
 import React from 'react';
+
 import styles from './styles.module.css';
 
 interface Props {
@@ -27,6 +28,6 @@ function Sparkline({ ratings, colors }: Props) {
             {bars}
         </div>
     );
-};
+}
 
 export default Sparkline;

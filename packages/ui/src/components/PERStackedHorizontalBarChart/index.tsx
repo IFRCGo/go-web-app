@@ -1,20 +1,24 @@
 import { useRef } from 'react';
 import { Bar } from 'react-chartjs-2';
 import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
     BarElement,
+    CategoryScale,
+    Chart as ChartJS,
+    ChartOptions,
+    Legend,
+    LinearScale,
     Title,
     Tooltip,
-    Legend,
-    ChartOptions,
 } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-import type { Props, DataItem } from './types';
-import styles from './styles.module.css';
 import { getContrastColor } from '../../utils/common';
+import type {
+    DataItem,
+    Props,
+} from './types';
+
+import styles from './styles.module.css';
 
 ChartJS.register(
     CategoryScale,
@@ -138,8 +142,8 @@ function PERStackedHorizontalBarChart({
             datalabels: {
                 anchor: 'center',
                 color: (context) => {
-                    const datasetIndex = context.datasetIndex;
-                    const backgroundColor = datasets[datasetIndex].backgroundColor;
+                    const { datasetIndex } = context;
+                    const { backgroundColor } = datasets[datasetIndex];
                     return getContrastColor(backgroundColor);
                 },
                 font: {
@@ -148,10 +152,10 @@ function PERStackedHorizontalBarChart({
                     lineHeight: 2.5,
                 },
                 formatter: (value, context) => {
-                    const chart = context.chart;
+                    const { chart } = context;
                     const totalWidth = chart.width;
 
-                    const dataIndex = context.dataIndex;
+                    const { dataIndex } = context;
 
                     if (dataIndex < 0 || dataIndex >= data.length) {
                         return '';
@@ -160,20 +164,19 @@ function PERStackedHorizontalBarChart({
                     const record = data[dataIndex];
 
                     if (
-                        !record ||
-                        typeof record.SelfAssessment !== 'number' ||
-                        typeof record.Simulation !== 'number' ||
-                        typeof record.PostOperational !== 'number' ||
-                        typeof record.Operational !== 'number'
+                        !record
+                        || typeof record.SelfAssessment !== 'number'
+                        || typeof record.Simulation !== 'number'
+                        || typeof record.PostOperational !== 'number'
+                        || typeof record.Operational !== 'number'
                     ) {
                         return '';
                     }
 
-                    const totalValue =
-                        record.SelfAssessment +
-                        record.Simulation +
-                        record.PostOperational +
-                        record.Operational;
+                    const totalValue = record.SelfAssessment
+                        + record.Simulation
+                        + record.PostOperational
+                        + record.Operational;
 
                     const segmentPercentage = value / (maxValue || totalValue);
                     const segmentWidth = segmentPercentage * totalWidth;
@@ -190,7 +193,7 @@ function PERStackedHorizontalBarChart({
                 grid: {
                     display: false,
                 },
-                max: maxValue ? maxValue : undefined,
+                max: maxValue || undefined,
             },
             y: {
                 stacked: true,

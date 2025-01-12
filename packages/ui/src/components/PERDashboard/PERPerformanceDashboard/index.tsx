@@ -67,10 +67,18 @@ function PERPerformanceDashboard(props: Props) {
         >
             <PageHeader
                 heading="NS Preparedness and Response Capacity Strengthening (PER)"
-                description="The National Society Preparedness for Effective Response (PER) Approach is a structured and systematic way of interacting with the knowledge, capacity, systems, and processes a National Society uses to respond to an emergency, fulfilling its mandate to meet the needs of those most affected by disasters and crises with timely, relevant, and effective humanitarian assistance."
+                description={`
+                    The National Society Preparedness for Effective Response (PER) Approach is a structured
+                    and systematic way of interacting with the knowledge, capacity, systems, and processes
+                    a National Society uses to respond to an emergency, fulfilling its mandate to meet the
+                    needs of those most affected by disasters and crises with timely, relevant, and
+                    effective humanitarian assistance.
+                `}
             />
             <div className={styles.lastUpdate}>
-                Last updated: {new Date(getLastUpdateDate()).toLocaleString()}
+                Last updated:
+                {' '}
+                {new Date(getLastUpdateDate()).toLocaleString()}
             </div>
             <div className={styles.content}>
                 <PERRegionToggle

@@ -1,18 +1,19 @@
 import { useCallback } from 'react';
+import { Doughnut } from 'react-chartjs-2';
 import { _cs } from '@togglecorp/fujs';
 import {
-    Chart as ChartJS,
     ArcElement,
-    Tooltip,
-    Legend,
+    Chart as ChartJS,
     ChartEvent,
     ChartOptions,
+    Legend,
+    Tooltip,
     TooltipItem,
 } from 'chart.js';
-import { Doughnut } from 'react-chartjs-2';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 import PERChartLegend from '../PERChartLegend';
+
 import styles from './styles.module.css';
 
 // Register required ChartJS components
@@ -86,7 +87,7 @@ const adjustColor = (hex: string, percent: number): string => {
 
     const toHex = (n: number): string => {
         const hex = n.toString(16);
-        return hex.length === 1 ? '0' + hex : hex;
+        return hex.length === 1 ? `0${hex}` : hex;
     };
 
     return `#${toHex(newR)}${toHex(newG)}${toHex(newB)}`;
@@ -128,9 +129,7 @@ function PERDonutChart(props: Props) {
             {
                 data: data.map((item) => item.count),
                 backgroundColor: data.map((_, index) => colors[index % colors.length]),
-                hoverBackgroundColor: data.map((_, index) =>
-                    adjustColor(colors[index % colors.length], hoverDarkenPercent)
-                ),
+                hoverBackgroundColor: data.map((_, index) => adjustColor(colors[index % colors.length], hoverDarkenPercent)),
                 borderWidth: 0,
                 hoverOffset,
             },
@@ -164,7 +163,7 @@ function PERDonutChart(props: Props) {
             tooltip: {
                 enabled: tooltipEnabled,
                 callbacks: {
-                    label: function (tooltipItem: TooltipItem<'doughnut'>) {
+                    label(tooltipItem: TooltipItem<'doughnut'>) {
                         const label = tooltipItem.label || '';
                         const value = tooltipItem.raw as number;
                         return tooltipFormat(label, value);
@@ -208,7 +207,7 @@ function PERDonutChart(props: Props) {
         onHover: handleHover,
         onClick: (event: ChartEvent, elements: any[]) => {
             if (onClick && elements.length > 0) {
-                const index = elements[0].index;
+                const { index } = elements[0];
                 onClick(data[index]);
             }
         },

@@ -1,22 +1,21 @@
 import React from 'react';
 import { _cs } from '@togglecorp/fujs';
-import {
-  ASSESSMENT_COLORS,
-  ASSESSMENT_TYPE_OPTIONS,
-} from '../PERDashboard/constants';
 
 import Container from '../Container';
 import PERChartLegend from '../PERChartLegend';
+import {
+    ASSESSMENT_COLORS,
+    ASSESSMENT_TYPE_OPTIONS,
+} from '../PERDashboard/constants';
 import PERGaugeChart from '../PERGaugeChart';
 import PERStackedHorizontalBarChart from '../PERStackedHorizontalBarChart';
-
-import styles from './styles.module.css';
-
+import environmentIcon from './assets/environment.png';
 // Import icons
 import epidemicIcon from './assets/epidemic.png';
-import environmentIcon from './assets/environment.png';
-import urbanIcon from './assets/urban.png';
 import migrationIcon from './assets/migration.png';
+import urbanIcon from './assets/urban.png';
+
+import styles from './styles.module.css';
 
 interface PercentageData {
   epiPercentage: number;
@@ -56,101 +55,98 @@ export interface Props {
 }
 
 function PERConsiderations({
-  data,
-  activeIndex,
-  onClick,
-  onClickPER,
+    data,
+    activeIndex,
+    onClick,
+    onClickPER,
 }: Props) {
-  // Calculate global maxValue across all charts
-  const calculateGlobalMaxValue = (allData: ChartData[]): number => {
-    return Math.max(
-      ...allData
-        .flatMap((chart) => chart)
-        .map(
-          (item) =>
-            item.SelfAssessment +
-            item.Simulation +
-            item.PostOperational +
-            item.Operational
-        )
+    // Calculate global maxValue across all charts
+    const calculateGlobalMaxValue = (allData: ChartData[]): number => Math.max(
+        ...allData
+            .flatMap((chart) => chart)
+            .map(
+                (item) => item.SelfAssessment
+            + item.Simulation
+            + item.PostOperational
+            + item.Operational,
+            ),
     );
-  };
 
-  const percentageArray = [
-    data.percentages.epiPercentage,
-    data.percentages.climatePercentage,
-    data.percentages.urbanPercentage,
-    data.percentages.migrationPercentage,
-  ];
+    const percentageArray = [
+        data.percentages.epiPercentage,
+        data.percentages.climatePercentage,
+        data.percentages.urbanPercentage,
+        data.percentages.migrationPercentage,
+    ];
 
-  const globalMaxValue = calculateGlobalMaxValue(data.data);
+    const globalMaxValue = calculateGlobalMaxValue(data.data);
 
-  // Define icons and labels for each chart
-  const icons = [
-    epidemicIcon,
-    environmentIcon,
-    urbanIcon,
-    migrationIcon
-  ];
-  
-  const labels = ['EPI-ready', 'Climate-ready', 'Urban-ready', 'Migration-ready'];
+    // Define icons and labels for each chart
+    const icons = [
+        epidemicIcon,
+        environmentIcon,
+        urbanIcon,
+        migrationIcon,
+    ];
 
-  const key = [
-    'epi_considerations',
-    'climate_environmental_considerations',
-    'urban_considerations',
-    'migration_considerations',
-  ];
+    const labels = ['EPI-ready', 'Climate-ready', 'Urban-ready', 'Migration-ready'];
 
-  return (
-    <div className={styles.chartWrapper}>
-      <div className={styles.perConsiderationsContainer}>
-        {data.data.map((chartData, index) => (
-          <div className={styles.column} key={index}>
-            <PERGaugeChart
-              title={`PER ${labels[index]} Considerations`}
-              percentage={percentageArray[index]}
-              icon={icons[index]}
-              label={labels[index]}
-              fontSize={12}
-              gaugeColor="#236192"
-              backgroundColor="#F2F2F2"
-              transitionSpeed={1000}
-              onClick={() => onClickPER(key[index])}
-              width="100%"
-            />
+    const key = [
+        'epi_considerations',
+        'climate_environmental_considerations',
+        'urban_considerations',
+        'migration_considerations',
+    ];
 
-            <div className={styles.spacer} />
+    return (
+        <div className={styles.chartWrapper}>
+            <div className={styles.perConsiderationsContainer}>
+                {data.data.map((chartData, index) => (
+                    <div className={styles.column} key={index}>
+                        <PERGaugeChart
+                            title={`PER ${labels[index]} Considerations`}
+                            percentage={percentageArray[index]}
+                            icon={icons[index]}
+                            label={labels[index]}
+                            fontSize={12}
+                            gaugeColor="#236192"
+                            backgroundColor="#F2F2F2"
+                            transitionSpeed={1000}
+                            onClick={() => onClickPER(key[index])}
+                            width="100%"
+                        />
 
-            {/* Conditionally render the title for the first column */}
-            <div className={styles.stackedBarTitle}>
-              {index === 0 ? 'By region & type' : ' '}
+                        <div className={styles.spacer} />
+
+                        {/* Conditionally render the title for the first column */}
+                        <div className={styles.stackedBarTitle}>
+                            {index === 0 ? 'By region & type' : ' '}
+                        </div>
+
+                        <PERStackedHorizontalBarChart
+                            data={chartData}
+                            maxValue={globalMaxValue}
+                            barColors={ASSESSMENT_COLORS}
+                            xAxisKey="name"
+                            barKeys={[
+                                'SelfAssessment',
+                                'Simulation',
+                                'PostOperational',
+                                'Operational',
+                            ]}
+                            transitionSpeed={1000}
+                        />
+                    </div>
+                ))}
             </div>
-
-            <PERStackedHorizontalBarChart
-              data={chartData}
-              maxValue={globalMaxValue}
-              barColors={ASSESSMENT_COLORS}
-              xAxisKey="name"
-              barKeys={[
-                'SelfAssessment',
-                'Simulation',
-                'PostOperational',
-                'Operational',
-              ]}
-              transitionSpeed={1000}
+            <PERChartLegend
+                data={ASSESSMENT_TYPE_OPTIONS}
+                activeIndex={activeIndex}
+                onClick={(item) => onClick(item.label)}
+                layout="horizontal"
             />
-          </div>
-        ))}
-      </div>
-      <PERChartLegend
-        data={ASSESSMENT_TYPE_OPTIONS}
-        activeIndex={activeIndex}
-        onClick={(item) => onClick(item.label)}
-        layout="horizontal"
-      />
-    </div>
-  );
+        </div>
+    );
 }
 
 export default PERConsiderations;

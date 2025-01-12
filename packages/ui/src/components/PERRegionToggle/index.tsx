@@ -1,41 +1,47 @@
-import { useCallback } from 'react';
+import {
+    type MouseEvent,
+    useCallback,
+} from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import styles from './styles.module.css';
 
-export interface Props {
+interface Region {
+    name: string;
+    count: number;
+}
+
+interface Props {
     className?: string;
-    regions: Array<{ name: string; count: number }>;
+    regions: Region[];
     onRegionClick?: (region: string | null) => void;
     activeRegion: string | null;
     precision?: number;
     showCount?: boolean;
 }
 
-function PERRegionToggle(props: Props) {
-    const {
-        className,
-        regions,
-        onRegionClick,
-        activeRegion,
-        precision = 0,
-        showCount = true,
-    } = props;
-
+function PERRegionToggle({
+    className,
+    regions,
+    onRegionClick,
+    activeRegion,
+    precision = 0,
+    showCount = true,
+}: Props) {
     const handleToggle = useCallback((
-        event: React.MouseEvent<HTMLButtonElement>,
-        name: string
+        event: MouseEvent<HTMLButtonElement>,
+        name: string,
     ) => {
         event.stopPropagation();
-        
+
         const button = event.currentTarget;
         const rect = button.getBoundingClientRect();
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
-        
+
         button.style.setProperty('--ripple-x', `${x}px`);
         button.style.setProperty('--ripple-y', `${y}px`);
-        
+
         const newActiveRegion = activeRegion === name ? null : name;
         onRegionClick?.(newActiveRegion);
     }, [activeRegion, onRegionClick]);
@@ -46,10 +52,19 @@ function PERRegionToggle(props: Props) {
         }
     }, [activeRegion, onRegionClick]);
 
+    const handleKeyDown = useCallback((event: React.KeyboardEvent) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            handleContainerClick();
+        }
+    }, [handleContainerClick]);
+
     return (
-        <div 
-            className={_cs(styles.container, className)} 
+        <div
+            className={_cs(styles.container, className)}
             onClick={handleContainerClick}
+            onKeyDown={handleKeyDown}
+            role="button"
+            tabIndex={0}
         >
             <div className={styles.toggleGroup}>
                 <div className={styles.toggleBody}>
@@ -62,6 +77,7 @@ function PERRegionToggle(props: Props) {
                             )}
                             onClick={(event) => handleToggle(event, region.name)}
                             aria-pressed={activeRegion === region.name}
+                            type="button"
                         >
                             <span className={styles.label}>{region.name}</span>
                             {showCount && (
@@ -75,6 +91,4 @@ function PERRegionToggle(props: Props) {
             </div>
         </div>
     );
-}
-
-export default PERRegionToggle;
+} export default PERRegionToggle;

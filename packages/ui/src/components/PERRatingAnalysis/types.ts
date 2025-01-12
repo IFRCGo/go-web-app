@@ -1,11 +1,11 @@
 import { RatingStatus } from '../../utils/per';
 
-export type RatingStatus = 
+export type RatingStatus =
   | "Doesn't exist"
-  | "Partially exists"
-  | "Needs improvement"
-  | "Good performing"
-  | "High performing";
+  | 'Partially exists'
+  | 'Needs improvement'
+  | 'Good performing'
+  | 'High performing';
 
 export interface PERRatingData {
     name: string;

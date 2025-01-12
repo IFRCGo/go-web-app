@@ -1,4 +1,8 @@
-import { useState, useEffect } from 'react';
+import {
+    useEffect,
+    useState,
+} from 'react';
+
 import styles from './styles.module.css';
 
 export interface Props {
@@ -62,7 +66,7 @@ function PERExportButton({
     }, [isOpen]);
 
     return (
-        <div 
+        <div
             className={styles.exportButtonWrapper}
             style={position}
         >
@@ -72,7 +76,9 @@ function PERExportButton({
                 disabled={disabled}
                 type="button"
             >
-                Export <span className={`${styles.caret} ${isOpen ? styles.open : ''}`} />
+                Export
+                {' '}
+                <span className={`${styles.caret} ${isOpen ? styles.open : ''}`} />
             </button>
         </div>
     );

@@ -1,5 +1,9 @@
-import { useState, useEffect } from 'react';
+import {
+    useEffect,
+    useState,
+} from 'react';
 import { _cs } from '@togglecorp/fujs';
+
 import styles from './styles.module.css';
 
 export interface KPI {

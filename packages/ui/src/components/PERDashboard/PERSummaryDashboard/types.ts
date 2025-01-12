@@ -1,19 +1,19 @@
 // Re-export shared types
 export type {
-    AssessmentType,
     Assessment,
-    Component,
-    PrioritizedComponent,
     AssessmentRecord,
-    KPIData,
+    AssessmentType,
+    ChartData,
+    ChartDataItem,
+    Component,
     ComponentSummary,
     FilterOptions,
     Filters,
+    KPIData,
     PercentageData,
-    TotalsData,
-    ChartDataItem,
-    ChartData,
     PERConsiderationsData,
+    PrioritizedComponent,
+    TotalsData,
 } from '../types';
 
 // Summary Dashboard specific types

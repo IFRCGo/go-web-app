@@ -1,9 +1,14 @@
-import { useRef, useEffect, useState } from 'react';
-import mapboxgl from 'mapbox-gl';
-import * as d3 from 'd3';
-import { _cs } from '@togglecorp/fujs';
-import { IoClose } from 'react-icons/io5';
 import 'mapbox-gl/dist/mapbox-gl.css';
+
+import {
+    useEffect,
+    useRef,
+    useState,
+} from 'react';
+import { IoClose } from 'react-icons/io5';
+import { _cs } from '@togglecorp/fujs';
+import * as d3 from 'd3';
+import mapboxgl from 'mapbox-gl';
 
 import styles from './styles.module.css';
 
@@ -87,7 +92,7 @@ function PERMap({
 
         // Remove any existing tooltips
         const existingTooltips = document.querySelectorAll('.mapboxgl-popup');
-        existingTooltips.forEach(tooltip => tooltip.remove());
+        existingTooltips.forEach((tooltip) => tooltip.remove());
 
         const tooltip = new mapboxgl.Popup({
             closeButton: false,
@@ -193,9 +198,7 @@ function PERMap({
             .style('stroke-opacity', 0.33)
             .style('cursor', 'pointer')
             .style('pointer-events', 'all')
-            .style('stroke-width', (d: any) =>
-                calculateStrokeWidth(d[valueField] || 0, minValue, maxValue)
-            );
+            .style('stroke-width', (d: any) => calculateStrokeWidth(d[valueField] || 0, minValue, maxValue));
 
         // Update all circles
         circles.merge(circlesEnter as any)
@@ -248,12 +251,12 @@ function PERMap({
 
         // Handle click/hover events
         circles.merge(circlesEnter as any)
-            .on(tooltipTrigger, function(this: SVGCircleElement, event: any, d: any) {
+            .on(tooltipTrigger, function (this: SVGCircleElement, event: any, d: any) {
                 showTooltip(d);
                 const hoverCircle = bubbleContainer.current?.hover
                     .selectAll('circle')
                     .filter((hd: any) => hd.id === d.id);
-                
+
                 hoverCircle
                     .transition()
                     .duration(200)
@@ -265,7 +268,7 @@ function PERMap({
                     .style('fill-opacity', 1)
                     .style('stroke-opacity', 1);
             })
-            .on('mouseleave', function(this: SVGCircleElement, event: any, d: any) {
+            .on('mouseleave', function (this: SVGCircleElement, event: any, d: any) {
                 if (tooltipTrigger === 'hover') {
                     hideTooltip();
                 }
@@ -273,7 +276,7 @@ function PERMap({
                 const hoverCircle = bubbleContainer.current?.hover
                     .selectAll('circle')
                     .filter((hd: any) => hd.id === d.id);
-                
+
                 hoverCircle
                     .transition()
                     .duration(200)
@@ -302,7 +305,7 @@ function PERMap({
                 container: mapContainer.current,
                 style: mapboxStyle,
                 center: center as [number, number],
-                zoom: zoom,
+                zoom,
                 attributionControl: false,
                 scrollZoom: false,
             });
@@ -313,13 +316,11 @@ function PERMap({
             // Hide country labels
             map.current.on('style.load', () => {
                 const layers = map.current?.getStyle().layers;
-                const labelLayers = layers?.filter(layer => 
-                    layer.type === 'symbol' && 
-                    (layer.layout as any)['text-field']
-                );
-                
+                const labelLayers = layers?.filter((layer) => layer.type === 'symbol'
+                    && (layer.layout as any)['text-field']);
+
                 if (!showLabels) {
-                    labelLayers?.forEach(layer => {
+                    labelLayers?.forEach((layer) => {
                         map.current?.setLayoutProperty(layer.id, 'visibility', 'none');
                     });
                 }
