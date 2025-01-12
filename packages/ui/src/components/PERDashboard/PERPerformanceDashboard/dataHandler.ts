@@ -307,14 +307,17 @@ export function getComponentRatings(
         }
     });
 
-    areaMap.forEach((area) => {
-    // Current area rating
+    const areas = Array.from(areaMap.values()).map((area) => {
+        // Current area rating
+        const componentSum = area.components.reduce((sum, c) => sum + c.total, 0);
         const currentRating = area.components.length > 0
-            ? parseFloat((area.components.reduce((sum, c) => sum + c.total, 0) / area.components.length).toFixed(2))
+            ? parseFloat((componentSum / area.components.length).toFixed(2))
             : 0;
 
         // Cycle ratings for area
-        const allCycles = [...new Set(area.components.flatMap((c) => c.cycleRatings.map((r) => r.cycle)))].sort((a, b) => a - b);
+        const allCycles = [...new Set(
+            area.components.flatMap((c) => c.cycleRatings.map((r) => r.cycle)),
+        )].sort((a, b) => a - b);
         const areaCycleRatings = allCycles.map((cycle) => {
             let cycleTotal = 0;
             let validCount = 0;
@@ -338,20 +341,29 @@ export function getComponentRatings(
             };
         });
 
-        area.rating = currentRating;
-        area.status = getRatingStatus(currentRating);
-        area.cycleRatings = areaCycleRatings;
+        return {
+            ...area,
+            rating: currentRating,
+            status: getRatingStatus(currentRating),
+            cycleRatings: areaCycleRatings,
+        };
     });
 
     // Overall ratings
-    const currentOverallRating = Array.from(componentMap.values()).length > 0
-        ? parseFloat((Array.from(componentMap.values()).reduce((sum, c) => sum + c.total, 0) / Array.from(componentMap.values()).length).toFixed(2))
+    const componentValues = Array.from(componentMap.values());
+    const componentTotal = componentValues.reduce((sum, c) => sum + c.total, 0);
+    const currentOverallRating = componentValues.length > 0
+        ? parseFloat((componentTotal / componentValues.length).toFixed(2))
         : 0;
 
-    const overallCycleRatings = [...new Set(Array.from(componentMap.values()).flatMap((c) => c.cycleRatings.map((r) => r.cycle)))].sort((a, b) => a - b).map((cycle) => {
+    const allComponentCycles = [...new Set(
+        componentValues.flatMap((c) => c.cycleRatings.map((r) => r.cycle)),
+    )].sort((a, b) => a - b);
+
+    const overallCycleRatings = allComponentCycles.map((cycle) => {
         let cycleTotal = 0;
         let validCount = 0;
-        Array.from(componentMap.values()).forEach((comp) => {
+        componentValues.forEach((comp) => {
             const cycleRating = comp.cycleRatings.find((r) => r.cycle === cycle);
             if (cycleRating) {
                 cycleTotal += cycleRating.rating;
@@ -389,7 +401,7 @@ export function getComponentRatings(
             })),
             color: RATING_SCALE_COLORS[getRatingStatus(currentOverallRating)] || '#000000',
         },
-        areaData: Array.from(areaMap.values()).map((area) => {
+        areaData: areas.map((area) => {
             const lastTwoCycles = area.cycleRatings.slice(-2);
             const change = lastTwoCycles.length > 1
                 ? parseFloat((lastTwoCycles[1].rating - lastTwoCycles[0].rating).toFixed(2))
@@ -471,8 +483,14 @@ export function summarizeData(filters: Filters | null = null, includeLatest: boo
         ? parseFloat((totalComponentAverage / componentCount).toFixed(2))
         : 0;
 
+    type AreaRatingStats = {
+        total: number;
+        count: number;
+        components?: Set<number>;
+    };
+
     // Calculate area averages
-    const areaRatings: { [area: string]: { total: number; count: number; components?: Set<number> } } = {};
+    const areaRatings: Record<string, AreaRatingStats> = {};
     assessments.forEach((assessment) => {
         const area = assessment.area_name;
         if (!areaRatings[area]) {
@@ -488,11 +506,11 @@ export function summarizeData(filters: Filters | null = null, includeLatest: boo
     });
 
     const averageRatingByArea: { [area: string]: number } = {};
-    for (const area in areaRatings) {
+    Object.keys(areaRatings).forEach((area) => {
         averageRatingByArea[area] = areaRatings[area].count > 0
             ? parseFloat((areaRatings[area].total / areaRatings[area].count).toFixed(2))
             : 0;
-    }
+    });
 
     return {
         totalComponents: componentCount,
@@ -501,7 +519,7 @@ export function summarizeData(filters: Filters | null = null, includeLatest: boo
     };
 }
 
-export function getCycles(filters: Filters | null = null, includeAllCycles: boolean = false) {
+export function getCycles(filters: Filters | null = null) {
     // Get all assessments without cycle filter first
     const allAssessments = applyFilters({
         ...filters,
@@ -537,13 +555,13 @@ export function getCycles(filters: Filters | null = null, includeAllCycles: bool
 
     // Second pass: determine completed vs in-progress using ALL assessments
     Object.keys(cycleData).forEach((cycle) => {
-        const currentCycle = parseInt(cycle);
+        const currentCycle = parseInt(cycle, 10);
         const countriesInLaterCycles = new Set<number>();
 
         // Check if countries appear in later cycles
         Object.keys(cycleData).forEach((laterCycle) => {
-            if (parseInt(laterCycle) > currentCycle) {
-                cycleData[parseInt(laterCycle)].countries.forEach((countryId) => {
+            if (parseInt(laterCycle, 10) > currentCycle) {
+                cycleData[parseInt(laterCycle, 10)].countries.forEach((countryId) => {
                     countriesInLaterCycles.add(countryId);
                 });
             }
@@ -568,62 +586,62 @@ export function getCycles(filters: Filters | null = null, includeAllCycles: bool
                     count: 0,
                 };
             }
-            cycleData[cycle].componentRatings[assessment.component_num].total += assessment.rating_value;
-            cycleData[cycle].componentRatings[assessment.component_num].count += 1;
+            const currentComponent = cycleData[cycle].componentRatings[assessment.component_num];
+            currentComponent.total += assessment.rating_value;
+            currentComponent.count += 1;
         }
     });
 
     // Calculate cycle statistics using component averages
-    const cycles = Object.entries(cycleData)
-        .map(([cycleNum, data]) => {
-            const cycle = parseInt(cycleNum);
+    const cycles = Object.entries(cycleData).map(([cycleNum, data]) => {
+        const cycle = parseInt(cycleNum, 10);
 
-            // Calculate average rating from component averages
-            let totalComponentRating = 0;
-            let componentCount = 0;
+        // Calculate average rating from component averages
+        let totalComponentRating = 0;
+        let componentCount = 0;
 
-            Object.values(data.componentRatings).forEach((comp) => {
+        Object.values(data.componentRatings).forEach((comp) => {
+            if (comp.count > 0) {
+                totalComponentRating += (comp.total / comp.count);
+                componentCount += 1;
+            }
+        });
+
+        const averageRating = componentCount > 0
+            ? parseFloat((totalComponentRating / componentCount).toFixed(2))
+            : 0;
+
+        // Calculate previous cycle rating
+        const previousCycle = cycleData[cycle - 1];
+        let previousRating = 0;
+
+        if (previousCycle) {
+            let prevTotalRating = 0;
+            let prevComponentCount = 0;
+
+            Object.values(previousCycle.componentRatings).forEach((comp) => {
                 if (comp.count > 0) {
-                    totalComponentRating += (comp.total / comp.count);
-                    componentCount += 1;
+                    prevTotalRating += (comp.total / comp.count);
+                    prevComponentCount += 1;
                 }
             });
 
-            const averageRating = componentCount > 0
-                ? parseFloat((totalComponentRating / componentCount).toFixed(2))
+            previousRating = prevComponentCount > 0
+                ? prevTotalRating / prevComponentCount
                 : 0;
+        }
 
-            // Calculate previous cycle rating
-            const previousCycle = cycleData[cycle - 1];
-            let previousRating = 0;
-
-            if (previousCycle) {
-                let prevTotalRating = 0;
-                let prevComponentCount = 0;
-
-                Object.values(previousCycle.componentRatings).forEach((comp) => {
-                    if (comp.count > 0) {
-                        prevTotalRating += (comp.total / comp.count);
-                        prevComponentCount += 1;
-                    }
-                });
-
-                previousRating = prevComponentCount > 0
-                    ? prevTotalRating / prevComponentCount
-                    : 0;
-            }
-
-            return {
-                cycle: `Cycle ${cycle}`,
-                cycleNumber: cycle,
-                completed: data.completed,
-                inProgress: data.in_progress,
-                rating: averageRating,
-                totalNS: data.countries.size,
-                ratingChange: parseFloat((averageRating - previousRating).toFixed(2)),
-            };
-        })
-        .sort((a, b) => parseInt(a.cycle.split(' ')[1]) - parseInt(b.cycle.split(' ')[1]));
+        return {
+            cycle: `Cycle ${cycle}`,
+            cycleNumber: cycle,
+            completed: data.completed,
+            inProgress: data.in_progress,
+            rating: averageRating,
+            totalNS: data.countries.size,
+            ratingChange: parseFloat((averageRating - previousRating).toFixed(2)),
+        };
+    })
+        .sort((a, b) => parseInt(a.cycle.split(' ')[1], 10) - parseInt(b.cycle.split(' ')[1], 10));
 
     // Filter cycles at the end based on original filters
     let filteredCycles = cycles;
