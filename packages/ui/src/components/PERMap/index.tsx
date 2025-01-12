@@ -195,7 +195,7 @@ function PERMap({
             .style('stroke-width', (d: AssessmentRecord) => calculateStrokeWidth(d[valueField] || 0, minValue, maxValue));
 
         // Update all circles
-        circles.merge(circlesEnter as any)
+        circles.merge(circlesEnter as d3.Selection<SVGCircleElement, AssessmentRecord, SVGGElement, unknown>)
             .style('fill', (d: AssessmentRecord) => d.color || '#007CE0')
             .style('stroke', (d: AssessmentRecord) => d.color || '#007CE0')
             .attr('cx', (d: AssessmentRecord) => {
@@ -230,7 +230,7 @@ function PERMap({
             .style('opacity', 0)
             .attr('r', 0);
 
-        hoverCircles.merge(hoverCirclesEnter as any)
+        hoverCircles.merge(hoverCirclesEnter as d3.Selection<SVGCircleElement, AssessmentRecord, SVGGElement, unknown>)
             .attr('cx', (d: AssessmentRecord) => {
                 if (!map.current) return 0;
                 const point = map.current.project([d.longitude, d.latitude]);
@@ -244,8 +244,8 @@ function PERMap({
             .attr('r', (d: AssessmentRecord) => calculateRadius(d[valueField] || 0, minValue, maxValue) + 2);
 
         // Handle click/hover events
-        circles.merge(circlesEnter as any)
-            .on(tooltipTrigger, function (this: SVGCircleElement, event: any, d: AssessmentRecord) {
+        circles.merge(circlesEnter as d3.Selection<SVGCircleElement, AssessmentRecord, SVGGElement, unknown>)
+            .on(tooltipTrigger, function (this: SVGCircleElement, event: MouseEvent, d: AssessmentRecord) {
                 showTooltip(d);
                 const hoverCircle = bubbleContainer.current?.hover
                     .selectAll('circle')
@@ -262,7 +262,7 @@ function PERMap({
                     .style('fill-opacity', 1)
                     .style('stroke-opacity', 1);
             })
-            .on('mouseleave', function (this: SVGCircleElement, event: any, d: AssessmentRecord) {
+            .on('mouseleave', function (this: SVGCircleElement, event: MouseEvent, d: AssessmentRecord) {
                 if (tooltipTrigger === 'hover') {
                     hideTooltip();
                 }
@@ -311,7 +311,7 @@ function PERMap({
             map.current.on('style.load', () => {
                 const layers = map.current?.getStyle().layers;
                 const labelLayers = layers?.filter((layer) => layer.type === 'symbol'
-                    && (layer.layout as any)['text-field']);
+                    && (layer.layout as mapboxgl.SymbolLayout)['text-field']);
 
                 if (!showLabels) {
                     labelLayers?.forEach((layer) => {
@@ -333,6 +333,7 @@ function PERMap({
             setError(err instanceof Error ? err.message : 'Failed to initialize map');
         }
 
+        // eslint-disable-next-line consistent-return
         return () => {
             if (map.current) {
                 map.current.remove();
@@ -343,7 +344,7 @@ function PERMap({
 
     React.useEffect(() => {
         updatePositions();
-    }, [data, valueField]);
+    }, [data, valueField, updatePositions]);
 
     return (
         <div
