@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable no-console */
 const fs = require('fs');
 const path = require('path');
@@ -14,12 +15,14 @@ function analyzeAssessments(filePath) {
     let withoutComponentResponses = 0;
 
     results.forEach((assessment) => {
-        const hasComponentResponses = assessment.area_responses.some((area) => area.component_responses && area.component_responses.length > 0);
+        const hasComponentResponses = assessment.area_responses.some(
+            (area) => area.component_responses && area.component_responses.length > 0,
+        );
 
         if (hasComponentResponses) {
-            withComponentResponses++;
+            withComponentResponses += 1;
         } else {
-            withoutComponentResponses++;
+            withoutComponentResponses += 1;
         }
     });
 

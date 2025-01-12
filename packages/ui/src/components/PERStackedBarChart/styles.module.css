@@ -1,19 +1,19 @@
 .responsiveContainer {
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
 }
   
 .chartWrapper {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
     width: 100%;
     height: 100%;
-    position: relative;
-    margin: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 /* Style for tooltip value */

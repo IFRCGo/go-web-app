@@ -1,13 +1,13 @@
 .perAnalysis {
-  width: 100%;
-  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+  width: 100%;
+  max-width: 1200px;
 }
 
 .container {
-  max-width: 1536px;
   margin: 0 auto;
+  max-width: 1536px;
 }
 
 .card {
@@ -21,8 +21,8 @@
 
 .header {
   display: flex;
-  justify-content: space-between;
   align-items: flex-start;
+  justify-content: space-between;
   margin-bottom: 1rem;
   gap: 1rem;
 }
@@ -36,56 +36,56 @@
 .title {
   display: flex;
   align-items: baseline;
-  gap: 0.5rem;
-  font-size: 14px;
-  font-weight: 500;
-  color: #212121;
   margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: #212121;
+  font-size: 14px;
+  font-weight: 500;
+  gap: 0.5rem;
 }
 
 .subtitle {
-  font-size: 12px;
-  color: #666;
   display: block;
   margin-top: 4px;
+  color: #666;
+  font-size: 12px;
 }
 
 .totalNumber {
-  font-size: 1.25rem;
-  font-weight: 500;
-  color: #F5333F;
-  margin: 0;
-  white-space: nowrap;
   display: inline;
+  margin: 0;
   margin-top: 10px;
   line-height: 1;
+  white-space: nowrap;
+  color: #F5333F;
+  font-size: 1.25rem;
+  font-weight: 500;
 }
 
 .chartContainer {
-  height: 280px;
-  width: 100%;
-  background: #fff;
   border-radius: 8px;
-  padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  padding: 20px;
+  width: 100%;
+  height: 280px;
 }
 
 .tooltip {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   background: white;
   padding: 0.75rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 0.5rem;
-  border: 1px solid #e5e7eb;
-  max-width: 300px;
   padding-top: 1px;
+  max-width: 300px;
 }
 
 .tooltipTitle {
+  margin-bottom: 0.25rem;
   font-size: 0.75rem;
   font-weight: 500;
-  margin-bottom: 0.25rem;
 }
 
 .tooltipContent {
@@ -100,9 +100,9 @@
 }
 
 .tooltipDivider {
+  margin-top: 0.25rem;
   border-top: 1px solid #e5e7eb;
   padding-top: 0.25rem;
-  margin-top: 0.25rem;
 }
 
 .tooltipMetric {
@@ -114,9 +114,9 @@
 .tooltipChange {
   display: flex;
   align-items: center;
-  gap: 0.15rem;
-  font-size: 0.7rem;
   margin-left: 1rem;
+  font-size: 0.7rem;
+  gap: 0.15rem;
 }
 
 .tooltipChangePositive {
@@ -143,45 +143,43 @@
 }
 
 .legendMarker {
+  margin-right: 0.25rem;
+  border-radius: 50%;
   width: 6px;
   height: 6px;
-  border-radius: 50%;
-  margin-right: 0.25rem;
 }
 
 .legendLine {
+  margin-right: 0.25rem;
   width: 0.75rem;
   height: 2px;
-  margin-right: 0.25rem;
 }
 
 .summaryGrid {
   display: grid;
+  margin-top: 0.05rem;
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 1280px;
   grid-template-columns: repeat(4, 1fr);
   gap: 0.75rem;
-  max-width: 1280px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 0.05rem;
 }
 
 .summaryCard {
-  padding: 0.75rem;
-  background: white;
-  border: 1px solid #e5e7eb;
   position: relative;
-  overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s ease-in-out;
+  border: 1px solid #e5e7eb;
+  background: white;
   cursor: pointer;
+  padding: 0.75rem;
+  overflow: hidden;
 }
 
 .summaryCard::before {
-  content: '';
   position: absolute;
   top: 0;
   left: -100%;
-  width: 100%;
-  height: 100%;
+  transition: transform 0.6s ease;
   background: linear-gradient(
     90deg,
     transparent,
@@ -190,7 +188,9 @@
     rgba(245, 51, 63, 0.03),
     transparent
   );
-  transition: transform 0.6s ease;
+  width: 100%;
+  height: 100%;
+  content: '';
 }
 
 .summaryCard:hover {
@@ -200,8 +200,8 @@
 }
 
 .summaryCard.active {
-  border-color: rgba(245, 51, 63, 0.3);
   transform: scale(1.02);
+  border-color: rgba(245, 51, 63, 0.3);
 }
 
 .summaryCard.active::before {
@@ -211,8 +211,8 @@
 
 .metricsRow {
   display: flex;
-  justify-content: space-between;
   align-items: flex-end;
+  justify-content: space-between;
 }
 
 .metricGroup {
@@ -221,9 +221,9 @@
 }
 
 .metricLabel {
-  font-size: 0.75rem;
-  color: #666;
   margin-bottom: 0.15rem;
+  color: #666;
+  font-size: 0.75rem;
 }
 
 .metricValue {
@@ -233,14 +233,14 @@
 }
 
 .nsCount {
+  color: #212121;
   font-size: 1.125rem;
   font-weight: 500;
-  color: #212121;
 }
 
 .nsUnit {
-  font-size: 0.75rem;
   color: #666;
+  font-size: 0.75rem;
 }
 
 .ratingGroup {
@@ -250,22 +250,24 @@
 }
 
 .ratingValue {
+  color: #2264D1;
   font-size: 1.125rem;
   font-weight: 500;
-  color: #2264D1;
 }
 
 .ratingChange {
-  font-size: 0.75rem;
-  color: #666;
-  margin-left: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: var(--go-ui-spacing-xs);
+  margin: 0;
+  color: inherit;
 }
 
 .cardTitle {
+  margin: 0 0 0.75rem 0;
+  color: #212121;
   font-size: 0.875rem;
   font-weight: 500;
-  color: #212121;
-  margin: 0 0 0.75rem 0;
 }
 
 .cardStats {
@@ -281,27 +283,20 @@
 }
 
 .statLabel {
-  font-size: 0.75rem;
   color: #666;
+  font-size: 0.75rem;
 }
 
 .statValue {
+  color: #212121;
   font-size: 0.875rem;
   font-weight: 500;
-  color: #212121;
 }
 
 .ratingContainer {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-}
-
-.ratingChange {
-  font-size: 0.75rem;
-  display: flex;
-  align-items: center;
-  gap: 0.15rem;
 }
 
 .positive {

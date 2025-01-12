@@ -1,26 +1,26 @@
 .container {
     position: relative;
-    cursor: pointer;
+    margin: 0;
     outline: none;
     border: none;
     background: none;
+    cursor: pointer;
     padding: 0;
-    margin: 0;
     font-family: var(--go-ui-font-family-sans-serif);
 }
 
 .container:focus-visible {
-    outline: var(--go-ui-width-separator-thin) solid var(--go-ui-color-primary);
+    outline: var(--go-ui-width-separator-thin) solid var(--go-ui-color-primary-red);
     outline-offset: var(--go-ui-spacing-xs);
 }
 
 .title {
-    text-align: center;
     padding-bottom: var(--go-ui-spacing-lg);
+    text-align: center;
+    white-space: nowrap;
+    color: var(--go-ui-color-text);
     font-size: var(--go-ui-font-size-sm);
     font-weight: var(--go-ui-font-weight-medium);
-    color: var(--go-ui-color-text);
-    white-space: nowrap;
 }
 
 .label {
@@ -28,9 +28,9 @@
     bottom: -26%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-weight: var(--go-ui-font-weight-regular);
-    font-size: var(--go-ui-font-size-sm);
     color: var(--go-ui-color-text);
+    font-size: var(--go-ui-font-size-sm);
+    font-weight: var(--go-ui-font-weight-normal);
 }
 
 .percentage {
@@ -38,7 +38,6 @@
     bottom: -15px;
     left: 50%;
     transform: translate(-50%, 0);
-    font-weight: var(--go-ui-font-weight-bold);
     font-size: var(--go-ui-font-size-md);
-    color: var(--go-ui-color-text-dark);
+    font-weight: var(--go-ui-font-weight-bold);
 }

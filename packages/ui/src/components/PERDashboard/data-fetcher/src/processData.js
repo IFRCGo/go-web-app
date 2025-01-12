@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable no-console */
 const fs = require('fs').promises;
 const path = require('path');
@@ -8,7 +9,7 @@ const targetDir = process.argv[2] || path.join(__dirname, '../data');
 async function ensureDirectoryExists() {
     try {
         await fs.access(targetDir);
-    } catch (error) {
+    } catch {
         await fs.mkdir(targetDir, { recursive: true });
     }
 }
@@ -136,12 +137,11 @@ async function processData() {
                     (componentResponse) => {
                         const simplifiedComponentDetails = {
                             id: componentResponse.component_details?.id ?? null,
-                            component_num:
-                componentResponse.component_details?.component_num ?? null,
+                            // eslint-disable-next-line max-len
+                            component_num: componentResponse.component_details?.component_num ?? null,
                             area: componentResponse.component_details?.area ?? null,
                             title: componentResponse.component_details?.title ?? null,
-                            description:
-                componentResponse.component_details?.description ?? null,
+                            description: componentResponse.component_details?.description ?? null,
                         };
 
                         // Simplify rating_details
@@ -159,8 +159,11 @@ async function processData() {
                         } = componentResponse;
 
                         // Create simplified boolean fields
+                        // eslint-disable-next-line max-len
                         const urbanConsiderationsSimplified = containsAffirmativeWord(urban_considerations);
+                        // eslint-disable-next-line max-len
                         const epiConsiderationsSimplified = containsAffirmativeWord(epi_considerations);
+                        // eslint-disable-next-line max-len
                         const climateEnvironmentalConsiderationsSimplified = containsAffirmativeWord(climate_environmental_considerations);
 
                         return {
@@ -175,7 +178,7 @@ async function processData() {
                             urban_considerations_simplified: urbanConsiderationsSimplified,
                             epi_considerations_simplified: epiConsiderationsSimplified,
                             climate_environmental_considerations_simplified:
-                climateEnvironmentalConsiderationsSimplified,
+                                climateEnvironmentalConsiderationsSimplified,
                             notes: componentResponse.notes,
                         };
                     },
@@ -193,10 +196,10 @@ async function processData() {
                         component_id: componentResponse.component,
                         component_name: componentResponse.component_details?.title || '',
                         component_num:
-              componentResponse.component_details?.component_num || null,
+                            componentResponse.component_details?.component_num || null,
                         area_id: componentResponse.component_details?.area || null,
                         area_name:
-              areaNames[componentResponse.component_details?.area] || '',
+                            areaNames[componentResponse.component_details?.area] || '',
                         rating_value: componentResponse.rating_details?.value || 0,
                         rating_title: componentResponse.rating_details?.title || '',
                     }),
@@ -263,6 +266,13 @@ async function processData() {
                 urban_considerations: false,
             };
 
+            let phaseDisplay = status.phase_display;
+            if (status.phase_display === 'Action And Accountability') {
+                phaseDisplay = 'Action & accountability';
+            } else if (status.phase_display === 'WorkPlan') {
+                phaseDisplay = 'Workplan';
+            }
+
             return {
                 id: status.id,
                 assessment_number: status.assessment_number,
@@ -270,15 +280,10 @@ async function processData() {
                 country_id: status.country,
                 country_name: status.country_details?.name || countryData?.name || null,
                 phase: status.phase,
-                phase_display:
-          status.phase_display === 'Action And Accountability'
-              ? 'Action & accountability'
-              : status.phase_display === 'WorkPlan'
-                  ? 'Workplan'
-                  : status.phase_display,
+                phase_display: phaseDisplay,
                 type_of_assessment: status.type_of_assessment,
                 type_of_assessment_name:
-          status.type_of_assessment_details?.name || null,
+                    status.type_of_assessment_details?.name || null,
                 country_iso3: status.country_details?.iso3 || countryData?.iso3,
                 region_id: regionId,
                 region_name: regionIdToNameMap[regionId] || null,
@@ -288,7 +293,7 @@ async function processData() {
                 prioritized_components: prioritization.components,
                 epi_considerations: considerations.epi_considerations,
                 climate_environmental_considerations:
-          considerations.climate_environmental_considerations,
+                    considerations.climate_environmental_considerations,
                 urban_considerations: considerations.urban_considerations,
                 components: dashboardAssessment.components,
             };
@@ -423,15 +428,15 @@ async function processData() {
         );
         console.log('- per-dashboard-data.json');
     } catch (error) {
-        console.error('Error processing data:', error.message);
+        console.error('Error processing data:');
         throw error;
     }
 }
 
 // Execute the processing
 if (require.main === module) {
-    processData().catch((error) => {
-        console.error('Failed to process data:', error);
+    processData().catch(() => {
+        console.error('Failed to process data');
         process.exit(1);
     });
 } else {

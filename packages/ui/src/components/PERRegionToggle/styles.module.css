@@ -10,28 +10,28 @@
 .toggleBody {
     display: flex;
     flex-wrap: wrap;
-    background-color: var(--go-ui-color-white);
-    padding: var(--go-ui-spacing-2xs);
     justify-content: center;
     border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-gray-30);
+    background-color: var(--go-ui-color-white);
+    padding: var(--go-ui-spacing-2xs);
 }
 
 .toggleButton {
     display: flex;
+    position: relative;
     align-items: center;
     justify-content: center;
-    padding: 0.2vw 0;
+    transform: scale(1);
+    transition: all 0.2s ease-in-out;
+    border: none;
     background: var(--go-ui-color-white);
     cursor: pointer;
+    padding: 0.2vw 0;
+    width: 15vw;
     min-width: 138px;
     max-width: 150px;
-    width: 15vw;
-    color: var(--go-ui-color-text);
-    border: none;
-    transform: scale(1);
-    position: relative;
     overflow: hidden;
-    transition: all 0.3s var(--go-ui-cubic-bezier);
+    color: var(--go-ui-color-text);
 }
 
 .toggleButton:not(:first-child) {
@@ -39,21 +39,21 @@
 }
 
 .toggleButton::before {
-    content: '';
     position: absolute;
     top: 0;
     left: -100%;
-    width: 100%;
-    height: 100%;
+    transition: transform 0.6s ease-in-out;
     background: linear-gradient(
         90deg,
         transparent,
-        rgba(var(--go-ui-color-red-rgb), 0.03),
-        rgba(var(--go-ui-color-red-rgb), 0.05),
-        rgba(var(--go-ui-color-red-rgb), 0.03),
+        rgba(var(--go-ui-color-primary-red), 0.03),
+        rgba(var(--go-ui-color-primary-red), 0.05),
+        rgba(var(--go-ui-color-primary-red), 0.03),
         transparent
     );
-    transition: transform 0.6s var(--go-ui-cubic-bezier);
+    width: 100%;
+    height: 100%;
+    content: '';
 }
 
 .toggleButton:hover {
@@ -73,32 +73,31 @@
 
 .toggleButton.active::before {
     transform: translateX(200%);
-    transition: transform 1.2s var(--go-ui-cubic-bezier);
+    transition: transform 1.2s ease-in-out;
 }
 
 .label {
-    font-size: var(--go-ui-font-size-2xs);
-    font-family: var(--go-ui-font-family-sans);
-    font-weight: var(--go-ui-font-weight-medium);
+    text-align: center;
+    text-transform: uppercase;
     line-height: var(--go-ui-line-height-md);
     letter-spacing: 0.05em;
-    text-align: center;
+    white-space: nowrap;
+    font-size: var(--go-ui-font-size-2xs);
+    font-weight: var(--go-ui-font-weight-medium);
     text-underline-position: from-font;
     text-decoration-skip-ink: none;
-    text-transform: uppercase;
-    white-space: nowrap;
 }
 
 .count {
+    margin-left: var(--go-ui-spacing-xs);
+    border-radius: var(--go-ui-border-radius-full);
     background: var(--go-ui-color-gray-10);
     padding: var(--go-ui-spacing-2xs) var(--go-ui-spacing-xs);
-    border-radius: var(--go-ui-border-radius-full);
-    font-size: var(--go-ui-font-size-2xs);
-    font-weight: var(--go-ui-font-weight-semibold);
-    color: var(--go-ui-color-text);
     min-width: 2rem;
     text-align: center;
-    margin-left: var(--go-ui-spacing-xs);
+    color: var(--go-ui-color-text);
+    font-size: var(--go-ui-font-size-2xs);
+    font-weight: var(--go-ui-font-weight-semibold);
 }
 
 .active .count {
@@ -110,6 +109,100 @@
     border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-gray-30);
 }
 
+.per-region-toggle {
+    display: flex;
+    justify-content: flex-end;
+    padding: var(--go-ui-spacing-md);
+}
+
+.dropdown-container {
+    display: inline-block;
+    position: relative;
+    background: var(--go-ui-color-background);
+    padding: var(--go-ui-spacing-md);
+}
+
+.dropdown-menu {
+    position: absolute;
+    transform: scaleY(0);
+    transition: all 0.2s ease-in-out;
+    z-index: 11;
+    border: 1px solid var(--go-ui-color-separator);
+    background: rgba(237, 41, 57, 0.1);
+    width: 100%;
+    max-width: 320px;
+    overflow: hidden;
+    color: var(--go-ui-color-text);
+}
+
+.dropdown-menu::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    background: rgba(var(--go-ui-color-primary-red), 0.1);
+    height: 100%;
+    content: '';
+}
+
+.dropdown-menu::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    transform: translateX(-100%);
+    transition: transform 0.2s ease-in-out;
+    background: var(--go-ui-color-background);
+    height: 100%;
+    content: '';
+}
+
+.dropdown-menu.show {
+    transform: scaleY(1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.dropdown-menu.show::after {
+    transform: translateX(0);
+}
+
+.dropdown-menu-label {
+    text-align: left;
+    text-transform: uppercase;
+    line-height: var(--go-ui-line-height-md);
+    letter-spacing: 0.1em;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: var(--go-ui-font-size-md);
+    font-weight: var(--go-ui-font-weight-medium);
+}
+
+.dropdown-button {
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease-in-out;
+    margin-left: var(--go-ui-spacing-md);
+    border-radius: var(--go-ui-border-radius-md);
+    padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-md);
+    min-width: 200px;
+    text-align: left;
+    color: var(--go-ui-color-text);
+    font-weight: var(--go-ui-font-weight-medium);
+}
+
+.dropdown-button:hover {
+    background: var(--go-ui-color-background-hover);
+}
+
+.dropdown-button.active {
+    background: var(--go-ui-color-primary-red);
+    color: var(--go-ui-color-white);
+}
+
+.dropdown-button.active:hover {
+    border-top: 1px solid var(--go-ui-color-separator);
+    min-width: 200px;
+}
+
 /* Responsive styles */
 @media (max-width: 768px) {
     .toggleGroup {
@@ -117,10 +210,10 @@
     }
 
     .toggleButton {
-        width: 100%;
-        min-width: auto;
         border-top: none;
         border-left: none !important;
+        width: 100%;
+        min-width: auto;
         max-width: unset;
     }
 

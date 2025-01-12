@@ -1,7 +1,7 @@
 .chartWrapper {
-  width: 100%;
-  padding: var(--go-ui-spacing-md);
   box-sizing: border-box;
+  padding: var(--go-ui-spacing-md);
+  width: 100%;
   max-width: 100%;
   overflow: hidden;
 }
@@ -26,10 +26,10 @@
 }
 
 .stackedBarTitle {
-  font-size: var(--go-ui-font-size-sm);
-  color: var(--go-ui-color-text-light);
-  text-align: center;
   margin-bottom: var(--go-ui-spacing-sm);
+  text-align: center;
+  color: var(--go-ui-color-text-light);
+  font-size: var(--go-ui-font-size-sm);
 }
 
 @media (max-width: 1200px) {

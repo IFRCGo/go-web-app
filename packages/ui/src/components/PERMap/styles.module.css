@@ -1,33 +1,32 @@
 .map {
+    position: relative;
     width: 100%;
     height: 100%;
     min-height: 400px;
-    position: relative;
 }
 
 .map-container {
+    position: relative;
     width: 100%;
     height: 100%;
     min-height: 400px;
-    position: relative;
     overflow: hidden;
 }
 
 .map-container :global(.mapboxgl-map) {
-    width: 100%;
-    height: 100%;
     position: absolute;
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .customTooltip {
-    font-family: 'Poppins';
     padding: 0;
-    min-width: 200px;
     width: fit-content;
+    min-width: 200px;
     max-width: none;
 }
 
@@ -37,39 +36,37 @@
 }
 
 .tooltip {
-    white-space: nowrap;
-    max-width: unset;
-    min-width: fit-content;
     padding-bottom: 8px;
+    min-width: fit-content;
+    max-width: unset;
+    white-space: nowrap;
 }
 
 .tooltipTitle {
-    font-weight: 500;
     margin-bottom: 8px;
     border-bottom: 1px solid #E0E0E0;
-    text-transform: uppercase;
     padding: 7px 10px;
-    color: #323232;
-    font-family: Poppins;
-    font-weight: 500;
+    padding-right: 32px;
+    text-transform: uppercase;
     line-height: 21px;
     letter-spacing: 0.05em;
-    padding-right: 32px;
+    color: #323232;
+    font-weight: 500;
 }
 
 .tooltipGrid {
     display: grid;
-    grid-template-columns: auto auto;
-    gap: 4px;
-    font-size: 11px;
     padding: 10px;
     padding-top: 0;
     padding-bottom: 0;
+    font-size: 11px;
+    grid-template-columns: auto auto;
+    gap: 4px;
 }
 
 .tooltipLabel {
-    color: #666;
     white-space: nowrap;
+    color: #666;
 }
 
 .tooltipValue {
@@ -78,35 +75,34 @@
 
 .tooltipFooter {
     margin-top: 8px;
-    padding-top: 8px;
     border-top: 1px solid #eee;
+    padding-top: 8px;
 }
 
 .tooltipPhase {
-    background: #7E57C2;
-    color: white;
-    padding: 1px 8px;
-    border-radius: 16px;
-    font-size: 11px;
-    white-space: nowrap;
     margin-left: 3px;
+    border-radius: 16px;
+    background: #7E57C2;
+    padding: 1px 8px;
     width: fit-content;
+    white-space: nowrap;
+    color: white;
+    font-size: 11px;
 }
 
 .filterButton {
     display: block;
-    width: calc(100% - 24px);
+    transition: all 0.2s ease;
     margin: 7px 12px 0 12px;
-    background-color: #FFF;
-    color: #F5333F;
     border: 1px solid #F5333F;
-    padding: 2px 12px;
+    border-radius: 12px;
+    background-color: #FFF;
     cursor: pointer;
+    padding: 2px 12px;
+    width: calc(100% - 24px);
+    color: #F5333F;
     font-size: 10px;
     font-weight: 500;
-    border-radius: 12px;
-    font-family: 'Poppins';
-    transition: all 0.2s ease;
 }
 
 .filterButton:hover {
@@ -115,12 +111,12 @@
 
 .closeButton {
     position: absolute;
-    right: 8px;
     top: 8px;
+    right: 8px;
     border: none;
     background: none;
-    padding: 0;
     cursor: pointer;
+    padding: 0;
     color: #666;
 }
 
@@ -143,10 +139,9 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: var(--go-ui-color-danger);
-    color: var(--go-ui-color-white);
-    padding: var(--go-ui-spacing-md);
     border-radius: var(--go-ui-border-radius-md);
+    padding: var(--go-ui-spacing-md);
+    color: var(--go-ui-color-white);
 }
 
 /* Make zoom controls smaller */

@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-require-imports */
 require('dotenv').config();
 const { processData } = require('./processData');
 

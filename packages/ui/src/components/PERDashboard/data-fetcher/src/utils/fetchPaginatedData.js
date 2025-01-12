@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable no-console */
 const axios = require('axios');
 
@@ -10,6 +11,7 @@ async function fetchPaginatedData(baseUrl) {
     while (nextUrl) {
         try {
             console.log(`Making request to: ${nextUrl}`);
+            // eslint-disable-next-line no-await-in-loop
             const response = await axios.get(nextUrl, {
                 headers: {
                     Accept: 'application/json',

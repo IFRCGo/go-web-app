@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--go-ui-spacing-md);
+    margin: 0;
     background-color: var(--go-ui-color-background);
     padding: var(--go-ui-spacing-2xl) 0;
 }
@@ -10,17 +11,18 @@
     display: flex;
     flex-direction: column;
     gap: var(--go-ui-spacing-sm);
-    background-color: var(--go-ui-color-background);
-    /* padding: var(--go-ui-spacing-md); */
-    font-size: var(--go-ui-font-size-sm);
     margin-bottom: var(--go-ui-spacing-md);
+    background-color: var(--go-ui-color-background);
+    padding: 0;
+    font-size: var(--go-ui-font-size-sm);
 }
 
 .title {
+    text-align: center;
+    line-height: normal;
+    color: var(--go-ui-color-text);
     font-size: var(--go-ui-font-size-lg);
     font-weight: var(--go-ui-font-weight-medium);
-    color: var(--go-ui-color-heading);
-    text-align: center;
 }
 
 .last-updated {
@@ -29,50 +31,52 @@
 }
 
 .lastUpdate {
+    margin-bottom: var(--go-ui-spacing-2xl);
+    padding: 0 var(--go-ui-spacing-2xl);
     color: var(--go-ui-color-gray-60);
     font-size: var(--go-ui-font-size-sm);
-    padding: 0 var(--go-ui-spacing-2x);
-    margin-bottom: var(--go-ui-spacing-2x);
 }
 
 .header-body {
+    line-height: var(--go-ui-line-height-md);
     color: var(--go-ui-color-text);
     font-size: var(--go-ui-font-size-md);
-    line-height: var(--go-ui-line-height-md);
 }
 
 .content {
     display: flex;
     flex-direction: column;
     gap: var(--go-ui-spacing-md);
+    margin: 0;
     background-color: var(--go-ui-color-white);
     padding: var(--go-ui-spacing-lg);
 }
 
 .charts {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: var(--go-ui-spacing-md);
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
 .charts > div {
+    display: flex;
     height: 100%;
 }
 
 .charts > div > div:last-child {
-    height: calc(100% - 80px);  /* Subtract header height */
     display: flex;
     flex-direction: column;
+    height: calc(100% - 80px); /* Subtract header height */
 }
 
 .assessmentTypesContent {
     display: flex;
-    gap: var(--go-ui-spacing-md);
     flex: 1;
+    gap: var(--go-ui-spacing-md);
 }
 
 .regionsContent {
     display: flex;
-    gap: var(--go-ui-spacing-md);
     flex: 1;
+    gap: var(--go-ui-spacing-md);
 }
