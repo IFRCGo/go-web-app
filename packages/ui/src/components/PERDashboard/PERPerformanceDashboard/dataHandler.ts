@@ -1,3 +1,6 @@
+import lastUpdateData from '#components/PERDashboard/data-fetcher/data/last-update.json'; // import lastUpdateData from "./data-fetcher/data/last-update.json";
+import perDashboardDataRaw from '#components/PERDashboard/data-fetcher/data/per-dashboard-data.json';
+
 import { AREA_COLORS } from '../constants';
 import type {
     AreaSummary,
@@ -7,9 +10,6 @@ import type {
     Filters,
     RegionData,
 } from '../types';
-
-import lastUpdateData from '../data-fetcher/data/last-update.json';
-import perDashboardDataRaw from '../data-fetcher/data/per-dashboard-data.json';
 
 // Rating scale colors
 const RATING_SCALE_COLORS = {

@@ -1,3 +1,6 @@
+import lastUpdateData from '#components/PERDashboard/data-fetcher/data/last-update.json';
+import mapDataRaw from '#components/PERDashboard/data-fetcher/data/map-data.json';
+
 import {
     AREA_COLORS,
     PHASE_COLORS,
@@ -11,10 +14,6 @@ import {
     KPIData,
     PERConsiderationsData,
 } from './types';
-
-import lastUpdateData from '../data-fetcher/data/last-update.json';
-// Import JSON data
-import mapDataRaw from '../data-fetcher/data/map-data.json';
 
 const mapData = (mapDataRaw as AssessmentRecord[]).map((record) => ({
     id: record.id,
