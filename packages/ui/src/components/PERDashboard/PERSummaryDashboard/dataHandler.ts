@@ -4,6 +4,7 @@ import {
 } from '../constants';
 import {
     AssessmentRecord,
+    ChartDataItem,
     ComponentSummary,
     FilterOptions,
     Filters,
@@ -15,7 +16,7 @@ import lastUpdateData from '../data/last-update.json';
 // Import JSON data
 import mapDataRaw from '../data/map-data.json';
 
-const mapData = (mapDataRaw as any[]).map((record) => ({
+const mapData = (mapDataRaw as AssessmentRecord[]).map((record) => ({
     id: record.id,
     country_id: record.country_id,
     country_name: record.country_name,
@@ -378,7 +379,7 @@ function getPERConsiderations(
     ];
 
     // Initialize summary data structures
-    const considerations: Record<string, { [key: string]: any }> = {
+    const considerations: Record<string, Record<string, ChartDataItem>> = {
         epi_considerations: {},
         climate_environmental_considerations: {},
         urban_considerations: {},

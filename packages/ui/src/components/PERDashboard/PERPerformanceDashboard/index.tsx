@@ -110,7 +110,11 @@ function PERPerformanceDashboard(props: Props) {
                     heading="PER Global Performance"
                     description="Overview of PER ratings and performance metrics."
                 >
-                    <PERRatingAnalysis {...ratings} />
+                    <PERRatingAnalysis
+                        overallRating={ratings.overallRating}
+                        areaData={ratings.areaData}
+                        componentData={ratings.componentData}
+                    />
                 </Container>
             </div>
         </PageContainer>
