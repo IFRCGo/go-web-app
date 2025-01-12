@@ -19,7 +19,6 @@ import { PHASE_COLORS } from '../constants';
 import {
     getComponentSummaryForTreemap,
     getFilteredMapData,
-    getFilterOptions,
     getKPIData,
     getLastUpdateDate,
     getPERConsiderations,
@@ -73,19 +72,11 @@ function PERSummaryDashboard(props: Props) {
     const [activeTab, setActiveTab] = useState<number>(0);
     const [activePhase, setActivePhase] = useState<number | null>(null);
 
-    const updateFilter = (key: keyof ActiveFilters, value: any) => {
+    const updateFilter = (key: keyof ActiveFilters, value: ActiveFilters[keyof ActiveFilters]) => {
         setActiveFilters((prev) => ({
             ...prev,
             [key]: prev[key] === value ? null : value,
         }));
-    };
-
-    const regions = ['Africa', 'Americas', 'Asia Pacific', 'Europe', 'MENA'];
-    const colors = {
-        'Self assessment': 'var(--go-ui-color-primary)',
-        Simulation: 'var(--go-ui-color-info)',
-        Operational: 'var(--go-ui-color-success)',
-        'Post operational': 'var(--go-ui-color-gray-40)',
     };
 
     const regionColors = {
@@ -101,10 +92,12 @@ function PERSummaryDashboard(props: Props) {
         fillColor: regionColors[region as keyof typeof regionColors],
     }));
 
-    const regionLegendCategories = ['Africa', 'Americas', 'Asia Pacific', 'Europe', 'MENA'].map((region) => ({
-        label: region,
-        color: regionColors[region as keyof typeof regionColors],
-    }));
+    const regionLegendCategories = ['Africa', 'Americas', 'Asia Pacific', 'Europe', 'MENA'].map(
+        (region) => ({
+            label: region,
+            color: regionColors[region as keyof typeof regionColors],
+        }),
+    );
 
     const handleRegionStackedClick = (item: { label: string; year?: string | number | null }) => {
         if (item.year) {
@@ -113,10 +106,6 @@ function PERSummaryDashboard(props: Props) {
         if (item.label) {
             updateFilter('region', item.label);
         }
-    };
-
-    const handleYearClick = (year: string) => {
-        updateFilter('year', Number(year));
     };
 
     const handleTabClick = (key: string): void => {
@@ -156,18 +145,21 @@ function PERSummaryDashboard(props: Props) {
         updateFilter('assessmentType', item.label);
     };
 
-    const handlePERClick = (item: string): void => {
-        updateFilter('perConsiderations', item);
-    };
-
-    const handleHighPriorityComponentClick = (component: { area: string; component: string | null }) => {
+    const handleHighPriorityComponentClick = (component: {
+        area: string;
+        component: string | null;
+    }) => {
         if (component) {
             updateFilter('highPriorityArea', component.area);
             updateFilter('highPriorityComponent', component.component);
         }
     };
 
-    const handlePhaseClick = (item: { label: string; color: string; phaseNumber: number }) => {
+    const handlePhaseClick = (item: {
+        label: string;
+        color: string;
+        phaseNumber: number;
+    }) => {
         if (activeTab !== 4) {
             updateFilter('numberOfCycles', null);
             updateFilter('completedAssessment', null);
@@ -195,10 +187,16 @@ function PERSummaryDashboard(props: Props) {
         }
     };
 
+    const handleYearClick = (year: string) => {
+        updateFilter('year', Number(year));
+    };
+
+    const handlePERClick = (item: string): void => {
+        updateFilter('perConsiderations', item);
+    };
+
     return (
-        <PageContainer
-            className={_cs(styles.perSummaryDashboard, className)}
-        >
+        <PageContainer className={_cs(styles.perSummaryDashboard, className)}>
             <PageHeader
                 heading="NS Preparedness and Response Capacity Strengthening (PER)"
                 description="The National Society Preparedness for Effective Response (PER) Approach is a structured and systematic way of interacting with the knowledge, capacity, systems, and processes a National Society uses to respond to an emergency, fulfilling its mandate to meet the needs of those most affected by disasters and crises with timely, relevant, and effective humanitarian assistance."
@@ -239,7 +237,7 @@ function PERSummaryDashboard(props: Props) {
                 || activeFilters?.region !== null
                 || activeFilters?.numberOfCycles !== null
                 || activeFilters?.completedAssessment !== null) && (
-                <Button
+                                <Button
                                     name={undefined}
                                     onClick={() => {
                                         updateFilter('phase', null);
