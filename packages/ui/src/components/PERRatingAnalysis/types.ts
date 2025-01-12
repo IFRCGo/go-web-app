@@ -1,5 +1,3 @@
-import { RatingStatus } from '../../utils/per';
-
 export type RatingStatus =
   | "Doesn't exist"
   | 'Partially exists'

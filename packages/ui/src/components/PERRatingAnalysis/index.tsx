@@ -1,16 +1,12 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
-import { RATING_COLORS } from '../PERDashboard/constants';
-import RatingBar from './RatingBar';
+import { RatingBar as RatingBarComponent } from './RatingBar';
 import RatingChange from './RatingChange';
 import RatingScale from './RatingScale';
 import RatingStatusBadge from './RatingStatusBadge';
 import Sparkline from './Sparkline';
-import type {
-    Props,
-    RatingStatus,
-} from './types';
+import type { Props } from './types';
 
 import styles from './styles.module.css';
 
@@ -50,7 +46,7 @@ function PERRatingAnalysis({
                         <RatingScale maxValue={5} currentValue={overallRating.rating} />
                     </div>
                     <div className={styles.barContainer} style={{ marginTop: 1 }}>
-                        <RatingBar
+                        <RatingBarComponent
                             value={overallRating.rating}
                             maxValue={5}
                             color={overallRating.color}
@@ -61,10 +57,17 @@ function PERRatingAnalysis({
                         <span className={styles.ratingValue}>
                             {overallRating?.rating ? overallRating.rating.toFixed(1) : '-'}
                         </span>
-                        <RatingStatusBadge status={overallRating.status} rating={overallRating.rating} />
+                        <RatingStatusBadge
+                            status={overallRating.status}
+                            rating={overallRating.rating}
+                        />
                         <Sparkline
-                            ratings={overallRating.cycleRatings.map((c) => c.rating)}
-                            colors={overallRating.cycleRatings.map((c) => c.color)}
+                            ratings={overallRating.cycleRatings.map(
+                                (c) => c.rating,
+                            )}
+                            colors={overallRating.cycleRatings.map(
+                                (c) => c.color,
+                            )}
                         />
                         {overallRating.change !== 0 && (
                             <RatingChange
@@ -88,7 +91,7 @@ function PERRatingAnalysis({
                             </span>
                             <div className={styles.ratingContent}>
                                 <div className={styles.barContainer}>
-                                    <RatingBar
+                                    <RatingBarComponent
                                         value={area.rating}
                                         maxValue={5}
                                         color={area.areaColor}
@@ -99,10 +102,17 @@ function PERRatingAnalysis({
                                     <span className={styles.ratingValue}>
                                         {area?.rating ? area.rating.toFixed(1) : '-'}
                                     </span>
-                                    <RatingStatusBadge status={area.status} rating={area.rating} />
+                                    <RatingStatusBadge
+                                        status={area.status}
+                                        rating={area.rating}
+                                    />
                                     <Sparkline
-                                        ratings={area.cycleRatings.map((c) => c.rating)}
-                                        colors={area.cycleRatings.map((c) => c.color)}
+                                        ratings={area.cycleRatings.map(
+                                            (c) => c.rating,
+                                        )}
+                                        colors={area.cycleRatings.map(
+                                            (c) => c.color,
+                                        )}
                                     />
                                     {area.change !== 0 && (
                                         <RatingChange
@@ -122,6 +132,7 @@ function PERRatingAnalysis({
                     <h3 className={styles.sectionTitle}>Components</h3>
                     <div className={styles.headerRight}>
                         <button
+                            type="button"
                             className={_cs(styles.sortButton, sortBy === 'number' && styles.active)}
                             onClick={() => handleSortChange('number', sortDirection === 'asc' ? 'desc' : 'asc')}
                         >
@@ -130,6 +141,7 @@ function PERRatingAnalysis({
                             {sortDirection === 'asc' ? '↑' : '↓'}
                         </button>
                         <button
+                            type="button"
                             className={_cs(styles.sortButton, sortBy === 'rating' && styles.active)}
                             onClick={() => handleSortChange('rating', sortDirection === 'asc' ? 'desc' : 'asc')}
                         >
@@ -151,7 +163,7 @@ function PERRatingAnalysis({
                             </span>
                             <div className={styles.ratingContent}>
                                 <div className={styles.barContainer}>
-                                    <RatingBar
+                                    <RatingBarComponent
                                         value={component.rating}
                                         maxValue={5}
                                         color={component.areaColor}
@@ -162,10 +174,17 @@ function PERRatingAnalysis({
                                     <span className={styles.ratingValue}>
                                         {component.rating.toFixed(1)}
                                     </span>
-                                    <RatingStatusBadge status={component.status} rating={component.rating} />
+                                    <RatingStatusBadge
+                                        status={component.status}
+                                        rating={component.rating}
+                                    />
                                     <Sparkline
-                                        ratings={component.cycleRatings.map((c) => c.rating)}
-                                        colors={component.cycleRatings.map((c) => c.color)}
+                                        ratings={component.cycleRatings.map(
+                                            (c) => c.rating,
+                                        )}
+                                        colors={component.cycleRatings.map(
+                                            (c) => c.color,
+                                        )}
                                     />
                                     {component.change !== 0 && (
                                         <RatingChange

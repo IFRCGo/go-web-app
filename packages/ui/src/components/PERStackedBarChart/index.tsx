@@ -12,6 +12,7 @@ import {
     ChartOptions,
     Legend,
     LinearScale,
+    Scale,
     Title,
     Tooltip,
 } from 'chart.js';
@@ -49,8 +50,6 @@ export interface Props {
         hoverFillColor?: string;
     }[];
     showDataLabels?: boolean;
-    activeRegion: string | null;
-
     yAxisMin: number;
 
     yAxisMax: number;
@@ -76,7 +75,6 @@ function PERStackedBarChart({
     className = '',
     categories,
     showDataLabels = false,
-    activeRegion,
     yAxisMin,
     yAxisMax,
 }: Props) {
@@ -203,7 +201,7 @@ function PERStackedBarChart({
                 min: yAxisMin,
                 max: yAxisMax,
                 position: 'left',
-                afterFit: (axis: any) => ({
+                afterFit: (axis: Scale<'linear'>) => ({
                     ...axis,
                     width: 50,
                 }),
@@ -213,7 +211,7 @@ function PERStackedBarChart({
                     },
                     padding: 10,
                     stepSize: 1,
-                    callback(value: any) {
+                    callback(value: number) {
                         if (Math.floor(value) !== value) {
                             return '';
                         }

@@ -231,7 +231,11 @@ function PERTreemapChart({
 
         const root = d3.hierarchy(data)
             .sum((node: TreemapNode) => node.value || 0)
-            .sort((a: d3.HierarchyNode<TreemapNode>, b: d3.HierarchyNode<TreemapNode>) => (b.value ?? 0) - (a.value ?? 0));
+            .sort(
+                (a: d3.HierarchyNode<TreemapNode>, b: d3.HierarchyNode<TreemapNode>) => (
+                    (b.value ?? 0) - (a.value ?? 0)
+                ),
+            );
 
         d3.treemap()
             .size([width, svgHeight])
@@ -303,9 +307,9 @@ function PERTreemapChart({
             .duration(TRANSITION_DURATION)
             .attr('transform', (node: d3.HierarchyNode<TreemapNode>) => `translate(${node.x0},${node.y0})`)
             .style('opacity', 1)
-            .on('end', function onUpdateTransitionEnd() {
+            .on('end', () => {
                 nodesUpdate.select('.overlay-rect').style('pointer-events', 'all');
-                nodesUpdate.select('.overlay-rect').each(function updateOverlayRect() {
+                nodesUpdate.select('.overlay-rect').each(() => {
                     d3.select(this).call(attachTooltipBehavior);
                 });
             });
@@ -345,28 +349,31 @@ function PERTreemapChart({
             .attr('y', 0.5)
             .attr('width', (node: d3.HierarchyNode<TreemapNode>) => Math.max(0, node.x1 - node.x0 - 1))
             .attr('height', (node: d3.HierarchyNode<TreemapNode>) => Math.max(0, node.y1 - node.y0 - 1))
-            .on('end', function onOverlayTransitionEnd() {
+            .on('end', () => {
                 d3.select(this).style('pointer-events', 'all');
                 d3.select(this).call(attachTooltipBehavior);
             });
 
-        const addLabelContent = (selection: d3.Selection<d3.BaseType, d3.HierarchyNode<TreemapNode>, null, undefined>): void => {
+        const addLabelContent = (
+            selection: d3.Selection<d3.BaseType, d3.HierarchyNode<TreemapNode>, null, undefined>,
+        ): void => {
             selection.selectAll('foreignObject').remove();
 
             // Add parent labels
             selection
                 .filter((node: d3.HierarchyNode<TreemapNode>) => node.depth === 1)
-                .each(function addParentLabel(this: SVGRectElement | null, node: d3.HierarchyNode<TreemapNode>) {
-                    const width = node.x1 - node.x0 - 1;
-                    const height = node.y1 - node.y0 - 1;
+                .each((node: d3.HierarchyNode<TreemapNode>, i: number, groups: Element[]) => {
+                    const rect = groups[i] as SVGRectElement | null;
+                    const rectWidth = node.x1 - node.x0 - 1;
+                    const rectHeight = node.y1 - node.y0 - 1;
 
-                    if (width >= MIN_WIDTH_FOR_LABEL && height >= MIN_HEIGHT_FOR_LABEL) {
-                        if (this) {
-                            d3.select<SVGRectElement, any>(this)
+                    if (rectWidth >= MIN_WIDTH_FOR_LABEL && rectHeight >= MIN_HEIGHT_FOR_LABEL) {
+                        if (rect) {
+                            d3.select(rect)
                                 .append('foreignObject')
                                 .attr('x', 3)
                                 .attr('y', 1)
-                                .attr('width', width - 5)
+                                .attr('width', rectWidth - 5)
                                 .attr('height', 40)
                                 .style('overflow', 'hidden')
                                 .style('pointer-events', 'none')
@@ -388,17 +395,18 @@ function PERTreemapChart({
             // Add child labels
             selection
                 .filter((node: d3.HierarchyNode<TreemapNode>) => node.depth === 2)
-                .each(function addChildLabel(this: SVGRectElement, node: d3.HierarchyNode<TreemapNode>) {
-                    const width = node.x1 - node.x0 - 1;
-                    const height = node.y1 - node.y0 - 1;
+                .each((node: d3.HierarchyNode<TreemapNode>, i: number, groups: Element[]) => {
+                    const rect = groups[i] as SVGRectElement;
+                    const rectWidth = node.x1 - node.x0 - 1;
+                    const rectHeight = node.y1 - node.y0 - 1;
 
-                    if (width >= MIN_WIDTH_FOR_LABEL && height >= MIN_HEIGHT_FOR_LABEL) {
-                        d3.select(this)
+                    if (rectWidth >= MIN_WIDTH_FOR_LABEL && rectHeight >= MIN_HEIGHT_FOR_LABEL) {
+                        d3.select(rect)
                             .append('foreignObject')
                             .attr('x', 0)
                             .attr('y', 0)
-                            .attr('width', width)
-                            .attr('height', height)
+                            .attr('width', rectWidth)
+                            .attr('height', rectHeight)
                             .style('pointer-events', 'none')
                             .append('xhtml:div')
                             .style('width', '95%')
@@ -452,8 +460,8 @@ function PERTreemapChart({
             .duration(TRANSITION_DURATION / 2)
             .style('opacity', 0)
             .attr('transform', (node: d3.HierarchyNode<TreemapNode>) => `translate(${node.x0},${node.y0})`)
-            .call((t: any) => {
-                endAll(t, () => {
+            .call((transition: d3.Transition<d3.BaseType, unknown, null, undefined>) => {
+                endAll(transition, () => {
                     labelsUpdate.selectAll('foreignObject').remove();
                     addLabelContent(labelsUpdate);
                     labelsUpdate
@@ -518,7 +526,7 @@ function PERTreemapChart({
                 .style('opacity', 1)
                 .on('end', () => {
                     resizedNodesUpdate.select('.overlay-rect').style('pointer-events', 'all');
-                    resizedNodesUpdate.select('.overlay-rect').each(function () {
+                    resizedNodesUpdate.select('.overlay-rect').each(() => {
                         d3.select(this).call(attachTooltipBehavior);
                     });
                 });
@@ -558,7 +566,7 @@ function PERTreemapChart({
                 .attr('y', 0.5)
                 .attr('width', (node: d3.HierarchyNode<TreemapNode>) => Math.max(0, node.x1 - node.x0 - 1))
                 .attr('height', (node: d3.HierarchyNode<TreemapNode>) => Math.max(0, node.y1 - node.y0 - 1))
-                .on('end', function onOverlayTransitionEnd() {
+                .on('end', () => {
                     d3.select(this).style('pointer-events', 'all');
                     d3.select(this).call(attachTooltipBehavior);
                 });
@@ -606,11 +614,11 @@ function PERTreemapChart({
                 });
 
             svg.selectAll('.overlay-rect').call(attachTooltipBehavior);
-            return undefined;
         };
 
         window.addEventListener('resize', handleResize);
 
+        // eslint-disable-next-line consistent-return
         return () => {
             window.removeEventListener('resize', handleResize);
         };

@@ -78,13 +78,6 @@ function PERStackedHorizontalBarChart({
         datasets,
     };
 
-    const isDarkColor = (color: string) => {
-        const rgbaMatch = color.match(/\d+/g);
-        const rgba = rgbaMatch ? rgbaMatch.map(Number) : [0, 0, 0, 0];
-        const brightness = rgba[0] * 0.299 + rgba[1] * 0.587 + rgba[2] * 0.114;
-        return brightness < 128;
-    };
-
     const options: ChartOptions<'bar'> = {
         indexAxis: 'y',
         responsive: true,

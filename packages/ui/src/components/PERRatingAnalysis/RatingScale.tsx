@@ -117,7 +117,8 @@ function RatingScale(props: Props) {
         const resizeObserver = new ResizeObserver(updateScale);
         resizeObserver.observe(currentContainer);
 
-        return () => {
+        // eslint-disable-next-line consistent-return
+        return (): void => {
             resizeObserver.unobserve(currentContainer);
         };
     }, [maxValue, currentValue, categories, colors]);
@@ -125,7 +126,7 @@ function RatingScale(props: Props) {
     return (
         <div ref={containerRef} className={styles.ratingScaleWrapper}>
             <div className={styles.categoryLabels}>
-                {categories.map((category, index) => (
+                {categories.map((category) => (
                     <div key={category} className={styles.categoryLabel}>
                         {category}
                     </div>

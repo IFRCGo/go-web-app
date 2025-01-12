@@ -120,6 +120,7 @@ function RatingBar({
         const resizeObserver = new ResizeObserver(updateChart);
         resizeObserver.observe(currentContainer);
 
+        // eslint-disable-next-line consistent-return
         return () => {
             resizeObserver.unobserve(currentContainer);
         };
