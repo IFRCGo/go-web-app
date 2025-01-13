@@ -1,6 +1,7 @@
 import {
     useEffect,
     useRef,
+    useState,
 } from 'react';
 import { _cs } from '@togglecorp/fujs';
 import * as d3 from 'd3';
@@ -61,12 +62,6 @@ export interface Props {
     title?: string;
 
     /**
-     * Width of the gauge in pixels or CSS units
-     * @default 200
-     */
-    width?: number | string;
-
-    /**
      * Additional CSS class names
      */
     className?: string;
@@ -82,16 +77,34 @@ function PERGaugeChart({
     transitionSpeed = 1000,
     onClick = () => undefined,
     title = 'Chart title',
-    width = 200,
     className,
 }: Props) {
     const svgRef = useRef<SVGSVGElement | null>(null);
+    const containerRef = useRef<HTMLDivElement | null>(null);
     const previousPercentageRef = useRef<number>(percentage);
+    const [containerWidth, setContainerWidth] = useState<number>(200);
 
-    const chartWidth = typeof width === 'number' ? `${width}px` : width;
-    const svgWidth = typeof width === 'number' ? width : 200;
-    const height = svgWidth / 2;
-    const radius = svgWidth / 2;
+    useEffect(() => {
+        const container = containerRef.current;
+        if (!container) return;
+
+        const resizeObserver = new ResizeObserver((entries) => {
+            const { width } = entries[0].contentRect;
+            // Subtract padding from the width
+            const padding = 32; // --go-ui-spacing-md (16px) * 2
+            setContainerWidth(Math.max(width - padding, 0));
+        });
+
+        resizeObserver.observe(container);
+
+        // eslint-disable-next-line consistent-return
+        return () => {
+            resizeObserver.disconnect();
+        };
+    }, []);
+
+    const radius = containerWidth / 2;
+    const height = containerWidth / 2;
 
     // Define the update function for gauge animation
     const handleUpdate = () => {
@@ -188,19 +201,18 @@ function PERGaugeChart({
         height,
         percentage,
         radius,
-        chartWidth,
-        svgWidth,
+        containerWidth,
     ]);
 
-    useEffect(handleUpdate, [percentage, radius, transitionSpeed, svgWidth]);
+    useEffect(handleUpdate, [percentage, radius, transitionSpeed]);
 
     return (
         <div
+            ref={containerRef}
             className={_cs(
                 styles.container,
                 className,
             )}
-            style={{ width: chartWidth }}
             role="button"
             tabIndex={0}
             onClick={onClick}
@@ -215,13 +227,15 @@ function PERGaugeChart({
                     {title}
                 </div>
             )}
-            <svg
-                ref={svgRef}
-                style={{
-                    width: '100%',
-                    height: 'auto',
-                }}
-            />
+            <div className={styles.svgContainer}>
+                <svg
+                    ref={svgRef}
+                    width={containerWidth}
+                    height={height}
+                    viewBox={`0 0 ${containerWidth} ${height}`}
+                    preserveAspectRatio="xMidYMid meet"
+                />
+            </div>
             {label && (
                 <div className={styles.label}>
                     {label}

@@ -4,6 +4,7 @@
     flex-wrap: wrap;
     justify-content: space-between;
     background-color: var(--go-ui-color-white);
+    padding-bottom: var(--go-ui-spacing-md);
 }
 
 .kpiTab {

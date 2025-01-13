@@ -1,5 +1,6 @@
 .container {
     background-color: var(--go-ui-color-white);
+    padding-bottom: var(--go-ui-spacing-md);
 }
 
 .toggleGroup {

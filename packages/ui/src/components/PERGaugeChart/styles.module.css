@@ -9,6 +9,10 @@
     font-family: var(--go-ui-font-family-sans-serif);
 }
 
+.svgContainer {
+    padding: var(--go-ui-spacing-md);
+}
+
 .container:focus-visible {
     outline: var(--go-ui-width-separator-thin) solid var(--go-ui-color-primary-red);
     outline-offset: var(--go-ui-spacing-xs);

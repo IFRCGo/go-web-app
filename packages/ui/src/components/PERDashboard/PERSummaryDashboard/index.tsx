@@ -1,14 +1,10 @@
 import { useState } from 'react';
-import { _cs } from '@togglecorp/fujs';
 
 import Button from '#components/Button';
 import Container from '#components/Container';
-import PageContainer from '#components/PageContainer';
-import PageHeader from '#components/PageHeader';
 import PERChartLegend from '#components/PERChartLegend';
 import PERConsiderations from '#components/PERConsiderations';
 import PERDonutChart from '#components/PERDonutChart';
-import PERExportButton from '#components/PERExportButton';
 import PERKPITabs from '#components/PERKPITabs';
 import PERMap from '#components/PERMap';
 import PERRegionToggle from '#components/PERRegionToggle';
@@ -31,7 +27,6 @@ import { AssessmentType } from './types.js';
 import styles from './styles.module.css';
 
 interface Props {
-  className?: string;
   accessToken?: string;
   mapboxStyle?: string;
 }
@@ -51,7 +46,6 @@ interface ActiveFilters {
 
 function PERSummaryDashboard(props: Props) {
     const {
-        className,
         accessToken,
         mapboxStyle = 'mapbox://styles/go-ifrc/ckrfe16ru4c8718phmckdfjh0',
     } = props;
@@ -188,22 +182,37 @@ function PERSummaryDashboard(props: Props) {
     );
 
     return (
-        <PageContainer className={_cs(styles.perSummaryDashboard, className)}>
-            <PageHeader
-                heading="NS Preparedness and Response Capacity Strengthening (PER)"
-                description={[
-                    'The National Society Preparedness for Effective Response (PER) ',
-                    'Approach is a structured and systematic way of interacting with ',
-                    'the knowledge, capacity, systems, and processes a National Society ',
-                    'uses to respond to an emergency, fulfilling its mandate to meet ',
-                    'the needs of those most affected by disasters and crises with ',
-                    'timely, relevant, and effective humanitarian assistance.',
-                ].join('')}
-            />
+        <>
             <div className={styles.lastUpdate}>
                 Last updated:
                 {' '}
                 {new Date(getLastUpdateDate()).toLocaleString()}
+            </div>
+            {/* <PERExportButton /> */}
+            <div className={styles.headerDescription}>
+                This dashboard contains a summary of National Societies around the world engaged in
+                {' '}
+                the Preparedness for Effective Response (PER) Approach.
+                {' '}
+                The visuals below show regional and country-level information on the number of
+                {' '}
+                National Societies engaged in the PER Approach, as well as the current phase of the
+                {' '}
+                PER Process the NS is in.
+                {' '}
+                It also includes information on the PER Components which have been identified as
+                {' '}
+                &apos;High Priority,&apos; indicating it requires improvement.
+                {' '}
+                Finally, this dashboard includes the types of PER assessments conducted and the
+                {' '}
+                year of the assessment by region. Several National Societies have gone through
+                {' '}
+                multiple cycles of the PER process, and evidence indicates that there have been
+                {' '}
+                improvements in NS preparedness and response capacity, which has been supported
+                {' '}
+                by the PER Approach.
             </div>
             <div className={styles.content}>
                 <PERKPITabs
@@ -229,14 +238,12 @@ function PERSummaryDashboard(props: Props) {
                     heading="PER Global Distribution"
                     headerDescription="Click on a NS to filter"
                     actions={(
-                        <>
-                            <PERExportButton />
-                            {(activeFilters?.phase !== null
+                        activeFilters?.phase !== null
                 || activeFilters?.id !== null
                 || activeFilters?.region !== null
                 || activeFilters?.numberOfCycles !== null
                 || activeFilters?.completedAssessment !== null
-                            ) && (
+                            ? (
                                 <Button
                                     name={undefined}
                                     onClick={() => {
@@ -252,8 +259,7 @@ function PERSummaryDashboard(props: Props) {
                                 >
                                     Clear Filter
                                 </Button>
-                            )}
-                        </>
+                            ) : null
                     )}
                     withHeaderBorder
                 >
@@ -344,7 +350,7 @@ function PERSummaryDashboard(props: Props) {
                             data={getStackedBarDataByYearAndRegion(activeFilters)}
                             onClick={handleRegionStackedClick}
                             categories={regionCategories}
-                            height={222}
+                            height={190}
                             tooltipEnabled
                             showDataLabels={false}
                             activeRegion={activeFilters?.region}
@@ -361,29 +367,31 @@ function PERSummaryDashboard(props: Props) {
                     </Container>
                 </div>
 
-                <Container
-                    heading="High priority components requiring strengthening"
-                    headerDescription="Click on a component to filter"
-                    withHeaderBorder
-                    actions={activeFilters?.highPriorityComponent !== null && (
-                        <Button
-                            name={undefined}
-                            onClick={() => {
-                                updateFilter('highPriorityComponent', null);
-                                updateFilter('highPriorityArea', null);
-                            }}
-                            variant="secondary"
-                        >
-                            Clear Filter
-                        </Button>
-                    )}
-                >
-                    <PERTreemapChart
-                        d={getComponentSummaryForTreemap(activeFilters)}
-                        activeIndex={activeFilters?.highPriorityComponent}
-                        onClick={handleHighPriorityComponentClick}
-                    />
-                </Container>
+                <div className={styles.treemap}>
+                    <Container
+                        heading="High priority components requiring strengthening"
+                        headerDescription="Click on a component to filter"
+                        withHeaderBorder
+                        actions={activeFilters?.highPriorityComponent !== null && (
+                            <Button
+                                name={undefined}
+                                onClick={() => {
+                                    updateFilter('highPriorityComponent', null);
+                                    updateFilter('highPriorityArea', null);
+                                }}
+                                variant="secondary"
+                            >
+                                Clear Filter
+                            </Button>
+                        )}
+                    >
+                        <PERTreemapChart
+                            d={getComponentSummaryForTreemap(activeFilters)}
+                            activeIndex={activeFilters?.highPriorityComponent}
+                            onClick={handleHighPriorityComponentClick}
+                        />
+                    </Container>
+                </div>
 
                 <Container
                     heading="PER Considerations"
@@ -407,15 +415,14 @@ function PERSummaryDashboard(props: Props) {
                 >
                     <PERConsiderations
                         data={getPERConsiderations(activeFilters)}
-                        onClickAssessmentType={(index) => {
-                            handleAssessmentTypeClick({ label: index });
-                        }}
+                        onClickAssessmentType={handleAssessmentTypeClick}
                         onClickPER={(index) => updateFilter('perConsiderations', index)}
                         activeIndex={activeFilters?.assessmentType}
+                        activePERFilter={activeFilters?.perConsiderations}
                     />
                 </Container>
             </div>
-        </PageContainer>
+        </>
     );
 }
 

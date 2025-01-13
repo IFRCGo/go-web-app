@@ -3,7 +3,6 @@ import { _cs } from '@togglecorp/fujs';
 
 import { RatingBar as RatingBarComponent } from './RatingBar';
 import RatingChange from './RatingChange';
-import RatingScale from './RatingScale';
 import RatingStatusBadge from './RatingStatusBadge';
 import Sparkline from './Sparkline';
 import type { Props } from './types';
@@ -42,9 +41,9 @@ function PERRatingAnalysis({
                     <h3 className={styles.sectionTitle}>Average PER rating</h3>
                 </span>
                 <div className={styles.ratingContent}>
-                    <div className={styles.ratingScaleContainer}>
+                    {/* <div className={styles.ratingScaleContainer}>
                         <RatingScale maxValue={5} currentValue={overallRating.rating} />
-                    </div>
+                    </div> */}
                     <div className={styles.barContainer} style={{ marginTop: 1 }}>
                         <RatingBarComponent
                             value={overallRating.rating}
@@ -130,10 +129,13 @@ function PERRatingAnalysis({
             <div className={styles.section}>
                 <div className={styles.sectionHeader}>
                     <h3 className={styles.sectionTitle}>Components</h3>
-                    <div className={styles.headerRight}>
+                    <div className={styles.sortButtons}>
                         <button
                             type="button"
-                            className={_cs(styles.sortButton, sortBy === 'number' && styles.active)}
+                            className={_cs(
+                                styles.button,
+                                styles.compact,
+                            )}
                             onClick={() => handleSortChange('number', sortDirection === 'asc' ? 'desc' : 'asc')}
                         >
                             Sort by number
@@ -142,7 +144,10 @@ function PERRatingAnalysis({
                         </button>
                         <button
                             type="button"
-                            className={_cs(styles.sortButton, sortBy === 'rating' && styles.active)}
+                            className={_cs(
+                                styles.button,
+                                styles.compact,
+                            )}
                             onClick={() => handleSortChange('rating', sortDirection === 'asc' ? 'desc' : 'asc')}
                         >
                             Sort by rating

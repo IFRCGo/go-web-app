@@ -209,8 +209,8 @@ function PERAnalysis({
                                 data={chartData.cycles}
                                 margin={{
                                     top: 10,
-                                    right: 50,
-                                    left: 30,
+                                    right: 10,
+                                    left: 10,
                                     bottom: 0,
                                 }}
                                 barSize={100}

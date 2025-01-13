@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import Button from '#components/Button';
 import Container from '#components/Container';
-import PageContainer from '#components/PageContainer';
-import PageHeader from '#components/PageHeader';
 import PERAnalysis from '#components/PERAnalysis';
 import PERRatingAnalysis from '#components/PERRatingAnalysis';
 import PERRegionToggle from '#components/PERRegionToggle';
@@ -19,10 +17,6 @@ import {
 
 import styles from './styles.module.css';
 
-interface Props {
-  className?: string;
-}
-
 interface ActiveFilters {
   id: number | null;
   region: string | null;
@@ -30,9 +24,7 @@ interface ActiveFilters {
   cycle: number | null;
 }
 
-function PERPerformanceDashboard(props: Props) {
-    const { className } = props;
-
+function PERPerformanceDashboard() {
     const [activeFilters, setActiveFilters] = useState<ActiveFilters>({
         id: null,
         region: null,
@@ -61,23 +53,19 @@ function PERPerformanceDashboard(props: Props) {
     const ratings = getComponentRatings(activeFilters, true);
 
     return (
-        <PageContainer
-            className={_cs(styles.perPerformanceDashboard, className)}
-        >
-            <PageHeader
-                heading="NS Preparedness and Response Capacity Strengthening (PER)"
-                description={`
-                    The National Society Preparedness for Effective Response (PER) Approach is a structured
-                    and systematic way of interacting with the knowledge, capacity, systems, and processes
-                    a National Society uses to respond to an emergency, fulfilling its mandate to meet the
-                    needs of those most affected by disasters and crises with timely, relevant, and
-                    effective humanitarian assistance.
-                `}
-            />
+        <>
             <div className={styles.lastUpdate}>
                 Last updated:
                 {' '}
                 {new Date(getLastUpdateDate()).toLocaleString()}
+            </div>
+            <div className={styles.headerDescription}>
+                This dashboard contains a summary of the overall preparedness and response capacity
+                among National Societies engaged in the PER Approach. The values presented represent
+                the ratings for each component within National Societies&apos; PER Mechanism
+                aggregated at global and regional levels. The visualizations
+                show average rating, the capacity over time, as well as top and bottom-rated
+                components. You can filter the components by region and cycle.
             </div>
             <div className={styles.content}>
                 <PERRegionToggle
@@ -89,7 +77,8 @@ function PERPerformanceDashboard(props: Props) {
                 />
                 <Container
                     heading="Performance Overview"
-                    description="Detailed performance metrics and geographical distribution."
+                    headerDescription="Click on a PER assessment cycle to filter"
+                    className={_cs(styles.container, styles.perAnalysis)}
                     actions={activeFilters.cycle !== null ? (
                         <Button
                             name={undefined}
@@ -109,6 +98,7 @@ function PERPerformanceDashboard(props: Props) {
                 <Container
                     heading="PER Global Performance"
                     description="Overview of PER ratings and performance metrics."
+                    className={_cs(styles.container, styles.ratingAnalysis)}
                 >
                     <PERRatingAnalysis
                         overallRating={ratings.overallRating}
@@ -117,7 +107,7 @@ function PERPerformanceDashboard(props: Props) {
                     />
                 </Container>
             </div>
-        </PageContainer>
+        </>
     );
 }
 

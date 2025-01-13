@@ -223,6 +223,11 @@ export function getComponentRatings(
         const filteredComponentAssessments = filterDuplicateAssessments(componentAssessments);
         const sample = filteredComponentAssessments[0];
 
+        // Skip if no sample or if component name is missing
+        if (!sample || !sample.component_name || !sample.area_name) {
+            return;
+        }
+
         // Current Rating Calculation (latest assessment per country)
         const latestAssessmentsByCountry = new Map<number, Assessment>();
         filteredComponentAssessments.forEach((a) => {
@@ -290,6 +295,10 @@ export function getComponentRatings(
 
     componentGroups.forEach((componentAssessments, componentId) => {
         const component = componentMap.get(componentId);
+        // Skip if component is missing or has no area name
+        if (!component || !component.area_name) {
+            return;
+        }
         if (!areaMap.has(component.area_name)) {
             areaMap.set(component.area_name, {
                 name: component.area_name,
@@ -303,51 +312,55 @@ export function getComponentRatings(
             });
         } else {
             const area = areaMap.get(component.area_name);
-            area.components.push(component);
+            if (area) {
+                area.components.push(component);
+            }
         }
     });
 
-    const areas = Array.from(areaMap.values()).map((area) => {
+    const areas = Array.from(areaMap.values())
+        .filter((area) => area.name && area.components.length > 0)
+        .map((area) => {
         // Current area rating
-        const componentSum = area.components.reduce((sum, c) => sum + c.total, 0);
-        const currentRating = area.components.length > 0
-            ? parseFloat((componentSum / area.components.length).toFixed(2))
-            : 0;
-
-        // Cycle ratings for area
-        const allCycles = [...new Set(
-            area.components.flatMap((c) => c.cycleRatings.map((r) => r.cycle)),
-        )].sort((a, b) => a - b);
-        const areaCycleRatings = allCycles.map((cycle) => {
-            let cycleTotal = 0;
-            let validCount = 0;
-            area.components.forEach((comp) => {
-                const cycleRating = comp.cycleRatings.find((r) => r.cycle === cycle);
-                if (cycleRating) {
-                    cycleTotal += cycleRating.rating;
-                    validCount += 1;
-                }
-            });
-            const cycleAverage = validCount > 0
-                ? parseFloat((cycleTotal / validCount).toFixed(2))
+            const componentSum = area.components.reduce((sum, c) => sum + c.total, 0);
+            const currentRating = area.components.length > 0
+                ? parseFloat((componentSum / area.components.length).toFixed(2))
                 : 0;
-            const roundedRating = getRoundedRating(cycleAverage);
-            const status = getRatingStatus(roundedRating);
+
+            // Cycle ratings for area
+            const allCycles = [...new Set(
+                area.components.flatMap((c) => c.cycleRatings.map((r) => r.cycle)),
+            )].sort((a, b) => a - b);
+            const areaCycleRatings = allCycles.map((cycle) => {
+                let cycleTotal = 0;
+                let validCount = 0;
+                area.components.forEach((comp) => {
+                    const cycleRating = comp.cycleRatings.find((r) => r.cycle === cycle);
+                    if (cycleRating) {
+                        cycleTotal += cycleRating.rating;
+                        validCount += 1;
+                    }
+                });
+                const cycleAverage = validCount > 0
+                    ? parseFloat((cycleTotal / validCount).toFixed(2))
+                    : 0;
+                const roundedRating = getRoundedRating(cycleAverage);
+                const status = getRatingStatus(roundedRating);
+                return {
+                    cycle,
+                    rating: cycleAverage,
+                    rating_display: roundedRating.toString(),
+                    rating_color: RATING_SCALE_COLORS[status] || '#000000',
+                };
+            });
+
             return {
-                cycle,
-                rating: cycleAverage,
-                rating_display: roundedRating.toString(),
-                rating_color: RATING_SCALE_COLORS[status] || '#000000',
+                ...area,
+                rating: currentRating,
+                status: getRatingStatus(currentRating),
+                cycleRatings: areaCycleRatings,
             };
         });
-
-        return {
-            ...area,
-            rating: currentRating,
-            status: getRatingStatus(currentRating),
-            cycleRatings: areaCycleRatings,
-        };
-    });
 
     // Overall ratings
     const componentValues = Array.from(componentMap.values());

@@ -14,25 +14,14 @@ const meta: Meta<typeof PERDashboard> = {
     },
     argTypes: {
         className: { type: 'string' },
-        variant: {
-            control: 'radio',
-            options: ['summary', 'performance'],
-        },
     },
 } satisfies Meta<typeof PERDashboard>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Summary: Story = {
+export const Default: Story = {
     args: {
-        variant: 'summary',
         accessToken: "pk.eyJ1IjoiZ28taWZyYyIsImEiOiJja3E2bGdvb3QwaXM5MnZtbXN2eGtmaWgwIn0.llipq3Spc_PPA2bLjPwIPQ\n"
-    },
-};
-
-export const Performance: Story = {
-    args: {
-        variant: 'performance',
     },
 };

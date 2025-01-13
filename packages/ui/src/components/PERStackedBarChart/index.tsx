@@ -111,7 +111,7 @@ function PERStackedBarChart({
 
     const options: ChartOptions<'bar'> = {
         responsive: true,
-        maintainAspectRatio: true,
+        maintainAspectRatio: false,
         layout: {
             padding: {
                 top: 22,
@@ -201,10 +201,10 @@ function PERStackedBarChart({
                 min: yAxisMin,
                 max: yAxisMax,
                 position: 'left',
-                afterFit: (axis: Scale<'linear'>) => ({
-                    ...axis,
-                    width: 50,
-                }),
+                afterFit: (axis: Scale<'linear'>) => {
+                    // eslint-disable-next-line no-param-reassign
+                    axis.width = 50;
+                },
                 ticks: {
                     font: {
                         size: 12,

@@ -1,4 +1,5 @@
 import React from 'react';
+import { _cs } from '@togglecorp/fujs';
 
 import PERChartLegend from '../PERChartLegend';
 import {
@@ -15,47 +16,49 @@ import urbanIcon from './assets/urban.png';
 import styles from './styles.module.css';
 
 interface PercentageData {
-  epiPercentage: number;
-  climatePercentage: number;
-  urbanPercentage: number;
-  migrationPercentage: number;
+    epiPercentage: number;
+    climatePercentage: number;
+    urbanPercentage: number;
+    migrationPercentage: number;
 }
 
 interface TotalsData {
-  totalAssessments: number;
-  totalEpiConsiderations: number;
-  totalClimateConsiderations: number;
-  totalUrbanConsiderations: number;
-  totalMigrationConsiderations: number;
+    totalAssessments: number;
+    totalEpiConsiderations: number;
+    totalClimateConsiderations: number;
+    totalUrbanConsiderations: number;
+    totalMigrationConsiderations: number;
 }
 
 interface ChartDataItem {
-  name: string;
-  SelfAssessment: number;
-  Simulation: number;
-  PostOperational: number;
-  Operational: number;
-  [key: string]: string | number;
+    name: string;
+    SelfAssessment: number;
+    Simulation: number;
+    PostOperational: number;
+    Operational: number;
+    [key: string]: string | number;
 }
 
 type ChartData = ChartDataItem[];
 
 export interface Props {
-  data: {
-    percentages: PercentageData;
-    totals: TotalsData;
-    data: ChartData[];
-  };
-  activeIndex: string | number | null;
-  onClick: (index: string) => void;
-  onClickPER: (key: string) => void;
+    data: {
+        percentages: PercentageData;
+        totals: TotalsData;
+        data: ChartData[];
+    };
+    activeIndex: string | number | null;
+    onClickAssessmentType: (index: string) => void;
+    onClickPER: (key: string) => void;
+    activePERFilter?: string;
 }
 
 function PERConsiderations({
     data,
     activeIndex,
-    onClick,
+    onClickAssessmentType,
     onClickPER,
+    activePERFilter,
 }: Props) {
     // Calculate global maxValue across all charts
     const calculateGlobalMaxValue = (allData: ChartData[]): number => Math.max(
@@ -98,51 +101,61 @@ function PERConsiderations({
     return (
         <div className={styles.chartWrapper}>
             <div className={styles.perConsiderationsContainer}>
-                {data.data.map((chartData, index) => (
-                    <div
-                        className={styles.column}
-                        key={`per-consideration-${key[index]}`}
-                    >
-                        <PERGaugeChart
-                            title={`PER ${labels[index]} Considerations`}
-                            percentage={percentageArray[index]}
-                            icon={icons[index]}
-                            label={labels[index]}
-                            fontSize={12}
-                            gaugeColor="#236192"
-                            backgroundColor="#F2F2F2"
-                            transitionSpeed={1000}
-                            onClick={() => onClickPER(key[index])}
-                            width="100%"
-                        />
+                {data.data.map((chartData, index) => {
+                    const currentKey = key[index];
+                    const isActive = activePERFilter === currentKey;
+                    // Only set inactive if there's an active filter and it's not this one
+                    const isInactive = activePERFilter ? currentKey !== activePERFilter : false;
 
-                        <div className={styles.spacer} />
+                    return (
+                        <div
+                            className={_cs(
+                                styles.column,
+                                isActive && styles.activeColumn,
+                                isInactive && styles.inactiveColumn,
+                            )}
+                            key={`per-consideration-${currentKey}`}
+                        >
+                            <PERGaugeChart
+                                title={`PER ${labels[index]} Considerations`}
+                                percentage={percentageArray[index]}
+                                icon={icons[index]}
+                                label={labels[index]}
+                                fontSize={12}
+                                gaugeColor={isInactive ? '#C6C6C6' : '#236192'}
+                                backgroundColor="#F2F2F2"
+                                transitionSpeed={1000}
+                                onClick={() => onClickPER(currentKey)}
+                            />
 
-                        {/* Conditionally render the title for the first column */}
-                        <div className={styles.stackedBarTitle}>
-                            {index === 0 ? 'By region & type' : ''}
+                            <div className={styles.spacer} />
+
+                            {/* Conditionally render the title for the first column */}
+                            <div className={styles.stackedBarTitle}>
+                                {index === 0 ? 'By region & type' : ''}
+                            </div>
+
+                            <PERStackedHorizontalBarChart
+                                data={chartData}
+                                maxValue={globalMaxValue}
+                                barColors={isInactive ? ['#C6C6C6', '#C6C6C6', '#C6C6C6', '#C6C6C6'] : ASSESSMENT_COLORS}
+                                xAxisKey="name"
+                                barKeys={[
+                                    'SelfAssessment',
+                                    'Simulation',
+                                    'PostOperational',
+                                    'Operational',
+                                ]}
+                                transitionSpeed={1000}
+                            />
                         </div>
-
-                        <PERStackedHorizontalBarChart
-                            data={chartData}
-                            maxValue={globalMaxValue}
-                            barColors={ASSESSMENT_COLORS}
-                            xAxisKey="name"
-                            barKeys={[
-                                'SelfAssessment',
-                                'Simulation',
-                                'PostOperational',
-                                'Operational',
-                            ]}
-                            transitionSpeed={1000}
-                        />
-                    </div>
-                ))}
+                    );
+                })}
             </div>
             <PERChartLegend
                 data={ASSESSMENT_TYPE_OPTIONS}
                 activeIndex={activeIndex}
-                onClick={(item) => onClick(item.label)}
+                onClick={onClickAssessmentType}
                 layout="horizontal"
             />
         </div>
