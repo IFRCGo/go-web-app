@@ -1,6 +1,7 @@
 import {
     type RefObject,
     useCallback,
+    useMemo,
     useRef,
 } from 'react';
 import { useOutletContext } from 'react-router-dom';
@@ -31,6 +32,7 @@ import {
 import {
     isDefined,
     isNotDefined,
+    isObject,
 } from '@togglecorp/fujs';
 import {
     createSubmitHandler,
@@ -183,7 +185,6 @@ function LocalUnitsForm(props: Props) {
         validate,
         setError,
         setValue,
-        pristine,
     } = useForm(
         schema,
         {
@@ -224,7 +225,9 @@ function LocalUnitsForm(props: Props) {
         },
     });
 
-    const { response: localUnitPreviousResponse } = useRequest({
+    const {
+        response: localUnitPreviousResponse,
+    } = useRequest({
         url: '/api/v2/local-units/{id}/latest-change-request/',
         pathVariables: isDefined(localUnitId) ? { id: localUnitId } : undefined,
         /*
@@ -444,7 +447,14 @@ function LocalUnitsForm(props: Props) {
     const previousData = (
         localUnitPreviousResponse?.previous_data_details as unknown as LocalUnitResponse
     );
-    const isNewLocalUnit = isNotDefined(previousData);
+    const isNewLocalUnit = useMemo(() => {
+        if (isObject(previousData)) {
+            if (Object.keys(previousData).length <= 0) {
+                return true;
+            }
+        }
+        return false;
+    }, [previousData]);
     const showChanges = !isNewLocalUnit && !!localUnitDetailsResponse?.is_locked;
 
     return (
@@ -560,7 +570,6 @@ function LocalUnitsForm(props: Props) {
                                         {hasValidatePermission && (
                                             <LocalUnitValidateButton
                                                 onClick={setShowValidateLocalUnitModalTrue}
-                                                readOnly={pristine}
                                                 isValidated={localUnitDetailsResponse.validated}
                                                 hasValidatePermission={hasValidatePermission}
                                             />
