@@ -1370,6 +1370,7 @@ function LocalUnitsForm(props: Props) {
                                                 ?.health?.number_of_isolation_rooms
                                         }
                                         enabled={showChanges}
+                                        diffContainerClassName={styles.diffContainer}
                                     >
                                         <NumberInput
                                             inputSectionClassName={styles.changes}
@@ -1649,8 +1650,8 @@ function LocalUnitsForm(props: Props) {
                                         />
                                     </DiffWrapper>
                                     <DiffWrapper
-                                        value={value.health?.nursing_aid}
-                                        oldValue={previousData?.health?.nursing_aid}
+                                        value={value.health?.midwife}
+                                        oldValue={previousData?.health?.midwife}
                                         enabled={showChanges}
                                         diffContainerClassName={styles.diffContainer}
                                     >
