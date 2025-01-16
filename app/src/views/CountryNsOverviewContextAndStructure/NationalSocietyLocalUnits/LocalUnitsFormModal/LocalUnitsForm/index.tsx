@@ -32,7 +32,6 @@ import {
 import {
     isDefined,
     isNotDefined,
-    isObject,
 } from '@togglecorp/fujs';
 import {
     createSubmitHandler,
@@ -438,14 +437,9 @@ function LocalUnitsForm(props: Props) {
     const previousData = (
         localUnitPreviousResponse?.previous_data_details as unknown as LocalUnitResponse
     );
-    const isNewLocalUnit = useMemo(() => {
-        if (isObject(previousData)) {
-            if (Object.keys(previousData).length <= 0) {
-                return true;
-            }
-        }
-        return false;
-    }, [previousData]);
+    const isNewLocalUnit = useMemo(() => (
+        isNotDefined(previousData) || Object.keys(previousData).length === 0
+    ), [previousData]);
 
     const showChanges = !isNewLocalUnit && !!localUnitDetailsResponse?.is_locked;
 

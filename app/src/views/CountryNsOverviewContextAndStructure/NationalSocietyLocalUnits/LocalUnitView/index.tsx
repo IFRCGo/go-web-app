@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import {
     Container,
     TextOutput,
@@ -18,6 +19,7 @@ import MultiSelectOutput from '#components/MultiSelectOutput';
 import SelectOutput from '#components/SelectOutput';
 import useCountry from '#hooks/domain/useCountry';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import hasDifferences, { getFormFields } from '#utils/localUnits';
 import {
     type GoApiResponse,
     useRequest,
@@ -29,8 +31,6 @@ import {
 } from '../LocalUnitsFormModal/LocalUnitsForm/schema';
 
 import i18n from './i18n.json';
-import { useMemo } from 'react';
-import hasDifferences, { getFormFields } from '#utils/localUnits';
 
 type VisibilityOptions = NonNullable<GoApiResponse<'/api/v2/global-enums/'>['api_visibility_choices']>[number]
 type LocalUnitResponse = NonNullable<GoApiResponse<'/api/v2/local-units/{id}/'>>;
