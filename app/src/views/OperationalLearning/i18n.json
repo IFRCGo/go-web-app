@@ -22,6 +22,7 @@
         "here": "here",
         "beta": "beta",
         "failedToFetchSummary": "Failed to fetch operational learning summary",
-        "failedToFetchLearning": "Failed to fetch operational learning"
+        "failedToFetchLearning": "Failed to fetch operational learning",
+        "failedToFetchPerComponents": "Failed to fetch PER components"
     }
 }

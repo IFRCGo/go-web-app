@@ -53,9 +53,8 @@ interface ClickedPoint {
     lngLat: mapboxgl.LngLatLike;
 }
 
-const LEARNING_COUNT_LOW_COLOR = '#E0E3E7';
+const LEARNING_COUNT_LOW_COLOR = '#AEB7C2';
 const LEARNING_COUNT_HIGH_COLOR = '#011E41';
-// const bluePointCirclePaint = getPointCirclePaint(COLOR_BLUE);
 
 interface Props {
     className?: string;
@@ -129,7 +128,7 @@ function OperationalLearningMap(props: Props) {
             'circle-opacity': 0.9,
             'circle-color': [
                 'interpolate',
-                ['exponential', 1],
+                ['linear'],
                 ['number', ['get', 'learningCount']],
                 0,
                 LEARNING_COUNT_LOW_COLOR,
@@ -140,28 +139,8 @@ function OperationalLearningMap(props: Props) {
                 'interpolate',
                 ['linear'],
                 ['zoom'],
-                3, [
-                    'interpolate',
-                    ['exponential', 1],
-                    ['number', ['get', 'learningCount']],
-                    0,
-                    0,
-                    1,
-                    5,
-                    maxScaleValue,
-                    20,
-                ],
-                8, [
-                    'interpolate',
-                    ['exponential', 1],
-                    ['number', ['get', 'learningCount']],
-                    0,
-                    0,
-                    1,
-                    10,
-                    maxScaleValue,
-                    30,
-                ],
+                3, 10,
+                8, 15,
             ],
         };
     }, [learningByCountry]);

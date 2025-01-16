@@ -47,7 +47,6 @@ import { type components } from '#generated/types';
 import useCountry from '#hooks/domain/useCountry';
 import useDisasterTypes, { type DisasterType } from '#hooks/domain/useDisasterType';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import usePerComponent from '#hooks/domain/usePerComponent';
 import useSecondarySector from '#hooks/domain/useSecondarySector';
 import useAlert from '#hooks/useAlert';
 import useFilterState from '#hooks/useFilterState';
@@ -132,7 +131,21 @@ export function Component() {
     const countryList = useCountry({ region: rawFilter.region });
     const disasterTypeOptions = useDisasterTypes();
     const secondarySectorOptions = useSecondarySector();
-    const perComponentOptions = usePerComponent();
+    const {
+        response: perComponentsResponse,
+    } = useRequest({
+        url: '/api/v2/per-formcomponent/',
+        query: {
+            exclude_subcomponents: true,
+        },
+        preserveResponse: true,
+        onFailure: () => {
+            alert.show(
+                strings.failedToFetchPerComponents,
+                { variant: 'danger' },
+            );
+        },
+    });
 
     const {
         pending: opsLearningSummaryPending,
@@ -361,7 +374,7 @@ export function Component() {
                         onChange={onFilterChange}
                         disasterTypeOptions={disasterTypeOptions}
                         secondarySectorOptions={secondarySectorOptions}
-                        perComponentOptions={perComponentOptions}
+                        perComponentOptions={perComponentsResponse?.results}
                         organizationTypeOptions={opsLearningOrganizationTypes?.results}
                         perLearningTypeOptions={perLearningTypeOptions}
                         organizationTypePending={opsLearningOrganizationTypePending}
@@ -415,7 +428,7 @@ export function Component() {
                                                 name="perComponents"
                                                 onDismiss={onFilterChange}
                                                 value={rawFilter.perComponents}
-                                                options={perComponentOptions}
+                                                options={perComponentsResponse?.results}
                                                 labelSelector={getFormattedComponentName}
                                                 keySelector={numericIdSelector}
                                             />
