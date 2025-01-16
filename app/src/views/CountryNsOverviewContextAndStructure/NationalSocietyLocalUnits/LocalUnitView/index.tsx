@@ -29,6 +29,8 @@ import {
 } from '../LocalUnitsFormModal/LocalUnitsForm/schema';
 
 import i18n from './i18n.json';
+import { useMemo } from 'react';
+import hasDifferences, { getFormFields } from '#utils/localUnits';
 
 type VisibilityOptions = NonNullable<GoApiResponse<'/api/v2/global-enums/'>['api_visibility_choices']>[number]
 type LocalUnitResponse = NonNullable<GoApiResponse<'/api/v2/local-units/{id}/'>>;
@@ -68,7 +70,6 @@ function LocalUnitView(props: Props) {
     const {
         response: localUnitPreviousResponse,
         pending: localUnitPreviousResponsePending,
-        // error: localUnitPreviousResponseError,
     } = useRequest({
         skip: isDefined(locallyChangedValue) || isNotDefined(localUnitId),
         url: '/api/v2/local-units/{id}/latest-change-request/',
@@ -82,14 +83,24 @@ function LocalUnitView(props: Props) {
         ? localUnitResponse
         : (localUnitPreviousResponse?.previous_data_details as unknown as LocalUnitResponse);
 
-    // FIXME: Handle case when there is no change.
-    // We need to display message to the user
+    const hasDifference = useMemo(() => {
+        if (!newValue || !oldValue) {
+            return false;
+        }
+
+        const newFormFields = getFormFields(newValue);
+        const oldFormFields = getFormFields(oldValue);
+
+        return hasDifferences(newFormFields, oldFormFields);
+    }, [newValue, oldValue]);
 
     return (
         <Container
             contentViewType="vertical"
             pending={localUnitResponsePending || localUnitPreviousResponsePending}
             errored={!!localUnitResponseError}
+            empty={!hasDifference}
+            emptyMessage={strings.localUnitViewNoChanges}
         >
             <DiffWrapper
                 showOnlyDiff

@@ -86,6 +86,7 @@
         "localUnitViewConfirmChangesContentQuestion": "Are you sure you want to have these changes in this local unit?",
         "localUnitViewNewLocalUnitDescription": "New local unit",
         "localUnitViewLatitude": "Latitude",
-        "localUnitViewLongitude": "Longitude"
+        "localUnitViewLongitude": "Longitude",
+        "localUnitViewNoChanges": "No changes found"
     }
 }

@@ -55,6 +55,7 @@ import useAlert from '#hooks/useAlert';
 import { getFirstTruthyString } from '#utils/common';
 import { VISIBILITY_PUBLIC } from '#utils/constants';
 import { getUserName } from '#utils/domain/user';
+import hasDifferences, { getFormFields } from '#utils/localUnits';
 import { type CountryOutletContext } from '#utils/outletContext';
 import {
     type GoApiResponse,
@@ -434,16 +435,6 @@ function LocalUnitsForm(props: Props) {
     const healthFormError = getErrorObject(error?.health);
     const revertChangesFormError = getErrorObject(revertChangesError);
 
-    const submitButton = readOnly ? null : (
-        <Button
-            name={undefined}
-            onClick={handleFormSubmit}
-            disabled={addLocalUnitsPending || updateLocalUnitsPending}
-        >
-            {strings.submitButtonLabel}
-        </Button>
-    );
-
     const previousData = (
         localUnitPreviousResponse?.previous_data_details as unknown as LocalUnitResponse
     );
@@ -455,7 +446,33 @@ function LocalUnitsForm(props: Props) {
         }
         return false;
     }, [previousData]);
+
     const showChanges = !isNewLocalUnit && !!localUnitDetailsResponse?.is_locked;
+
+    const hasDifference = useMemo(() => {
+        if (!value || !previousData) {
+            return false;
+        }
+
+        const newFormFields = getFormFields(value);
+        const oldFormFields = getFormFields(previousData);
+
+        return hasDifferences(newFormFields, oldFormFields);
+    }, [value, previousData]);
+
+    const submitButton = readOnly ? null : (
+        <Button
+            name={undefined}
+            onClick={handleFormSubmit}
+            disabled={
+                !hasDifference
+                    || addLocalUnitsPending
+                    || updateLocalUnitsPending
+            }
+        >
+            {strings.submitButtonLabel}
+        </Button>
+    );
 
     return (
         <div className={styles.localUnitsForm}>

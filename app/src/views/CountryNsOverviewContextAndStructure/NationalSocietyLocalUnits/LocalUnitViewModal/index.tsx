@@ -5,6 +5,7 @@ import { type PartialLocalUnits } from '../LocalUnitsFormModal/LocalUnitsForm/sc
 import LocalUnitView from '../LocalUnitView';
 
 import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 interface Props {
     footerActions: React.ReactNode;
@@ -30,6 +31,7 @@ function LocalUnitViewModal(props: Props) {
             withHeaderBorder
             onClose={onClose}
             footerActions={footerActions}
+            childrenContainerClassName={styles.localUnitViewChildrenContainer}
         >
             <LocalUnitView
                 localUnitId={localUnitId}
