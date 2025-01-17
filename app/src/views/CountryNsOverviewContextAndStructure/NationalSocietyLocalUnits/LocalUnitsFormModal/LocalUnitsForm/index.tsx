@@ -161,6 +161,7 @@ function LocalUnitsForm(props: Props) {
 
     const {
         isSuperUser,
+        isGlobalValidator,
         isRegionAdmin,
         isCountryAdmin,
         isGuestUser,
@@ -172,6 +173,7 @@ function LocalUnitsForm(props: Props) {
     const { countryId, countryResponse } = useOutletContext<CountryOutletContext>();
 
     const hasValidatePermission = isSuperUser
+        || isGlobalValidator
         || isCountryAdmin(Number(countryId))
         || isRegionAdmin(Number(countryResponse?.region));
 

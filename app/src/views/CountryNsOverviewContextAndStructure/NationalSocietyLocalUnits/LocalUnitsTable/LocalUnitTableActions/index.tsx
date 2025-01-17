@@ -51,6 +51,7 @@ function LocalUnitsTableActions(props: Props) {
 
     const {
         isSuperUser,
+        isGlobalValidator,
         isRegionAdmin,
         isCountryAdmin,
         isGuestUser,
@@ -59,6 +60,7 @@ function LocalUnitsTableActions(props: Props) {
     const { isAuthenticated } = useAuth();
 
     const hasValidatePermission = isSuperUser
+        || isGlobalValidator
         || isCountryAdmin(Number(countryId))
         || isRegionAdmin(Number(countryDetails?.region));
 

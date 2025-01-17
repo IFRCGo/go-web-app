@@ -49,6 +49,8 @@ function usePermissions() {
                 && ((userMe?.is_admin_for_countries.length ?? 0) > 0
                 || (userMe?.is_admin_for_regions.length ?? 0) > 0);
 
+            const isGlobalValidator = !isGuestUser && !!userMe?.is_global_validator;
+
             return {
                 isDrefRegionalCoordinator,
                 isRegionAdmin,
@@ -60,6 +62,7 @@ function usePermissions() {
                 isSuperUser,
                 isGuestUser,
                 isRegionalOrCountryAdmin,
+                isGlobalValidator,
             };
         },
         [userMe],
