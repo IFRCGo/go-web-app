@@ -18,13 +18,13 @@ on:
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
-  group: "pages"
+  group: "playwright"
   cancel-in-progress: false
 
 jobs:
   typecheck-lint:
     name: Typecheck & Lint
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04 #TODO upgrade when playwright dependencies are fully supported in latest ubuntu image
     defaults:
       run:
         working-directory: packages/e2e-tests
@@ -52,28 +52,32 @@ jobs:
       run:
         working-directory: packages/e2e-tests
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: lts/*
-    - name: Install dependencies
-      run: npm install -g pnpm && pnpm install
-    - name: Install Playwright Browsers
-      run: pnpm exec playwright install --with-deps
-    - name: Run Playwright Tests
-      run: pnpm exec playwright test
-    - uses: actions/upload-artifact@v4
-      id: playwright-report-artifact
-      if: ${{ !cancelled() }}
-      with:
-        name: playwright-report
-        path: ./packages/e2e-tests/playwright-report/
-    - uses: actions/upload-pages-artifact@v3
-      id: playwright-report-github-pages-artifact
-      if: ${{ !cancelled() }}
-      with:
-        name: github-pages
-        path: ./packages/e2e-tests/playwright-report/
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
+      - name: Install Playwright Browsers
+        run: pnpm exec playwright install --with-deps
+      - name: Run Playwright Tests
+        run: pnpm exec playwright test
+      - uses: actions/upload-artifact@v4
+        id: playwright-report-artifact
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: ./packages/e2e-tests/playwright-report/
+      - uses: actions/upload-pages-artifact@v3
+        id: playwright-report-github-pages-artifact
+        if: ${{ !cancelled() }}
+        with:
+          name: github-pages
+          path: ./packages/e2e-tests/playwright-report/
   deploy:
     name: Deploy Playwright Test Report to GitHub Pages
     needs: test-e2e

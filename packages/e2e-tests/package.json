@@ -1,8 +1,14 @@
 {
     "name": "e2e-tests",
     "version": "0.0.1",
+    "description": "End-to-End (E2E) tests using Playwright for IFRC GO",
     "main": "index.js",
     "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/IFRCGo/go-web-app.git",
+        "directory": "packages/e2e-tests"
+    },
     "devDependencies": {
         "@biomejs/biome": "1.7.3",
         "@playwright/test": "^1.44.0",

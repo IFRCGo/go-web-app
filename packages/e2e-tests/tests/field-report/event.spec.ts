@@ -1,80 +1,79 @@
 import { expect, test } from '@playwright/test';
 import { formatNumber } from '#utils/common';
-import fixtureData from './fieldReport.json';
+import eventData from './fixtures/event.json';
 
 test.use({ storageState: 'playwright/.auth/user.json' });
 
 test.describe('Field Report', () => {
     test('should create a new event type field report', async ({ page }) => {
         const {
-            formName,
-            country,
-            district,
-            disasterType,
-            date,
-            title,
-            govRequest,
-            nationalsocietyRequest,
-            numInjured,
-            govNumInjured,
-            otherNumInjured,
-            numDead,
-            govNumDead,
-            otherNumDead,
-            numMissing,
-            govNumMissing,
-            otherNumMissing,
-            numAffected,
-            govNumAffected,
-            otherNumAffected,
-            numDisplaced,
-            otherNumDisplaced,
-            govNumDisplaced,
-            otherSources,
-            govNumAssisted,
-            numAssisted,
-            numLocalstaff,
-            numVolunteers,
-            numExpatsDelegates,
-            actionHuman,
-            actionEvacuation,
-            actionHealth,
-            actionShelter,
             actionCamp,
+            actionEvacuation,
             actionFirst,
-            actionPsychosocial,
             actionFood,
-            nationalSocietySummary,
-            federationSummary,
-            rcrcSummary,
-            informationBulletin,
+            actionHealth,
+            actionHuman,
             actionOther,
-            interventionOptionOne,
-            interventionOptionTwo,
-            interventionOptionThree,
+            actionPsychosocial,
+            actionShelter,
+            country,
+            date,
+            disasterType,
+            district,
             drefRequested,
             emergencyAppeal,
-            rapidResponse,
             emergencyResponse,
-            originatorName,
-            originatorTitle,
-            originatorEmail,
-            originatorPhone,
-            nationalName,
-            nationalTitle,
-            nationalEmail,
-            nationalPhone,
-            ifrcName,
-            ifrcTitle,
+            federationSummary,
+            formName,
+            govNumAffected,
+            govNumAssisted,
+            govNumDead,
+            govNumDisplaced,
+            govNumInjured,
+            govNumMissing,
+            govRequest,
             ifrcEmail,
+            ifrcName,
             ifrcPhone,
-            mediaName,
-            mediaTitle,
+            ifrcTitle,
+            informationBulletin,
+            interventionOptionOne,
+            interventionOptionThree,
+            interventionOptionTwo,
             mediaEmail,
+            mediaName,
             mediaPhone,
-            visibiltyOptOne,
-            visibiltyOptTwo,
-        } = fixtureData;
+            mediaTitle,
+            nationalEmail,
+            nationalName,
+            nationalPhone,
+            nationalSocietyRequest,
+            nationalSocietySummary,
+            nationalTitle,
+            numAffected,
+            numAssisted,
+            numDead,
+            numDisplaced,
+            numExpatsDelegates,
+            numInjured,
+            numLocalstaff,
+            numMissing,
+            numVolunteers,
+            originatorEmail,
+            originatorName,
+            originatorPhone,
+            originatorTitle,
+            otherNumAffected,
+            otherNumDead,
+            otherNumDisplaced,
+            otherNumMissing,
+            otherSources,
+            rapidResponse,
+            rcrcSummary,
+            title,
+            visibilityOptTwo,
+            otherNumInjured,
+        } = eventData;
 
         await page.goto('/');
         await page.getByRole('button', { name: 'Create a Report' }).click();
@@ -88,7 +87,7 @@ test.describe('Field Report', () => {
         await page.locator('input[name="dtype"]').fill(disasterType);
         await page.getByRole('button', { name: disasterType }).click();
         await page.locator('input[name="start_date"]').fill(date);
-        const newtitle = await page.inputValue('input[type="text"]');
+        const newTitle = await page.inputValue('input[type="text"]');
         await page.getByPlaceholder('Example: Cyclone Cody').fill(title);
         await page
             .locator('label')
@@ -97,7 +96,7 @@ test.describe('Field Report', () => {
             .click();
         await page
             .locator('label')
-            .filter({ hasText: nationalsocietyRequest })
+            .filter({ hasText: nationalSocietyRequest })
             .nth(2)
             .click();
         await page.getByRole('button', { name: 'Continue' }).click();
@@ -263,14 +262,14 @@ test.describe('Field Report', () => {
         // Field report visible
         await page
             .locator('label')
-            .filter({ hasText: visibiltyOptTwo })
+            .filter({ hasText: visibilityOptTwo })
             .click();
         await page.getByRole('button', { name: 'Submit' }).click();
         // Wait for redirection to field reports listing page
         await page.waitForURL(/\/field-reports\/\d+/);
         // Title Assertion
         await expect(page.locator('h1')).toContainText(
-            `${newtitle} - ${title}`,
+            `${newTitle} - ${title}`,
         );
         // Data Assertion
         await expect(page.getByRole('banner')).toContainText(disasterType);
@@ -278,7 +277,7 @@ test.describe('Field Report', () => {
         const frVisibility = page
             .getByText('Visibility', { exact: true })
             .locator('..');
-        await expect(frVisibility).toHaveText(`Visibility${visibiltyOptTwo}`);
+        await expect(frVisibility).toHaveText(`Visibility${visibilityOptTwo}`);
         const frDate = page
             .getByText('Start Date', { exact: true })
             .locator('..');
@@ -362,7 +361,7 @@ test.describe('Field Report', () => {
             .getByText('NS Requests International Assistance', { exact: true })
             .locator('..');
         await expect(nsReq).toHaveText(
-            `NS Requests International Assistance${nationalsocietyRequest}`,
+            `NS Requests International Assistance${nationalSocietyRequest}`,
         );
         // Information Bulletin Published Assertions
         const infoBulletin = page.getByText('Information Bulletin Published', {
@@ -508,7 +507,7 @@ test.describe('Field Report', () => {
         const dateValue = page.locator('input[name="start_date"]');
         await expect(dateValue).toHaveValue(date);
         const titleValue = page.getByPlaceholder('Example: Cyclone Cody');
-        await expect(titleValue).toHaveValue(`${newtitle} - ${title}`);
+        await expect(titleValue).toHaveValue(`${newTitle} - ${title}`);
         // Government request international assistance
         const govReqValue = page
             .locator('label')
@@ -518,7 +517,7 @@ test.describe('Field Report', () => {
         // National Society requests international assistance?
         const nsReqValue = page
             .locator('label')
-            .filter({ hasText: nationalsocietyRequest })
+            .filter({ hasText: nationalSocietyRequest })
             .nth(2);
         await expect(nsReqValue).toBeChecked();
         await page.getByRole('button', { name: 'Continue' }).click();
@@ -621,7 +620,7 @@ test.describe('Field Report', () => {
         await expect(drefValue).toBeChecked();
         const drefSummaryValue = page.locator('input[name="dref_amount"]');
         await expect(drefSummaryValue).toHaveValue(drefRequested);
-        // Emmergency Appeal
+        // Emergency Appeal
         const emergencyAppealValue = page
             .locator('label')
             .filter({ hasText: interventionOptionTwo })
@@ -657,8 +656,8 @@ test.describe('Field Report', () => {
         // Assertion for Originator Contacts value
         const originatorNameValue = page.locator('input[name="name"]').nth(0);
         await expect(originatorNameValue).toHaveValue(originatorName);
-        const orginatorTitleValue = page.locator('input[name="title"]').nth(0);
-        await expect(orginatorTitleValue).toHaveValue(originatorTitle);
+        const originatorTitleValue = page.locator('input[name="title"]').nth(0);
+        await expect(originatorTitleValue).toHaveValue(originatorTitle);
         const originatorEmailValue = page.locator('input[name="email"]').nth(0);
         await expect(originatorEmailValue).toHaveValue(originatorEmail);
         const originatorPhoneValue = page.locator('input[name="phone"]').nth(0);
@@ -693,7 +692,7 @@ test.describe('Field Report', () => {
         // Assertions for Field Report Visibility Value
         const frVisibilityValue = page
             .locator('label')
-            .filter({ hasText: visibiltyOptTwo });
+            .filter({ hasText: visibilityOptTwo });
         await expect(frVisibilityValue).toBeChecked();
     });
 });

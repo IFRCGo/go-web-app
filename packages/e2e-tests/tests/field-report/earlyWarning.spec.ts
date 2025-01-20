@@ -1,71 +1,74 @@
 import { expect, test } from '@playwright/test';
 import { formatNumber } from '#utils/common';
-import fixtureData from './earlywarning.json';
+import earlyWarning from './fixtures/earlyWarning.json';
+
 test.use({ storageState: 'playwright/.auth/user.json' });
-test.describe('Field Report', () => {
-    test('test', async ({ page }) => {
+
+test.describe('Field Report early warning flow', () => {
+    test('creates an early warning field report and assert the submitted values', async ({
+        page,
+    }) => {
         const {
-            country,
-            province,
-            disasterType,
-            date,
-            title,
-            govRequest,
-            nationalSocietyRequest,
-            potentiallyAffectedRc,
-            potentiallyAffectedGov,
-            potentiallyAffectedOther,
-            peopleAtRiskRc,
-            peopleAtRiskGov,
-            peopleAtRiskOther,
-            likelyToBeAffectedRc,
-            likelyToBeAffectedGov,
-            likelyToBeAffectedOther,
-            sourceDetails,
-            riskAnalysis,
-            govNumAssisted,
-            rcrcAssisted,
-            actionWash,
+            actionCash,
             actionEvacuation,
             actionHealth,
-            actionShelter,
-            actionCash,
-            actionNfi,
-            actionMovement,
-            actionMonitor,
             actionInteragency,
-            generalSummary,
-            fedSummary,
-            rcrcSummary,
-            informationBulletin,
+            actionMonitor,
+            actionMovement,
+            actionNfi,
             actionOther,
-            interventionOptionOne,
-            interventionOptionTwo,
-            interventionOptionThree,
+            actionShelter,
+            actionWash,
+            country,
+            date,
+            disasterType,
             drefRequested,
             emergencyAppeal,
-            rapidResponse,
             emergencyResponse,
+            fedSummary,
             forecastAction,
-            originatorName,
-            originatorTitle,
-            originatorEmail,
-            originatorPhone,
-            nationalName,
-            nationalTitle,
-            nationalEmail,
-            nationalPhone,
-            ifrcName,
-            ifrcTitle,
+            generalSummary,
+            govNumAssisted,
+            govRequest,
             ifrcEmail,
+            ifrcName,
             ifrcPhone,
-            mediaName,
-            mediaTitle,
+            ifrcTitle,
+            informationBulletin,
+            interventionOptionOne,
+            interventionOptionThree,
+            interventionOptionTwo,
+            likelyToBeAffectedGov,
+            likelyToBeAffectedOther,
+            likelyToBeAffectedRc,
             mediaEmail,
+            mediaName,
             mediaPhone,
-            visibiltyOptOne,
-            visibiltyOptTwo,
-        } = fixtureData;
+            mediaTitle,
+            nationalEmail,
+            nationalName,
+            nationalPhone,
+            nationalSocietyRequest,
+            nationalTitle,
+            originatorEmail,
+            originatorName,
+            originatorPhone,
+            originatorTitle,
+            peopleAtRiskGov,
+            peopleAtRiskOther,
+            peopleAtRiskRc,
+            potentiallyAffectedGov,
+            potentiallyAffectedOther,
+            potentiallyAffectedRc,
+            province,
+            rapidResponse,
+            rcrcAssisted,
+            rcrcSummary,
+            riskAnalysis,
+            sourceDetails,
+            title,
+            visibilityOptTwo,
+        } = earlyWarning;
         await page.goto('/');
         await page.getByRole('button', { name: 'Create a Report' }).click();
         await page.getByRole('link', { name: 'New Field Report' }).click();
@@ -85,7 +88,7 @@ test.describe('Field Report', () => {
         );
         await page.locator('input[name="start_date"]').fill(date);
         await page.getByPlaceholder('Example: Cyclone Cody').fill(title);
-        const newtitle = await page.inputValue('input[type="text"]');
+        const newTitle = await page.inputValue('input[type="text"]');
         await page
             .locator('label')
             .filter({ hasText: govRequest })
@@ -262,13 +265,13 @@ test.describe('Field Report', () => {
         }
         await page
             .locator('label')
-            .filter({ hasText: visibiltyOptTwo })
+            .filter({ hasText: visibilityOptTwo })
             .click();
         await page.getByRole('button', { name: 'Submit' }).click();
         // Wait for redirection to field reports listing page
         await page.waitForURL(/\/field-reports\/\d+/);
         await expect(page.locator('h1')).toContainText(
-            `${newtitle} - ${title}`,
+            `${newTitle} - ${title}`,
         );
         // Assertion for Early Warning Type of Field Report
         const parentElement = page
@@ -277,7 +280,7 @@ test.describe('Field Report', () => {
             .locator('..')
             .locator('..')
             .locator('..');
-        await expect(parentElement).toContainText(visibiltyOptTwo);
+        await expect(parentElement).toContainText(visibilityOptTwo);
         const parent = page
             .getByText('Forecasted Date of Impact')
             .locator('..')
@@ -333,11 +336,11 @@ test.describe('Field Report', () => {
             },
         ];
         for (const element of elements) {
-            const pElement = await page
+            const pElement = page
                 .getByText(element.text, { exact: true })
                 .locator('..');
             const cElement = await pElement.nth(0).innerText();
-            await expect(cElement).toContain(element.expectedText);
+            expect(cElement).toContain(element.expectedText);
         }
         // Assertions for Sources for data marked as other
         const sourceElement = page.getByText(
@@ -369,7 +372,7 @@ test.describe('Field Report', () => {
             .getByText('NS Requests International Assistance', { exact: true })
             .locator('..');
         await expect(nsRequestElement).toContainText(nationalSocietyRequest);
-        // Assertions for Information Bulletion Published
+        // Assertions for Information Bulletin Published
         const infoElement = page.getByText('Information Bulletin Published', {
             exact: true,
         });
@@ -496,7 +499,7 @@ test.describe('Field Report', () => {
         const dateValue = page.locator('input[name="start_date"]');
         await expect(dateValue).toHaveValue(date);
         const titleValue = page.getByPlaceholder('Example: Cyclone Cody');
-        await expect(titleValue).toHaveValue(`${newtitle} - ${title}`);
+        await expect(titleValue).toHaveValue(`${newTitle} - ${title}`);
         // Government request international assistance
         const govReqValue = page
             .locator('label')
@@ -533,9 +536,7 @@ test.describe('Field Report', () => {
             },
         ];
         for (const field of fields) {
-            const valueLocator = await page.locator(
-                `input[name="${field.name}"]`,
-            );
+            const valueLocator = page.locator(`input[name="${field.name}"]`);
             await expect(valueLocator).toHaveValue(field.value);
         }
         // Assertions for Source Details Value
@@ -589,11 +590,11 @@ test.describe('Field Report', () => {
             .locator('textarea[name="summary"]')
             .nth(2);
         await expect(rcrcActionsValue).toHaveValue(rcrcSummary);
-        // Assertions for Information Bulletion Value
-        const informationBulletionValue = page
+        // Assertions for Information Bulletin Value
+        const informationBulletinValue = page
             .locator('label')
             .filter({ hasText: informationBulletin });
-        await expect(informationBulletionValue).toBeChecked();
+        await expect(informationBulletinValue).toBeChecked();
         // Assertions for Action Taken by Other Value
         const otherActionValue = page.locator(
             'textarea[name="actions_others"]',
@@ -610,7 +611,7 @@ test.describe('Field Report', () => {
         await expect(drefValue).toBeChecked();
         const drefSummaryValue = page.locator('input[name="dref_amount"]');
         await expect(drefSummaryValue).toHaveValue(drefRequested);
-        // Emmergency Appeal
+        // Emergency Appeal
         const emergencyAppealValue = page
             .locator('label')
             .filter({ hasText: interventionOptionTwo })
@@ -700,7 +701,7 @@ test.describe('Field Report', () => {
         // Assertions for Field Report Visibility Value
         const frVisibilityValue = page
             .locator('label')
-            .filter({ hasText: visibiltyOptTwo });
+            .filter({ hasText: visibilityOptTwo });
         await expect(frVisibilityValue).toBeChecked();
     });
 });
