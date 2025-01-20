@@ -1,0 +1,170 @@
+.chido-twenty-five {
+    .main-content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-lg);
+
+        .map-section {
+            display: flex;
+            gap: var(--go-ui-spacing-md);
+
+            .map-container {
+                height: 40rem;
+            }
+
+            .side-panel {
+                flex-basis: calc(10vw + 16rem);
+                height: 40rem;
+                overflow: auto;
+
+                .side-panel-content {
+                    word-break: break-word;
+                }
+            }
+
+            @media screen and (max-width: 50rem) {
+                flex-direction: column;
+                height: initial;
+
+                .side-panel {
+                    flex-basis: unset;
+                    margin: unset;
+                    border-radius: unset;
+                    box-shadow: unset;
+                    max-height: 70vh;
+                    overflow: auto;
+                }
+
+                .map-container {
+                    height: min(40rem, 60vh);
+                }
+            }
+        }
+    }
+
+    .active-snapshot-temporal-info {
+        display: flex;
+        gap: var(--go-ui-spacing-md);
+        align-items: baseline;
+        justify-content: space-between;
+        background-color: var(--go-ui-color-background);
+        padding: var(--go-ui-spacing-sm) var(--go-ui-spacing-md);
+        min-width: 5rem;
+
+        .wind-speed,
+        .time-info {
+            color: var(--go-ui-color-primary-blue);
+            font-size: var(--go-ui-font-size-4xl);
+            font-weight: var(--go-ui-font-weight-light);
+        }
+    }
+
+
+    .timeline {
+        display: flex;
+        align-items: flex-end;
+        gap: var(--go-ui-spacing-lg);
+
+        .play-pause-button {
+            border-radius: var(--go-ui-border-radius-md);
+            padding: var(--go-ui-spacing-2xs);
+        }
+
+        .icon {
+            font-size: 1.5rem;
+        }
+
+        .snapshot-points {
+            position: relative;
+            flex-grow: 1;
+            height: 4rem;
+
+            --dot-size: 0.8rem;
+
+            .snapshot-dot {
+                pointer-events: none;
+                position: absolute;
+                bottom: 0%;
+                transition: all var(--go-ui-duration-transition-medium) ease-in-out;
+                border-radius: 50%;
+                background-color: var(--go-ui-color-gray-50);
+                width: var(--dot-size);
+                height: var(--dot-size);
+
+
+                &.past {
+                    background-color: var(--go-ui-color-red-20);
+                }
+
+                &.active {
+                    transform: scale(1.5);
+                    background-color: var(--go-ui-color-primary-red);
+                }
+
+                &.hovered {
+                    transform: scale(1.5);
+                }
+            }
+
+            .track {
+                position: absolute;
+                bottom: calc(var(--dot-size) / 2);
+                transform: translateY(50%);
+                background-color: var(--go-ui-color-gray-50);
+                height: var(--go-ui-width-separator-thin);
+                pointer-events: none;
+            }
+
+            .progress {
+                position: absolute;
+                bottom: calc(var(--dot-size) / 2);
+                transform: translateY(50%);
+                transition: all var(--go-ui-duration-transition-medium) ease-in-out;
+                background-color: var(--go-ui-color-red-20);
+                height: var(--go-ui-width-separator-md);
+                pointer-events: none;
+            }
+
+            .wind-speed-list {
+                position: absolute;
+                top: 0;
+                width: 100%;
+                height: 3rem;
+                pointer-events: none;
+
+                .wind-speed-bar {
+                    position: absolute;
+                    bottom: 0;
+                    transform: translateX(-50%);
+                    border: var(--go-ui-width-separator-md) solid var(--go-ui-color-foreground);
+                    border-radius: var(--go-ui-border-radius-md);
+                    background-color: var(--go-ui-color-gray-30);
+
+                    &.active {
+                        background-color: var(--go-ui-color-red-20);
+                    }
+                }
+            }
+
+            .click-zones {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+
+                .click-zone {
+                    position: absolute;
+                    border-radius: var(--go-ui-border-radius-md);
+                    height: 100%;
+
+                    &:hover {
+                        transform: scaleY(1.3);
+                        background-color: var(--go-ui-color-background-hover);
+                    }
+                }
+            }
+        }
+
+    }
+}
