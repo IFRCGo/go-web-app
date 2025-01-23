@@ -1,49 +1,143 @@
-// Re-export shared types
-export type {
-    Assessment,
-    AssessmentRecord,
-    AssessmentType,
-    ChartData,
-    ChartDataItem,
-    Component,
-    ComponentSummary,
-    FilterOptions,
-    Filters,
-    KPIData,
-    PercentageData,
-    PERConsiderationsData,
-    PrioritizedComponent,
-    TotalsData,
-} from '../types';
+// Basic types
+export type AssessmentType = 'Self assessment' | 'Simulation' | 'Operational' | 'Post operational';
+
+// Base interfaces
+export interface Assessment {
+    assessment_id: number;
+    assessment_number: number;
+    country_id: number;
+    country_name: string;
+    region_id: number;
+    region_name: string;
+    date_of_assessment: string;
+    rating_value: number;
+    rating_title: string;
+}
+
+export interface Component {
+    component_id: number;
+    component_num: number;
+    component_name: string;
+    area_id: number;
+    area_name: string;
+    assessments: Assessment[];
+}
+
+export interface ComponentSummary {
+    name: string;
+    value: number;
+    children?: ComponentSummary[];
+}
+
+export interface PrioritizedComponent {
+    areaTitle: string;
+    componentTitle: string;
+}
+
+export interface AssessmentRecord {
+    id: number;
+    country_id: number;
+    country_name: string;
+    region_name: string;
+    date_of_assessment: string;
+    phase: number;
+    phase_display: string;
+    assessment_number: number;
+    type_of_assessment_name: string;
+    prioritized_components: PrioritizedComponent[];
+    epi_considerations: boolean;
+    climate_environmental_considerations: boolean;
+    urban_considerations: boolean;
+    migration_considerations: boolean;
+}
+
+export interface KPIData {
+    label: string;
+    value: number;
+}
+
+// Chart data interfaces
+export interface ChartDataItem {
+    name: string;
+    SelfAssessment: number;
+    Simulation: number;
+    PostOperational: number;
+    Operational: number;
+}
+
+export interface ChartData {
+    [key: string]: ChartDataItem;
+}
+
+export interface PercentageData {
+    epiPercentage: number;
+    climatePercentage: number;
+    urbanPercentage: number;
+    migrationPercentage: number;
+}
+
+export interface TotalsData {
+    totalAssessments: number;
+    totalEpiConsiderations: number;
+    totalClimateConsiderations: number;
+    totalUrbanConsiderations: number;
+    totalMigrationConsiderations: number;
+}
+
+export interface PERConsiderationsData {
+    percentages: PercentageData;
+    totals: TotalsData;
+    data: ChartData;
+}
+
+// Filter interfaces
+export interface FilterOptions {
+    regions: string[];
+    years: number[];
+    phases: number[];
+    assessmentTypes: string[];
+}
+
+export interface Filters {
+    region?: string | null;
+    year?: number | null;
+    phase?: number | null;
+    id?: number | null;
+    perConsiderations?: string | null;
+    completedAssessment?: boolean | null;
+    highPriorityComponent?: string | null;
+    assessmentType?: string | null;
+    numberOfCycles?: number | null;
+}
 
 // Summary Dashboard specific types
 export interface PERData {
-  assessments: Component[];
+    assessments: Component[];
 }
 
 export interface RegionRecord {
-  region: string;
-  count: number;
+    region: string;
+    count: number;
 }
 
 export interface StackedBarData {
-  year: number;
-  data: {
-    region: string;
-    count: number;
-  }[];
+    year: number;
+    data: {
+        region: string;
+        count: number;
+    }[];
 }
 
 export interface TreemapData {
-  id: number;
-  name: string;
-  value: number;
-  rating: number;
+    id: number;
+    name: string;
+    value: number;
+    rating: number;
 }
 
 export interface ConsiderationData {
-  id: number;
-  title: string;
-  description: string;
-  rating: number;
+    id: number;
+    title: string;
+    description: string;
+    rating: number;
 }

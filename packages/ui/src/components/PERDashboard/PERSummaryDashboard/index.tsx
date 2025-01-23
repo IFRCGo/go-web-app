@@ -15,7 +15,7 @@ const MAP_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-dat
 const LAST_UPDATE_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-data-fetcher/contents/data/last-update.json';
 const GITHUB_TOKEN = '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';
 
-import { PHASE_COLORS } from '../constants';
+import { PHASE_COLORS } from './constants';
 import {
     getComponentSummaryForTreemap,
     getFilteredMapData,

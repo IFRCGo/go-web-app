@@ -1,7 +1,7 @@
 import {
-    AREA_COLORS,
+    ASSESSMENT_COLORS,
     PHASE_COLORS,
-} from '../constants';
+} from './constants';
 import {
     AssessmentRecord,
     ChartDataItem,
@@ -10,6 +10,9 @@ import {
     Filters,
     KPIData,
     PERConsiderationsData,
+    PERData,
+    PercentageData,
+    TotalsData,
 } from './types';
 
 let mapData: AssessmentRecord[] = [];
@@ -311,7 +314,7 @@ function getComponentSummaryForTreemap(
             if (!componentFrequency[areaTitle]) {
                 componentFrequency[areaTitle] = {
                     name: areaTitle,
-                    color: AREA_COLORS[areaTitle as keyof typeof AREA_COLORS] || '#CCCCCC',
+                    color: ASSESSMENT_COLORS[areaTitle as keyof typeof ASSESSMENT_COLORS] || '#CCCCCC',
                     children: [],
                 };
             }
@@ -582,6 +585,9 @@ export type {
     Filters,
     KPIData,
     PERConsiderationsData,
+    PERData,
+    PercentageData,
+    TotalsData,
 };
 
 // Export functions

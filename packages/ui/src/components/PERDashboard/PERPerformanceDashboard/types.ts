@@ -1,11 +1,75 @@
-// Re-export types needed for Performance Dashboard
-export type {
-    Assessment,
-    AssessmentRecord,
-    AssessmentType,
-    Component,
-    ComponentSummary,
-    FilterOptions,
-    Filters,
-    KPIData,
-} from '../types';
+// Basic types
+export type AssessmentType = 'Self assessment' | 'Simulation' | 'Operational' | 'Post operational';
+
+// Base interfaces
+export interface Assessment {
+    assessment_id: number;
+    assessment_number: number;
+    country_id: number;
+    country_name: string;
+    region_id: number;
+    region_name: string;
+    date_of_assessment: string;
+    rating_value: number;
+    rating_title: string;
+}
+
+export interface Component {
+    component_id: number;
+    component_num: number;
+    component_name: string;
+    area_id: number;
+    area_name: string;
+    assessments: Assessment[];
+}
+
+export interface ComponentSummary {
+    name: string;
+    value: number;
+    children?: ComponentSummary[];
+}
+
+export interface AssessmentRecord {
+    id: number;
+    country_id: number;
+    country_name: string;
+    region_name: string;
+    date_of_assessment: string;
+    phase: number;
+    phase_display: string;
+    assessment_number: number;
+    type_of_assessment_name: string;
+    prioritized_components: {
+        areaTitle: string;
+        componentTitle: string;
+    }[];
+    epi_considerations: boolean;
+    climate_environmental_considerations: boolean;
+    urban_considerations: boolean;
+    migration_considerations: boolean;
+}
+
+export interface KPIData {
+    label: string;
+    value: number;
+}
+
+// Filter interfaces
+export interface FilterOptions {
+    regions: string[];
+    years: number[];
+    phases: number[];
+    assessmentTypes: string[];
+}
+
+export interface Filters {
+    region?: string | null;
+    year?: number | null;
+    phase?: number | null;
+    id?: number | null;
+    perConsiderations?: string | null;
+    completedAssessment?: boolean | null;
+    highPriorityComponent?: string | null;
+    assessmentType?: string | null;
+    numberOfCycles?: number | null;
+}

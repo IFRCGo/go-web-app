@@ -1,4 +1,4 @@
-import { AREA_COLORS } from '../constants';
+import { AREA_COLORS } from './constants';
 import type {
     AreaSummary,
     Assessment,
@@ -6,7 +6,7 @@ import type {
     ComponentRatingsResult,
     Filters,
     RegionData,
-} from '../types';
+} from './types';
 
 // Rating scale colors
 const RATING_SCALE_COLORS = {
