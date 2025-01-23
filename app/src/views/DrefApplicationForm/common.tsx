@@ -1,3 +1,4 @@
+import { sumSafe } from '@ifrc-go/ui/utils';
 import { isNotDefined } from '@togglecorp/fujs';
 import {
     analyzeErrors,
@@ -150,6 +151,24 @@ const tabToFieldsMap = {
     actions: actionsTabFields,
     operation: operationTabFields,
     submission: timeframeAndContactsTabFields,
+};
+
+export const recalculateProposedActionValues = (val: PartialDref) => {
+    const subTotal = sumSafe(
+        val.proposed_action?.map((pa) => pa.budget),
+    ) ?? 0;
+    const surgeDeployment = val.is_surge_personnel_deployed ? 10000 : undefined;
+    const indirectCost = val.is_surge_personnel_deployed ? 5800 : 5000;
+
+    const total = sumSafe(
+        [subTotal, indirectCost, surgeDeployment],
+    );
+    return {
+        sub_total: subTotal,
+        indirect_cost: indirectCost,
+        surge_deployment: surgeDeployment,
+        total,
+    };
 };
 
 export function checkTabErrors(error: Error<PartialDref> | undefined, tabKey: TabKeys) {
