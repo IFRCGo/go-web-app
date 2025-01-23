@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 
 import Button from '#components/Button';
 import Container from '#components/Container';
+import BlockLoading from '#components/BlockLoading';
 import PERChartLegend from '#components/PERChartLegend';
 import PERConsiderations from '#components/PERConsiderations';
 import PERDonutChart from '#components/PERDonutChart';
@@ -119,9 +120,9 @@ function PERSummaryDashboard(props: Props) {
         return (
             <Container
                 className={styles.perSummaryDashboard}
-                contentClassName={styles.content}
+                contentClassName={styles.loadingContainer}
             >
-                Loading...
+                <BlockLoading withoutBorder compact />
             </Container>
         );
     }

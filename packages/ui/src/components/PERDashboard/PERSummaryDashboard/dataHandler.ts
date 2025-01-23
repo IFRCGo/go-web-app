@@ -14,6 +14,7 @@ import {
     PercentageData,
     TotalsData,
 } from './types';
+import { AREA_COLORS } from '../PERPerformanceDashboard/constants';
 
 let mapData: AssessmentRecord[] = [];
 let lastUpdateData: any = null;
@@ -314,7 +315,7 @@ function getComponentSummaryForTreemap(
             if (!componentFrequency[areaTitle]) {
                 componentFrequency[areaTitle] = {
                     name: areaTitle,
-                    color: ASSESSMENT_COLORS[areaTitle as keyof typeof ASSESSMENT_COLORS] || '#CCCCCC',
+                    color: AREA_COLORS[areaTitle as keyof typeof AREA_COLORS] || '#CCCCCC',
                     children: [],
                 };
             }

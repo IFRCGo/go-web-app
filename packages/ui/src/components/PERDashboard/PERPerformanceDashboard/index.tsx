@@ -3,6 +3,7 @@ import { _cs } from '@togglecorp/fujs';
 
 import Button from '#components/Button';
 import Container from '#components/Container';
+import BlockLoading from '#components/BlockLoading';
 import PERAnalysis from '#components/PERAnalysis';
 import PERRatingAnalysis from '#components/PERRatingAnalysis';
 import PERRegionToggle from '#components/PERRegionToggle';
@@ -89,9 +90,9 @@ function PERPerformanceDashboard() {
         return (
             <Container
                 className={styles.perPerformanceDashboard}
-                contentClassName={styles.content}
+                contentClassName={styles.loadingContainer}
             >
-                Loading...
+                <BlockLoading withoutBorder compact />
             </Container>
         );
     }
