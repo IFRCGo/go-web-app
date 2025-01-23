@@ -10,7 +10,9 @@
         // TODO: need to fix issues before un-ignoring
         "packages/ui",
         // TODO: need to fix issues before un-ignoring
-        "packages/go-ui-storybook"
+        "packages/go-ui-storybook",
+        // TODO: need to fix issues before un-ignoring
+        "packages/e2e-tests"
     ],
     "workspaces": {
         "app": {

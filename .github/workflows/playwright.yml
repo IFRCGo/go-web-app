@@ -94,3 +94,21 @@ jobs:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Output Job Summary
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            BRANCH=${{ github.head_ref }}
+          else
+            BRANCH=${{ github.ref_name }}
+          fi
+          echo "## 🚀 Playwright Test Run Summary 🚀">> $GITHUB_STEP_SUMMARY
+          echo "✅ Deployed to GitHub Pages Successful!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "👤 **Triggered by**: @${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📄 Commit Info" >> $GITHUB_STEP_SUMMARY
+          echo "- **Branch**: $BRANCH" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit SHA**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🔗 Links" >> $GITHUB_STEP_SUMMARY
+          echo "- 🌐 [View Test Results](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }})" >> $GITHUB_STEP_SUMMARY
