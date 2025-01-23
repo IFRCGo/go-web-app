@@ -2,6 +2,6 @@
 "e2e-tests": major
 ---
 
-- Implemented Playwright for automated browser testing in (#1046)[https://github.com/IFRCGo/go-web-app/issues/1046]
-  - Added CLI commands to run Playwright tests in (#1047)[https://github.com/IFRCGo/go-web-app/issues/1047]
-  - Integrated Playwright tests into CI pipeline (#1048)[https://github.com/IFRCGo/go-web-app/issues/1048]
+- Implemented Playwright for automated end-to-end testing in [#345](https://github.com/IFRCGo/go-web-app/issues/345)
+  - CI Integration: Integrated Playwright testing into the GitHub Actions CI
+  - Field Report e2e Tests: Implemented Playwright-based end-to-end tests for the Field Report module
