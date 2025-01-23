@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import Button from '#components/Button';
@@ -7,12 +7,17 @@ import PERAnalysis from '#components/PERAnalysis';
 import PERRatingAnalysis from '#components/PERRatingAnalysis';
 import PERRegionToggle from '#components/PERRegionToggle';
 
+const PER_DASHBOARD_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-data-fetcher/contents/data/per-dashboard-data.json';
+const LAST_UPDATE_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-data-fetcher/contents/data/last-update.json';
+const GITHUB_TOKEN = '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';
+
 import {
     getComponentRatings,
     getCycles,
     getLastUpdateDate,
     groupDataByRegion,
     summarizeData,
+    initializeData,
 } from './dataHandler';
 
 import styles from './styles.module.css';
@@ -31,6 +36,80 @@ function PERPerformanceDashboard() {
         year: null,
         cycle: null,
     });
+
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [dashboardData, setDashboardData] = useState<any>(null);
+    const [lastUpdateData, setLastUpdateData] = useState<any>(null);
+
+    useEffect(() => {
+        async function fetchData() {
+            setIsLoading(true);
+            setError(null);
+            try {
+                const [dashboardResponse, lastUpdateResponse] = await Promise.all([
+                    fetch(PER_DASHBOARD_DATA_URL, {
+                        headers: {
+                            'Authorization': `Bearer ${GITHUB_TOKEN}`,
+                            'Accept': 'application/vnd.github.v3.raw'
+                        }
+                    }),
+                    fetch(LAST_UPDATE_DATA_URL, {
+                        headers: {
+                            'Authorization': `Bearer ${GITHUB_TOKEN}`,
+                            'Accept': 'application/vnd.github.v3.raw'
+                        }
+                    }),
+                ]);
+
+                if (!dashboardResponse.ok || !lastUpdateResponse.ok) {
+                    throw new Error('Failed to fetch data');
+                }
+
+                const [dashboardData, lastUpdateData] = await Promise.all([
+                    dashboardResponse.json(),
+                    lastUpdateResponse.json(),
+                ]);
+
+                setDashboardData(dashboardData);
+                setLastUpdateData(lastUpdateData);
+                initializeData(dashboardData, lastUpdateData);
+            } catch (err) {
+                setError('Failed to load dashboard data');
+                console.error(err);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchData();
+    }, []);
+
+    if (isLoading) {
+        return (
+            <Container
+                className={styles.perPerformanceDashboard}
+                contentClassName={styles.content}
+            >
+                Loading...
+            </Container>
+        );
+    }
+
+    if (error) {
+        return (
+            <Container
+                className={styles.perPerformanceDashboard}
+                contentClassName={styles.content}
+            >
+                {error}
+            </Container>
+        );
+    }
+
+    if (!dashboardData || !lastUpdateData) {
+        return null;
+    }
 
     const updateFilter = (
         filterType: keyof ActiveFilters,

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Button from '#components/Button';
 import Container from '#components/Container';
@@ -11,6 +11,10 @@ import PERRegionToggle from '#components/PERRegionToggle';
 import PERStackedBarChart from '#components/PERStackedBarChart';
 import PERTreemapChart from '#components/PERTreemapChart';
 
+const MAP_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-data-fetcher/contents/data/map-data.json';
+const LAST_UPDATE_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-data-fetcher/contents/data/last-update.json';
+const GITHUB_TOKEN = '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';
+
 import { PHASE_COLORS } from '../constants';
 import {
     getComponentSummaryForTreemap,
@@ -21,9 +25,8 @@ import {
     getRecordsByAssessmentType,
     getRecordsByRegion,
     getStackedBarDataByYearAndRegion,
+    initializeData,
 } from './dataHandler';
-import { AssessmentType } from './types.js';
-
 import styles from './styles.module.css';
 
 interface Props {
@@ -34,7 +37,7 @@ interface Props {
 interface ActiveFilters {
   id: number | null;
   region: string | null;
-  assessmentType: AssessmentType | null;
+  assessmentType: string | null;
   year: number | null;
   phase: number | null;
   highPriorityComponent: string | null;
@@ -62,9 +65,81 @@ function PERSummaryDashboard(props: Props) {
         completedAssessment: null,
         highPriorityArea: null,
     });
-
     const [activeTab, setActiveTab] = useState<number>(0);
     const [activePhase, setActivePhase] = useState<number | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [mapData, setMapData] = useState<any>(null);
+    const [lastUpdateData, setLastUpdateData] = useState<any>(null);
+
+    useEffect(() => {
+        async function fetchData() {
+            setIsLoading(true);
+            setError(null);
+            try {
+                const [mapResponse, lastUpdateResponse] = await Promise.all([
+                    fetch(MAP_DATA_URL, {
+                        headers: {
+                            'Authorization': `Bearer ${GITHUB_TOKEN}`,
+                            'Accept': 'application/vnd.github.v3.raw'
+                        }
+                    }),
+                    fetch(LAST_UPDATE_DATA_URL, {
+                        headers: {
+                            'Authorization': `Bearer ${GITHUB_TOKEN}`,
+                            'Accept': 'application/vnd.github.v3.raw'
+                        }
+                    }),
+                ]);
+
+                if (!mapResponse.ok || !lastUpdateResponse.ok) {
+                    throw new Error('Failed to fetch data');
+                }
+
+                const [mapData, lastUpdateData] = await Promise.all([
+                    mapResponse.json(),
+                    lastUpdateResponse.json(),
+                ]);
+
+                setMapData(mapData);
+                setLastUpdateData(lastUpdateData);
+                initializeData(mapData, lastUpdateData);
+            } catch (err) {
+                setError('Failed to load dashboard data');
+                console.error(err);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchData();
+    }, []);
+
+    if (isLoading) {
+        return (
+            <Container
+                className={styles.perSummaryDashboard}
+                contentClassName={styles.content}
+            >
+                Loading...
+            </Container>
+        );
+    }
+
+    if (error) {
+        return (
+            <Container
+                className={styles.perSummaryDashboard}
+                contentClassName={styles.content}
+            >
+                {error}
+            </Container>
+        );
+    }
+
+    if (!mapData || !lastUpdateData) {
+        return null;
+    }
 
     const updateFilter = (key: keyof ActiveFilters, value: ActiveFilters[keyof ActiveFilters]) => {
         setActiveFilters((prev) => ({

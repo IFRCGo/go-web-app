@@ -1,6 +1,3 @@
-import lastUpdateData from '#components/PERDashboard/data-fetcher/data/last-update.json'; // import lastUpdateData from "./data-fetcher/data/last-update.json";
-import perDashboardDataRaw from '#components/PERDashboard/data-fetcher/data/per-dashboard-data.json';
-
 import { AREA_COLORS } from '../constants';
 import type {
     AreaSummary,
@@ -20,7 +17,27 @@ const RATING_SCALE_COLORS = {
     'High performing': '#011E41',
 } as const;
 
-const perDashboardData = perDashboardDataRaw;
+let perDashboardData: Assessment[] = [];
+let lastUpdateData: any = null;
+
+function initializeData(data: any, updateData: any) {
+    // Transform the data from the API format to our internal format
+    const assessments: Assessment[] = [];
+    Object.entries(data.assessments).forEach(([, component]: [string, any]) => {
+        component.assessments.forEach((assessment: any) => {
+            assessments.push({
+                ...assessment,
+                component_num: component.component_num,
+                component_name: component.component_name,
+                area_id: component.area_id,
+                area_name: component.area_name,
+            });
+        });
+    });
+    
+    perDashboardData = assessments;
+    lastUpdateData = updateData;
+}
 
 // Helper function to check if an assessment is newer
 function isNewerAssessment(current: Assessment, existing: Assessment): boolean {
@@ -65,61 +82,33 @@ const filterDuplicateAssessments = (assessments: Assessment[]): Assessment[] => 
 
 // Helper function to apply filters
 const applyFilters = (filters: Filters | null = null): Assessment[] => {
-    const data = perDashboardData;
-    let assessments: Assessment[] = [];
-    const uniqueAssessmentsMap = new Map<string, Assessment[]>();
-
-    // First, group all assessments by their key
-    Object.entries(data.assessments).forEach(([, component]) => {
-        component.assessments.forEach((assessment) => {
-            const enrichedAssessment = {
-                ...assessment,
-                component_num: component.component_num,
-                component_name: component.component_name,
-                area_id: component.area_id,
-                area_name: component.area_name,
-            };
-
-            const key = getAssessmentKey(enrichedAssessment);
-            if (!uniqueAssessmentsMap.has(key)) {
-                uniqueAssessmentsMap.set(key, []);
-            }
-            uniqueAssessmentsMap.get(key)?.push(enrichedAssessment);
-        });
-    });
-
-    // For each group of duplicates, select the best assessment
-    uniqueAssessmentsMap.forEach((duplicates) => {
-        const sortedDuplicates = duplicates.sort((a, b) => b.rating_value - a.rating_value);
-        if (sortedDuplicates[0].rating_value > 0 || sortedDuplicates.length === 1) {
-            assessments.push(sortedDuplicates[0]);
-        }
-    });
-
-    // Filter out duplicate zero ratings when better ratings exist
-    assessments = filterDuplicateAssessments(assessments);
-
+    const assessments = filterDuplicateAssessments(perDashboardData);
+    
     // Apply filtering logic if filters are provided
     if (filters) {
+        let filteredAssessments = assessments;
+
         if (filters.region) {
-            assessments = assessments.filter(
+            filteredAssessments = filteredAssessments.filter(
                 (assessment) => assessment.region_name === filters.region,
             );
         }
 
         if (filters.year) {
             const targetYear = filters.year;
-            assessments = assessments.filter((assessment) => {
+            filteredAssessments = filteredAssessments.filter((assessment) => {
                 const assessmentYear = new Date(assessment.date_of_assessment).getFullYear();
                 return assessmentYear === targetYear;
             });
         }
 
         if (filters.cycle) {
-            assessments = assessments.filter(
+            filteredAssessments = filteredAssessments.filter(
                 (assessment) => assessment.assessment_number === filters.cycle,
             );
         }
+
+        return filteredAssessments;
     }
 
     return assessments;
@@ -139,7 +128,7 @@ function getRoundedRating(rating: number): number {
     return Math.round(rating * 10) / 10;
 }
 
-export function groupDataByRegion(): RegionData[] {
+function groupDataByRegion(): RegionData[] {
     const assessments = applyFilters();
     const regionComponentAverages: Record<
         string,
@@ -196,15 +185,7 @@ export function groupDataByRegion(): RegionData[] {
     });
 }
 
-export {
-    applyFilters,
-    type Assessment,
-    getRatingStatus,
-    getRoundedRating,
-    RATING_SCALE_COLORS,
-};
-
-export function getComponentRatings(
+function getComponentRatings(
     filters: Filters | null = null,
 ): ComponentRatingsResult {
     const assessments = applyFilters(filters);
@@ -452,7 +433,7 @@ export function getComponentRatings(
     };
 }
 
-export function summarizeData(filters: Filters | null = null, includeLatest: boolean = false) {
+function summarizeData(filters: Filters | null = null, includeLatest: boolean = false) {
     let assessments = applyFilters(filters);
 
     if (includeLatest) {
@@ -532,7 +513,7 @@ export function summarizeData(filters: Filters | null = null, includeLatest: boo
     };
 }
 
-export function getCycles(filters: Filters | null = null) {
+function getCycles(filters: Filters | null = null) {
     // Get all assessments without cycle filter first
     const allAssessments = applyFilters({
         ...filters,
@@ -668,6 +649,29 @@ export function getCycles(filters: Filters | null = null) {
     };
 }
 
-export function getLastUpdateDate(): string {
-    return lastUpdateData.lastUpdate;
+function getLastUpdateDate(): string {
+    return lastUpdateData?.lastUpdate ?? 'N/A';
 }
+
+// Export all types and functions at the end of the file
+export type {
+    Assessment,
+    AreaSummary,
+    ComponentRating,
+    ComponentRatingsResult,
+    Filters,
+    RegionData,
+};
+
+export {
+    applyFilters,
+    getRatingStatus,
+    getRoundedRating,
+    groupDataByRegion,
+    getComponentRatings,
+    summarizeData,
+    getCycles,
+    getLastUpdateDate,
+    initializeData,
+    RATING_SCALE_COLORS,
+};

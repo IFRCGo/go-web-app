@@ -1,6 +1,3 @@
-import lastUpdateData from '#components/PERDashboard/data-fetcher/data/last-update.json';
-import mapDataRaw from '#components/PERDashboard/data-fetcher/data/map-data.json';
-
 import {
     AREA_COLORS,
     PHASE_COLORS,
@@ -15,25 +12,35 @@ import {
     PERConsiderationsData,
 } from './types';
 
-const mapData = (mapDataRaw as AssessmentRecord[]).map((record) => ({
-    id: record.id,
-    country_id: record.country_id,
-    country_name: record.country_name,
-    region_name: record.region_name,
-    date_of_assessment: record.date_of_assessment,
-    phase: record.phase,
-    phase_display: record.phase_display,
-    assessment_number: record.assessment_number,
-    type_of_assessment_name: record.type_of_assessment_name,
-    prioritized_components: record.prioritized_components || [],
-    epi_considerations: record.epi_considerations,
-    climate_environmental_considerations:
-        record.climate_environmental_considerations,
-    urban_considerations: record.urban_considerations,
-    migration_considerations: record.migration_considerations,
-    latitude: record.latitude,
-    longitude: record.longitude,
-})) as AssessmentRecord[];
+let mapData: AssessmentRecord[] = [];
+let lastUpdateData: any = null;
+
+function initializeData(data: AssessmentRecord[], updateData: any) {
+    mapData = data;
+    lastUpdateData = updateData;
+}
+
+function processMapData(rawData: any[]): AssessmentRecord[] {
+    return rawData.map((record) => ({
+        id: record.id,
+        country_id: record.country_id,
+        country_name: record.country_name,
+        region_name: record.region_name,
+        date_of_assessment: record.date_of_assessment,
+        phase: record.phase,
+        phase_display: record.phase_display,
+        assessment_number: record.assessment_number,
+        type_of_assessment_name: record.type_of_assessment_name,
+        prioritized_components: record.prioritized_components || [],
+        epi_considerations: record.epi_considerations,
+        climate_environmental_considerations:
+            record.climate_environmental_considerations,
+        urban_considerations: record.urban_considerations,
+        migration_considerations: record.migration_considerations,
+        latitude: record.latitude,
+        longitude: record.longitude,
+    }));
+}
 
 function groupByAndFilter(
     data: Array<AssessmentRecord>,
@@ -167,7 +174,7 @@ function applyFilters(
     return filteredData;
 }
 
-function processMapData(
+function processFilteredMapData(
     filters: Filters | null = null,
 ): Array<AssessmentRecord> {
     const filteredData = applyFilters(mapData, filters);
@@ -179,15 +186,10 @@ function processMapData(
     return assignFillColors(groupedData);
 }
 
-const processedMapData: Array<AssessmentRecord> = processMapData();
-
 function getFilteredMapData(
     filters: Filters | null = null,
 ): Array<AssessmentRecord> {
-    const filteredData = applyFilters(mapData, filters);
-    return assignFillColors(
-        groupByAndFilter(filteredData, 'id', 'date_of_assessment'),
-    );
+    return processFilteredMapData(filters);
 }
 
 function getRecordsByRegion(
@@ -215,8 +217,6 @@ function getRecordsByRegion(
 
     return Object.values(regionCounts);
 }
-
-const recordsByRegion = getRecordsByRegion();
 
 function getRecordsByAssessmentType(
     filters: Filters | null,
@@ -563,36 +563,43 @@ function getKPIData(
 }
 
 const allProcessedData = {
-    mapData: processedMapData,
-    recordsByRegion,
+    mapData: processFilteredMapData(),
+    recordsByRegion: getRecordsByRegion(),
     filterOptions: getFilterOptions(),
+    recordsByAssessmentType: getRecordsByAssessmentType(null),
 };
 
-export function getLastUpdateDate(): string {
-    return lastUpdateData.lastUpdate;
+function getLastUpdateDate(): string {
+    return lastUpdateData?.lastUpdate ?? 'N/A';
 }
 
+// Export types
+export type {
+    AssessmentRecord,
+    ChartDataItem,
+    ComponentSummary,
+    FilterOptions,
+    Filters,
+    KPIData,
+    PERConsiderationsData,
+};
+
+// Export functions
 export {
     applyFilters,
-    type AssessmentRecord,
     assignFillColors,
-    type ComponentSummary,
-    type FilterOptions,
-    type Filters,
     getComponentSummaryForTreemap,
     getFilteredMapData,
     getFilterOptions,
     getKPIData,
+    getLastUpdateDate,
     getPERConsiderations,
     getRecordsByAssessmentType,
     getRecordsByRegion,
     getStackedBarDataByYearAndRegion,
     groupByAndFilter,
-    type KPIData,
-    type PERConsiderationsData,
-    processedMapData,
+    initializeData,
     processMapData,
-    recordsByRegion,
 };
 
 export default allProcessedData;
