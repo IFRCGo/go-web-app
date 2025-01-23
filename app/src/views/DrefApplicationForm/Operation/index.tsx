@@ -20,7 +20,9 @@ import {
     sumSafe,
 } from '@ifrc-go/ui/utils';
 import {
+    isDefined,
     isNotDefined,
+    listToGroupList,
     listToMap,
     randomString,
 } from '@togglecorp/fujs';
@@ -28,6 +30,9 @@ import {
     type EntriesAsList,
     type Error,
     getErrorObject,
+    isCallable,
+    type SetBaseValueArg,
+    type SetValueArg,
     useFormArray,
 } from '@togglecorp/toggle-form';
 
@@ -35,14 +40,19 @@ import GoSingleFileInput from '#components/domain/GoSingleFileInput';
 import Link from '#components/Link';
 import NonFieldError from '#components/NonFieldError';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import { type GoApiResponse } from '#utils/restRequest';
+import {
+    type GoApiResponse,
+    useRequest,
+} from '#utils/restRequest';
 
 import {
+    recalculateProposedActionValues,
     TYPE_ASSESSMENT,
     TYPE_IMMINENT,
 } from '../common';
 import { type PartialDref } from '../schema';
 import InterventionInput from './InterventionInput';
+import ProposedActionsInput from './ProposedActionsInput';
 import RiskSecurityInput from './RiskSecurityInput';
 
 import i18n from './i18n.json';
@@ -50,18 +60,33 @@ import styles from './styles.module.css';
 
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type PlannedInterventionOption = NonNullable<GlobalEnumsResponse['dref_planned_intervention_title']>[number];
+type ProposedActionOption = NonNullable<GlobalEnumsResponse['dref_proposed_action']>[number];
 
 type Value = PartialDref;
 type PlannedInterventionFormFields = NonNullable<PartialDref['planned_interventions']>[number];
+type ProposedActionsFormFields = NonNullable<PartialDref['proposed_action']>[number];
 type RiskSecurityFormFields = NonNullable<PartialDref['risk_security']>[number];
+type ActivityOptions = NonNullable<GoApiResponse<'/api/v2/primarysector'>>[number];
+
+function activityKeySelector(option: ActivityOptions) {
+    return option.key;
+}
+
+function activityLabelSelector(option: ActivityOptions) {
+    return option.label;
+}
 
 function plannedInterventionKeySelector(option: PlannedInterventionOption) {
     return option.key;
 }
 
+const EARLY_ACTIONS = 1 satisfies ProposedActionOption['key'];
+const EARLY_RESPONSE = 2 satisfies ProposedActionOption['key'];
+
 interface Props {
     value: Value;
     setFieldValue: (...entries: EntriesAsList<Value>) => void;
+    setValue: (value: SetBaseValueArg<Value>, partialUpdate?: boolean) => void;
     error: Error<Value> | undefined;
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
@@ -81,7 +106,58 @@ function Operation(props: Props) {
         fileIdToUrlMap,
         setFileIdToUrlMap,
         disabled,
+        setValue,
     } = props;
+
+    function useProposedActionsFormArray() {
+        const onProposedActionChange = useCallback(
+            (val: SetValueArg<ProposedActionsFormFields>, index: number | undefined) => {
+                setValue((oldVal) => {
+                    const newProposedValue = [...(oldVal.proposed_action ?? [])];
+                    if (isNotDefined(index)) {
+                        newProposedValue.push(
+                            isCallable(val) ? val(undefined) : val,
+                        );
+                    } else {
+                        newProposedValue[index] = isCallable(val)
+                            ? val(newProposedValue[index])
+                            : val;
+                    }
+
+                    const newValue = {
+                        ...oldVal,
+                        proposed_action: newProposedValue,
+                    };
+
+                    return {
+                        ...newValue,
+                        ...recalculateProposedActionValues(newValue),
+                    };
+                }, true);
+            },
+            [],
+        );
+
+        const onProposedActionRemove = useCallback(
+            (index: number) => {
+                setValue(
+                    (oldValue) => {
+                        const newProposedValue = [...(oldValue.proposed_action ?? [])];
+                        newProposedValue.splice(index, 1);
+
+                        return {
+                            ...oldValue,
+                            proposed_action: newProposedValue,
+                        };
+                    },
+                    true,
+                );
+            },
+            [],
+        );
+
+        return { onProposedActionChange, onProposedActionRemove };
+    }
 
     const error = getErrorObject(formError);
 
@@ -89,6 +165,16 @@ function Operation(props: Props) {
         selectedIntervention,
         setSelectedIntervention,
     ] = useState<PlannedInterventionOption['key'] | undefined>();
+
+    const [
+        selectedEarlyActionsActivity,
+        setSelectedEarlyActionsActivity,
+    ] = useState<ActivityOptions['key'] | undefined>();
+
+    const [
+        selectedEarlyResponseActivity,
+        setSelectedEarlyResponseActivity,
+    ] = useState<ActivityOptions['key'] | undefined>();
 
     const {
         setValue: onInterventionChange,
@@ -99,11 +185,39 @@ function Operation(props: Props) {
     );
 
     const {
+        onProposedActionChange,
+        onProposedActionRemove,
+    } = useProposedActionsFormArray();
+
+    const {
         setValue: onRiskSecurityChange,
         removeValue: onRiskSecurityRemove,
     } = useFormArray<'risk_security', RiskSecurityFormFields>(
         'risk_security',
         setFieldValue,
+    );
+
+    const {
+        pending: activityOptionPending,
+        response: activityOptionResponse,
+    } = useRequest({
+        url: '/api/v2/primarysector',
+    });
+
+    const handleSurgeDeployedChange = useCallback(
+        (val: PartialDref['is_surge_personnel_deployed'] | undefined) => (
+            setValue((oldValue) => {
+                const newValue = {
+                    ...oldValue,
+                    is_surge_personnel_deployed: val,
+                };
+                return {
+                    ...newValue,
+                    ...recalculateProposedActionValues(newValue),
+                };
+            }, true)
+        ),
+        [setValue],
     );
 
     const handleInterventionAddButtonClick = useCallback((title: PlannedInterventionOption['key'] | undefined) => {
@@ -120,6 +234,91 @@ function Operation(props: Props) {
         );
         setSelectedIntervention(undefined);
     }, [setFieldValue, setSelectedIntervention]);
+
+    const proposedActionsByType = useMemo(() => (
+        listToGroupList(
+            (value?.proposed_action ?? []).filter((proposed) => isDefined(proposed.proposed_type)),
+            (proposed) => proposed.proposed_type ?? 0,
+            (proposed, _, index) => ({
+                ...proposed,
+                mainIndex: index,
+            }),
+        )
+    ), [value?.proposed_action]);
+
+    const handleEarlyActionsActivityAddButtonClick = useCallback((name: ProposedActionOption['key']) => {
+        const newProposedActionItem: ProposedActionsFormFields = {
+            client_id: randomString(),
+            proposed_type: name,
+            activity: selectedEarlyActionsActivity,
+        };
+
+        setFieldValue(
+            (oldValue: ProposedActionsFormFields[] | undefined) => (
+                [...(oldValue ?? []), newProposedActionItem]
+            ),
+            'proposed_action' as const,
+        );
+        setSelectedEarlyActionsActivity(undefined);
+    }, [setFieldValue, selectedEarlyActionsActivity]);
+
+    const handleEarlyResponseActivityAddButtonClick = useCallback((name: ProposedActionOption['key']) => {
+        const newProposedActionItem: ProposedActionsFormFields = {
+            client_id: randomString(),
+            proposed_type: name,
+            activity: selectedEarlyResponseActivity,
+        };
+
+        setFieldValue(
+            (oldValue: ProposedActionsFormFields[] | undefined) => (
+                [...(oldValue ?? []), newProposedActionItem]
+            ),
+            'proposed_action' as const,
+        );
+        setSelectedEarlyResponseActivity(undefined);
+    }, [setFieldValue, selectedEarlyResponseActivity]);
+
+    const earlyActionActivitiesSelectedOptionsMap = useMemo(() => {
+        const earlyActionProposedActionValue = value.proposed_action?.filter(
+            (action) => action.proposed_type === EARLY_ACTIONS,
+        );
+
+        return listToMap(
+            earlyActionProposedActionValue,
+            (proposedAction) => proposedAction.activity ?? '<no-key>',
+            (proposedAction) => ({
+                type: proposedAction.proposed_type,
+                isFilter: true,
+            }),
+        );
+    }, [value.proposed_action]);
+
+    const earlyResponseActivitiesSelectedOptionsMap = useMemo(() => {
+        const earlyResponseProposedActionValue = value.proposed_action?.filter(
+            (action) => action.proposed_type === EARLY_RESPONSE,
+        );
+
+        return listToMap(
+            earlyResponseProposedActionValue,
+            (proposedAction) => proposedAction.activity ?? '<no-key>',
+            (proposedAction) => ({
+                type: proposedAction.proposed_type,
+                isFilter: true,
+            }),
+        );
+    }, [value.proposed_action]);
+
+    const filteredEarlyActionActivityOptions = useMemo(() => (
+        activityOptionResponse?.filter(
+            (response) => !earlyActionActivitiesSelectedOptionsMap?.[response.key]?.isFilter,
+        )
+    ), [activityOptionResponse, earlyActionActivitiesSelectedOptionsMap]);
+
+    const filteredEarlyResponseActivityOptions = useMemo(() => (
+        activityOptionResponse?.filter(
+            (response) => !earlyResponseActivitiesSelectedOptionsMap?.[response.key]?.isFilter,
+        )
+    ), [activityOptionResponse, earlyResponseActivitiesSelectedOptionsMap]);
 
     const warnings = useMemo(() => {
         if (isNotDefined(value?.total_targeted_population)) {
@@ -516,7 +715,7 @@ function Operation(props: Props) {
                         </div>
                     )}
                 >
-                    <div className={styles.interventionSelectionContainer}>
+                    <div className={styles.selectionContainer}>
                         <SelectInput
                             className={styles.input}
                             name={undefined}
@@ -577,7 +776,7 @@ function Operation(props: Props) {
                     <BooleanInput
                         name="is_surge_personnel_deployed"
                         value={value.is_surge_personnel_deployed}
-                        onChange={setFieldValue}
+                        onChange={handleSurgeDeployedChange}
                         error={error?.is_surge_personnel_deployed}
                         disabled={disabled}
                     />
@@ -637,6 +836,147 @@ function Operation(props: Props) {
                     </>
                 )}
             </Container>
+            {value?.type_of_dref === TYPE_IMMINENT && (
+                <Container
+                    heading={strings.drefFormProposedActions}
+                >
+                    <InputSection
+                        title={strings.drefFormProposedActionEarlyActionsLabel}
+                    >
+                        <div className={styles.selectionContainer}>
+                            <SelectInput
+                                className={styles.input}
+                                name={undefined}
+                                label={strings.drefFormProposedActionSelectActivitiesLabel}
+                                value={selectedEarlyActionsActivity}
+                                onChange={setSelectedEarlyActionsActivity}
+                                keySelector={activityKeySelector}
+                                labelSelector={activityLabelSelector}
+                                options={filteredEarlyActionActivityOptions}
+                                disabled={disabled || activityOptionPending}
+                            />
+                            <Button
+                                name={EARLY_ACTIONS}
+                                variant="secondary"
+                                spacing="compact"
+                                onClick={handleEarlyActionsActivityAddButtonClick}
+                                disabled={
+                                    isNotDefined(selectedEarlyActionsActivity)
+                                        || disabled
+                                }
+                            >
+                                {strings.drefFormProposedActionAddActivityLabel}
+                            </Button>
+                        </div>
+                        <NonFieldError error={getErrorObject(error?.proposed_action)} />
+                        {proposedActionsByType[EARLY_ACTIONS]?.map((action) => (
+                            <ProposedActionsInput
+                                key={action.client_id}
+                                index={action.mainIndex}
+                                value={action}
+                                activityOptions={activityOptionResponse}
+                                onChange={onProposedActionChange}
+                                onRemove={onProposedActionRemove}
+                                error={getErrorObject(error?.proposed_action)}
+                            />
+                        ))}
+                    </InputSection>
+                    <InputSection
+                        title={strings.drefFormProposedActionEarlyResponseLabel}
+                    >
+                        <div className={styles.selectionContainer}>
+                            <SelectInput
+                                className={styles.input}
+                                name={undefined}
+                                label={strings.drefFormProposedActionSelectActivitiesLabel}
+                                value={selectedEarlyResponseActivity}
+                                onChange={setSelectedEarlyResponseActivity}
+                                keySelector={activityKeySelector}
+                                labelSelector={activityLabelSelector}
+                                options={filteredEarlyResponseActivityOptions}
+                                disabled={disabled || activityOptionPending}
+                            />
+                            <Button
+                                name={EARLY_RESPONSE}
+                                variant="secondary"
+                                spacing="compact"
+                                onClick={handleEarlyResponseActivityAddButtonClick}
+                                disabled={
+                                    isNotDefined(selectedEarlyResponseActivity)
+                                        || disabled
+                                }
+                            >
+                                {strings.drefFormProposedActionAddActivityLabel}
+                            </Button>
+                        </div>
+                        <NonFieldError error={getErrorObject(error?.proposed_action)} />
+                        {proposedActionsByType[EARLY_RESPONSE]?.map((action) => (
+                            <ProposedActionsInput
+                                key={action.client_id}
+                                index={action.mainIndex}
+                                value={action}
+                                activityOptions={activityOptionResponse}
+                                onChange={onProposedActionChange}
+                                onRemove={onProposedActionRemove}
+                                error={getErrorObject(error?.proposed_action)}
+                            />
+                        ))}
+                    </InputSection>
+                    <InputSection
+                        description={(
+                            <div className={styles.warning}>
+                                <ErrorWarningFillIcon className={styles.icon} />
+                                {strings.drefFormProposedActionSelectBudgetNote}
+                            </div>
+                        )}
+                    >
+                        <NumberInput
+                            required
+                            name="sub_total"
+                            readOnly
+                            onChange={setFieldValue}
+                            label={strings.drefFormProposedActionSubTotal}
+                            value={value.sub_total}
+                            disabled={disabled}
+                        />
+                        <NonFieldError
+                            error={error?.sub_total}
+                        />
+                        {value.is_surge_personnel_deployed && (
+                            <NumberInput
+                                required
+                                readOnly
+                                name="surge_deployment"
+                                onChange={setFieldValue}
+                                label={strings.drefFormProposedActionSurgeDeployment}
+                                value={value.surge_deployment}
+                                error={error?.surge_deployment}
+                                disabled={disabled}
+                            />
+                        )}
+                        <NumberInput
+                            required
+                            readOnly
+                            name="indirect_cost"
+                            onChange={setFieldValue}
+                            label={strings.drefFormProposedActionIndirectCost}
+                            value={value.indirect_cost}
+                            error={error?.indirect_cost}
+                            disabled={disabled}
+                        />
+                        <NumberInput
+                            required
+                            readOnly
+                            name="total"
+                            onChange={setFieldValue}
+                            label={strings.drefFormProposedActionTotal}
+                            value={value.total}
+                            error={error?.total}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                </Container>
+            )}
         </div>
     );
 }
