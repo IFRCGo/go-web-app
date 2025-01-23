@@ -5,7 +5,7 @@ import PERChartLegend from '../PERChartLegend';
 import {
     ASSESSMENT_COLORS,
     ASSESSMENT_TYPE_OPTIONS,
-} from '../PERDashboard/constants';
+} from '../PERDashboard/PERSummaryDashboard/constants';
 import PERGaugeChart from '../PERGaugeChart';
 import PERStackedHorizontalBarChart from '../PERStackedHorizontalBarChart';
 import environmentIcon from './assets/environment.png';

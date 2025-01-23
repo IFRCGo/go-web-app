@@ -1,3 +1,12 @@
+// PER area colors
+export const AREA_COLORS = {
+    'Policy Strategy and Standards': '#8748b3',
+    'Analysis and planning': '#ff8655',
+    'Operations support': '#da283d',
+    'Operational capacity': '#3478ec',
+    Coordination: '#00B2A2',
+} as const;
+
 // Rating colors for different PER statuses
 export const RATING_COLORS = {
     "Doesn't exist": '#F5333F',
