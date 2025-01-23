@@ -1,0 +1,8 @@
+.action-input-container {
+    display: flex;
+    gap: var(--go-ui-spacing-md);
+
+    .activities {
+        flex-grow: 1;
+    }
+}

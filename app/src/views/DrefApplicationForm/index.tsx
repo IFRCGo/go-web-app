@@ -119,6 +119,7 @@ function getNextStep(current: TabKeys, direction: 1 | -1, typeOfDref: TypeOfDref
     }
     return undefined;
 }
+
 /** @knipignore */
 
 export function Component() {
@@ -274,6 +275,7 @@ export function Component() {
 
             const {
                 planned_interventions,
+                proposed_action,
                 needs_identified,
                 national_society_actions,
                 risk_security,
@@ -290,6 +292,11 @@ export function Component() {
                     (intervention) => ({
                         ...injectClientId(intervention),
                         indicators: intervention.indicators?.map(injectClientId),
+                    }),
+                ),
+                proposed_action: proposed_action?.map(
+                    (action) => ({
+                        ...injectClientId(action),
                     }),
                 ),
                 source_information: source_information?.map(injectClientId),
@@ -361,6 +368,11 @@ export function Component() {
                     if (isDefined(match)) {
                         const [index] = match;
                         return value?.planned_interventions?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['proposed_action', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.proposed_action?.[index]?.client_id;
                     }
                     match = matchArray(locations, ['source_information', NUM, 'source_link', NUM]);
                     if (isDefined(match)) {
@@ -449,6 +461,11 @@ export function Component() {
                     if (isDefined(match)) {
                         const [index] = match;
                         return value?.planned_interventions?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['proposed_action', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.proposed_action?.[index]?.client_id;
                     }
                     match = matchArray(locations, ['source_information', NUM, 'source_link', NUM]);
                     if (isDefined(match)) {
@@ -722,6 +739,7 @@ export function Component() {
                             <Operation
                                 value={value}
                                 setFieldValue={setFieldValue}
+                                setValue={setValue}
                                 fileIdToUrlMap={fileIdToUrlMap}
                                 setFileIdToUrlMap={setFileIdToUrlMap}
                                 error={formError}
