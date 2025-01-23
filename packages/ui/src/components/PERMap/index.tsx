@@ -5,9 +5,26 @@ import { CloseLineIcon } from '@ifrc-go/icons';
 import * as d3 from 'd3';
 import mapboxgl from 'mapbox-gl';
 
-import { AssessmentRecord } from '../PERDashboard/types';
-
 import styles from './styles.module.css';
+
+interface AssessmentRecord {
+    id: number;
+    assessment_number: number;
+    type_of_assessment: string;
+    country_id: number;
+    country_name: string;
+    country_iso3: string;
+    assessment_date: string;
+    created_at: string;
+    updated_at: string;
+    lat: number;
+    lon: number;
+    longitude: number;
+    latitude: number;
+    phase_display: string;
+    color: string;
+    date_of_assessment: string;
+}
 
 export interface Props {
     accessToken?: string;

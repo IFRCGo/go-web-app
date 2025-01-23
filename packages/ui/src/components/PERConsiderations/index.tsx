@@ -2,10 +2,6 @@ import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import PERChartLegend from '../PERChartLegend';
-import {
-    ASSESSMENT_COLORS,
-    ASSESSMENT_TYPE_OPTIONS,
-} from '../PERDashboard/PERSummaryDashboard/constants';
 import PERGaugeChart from '../PERGaugeChart';
 import PERStackedHorizontalBarChart from '../PERStackedHorizontalBarChart';
 import environmentIcon from './assets/environment.png';
@@ -14,6 +10,34 @@ import migrationIcon from './assets/migration.png';
 import urbanIcon from './assets/urban.png';
 
 import styles from './styles.module.css';
+
+// Assessment type colors
+const ASSESSMENT_COLORS = {
+    selfAssessment: '#236192',
+    simulation: '#418FDE',
+    operational: '#009CDD',
+    postOperational: '#C6C6C6',
+} as const;
+
+// Assessment type options with labels and colors
+const ASSESSMENT_TYPE_OPTIONS = [
+    {
+        label: 'Self assessment',
+        color: ASSESSMENT_COLORS.selfAssessment,
+    },
+    {
+        label: 'Simulation',
+        color: ASSESSMENT_COLORS.simulation,
+    },
+    {
+        label: 'Operational',
+        color: ASSESSMENT_COLORS.operational,
+    },
+    {
+        label: 'Post operational',
+        color: ASSESSMENT_COLORS.postOperational,
+    },
+] as const;
 
 interface PercentageData {
     epiPercentage: number;
