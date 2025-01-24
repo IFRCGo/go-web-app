@@ -598,7 +598,7 @@ const schema: DrefFormSchema = {
             'human_resource',
             'is_surge_personnel_deployed',
             'sub_total',
-            'surge_deployment',
+            'surge_deployment_cost',
             'indirect_cost',
             'total',
         ] as const;
@@ -639,7 +639,7 @@ const schema: DrefFormSchema = {
                     is_surge_personnel_deployed: { forceValue: nullValue },
                     has_child_safeguarding_risk_analysis_assessment: { forceValue: nullValue },
                     sub_total: { forceValue: nullValue },
-                    surge_deployment: { forceValue: nullValue },
+                    surge_deployment_cost: { forceValue: nullValue },
                     indirect_cost: { forceValue: nullValue },
                     total: { forceValue: nullValue },
                 };
@@ -788,11 +788,11 @@ const schema: DrefFormSchema = {
                         conditionalFields,
                         formValue,
                         ['is_surge_personnel_deployed'],
-                        ['indirect_cost', 'surge_deployment'],
+                        ['indirect_cost', 'surge_deployment_cost'],
                         (value) => {
                             if (value?.is_surge_personnel_deployed) {
                                 return {
-                                    surge_deployment: { required: true },
+                                    surge_deployment_cost: { required: true },
                                     indirect_cost: {
                                         required: true,
                                         validations: [
@@ -803,7 +803,7 @@ const schema: DrefFormSchema = {
                                 };
                             }
                             return {
-                                surge_deployment: { forceValue: nullValue },
+                                surge_deployment_cost: { forceValue: nullValue },
                                 indirect_cost: {
                                     required: true,
                                     validations: [

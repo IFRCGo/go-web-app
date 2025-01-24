@@ -157,16 +157,23 @@ export const recalculateProposedActionValues = (val: PartialDref) => {
     const subTotal = sumSafe(
         val.proposed_action?.map((pa) => pa.budget),
     ) ?? 0;
-    const surgeDeployment = val.is_surge_personnel_deployed ? 10000 : undefined;
+
+    // NOTE: if Surge Personnel are deployed,
+    // the Surge Deployment cost will be CHF 10,000,
+    // and the Indirect Costs will be CHF 5,800. Conversely,
+    // if Surge Personnel are not deployed,
+    // the Surge Deployment cost will not be applicable,
+    // and the Indirect Costs will be CHF 5,000
+    const surgeDeploymentCost = val.is_surge_personnel_deployed ? 10000 : undefined;
     const indirectCost = val.is_surge_personnel_deployed ? 5800 : 5000;
 
     const total = sumSafe(
-        [subTotal, indirectCost, surgeDeployment],
+        [subTotal, indirectCost, surgeDeploymentCost],
     );
     return {
         sub_total: subTotal,
         indirect_cost: indirectCost,
-        surge_deployment: surgeDeployment,
+        surge_deployment_cost: surgeDeploymentCost,
         total,
     };
 };

@@ -109,55 +109,51 @@ function Operation(props: Props) {
         setValue,
     } = props;
 
-    function useProposedActionsFormArray() {
-        const onProposedActionChange = useCallback(
-            (val: SetValueArg<ProposedActionsFormFields>, index: number | undefined) => {
-                setValue((oldVal) => {
-                    const newProposedValue = [...(oldVal.proposed_action ?? [])];
-                    if (isNotDefined(index)) {
-                        newProposedValue.push(
-                            isCallable(val) ? val(undefined) : val,
-                        );
-                    } else {
-                        newProposedValue[index] = isCallable(val)
-                            ? val(newProposedValue[index])
-                            : val;
-                    }
+    const onProposedActionChange = useCallback(
+        (val: SetValueArg<ProposedActionsFormFields>, index: number | undefined) => {
+            setValue((oldVal) => {
+                const newProposedValue = [...(oldVal.proposed_action ?? [])];
+                if (isNotDefined(index)) {
+                    newProposedValue.push(
+                        isCallable(val) ? val(undefined) : val,
+                    );
+                } else {
+                    newProposedValue[index] = isCallable(val)
+                        ? val(newProposedValue[index])
+                        : val;
+                }
 
-                    const newValue = {
-                        ...oldVal,
-                        proposed_action: newProposedValue,
-                    };
+                const newValue = {
+                    ...oldVal,
+                    proposed_action: newProposedValue,
+                };
+
+                return {
+                    ...newValue,
+                    ...recalculateProposedActionValues(newValue),
+                };
+            }, true);
+        },
+        [setValue],
+    );
+
+    const onProposedActionRemove = useCallback(
+        (index: number) => {
+            setValue(
+                (oldValue) => {
+                    const newProposedValue = [...(oldValue.proposed_action ?? [])];
+                    newProposedValue.splice(index, 1);
 
                     return {
-                        ...newValue,
-                        ...recalculateProposedActionValues(newValue),
+                        ...oldValue,
+                        proposed_action: newProposedValue,
                     };
-                }, true);
-            },
-            [],
-        );
-
-        const onProposedActionRemove = useCallback(
-            (index: number) => {
-                setValue(
-                    (oldValue) => {
-                        const newProposedValue = [...(oldValue.proposed_action ?? [])];
-                        newProposedValue.splice(index, 1);
-
-                        return {
-                            ...oldValue,
-                            proposed_action: newProposedValue,
-                        };
-                    },
-                    true,
-                );
-            },
-            [],
-        );
-
-        return { onProposedActionChange, onProposedActionRemove };
-    }
+                },
+                true,
+            );
+        },
+        [setValue],
+    );
 
     const error = getErrorObject(formError);
 
@@ -183,11 +179,6 @@ function Operation(props: Props) {
         'planned_interventions',
         setFieldValue,
     );
-
-    const {
-        onProposedActionChange,
-        onProposedActionRemove,
-    } = useProposedActionsFormArray();
 
     const {
         setValue: onRiskSecurityChange,
@@ -946,11 +937,11 @@ function Operation(props: Props) {
                             <NumberInput
                                 required
                                 readOnly
-                                name="surge_deployment"
+                                name="surge_deployment_cost"
                                 onChange={setFieldValue}
                                 label={strings.drefFormProposedActionSurgeDeployment}
-                                value={value.surge_deployment}
-                                error={error?.surge_deployment}
+                                value={value.surge_deployment_cost}
+                                error={error?.surge_deployment_cost}
                                 disabled={disabled}
                             />
                         )}
