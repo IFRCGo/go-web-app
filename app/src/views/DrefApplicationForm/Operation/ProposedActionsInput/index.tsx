@@ -66,11 +66,10 @@ function ProposedActionsInput(props: Props) {
         : undefined;
 
     return (
-        <div className={styles.actionInputContainer}>
-            <div
-                className={styles.activities}
-            >
+        <div className={styles.proposedActionsInput}>
+            <div className={styles.activity}>
                 <SelectInput
+                    className={styles.input}
                     required
                     label={strings.drefFormProposedActionActivityLabel}
                     name="activity"
@@ -82,17 +81,19 @@ function ProposedActionsInput(props: Props) {
                     keySelector={activityKeySelector}
                     labelSelector={activityLabelSelector}
                 />
+                <NumberInput
+                    className={styles.input}
+                    required
+                    name="budget"
+                    value={value.budget}
+                    label={strings.drefFormProposedActionBudgetLabel}
+                    onChange={onProposedActionChange}
+                    disabled={disabled}
+                    error={error?.budget}
+                />
             </div>
-            <NumberInput
-                required
-                name="budget"
-                value={value.budget}
-                label={strings.drefFormProposedActionBudgetLabel}
-                onChange={onProposedActionChange}
-                disabled={disabled}
-                error={error?.budget}
-            />
             <IconButton
+                className={styles.button}
                 name={index}
                 onClick={onRemove}
                 title={strings.drefFormRemoveActivity}
