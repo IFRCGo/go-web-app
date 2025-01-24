@@ -1,8 +1,25 @@
-.action-input-container {
+.proposed-actions-input {
+    display: grid;
+
     display: flex;
     gap: var(--go-ui-spacing-md);
+    flex-wrap: wrap;
+    align-items: center;
 
-    .activities {
+    .activity {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--go-ui-spacing-md);
         flex-grow: 1;
+
+        .input {
+            flex-grow: 1;
+        }
+    }
+
+    .button {
+        flex-grow: 0;
+        align-self: flex-end;
+        padding: var(--go-ui-spacing-xs);
     }
 }
