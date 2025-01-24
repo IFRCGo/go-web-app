@@ -83,7 +83,7 @@
     line-height: var(--go-ui-line-height-md);
     letter-spacing: 0.05em;
     white-space: nowrap;
-    font-size: var(--go-ui-font-size-2xs);
+    font-size: var(--go-ui-font-size-sm);
     font-weight: var(--go-ui-font-weight-medium);
     text-underline-position: from-font;
     text-decoration-skip-ink: none;
@@ -97,7 +97,7 @@
     min-width: 2rem;
     text-align: center;
     color: var(--go-ui-color-text);
-    font-size: var(--go-ui-font-size-2xs);
+    font-size: var(--go-ui-font-size-sm);
     font-weight: var(--go-ui-font-weight-semibold);
 }
 

@@ -28,7 +28,7 @@ function PERDashboard(props: Props) {
     return (
         <PageContainer className={_cs(styles.perDashboard, className)}>
             <PageHeader
-                className={styles.header}
+                className={styles.headerx}
                 heading="NS Preparedness and Response Capacity Strengthening (PER)"
                 description={[
                     'The National Society Preparedness for Effective Response (PER) ',

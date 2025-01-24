@@ -340,6 +340,7 @@ function PERMap({
                 zoom,
                 attributionControl: false,
                 scrollZoom: false,
+                renderWorldCopies: false,
             });
 
             // Add zoom controls

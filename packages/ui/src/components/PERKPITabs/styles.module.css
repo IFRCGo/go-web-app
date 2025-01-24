@@ -27,8 +27,8 @@
 
 .kpiValue {
     margin: 0;
-    min-width: 18px;
-    font-size: var(--go-ui-font-size-lg);
+    min-width: 22px;
+    font-size: var(--go-ui-font-size-2xl);
     font-weight: var(--go-ui-font-weight-semibold);
 }
 
@@ -36,7 +36,7 @@
     margin: 0;
     line-height: var(--go-ui-line-height-sm);
     color: var(--go-ui-color-text);
-    font-size: var(--go-ui-font-size-xs);
+    font-size: var(--go-ui-font-size-sm);
 }
 
 .kpiTabEnabled {

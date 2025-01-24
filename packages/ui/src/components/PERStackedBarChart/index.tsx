@@ -2,6 +2,7 @@ import {
     useEffect,
     useRef,
     useState,
+    useMemo,
 } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { _cs } from '@togglecorp/fujs';
@@ -67,7 +68,7 @@ ChartJS.register(
 
 function PERStackedBarChart({
     data,
-    height = 300,
+    height = 200,
     minWidth = 300,
     onClick,
     onHover,
@@ -104,20 +105,20 @@ function PERStackedBarChart({
             hoverBackgroundColor: category.hoverFillColor ?? category.fillColor,
             stack: 'stack1',
             borderWidth: 0,
-            barPercentage: 0.9,
-            categoryPercentage: 0.9,
+            barPercentage: 0.79,
+            categoryPercentage: 0.79,
         })),
     };
 
-    const options: ChartOptions<'bar'> = {
+    const options: ChartOptions<'bar'> = useMemo(() => ({
         responsive: true,
         maintainAspectRatio: false,
         layout: {
             padding: {
-                top: 22,
+                top: 18,
                 right: 20,
                 left: 3,
-                bottom: 20,
+                bottom: 18,
             },
         },
         interaction: {
@@ -187,6 +188,7 @@ function PERStackedBarChart({
                 },
                 ticks: {
                     font: {
+                        family: 'Poppins',
                         size: 12,
                     },
                 },
@@ -207,10 +209,10 @@ function PERStackedBarChart({
                 },
                 ticks: {
                     font: {
-                        size: 12,
+                        family: 'Poppins',
                     },
                     padding: 10,
-                    stepSize: 1,
+                    maxTicksLimit: 6,
                     callback(value: number) {
                         if (Math.floor(value) !== value) {
                             return '';
@@ -233,7 +235,7 @@ function PERStackedBarChart({
                 onHover(null);
             }
         } : undefined,
-    };
+    }), [tooltipEnabled, showDataLabels, yAxisMin, yAxisMax, onClick, onHover, data]);
 
     return (
         <div

@@ -33,7 +33,7 @@
     cursor: pointer;
     padding: var(--go-ui-spacing-2xs) var(--go-ui-spacing-xs);
     color: var(--go-ui-color-text);
-    font-size: var(--go-ui-font-size-xs);
+    font-size: var(--go-ui-font-size-sm);
     font-weight: var(--go-ui-font-weight-light);
     gap: var(--go-ui-spacing-xs);
 
@@ -62,4 +62,6 @@
 
 .label {
     line-height: var(--go-ui-line-height-xs);
+    font-family: var(--go-ui-font-family-sans-serif);
+
 }

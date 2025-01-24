@@ -1,16 +1,19 @@
 import { useState, useEffect } from 'react';
-
-import Button from '#components/Button';
-import Container from '#components/Container';
-import BlockLoading from '#components/BlockLoading';
-import PERChartLegend from '#components/PERChartLegend';
-import PERConsiderations from '#components/PERConsiderations';
-import PERDonutChart from '#components/PERDonutChart';
-import PERKPITabs from '#components/PERKPITabs';
-import PERMap from '#components/PERMap';
-import PERRegionToggle from '#components/PERRegionToggle';
-import PERStackedBarChart from '#components/PERStackedBarChart';
-import PERTreemapChart from '#components/PERTreemapChart';
+import {
+    Button,
+    Container,
+    BlockLoading,
+    PERChartLegend,
+    PERConsiderations,
+    PERDonutChart,
+    PERKPITabs,
+    PERMap,
+    PERRegionToggle,
+    PERStackedBarChart,
+    PERTreemapChart,
+} from '@ifrc-go/ui';
+import { mbtoken } from '#config';
+import { defaultMapStyle } from '#utils/map';
 
 const MAP_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-data-fetcher/contents/data/map-data.json';
 const LAST_UPDATE_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-data-fetcher/contents/data/last-update.json';
@@ -31,27 +34,25 @@ import {
 import styles from './styles.module.css';
 
 interface Props {
-  accessToken?: string;
-  mapboxStyle?: string;
+    className?: string;
 }
 
 interface ActiveFilters {
-  id: number | null;
-  region: string | null;
-  assessmentType: string | null;
-  year: number | null;
-  phase: number | null;
-  highPriorityComponent: string | null;
-  perConsiderations: string | null;
-  numberOfCycles: number | null;
-  completedAssessment: boolean | null;
-  highPriorityArea: string | null;
+    id: number | null;
+    region: string | null;
+    assessmentType: string | null;
+    year: number | null;
+    phase: number | null;
+    highPriorityComponent: string | null;
+    perConsiderations: string | null;
+    numberOfCycles: number | null;
+    completedAssessment: boolean | null;
+    highPriorityArea: string | null;
 }
 
 function PERSummaryDashboard(props: Props) {
     const {
-        accessToken,
-        mapboxStyle = 'mapbox://styles/go-ifrc/ckrfe16ru4c8718phmckdfjh0',
+        className,
     } = props;
 
     const [activeFilters, setActiveFilters] = useState<ActiveFilters>({
@@ -122,7 +123,7 @@ function PERSummaryDashboard(props: Props) {
                 className={styles.perSummaryDashboard}
                 contentClassName={styles.loadingContainer}
             >
-                <BlockLoading withoutBorder compact />
+                <BlockLoading className={styles.blockLoading} />
             </Container>
         );
     }
@@ -339,15 +340,15 @@ function PERSummaryDashboard(props: Props) {
                     )}
                     withHeaderBorder
                 >
-                    <div style={{ height: '520px' }}>
+                    <div style={{ height: '470px' }}>
                         <PERMap
                             data={getFilteredMapData(activeFilters)}
                             onCountryClick={(id) => updateFilter('id', id)}
                             valueField="assessment_number"
                             tooltipTrigger="click"
                             enableClickToFilter
-                            accessToken={accessToken}
-                            mapboxStyle={mapboxStyle}
+                            accessToken={mbtoken}
+                            mapboxStyle={defaultMapStyle}
                             minRadius={4}
                             maxRadius={7}
                             scrollZoom={false}
@@ -380,7 +381,7 @@ function PERSummaryDashboard(props: Props) {
                     >
                         <PERDonutChart
                             data={getRecordsByAssessmentType(activeFilters)}
-                            height={300}
+                            height={210}
                             width={400}
                             cutout="70%"
                             tooltipEnabled
@@ -426,7 +427,7 @@ function PERSummaryDashboard(props: Props) {
                             data={getStackedBarDataByYearAndRegion(activeFilters)}
                             onClick={handleRegionStackedClick}
                             categories={regionCategories}
-                            height={190}
+                            height={250}
                             tooltipEnabled
                             showDataLabels={false}
                             activeRegion={activeFilters?.region}

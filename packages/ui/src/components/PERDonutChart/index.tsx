@@ -202,6 +202,7 @@ function PERDonutChart(props: Props) {
             datalabels: {
                 color: '#FFFFFF',
                 font: {
+                    family: 'Poppins',
                     weight: 600,
                 },
                 formatter: (value: number | null | undefined) => {

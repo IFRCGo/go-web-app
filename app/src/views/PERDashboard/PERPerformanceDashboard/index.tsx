@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { _cs } from '@togglecorp/fujs';
-
-import Button from '#components/Button';
-import Container from '#components/Container';
-import BlockLoading from '#components/BlockLoading';
-import PERAnalysis from '#components/PERAnalysis';
-import PERRatingAnalysis from '#components/PERRatingAnalysis';
-import PERRegionToggle from '#components/PERRegionToggle';
+import {
+    Button,
+    Container,
+    BlockLoading,
+    PERAnalysis,
+    PERRatingAnalysis,
+    PERRegionToggle,
+} from '@ifrc-go/ui';
 
 const PER_DASHBOARD_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-data-fetcher/contents/data/per-dashboard-data.json';
 const LAST_UPDATE_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-data-fetcher/contents/data/last-update.json';
@@ -92,7 +93,7 @@ function PERPerformanceDashboard() {
                 className={styles.perPerformanceDashboard}
                 contentClassName={styles.loadingContainer}
             >
-                <BlockLoading withoutBorder compact />
+                <BlockLoading />
             </Container>
         );
     }
@@ -159,6 +160,7 @@ function PERPerformanceDashboard() {
                     heading="Performance Overview"
                     headerDescription="Click on a PER assessment cycle to filter"
                     className={_cs(styles.container, styles.perAnalysis)}
+                    withHeaderBorder
                     actions={activeFilters.cycle !== null ? (
                         <Button
                             name={undefined}
@@ -178,6 +180,7 @@ function PERPerformanceDashboard() {
                 <Container
                     heading="PER Global Performance"
                     description="Overview of PER ratings and performance metrics."
+                    withHeaderBorder
                     className={_cs(styles.container, styles.ratingAnalysis)}
                 >
                     <PERRatingAnalysis

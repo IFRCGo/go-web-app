@@ -218,11 +218,7 @@ export type { Props as PERStackedBarChartProps } from './components/PERStackedBa
 export { default as PERStackedBarChart } from './components/PERStackedBarChart';
 export type { Props as PERStackedHorizontalBarChartProps } from './components/PERStackedHorizontalBarChart';
 export { default as PERStackedHorizontalBarChart } from './components/PERStackedHorizontalBarChart';
-export type { Props as PERSummaryDashboardProps } from './components/PERDashboard/PERSummaryDashboard';
-export { default as PERSummaryDashboard } from './components/PERDashboard/PERSummaryDashboard';
-export { default as PERPerformanceDashboard } from './components/PERDashboard/PERPerformanceDashboard';
-export { default as PERTreemapChart } from './components/PERTreemapChart';
-export { default as PERRatingAnalysis } from './components/PERRatingAnalysis';
 export type { Props as PERAnalysisProps } from './components/PERAnalysis';
 export { default as PERAnalysis } from './components/PERAnalysis';
-export { default as PERDashboard } from './components/PERDashboard';
+export { default as PERTreemapChart } from './components/PERTreemapChart';
+export { default as PERRatingAnalysis } from './components/PERRatingAnalysis';
