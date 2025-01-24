@@ -69,8 +69,8 @@ function ProposedActionsInput(props: Props) {
         <div className={styles.proposedActionsInput}>
             <div className={styles.activity}>
                 <SelectInput
-                    className={styles.input}
                     required
+                    className={styles.input}
                     label={strings.drefFormProposedActionActivityLabel}
                     name="activity"
                     readOnly
@@ -82,8 +82,8 @@ function ProposedActionsInput(props: Props) {
                     labelSelector={activityLabelSelector}
                 />
                 <NumberInput
-                    className={styles.input}
                     required
+                    className={styles.input}
                     name="budget"
                     value={value.budget}
                     label={strings.drefFormProposedActionBudgetLabel}
