@@ -46,7 +46,7 @@ export interface Props {
 
     /**
      * Duration of the transition animation in milliseconds
-     * @default 1000
+     * @default 750
      */
     transitionSpeed?: number;
 
@@ -71,7 +71,6 @@ function PERGaugeChart({
     percentage = 33,
     icon,
     label = 'EPI-ready',
-    fontSize = 16,
     gaugeColor = '#236192',
     backgroundColor = '#F2F2F2',
     transitionSpeed = 1000,
@@ -81,8 +80,8 @@ function PERGaugeChart({
 }: Props) {
     const svgRef = useRef<SVGSVGElement | null>(null);
     const containerRef = useRef<HTMLDivElement | null>(null);
-    const previousPercentageRef = useRef<number>(percentage);
     const [containerWidth, setContainerWidth] = useState<number>(200);
+    const prevPercentage = useRef(percentage);
 
     useEffect(() => {
         const container = containerRef.current;
@@ -106,44 +105,18 @@ function PERGaugeChart({
     const radius = containerWidth / 2;
     const height = containerWidth / 2;
 
-    // Define the update function for gauge animation
-    const handleUpdate = () => {
-        if (!svgRef.current) {
-            return;
-        }
-        const svg = d3.select(svgRef.current);
-
-        const arcGenerator = d3
-            .arc<d3.BaseType, number>()
-            .innerRadius(radius * 0.74)
-            .outerRadius(radius)
-            .startAngle(-Math.PI / 2)
-            .endAngle((d) => -Math.PI / 2 + d * Math.PI);
-
-        const previousPercentage = previousPercentageRef.current / 100;
-        const newPercentage = percentage / 100;
-        previousPercentageRef.current = percentage;
-
-        svg
-            .select('.gauge-arc')
-            .datum(newPercentage)
-            .transition()
-            .duration(transitionSpeed)
-            .attrTween('d', (d) => {
-                const interpolate = d3.interpolate(previousPercentage, d);
-                const arcTween = (t: number) => arcGenerator(interpolate(t))!;
-                return arcTween;
-            });
-    };
-
     useEffect(() => {
         if (!svgRef.current) {
             return;
         }
 
         const svg = d3.select(svgRef.current);
-
         svg.selectAll('*').remove();
+
+        // Create a group for the gauge
+        const g = svg
+            .append('g')
+            .attr('transform', `translate(${radius}, ${radius})`);
 
         // Define the background arc
         const backgroundArc = d3
@@ -154,57 +127,70 @@ function PERGaugeChart({
             .endAngle(Math.PI / 2);
 
         // Append the background arc
-        svg
-            .append('path')
+        g.append('path')
             .attr('d', backgroundArc(null)!)
             .attr('fill', backgroundColor)
-            .attr('transform', `translate(${radius}, ${radius})`)
             .attr('class', 'gauge-background');
 
-        // Define the arc generator with datum type 'number'
-        const arcGenerator = d3
-            .arc<d3.BaseType, number>()
+        // Define the gauge arc
+        const gaugeArc = d3
+            .arc<number>()
             .innerRadius(radius * 0.74)
             .outerRadius(radius)
             .startAngle(-Math.PI / 2)
             .endAngle((d) => -Math.PI / 2 + d * Math.PI);
 
         // Append the gauge arc
-        svg
-            .append('path')
-            .datum(percentage / 100)
-            .attr('d', arcGenerator)
+        g.append('path')
+            .datum(prevPercentage.current / 100)
+            .attr('d', (d) => gaugeArc(d)!)
             .attr('fill', gaugeColor)
-            .attr('transform', `translate(${radius}, ${radius})`)
             .attr('class', 'gauge-arc');
 
         if (icon) {
-            svg
-                .append('image')
+            g.append('image')
                 .attr('href', icon)
-                .attr('x', radius - 15)
-                .attr('y', radius / 2)
+                .attr('x', -15)
+                .attr('y', -radius / 2)
                 .attr('width', 30)
                 .attr('height', 30)
                 .attr('preserveAspectRatio', 'xMidYMid meet')
                 .attr('class', 'icon-image');
         }
+    }, [radius, backgroundColor, gaugeColor, icon, containerWidth]);
 
-        // Initialize the previous percentage
-        previousPercentageRef.current = percentage;
-    }, [
-        backgroundColor,
-        gaugeColor,
-        icon,
-        label,
-        fontSize,
-        height,
-        percentage,
-        radius,
-        containerWidth,
-    ]);
+    useEffect(() => {
+        if (!svgRef.current) {
+            return;
+        }
 
-    useEffect(handleUpdate, [percentage, radius, transitionSpeed]);
+        const svg = d3.select(svgRef.current);
+        const gaugeArc = d3
+            .arc<number>()
+            .innerRadius(radius * 0.74)
+            .outerRadius(radius)
+            .startAngle(-Math.PI / 2)
+            .endAngle((d) => -Math.PI / 2 + d * Math.PI);
+
+        const arcPath = svg.select('.gauge-arc');
+        const oldValue = prevPercentage.current / 100;
+        const newValue = percentage / 100;
+
+        arcPath
+            .transition()
+            .duration(transitionSpeed)
+            .tween('progress', () => {
+                const interpolate = d3.interpolate(oldValue, newValue);
+                return (t: number) => {
+                    const value = interpolate(t);
+                    arcPath
+                        .datum(value)
+                        .attr('d', gaugeArc);
+                };
+            });
+
+        prevPercentage.current = percentage;
+    }, [percentage, radius, transitionSpeed]);
 
     return (
         <div

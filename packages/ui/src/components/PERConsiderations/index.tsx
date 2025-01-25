@@ -148,7 +148,7 @@ function PERConsiderations({
                                 fontSize={12}
                                 gaugeColor={isInactive ? '#C6C6C6' : '#236192'}
                                 backgroundColor="#F2F2F2"
-                                transitionSpeed={1000}
+                                transitionSpeed={750}
                                 onClick={() => onClickPER(currentKey)}
                             />
 
