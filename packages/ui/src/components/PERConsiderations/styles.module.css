@@ -5,7 +5,6 @@
   width: 100%;
   max-width: 100%;
   overflow: hidden;
-  /* gap: var(--go-ui-spacing-md); */
 }
 
 .perConsiderationsContainer {
@@ -26,7 +25,6 @@
   padding-bottom: 0px;
   /* gap: var(--go-ui-spacing-sm); */
   min-width: 0;
-  gap: var(--go-ui-spacing-md);
 }
 
 .inactiveColumn {
@@ -41,7 +39,7 @@
 
 .stackedBarTitle {
   position: relative;
-  top: 22px;
+  top: 18px;
   left: 0px;
   margin-bottom: var(--go-ui-spacing-sm);
   text-align: left;

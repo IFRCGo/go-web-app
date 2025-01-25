@@ -92,6 +92,7 @@ function PERStackedBarChart({
         });
 
         resizeObserver.observe(containerRef.current);
+        return () => resizeObserver.disconnect();
     }, [minWidth]);
 
     const reversedCategories = [...categories].reverse();
@@ -150,10 +151,10 @@ function PERStackedBarChart({
                 bodyFont: {
                     family: 'Poppins',
                     weight: 'normal',
-                    size: 13,
+                    size: 12,
                 },
-                padding: 8,
-                caretPadding: 18,
+                padding: 11,
+                caretPadding: 20,
                 cornerRadius: 4,
                 displayColors: true,
                 boxWidth: 12,
@@ -163,10 +164,16 @@ function PERStackedBarChart({
                 borderWidth: 1,
                 titleFont: {
                     family: 'Poppins',
-                    weight: 'normal',
-                    size: 11,
+                    weight: 600,
+                    size: 12,
                 },
-                boxPadding: 3,
+                boxPadding: 7,
+                external: (context) => {
+                    const tooltipEl = context.chart.canvas.parentNode?.querySelector<HTMLDivElement>('div');
+                    if (tooltipEl) {
+                        tooltipEl.style.boxShadow = '0 1px 2px 0 rgb(0 0 0 / 0.25), 0 1px 3px 0 rgb(0 0 0 / 0.51)';
+                    }
+                },
             },
             datalabels: {
                 display: showDataLabels,
@@ -237,16 +244,20 @@ function PERStackedBarChart({
         } : undefined,
     }), [tooltipEnabled, showDataLabels, yAxisMin, yAxisMax, onClick, onHover, data]);
 
+    const containerStyle = useMemo(() => ({
+        height: `${height}px`,
+    }), [height]);
+
     return (
         <div
             ref={containerRef}
             className={_cs(styles.responsiveContainer, className)}
+            style={containerStyle}
         >
             <div className={styles.chartWrapper}>
                 <Bar
                     data={chartData}
                     options={options}
-                    height={height}
                     width={containerWidth}
                 />
             </div>

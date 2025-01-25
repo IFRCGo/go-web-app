@@ -12,92 +12,42 @@
     height: 100%;
 }
 
-/* 
-   treemap-tooltip errors to fix:
-   - "opacity" before "margin"
-   - "border" before "max-width"
-   - "transition" before "border"
-   - "box-shadow" before "padding"
-*/
-.treemap-tooltip {
-    position: absolute;
-    transition: all 0.2s ease-in-out; /* Must come before border */
-    visibility: hidden;
-    opacity: 1; /* Must come before margin */
-    z-index: 1;
-    margin: 0;
-    border: 1px solid var(--go-ui-color-gray-20); /* Must come before max-width */
-    box-shadow: var(--go-ui-box-shadow-md); /* Must come before padding */
+.container svg rect {
+    outline: none !important;
+}
+
+:global(.tippy-box[data-theme~='light-border']) {
     background-color: var(--go-ui-color-white);
-    padding: var(--go-ui-spacing-md);
-    max-width: 300px;
-    word-wrap: break-word;
-    font-size: var(--go-ui-font-size-sm);
-}
-
-/* 
-   treemap-container errors to fix:
-   - "opacity" before "margin"
-   - "border-radius" before "padding"
-*/
-.treemap-container {
-    position: relative;
-    opacity: 1; /* Must come before margin */
-    margin: 0;
-    border-radius: var(--go-ui-border-radius-md); /* Must come before padding */
-    padding: var(--go-ui-spacing-md);
-}
-
-.treemap-container.loading {
-    opacity: 0.5; /* Must come before margin-top */
-    margin-top: var(--go-ui-spacing-md);
-}
-
-/*
-   tooltip errors to fix:
-   - "visibility" before "opacity"
-   - "border-radius" before "padding"
-   - "box-shadow" before "max-width"
-   - "transition" before "color"
-   - "word-wrap" before "font-family"
-*/
-.tooltip {
-    position: absolute;
-    transition: opacity 0.2s ease-in-out; /* Must come before color */
-    visibility: hidden; /* Must come before opacity */
-    opacity: 0;
-    z-index: 10000;
-    border: 1px solid #F2F2F2;
-    border-radius: 4px; /* Must come before padding */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Must come before max-width */
-    background-color: white;
-    padding: 8px;
-    max-width: 200px;
-    word-wrap: break-word; /* Must come before font-family */
-    color: black;
+    border: 1px solid var(--go-ui-color-gray-20);
+    border-radius: var(--go-ui-border-radius-md);
+    box-shadow: var(--go-ui-box-shadow-md);
     font-family: 'Poppins', sans-serif;
-    font-size: 12px;
-    pointer-events: none;
+    font-size: var(--go-ui-font-size-sm);
+    padding: 0;
+}
+
+.tooltipContent {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-xs);
+    padding: var(--go-ui-spacing-xs);
 }
 
 .tooltipTitle {
-    margin-bottom: 4px;
     font-weight: 600;
 }
 
 .tooltipTag {
     display: inline-block;
     opacity: 0.9;
-    margin-bottom: 3px;
     border-radius: 9px;
     padding: 1px 5px;
     color: #FFF;
     font-size: 9px;
     font-weight: 500;
+    width: fit-content;
 }
 
 .tooltipValue {
     opacity: 0.9;
-    margin-top: 4px;
-    font-weight: 500;
 }

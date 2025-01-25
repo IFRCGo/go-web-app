@@ -178,7 +178,7 @@ function PERPerformanceDashboard() {
                     />
                 </Container>
                 <Container
-                    heading="PER Global Performance"
+                    heading="PER Global Performance Ratings"
                     description="Overview of PER ratings and performance metrics."
                     withHeaderBorder
                     className={_cs(styles.container, styles.ratingAnalysis)}

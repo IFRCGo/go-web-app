@@ -19,7 +19,6 @@
 }
 
 .title {
-    padding-bottom: var(--go-ui-spacing-lg);
     text-align: center;
     white-space: nowrap;
     color: var(--go-ui-color-text);
@@ -29,7 +28,7 @@
 
 .label {
     position: absolute;
-    bottom: -26%;
+    bottom: -29px;
     left: 50%;
     transform: translate(-50%, -50%);
     color: var(--go-ui-color-text);
@@ -39,9 +38,9 @@
 
 .percentage {
     position: absolute;
-    bottom: -15px;
+    bottom: 8px;
     left: 50%;
     transform: translate(-50%, 0);
-    font-size: var(--go-ui-font-size-md);
+    font-size: var(--go-ui-font-size-lg);
     font-weight: var(--go-ui-font-weight-bold);
 }

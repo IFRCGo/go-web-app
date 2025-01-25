@@ -6,28 +6,66 @@ import React, {
 } from 'react';
 import { _cs } from '@togglecorp/fujs';
 import * as d3 from 'd3';
+import tippy from 'tippy.js';
+import 'tippy.js/dist/tippy.css';
+import 'tippy.js/themes/light-border.css';
 
 import styles from './styles.module.css';
 
 interface TreemapNode {
-  id: string;
-  value: number;
-  name: string;
-  parent?: string;
-  children?: TreemapNode[];
-  data?: {
-    name: string;
+    id: string;
     value: number;
-    color: string;
-  };
+    name: string;
+    parent?: string;
+    children?: TreemapNode[];
+    data?: {
+        name: string;
+        value: number;
+        color: string;
+    };
 }
 
 interface Props {
-  d: TreemapNode;
-  onClick?: (item: { area: string; component: string | null }) => void;
-  activeIndex?: string | number | null;
-  className?: string;
-  height?: number;
+    d: TreemapNode;
+    onClick?: (item: { area: string; component: string | null }) => void;
+    activeIndex?: string | number | null;
+    className?: string;
+    height?: number;
+}
+
+interface ElementWithTippy extends Element {
+    _tippy?: {
+        destroy: () => void;
+    };
+}
+
+function createTooltipContent(node: d3.HierarchyNode<TreemapNode>) {
+    if (!node || !node.data || (node.data.name && node.data.name.includes('Root'))) {
+        return null;
+    }
+
+    const tooltipContent = document.createElement('div');
+    tooltipContent.className = styles.tooltipContent;
+
+    const title = document.createElement('div');
+    title.className = styles.tooltipTitle;
+    title.textContent = node.data.name || '';
+    tooltipContent.appendChild(title);
+
+    const tag = document.createElement('div');
+    tag.className = styles.tooltipTag;
+    tag.textContent = node.parent?.data?.name || '';
+    tag.style.backgroundColor = node.parent?.data?.color || 'var(--go-ui-color-background)';
+    tooltipContent.appendChild(tag);
+
+    if (node.depth === 2 && node.data) {
+        const value = document.createElement('div');
+        value.className = styles.tooltipValue;
+        value.textContent = node.data.value.toString();
+        tooltipContent.appendChild(value);
+    }
+
+    return tooltipContent;
 }
 
 function PERTreemapChart({
@@ -38,7 +76,6 @@ function PERTreemapChart({
     height = 440,
 }: Props) {
     const svgRef = useRef<SVGSVGElement>(null);
-    const tooltipRef = useRef<HTMLDivElement>(null);
     const [data, setData] = useState<TreemapNode>();
 
     // Configuration constants
@@ -73,131 +110,53 @@ function PERTreemapChart({
         [],
     );
 
-    const showTooltip = useCallback((event: MouseEvent, node: TreemapNode) => {
-        if (!tooltipRef.current || !svgRef.current) return;
-
-        const { clientX, clientY } = event;
-        const tooltipWidth = tooltipRef.current.offsetWidth || 0;
-        const tooltipHeight = tooltipRef.current.offsetHeight || 0;
-
-        // Position tooltip to avoid going off screen
-        let leftPos = clientX + 10;
-        let topPos = clientY + 10;
-
-        // Check if tooltip would go off right edge
-        if (leftPos + tooltipWidth > window.innerWidth) {
-            leftPos = clientX - tooltipWidth - 10;
-        }
-
-        // Check if tooltip would go off bottom edge
-        if (topPos + tooltipHeight > window.innerHeight) {
-            topPos = clientY - tooltipHeight - 10;
-        }
-
-        const tooltipContent = `
-            <div class="${styles.tooltipTitle}">${node.data?.name || ''}</div>
-            <div class="${styles.tooltipTag}" style="background-color: ${node.parent?.data?.color || '#ccc'}">${node.parent?.data?.name || ''}</div>
-            ${node.depth === 2 && node.data ? `<div class="${styles.tooltipValue}">${node.data.value}</div>` : ''}
-        `;
-
-        d3.select(tooltipRef.current)
-            .style('visibility', 'visible')
-            .style('opacity', '1')
-            .style('position', 'fixed')
-            .html(tooltipContent)
-            .style('left', `${leftPos}px`)
-            .style('top', `${topPos}px`);
-    }, []);
-
-    const moveTooltip = useCallback((event: MouseEvent) => {
-        if (!tooltipRef.current) return;
-
-        const { clientX, clientY } = event;
-        const tooltipWidth = tooltipRef.current.offsetWidth || 0;
-        const tooltipHeight = tooltipRef.current.offsetHeight || 0;
-
-        // Position tooltip to avoid going off screen
-        let leftPos = clientX + 10;
-        let topPos = clientY + 10;
-
-        // Check if tooltip would go off right edge
-        if (leftPos + tooltipWidth > window.innerWidth) {
-            leftPos = clientX - tooltipWidth - 10;
-        }
-
-        // Check if tooltip would go off bottom edge
-        if (topPos + tooltipHeight > window.innerHeight) {
-            topPos = clientY - tooltipHeight - 10;
-        }
-
-        d3.select(tooltipRef.current)
-            .style('left', `${leftPos}px`)
-            .style('top', `${topPos}px`);
-    }, []);
-
-    const hideTooltip = useCallback(() => {
-        if (!tooltipRef.current) return;
-
-        d3.select(tooltipRef.current)
-            .style('visibility', 'hidden')
-            .style('opacity', '0');
-    }, []);
-
     const attachTooltipBehavior = useCallback(
         (selection: d3.Selection<d3.BaseType, unknown, null, undefined>) => {
             selection
                 .style('fill', 'transparent')
                 .style('cursor', 'pointer')
                 .style('pointer-events', 'all')
-                .on(
-                    'mouseover',
-                    (event: MouseEvent, node: TreemapNode) => {
-                        if (node.data?.name && node.data.name.includes('Root')) {
-                            return;
-                        }
-
-                        const element = event.currentTarget as Element;
-                        const baseRect = d3
-                            .select(element.parentNode as Element)
-                            .select('.base-rect');
-                        if (activeIndex && node.depth === 2 && node.data?.name === activeIndex) {
-                            baseRect.style('stroke', '#00C2FF').style('stroke-width', 3);
-                        } else {
-                            baseRect.style('stroke', 'white').style('stroke-width', 2);
-                        }
-                        showTooltip(event, node);
-                    },
-                )
-                .on('mousemove', moveTooltip)
-                .on('mouseout', (event: MouseEvent) => {
-                    const element = event.currentTarget as Element;
-                    const baseRect = d3
-                        .select(element.parentNode as Element)
-                        .select('.base-rect');
-                    const node = d3.select(element).datum() as TreemapNode;
-                    if (
-                        activeIndex
-                        && node.depth === 2
-                        && node.data?.name === activeIndex
-                    ) {
-                        baseRect.style('stroke', '#00C2FF').style('stroke-width', 3);
-                    } else {
-                        baseRect.style('stroke', '#fff').style('stroke-width', 1);
+                .each(function(this: ElementWithTippy, node: d3.HierarchyNode<TreemapNode>) {
+                    // Destroy existing tippy instance if it exists
+                    if (this._tippy) {
+                        this._tippy.destroy();
                     }
-                    hideTooltip();
+                    
+                    if (!node.data?.name || !node.data.name.includes('Root')) {
+                        tippy(this, {
+                            content: createTooltipContent(node),
+                            theme: 'light-border',
+                            arrow: true,
+                            offset: [0, 10],
+                            placement: 'right',
+                            animation: 'fade',
+                            duration: 300,
+                            appendTo: () => document.body,
+                            onShow: (instance) => {
+                                const currentNode = d3.select(this).datum() as d3.HierarchyNode<TreemapNode>;
+                                instance.setContent(createTooltipContent(currentNode));
+                            }
+                        });
+                    }
                 })
-                .on('click', (event: MouseEvent, node: TreemapNode) => {
-                    hideTooltip();
+                .on('click', (event: MouseEvent, node: d3.HierarchyNode<TreemapNode>) => {
                     if (onClick && event) {
                         const area = node.depth === 2 ? node.parent?.data?.name : node.data?.name;
                         const component = node.depth === 2 ? node.data?.name : null;
+                        
+                        // If clicking on already selected component, deselect it
+                        if (activeIndex && node.depth === 2 && node.data?.name === activeIndex) {
+                            onClick({ area: '', component: null });
+                            return;
+                        }
+                        
                         if (area) {
                             onClick({ area, component });
                         }
                     }
                 });
         },
-        [activeIndex, onClick, showTooltip, moveTooltip, hideTooltip],
+        [activeIndex, onClick],
     );
 
     useEffect(() => {
@@ -205,7 +164,7 @@ function PERTreemapChart({
     }, [d]);
 
     useEffect(() => {
-        if (!data || !svgRef.current || !tooltipRef.current) return;
+        if (!data || !svgRef.current) return;
 
         const svgElement = d3.select(svgRef.current);
         const width = (svgRef.current.clientWidth || 0) - PADDING * 2;
@@ -268,39 +227,91 @@ function PERTreemapChart({
             .attr('class', 'base-rect')
             .attr('x', 0.5)
             .attr('y', 0.5)
-            .attr('width', (node: d3.HierarchyNode<TreemapNode>) => Math.max(0, node.x1 - node.x0 - 1))
-            .attr('height', (node: d3.HierarchyNode<TreemapNode>) => Math.max(0, node.y1 - node.y0 - 1))
-            .style(
-                'fill',
-                (node: d3.HierarchyNode<TreemapNode>) => (
-                    node.data.color || (node.parent ? node.parent.data.color : '#ccc')
-                ),
-            )
-            .style('stroke', (node: d3.HierarchyNode<TreemapNode>) => {
-                if (activeIndex && node.depth === 2 && node.data.name === activeIndex) {
-                    return '#00C2FF';
-                }
-                return '#fff';
-            })
-            .style('stroke-width', (node: d3.HierarchyNode<TreemapNode>) => {
-                if (activeIndex && node.depth === 2 && node.data.name === activeIndex) {
-                    return 3;
-                }
-                return 1;
-            });
+            .attr('width', (node: d3.HierarchyNode<TreemapNode>) => Math.max(0, node.x1 - node.x0) + 1)
+            .attr('height', (node: d3.HierarchyNode<TreemapNode>) => Math.max(0, node.y1 - node.y0) + 1);
 
         nodesEnter
             .append('rect')
             .attr('class', 'overlay-rect')
-            .attr('x', 0.5)
-            .attr('y', 0.5)
-            .attr('width', (node: d3.HierarchyNode<TreemapNode>) => Math.max(0, node.x1 - node.x0 - 1))
-            .attr('height', (node: d3.HierarchyNode<TreemapNode>) => Math.max(0, node.y1 - node.y0 - 1))
+            .attr('x', 0)
+            .attr('y', 0)
+            .attr('width', (node: d3.HierarchyNode<TreemapNode>) => Math.max(0, node.x1 - node.x0 - 1) + 0.5)
+            .attr('height', (node: d3.HierarchyNode<TreemapNode>) => Math.max(0, node.y1 - node.y0 - 1) + 0.5)
             .call(attachTooltipBehavior);
 
         const nodesUpdate = nodes.merge(nodesEnter);
 
-        nodesUpdate.select('.overlay-rect').style('pointer-events', 'none');
+        nodesUpdate.select('.overlay-rect').style('pointer-events', 'all');
+
+        const updateBaseRectStyles = (selection: d3.Selection<any, any, any, any>) => {
+            selection
+                .style(
+                    'fill',
+                    (node: d3.HierarchyNode<TreemapNode>) => (
+                        node.data.color || (node.parent ? node.parent.data.color : 'var(--go-ui-color-background)')
+                    ),
+                )
+                .style('stroke', (node: d3.HierarchyNode<TreemapNode>) => {
+                    if (activeIndex && node.depth === 2 && node.data.name === activeIndex) {
+                        return '#00C2FF';
+                    }
+                    return '#fff';
+                })
+                .style('stroke-width', (node: d3.HierarchyNode<TreemapNode>) => {
+                    if (activeIndex && node.depth === 2 && node.data.name === activeIndex) {
+                        return 3;
+                    }
+                    return 0.5;
+                });
+        };
+
+        const addHoverBehavior = (selection: d3.Selection<any, any, any, any>) => {
+            selection
+                .on('mouseover', function(event: MouseEvent, node: d3.HierarchyNode<TreemapNode>) {
+                    if (node.data?.name && node.data.name.includes('Root')) {
+                        return;
+                    }
+
+                    // Skip hover effect for selected nodes
+                    if (activeIndex && node.depth === 2 && node.data.name === activeIndex) {
+                        return;
+                    }
+
+                    const baseRect = d3.select(this.parentNode).select('.base-rect');
+                    baseRect.style('stroke', 'white').style('stroke-width', 2);
+                })
+                .on('mouseout', function(event: MouseEvent, node: d3.HierarchyNode<TreemapNode>) {
+                    if (node.data?.name && node.data.name.includes('Root')) {
+                        return;
+                    }
+
+                    const baseRect = d3.select(this.parentNode).select('.base-rect');
+                    updateBaseRectStyles(baseRect);
+                });
+        };
+
+        nodesUpdate
+            .select('.base-rect')
+            .transition()
+            .duration(TRANSITION_DURATION)
+            .attr('x', 0.5)
+            .attr('y', 0.5)
+            .attr('width', (node: d3.HierarchyNode<TreemapNode>) => Math.max(0, node.x1 - node.x0) + 1)
+            .attr('height', (node: d3.HierarchyNode<TreemapNode>) => Math.max(0, node.y1 - node.y0) + 1)
+            .call(updateBaseRectStyles);
+
+        nodesUpdate
+            .select('.overlay-rect')
+            .transition()
+            .duration(TRANSITION_DURATION)
+            .attr('x', 0.5)
+            .attr('y', 0.5)
+            .attr('width', (node: d3.HierarchyNode<TreemapNode>) => Math.max(0, node.x1 - node.x0 - 1))
+            .attr('height', (node: d3.HierarchyNode<TreemapNode>) => Math.max(0, node.y1 - node.y0 - 1))
+            .on('end', function(this: ElementWithTippy) {
+                const selection = d3.select(this);
+                selection.call(addHoverBehavior);
+            });
 
         nodesUpdate
             .transition()
@@ -312,46 +323,6 @@ function PERTreemapChart({
                 nodesUpdate.select('.overlay-rect').each(() => {
                     d3.select(this).call(attachTooltipBehavior);
                 });
-            });
-
-        nodesUpdate
-            .select('.base-rect')
-            .transition()
-            .duration(TRANSITION_DURATION)
-            .attr('x', 0.5)
-            .attr('y', 0.5)
-            .attr('width', (node: d3.HierarchyNode<TreemapNode>) => Math.max(0, node.x1 - node.x0 - 1))
-            .attr('height', (node: d3.HierarchyNode<TreemapNode>) => Math.max(0, node.y1 - node.y0 - 1))
-            .style(
-                'fill',
-                (node: d3.HierarchyNode<TreemapNode>) => (
-                    node.data.color || (node.parent ? node.parent.data.color : '#ccc')
-                ),
-            )
-            .style('stroke', (node: d3.HierarchyNode<TreemapNode>) => {
-                if (activeIndex && node.depth === 2 && node.data.name === activeIndex) {
-                    return '#00C2FF';
-                }
-                return '#fff';
-            })
-            .style('stroke-width', (node: d3.HierarchyNode<TreemapNode>) => {
-                if (activeIndex && node.depth === 2 && node.data.name === activeIndex) {
-                    return 3;
-                }
-                return 1;
-            });
-
-        nodesUpdate
-            .select('.overlay-rect')
-            .transition()
-            .duration(TRANSITION_DURATION)
-            .attr('x', 0.5)
-            .attr('y', 0.5)
-            .attr('width', (node: d3.HierarchyNode<TreemapNode>) => Math.max(0, node.x1 - node.x0 - 1))
-            .attr('height', (node: d3.HierarchyNode<TreemapNode>) => Math.max(0, node.y1 - node.y0 - 1))
-            .on('end', () => {
-                d3.select(this).style('pointer-events', 'all');
-                d3.select(this).call(attachTooltipBehavior);
             });
 
         const addLabelContent = (
@@ -517,7 +488,7 @@ function PERTreemapChart({
 
             const resizedNodesUpdate = resizedNodes.merge(resizedNodesEnter);
 
-            resizedNodesUpdate.select('.overlay-rect').style('pointer-events', 'none');
+            resizedNodesUpdate.select('.overlay-rect').style('pointer-events', 'all');
 
             resizedNodesUpdate
                 .transition()
@@ -537,26 +508,9 @@ function PERTreemapChart({
                 .duration(TRANSITION_DURATION)
                 .attr('x', 0.5)
                 .attr('y', 0.5)
-                .attr('width', (node: d3.HierarchyNode<TreemapNode>) => Math.max(0, node.x1 - node.x0 - 1))
-                .attr('height', (node: d3.HierarchyNode<TreemapNode>) => Math.max(0, node.y1 - node.y0 - 1))
-                .style(
-                    'fill',
-                    (node: d3.HierarchyNode<TreemapNode>) => (
-                        node.data.color || (node.parent ? node.parent.data.color : '#ccc')
-                    ),
-                )
-                .style('stroke', (node: d3.HierarchyNode<TreemapNode>) => {
-                    if (activeIndex && node.depth === 2 && node.data.name === activeIndex) {
-                        return '#00C2FF';
-                    }
-                    return '#fff';
-                })
-                .style('stroke-width', (node: d3.HierarchyNode<TreemapNode>) => {
-                    if (activeIndex && node.depth === 2 && node.data.name === activeIndex) {
-                        return 3;
-                    }
-                    return 1;
-                });
+                .attr('width', (node: d3.HierarchyNode<TreemapNode>) => Math.max(0, node.x1 - node.x0) + 1)
+                .attr('height', (node: d3.HierarchyNode<TreemapNode>) => Math.max(0, node.y1 - node.y0) + 1)
+                .call(updateBaseRectStyles);
 
             resizedNodesUpdate
                 .select('.overlay-rect')
@@ -566,9 +520,32 @@ function PERTreemapChart({
                 .attr('y', 0.5)
                 .attr('width', (node: d3.HierarchyNode<TreemapNode>) => Math.max(0, node.x1 - node.x0 - 1))
                 .attr('height', (node: d3.HierarchyNode<TreemapNode>) => Math.max(0, node.y1 - node.y0 - 1))
-                .on('end', () => {
-                    d3.select(this).style('pointer-events', 'all');
-                    d3.select(this).call(attachTooltipBehavior);
+                .on('end', function(this: ElementWithTippy) {
+                    const selection = d3.select(this);
+                    // Destroy existing tippy instance if it exists
+                    if (this._tippy) {
+                        this._tippy.destroy();
+                    }
+                    selection.call(addHoverBehavior);
+                    
+                    // Re-create tippy instance
+                    const node = d3.select(this).datum() as d3.HierarchyNode<TreemapNode>;
+                    if (!node.data?.name || !node.data.name.includes('Root')) {
+                        tippy(this, {
+                            content: createTooltipContent(node),
+                            theme: 'light-border',
+                            arrow: false,
+                            offset: [0, 10],
+                            placement: 'right',
+                            animation: 'fade',
+                            duration: 200,
+                            appendTo: () => document.body,
+                            onShow: (instance) => {
+                                const currentNode = d3.select(this).datum() as d3.HierarchyNode<TreemapNode>;
+                                instance.setContent(createTooltipContent(currentNode));
+                            }
+                        });
+                    }
                 });
 
             const resizedLabels = layer2
@@ -625,17 +602,11 @@ function PERTreemapChart({
     }, [data, activeIndex, attachTooltipBehavior, endAll, height]);
 
     return (
-        <div
-            className={_cs(styles.container, className)}
-            style={{ height, width: '100%' }}
-        >
+        <div className={_cs(styles.container, className)}>
             <svg
                 ref={svgRef}
-                width="100%"
-                height="100%"
-                style={{ display: 'block' }}
+                height={height}
             />
-            <div ref={tooltipRef} className={styles.tooltip} />
         </div>
     );
 }

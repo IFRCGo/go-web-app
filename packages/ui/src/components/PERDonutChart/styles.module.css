@@ -52,6 +52,13 @@
     color: var(--go-ui-color-white);
     font-size: var(--go-ui-font-size-xs);
     pointer-events: none;
+    background-color: var(--go-ui-color-white);
+    border: 1px solid var(--go-ui-color-gray-20);
+    border-radius: var(--go-ui-border-radius-md);
+    box-shadow: var(--go-ui-box-shadow-md);
+    font-family: 'Poppins', sans-serif;
+    font-size: var(--go-ui-font-size-sm);
+    padding: 0;
 }
 
 .tooltipTitle {
@@ -61,4 +68,14 @@
 
 .tooltipBody {
     font-weight: var(--go-ui-font-weight-normal);
+}
+
+
+
+
+.tooltipContent {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-xs);
+    padding: var(--go-ui-spacing-xs);
 }

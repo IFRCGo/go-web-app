@@ -59,6 +59,7 @@ function PERStackedHorizontalBarChart({
     transitionSpeed = 800,
     maxValue = null,
     tooltipFormat = (label: string, value: number) => `${label}  ${value}`,
+    tooltipEnabled = true,
 }: Props) {
     const chartRef = useRef(null);
 
@@ -95,12 +96,13 @@ function PERStackedHorizontalBarChart({
                 display: false,
             },
             tooltip: {
-                enabled: true,
+                enabled: tooltipEnabled,
+                itemSort: (a, b) => b.datasetIndex - a.datasetIndex,
                 callbacks: {
                     label: (context) => {
                         const label = context.dataset.label ?? '';
                         const value = context.parsed.x;
-                        return tooltipFormat(label, value);
+                        return ` ${label}  ${value}`;
                     },
                     labelTextColor: () => '#111827',
                     labelColor: (context) => ({
@@ -114,10 +116,10 @@ function PERStackedHorizontalBarChart({
                 bodyFont: {
                     family: 'Poppins',
                     weight: 'normal',
-                    size: 13,
+                    size: 12,
                 },
-                padding: 8,
-                caretPadding: 18,
+                padding: 11,
+                caretPadding: 20,
                 cornerRadius: 4,
                 displayColors: true,
                 boxWidth: 12,
@@ -127,10 +129,16 @@ function PERStackedHorizontalBarChart({
                 borderWidth: 1,
                 titleFont: {
                     family: 'Poppins',
-                    weight: 'normal',
-                    size: 11,
+                    weight: 600,
+                    size: 12,
                 },
-                boxPadding: 3,
+                boxPadding: 7,
+                external: (context) => {
+                    const tooltipEl = context.chart.canvas.parentNode?.querySelector<HTMLDivElement>('div');
+                    if (tooltipEl) {
+                        tooltipEl.style.boxShadow = '0 1px 2px 0 rgb(0 0 0 / 0.25), 0 1px 3px 0 rgb(0 0 0 / 0.51)';
+                    }
+                },
             },
             datalabels: {
                 anchor: 'center',

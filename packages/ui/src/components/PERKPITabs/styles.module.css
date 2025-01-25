@@ -23,6 +23,8 @@
     text-align: center;
     font-family: var(--go-ui-font-family-sans-serif);
     appearance: none;
+    background-color: var(--go-ui-color-background);
+    top: -2px;
 }
 
 .kpiValue {
