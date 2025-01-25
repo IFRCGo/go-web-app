@@ -256,7 +256,21 @@ function PERAnalysis({
                                         style: { fontSize: '12px', fill: COLORS.textLight },
                                     }}
                                 />
-                                <Tooltip content={<CustomTooltip />} />
+                                <Tooltip
+                                    content={<CustomTooltip />}
+                                    cursor={false}
+                                    wrapperStyle={{
+                                        filter: 'none',
+                                        WebkitFilter: 'none',
+                                        boxShadow: 'none',
+                                        outline: 'none',
+                                    }}
+                                    contentStyle={{
+                                        filter: 'none',
+                                        WebkitFilter: 'none',
+                                        boxShadow: 'none',
+                                    }}
+                                />
                                 <Legend content={<CustomLegend />} />
                                 <Bar
                                     yAxisId="left"

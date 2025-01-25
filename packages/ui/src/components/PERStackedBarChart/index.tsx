@@ -1,8 +1,8 @@
 import {
     useEffect,
+    useMemo,
     useRef,
     useState,
-    useMemo,
 } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { _cs } from '@togglecorp/fujs';
@@ -83,7 +83,9 @@ function PERStackedBarChart({
     const [containerWidth, setContainerWidth] = useState<number>(minWidth);
 
     useEffect(() => {
-        if (!containerRef.current) return;
+        if (!containerRef.current) {
+            return undefined;
+        }
 
         const resizeObserver = new ResizeObserver((entries) => {
             entries.forEach((entry) => {

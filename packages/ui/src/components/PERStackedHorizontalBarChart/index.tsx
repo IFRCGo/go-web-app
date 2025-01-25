@@ -58,7 +58,6 @@ function PERStackedHorizontalBarChart({
     data,
     transitionSpeed = 800,
     maxValue = null,
-    tooltipFormat = (label: string, value: number) => `${label}  ${value}`,
     tooltipEnabled = true,
 }: Props) {
     const chartRef = useRef(null);

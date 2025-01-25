@@ -9,6 +9,7 @@
 
 .kpiTab {
     position: relative;
+    top: -2px;
     flex: 1;
     z-index: 2;
     margin: var(--go-ui-spacing-2xs);
@@ -18,13 +19,12 @@
     border-bottom: var(--go-ui-width-separator-thin) solid transparent;
     border-left: var(--go-ui-width-separator-thin) solid transparent;
     border-radius: 0;
+    background-color: var(--go-ui-color-background);
     padding: var(--go-ui-spacing-sm) var(--go-ui-spacing-md);
     max-width: calc(25% - var(--go-ui-spacing-sm));
     text-align: center;
     font-family: var(--go-ui-font-family-sans-serif);
     appearance: none;
-    background-color: var(--go-ui-color-background);
-    top: -2px;
 }
 
 .kpiValue {

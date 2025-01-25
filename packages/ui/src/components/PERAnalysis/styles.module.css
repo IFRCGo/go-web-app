@@ -67,14 +67,31 @@
   height: 340px;
 }
 
+:global(.recharts-tooltip-wrapper),
+:global(.recharts-tooltip-wrapper *) {
+  box-shadow: none !important;
+  -webkit-filter: none !important;
+  filter: none !important;
+}
+
+:global(.recharts-default-tooltip) {
+  box-shadow: none !important;
+  background: none !important;
+  -webkit-filter: none !important;
+  filter: none !important;
+}
+
 .tooltip {
-  border: 1px solid var(--go-ui-color-gray-20);
-  border-radius: var(--go-ui-radius-md);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  background: var(--go-ui-color-white);
-  padding: var(--go-ui-spacing-md);
-  padding-top: var(--go-ui-spacing-xs);
-  max-width: 300px;
+  border: 1px solid var(--go-ui-color-gray-20) !important;
+  border-radius: var(--go-ui-border-radius-md) !important;
+  box-shadow: none !important;
+  background-color: var(--go-ui-color-white) !important;
+  padding: var(--go-ui-spacing-sm) !important;
+  max-width: 300px !important;
+  font-family: var(--go-ui-font-family-sans-serif) !important;
+  font-size: var(--go-ui-font-size-sm) !important;
+  -webkit-filter: none !important;
+  filter: none !important;
 }
 
 .tooltipTitle {
@@ -191,7 +208,7 @@
 .summaryCard:hover {
   transform: translateY(-2px);
   border-color: rgba(245, 51, 63, 0.2);
-  box-shadow: 0 4px 20px rgba(245, 51, 63, 0.05);
+  box-shadow: 0 4px 20px rgba(245, 51, 63, 0.0025);
 }
 
 .summaryCard.active {
