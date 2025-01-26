@@ -4,6 +4,9 @@ import {
 } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
+import useTranslation from '#hooks/useTranslation';
+
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 interface Region {
@@ -28,6 +31,8 @@ function PERRegionToggle({
     precision = 0,
     showCount = true,
 }: Props) {
+    const strings = useTranslation(i18n)?.strings;
+
     const handleToggle = useCallback((
         event: MouseEvent<HTMLButtonElement>,
         name: string,
@@ -65,6 +70,7 @@ function PERRegionToggle({
             onKeyDown={handleKeyDown}
             role="button"
             tabIndex={0}
+            aria-label={strings?.ariaLabels?.container ?? 'Region filter'}
         >
             <div className={styles.toggleGroup}>
                 <div className={styles.toggleBody}>
@@ -78,6 +84,13 @@ function PERRegionToggle({
                             onClick={(event) => handleToggle(event, region.name)}
                             aria-pressed={activeRegion === region.name}
                             type="button"
+                            aria-label={
+                                activeRegion === region.name
+                                    ? strings?.ariaLabels?.buttonActive?.replace('{region}', region.name)
+                                        ?? `${region.name} filter active`
+                                    : strings?.ariaLabels?.buttonInactive?.replace('{region}', region.name)
+                                        ?? `${region.name} filter inactive`
+                            }
                         >
                             <span className={styles.label}>{region.name}</span>
                             {showCount && (
@@ -91,4 +104,6 @@ function PERRegionToggle({
             </div>
         </div>
     );
-} export default PERRegionToggle;
+}
+
+export default PERRegionToggle;

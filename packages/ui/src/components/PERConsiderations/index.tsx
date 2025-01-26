@@ -1,5 +1,6 @@
 import React from 'react';
 import { _cs } from '@togglecorp/fujs';
+
 import useTranslation from '#hooks/useTranslation';
 
 import PERChartLegend from '../PERChartLegend';

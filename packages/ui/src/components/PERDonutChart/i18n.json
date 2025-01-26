@@ -1,12 +1,12 @@
 {
-    "namespace": "perDonutChart",
+    "namespace": "common",
     "strings": {
-        "ariaLabels": {
+        "donut": {
             "chart": "Donut chart showing {data}",
-            "segment": "Chart segment for {label} with value {value}"
-        },
-        "tooltips": {
-            "format": "{label}: {value}"
+            "segment": "Chart segment for {label} with value {value}",
+            "tooltips": {
+                "format": "{label}: {value}"
+            }
         }
     }
 }

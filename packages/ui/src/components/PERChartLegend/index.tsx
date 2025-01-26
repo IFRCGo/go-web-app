@@ -1,6 +1,9 @@
 import { useCallback } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
+import useTranslation from '#hooks/useTranslation';
+
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 interface LegendItem {
@@ -18,6 +21,7 @@ export interface Props {
 }
 
 function PERChartLegend(props: Props) {
+    const strings = useTranslation(i18n)?.strings;
     const {
         className,
         data,
@@ -40,28 +44,49 @@ function PERChartLegend(props: Props) {
                 layout === 'vertical' && styles.vertical,
                 className,
             )}
+            aria-label={strings?.ariaLabels?.container ?? 'Chart legend'}
         >
-            {data.map((item, index) => (
-                <button
-                    key={item.label}
-                    className={_cs(
-                        styles.item,
-                        activeIndex === item.label && styles.active,
-                        disabledIndices.includes(index) && styles.disabled,
-                    )}
-                    onClick={() => handleClick(index, item)}
-                    type="button"
-                    disabled={disabledIndices.includes(index)}
-                >
-                    <div
-                        className={styles.color}
-                        style={{ backgroundColor: item.color }}
-                    />
-                    <span className={styles.label}>
-                        {item.label}
-                    </span>
-                </button>
-            ))}
+            {data.map((item, index) => {
+                const isActive = activeIndex === item.label;
+                const isDisabled = disabledIndices.includes(index);
+                const getAriaLabel = () => {
+                    if (isDisabled) {
+                        return strings?.ariaLabels?.itemDisabled?.replace('{label}', item.label)
+                            ?? `Legend item for ${item.label} (disabled)`;
+                    }
+                    if (isActive) {
+                        return strings?.ariaLabels?.itemActive?.replace('{label}', item.label)
+                            ?? `Legend item for ${item.label} (active)`;
+                    }
+                    return strings?.ariaLabels?.item?.replace('{label}', item.label)
+                        ?? `Legend item for ${item.label}`;
+                };
+                const ariaLabel = getAriaLabel();
+
+                return (
+                    <button
+                        key={item.label}
+                        className={_cs(
+                            styles.item,
+                            isActive && styles.active,
+                            isDisabled && styles.disabled,
+                        )}
+                        onClick={() => handleClick(index, item)}
+                        type="button"
+                        disabled={isDisabled}
+                        aria-label={ariaLabel}
+                    >
+                        <div
+                            className={styles.color}
+                            style={{ backgroundColor: item.color }}
+                            aria-label={strings?.ariaLabels?.colorIndicator?.replace('{label}', item.label) ?? `Color indicator for ${item.label}`}
+                        />
+                        <span className={styles.label}>
+                            {item.label}
+                        </span>
+                    </button>
+                );
+            })}
         </div>
     );
 }

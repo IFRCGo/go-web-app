@@ -1,0 +1,12 @@
+{
+    "namespace": "common",
+    "strings": {
+        "legend": {
+            "container": "Chart legend",
+            "item": "Legend item for {label}",
+            "itemActive": "Legend item for {label} (active)",
+            "itemDisabled": "Legend item for {label} (disabled)",
+            "colorIndicator": "Color indicator for {label}"
+        }
+    }
+}

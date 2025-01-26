@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { _cs } from '@togglecorp/fujs';
+
 import useTranslation from '#hooks/useTranslation';
 
 import { RatingBar as RatingBarComponent } from './RatingBar';
@@ -38,8 +39,8 @@ function PERRatingAnalysis({
     });
 
     return (
-        <div 
-            className={_cs(styles.container, className)} 
+        <div
+            className={_cs(styles.container, className)}
             style={{ marginTop: 6 }}
             aria-label={strings?.ariaLabels?.container ?? 'PER rating analysis'}
         >
@@ -60,7 +61,7 @@ function PERRatingAnalysis({
                         />
                     </div>
                     <div className={styles.ratingValueContainer} style={{ marginTop: 3 }}>
-                        <span 
+                        <span
                             className={styles.ratingValue}
                             aria-label={strings?.ariaLabels?.ratingValue?.replace('{value}', overallRating.rating.toFixed(1)) ?? `Rating value: ${overallRating.rating.toFixed(1)}`}
                         >
@@ -113,7 +114,7 @@ function PERRatingAnalysis({
                                     />
                                 </div>
                                 <div className={styles.ratingValueContainer}>
-                                    <span 
+                                    <span
                                         className={styles.ratingValue}
                                         aria-label={strings?.ariaLabels?.ratingValue?.replace('{value}', area.rating?.toFixed(1)) ?? `Rating value: ${area.rating?.toFixed(1)}`}
                                     >
@@ -161,7 +162,7 @@ function PERRatingAnalysis({
                             onClick={() => handleSortChange('number', sortDirection === 'asc' ? 'desc' : 'asc')}
                             aria-label={strings?.ariaLabels?.sortButton
                                 ?.replace('{type}', strings?.sort?.byNumber ?? 'by number')
-                                ?.replace('{direction}', sortDirection === 'asc' ? (strings?.sort?.ascending ?? '↑') : (strings?.sort?.descending ?? '↓')) 
+                                ?.replace('{direction}', sortDirection === 'asc' ? (strings?.sort?.ascending ?? '↑') : (strings?.sort?.descending ?? '↓'))
                                 ?? `Sort by number ${sortDirection === 'asc' ? '↑' : '↓'}`}
                         >
                             {strings?.sort?.byNumber ?? 'Sort by number'}
@@ -190,7 +191,7 @@ function PERRatingAnalysis({
                     {sortedComponentData.map((component) => (
                         <div key={component.id} className={styles.ratingItem}>
                             <span className={styles.ratingName}>
-                                <span 
+                                <span
                                     className={styles.ratingPrefix}
                                     aria-label={strings?.ariaLabels?.componentPrefix?.replace('{number}', component.id.toString()) ?? `Component ${component.id}`}
                                 >
@@ -210,7 +211,7 @@ function PERRatingAnalysis({
                                     />
                                 </div>
                                 <div className={styles.ratingValueContainer}>
-                                    <span 
+                                    <span
                                         className={styles.ratingValue}
                                         aria-label={strings?.ariaLabels?.ratingValue?.replace('{value}', component.rating.toFixed(1)) ?? `Rating value: ${component.rating.toFixed(1)}`}
                                     >

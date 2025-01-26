@@ -1,0 +1,25 @@
+{
+    "namespace": "common",
+    "strings": {
+        "analysis": {
+            "container": "PER analysis chart and summary",
+            "cycleCard": "PER cycle {cycle} details",
+            "chart": "PER analysis chart showing completed cycles and average ratings",
+            "tooltip": "Cycle details for {cycle}",
+            "ratingChange": "Rating change of {value} points",
+            "axisLabels": {
+                "nsCount": "# OF NS",
+                "rating": "AVERAGE PER RATING"
+            },
+            "cycleLegend": {
+                "completedCycles": "Completed cycles",
+                "yetToProgress": "Yet to progress",
+                "averageRating": "Average PER rating"
+            },
+            "labels": {
+                "perRating": "PER Rating",
+                "nsUnit": "NSs"
+            }
+        }
+    }
+}

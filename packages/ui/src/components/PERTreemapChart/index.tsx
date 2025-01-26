@@ -12,6 +12,9 @@ import { _cs } from '@togglecorp/fujs';
 import * as d3 from 'd3';
 import tippy, { Instance as TippyInstance } from 'tippy.js';
 
+import useTranslation from '#hooks/useTranslation';
+
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 interface TreemapNode {
@@ -49,7 +52,10 @@ type D3TreemapSelection = d3.Selection<
     unknown
 >;
 
-function createTooltipContent(node: d3.HierarchyNode<TreemapNode>): HTMLElement | null {
+function createTooltipContent(
+    node: d3.HierarchyNode<TreemapNode>,
+    strings: Record<string, Record<string, string>>,
+): HTMLElement | null {
     if (!node?.data?.name || node.data.name.includes('Root')) {
         return null;
     }
@@ -59,13 +65,13 @@ function createTooltipContent(node: d3.HierarchyNode<TreemapNode>): HTMLElement 
 
     const title = document.createElement('div');
     title.className = styles.tooltipTitle;
-    title.textContent = node.data.name;
+    title.textContent = strings?.tooltips?.title?.replace('{name}', node.data.name) ?? node.data.name;
     tooltipContent.appendChild(title);
 
     if (node.parent?.data?.name) {
         const tag = document.createElement('div');
         tag.className = styles.tooltipTag;
-        tag.textContent = node.parent.data.name;
+        tag.textContent = strings?.tooltips?.tag?.replace('{name}', node.parent.data.name) ?? node.parent.data.name;
         tag.style.backgroundColor = node.parent.data.color || 'var(--go-ui-color-background)';
         tooltipContent.appendChild(tag);
     }
@@ -73,7 +79,7 @@ function createTooltipContent(node: d3.HierarchyNode<TreemapNode>): HTMLElement 
     if (node.depth === 2 && typeof node.data.value === 'number') {
         const value = document.createElement('div');
         value.className = styles.tooltipValue;
-        value.textContent = node.data.value.toString();
+        value.textContent = strings?.tooltips?.value?.replace('{value}', node.data.value.toString()) ?? node.data.value.toString();
         tooltipContent.appendChild(value);
     }
 
@@ -88,6 +94,7 @@ function PERTreemapChart({
     className,
     height = 440,
 }: Props) {
+    const strings = useTranslation(i18n)?.strings;
     const svgRef = useRef<SVGSVGElement>(null);
     const isAnimatingRef = useRef(false);
     const tooltipTimeoutRef = useRef<number>();
@@ -143,7 +150,7 @@ function PERTreemapChart({
                         return;
                     }
                     tippy(this, {
-                        content: createTooltipContent(node),
+                        content: createTooltipContent(node, strings),
                         theme: 'light-border',
                         arrow: true,
                         offset: [0, 10],
@@ -160,7 +167,7 @@ function PERTreemapChart({
                                 .select(this)
                                 .datum() as d3.HierarchyNode<TreemapNode>;
                             if (currentNode?.data) {
-                                instance.setContent(createTooltipContent(currentNode));
+                                instance.setContent(createTooltipContent(currentNode, strings));
                                 onHover?.(currentNode.data);
                             }
                             return true;
@@ -188,6 +195,25 @@ function PERTreemapChart({
                         onClick({ area, component });
                     }
                 })
+                .attr('aria-label', (node: d3.HierarchyNode<TreemapNode>) => {
+                    if (node.depth === 1) {
+                        return strings?.ariaLabels?.section?.replace('{name}', node.data.name)
+                            ?? node.data.name;
+                    }
+                    if (node.depth === 2) {
+                        const label = strings?.ariaLabels?.component
+                            ?.replace('{name}', node.data.name)
+                            ?.replace('{value}', node.data.value.toString())
+                            ?? `${node.data.name} ${node.data.value}`;
+
+                        if (activeIndex && node.data.name === activeIndex) {
+                            return strings?.ariaLabels?.selected?.replace('{name}', node.data.name)
+                                ?? node.data.name;
+                        }
+                        return label;
+                    }
+                    return '';
+                })
                 .on('mouseover', (event: MouseEvent, node: d3.HierarchyNode<TreemapNode>) => {
                     if (node.data) {
                         onHover?.(node.data);
@@ -197,7 +223,7 @@ function PERTreemapChart({
                     onHover?.(undefined);
                 });
         },
-        [activeIndex, onClick, onHover],
+        [activeIndex, onClick, onHover, strings],
     );
 
     const hideAllTooltips = useCallback(() => {
@@ -533,9 +559,14 @@ function PERTreemapChart({
     ]);
 
     return (
-        <div className={_cs(styles.container, className)}>
+        <div
+            className={_cs(styles.container, className)}
+            aria-label={strings?.ariaLabels?.container ?? 'Treemap chart'}
+        >
             <svg
                 ref={svgRef}
+                className={styles.chart}
+                aria-label={strings?.ariaLabels?.chart ?? 'Interactive treemap chart showing hierarchical data'}
                 height={height}
             />
         </div>

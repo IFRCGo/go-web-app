@@ -1,0 +1,11 @@
+{
+    "namespace": "common",
+    "strings": {
+        "regionToggle": {
+            "container": "Region filter",
+            "button": "Toggle {region} filter",
+            "buttonActive": "{region} filter active",
+            "buttonInactive": "{region} filter inactive"
+        }
+    }
+}

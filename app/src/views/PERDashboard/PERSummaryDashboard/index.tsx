@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react';
-import { _cs } from '@togglecorp/fujs';
 import {
+    useEffect,
+    useState,
+} from 'react';
+import {
+    BlockLoading,
     Button,
     Container,
-    BlockLoading,
     PERChartLegend,
     PERConsiderations,
     PERDonutChart,
@@ -15,6 +17,10 @@ import {
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
+import { mbtoken } from '#config';
+import { defaultMapStyle } from '#utils/map';
+
+import { PHASE_COLORS } from './constants';
 import {
     getComponentSummaryForTreemap,
     getFilteredMapData,
@@ -34,14 +40,6 @@ const MAP_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-dat
 const LAST_UPDATE_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-data-fetcher/contents/data/last-update.json';
 const GITHUB_TOKEN = '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';
 
-import { PHASE_COLORS } from './constants';
-import { mbtoken } from '#config';
-import { defaultMapStyle } from '#utils/map';
-
-interface Props {
-    className?: string;
-}
-
 interface ActiveFilters {
     id: number | null;
     region: string | null;
@@ -55,11 +53,7 @@ interface ActiveFilters {
     highPriorityArea: string | null;
 }
 
-function PERSummaryDashboard(props: Props) {
-    const {
-        className,
-    } = props;
-
+function PERSummaryDashboard() {
     const strings = useTranslation(i18n);
     const [activeFilters, setActiveFilters] = useState<ActiveFilters>({
         id: null,
@@ -77,8 +71,11 @@ function PERSummaryDashboard(props: Props) {
     const [activePhase, setActivePhase] = useState<number | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [mapData, setMapData] = useState<any>(null);
-    const [lastUpdateData, setLastUpdateData] = useState<any>(null);
+    const [mapData, setMapData] = useState<AssessmentRecord[] | null>(null);
+    interface LastUpdateData {
+        lastUpdate: string;
+    }
+    const [lastUpdateData, setLastUpdateData] = useState<LastUpdateData | null>(null);
 
     useEffect(() => {
         async function fetchData() {
@@ -88,15 +85,15 @@ function PERSummaryDashboard(props: Props) {
                 const [mapResponse, lastUpdateResponse] = await Promise.all([
                     fetch(MAP_DATA_URL, {
                         headers: {
-                            'Authorization': `Bearer ${GITHUB_TOKEN}`,
-                            'Accept': 'application/vnd.github.v3.raw'
-                        }
+                            Authorization: `Bearer ${GITHUB_TOKEN}`,
+                            Accept: 'application/vnd.github.v3.raw',
+                        },
                     }),
                     fetch(LAST_UPDATE_DATA_URL, {
                         headers: {
-                            'Authorization': `Bearer ${GITHUB_TOKEN}`,
-                            'Accept': 'application/vnd.github.v3.raw'
-                        }
+                            Authorization: `Bearer ${GITHUB_TOKEN}`,
+                            Accept: 'application/vnd.github.v3.raw',
+                        },
                     }),
                 ]);
 
@@ -104,17 +101,16 @@ function PERSummaryDashboard(props: Props) {
                     throw new Error('Failed to fetch data');
                 }
 
-                const [mapData, lastUpdateData] = await Promise.all([
+                const [mapDataResponse, lastUpdateDataResponse] = await Promise.all([
                     mapResponse.json(),
                     lastUpdateResponse.json(),
                 ]);
 
-                setMapData(mapData);
-                setLastUpdateData(lastUpdateData);
-                initializeData(mapData, lastUpdateData);
-            } catch (err) {
+                setMapData(mapDataResponse);
+                setLastUpdateData(lastUpdateDataResponse);
+                initializeData(mapDataResponse, lastUpdateDataResponse);
+            } catch {
                 setError('Failed to load dashboard data');
-                console.error(err);
             } finally {
                 setIsLoading(false);
             }
@@ -354,7 +350,9 @@ function PERSummaryDashboard(props: Props) {
                 <div className={styles.charts}>
                     <Container
                         heading={strings.perSummaryDashboard.containers.assessmentType.heading}
-                        headerDescription={strings.perSummaryDashboard.containers.assessmentType.description}
+                        headerDescription={
+                            strings.perSummaryDashboard.containers.assessmentType.description
+                        }
                         withHeaderBorder
                         actions={activeFilters?.assessmentType !== null && (
                             <Button
@@ -392,7 +390,9 @@ function PERSummaryDashboard(props: Props) {
 
                     <Container
                         heading={strings.perSummaryDashboard.containers.yearAndRegion.heading}
-                        headerDescription={strings.perSummaryDashboard.containers.yearAndRegion.description}
+                        headerDescription={
+                            strings.perSummaryDashboard.containers.yearAndRegion.description
+                        }
                         withHeaderBorder
                         actions={(
                             activeFilters?.region !== null
@@ -433,8 +433,13 @@ function PERSummaryDashboard(props: Props) {
 
                 <div className={styles.treemap}>
                     <Container
-                        heading={strings.perSummaryDashboard.containers.highPriorityComponents.heading}
-                        headerDescription={strings.perSummaryDashboard.containers.highPriorityComponents.description}
+                        heading={
+                            strings.perSummaryDashboard.containers.highPriorityComponents.heading
+                        }
+                        headerDescription={
+                            strings
+                                .perSummaryDashboard.containers.highPriorityComponents.description
+                        }
                         withHeaderBorder
                         actions={activeFilters?.highPriorityComponent !== null && (
                             <Button
@@ -459,7 +464,9 @@ function PERSummaryDashboard(props: Props) {
 
                 <Container
                     heading={strings.perSummaryDashboard.containers.perConsiderations.heading}
-                    headerDescription={strings.perSummaryDashboard.containers.perConsiderations.description}
+                    headerDescription={
+                        strings.perSummaryDashboard.containers.perConsiderations.description
+                    }
                     withHeaderBorder
                     actions={(
                         activeFilters?.perConsiderations !== null

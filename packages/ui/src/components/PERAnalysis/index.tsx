@@ -11,6 +11,9 @@ import {
     YAxis,
 } from 'recharts';
 
+import useTranslation from '#hooks/useTranslation';
+
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 interface PERCycleData {
@@ -53,6 +56,7 @@ interface Props {
 }
 
 function CustomTooltip({ active, payload }: TooltipProps) {
+    const strings = useTranslation(i18n)?.strings;
     if (!active || !payload || !payload.length) return null;
 
     const cycleData = payload[0].payload;
@@ -60,7 +64,10 @@ function CustomTooltip({ active, payload }: TooltipProps) {
     const isPositiveRating = ratingChange > 0;
 
     return (
-        <div className={styles.tooltip}>
+        <div
+            className={styles.tooltip}
+            aria-label={strings?.ariaLabels?.tooltip?.replace('{cycle}', cycleData?.cycle) ?? `Cycle details for ${cycleData?.cycle}`}
+        >
             <p className={styles.tooltipTitle}>{cycleData?.cycle || ''}</p>
             <div className={styles.tooltipContent}>
                 <div className={styles.tooltipMetric}>
@@ -70,10 +77,7 @@ function CustomTooltip({ active, payload }: TooltipProps) {
                             style={{ backgroundColor: COLORS.primary }}
                         />
                         <span>
-                            Completed:
-                            {cycleData?.completed ?? 0}
-                            {' '}
-                            NSs
+                            {strings?.tooltip?.completed?.replace('{count}', (cycleData?.completed ?? 0).toString()) ?? `Completed: ${cycleData?.completed ?? 0} NSs`}
                         </span>
                     </div>
                 </div>
@@ -85,10 +89,7 @@ function CustomTooltip({ active, payload }: TooltipProps) {
                             style={{ backgroundColor: COLORS.primaryLight }}
                         />
                         <span>
-                            Yet to Progress:
-                            {cycleData?.inProgress ?? 0}
-                            {' '}
-                            NSs
+                            {strings?.tooltip?.inProgress?.replace('{count}', (cycleData?.inProgress ?? 0).toString()) ?? `Yet to Progress: ${cycleData?.inProgress ?? 0} NSs`}
                         </span>
                     </div>
                 )}
@@ -100,8 +101,7 @@ function CustomTooltip({ active, payload }: TooltipProps) {
                             style={{ backgroundColor: COLORS.accent }}
                         />
                         <span>
-                            Average PER Rating:
-                            {cycleData?.rating?.toFixed(1) ?? '0.0'}
+                            {strings?.tooltip?.rating?.replace('{value}', cycleData?.rating?.toFixed(1) ?? '0.0') ?? `Average PER Rating: ${cycleData?.rating?.toFixed(1) ?? '0.0'}`}
                         </span>
                     </div>
                     {ratingChange !== 0 && (
@@ -113,13 +113,14 @@ function CustomTooltip({ active, payload }: TooltipProps) {
                                         : styles.tooltipChangeNegative
                                 }`
                             }
+                            aria-label={strings?.ariaLabels?.ratingChange?.replace('{value}', ratingChange.toFixed(1)) ?? `Rating change of ${ratingChange.toFixed(1)} points`}
                         >
                             {isPositiveRating ? '↗' : '↘'}
                             <span>
                                 {isPositiveRating ? '+' : ''}
                                 {ratingChange.toFixed(1)}
                                 {' '}
-                                points
+                                {strings?.tooltip?.ratingChange?.replace('{value}', '') ?? 'points'}
                             </span>
                         </div>
                     )}
@@ -130,6 +131,7 @@ function CustomTooltip({ active, payload }: TooltipProps) {
 }
 
 function CustomLegend() {
+    const strings = useTranslation(i18n)?.strings;
     return (
         <div className={styles.legend}>
             <div className={styles.legendItem}>
@@ -137,21 +139,21 @@ function CustomLegend() {
                     className={styles.legendMarker}
                     style={{ backgroundColor: COLORS.primary }}
                 />
-                <span>Completed cycles</span>
+                <span>{strings?.legend?.completedCycles ?? 'Completed cycles'}</span>
             </div>
             <div className={styles.legendItem}>
                 <div
                     className={styles.legendMarker}
                     style={{ backgroundColor: COLORS.primaryLight }}
                 />
-                <span>Yet to progress</span>
+                <span>{strings?.legend?.yetToProgress ?? 'Yet to progress'}</span>
             </div>
             <div className={styles.legendItem}>
                 <div
                     className={styles.legendLine}
                     style={{ backgroundColor: COLORS.accent }}
                 />
-                <span>Average PER rating</span>
+                <span>{strings?.legend?.averageRating ?? 'Average PER rating'}</span>
             </div>
         </div>
     );
@@ -163,6 +165,7 @@ function PERAnalysis({
     onCycleClick,
     activeCycle,
 }: Props) {
+    const strings = useTranslation(i18n)?.strings;
     const handleCycleCardClick = (
         event: React.MouseEvent<HTMLDivElement>,
         cycleNumber: number,
@@ -176,13 +179,16 @@ function PERAnalysis({
     };
 
     return (
-        <div className={styles.container}>
+        <div
+            className={styles.container}
+            aria-label={strings?.ariaLabels?.container ?? 'PER analysis chart and summary'}
+        >
             <div className={styles.card}>
                 <div className={styles.cardContent}>
                     <div className={styles.header}>
                         <div className={styles.headerMetric}>
                             <h2 className={styles.title}>
-                                Number of PER assessments / process cycle iterations
+                                {strings?.titles?.assessmentCount ?? 'Number of PER assessments / process cycle iterations'}
                                 <span className={styles.totalNumber}>
                                     {' '}
                                     {chartData.total_cycles}
@@ -191,19 +197,22 @@ function PERAnalysis({
                         </div>
                         <div className={styles.headerMetric}>
                             <h2 className={styles.title}>
-                                Average PER Rating
+                                {strings?.titles?.averageRating ?? 'Average PER Rating'}
                                 <span className={styles.totalNumber}>
                                     {' '}
                                     {summary.averageRating.toFixed(1)}
                                 </span>
                             </h2>
                             <span className={styles.subtitle}>
-                                According to the latest assessment in each NS
+                                {strings?.titles?.latestAssessment ?? 'According to the latest assessment in each NS'}
                             </span>
                         </div>
                     </div>
 
-                    <div className={styles.chartContainer}>
+                    <div
+                        className={styles.chartContainer}
+                        aria-label={strings?.ariaLabels?.chart ?? 'PER analysis chart showing completed cycles and average ratings'}
+                    >
                         <ResponsiveContainer>
                             <ComposedChart
                                 data={chartData.cycles}
@@ -230,7 +239,7 @@ function PERAnalysis({
                                     dx={-10}
                                     fontSize={12}
                                     label={{
-                                        value: '# OF NS',
+                                        value: strings?.chart?.axisLabels?.nsCount ?? '# OF NS',
                                         angle: -90,
                                         position: 'insideLeft',
                                         offset: 0,
@@ -248,7 +257,7 @@ function PERAnalysis({
                                     dx={10}
                                     fontSize={12}
                                     label={{
-                                        value: 'AVERAGE PER RATING',
+                                        value: strings?.chart?.axisLabels?.rating ?? 'AVERAGE PER RATING',
                                         angle: 90,
                                         dy: 22,
                                         position: 'insideRight',
@@ -322,6 +331,7 @@ function PERAnalysis({
                             styles.summaryCard,
                             activeCycle === cycleData.cycleNumber && styles.active,
                         )}
+                        aria-label={strings?.ariaLabels?.cycleCard?.replace('{cycle}', cycleData.cycle) ?? `PER cycle ${cycleData.cycle} details`}
                     >
                         <div className={styles.metricsRow}>
                             <div className={styles.metricGroup}>
@@ -330,23 +340,33 @@ function PERAnalysis({
                                     <span className={styles.nsCount}>
                                         {(cycleData?.completed ?? 0) + (cycleData?.inProgress ?? 0)}
                                     </span>
-                                    <span className={styles.nsUnit}>NSs</span>
+                                    <span className={styles.nsUnit}>
+                                        {strings?.metrics?.nsUnit ?? 'NSs'}
+                                    </span>
                                 </div>
                             </div>
                             <div className={styles.metricGroup}>
-                                <span className={styles.metricLabel}>PER Rating</span>
+                                <span className={styles.metricLabel}>
+                                    {strings?.metrics?.perRating ?? 'PER Rating'}
+                                </span>
                                 <div className={styles.ratingGroup}>
                                     <span className={styles.ratingValue}>
                                         {cycleData?.rating?.toFixed(1) ?? '0.0'}
                                     </span>
                                     {(cycleData?.ratingChange ?? 0) > 0 && index > 0 && (
-                                        <span className={styles.ratingChange}>
+                                        <span
+                                            className={styles.ratingChange}
+                                            aria-label={strings?.ariaLabels?.ratingChange?.replace('{value}', cycleData.ratingChange.toFixed(1)) ?? `Rating change of ${cycleData.ratingChange.toFixed(1)} points`}
+                                        >
                                             ↗ +
                                             {cycleData?.ratingChange?.toFixed(1)}
                                         </span>
                                     )}
                                     {(cycleData?.ratingChange ?? 0) < 0 && index > 0 && (
-                                        <span className={styles.ratingChange}>
+                                        <span
+                                            className={styles.ratingChange}
+                                            aria-label={strings?.ariaLabels?.ratingChange?.replace('{value}', cycleData.ratingChange.toFixed(1)) ?? `Rating change of ${cycleData.ratingChange.toFixed(1)} points`}
+                                        >
                                             ↘
                                             {cycleData?.ratingChange?.toFixed(1)}
                                         </span>

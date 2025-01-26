@@ -12,12 +12,15 @@ import {
 } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
+import useTranslation from '#hooks/useTranslation';
+
 import { getContrastColor } from '../../utils/common';
 import type {
     DataItem,
     Props,
 } from './types';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 ChartJS.register(
@@ -60,13 +63,14 @@ function PERStackedHorizontalBarChart({
     maxValue = null,
     tooltipEnabled = true,
 }: Props) {
+    const strings = useTranslation(i18n)?.strings;
     const chartRef = useRef(null);
 
     const labels = data.map((item: DataItem) => item.name);
 
-    // Map datasetsConfig to Chart.js datasets
+    // Map datasetsConfig to Chart.js datasets with translated labels
     const datasets = datasetsConfig.map((dataset) => ({
-        label: dataset.label,
+        label: strings?.categories?.[dataset.key.toLowerCase()] ?? dataset.label,
         data: data.map((item: DataItem) => item[dataset.key] || 0),
         backgroundColor: dataset.fillColor,
         barPercentage: 0.65,
@@ -101,7 +105,10 @@ function PERStackedHorizontalBarChart({
                     label: (context) => {
                         const label = context.dataset.label ?? '';
                         const value = context.parsed.x;
-                        return ` ${label}  ${value}`;
+                        return strings?.tooltips?.labelFormat
+                            ?.replace('{category}', label)
+                            ?.replace('{value}', value.toString())
+                            ?? ` ${label}  ${value}`;
                     },
                     labelTextColor: () => '#111827',
                     labelColor: (context) => ({
@@ -188,7 +195,6 @@ function PERStackedHorizontalBarChart({
         scales: {
             x: {
                 stacked: true,
-                beginAtZero: true,
                 display: false,
                 grid: {
                     display: false,
@@ -217,8 +223,16 @@ function PERStackedHorizontalBarChart({
     };
 
     return (
-        <div className={styles.container}>
-            <Bar ref={chartRef} data={chartData} options={options} />
+        <div
+            className={styles.container}
+            aria-label={strings?.ariaLabels?.container ?? 'Horizontal stacked bar chart'}
+        >
+            <Bar
+                ref={chartRef}
+                data={chartData}
+                options={options}
+                aria-label={strings?.ariaLabels?.chart ?? 'Horizontal stacked bar chart showing assessment types'}
+            />
         </div>
     );
 }

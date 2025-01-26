@@ -2,6 +2,7 @@ import {
     useEffect,
     useState,
 } from 'react';
+
 import useTranslation from '#hooks/useTranslation';
 
 import i18n from './i18n.json';

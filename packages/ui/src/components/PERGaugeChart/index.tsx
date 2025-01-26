@@ -6,6 +6,9 @@ import {
 import { _cs } from '@togglecorp/fujs';
 import * as d3 from 'd3';
 
+import useTranslation from '#hooks/useTranslation';
+
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export interface Props {
@@ -25,12 +28,6 @@ export interface Props {
      * @default 'EPI-ready'
      */
     label?: string;
-
-    /**
-     * Font size for the label text
-     * @default 16
-     */
-    fontSize?: number;
 
     /**
      * Color of the gauge fill
@@ -78,6 +75,7 @@ function PERGaugeChart({
     title = 'Chart title',
     className,
 }: Props) {
+    const strings = useTranslation(i18n)?.strings;
     const svgRef = useRef<SVGSVGElement | null>(null);
     const containerRef = useRef<HTMLDivElement | null>(null);
     const [containerWidth, setContainerWidth] = useState<number>(200);
@@ -195,10 +193,7 @@ function PERGaugeChart({
     return (
         <div
             ref={containerRef}
-            className={_cs(
-                styles.container,
-                className,
-            )}
+            className={_cs(styles.container, className)}
             role="button"
             tabIndex={0}
             onClick={onClick}
@@ -207,10 +202,11 @@ function PERGaugeChart({
                     onClick?.();
                 }
             }}
+            aria-label={strings?.ariaLabels?.container?.replace('{percentage}', percentage.toString())?.replace('{label}', label) ?? `Gauge chart showing ${percentage}% for ${label}`}
         >
             {title && (
                 <div className={styles.title}>
-                    {title}
+                    {title ?? strings?.defaults?.title ?? 'Chart title'}
                 </div>
             )}
             <div className={styles.svgContainer}>
@@ -220,11 +216,12 @@ function PERGaugeChart({
                     height={height}
                     viewBox={`0 0 ${containerWidth} ${height}`}
                     preserveAspectRatio="xMidYMid meet"
+                    aria-label={strings?.ariaLabels?.gauge?.replace('{percentage}', percentage.toString()) ?? `Gauge value: ${percentage}%`}
                 />
             </div>
             {label && (
                 <div className={styles.label}>
-                    {label}
+                    {label ?? strings?.defaults?.label ?? 'EPI-ready'}
                 </div>
             )}
             <div className={styles.percentage}>

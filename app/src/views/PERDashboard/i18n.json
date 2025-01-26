@@ -1,5 +1,5 @@
 {
-    "namespace": "common",
+    "namespace": "pERDashboard",
     "strings": {
         "common": {
             "lastUpdate": {
@@ -18,7 +18,7 @@
         },
         "perSummaryDashboard": {
             "header": {
-                "description": "This dashboard contains a summary of National Societies around the world engaged in the Preparedness for Effective Response (PER) Approach. The visuals below show regional and country-level information on the number of National Societies engaged in the PER Approach, as well as the current phase of the PER Process the NS is in."
+                "description": "This dashboard contains a summary of National Societies around the world engaged in the Preparedness for Effective Response (PER) Approach. The visuals below show regional and country-level information on the number of National Societies engaged in the PER Approach, as well as the current phase of the PER Process the NS is in. It also includes information on the PER Components which have been identified as 'High Priority' indicating it requires improvement. Finally, this dashboard includes the types of PER assessments conducted and the year of the assessment by region. Several National Societies have gone through multiple cycles of the PER process and evidence indicates that there have been improvements in NS preparedness and response capacity which has been supported by the PER Approach."
             },
             "containers": {
                 "map": {
@@ -48,7 +48,7 @@
         },
         "perPerformanceDashboard": {
             "header": {
-                "description": "This dashboard contains a summary of the overall preparedness and response capacity among National Societies engaged in the PER Approach."
+                "description": " This dashboard contains a summary of the overall preparedness and response capacity among National Societies engaged in the PER Approach. The values presented represent the ratings for each component within National Societies' PER Mechanism aggregated at global and regional levels. The visualisations show average rating, the changes in capacity over time, as well as top and bottom-rated components. You can filter the components by region."
             },
             "containers": {
                 "overview": {

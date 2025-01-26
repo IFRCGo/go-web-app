@@ -19,8 +19,11 @@ import {
 } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
+import useTranslation from '#hooks/useTranslation';
+
 import { getContrastColor } from '../../utils/common';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export interface StackedBarDataItem {
@@ -79,6 +82,7 @@ function PERStackedBarChart({
     yAxisMin,
     yAxisMax,
 }: Props) {
+    const strings = useTranslation(i18n)?.strings;
     const containerRef = useRef<HTMLDivElement>(null);
     const [containerWidth, setContainerWidth] = useState<number>(minWidth);
 
@@ -121,7 +125,7 @@ function PERStackedBarChart({
                 top: 18,
                 right: 20,
                 left: 3,
-                bottom: 18,
+                bottom: 8,
             },
         },
         interaction: {
@@ -139,7 +143,10 @@ function PERStackedBarChart({
                     label: (context) => {
                         const label = context.dataset.label ?? '';
                         const value = context.parsed.y;
-                        return ` ${label}  ${value}`;
+                        return strings?.tooltips?.labelFormat
+                            ?.replace('{category}', label)
+                            ?.replace('{value}', value.toString())
+                            ?? ` ${label}  ${value}`;
                     },
                     labelTextColor: () => '#111827',
                     labelColor: (context) => ({
@@ -201,6 +208,10 @@ function PERStackedBarChart({
                         size: 12,
                     },
                 },
+                title: {
+                    display: true,
+                    text: strings?.axis?.xAxisLabel ?? '',
+                },
             },
             y: {
                 stacked: true,
@@ -229,6 +240,10 @@ function PERStackedBarChart({
                         return value;
                     },
                 },
+                title: {
+                    display: true,
+                    text: strings?.axis?.yAxisLabel ?? '',
+                },
             },
         },
         onClick: onClick ? (_, elements) => {
@@ -244,7 +259,7 @@ function PERStackedBarChart({
                 onHover(null);
             }
         } : undefined,
-    }), [tooltipEnabled, showDataLabels, yAxisMin, yAxisMax, onClick, onHover, data]);
+    }), [tooltipEnabled, showDataLabels, yAxisMin, yAxisMax, onClick, onHover, data, strings]);
 
     const containerStyle = useMemo(() => ({
         height: `${height}px`,
@@ -255,8 +270,12 @@ function PERStackedBarChart({
             ref={containerRef}
             className={_cs(styles.responsiveContainer, className)}
             style={containerStyle}
+            aria-label={strings?.ariaLabels?.container ?? 'Stacked bar chart'}
         >
-            <div className={styles.chartWrapper}>
+            <div
+                className={styles.chartWrapper}
+                aria-label={strings?.ariaLabels?.chart ?? 'Stacked bar chart showing data over time'}
+            >
                 <Bar
                     data={chartData}
                     options={options}

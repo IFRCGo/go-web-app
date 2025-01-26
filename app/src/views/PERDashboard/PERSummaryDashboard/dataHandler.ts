@@ -1,30 +1,36 @@
-import {
-    ASSESSMENT_COLORS,
-    PHASE_COLORS,
-} from './constants';
-import {
-    AssessmentRecord,
-    ChartDataItem,
-    ComponentSummary,
-    FilterOptions,
-    Filters,
-    KPIData,
-    PERConsiderationsData,
-    PERData,
-    PercentageData,
-    TotalsData,
-} from './types';
 import { AREA_COLORS } from '../PERPerformanceDashboard/constants';
+import { PHASE_COLORS } from './constants';
+import {
+    type AssessmentRecord,
+    type ChartDataItem,
+    type ComponentSummary,
+    type FilterOptions,
+    type Filters,
+    type KPIData,
+    type PercentageData,
+    type PERConsiderationsData,
+    type PERData,
+    type TotalsData,
+} from './types';
 
 let mapData: AssessmentRecord[] = [];
-let lastUpdateData: any = null;
+interface LastUpdateData {
+    lastUpdate: string;
+}
 
-function initializeData(data: AssessmentRecord[], updateData: any) {
+let lastUpdateData: LastUpdateData | null = null;
+
+function initializeData(data: AssessmentRecord[], updateData: LastUpdateData) {
     mapData = data;
     lastUpdateData = updateData;
 }
 
-function processMapData(rawData: any[]): AssessmentRecord[] {
+interface RawAssessmentRecord {
+    id: number;
+    country_id: number;
+}
+
+function processMapData(rawData: RawAssessmentRecord[]): AssessmentRecord[] {
     return rawData.map((record) => ({
         id: record.id,
         country_id: record.country_id,
@@ -585,9 +591,9 @@ export type {
     FilterOptions,
     Filters,
     KPIData,
+    PercentageData,
     PERConsiderationsData,
     PERData,
-    PercentageData,
     TotalsData,
 };
 

@@ -1,0 +1,13 @@
+{
+    "namespace": "common",
+    "strings": {
+        "horizontalBar": {
+            "container": "Horizontal stacked bar chart",
+            "chart": "Horizontal stacked bar chart showing assessment types",
+            "bar": "Bar for {category} with value {value}",
+            "tooltips": {
+                "labelFormat": "{category}: {value}"
+            }
+        }
+    }
+}

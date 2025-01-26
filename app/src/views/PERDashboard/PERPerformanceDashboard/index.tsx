@@ -47,8 +47,11 @@ function PERPerformanceDashboard() {
 
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [dashboardData, setDashboardData] = useState<any>(null);
-    const [lastUpdateData, setLastUpdateData] = useState<any>(null);
+    interface DashboardData {
+        assessments: Record<string, Component>;
+    }
+    const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
+    const [lastUpdateData, setLastUpdateData] = useState<AssessmentRecord[]| null>(null);
 
     useEffect(() => {
         async function fetchData() {
@@ -82,9 +85,8 @@ function PERPerformanceDashboard() {
                 setDashboardData(dashboardData);
                 setLastUpdateData(lastUpdateData);
                 initializeData(dashboardData, lastUpdateData);
-            } catch (err) {
+            } catch {
                 setError(strings.common.errors.fetchFailed);
-                console.error(err);
             } finally {
                 setIsLoading(false);
             }
@@ -161,14 +163,18 @@ function PERPerformanceDashboard() {
                 />
                 <Container
                     heading={strings.perPerformanceDashboard.containers.overview.heading}
-                    headerDescription={strings.perPerformanceDashboard.containers.overview.description}
+                    headerDescription={
+                        strings.perPerformanceDashboard.containers.overview.description
+                    }
                     className={_cs(styles.container, styles.perAnalysis)}
                     withHeaderBorder
                     actions={activeFilters.cycle !== null ? (
                         <Button
                             name={undefined}
                             onClick={() => updateFilter('cycle', null)}
-                            aria-label={strings.perPerformanceDashboard.ariaLabels.resetFilterButton}
+                            aria-label={
+                                strings.perPerformanceDashboard.ariaLabels.resetFilterButton
+                            }
                         >
                             {strings.common.buttons.resetFilter}
                         </Button>
@@ -183,7 +189,9 @@ function PERPerformanceDashboard() {
                 </Container>
                 <Container
                     heading={strings.perPerformanceDashboard.containers.globalRatings.heading}
-                    description={strings.perPerformanceDashboard.containers.globalRatings.description}
+                    description={
+                        strings.perPerformanceDashboard.containers.globalRatings.description
+                    }
                     withHeaderBorder
                     className={_cs(styles.container, styles.ratingAnalysis)}
                 >

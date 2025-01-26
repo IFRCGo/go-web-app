@@ -34,7 +34,7 @@ function initializeData(data: any, updateData: any) {
             });
         });
     });
-    
+
     perDashboardData = assessments;
     lastUpdateData = updateData;
 }
@@ -45,13 +45,6 @@ function isNewerAssessment(current: Assessment, existing: Assessment): boolean {
     || (current.assessment_number === existing.assessment_number
       && new Date(current.date_of_assessment) > new Date(existing.date_of_assessment));
 }
-
-// Helper function to get unique key for assessment
-const getAssessmentKey = (assessment: Assessment): string => (
-    `${assessment.assessment_id}_${assessment.assessment_number}`
-    + `_${assessment.component_num}_${assessment.country_id}`
-    + `_${assessment.rating_value}_${assessment.date_of_assessment}`
-);
 
 // Helper function to filter duplicate assessments
 const filterDuplicateAssessments = (assessments: Assessment[]): Assessment[] => {
@@ -83,7 +76,7 @@ const filterDuplicateAssessments = (assessments: Assessment[]): Assessment[] => 
 // Helper function to apply filters
 const applyFilters = (filters: Filters | null = null): Assessment[] => {
     const assessments = filterDuplicateAssessments(perDashboardData);
-    
+
     // Apply filtering logic if filters are provided
     if (filters) {
         let filteredAssessments = assessments;
@@ -655,8 +648,8 @@ function getLastUpdateDate(): string {
 
 // Export all types and functions at the end of the file
 export type {
-    Assessment,
     AreaSummary,
+    Assessment,
     ComponentRating,
     ComponentRatingsResult,
     Filters,
@@ -665,13 +658,13 @@ export type {
 
 export {
     applyFilters,
+    getComponentRatings,
+    getCycles,
+    getLastUpdateDate,
     getRatingStatus,
     getRoundedRating,
     groupDataByRegion,
-    getComponentRatings,
-    summarizeData,
-    getCycles,
-    getLastUpdateDate,
     initializeData,
     RATING_SCALE_COLORS,
+    summarizeData,
 };

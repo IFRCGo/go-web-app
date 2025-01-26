@@ -3,6 +3,7 @@ import {
     useState,
 } from 'react';
 import { _cs } from '@togglecorp/fujs';
+
 import useTranslation from '#hooks/useTranslation';
 
 import i18n from './i18n.json';
@@ -136,7 +137,7 @@ function PERKPITabs({
                     >
                         {kpi.value}
                     </div>
-                    <div 
+                    <div
                         className={styles.kpiDescription}
                         aria-label={strings?.ariaLabels?.description?.replace('{description}', kpi.description) ?? `KPI description: ${kpi.description}`}
                     >

@@ -1,0 +1,17 @@
+{
+    "namespace": "common",
+    "strings": {
+        "treemap": {
+            "container": "Treemap chart",
+            "chart": "Interactive treemap chart showing hierarchical data",
+            "section": "{name}",
+            "component": "{name} {value}",
+            "selected": "{name}",
+            "tooltips": {
+                "title": "{name}",
+                "tag": "{name}",
+                "value": "{value}"
+            }
+        }
+    }
+}
