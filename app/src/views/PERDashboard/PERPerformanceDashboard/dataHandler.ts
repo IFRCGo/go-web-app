@@ -17,14 +17,43 @@ const RATING_SCALE_COLORS = {
     'High performing': '#011E41',
 } as const;
 
-let perDashboardData: Assessment[] = [];
-let lastUpdateData: any = null;
+// Define interfaces for API response data
+interface APIAssessmentData {
+    assessment_id: number;
+    assessment_number: number;
+    country_id: number;
+    country_name: string;
+    region_id: number;
+    region_name: string;
+    date_of_assessment: string;
+    rating_value: number;
+    rating_title: string;
+}
 
-function initializeData(data: any, updateData: any) {
+interface APIComponentData {
+    component_num: number;
+    component_name: string;
+    area_id: number;
+    area_name: string;
+    assessments: APIAssessmentData[];
+}
+
+interface APIResponse {
+    assessments: Record<string, APIComponentData>;
+}
+
+interface UpdateData {
+    last_update: string;
+}
+
+let perDashboardData: Assessment[] = [];
+let lastUpdateData: UpdateData | null = null;
+
+function initializeData(data: APIResponse, updateData: UpdateData) {
     // Transform the data from the API format to our internal format
     const assessments: Assessment[] = [];
-    Object.entries(data.assessments).forEach(([, component]: [string, any]) => {
-        component.assessments.forEach((assessment: any) => {
+    Object.entries(data.assessments).forEach(([, component]: [string, APIComponentData]) => {
+        component.assessments.forEach((assessment: APIAssessmentData) => {
             assessments.push({
                 ...assessment,
                 component_num: component.component_num,
@@ -643,7 +672,7 @@ function getCycles(filters: Filters | null = null) {
 }
 
 function getLastUpdateDate(): string {
-    return lastUpdateData?.lastUpdate ?? 'N/A';
+    return lastUpdateData?.last_update ?? 'N/A';
 }
 
 // Export all types and functions at the end of the file

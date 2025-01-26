@@ -9,16 +9,12 @@
 }
 
 .loading-container {
+    margin: 0;
+    padding: 0;
     /* display: flex; */
     /* justify-content: center; */
     /* align-items: center; */
     min-height: 300px;
-    padding: 0;
-    margin: 0;
-}
-
-.blockLoading {
-
 }
 
 .title {
@@ -47,11 +43,11 @@
 
 .headerDescription {
     margin-bottom: var(--go-ui-spacing-md);
+    background-color: var(--go-ui-color-background);
     padding: var(--go-ui-spacing-xl);
     width: auto;
     text-align: center;
     font-size: var(--go-ui-font-size-md);
-    background-color: var(--go-ui-color-background);
 }
 
 .content {

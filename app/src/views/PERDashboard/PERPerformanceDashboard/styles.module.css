@@ -10,11 +10,11 @@
 
 .loading-container {
     display: flex;
-    justify-content: center;
     align-items: center;
-    min-height: 500px;
-    padding: 0;
+    justify-content: center;
     margin: 0;
+    padding: 0;
+    min-height: 500px;
 }
 
 .lastUpdate {
@@ -34,11 +34,11 @@
 
 .headerDescription {
     margin-bottom: var(--go-ui-spacing-md);
+    background-color: var(--go-ui-color-background);
     padding: var(--go-ui-spacing-xl);
     width: auto;
     text-align: center;
     font-size: var(--go-ui-font-size-md);
-    background-color: var(--go-ui-color-background);
 
 }
 

@@ -77,14 +77,14 @@ function PERPerformanceDashboard() {
                     throw new Error(strings.common.errors.fetchFailed);
                 }
 
-                const [dashboardData, lastUpdateData] = await Promise.all([
+                const [dashboardResponseData, lastUpdateResponseData] = await Promise.all([
                     dashboardResponse.json(),
                     lastUpdateResponse.json(),
                 ]);
 
-                setDashboardData(dashboardData);
-                setLastUpdateData(lastUpdateData);
-                initializeData(dashboardData, lastUpdateData);
+                setDashboardData(dashboardResponseData);
+                setLastUpdateData(lastUpdateResponseData);
+                initializeData(dashboardResponseData, lastUpdateData);
             } catch {
                 setError(strings.common.errors.fetchFailed);
             } finally {
@@ -93,6 +93,7 @@ function PERPerformanceDashboard() {
         }
 
         fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [strings.common.errors.fetchFailed]);
 
     if (isLoading) {
