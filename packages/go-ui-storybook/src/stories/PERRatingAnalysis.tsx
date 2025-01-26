@@ -1,9 +1,11 @@
-import type { Props } from '../../../ui/src/components/PERRatingAnalysis';
-import PERRatingAnalysis from '../../../ui/src/components/PERRatingAnalysis';
+import {
+    PERRatingAnalysis as PurePERRatingAnalysis,
+    type PERRatingAnalysisProps,
+} from '@ifrc-go/ui';
 
-function StoryPERRatingAnalysis(props: Props) {
+function StoryPERRatingAnalysis(props: PERRatingAnalysisProps) {
     return (
-        <PERRatingAnalysis {...props} />
+        <PurePERRatingAnalysis {...props} />
     );
 }
 

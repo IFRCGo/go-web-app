@@ -200,6 +200,9 @@ export type {
     ValueType,
 } from '#components/types';
 
+// PER Components
+export type { Props as PERAnalysisProps } from './components/PERAnalysis';
+export { default as PERAnalysis } from './components/PERAnalysis';
 export type { Props as PERChartLegendProps } from './components/PERChartLegend';
 export { default as PERChartLegend } from './components/PERChartLegend';
 export type { Props as PERConsiderationsProps } from './components/PERConsiderations';
@@ -208,17 +211,18 @@ export type { Props as PERDonutChartProps } from './components/PERDonutChart';
 export { default as PERDonutChart } from './components/PERDonutChart';
 export type { Props as PERExportButtonProps } from './components/PERExportButton';
 export { default as PERExportButton } from './components/PERExportButton';
+export type { Props as PERGaugeChartProps } from './components/PERGaugeChart';
+export { default as PERGaugeChart } from './components/PERGaugeChart';
 export type { Props as PERKPITabsProps } from './components/PERKPITabs';
 export { default as PERKPITabs } from './components/PERKPITabs';
 export type { Props as PERMapProps } from './components/PERMap';
 export { default as PERMap } from './components/PERMap';
+export type { Props as PERRatingAnalysisProps } from './components/PERRatingAnalysis';
+export { default as PERRatingAnalysis } from './components/PERRatingAnalysis';
 export type { Props as PERRegionToggleProps } from './components/PERRegionToggle';
 export { default as PERRegionToggle } from './components/PERRegionToggle';
 export type { Props as PERStackedBarChartProps } from './components/PERStackedBarChart';
 export { default as PERStackedBarChart } from './components/PERStackedBarChart';
 export type { Props as PERStackedHorizontalBarChartProps } from './components/PERStackedHorizontalBarChart';
 export { default as PERStackedHorizontalBarChart } from './components/PERStackedHorizontalBarChart';
-export type { Props as PERAnalysisProps } from './components/PERAnalysis';
-export { default as PERAnalysis } from './components/PERAnalysis';
 export { default as PERTreemapChart } from './components/PERTreemapChart';
-export { default as PERRatingAnalysis } from './components/PERRatingAnalysis';

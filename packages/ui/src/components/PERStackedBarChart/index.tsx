@@ -1,5 +1,4 @@
 import {
-    useEffect,
     useMemo,
     useRef,
     useState,
@@ -84,22 +83,7 @@ function PERStackedBarChart({
 }: Props) {
     const strings = useTranslation(i18n)?.strings;
     const containerRef = useRef<HTMLDivElement>(null);
-    const [containerWidth, setContainerWidth] = useState<number>(minWidth);
-
-    useEffect(() => {
-        if (!containerRef.current) {
-            return undefined;
-        }
-
-        const resizeObserver = new ResizeObserver((entries) => {
-            entries.forEach((entry) => {
-                setContainerWidth(Math.max(entry.contentRect.width, minWidth));
-            });
-        });
-
-        resizeObserver.observe(containerRef.current);
-        return () => resizeObserver.disconnect();
-    }, [minWidth]);
+    const [containerWidth] = useState<number>(minWidth);
 
     const reversedCategories = [...categories].reverse();
 

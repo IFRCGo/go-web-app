@@ -211,16 +211,3 @@ const mockData = {
 export const Default: Story = {
   args: mockData,
 };
-
-export const WithLowRatings: Story = {
-  args: {
-    ...mockData,
-    overallRating: {
-      ...mockData.overallRating,
-      rating: 2.5,
-      status: 'Needs improvement',
-      change: -0.3,
-      changeDirection: 'down',
-    },
-  },
-};

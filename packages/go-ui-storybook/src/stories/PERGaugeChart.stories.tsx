@@ -15,25 +15,29 @@ const meta: Meta<typeof PERGaugeChart> = {
         },
     },
     argTypes: {
-        value: {
+        percentage: {
             description: 'Value for the gauge (0-100)',
-            control: 'number',
-        },
-        size: {
-            description: 'Size of the gauge chart',
             control: 'number',
         },
         label: {
             description: 'Label to display below the gauge',
             control: 'text',
         },
-        icon: {
-            description: 'Icon to display in the center of the gauge',
-            control: 'text',
-        },
-        color: {
+        gaugeColor: {
             description: 'Color of the gauge',
             control: 'color',
+        },
+        backgroundColor: {
+            description: 'Background color of the gauge',
+            control: 'color',
+        },
+        title: {
+            description: 'Title of the gauge',
+            control: 'text',
+        },
+        icon: {
+            description: 'URL of the icon to display in the center',
+            control: 'text',
         },
     },
     tags: ['autodocs'],
@@ -51,50 +55,23 @@ function Template(args: PERGaugeChartProps) {
 export const Default: Story = {
     render: Template,
     args: {
-        value: 75,
-        size: 200,
-        label: 'Overall Progress',
-        icon: '/environment.svg',
-        color: '#236192',
+        percentage: 75,
+        label: 'EPI-ready',
+        gaugeColor: '#236192',
+        backgroundColor: '#F2F2F2',
+        title: 'Chart Title',
+        icon: '/analysis.svg',
     },
 };
 
-export const NoIcon: Story = {
+export const WithDifferentColors: Story = {
     render: Template,
     args: {
-        value: 60,
-        size: 200,
-        label: 'Without Icon',
-        color: '#236192',
-    },
-};
-
-export const Small: Story = {
-    render: Template,
-    args: {
-        value: 45,
-        size: 100,
-        label: 'Small Gauge',
-        icon: '/environment.svg',
-        color: '#236192',
-    },
-};
-
-export const CustomColor: Story = {
-    render: Template,
-    args: {
-        value: 85,
-        size: 200,
-        label: 'Custom Color',
-        icon: '/environment.svg',
-        color: '#F5333F',
-    },
-};
-
-export const NoLabel: Story = {
-    render: Template,
-    args: {
-        value: 60,
-        size: 150,
+        percentage: 50,
+        label: 'Climate-ready',
+        gaugeColor: '#2F9C67',
+        backgroundColor: '#E9E9E9',
+        title: 'Climate Readiness',
+        icon: '/analysis.svg',
     },
 };

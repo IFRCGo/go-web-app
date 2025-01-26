@@ -1,9 +1,11 @@
-import PERExportButton from '../../../ui/src/components/PERExportButton';
-import type { Props as PERExportButtonProps } from '../../../ui/src/components/PERExportButton';
+import {
+    PERExportButton as PurePERExportButton,
+    type PERExportButtonProps,
+} from '@ifrc-go/ui';
 
 function StoryPERExportButton(props: PERExportButtonProps) {
     return (
-        <PERExportButton {...props} /> // eslint-disable-line react/jsx-props-no-spreading
+        <PurePERExportButton {...props} /> // eslint-disable-line react/jsx-props-no-spreading
     );
 }
 
