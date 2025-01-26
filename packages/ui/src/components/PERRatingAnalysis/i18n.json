@@ -1,0 +1,28 @@
+{
+    "namespace": "perRatingAnalysis",
+    "strings": {
+        "sections": {
+            "averageRating": "Average PER rating",
+            "areas": "Areas",
+            "components": "Components"
+        },
+        "sort": {
+            "byNumber": "Sort by number",
+            "byRating": "Sort by rating",
+            "ascending": "↑",
+            "descending": "↓"
+        },
+        "ariaLabels": {
+            "container": "PER rating analysis",
+            "ratingBar": "Rating bar showing {value} out of {maxValue}",
+            "sparkline": "Rating trend chart",
+            "ratingChange": "Rating change of {value}",
+            "sortButton": "Sort {type} {direction}",
+            "ratingValue": "Rating value: {value}",
+            "componentPrefix": "Component {number}"
+        },
+        "fallback": {
+            "noRating": "-"
+        }
+    }
+}

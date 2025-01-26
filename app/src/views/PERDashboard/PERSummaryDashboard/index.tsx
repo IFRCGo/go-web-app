@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { _cs } from '@togglecorp/fujs';
 import {
     Button,
     Container,
@@ -12,14 +13,8 @@ import {
     PERStackedBarChart,
     PERTreemapChart,
 } from '@ifrc-go/ui';
-import { mbtoken } from '#config';
-import { defaultMapStyle } from '#utils/map';
+import { useTranslation } from '@ifrc-go/ui/hooks';
 
-const MAP_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-data-fetcher/contents/data/map-data.json';
-const LAST_UPDATE_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-data-fetcher/contents/data/last-update.json';
-const GITHUB_TOKEN = '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';
-
-import { PHASE_COLORS } from './constants';
 import {
     getComponentSummaryForTreemap,
     getFilteredMapData,
@@ -31,7 +26,17 @@ import {
     getStackedBarDataByYearAndRegion,
     initializeData,
 } from './dataHandler';
+
+import i18n from '../i18n.json';
 import styles from './styles.module.css';
+
+const MAP_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-data-fetcher/contents/data/map-data.json';
+const LAST_UPDATE_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-data-fetcher/contents/data/last-update.json';
+const GITHUB_TOKEN = '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';
+
+import { PHASE_COLORS } from './constants';
+import { mbtoken } from '#config';
+import { defaultMapStyle } from '#utils/map';
 
 interface Props {
     className?: string;
@@ -55,6 +60,7 @@ function PERSummaryDashboard(props: Props) {
         className,
     } = props;
 
+    const strings = useTranslation(i18n);
     const [activeFilters, setActiveFilters] = useState<ActiveFilters>({
         id: null,
         region: null,
@@ -122,6 +128,7 @@ function PERSummaryDashboard(props: Props) {
             <Container
                 className={styles.perSummaryDashboard}
                 contentClassName={styles.loadingContainer}
+                aria-label={strings.perSummaryDashboard.ariaLabels.container}
             >
                 <BlockLoading className={styles.blockLoading} />
             </Container>
@@ -133,6 +140,7 @@ function PERSummaryDashboard(props: Props) {
             <Container
                 className={styles.perSummaryDashboard}
                 contentClassName={styles.content}
+                aria-label={strings.perSummaryDashboard.ariaLabels.container}
             >
                 {error}
             </Container>
@@ -261,35 +269,13 @@ function PERSummaryDashboard(props: Props) {
     return (
         <>
             <div className={styles.lastUpdate}>
-                Last updated:
+                {strings.common.lastUpdate.label}
                 {' '}
                 {new Date(getLastUpdateDate()).toLocaleString()}
             </div>
             {/* <PERExportButton /> */}
             <div className={styles.headerDescription}>
-                This dashboard contains a summary of National Societies around the world engaged in
-                {' '}
-                the Preparedness for Effective Response (PER) Approach.
-                {' '}
-                The visuals below show regional and country-level information on the number of
-                {' '}
-                National Societies engaged in the PER Approach, as well as the current phase of the
-                {' '}
-                PER Process the NS is in.
-                {' '}
-                It also includes information on the PER Components which have been identified as
-                {' '}
-                &apos;High Priority,&apos; indicating it requires improvement.
-                {' '}
-                Finally, this dashboard includes the types of PER assessments conducted and the
-                {' '}
-                year of the assessment by region. Several National Societies have gone through
-                {' '}
-                multiple cycles of the PER process, and evidence indicates that there have been
-                {' '}
-                improvements in NS preparedness and response capacity, which has been supported
-                {' '}
-                by the PER Approach.
+                {strings.perSummaryDashboard.header.description}
             </div>
             <div className={styles.content}>
                 <PERKPITabs
@@ -312,8 +298,10 @@ function PERSummaryDashboard(props: Props) {
                 />
 
                 <Container
-                    heading="PER Global Distribution"
-                    headerDescription="Click on a NS to filter"
+                    heading={strings.perSummaryDashboard.containers.map.heading}
+                    headerDescription={strings.perSummaryDashboard.containers.map.description}
+                    className={styles.container}
+                    withHeaderBorder
                     actions={(
                         activeFilters?.phase !== null
                 || activeFilters?.id !== null
@@ -332,13 +320,12 @@ function PERSummaryDashboard(props: Props) {
                                         setActiveTab(0);
                                         setActivePhase(null);
                                     }}
-                                    variant="secondary"
+                                    aria-label={strings.common.ariaLabels.resetFilterButton}
                                 >
-                                    Clear Filter
+                                    {strings.common.buttons.resetFilter}
                                 </Button>
                             ) : null
                     )}
-                    withHeaderBorder
                 >
                     <div style={{ height: '470px' }}>
                         <PERMap
@@ -366,16 +353,16 @@ function PERSummaryDashboard(props: Props) {
 
                 <div className={styles.charts}>
                     <Container
-                        heading="PER process by type of assessment"
-                        headerDescription="Click on an assessment type to filter"
+                        heading={strings.perSummaryDashboard.containers.assessmentType.heading}
+                        headerDescription={strings.perSummaryDashboard.containers.assessmentType.description}
                         withHeaderBorder
                         actions={activeFilters?.assessmentType !== null && (
                             <Button
                                 name={undefined}
                                 onClick={() => updateFilter('assessmentType', null)}
-                                variant="secondary"
+                                aria-label={strings.common.ariaLabels.resetFilterButton}
                             >
-                                Clear Filter
+                                {strings.common.buttons.resetFilter}
                             </Button>
                         )}
                     >
@@ -404,8 +391,8 @@ function PERSummaryDashboard(props: Props) {
                     </Container>
 
                     <Container
-                        heading="PER process by year and region"
-                        headerDescription="Click on a year or region to filter"
+                        heading={strings.perSummaryDashboard.containers.yearAndRegion.heading}
+                        headerDescription={strings.perSummaryDashboard.containers.yearAndRegion.description}
                         withHeaderBorder
                         actions={(
                             activeFilters?.region !== null
@@ -417,9 +404,9 @@ function PERSummaryDashboard(props: Props) {
                                     updateFilter('region', null);
                                     updateFilter('year', null);
                                 }}
-                                variant="secondary"
+                                aria-label={strings.common.ariaLabels.resetFilterButton}
                             >
-                                Clear Filter
+                                {strings.common.buttons.resetFilter}
                             </Button>
                         )}
                     >
@@ -446,8 +433,8 @@ function PERSummaryDashboard(props: Props) {
 
                 <div className={styles.treemap}>
                     <Container
-                        heading="High priority components requiring strengthening"
-                        headerDescription="Click on a component to filter"
+                        heading={strings.perSummaryDashboard.containers.highPriorityComponents.heading}
+                        headerDescription={strings.perSummaryDashboard.containers.highPriorityComponents.description}
                         withHeaderBorder
                         actions={activeFilters?.highPriorityComponent !== null && (
                             <Button
@@ -456,9 +443,9 @@ function PERSummaryDashboard(props: Props) {
                                     updateFilter('highPriorityComponent', null);
                                     updateFilter('highPriorityArea', null);
                                 }}
-                                variant="secondary"
+                                aria-label={strings.common.ariaLabels.resetFilterButton}
                             >
-                                Clear Filter
+                                {strings.common.buttons.resetFilter}
                             </Button>
                         )}
                     >
@@ -471,8 +458,8 @@ function PERSummaryDashboard(props: Props) {
                 </div>
 
                 <Container
-                    heading="PER Considerations"
-                    headerDescription="Click on a PER consideration type to filter"
+                    heading={strings.perSummaryDashboard.containers.perConsiderations.heading}
+                    headerDescription={strings.perSummaryDashboard.containers.perConsiderations.description}
                     withHeaderBorder
                     actions={(
                         activeFilters?.perConsiderations !== null
@@ -484,9 +471,9 @@ function PERSummaryDashboard(props: Props) {
                                 updateFilter('perConsiderations', null);
                                 updateFilter('assessmentType', null);
                             }}
-                            variant="secondary"
+                            aria-label={strings.common.ariaLabels.resetFilterButton}
                         >
-                            Clear Filter
+                            {strings.common.buttons.resetFilter}
                         </Button>
                     )}
                 >

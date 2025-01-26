@@ -1,37 +1,43 @@
-import { useState, useEffect } from 'react';
-import { _cs } from '@togglecorp/fujs';
 import {
+    useEffect,
+    useState,
+} from 'react';
+import {
+    BlockLoading,
     Button,
     Container,
-    BlockLoading,
     PERAnalysis,
     PERRatingAnalysis,
     PERRegionToggle,
 } from '@ifrc-go/ui';
-
-const PER_DASHBOARD_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-data-fetcher/contents/data/per-dashboard-data.json';
-const LAST_UPDATE_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-data-fetcher/contents/data/last-update.json';
-const GITHUB_TOKEN = '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';
+import { useTranslation } from '@ifrc-go/ui/hooks';
+import { _cs } from '@togglecorp/fujs';
 
 import {
     getComponentRatings,
     getCycles,
     getLastUpdateDate,
     groupDataByRegion,
-    summarizeData,
     initializeData,
+    summarizeData,
 } from './dataHandler';
 
+import i18n from '../i18n.json';
 import styles from './styles.module.css';
 
+const PER_DASHBOARD_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-data-fetcher/contents/data/per-dashboard-data.json';
+const LAST_UPDATE_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-data-fetcher/contents/data/last-update.json';
+const GITHUB_TOKEN = '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';
+
 interface ActiveFilters {
-  id: number | null;
-  region: string | null;
-  year: number | null;
-  cycle: number | null;
+    id: number | null;
+    region: string | null;
+    year: number | null;
+    cycle: number | null;
 }
 
 function PERPerformanceDashboard() {
+    const strings = useTranslation(i18n);
     const [activeFilters, setActiveFilters] = useState<ActiveFilters>({
         id: null,
         region: null,
@@ -52,20 +58,20 @@ function PERPerformanceDashboard() {
                 const [dashboardResponse, lastUpdateResponse] = await Promise.all([
                     fetch(PER_DASHBOARD_DATA_URL, {
                         headers: {
-                            'Authorization': `Bearer ${GITHUB_TOKEN}`,
-                            'Accept': 'application/vnd.github.v3.raw'
-                        }
+                            Authorization: `Bearer ${GITHUB_TOKEN}`,
+                            Accept: 'application/vnd.github.v3.raw',
+                        },
                     }),
                     fetch(LAST_UPDATE_DATA_URL, {
                         headers: {
-                            'Authorization': `Bearer ${GITHUB_TOKEN}`,
-                            'Accept': 'application/vnd.github.v3.raw'
-                        }
+                            Authorization: `Bearer ${GITHUB_TOKEN}`,
+                            Accept: 'application/vnd.github.v3.raw',
+                        },
                     }),
                 ]);
 
                 if (!dashboardResponse.ok || !lastUpdateResponse.ok) {
-                    throw new Error('Failed to fetch data');
+                    throw new Error(strings.common.errors.fetchFailed);
                 }
 
                 const [dashboardData, lastUpdateData] = await Promise.all([
@@ -77,7 +83,7 @@ function PERPerformanceDashboard() {
                 setLastUpdateData(lastUpdateData);
                 initializeData(dashboardData, lastUpdateData);
             } catch (err) {
-                setError('Failed to load dashboard data');
+                setError(strings.common.errors.fetchFailed);
                 console.error(err);
             } finally {
                 setIsLoading(false);
@@ -85,13 +91,14 @@ function PERPerformanceDashboard() {
         }
 
         fetchData();
-    }, []);
+    }, [strings.common.errors.fetchFailed]);
 
     if (isLoading) {
         return (
             <Container
                 className={styles.perPerformanceDashboard}
                 contentClassName={styles.loadingContainer}
+                aria-label={strings.perPerformanceDashboard.ariaLabels.container}
             >
                 <BlockLoading />
             </Container>
@@ -103,6 +110,7 @@ function PERPerformanceDashboard() {
             <Container
                 className={styles.perPerformanceDashboard}
                 contentClassName={styles.content}
+                aria-label={strings.perPerformanceDashboard.ariaLabels.container}
             >
                 {error}
             </Container>
@@ -136,17 +144,12 @@ function PERPerformanceDashboard() {
     return (
         <>
             <div className={styles.lastUpdate}>
-                Last updated:
+                {strings.common.lastUpdate.label}
                 {' '}
                 {new Date(getLastUpdateDate()).toLocaleString()}
             </div>
             <div className={styles.headerDescription}>
-                This dashboard contains a summary of the overall preparedness and response capacity
-                among National Societies engaged in the PER Approach. The values presented represent
-                the ratings for each component within National Societies&apos; PER Mechanism
-                aggregated at global and regional levels. The visualizations
-                show average rating, the capacity over time, as well as top and bottom-rated
-                components. You can filter the components by region and cycle.
+                {strings.perPerformanceDashboard.header.description}
             </div>
             <div className={styles.content}>
                 <PERRegionToggle
@@ -157,16 +160,17 @@ function PERPerformanceDashboard() {
                     showCount={false}
                 />
                 <Container
-                    heading="Performance Overview"
-                    headerDescription="Click on a PER assessment cycle to filter"
+                    heading={strings.perPerformanceDashboard.containers.overview.heading}
+                    headerDescription={strings.perPerformanceDashboard.containers.overview.description}
                     className={_cs(styles.container, styles.perAnalysis)}
                     withHeaderBorder
                     actions={activeFilters.cycle !== null ? (
                         <Button
                             name={undefined}
                             onClick={() => updateFilter('cycle', null)}
+                            aria-label={strings.perPerformanceDashboard.ariaLabels.resetFilterButton}
                         >
-                            Reset Filter
+                            {strings.common.buttons.resetFilter}
                         </Button>
                     ) : undefined}
                 >
@@ -178,8 +182,8 @@ function PERPerformanceDashboard() {
                     />
                 </Container>
                 <Container
-                    heading="PER Global Performance Ratings"
-                    description="Overview of PER ratings and performance metrics."
+                    heading={strings.perPerformanceDashboard.containers.globalRatings.heading}
+                    description={strings.perPerformanceDashboard.containers.globalRatings.description}
                     withHeaderBorder
                     className={_cs(styles.container, styles.ratingAnalysis)}
                 >

@@ -1,5 +1,6 @@
 import React from 'react';
 import { _cs } from '@togglecorp/fujs';
+import useTranslation from '#hooks/useTranslation';
 
 import PERChartLegend from '../PERChartLegend';
 import PERGaugeChart from '../PERGaugeChart';
@@ -9,6 +10,7 @@ import epidemicIcon from './assets/epidemic.png';
 import migrationIcon from './assets/migration.png';
 import urbanIcon from './assets/urban.png';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 // Assessment type colors
@@ -20,24 +22,24 @@ const ASSESSMENT_COLORS = {
 } as const;
 
 // Assessment type options with labels and colors
-const ASSESSMENT_TYPE_OPTIONS = [
-    {
-        label: 'Self assessment',
-        color: ASSESSMENT_COLORS.selfAssessment,
-    },
-    {
-        label: 'Simulation',
-        color: ASSESSMENT_COLORS.simulation,
-    },
-    {
-        label: 'Operational',
-        color: ASSESSMENT_COLORS.operational,
-    },
-    {
-        label: 'Post operational',
-        color: ASSESSMENT_COLORS.postOperational,
-    },
-] as const;
+// const ASSESSMENT_TYPE_OPTIONS = [
+//     {
+//         label: strings.assessmentTypes.selfAssessment,
+//         color: ASSESSMENT_COLORS.selfAssessment,
+//     },
+//     {
+//         label: strings.assessmentTypes.simulation,
+//         color: ASSESSMENT_COLORS.simulation,
+//     },
+//     {
+//         label: strings.assessmentTypes.operational,
+//         color: ASSESSMENT_COLORS.operational,
+//     },
+//     {
+//         label: strings.assessmentTypes.postOperational,
+//         color: ASSESSMENT_COLORS.postOperational,
+//     },
+// ] as const;
 
 interface PercentageData {
     epiPercentage: number;
@@ -84,6 +86,28 @@ function PERConsiderations({
     onClickPER,
     activePERFilter,
 }: Props) {
+    const strings = useTranslation(i18n)?.strings;
+
+    // Assessment type options with labels and colors
+    const ASSESSMENT_TYPE_OPTIONS = [
+        {
+            label: strings?.assessmentTypes?.selfAssessment ?? 'Self assessment',
+            color: ASSESSMENT_COLORS.selfAssessment,
+        },
+        {
+            label: strings?.assessmentTypes?.simulation ?? 'Simulation',
+            color: ASSESSMENT_COLORS.simulation,
+        },
+        {
+            label: strings?.assessmentTypes?.operational ?? 'Operational',
+            color: ASSESSMENT_COLORS.operational,
+        },
+        {
+            label: strings?.assessmentTypes?.postOperational ?? 'Post operational',
+            color: ASSESSMENT_COLORS.postOperational,
+        },
+    ] as const;
+
     // Calculate global maxValue across all charts
     const calculateGlobalMaxValue = (allData: ChartData[]): number => Math.max(
         ...allData
@@ -113,7 +137,12 @@ function PERConsiderations({
         migrationIcon,
     ];
 
-    const labels = ['EPI-ready', 'Climate-ready', 'Urban-ready', 'Migration-ready'];
+    const labels = [
+        strings?.considerations?.epiReady ?? 'EPI-ready',
+        strings?.considerations?.climateReady ?? 'Climate-ready',
+        strings?.considerations?.urbanReady ?? 'Urban-ready',
+        strings?.considerations?.migrationReady ?? 'Migration-ready',
+    ];
 
     const key = [
         'epi_considerations',
@@ -139,9 +168,10 @@ function PERConsiderations({
                                 isInactive && styles.inactiveColumn,
                             )}
                             key={`per-consideration-${currentKey}`}
+                            aria-label={strings?.ariaLabels?.considerationColumn?.replace('{type}', labels[index]) ?? `PER consideration column for ${labels[index]}`}
                         >
                             <PERGaugeChart
-                                title={`PER ${labels[index]} Considerations`}
+                                title={strings?.chart?.title?.template?.replace('{type}', labels[index]) ?? `PER ${labels[index]} Considerations`}
                                 percentage={percentageArray[index]}
                                 icon={icons[index]}
                                 label={labels[index]}
@@ -150,19 +180,20 @@ function PERConsiderations({
                                 backgroundColor="#F2F2F2"
                                 transitionSpeed={750}
                                 onClick={() => onClickPER(currentKey)}
+                                aria-label={strings?.ariaLabels?.gaugeChart?.replace('{type}', labels[index]) ?? `Gauge chart showing ${labels[index]} considerations`}
                             />
 
                             <div className={styles.spacer} />
 
                             {/* Conditionally render the title for the first column */}
                             <div className={styles.stackedBarTitle}>
-                                {index === 0 ? 'By region & type' : ''}
+                                {index === 0 ? strings?.chart?.byRegionAndType ?? 'By region & type' : ''}
                             </div>
 
                             <PERStackedHorizontalBarChart
                                 data={chartData}
                                 maxValue={globalMaxValue}
-                                barColors={isInactive ? ['#C6C6C6', '#C6C6C6', '#C6C6C6', '#C6C6C6'] : ASSESSMENT_COLORS}
+                                barColors={isInactive ? ['#C6C6C6', '#C6C6C6', '#C6C6C6', '#C6C6C6'] : Object.values(ASSESSMENT_COLORS)}
                                 xAxisKey="name"
                                 barKeys={[
                                     'SelfAssessment',
@@ -171,6 +202,7 @@ function PERConsiderations({
                                     'Operational',
                                 ]}
                                 transitionSpeed={1000}
+                                aria-label={strings?.ariaLabels?.stackedBarChart?.replace('{type}', labels[index]) ?? `Stacked bar chart showing ${labels[index]} considerations by region`}
                             />
                         </div>
                     );

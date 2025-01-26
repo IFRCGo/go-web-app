@@ -2,7 +2,9 @@ import {
     useEffect,
     useState,
 } from 'react';
+import useTranslation from '#hooks/useTranslation';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export interface Props {
@@ -31,6 +33,7 @@ function PERExportButton({
     onExportClick,
     disabled,
 }: Props) {
+    const strings = useTranslation(i18n);
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     const toggleMenu = (event: React.MouseEvent<HTMLButtonElement>): void => {
@@ -49,15 +52,12 @@ function PERExportButton({
     };
 
     useEffect(() => {
-        if (isOpen) {
-            document.addEventListener('click', handleClickOutside);
-        } else {
-            document.removeEventListener('click', handleClickOutside);
-        }
+        document.addEventListener('click', handleClickOutside);
+
         return () => {
             document.removeEventListener('click', handleClickOutside);
         };
-    }, [isOpen]);
+    }, []);
 
     return (
         <div
@@ -65,12 +65,13 @@ function PERExportButton({
             style={position}
         >
             <button
-                className={styles.exportButton}
-                onClick={toggleMenu}
-                disabled={disabled}
                 type="button"
+                onClick={toggleMenu}
+                className={styles.exportButton}
+                disabled={disabled}
+                aria-label={strings.button.ariaLabel}
             >
-                Export
+                {strings.button.label}
                 {' '}
                 <span className={`${styles.caret} ${isOpen ? styles.open : ''}`} />
             </button>

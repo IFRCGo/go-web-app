@@ -1,0 +1,14 @@
+{
+    "namespace": "perKpiTabs",
+    "strings": {
+        "ariaLabels": {
+            "container": "KPI tabs container",
+            "tab": "KPI tab for {description}",
+            "value": "KPI value: {value}",
+            "description": "KPI description: {description}"
+        },
+        "buttons": {
+            "selectTab": "Select KPI tab"
+        }
+    }
+}

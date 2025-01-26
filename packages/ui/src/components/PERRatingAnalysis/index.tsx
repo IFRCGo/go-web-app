@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { _cs } from '@togglecorp/fujs';
+import useTranslation from '#hooks/useTranslation';
 
 import { RatingBar as RatingBarComponent } from './RatingBar';
 import RatingChange from './RatingChange';
@@ -7,6 +8,7 @@ import RatingStatusBadge from './RatingStatusBadge';
 import Sparkline from './Sparkline';
 import type { Props } from './types';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 function PERRatingAnalysis({
@@ -15,6 +17,7 @@ function PERRatingAnalysis({
     componentData,
     className,
 }: Props) {
+    const strings = useTranslation(i18n)?.strings;
     const [sortBy, setSortBy] = useState<'number' | 'rating'>('number');
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
 
@@ -35,26 +38,33 @@ function PERRatingAnalysis({
     });
 
     return (
-        <div className={_cs(styles.container, className)} style={{ marginTop: 6 }}>
+        <div 
+            className={_cs(styles.container, className)} 
+            style={{ marginTop: 6 }}
+            aria-label={strings?.ariaLabels?.container ?? 'PER rating analysis'}
+        >
             <div className={styles.ratingItem}>
                 <span className={styles.ratingName}>
-                    <h3 className={styles.sectionTitle}>Average PER rating</h3>
+                    <h3 className={styles.sectionTitle}>
+                        {strings?.sections?.averageRating ?? 'Average PER rating'}
+                    </h3>
                 </span>
                 <div className={styles.ratingContent}>
-                    {/* <div className={styles.ratingScaleContainer}>
-                        <RatingScale maxValue={5} currentValue={overallRating.rating} />
-                    </div> */}
                     <div className={styles.barContainer} style={{ marginTop: 1 }}>
                         <RatingBarComponent
                             value={overallRating.rating}
                             maxValue={5}
                             color={overallRating.color}
                             backgroundColor="var(--go-ui-color-gray-30)"
+                            aria-label={strings?.ariaLabels?.ratingBar?.replace('{value}', overallRating.rating.toString())?.replace('{maxValue}', '5') ?? `Rating bar showing ${overallRating.rating} out of 5`}
                         />
                     </div>
                     <div className={styles.ratingValueContainer} style={{ marginTop: 3 }}>
-                        <span className={styles.ratingValue}>
-                            {overallRating?.rating ? overallRating.rating.toFixed(1) : '-'}
+                        <span 
+                            className={styles.ratingValue}
+                            aria-label={strings?.ariaLabels?.ratingValue?.replace('{value}', overallRating.rating.toFixed(1)) ?? `Rating value: ${overallRating.rating.toFixed(1)}`}
+                        >
+                            {overallRating?.rating ? overallRating.rating.toFixed(1) : (strings?.fallback?.noRating ?? '-')}
                         </span>
                         <RatingStatusBadge
                             status={overallRating.status}
@@ -67,11 +77,13 @@ function PERRatingAnalysis({
                             colors={overallRating.cycleRatings.map(
                                 (c) => c.color,
                             )}
+                            aria-label={strings?.ariaLabels?.sparkline ?? 'Rating trend chart'}
                         />
                         {overallRating.change !== 0 && (
                             <RatingChange
                                 value={overallRating.change}
                                 direction={overallRating.changeDirection}
+                                aria-label={strings?.ariaLabels?.ratingChange?.replace('{value}', overallRating.change.toString()) ?? `Rating change of ${overallRating.change}`}
                             />
                         )}
                     </div>
@@ -80,7 +92,9 @@ function PERRatingAnalysis({
 
             <div className={styles.section}>
                 <div className={styles.sectionHeader}>
-                    <h3 className={styles.sectionTitle}>Areas</h3>
+                    <h3 className={styles.sectionTitle}>
+                        {strings?.sections?.areas ?? 'Areas'}
+                    </h3>
                 </div>
                 <div className={styles.ratingList}>
                     {areaData.map((area) => (
@@ -95,11 +109,15 @@ function PERRatingAnalysis({
                                         maxValue={5}
                                         color={area.areaColor}
                                         backgroundColor="var(--go-ui-color-gray-30)"
+                                        aria-label={strings?.ariaLabels?.ratingBar?.replace('{value}', area.rating.toString())?.replace('{maxValue}', '5') ?? `Rating bar showing ${area.rating} out of 5`}
                                     />
                                 </div>
                                 <div className={styles.ratingValueContainer}>
-                                    <span className={styles.ratingValue}>
-                                        {area?.rating ? area.rating.toFixed(1) : '-'}
+                                    <span 
+                                        className={styles.ratingValue}
+                                        aria-label={strings?.ariaLabels?.ratingValue?.replace('{value}', area.rating?.toFixed(1)) ?? `Rating value: ${area.rating?.toFixed(1)}`}
+                                    >
+                                        {area?.rating ? area.rating.toFixed(1) : (strings?.fallback?.noRating ?? '-')}
                                     </span>
                                     <RatingStatusBadge
                                         status={area.status}
@@ -112,11 +130,13 @@ function PERRatingAnalysis({
                                         colors={area.cycleRatings.map(
                                             (c) => c.color,
                                         )}
+                                        aria-label={strings?.ariaLabels?.sparkline ?? 'Rating trend chart'}
                                     />
                                     {area.change !== 0 && (
                                         <RatingChange
                                             value={area.change}
                                             direction={area.changeDirection}
+                                            aria-label={strings?.ariaLabels?.ratingChange?.replace('{value}', area.change.toString()) ?? `Rating change of ${area.change}`}
                                         />
                                     )}
                                 </div>
@@ -128,7 +148,9 @@ function PERRatingAnalysis({
 
             <div className={styles.section}>
                 <div className={styles.sectionHeader}>
-                    <h3 className={styles.sectionTitle}>Components</h3>
+                    <h3 className={styles.sectionTitle}>
+                        {strings?.sections?.components ?? 'Components'}
+                    </h3>
                     <div className={styles.sortButtons}>
                         <button
                             type="button"
@@ -137,10 +159,14 @@ function PERRatingAnalysis({
                                 styles.compact,
                             )}
                             onClick={() => handleSortChange('number', sortDirection === 'asc' ? 'desc' : 'asc')}
+                            aria-label={strings?.ariaLabels?.sortButton
+                                ?.replace('{type}', strings?.sort?.byNumber ?? 'by number')
+                                ?.replace('{direction}', sortDirection === 'asc' ? (strings?.sort?.ascending ?? '↑') : (strings?.sort?.descending ?? '↓')) 
+                                ?? `Sort by number ${sortDirection === 'asc' ? '↑' : '↓'}`}
                         >
-                            Sort by number
+                            {strings?.sort?.byNumber ?? 'Sort by number'}
                             {' '}
-                            {sortDirection === 'asc' ? '↑' : '↓'}
+                            {sortDirection === 'asc' ? (strings?.sort?.ascending ?? '↑') : (strings?.sort?.descending ?? '↓')}
                         </button>
                         <button
                             type="button"
@@ -149,10 +175,14 @@ function PERRatingAnalysis({
                                 styles.compact,
                             )}
                             onClick={() => handleSortChange('rating', sortDirection === 'asc' ? 'desc' : 'asc')}
+                            aria-label={strings?.ariaLabels?.sortButton
+                                ?.replace('{type}', strings?.sort?.byRating ?? 'by rating')
+                                ?.replace('{direction}', sortDirection === 'asc' ? (strings?.sort?.ascending ?? '↑') : (strings?.sort?.descending ?? '↓'))
+                                ?? `Sort by rating ${sortDirection === 'asc' ? '↑' : '↓'}`}
                         >
-                            Sort by rating
+                            {strings?.sort?.byRating ?? 'Sort by rating'}
                             {' '}
-                            {sortDirection === 'asc' ? '↑' : '↓'}
+                            {sortDirection === 'asc' ? (strings?.sort?.ascending ?? '↑') : (strings?.sort?.descending ?? '↓')}
                         </button>
                     </div>
                 </div>
@@ -160,7 +190,10 @@ function PERRatingAnalysis({
                     {sortedComponentData.map((component) => (
                         <div key={component.id} className={styles.ratingItem}>
                             <span className={styles.ratingName}>
-                                <span className={styles.ratingPrefix}>
+                                <span 
+                                    className={styles.ratingPrefix}
+                                    aria-label={strings?.ariaLabels?.componentPrefix?.replace('{number}', component.id.toString()) ?? `Component ${component.id}`}
+                                >
                                     {component.id}
                                     .
                                 </span>
@@ -173,10 +206,14 @@ function PERRatingAnalysis({
                                         maxValue={5}
                                         color={component.areaColor}
                                         backgroundColor="var(--go-ui-color-gray-30)"
+                                        aria-label={strings?.ariaLabels?.ratingBar?.replace('{value}', component.rating.toString())?.replace('{maxValue}', '5') ?? `Rating bar showing ${component.rating} out of 5`}
                                     />
                                 </div>
                                 <div className={styles.ratingValueContainer}>
-                                    <span className={styles.ratingValue}>
+                                    <span 
+                                        className={styles.ratingValue}
+                                        aria-label={strings?.ariaLabels?.ratingValue?.replace('{value}', component.rating.toFixed(1)) ?? `Rating value: ${component.rating.toFixed(1)}`}
+                                    >
                                         {component.rating.toFixed(1)}
                                     </span>
                                     <RatingStatusBadge
@@ -190,11 +227,13 @@ function PERRatingAnalysis({
                                         colors={component.cycleRatings.map(
                                             (c) => c.color,
                                         )}
+                                        aria-label={strings?.ariaLabels?.sparkline ?? 'Rating trend chart'}
                                     />
                                     {component.change !== 0 && (
                                         <RatingChange
                                             value={component.change}
                                             direction={component.changeDirection}
+                                            aria-label={strings?.ariaLabels?.ratingChange?.replace('{value}', component.change.toString()) ?? `Rating change of ${component.change}`}
                                         />
                                     )}
                                 </div>

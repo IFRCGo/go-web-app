@@ -1,0 +1,28 @@
+{
+    "namespace": "perConsiderations",
+    "strings": {
+        "assessmentTypes": {
+            "selfAssessment": "Self assessment",
+            "simulation": "Simulation",
+            "operational": "Operational",
+            "postOperational": "Post operational"
+        },
+        "considerations": {
+            "epiReady": "EPI-ready",
+            "climateReady": "Climate-ready",
+            "urbanReady": "Urban-ready",
+            "migrationReady": "Migration-ready"
+        },
+        "chart": {
+            "byRegionAndType": "By region & type",
+            "title": {
+                "template": "PER {type} Considerations"
+            }
+        },
+        "ariaLabels": {
+            "considerationColumn": "PER consideration column for {type}",
+            "gaugeChart": "Gauge chart showing {type} considerations",
+            "stackedBarChart": "Stacked bar chart showing {type} considerations by region"
+        }
+    }
+}

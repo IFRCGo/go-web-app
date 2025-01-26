@@ -1,0 +1,15 @@
+{
+    "namespace": "common",
+    "strings": {
+        "mapContainer": "PER Map",
+        "closeTooltip": "Close tooltip",
+        "filterButton": "Filter by this assessment",
+        "unknownCountry": "Unknown",
+        "currentPhase": "Current PER phase",
+        "cycleYear": "Cycle year",
+        "cycleIteration": "Cycle iteration",
+        "filter": "Filter",
+        "initializationFailed": "Failed to initialize map",
+        "dismiss": "Dismiss error"
+    }
+}

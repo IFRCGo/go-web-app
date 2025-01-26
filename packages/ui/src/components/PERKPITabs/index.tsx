@@ -3,7 +3,9 @@ import {
     useState,
 } from 'react';
 import { _cs } from '@togglecorp/fujs';
+import useTranslation from '#hooks/useTranslation';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export interface KPI {
@@ -78,6 +80,8 @@ function PERKPITabs({
     // Current active index: controlled or internal
     const activeIndex = isControlled ? externalActiveIndex : internalActiveIndex;
 
+    const strings = useTranslation(i18n)?.strings;
+
     // Handle tab click
     const handleTabClick = (index: number): void => {
         if (disableTabs || index === activeIndex) {
@@ -110,6 +114,7 @@ function PERKPITabs({
                 styles.kpiTabsContainer,
                 className,
             )}
+            aria-label={strings?.ariaLabels?.container ?? 'KPI tabs container'}
         >
             {kpis.map((kpi, index) => (
                 <button
@@ -122,14 +127,19 @@ function PERKPITabs({
                     onClick={() => handleTabClick(index)}
                     disabled={disableTabs}
                     type="button"
+                    aria-label={strings?.ariaLabels?.tab?.replace('{description}', kpi.description) ?? `KPI tab for ${kpi.description}`}
                 >
                     <div
                         className={styles.kpiValue}
                         style={{ color: kpi.color }}
+                        aria-label={strings?.ariaLabels?.value?.replace('{value}', kpi.value.toString()) ?? `KPI value: ${kpi.value}`}
                     >
                         {kpi.value}
                     </div>
-                    <div className={styles.kpiDescription}>
+                    <div 
+                        className={styles.kpiDescription}
+                        aria-label={strings?.ariaLabels?.description?.replace('{description}', kpi.description) ?? `KPI description: ${kpi.description}`}
+                    >
                         {kpi.description}
                     </div>
                     <div

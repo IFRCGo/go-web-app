@@ -5,6 +5,9 @@ import { CloseLineIcon } from '@ifrc-go/icons';
 import * as d3 from 'd3';
 import mapboxgl from 'mapbox-gl';
 
+import useTranslation from '#hooks/useTranslation';
+
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 interface AssessmentRecord {
@@ -57,13 +60,14 @@ function PERMap({
     onMapLoad,
     showLabels = false,
 }: Props) {
+    const strings = useTranslation(i18n);
     const mapContainer = React.useRef<HTMLDivElement>(null);
     const map = React.useRef<mapboxgl.Map | null>(null);
+    const tooltipRef = React.useRef<mapboxgl.Popup | null>(null);
     const bubbleContainer = React.useRef<{
         main: d3.Selection<SVGGElement, unknown, null, undefined>;
         hover: d3.Selection<SVGGElement, unknown, null, undefined>;
     } | null>(null);
-    const tooltipRef = React.useRef<mapboxgl.Popup | null>(null);
     const [error, setError] = React.useState<string | null>(null);
 
     React.useEffect(() => {
@@ -96,7 +100,11 @@ function PERMap({
     };
 
     const showTooltip = (d: AssessmentRecord) => {
-        if (!map.current) return;
+        if (!map.current) {
+            // eslint-disable-next-line no-console
+            console.warn(strings.initializationFailed);
+            return;
+        }
 
         // Remove any existing tooltips
         const existingTooltips = document.querySelectorAll('.mapboxgl-popup');
@@ -113,27 +121,35 @@ function PERMap({
             .setHTML(`
                 <div class="${styles.tooltip}">
                     <div class="${styles.tooltipTitle}">
-                        ${d.country_name || 'Unknown'}
-                        <button class="${styles.closeButton}" onclick="this.closest('.mapboxgl-popup').remove()">
+                        ${d.country_name || strings.unknownCountry}
+                        <button 
+                            class="${styles.closeButton}" 
+                            onclick="this.closest('.mapboxgl-popup').remove()"
+                            aria-label="${strings.closeTooltip}"
+                        >
                             <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" width="1em" height="1em">
                                 <path fill-rule="evenodd" d="m13.057 11.996 4.716-4.716a.75.75 0 1 0-1.06-1.06l-4.717 4.716L7.28 6.22a.75.75 0 1 0-1.06 1.06l4.716 4.716-4.716 4.716a.75.75 0 1 0 1.06 1.06l4.716-4.715 4.716 4.716a.748.748 0 0 0 1.061 0 .75.75 0 0 0 0-1.061l-4.716-4.716Z" clip-rule="evenodd"></path>
                             </svg>
                         </button>
                     </div>
                     <div class="${styles.tooltipGrid}">
-                        <div class="${styles.tooltipLabel}">Current PER phase</div>
+                        <div class="${styles.tooltipLabel}">${strings.currentPhase}</div>
                         <div class="${styles.tooltipPhase}" style="background-color: ${d.color}">${d.phase_display}</div>
 
-                        <div class="${styles.tooltipLabel}">Cycle year</div>
+                        <div class="${styles.tooltipLabel}">${strings.cycleYear}</div>
                         <div class="${styles.tooltipValue}">${new Date(d.date_of_assessment).getFullYear()}</div>
 
-                        <div class="${styles.tooltipLabel}">Cycle iteration</div>
+                        <div class="${styles.tooltipLabel}">${strings.cycleIteration}</div>
                         <div class="${styles.tooltipValue}">${d[valueField] || 0}</div>
                     </div>
                     ${enableClickToFilter ? `
                         <div class="${styles.tooltipFooter}">
-                            <button class="${styles.filterButton}" onclick="window.dispatchEvent(new CustomEvent('mapFilter', { detail: { id: ${d.id} } }))">
-                                Filter
+                            <button
+                                class="${styles.filterButton}"
+                                onclick="window.dispatchEvent(new CustomEvent('mapFilter', { detail: ${JSON.stringify(d)} }))"
+                                aria-label="${strings.filterButton}"
+                            >
+                                ${strings.filter}
                             </button>
                         </div>
                     ` : ''}
@@ -154,14 +170,14 @@ function PERMap({
     const initializeD3Overlay = () => {
         if (!map.current) {
             // eslint-disable-next-line no-console
-            console.warn('Map not initialized');
+            console.warn(strings.initializationFailed);
             return;
         }
         const container = map.current.getCanvasContainer();
 
         if (bubbleContainer.current) {
             // eslint-disable-next-line no-console
-            console.warn('D3 overlay already initialized');
+            console.warn(strings.initializationFailed);
             return;
         }
 
@@ -181,7 +197,7 @@ function PERMap({
     const updatePositions = () => {
         if (!map.current || !bubbleContainer.current) {
             // eslint-disable-next-line no-console
-            console.warn('Map or bubble container not initialized');
+            console.warn(strings.initializationFailed);
             return;
         }
 
@@ -326,7 +342,7 @@ function PERMap({
 
         if (map.current) {
             // eslint-disable-next-line no-console
-            console.warn('Map already initialized');
+            console.warn(strings.initializationFailed);
             return;
         }
 
@@ -392,6 +408,7 @@ function PERMap({
             ref={mapContainer}
             className={styles['map-container']}
             style={{ width: '100%', height: '100%', minHeight: '400px' }}
+            aria-label={strings.mapContainer}
         >
             {error && (
                 <div className={styles.error}>
