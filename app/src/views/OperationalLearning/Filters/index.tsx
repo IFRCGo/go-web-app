@@ -17,14 +17,16 @@ import { type EntriesAsList } from '@togglecorp/toggle-form';
 
 import CountryMultiSelectInput, { type CountryOption } from '#components/domain/CountryMultiSelectInput';
 import RegionSelectInput, { type RegionOption } from '#components/domain/RegionSelectInput';
+import { type PerComponents } from '#contexts/domain';
 import { type components } from '#generated/types';
 import { type DisasterType } from '#hooks/domain/useDisasterType';
-import { type PerComponent } from '#hooks/domain/usePerComponent';
 import { type SecondarySector } from '#hooks/domain/useSecondarySector';
 import { getFormattedComponentName } from '#utils/domain/per';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
+
+export type PerComponent = NonNullable<PerComponents['results']>[number];
 
 type OpsLearningOrganizationType = NonNullable<GoApiResponse<'/api/v2/ops-learning/organization-type/'>['results']>[number];
 export type PerLearningType = components<'read'>['schemas']['PerLearningTypeEnum'];

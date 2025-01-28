@@ -182,7 +182,11 @@ function Stats(props: Props) {
     return (
         <div className={styles.stats}>
             {learningStatsPending && <BlockLoading />}
-            <div className={styles.keyFigureList}>
+            <Container
+                contentViewType="grid"
+                numPreferredGridContentColumns={4}
+                spacing="compact"
+            >
                 <KeyFigure
                     className={styles.keyFigure}
                     value={learningStatsResponse?.operations_included}
@@ -207,7 +211,7 @@ function Stats(props: Props) {
                     label={strings.sectorsCovered}
                     labelClassName={styles.keyFigureDescription}
                 />
-            </div>
+            </Container>
             <div className={styles.learningOverview}>
                 <OperationalLearningMap
                     learningByCountry={learningStatsResponse?.learning_by_country}
