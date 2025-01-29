@@ -10,6 +10,7 @@ import applyMigrations from './commands/applyMigrations';
 import generateMigration from './commands/generateMigration';
 import exportMigration from './commands/exportMigration';
 import { join, basename } from 'path';
+import exportSourceStrings from './commands/exportSourceStrings';
 
 const currentDir = cwd();
 
@@ -156,6 +157,23 @@ yargs(hideBin(process.argv))
                 argv.TRANSLATION_FILE as string,
                 new Date().getTime(),
                 argv.dryRun as (boolean | undefined),
+            );
+        },
+    )
+    .command(
+        'export-source-strings <SOURCE_FILE..>',
+        'Export excel file from source file(s)',
+        (yargs) => {
+            yargs.positional('SOURCE_FILE', {
+                type: 'string',
+                describe: 'Read the file(s) from SOURCE_FILE',
+            });
+        },
+        async (argv) => {
+            console.log('currentDir', currentDir);
+            await exportSourceStrings(
+                currentDir,
+                argv.SOURCE_FILE as string,
             );
         },
     )
