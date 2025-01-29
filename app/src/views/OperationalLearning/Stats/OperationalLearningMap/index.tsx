@@ -54,8 +54,8 @@ interface ClickedPoint {
 }
 
 const MIN_LEARNING_COUNT = 0;
-const LEARNING_COUNT_LOW_COLOR = 'var(--go-ui-color-blue-30)';
-const LEARNING_COUNT_HIGH_COLOR = 'var(--go-ui-color-blue-90)';
+const LEARNING_COUNT_LOW_COLOR = '#AEB7C2';
+const LEARNING_COUNT_HIGH_COLOR = '#011E41';
 
 interface Props {
     className?: string;
@@ -217,7 +217,7 @@ function OperationalLearningMap(props: Props) {
                         geoJson={learningCountGeoJSON}
                     >
                         <MapLayer
-                            layerKey="points-halo-circle"
+                            layerKey="points-circle"
                             onClick={handlePointClick}
                             layerOptions={{
                                 type: 'circle',
