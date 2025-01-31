@@ -473,7 +473,7 @@ function Operation(props: Props) {
                             clearable
                             disabled={disabled}
                         >
-                            {strings.drefFormUploadSupportingDocumentButtonLabel}
+                            {strings.drefFormUploadTargetingDocumentButtonLabel}
                         </GoSingleFileInput>
                     </InputSection>
                 </Container>
@@ -808,7 +808,7 @@ function Operation(props: Props) {
                 )}
                 {value.type_of_dref === TYPE_IMMINENT && (
                     <InputSection
-                        title={strings.drefFormUploadSupportingDocumentButtonLabel}
+                        title={strings.drefFormUploadDocumentButtonLabel}
                         description={strings.drefUploadSupportingDocumentTitle}
                     >
                         <GoSingleFileInput
@@ -823,7 +823,7 @@ function Operation(props: Props) {
                             clearable
                             disabled={disabled}
                         >
-                            {strings.drefFormOperationUploadDocumentButtonLabel}
+                            {strings.drefFormUploadSupportingDocumentButtonLabel}
                         </GoSingleFileInput>
                     </InputSection>
                 )}

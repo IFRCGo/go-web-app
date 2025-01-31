@@ -28,6 +28,7 @@ import {
 } from '#utils/restRequest';
 
 import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 type ExportTypeEnum = components<'read'>['schemas']['ExportTypeEnum'];
 type ExportStatusEnum = components<'read'>['schemas']['ExportStatusEnum'];
@@ -225,35 +226,33 @@ function DrefExportModal(props: Props) {
                 || exportStatusResponse?.status === EXPORT_STATUS_PENDING)
                 && drefType === DREF_TYPE_IMMINENT
                 && !drefImminentExportError && (
-                <Message
-                    actions={
-                        exportStatusResponse?.pdf_file ? (
-                            <Message
-                                title={strings.drefExportSuccessfully}
-                                description={strings.drefClickDownloadLink}
-                                actions={(
-                                    <Link
-                                        variant="secondary"
-                                        href={exportStatusResponse?.pdf_file}
-                                        external
-                                    >
-                                        {strings.drefDownloadPDF}
-                                    </Link>
-                                )}
-                            />
-                        ) : (
-                            <Button
-                                variant="secondary"
-                                name={undefined}
-                                onClick={handleDrefImminent}
-                            >
-                                {isPga
-                                    ? strings.drefDownloadPDFWithPGA
-                                    : strings.drefDownloadPDFwithoutPGA}
-                            </Button>
-                        )
-                    }
-                />
+                <div className={styles.downloadButton}>
+                    {exportStatusResponse?.pdf_file ? (
+                        <Message
+                            title={strings.drefExportSuccessfully}
+                            description={strings.drefClickDownloadLink}
+                            actions={(
+                                <Link
+                                    variant="secondary"
+                                    href={exportStatusResponse?.pdf_file}
+                                    external
+                                >
+                                    {strings.drefDownloadPDF}
+                                </Link>
+                            )}
+                        />
+                    ) : (!exportStatusResponse && (
+                        <Button
+                            variant="secondary"
+                            name={undefined}
+                            onClick={handleDrefImminent}
+                        >
+                            {isPga
+                                ? strings.drefDownloadPDFWithPGA
+                                : strings.drefDownloadPDFwithoutPGA}
+                        </Button>
+                    ))}
+                </div>
             )}
             {isDefined(exportStatusResponse)
                 && exportStatusResponse.status === EXPORT_STATUS_COMPLETED
