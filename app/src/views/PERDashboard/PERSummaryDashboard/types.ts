@@ -47,29 +47,6 @@ export interface ChartDataItem {
     [key: string]: string | number;
 }
 
-export interface PercentageData {
-    epiPercentage: number;
-    climatePercentage: number;
-    urbanPercentage: number;
-    migrationPercentage: number;
-}
-
-export interface TotalsData {
-    totalAssessments: number;
-    totalEpiConsiderations: number;
-    totalClimateConsiderations: number;
-    totalUrbanConsiderations: number;
-    totalMigrationConsiderations: number;
-}
-
-// Filter interfaces
-export interface FilterOptions {
-    regions: string[];
-    years: number[];
-    phases: number[];
-    assessmentTypes: string[];
-}
-
 export interface Filters {
     region?: string | null;
     year?: number | null;
