@@ -86,7 +86,6 @@ function PERStackedBarChart({
     const [containerWidth] = useState<number>(minWidth);
 
     // const reversedCategories = [...categories].reverse();
-
     const chartData = {
         labels: data.map((item) => item.label),
         datasets: categories.map((category) => ({
