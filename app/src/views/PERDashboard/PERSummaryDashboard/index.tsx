@@ -20,7 +20,6 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import { mbtoken } from '#config';
 import { defaultMapStyle } from '#utils/map';
 
-import { PHASE_COLORS } from './constants';
 import {
     getComponentSummaryForTreemap,
     getFilteredMapData,
@@ -43,6 +42,40 @@ import styles from './styles.module.css';
 const MAP_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-data-fetcher/contents/data/map-data.json';
 const LAST_UPDATE_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-data-fetcher/contents/data/last-update.json';
 const GITHUB_TOKEN = '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';
+
+
+const PHASE_COLORS = [
+    {
+        phase: 'Orientation',
+        label: 'Orientation',
+        phaseNumber: 1,
+        color: '#00B2A2',
+    },
+    {
+        phase: 'Assessment',
+        label: 'Assessment',
+        phaseNumber: 2,
+        color: '#DA283D',
+    },
+    {
+        phase: 'Prioritisation',
+        label: 'Prioritisation & analysis',
+        phaseNumber: 3,
+        color: '#3377EB',
+    },
+    {
+        phase: 'Workplan',
+        label: 'Workplan',
+        phaseNumber: 4,
+        color: '#8648B3',
+    },
+    {
+        phase: 'Action & accountability',
+        label: 'Action & accountability',
+        phaseNumber: 5,
+        color: '#FF8654',
+    },
+];
 
 interface ActiveFilters {
     id: number | null;
