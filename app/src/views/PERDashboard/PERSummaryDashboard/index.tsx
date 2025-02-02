@@ -43,7 +43,6 @@ const MAP_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-dat
 const LAST_UPDATE_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-data-fetcher/contents/data/last-update.json';
 const GITHUB_TOKEN = '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';
 
-
 const PHASE_COLORS = [
     {
         phase: 'Orientation',

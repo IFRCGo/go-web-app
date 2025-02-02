@@ -2,13 +2,8 @@ import {
     type AssessmentRecord,
     type ChartDataItem,
     type ComponentSummary,
-    type FilterOptions,
     type Filters,
     type MapAssessmentRecord,
-    type PercentageData,
-    type PERData,
-    type PrioritizedComponent,
-    type TotalsData,
 } from './types';
 
 let mapData: MapAssessmentRecord[] = [];
@@ -21,41 +16,6 @@ let lastUpdateData: LastUpdateData | null = null;
 function initializeData(data: MapAssessmentRecord[], updateData: LastUpdateData) {
     mapData = data;
     lastUpdateData = updateData;
-}
-
-interface RawAssessmentRecord {
-    id: number;
-    country_id: number;
-    country_name: string;
-    region_name: string;
-    date_of_assessment: string;
-    phase: number;
-    phase_display: string;
-    assessment_number: number;
-    type_of_assessment_name: string;
-    prioritized_components: {
-        id: number;
-        name: string;
-        score?: number;
-    }[];
-    epi_considerations: {
-        description?: string;
-        value?: boolean | string;
-    };
-    climate_environmental_considerations: {
-        description?: string;
-        value?: boolean | string;
-    };
-    urban_considerations: {
-        description?: string;
-        value?: boolean | string;
-    };
-    migration_considerations: {
-        description?: string;
-        value?: boolean | string;
-    };
-    latitude: number;
-    longitude: number;
 }
 
 const AREA_COLORS = {
@@ -99,39 +59,6 @@ const PHASE_COLORS = [
     },
 ];
 
-function processMapData(rawData: RawAssessmentRecord[]): AssessmentRecord[] {
-    return rawData.map((record) => ({
-        id: record.id,
-        country_id: record.country_id,
-        country_name: record.country_name,
-        region_name: record.region_name,
-        date_of_assessment: record.date_of_assessment,
-        type_of_assessment: record.type_of_assessment_name,
-        country_iso3: '', // This needs to be provided from the raw data
-        assessment_date: record.date_of_assessment,
-        created_at: record.date_of_assessment, // Using date_of_assessment as fallback
-        updated_at: record.date_of_assessment, // Using date_of_assessment as fallback
-        lat: record.latitude,
-        lon: record.longitude,
-        phase: record.phase,
-        phase_display: record.phase_display,
-        assessment_number: record.assessment_number,
-        type_of_assessment_name: record.type_of_assessment_name,
-        prioritized_components: record.prioritized_components.map((component) => ({
-            areaTitle: component.name.split(' - ')[0],
-            componentTitle: component.name.split(' - ')[1] || component.name,
-        })),
-        epi_considerations: record.epi_considerations?.value === true,
-        climate_environmental_considerations:
-            record.climate_environmental_considerations?.value === true,
-        urban_considerations: record.urban_considerations?.value === true,
-        migration_considerations: record.migration_considerations?.value === true,
-        latitude: record.latitude,
-        longitude: record.longitude,
-        color: PHASE_COLORS[record.phase]?.color || '#CCCCCC', // Required by MapAssessmentRecord
-    }));
-}
-
 function groupByAndFilter(
     data: Array<MapAssessmentRecord>,
     groupKey: keyof MapAssessmentRecord,
@@ -170,32 +97,6 @@ function assignFillColors(
             color: phaseMatch ? phaseMatch.color : '#CCCCCC',
         };
     });
-}
-
-function getFilterOptions(): FilterOptions {
-    return {
-        regions: [
-            ...new Set(mapData.map((record: MapAssessmentRecord) => record.region_name)),
-        ].filter(Boolean),
-        years: [
-            ...new Set(
-                mapData.map((record: MapAssessmentRecord) => {
-                    const date = new Date(record.date_of_assessment);
-                    return date.getFullYear();
-                }),
-            ),
-        ].sort((a, b) => b - a),
-        phases: [
-            ...new Set(mapData.map((record: MapAssessmentRecord) => record.phase)),
-        ].sort((a, b) => a - b),
-        assessmentTypes: [
-            ...new Set(
-                mapData.map(
-                    (record: MapAssessmentRecord) => record.type_of_assessment_name,
-                ),
-            ),
-        ].filter(Boolean),
-    };
 }
 
 function applyFilters(
@@ -717,13 +618,6 @@ function getKPIData(
         },
     ];
 }
-
-const allProcessedData = {
-    mapData: processFilteredMapData(),
-    recordsByRegion: getRecordsByRegion(),
-    filterOptions: getFilterOptions(),
-    recordsByAssessmentType: getRecordsByAssessmentType(null),
-};
 
 function getLastUpdateDate(): string {
     return lastUpdateData?.lastUpdate ?? 'N/A';

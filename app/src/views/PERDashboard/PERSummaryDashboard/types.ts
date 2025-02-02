@@ -1,19 +1,3 @@
-// Basic types
-export type AssessmentType = 'Self assessment' | 'Simulation' | 'Operational' | 'Post operational';
-
-// Base interfaces
-export interface Assessment {
-    assessment_id: number;
-    assessment_number: number;
-    country_id: number;
-    country_name: string;
-    region_id: number;
-    region_name: string;
-    date_of_assessment: string;
-    rating_value: number;
-    rating_title: string;
-}
-
 export interface ComponentSummary {
     id: string;
     color: string;
@@ -63,10 +47,6 @@ export interface ChartDataItem {
     [key: string]: string | number;
 }
 
-export interface ChartData {
-    [key: string]: ChartDataItem;
-}
-
 export interface PercentageData {
     epiPercentage: number;
     climatePercentage: number;
@@ -82,6 +62,13 @@ export interface TotalsData {
     totalMigrationConsiderations: number;
 }
 
+// Filter interfaces
+export interface FilterOptions {
+    regions: string[];
+    years: number[];
+    phases: number[];
+    assessmentTypes: string[];
+}
 
 export interface Filters {
     region?: string | null;

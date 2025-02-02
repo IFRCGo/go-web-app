@@ -1,6 +1,3 @@
-// Basic types
-export type AssessmentType = 'Self assessment' | 'Simulation' | 'Operational' | 'Post operational';
-
 // Base interfaces
 export interface Assessment {
     assessment_id: number;
@@ -12,15 +9,6 @@ export interface Assessment {
     date_of_assessment: string;
     rating_value: number;
     rating_title: string;
-}
-
-export interface Component {
-    component_id: number;
-    component_num: number;
-    component_name: string;
-    area_id: number;
-    area_name: string;
-    assessments: Assessment[];
 }
 
 export interface ComponentSummary {
@@ -47,19 +35,6 @@ export interface AssessmentRecord {
     climate_environmental_considerations: boolean;
     urban_considerations: boolean;
     migration_considerations: boolean;
-}
-
-export interface KPIData {
-    label: string;
-    value: number;
-}
-
-// Filter interfaces
-export interface FilterOptions {
-    regions: string[];
-    years: number[];
-    phases: number[];
-    assessmentTypes: string[];
 }
 
 export interface Filters {
