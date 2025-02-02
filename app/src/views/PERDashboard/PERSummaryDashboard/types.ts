@@ -24,10 +24,10 @@ export interface Component {
 }
 
 export interface ComponentSummary {
-    name: string;
     id: string;
-    value: number;
     color: string;
+    name: string;
+    value?: number;
     children?: ComponentSummary[];
 }
 
@@ -42,6 +42,11 @@ export interface AssessmentRecord {
     country_name: string;
     region_name: string;
     date_of_assessment: string;
+    type_of_assessment: string;
+    country_iso3: string;
+    assessment_date: string;
+    created_at: string;
+    updated_at: string;
     phase: number;
     phase_display: string;
     assessment_number: number;
@@ -51,13 +56,16 @@ export interface AssessmentRecord {
     climate_environmental_considerations: boolean;
     urban_considerations: boolean;
     migration_considerations: boolean;
+    lat: number;
+    lon: number;
+    latitude: number;
+    longitude: number;
+    color?: string;
 }
 
 export interface KPIData {
-    key: string;
+    label: string;
     value: number;
-    description: string;
-    color?: string;
 }
 
 // Chart data interfaces
@@ -144,4 +152,9 @@ export interface ConsiderationData {
     title: string;
     description: string;
     rating: number;
+}
+
+// Map specific types
+export interface MapAssessmentRecord extends AssessmentRecord {
+    color: string;
 }

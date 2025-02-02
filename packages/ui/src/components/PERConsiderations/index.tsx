@@ -1,4 +1,3 @@
-import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import useTranslation from '#hooks/useTranslation';
@@ -75,7 +74,7 @@ export interface Props {
         data: ChartData[];
     };
     activeIndex: string | number | null;
-    onClickAssessmentType: (index: string) => void;
+    onClickAssessmentType: (item: { label: string; color: string }) => void;
     onClickPER: (key: string) => void;
     activePERFilter?: string;
 }
@@ -87,7 +86,7 @@ function PERConsiderations({
     onClickPER,
     activePERFilter,
 }: Props) {
-    const strings = useTranslation(i18n)?.strings;
+    const strings = useTranslation(i18n);
 
     // Assessment type options with labels and colors
     const ASSESSMENT_TYPE_OPTIONS = [
@@ -107,7 +106,7 @@ function PERConsiderations({
             label: strings?.considerationPostOperationalLabel ?? 'Post operational',
             color: ASSESSMENT_COLORS.postOperational,
         },
-    ] as const;
+    ];
 
     // Calculate global maxValue across all charts
     const calculateGlobalMaxValue = (allData: ChartData[]): number => Math.max(
@@ -139,10 +138,10 @@ function PERConsiderations({
     ];
 
     const labels = [
-        strings?.considerations?.epiReady ?? 'EPI-ready',
-        strings?.considerations?.climateReady ?? 'Climate-ready',
-        strings?.considerations?.urbanReady ?? 'Urban-ready',
-        strings?.considerations?.migrationReady ?? 'Migration-ready',
+        strings?.considerationEpiReady ?? 'EPI-ready',
+        strings?.considerationClimateReady ?? 'Climate-ready',
+        strings?.considerationUrbanReady ?? 'Urban-ready',
+        strings?.considerationMigrationReady ?? 'Migration-ready',
     ];
 
     const key = [
@@ -169,41 +168,32 @@ function PERConsiderations({
                                 isInactive && styles.inactiveColumn,
                             )}
                             key={`per-consideration-${currentKey}`}
-                            aria-label={strings?.ariaLabels?.considerationColumn?.replace('{type}', labels[index]) ?? `PER consideration column for ${labels[index]}`}
+                            aria-label={strings?.considerationColumnLabel?.replace('{type}', labels[index]) ?? `PER consideration column for ${labels[index]}`}
                         >
                             <PERGaugeChart
-                                title={strings?.chart?.title?.template?.replace('{type}', labels[index]) ?? `PER ${labels[index]} Considerations`}
+                                title={strings?.considerationTitleTemplate?.replace('{type}', labels[index]) ?? `PER ${labels[index]} Considerations`}
                                 percentage={percentageArray[index]}
                                 icon={icons[index]}
                                 label={labels[index]}
-                                fontSize={12}
                                 gaugeColor={isInactive ? '#C6C6C6' : '#236192'}
                                 backgroundColor="#F2F2F2"
                                 transitionSpeed={750}
                                 onClick={() => onClickPER(currentKey)}
-                                aria-label={strings?.ariaLabels?.gaugeChart?.replace('{type}', labels[index]) ?? `Gauge chart showing ${labels[index]} considerations`}
+                                aria-label={strings?.considerationGaugeChartLabel?.replace('{type}', labels[index]) ?? `Gauge chart showing ${labels[index]} considerations`}
                             />
 
                             <div className={styles.spacer} />
 
                             {/* Conditionally render the title for the first column */}
                             <div className={styles.stackedBarTitle}>
-                                {index === 0 ? strings?.chart?.byRegionAndType ?? 'By region & type' : ''}
+                                {index === 0 ? strings?.considerationByRegionTypeLabel ?? 'By region & type' : ''}
                             </div>
 
                             <PERStackedHorizontalBarChart
                                 data={chartData}
                                 maxValue={globalMaxValue}
-                                barColors={isInactive ? ['#C6C6C6', '#C6C6C6', '#C6C6C6', '#C6C6C6'] : Object.values(ASSESSMENT_COLORS)}
-                                xAxisKey="name"
-                                barKeys={[
-                                    'SelfAssessment',
-                                    'Simulation',
-                                    'PostOperational',
-                                    'Operational',
-                                ]}
                                 transitionSpeed={1000}
-                                aria-label={strings?.ariaLabels?.stackedBarChart?.replace('{type}', labels[index]) ?? `Stacked bar chart showing ${labels[index]} considerations by region`}
+                                aria-label={strings?.considerationStackedBarLabel?.replace('{type}', labels[index]) ?? `Stacked bar chart showing ${labels[index]} considerations by region`}
                             />
                         </div>
                     );
@@ -212,7 +202,7 @@ function PERConsiderations({
             <PERChartLegend
                 data={ASSESSMENT_TYPE_OPTIONS}
                 activeIndex={activeIndex}
-                onClick={onClickAssessmentType}
+                onClick={(item) => onClickAssessmentType(item)}
                 layout="horizontal"
             />
         </div>

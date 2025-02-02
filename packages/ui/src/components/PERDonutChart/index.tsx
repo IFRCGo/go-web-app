@@ -214,7 +214,7 @@ function PERDonutChart(props: Props) {
         },
         onHover: handleHover,
         onClick: (event: ChartEvent, elements: { index: number }[]) => {
-            if (onClick && elements.length > 0) {
+            if (onClick && event && elements.length > 0) {
                 const { index } = elements[0];
                 onClick(data[index]);
             }

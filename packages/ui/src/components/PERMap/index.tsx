@@ -232,7 +232,7 @@ function PERMap({
             .style('stroke-opacity', 0.33)
             .style('cursor', 'pointer')
             .style('pointer-events', 'all')
-            .style('stroke-width', (d: AssessmentRecord) => calculateStrokeWidth(d[valueField] || 0, minValue, maxValue));
+            .style('stroke-width', (d: AssessmentRecord) => calculateStrokeWidth(Number(d[valueField]) || 0, minValue, maxValue));
 
         // Update all circles with proper typing
         circles
@@ -252,13 +252,13 @@ function PERMap({
             .transition()
             .duration(500)
             .style('opacity', 1)
-            .attr('r', (d: AssessmentRecord) => calculateRadius(d[valueField] || 0, minValue, maxValue))
-            .style('stroke-width', (d: AssessmentRecord) => calculateStrokeWidth(d[valueField] || 0, minValue, maxValue));
+            .attr('r', (d: AssessmentRecord) => calculateRadius(Number(d[valueField]) || 0, minValue, maxValue))
+            .style('stroke-width', (d: AssessmentRecord) => calculateStrokeWidth(Number(d[valueField]) || 0, minValue, maxValue));
 
         // Add hover circles
         const hoverCircles = bubbleContainer.current.hover
-            .selectAll('circle')
-            .data(data, (d: AssessmentRecord) => d.id);
+            .selectAll<SVGCircleElement, AssessmentRecord>('circle')
+            .data(data, (d) => d.id.toString());
 
         hoverCircles.exit().remove();
 
@@ -289,7 +289,7 @@ function PERMap({
                 const point = map.current.project([d.longitude, d.latitude]);
                 return point.y;
             })
-            .attr('r', (d: AssessmentRecord) => calculateRadius(d[valueField] || 0, minValue, maxValue) + 2);
+            .attr('r', (d: AssessmentRecord) => calculateRadius(Number(d[valueField]) || 0, minValue, maxValue) + 2);
 
         // Handle click/hover events
         const handleTooltipTrigger = function handleTooltipTrigger(
@@ -297,13 +297,12 @@ function PERMap({
             event: MouseEvent,
             d: AssessmentRecord,
         ) {
-            showTooltip(d);
+            if (event) showTooltip(d);
             const hoverCircle = bubbleContainer.current?.hover
-                .selectAll('circle')
-                .filter((hd: AssessmentRecord) => hd.id === d.id);
+                .selectAll<SVGCircleElement, AssessmentRecord>('circle')
+                .filter((hd) => hd.id === d.id);
 
-            hoverCircle
-                .transition()
+            hoverCircle?.transition()
                 .duration(200)
                 .style('opacity', 1);
 
@@ -321,16 +320,15 @@ function PERMap({
                 handleTooltipTrigger,
             )
             .on('mouseleave', function handleMouseLeave(this: SVGCircleElement, event: MouseEvent, d: AssessmentRecord) {
-                if (tooltipTrigger === 'hover') {
+                if (event && tooltipTrigger === 'hover') {
                     hideTooltip();
                 }
 
                 const hoverCircle = bubbleContainer.current?.hover
-                    .selectAll('circle')
-                    .filter((hd: AssessmentRecord) => hd.id === d.id);
+                    .selectAll<SVGCircleElement, AssessmentRecord>('circle')
+                    .filter((hd) => hd.id === d.id);
 
-                hoverCircle
-                    .transition()
+                hoverCircle?.transition()
                     .duration(200)
                     .style('opacity', 0);
 
@@ -405,7 +403,6 @@ function PERMap({
 
     React.useEffect(() => {
         updatePositions();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data, valueField]);
 
     return (
@@ -413,7 +410,7 @@ function PERMap({
             ref={mapContainer}
             className={styles['map-container']}
             style={{ width: '100%', height: '100%', minHeight: '400px' }}
-            aria-label={strings.mapContainer}
+            aria-label={strings.perMapContainerLabel}
         >
             {error && (
                 <div className={styles.error}>

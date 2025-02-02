@@ -6,20 +6,21 @@ import {
     type ComponentSummary,
     type FilterOptions,
     type Filters,
+    type MapAssessmentRecord,
     type PercentageData,
-    type PERConsiderationsData,
     type PERData,
+    type PrioritizedComponent,
     type TotalsData,
 } from './types';
 
-let mapData: AssessmentRecord[] = [];
+let mapData: MapAssessmentRecord[] = [];
 interface LastUpdateData {
     lastUpdate: string;
 }
 
 let lastUpdateData: LastUpdateData | null = null;
 
-function initializeData(data: AssessmentRecord[], updateData: LastUpdateData) {
+function initializeData(data: MapAssessmentRecord[], updateData: LastUpdateData) {
     mapData = data;
     lastUpdateData = updateData;
 }
@@ -66,31 +67,37 @@ function processMapData(rawData: RawAssessmentRecord[]): AssessmentRecord[] {
         country_name: record.country_name,
         region_name: record.region_name,
         date_of_assessment: record.date_of_assessment,
+        type_of_assessment: record.type_of_assessment_name,
+        country_iso3: '', // This needs to be provided from the raw data
+        assessment_date: record.date_of_assessment,
+        created_at: record.date_of_assessment, // Using date_of_assessment as fallback
+        updated_at: record.date_of_assessment, // Using date_of_assessment as fallback
+        lat: record.latitude,
+        lon: record.longitude,
         phase: record.phase,
         phase_display: record.phase_display,
         assessment_number: record.assessment_number,
         type_of_assessment_name: record.type_of_assessment_name,
         prioritized_components: record.prioritized_components.map((component) => ({
-            id: component.id,
-            name: component.name,
-            score: component.score,
-            areaTitle: '', // You'll need to get this from your data source
-            componentTitle: component.name,
+            areaTitle: component.name.split(' - ')[0],
+            componentTitle: component.name.split(' - ')[1] || component.name,
         })),
-        epi_considerations: record.epi_considerations,
-        climate_environmental_considerations: record.climate_environmental_considerations,
-        urban_considerations: record.urban_considerations,
-        migration_considerations: record.migration_considerations,
+        epi_considerations: record.epi_considerations?.value === true,
+        climate_environmental_considerations:
+            record.climate_environmental_considerations?.value === true,
+        urban_considerations: record.urban_considerations?.value === true,
+        migration_considerations: record.migration_considerations?.value === true,
         latitude: record.latitude,
         longitude: record.longitude,
+        color: PHASE_COLORS[record.phase]?.color || '#CCCCCC', // Required by MapAssessmentRecord
     }));
 }
 
 function groupByAndFilter(
-    data: Array<AssessmentRecord>,
-    groupKey: keyof AssessmentRecord,
-    compareKey: keyof AssessmentRecord,
-): Array<AssessmentRecord> {
+    data: Array<MapAssessmentRecord>,
+    groupKey: keyof MapAssessmentRecord,
+    compareKey: keyof MapAssessmentRecord,
+): Array<MapAssessmentRecord> {
     const groupedDataMap = data.reduce(
         (acc, record) => {
             const existingRecord = acc[record[groupKey] as string];
@@ -105,7 +112,7 @@ function groupByAndFilter(
             }
             return acc;
         },
-    {} as Record<string, AssessmentRecord>,
+    {} as Record<string, MapAssessmentRecord>,
     );
 
     return Object.values(groupedDataMap);
@@ -113,7 +120,7 @@ function groupByAndFilter(
 
 function assignFillColors(
     data: Array<AssessmentRecord>,
-): Array<AssessmentRecord & { color: string }> {
+): Array<MapAssessmentRecord> {
     return data.map((record) => {
         const phaseMatch = PHASE_COLORS.find(
             (phase) => phase.phase === record.phase_display
@@ -129,23 +136,23 @@ function assignFillColors(
 function getFilterOptions(): FilterOptions {
     return {
         regions: [
-            ...new Set(mapData.map((record: AssessmentRecord) => record.region_name)),
+            ...new Set(mapData.map((record: MapAssessmentRecord) => record.region_name)),
         ].filter(Boolean),
         years: [
             ...new Set(
-                mapData.map((record: AssessmentRecord) => {
+                mapData.map((record: MapAssessmentRecord) => {
                     const date = new Date(record.date_of_assessment);
                     return date.getFullYear();
                 }),
             ),
         ].sort((a, b) => b - a),
         phases: [
-            ...new Set(mapData.map((record: AssessmentRecord) => record.phase)),
+            ...new Set(mapData.map((record: MapAssessmentRecord) => record.phase)),
         ].sort((a, b) => a - b),
         assessmentTypes: [
             ...new Set(
                 mapData.map(
-                    (record: AssessmentRecord) => record.type_of_assessment_name,
+                    (record: MapAssessmentRecord) => record.type_of_assessment_name,
                 ),
             ),
         ].filter(Boolean),
@@ -153,9 +160,9 @@ function getFilterOptions(): FilterOptions {
 }
 
 function applyFilters(
-    data: Array<AssessmentRecord>,
+    data: Array<MapAssessmentRecord>,
     filters: Filters | null = null,
-): Array<AssessmentRecord> {
+): Array<MapAssessmentRecord> {
     let filteredData = [...data];
 
     if (!filters) {
@@ -188,7 +195,7 @@ function applyFilters(
 
     if (filters.perConsiderations) {
         filteredData = filteredData.filter(
-            (record) => record[filters.perConsiderations as keyof AssessmentRecord],
+            (record) => record[filters.perConsiderations as keyof MapAssessmentRecord],
         );
     }
 
@@ -220,7 +227,7 @@ function applyFilters(
 
 function processFilteredMapData(
     filters: Filters | null = null,
-): Array<AssessmentRecord> {
+): Array<MapAssessmentRecord> {
     const filteredData = applyFilters(mapData, filters);
     const groupedData = groupByAndFilter(
         filteredData,
@@ -232,7 +239,7 @@ function processFilteredMapData(
 
 function getFilteredMapData(
     filters: Filters | null = null,
-): Array<AssessmentRecord> {
+): Array<MapAssessmentRecord> {
     return processFilteredMapData(filters);
 }
 
@@ -398,7 +405,22 @@ function getComponentSummaryForTreemap(
 
 function getPERConsiderations(
     filters: Filters | null,
-): PERConsiderationsData {
+): {
+    data: ChartDataItem[][];
+    totals: {
+        totalAssessments: number;
+        totalEpiConsiderations: number;
+        totalClimateConsiderations: number;
+        totalUrbanConsiderations: number;
+        totalMigrationConsiderations: number;
+    };
+    percentages: {
+        epiPercentage: number;
+        climatePercentage: number;
+        urbanPercentage: number;
+        migrationPercentage: number;
+    };
+} {
     const filteredData = applyFilters(mapData, filters);
 
     // Define assessment types and normalize names for consistency
@@ -411,13 +433,6 @@ function getPERConsiderations(
         Operational: 'Operational',
     };
 
-    const assessmentTypes: Array<string> = [
-        'SelfAssessment',
-        'Simulation',
-        'PostOperational',
-        'Operational',
-    ];
-
     // Define regions
     const regions: Array<string> = [
         'Africa',
@@ -428,7 +443,10 @@ function getPERConsiderations(
     ];
 
     // Initialize summary data structures
-    const considerations: Record<string, Record<string, ChartDataItem>> = {
+    const considerations: Record<
+        string,
+        Record<string, ChartDataItem>
+    > = {
         epi_considerations: {},
         climate_environmental_considerations: {},
         urban_considerations: {},
@@ -437,19 +455,37 @@ function getPERConsiderations(
 
     // Initialize counts per region and assessment type for each consideration
     regions.forEach((region) => {
-        considerations.epi_considerations[region] = { name: region };
+        considerations.epi_considerations[region] = {
+            name: region,
+            SelfAssessment: 0,
+            Simulation: 0,
+            PostOperational: 0,
+            Operational: 0,
+        } as ChartDataItem;
+
         considerations.climate_environmental_considerations[region] = {
             name: region,
-        };
-        considerations.urban_considerations[region] = { name: region };
-        considerations.migration_considerations[region] = { name: region };
+            SelfAssessment: 0,
+            Simulation: 0,
+            PostOperational: 0,
+            Operational: 0,
+        } as ChartDataItem;
 
-        assessmentTypes.forEach((type) => {
-            considerations.epi_considerations[region][type] = 0;
-            considerations.climate_environmental_considerations[region][type] = 0;
-            considerations.urban_considerations[region][type] = 0;
-            considerations.migration_considerations[region][type] = 0;
-        });
+        considerations.urban_considerations[region] = {
+            name: region,
+            SelfAssessment: 0,
+            Simulation: 0,
+            PostOperational: 0,
+            Operational: 0,
+        } as ChartDataItem;
+
+        considerations.migration_considerations[region] = {
+            name: region,
+            SelfAssessment: 0,
+            Simulation: 0,
+            PostOperational: 0,
+            Operational: 0,
+        } as ChartDataItem;
     });
 
     // Initialize total counts
@@ -472,43 +508,73 @@ function getPERConsiderations(
 
         // EPI Considerations
         if (record.epi_considerations) {
-            considerations.epi_considerations[regionName][assessmentType] += 1;
+            considerations.epi_considerations[regionName][
+                assessmentType as
+                    'SelfAssessment' |
+                    'Simulation' |
+                    'PostOperational' |
+                    'Operational'
+            ] += 1;
             totalEpiConsiderations += 1;
         }
 
         // Climate Environmental Considerations
         if (record.climate_environmental_considerations) {
-            considerations.climate_environmental_considerations[regionName][assessmentType] += 1;
+            const normalizedAssessmentType = assessmentTypeMapping[
+                record.type_of_assessment_name
+            ] as
+                'SelfAssessment' |
+                'Simulation' |
+                'PostOperational' |
+                'Operational';
+            considerations.climate_environmental_considerations[regionName][
+                normalizedAssessmentType
+            ] += 1;
             totalClimateConsiderations += 1;
         }
 
         // Urban Considerations
         if (record.urban_considerations) {
-            considerations.urban_considerations[regionName][assessmentType] += 1;
+            const normalizedAssessmentType = assessmentTypeMapping[
+                record.type_of_assessment_name
+            ] as
+                'SelfAssessment' |
+                'Simulation' |
+                'PostOperational' |
+                'Operational';
+            considerations.urban_considerations[regionName][
+                normalizedAssessmentType
+            ] += 1;
             totalUrbanConsiderations += 1;
         }
 
         // Migration Considerations
         if (record.migration_considerations) {
-            considerations.migration_considerations[regionName][assessmentType] += 1;
+            considerations.migration_considerations[regionName][
+                assessmentType as
+                    'SelfAssessment' |
+                    'Simulation' |
+                    'PostOperational' |
+                    'Operational'
+            ] += 1;
             totalMigrationConsiderations += 1;
         }
     });
 
     // Convert the considerations data into arrays
-    const epiConsiderationsArray = regions.map(
+    const epiConsiderationsArray: ChartDataItem[] = regions.map(
         (region) => considerations.epi_considerations[region],
     );
 
-    const climateConsiderationsArray = regions.map(
+    const climateConsiderationsArray: ChartDataItem[] = regions.map(
         (region) => considerations.climate_environmental_considerations[region],
     );
 
-    const urbanConsiderationsArray = regions.map(
+    const urbanConsiderationsArray: ChartDataItem[] = regions.map(
         (region) => considerations.urban_considerations[region],
     );
 
-    const migrationConsiderationsArray = regions.map(
+    const migrationConsiderationsArray: ChartDataItem[] = regions.map(
         (region) => considerations.migration_considerations[region],
     );
 
@@ -555,7 +621,7 @@ function getPERConsiderations(
 
 function getKPIData(
     filters: Filters | null = null,
-): Array<KPI> {
+): Array<{ key: string; value: number; color?: string; description: string }> {
     // Apply all filters
     const data = applyFilters(mapData, filters);
 
@@ -630,9 +696,10 @@ export type {
     ComponentSummary,
     FilterOptions,
     Filters,
+    MapAssessmentRecord,
     PercentageData,
-    PERConsiderationsData,
     PERData,
+    PrioritizedComponent,
     TotalsData,
 };
 

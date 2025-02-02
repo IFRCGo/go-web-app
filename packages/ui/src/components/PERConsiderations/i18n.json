@@ -9,6 +9,10 @@
         "considerationOperationalLabel": "Operational",
         "considerationPostOperationalLabel": "Post-operational",
         "considerationByRegionTypeLabel": "By region & type",
-        "considerationTitleTemplate": "PER {type} Considerations"
+        "considerationTitleTemplate": "PER {type} Considerations",
+        "considerationEpiReady": "EPI-ready",
+        "considerationClimateReady": "Climate-ready",
+        "considerationUrbanReady": "Urban-ready",
+        "considerationMigrationReady": "Migration-ready"
     }
 }

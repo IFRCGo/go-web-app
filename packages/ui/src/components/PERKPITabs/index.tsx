@@ -81,7 +81,7 @@ function PERKPITabs({
     // Current active index: controlled or internal
     const activeIndex = isControlled ? externalActiveIndex : internalActiveIndex;
 
-    const strings = useTranslation(i18n)?.strings;
+    const strings = useTranslation(i18n);
 
     // Handle tab click
     const handleTabClick = (index: number): void => {
@@ -115,7 +115,7 @@ function PERKPITabs({
                 styles.kpiTabsContainer,
                 className,
             )}
-            aria-label={strings?.ariaLabels?.container ?? 'KPI tabs container'}
+            aria-label={strings?.kpiTabsContainerLabel ?? 'KPI tabs container'}
         >
             {kpis.map((kpi, index) => (
                 <button
@@ -128,18 +128,18 @@ function PERKPITabs({
                     onClick={() => handleTabClick(index)}
                     disabled={disableTabs}
                     type="button"
-                    aria-label={strings?.ariaLabels?.tab?.replace('{description}', kpi.description) ?? `KPI tab for ${kpi.description}`}
+                    aria-label={strings?.kpiTabLabel?.replace('{description}', kpi.description) ?? `KPI tab for ${kpi.description}`}
                 >
                     <div
                         className={styles.kpiValue}
                         style={{ color: kpi.color }}
-                        aria-label={strings?.ariaLabels?.value?.replace('{value}', kpi.value.toString()) ?? `KPI value: ${kpi.value}`}
+                        aria-label={strings?.kpiValueLabel?.replace('{value}', kpi.value.toString()) ?? `KPI value: ${kpi.value}`}
                     >
                         {kpi.value}
                     </div>
                     <div
                         className={styles.kpiDescription}
-                        aria-label={strings?.ariaLabels?.description?.replace('{description}', kpi.description) ?? `KPI description: ${kpi.description}`}
+                        aria-label={strings?.kpiDescriptionLabel?.replace('{description}', kpi.description) ?? `KPI description: ${kpi.description}`}
                     >
                         {kpi.description}
                     </div>

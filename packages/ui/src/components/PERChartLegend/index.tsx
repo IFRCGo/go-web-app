@@ -21,7 +21,7 @@ export interface Props {
 }
 
 function PERChartLegend(props: Props) {
-    const strings = useTranslation(i18n)?.strings;
+    const strings = useTranslation(i18n);
     const {
         className,
         data,

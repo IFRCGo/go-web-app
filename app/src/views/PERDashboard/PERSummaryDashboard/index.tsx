@@ -32,7 +32,10 @@ import {
     getStackedBarDataByYearAndRegion,
     initializeData,
 } from './dataHandler';
-import type { AssessmentRecord } from './types';
+import type {
+    AssessmentRecord,
+    MapAssessmentRecord,
+} from './types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -211,11 +214,7 @@ function PERSummaryDashboard() {
         }
     };
 
-    const handlePhaseClick = (item: {
-        label: string;
-        color: string;
-        phaseNumber: number;
-    }) => {
+    const handlePhaseClick = (item: { label: string; color: string; phaseNumber: number }) => {
         if (activeTab !== 4) {
             updateFilter('numberOfCycles', null);
             updateFilter('completedAssessment', null);
@@ -326,8 +325,8 @@ function PERSummaryDashboard() {
                 >
                     <div style={{ height: '470px' }}>
                         <PERMap
-                            data={getFilteredMapData(activeFilters)}
-                            onCountryClick={(id) => updateFilter('id', id)}
+                            data={getFilteredMapData(activeFilters) as MapAssessmentRecord[]}
+                            onClick={(record) => updateFilter('id', record.id)}
                             valueField="assessment_number"
                             tooltipTrigger="click"
                             enableClickToFilter
@@ -335,15 +334,19 @@ function PERSummaryDashboard() {
                             mapboxStyle={defaultMapStyle}
                             minRadius={4}
                             maxRadius={7}
-                            scrollZoom={false}
-                            onClick={(d) => updateFilter('id', d.id)}
                         />
                     </div>
                     <PERChartLegend
-                        data={PHASE_COLORS}
-                        onClick={handlePhaseClick}
+                        data={[...PHASE_COLORS]}
+                        onClick={(item) => {
+                            const phaseItem = item as {
+                                label: string;
+                                color: string;
+                                phaseNumber: number;
+                            };
+                            handlePhaseClick(phaseItem);
+                        }}
                         activeIndex={activePhase}
-                        activeField="phaseNumber"
                         layout="horizontal"
                     />
                 </Container>
@@ -373,7 +376,6 @@ function PERSummaryDashboard() {
                             tooltipEnabled
                             onClick={handleAssessmentTypeClick}
                             colors={['#236192', '#418FDE', '#009CDD', '#C6C6C6']}
-                            activeRegion={activeFilters?.assessmentType}
                         />
                         <PERChartLegend
                             data={[
@@ -385,7 +387,6 @@ function PERSummaryDashboard() {
                             onClick={handleAssessmentTypeClick}
                             activeIndex={activeFilters?.assessmentType}
                             layout="horizontal"
-                            clickable
                         />
                     </Container>
 
@@ -489,7 +490,7 @@ function PERSummaryDashboard() {
                         onClickAssessmentType={handleAssessmentTypeClick}
                         onClickPER={(index) => updateFilter('perConsiderations', index)}
                         activeIndex={activeFilters?.assessmentType}
-                        activePERFilter={activeFilters?.perConsiderations}
+                        activePERFilter={activeFilters?.perConsiderations ?? undefined}
                     />
                 </Container>
             </div>
