@@ -1,12 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
-import { PERStackedBarChartProps } from '@ifrc-go/ui';
-
 import PERStackedBarChart from './PERStackedBarChart';
 
 const sampleData = [
     {
         year: '2014',
+        label: '2014',
         values: {
             Africa: 8,
             Americas: 10,
@@ -17,6 +16,7 @@ const sampleData = [
     },
     {
         year: '2015',
+        label: '2015',
         values: {
             Africa: 10,
             Americas: 12,
@@ -27,6 +27,7 @@ const sampleData = [
     },
     {
         year: '2016',
+        label: '2016',
         values: {
             Africa: 12,
             Americas: 15,
@@ -37,6 +38,7 @@ const sampleData = [
     },
     {
         year: '2017',
+        label: '2017',
         values: {
             Africa: 14,
             Americas: 18,
@@ -47,6 +49,7 @@ const sampleData = [
     },
     {
         year: '2018',
+        label: '2018',
         values: {
             Africa: 15,
             Americas: 20,

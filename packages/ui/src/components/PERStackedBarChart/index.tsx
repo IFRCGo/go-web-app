@@ -171,8 +171,12 @@ function PERStackedBarChart({
             datalabels: {
                 display: showDataLabels,
                 color: (context) => {
-                    const backgroundColor = context.dataset.backgroundColor as string;
-                    return getContrastColor(backgroundColor);
+                    const backgroundColor = context.dataset.backgroundColor;
+                    // Handle case where backgroundColor is an array
+                    const color = Array.isArray(backgroundColor) 
+                        ? backgroundColor[context.dataIndex] 
+                        : backgroundColor as string;
+                    return getContrastColor(color);
                 },
                 font: {
                     size: 11,
