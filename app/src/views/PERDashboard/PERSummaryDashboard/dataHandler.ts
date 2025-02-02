@@ -1,5 +1,3 @@
-import { AREA_COLORS } from '../PERPerformanceDashboard/constants';
-import { PHASE_COLORS } from './constants';
 import {
     type AssessmentRecord,
     type ChartDataItem,
@@ -59,6 +57,47 @@ interface RawAssessmentRecord {
     latitude: number;
     longitude: number;
 }
+
+const AREA_COLORS = {
+    'Policy Strategy and Standards': '#8748b3',
+    'Analysis and planning': '#ff8655',
+    'Operations support': '#da283d',
+    'Operational capacity': '#3478ec',
+    Coordination: '#00B2A2',
+} as const;
+
+const PHASE_COLORS = [
+    {
+        phase: 'Orientation',
+        label: 'Orientation',
+        phaseNumber: 1,
+        color: '#00B2A2',
+    },
+    {
+        phase: 'Assessment',
+        label: 'Assessment',
+        phaseNumber: 2,
+        color: '#DA283D',
+    },
+    {
+        phase: 'Prioritisation',
+        label: 'Prioritisation & analysis',
+        phaseNumber: 3,
+        color: '#3377EB',
+    },
+    {
+        phase: 'Workplan',
+        label: 'Workplan',
+        phaseNumber: 4,
+        color: '#8648B3',
+    },
+    {
+        phase: 'Action & accountability',
+        label: 'Action & accountability',
+        phaseNumber: 5,
+        color: '#FF8654',
+    },
+];
 
 function processMapData(rawData: RawAssessmentRecord[]): AssessmentRecord[] {
     return rawData.map((record) => ({

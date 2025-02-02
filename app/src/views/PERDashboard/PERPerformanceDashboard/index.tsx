@@ -29,7 +29,7 @@ import styles from './styles.module.css';
 
 const PER_DASHBOARD_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-data-fetcher/contents/data/per-dashboard-data.json';
 const LAST_UPDATE_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-data-fetcher/contents/data/last-update.json';
-const GITHUB_TOKEN = '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';
+const GITHUB_TOKEN = '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';
 
 interface ActiveFilters {
     id: number | null;

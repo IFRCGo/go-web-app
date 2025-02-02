@@ -1,4 +1,3 @@
-import { AREA_COLORS } from './constants';
 import type {
     AreaSummary,
     Assessment,
@@ -7,6 +6,14 @@ import type {
     Filters,
     RegionData,
 } from './types';
+
+const AREA_COLORS = {
+    'Policy Strategy and Standards': '#8748b3',
+    'Analysis and planning': '#ff8655',
+    'Operations support': '#da283d',
+    'Operational capacity': '#3478ec',
+    Coordination: '#00B2A2',
+} as const;
 
 // Rating scale colors
 const RATING_SCALE_COLORS = {
