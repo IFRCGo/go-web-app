@@ -128,7 +128,7 @@ function PERSummaryDashboard() {
             <Container
                 className={styles.perSummaryDashboard}
                 childrenContainerClassName={styles.loadingContainer}
-                aria-label={strings.containerAriaLabel}
+                aria-label={strings.summaryContainerAriaLabel}
             >
                 <BlockLoading className={styles.blockLoading} />
             </Container>
@@ -140,7 +140,7 @@ function PERSummaryDashboard() {
             <Container
                 className={styles.perSummaryDashboard}
                 childrenContainerClassName={styles.content}
-                aria-label={strings.containerAriaLabel}
+                aria-label={strings.summaryContainerAriaLabel}
             >
                 {error}
             </Container>
@@ -264,13 +264,13 @@ function PERSummaryDashboard() {
     return (
         <>
             <div className={styles.lastUpdate}>
-                {strings.lastUpdate}
+                {strings.summaryLastUpdate}
                 {' '}
                 {new Date(getLastUpdateDate()).toLocaleString()}
             </div>
             {/* <PERExportButton /> */}
             <div className={styles.headerDescription}>
-                {strings.headerDescription}
+                {strings.summaryHeaderDescription}
             </div>
             <div className={styles.content}>
                 <PERKPITabs
@@ -315,9 +315,9 @@ function PERSummaryDashboard() {
                                         setActiveTab(0);
                                         setActivePhase(null);
                                     }}
-                                    aria-label={strings.resetFilterAriaLabel}
+                                    aria-label={strings.summaryResetFilterAriaLabel}
                                 >
-                                    {strings.resetFilter}
+                                    {strings.summaryResetFilter}
                                 </Button>
                             ) : null
                     )}
@@ -361,9 +361,9 @@ function PERSummaryDashboard() {
                             <Button
                                 name={undefined}
                                 onClick={() => updateFilter('assessmentType', null)}
-                                aria-label={strings.resetFilterAriaLabel}
+                                aria-label={strings.summaryResetFilterAriaLabel}
                             >
-                                {strings.resetFilter}
+                                {strings.summaryResetFilter}
                             </Button>
                         )}
                     >
@@ -405,9 +405,9 @@ function PERSummaryDashboard() {
                                     updateFilter('region', null);
                                     updateFilter('year', null);
                                 }}
-                                aria-label={strings.resetFilterAriaLabel}
+                                aria-label={strings.summaryResetFilterAriaLabel}
                             >
-                                {strings.resetFilter}
+                                {strings.summaryResetFilter}
                             </Button>
                         )}
                     >
@@ -444,9 +444,9 @@ function PERSummaryDashboard() {
                                     updateFilter('highPriorityComponent', null);
                                     updateFilter('highPriorityArea', null);
                                 }}
-                                aria-label={strings.resetFilterAriaLabel}
+                                aria-label={strings.summaryResetFilterAriaLabel}
                             >
-                                {strings.resetFilter}
+                                {strings.summaryResetFilter}
                             </Button>
                         )}
                     >
@@ -474,9 +474,9 @@ function PERSummaryDashboard() {
                                 updateFilter('perConsiderations', null);
                                 updateFilter('assessmentType', null);
                             }}
-                            aria-label={strings.resetFilterAriaLabel}
+                            aria-label={strings.summaryResetFilterAriaLabel}
                         >
-                            {strings.resetFilter}
+                            {strings.summaryResetFilter}
                         </Button>
                     )}
                 >

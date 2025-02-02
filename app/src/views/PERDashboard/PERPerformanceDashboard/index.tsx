@@ -76,7 +76,7 @@ function PERPerformanceDashboard() {
                 ]);
 
                 if (!dashboardResponse.ok || !lastUpdateResponse.ok) {
-                    throw new Error(strings.fetchFailedError);
+                    throw new Error(strings.performanceFetchFailedError);
                 }
 
                 const [dashboardResponseData, lastUpdateResponseData] = await Promise.all([
@@ -88,21 +88,21 @@ function PERPerformanceDashboard() {
                 setLastUpdateData(lastUpdateResponseData);
                 initializeData(dashboardResponseData, lastUpdateResponseData);
             } catch {
-                setError(strings.fetchFailedError);
+                setError(strings.performanceFetchFailedError);
             } finally {
                 setIsLoading(false);
             }
         }
 
         fetchData();
-    }, [strings.fetchFailedError]);
+    }, [strings.performanceFetchFailedError]);
 
     if (isLoading) {
         return (
             <Container
                 className={styles.perPerformanceDashboard}
                 childrenContainerClassName={styles.loadingContainer}
-                aria-label={strings.containerAriaLabel}
+                aria-label={strings.performanceContainerAriaLabel}
             >
                 <BlockLoading />
             </Container>
@@ -114,7 +114,7 @@ function PERPerformanceDashboard() {
             <Container
                 className={styles.perPerformanceDashboard}
                 childrenContainerClassName={styles.content}
-                aria-label={strings.containerAriaLabel}
+                aria-label={strings.performanceContainerAriaLabel}
             >
                 {error}
             </Container>
@@ -148,12 +148,12 @@ function PERPerformanceDashboard() {
     return (
         <>
             <div className={styles.lastUpdate}>
-                {strings.lastUpdate}
+                {strings.performanceLastUpdate}
                 {' '}
                 {new Date(getLastUpdateDate()).toLocaleString()}
             </div>
             <div className={styles.headerDescription}>
-                {strings.headerDescription}
+                {strings.performanceHeaderDescription}
             </div>
             <div className={styles.content}>
                 <PERRegionToggle
@@ -175,10 +175,10 @@ function PERPerformanceDashboard() {
                             name={undefined}
                             onClick={() => updateFilter('cycle', undefined)}
                             aria-label={
-                                strings.resetFilterAriaLabel
+                                strings.performanceResetFilterAriaLabel
                             }
                         >
-                            {strings.resetFilter}
+                            {strings.performanceResetFilter}
                         </Button>
                     ) : undefined}
                 >
