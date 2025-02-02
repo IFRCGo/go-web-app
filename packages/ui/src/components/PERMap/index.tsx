@@ -1,6 +1,6 @@
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { CloseLineIcon } from '@ifrc-go/icons';
 import * as d3 from 'd3';
 import mapboxgl from 'mapbox-gl';
@@ -145,8 +145,8 @@ function PERMap({
                     ${enableClickToFilter ? `
                         <div class="${styles.tooltipFooter}">
                             <button
-                                class="${styles.filterButton}"
-                                onclick="window.dispatchEvent(new CustomEvent('mapFilter', { detail: ${JSON.stringify(d)} }))"
+                                class="${styles.filterButton} js-map-filter"
+                                data-record='${JSON.stringify(d)}'
                                 aria-label="${strings.perMapFilterButtonLabel}"
                             >
                                 ${strings.perMapFilterLabel}
@@ -158,6 +158,18 @@ function PERMap({
             .addTo(map.current);
 
         tooltipRef.current = tooltip;
+
+        // Add click handler for filter button
+        const filterButton = tooltip.getElement().querySelector('.js-map-filter');
+        if (filterButton) {
+            filterButton.addEventListener('click', () => {
+                const recordData = filterButton.getAttribute('data-record');
+                if (recordData) {
+                    const record = JSON.parse(recordData);
+                    window.dispatchEvent(new CustomEvent('mapFilter', { detail: record }));
+                }
+            });
+        }
     };
 
     const hideTooltip = () => {
@@ -194,7 +206,7 @@ function PERMap({
         };
     };
 
-    const updatePositions = () => {
+    const updatePositions = useCallback(() => {
         if (!map.current || !bubbleContainer.current) {
             // eslint-disable-next-line no-console
             console.warn(strings.perMapInitializationErrorLabel);
@@ -338,7 +350,16 @@ function PERMap({
                     .style('fill-opacity', 0.9)
                     .style('stroke-opacity', 0.33);
             });
-    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [
+        data,
+        valueField,
+        tooltipTrigger,
+        showTooltip,
+        hideTooltip,
+        calculateRadius,
+        calculateStrokeWidth,
+    ]);
 
     React.useEffect(() => {
         if (!mapContainer.current || !accessToken) return;
@@ -403,7 +424,7 @@ function PERMap({
 
     React.useEffect(() => {
         updatePositions();
-    }, [data, valueField]);
+    }, [data, valueField, updatePositions]);
 
     return (
         <div

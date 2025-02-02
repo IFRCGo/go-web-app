@@ -5,7 +5,7 @@ export interface TreemapNode {
     parent?: TreemapParentNode;
     depth?: number;
     color?: string;
-    value?: number;
+    value?: number | undefined;
 }
 
 export interface TreemapParentNode {
@@ -22,7 +22,7 @@ export interface TreemapData {
 }
 
 export interface Props {
-    d: TreemapNode;
+    data: TreemapNode;
     onClick?: (data: { area: string; component: string | null }) => void;
     activeIndex?: string | null;
 }

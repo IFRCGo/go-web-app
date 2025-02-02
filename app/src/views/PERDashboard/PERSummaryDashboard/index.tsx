@@ -159,10 +159,9 @@ function PERSummaryDashboard() {
     };
 
     const handleRegionStackedClick = (item: { label: string; year?: string | number | null }) => {
-        if (item.year) {
+        if (item.year !== undefined && item.year !== null) {
             updateFilter('year', Number(item.year));
-        }
-        if (item.label) {
+        } else if (item.label) {
             updateFilter('region', item.label);
         }
     };
@@ -419,16 +418,12 @@ function PERSummaryDashboard() {
                             height={250}
                             tooltipEnabled
                             showDataLabels={false}
-                            activeRegion={activeFilters?.region}
-                            activeYear={activeFilters?.year?.toString()}
                         />
                         <PERChartLegend
                             data={regionLegendCategories}
                             onClick={handleRegionStackedClick}
                             activeIndex={activeFilters?.region}
-                            activeField="label"
                             layout="horizontal"
-                            clickable
                         />
                     </Container>
                 </div>

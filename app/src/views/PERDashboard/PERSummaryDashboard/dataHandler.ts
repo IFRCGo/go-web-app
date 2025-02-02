@@ -301,7 +301,7 @@ function getRecordsByAssessmentType(
 
 function getStackedBarDataByYearAndRegion(
     filters: Filters | null,
-): Array<{ year: string; values: Record<string, number> }> {
+): Array<{ year: string; values: Record<string, number>; label: string }> {
     const regionNames = ['Africa', 'Americas', 'Asia Pacific', 'Europe', 'MENA'];
     const filteredData = applyFilters(mapData, filters);
 
@@ -338,6 +338,7 @@ function getStackedBarDataByYearAndRegion(
         .map(([year, values]) => ({
             year,
             values,
+            label: year,
         }))
         .sort((a, b) => a.year.localeCompare(b.year));
 }

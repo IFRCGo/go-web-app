@@ -22,13 +22,13 @@ import styles from './styles.module.css';
 
 interface TreemapNode {
     id: string;
-    value: number;
+    value?: number;
     name: string;
     parent?: string;
     children?: TreemapNode[];
     data?: {
         name: string;
-        value: number;
+        value: number; // Update: Made value field required when data is present
         color: string;
     };
     color: string;
@@ -177,14 +177,24 @@ function PERTreemapChart({
                                 const currentNode = d3.select(this).datum() as
                                     d3.HierarchyNode<TreemapNode> &
                                     ExtendedHierarchyNode;
-                                if (currentNode?.data) {
+                                if (currentNode?.data?.name
+                                    && currentNode?.data?.value !== undefined
+                                    && currentNode?.data?.color) {
                                     const tooltipContent = createTooltipContent(
                                         currentNode,
                                     );
                                     if (tooltipContent) {
                                         instance.setContent(tooltipContent);
                                     }
-                                    onHover?.(currentNode.data);
+                                    if (currentNode.data?.name
+                                        && currentNode.data?.value !== undefined
+                                        && currentNode.data?.color) {
+                                        onHover?.({
+                                            name: currentNode.data.name,
+                                            value: currentNode.data.value,
+                                            color: currentNode.data.color,
+                                        } as TreemapNode['data']);
+                                    }
                                 }
                                 return true;
                             },
@@ -216,7 +226,7 @@ function PERTreemapChart({
                     if (node.depth === 1) {
                         return node.data.name;
                     }
-                    if (node.depth === 2) {
+                    if (node.depth === 2 && node.data?.name && node.data?.value !== undefined) {
                         const label = strings?.treemapComponentLabel
                             ?.replace('{name}', node.data.name)
                             ?.replace('{value}', node.data.value.toString())
@@ -232,7 +242,11 @@ function PERTreemapChart({
                 })
                 .on('mouseover', (node: d3.HierarchyNode<TreemapNode> & ExtendedHierarchyNode) => {
                     if (node.data) {
-                        onHover?.(node.data);
+                        onHover?.({
+                            name: node.data.name,
+                            value: node.data.value,
+                            color: node.data.color,
+                        } as TreemapNode['data']);
                     }
                 })
                 .on('mouseout', () => {

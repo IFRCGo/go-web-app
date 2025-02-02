@@ -75,6 +75,7 @@ export interface ChartDataItem {
     Simulation: number;
     PostOperational: number;
     Operational: number;
+    [key: string]: string | number;
 }
 
 export interface ChartData {

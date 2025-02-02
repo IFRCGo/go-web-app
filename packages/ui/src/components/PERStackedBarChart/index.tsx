@@ -52,9 +52,9 @@ export interface Props {
         hoverFillColor?: string;
     }[];
     showDataLabels?: boolean;
-    yAxisMin: number;
-
-    yAxisMax: number;
+    yAxisMin?: number;
+    yAxisMax?: number;
+    activeYear?: string;
 }
 
 ChartJS.register(
@@ -79,24 +79,26 @@ function PERStackedBarChart({
     showDataLabels = false,
     yAxisMin,
     yAxisMax,
+    activeYear,
 }: Props) {
     const strings = useTranslation(i18n);
     const containerRef = useRef<HTMLDivElement>(null);
     const [containerWidth] = useState<number>(minWidth);
 
-    const reversedCategories = [...categories].reverse();
+    // const reversedCategories = [...categories].reverse();
 
     const chartData = {
-        labels: data.map((item) => item.year?.toString() ?? ''),
-        datasets: reversedCategories.map((category) => ({
+        labels: data.map((item) => item.label),
+        datasets: categories.map((category) => ({
             label: category.label,
-            data: data.map((item) => item.values?.[category.label] ?? 0),
-            backgroundColor: category.fillColor,
+            data: data.map((item) => item.values[category.label] ?? 0),
+            backgroundColor: data.map((item) => (
+                item.year?.toString() === activeYear
+                    ? category.hoverFillColor ?? category.fillColor
+                    : category.fillColor
+            )),
             hoverBackgroundColor: category.hoverFillColor ?? category.fillColor,
             stack: 'stack1',
-            borderWidth: 0,
-            barPercentage: 0.79,
-            categoryPercentage: 0.79,
         })),
     };
 
@@ -134,7 +136,7 @@ function PERStackedBarChart({
                     labelTextColor: () => '#111827',
                     labelColor: (context) => ({
                         borderColor: 'transparent',
-                        backgroundColor: context.dataset.backgroundColor as string,
+                        backgroundColor: categories[context.datasetIndex].fillColor,
                     }),
                 },
                 titleColor: '#111827',
@@ -243,7 +245,8 @@ function PERStackedBarChart({
                 onHover(null);
             }
         } : undefined,
-    }), [tooltipEnabled, showDataLabels, yAxisMin, yAxisMax, onClick, onHover, data, strings]);
+    }), [tooltipEnabled,
+        showDataLabels, yAxisMin, yAxisMax, onClick, onHover, data, strings, categories]);
 
     const containerStyle = useMemo(() => ({
         height: `${height}px`,
