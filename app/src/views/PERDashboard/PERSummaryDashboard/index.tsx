@@ -32,13 +32,14 @@ import {
     getStackedBarDataByYearAndRegion,
     initializeData,
 } from './dataHandler';
+import type { AssessmentRecord } from './types';
 
-import i18n from '../i18n.json';
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 const MAP_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-data-fetcher/contents/data/map-data.json';
 const LAST_UPDATE_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-data-fetcher/contents/data/last-update.json';
-const GITHUB_TOKEN = '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';
+const GITHUB_TOKEN = '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';
 
 interface ActiveFilters {
     id: number | null;
@@ -68,7 +69,7 @@ function PERSummaryDashboard() {
         highPriorityArea: null,
     });
     const [activeTab, setActiveTab] = useState<number>(0);
-    const [activePhase, setActivePhase] = useState<number | null>(null);
+    const [activePhase, setActivePhase] = useState<number | string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [mapData, setMapData] = useState<AssessmentRecord[] | null>(null);
@@ -123,8 +124,8 @@ function PERSummaryDashboard() {
         return (
             <Container
                 className={styles.perSummaryDashboard}
-                contentClassName={styles.loadingContainer}
-                aria-label={strings.perSummaryDashboard.ariaLabels.container}
+                childrenContainerClassName={styles.loadingContainer}
+                aria-label={strings.containerAriaLabel}
             >
                 <BlockLoading className={styles.blockLoading} />
             </Container>
@@ -135,8 +136,8 @@ function PERSummaryDashboard() {
         return (
             <Container
                 className={styles.perSummaryDashboard}
-                contentClassName={styles.content}
-                aria-label={strings.perSummaryDashboard.ariaLabels.container}
+                childrenContainerClassName={styles.content}
+                aria-label={strings.containerAriaLabel}
             >
                 {error}
             </Container>
@@ -265,13 +266,13 @@ function PERSummaryDashboard() {
     return (
         <>
             <div className={styles.lastUpdate}>
-                {strings.common.lastUpdate.label}
+                {strings.lastUpdate}
                 {' '}
                 {new Date(getLastUpdateDate()).toLocaleString()}
             </div>
             {/* <PERExportButton /> */}
             <div className={styles.headerDescription}>
-                {strings.perSummaryDashboard.header.description}
+                {strings.headerDescription}
             </div>
             <div className={styles.content}>
                 <PERKPITabs
@@ -294,8 +295,8 @@ function PERSummaryDashboard() {
                 />
 
                 <Container
-                    heading={strings.perSummaryDashboard.containers.map.heading}
-                    headerDescription={strings.perSummaryDashboard.containers.map.description}
+                    heading={strings.mapHeading}
+                    headerDescription={strings.mapDescription}
                     className={styles.container}
                     withHeaderBorder
                     actions={(
@@ -316,9 +317,9 @@ function PERSummaryDashboard() {
                                         setActiveTab(0);
                                         setActivePhase(null);
                                     }}
-                                    aria-label={strings.common.ariaLabels.resetFilterButton}
+                                    aria-label={strings.resetFilterAriaLabel}
                                 >
-                                    {strings.common.buttons.resetFilter}
+                                    {strings.resetFilter}
                                 </Button>
                             ) : null
                     )}
@@ -349,18 +350,18 @@ function PERSummaryDashboard() {
 
                 <div className={styles.charts}>
                     <Container
-                        heading={strings.perSummaryDashboard.containers.assessmentType.heading}
+                        heading={strings.assessmentTypeHeading}
                         headerDescription={
-                            strings.perSummaryDashboard.containers.assessmentType.description
+                            strings.assessmentTypeDescription
                         }
                         withHeaderBorder
                         actions={activeFilters?.assessmentType !== null && (
                             <Button
                                 name={undefined}
                                 onClick={() => updateFilter('assessmentType', null)}
-                                aria-label={strings.common.ariaLabels.resetFilterButton}
+                                aria-label={strings.resetFilterAriaLabel}
                             >
-                                {strings.common.buttons.resetFilter}
+                                {strings.resetFilter}
                             </Button>
                         )}
                     >
@@ -389,9 +390,9 @@ function PERSummaryDashboard() {
                     </Container>
 
                     <Container
-                        heading={strings.perSummaryDashboard.containers.yearAndRegion.heading}
+                        heading={strings.yearAndRegionHeading}
                         headerDescription={
-                            strings.perSummaryDashboard.containers.yearAndRegion.description
+                            strings.yearAndRegionDescription
                         }
                         withHeaderBorder
                         actions={(
@@ -404,9 +405,9 @@ function PERSummaryDashboard() {
                                     updateFilter('region', null);
                                     updateFilter('year', null);
                                 }}
-                                aria-label={strings.common.ariaLabels.resetFilterButton}
+                                aria-label={strings.resetFilterAriaLabel}
                             >
-                                {strings.common.buttons.resetFilter}
+                                {strings.resetFilter}
                             </Button>
                         )}
                     >
@@ -434,11 +435,10 @@ function PERSummaryDashboard() {
                 <div className={styles.treemap}>
                     <Container
                         heading={
-                            strings.perSummaryDashboard.containers.highPriorityComponents.heading
+                            strings.highPriorityComponentsHeading
                         }
                         headerDescription={
-                            strings
-                                .perSummaryDashboard.containers.highPriorityComponents.description
+                            strings.highPriorityComponentsDescription
                         }
                         withHeaderBorder
                         actions={activeFilters?.highPriorityComponent !== null && (
@@ -448,9 +448,9 @@ function PERSummaryDashboard() {
                                     updateFilter('highPriorityComponent', null);
                                     updateFilter('highPriorityArea', null);
                                 }}
-                                aria-label={strings.common.ariaLabels.resetFilterButton}
+                                aria-label={strings.resetFilterAriaLabel}
                             >
-                                {strings.common.buttons.resetFilter}
+                                {strings.resetFilter}
                             </Button>
                         )}
                     >
@@ -463,9 +463,9 @@ function PERSummaryDashboard() {
                 </div>
 
                 <Container
-                    heading={strings.perSummaryDashboard.containers.perConsiderations.heading}
+                    heading={strings.perConsiderationsHeading}
                     headerDescription={
-                        strings.perSummaryDashboard.containers.perConsiderations.description
+                        strings.perConsiderationsDescription
                     }
                     withHeaderBorder
                     actions={(
@@ -478,9 +478,9 @@ function PERSummaryDashboard() {
                                 updateFilter('perConsiderations', null);
                                 updateFilter('assessmentType', null);
                             }}
-                            aria-label={strings.common.ariaLabels.resetFilterButton}
+                            aria-label={strings.resetFilterAriaLabel}
                         >
-                            {strings.common.buttons.resetFilter}
+                            {strings.resetFilter}
                         </Button>
                     )}
                 >

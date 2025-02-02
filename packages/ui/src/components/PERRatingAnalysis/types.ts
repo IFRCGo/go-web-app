@@ -46,6 +46,7 @@ export interface Props {
         changeDirection: 'up' | 'down';
         status: RatingStatus;
         cycleRatings: CycleRating[];
+        color: string;
     };
     areaData: PERAreaData[];
     componentData: PERComponentData[];

@@ -1,11 +1,9 @@
 {
     "namespace": "common",
     "strings": {
-        "kpiTabs": {
-            "container": "KPI tabs container",
-            "tab": "KPI tab for {description}",
-            "value": "KPI value: {value}",
-            "description": "KPI description: {description}"
-        }
+        "kpiTabsContainerLabel": "KPI tabs container",
+        "kpiTabLabel": "KPI tab for {description}",
+        "kpiValueLabel": "KPI value: {value}",
+        "kpiDescriptionLabel": "KPI description: {description}"
     }
 }

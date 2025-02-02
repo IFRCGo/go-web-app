@@ -1,22 +1,14 @@
 {
     "namespace": "common",
     "strings": {
-        "considerations": {
-            "column": "PER consideration column for {type}",
-            "gaugeChart": "Gauge chart showing {type} considerations",
-            "stackedBarChart": "Stacked bar chart showing {type} considerations by region",
-            "assessmentTypes": {
-                "selfAssessment": "Self assessment",
-                "simulation": "Simulation",
-                "operational": "Operational",
-                "postOperational": "Post-operational"
-            },
-            "chart": {
-                "byRegionAndType": "By region & type",
-                "title": {
-                    "template": "PER {type} Considerations"
-                }
-            }
-        }
+        "considerationColumnLabel": "PER consideration column for {type}",
+        "considerationGaugeChartLabel": "Gauge chart showing {type} considerations",
+        "considerationStackedBarLabel": "Stacked bar chart showing {type} considerations by region",
+        "considerationSelfAssessmentLabel": "Self assessment",
+        "considerationSimulationLabel": "Simulation",
+        "considerationOperationalLabel": "Operational",
+        "considerationPostOperationalLabel": "Post-operational",
+        "considerationByRegionTypeLabel": "By region & type",
+        "considerationTitleTemplate": "PER {type} Considerations"
     }
 }

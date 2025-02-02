@@ -1,4 +1,5 @@
 import {
+    type Component,
     useEffect,
     useState,
 } from 'react';
@@ -21,19 +22,20 @@ import {
     initializeData,
     summarizeData,
 } from './dataHandler';
+import { type AssessmentRecord } from './types';
 
-import i18n from '../i18n.json';
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 const PER_DASHBOARD_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-data-fetcher/contents/data/per-dashboard-data.json';
 const LAST_UPDATE_DATA_URL = 'https://api.github.com/repos/matthewsmawfield/ifrc-per-data-fetcher/contents/data/last-update.json';
-const GITHUB_TOKEN = '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';
+const GITHUB_TOKEN = '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';
 
 interface ActiveFilters {
     id: number | null;
     region: string | null;
     year: number | null;
-    cycle: number | null;
+    cycle: number | undefined;
 }
 
 function PERPerformanceDashboard() {
@@ -42,7 +44,7 @@ function PERPerformanceDashboard() {
         id: null,
         region: null,
         year: null,
-        cycle: null,
+        cycle: undefined,
     });
 
     const [isLoading, setIsLoading] = useState(true);
@@ -74,7 +76,7 @@ function PERPerformanceDashboard() {
                 ]);
 
                 if (!dashboardResponse.ok || !lastUpdateResponse.ok) {
-                    throw new Error(strings.common.errors.fetchFailed);
+                    throw new Error(strings.fetchFailedError);
                 }
 
                 const [dashboardResponseData, lastUpdateResponseData] = await Promise.all([
@@ -84,24 +86,23 @@ function PERPerformanceDashboard() {
 
                 setDashboardData(dashboardResponseData);
                 setLastUpdateData(lastUpdateResponseData);
-                initializeData(dashboardResponseData, lastUpdateData);
+                initializeData(dashboardResponseData, lastUpdateResponseData);
             } catch {
-                setError(strings.common.errors.fetchFailed);
+                setError(strings.fetchFailedError);
             } finally {
                 setIsLoading(false);
             }
         }
 
         fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [strings.common.errors.fetchFailed]);
+    }, [strings.fetchFailedError]);
 
     if (isLoading) {
         return (
             <Container
                 className={styles.perPerformanceDashboard}
-                contentClassName={styles.loadingContainer}
-                aria-label={strings.perPerformanceDashboard.ariaLabels.container}
+                childrenContainerClassName={styles.loadingContainer}
+                aria-label={strings.containerAriaLabel}
             >
                 <BlockLoading />
             </Container>
@@ -112,8 +113,8 @@ function PERPerformanceDashboard() {
         return (
             <Container
                 className={styles.perPerformanceDashboard}
-                contentClassName={styles.content}
-                aria-label={strings.perPerformanceDashboard.ariaLabels.container}
+                childrenContainerClassName={styles.content}
+                aria-label={strings.containerAriaLabel}
             >
                 {error}
             </Container>
@@ -142,17 +143,17 @@ function PERPerformanceDashboard() {
         updateFilter('region', region);
     };
 
-    const ratings = getComponentRatings(activeFilters, true);
+    const ratings = getComponentRatings(activeFilters);
 
     return (
         <>
             <div className={styles.lastUpdate}>
-                {strings.common.lastUpdate.label}
+                {strings.lastUpdate}
                 {' '}
                 {new Date(getLastUpdateDate()).toLocaleString()}
             </div>
             <div className={styles.headerDescription}>
-                {strings.perPerformanceDashboard.header.description}
+                {strings.headerDescription}
             </div>
             <div className={styles.content}>
                 <PERRegionToggle
@@ -163,21 +164,21 @@ function PERPerformanceDashboard() {
                     showCount={false}
                 />
                 <Container
-                    heading={strings.perPerformanceDashboard.containers.overview.heading}
+                    heading={strings.overviewHeading}
                     headerDescription={
-                        strings.perPerformanceDashboard.containers.overview.description
+                        strings.overviewDescription
                     }
                     className={_cs(styles.container, styles.perAnalysis)}
                     withHeaderBorder
-                    actions={activeFilters.cycle !== null ? (
+                    actions={activeFilters.cycle !== undefined ? (
                         <Button
                             name={undefined}
-                            onClick={() => updateFilter('cycle', null)}
+                            onClick={() => updateFilter('cycle', undefined)}
                             aria-label={
-                                strings.perPerformanceDashboard.ariaLabels.resetFilterButton
+                                strings.resetFilterAriaLabel
                             }
                         >
-                            {strings.common.buttons.resetFilter}
+                            {strings.resetFilter}
                         </Button>
                     ) : undefined}
                 >
@@ -189,9 +190,9 @@ function PERPerformanceDashboard() {
                     />
                 </Container>
                 <Container
-                    heading={strings.perPerformanceDashboard.containers.globalRatings.heading}
-                    description={
-                        strings.perPerformanceDashboard.containers.globalRatings.description
+                    heading={strings.globalRatingsHeading}
+                    headerDescription={
+                        strings.globalRatingsDescription
                     }
                     withHeaderBorder
                     className={_cs(styles.container, styles.ratingAnalysis)}

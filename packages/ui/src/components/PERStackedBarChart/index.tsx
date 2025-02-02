@@ -12,7 +12,6 @@ import {
     ChartOptions,
     Legend,
     LinearScale,
-    Scale,
     Title,
     Tooltip,
 } from 'chart.js';
@@ -41,7 +40,7 @@ export interface Props {
 
     onClick?: (item: StackedBarDataItem) => void;
 
-    onHover?: (item: StackedBarDataItem) => void;
+    onHover?: (item: StackedBarDataItem | null) => void;
 
     tooltipEnabled?: boolean;
 
@@ -81,7 +80,7 @@ function PERStackedBarChart({
     yAxisMin,
     yAxisMax,
 }: Props) {
-    const strings = useTranslation(i18n)?.strings;
+    const strings = useTranslation(i18n);
     const containerRef = useRef<HTMLDivElement>(null);
     const [containerWidth] = useState<number>(minWidth);
 
@@ -127,7 +126,7 @@ function PERStackedBarChart({
                     label: (context) => {
                         const label = context.dataset.label ?? '';
                         const value = context.parsed.y;
-                        return strings?.tooltips?.labelFormat
+                        return strings?.stackedBarTooltipFormat
                             ?.replace('{category}', label)
                             ?.replace('{value}', value.toString())
                             ?? ` ${label}  ${value}`;
@@ -194,7 +193,7 @@ function PERStackedBarChart({
                 },
                 title: {
                     display: true,
-                    text: strings?.axis?.xAxisLabel ?? '',
+                    text: strings?.stackedBarXAxisLabel ?? '',
                 },
             },
             y: {
@@ -207,7 +206,7 @@ function PERStackedBarChart({
                 min: yAxisMin,
                 max: yAxisMax,
                 position: 'left',
-                afterFit: (axis: Scale<'linear'>) => {
+                afterFit: (axis: LinearScale) => {
                     // eslint-disable-next-line no-param-reassign
                     axis.width = 50;
                 },
@@ -217,16 +216,17 @@ function PERStackedBarChart({
                     },
                     padding: 10,
                     maxTicksLimit: 6,
-                    callback(value: number) {
-                        if (Math.floor(value) !== value) {
+                    callback(tickValue) {
+                        const numericValue = Number(tickValue);
+                        if (Math.floor(numericValue) !== numericValue) {
                             return '';
                         }
-                        return value;
+                        return numericValue;
                     },
                 },
                 title: {
                     display: true,
-                    text: strings?.axis?.yAxisLabel ?? '',
+                    text: strings?.stackedBarYAxisLabel ?? '',
                 },
             },
         },
@@ -238,7 +238,7 @@ function PERStackedBarChart({
         } : undefined,
         onHover: onHover ? (_, elements) => {
             if (elements.length > 0) {
-                onHover(elements[0].index);
+                onHover(data[elements[0].index]);
             } else {
                 onHover(null);
             }
@@ -254,11 +254,11 @@ function PERStackedBarChart({
             ref={containerRef}
             className={_cs(styles.responsiveContainer, className)}
             style={containerStyle}
-            aria-label={strings?.ariaLabels?.container ?? 'Stacked bar chart'}
+            aria-label={strings?.stackedBarContainerLabel ?? 'Stacked bar chart'}
         >
             <div
                 className={styles.chartWrapper}
-                aria-label={strings?.ariaLabels?.chart ?? 'Stacked bar chart showing data over time'}
+                aria-label={strings?.stackedBarChartLabel ?? 'Stacked bar chart showing data over time'}
             >
                 <Bar
                     data={chartData}

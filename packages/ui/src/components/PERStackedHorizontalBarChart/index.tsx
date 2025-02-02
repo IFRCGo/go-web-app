@@ -63,14 +63,13 @@ function PERStackedHorizontalBarChart({
     maxValue = null,
     tooltipEnabled = true,
 }: Props) {
-    const strings = useTranslation(i18n)?.strings;
+    const strings = useTranslation(i18n);
     const chartRef = useRef(null);
 
     const labels = data.map((item: DataItem) => item.name);
 
-    // Map datasetsConfig to Chart.js datasets with translated labels
     const datasets = datasetsConfig.map((dataset) => ({
-        label: strings?.categories?.[dataset.key.toLowerCase()] ?? dataset.label,
+        label: dataset.label,
         data: data.map((item: DataItem) => item[dataset.key] || 0),
         backgroundColor: dataset.fillColor,
         barPercentage: 0.65,
@@ -105,7 +104,7 @@ function PERStackedHorizontalBarChart({
                     label: (context) => {
                         const label = context.dataset.label ?? '';
                         const value = context.parsed.x;
-                        return strings?.tooltips?.labelFormat
+                        return strings?.horizontalBarTooltipFormat
                             ?.replace('{category}', label)
                             ?.replace('{value}', value.toString())
                             ?? ` ${label}  ${value}`;
@@ -212,7 +211,7 @@ function PERStackedHorizontalBarChart({
                     font: {
                         size: 11,
                         family: 'Poppins',
-                        weight: '500',
+                        weight: 500,
                     },
                 },
             },
@@ -225,13 +224,13 @@ function PERStackedHorizontalBarChart({
     return (
         <div
             className={styles.container}
-            aria-label={strings?.ariaLabels?.container ?? 'Horizontal stacked bar chart'}
+            aria-label={strings?.horizontalBarContainerLabel}
         >
             <Bar
                 ref={chartRef}
                 data={chartData}
                 options={options}
-                aria-label={strings?.ariaLabels?.chart ?? 'Horizontal stacked bar chart showing assessment types'}
+                aria-label={strings?.horizontalBarChartLabel}
             />
         </div>
     );

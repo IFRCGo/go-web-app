@@ -1,12 +1,10 @@
 {
     "namespace": "common",
     "strings": {
-        "legend": {
-            "container": "Chart legend",
-            "item": "Legend item for {label}",
-            "itemActive": "Legend item for {label} (active)",
-            "itemDisabled": "Legend item for {label} (disabled)",
-            "colorIndicator": "Color indicator for {label}"
-        }
+        "legendContainerLabel": "Chart legend",
+        "legendItemLabel": "Legend item for {label}",
+        "legendItemActiveLabel": "Legend item for {label} (active)",
+        "legendItemDisabledLabel": "Legend item for {label} (disabled)",
+        "legendColorIndicatorLabel": "Color indicator for {label}"
     }
 }

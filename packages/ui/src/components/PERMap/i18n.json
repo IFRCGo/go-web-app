@@ -1,15 +1,15 @@
 {
     "namespace": "common",
     "strings": {
-        "mapContainer": "PER Map",
-        "closeTooltip": "Close tooltip",
-        "filterButton": "Filter by this assessment",
-        "unknownCountry": "Unknown",
-        "currentPhase": "Current PER phase",
-        "cycleYear": "Cycle year",
-        "cycleIteration": "Cycle iteration",
-        "filter": "Filter",
-        "initializationFailed": "Failed to initialize map",
-        "dismiss": "Dismiss error"
+        "perMapContainerLabel": "PER Map",
+        "perMapTooltipCloseLabel": "Close tooltip",
+        "perMapFilterButtonLabel": "Filter by this assessment",
+        "perMapUnknownCountryLabel": "Unknown",
+        "perMapCurrentPhaseLabel": "Current PER phase",
+        "perMapCycleYearLabel": "Cycle year",
+        "perMapCycleIterationLabel": "Cycle iteration",
+        "perMapFilterLabel": "Filter",
+        "perMapInitializationErrorLabel": "Failed to initialize map",
+        "perMapDismissErrorLabel": "Dismiss error"
     }
 }

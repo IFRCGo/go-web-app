@@ -32,7 +32,7 @@ interface AssessmentRecord {
 export interface Props {
     accessToken?: string;
     data?: AssessmentRecord[];
-    valueField?: string;
+    valueField?: keyof AssessmentRecord;
     mapboxStyle?: string;
     center?: [number, number];
     zoom?: number;
@@ -46,7 +46,7 @@ export interface Props {
 }
 
 function PERMap({
-    accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN,
+    accessToken = '',
     data = [],
     valueField = 'assessment_number',
     mapboxStyle = 'mapbox://styles/mapbox/light-v11',
@@ -102,7 +102,7 @@ function PERMap({
     const showTooltip = (d: AssessmentRecord) => {
         if (!map.current) {
             // eslint-disable-next-line no-console
-            console.warn(strings.initializationFailed);
+            console.warn(strings.perMapInitializationErrorLabel);
             return;
         }
 
@@ -121,11 +121,11 @@ function PERMap({
             .setHTML(`
                 <div class="${styles.tooltip}">
                     <div class="${styles.tooltipTitle}">
-                        ${d.country_name || strings.unknownCountry}
+                        ${d.country_name || strings.perMapUnknownCountryLabel}
                         <button 
                             class="${styles.closeButton}" 
                             onclick="this.closest('.mapboxgl-popup').remove()"
-                            aria-label="${strings.closeTooltip}"
+                            aria-label="${strings.perMapTooltipCloseLabel}"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" width="1em" height="1em">
                                 <path fill-rule="evenodd" d="m13.057 11.996 4.716-4.716a.75.75 0 1 0-1.06-1.06l-4.717 4.716L7.28 6.22a.75.75 0 1 0-1.06 1.06l4.716 4.716-4.716 4.716a.75.75 0 1 0 1.06 1.06l4.716-4.715 4.716 4.716a.748.748 0 0 0 1.061 0 .75.75 0 0 0 0-1.061l-4.716-4.716Z" clip-rule="evenodd"></path>
@@ -133,23 +133,23 @@ function PERMap({
                         </button>
                     </div>
                     <div class="${styles.tooltipGrid}">
-                        <div class="${styles.tooltipLabel}">${strings.currentPhase}</div>
+                        <div class="${styles.tooltipLabel}">${strings.perMapCurrentPhaseLabel}</div>
                         <div class="${styles.tooltipPhase}" style="background-color: ${d.color}">${d.phase_display}</div>
 
-                        <div class="${styles.tooltipLabel}">${strings.cycleYear}</div>
+                        <div class="${styles.tooltipLabel}">${strings.perMapCycleYearLabel}</div>
                         <div class="${styles.tooltipValue}">${new Date(d.date_of_assessment).getFullYear()}</div>
 
-                        <div class="${styles.tooltipLabel}">${strings.cycleIteration}</div>
-                        <div class="${styles.tooltipValue}">${d[valueField] || 0}</div>
+                        <div class="${styles.tooltipLabel}">${strings.perMapCycleIterationLabel}</div>
+                        <div class="${styles.tooltipValue}">${d[valueField as keyof AssessmentRecord] || 0}</div>
                     </div>
                     ${enableClickToFilter ? `
                         <div class="${styles.tooltipFooter}">
                             <button
                                 class="${styles.filterButton}"
                                 onclick="window.dispatchEvent(new CustomEvent('mapFilter', { detail: ${JSON.stringify(d)} }))"
-                                aria-label="${strings.filterButton}"
+                                aria-label="${strings.perMapFilterButtonLabel}"
                             >
-                                ${strings.filter}
+                                ${strings.perMapFilterLabel}
                             </button>
                         </div>
                     ` : ''}
@@ -170,14 +170,14 @@ function PERMap({
     const initializeD3Overlay = () => {
         if (!map.current) {
             // eslint-disable-next-line no-console
-            console.warn(strings.initializationFailed);
+            console.warn(strings.perMapInitializationErrorLabel);
             return;
         }
         const container = map.current.getCanvasContainer();
 
         if (bubbleContainer.current) {
             // eslint-disable-next-line no-console
-            console.warn(strings.initializationFailed);
+            console.warn(strings.perMapInitializationErrorLabel);
             return;
         }
 
@@ -197,11 +197,16 @@ function PERMap({
     const updatePositions = () => {
         if (!map.current || !bubbleContainer.current) {
             // eslint-disable-next-line no-console
-            console.warn(strings.initializationFailed);
+            console.warn(strings.perMapInitializationErrorLabel);
             return;
         }
 
-        const values = data.map((d: AssessmentRecord) => d[valueField] || 0);
+        const values = data.map((d: AssessmentRecord) => {
+            if (typeof d[valueField] === 'number') {
+                return d[valueField];
+            }
+            return Number(d[valueField]) || 0;
+        });
         const minValue = Math.min(...values);
         const maxValue = Math.max(...values);
 
@@ -342,7 +347,7 @@ function PERMap({
 
         if (map.current) {
             // eslint-disable-next-line no-console
-            console.warn(strings.initializationFailed);
+            console.warn(strings.perMapInitializationErrorLabel);
             return;
         }
 

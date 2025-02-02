@@ -12,4 +12,5 @@ export interface Props {
     transitionSpeed?: number;
     maxValue?: number | null;
     tooltipFormat?: (label: string, value: number) => string;
+    tooltipEnabled?: boolean;
 }

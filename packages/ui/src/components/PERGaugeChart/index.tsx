@@ -75,7 +75,7 @@ function PERGaugeChart({
     title = 'Chart title',
     className,
 }: Props) {
-    const strings = useTranslation(i18n)?.strings;
+    const strings = useTranslation(i18n);
     const svgRef = useRef<SVGSVGElement | null>(null);
     const containerRef = useRef<HTMLDivElement | null>(null);
     const [containerWidth, setContainerWidth] = useState<number>(200);
@@ -202,11 +202,11 @@ function PERGaugeChart({
                     onClick?.();
                 }
             }}
-            aria-label={strings?.ariaLabels?.container?.replace('{percentage}', percentage.toString())?.replace('{label}', label) ?? `Gauge chart showing ${percentage}% for ${label}`}
+            aria-label={strings?.gaugeContainerLabel?.replace('{percentage}', percentage.toString())?.replace('{label}', label) ?? `Gauge chart showing ${percentage}% for ${label}`}
         >
             {title && (
                 <div className={styles.title}>
-                    {title ?? strings?.defaults?.title ?? 'Chart title'}
+                    {title}
                 </div>
             )}
             <div className={styles.svgContainer}>
@@ -216,12 +216,12 @@ function PERGaugeChart({
                     height={height}
                     viewBox={`0 0 ${containerWidth} ${height}`}
                     preserveAspectRatio="xMidYMid meet"
-                    aria-label={strings?.ariaLabels?.gauge?.replace('{percentage}', percentage.toString()) ?? `Gauge value: ${percentage}%`}
+                    aria-label={strings?.gaugeValueLabel?.replace('{percentage}', percentage.toString()) ?? `Gauge value: ${percentage}%`}
                 />
             </div>
             {label && (
                 <div className={styles.label}>
-                    {label ?? strings?.defaults?.label ?? 'EPI-ready'}
+                    {label}
                 </div>
             )}
             <div className={styles.percentage}>

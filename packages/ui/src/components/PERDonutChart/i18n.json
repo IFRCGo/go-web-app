@@ -1,12 +1,8 @@
 {
     "namespace": "common",
     "strings": {
-        "donut": {
-            "chart": "Donut chart showing {data}",
-            "segment": "Chart segment for {label} with value {value}",
-            "tooltips": {
-                "format": "{label}: {value}"
-            }
-        }
+        "donutChartLabel": "Donut chart showing {data}",
+        "donutSegmentLabel": "Chart segment for {label} with value {value}",
+        "donutTooltipFormat": "{label}: {value}"
     }
 }

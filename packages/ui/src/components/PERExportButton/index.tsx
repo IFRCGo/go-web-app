@@ -70,9 +70,9 @@ function PERExportButton({
                 onClick={toggleMenu}
                 className={styles.exportButton}
                 disabled={disabled}
-                aria-label={strings.button.ariaLabel}
+                aria-label={strings.buttonAriaLabel}
             >
-                {strings.button.label}
+                {strings.buttonLabel}
                 {' '}
                 <span className={`${styles.caret} ${isOpen ? styles.open : ''}`} />
             </button>

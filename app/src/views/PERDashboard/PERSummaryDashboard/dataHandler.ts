@@ -6,7 +6,6 @@ import {
     type ComponentSummary,
     type FilterOptions,
     type Filters,
-    type KPIData,
     type PercentageData,
     type PERConsiderationsData,
     type PERData,
@@ -28,6 +27,36 @@ function initializeData(data: AssessmentRecord[], updateData: LastUpdateData) {
 interface RawAssessmentRecord {
     id: number;
     country_id: number;
+    country_name: string;
+    region_name: string;
+    date_of_assessment: string;
+    phase: number;
+    phase_display: string;
+    assessment_number: number;
+    type_of_assessment_name: string;
+    prioritized_components: {
+        id: number;
+        name: string;
+        score?: number;
+    }[];
+    epi_considerations: {
+        description?: string;
+        value?: boolean | string;
+    };
+    climate_environmental_considerations: {
+        description?: string;
+        value?: boolean | string;
+    };
+    urban_considerations: {
+        description?: string;
+        value?: boolean | string;
+    };
+    migration_considerations: {
+        description?: string;
+        value?: boolean | string;
+    };
+    latitude: number;
+    longitude: number;
 }
 
 function processMapData(rawData: RawAssessmentRecord[]): AssessmentRecord[] {
@@ -41,10 +70,15 @@ function processMapData(rawData: RawAssessmentRecord[]): AssessmentRecord[] {
         phase_display: record.phase_display,
         assessment_number: record.assessment_number,
         type_of_assessment_name: record.type_of_assessment_name,
-        prioritized_components: record.prioritized_components || [],
+        prioritized_components: record.prioritized_components.map((component) => ({
+            id: component.id,
+            name: component.name,
+            score: component.score,
+            areaTitle: '', // You'll need to get this from your data source
+            componentTitle: component.name,
+        })),
         epi_considerations: record.epi_considerations,
-        climate_environmental_considerations:
-            record.climate_environmental_considerations,
+        climate_environmental_considerations: record.climate_environmental_considerations,
         urban_considerations: record.urban_considerations,
         migration_considerations: record.migration_considerations,
         latitude: record.latitude,
@@ -307,10 +341,11 @@ function getComponentSummaryForTreemap(
     const filteredData = applyFilters(mapData, filters);
 
     const componentFrequency: Record<string, {
-    name: string;
-    color: string;
-    children: Array<{ name: string; value: number }>;
-  }> = {};
+        name: string;
+        id: string;
+        color: string;
+        children: Array<{ name: string; value: number; id: string; color: string }>;
+    }> = {};
 
     // Process each record's prioritized components
     filteredData.forEach((record) => {
@@ -321,6 +356,7 @@ function getComponentSummaryForTreemap(
             if (!componentFrequency[areaTitle]) {
                 componentFrequency[areaTitle] = {
                     name: areaTitle,
+                    id: areaTitle,
                     color: AREA_COLORS[areaTitle as keyof typeof AREA_COLORS] || '#CCCCCC',
                     children: [],
                 };
@@ -336,7 +372,9 @@ function getComponentSummaryForTreemap(
             } else {
                 componentFrequency[areaTitle].children.push({
                     name: componentTitle,
+                    id: `${areaTitle}-${componentTitle}`,
                     value: 1,
+                    color: AREA_COLORS[areaTitle as keyof typeof AREA_COLORS] || '#CCCCCC',
                 });
             }
         });
@@ -349,10 +387,12 @@ function getComponentSummaryForTreemap(
 
     return {
         name: 'Root',
+        id: 'root',
+        color: '#CCCCCC',
         children: Object.values(componentFrequency)
             .filter((area) => area.children.length > 0)
             .sort((a, b) => b.children.reduce((sum, child) => sum + child.value, 0)
-        - a.children.reduce((sum, child) => sum + child.value, 0)),
+                - a.children.reduce((sum, child) => sum + child.value, 0)),
     };
 }
 
@@ -515,7 +555,7 @@ function getPERConsiderations(
 
 function getKPIData(
     filters: Filters | null = null,
-): Array<KPIData> {
+): Array<KPI> {
     // Apply all filters
     const data = applyFilters(mapData, filters);
 
@@ -590,7 +630,6 @@ export type {
     ComponentSummary,
     FilterOptions,
     Filters,
-    KPIData,
     PercentageData,
     PERConsiderationsData,
     PERData,

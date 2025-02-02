@@ -31,7 +31,7 @@ function PERRegionToggle({
     precision = 0,
     showCount = true,
 }: Props) {
-    const strings = useTranslation(i18n)?.strings;
+    const strings = useTranslation(i18n);
 
     const handleToggle = useCallback((
         event: MouseEvent<HTMLButtonElement>,
@@ -70,7 +70,7 @@ function PERRegionToggle({
             onKeyDown={handleKeyDown}
             role="button"
             tabIndex={0}
-            aria-label={strings?.ariaLabels?.container ?? 'Region filter'}
+            aria-label={strings?.regionContainerLabel ?? 'Region filter'}
         >
             <div className={styles.toggleGroup}>
                 <div className={styles.toggleBody}>
@@ -86,9 +86,9 @@ function PERRegionToggle({
                             type="button"
                             aria-label={
                                 activeRegion === region.name
-                                    ? strings?.ariaLabels?.buttonActive?.replace('{region}', region.name)
+                                    ? strings?.regionButtonActiveLabel?.replace('{region}', region.name)
                                         ?? `${region.name} filter active`
-                                    : strings?.ariaLabels?.buttonInactive?.replace('{region}', region.name)
+                                    : strings?.regionButtonInactiveLabel?.replace('{region}', region.name)
                                         ?? `${region.name} filter inactive`
                             }
                         >

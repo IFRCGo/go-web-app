@@ -92,19 +92,19 @@ function PERConsiderations({
     // Assessment type options with labels and colors
     const ASSESSMENT_TYPE_OPTIONS = [
         {
-            label: strings?.assessmentTypes?.selfAssessment ?? 'Self assessment',
+            label: strings?.considerationSelfAssessmentLabel ?? 'Self assessment',
             color: ASSESSMENT_COLORS.selfAssessment,
         },
         {
-            label: strings?.assessmentTypes?.simulation ?? 'Simulation',
+            label: strings?.considerationSimulationLabel ?? 'Simulation',
             color: ASSESSMENT_COLORS.simulation,
         },
         {
-            label: strings?.assessmentTypes?.operational ?? 'Operational',
+            label: strings?.considerationOperationalLabel ?? 'Operational',
             color: ASSESSMENT_COLORS.operational,
         },
         {
-            label: strings?.assessmentTypes?.postOperational ?? 'Post operational',
+            label: strings?.considerationPostOperationalLabel ?? 'Post operational',
             color: ASSESSMENT_COLORS.postOperational,
         },
     ] as const;

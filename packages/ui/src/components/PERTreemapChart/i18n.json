@@ -1,17 +1,13 @@
 {
     "namespace": "common",
     "strings": {
-        "treemap": {
-            "container": "Treemap chart",
-            "chart": "Interactive treemap chart showing hierarchical data",
-            "section": "{name}",
-            "component": "{name} {value}",
-            "selected": "{name}",
-            "tooltips": {
-                "title": "{name}",
-                "tag": "{name}",
-                "value": "{value}"
-            }
-        }
+        "treemapContainerLabel": "Treemap chart",
+        "treemapChartLabel": "Interactive treemap chart showing hierarchical data",
+        "treemapSectionLabel": "{name}",
+        "treemapComponentLabel": "{name} {value}",
+        "treemapSelectedLabel": "{name}",
+        "treemapTooltipTitleLabel": "{name}",
+        "treemapTooltipTagLabel": "{name}",
+        "treemapTooltipValueLabel": "{value}"
     }
 }

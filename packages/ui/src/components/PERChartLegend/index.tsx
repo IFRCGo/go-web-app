@@ -44,21 +44,21 @@ function PERChartLegend(props: Props) {
                 layout === 'vertical' && styles.vertical,
                 className,
             )}
-            aria-label={strings?.ariaLabels?.container ?? 'Chart legend'}
+            aria-label={strings?.legendContainerLabel ?? 'Chart legend'}
         >
             {data.map((item, index) => {
                 const isActive = activeIndex === item.label;
                 const isDisabled = disabledIndices.includes(index);
                 const getAriaLabel = () => {
                     if (isDisabled) {
-                        return strings?.ariaLabels?.itemDisabled?.replace('{label}', item.label)
+                        return strings?.legendItemDisabledLabel?.replace('{label}', item.label)
                             ?? `Legend item for ${item.label} (disabled)`;
                     }
                     if (isActive) {
-                        return strings?.ariaLabels?.itemActive?.replace('{label}', item.label)
+                        return strings?.legendItemActiveLabel?.replace('{label}', item.label)
                             ?? `Legend item for ${item.label} (active)`;
                     }
-                    return strings?.ariaLabels?.item?.replace('{label}', item.label)
+                    return strings?.legendItemLabel?.replace('{label}', item.label)
                         ?? `Legend item for ${item.label}`;
                 };
                 const ariaLabel = getAriaLabel();
@@ -79,7 +79,7 @@ function PERChartLegend(props: Props) {
                         <div
                             className={styles.color}
                             style={{ backgroundColor: item.color }}
-                            aria-label={strings?.ariaLabels?.colorIndicator?.replace('{label}', item.label) ?? `Color indicator for ${item.label}`}
+                            aria-label={strings?.legendColorIndicatorLabel?.replace('{label}', item.label) ?? `Color indicator for ${item.label}`}
                         />
                         <span className={styles.label}>
                             {item.label}

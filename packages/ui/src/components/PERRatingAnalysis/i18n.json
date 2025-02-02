@@ -1,20 +1,19 @@
 {
     "namespace": "common",
     "strings": {
-        "ratingAnalysis": {
-            "container": "PER rating analysis",
-            "ratingBar": "Rating bar showing {value} out of {maxValue}",
-            "sparkline": "Rating trend chart",
-            "ratingChange": "Rating change of {value}",
-            "sortButton": "Sort {type} {direction}",
-            "ratingValue": "Rating value: {value}",
-            "componentPrefix": "Component {number}",
-            "sections": {
-                "averageRating": "Average PER rating",
-                "ratingTrend": "Rating trend",
-                "topRated": "Top rated components",
-                "bottomRated": "Bottom rated components"
-            }
-        }
+        "ratingContainerLabel": "PER rating analysis",
+        "ratingBarLabel": "Rating bar showing {value} out of {maxValue}",
+        "ratingSparklineLabel": "Rating trend chart",
+        "ratingChangeLabel": "Rating change of {value}",
+        "ratingSortButtonLabel": "Sort {type} {direction}",
+        "ratingSortButton": "Sort button",
+        "ratingSortByNumber": "by number",
+        "ratingSortByRating": "by rating",
+        "ratingValueLabel": "Rating value: {value}",
+        "ratingComponentPrefixLabel": "Component {number}",
+        "ratingAverageLabel": "Average PER rating",
+        "ratingTrendLabel": "Rating trend",
+        "ratingTopRatedLabel": "Top rated components",
+        "ratingBottomRatedLabel": "Bottom rated components"
     }
 }

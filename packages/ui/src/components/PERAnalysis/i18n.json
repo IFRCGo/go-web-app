@@ -1,25 +1,19 @@
 {
     "namespace": "common",
     "strings": {
-        "analysis": {
-            "container": "PER analysis chart and summary",
-            "cycleCard": "PER cycle {cycle} details",
-            "chart": "PER analysis chart showing completed cycles and average ratings",
-            "tooltip": "Cycle details for {cycle}",
-            "ratingChange": "Rating change of {value} points",
-            "axisLabels": {
-                "nsCount": "# OF NS",
-                "rating": "AVERAGE PER RATING"
-            },
-            "cycleLegend": {
-                "completedCycles": "Completed cycles",
-                "yetToProgress": "Yet to progress",
-                "averageRating": "Average PER rating"
-            },
-            "labels": {
-                "perRating": "PER Rating",
-                "nsUnit": "NSs"
-            }
-        }
+        "analysisAssessmentCountLabel": "Number of PER assessments / process cycle iterations",
+        "analysisContainerLabel": "PER analysis chart and summary",
+        "analysisCycleCardLabel": "PER cycle {cycle} details",
+        "analysisChartLabel": "PER analysis chart showing completed cycles and average ratings",
+        "analysisTooltipLabel": "Cycle details for {cycle}",
+        "analysisAverageRatingLabel": "According to the latest assessment in each NS",
+        "analysisRatingChangeLabel": "Rating change of {value} points",
+        "analysisAxisNsCountLabel": "# OF NS",
+        "analysisAxisRatingLabel": "AVERAGE PER RATING",
+        "analysisLegendCompletedLabel": "Completed cycles",
+        "analysisLegendProgressLabel": "Yet to progress",
+        "analysisLegendAverageLabel": "Average PER rating",
+        "analysisPerRatingLabel": "PER Rating",
+        "analysisNsUnitLabel": "NSs"
     }
 }

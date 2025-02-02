@@ -25,7 +25,9 @@ export interface Component {
 
 export interface ComponentSummary {
     name: string;
+    id: string;
     value: number;
+    color: string;
     children?: ComponentSummary[];
 }
 
@@ -52,8 +54,10 @@ export interface AssessmentRecord {
 }
 
 export interface KPIData {
-    label: string;
+    key: string;
     value: number;
+    description: string;
+    color?: string;
 }
 
 // Chart data interfaces

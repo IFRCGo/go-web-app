@@ -1,4 +1,4 @@
-import React, {
+import {
     useEffect,
     useRef,
 } from 'react';
@@ -91,7 +91,7 @@ function RatingBar({
                 .attr('width', xScale(value));
 
             // Gridlines
-            const gridlines = svg.selectAll('.gridlines')
+            const gridlines = svg.selectAll<SVGGElement, number>('.gridlines')
                 .data([1])
                 .join('g')
                 .attr('class', 'gridlines')
@@ -100,7 +100,7 @@ function RatingBar({
             const xAxis = d3.axisBottom(xScale)
                 .ticks(5)
                 .tickSize(-BAR_HEIGHT + (padding * 2))
-                .tickFormat('')
+                // .tickFormat('')
                 .tickPadding(10);
 
             gridlines.call(xAxis);

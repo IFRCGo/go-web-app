@@ -103,7 +103,7 @@ function PERDonutChart(props: Props) {
         hoverOffset = 4,
         animation = true,
         tooltipEnabled = true,
-        tooltipFormat = (label, value) => `${value}`,
+        tooltipFormat = (value) => `${value}`,
         centerText,
         centerTextSecondary,
         maintainAspectRatio = false,
@@ -198,7 +198,6 @@ function PERDonutChart(props: Props) {
                 },
                 boxPadding: 7,
             },
-            // @ts-expect-error chartjs-plugin-datalabels types are not complete
             datalabels: {
                 color: '#FFFFFF',
                 font: {

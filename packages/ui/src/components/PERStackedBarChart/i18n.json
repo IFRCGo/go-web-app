@@ -1,20 +1,12 @@
 {
     "namespace": "common",
     "strings": {
-        "stackedBar": {
-            "ariaLabels": {
-                "container": "Stacked bar chart",
-                "chart": "Stacked bar chart showing data over time",
-                "bar": "Bar for {category} with value {value}",
-                "tooltip": "Value for {category}: {value}"
-            },
-            "tooltips": {
-                "labelFormat": "{category}: {value}"
-            },
-            "axis": {
-                "xAxisLabel": "",
-                "yAxisLabel": ""
-            }
-        }
+        "stackedBarContainerLabel": "Stacked bar chart",
+        "stackedBarChartLabel": "Stacked bar chart showing data over time",
+        "stackedBarItemLabel": "Bar for {category} with value {value}",
+        "stackedBarTooltipLabel": "Value for {category}: {value}",
+        "stackedBarTooltipFormat": "{category}: {value}",
+        "stackedBarXAxisLabel": "",
+        "stackedBarYAxisLabel": ""
     }
 }
