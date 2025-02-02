@@ -171,10 +171,10 @@ function PERStackedBarChart({
             datalabels: {
                 display: showDataLabels,
                 color: (context) => {
-                    const backgroundColor = context.dataset.backgroundColor;
+                    const { backgroundColor } = context.dataset;
                     // Handle case where backgroundColor is an array
-                    const color = Array.isArray(backgroundColor) 
-                        ? backgroundColor[context.dataIndex] 
+                    const color = Array.isArray(backgroundColor)
+                        ? backgroundColor[context.dataIndex]
                         : backgroundColor as string;
                     return getContrastColor(color);
                 },
