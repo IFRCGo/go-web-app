@@ -14,15 +14,6 @@ export interface Assessment {
     rating_title: string;
 }
 
-export interface Component {
-    component_id: number;
-    component_num: number;
-    component_name: string;
-    area_id: number;
-    area_name: string;
-    assessments: Assessment[];
-}
-
 export interface ComponentSummary {
     id: string;
     color: string;
@@ -62,12 +53,6 @@ export interface AssessmentRecord {
     longitude: number;
     color?: string;
 }
-
-export interface KPIData {
-    label: string;
-    value: number;
-}
-
 // Chart data interfaces
 export interface ChartDataItem {
     name: string;
@@ -97,19 +82,6 @@ export interface TotalsData {
     totalMigrationConsiderations: number;
 }
 
-export interface PERConsiderationsData {
-    percentages: PercentageData;
-    totals: TotalsData;
-    data: ChartData;
-}
-
-// Filter interfaces
-export interface FilterOptions {
-    regions: string[];
-    years: number[];
-    phases: number[];
-    assessmentTypes: string[];
-}
 
 export interface Filters {
     region?: string | null;
@@ -121,38 +93,6 @@ export interface Filters {
     highPriorityComponent?: string | null;
     assessmentType?: string | null;
     numberOfCycles?: number | null;
-}
-
-// Summary Dashboard specific types
-export interface PERData {
-    assessments: Component[];
-}
-
-export interface RegionRecord {
-    region: string;
-    count: number;
-}
-
-export interface StackedBarData {
-    year: number;
-    data: {
-        region: string;
-        count: number;
-    }[];
-}
-
-export interface TreemapData {
-    id: number;
-    name: string;
-    value: number;
-    rating: number;
-}
-
-export interface ConsiderationData {
-    id: number;
-    title: string;
-    description: string;
-    rating: number;
 }
 
 // Map specific types

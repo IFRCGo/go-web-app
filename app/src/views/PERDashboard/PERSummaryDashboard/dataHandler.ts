@@ -729,36 +729,14 @@ function getLastUpdateDate(): string {
     return lastUpdateData?.lastUpdate ?? 'N/A';
 }
 
-// Export types
-export type {
-    AssessmentRecord,
-    ChartDataItem,
-    ComponentSummary,
-    FilterOptions,
-    Filters,
-    MapAssessmentRecord,
-    PercentageData,
-    PERData,
-    PrioritizedComponent,
-    TotalsData,
-};
-
-// Export functions
 export {
-    applyFilters,
-    assignFillColors,
     getComponentSummaryForTreemap,
     getFilteredMapData,
-    getFilterOptions,
     getKPIData,
     getLastUpdateDate,
     getPERConsiderations,
     getRecordsByAssessmentType,
     getRecordsByRegion,
     getStackedBarDataByYearAndRegion,
-    groupByAndFilter,
     initializeData,
-    processMapData,
 };
-
-export default allProcessedData;

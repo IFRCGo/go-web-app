@@ -682,25 +682,11 @@ function getLastUpdateDate(): string {
     return lastUpdateData?.last_update ?? 'N/A';
 }
 
-// Export all types and functions at the end of the file
-export type {
-    AreaSummary,
-    Assessment,
-    ComponentRating,
-    ComponentRatingsResult,
-    Filters,
-    RegionData,
-};
-
 export {
-    applyFilters,
     getComponentRatings,
     getCycles,
     getLastUpdateDate,
-    getRatingStatus,
-    getRoundedRating,
     groupDataByRegion,
     initializeData,
-    RATING_SCALE_COLORS,
     summarizeData,
 };
