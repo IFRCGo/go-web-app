@@ -8,6 +8,7 @@ import {
     createBrowserRouter,
     RouterProvider,
 } from 'react-router-dom';
+import Hotjar from '@hotjar/browser';
 import {
     AlertContext,
     type AlertContextProps,
@@ -54,6 +55,11 @@ import {
 import wrappedRoutes, { unwrappedRoutes } from './routes';
 
 import styles from './styles.module.css';
+
+const siteId = 5292885;
+const hotjarVersion = 6;
+
+Hotjar.init(siteId, hotjarVersion);
 
 const requestContextValue = {
     transformUrl: processGoUrls,

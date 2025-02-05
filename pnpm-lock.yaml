@@ -34,6 +34,9 @@ importers:
 
   app:
     dependencies:
+      '@hotjar/browser':
+        specifier: ^1.0.9
+        version: 1.0.9
       '@ifrc-go/icons':
         specifier: ^2.0.1
         version: 2.0.1(react@18.2.0)
@@ -2770,6 +2773,10 @@ packages:
       '@lit-labs/react': 1.2.1
       react: 18.2.0
     dev: true
+
+  /@hotjar/browser@1.0.9:
+    resolution: {integrity: sha512-n9akDMod8BLGpYEQCrHwlYWWd63c1HlhUSXNIDfClZtKYXbUjIUOFlNZNNcUxgHTCsi4l2i+SWKsGsO0t93S8w==}
+    dev: false
 
   /@humanfs/core@0.19.1:
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
