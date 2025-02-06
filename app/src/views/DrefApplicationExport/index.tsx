@@ -571,6 +571,7 @@ export function Component() {
                     strongValue
                 />
             </Container>
+            <div className={styles.pageBreak} />
             {showScenarioAnalysis && (
                 <>
                     <Heading level={2}>
@@ -603,7 +604,6 @@ export function Component() {
             )}
             {showEventDescriptionSection && (
                 <>
-                    <div className={styles.pageBreak} />
                     {drefResponse?.disaster_category_analysis_details?.file
                         && drefResponse.type_of_dref !== DREF_TYPE_IMMINENT && (
                         <Container>

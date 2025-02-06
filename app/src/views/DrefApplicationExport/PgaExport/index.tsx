@@ -130,12 +130,15 @@ function PgaExport() {
                 <div className={styles.bankDetails}>
                     <BlockTextOutput
                         label={strings.nationalSocietyBankName}
+                        invalidText={null}
                     />
                     <BlockTextOutput
                         label={strings.nationalSocietyBankAccountNumber}
+                        invalidText={null}
                     />
                     <BlockTextOutput
                         label={strings.nationalSocietySwiftCode}
+                        invalidText={null}
                     />
                     <BlockTextOutput
                         label={strings.nationalSocietyAmount}
@@ -143,6 +146,7 @@ function PgaExport() {
                     />
                     <BlockTextOutput
                         label={strings.nationalSocietyAdvancePayment}
+                        invalidText={null}
                     />
                 </div>
                 <i>{strings.nationalSocietyBankFooter}</i>
