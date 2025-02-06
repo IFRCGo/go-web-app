@@ -1,13 +1,11 @@
 .pga-export {
-    margin: var(--go-ui-spacing-xl) auto;
-
     .page-break {
         break-before: page;
     }
 
     .description {
         margin: 0;
-        padding-left: var(--go-ui-spacing-sm);
+        padding-inline-start: var(--go-ui-spacing-sm);
     }
 
     .table-description {
