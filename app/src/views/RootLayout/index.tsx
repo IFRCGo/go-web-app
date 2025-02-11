@@ -293,6 +293,16 @@ export function Component() {
     });
 
     const {
+        pending: primarySectorsPending,
+        response: primarySectors,
+        retrigger: primarySectorsTrigger,
+    } = useRequest({
+        skip: !fetchDomainData['primary-sector'],
+        url: '/api/v2/primarysector',
+        preserveResponse: true,
+    });
+
+    const {
         pending: perComponentsPending,
         response: perComponents,
         retrigger: perFormComponentsTrigger,
@@ -345,6 +355,9 @@ export function Component() {
                 case 'secondary-sector':
                     secondarySectorsTrigger();
                     break;
+                case 'primary-sector':
+                    primarySectorsTrigger();
+                    break;
                 case 'per-components':
                     perFormComponentsTrigger();
                     break;
@@ -359,6 +372,7 @@ export function Component() {
             globalEnumsTrigger,
             disasterTypesTrigger,
             secondarySectorsTrigger,
+            primarySectorsTrigger,
             perFormComponentsTrigger,
             userMeTrigger,
         ],
@@ -389,6 +403,9 @@ export function Component() {
 
             perComponents,
             perComponentsPending,
+
+            primarySectors,
+            primarySectorsPending,
         }),
         [
             userMe,
@@ -407,6 +424,8 @@ export function Component() {
             perComponentsPending,
             registerDomainData,
             invalidateDomainData,
+            primarySectors,
+            primarySectorsPending,
         ],
     );
 

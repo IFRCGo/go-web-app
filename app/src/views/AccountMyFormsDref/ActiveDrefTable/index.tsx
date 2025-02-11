@@ -227,7 +227,6 @@ function ActiveDrefTable(props: Props) {
                     }
 
                     const {
-                        // unpublished_final_report_count,
                         unpublished_op_update_count,
                         is_published,
                         has_ops_update,
@@ -264,6 +263,7 @@ function ActiveDrefTable(props: Props) {
                         canCreateFinalReport,
                         hasPermissionToApprove: isRegionCoordinator || userMe?.is_superuser,
                         onPublishSuccess: refetchActiveDref,
+                        drefType: item.type_of_dref,
                     };
                 },
                 { columnClassName: styles.actions },

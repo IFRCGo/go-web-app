@@ -40,7 +40,7 @@ export function dateGreaterThanOrEqualCondition(x: string) {
     // FIXME: use translations
     return (value: Maybe<string>) => (
         isDefined(value) && (new Date(value).getTime()) < (new Date(x).getTime())
-            ? `Field must be greater than ${x}`
+            ? `Select a date on or after ${x}.`
             : undefined
     );
 }

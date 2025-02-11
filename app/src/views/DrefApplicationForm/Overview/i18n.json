@@ -18,8 +18,8 @@
         "formShareButtonLabel": "Add",
         "drefFormImminentDisasterCategoryLabel": "Disaster Category (Optional)",
         "drefFormDisasterCategoryLabel": "Disaster Category",
-        "drefFormAffectedCountryAndProvinceImminent": "Affected Country and Affected Region(s)",
-        "drefFormRiskCountryLabel": "At Risk Country and Region(s)",
+        "drefFormAffectedCountryAndProvince": "Affected Country and Affected Region(s)",
+        "drefFormRiskCountryLabelImminent": "Targeted Areas",
         "drefFormAddCountry": "Add Country",
         "drefFormAddRegion": "Region/Province",
         "drefFormTitle": "DREF Title",
@@ -31,9 +31,9 @@
         "drefFormUploadCoverImage": "Cover image",
         "drefFormUploadCoverImageDescription": "Upload a image for the cover page of the publicly published DREF application.",
         "drefFormDrefTypeTitle": "DREF Type",
-        "drefFormClickEmergencyResponseFrameworkLabel": "Click to view Emergency Response Framework",
+        "drefFormClickEmergencyResponseLabel": "Click to view Emergency Response Framework",
         "userListEmptyMessage": "The DREF Application is not shared with anyone.",
         "drefFormUploadCrisisDocument": "If available please upload Crisis categorization Analysis",
-        "drefFormUploadDocumentButtonLabel": "Upload document"
+        "drefFormOverviewUploadDocumentButtonLabel": "Upload document"
     }
 }

@@ -7,7 +7,7 @@
         font-size: var(--go-ui-height-icon-multiplier);
     }
 
-    .intervention-selection-container {
+    .selection-container {
         display: flex;
         align-items: center;
         gap: var(--go-ui-spacing-md);
@@ -17,15 +17,8 @@
             flex-grow: 1;
         }
 
-        .remove-button {
+        .action {
             flex-shrink: 0;
-        }
-    }
-
-    .urban-to-rural {
-        .inputs {
-            display: flex;
-            gap: var(--go-ui-spacing-xs);
         }
     }
 
