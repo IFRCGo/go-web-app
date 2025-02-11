@@ -1,3 +1,4 @@
+import { sumSafe } from '@ifrc-go/ui/utils';
 import { isNotDefined } from '@togglecorp/fujs';
 import {
     analyzeErrors,
@@ -6,24 +7,35 @@ import {
 } from '@togglecorp/toggle-form';
 
 import { type components } from '#generated/types';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import { type PartialDref } from './schema';
 
+type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 export type TypeOfDrefEnum = components<'read'>['schemas']['DrefDrefDrefTypeEnumKey'];
 type TypeOfOnsetEnum = components<'read'>['schemas']['DrefDrefOnsetTypeEnumKey'];
+type ProposedActionOption = NonNullable<GlobalEnumsResponse['dref_proposed_action']>[number];
 
 // export const ONSET_SLOW = 1 satisfies TypeOfOnsetEnum;
 export const ONSET_SUDDEN = 2 satisfies TypeOfOnsetEnum;
 
 export const TYPE_IMMINENT = 0 satisfies TypeOfDrefEnum;
 export const TYPE_ASSESSMENT = 1 satisfies TypeOfDrefEnum;
-// export const TYPE_RESPONSE = 2 satisfies TypeOfDrefEnum;
+export const TYPE_RESPONSE = 2 satisfies TypeOfDrefEnum;
 export const TYPE_LOAN = 3 satisfies TypeOfDrefEnum;
 
 // FIXME: identify a way to store disaster
 export const DISASTER_FIRE = 15;
 export const DISASTER_FLASH_FLOOD = 27;
 export const DISASTER_FLOOD = 12;
+
+export const SURGE_DEPLOYMENT_COST = 10000;
+export const SURGE_INDIRECT_COST = 5800;
+export const INDIRECT_COST = 5000;
+export const SUB_TOTAL = 75000;
+
+export const EARLY_ACTIONS = 1 satisfies ProposedActionOption['key'];
+export const EARLY_RESPONSE = 2 satisfies ProposedActionOption['key'];
 
 // TAB NAVIGATION
 
@@ -64,6 +76,9 @@ export const eventDetailTabFields: (keyof PartialDref)[] = [
     'event_scope',
     'source_information',
     'images_file',
+    'hazard_date_and_location',
+    'hazard_vulnerabilities_and_risks',
+    'scenario_analysis_supporting_document',
 ] satisfies (keyof PartialDref)[];
 
 export const actionsTabFields: (keyof PartialDref)[] = [
@@ -111,6 +126,8 @@ export const operationTabFields: (keyof PartialDref)[] = [
     'logistic_capacity_of_ns',
     'pmer',
     'communication',
+    'addressed_humanitarian_impacts',
+    'contingency_plans_supporting_document',
 ] satisfies (keyof PartialDref)[];
 
 export const timeframeAndContactsTabFields: (keyof PartialDref)[] = [
@@ -150,6 +167,31 @@ const tabToFieldsMap = {
     actions: actionsTabFields,
     operation: operationTabFields,
     submission: timeframeAndContactsTabFields,
+};
+
+export const recalculateProposedActionValues = (val: PartialDref) => {
+    const subTotal = sumSafe(
+        val.proposed_action?.map((pa) => pa.budget),
+    ) ?? 0;
+
+    // NOTE: if Surge Personnel are deployed,
+    // the Surge Deployment cost will be CHF 10,000,
+    // and the Indirect Costs will be CHF 5,800. Conversely,
+    // if Surge Personnel are not deployed,
+    // the Surge Deployment cost will not be applicable,
+    // and the Indirect Costs will be CHF 5,000
+    const surgeDeploymentCost = val.is_surge_personnel_deployed ? SURGE_DEPLOYMENT_COST : undefined;
+    const indirectCost = val.is_surge_personnel_deployed ? SURGE_INDIRECT_COST : INDIRECT_COST;
+
+    const total = sumSafe(
+        [subTotal, indirectCost, surgeDeploymentCost],
+    );
+    return {
+        sub_total: subTotal,
+        indirect_cost: indirectCost,
+        surge_deployment_cost: surgeDeploymentCost,
+        total,
+    };
 };
 
 export function checkTabErrors(error: Error<PartialDref> | undefined, tabKey: TabKeys) {

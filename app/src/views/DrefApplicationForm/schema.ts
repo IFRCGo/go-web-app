@@ -1,5 +1,8 @@
 import { type DeepReplace } from '@ifrc-go/ui/utils';
-import { isDefined } from '@togglecorp/fujs';
+import {
+    isDefined,
+    type Maybe,
+} from '@togglecorp/fujs';
 import {
     addCondition,
     emailCondition,
@@ -24,9 +27,14 @@ import {
     DISASTER_FIRE,
     DISASTER_FLASH_FLOOD,
     DISASTER_FLOOD,
+    INDIRECT_COST,
+    SUB_TOTAL,
+    SURGE_DEPLOYMENT_COST,
+    SURGE_INDIRECT_COST,
     TYPE_ASSESSMENT,
     TYPE_IMMINENT,
     TYPE_LOAN,
+    TYPE_RESPONSE,
 } from './common';
 
 // FIXME: Do we need this limit?
@@ -53,6 +61,7 @@ export type DrefRequestPostBody = GoApiBody<'/api/v2/dref/{id}/', 'POST'>;
 type NeedIdentifiedResponse = NonNullable<DrefRequestBody['needs_identified']>[number];
 type NsActionResponse = NonNullable<DrefRequestBody['national_society_actions']>[number];
 type InterventionResponse = NonNullable<DrefRequestBody['planned_interventions']>[number];
+type ProposedActionResponse = NonNullable<DrefRequestBody['proposed_action']>[number];
 type IndicatorResponse = NonNullable<InterventionResponse['indicators']>[number];
 type RiskSecurityResponse = NonNullable<DrefRequestBody['risk_security']>[number];
 type ImagesFileResponse = NonNullable<DrefRequestBody['images_file']>[number];
@@ -61,6 +70,7 @@ type SourceInformationResponse = NonNullable<DrefRequestBody['source_information
 type NeedIdentifiedFormFields = NeedIdentifiedResponse & { client_id: string };
 type NsActionFormFields = NsActionResponse & { client_id: string; }
 type InterventionFormFields = InterventionResponse & { client_id: string };
+type ProposedActionFormFields = ProposedActionResponse & { client_id: string };
 type IndicatorFormFields = IndicatorResponse & { client_id: string };
 type SourceInformationFormFields = SourceInformationResponse & { client_id: string };
 
@@ -83,18 +93,22 @@ type DrefFormFields = (
                             DeepReplace<
                                 DeepReplace<
                                     DeepReplace<
-                                        DrefRequestBody,
-                                        NeedIdentifiedResponse,
-                                        NeedIdentifiedFormFields
+                                        DeepReplace<
+                                            DrefRequestBody,
+                                            NeedIdentifiedResponse,
+                                            NeedIdentifiedFormFields
+                                        >,
+                                        NsActionResponse,
+                                        NsActionFormFields
                                     >,
-                                    NsActionResponse,
-                                    NsActionFormFields
+                                    InterventionResponse,
+                                    InterventionFormFields
                                 >,
-                                InterventionResponse,
-                                InterventionFormFields
+                                IndicatorResponse,
+                                IndicatorFormFields
                             >,
-                            IndicatorResponse,
-                            IndicatorFormFields
+                            ProposedActionResponse,
+                            ProposedActionFormFields
                         >,
                         IndicatorResponse,
                         IndicatorFormFields
@@ -129,6 +143,7 @@ type NeedsIdentifiedFields = ReturnType<ObjectSchema<NonNullable<PartialDref['ne
 type RiskSecurityFields = ReturnType<ObjectSchema<NonNullable<PartialDref['risk_security']>[number], PartialDref>['fields']>;
 type SourceInformationFields = ReturnType<ObjectSchema<NonNullable<PartialDref['source_information']>[number], PartialDref>['fields']>;
 type PlannedInterventionFields = ReturnType<ObjectSchema<NonNullable<PartialDref['planned_interventions']>[number], PartialDref>['fields']>;
+type ProposedActionsFields = ReturnType<ObjectSchema<NonNullable<PartialDref['proposed_action']>[number], PartialDref>['fields']>;
 type IndicatorFields = ReturnType<ObjectSchema<NonNullable<NonNullable<PartialDref['planned_interventions']>[number]['indicators']>[number], PartialDref>['fields']>;
 
 const schema: DrefFormSchema = {
@@ -267,11 +282,13 @@ const schema: DrefFormSchema = {
             'event_scope',
             'event_text',
             'anticipatory_actions',
-            'supporting_document',
+            'scenario_analysis_supporting_document',
             'event_date',
             'event_description',
             'images_file',
             'source_information',
+            'hazard_date_and_location',
+            'hazard_vulnerabilities_and_risks',
         ] as const;
         type EventDetailDrefTypeRelatedFields = Pick<
             DrefFormSchemaFields,
@@ -295,16 +312,15 @@ const schema: DrefFormSchema = {
                     source_information: { forceValue: [] },
                     event_text: { forceValue: nullValue },
                     anticipatory_actions: { forceValue: nullValue },
-                    supporting_document: { forceValue: nullValue },
+                    scenario_analysis_supporting_document: { forceValue: nullValue },
                     event_date: { forceValue: nullValue },
                     event_description: { forceValue: nullValue },
                     images_file: { forceValue: [] },
+                    hazard_date_and_location: { forceValue: nullValue },
+                    hazard_vulnerabilities_and_risks: { forceValue: nullValue },
                 };
 
-                if (
-                    val?.type_of_dref !== TYPE_ASSESSMENT
-                    && val?.type_of_dref !== TYPE_LOAN
-                ) {
+                if (val?.type_of_dref === TYPE_RESPONSE) {
                     conditionalFields = {
                         ...conditionalFields,
                         did_it_affect_same_area: {},
@@ -321,8 +337,9 @@ const schema: DrefFormSchema = {
                     conditionalFields = {
                         ...conditionalFields,
                         event_text: { validations: [max500CharCondition] },
-                        anticipatory_actions: {},
-                        supporting_document: {},
+                        scenario_analysis_supporting_document: {},
+                        hazard_date_and_location: {},
+                        hazard_vulnerabilities_and_risks: {},
                     };
                 } else {
                     conditionalFields = {
@@ -584,8 +601,15 @@ const schema: DrefFormSchema = {
             'has_child_safeguarding_risk_analysis_assessment',
             'budget_file',
             'planned_interventions',
+            'proposed_action',
             'human_resource',
             'is_surge_personnel_deployed',
+            'sub_total',
+            'surge_deployment_cost',
+            'indirect_cost',
+            'total',
+            'addressed_humanitarian_impacts',
+            'contingency_plans_supporting_document',
         ] as const;
         type OperationDrefTypeRelatedFields = Pick<
             DrefFormSchemaFields,
@@ -594,7 +618,7 @@ const schema: DrefFormSchema = {
         formFields = addCondition(
             formFields,
             formValue,
-            ['type_of_dref'],
+            ['type_of_dref', 'is_surge_personnel_deployed'],
             operationDrefTypeRelatedFields,
             (val): OperationDrefTypeRelatedFields => {
                 let conditionalFields: OperationDrefTypeRelatedFields = {
@@ -619,9 +643,16 @@ const schema: DrefFormSchema = {
                     risk_security_concern: { forceValue: nullValue },
                     budget_file: { forceValue: nullValue },
                     planned_interventions: { forceValue: [] },
+                    proposed_action: { forceValue: [] },
                     human_resource: { forceValue: nullValue },
                     is_surge_personnel_deployed: { forceValue: nullValue },
                     has_child_safeguarding_risk_analysis_assessment: { forceValue: nullValue },
+                    sub_total: { forceValue: nullValue },
+                    surge_deployment_cost: { forceValue: nullValue },
+                    indirect_cost: { forceValue: nullValue },
+                    total: { forceValue: nullValue },
+                    addressed_humanitarian_impacts: { forceValue: nullValue },
+                    contingency_plans_supporting_document: { forceValue: nullValue },
                 };
                 if (val?.type_of_dref === TYPE_LOAN) {
                     return conditionalFields;
@@ -731,7 +762,85 @@ const schema: DrefFormSchema = {
                         people_targeted_with_early_actions: {
                             validations: [positiveIntegerCondition],
                         },
+                        proposed_action: {
+                            keySelector: (n) => n.client_id,
+                            member: () => ({
+                                fields: (): ProposedActionsFields => ({
+                                    client_id: {},
+                                    budget: {
+                                        validations: [
+                                            positiveIntegerCondition,
+                                            lessThanOrEqualToCondition(MAX_INT_LIMIT),
+                                        ],
+                                    },
+                                    activity: {
+                                        required: true,
+                                    },
+                                    proposed_type: {
+                                        required: true,
+                                    },
+                                }),
+                            }),
+                        },
+                        sub_total: {
+                            required: true,
+                            validations: [
+                                (value: Maybe<number>) => (
+                                    // FIXME: use translations
+                                    isDefined(value) && value !== SUB_TOTAL
+                                        ? 'The sub-total of the budgets should be exactly CHF 75000'
+                                        : undefined
+                                ),
+                            ],
+                        },
+                        total: {
+                            required: true,
+                            validations: [
+                                positiveIntegerCondition,
+                                lessThanOrEqualToCondition(MAX_INT_LIMIT),
+                            ],
+                        },
+                        addressed_humanitarian_impacts: {},
+                        contingency_plans_supporting_document: {},
                     };
+
+                    conditionalFields = addCondition(
+                        conditionalFields,
+                        formValue,
+                        ['is_surge_personnel_deployed'],
+                        ['indirect_cost', 'surge_deployment_cost'],
+                        (value) => {
+                            if (value?.is_surge_personnel_deployed) {
+                                return {
+                                    surge_deployment_cost: {
+                                        required: true,
+                                        validations: [
+                                            positiveIntegerCondition,
+                                            lessThanOrEqualToCondition(SURGE_DEPLOYMENT_COST),
+                                        ],
+                                    },
+                                    indirect_cost: {
+                                        required: true,
+                                        validations: [
+                                            positiveIntegerCondition,
+                                            lessThanOrEqualToCondition(SURGE_INDIRECT_COST),
+                                        ],
+                                    },
+                                };
+                            }
+                            return {
+                                surge_deployment_cost: { forceValue: nullValue },
+                                indirect_cost: {
+                                    required: true,
+                                    validations: [
+                                        positiveIntegerCondition,
+                                        lessThanOrEqualToCondition(INDIRECT_COST),
+                                    ],
+                                },
+                            };
+                        },
+
+                    );
                 }
                 return conditionalFields;
             },

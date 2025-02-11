@@ -1,0 +1,8 @@
+{
+    "namespace": "drefApplicationForm",
+    "strings": {
+        "drefFormProposedActionActivityLabel": "Activity",
+        "drefFormProposedActionBudgetLabel": "Budget(CHF)",
+        "drefFormRemoveActivity": "Remove Activity"
+    }
+}
