@@ -321,9 +321,9 @@ export function Component() {
                     value={drefResponse?.disaster_category_display}
                     valueClassName={_cs(
                         isDefined(drefResponse)
-                            && isDefined(drefResponse.disaster_category)
-                            && isDefined(drefResponse.disaster_category)
-                            && colorMap[drefResponse.disaster_category],
+                        && isDefined(drefResponse.disaster_category)
+                        && isDefined(drefResponse.disaster_category)
+                        && colorMap[drefResponse.disaster_category],
                     )}
                     strongValue
                 />
@@ -348,9 +348,17 @@ export function Component() {
                     strongValue
                 />
                 <TextOutput
-                    className={styles.peopleTargeted}
+                    className={styles.metaItem}
                     label={strings.peopleTargetedLabel}
                     value={drefResponse?.total_targeted_population}
+                    suffix={strings.peopleSuffix}
+                    valueType="number"
+                    strongValue
+                />
+                <TextOutput
+                    className={styles.metaItem}
+                    label={strings.peopleAssistedLabel}
+                    value={drefResponse?.num_assisted}
                     suffix={strings.peopleSuffix}
                     valueType="number"
                     strongValue
