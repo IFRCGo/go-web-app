@@ -2,6 +2,7 @@ import {
     type Dispatch,
     type SetStateAction,
     useCallback,
+    useMemo,
 } from 'react';
 import {
     ShareLineIcon,
@@ -152,9 +153,11 @@ function Overview(props: Props) {
         user,
     }), []);
 
-    const filteredTypeOfDrefOptions = (typeOfDrefOptions ?? []).filter(
-        (option) => option.key !== TYPE_LOAN,
-    );
+    const filteredTypeOfDrefOptions = useMemo(() => (
+        typeOfDrefOptions?.filter(
+            (option) => option.key !== TYPE_LOAN && option.key !== TYPE_IMMINENT,
+        )
+    ), [typeOfDrefOptions]);
 
     const {
         retrigger: getDrefUsers,
@@ -324,8 +327,8 @@ function Overview(props: Props) {
                 <InputSection
                     title={
                         value?.type_of_dref !== TYPE_IMMINENT
-                            ? strings.drefFormAffectedCountryAndProvinceImminent
-                            : strings.drefFormRiskCountryLabel
+                            ? strings.drefFormAffectedCountryAndProvince
+                            : strings.drefFormRiskCountryLabelImminent
                     }
                     numPreferredColumns={2}
                     withAsteriskOnTitle

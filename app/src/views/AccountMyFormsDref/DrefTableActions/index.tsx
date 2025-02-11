@@ -49,12 +49,12 @@ export interface Props {
     status: DrefStatus | null | undefined;
 
     applicationType: 'DREF' | 'OPS_UPDATE' | 'FINAL_REPORT';
-    drefType?: TypeOfDrefEnum;
     canAddOpsUpdate: boolean;
     canCreateFinalReport: boolean;
     hasPermissionToApprove?: boolean;
 
     onPublishSuccess?: () => void;
+    drefType?: TypeOfDrefEnum | null | undefined;
 }
 
 function DrefTableActions(props: Props) {
@@ -63,11 +63,11 @@ function DrefTableActions(props: Props) {
         drefId: drefIdFromProps,
         status,
         applicationType,
-        drefType,
         canAddOpsUpdate,
         canCreateFinalReport,
         hasPermissionToApprove,
         onPublishSuccess,
+        drefType,
     } = props;
 
     const { navigate } = useRouting();
@@ -105,10 +105,12 @@ function DrefTableActions(props: Props) {
                 noOfPeopleTargeted: response?.num_assisted,
                 nsRequestDate: response?.ns_request_date,
                 disasterStartDate: response?.event_date,
-                implementationPeriod: response?.operation_timeframe,
-                allocationRequested: response?.amount_requested,
-                previousAllocation: undefined,
+                implementationPeriod: response?.type_of_dref === DREF_TYPE_IMMINENT
+                    ? `${response.operation_timeframe_imminent} days` : `${response?.operation_timeframe} months`,
                 totalDREFAllocation: response?.amount_requested,
+                previousAllocation: undefined,
+                allocationRequested: response.type_of_dref === DREF_TYPE_IMMINENT
+                    ? response.total_cost : response?.amount_requested,
                 // FIXME: use translations
                 toBeAllocatedFrom: response?.type_of_dref === DREF_TYPE_IMMINENT ? 'Anticipatory Pillar' : 'Response Pillar',
                 focalPointName: response?.regional_focal_point_name,
@@ -129,27 +131,27 @@ function DrefTableActions(props: Props) {
         ),
         onSuccess: (response) => {
             const exportData = {
-                allocationFor: response?.type_of_dref_display === 'Loan' ? 'Emergency Appeal' : 'DREF Operation',
+                allocationFor: response?.type_of_dref === DREF_TYPE_LOAN ? 'Emergency Appeal' : 'DREF Operation',
                 appealManager: response?.ifrc_appeal_manager_name,
                 projectManager: response?.ifrc_project_manager_name,
                 affectedCountry: response?.country_details?.name,
                 name: response?.title,
                 disasterType: response?.disaster_type_details?.name,
                 responseType:
-                    response?.type_of_dref_display === 'Imminent'
-                        // FIXME: can't compare imminent with Imminent Crisis directly
+                    response?.type_of_dref === DREF_TYPE_IMMINENT
+                        // FIXME: add translations
                         ? 'Imminent Crisis'
                         : response?.type_of_onset_display,
                 nsRequestDate: response?.ns_request_date,
                 disasterStartDate: response?.event_date,
-                implementationPeriod: response?.total_operation_timeframe,
+                implementationPeriod: `${response?.total_operation_timeframe} months`,
                 allocationRequested: response?.additional_allocation,
                 previousAllocation: response?.dref_allocated_so_far ?? 0,
                 totalDREFAllocation: response?.total_dref_allocation,
                 noOfPeopleTargeted: response?.number_of_people_targeted,
                 toBeAllocatedFrom:
-                    response?.type_of_dref_display === 'Imminent'
-                        // FIXME: can't compare imminent with Anticipatory Pillar
+                    response?.type_of_dref === DREF_TYPE_IMMINENT
+                        // FIXME: add translations
                         ? 'Anticipatory Pillar'
                         : 'Response Pillar',
                 focalPointName: response?.regional_focal_point_name,
@@ -381,6 +383,8 @@ function DrefTableActions(props: Props) {
 
     const canApprove = status === DREF_STATUS_IN_PROGRESS && hasPermissionToApprove;
 
+    const shouldConfirmImminentAddOpsUpdate = drefType === DREF_TYPE_IMMINENT;
+
     const disabled = fetchingDref
         || fetchingOpsUpdate
         || publishDrefPending
@@ -419,7 +423,25 @@ function DrefTableActions(props: Props) {
                             {strings.dropdownActionAllocationFormLabel}
                         </DropdownMenuItem>
                     )}
-                    {canAddOpsUpdate && (
+                    {canAddOpsUpdate && shouldConfirmImminentAddOpsUpdate && (
+                        <DropdownMenuItem
+                            name={undefined}
+                            type="confirm-button"
+                            icons={<AddLineIcon className={styles.icon} />}
+                            confirmHeading={
+                                strings.dropdownActionImminentNewOpsUpdateConfirmationHeading
+                            }
+                            confirmMessage={
+                                strings.dropdownActionImminentNewOpsUpdateConfirmationMessage
+                            }
+                            onConfirm={handleAddOpsUpdate}
+                            disabled={disabled}
+                            persist
+                        >
+                            {strings.dropdownActionAddOpsUpdateLabel}
+                        </DropdownMenuItem>
+                    )}
+                    {canAddOpsUpdate && !shouldConfirmImminentAddOpsUpdate && (
                         <DropdownMenuItem
                             name={undefined}
                             type="button"
@@ -503,6 +525,7 @@ function DrefTableActions(props: Props) {
                     onCancel={setShowExportModalFalse}
                     id={id}
                     applicationType={applicationType}
+                    drefType={drefType}
                 />
             )}
             {showShareModal && (

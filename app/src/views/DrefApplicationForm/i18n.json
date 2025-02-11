@@ -11,6 +11,8 @@
         "formPageHeading": "DREF Application",
         "formTabOverviewLabel": "Operation Overview",
         "formTabEventDetailLabel": "Event Detail",
+        "formTabScenarioAnalysisLabel": "Scenario Analysis",
+        "formTabPlanLabel": "Plan",
         "formTabActionsLabel": "Actions/Needs",
         "formTabOperationLabel": "Operation",
         "formTabSubmissionLabel": "Operational timeframes and contacts",

@@ -4,7 +4,10 @@ import {
     useState,
 } from 'react';
 import { useParams } from 'react-router-dom';
-import { DateOutput } from '@ifrc-go/ui';
+import {
+    DateOutput,
+    NumberOutput,
+} from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     Container,
@@ -12,19 +15,28 @@ import {
     Heading,
     Image,
     TextOutput,
-    type TextOutputProps,
 } from '@ifrc-go/ui/printable';
-import { DEFAULT_PRINT_DATE_FORMAT } from '@ifrc-go/ui/utils';
+import {
+    DEFAULT_PRINT_DATE_FORMAT,
+    sumSafe,
+} from '@ifrc-go/ui/utils';
 import {
     _cs,
     isDefined,
     isFalsyString,
     isNotDefined,
     isTruthyString,
+    listToGroupList,
+    mapToList,
 } from '@togglecorp/fujs';
 
+import earlyActionsIcon from '#assets/icons/early_actions.svg';
+import earlyResponseIcon from '#assets/icons/early_response.svg';
 import ifrcLogo from '#assets/icons/ifrc-square.png';
 import Link from '#components/printable/Link';
+import SelectOutput from '#components/SelectOutput';
+import usePrimarySector, { type PrimarySector } from '#hooks/domain/usePrimarySector';
+import useUrlSearchState from '#hooks/useUrlSearchState';
 import {
     DISASTER_CATEGORY_ORANGE,
     DISASTER_CATEGORY_RED,
@@ -32,6 +44,8 @@ import {
     type DisasterCategory,
     DREF_TYPE_ASSESSMENT,
     DREF_TYPE_IMMINENT,
+    DREF_TYPE_LOAN,
+    DREF_TYPE_RESPONSE,
     ONSET_SLOW,
 } from '#utils/constants';
 import {
@@ -40,20 +54,17 @@ import {
     plannedInterventionOrder,
 } from '#utils/domain/dref';
 import { useRequest } from '#utils/restRequest';
+import {
+    calculateProposedActionsCost,
+    EARLY_ACTION,
+    EARLY_RESPONSE,
+    TYPE_IMMINENT,
+} from '#views/DrefApplicationForm/common';
+
+import PgaExport, { BlockTextOutput } from './PgaExport';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-function BlockTextOutput(props: TextOutputProps & { variant?: never, withoutLabelColon?: never }) {
-    return (
-        <TextOutput
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...props}
-            variant="contents"
-            withoutLabelColon
-        />
-    );
-}
 
 const colorMap: Record<DisasterCategory, string> = {
     [DISASTER_CATEGORY_YELLOW]: styles.yellow,
@@ -61,15 +72,23 @@ const colorMap: Record<DisasterCategory, string> = {
     [DISASTER_CATEGORY_RED]: styles.red,
 };
 
+function primarySectoryLabelSelector(option: PrimarySector) {
+    return option.label;
+}
+
+function primarySectoryKeySelector(option: PrimarySector) {
+    return option.key;
+}
+
 /** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { drefId } = useParams<{ drefId: string }>();
     const [previewReady, setPreviewReady] = useState(false);
     const strings = useTranslation(i18n);
+    const primarySectorOptions = usePrimarySector();
 
     const {
-        // pending: fetchingDref,
         response: drefResponse,
     } = useRequest({
         skip: isFalsyString(drefId),
@@ -179,35 +198,109 @@ export function Component() {
         [drefResponse],
     );
 
-    const eventDescriptionDefined = isTruthyString(drefResponse?.event_description?.trim());
-    const eventScopeDefined = drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT
+    const groupedProposedActions = useMemo(() => {
+        if (isNotDefined(drefResponse) || isNotDefined(drefResponse.proposed_action)) {
+            return [];
+        }
+
+        const typeGroupedActions = listToGroupList(
+            drefResponse.proposed_action.map((action) => {
+                const {
+                    proposed_type,
+                    activities,
+                    ...other
+                } = action;
+
+                if (isNotDefined(proposed_type)
+                    || isNotDefined(activities)
+                    || activities.length === 0
+                ) {
+                    return undefined;
+                }
+
+                return {
+                    ...other,
+                    activities,
+                    proposed_type,
+                };
+            }).filter(isDefined),
+            ({ proposed_type }) => proposed_type,
+        );
+
+        const proposedActivityIconMap: Record<string, string> = {
+            [EARLY_ACTION]: earlyActionsIcon,
+            [EARLY_RESPONSE]: earlyResponseIcon,
+        };
+
+        return mapToList(
+            typeGroupedActions,
+            (list, key) => {
+                const numActivities = sumSafe(
+                    list.map(({ activities }) => activities.length),
+                );
+
+                return {
+                    key,
+                    title: list[0].proposed_type_display,
+                    numActivities,
+                    actions: list,
+                    icon: proposedActivityIconMap[key],
+                };
+            },
+        );
+    }, [drefResponse]);
+
+    const eventDescriptionDefined = isDefined(drefResponse)
+        && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT
+        && isTruthyString(drefResponse?.event_description?.trim());
+    const eventScopeDefined = drefResponse?.type_of_dref === DREF_TYPE_RESPONSE
         && isTruthyString(drefResponse?.event_scope?.trim());
-    const sourceInformationDefined = isDefined(drefResponse)
+    const isDefinedSourceInformation = isDefined(drefResponse)
         && isDefined(drefResponse.source_information)
-    && drefResponse.source_information.length > 0;
+        && drefResponse.source_information.length > 0;
     const imagesFileDefined = isDefined(drefResponse)
+        && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT
         && isDefined(drefResponse.images_file)
         && drefResponse.images_file.length > 0;
-    const anticipatoryActionsDefined = drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
-        && isTruthyString(drefResponse?.anticipatory_actions?.trim());
     const eventDateDefined = drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT
         && isDefined(drefResponse?.event_date);
-    const eventTextDefined = drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
-        && isTruthyString(drefResponse?.event_text?.trim());
+    const isDefinedScenarioAnalysisSupportingDocument = (
+        drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
+        && isDefined(drefResponse.scenario_analysis_supporting_document)
+    );
     const showEventDescriptionSection = eventDescriptionDefined
         || eventScopeDefined
         || imagesFileDefined
-        || anticipatoryActionsDefined
-        || eventTextDefined
         || eventDateDefined
-        || sourceInformationDefined
+        || isDefinedSourceInformation
+        || isDefinedScenarioAnalysisSupportingDocument
         || isDefined(drefResponse?.event_map_file?.file);
+
+    const isDefinedHazardDate = drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
+        && isDefined(drefResponse?.hazard_date);
+    const isDefinedHazardRisk = drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
+        && drefResponse.hazard_vulnerabilities_and_risks;
+
+    const riskRegions = drefResponse?.district_details.map(
+        (district) => district.name,
+    ).filter(isDefined).join(', ');
+
+    const drefAllocated = useMemo(() => {
+        if (isNotDefined(drefResponse)) {
+            return undefined;
+        }
+        return calculateProposedActionsCost(drefResponse);
+    }, [drefResponse]);
+
+    const showScenarioAnalysis = isDefinedHazardDate
+        || isDefinedHazardRisk
+        || isDefinedSourceInformation;
 
     const lessonsLearnedDefined = isTruthyString(drefResponse?.lessons_learned?.trim());
     const childSafeguardingRiskLevelDefined = isTruthyString(
         drefResponse?.child_safeguarding_risk_level?.trim(),
     );
-    const showPreviousOperations = drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
+    const showPreviousOperations = drefResponse?.type_of_dref === DREF_TYPE_RESPONSE && (
         isDefined(drefResponse?.did_it_affect_same_area)
         || isDefined(drefResponse?.did_it_affect_same_population)
         || isDefined(drefResponse?.did_ns_respond)
@@ -219,14 +312,21 @@ export function Component() {
 
     const ifrcActionsDefined = isTruthyString(drefResponse?.ifrc?.trim());
     const partnerNsActionsDefined = isTruthyString(drefResponse?.partner_national_society?.trim());
-    const showMovementPartnersActionsSection = ifrcActionsDefined || partnerNsActionsDefined;
+    const showMovementPartnersActionsSection = isDefined(drefResponse)
+        && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT
+        && (ifrcActionsDefined || partnerNsActionsDefined);
+
+    const showProposedActions = groupedProposedActions.length > 0;
 
     const showNsAction = isDefined(drefResponse)
+        && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT
         && isDefined(drefResponse.national_society_actions)
         && drefResponse.national_society_actions.length > 0
         && isDefined(nsActions);
 
-    const icrcActionsDefined = isTruthyString(drefResponse?.icrc?.trim());
+    const icrcActionsDefined = isDefined(drefResponse)
+        && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT
+        && isTruthyString(drefResponse?.icrc?.trim());
 
     const governmentRequestedAssistanceDefined = isDefined(
         drefResponse?.government_requested_assistance,
@@ -236,10 +336,14 @@ export function Component() {
     const majorCoordinationMechanismDefined = isDefined(
         drefResponse?.major_coordination_mechanism?.trim(),
     );
-    const showOtherActorsActionsSection = governmentRequestedAssistanceDefined
-        || nationalAuthoritiesDefined
-        || unOrOtherActorDefined
-        || majorCoordinationMechanismDefined;
+    const showOtherActorsActionsSection = (governmentRequestedAssistanceDefined
+        && isDefined(drefResponse)
+        && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT)
+        && (
+            nationalAuthoritiesDefined
+            || unOrOtherActorDefined
+            || majorCoordinationMechanismDefined
+        );
 
     const identifiedGapsDefined = drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT
         && isTruthyString(drefResponse?.identified_gaps?.trim());
@@ -254,25 +358,36 @@ export function Component() {
 
     const showNeedsIdentifiedSection = isDefined(drefResponse)
         && drefResponse.type_of_dref !== DREF_TYPE_ASSESSMENT
+        && drefResponse.type_of_dref !== DREF_TYPE_IMMINENT
         && (identifiedGapsDefined || needsIdentifiedDefined || assessmentReportDefined);
 
     const operationObjectiveDefined = isTruthyString(drefResponse?.operation_objective?.trim());
     const responseStrategyDefined = isTruthyString(drefResponse?.response_strategy?.trim());
-    const showOperationStrategySection = operationObjectiveDefined || responseStrategyDefined;
+    const showOperationStrategySection = isDefined(drefResponse)
+        && drefResponse.type_of_dref !== DREF_TYPE_IMMINENT
+        && (operationObjectiveDefined || responseStrategyDefined);
 
     const peopleAssistedDefined = isTruthyString(drefResponse?.people_assisted?.trim());
     const selectionCriteriaDefined = isTruthyString(drefResponse?.selection_criteria?.trim());
     const targetingStrategySupportingDocumentDefined = isDefined(
         drefResponse?.targeting_strategy_support_file_details,
     );
-    const showTargetingStrategySection = peopleAssistedDefined
+    const showTargetingStrategySection = (isDefined(drefResponse)
+        && drefResponse.type_of_dref !== DREF_TYPE_IMMINENT
+        && drefResponse.type_of_dref !== DREF_TYPE_LOAN
+    ) && (
+        peopleAssistedDefined
         || selectionCriteriaDefined
-        || targetingStrategySupportingDocumentDefined;
+        || targetingStrategySupportingDocumentDefined
+    );
 
     const riskSecurityDefined = isDefined(drefResponse)
+        && drefResponse.type_of_dref !== DREF_TYPE_IMMINENT
         && isDefined(drefResponse.risk_security)
         && drefResponse.risk_security.length > 0;
-    const riskSecurityConcernDefined = isTruthyString(drefResponse?.risk_security_concern?.trim());
+    const riskSecurityConcernDefined = isDefined(drefResponse)
+        && drefResponse.type_of_dref !== DREF_TYPE_IMMINENT
+        && isTruthyString(drefResponse?.risk_security_concern?.trim());
     const hasAntiFraudPolicy = isDefined(drefResponse?.has_anti_fraud_corruption_policy);
     const hasSexualAbusePolicy = isDefined(drefResponse?.has_sexual_abuse_policy);
     const hasChildProtectionPolicy = isDefined(drefResponse?.has_child_protection_policy);
@@ -282,9 +397,13 @@ export function Component() {
     const hasAntiSexualHarassmentPolicy = isDefined(
         drefResponse?.has_anti_sexual_harassment_policy,
     );
-    const hasChildrenSafeguardingDefined = isDefined(
-        drefResponse?.has_child_safeguarding_risk_analysis_assessment,
-    );
+
+    const hasChildrenSafeguardingDefined = isDefined(drefResponse)
+        && drefResponse.type_of_dref !== DREF_TYPE_IMMINENT
+        && isDefined(
+            drefResponse?.has_child_safeguarding_risk_analysis_assessment,
+        );
+
     const hasRiskAndSecurityPoliciesDefined = hasAntiFraudPolicy
         || hasSexualAbusePolicy
         || hasChildProtectionPolicy
@@ -293,33 +412,60 @@ export function Component() {
 
     const showRiskAndSecuritySection = riskSecurityDefined
         || riskSecurityConcernDefined
+        || hasAntiFraudPolicy
+        || hasSexualAbusePolicy
+        || hasChildProtectionPolicy
+        || hasWhistleblowerProtectionPolicy
         || hasRiskAndSecurityPoliciesDefined
-        || hasChildrenSafeguardingDefined;
+        || hasAntiSexualHarassmentPolicy;
 
     const plannedInterventionDefined = isDefined(drefResponse)
+        && drefResponse.type_of_dref !== DREF_TYPE_IMMINENT
         && isDefined(drefResponse.planned_interventions)
         && drefResponse.planned_interventions.length > 0
         && isDefined(plannedInterventions);
 
-    const humanResourceDefined = isTruthyString(drefResponse?.human_resource?.trim());
+    const humanResourceDefined = isDefined(drefResponse)
+        && drefResponse.type_of_dref !== DREF_TYPE_IMMINENT
+        && isTruthyString(drefResponse?.human_resource?.trim());
     const isVolunteerTeamDiverseDefined = isTruthyString(
         drefResponse?.is_volunteer_team_diverse?.trim(),
     );
     const surgePersonnelDeployedDefined = isTruthyString(
         drefResponse?.surge_personnel_deployed?.trim(),
     );
-    const logisticCapacityOfNsDefined = isTruthyString(
-        drefResponse?.logistic_capacity_of_ns?.trim(),
-    );
-    const pmerDefined = isTruthyString(drefResponse?.pmer?.trim());
-    const communicationDefined = isTruthyString(drefResponse?.communication?.trim());
+    const humanitarianImpactsDefined = isDefined(drefResponse)
+        && drefResponse.type_of_dref === DREF_TYPE_IMMINENT
+        && isTruthyString(drefResponse?.addressed_humanitarian_impacts?.trim());
+    const logisticCapacityOfNsDefined = isDefined(drefResponse)
+        && drefResponse.type_of_dref !== DREF_TYPE_IMMINENT
+        && isTruthyString(
+            drefResponse?.logistic_capacity_of_ns?.trim(),
+        );
+    const pmerDefined = isDefined(drefResponse)
+        && drefResponse.type_of_dref !== DREF_TYPE_IMMINENT
+        && isTruthyString(drefResponse?.pmer?.trim());
+    const communicationDefined = isDefined(drefResponse)
+        && drefResponse.type_of_dref !== DREF_TYPE_IMMINENT
+        && isTruthyString(drefResponse?.communication?.trim());
+    const contingencyPlanDocument = isDefined(drefResponse)
+        && drefResponse.type_of_dref === DREF_TYPE_IMMINENT
+        && isTruthyString(
+            drefResponse?.contingency_plans_supporting_document_details?.file,
+        );
+
     const showAboutSupportServicesSection = humanResourceDefined
         || surgePersonnelDeployedDefined
         || logisticCapacityOfNsDefined
         || pmerDefined
-        || communicationDefined;
+        || communicationDefined
+        || humanitarianImpactsDefined
+        || showProposedActions
+        || contingencyPlanDocument;
 
-    const showBudgetOverview = isTruthyString(drefResponse?.budget_file_details?.file);
+    const showBudgetOverview = isDefined(drefResponse)
+        && drefResponse.type_of_dref !== DREF_TYPE_IMMINENT
+        && isTruthyString(drefResponse?.budget_file_details?.file);
 
     const nsContactText = [
         drefResponse?.national_society_contact_name,
@@ -376,6 +522,18 @@ export function Component() {
         || mediaContactDefined
         || nationalSocietyIntegrityContactDefined
         || nationalSocietyHotlineDefined;
+
+    const [pgaExport] = useUrlSearchState<boolean | undefined>(
+        'is_pga',
+        (value) => {
+            if (value === 'true') {
+                return true;
+            }
+            return undefined;
+        },
+        (is_pga) => is_pga,
+    );
+
     return (
         <div className={styles.drefApplicationExport}>
             <Container childrenContainerClassName={styles.pageTitleSection}>
@@ -385,9 +543,15 @@ export function Component() {
                     alt={strings.imageLogoIFRCAlt}
                 />
                 <div>
-                    <Heading level={1}>
-                        {strings.exportTitle}
-                    </Heading>
+                    {drefResponse?.type_of_dref === DREF_TYPE_IMMINENT ? (
+                        <Heading level={1}>
+                            {strings.exportDrefImminentTitle}
+                        </Heading>
+                    ) : (
+                        <Heading level={1}>
+                            {strings.exportTitle}
+                        </Heading>
+                    )}
                     <div className={styles.drefContentTitle}>
                         {drefResponse?.title}
                     </div>
@@ -399,8 +563,9 @@ export function Component() {
                 && (
                     <Container>
                         <Image
-                            src={drefResponse?.cover_image_file?.file}
-                            caption={drefResponse?.cover_image_file?.caption}
+                            src={drefResponse.cover_image_file.file}
+                            alt={drefResponse.title ?? ''}
+                            caption={drefResponse.cover_image_file.caption}
                         />
                     </Container>
                 )}
@@ -411,100 +576,173 @@ export function Component() {
                     value={drefResponse?.appeal_code}
                     strongValue
                 />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.countryLabel}
-                    value={drefResponse?.country_details?.name}
-                    strongValue
-                />
+                {drefResponse?.type_of_dref === TYPE_IMMINENT && (
+                    <TextOutput
+                        className={styles.metaItem}
+                        label={strings.drefAllocatedLabel}
+                        value={drefAllocated?.total_cost}
+                        prefix={strings.chfPrefix}
+                        valueType="number"
+                        strongValue
+                    />
+                )}
+                {drefResponse?.type_of_dref !== TYPE_IMMINENT && (
+                    <TextOutput
+                        className={styles.metaItem}
+                        label={strings.countryLabel}
+                        value={drefResponse?.country_details?.name}
+                        strongValue
+                    />
+                )}
                 <TextOutput
                     className={styles.metaItem}
                     label={strings.hazardLabel}
                     value={drefResponse?.disaster_type_details?.name}
                     strongValue
                 />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.typeOfDrefLabel}
-                    value={drefResponse?.type_of_dref_display}
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.crisisCategoryLabel}
-                    value={drefResponse?.disaster_category_display}
-                    valueClassName={_cs(
-                        isDefined(drefResponse)
-                        && isDefined(drefResponse.disaster_category)
-                        && colorMap[drefResponse.disaster_category],
-                    )}
-                    strongValue
-                />
+                {drefResponse?.type_of_dref === TYPE_IMMINENT && (
+                    <>
+                        <TextOutput
+                            className={styles.metaItem}
+                            label={strings.countryLabel}
+                            value={drefResponse?.country_details?.name}
+                            strongValue
+                        />
+                        <TextOutput
+                            className={styles.metaItem}
+                            label={strings.drefFormRiskPeopleLabel}
+                            value={drefResponse?.num_affected}
+                            strongValue
+                            valueType="number"
+                        />
+                        <TextOutput
+                            className={styles.metaItem}
+                            label={strings.operationStartDateLabel}
+                            value={drefResponse?.date_of_approval}
+                            valueType="date"
+                            strongValue
+                        />
+                        <TextOutput
+                            className={styles.metaItem}
+                            label={strings.operationEndDateLabel}
+                            value={drefResponse?.end_date}
+                            valueType="date"
+                            strongValue
+                        />
+                        <div className={styles.metaActionsItem} />
+                    </>
+                )}
+                {drefResponse?.type_of_dref !== TYPE_IMMINENT && (
+                    <>
+                        <TextOutput
+                            className={styles.metaItem}
+                            label={strings.typeOfDrefLabel}
+                            value={drefResponse?.type_of_dref_display}
+                            strongValue
+                        />
+                        <TextOutput
+                            className={styles.metaItem}
+                            label={strings.crisisCategoryLabel}
+                            value={drefResponse?.disaster_category_display}
+                            valueClassName={_cs(
+                                isDefined(drefResponse)
+                                && isDefined(drefResponse.disaster_category)
+                                && colorMap[drefResponse.disaster_category],
+                            )}
+                            strongValue
+                        />
+                    </>
+                )}
                 <TextOutput
                     className={styles.metaItem}
                     label={strings.eventOnsetLabel}
                     value={drefResponse?.type_of_onset_display}
                     strongValue
                 />
-                <TextOutput
-                    className={styles.budget}
-                    label={strings.drefAllocationLabel}
-                    value={drefResponse?.amount_requested}
-                    valueType="number"
-                    prefix={strings.chfPrefix}
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.glideNumberLabel}
-                    value={drefResponse?.glide_code}
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.peopleAffectedLabel}
-                    value={drefResponse?.num_affected}
-                    valueType="number"
-                    suffix={strings.peopleSuffix}
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.budget}
-                    label={strings.peopleTargetedLabel}
-                    value={drefResponse?.total_targeted_population}
-                    suffix={strings.peopleSuffix}
-                    valueType="number"
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.operationStartDateLabel}
-                    value={drefResponse?.date_of_approval}
-                    valueType="date"
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.operationTimeframeLabel}
-                    value={drefResponse?.operation_timeframe}
-                    valueType="number"
-                    suffix={strings.monthsSuffix}
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.operationEndDateLabel}
-                    value={drefResponse?.end_date}
-                    valueType="date"
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.drefPublishedLabel}
-                    value={drefResponse?.publishing_date}
-                    valueType="date"
-                    strongValue
-                />
+                {drefResponse?.type_of_dref === DREF_TYPE_IMMINENT && (
+                    <>
+                        <TextOutput
+                            className={styles.metaItem}
+                            label={strings.drefApplicationExportForecastedLabel}
+                            value={drefResponse?.hazard_date}
+                            strongValue
+                        />
+                        <TextOutput
+                            className={styles.metaItem}
+                            label={strings.operationTimeframeLabel}
+                            value={drefResponse?.operation_timeframe_imminent}
+                            valueType="number"
+                            suffix={strings.daysSuffix}
+                            strongValue
+                        />
+                        <div className={styles.metaActionsItem} />
+                    </>
+                )}
+                {drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
+                    <TextOutput
+                        className={styles.budget}
+                        label={strings.drefAllocationLabel}
+                        value={drefResponse?.amount_requested}
+                        valueType="number"
+                        prefix={strings.chfPrefix}
+                        strongValue
+                    />
+                )}
+                {drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
+                    <>
+                        <TextOutput
+                            className={styles.metaItem}
+                            label={strings.glideNumberLabel}
+                            value={drefResponse?.glide_code}
+                            strongValue
+                        />
+                        <TextOutput
+                            className={styles.metaItem}
+                            label={strings.peopleAffectedLabel}
+                            value={drefResponse?.num_affected}
+                            valueType="number"
+                            suffix={strings.peopleSuffix}
+                            strongValue
+                        />
+                        <TextOutput
+                            className={styles.budget}
+                            label={strings.peopleTargetedLabel}
+                            value={drefResponse?.total_targeted_population}
+                            suffix={strings.peopleSuffix}
+                            valueType="number"
+                            strongValue
+                        />
+                        <TextOutput
+                            className={styles.metaItem}
+                            label={strings.operationStartDateLabel}
+                            value={drefResponse?.date_of_approval}
+                            valueType="date"
+                            strongValue
+                        />
+                        <TextOutput
+                            className={styles.metaItem}
+                            label={strings.operationTimeframeLabel}
+                            value={drefResponse?.operation_timeframe}
+                            valueType="number"
+                            suffix={strings.monthsSuffix}
+                            strongValue
+                        />
+                        <TextOutput
+                            className={styles.metaItem}
+                            label={strings.operationEndDateLabel}
+                            value={drefResponse?.end_date}
+                            valueType="date"
+                            strongValue
+                        />
+                        <TextOutput
+                            className={styles.metaItem}
+                            label={strings.drefPublishedLabel}
+                            value={drefResponse?.publishing_date}
+                            valueType="date"
+                            strongValue
+                        />
+                    </>
+                )}
                 <TextOutput
                     className={styles.targetedAreas}
                     label={strings.targetedAreasLabel}
@@ -514,24 +752,45 @@ export function Component() {
                     strongValue
                 />
             </Container>
+            <div className={styles.pageBreak} />
+            {showScenarioAnalysis && (
+                <>
+                    <Heading level={2}>
+                        {drefResponse.type_of_dref !== DREF_TYPE_IMMINENT
+                            ? strings.eventDescriptionSectionHeading
+                            : strings.scenarioAnalysis}
+                    </Heading>
+                    {isDefinedHazardDate && (
+                        <Container
+                            heading={strings.hazardDate}
+                        >
+                            <DescriptionText>
+                                {drefResponse?.hazard_date}
+                            </DescriptionText>
+                            <DescriptionText>
+                                {riskRegions}
+                            </DescriptionText>
+                        </Container>
+                    )}
+                    {isDefinedHazardRisk && (
+                        <Container
+                            heading={strings.hazardRisk}
+                        >
+                            <DescriptionText>
+                                {drefResponse?.hazard_vulnerabilities_and_risks}
+                            </DescriptionText>
+                        </Container>
+                    )}
+                </>
+            )}
             {showEventDescriptionSection && (
                 <>
-                    <div className={styles.pageBreak} />
-                    <Heading level={2}>
-                        {strings.eventDescriptionSectionHeading}
-                    </Heading>
-                    {drefResponse?.disaster_category_analysis_details?.file && (
+                    {drefResponse?.disaster_category_analysis_details?.file
+                        && drefResponse.type_of_dref !== DREF_TYPE_IMMINENT && (
                         <Container>
                             <Link href={drefResponse?.disaster_category_analysis_details?.file}>
                                 {strings.crisisCategorySupportingDocumentLabel}
                             </Link>
-                        </Container>
-                    )}
-                    {eventTextDefined && (
-                        <Container heading={strings.approximateDateOfImpactHeading}>
-                            <DescriptionText>
-                                {drefResponse?.event_text}
-                            </DescriptionText>
                         </Container>
                     )}
                     {eventDateDefined && (
@@ -546,7 +805,8 @@ export function Component() {
                             />
                         </Container>
                     )}
-                    {isTruthyString(drefResponse?.event_map_file?.file) && (
+                    {isTruthyString(drefResponse?.event_map_file?.file)
+                        && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
                         <Container>
                             <Image
                                 src={drefResponse?.event_map_file?.file}
@@ -556,9 +816,7 @@ export function Component() {
                     )}
                     {eventDescriptionDefined && (
                         <Container
-                            heading={drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
-                                ? strings.situationUpdateSectionHeading
-                                : strings.whatWhereWhenSectionHeading}
+                            heading={strings.whatWhereWhenSectionHeading}
                         >
                             <DescriptionText>
                                 {drefResponse?.event_description}
@@ -578,15 +836,6 @@ export function Component() {
                             )}
                         </Container>
                     )}
-                    {anticipatoryActionsDefined && (
-                        <Container
-                            heading={strings.anticipatoryActionsHeading}
-                        >
-                            <DescriptionText>
-                                {drefResponse?.anticipatory_actions}
-                            </DescriptionText>
-                        </Container>
-                    )}
                     {eventScopeDefined && (
                         <Container
                             heading={strings.scopeAndScaleSectionHeading}
@@ -603,11 +852,9 @@ export function Component() {
                             </Link>
                         </Container>
                     )}
-                    {sourceInformationDefined && (
+                    {isDefinedSourceInformation && (
                         <Container
-                            heading={strings.sourceInformationSectionHeading}
                             childrenContainerClassName={styles.sourceInformationList}
-                            headingLevel={3}
                         >
                             <div className={styles.nameTitle}>
                                 {strings.sourceInformationSourceNameTitle}
@@ -631,7 +878,101 @@ export function Component() {
                                     </Fragment>
                                 ),
                             )}
-
+                        </Container>
+                    )}
+                    {isDefinedScenarioAnalysisSupportingDocument && (
+                        <Container>
+                            <Link href={drefResponse
+                                ?.scenario_analysis_supporting_document_details?.file}
+                            >
+                                {strings.drefApplicationSupportingDocumentation}
+                            </Link>
+                        </Container>
+                    )}
+                </>
+            )}
+            {showAboutSupportServicesSection && (
+                <>
+                    <Heading level={2}>
+                        {drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT
+                            ? strings.aboutSupportServicesSectionHeading
+                            : strings.plan}
+                    </Heading>
+                    {humanResourceDefined && (
+                        <Container
+                            heading={strings.humanResourcesHeading}
+                        >
+                            <DescriptionText>
+                                {drefResponse?.human_resource}
+                            </DescriptionText>
+                        </Container>
+                    )}
+                    {isVolunteerTeamDiverseDefined && (
+                        <Container
+                            heading={strings.isVolunteerTeamDiverseHeading}
+                        >
+                            <DescriptionText>
+                                {drefResponse?.is_volunteer_team_diverse}
+                            </DescriptionText>
+                        </Container>
+                    )}
+                    {surgePersonnelDeployedDefined && (
+                        <Container
+                            heading={strings.surgePersonnelDeployedHeading}
+                        >
+                            <DescriptionText>
+                                {drefResponse?.is_surge_personnel_deployed
+                                    ? strings.yes : strings.no}
+                            </DescriptionText>
+                            <DescriptionText>
+                                {drefResponse?.surge_personnel_deployed}
+                            </DescriptionText>
+                        </Container>
+                    )}
+                    {humanitarianImpactsDefined && (
+                        <Container
+                            heading={strings.humanitarianImpactsHeading}
+                        >
+                            <DescriptionText>
+                                {drefResponse?.addressed_humanitarian_impacts}
+                            </DescriptionText>
+                        </Container>
+                    )}
+                    {contingencyPlanDocument && (
+                        <Container>
+                            <Link href={
+                                drefResponse?.contingency_plans_supporting_document_details?.file
+                            }
+                            >
+                                {strings.contingencyPlanDocument}
+                            </Link>
+                        </Container>
+                    )}
+                    {logisticCapacityOfNsDefined && (
+                        <Container
+                            heading={strings.logisticCapacityHeading}
+                        >
+                            <DescriptionText>
+                                {drefResponse?.logistic_capacity_of_ns}
+                            </DescriptionText>
+                        </Container>
+                    )}
+                    {pmerDefined && (
+                        <Container
+                            heading={strings.pmerHeading}
+                        >
+                            <DescriptionText>
+                                {drefResponse?.pmer}
+                            </DescriptionText>
+                        </Container>
+                    )}
+                    {communicationDefined && (
+                        <Container
+                            heading={strings.communicationHeading}
+                        >
+                            <DescriptionText>
+                                {drefResponse?.communication}
+                            </DescriptionText>
                         </Container>
                     )}
                 </>
@@ -712,11 +1053,7 @@ export function Component() {
                     </Heading>
                     {drefResponse?.ns_respond_date && (
                         <Container
-                            heading={
-                                drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
-                                    ? strings.nationalSocietyActionsHeading
-                                    : strings.drefFormNsResponseStarted
-                            }
+                            heading={strings.drefFormNsResponseStarted}
                         >
                             <DateOutput
                                 value={drefResponse?.ns_respond_date}
@@ -915,74 +1252,179 @@ export function Component() {
                     )}
                 </>
             )}
-            <Container
-                heading={strings.targetPopulationSectionHeading}
-                headingLevel={2}
-                childrenContainerClassName={styles.targetPopulationContent}
-            >
-                {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
+            {showProposedActions && (
+                <Container
+                    heading={strings.proposedActions}
+                    headingLevel={3}
+                    childrenContainerClassName={styles.proposedActions}
+                >
+                    <div className={styles.actionTitleLabel} />
+                    <div className={styles.actionTitleLabel}>
+                        {strings.proposedActionsSector}
+                    </div>
+                    <div className={styles.actionTitleLabel}>
+                        {strings.proposedActionsActivities}
+                    </div>
+                    <div className={styles.actionTitleLabel}>
+                        {strings.priorityActionsBudget}
+                    </div>
+                    {groupedProposedActions.map((proposedAction) => (
+                        <Fragment key={proposedAction.key}>
+                            <div
+                                className={styles.proposedAction}
+                                style={{
+                                    gridRow: `span ${proposedAction.numActivities}`,
+                                }}
+                            >
+                                <img
+                                    className={styles.icon}
+                                    src={proposedAction.icon}
+                                    alt=""
+                                />
+                                <div className={styles.title}>
+                                    {proposedAction.title}
+                                </div>
+                            </div>
+                            {proposedAction.actions.map((action) => (
+                                <Fragment key={action.id}>
+                                    {action.activities.map((activity, i) => (
+                                        <Fragment key={activity.id}>
+                                            <SelectOutput
+                                                className={styles.sector}
+                                                options={primarySectorOptions}
+                                                label={undefined}
+                                                labelSelector={primarySectoryLabelSelector}
+                                                keySelector={primarySectoryKeySelector}
+                                                value={activity.sector}
+                                            />
+                                            <div className={styles.activity}>
+                                                {activity.activity}
+                                            </div>
+                                            {i === 0 && (
+                                                <div
+                                                    className={styles.budget}
+                                                    style={{ gridRow: `span ${action.activities.length}` }}
+                                                >
+                                                    <NumberOutput
+                                                        value={action.total_budget}
+                                                        prefix={strings.chfPrefix}
+                                                    />
+                                                </div>
+                                            )}
+                                        </Fragment>
+                                    ))}
+                                </Fragment>
+                            ))}
+                        </Fragment>
+                    ))}
+                    <div className={styles.costLabel}>
+                        {strings.priorityActionsSubTotal}
+                    </div>
+                    <NumberOutput
+                        className={styles.costValue}
+                        value={drefResponse?.sub_total_cost}
+                        prefix={strings.chfPrefix}
+                    />
+                    {isDefined(drefResponse?.surge_deployment_cost) && (
+                        <>
+                            <div className={styles.costLabel}>
+                                {strings.priorityActionsSurgeDeployment}
+                            </div>
+                            <NumberOutput
+                                className={styles.costValue}
+                                value={drefResponse.surge_deployment_cost}
+                                prefix={strings.chfPrefix}
+                            />
+                        </>
+                    )}
+                    <div className={styles.costLabel}>
+                        {strings.priorityActionsIndirectCost}
+                    </div>
+                    <NumberOutput
+                        className={styles.costValue}
+                        value={drefResponse?.indirect_cost}
+                        prefix={strings.chfPrefix}
+                    />
+                    <div className={styles.costLabel}>
+                        {strings.priorityActionsTotal}
+                    </div>
+                    <NumberOutput
+                        className={styles.costValue}
+                        value={drefResponse?.total_cost}
+                        prefix={strings.chfPrefix}
+                    />
+                </Container>
+            )}
+            {drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
+                <Container
+                    heading={strings.targetPopulationSectionHeading}
+                    headingLevel={2}
+                    childrenContainerClassName={styles.targetPopulationContent}
+                >
+                    {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
+                        <BlockTextOutput
+                            label={strings.womenLabel}
+                            value={drefResponse?.women}
+                            valueType="number"
+                            strongValue
+                        />
+                    )}
                     <BlockTextOutput
-                        label={strings.womenLabel}
-                        value={drefResponse?.women}
+                        label={strings.ruralLabel}
+                        value={drefResponse?.people_per_local}
+                        valueType="number"
+                        suffix="%"
+                        strongValue
+                    />
+                    {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
+                        <BlockTextOutput
+                            label={strings.girlsLabel}
+                            value={drefResponse?.girls}
+                            valueType="number"
+                            strongValue
+                        />
+                    )}
+                    <BlockTextOutput
+                        label={strings.urbanLabel}
+                        value={drefResponse?.people_per_urban}
+                        suffix="%"
                         valueType="number"
                         strongValue
                     />
-                )}
-                <BlockTextOutput
-                    label={strings.ruralLabel}
-                    value={drefResponse?.people_per_local}
-                    valueType="number"
-                    suffix="%"
-                    strongValue
-                />
-                {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
+                    {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
+                        <BlockTextOutput
+                            label={strings.menLabel}
+                            value={drefResponse?.men}
+                            valueType="number"
+                            strongValue
+                        />
+                    )}
                     <BlockTextOutput
-                        label={strings.girlsLabel}
-                        value={drefResponse?.girls}
+                        className={styles.disabilitiesPopulation}
+                        label={strings.peopleWithDisabilitiesLabel}
+                        value={drefResponse?.disability_people_per}
+                        suffix="%"
                         valueType="number"
                         strongValue
                     />
-                )}
-                <BlockTextOutput
-                    label={strings.urbanLabel}
-                    value={drefResponse?.people_per_urban}
-                    suffix="%"
-                    valueType="number"
-                    strongValue
-                />
-                {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
+                    {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
+                        <BlockTextOutput
+                            label={strings.boysLabel}
+                            value={drefResponse?.boys}
+                            valueType="number"
+                            strongValue
+                        />
+                    )}
+                    <div className={styles.emptyBlock} />
                     <BlockTextOutput
-                        label={strings.menLabel}
-                        value={drefResponse?.men}
+                        label={strings.targetedPopulationLabel}
+                        value={drefResponse?.total_targeted_population}
+                        valueClassName={styles.totalTargetedPopulationValue}
                         valueType="number"
                         strongValue
                     />
-                )}
-                <BlockTextOutput
-                    className={styles.disabilitiesPopulation}
-                    label={strings.peopleWithDisabilitiesLabel}
-                    value={drefResponse?.disability_people_per}
-                    suffix="%"
-                    valueType="number"
-                    strongValue
-                />
-                {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
-                    <BlockTextOutput
-                        label={strings.boysLabel}
-                        value={drefResponse?.boys}
-                        valueType="number"
-                        strongValue
-                    />
-                )}
-                <div className={styles.emptyBlock} />
-                <BlockTextOutput
-                    label={strings.targetedPopulationLabel}
-                    value={drefResponse?.total_targeted_population}
-                    valueClassName={styles.totalTargetedPopulationValue}
-                    valueType="number"
-                    strongValue
-                />
-            </Container>
+                </Container>
+            )}
             {showRiskAndSecuritySection && (
                 <Container
                     childrenContainerClassName={styles.riskAndSecuritySection}
@@ -1084,7 +1526,7 @@ export function Component() {
                                 <img
                                     className={styles.icon}
                                     src={plannedIntervention.image_url}
-                                    alt=""
+                                    alt={strings.plannedInterventionAltText}
                                 />
                                 {plannedIntervention.title_display}
                             </Heading>
@@ -1137,67 +1579,6 @@ export function Component() {
                             </Container>
                         </Fragment>
                     ))}
-                </>
-            )}
-            {showAboutSupportServicesSection && (
-                <>
-                    <Heading level={2}>
-                        {strings.aboutSupportServicesSectionHeading}
-                    </Heading>
-                    {humanResourceDefined && (
-                        <Container
-                            heading={strings.humanResourcesHeading}
-                        >
-                            <DescriptionText>
-                                {drefResponse?.human_resource}
-                            </DescriptionText>
-                        </Container>
-                    )}
-                    {isVolunteerTeamDiverseDefined && (
-                        <Container
-                            heading={strings.isVolunteerTeamDiverseHeading}
-                        >
-                            <DescriptionText>
-                                {drefResponse?.is_volunteer_team_diverse}
-                            </DescriptionText>
-                        </Container>
-                    )}
-                    {surgePersonnelDeployedDefined && (
-                        <Container
-                            heading={strings.surgePersonnelDeployedHeading}
-                        >
-                            <DescriptionText>
-                                {drefResponse?.surge_personnel_deployed}
-                            </DescriptionText>
-                        </Container>
-                    )}
-                    {logisticCapacityOfNsDefined && (
-                        <Container
-                            heading={strings.logisticCapacityHeading}
-                        >
-                            <DescriptionText>
-                                {drefResponse?.logistic_capacity_of_ns}
-                            </DescriptionText>
-                        </Container>
-                    )}
-                    {pmerDefined && (
-                        <Container
-                            heading={strings.pmerHeading}
-                        >
-                            <DescriptionText>
-                                {drefResponse?.pmer}
-                            </DescriptionText>
-                        </Container>
-                    )}
-                    {communicationDefined && (
-                        <Container
-                            heading={strings.communicationHeading}
-                        >
-                            <DescriptionText>
-                                {drefResponse?.communication}
-                            </DescriptionText>
-                        </Container>
-                    )}
                 </>
             )}
             {showBudgetOverview && (
@@ -1289,6 +1670,12 @@ export function Component() {
                     <Link href="/emergencies">
                         {strings.drefExportReference}
                     </Link>
+                </>
+            )}
+            {pgaExport && (
+                <>
+                    <div className={styles.pageBreak} />
+                    <PgaExport />
                 </>
             )}
             {previewReady && <div id="pdf-preview-ready" />}

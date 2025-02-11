@@ -18,8 +18,8 @@
         "drefFormManMadeEvent": "Is this a man made event?",
         "drefFormImminentDisasterCategoryLabel": "Disaster Category (Optional)",
         "drefFormDisasterCategoryLabel": "Disaster Category",
-        "drefFormAffectedCountryAndProvinceImminent": "Affected Country and Affected Region(s)",
-        "drefFormRiskCountryLabel": "At Risk Country and Region(s)",
+        "drefFormAffectedCountryAndProvince": "Affected Country and Affected Region(s)",
+        "drefFormRiskCountryLabelImminent": "At Risk Country and Region(s)",
         "drefFormAddCountry": "Add Country",
         "drefFormAddRegion": "Region/Province",
         "drefFormTitle": "DREF Title",
@@ -36,6 +36,9 @@
         "isDrefChangingToResponse": "Is this DREF changing to Response?",
         "yesLabel": "Yes, change it to Response",
         "noLabel": "No",
-        "changeToResponseHeading": "Change DREF Type"
+        "changeToResponseHeading": "Change DREF Type",
+        "overviewChangeTypeHeading": "Update type of DREF",
+        "overviewChangeTypeMessage": "Please note that the type of DREF needs to be changed from Imminent before you can edit it.",
+        "overviewChangeTypeButtonLabel": "Change to Response"
     }
 }

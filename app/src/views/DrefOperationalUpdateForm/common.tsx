@@ -1,3 +1,4 @@
+import { sumSafe } from '@ifrc-go/ui/utils';
 import { isNotDefined } from '@togglecorp/fujs';
 import {
     analyzeErrors,
@@ -168,6 +169,17 @@ const tabToFieldsMap = {
     actions: actionsFields,
     operation: operationFields,
     submission: submissionFields,
+};
+
+export const calculateTotalTargetedPopulation = (val: PartialOpsUpdate) => {
+    const totalTargetedPopulation = sumSafe([
+        val.boys,
+        val.women,
+        val.girls,
+        val.men,
+    ]) ?? 0;
+
+    return totalTargetedPopulation;
 };
 
 export function checkTabErrors(error: Error<PartialOpsUpdate> | undefined, tabKey: TabKeys) {

@@ -8,7 +8,9 @@ import {
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
+    addNumDaysToDate,
     addNumMonthsToDate,
+    ceilToEndOfMonth,
     encodeDate,
 } from '@ifrc-go/ui/utils';
 import { isDefined } from '@togglecorp/fujs';
@@ -18,7 +20,10 @@ import {
     getErrorObject,
 } from '@togglecorp/toggle-form';
 
-import { TYPE_LOAN } from '../common';
+import {
+    TYPE_IMMINENT,
+    TYPE_LOAN,
+} from '../common';
 import { type PartialDref } from '../schema';
 
 import i18n from './i18n.json';
@@ -59,18 +64,52 @@ function Submission(props: Props) {
         [setFieldValue, value.date_of_approval],
     );
 
-    const handleDateOfApproval = useCallback(
-        (val: string | undefined, name: 'date_of_approval') => {
+    const handleImminentOperationTimeframeChange = useCallback(
+        (val: number | undefined, name: 'operation_timeframe_imminent') => {
             setFieldValue(val, name);
-            const endDate = addNumMonthsToDate(
-                val,
-                value.operation_timeframe,
+            const endDate = ceilToEndOfMonth(
+                addNumDaysToDate(
+                    value.date_of_approval,
+                    val,
+                ),
             );
             if (isDefined(endDate)) {
                 setFieldValue(encodeDate(endDate), 'end_date');
             }
         },
-        [setFieldValue, value.operation_timeframe],
+        [setFieldValue, value.date_of_approval],
+    );
+
+    const handleDateOfApproval = useCallback(
+        (val: string | undefined, name: 'date_of_approval') => {
+            setFieldValue(val, name);
+            if (value.type_of_dref === TYPE_IMMINENT) {
+                const endDate = ceilToEndOfMonth(
+                    addNumDaysToDate(
+                        val,
+                        value.operation_timeframe_imminent,
+                    ),
+                );
+
+                if (isDefined(endDate)) {
+                    setFieldValue(encodeDate(endDate), 'end_date');
+                }
+            } else {
+                const endDate = addNumMonthsToDate(
+                    val,
+                    value.operation_timeframe,
+                );
+                if (isDefined(endDate)) {
+                    setFieldValue(encodeDate(endDate), 'end_date');
+                }
+            }
+        },
+        [
+            setFieldValue,
+            value.operation_timeframe,
+            value.operation_timeframe_imminent,
+            value.type_of_dref,
+        ],
     );
 
     return (
@@ -109,15 +148,29 @@ function Submission(props: Props) {
                         hint={strings.drefFormAddedByRegionalOffice}
                         disabled={disabled}
                     />
-                    <NumberInput
-                        label={strings.drefFormOperationTimeframeSubmission}
-                        name="operation_timeframe"
-                        placeholder={strings.drefFormOperationTimeframeSubmissionDescription}
-                        value={value.operation_timeframe}
-                        onChange={handleOperationTimeframeChange}
-                        error={error?.operation_timeframe}
-                        disabled={disabled}
-                    />
+                    {value?.type_of_dref !== TYPE_IMMINENT && (
+                        <NumberInput
+                            label={strings.drefFormOperationTimeframeSubmission}
+                            name="operation_timeframe"
+                            placeholder={strings.drefFormOperationTimeframeSubmissionDescription}
+                            value={value.operation_timeframe}
+                            onChange={handleOperationTimeframeChange}
+                            error={error?.operation_timeframe}
+                            disabled={disabled}
+                        />
+                    )}
+                    {value?.type_of_dref === TYPE_IMMINENT && (
+                        <NumberInput
+                            label={strings.drefFormOperationTimeframeSubmissionForImminent}
+                            name="operation_timeframe_imminent"
+                            placeholder={strings.drefFormOperationTimeframeSubmissionDescription}
+                            value={value.operation_timeframe_imminent}
+                            onChange={handleImminentOperationTimeframeChange}
+                            error={error?.operation_timeframe_imminent}
+                            disabled={disabled}
+                            readOnly
+                        />
+                    )}
                     {value?.type_of_dref !== TYPE_LOAN && (
                         <DateInput
                             label={strings.drefFormSubmissionEndDate}
@@ -160,7 +213,7 @@ function Submission(props: Props) {
                         disabled={disabled}
                     />
                 </InputSection>
-                {value?.type_of_dref !== TYPE_LOAN && (
+                {value?.type_of_dref !== TYPE_LOAN && value?.type_of_dref !== TYPE_IMMINENT && (
                     <InputSection
                         title={strings.drefFormGlideNum}
                         numPreferredColumns={2}
@@ -291,7 +344,11 @@ function Submission(props: Props) {
                 )}
                 {value?.type_of_dref !== TYPE_LOAN && (
                     <InputSection
-                        title={strings.drefFormIfrcEmergency}
+                        title={
+                            value.type_of_dref === TYPE_IMMINENT
+                                ? strings.drefFormIfrcOperation
+                                : strings.drefFormIfrcEmergency
+                        }
                         numPreferredColumns={2}
                     >
                         <TextInput
@@ -417,19 +474,19 @@ function Submission(props: Props) {
                         disabled={disabled}
                     />
                     <TextInput
-                        label={strings.drefFormIntegrityContactEmailLabel}
-                        name="national_society_integrity_contact_email"
-                        value={value.national_society_integrity_contact_email}
-                        onChange={setFieldValue}
-                        error={error?.national_society_integrity_contact_email}
-                        disabled={disabled}
-                    />
-                    <TextInput
                         label={strings.drefFormIntegrityContactTitleLabel}
                         name="national_society_integrity_contact_title"
                         value={value.national_society_integrity_contact_title}
                         onChange={setFieldValue}
                         error={error?.national_society_integrity_contact_title}
+                        disabled={disabled}
+                    />
+                    <TextInput
+                        label={strings.drefFormIntegrityContactEmailLabel}
+                        name="national_society_integrity_contact_email"
+                        value={value.national_society_integrity_contact_email}
+                        onChange={setFieldValue}
+                        error={error?.national_society_integrity_contact_email}
                         disabled={disabled}
                     />
                     <TextInput

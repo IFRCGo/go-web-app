@@ -29,6 +29,7 @@ import {
     type EntriesAsList,
     type Error,
     getErrorObject,
+    type SetBaseValueArg,
     useFormArray,
 } from '@togglecorp/toggle-form';
 
@@ -42,6 +43,7 @@ import {
 } from '#utils/restRequest';
 
 import {
+    calculateTotalTargetedPopulation,
     TYPE_ASSESSMENT,
     TYPE_IMMINENT,
 } from '../common';
@@ -66,6 +68,7 @@ function plannedInterventionKeySelector(option: PlannedInterventionOption) {
 interface Props {
     value: Value;
     setFieldValue: (...entries: EntriesAsList<Value>) => void;
+    setValue: (value: SetBaseValueArg<Value>, partialUpdate?: boolean) => void;
     error: Error<Value> | undefined;
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
@@ -83,6 +86,7 @@ function Operation(props: Props) {
     const {
         value,
         setFieldValue,
+        setValue,
         error: formError,
         fileIdToUrlMap,
         setFileIdToUrlMap,
@@ -225,6 +229,26 @@ function Operation(props: Props) {
         );
     }, [setFieldValue]);
 
+    const onPopulationChange = useCallback((
+        val: number | undefined,
+        name: 'men' | 'women' | 'girls' | 'boys',
+    ) => {
+        setValue(
+            (oldValue: Value | undefined) => {
+                const newValue = {
+                    ...oldValue,
+                    [name]: val,
+                };
+                return {
+                    ...newValue,
+                    total_targeted_population: calculateTotalTargetedPopulation(newValue),
+                };
+            },
+        );
+    }, [
+        setValue,
+    ]);
+
     const interventionTitleMap = useMemo(
         () => (
             listToMap(
@@ -350,7 +374,7 @@ function Operation(props: Props) {
                                 label={strings.drefFormWomen}
                                 name="women"
                                 value={value.women}
-                                onChange={setFieldValue}
+                                onChange={onPopulationChange}
                                 error={error?.women}
                                 disabled={disabled}
                             />
@@ -358,7 +382,7 @@ function Operation(props: Props) {
                                 label={strings.drefFormMen}
                                 name="men"
                                 value={value.men}
-                                onChange={setFieldValue}
+                                onChange={onPopulationChange}
                                 error={error?.men}
                                 disabled={disabled}
                             />
@@ -366,7 +390,7 @@ function Operation(props: Props) {
                                 label={strings.drefFormGirls}
                                 name="girls"
                                 value={value.girls}
-                                onChange={setFieldValue}
+                                onChange={onPopulationChange}
                                 error={error?.girls}
                                 disabled={disabled}
                             />
@@ -374,7 +398,7 @@ function Operation(props: Props) {
                                 label={strings.drefFormBoys}
                                 name="boys"
                                 value={value.boys}
-                                onChange={setFieldValue}
+                                onChange={onPopulationChange}
                                 error={error?.boys}
                                 disabled={disabled}
                             />

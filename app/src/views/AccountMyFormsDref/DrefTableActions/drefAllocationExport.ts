@@ -16,7 +16,7 @@ interface ExportData {
     noOfPeopleTargeted: number | null | undefined;
     nsRequestDate: string | null | undefined;
     disasterStartDate: string | null | undefined;
-    implementationPeriod: number | null | undefined;
+    implementationPeriod: string | null | undefined;
     allocationRequested: number | null | undefined;
     previousAllocation?: number | null | undefined;
     totalDREFAllocation: number | null | undefined;
@@ -381,7 +381,7 @@ export async function exportDrefAllocation(exportData: ExportData) {
         worksheet.getCell('E24').value = disasterStartDate;
     }
     if (isDefined(implementationPeriod)) {
-        worksheet.getCell('I24').value = `${implementationPeriod} months`;
+        worksheet.getCell('I24').value = implementationPeriod;
     }
     worksheet.getCell('A23').fill = {
         type: 'pattern',

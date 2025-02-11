@@ -2,6 +2,7 @@ import {
     type Dispatch,
     type SetStateAction,
     useCallback,
+    useMemo,
 } from 'react';
 import {
     useLocation,
@@ -127,6 +128,10 @@ function Overview(props: Props) {
         dref_dref_onset_type: drefOnsetTypeOptions,
     } = useGlobalEnums();
 
+    const typeOfDrefOptionsWithoutImminent = useMemo(() => (
+        typeOfDrefOptions?.filter((option) => option.key !== TYPE_IMMINENT)
+    ), [typeOfDrefOptions]);
+
     const countryOptions = useCountry();
 
     const disasterTypes = useDisasterType();
@@ -216,8 +221,7 @@ function Overview(props: Props) {
         <div className={styles.operationOverview}>
             {state?.isNewOpsUpdate
                 && showChangeDrefTypeModal
-                && (value?.type_of_dref === TYPE_IMMINENT
-                || value?.type_of_dref === TYPE_ASSESSMENT) && (
+                && value?.type_of_dref === TYPE_ASSESSMENT && (
                 <Modal
                     size="sm"
                     heading={strings.changeToResponseHeading}
@@ -239,9 +243,24 @@ function Overview(props: Props) {
                             </Button>
                         </>
                     )}
-                    className={styles.flashUpdateShareModal}
                 >
                     {strings.isDrefChangingToResponse}
+                </Modal>
+            )}
+            {value.type_of_dref === TYPE_IMMINENT && (
+                <Modal
+                    size="sm"
+                    heading={strings.overviewChangeTypeHeading}
+                    footerActions={(
+                        <Button
+                            name={undefined}
+                            onClick={handleChangeToResponse}
+                        >
+                            {strings.overviewChangeTypeButtonLabel}
+                        </Button>
+                    )}
+                >
+                    {strings.overviewChangeTypeMessage}
                 </Modal>
             )}
             <Container
@@ -302,7 +321,7 @@ function Overview(props: Props) {
                     <SelectInput
                         name="type_of_dref"
                         label={strings.drefFormTypeOfDref}
-                        options={typeOfDrefOptions}
+                        options={typeOfDrefOptionsWithoutImminent}
                         keySelector={typeOfDrefKeySelector}
                         labelSelector={stringValueSelector}
                         onChange={setFieldValue}
@@ -388,8 +407,8 @@ function Overview(props: Props) {
                 <InputSection
                     title={
                         value?.type_of_dref !== TYPE_IMMINENT
-                            ? strings.drefFormAffectedCountryAndProvinceImminent
-                            : strings.drefFormRiskCountryLabel
+                            ? strings.drefFormAffectedCountryAndProvince
+                            : strings.drefFormRiskCountryLabelImminent
                     }
                     numPreferredColumns={2}
                 >

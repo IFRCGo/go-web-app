@@ -1,3 +1,4 @@
+import { sumSafe } from '@ifrc-go/ui/utils';
 import { isNotDefined } from '@togglecorp/fujs';
 import {
     analyzeErrors,
@@ -144,6 +145,17 @@ const tabToFieldsMap = {
     actions: actionsFields,
     operation: operationFields,
     submission: submissionFields,
+};
+
+export const calculateTotalAssistedPopulation = (val: PartialFinalReport) => {
+    const totalAssistedPopulation = sumSafe([
+        val?.assisted_num_of_women,
+        val?.assisted_num_of_men,
+        val?.assisted_num_of_girls_under_18,
+        val?.assisted_num_of_boys_under_18,
+    ]) ?? 0;
+
+    return totalAssistedPopulation;
 };
 
 export function checkTabErrors(error: Error<PartialFinalReport> | undefined, tabKey: TabKeys) {

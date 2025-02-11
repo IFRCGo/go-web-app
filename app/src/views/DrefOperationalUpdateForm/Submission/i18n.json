@@ -4,7 +4,7 @@
         "drefOperationalUpdateTimeFrameDateOfEvent": "Operation start Date",
         "drefOperationalUpdateTimeFrameNationalSocietyLoanRequest": "National Society Loan request date",
         "drefOperationalUpdateTimeFrameTotalOperatingTimeFrame": "Total operating timeframe",
-        "drefOperationalUpdateTimeFrameExtensionRequestedIfYes": "New operational end date",
+        "drefOperationalUpdateTimeFrameExtensionRequestedIfYes": "Operational end date",
         "drefOperationalDateOfApprovalOfLoan": "Date of approval of Loan",
         "drefOperationalUpdateTimeFrameReportingTimeFrameStart": "Reporting Timeframe start date",
         "drefOperationalUpdateTimeFrameReportingTimeFrameEnd": "Reporting Timeframe end date",

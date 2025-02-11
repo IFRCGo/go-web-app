@@ -24,6 +24,7 @@ import {
     isFalsyString,
     isNotDefined,
     isTruthyString,
+    randomString,
 } from '@togglecorp/fujs';
 import {
     removeNull,
@@ -56,6 +57,10 @@ import {
 import Actions from './Actions';
 import {
     checkTabErrors,
+    EARLY_ACTION,
+    EARLY_RESPONSE,
+    OPERATION_TIMEFRAME_IMMINENT,
+    TYPE_IMMINENT,
     TYPE_LOAN,
     type TypeOfDrefEnum,
 } from './common';
@@ -93,6 +98,22 @@ function getNextStep(current: TabKeys, direction: 1 | -1, typeOfDref: TypeOfDref
         };
         return mapping[current];
     }
+    if (typeOfDref === TYPE_IMMINENT && direction === 1) {
+        const mapping: { [key in TabKeys]?: TabKeys } = {
+            overview: 'eventDetail',
+            eventDetail: 'operation',
+            operation: 'submission',
+        };
+        return mapping[current];
+    }
+    if (typeOfDref === TYPE_IMMINENT && direction === -1) {
+        const mapping: { [key in TabKeys]?: TabKeys } = {
+            submission: 'operation',
+            operation: 'eventDetail',
+            eventDetail: 'overview',
+        };
+        return mapping[current];
+    }
     if (direction === 1) {
         const mapping: { [key in TabKeys]?: TabKeys } = {
             overview: 'eventDetail',
@@ -113,6 +134,7 @@ function getNextStep(current: TabKeys, direction: 1 | -1, typeOfDref: TypeOfDref
     }
     return undefined;
 }
+
 /** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -156,7 +178,9 @@ export function Component() {
     } = useForm(
         drefSchema,
         {
-            value: {},
+            value: {
+                operation_timeframe_imminent: OPERATION_TIMEFRAME_IMMINENT,
+            },
         },
     );
 
@@ -178,6 +202,8 @@ export function Component() {
                     disaster_category_analysis_details,
                     targeting_strategy_support_file_details,
                     budget_file_details,
+                    scenario_analysis_supporting_document_details,
+                    contingency_plans_supporting_document_details,
                 } = response;
 
                 if (
@@ -237,6 +263,23 @@ export function Component() {
                         targeting_strategy_support_file_details.id
                     ] = targeting_strategy_support_file_details.file;
                 }
+                if (
+                    scenario_analysis_supporting_document_details
+                    && scenario_analysis_supporting_document_details.file
+                ) {
+                    newMap[
+                        scenario_analysis_supporting_document_details.id
+                    ] = scenario_analysis_supporting_document_details.file;
+                }
+
+                if (
+                    contingency_plans_supporting_document_details
+                    && contingency_plans_supporting_document_details.file
+                ) {
+                    newMap[
+                        contingency_plans_supporting_document_details.id
+                    ] = contingency_plans_supporting_document_details.file;
+                }
 
                 if (budget_file_details && budget_file_details.file) {
                     newMap[budget_file_details.id] = budget_file_details.file;
@@ -248,6 +291,65 @@ export function Component() {
         [],
     );
 
+    const loadResponseToFormValue = useCallback((response: GetDrefResponse) => {
+        handleDrefLoad(response);
+        const {
+            planned_interventions,
+            proposed_action,
+            needs_identified,
+            national_society_actions,
+            risk_security,
+            event_map_file,
+            cover_image_file,
+            images_file,
+            source_information,
+            ...otherValues
+        } = removeNull(response);
+
+        setValue({
+            ...otherValues,
+            planned_interventions: planned_interventions?.map(
+                (intervention) => ({
+                    ...injectClientId(intervention),
+                    indicators: intervention.indicators?.map(injectClientId),
+                }),
+            ),
+            proposed_action: isDefined(proposed_action)
+                && proposed_action.length > 1 ? proposed_action?.map(
+                    (action) => ({
+                        ...injectClientId(action),
+                        activities: action.activities?.map(injectClientId),
+                    }),
+                    // NOTE: Display early actions before early response
+                ).sort((a, b) => a.proposed_type - b.proposed_type) : [
+                    {
+                        client_id: randomString(),
+                        proposed_type: EARLY_ACTION,
+                    },
+                    {
+                        client_id: randomString(),
+                        proposed_type: EARLY_RESPONSE,
+                    },
+                ],
+            // NOTE: If an old DREF imminent application is edited,
+            // the operation timeframe gets overridden.
+            operation_timeframe_imminent: OPERATION_TIMEFRAME_IMMINENT,
+            source_information: source_information?.map(injectClientId),
+            needs_identified: needs_identified?.map(injectClientId),
+            national_society_actions: national_society_actions?.map(injectClientId),
+            risk_security: risk_security?.map(injectClientId),
+            event_map_file: isDefined(event_map_file)
+                ? injectClientId(event_map_file)
+                : undefined,
+            cover_image_file: isDefined(cover_image_file)
+                ? injectClientId(cover_image_file)
+                : undefined,
+            images_file: images_file?.map(injectClientId),
+        });
+
+        setDistrictOptions(response.district_details);
+    }, [handleDrefLoad, setValue]);
+
     const {
         pending: fetchingDref,
         response: drefResponse,
@@ -258,44 +360,7 @@ export function Component() {
         pathVariables: isDefined(drefId) ? {
             id: drefId,
         } : undefined,
-        onSuccess: (response) => {
-            handleDrefLoad(response);
-
-            const {
-                planned_interventions,
-                needs_identified,
-                national_society_actions,
-                risk_security,
-                event_map_file,
-                cover_image_file,
-                images_file,
-                source_information,
-                ...otherValues
-            } = removeNull(response);
-
-            setValue({
-                ...otherValues,
-                planned_interventions: planned_interventions?.map(
-                    (intervention) => ({
-                        ...injectClientId(intervention),
-                        indicators: intervention.indicators?.map(injectClientId),
-                    }),
-                ),
-                source_information: source_information?.map(injectClientId),
-                needs_identified: needs_identified?.map(injectClientId),
-                national_society_actions: national_society_actions?.map(injectClientId),
-                risk_security: risk_security?.map(injectClientId),
-                event_map_file: isDefined(event_map_file)
-                    ? injectClientId(event_map_file)
-                    : undefined,
-                cover_image_file: isDefined(cover_image_file)
-                    ? injectClientId(cover_image_file)
-                    : undefined,
-                images_file: images_file?.map(injectClientId),
-            });
-
-            setDistrictOptions(response.district_details);
-        },
+        onSuccess: (response) => loadResponseToFormValue(response),
     });
 
     const {
@@ -311,7 +376,7 @@ export function Component() {
                 strings.formSaveRequestSuccessMessage,
                 { variant: 'success' },
             );
-            handleDrefLoad(response);
+            loadResponseToFormValue(response);
         },
         onFailure: ({
             value: { formErrors, messageForNotification },
@@ -350,6 +415,17 @@ export function Component() {
                     if (isDefined(match)) {
                         const [index] = match;
                         return value?.planned_interventions?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['proposed_action', NUM, 'activities', NUM]);
+                    if (isDefined(match)) {
+                        const [proposed_action_index, index] = match;
+                        // eslint-disable-next-line max-len
+                        return value?.proposed_action?.[proposed_action_index]?.activities?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['proposed_action', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.proposed_action?.[index]?.client_id;
                     }
                     match = matchArray(locations, ['source_information', NUM, 'source_link', NUM]);
                     if (isDefined(match)) {
@@ -438,6 +514,17 @@ export function Component() {
                     if (isDefined(match)) {
                         const [index] = match;
                         return value?.planned_interventions?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['proposed_action', NUM, 'activities', NUM]);
+                    if (isDefined(match)) {
+                        const [proposed_action_index, index] = match;
+                        // eslint-disable-next-line max-len
+                        return value?.proposed_action?.[proposed_action_index]?.activities?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['proposed_action', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.proposed_action?.[index]?.client_id;
                     }
                     match = matchArray(locations, ['source_information', NUM, 'source_link', NUM]);
                     if (isDefined(match)) {
@@ -582,9 +669,12 @@ export function Component() {
                             step={2}
                             errored={checkTabErrors(formError, 'eventDetail')}
                         >
-                            {strings.formTabEventDetailLabel}
+                            {value?.type_of_dref === TYPE_IMMINENT
+                                ? strings.formTabScenarioAnalysisLabel
+                                : strings.formTabEventDetailLabel}
                         </Tab>
-                        {value.type_of_dref !== TYPE_LOAN && (
+                        {value.type_of_dref !== TYPE_LOAN
+                            && value.type_of_dref !== TYPE_IMMINENT && (
                             <Tab
                                 name="actions"
                                 step={3}
@@ -599,7 +689,9 @@ export function Component() {
                                 step={4}
                                 errored={checkTabErrors(formError, 'operation')}
                             >
-                                {strings.formTabOperationLabel}
+                                {value?.type_of_dref === TYPE_IMMINENT
+                                    ? strings.formTabPlanLabel
+                                    : strings.formTabOperationLabel}
                             </Tab>
                         )}
                         <Tab
@@ -647,6 +739,7 @@ export function Component() {
                             <Overview
                                 value={value}
                                 setFieldValue={setFieldValue}
+                                setValue={setValue}
                                 fileIdToUrlMap={fileIdToUrlMap}
                                 setFileIdToUrlMap={setFileIdToUrlMap}
                                 error={formError}
@@ -681,6 +774,7 @@ export function Component() {
                             <Operation
                                 value={value}
                                 setFieldValue={setFieldValue}
+                                setValue={setValue}
                                 fileIdToUrlMap={fileIdToUrlMap}
                                 setFileIdToUrlMap={setFileIdToUrlMap}
                                 error={formError}
@@ -738,6 +832,7 @@ export function Component() {
                         onCancel={setShowExportModalFalse}
                         id={Number(drefId)}
                         applicationType="DREF"
+                        drefType={value?.type_of_dref}
                     />
                 )}
             </Page>
