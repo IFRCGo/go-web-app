@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.6.7
+
+### Patch Changes
+
+- 6daa597: Show number of people assisted in DREF Final Report export
+
 ## 7.6.6
 
 ### Patch Changes
