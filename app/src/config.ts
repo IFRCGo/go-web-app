@@ -25,7 +25,7 @@ export const appPackageName = APP_PACKAGE_NAME;
 export const appRepositoryUrl = APP_REPOSITORY_URL;
 
 export const api = APP_API_ENDPOINT;
-export const adminUrl = APP_ADMIN_URL ?? api;
+export const adminUrl = APP_ADMIN_URL ?? `${api}admin/`;
 export const mbtoken = APP_MAPBOX_ACCESS_TOKEN;
 export const riskApi = APP_RISK_API_ENDPOINT;
 export const tinyApiKey = APP_TINY_API_KEY;

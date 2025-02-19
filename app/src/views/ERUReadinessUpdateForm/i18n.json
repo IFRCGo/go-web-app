@@ -1,0 +1,12 @@
+{
+    "namespace": "eRUReadinessUpdateForm",
+    "strings": {
+        "eruReadinessFormTitle": "Update ERU Readiness Form",
+        "eruReadinessFormHeading": "ERU Deployment Readiness",
+        "eruReadinessFormDescription": "Complete the form with the ERU Readiness data of your National Society. In case of any questions.",
+        "eruCancelButton": "Cancel",
+        "eruSaveAndCloseButton": "Save and Close",
+        "eruNationalSociety": "National Society",
+        "eruTypes": "Select ERU Type(s)"
+    }
+}

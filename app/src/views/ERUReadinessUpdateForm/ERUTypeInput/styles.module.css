@@ -1,0 +1,9 @@
+.eru-types {
+    display: flex;
+
+    .readiness-options {
+        display: flex;
+        flex-direction: column;
+    }
+}
+

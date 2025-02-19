@@ -2,7 +2,7 @@
   <br />
   <a href="https://go.ifrc.org/">
     <picture>
-      <img src="./app/src/assets/icons/go-logo-2020.svg" width="200px" alt="IFRC GO Logo">
+      <img src="https://github.com/IFRCGo/go-web-app/blob/develop/app/src/assets/icons/go-logo-2020.svg" width="200px" alt="IFRC GO Logo">
     </picture>
   </a>
 </p>
@@ -24,8 +24,8 @@ Below are the steps to guide you through preparing your local environment for IF
 To begin, ensure you have network access. Then, you'll need the following:
 
 1. [Git](https://git-scm.com/)
-2. [Node.JS](https://nodejs.org/en/) as specified under `engines` section in `package.json` file
-3. [Pnpm](https://pnpm.io/) as specified under `engines` section in `package.json` file
+2. [Node.js](https://nodejs.org/en/) as specified under `engines` section in `package.json` file
+3. [pnpm](https://pnpm.io/) as specified under `engines` section in `package.json` file
 4. Alternatively, you can use [Docker](https://www.docker.com/) to build the application.
 
 > \[!NOTE]\
@@ -52,6 +52,13 @@ To begin, ensure you have network access. Then, you'll need the following:
    ```bash
    cd app
    touch .env
+   ```
+
+   Example `.env` file
+   ```
+   APP_TITLE=IFRC GO
+   APP_ENVIRONMENT=testing
+   ...
    ```
 
 4. Start the development server:
