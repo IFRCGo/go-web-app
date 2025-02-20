@@ -1,12 +1,13 @@
 import { useMemo } from 'react';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
-import CatalogueInfoCard, { LinkData } from '#components/CatalogueInfoCard';
+import CatalogueInfoCard, { type LinkData } from '#components/CatalogueInfoCard';
 import SurgeCardContainer from '#components/domain/SurgeCardContainer';
 import SurgeCatalogueContainer from '#components/domain/SurgeCatalogueContainer';
 
 import i18n from './i18n.json';
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -45,13 +46,13 @@ export function Component() {
 
     const technicalCompetencyFrameworkInfo: LinkData[] = useMemo(() => ([
         {
-            title: strings.technicalCompetencyFrameworkAssesment,
+            title: strings.technicalCompetencyFrameworkAssessment,
             href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EbmgwMFvUHtFkkc26GZhAo0BIuwI2UWSkrFyehAq7ZfT6g',
             external: true,
             withLinkIcon: true,
         },
     ]), [
-        strings.technicalCompetencyFrameworkAssesment,
+        strings.technicalCompetencyFrameworkAssessment,
     ]);
 
     const assessmentCellInfo: LinkData[] = useMemo(() => ([

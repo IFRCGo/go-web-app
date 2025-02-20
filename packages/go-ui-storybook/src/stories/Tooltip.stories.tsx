@@ -34,7 +34,7 @@ function Template(args:Args) {
         </div>
     );
 }
-// eslint-disable-next-line react/function-component-definition
+
 export const Default: Story = {
     render: Template,
     args: {

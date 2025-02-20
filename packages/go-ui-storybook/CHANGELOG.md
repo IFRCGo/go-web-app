@@ -1,8 +1,21 @@
 # go-ui-storybook
 
+## 1.0.3
+
+### Patch Changes
+
+- db732fd: Add Dockerfile and Helm chart to deploy Storybook
+
+## 1.0.2
+
+### Patch Changes
+
+- Update @ifrc-go/ui version
+
 ## 1.0.1
 
 ### Patch Changes
+
 - 72df1f2: Updated @ifrc-go/icons to v2.0.1
 
 - Updated dependencies [72df1f2]

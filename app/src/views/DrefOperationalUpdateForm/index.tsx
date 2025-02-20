@@ -116,8 +116,8 @@ function getNextStep(current: TabKeys, direction: 1 | -1, typeOfDref: TypeOfDref
     }
     return undefined;
 }
+/** @knipignore */
 
-// eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { opsUpdateId } = useParams<{ opsUpdateId: string }>();
 
@@ -452,7 +452,7 @@ export function Component() {
         [validate, setError, updateOpsUpdate],
     );
 
-    const handleObsoletePayloadOverwiteButtonClick = useCallback(
+    const handleObsoletePayloadOverwriteButtonClick = useCallback(
         (newModifiedAt: string | undefined) => {
             setShowObsoletePayloadModal(false);
             // FIXME: Why not just set lastModifiedAtRef.current,
@@ -848,7 +848,7 @@ export function Component() {
                 {isTruthyString(opsUpdateId) && showObsoletePayloadModal && (
                     <ObsoletePayloadModal
                         opsUpdateId={+opsUpdateId}
-                        onOverwriteButtonClick={handleObsoletePayloadOverwiteButtonClick}
+                        onOverwriteButtonClick={handleObsoletePayloadOverwriteButtonClick}
                         onCancelButtonClick={setShowObsoletePayloadModal}
                     />
                 )}

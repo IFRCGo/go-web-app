@@ -20,6 +20,16 @@
         }
     }
 
+    &.with-border-and-header-background {
+        border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+        border-radius: var(--go-ui-border-radius-md);
+
+        .header {
+            border-radius: var(--go-ui-border-radius-md);
+            background-color: var(--go-ui-color-background);
+        }
+    }
+
     .border {
         flex-shrink: 0;
         margin: 0;

@@ -8,14 +8,15 @@
 
 ## Built with
 
- [![React][react-shields]][react-url] [![Vite][vite-shields]][vite-url] [![Typescript][typescript-shields]][typescript-url]
+[![React][react-shields]][react-url] [![Vite][vite-shields]][vite-url] [![Typescript][typescript-shields]][typescript-url]
 
 ## Installation
+
 Install the `@ifrc-go/ui` package and its peer dependencies.
 
 ```bash
-# using yarn
-yarn add @ifrc-go/ui
+# using pnpm
+pnpm install @ifrc-go/ui
 # using npm
 npm install @ifrc-go/ui
 ```
@@ -55,10 +56,17 @@ The [changelog](https://github.com/IFRCGo/go-web-app/blob/develop/packages/ui/CH
 [MIT](https://github.com/IFRCGo/go-web-app/blob/develop/LICENSE)
 
 <!-- MARKDOWN LINKS & IMAGES -->
+
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
 [react-shields]: https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB
+
 [react-url]: https://reactjs.org/
+
 [vite-shields]: https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white
+
 [vite-url]: https://vitejs.dev/
+
 [typescript-shields]: https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white
+
 [typescript-url]: https://www.typescriptlang.org/

@@ -1,7 +1,7 @@
 import {
-    IndexRouteObject,
-    NonIndexRouteObject,
-    RouteObject,
+    type IndexRouteObject,
+    type NonIndexRouteObject,
+    type RouteObject,
 } from 'react-router-dom';
 import {
     isDefined,

@@ -109,7 +109,7 @@ function Template(args:Args) {
             labelSelector={labelSelector}
             onChange={handleChange}
             value={value}
-            name="searchselectinput"
+            name="search"
             options={options}
             onSearchValueChange={handleSearchValueChange}
             searchOptions={filteredOptions}

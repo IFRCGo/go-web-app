@@ -119,7 +119,7 @@ export const Disabled: Story = {
     },
 };
 
-export const Novalue: Story = {
+export const NoValue: Story = {
     args: {
         name: 'no-value',
         options,

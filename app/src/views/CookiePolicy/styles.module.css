@@ -1,0 +1,36 @@
+.cookie-page {
+    display: flex;
+    gap: var(--go-ui-spacing-xl);
+
+    .side-titles {
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+        padding: var(--go-ui-spacing-sm);
+        gap: var(--go-ui-spacing-md);
+    }
+
+    .header-description {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-md);
+    }
+
+    .main-content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-md);
+
+        .first-level-content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-md);
+
+            .second-level-content {
+                display: flex;
+                flex-direction: column;
+                gap: var(--go-ui-spacing-sm);
+            }
+        }
+    }
+}

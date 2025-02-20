@@ -11,56 +11,56 @@ import {
 
 test('Split list', () => {
     const list1 = [1, 2, 3, undefined, 2, 3, 5, 6, undefined, 10];
-    const splittedList1Expected = [
+    const separatedList1Expected = [
         [1, 2, 3],
         [2, 3, 5, 6],
         [10],
     ];
-    const splittedList1Result = splitList(list1, isNotDefined);
-    expect(splittedList1Result).toEqual(splittedList1Expected);
+    const separatedList1Result = splitList(list1, isNotDefined);
+    expect(separatedList1Result).toEqual(separatedList1Expected);
 
     const list2 = [undefined, 1, 2, 3];
-    const splittedList2Expected = [
+    const separatedList2Expected = [
         [1, 2, 3],
     ];
-    const splittedList2Result = splitList(list2, isNotDefined);
-    expect(splittedList2Result).toEqual(splittedList2Expected);
+    const separatedList2Result = splitList(list2, isNotDefined);
+    expect(separatedList2Result).toEqual(separatedList2Expected);
 
     const list3 = [undefined, 1, 2, 3, undefined];
-    const splittedList3Expected = [
+    const separatedList3Expected = [
         [1, 2, 3],
     ];
-    const splittedList3Result = splitList(list3, isNotDefined);
-    expect(splittedList3Result).toEqual(splittedList3Expected);
+    const separatedList3Result = splitList(list3, isNotDefined);
+    expect(separatedList3Result).toEqual(separatedList3Expected);
 
     const list4 = [
         undefined, undefined, 1, 2, 3,
         undefined, 6, 8,
         undefined, 10,
         undefined, 13, 1, 2, 3, undefined];
-    const splittedList4Expected = [
+    const separatedList4Expected = [
         [1, 2, 3],
         [6, 8],
         [10],
         [13, 1, 2, 3],
     ];
-    const splittedList4Result = splitList(list4, isNotDefined);
-    expect(splittedList4Result).toEqual(splittedList4Expected);
+    const separatedList4Result = splitList(list4, isNotDefined);
+    expect(separatedList4Result).toEqual(separatedList4Expected);
 
     const list5 = [1, 2, 3, undefined, undefined, undefined, 2];
-    const splittedList5Expected = [
+    const separatedList5Expected = [
         [1, 2, 3],
         [2],
     ];
-    const splittedList5Result = splitList(list5, isNotDefined);
-    expect(splittedList5Result).toEqual(splittedList5Expected);
+    const separatedList5Result = splitList(list5, isNotDefined);
+    expect(separatedList5Result).toEqual(separatedList5Expected);
 
     const list6 = [1, 2, 3];
-    const splittedList6Expected = [
+    const separatedList6Expected = [
         [1, 2, 3],
     ];
-    const splittedList6Result = splitList(list6, isNotDefined);
-    expect(splittedList6Result).toEqual(splittedList6Expected);
+    const separatedList6Result = splitList(list6, isNotDefined);
+    expect(separatedList6Result).toEqual(separatedList6Expected);
 });
 
 test('Denormalize List', () => {
@@ -70,7 +70,7 @@ test('Denormalize List', () => {
         districts: [1, 2, 3],
     }, {
         id: 2,
-        country: 'Afganistan',
+        country: 'Afghanistan',
         districts: [1, 2, 3, 4, 5],
     }];
     const expected = [
@@ -91,27 +91,27 @@ test('Denormalize List', () => {
         },
         {
             id: 2,
-            country: 'Afganistan',
+            country: 'Afghanistan',
             district: 1,
         },
         {
             id: 2,
-            country: 'Afganistan',
+            country: 'Afghanistan',
             district: 2,
         },
         {
             id: 2,
-            country: 'Afganistan',
+            country: 'Afghanistan',
             district: 3,
         },
         {
             id: 2,
-            country: 'Afganistan',
+            country: 'Afghanistan',
             district: 4,
         },
         {
             id: 2,
-            country: 'Afganistan',
+            country: 'Afghanistan',
             district: 5,
         },
     ];

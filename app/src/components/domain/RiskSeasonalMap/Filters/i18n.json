@@ -1,5 +1,5 @@
 {
-    "namespace": "common",
+    "namespace": "riskSeasonalMap",
     "strings": {
         "riskAllCountries": "All countries",
         "riskSelectHazardTypes": "Select Hazard types",

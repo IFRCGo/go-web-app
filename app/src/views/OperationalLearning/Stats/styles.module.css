@@ -1,0 +1,96 @@
+.stats {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-md);
+
+    .key-figure {
+        border: var(--go-ui-width-separator-sm) solid var(--go-ui-color-separator);
+        border-radius: var(--go-ui-border-radius-lg);
+        background-color: var(--go-ui-color-white);
+        padding: var(--go-ui-spacing-lg) var(--go-ui-spacing-md);
+        height: 100%;
+    }
+
+    .learning-overview {
+        display: grid;
+        grid-gap: var(--go-ui-spacing-md);
+        grid-template-columns: 5fr 3fr;
+
+        @media screen and (max-width: 70rem) {
+            grid-template-columns: 1fr;
+        }
+
+        .charts {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-md);
+
+            .chart {
+                display: flex;
+                border-radius: var(--go-ui-border-radius-lg);
+                box-shadow: var(--go-ui-box-shadow-md);
+                --color-source-dref: var(--go-ui-color-primary-blue);
+                --color-source-emergency-appeal: var(--go-ui-color-blue-60);
+                --color-source-others: var(--go-ui-color-blue-20);
+
+                .bar {
+                    background-color: var(--go-ui-color-primary-blue);
+                }
+
+                .chart-container {
+                    display: flex;
+                    position: relative;
+                    flex-direction: column;
+                    gap: var(--go-ui-spacing-md);
+
+                    .legend {
+                        display: flex;
+                        gap: var(--go-ui-spacing-md);
+                    }
+
+                    .time-series-chart {
+                        width: 100%;
+                        --path-stroke-width: 1pt;
+
+                        .dref {
+                            color: var(--color-source-dref);
+                            stroke: var(--color-source-dref);
+                            stroke-width: var(--path-stroke-width);
+                            fill: none;
+                        }
+
+                        .emergency-appeal {
+                            color: var(--color-source-emergency-appeal);
+                            stroke: var(--color-source-emergency-appeal);
+                            stroke-width: var(--path-stroke-width);
+                            fill: none;
+                        }
+
+                        .others {
+                            color: var(--color-source-others);
+                            stroke: var(--color-source-others);
+                            stroke-width: var(--path-stroke-width);
+                            fill: none;
+                        }
+
+                        .x-axis-tick {
+                            transform: rotate(-30deg);
+                        }
+                    }
+                }
+
+                .type-of-source-legend {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: var(--go-ui-spacing-xs) var(--go-ui-spacing-md);
+
+                    .legend-content {
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: var(--go-ui-spacing-xs) var(--go-ui-spacing-sm);
+                    }
+                }
+            }
+        }
+    }
+}

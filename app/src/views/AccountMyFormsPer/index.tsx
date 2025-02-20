@@ -47,6 +47,7 @@ import styles from './styles.module.css';
 type AggregatedPerProcessStatusResponse = GoApiResponse<'/api/v2/aggregated-per-process-status/'>;
 type PerProcessStatusItem = NonNullable<AggregatedPerProcessStatusResponse['results']>[number];
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);

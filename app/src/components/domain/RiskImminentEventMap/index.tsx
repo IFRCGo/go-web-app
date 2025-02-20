@@ -3,9 +3,7 @@ import {
     useMemo,
     useState,
 } from 'react';
-import { ChevronLeftLineIcon } from '@ifrc-go/icons';
 import {
-    Button,
     Container,
     List,
 } from '@ifrc-go/ui';
@@ -16,10 +14,13 @@ import {
     mapToList,
 } from '@togglecorp/fujs';
 import {
+    getLayerName,
     MapBounds,
     MapImage,
     MapLayer,
+    MapOrder,
     MapSource,
+    MapState,
 } from '@togglecorp/re-map';
 import getBbox from '@turf/bbox';
 import getBuffer from '@turf/buffer';
@@ -28,7 +29,7 @@ import type {
     SymbolLayer,
 } from 'mapbox-gl';
 
-import BaseMap from '#components/domain/BaseMap';
+import GlobalMap from '#components/domain/GlobalMap';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import { type components } from '#generated/riskTypes';
 import useDebouncedValue from '#hooks/useDebouncedValue';
@@ -38,17 +39,25 @@ import {
     DURATION_MAP_ZOOM,
 } from '#utils/constants';
 
+import LayerOptions, { type LayerOptionsValue } from './LayerOptions';
 import {
+    activeHazardPointLayer,
     exposureFillLayer,
+    exposureFillOutlineLayer,
     geojsonSourceOptions,
-    hazardKeyToIconmap,
+    hazardKeyToIconMap,
     hazardPointIconLayout,
     hazardPointLayer,
+    invisibleCircleLayer,
+    invisibleFillLayer,
     invisibleLayout,
-    trackArrowLayer,
-    trackOutlineLayer,
+    invisibleLineLayer,
+    trackLineLayer,
     trackPointLayer,
+    trackPointOuterCircleLayer,
+    uncertaintyConeLayer,
 } from './mapStyles';
+import { type RiskLayerProperties } from './utils';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -59,10 +68,10 @@ const mapImageOption = {
 
 type HazardType = components<'read'>['schemas']['HazardTypeEnum'];
 
-const hazardKeys = Object.keys(hazardKeyToIconmap) as HazardType[];
+const hazardKeys = Object.keys(hazardKeyToIconMap) as HazardType[];
 
 const mapIcons = mapToList(
-    hazardKeyToIconmap,
+    hazardKeyToIconMap,
     (icon, key) => (icon ? ({ key, icon }) : undefined),
 ).filter(isDefined);
 
@@ -73,27 +82,38 @@ type EventPointProperties = {
 
 export type EventPointFeature = GeoJSON.Feature<GeoJSON.Point, EventPointProperties>;
 
-interface EventItemProps<EVENT> {
+export interface RiskEventListItemProps<EVENT> {
     data: EVENT;
+    expanded: boolean;
     onExpandClick: (eventId: number | string) => void;
+    className?: string;
+    children?: React.ReactNode;
 }
 
-interface EventDetailProps<EVENT, EXPOSURE> {
+export interface RiskEventDetailProps<EVENT, EXPOSURE> {
     data: EVENT;
     exposure: EXPOSURE | undefined;
     pending: boolean;
+    children?: React.ReactNode;
 }
 
-type Footprint = GeoJSON.FeatureCollection<GeoJSON.Geometry> | undefined;
+type Footprint = GeoJSON.FeatureCollection<GeoJSON.Geometry, RiskLayerProperties> | undefined;
+
+// FIXME: read this from common type
+type ImminentEventSource = 'pdc' | 'wfpAdam' | 'gdacs' | 'meteoSwiss';
 
 interface Props<EVENT, EXPOSURE, KEY extends string | number> {
+    // FIXME: use props for configuration rather than
+    // passing source here
+    source: ImminentEventSource;
     events: EVENT[] | undefined;
     keySelector: (event: EVENT) => KEY;
+    hazardTypeSelector: (event: EVENT) => HazardType | '' | undefined;
     pointFeatureSelector: (event: EVENT) => EventPointFeature | undefined;
     footprintSelector: (activeEventExposure: EXPOSURE | undefined) => Footprint | undefined;
     activeEventExposure: EXPOSURE | undefined;
-    listItemRenderer: React.ComponentType<EventItemProps<EVENT>>;
-    detailRenderer: React.ComponentType<EventDetailProps<EVENT, EXPOSURE>>;
+    listItemRenderer: React.ComponentType<RiskEventListItemProps<EVENT>>;
+    detailRenderer: React.ComponentType<RiskEventDetailProps<EVENT, EXPOSURE>>;
     pending: boolean;
     sidePanelHeading: React.ReactNode;
     bbox: LngLatBoundsLike | undefined;
@@ -114,16 +134,24 @@ function RiskImminentEventMap<
         detailRenderer,
         pending,
         activeEventExposure,
+        hazardTypeSelector,
         footprintSelector,
         sidePanelHeading,
         bbox,
         onActiveEventChange,
         activeEventExposurePending,
+        source,
     } = props;
 
     const strings = useTranslation(i18n);
 
     const [activeEventId, setActiveEventId] = useState<KEY | undefined>(undefined);
+    const [layerOptions, setLayerOptions] = useState<LayerOptionsValue>({
+        showStormPosition: true,
+        showForecastUncertainty: true,
+        showTrackLine: true,
+        showExposedArea: true,
+    });
     const activeEvent = useMemo(
         () => {
             if (isNotDefined(activeEventId)) {
@@ -135,6 +163,18 @@ function RiskImminentEventMap<
             );
         },
         [activeEventId, keySelector, events],
+    );
+
+    const eventVisibilityAttributes = useMemo(
+        () => events?.map((event) => {
+            const key = keySelector(event);
+
+            return {
+                id: key,
+                value: isNotDefined(activeEventId) || activeEventId === key,
+            };
+        }),
+        [events, activeEventId, keySelector],
     );
 
     const activeEventFootprint = useMemo(
@@ -184,20 +224,36 @@ function RiskImminentEventMap<
         () => ({
             type: 'FeatureCollection' as const,
             features: events?.map(
-                pointFeatureSelector,
+                (event) => {
+                    const feature = pointFeatureSelector(event);
+
+                    if (isNotDefined(feature)) {
+                        return undefined;
+                    }
+
+                    return {
+                        ...feature,
+                        id: keySelector(event),
+                    };
+                },
             ).filter(isDefined) ?? [],
         }),
-        [events, pointFeatureSelector],
+        [events, pointFeatureSelector, keySelector],
     );
 
     const setActiveEventIdSafe = useCallback(
         (eventId: string | number | undefined) => {
             const eventIdSafe = eventId as KEY | undefined;
 
-            setActiveEventId(eventIdSafe);
-            onActiveEventChange(eventIdSafe);
+            if (activeEventId === eventIdSafe) {
+                setActiveEventId(undefined);
+                onActiveEventChange(undefined);
+            } else {
+                setActiveEventId(eventIdSafe);
+                onActiveEventChange(eventIdSafe);
+            }
         },
-        [onActiveEventChange],
+        [onActiveEventChange, activeEventId],
     );
 
     const handlePointClick = useCallback(
@@ -209,15 +265,43 @@ function RiskImminentEventMap<
         [setActiveEventIdSafe],
     );
 
+    const DetailComponent = detailRenderer;
+
     const eventListRendererParams = useCallback(
-        (_: string | number, event: EVENT): EventItemProps<EVENT> => ({
+        (_: string | number, event: EVENT): RiskEventListItemProps<EVENT> => ({
             data: event,
             onExpandClick: setActiveEventIdSafe,
+            expanded: activeEventId === keySelector(event),
+            className: styles.riskEventListItem,
+            children: activeEventId === keySelector(event) && (
+                <DetailComponent
+                    data={event}
+                    exposure={activeEventExposure}
+                    pending={activeEventExposurePending}
+                >
+                    {hazardTypeSelector(event) === 'TC' && (
+                        <LayerOptions
+                            value={layerOptions}
+                            // NOTE: Currently the information is only visible in gdacs
+                            exposureAreaControlHidden={source !== 'gdacs'}
+                            onChange={setLayerOptions}
+                        />
+                    )}
+                </DetailComponent>
+            ),
         }),
-        [setActiveEventIdSafe],
+        [
+            setActiveEventIdSafe,
+            activeEventExposure,
+            activeEventExposurePending,
+            layerOptions,
+            hazardTypeSelector,
+            DetailComponent,
+            activeEventId,
+            keySelector,
+            source,
+        ],
     );
-
-    const DetailComponent = detailRenderer;
 
     const [loadedIcons, setLoadedIcons] = useState<Record<string, boolean>>({});
 
@@ -242,7 +326,20 @@ function RiskImminentEventMap<
     const hazardPointIconLayer = useMemo<Omit<SymbolLayer, 'id'>>(
         () => ({
             type: 'symbol',
-            paint: { 'icon-color': COLOR_WHITE },
+            paint: {
+                'icon-color': COLOR_WHITE,
+                'icon-opacity': [
+                    'case',
+                    ['boolean', ['feature-state', 'eventVisible'], true],
+                    1,
+                    0,
+                ],
+                /*
+                'icon-opacity-transition': {
+                    duration: 200,
+                },
+                */
+            },
             layout: allIconsLoaded ? hazardPointIconLayout : invisibleLayout,
         }),
         [allIconsLoaded],
@@ -250,7 +347,7 @@ function RiskImminentEventMap<
 
     return (
         <div className={styles.riskImminentEventMap}>
-            <BaseMap
+            <GlobalMap
                 mapOptions={{ bounds }}
             >
                 <MapContainerWithDisclaimer
@@ -258,7 +355,7 @@ function RiskImminentEventMap<
                     className={styles.mapContainer}
                 />
                 {hazardKeys.map((key) => {
-                    const url = hazardKeyToIconmap[key];
+                    const url = hazardKeyToIconMap[key];
 
                     if (isNotDefined(url)) {
                         return null;
@@ -274,7 +371,6 @@ function RiskImminentEventMap<
                         />
                     );
                 })}
-                {/* FIXME: footprint layer should always be the bottom layer */}
                 {activeEventFootprint && (
                     <MapSource
                         sourceKey="active-event-footprint"
@@ -283,19 +379,51 @@ function RiskImminentEventMap<
                     >
                         <MapLayer
                             layerKey="exposure-fill"
-                            layerOptions={exposureFillLayer}
+                            layerOptions={layerOptions.showExposedArea
+                                ? exposureFillLayer
+                                : invisibleFillLayer}
                         />
                         <MapLayer
-                            layerKey="track-outline"
-                            layerOptions={trackOutlineLayer}
+                            layerKey="exposure-fill-outline"
+                            layerOptions={layerOptions.showExposedArea
+                                ? exposureFillOutlineLayer
+                                : invisibleFillLayer}
                         />
+                        <MapLayer
+                            layerKey="track-line"
+                            layerOptions={layerOptions.showTrackLine
+                                ? trackLineLayer
+                                : invisibleLineLayer}
+                        />
+                        {/*
                         <MapLayer
                             layerKey="track-arrow"
-                            layerOptions={trackArrowLayer}
+                            layerOptions={layerOptions.showTrackLine
+                                ? trackArrowLayer
+                                : invisibleSymbolLayer}
                         />
+                        */}
                         <MapLayer
                             layerKey="track-point"
-                            layerOptions={trackPointLayer}
+                            layerOptions={layerOptions.showStormPosition
+                                ? trackPointLayer
+                                : invisibleCircleLayer}
+                        />
+                        <MapLayer
+                            layerKey="track-point-outer-circle"
+                            layerOptions={layerOptions.showStormPosition
+                                ? trackPointOuterCircleLayer
+                                : invisibleCircleLayer}
+                        />
+                        <MapLayer
+                            layerKey="uncertainty-cone"
+                            layerOptions={layerOptions.showForecastUncertainty
+                                ? uncertaintyConeLayer
+                                : invisibleLineLayer}
+                        />
+                        <MapLayer
+                            layerKey="hazard-point"
+                            layerOptions={activeHazardPointLayer}
                         />
                     </MapSource>
                 )}
@@ -313,7 +441,27 @@ function RiskImminentEventMap<
                         layerKey="hazard-points-icon"
                         layerOptions={hazardPointIconLayer}
                     />
+                    <MapState
+                        // sourceLayer="event-points"
+                        attributeKey="eventVisible"
+                        // @ts-expect-error Wrong typing in @togglecorp/re-map
+                        attributes={eventVisibilityAttributes}
+                    />
                 </MapSource>
+                <MapOrder
+                    ordering={[
+                        getLayerName('active-event-footprint', 'exposure-fill', true),
+                        getLayerName('active-event-footprint', 'exposure-fill-outline', true),
+                        getLayerName('active-event-footprint', 'uncertainty-cone', true),
+                        getLayerName('active-event-footprint', 'track-point-outer-circle', true),
+                        getLayerName('active-event-footprint', 'track-line', true),
+                        getLayerName('active-event-footprint', 'track-arrow', true),
+                        getLayerName('active-event-footprint', 'track-point', true),
+                        getLayerName('active-event-footprint', 'hazard-point', true),
+                        getLayerName('event-points', 'point-circle', true),
+                        getLayerName('event-points', 'hazard-points-icon', true),
+                    ]}
+                />
                 {boundsSafe && (
                     <MapBounds
                         duration={DURATION_MAP_ZOOM}
@@ -321,46 +469,26 @@ function RiskImminentEventMap<
                         padding={DEFAULT_MAP_PADDING}
                     />
                 )}
-            </BaseMap>
+            </GlobalMap>
             <Container
                 heading={sidePanelHeading}
                 className={styles.sidePanel}
                 withHeaderBorder
                 withInternalPadding
                 childrenContainerClassName={styles.content}
-                actions={isDefined(activeEventId) && (
-                    <Button
-                        name={undefined}
-                        onClick={setActiveEventIdSafe}
-                        variant="tertiary"
-                        icons={(
-                            <ChevronLeftLineIcon className={styles.icon} />
-                        )}
-                    >
-                        {strings.backToEventsLabel}
-                    </Button>
-                )}
+                spacing="cozy"
             >
-                {isNotDefined(activeEventId) && (
-                    <List
-                        className={styles.eventList}
-                        filtered={false}
-                        pending={pending}
-                        errored={false}
-                        data={events}
-                        keySelector={keySelector}
-                        renderer={listItemRenderer}
-                        rendererParams={eventListRendererParams}
-                        emptyMessage={strings.emptyImminentEventMessage}
-                    />
-                )}
-                {isDefined(activeEvent) && (
-                    <DetailComponent
-                        data={activeEvent}
-                        exposure={activeEventExposure}
-                        pending={activeEventExposurePending}
-                    />
-                )}
+                <List
+                    className={styles.eventList}
+                    filtered={false}
+                    pending={pending}
+                    errored={false}
+                    data={events}
+                    keySelector={keySelector}
+                    renderer={listItemRenderer}
+                    rendererParams={eventListRendererParams}
+                    emptyMessage={strings.emptyImminentEventMessage}
+                />
             </Container>
         </div>
     );

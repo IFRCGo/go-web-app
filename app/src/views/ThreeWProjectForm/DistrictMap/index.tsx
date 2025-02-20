@@ -27,7 +27,7 @@ interface AdminTwo {
     district_id: number;
 }
 
-export interface DistrictWithAdminTwo extends DistrictItem {
+interface DistrictWithAdminTwo extends DistrictItem {
     localUnits: AdminTwo[];
 }
 

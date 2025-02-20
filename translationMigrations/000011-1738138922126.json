@@ -1,0 +1,113 @@
+{
+    "parent": "000010-1738067954473.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "downloadMapTitle",
+            "namespace": "operationalLearning",
+            "value": "Operational learning map"
+        },
+        {
+            "action": "add",
+            "key": "failedToFetchLearning",
+            "namespace": "operationalLearning",
+            "value": "Failed to fetch operational learning"
+        },
+        {
+            "action": "add",
+            "key": "failedToFetchPerComponents",
+            "namespace": "operationalLearning",
+            "value": "Failed to fetch PER components"
+        },
+        {
+            "action": "add",
+            "key": "failedToFetchStats",
+            "namespace": "operationalLearning",
+            "value": "Failed To fetch operational learning statistics."
+        },
+        {
+            "action": "add",
+            "key": "failedToFetchSummary",
+            "namespace": "operationalLearning",
+            "value": "Failed to fetch operational learning summary"
+        },
+        {
+            "action": "add",
+            "key": "learningByRegions",
+            "namespace": "operationalLearning",
+            "value": "Learning by regions"
+        },
+        {
+            "action": "add",
+            "key": "learningBySector",
+            "namespace": "operationalLearning",
+            "value": "Learning by sectors"
+        },
+        {
+            "action": "add",
+            "key": "learningCount",
+            "namespace": "operationalLearning",
+            "value": "Learning count"
+        },
+        {
+            "action": "add",
+            "key": "learningExtract",
+            "namespace": "operationalLearning",
+            "value": "Learning Extracts"
+        },
+        {
+            "action": "add",
+            "key": "operationsIncluded",
+            "namespace": "operationalLearning",
+            "value": "Operations Included"
+        },
+        {
+            "action": "add",
+            "key": "sectorsCovered",
+            "namespace": "operationalLearning",
+            "value": "Sectors Covered"
+        },
+        {
+            "action": "add",
+            "key": "sourceDREF",
+            "namespace": "operationalLearning",
+            "value": "DREF"
+        },
+        {
+            "action": "add",
+            "key": "sourceEmergencyAppeal",
+            "namespace": "operationalLearning",
+            "value": "Emergency Appeal"
+        },
+        {
+            "action": "add",
+            "key": "sourceOthers",
+            "namespace": "operationalLearning",
+            "value": "Others"
+        },
+        {
+            "action": "add",
+            "key": "sourcesOverTime",
+            "namespace": "operationalLearning",
+            "value": "Sources over time"
+        },
+        {
+            "action": "add",
+            "key": "sourcesTypeLegendLabel",
+            "namespace": "operationalLearning",
+            "value": "Type of source"
+        },
+        {
+            "action": "add",
+            "key": "sourcesUsed",
+            "namespace": "operationalLearning",
+            "value": "Sources Used"
+        },
+        {
+            "action": "update",
+            "key": "opsLearningSummariesHeading",
+            "namespace": "operationalLearning",
+            "newValue": "Summary of learning"
+        }
+    ]
+}

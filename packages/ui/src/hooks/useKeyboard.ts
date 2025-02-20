@@ -6,7 +6,6 @@ import {
 
 type OptionKey = string | number | boolean;
 
-// eslint-disable-next-line import/prefer-default-export
 enum Keys {
     Tab = 9,
     Esc = 27,

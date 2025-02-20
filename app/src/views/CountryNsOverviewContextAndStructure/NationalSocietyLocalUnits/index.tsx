@@ -29,10 +29,10 @@ import { environment } from '#config';
 import useAuth from '#hooks/domain/useAuth';
 import usePermissions from '#hooks/domain/usePermissions';
 import useFilterState from '#hooks/useFilterState';
-import { CountryOutletContext } from '#utils/outletContext';
+import { type CountryOutletContext } from '#utils/outletContext';
 import { useRequest } from '#utils/restRequest';
 
-import Filters, { FilterValue } from './Filters';
+import Filters, { type FilterValue } from './Filters';
 import LocalUnitsFormModal from './LocalUnitsFormModal';
 import LocalUnitsMap from './LocalUnitsMap';
 import LocalUnitsTable from './LocalUnitsTable';
@@ -111,7 +111,7 @@ function NationalSocietyLocalUnits(props: Props) {
 
     const strings = useTranslation(i18n);
 
-    const hasAddLocalUnitPermission = isCountryAdmin(countryResponse?.id) || isSuperUser;
+    const hasAddEditLocalUnitPermission = isCountryAdmin(countryResponse?.id) || isSuperUser;
 
     useEffect(() => {
         document.addEventListener('fullscreenchange', handleFullScreenChange);
@@ -148,7 +148,7 @@ function NationalSocietyLocalUnits(props: Props) {
                     />
                 )}
                 // NOTE: disable local units add/edit for now
-                actions={hasAddLocalUnitPermission && (environment !== 'production') && (
+                actions={hasAddEditLocalUnitPermission && (environment !== 'production') && (
                     <Button
                         name={undefined}
                         variant="secondary"

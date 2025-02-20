@@ -4,7 +4,7 @@ import { isDefined } from '@togglecorp/fujs';
 import {
     type ArraySchema,
     emailCondition,
-    ObjectSchema,
+    type ObjectSchema,
     type PartialForm,
     type PurgeNull,
     requiredStringCondition,
@@ -57,38 +57,38 @@ export type FormType = PartialForm<
     'client_id'
     >;
 
-export type FormSchema = ObjectSchema<FormType>;
-export type FormSchemaFields = ReturnType<FormSchema['fields']>;
+type FormSchema = ObjectSchema<FormType>;
+type FormSchemaFields = ReturnType<FormSchema['fields']>;
 
 export type PartialCountryDistrict = NonNullable<FormType['country_district']>[number];
-export type CountryDistrictSchema = ObjectSchema<PartialCountryDistrict, FormType>;
-export type CountryDistrictSchemaFields = ReturnType<CountryDistrictSchema['fields']>;
-export type CountryDistrictsSchema = ArraySchema<PartialCountryDistrict, FormType>;
-export type CountryDistrictsSchemaMember = ReturnType<CountryDistrictsSchema['member']>;
+type CountryDistrictSchema = ObjectSchema<PartialCountryDistrict, FormType>;
+type CountryDistrictSchemaFields = ReturnType<CountryDistrictSchema['fields']>;
+type CountryDistrictsSchema = ArraySchema<PartialCountryDistrict, FormType>;
+type CountryDistrictsSchemaMember = ReturnType<CountryDistrictsSchema['member']>;
 
 export type PartialReferenceType = NonNullable<FormType['references']>[number];
-export type ReferenceSchema = ObjectSchema<PartialReferenceType, FormType>;
-export type ReferenceSchemaFields = ReturnType<ReferenceSchema['fields']>;
-export type ReferencesSchema = ArraySchema<PartialReferenceType, FormType>;
-export type ReferencesSchemaMember = ReturnType<ReferencesSchema['member']>;
+type ReferenceSchema = ObjectSchema<PartialReferenceType, FormType>;
+type ReferenceSchemaFields = ReturnType<ReferenceSchema['fields']>;
+type ReferencesSchema = ArraySchema<PartialReferenceType, FormType>;
+type ReferencesSchemaMember = ReturnType<ReferencesSchema['member']>;
 
 type MapFormType = NonNullable<FormType['map_files']>[number];
-export type MapSchema = ObjectSchema<MapFormType, FormType>;
-export type MapSchemaFields = ReturnType<MapSchema['fields']>;
-export type MapsSchema = ArraySchema<MapFormType, FormType>;
-export type MapsSchemaMember = ReturnType<MapsSchema['member']>;
+type MapSchema = ObjectSchema<MapFormType, FormType>;
+type MapSchemaFields = ReturnType<MapSchema['fields']>;
+type MapsSchema = ArraySchema<MapFormType, FormType>;
+type MapsSchemaMember = ReturnType<MapsSchema['member']>;
 
 type GraphicFormType = NonNullable<FormType['graphics_files']>[number];
-export type GraphicSchema = ObjectSchema<GraphicFormType, FormType>;
-export type GraphicSchemaFields = ReturnType<GraphicSchema['fields']>;
-export type GraphicsSchema = ArraySchema<GraphicFormType, FormType>;
-export type GraphicsSchemaMember = ReturnType<GraphicsSchema['member']>;
+type GraphicSchema = ObjectSchema<GraphicFormType, FormType>;
+type GraphicSchemaFields = ReturnType<GraphicSchema['fields']>;
+type GraphicsSchema = ArraySchema<GraphicFormType, FormType>;
+type GraphicsSchemaMember = ReturnType<GraphicsSchema['member']>;
 
 export type PartialActionTaken = NonNullable<FormType['actions_taken']>[number];
-export type ActionSchema = ObjectSchema<PartialActionTaken, FormType>;
-export type ActionSchemaFields = ReturnType<ActionSchema['fields']>;
-export type ActionsSchema = ArraySchema<PartialActionTaken, FormType>;
-export type ActionsSchemaMember = ReturnType<ActionsSchema['member']>;
+type ActionSchema = ObjectSchema<PartialActionTaken, FormType>;
+type ActionSchemaFields = ReturnType<ActionSchema['fields']>;
+type ActionsSchema = ArraySchema<PartialActionTaken, FormType>;
+type ActionsSchemaMember = ReturnType<ActionsSchema['member']>;
 
 const finalSchema: FormSchema = {
     fields: (): FormSchemaFields => {

@@ -7,8 +7,6 @@ import { isDefined } from '@togglecorp/fujs';
 
 import DomainContext, { type Countries } from '#contexts/domain';
 
-export type PartialCountry = NonNullable<Countries['results']>[number];
-
 type CountryFromResponse = NonNullable<Countries['results']>[number];
 
 export type Country = CountryFromResponse;

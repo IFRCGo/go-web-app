@@ -1,9 +1,9 @@
 {
-    "namespace": "populationMap",
+    "namespace": "countryProfileOverview",
     "strings": {
         "populationMapTitle": "Population Map",
-        "source": "Source",
-        "worldBank": "The World Bank",
+        "populationMapSource": "Source",
+        "populationMapWorldBank": "The World Bank",
         "populationLegendLabel": "Population",
         "populationPopupYearLabel": "Year"
     }

@@ -1,5 +1,5 @@
 {
-    "namespace": "common",
+    "namespace": "drefShareModal",
     "strings": {
         "drefShareTitle": "Share DREF",
         "drefShareDescription": "Add or remove users you with whom you want to share the DREF.",

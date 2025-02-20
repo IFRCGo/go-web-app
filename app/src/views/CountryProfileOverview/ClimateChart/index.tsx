@@ -22,7 +22,7 @@ import {
 
 import Link from '#components/Link';
 import useTemporalChartData from '#hooks/useTemporalChartData';
-import { GoApiResponse } from '#utils/restRequest';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -201,7 +201,7 @@ function ClimateChart(props: Props) {
             withHeaderBorder
             footerActions={(
                 <TextOutput
-                    label={strings.source}
+                    label={strings.climateChartSource}
                     value={(
                         <Link
                             variant="tertiary"

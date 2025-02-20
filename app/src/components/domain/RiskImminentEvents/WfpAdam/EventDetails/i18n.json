@@ -1,7 +1,6 @@
 {
-    "namespace": "common",
+    "namespace": "riskImminentEvents",
     "strings": {
-        "wfpEventDetailsPublishedOn": "Published on",
         "wfpEventDetailsKm": "{point} Km/h on {pointDate}",
         "wfpUsefulLinks": "Useful Links:",
         "wfpDashboard": "Dashboard",

@@ -6,6 +6,7 @@ import {
     type ObjectSchema,
     type PartialForm,
     type PurgeNull,
+    requiredStringCondition,
     urlCondition,
 } from '@togglecorp/toggle-form';
 
@@ -14,13 +15,9 @@ import {
     getNumberInBetweenCondition,
     positiveIntegerCondition,
 } from '#utils/form';
-import {
-    type GoApiBody,
-    type GoApiResponse,
-} from '#utils/restRequest';
+import { type GoApiBody } from '#utils/restRequest';
 
-export type LocalUnitsResponse = GoApiResponse<'/api/v2/local-units/'>;
-export type LocalUnitsRequestBody = GoApiBody<'/api/v2/local-units/{id}/', 'PATCH'> & {
+type LocalUnitsRequestBody = GoApiBody<'/api/v2/local-units/{id}/', 'PATCH'> & {
     location_json: {
         lng: number;
         lat: number;
@@ -32,19 +29,34 @@ export type LocalUnitsRequestPostBody = GoApiBody<'/api/v2/local-units/', 'POST'
         lat: number;
     }
 };
-export type TypeOfLocalUnits = components<'read'>['schemas']['LocalUnitType']['code'];
+
+export type LocalUnitsRevertRequestPostBody = GoApiBody<'/api/v2/local-units/{id}/revert/', 'POST'>;
+type TypeOfLocalUnits = components<'read'>['schemas']['LocalUnitType']['code'];
 
 export type PartialLocalUnits = PartialForm<
     PurgeNull<LocalUnitsRequestBody>,
     'client_id'
 >;
 
-export const TYPE_ADMINISTRATIVE = 1 satisfies TypeOfLocalUnits;
+// const TYPE_ADMINISTRATIVE = 1 satisfies TypeOfLocalUnits;
 export const TYPE_HEALTH_CARE = 2 satisfies TypeOfLocalUnits;
-export const TYPE_EMERGENCY_RESPONSE = 3 satisfies TypeOfLocalUnits;
-export const TYPE_HUMANITARIAN_ASSISTANCE_CENTERS = 4 satisfies TypeOfLocalUnits;
-export const TYPE_TRAINING_AND_EDUCATION = 5 satisfies TypeOfLocalUnits;
-export const TYPE_OTHER = 6 satisfies TypeOfLocalUnits;
+// const TYPE_EMERGENCY_RESPONSE = 3 satisfies TypeOfLocalUnits;
+// const TYPE_HUMANITARIAN_ASSISTANCE_CENTERS = 4 satisfies TypeOfLocalUnits;
+// const TYPE_TRAINING_AND_EDUCATION = 5 satisfies TypeOfLocalUnits;
+// const TYPE_OTHER = 6 satisfies TypeOfLocalUnits;
+
+export type PartialLocalUnitsRevertForm = PartialForm<LocalUnitsRevertRequestPostBody>;
+type LocalUnitsRevertFormSchema = ObjectSchema<PartialLocalUnitsRevertForm>;
+type LocalUnitRevertSchemaFields = ReturnType<LocalUnitsRevertFormSchema['fields']>;
+
+export const revertSchema: LocalUnitsRevertFormSchema = {
+    fields: (): LocalUnitRevertSchemaFields => ({
+        reason: {
+            required: true,
+            requiredValidation: requiredStringCondition,
+        },
+    }),
+};
 
 type LocalUnitsFormSchema = ObjectSchema<PartialLocalUnits>;
 type LocalUnitsFormSchemaFields = ReturnType<LocalUnitsFormSchema['fields']>;

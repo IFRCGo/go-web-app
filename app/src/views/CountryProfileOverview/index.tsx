@@ -26,12 +26,12 @@ import Link from '#components/Link';
 import WikiLink from '#components/WikiLink';
 import { type CountryOutletContext } from '#utils/outletContext';
 import {
-    GoApiResponse,
+    type GoApiResponse,
     useRequest,
 } from '#utils/restRequest';
 
 import ClimateChart from './ClimateChart';
-import PopulatioMap from './PopulationMap';
+import PopulationMap from './PopulationMap';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -115,6 +115,7 @@ function SeasonalCalendarEvent(props: SeasonalCalendarEventProps) {
     ));
 }
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -168,6 +169,7 @@ export function Component() {
                         return undefined;
                     }
 
+                    // FIXME: this sort will mutate the data
                     const orderedMonth = month.sort(
                         (a, b) => compareNumber(monthToOrderMap[a], monthToOrderMap[b]),
                     );
@@ -344,7 +346,7 @@ export function Component() {
                 spacing="relaxed"
             >
                 {isDefined(databankResponse) && (
-                    <PopulatioMap
+                    <PopulationMap
                         data={databankResponse.wb_population}
                     />
                 )}

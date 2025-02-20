@@ -1,0 +1,10 @@
+/* NOTE: this element is portaled */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--go-ui-spacing-lg);
+
+    @media screen and (max-width: 60rem) {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,7 +1,6 @@
 {
-    "namespace": "common",
+    "namespace": "riskImminentEvents",
     "strings": {
-        "eventDetailsViewDetails": "View Details",
         "eventDetailsCreatedOn": "Created on",
         "eventDetailsUpdatedOn": "Updated on",
         "eventDetailsPeopleExposed": "People exposed / Potentially affected",

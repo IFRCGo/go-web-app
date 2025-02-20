@@ -1,0 +1,28 @@
+{
+    "namespace": "operationalLearning",
+    "strings": {
+        "operationalLearningHeading":"Operational Learning",
+        "operationalLearningHeadingDescription":"Operational learning in emergencies is the lesson learned from managing and dealing with crises, refining protocols for resource allocation, decision-making, communication strategies, and others.  The summaries are generated using AI and Large Language Models, based on data coming from Final DREF Reports, Emergency Appeal reports and others.",
+        "byComponentTitle": "Component",
+        "bySectorTitle": "Sector",
+        "pendingMessage": "Request for generating operational learning summary is currently pending. Please wait a moment.",
+        "startedMessage": "Process of generating operational learning summary has started. This may take a few moments.",
+        "errorMessage": "Encountered an error while attempting to generate operational learning summary. Please try again later. If the issue continues, please contact us at {link}.",
+        "emptyMessage": "There are no summaries available at the moment. Please adjust your filters or try again later.",
+        "filteredEmptyMessage": "Current filters did not return any operational learning summaries. Please try adjusting or clearing your filters to check for available operational learning summaries.",
+        "selectedFilters": "Selected Filters",
+        "clearFilters": "Clear Filters",
+        "applyFilters": "Apply Filters",
+        "noSummariesAvailableForSector": "No summaries available for sectors.",
+        "noSummariesAvailableForComponent": "No summaries available for components.",
+        "extractCount": "{count} extract",
+        "extractsCount": "{count} extracts",
+        "failedToCreateExport": "Failed to generate export.",
+        "disclaimerMessage": "This is an updated implementation of the Operational Learning project started by the DREF and PER teams at IFRC. The previous dashboard can be found {link}.",
+        "here": "here",
+        "beta": "beta",
+        "failedToFetchSummary": "Failed to fetch operational learning summary",
+        "failedToFetchLearning": "Failed to fetch operational learning",
+        "failedToFetchPerComponents": "Failed to fetch PER components"
+    }
+}

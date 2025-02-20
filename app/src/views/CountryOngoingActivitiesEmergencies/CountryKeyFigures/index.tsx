@@ -48,7 +48,7 @@ function CountryKeyFigures(props: Props) {
                         description={strings.countryOngoingActivitiesKeyFiguresDref}
                     />
                 )}
-                label={strings.countryOngoingActivitiesDREFOperations}
+                label={strings.activeDrefOperationsLabel}
             />
             <KeyFigure
                 icon={<AppealsIcon />}

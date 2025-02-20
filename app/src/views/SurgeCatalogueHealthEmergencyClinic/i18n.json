@@ -24,7 +24,7 @@
         "emergencyClinicTotalPersonnelLabel": "Total",
         "emergencyClinicTotalPersonnelValue": "Typically 14-19 people from sending NS + 11-25 contracted locally.",
         "emergencyClinicPersonnelCompositionLabel": "Composition",
-        "emergencyClinicPersonnelCompositionValue": "Deployed team includes: team leader, deputy team leader, finance, admin, logistics, doctors, nurses, technicians, PSS, public health, and others. Contracted local personnel include nurse, triage nurse, doctor, translator, midwives, cleaners, social mobilization (NS Volunteers), PSS (NS Volunteers), and others.",
+        "emergencyClinicPersonnelCompositionValue": "Deployed team includes: team leader, deputy team leader, finance, admin, logistics, doctors, nurses, technicians, MHPSS, public health, and others. Contracted local personnel include nurse, triage nurse, doctor, translator, midwives, cleaners, social mobilization (NS Volunteers), MHPSS (NS Volunteers), and others.",
         "emergencyClinicStandardComponents": "Standard Components",
         "emergencyClinicStandardComponentsDetails": "Specific module names and components may vary but generally include the following:",
         "emergencyClinicModuleOneLabel": "Mobile Clinic Module",

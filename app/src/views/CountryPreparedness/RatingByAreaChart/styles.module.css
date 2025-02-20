@@ -4,8 +4,4 @@
     .text {
         font-size: var(--go-ui-font-size-sm);
     }
-
-    .rect {
-        fill: var(--go-ui-color-primary-red);
-    }
 }

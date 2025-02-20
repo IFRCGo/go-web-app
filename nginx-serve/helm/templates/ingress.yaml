@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ template "ifrcgo-web-app.fullname" . }}-ingress
+  labels:
+    app: {{ template "ifrcgo-web-app.name" . }}
+    environment: {{ .Values.environment }}
+    release: {{ .Release.Name }}
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: {{ required "ingress.host" .Values.ingress.host | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ template "ifrcgo-web-app.fullname" . }}-svc
+                port:
+                  number: 80

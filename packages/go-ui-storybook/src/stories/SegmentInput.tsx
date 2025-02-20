@@ -4,7 +4,6 @@ import {
     SegmentInputProps as PureSegmentInputProps,
 } from '@ifrc-go/ui';
 
-// eslint-disable-next-line max-len
 function SegmentInput<const N, O extends object, V
 extends string | number | boolean, RRP extends RadioProps<V, N>>(
     props: PureSegmentInputProps<N, O, V, RRP>,

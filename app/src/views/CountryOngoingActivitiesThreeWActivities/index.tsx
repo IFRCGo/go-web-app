@@ -40,7 +40,7 @@ import Link from '#components/Link';
 import useAlert from '#hooks/useAlert';
 import useFilterState from '#hooks/useFilterState';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
-import { CountryOutletContext } from '#utils/outletContext';
+import { type CountryOutletContext } from '#utils/outletContext';
 import { useRequest } from '#utils/restRequest';
 import { type GoApiResponse } from '#utils/restRequest';
 import ActivityActions, { type Props as ActivityActionsProps } from '#views/EmergencyActivities/ActivityActions';
@@ -125,6 +125,7 @@ function getAggregatedValues(values: { title: string, count: number }[]) {
     return sortedValues;
 }
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { countryId, countryResponse } = useOutletContext<CountryOutletContext>();

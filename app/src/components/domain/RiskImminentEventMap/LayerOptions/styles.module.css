@@ -1,0 +1,21 @@
+.layer-options {
+    .exposed-area-input-wrapper {
+        display: flex;
+        gap: var(--go-ui-spacing-sm);
+        flex-direction: column;
+        background-color: var(--go-ui-color-background);
+        padding: var(--go-ui-spacing-sm);
+
+        .exposed-area-legend {
+            display: flex;
+            flex-direction: column;
+            gap: unset;
+
+            .legend-label {
+                color: var(--go-ui-color-text-light);
+                font-size: var(--go-ui-font-size-sm);
+                font-weight: var(--go-ui-font-weight-medium);
+            }
+        }
+    }
+}

@@ -65,6 +65,7 @@ import styles from './styles.module.css';
 
 type SortKey = 'component' | 'rating' | 'benchmark';
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { perId } = useParams<{ perId: string }>();
@@ -141,7 +142,7 @@ export function Component() {
     });
 
     const {
-        pending: perAssesmentPending,
+        pending: perAssessmentPending,
         response: perAssessmentResponse,
     } = useRequest({
         skip: isNotDefined(assessmentId),
@@ -151,6 +152,7 @@ export function Component() {
         },
     });
 
+    // FIXME: We might need to use useFormArrayWithEmptyCheck
     const {
         setValue: setComponentValue,
         removeValue: removeComponentValue,
@@ -296,7 +298,7 @@ export function Component() {
     );
 
     const dataPending = formComponentPending
-        || perAssesmentPending
+        || perAssessmentPending
         || fetchingPrioritization
         || fetchingStatus;
 

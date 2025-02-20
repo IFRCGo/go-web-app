@@ -1,0 +1,18 @@
+# vim: filetype=nginx
+
+server {
+    listen 80;
+    server_name _;
+
+    gzip on;
+    gzip_comp_level 4;
+
+    gzip_types text/plain text/css application/json
+        application/x-javascript text/xml application/xml
+        application/xml+rss text/javascript;
+
+    location / {
+        alias $APPLY_CONFIG__DESTINATION_DIRECTORY;
+        try_files $uri /index.html;
+    }
+}

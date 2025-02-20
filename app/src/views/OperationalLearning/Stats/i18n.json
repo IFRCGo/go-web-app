@@ -1,0 +1,17 @@
+{
+    "namespace": "operationalLearning",
+    "strings": {
+        "operationsIncluded": "Operations Included",
+        "sourcesUsed": "Sources Used",
+        "learningExtract": "Learning Extracts",
+        "sectorsCovered": "Sectors Covered",
+        "learningBySector": "Learning by sectors",
+        "learningByRegions": "Learning by regions",
+        "sourcesOverTime": "Sources over time",
+        "failedToFetchStats": "Failed To fetch operational learning statistics.",
+        "sourcesTypeLegendLabel": "Type of source",
+        "sourceDREF": "DREF",
+        "sourceEmergencyAppeal": "Emergency Appeal",
+        "sourceOthers": "Others"
+    }
+}

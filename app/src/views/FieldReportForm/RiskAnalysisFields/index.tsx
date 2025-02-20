@@ -113,8 +113,8 @@ function RiskAnalysisFields(props: Props) {
                 />
             </InputSection>
             <InputSection
-                title={strings.situationFieldsEWAffectedPopCenteresLabel}
-                description={strings.situationFieldsEWAffectedPopCenteresDescription}
+                title={strings.situationFieldsEWAffectedPopCenteredLabel}
+                description={strings.situationFieldsEWAffectedPopCenteredDescription}
                 numPreferredColumns={3}
             >
                 <TextInput

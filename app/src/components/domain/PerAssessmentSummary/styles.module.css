@@ -7,6 +7,7 @@
         .total-progress {
             .answer-counts {
                 display: flex;
+                color: var(--go-ui-color-dark-blue-40);
                 gap: var(--go-ui-spacing-lg);
             }
         }
@@ -37,7 +38,7 @@
                     height: 4rem;
 
                     .filled-bar {
-                        background-color: var(--go-ui-color-primary-red);
+                        background-color: var(--go-ui-color-dark-blue-40);
                         width: 100%;
                     }
                 }

@@ -33,8 +33,8 @@ interface DelegationInformationProps {
     address: string;
 }
 
-type CountryDelgation = NonNullable<CountryResponse>['country_delegation'][number];
-const countryDelegationKeySelector = (countryDelegation: CountryDelgation) => (
+type CountryDelegation = NonNullable<CountryResponse>['country_delegation'][number];
+const countryDelegationKeySelector = (countryDelegation: CountryDelegation) => (
     `${countryDelegation.dotype_name}-${countryDelegation.hod_first_name}-${countryDelegation.hod_last_name}`
 );
 
@@ -86,7 +86,7 @@ function Presence() {
 
     const { countryResponse } = useOutletContext<CountryOutletContext>();
 
-    const countryDelegationRendererParams = useCallback((_: string, value: CountryDelgation) => {
+    const countryDelegationRendererParams = useCallback((_: string, value: CountryDelegation) => {
         const hodName = [
             value.hod_first_name,
             value.hod_last_name,
@@ -169,49 +169,53 @@ function Presence() {
                     )}
                 </div>
             </Container>
-            <Container
-                className={styles.presenceCard}
-                heading={strings.countryICRCPresenceTitle}
-                footerActions={isDefined(countryResponse?.icrc_presence?.url) && (
-                    <TextOutput
-                        label={strings.source}
-                        value={(
+            {countryResponse?.icrc_presence?.icrc_presence && (
+                <Container
+                    className={styles.presenceCard}
+                    heading={strings.countryICRCPresenceTitle}
+                    footerActions={isDefined(countryResponse.icrc_presence.url) && (
+                        <TextOutput
+                            label={strings.source}
+                            value={(
+                                <Link
+                                    variant="tertiary"
+                                    href={countryResponse.icrc_presence.url}
+                                    external
+                                    withUnderline
+                                >
+                                    {strings.icrc}
+                                </Link>
+                            )}
+                        />
+                    )}
+                    withHeaderBorder
+                    withInternalPadding
+                >
+                    {
+                        resolveToString(
+                            strings.countryICRCConfirmedPartner,
+                            { year },
+                        )
+                    }
+                    {countryResponse.icrc_presence.key_operation && (
+                        <div className={styles.icrcPresenceItem}>
                             <Link
-                                variant="tertiary"
+                                key={countryResponse.icrc_presence.id}
                                 href={countryResponse.icrc_presence.url}
                                 external
+                                variant="tertiary"
                                 withUnderline
                             >
-                                {strings.icrc}
+                                {strings.countryICRCKeyOperations}
                             </Link>
-                        )}
-                    />
-                )}
-                withHeaderBorder
-                withInternalPadding
-            >
-                {resolveToString(
-                    strings.countryICRCConfirmedPartner,
-                    { year },
-                )}
-                {countryResponse?.icrc_presence?.key_operation && (
-                    <div className={styles.icrcPresenceItem}>
-                        <Link
-                            key={countryResponse?.icrc_presence.id}
-                            href={countryResponse?.icrc_presence.url}
-                            external
-                            variant="tertiary"
-                            withUnderline
-                        >
-                            {strings.countryICRCKeyOperations}
-                        </Link>
-                        {resolveToString(
-                            strings.countryICRCWithin,
-                            { name: countryResponse?.name ?? '--' },
-                        )}
-                    </div>
-                )}
-            </Container>
+                            {resolveToString(
+                                strings.countryICRCWithin,
+                                { name: countryResponse.name ?? '--' },
+                            )}
+                        </div>
+                    )}
+                </Container>
+            )}
         </Container>
     );
 }

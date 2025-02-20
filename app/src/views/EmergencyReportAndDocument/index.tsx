@@ -11,6 +11,7 @@ import {
     RawList,
     Table,
 } from '@ifrc-go/ui';
+import { SortContext } from '@ifrc-go/ui/contexts';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     createDateColumn,
@@ -26,7 +27,7 @@ import {
     unique,
 } from '@togglecorp/fujs';
 
-import Link, { Props as LinkProps } from '#components/Link';
+import Link, { type Props as LinkProps } from '#components/Link';
 import { adminUrl } from '#config';
 import useRegion, { type Region } from '#hooks/domain/useRegion';
 import useFilterState from '#hooks/useFilterState';
@@ -49,6 +50,7 @@ type AppealDocumentType = NonNullable<NonNullable<GoApiResponse<'/api/v2/appeal_
 
 const PAGE_SIZE = 10;
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -58,9 +60,11 @@ export function Component() {
         offset: appealDocumentsOffset,
         setPage: setAppealDocumentsPage,
         limit: appealDocumentsLimit,
+        ordering: orderingAppealDocuments,
+        sortState: sortStateAppealDocuments,
     } = useFilterState<object>({
         filter: {},
-        pageSize: 10,
+        pageSize: PAGE_SIZE,
     });
 
     const {
@@ -80,8 +84,27 @@ export function Component() {
         query: isDefined(emergencyResponse) ? {
             event: emergencyResponse.id,
             limit: 9999,
+            ordering: '-is_pinned,-created_at',
         } : undefined, // TODO: we need to add search filter in server
     });
+
+    const defaultOrdering = '-created_at';
+    const orderingWithFallback = useMemo(() => {
+        if (isNotDefined(orderingAppealDocuments)) {
+            return defaultOrdering;
+        }
+
+        if (orderingAppealDocuments === '-id') {
+            return '-created_at';
+        }
+
+        if (orderingAppealDocuments === 'created_at' || orderingAppealDocuments === '-created_at') {
+            return orderingAppealDocuments;
+        }
+
+        // Add default ordering as second ordering
+        return [orderingAppealDocuments, defaultOrdering].join(',');
+    }, [orderingAppealDocuments]);
 
     const {
         pending: appealDocumentsPending,
@@ -99,6 +122,7 @@ export function Component() {
             appeal: emergencyResponse.appeals.map((appeal) => appeal.id).filter(isDefined),
             limit: appealDocumentsLimit,
             offset: appealDocumentsOffset,
+            ordering: orderingWithFallback,
         } : undefined,
     });
 
@@ -180,12 +204,14 @@ export function Component() {
                 (item) => item.created_at,
                 {
                     columnClassName: styles.date,
+                    sortable: true,
                 },
             ),
             createStringColumn<AppealDocumentType, number>(
-                'iso',
-                strings.appealDocumentLocation,
-                (item) => item.iso,
+                'type',
+                strings.appealDocumentType,
+                (item) => item.type,
+                { sortable: true },
             ),
             createStringColumn<AppealDocumentType, number>(
                 'code',
@@ -206,11 +232,14 @@ export function Component() {
                     withLinkIcon: true,
                     href: item.document ?? item.document_url ?? undefined,
                 }),
+                {
+                    sortable: true,
+                },
             ),
         ]),
         [
             strings.appealDocumentDate,
-            strings.appealDocumentLocation,
+            strings.appealDocumentType,
             strings.appealDocumentCode,
             strings.appealDocumentDescription,
             strings.appealDocumentLink,
@@ -362,14 +391,16 @@ export function Component() {
                         />
                     )}
                 >
-                    <Table
-                        pending={appealDocumentsPending}
-                        filtered={false}
-                        className={styles.table}
-                        columns={appealColumns}
-                        keySelector={numericIdSelector}
-                        data={appealDocumentsResponse?.results}
-                    />
+                    <SortContext.Provider value={sortStateAppealDocuments}>
+                        <Table
+                            pending={appealDocumentsPending}
+                            filtered={false}
+                            className={styles.table}
+                            columns={appealColumns}
+                            keySelector={numericIdSelector}
+                            data={appealDocumentsResponse?.results}
+                        />
+                    </SortContext.Provider>
                 </Container>
             )}
         </div>

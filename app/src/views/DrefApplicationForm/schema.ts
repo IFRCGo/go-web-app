@@ -18,10 +18,7 @@ import {
     positiveIntegerCondition,
     positiveNumberCondition,
 } from '#utils/form';
-import {
-    type GoApiBody,
-    type GoApiResponse,
-} from '#utils/restRequest';
+import { type GoApiBody } from '#utils/restRequest';
 
 import {
     DISASTER_FIRE,
@@ -50,7 +47,6 @@ function lessThanEqualToTwoImagesCondition<T>(value: T[] | undefined) {
         : undefined;
 }
 
-export type DrefResponse = GoApiResponse<'/api/v2/dref/{id}/'>;
 export type DrefRequestBody = GoApiBody<'/api/v2/dref/{id}/', 'PATCH'>;
 export type DrefRequestPostBody = GoApiBody<'/api/v2/dref/{id}/', 'POST'>;
 
@@ -152,7 +148,6 @@ const schema: DrefFormSchema = {
                 requiredValidation: requiredStringCondition,
             },
             field_report: {}, // This value is set from CopyFieldReportSection
-
             // EVENT DETAILS
             num_affected: { validations: [positiveIntegerCondition] },
 

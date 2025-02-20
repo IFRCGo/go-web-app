@@ -17,7 +17,7 @@ import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DistrictSearchMultiSelectInput, { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import NonFieldError from '#components/NonFieldError';
 
-import { PartialCountryDistrict } from '../../schema';
+import { type PartialCountryDistrict } from '../../schema';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';

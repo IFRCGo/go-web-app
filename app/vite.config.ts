@@ -26,16 +26,20 @@ export default defineConfig(({ mode }) => {
             'import.meta.env.APP_VERSION': JSON.stringify(env.npm_package_version),
             'import.meta.env.APP_PACKAGE_NAME': JSON.stringify(env.npm_package_name),
             'import.meta.env.APP_REPOSITORY_URL': JSON.stringify(pkg.repository.url.match(/https:\/\/github\.com\/[^ ]+/)?.[0].replace(/\.git$/, '')),
+            // NOTE: To fix 'global is not defined' issue after migration from yarn to pnpm
+            global: {},
         },
         plugins: [
             isProd ? checker({
                 // typescript: true,
                 eslint: {
+                    useFlatConfig: true,
                     lintCommand: 'eslint ./src',
                 },
-                stylelint: {
-                    lintCommand: 'stylelint "./src/**/*.css"',
-                },
+                // TODO: Enable this once https://github.com/fi3ework/vite-plugin-checker/issues/260 is fixed
+                // stylelint: {
+                //     lintCommand: 'stylelint "./src/**/*.css"',
+                // },
             }) : undefined,
             svgr(),
             reactSwc(),

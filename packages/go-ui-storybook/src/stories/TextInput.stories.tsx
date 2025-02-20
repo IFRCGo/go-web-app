@@ -47,7 +47,7 @@ function Template(args:Args) {
         <TextInput
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...args}
-            name="textinput"
+            name="textInput"
             onChange={onChange}
             value={value}
         />

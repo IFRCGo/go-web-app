@@ -1,0 +1,587 @@
+{
+    "parent": "000013-1738649630110.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "contingencyPlanDocument",
+            "namespace": "drefApplicationExport",
+            "value": "National Society developed contingency plans, or recently carried out PER assessment Document"
+        },
+        {
+            "action": "add",
+            "key": "dateAndGeographicalArea",
+            "namespace": "drefApplicationExport",
+            "value": "(Date and geographical area)"
+        },
+        {
+            "action": "add",
+            "key": "exportDrefImminentTitle",
+            "namespace": "drefApplicationExport",
+            "value": "Imminent DREF Operation"
+        },
+        {
+            "action": "add",
+            "key": "hazardDate",
+            "namespace": "drefApplicationExport",
+            "value": "When and where is the hazard expected to happen?"
+        },
+        {
+            "action": "add",
+            "key": "hazardRisk",
+            "namespace": "drefApplicationExport",
+            "value": "Explain the underlying vulnerabilities and risks the hazard poses for at-risk communities?"
+        },
+        {
+            "action": "add",
+            "key": "humanitarianImpactsHeading",
+            "namespace": "drefApplicationExport",
+            "value": "Which of the expected severe humanitarian impacts of the hazard are your actions addressing? Why were these impacts chosen?"
+        },
+        {
+            "action": "add",
+            "key": "imminentDate",
+            "namespace": "drefApplicationExport",
+            "value": "Date"
+        },
+        {
+            "action": "add",
+            "key": "imminentDrefRequest",
+            "namespace": "drefApplicationExport",
+            "value": "This Imminent DREF request is signed on behalf of:"
+        },
+        {
+            "action": "add",
+            "key": "imminentDREFRequestHeading",
+            "namespace": "drefApplicationExport",
+            "value": "Imminent DREF Request and Obligations"
+        },
+        {
+            "action": "add",
+            "key": "imminentDrefSigned",
+            "namespace": "drefApplicationExport",
+            "value": "SIGNED by the authorised representative of the National Society"
+        },
+        {
+            "action": "add",
+            "key": "imminentIFRCSigned",
+            "namespace": "drefApplicationExport",
+            "value": "SIGNED by the authorised representative of the IFRC"
+        },
+        {
+            "action": "add",
+            "key": "imminentPrintedSignatory",
+            "namespace": "drefApplicationExport",
+            "value": "Printed Signatory's Name"
+        },
+        {
+            "action": "add",
+            "key": "imminentSignature",
+            "namespace": "drefApplicationExport",
+            "value": "Signature"
+        },
+        {
+            "action": "add",
+            "key": "imminentTitle",
+            "namespace": "drefApplicationExport",
+            "value": "Title"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyAdvancePayment",
+            "namespace": "drefApplicationExport",
+            "value": "For the Purpose of Advance Payment"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyAmount",
+            "namespace": "drefApplicationExport",
+            "value": "Amount(CHF)"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyAmountCHF",
+            "namespace": "drefApplicationExport",
+            "value": "CHF 75,000/CHF 90800"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyBankAccountNumber",
+            "namespace": "drefApplicationExport",
+            "value": "Bank Account Number and Currency"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyBankDescription",
+            "namespace": "drefApplicationExport",
+            "value": "to which the IFRC shall transfer the funds will be transferred."
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyBankDetails",
+            "namespace": "drefApplicationExport",
+            "value": "Bank details of the National Society"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyBankFooter",
+            "namespace": "drefApplicationExport",
+            "value": "Please find attached letter from the Bank confirming banking relationship details."
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyBankName",
+            "namespace": "drefApplicationExport",
+            "value": "Bank Name and Address"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyDescriptionEight",
+            "namespace": "drefApplicationExport",
+            "value": "two narrative reports:"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyDescriptionEleven",
+            "namespace": "drefApplicationExport",
+            "value": "One financial report of the final Imminent DREF and the response DREF operations."
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyDescriptionFifteen",
+            "namespace": "drefApplicationExport",
+            "value": "Refund the amount dedicated to immediate response activities of the Imminent DREF request within 30 days after the implementation period set out in paragraph 4 above."
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyDescriptionFive",
+            "namespace": "drefApplicationExport",
+            "value": "The Project Funding Agreement shall indicate the amount already paid out as Imminent DREF funding which shall be included in the total DREF cap allocation."
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyDescriptionFour",
+            "namespace": "drefApplicationExport",
+            "value": "The National Society shall promptly but no later than 14 days from the date of the disaster occurrence, submit a DREF application for the next operation (using the Operations Update form via GO). Upon approval of the response DREF application, the National Society shall promptly but no later than 15 days from receiving the Project Funding Agreement from the IFRC, sign such Project Funding Agreement."
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyDescriptionFourteen",
+            "namespace": "drefApplicationExport",
+            "value": "In the event the disaster does not materialize, the National Society shall:"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyDescriptionNine",
+            "namespace": "drefApplicationExport",
+            "value": "Operations Update to scale up through response DREF request and update on Imminent DREF implemented activities"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyDescriptionOne",
+            "namespace": "drefApplicationExport",
+            "value": "The National Society commits to use the Imminent DREF funding solely for the proposed activities as per the budget indicated on page 1 and in accordance with the DREF Guidelines."
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyDescriptionSeven",
+            "namespace": "drefApplicationExport",
+            "value": "The National Society shall provide the following reports:"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyDescriptionSix",
+            "namespace": "drefApplicationExport",
+            "value": "The DREF application budget shall reflect the full funding needed for the operation, including the activities carried out using the Imminent DREF funding."
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyDescriptionSixteen",
+            "namespace": "drefApplicationExport",
+            "value": "By signing this Imminent DREF request, the National Society commits to zero tolerance for, and shall take appropriate measures against, fraud, corruption, and any form of abuse against any person, in particular children, including without limitation sexual exploitation, abuse and harassment. The IFRC reserves the right to perform audits, financial reviews, checks and verifications and/or investigations to ensure the proper use of the Imminent DREF and compliance with the above-mentioned obligations. In order to facilitate such audits, financial reviews, checks and verifications and/or investigations, the National Society shall grant the IFRC access to its documents, records, and premises as well as its staff, agents, volunteers, beneficiaries, sub-grantees and contractors. Any breach of the above obligations shall entitle the IFRC to request a full refund of this Imminent DREF request."
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyDescriptionTen",
+            "namespace": "drefApplicationExport",
+            "value": "Imminent DREF and response DREF report in one common final report"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyDescriptionThirteen",
+            "namespace": "drefApplicationExport",
+            "value": "Provide a final financial and narrative report on the use of the Imminent DREF request within 30 days after the 45 days implementation period set out in paragraph 4 above,"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyDescriptionThree",
+            "namespace": "drefApplicationExport",
+            "value": "In the event the foreseen disaster materializes, and the National Society requires additional funding from the DREF,"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyDescriptionTwelve",
+            "namespace": "drefApplicationExport",
+            "value": "In the event the disaster materializes, however the National Society does not wish to request international support, the National Society shall:"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyDescriptionTwo",
+            "namespace": "drefApplicationExport",
+            "value": "The maximum timeframe for implementing the proposed activities shall be 45 days after the date of approval of the Imminent DREF request, with no possibility of extension."
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyHeading",
+            "namespace": "drefApplicationExport",
+            "value": "National Society Obligations:"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietySwiftCode",
+            "namespace": "drefApplicationExport",
+            "value": "IBAN / SWIFT Code"
+        },
+        {
+            "action": "add",
+            "key": "plan",
+            "namespace": "drefApplicationExport",
+            "value": "Plan"
+        },
+        {
+            "action": "add",
+            "key": "planDescription",
+            "namespace": "drefApplicationExport",
+            "value": "If the National Society has developed contingency plans, or recently carried out PER assessment or readiness check for instance, kindly attached those documents to the request."
+        },
+        {
+            "action": "add",
+            "key": "plannedInterventionAltText",
+            "namespace": "drefApplicationExport",
+            "value": "Planned Intervention Image"
+        },
+        {
+            "action": "add",
+            "key": "priorityActionsBudget",
+            "namespace": "drefApplicationExport",
+            "value": "Budget (CHF)"
+        },
+        {
+            "action": "add",
+            "key": "priorityActionsEarlyResponse",
+            "namespace": "drefApplicationExport",
+            "value": "Early Response"
+        },
+        {
+            "action": "add",
+            "key": "priorityActionsIndirectCost",
+            "namespace": "drefApplicationExport",
+            "value": "Indirect Cost"
+        },
+        {
+            "action": "add",
+            "key": "priorityActionsSubTotal",
+            "namespace": "drefApplicationExport",
+            "value": "Sub-total"
+        },
+        {
+            "action": "add",
+            "key": "priorityActionsSurgeDeployment",
+            "namespace": "drefApplicationExport",
+            "value": "Surge Deployment (if applicable)"
+        },
+        {
+            "action": "add",
+            "key": "priorityActionsTotal",
+            "namespace": "drefApplicationExport",
+            "value": "Total"
+        },
+        {
+            "action": "add",
+            "key": "proposedActions",
+            "namespace": "drefApplicationExport",
+            "value": "Proposed Actions"
+        },
+        {
+            "action": "add",
+            "key": "proposedActionsActivities",
+            "namespace": "drefApplicationExport",
+            "value": "Activities"
+        },
+        {
+            "action": "add",
+            "key": "proposedActionsEarlyActions",
+            "namespace": "drefApplicationExport",
+            "value": "Early Actions"
+        },
+        {
+            "action": "add",
+            "key": "requestDescription",
+            "namespace": "drefApplicationExport",
+            "value": "The National Society hereby requests an Imminent DREF funding of CHF 75,000 to implement anticipatory actions to mitigate the risk of the foreseen disaster and possibly a few immediate response activities should the disaster materialize."
+        },
+        {
+            "action": "add",
+            "key": "requestHeading",
+            "namespace": "drefApplicationExport",
+            "value": "Request:"
+        },
+        {
+            "action": "add",
+            "key": "scenarioAnalysis",
+            "namespace": "drefApplicationExport",
+            "value": "Scenario analysis"
+        },
+        {
+            "action": "add",
+            "key": "sourceInformationAttachments",
+            "namespace": "drefApplicationExport",
+            "value": "Include the link to the source of information or indicate if shared as attachments."
+        },
+        {
+            "action": "remove",
+            "key": "nationalSocietyActionsHeading",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "situationUpdateSectionHeading",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "add",
+            "key": "drefFormOverviewUploadDocumentButtonLabel",
+            "namespace": "drefApplicationForm",
+            "value": "Upload document"
+        },
+        {
+            "action": "add",
+            "key": "drefFormProposedActionActivityLabel",
+            "namespace": "drefApplicationForm",
+            "value": "Activity"
+        },
+        {
+            "action": "add",
+            "key": "drefFormProposedActionAddActivityLabel",
+            "namespace": "drefApplicationForm",
+            "value": "Add Activity"
+        },
+        {
+            "action": "add",
+            "key": "drefFormProposedActionBudgetLabel",
+            "namespace": "drefApplicationForm",
+            "value": "Budget(CHF)"
+        },
+        {
+            "action": "add",
+            "key": "drefFormProposedActionEarlyActionsLabel",
+            "namespace": "drefApplicationForm",
+            "value": "Early Actions"
+        },
+        {
+            "action": "add",
+            "key": "drefFormProposedActionEarlyResponseLabel",
+            "namespace": "drefApplicationForm",
+            "value": "Early Response"
+        },
+        {
+            "action": "add",
+            "key": "drefFormProposedActionIndirectCost",
+            "namespace": "drefApplicationForm",
+            "value": "Indirect cost"
+        },
+        {
+            "action": "add",
+            "key": "drefFormProposedActions",
+            "namespace": "drefApplicationForm",
+            "value": "Proposed Actions"
+        },
+        {
+            "action": "add",
+            "key": "drefFormProposedActionSelectActivitiesLabel",
+            "namespace": "drefApplicationForm",
+            "value": "Select the activity"
+        },
+        {
+            "action": "add",
+            "key": "drefFormProposedActionSelectBudgetNote",
+            "namespace": "drefApplicationForm",
+            "value": "Please note that if Surge Personnel are deployed, the Surge Deployment cost will be CHF 10,000, and the Indirect Costs will be CHF 5,800. Conversely, if Surge Personnel are not deployed, the Surge Deployment cost will not be applicable, and the Indirect Costs will be CHF 5,000."
+        },
+        {
+            "action": "add",
+            "key": "drefFormProposedActionSubTotal",
+            "namespace": "drefApplicationForm",
+            "value": "Sub-total"
+        },
+        {
+            "action": "add",
+            "key": "drefFormProposedActionSurgeDeployment",
+            "namespace": "drefApplicationForm",
+            "value": "Surge Deployment"
+        },
+        {
+            "action": "add",
+            "key": "drefFormProposedActionTotal",
+            "namespace": "drefApplicationForm",
+            "value": "Total"
+        },
+        {
+            "action": "add",
+            "key": "drefFormRemoveActivity",
+            "namespace": "drefApplicationForm",
+            "value": "Remove Activity"
+        },
+        {
+            "action": "add",
+            "key": "drefFormUploadSupportingDocumentButton",
+            "namespace": "drefApplicationForm",
+            "value": "Upload document"
+        },
+        {
+            "action": "add",
+            "key": "drefHazardDescription",
+            "namespace": "drefApplicationForm",
+            "value": "Based on comparison of past events, what humanitarian impacts do you expect? Of what magnitude? (e.g. last time there was a cyclone making landfall with this windspeed, XX houses were destroyed, and we had to launch a DREF/emergency appeal for CHF xxx)."
+        },
+        {
+            "action": "add",
+            "key": "drefHazardExpectedDescription",
+            "namespace": "drefApplicationForm",
+            "value": "Narrative including Date and geographical areas."
+        },
+        {
+            "action": "add",
+            "key": "drefHazardExpectedTitle",
+            "namespace": "drefApplicationForm",
+            "value": "When and where is the hazard expected to happen?"
+        },
+        {
+            "action": "add",
+            "key": "drefHazardTitle",
+            "namespace": "drefApplicationForm",
+            "value": "Explain the underlying vulnerabilities and risks the hazard poses for at-risk communities?"
+        },
+        {
+            "action": "add",
+            "key": "drefHumanitarianDescription",
+            "namespace": "drefApplicationForm",
+            "value": "Prioritized impact of the foreseen disaster."
+        },
+        {
+            "action": "add",
+            "key": "drefHumanitarianTitle",
+            "namespace": "drefApplicationForm",
+            "value": "Which of the expected severe humanitarian impacts of the hazard are your actions addressing? Why were these impacts chosen?"
+        },
+        {
+            "action": "add",
+            "key": "drefUploadSupportingDocumentTitle",
+            "namespace": "drefApplicationForm",
+            "value": "If the National Society has developed contingency plans, or recently carried out PER assessment or readiness check for instance, kindly attach those documents here."
+        },
+        {
+            "action": "add",
+            "key": "formTabPlanLabel",
+            "namespace": "drefApplicationForm",
+            "value": "Plan"
+        },
+        {
+            "action": "add",
+            "key": "formTabScenarioAnalysisLabel",
+            "namespace": "drefApplicationForm",
+            "value": "Scenario Analysis"
+        },
+        {
+            "action": "remove",
+            "key": "drefFormApproximateDateOfImpact",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefFormDidNationalSocietyStartedImminent",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefFormEstimatedPeopleInNeed",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefFormImminentDisaster",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefFormImminentNeedsIdentified",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefFormNSAnticipatoryAction",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefFormPeopleInNeedDescriptionImminent",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefFormTargetCommunities",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefFormTargetCommunitiesDescription",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefFormUploadSupportingDocumentDescription",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "update",
+            "key": "drefFormClickEmergencyResponseFrameworkLabel",
+            "newKey": "drefFormClickEmergencyResponseLabel",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "update",
+            "key": "drefFormUploadDocumentButtonLabel",
+            "namespace": "drefApplicationForm",
+            "newValue": "Upload any additional support document (Optional)"
+        },
+        {
+            "action": "update",
+            "key": "drefFormUploadSupportingDocument",
+            "namespace": "drefApplicationForm",
+            "newValue": "Upload any supporting document (Optional)"
+        },
+        {
+            "action": "add",
+            "key": "drefDownloadPDFwithoutPGA",
+            "namespace": "drefExportModal",
+            "value": "Download PDF without PGA"
+        },
+        {
+            "action": "add",
+            "key": "drefDownloadPDFWithPGA",
+            "namespace": "drefExportModal",
+            "value": "Download PDF with PGA"
+        },
+        {
+            "action": "add",
+            "key": "drefFailureToExportMessage",
+            "namespace": "drefExportModal",
+            "value": "Failed to export PDF."
+        },
+        {
+            "action": "add",
+            "key": "riskDataNotAvailable",
+            "namespace": "riskSeasonalMap",
+            "value": "Data not available for selected filters"
+        }
+    ]
+}

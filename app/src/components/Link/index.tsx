@@ -5,7 +5,7 @@ import {
 import {
     generatePath,
     Link as InternalLink,
-    LinkProps as RouterLinkProps,
+    type LinkProps as RouterLinkProps,
 } from 'react-router-dom';
 import {
     ChevronRightLineIcon,
@@ -45,7 +45,7 @@ export function resolvePath(
             ...route,
             resolvedPath,
         };
-    } catch (ex) {
+    } catch {
         return {
             ...route,
             resolvedPath: undefined,
@@ -80,7 +80,6 @@ export function useLink(props: {
         return { disabled: true, to: undefined };
     }
 
-    // eslint-disable-next-line react/destructuring-assignment
     const route = resolvePath(props.to, routes, props.urlParams);
     const { resolvedPath } = route;
 
@@ -114,7 +113,7 @@ Omit<{
     spacing?: ButtonFeatureProps['spacing'];
 }, OMISSION>
 
-export type InternalLinkProps = {
+type InternalLinkProps = {
     external?: never;
     to: keyof WrappedRoutes | undefined | null;
     urlParams?: UrlParams;
@@ -151,7 +150,6 @@ function Link(props: Props) {
         ellipsize,
         spacing,
 
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         external,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         to,
@@ -176,10 +174,8 @@ function Link(props: Props) {
             : { to: props.to, external: false, urlParams: props.urlParams },
     );
 
-    // eslint-disable-next-line react/destructuring-assignment
     const disabled = disabledFromProps || disabledLink;
 
-    // eslint-disable-next-line react/destructuring-assignment
     const nonLink = isFalsyString(toLink);
 
     const {

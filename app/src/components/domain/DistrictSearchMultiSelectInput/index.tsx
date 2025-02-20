@@ -6,7 +6,7 @@ import { CheckDoubleFillIcon } from '@ifrc-go/icons';
 import {
     Button,
     SearchMultiSelectInput,
-    SearchMultiSelectInputProps,
+    type SearchMultiSelectInputProps,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {

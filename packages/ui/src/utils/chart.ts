@@ -154,7 +154,7 @@ export function getDatesSeparatedByYear(startDate: Date, endDate: Date) {
 
     const dates = [];
 
-    while (currentDate.getTime() < targetDate.getTime()) {
+    while (currentDate.getTime() <= targetDate.getTime()) {
         dates.push(new Date(currentDate));
         currentDate.setFullYear(currentDate.getFullYear() + 1);
         currentDate.setHours(0, 0, 0, 0);
@@ -196,12 +196,12 @@ export function getDiscretePathDataList(pointList: UnsafePoint[] | undefined) {
         return undefined;
     }
 
-    const splittedList = splitList<UnsafePoint, Point>(
+    const separatedList = splitList<UnsafePoint, Point>(
         pointList,
         isUnsafePoint,
     );
 
-    const discretePaths = splittedList.map(
+    const discretePaths = separatedList.map(
         (pointListSplit) => getPathData(pointListSplit),
     );
 
@@ -436,7 +436,7 @@ export function getEvenDistribution(min: number, max: number, distribution: numb
     return getEvenlyDistributedExcess(additional);
 }
 
-export function getEvenlyDistributibleBounds(bounds: Bounds, numBreaks: number): Bounds {
+export function getEvenlyDistributableBounds(bounds: Bounds, numBreaks: number): Bounds {
     const { left, right } = getEvenDistribution(
         bounds.min,
         bounds.max,

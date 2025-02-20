@@ -2,6 +2,7 @@ import {
     useCallback,
     useMemo,
 } from 'react';
+import { useParams } from 'react-router-dom';
 import {
     BooleanInput,
     Container,
@@ -9,9 +10,11 @@ import {
     InputSection,
     RadioInput,
     TextInput,
+    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
+    isDefined,
     isNotDefined,
     isTruthyString,
 } from '@togglecorp/fujs';
@@ -36,6 +39,7 @@ import {
 } from '#utils/constants';
 
 import { type PartialFormValue } from '../common';
+import TitlePreview from './TitlePreview';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -54,10 +58,6 @@ interface Props {
     setDistrictOptions: React.Dispatch<React.SetStateAction<DistrictItem[] | null | undefined>>;
     setEventOptions: React.Dispatch<React.SetStateAction<EventItem[] | null | undefined>>;
     disabled?: boolean;
-
-    fieldReportId: string | undefined;
-    titlePrefix: string | undefined;
-    titleSuffix: string | undefined;
 }
 
 function ContextFields(props: Props) {
@@ -71,12 +71,10 @@ function ContextFields(props: Props) {
         setDistrictOptions,
         setEventOptions,
         disabled,
-        titlePrefix,
-        titleSuffix,
-        fieldReportId,
     } = props;
 
     const strings = useTranslation(i18n);
+    const { fieldReportId } = useParams<{ fieldReportId: string }>();
 
     const {
         api_field_report_status,
@@ -100,7 +98,7 @@ function ContextFields(props: Props) {
     ]);
 
     type MapByReportType = {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
         [key in ReportType]: string | undefined;
     }
 
@@ -171,16 +169,7 @@ function ContextFields(props: Props) {
         [onValueChange, value.dtype],
     );
 
-    const prefixVisible = !fieldReportId && isTruthyString(titlePrefix);
     const summaryVisible = !value.is_covid_report;
-    const suffixVisible = !fieldReportId && isTruthyString(titleSuffix);
-
-    const preferredColumnNoForSummary = Math.max(
-        (prefixVisible ? 1 : 0)
-        + (summaryVisible ? 1 : 0)
-        + (suffixVisible ? 1 : 0),
-        1,
-    ) as 1 | 2 | 3;
 
     return (
         <Container
@@ -299,39 +288,44 @@ function ContextFields(props: Props) {
                 title={strings.summaryLabel}
                 description={strings.summaryDescription}
                 withAsteriskOnTitle
-                numPreferredColumns={preferredColumnNoForSummary}
+                numPreferredColumns={1}
             >
-                {prefixVisible && (
-                    <TextInput
-                        label={summaryVisible ? strings.fieldPrefix : strings.titleSecondaryLabel}
-                        name={undefined}
-                        value={titlePrefix}
-                        // eslint-disable-next-line @typescript-eslint/no-empty-function
-                        onChange={() => { }}
-                    />
-                )}
                 {summaryVisible && (
-                    <TextInput
-                        label={strings.titleSecondaryLabel}
-                        placeholder={strings.titleInputPlaceholder}
-                        name="summary"
-                        value={value.summary}
-                        maxLength={256}
-                        onChange={onValueChange}
-                        error={error?.summary}
-                        disabled={disabled}
-                        withAsterisk
-                    />
-                )}
-                {suffixVisible && (
-                    <TextInput
-                        label={strings.fieldReportFormSuffix}
-                        name={undefined}
-                        value={titleSuffix}
-                        // eslint-disable-next-line @typescript-eslint/no-empty-function
-                        onChange={() => { }}
-                    // readOnly
-                    />
+                    <>
+                        <TextInput
+                            label={strings.titleSecondaryLabel}
+                            placeholder={strings.titleInputPlaceholder}
+                            name="title"
+                            value={value.title}
+                            maxLength={256}
+                            onChange={onValueChange}
+                            error={error?.title}
+                            disabled={disabled}
+                            withAsterisk
+                        />
+                        {isDefined(value.country)
+                            && isDefined(value.dtype)
+                            && isDefined(value.title)
+                            && isTruthyString(value.title.trim())
+                            ? (
+                                <TitlePreview
+                                    country={value.country}
+                                    disasterType={value.dtype}
+                                    event={value.event}
+                                    isCovidReport={value.is_covid_report}
+                                    startDate={value.start_date}
+                                    title={value.title}
+                                    id={value.id}
+                                />
+                            ) : (
+                                <TextOutput
+                                    value={value.summary}
+                                    label={isDefined(fieldReportId)
+                                        ? strings.originalTitle : strings.generatedTitlePreview}
+                                    strongLabel
+                                />
+                            )}
+                    </>
                 )}
             </InputSection>
             <InputSection

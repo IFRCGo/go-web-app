@@ -3,7 +3,7 @@ import {
     PasswordInputProps as PurePasswordInputProps,
 } from '@ifrc-go/ui';
 
-interface PasswordInputProps<T> extends PurePasswordInputProps<T> {}
+type PasswordInputProps<T> = PurePasswordInputProps<T>
 
 function PasswordInput<const T>(props: PasswordInputProps<T>) {
     return (

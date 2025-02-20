@@ -1,0 +1,42 @@
+.chip {
+    --color-border: transparent;
+    --color-text: inherit;
+    --color-background: transparent;
+    --border-radius: var(--go-ui-border-radius-full);
+    --padding: var(--go-ui-spacing-4xs) var(--go-ui-spacing-4xs) var(--go-ui-spacing-4xs) var(--go-ui-spacing-sm);
+
+    display: flex;
+    align-items: center;
+    border: var(--go-ui-width-separator-sm) solid var(--color-border);
+    border-radius: var(--border-radius);
+    background-color: var(--color-background);
+    padding: var(--padding);
+    color: var(--color-text);
+    gap: var(--go-ui-spacing-3xs);
+
+    &.no-delete-icon {
+        --padding: var(--go-ui-spacing-4xs) var(--go-ui-spacing-sm);
+    }
+
+    &.primary {
+        --color-border: var(--go-ui-color-primary-red);
+        --color-background: var(--go-ui-color-primary-red);
+        --color-text: var(--go-ui-color-white);
+    }
+
+    &.secondary {
+        --color-border: var(--go-ui-color-primary-red);
+        --color-background: var(--go-ui-color-white);
+        --color-text: var(--go-ui-color-primary-red);
+    }
+
+    &.tertiary {
+        --color-border: var(--go-ui-color-gray-40);
+        --color-background: var(--go-ui-color-gray-30);
+        --color-text: inherit;
+    }
+
+    .close-icon {
+        font-size: var(--go-ui-font-size-sm);
+    }
+}

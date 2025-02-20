@@ -66,9 +66,9 @@ type ActionSupplyItem = {
 export type ActivityRequestBody = GoApiBody<'/api/v2/emergency-project/{id}/', 'PATCH'>;
 export type ActivityRequestPostBody = GoApiBody<'/api/v2/emergency-project/{id}/', 'POST'>;
 
-export type RawActivityItem = NonNullable<ActivityRequestBody['activities']>[number];
+type RawActivityItem = NonNullable<ActivityRequestBody['activities']>[number];
 
-export type ActivityItem = Omit<RawActivityItem, 'points' | 'custom_supplies' | 'supplies'> & {
+type ActivityItem = Omit<RawActivityItem, 'points' | 'custom_supplies' | 'supplies'> & {
     client_id: string;
     points: (NonNullable<RawActivityItem['points']>[number] & { client_id: string })[]
     custom_supplies: CustomSupplyItem[];

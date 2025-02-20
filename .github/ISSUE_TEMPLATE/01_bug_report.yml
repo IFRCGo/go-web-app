@@ -1,0 +1,92 @@
+name: "Bug Report"
+description: "Report a technical or visual issue."
+labels: ["type: bug"]
+type: "Bug"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Bug Report**
+        Please fill out the form below with as much detail as possible.
+        If the issue is visual, screenshots or videos are greatly appreciated.
+        **Please review [our guide on reporting bugs](https://github.com/IFRCGo/go-web-app/blob/develop/CONTRIBUTING.md#reporting-bugs) before opening a new issue.**
+
+  - type: input
+    attributes:
+      label: "Page URL"
+      description: "The URL of the page where you encountered the issue."
+      placeholder: "https://go.ifrc.org/"
+    validations:
+      required: true
+
+  - type: dropdown
+    attributes:
+      label: "Environment"
+      description: "Please select the environment where the bug occurred."
+      options:
+        - "Alpha"
+        - "Staging"
+        - "Production"
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: "Browser"
+      description: "Which browser are you using? (e.g., Chrome, Firefox, Safari)"
+      placeholder: "Chrome"
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: "Steps to Reproduce the Issue"
+      description: |
+        Please describe the issue in detail, including:
+        1. What actions led to the issue?
+        2. If possible, attach screenshots or videos demonstrating the problem.
+      placeholder: |
+        1. I clicked on...
+        2. [Attach screenshots/videos if available]
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: "Expected Behavior"
+      description: "Describe what you expected to happen."
+      placeholder: "I expected the page to..."
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: "Actual Behavior"
+      description: "Describe what actually happened, including any error messages."
+      placeholder: "Instead, I saw..."
+    validations:
+      required: true
+
+  - type: dropdown
+    attributes:
+      label: "Priority"
+      description: "How urgent is this issue?"
+      options:
+        - "Low (Minor inconvenience)"
+        - "Medium (Affects functionality, but there is a workaround)"
+        - "High (Major functionality is broken)"
+        - "Critical (Site is unusable)"
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: "Additional Context (Optional)"
+      description: |
+        Provide any extra details, such as:
+        - Related links.
+        - Previous occurrences of this issue.
+        - Workarounds you have tried.
+      placeholder: "This issue also happened on [link]."
+    validations:
+      required: false

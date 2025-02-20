@@ -2,7 +2,7 @@
     "namespace": "common",
     "strings": {
         "messageTitleFetching":"Fetching data...",
-        "messageTitleFilterdDataNotAvailable":"Data is not available for selected filter!",
+        "messageTitleFilteredDataNotAvailable":"Data is not available for selected filter!",
         "messageTitleDataNotAvailable":"Data is not available!",
         "messageTitleDataFailedToFetch": "Failed to fetch data!"
     }

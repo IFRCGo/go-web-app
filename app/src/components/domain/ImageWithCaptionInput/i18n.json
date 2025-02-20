@@ -1,5 +1,5 @@
 {
-    "namespace": "common",
+    "namespace": "imageWithCaptionInput",
     "strings": {
         "imageWithCaptionEnterCaption": "Enter Caption",
         "imageWithCaptionPreview": "preview"

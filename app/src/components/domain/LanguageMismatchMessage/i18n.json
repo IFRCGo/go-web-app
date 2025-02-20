@@ -1,6 +1,6 @@
 {
-    "namespace":"common",
-    "strings":{
+    "namespace": "languageMismatchMessage",
+    "strings": {
         "languageMismatchErrorTitle": "Edit not available in selected language!",
         "languageMismatchErrorMessage": "This form was originally created in {originalLanguage} and cannot be edited in a different language!",
         "languageMismatchHelpMessage": "Please change the language to {originalLanguage} to edit it!"

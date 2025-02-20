@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "ifrcgo-web-app.fullname" . }}-svc
+  labels:
+    app: {{ template "ifrcgo-web-app.name" . }}
+    environment: {{ .Values.environment }}
+    release: {{ .Release.Name }}
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ template "ifrcgo-web-app.name" . }}
+    release: {{ .Release.Name }}
+    run: {{ .Release.Name }}
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

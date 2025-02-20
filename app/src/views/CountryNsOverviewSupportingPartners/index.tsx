@@ -12,6 +12,7 @@ import SupportingPartnersContacts from './SupportingPartnersContacts';
 
 import styles from './styles.module.css';
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const {

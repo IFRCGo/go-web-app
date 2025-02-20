@@ -21,7 +21,7 @@ export interface Props {
      */
     invalidText?: React.ReactNode;
     /**
-     * Normalize numer into Millions(M), Billion(B)
+     * Normalize number into Millions(M), Billion(B)
      */
     compact?: boolean;
     /**

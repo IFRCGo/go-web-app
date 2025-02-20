@@ -1,10 +1,10 @@
 import {
     MultiSelectInput,
-    MultiSelectInputProps,
+    type MultiSelectInputProps,
 } from '@ifrc-go/ui';
 import { numericIdSelector } from '@ifrc-go/ui/utils';
 
-import useNationalSociety, { NationalSociety } from '#hooks/domain/useNationalSociety';
+import useNationalSociety, { type NationalSociety } from '#hooks/domain/useNationalSociety';
 
 function countrySocietyNameSelector(country: NationalSociety) {
     return country.society_name;

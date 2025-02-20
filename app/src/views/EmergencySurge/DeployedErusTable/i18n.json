@@ -5,7 +5,7 @@
         "eruTableName": "Owner",
         "eruTableType": "Type",
         "eruTablePersonnel": "Personnel Units",
-        "eruTableEquipment":"Equipments Units",
+        "eruTableEquipment":"Equipment Units",
         "eruTableCountry": "Country Deployed To",
         "eruTableEmergency": "Emergency",
         "deployedErusViewAll": "View All Deployed ERUs"

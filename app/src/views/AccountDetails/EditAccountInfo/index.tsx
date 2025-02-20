@@ -153,7 +153,7 @@ function EditAccountInfo(props: Props) {
         body: (body: AccountRequestBody) => body,
         onSuccess: () => {
             alert.show(
-                strings.editAccoutSuccessfulMessage,
+                strings.editAccountSuccessfulMessage,
                 { variant: 'success' },
             );
             invalidate('user-me');

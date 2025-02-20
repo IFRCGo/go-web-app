@@ -12,7 +12,9 @@ import styles from './styles.module.css';
 export interface Props<ITEM> {
     className?: string;
     label?: React.ReactNode;
+    labelClassName?: string;
     items: ITEM[] | undefined | null;
+    itemListContainerClassName?: string;
     keySelector: (item: ITEM) => React.Key;
     colorSelector?: (item: ITEM) => string | undefined;
     labelSelector?: (item: ITEM) => React.ReactNode;
@@ -34,6 +36,8 @@ function Legend<ITEM>(props: Props<ITEM>) {
         itemClassName,
         iconElementClassName,
         colorElementClassName,
+        labelClassName,
+        itemListContainerClassName,
     } = props;
 
     const legendItemRendererParams = useCallback(
@@ -58,11 +62,11 @@ function Legend<ITEM>(props: Props<ITEM>) {
     return (
         <div className={_cs(styles.legend, className)}>
             {isDefined(label) && (
-                <div className={styles.label}>
+                <div className={_cs(styles.label, labelClassName)}>
                     {label}
                 </div>
             )}
-            <div className={styles.legendItems}>
+            <div className={_cs(styles.legendItems, itemListContainerClassName)}>
                 <RawList
                     data={items}
                     renderer={LegendItem}

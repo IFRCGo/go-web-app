@@ -1,0 +1,10 @@
+.import-dref-application-modal {
+    .content {
+        align-items: center;
+
+        .icon {
+            color: var(--go-ui-color-text-light);
+            font-size: 6rem;
+        }
+    }
+}

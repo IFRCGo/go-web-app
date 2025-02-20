@@ -1,8 +1,8 @@
 {
-    "namespace": "common",
+    "namespace": "appealsOverYearsChart",
     "strings": {
-        "timelineChartEmergencyAppealLabel":"Emergency Appeals",
-        "timelineChartDrefLabel":"DREFs",
+        "timelineChartEmergencyAppealLabel": "Emergency Appeals",
+        "timelineChartDrefLabel": "DREFs",
         "timelineChartAmountFundedLabel": "Amount Funded",
         "timelineChartPeopleTargetedLabel": "People Targeted"
     }

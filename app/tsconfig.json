@@ -1,6 +1,11 @@
 {
     "compilerOptions": {
         "paths": {
+            /* Issue with turf library https://github.com/Turfjs/turf/issues/2598#issuecomment-2084656403 */
+            "@turf/bbox": ["../node_modules/@turf/bbox/dist/js/index.d.ts"],
+            "@turf/circle": ["../node_modules/@turf/circle/dist/js/index.d.ts"],
+            "@turf/buffer": ["../node_modules/@turf/buffer/index.d.ts"],
+
             "#generated/*": ["./generated/*"],
             "#assets/*": ["./src/assets/*"],
             "#components/*": ["./src/components/*"],

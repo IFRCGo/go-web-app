@@ -1,5 +1,5 @@
 {
-    "namespace": "generateMontandonTokenModal",
+    "namespace": "accountDetails",
     "strings": {
         "title": "Generate token for Montandon",
         "description": "By clicking 'Accept & Generate' button, you'll  accept the {termsLink} of the Montandon API. Please make sure to review it.",

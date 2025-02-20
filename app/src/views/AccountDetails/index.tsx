@@ -36,6 +36,7 @@ import styles from './styles.module.css';
 
 const TOKEN_PAGE_SIZE = 12;
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);

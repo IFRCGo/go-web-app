@@ -89,7 +89,7 @@ function EventDetail(props: Props) {
     }, [setFieldValue]);
 
     const operationalLearningUrl = useLink({
-        to: 'preparednessGlobalOperational',
+        to: 'operationalLearning',
         external: false,
     });
 

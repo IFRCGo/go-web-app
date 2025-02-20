@@ -1,5 +1,5 @@
 {
-    "namespace": "nationalSocietyIncomeSourceBreakdown",
+    "namespace": "countryNsOverviewContextAndStructure",
     "strings": {
         "incomeSourceBreakdownHeading": "Income Source Breakdown for {year}",
         "incomeSourceBreakdownNotAvailableMessage": "Data not available for selected year",

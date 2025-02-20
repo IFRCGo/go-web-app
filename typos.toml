@@ -1,0 +1,16 @@
+[files]
+extend-exclude = [
+    "packages/e2e-tests/playwright-report/*",
+    "translationMigrations/*",
+    "patches/*",
+    "CHANGELOG.md"
+]
+[default.extend-identifiers]
+    CoordinatedAssessementIcon = "CoordinatedAssessementIcon"
+    evidence_of_sucess = "evidence_of_sucess"
+[default.extend-words]
+    Teh = "Teh"
+    OT = "OT"
+    MENA = "MENA"
+    ANC = "ANC"
+    OTHR = "OTHR"

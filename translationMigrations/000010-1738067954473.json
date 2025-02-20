@@ -1,0 +1,16 @@
+{
+    "parent": "000009-1737021478924.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "appealDocumentType",
+            "namespace": "emergencyReportAndDocument",
+            "value": "Type"
+        },
+        {
+            "action": "remove",
+            "key": "appealDocumentLocation",
+            "namespace": "emergencyReportAndDocument"
+        }
+    ]
+}

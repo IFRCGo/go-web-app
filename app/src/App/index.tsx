@@ -31,8 +31,8 @@ import {
 } from '#config';
 import RouteContext from '#contexts/route';
 import UserContext, {
-    UserAuth,
-    UserContextProps,
+    type UserAuth,
+    type UserContextProps,
 } from '#contexts/user';
 import {
     KEY_LANGUAGE_STORAGE,
@@ -157,9 +157,9 @@ function Application() {
     ] = useState<Record<string, LanguageNamespaceStatus>>({});
 
     const setAndStoreCurrentLanguage = useCallback(
-        (newLanugage: Language) => {
-            setCurrentLanguage(newLanugage);
-            setToStorage(KEY_LANGUAGE_STORAGE, newLanugage);
+        (newLanguage: Language) => {
+            setCurrentLanguage(newLanguage);
+            setToStorage(KEY_LANGUAGE_STORAGE, newLanguage);
         },
         [],
     );

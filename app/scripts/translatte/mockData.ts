@@ -228,7 +228,7 @@ export const registerContent = {
     },
 } satisfies TranslationFileContent;
 
-// Story: if the server has no tranlsation data and we push the
+// Story: if the server has no translation data and we push the
 // above migrations, we get the following strings in server
 export const strings1: SourceFileContent = {
     strings: [

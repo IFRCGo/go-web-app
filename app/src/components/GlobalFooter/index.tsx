@@ -99,6 +99,23 @@ function GlobalFooter(props: Props) {
             </div>
             <div className={styles.section}>
                 <Heading>
+                    {strings.policies}
+                </Heading>
+                <div className={styles.subSection}>
+                    <Link
+                        to="cookiePolicy"
+                    >
+                        {strings.cookiePolicy}
+                    </Link>
+                    <Link
+                        to="termsAndConditions"
+                    >
+                        {strings.termsAndConditions}
+                    </Link>
+                </div>
+            </div>
+            <div className={styles.section}>
+                <Heading>
                     {strings.globalHelpfulLinks}
                 </Heading>
                 <div className={styles.subSection}>

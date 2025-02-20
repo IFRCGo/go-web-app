@@ -61,7 +61,7 @@ export function getDataWithTruthyHazardType<
 
     return {
         ...data,
-        // FIXME: server should not pass emtpy string
+        // FIXME: server should not pass empty string
         hazard_type: data.hazard_type as Exclude<HazardType, ''>,
     };
 }
@@ -176,7 +176,7 @@ export function getPrioritizedIpcData(data: IpcData) {
     // For IPC, we can have multiple estimations or observed value
     // for same year and month.
     // So we need to prioritize entries that is from latest
-    // observation or predection
+    // observation or prediction
     // So the priority order is
     // Observed > Estimated
     // Latest analysis date
@@ -221,7 +221,7 @@ export function getPrioritizedIpcData(data: IpcData) {
     return uniqueData;
 }
 
-export function getAverageIpcData(uniqueData: IpcData) {
+function getAverageIpcData(uniqueData: IpcData) {
     const monthGroupedIpcData = listToGroupList(
         uniqueData,
         (datum) => datum.month,
@@ -354,11 +354,23 @@ export function riskScoreToCategory(
 export function isValidFeature(
     maybeFeature: unknown,
 ): maybeFeature is GeoJSON.Feature {
+    if (typeof maybeFeature !== 'object') {
+        return false;
+    }
+
     if (isNotDefined(maybeFeature)) {
         return false;
     }
 
-    if (typeof maybeFeature !== 'object') {
+    if (
+        !('type' in maybeFeature)
+        || !('geometry' in maybeFeature)
+        || !('properties' in maybeFeature)
+    ) {
+        return false;
+    }
+
+    if (maybeFeature.type !== 'Feature' as const) {
         return false;
     }
 
@@ -432,19 +444,6 @@ export function hazardTypeKeySelector(option: HazardTypeOption) {
 export function hazardTypeLabelSelector(option: HazardTypeOption) {
     return option.hazard_type_display;
 }
-
-export const defaultApplicableHazards: Record<HazardType, boolean> = {
-    EQ: false,
-    FL: false,
-    TC: false,
-    EP: false,
-    FI: false,
-    SS: false,
-    DR: false,
-    TS: false,
-    CD: false,
-    WF: false,
-};
 
 export const applicableHazardsByRiskMetric: Record<RiskMetric, HazardType[]> = {
     exposure: ['TC', 'FL', 'FI'],

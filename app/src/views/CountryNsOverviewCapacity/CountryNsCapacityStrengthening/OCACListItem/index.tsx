@@ -4,12 +4,12 @@ import {
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
-import { CountryOutletContext } from '#utils/outletContext';
+import { type CountryOutletContext } from '#utils/outletContext';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-export type CapacityItem = NonNullable<NonNullable<CountryOutletContext['countryResponse']>['capacity']>[number];
+type CapacityItem = NonNullable<NonNullable<CountryOutletContext['countryResponse']>['capacity']>[number];
 
 interface Props {
     capacity: CapacityItem;

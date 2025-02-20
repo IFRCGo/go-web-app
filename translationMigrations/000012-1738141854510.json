@@ -1,0 +1,39 @@
+{
+    "parent": "000011-1738138922126.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "failedToGenerateTitle",
+            "namespace": "fieldReportForm",
+            "value": "Failed To Generate the Field Report Title"
+        },
+        {
+            "action": "add",
+            "key": "generatedTitlePreview",
+            "namespace": "fieldReportForm",
+            "value": "Title Preview"
+        },
+        {
+            "action": "add",
+            "key": "originalTitle",
+            "namespace": "fieldReportForm",
+            "value": "Original Title"
+        },
+        {
+            "action": "add",
+            "key": "titlePreview",
+            "namespace": "fieldReportForm",
+            "value": "Title Preview"
+        },
+        {
+            "action": "remove",
+            "key": "fieldPrefix",
+            "namespace": "fieldReportForm"
+        },
+        {
+            "action": "remove",
+            "key": "fieldReportFormSuffix",
+            "namespace": "fieldReportForm"
+        }
+    ]
+}

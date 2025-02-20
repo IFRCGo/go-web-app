@@ -29,16 +29,14 @@ import {
     mapToList,
     unique,
 } from '@togglecorp/fujs';
+import { MapBounds } from '@togglecorp/re-map';
 import {
-    MapBounds,
-    MapLayer,
-} from '@togglecorp/re-map';
-import {
-    type FillLayer,
+    type FillPaint,
     type LngLatBoundsLike,
+    type LngLatLike,
 } from 'mapbox-gl';
 
-import BaseMap from '#components/domain/BaseMap';
+import GlobalMap, { type AdminZeroFeatureProperties } from '#components/domain/GlobalMap';
 import Link from '#components/Link';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import MapPopup from '#components/MapPopup';
@@ -70,7 +68,7 @@ import {
     type HazardTypeOption,
     hazardTypeToColorMap,
     type RiskDataItem,
-    RiskMetric,
+    type RiskMetric,
     type RiskMetricOption,
     riskScoreToCategory,
 } from '#utils/domain/risk';
@@ -146,7 +144,6 @@ function TooltipContent(props: TooltipContentProps) {
                     <div className={styles.tooltipHazardIndicator}>
                         <div
                             className={styles.color}
-                            // eslint-disable-next-line max-len
                             style={{ backgroundColor: hazardTypeToColorMap[hazard_type] }}
                         />
                     </div>
@@ -173,21 +170,8 @@ const RISK_LOW_COLOR = '#c7d3e0';
 const RISK_HIGH_COLOR = '#f5333f';
 
 interface ClickedPoint {
-    feature: GeoJSON.Feature<GeoJSON.Point, GeoJsonProps>;
-    lngLat: mapboxgl.LngLatLike;
-}
-
-interface GeoJsonProps {
-    country_id: number;
-    disputed: boolean;
-    fdrs: string;
-    independent: boolean;
-    is_deprecated: boolean;
-    iso: string;
-    iso3: string;
-    name: string;
-    record_type: number;
-    region_id: number;
+    properties: AdminZeroFeatureProperties;
+    lngLat: LngLatLike;
 }
 
 type BaseProps = {
@@ -529,16 +513,28 @@ function RiskSeasonalMap(props: Props) {
                 ),
             ).filter(isDefined);
 
+            /*
             const maxPopulation = maxSafe(
                 populationListSafe.map(
                     (item) => item.population_in_thousands,
                 ),
             ) ?? 1;
+            */
+
+            const totalPopulation = Math.max(
+                sumSafe(
+                    populationListSafe.map(
+                        (item) => item.population_in_thousands,
+                    ),
+                ) ?? 0,
+                1,
+            );
 
             const populationFactorMap = listToMap(
                 populationListSafe,
                 (result) => result.iso3,
-                (result) => result.population_in_thousands / maxPopulation,
+                // FIXME: Let's try to update this logic later
+                (result) => 1 - (result.population_in_thousands / totalPopulation) ** (1 / 4),
             );
 
             const populationMap = listToMap(
@@ -693,7 +689,7 @@ function RiskSeasonalMap(props: Props) {
                                     }
                                 }
 
-                                if (filters.riskMetric !== 'riskScore' && filters.includeCopingCapacity) {
+                                if (filters.riskMetric === 'riskScore' && filters.includeCopingCapacity) {
                                     const lccFactor = mappings?.lccFactor[
                                         item.country_details.iso3
                                     ];
@@ -802,55 +798,49 @@ function RiskSeasonalMap(props: Props) {
     // NOTE: we need to generate the layerOptions because we cannot use MapState
     // The id in the vector tile does not match the id in GO
     // We also cannot use promoteId as it is a non-managed mapbox source
-    const layerOptions = useMemo<Omit<FillLayer, 'id'>>(
+    const paintOptions = useMemo<FillPaint>(
         () => {
             if (isNotDefined(filteredData) || filteredData.length === 0) {
                 return {
-                    type: 'fill',
-                    paint: {
-                        'fill-color': COLOR_LIGHT_GREY,
-                    },
+                    'fill-color': COLOR_LIGHT_GREY,
                 };
             }
 
             return {
-                type: 'fill',
-                paint: {
-                    'fill-color': [
-                        'match',
-                        ['get', 'iso3'],
-                        ...filteredData.flatMap(
-                            (item) => [
-                                item.country_details.iso3.toUpperCase(),
-                                [
-                                    'interpolate',
-                                    ['linear'],
-                                    ['number', item.riskCategory],
-                                    CATEGORY_RISK_VERY_LOW,
-                                    COLOR_LIGHT_BLUE,
-                                    CATEGORY_RISK_VERY_HIGH,
-                                    COLOR_PRIMARY_RED,
-                                ],
+                'fill-color': [
+                    'match',
+                    ['get', 'iso3'],
+                    ...filteredData.flatMap(
+                        (item) => [
+                            item.country_details.iso3.toUpperCase(),
+                            [
+                                'interpolate',
+                                ['linear'],
+                                ['number', item.riskCategory],
+                                CATEGORY_RISK_VERY_LOW,
+                                COLOR_LIGHT_BLUE,
+                                CATEGORY_RISK_VERY_HIGH,
+                                COLOR_PRIMARY_RED,
                             ],
-                        ),
-                        COLOR_LIGHT_GREY,
-                    ],
-                    'fill-outline-color': [
-                        'case',
-                        ['boolean', ['feature-state', 'hovered'], false],
-                        COLOR_DARK_GREY,
-                        'transparent',
-                    ],
-                },
+                        ],
+                    ),
+                    COLOR_LIGHT_GREY,
+                ],
+                'fill-outline-color': [
+                    'case',
+                    ['boolean', ['feature-state', 'hovered'], false],
+                    COLOR_DARK_GREY,
+                    'transparent',
+                ],
             };
         },
         [filteredData],
     );
 
     const handleCountryClick = useCallback(
-        (feature: mapboxgl.MapboxGeoJSONFeature, lngLat: mapboxgl.LngLat) => {
+        (properties: AdminZeroFeatureProperties, lngLat: LngLatLike) => {
             setClickedPointProperties({
-                feature: feature as unknown as ClickedPoint['feature'],
+                properties,
                 lngLat,
             });
             return true;
@@ -868,7 +858,7 @@ function RiskSeasonalMap(props: Props) {
     const riskPopupValue = useMemo(() => (
         filteredData?.find(
             (filter) => filter.iso3 === clickedPointProperties
-                ?.feature.properties.iso3.toLowerCase(),
+                ?.properties.iso3.toLowerCase(),
         )
     ), [filteredData, clickedPointProperties]);
 
@@ -941,15 +931,9 @@ function RiskSeasonalMap(props: Props) {
                 </div>
             )}
         >
-            <BaseMap
-                baseLayers={(
-                    <MapLayer
-                        layerKey="admin-0"
-                        hoverable
-                        layerOptions={layerOptions}
-                        onClick={handleCountryClick}
-                    />
-                )}
+            <GlobalMap
+                onAdminZeroFillClick={handleCountryClick}
+                adminZeroFillPaint={paintOptions}
             >
                 <MapContainerWithDisclaimer
                     className={styles.mapContainer}
@@ -967,11 +951,11 @@ function RiskSeasonalMap(props: Props) {
                             <Link
                                 to="countriesLayout"
                                 urlParams={{
-                                    countryId: clickedPointProperties.feature.properties.country_id,
+                                    countryId: clickedPointProperties.properties.country_id,
                                 }}
                                 withUnderline
                             >
-                                {clickedPointProperties.feature.properties.name}
+                                {clickedPointProperties.properties.name}
                             </Link>
                         )}
                         contentViewType="vertical"
@@ -983,7 +967,7 @@ function RiskSeasonalMap(props: Props) {
                         />
                     </MapPopup>
                 )}
-            </BaseMap>
+            </GlobalMap>
             <Container
                 className={styles.countryList}
                 childrenContainerClassName={styles.content}

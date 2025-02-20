@@ -6,14 +6,12 @@ import {
     stringLabelSelector,
     stringValueSelector,
 } from '@ifrc-go/ui/utils';
-import { _cs } from '@togglecorp/fujs';
 
 import NationalSocietyMultiSelectInput from '#components/domain/NationalSocietyMultiSelectInput';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 export interface FilterValue {
     reporting_ns: number[];
@@ -23,7 +21,6 @@ export interface FilterValue {
 }
 
 interface Props {
-    className?: string;
     value: FilterValue;
     onChange: React.Dispatch<React.SetStateAction<FilterValue>>;
     disabled?: boolean;
@@ -31,7 +28,6 @@ interface Props {
 
 function Filters(props: Props) {
     const {
-        className,
         value,
         onChange,
         disabled,
@@ -64,7 +60,7 @@ function Filters(props: Props) {
     }, [onChange]);
 
     return (
-        <div className={_cs(styles.filters, className)}>
+        <>
             <NationalSocietyMultiSelectInput
                 name="reporting_ns"
                 placeholder={strings.threeWFilterReportingNs}
@@ -102,7 +98,7 @@ function Filters(props: Props) {
                 onChange={handleInputChange}
                 disabled={disabled}
             />
-        </div>
+        </>
     );
 }
 

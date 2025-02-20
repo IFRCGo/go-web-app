@@ -110,7 +110,7 @@ function PossibleEarlyActionTable(props: Props) {
             createStringColumn<ResponseItem, number>(
                 'evidence_of_success',
                 strings.earlyActionTableEvidenceTitle,
-                (item) => item?.evidence_of_sucess,
+                (item) => item?.evidence_of_sucess, // FIXME: fix this typo
             ),
         ]),
         [

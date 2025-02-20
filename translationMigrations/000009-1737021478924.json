@@ -1,0 +1,35 @@
+{
+    "parent": "000008-1736768328977.json",
+    "actions": [
+        {
+            "action": "update",
+            "key": "eruTableEquipment",
+            "namespace": "allDeployedEmergencyResponseUnits",
+            "newValue": "Equipment Units"
+        },
+        {
+            "action": "update",
+            "key": "eruTableEquipment",
+            "namespace": "emergencySurge",
+            "newValue": "Equipment Units"
+        },
+        {
+            "action": "update",
+            "key": "opdModuleValue",
+            "namespace": "surgeCatalogueHealthEruClinic",
+            "newValue": "Contains the equipment and supplies needed to carry out initial triage, basic first aid and life support, stabilization for patients, as well as initial wound care, basic fracture management, minor surgical procedures, basic outpatient care of communicable disease, basic outpatient paediatric care, basic/outpatient chronic disease care; diagnostics done through clinical examination and basic point-of-care laboratory tests."
+        },
+        {
+            "action": "update",
+            "key": "otherLinkTwoOffic",
+            "newKey": "otherLinkTwoOffice",
+            "namespace": "surgeCatalogueOtherHumanResources"
+        },
+        {
+            "action": "update",
+            "key": "emergencyServicesSectionOne",
+            "namespace": "surgeCatalogueWashWaterSupplyRehabilitation",
+            "newValue": "Rapid damage assessment of the pre-existing water system and its management, feasibility study, planning, design, and implementation of water system repair/rehabilitation. The WSR focuses on quick implementation and the selection of environmentally feasible, affordable and durable technical solutions. It will ensure that distinct needs and realities of women, men, and vulnerable groups are reflected in decision making."
+        }
+    ]
+}

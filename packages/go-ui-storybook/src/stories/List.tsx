@@ -4,8 +4,8 @@ import {
 } from '@ifrc-go/ui';
 
 type ListKey = string | number | boolean
-interface ListProps<DATUM, KEY extends ListKey, RENDERER_PROPS>
-    extends PureListProps<DATUM, KEY, RENDERER_PROPS> {}
+// eslint-disable-next-line max-len
+type ListProps<DATUM, KEY extends ListKey, RENDERER_PROPS> = PureListProps<DATUM, KEY, RENDERER_PROPS>
 
 function List<
     DATUM,

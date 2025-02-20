@@ -25,6 +25,7 @@ export interface Props<NAME> {
     tooltip?: string;
     value: boolean | undefined | null;
     description?: React.ReactNode;
+    withBackground?: boolean;
 }
 
 function Checkbox<const NAME>(props: Props<NAME>) {
@@ -46,6 +47,7 @@ function Checkbox<const NAME>(props: Props<NAME>) {
         tooltip,
         value,
         description,
+        withBackground,
         ...otherProps
     } = props;
 
@@ -66,12 +68,13 @@ function Checkbox<const NAME>(props: Props<NAME>) {
         styles.checkbox,
         classNameFromProps,
         !indeterminate && checked && styles.checked,
+        withBackground && styles.withBackground,
         disabled && styles.disabledCheckbox,
         readOnly && styles.readOnly,
     );
 
     return (
-        <label // eslint-disable-line jsx-a11y/label-has-associated-control, jsx-a11y/label-has-for
+        <label // eslint-disable-line jsx-a11y/label-has-associated-control
             className={className}
             title={tooltip}
         >

@@ -1,0 +1,515 @@
+{
+    "parent": "000014-1738752511308.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "nationalSocietyActionsHeading",
+            "namespace": "drefApplicationExport",
+            "value": "National Society anticipatory actions started"
+        },
+        {
+            "action": "add",
+            "key": "situationUpdateSectionHeading",
+            "namespace": "drefApplicationExport",
+            "value": "Provide any updates in the situation since the field report and explain what is expected to happen."
+        },
+        {
+            "action": "remove",
+            "key": "contingencyPlanDocument",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "dateAndGeographicalArea",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "exportDrefImminentTitle",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "hazardDate",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "hazardRisk",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "humanitarianImpactsHeading",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "imminentDate",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "imminentDrefRequest",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "imminentDREFRequestHeading",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "imminentDrefSigned",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "imminentIFRCSigned",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "imminentPrintedSignatory",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "imminentSignature",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "imminentTitle",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "nationalSocietyAdvancePayment",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "nationalSocietyAmount",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "nationalSocietyAmountCHF",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "nationalSocietyBankAccountNumber",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "nationalSocietyBankDescription",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "nationalSocietyBankDetails",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "nationalSocietyBankFooter",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "nationalSocietyBankName",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "nationalSocietyDescriptionEight",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "nationalSocietyDescriptionEleven",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "nationalSocietyDescriptionFifteen",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "nationalSocietyDescriptionFive",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "nationalSocietyDescriptionFour",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "nationalSocietyDescriptionFourteen",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "nationalSocietyDescriptionNine",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "nationalSocietyDescriptionOne",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "nationalSocietyDescriptionSeven",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "nationalSocietyDescriptionSix",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "nationalSocietyDescriptionSixteen",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "nationalSocietyDescriptionTen",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "nationalSocietyDescriptionThirteen",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "nationalSocietyDescriptionThree",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "nationalSocietyDescriptionTwelve",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "nationalSocietyDescriptionTwo",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "nationalSocietyHeading",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "nationalSocietySwiftCode",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "plan",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "planDescription",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "plannedInterventionAltText",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "priorityActionsBudget",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "priorityActionsEarlyResponse",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "priorityActionsIndirectCost",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "priorityActionsSubTotal",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "priorityActionsSurgeDeployment",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "priorityActionsTotal",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "proposedActions",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "proposedActionsActivities",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "proposedActionsEarlyActions",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "requestDescription",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "requestHeading",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "scenarioAnalysis",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "remove",
+            "key": "sourceInformationAttachments",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "add",
+            "key": "drefFormApproximateDateOfImpact",
+            "namespace": "drefApplicationForm",
+            "value": "Approximate date of impact"
+        },
+        {
+            "action": "add",
+            "key": "drefFormDidNationalSocietyStartedImminent",
+            "namespace": "drefApplicationForm",
+            "value": "Did the National Society started any anticipatory actions?"
+        },
+        {
+            "action": "add",
+            "key": "drefFormEstimatedPeopleInNeed",
+            "namespace": "drefApplicationForm",
+            "value": "Estimated people in need (Optional)"
+        },
+        {
+            "action": "add",
+            "key": "drefFormImminentDisaster",
+            "namespace": "drefApplicationForm",
+            "value": "Provide any updates in the situation since the field report and explain what is expected to happen."
+        },
+        {
+            "action": "add",
+            "key": "drefFormImminentNeedsIdentified",
+            "namespace": "drefApplicationForm",
+            "value": "Anticipated Needs"
+        },
+        {
+            "action": "add",
+            "key": "drefFormNSAnticipatoryAction",
+            "namespace": "drefApplicationForm",
+            "value": "National Society anticipatory actions started"
+        },
+        {
+            "action": "add",
+            "key": "drefFormPeopleInNeedDescriptionImminent",
+            "namespace": "drefApplicationForm",
+            "value": "Include all those whose physical security, basic rights, dignity, living conditions or livelihoods are threatened or have been disrupted, and whose current level of access to basic services, goods and social protection will be inadequate to re-establish normal living conditions without additional assistance"
+        },
+        {
+            "action": "add",
+            "key": "drefFormTargetCommunities",
+            "namespace": "drefApplicationForm",
+            "value": "Explain why your National Society is acting now and what criteria is used to launch this operation."
+        },
+        {
+            "action": "add",
+            "key": "drefFormTargetCommunitiesDescription",
+            "namespace": "drefApplicationForm",
+            "value": "If the operation uses triggers related to different phases (such as readiness activities and early actions) add your triggers and data sources"
+        },
+        {
+            "action": "add",
+            "key": "drefFormUploadSupportingDocumentDescription",
+            "namespace": "drefApplicationForm",
+            "value": "Here the National Society can upload documentation that substantiates their decision to launch this operation now. For example: seasonal outlooks, forecast information, reports from credible sources...etc."
+        },
+        {
+            "action": "remove",
+            "key": "drefFormOverviewUploadDocumentButtonLabel",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefFormProposedActionActivityLabel",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefFormProposedActionAddActivityLabel",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefFormProposedActionBudgetLabel",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefFormProposedActionEarlyActionsLabel",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefFormProposedActionEarlyResponseLabel",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefFormProposedActionIndirectCost",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefFormProposedActions",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefFormProposedActionSelectActivitiesLabel",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefFormProposedActionSelectBudgetNote",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefFormProposedActionSubTotal",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefFormProposedActionSurgeDeployment",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefFormProposedActionTotal",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefFormRemoveActivity",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefFormUploadSupportingDocumentButton",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefHazardDescription",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefHazardExpectedDescription",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefHazardExpectedTitle",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefHazardTitle",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefHumanitarianDescription",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefHumanitarianTitle",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "drefUploadSupportingDocumentTitle",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "formTabPlanLabel",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "remove",
+            "key": "formTabScenarioAnalysisLabel",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "update",
+            "key": "drefFormClickEmergencyResponseLabel",
+            "newKey": "drefFormClickEmergencyResponseFrameworkLabel",
+            "namespace": "drefApplicationForm"
+        },
+        {
+            "action": "update",
+            "key": "drefFormUploadDocumentButtonLabel",
+            "namespace": "drefApplicationForm",
+            "newValue": "Upload document"
+        },
+        {
+            "action": "update",
+            "key": "drefFormUploadSupportingDocument",
+            "namespace": "drefApplicationForm",
+            "newValue": "Upload any supporting documentation if relevant (Optional)"
+        },
+        {
+            "action": "remove",
+            "key": "drefDownloadPDFwithoutPGA",
+            "namespace": "drefExportModal"
+        },
+        {
+            "action": "remove",
+            "key": "drefDownloadPDFWithPGA",
+            "namespace": "drefExportModal"
+        },
+        {
+            "action": "remove",
+            "key": "drefFailureToExportMessage",
+            "namespace": "drefExportModal"
+        },
+        {
+            "action": "remove",
+            "key": "riskDataNotAvailable",
+            "namespace": "riskSeasonalMap"
+        }
+    ]
+}

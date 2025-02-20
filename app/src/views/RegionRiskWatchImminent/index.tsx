@@ -3,11 +3,12 @@ import { useOutletContext } from 'react-router-dom';
 import getBbox from '@turf/bbox';
 
 import RiskImminentEvents from '#components/domain/RiskImminentEvents';
-import { RegionOutletContext } from '#utils/outletContext';
+import { type RegionOutletContext } from '#utils/outletContext';
 
 import styles from './styles.module.css';
 
 // TODO: Add historic data chart
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { regionResponse } = useOutletContext<RegionOutletContext>();

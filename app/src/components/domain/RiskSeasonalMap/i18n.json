@@ -1,5 +1,5 @@
 {
-    "namespace": "common",
+    "namespace": "riskSeasonalMap",
     "strings": {
         "seasonalEventsDescriptionOne": "The map and horizontal bar charts below visualize risk information for every country for every month. Using the filters, you can choose which countries, hazards and risks to see. The map and bar charts will update dynamically depending on how you've filtered the data. The horizontal bar charts display the level of risk per country and list the countries in descending order.",
         "seasonalEventsDescriptionTwo": "When viewing INFORM Risk Scores, People at Risk of Displacement and Population Exposure, you can display the information for each hazard individually or in combination. By adjusting the \"Months\" filter, you can explore the data for one month, for multiple months or for an entire year. When viewing the INFORM Risk Scores, you can choose to view the data with a country's coping capacity factored into the analysis or without it; using the toggle, you can also view the results in Absolute terms or Normalised in relation to each country's population. When normalised, the risk score is divided by the square root of the country's population in thousands. To remove a Country, Hazard or Month from the analysis, click the \"x\" next to items you want to remove and the map and bar charts will update automatically.",

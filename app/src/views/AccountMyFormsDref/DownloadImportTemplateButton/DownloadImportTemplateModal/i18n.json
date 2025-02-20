@@ -1,0 +1,9 @@
+{
+    "namespace": "accountMyFormsDref",
+    "strings": {
+        "heading": "Download DREF import template",
+        "typeOfDrefInputLabel": "Select type of DREF for template",
+        "description": "The download template (.xlsx) can be used to fill up the DREF form separately and import back from the \"New DREF Application\" page in the GO.",
+        "downloadButtonLabel": "Download"
+    }
+}

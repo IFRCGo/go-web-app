@@ -1,0 +1,37 @@
+name: "Epic"
+description: "Track a larger initiative with multiple related tasks and deliverables."
+labels: ["type: epic"]
+type: "Feature"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Epic**
+        Use this to define a large, overarching initiative.
+        **Please review [our guide on suggesting enhancements](https://github.com/IFRCGo/go-web-app/blob/develop/CONTRIBUTING.md#suggesting-enhancements).**
+
+  - type: textarea
+    attributes:
+      label: "Epic Summary"
+      description: |
+        Provide a clear and concise summary of the epic.
+        - What is this epic about?
+        - What problem does it solve or what goal does it achieve?
+        - How does it align with the project’s objectives?
+      placeholder: |
+        Example:
+        This epic focuses on implementing a new feature.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: "Additional Context or Resources"
+      description: "Provide any additional information, links, or resources that will help the team understand and execute this epic."
+      placeholder: |
+        Examples:
+        - Link to design mockups: [link]
+        - Technical specs document: [link]
+        - Reference to similar features: [link]
+    validations:
+      required: false

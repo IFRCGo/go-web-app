@@ -1,12 +1,13 @@
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
-import CatalogueInfoCard, { LinkData } from '#components/CatalogueInfoCard';
+import CatalogueInfoCard, { type LinkData } from '#components/CatalogueInfoCard';
 import SurgeCardContainer from '#components/domain/SurgeCardContainer';
 import SurgeCatalogueContainer from '#components/domain/SurgeCatalogueContainer';
 import SurgeContentContainer from '#components/domain/SurgeContentContainer';
 
 import i18n from './i18n.json';
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);

@@ -1,14 +1,14 @@
 {
-    "namespace": "nationalSocietyLocalUnits",
+    "namespace": "countryNsOverviewContextAndStructure",
     "strings": {
-        "localUnitDetailAddress": "Address",
-        "localUnitDetailPhoneNumber": "Phone number",
-        "localUnitDetailLastUpdate": "Last updated",
-        "localUnitDetailFocalPerson": "Focal person",
-        "localUnitTooltipMoreDetails": "More details",
-        "localUnitLocalUnitType": "Local unit types",
-        "localUnitHealthFacilityType": "Health facility types",
-        "presentationModeButton":"Presentation mode",
-        "localUnitDetailEmail": "Email"
+        "localUnitsMapAddress": "Address",
+        "localUnitsMapPhoneNumber": "Phone number",
+        "localUnitsMapLastUpdate": "Last updated",
+        "localUnitsMapFocalPerson": "Focal person",
+        "localUnitsMapTooltipMoreDetails": "More details",
+        "localUnitsMapLocalUnitType": "Local unit type",
+        "localUnitsMapHealthFacilityType": "Health facility type",
+        "localUnitsMapPresentationModeButton": "Presentation mode",
+        "localUnitsMapLatestChangesFailureMessage": "Failed to get latest changes"
     }
 }

@@ -10,7 +10,7 @@ import {
 } from '@ifrc-go/ui/utils';
 
 import { createLinkColumn } from '#utils/domain/tableHelpers';
-import { GoApiResponse } from '#utils/restRequest';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import styles from './styles.module.css';
 

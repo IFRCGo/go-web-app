@@ -4,7 +4,6 @@ import type {
     FillLayer,
     Map,
     NavigationControl,
-    SymbolLayer,
 } from 'mapbox-gl';
 
 import { type Country } from '#hooks/domain/useCountryRaw';
@@ -55,11 +54,11 @@ export const pointColorMap: {
 const DEFAULT_CIRCLE_SIZE = 'medium';
 const DEFAULT_CIRCLE_OPACITY = 'full';
 
-export const CIRCLE_RADIUS_SMALL = 3;
-export const CIRCLE_RADIUS_MEDIUM = 5;
-export const CIRCLE_RADIUS_LARGE = 8;
-export const CIRCLE_RADIUS_EXTRA_LARGE = 12;
-export const CIRCLE_RADIUS_SUPER_LARGE = 16;
+const CIRCLE_RADIUS_SMALL = 3;
+const CIRCLE_RADIUS_MEDIUM = 5;
+const CIRCLE_RADIUS_LARGE = 8;
+const CIRCLE_RADIUS_EXTRA_LARGE = 12;
+// const CIRCLE_RADIUS_SUPER_LARGE = 16;
 
 export function getPointCirclePaint(
     color: string,
@@ -127,42 +126,6 @@ export function getPointCircleHaloPaint(
         ],
     };
 }
-
-export const defaultTooltipOptions: mapboxgl.PopupOptions = {
-    closeButton: false,
-    offset: 10,
-};
-
-export const adminLabelLayerOptions : Omit<SymbolLayer, 'id'> = {
-    type: 'symbol',
-    layout: {
-        visibility: 'none',
-    },
-};
-
-export const adminLabelOverrideOptions: Omit<SymbolLayer, 'id'> = {
-    type: 'symbol',
-    layout: {
-        'text-field': ['get', 'name'],
-        'text-font': ['Poppins Regular', 'Arial Unicode MS Regular'],
-        'text-letter-spacing': 0.15,
-        'text-line-height': 1.2,
-        'text-max-width': 8,
-        'text-justify': 'center',
-        'text-anchor': 'top',
-        'text-padding': 2,
-        'text-size': [
-            'interpolate', ['linear', 1], ['zoom'],
-            0, 6,
-            6, 16,
-        ],
-    },
-    paint: {
-        'text-color': '#000000',
-        'text-halo-color': '#000000',
-        'text-halo-width': 0.2,
-    },
-};
 
 export const adminFillLayerOptions: Omit<FillLayer, 'id'> = {
     type: 'fill',

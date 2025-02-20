@@ -1,4 +1,4 @@
-import { components } from '#generated/types';
+import { type components } from '#generated/types';
 
 type PlannedIntervention = components<'read'>['schemas']['PlannedIntervention'];
 type PlannedInterventionTitle = NonNullable<PlannedIntervention['title']>;
@@ -57,3 +57,10 @@ export const nsActionsOrder: Record<NsActions['title'], number> = {
     national_society_eoc: 17,
     other: 18,
 };
+
+export type DrefSheetName = 'Operation Overview' | 'Event Detail' | 'Actions Needs' | 'Operation' | 'Timeframes and Contacts';
+export const SHEET_OPERATION_OVERVIEW = 'Operation Overview' satisfies DrefSheetName;
+export const SHEET_EVENT_DETAIL = 'Event Detail' satisfies DrefSheetName;
+export const SHEET_ACTIONS_NEEDS = 'Actions Needs' satisfies DrefSheetName;
+export const SHEET_OPERATION = 'Operation' satisfies DrefSheetName;
+export const SHEET_TIMEFRAMES_AND_CONTACTS = 'Timeframes and Contacts' satisfies DrefSheetName;

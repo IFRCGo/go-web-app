@@ -1,0 +1,39 @@
+diff --git a/build/esm/MapImage.js b/build/esm/MapImage.js
+index cb8fa497e2873bda36fcfd3c4f9600fb14cc2838..6638e250a389f5d5240239eed4f3666919594012 100644
+--- a/build/esm/MapImage.js
++++ b/build/esm/MapImage.js
+@@ -29,11 +29,6 @@ function MapImage(props) {
+     if (!map || !mapStyle || !initialUrl && !initialImage) {
+       return undefined;
+     }
+-    if (map.hasImage(initialName)) {
+-      // eslint-disable-next-line no-console
+-      console.error(`An image with name '${initialName}' already exists`);
+-      return undefined;
+-    }
+     if (initialUrl) {
+       map.loadImage(initialUrl, (error, loadedImage) => {
+         if (error) {
+@@ -44,6 +39,9 @@ function MapImage(props) {
+         if (!mountedRef.current || isMapDestroyed()) {
+           return;
+         }
++        if (map.hasImage(initialName)) {
++          map.removeImage(initialName);
++        }
+         map.addImage(initialName, loadedImage, initialImageOptions);
+         if (onLoad) {
+           onLoad(true, initialName);
+diff --git a/build/esm/MapSource/MapLayer.js b/build/esm/MapSource/MapLayer.js
+index b25072adf1ee041149be1a2ad8d2040d87806a2a..977d8632e411915a63c45cb05606b50e99857056 100644
+--- a/build/esm/MapSource/MapLayer.js
++++ b/build/esm/MapSource/MapLayer.js
+@@ -130,7 +130,7 @@ function MapLayer(props) {
+   // Handle filter change
+   // TODO: don't call in first render
+   useEffect(() => {
+-    if (!map || !sourceKey || !layerKey) {
++    if (!map || !sourceKey || !layerKey || !filter) {
+       return;
+     }
+     const id = getLayerName(sourceKey, layerKey, initialManaged);

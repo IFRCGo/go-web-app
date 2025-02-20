@@ -151,14 +151,14 @@ function PublicCountryPreparedness() {
         <Container
             className={styles.publicCountryPreparedness}
             childrenContainerClassName={styles.preparednessContent}
-            heading={strings.nsPreparednessAndResponseCapacityHeading}
+            heading={strings.publicNsPreparednessAndResponseCapacityHeading}
             actionsContainerClassName={styles.actionsContainer}
             headingLevel={2}
             withHeaderBorder
             actions={(
                 <div className={styles.perAction}>
                     <TextOutput
-                        label={strings.lastUpdatedLabel}
+                        label={strings.publicLastUpdatedLabel}
                         value={processStatusResponse?.updated_at}
                         valueType="date"
                         strongValue
@@ -173,7 +173,7 @@ function PublicCountryPreparedness() {
                     name={undefined}
                     onClick={handleBackButtonClick}
                     variant="tertiary"
-                    title={strings.goBackButtonTitle}
+                    title={strings.publicGoBackButtonTitle}
                 >
                     <ArrowLeftLineIcon className={styles.backIcon} />
                 </Button>
@@ -181,34 +181,34 @@ function PublicCountryPreparedness() {
         >
             <div className={styles.perOverviewDetails}>
                 <TextOutput
-                    label={strings.startDateLabel}
+                    label={strings.publicStartDateLabel}
                     value={perStats?.date_of_assessment}
                     valueType="date"
                     strongValue
                 />
                 <TextOutput
-                    label={strings.perPhaseLabel}
+                    label={strings.publicPerPhaseLabel}
                     value={processStatusResponse?.phase_display}
                     strongValue
                 />
                 <TextOutput
-                    label={strings.focalPointNameLabel}
+                    label={strings.publicFocalPointNameLabel}
                     value={perStats?.ns_focal_point_name}
                     strongValue
                 />
                 <TextOutput
-                    label={strings.perCycleLabel}
+                    label={strings.publicPerCycleLabel}
                     value={perStats?.assessment_number}
                     valueType="number"
                     strongValue
                 />
                 <TextOutput
-                    label={strings.typeOfAssessmentLabel}
+                    label={strings.publicTypeOfAssessmentLabel}
                     value={perStats?.type_of_assessment.name}
                     strongValue
                 />
                 <TextOutput
-                    label={strings.focalPointEmailTitle}
+                    label={strings.publicFocalPointEmailTitle}
                     value={perStats?.ns_focal_point_email}
                     strongValue
                 />
@@ -262,8 +262,8 @@ function PublicCountryPreparedness() {
             )}
             <div className={styles.limitedAccess}>
                 <Message
-                    title={strings.componentLimitedAccess}
-                    description={strings.componentLimitedAccessDescription}
+                    title={strings.publicComponentLimitedAccess}
+                    description={strings.publicComponentLimitedAccessDescription}
                     actions={(
                         <div className={styles.contactContainer}>
                             <Link
@@ -271,7 +271,7 @@ function PublicCountryPreparedness() {
                                 external
                                 variant="secondary"
                             >
-                                {strings.componentRequestSeeMore}
+                                {strings.publicComponentRequestSeeMore}
                             </Link>
                         </div>
                     )}

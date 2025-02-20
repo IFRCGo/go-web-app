@@ -57,7 +57,7 @@ function useColumns(searchResponse: SearchResponse | undefined) {
         createStringColumn<EmergencyResult, number>(
             'appeal_type',
             strings.searchEmergencyTableAppealType,
-            (emergency) => emergency.appeal_type ?? DEFAULT_INVALID_TEXT,
+            (emergency) => emergency.appeals.map((appeal) => appeal.atype).join(', ') ?? DEFAULT_INVALID_TEXT,
         ),
         createStringColumn<EmergencyResult, number>(
             'disaster_type',
@@ -328,7 +328,7 @@ function useColumns(searchResponse: SearchResponse | undefined) {
             (surgeDeployment) => surgeDeployment.deployed_country,
             (surgeDeployment) => ({
                 to: 'countriesLayout',
-                urlParams: { countdryId: surgeDeployment.deployed_country_id },
+                urlParams: { countryId: surgeDeployment.deployed_country_id },
             }),
         ),
         createLinkColumn<SurgeDeploymentResult, number>(

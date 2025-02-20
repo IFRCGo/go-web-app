@@ -10,7 +10,7 @@ import Link from '#components/Link';
 import {
     DISASTER_TYPE_EPIDEMIC,
     FIELD_REPORT_STATUS_EARLY_WARNING,
-    ReportType,
+    type ReportType,
 } from '#utils/constants';
 import { type GoApiResponse } from '#utils/restRequest';
 

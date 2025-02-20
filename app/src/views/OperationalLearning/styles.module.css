@@ -1,0 +1,80 @@
+.operational-learning {
+    --color-dref: var(--go-ui-color-primary-blue);
+    --color-emergency-appeal: var(--go-ui-color-primary-blue);
+    .beta-tag {
+        font-size: var(--go-ui-font-size-sm);
+    }
+
+    .main-section {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-xl);
+
+        .selected-filters {
+            display: flex;
+            padding: var(--go-ui-spacing-sm) 0;
+            gap: var(--go-ui-spacing-sm);
+
+            .options {
+                display: flex;
+                flex-wrap: wrap;
+                gap: var(--go-ui-spacing-sm);
+            }
+        }
+
+        .summary-heading {
+            gap: var(--go-ui-spacing-xl);
+        }
+
+        .summary-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-md);
+        }
+
+        .action-buttons {
+            display: flex;
+            align-items: flex-end;
+            gap: var(--go-ui-spacing-sm);
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .filter-chips {
+            width: 100%;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 0;
+            width: 100%;
+
+            .action-buttons {
+                align-self: flex-end;
+            }
+        }
+    }
+
+    .old-dashboard-info {
+        display: flex;
+        justify-content: center;
+        margin: 0 auto;
+        color: var(--go-ui-color-text-light);
+        gap: var(--go-ui-spacing-xs);
+
+        .icon {
+            flex-shrink: 0;
+            font-size: var(--go-ui-height-icon-multiplier);
+        }
+
+        .info-text {
+            display: inline;
+            font-size: var(--go-ui-font-size-sm);
+            font-style: italic;
+        }
+    }
+}

@@ -1,4 +1,4 @@
-import { MouseEventHandler } from 'react';
+import { type MouseEventHandler } from 'react';
 import {
     Container,
     ExpandableContainer,
@@ -428,6 +428,7 @@ const operationTimelineContent: OperationTimelineContent[] = [
     },
 ];
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -528,7 +529,7 @@ export function Component() {
         {
             learnings: (
                 <Link
-                    to="preparednessGlobalOperational"
+                    to="operationalLearning"
                 >
                     {strings.learnings}
                 </Link>

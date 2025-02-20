@@ -1,16 +1,15 @@
 import {
-    BlockLoading,
     Container,
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { isDefined } from '@togglecorp/fujs';
 
+import { type RiskEventDetailProps } from '#components/domain/RiskImminentEventMap';
 import Link from '#components/Link';
 import { type RiskApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 type GdacsResponse = RiskApiResponse<'/api/v1/gdacs/'>;
 type GdacsItem = NonNullable<GdacsResponse['results']>[number];
@@ -57,6 +56,7 @@ interface GdacsEventDetails {
         geometry?: string;
     },
 }
+
 interface GdacsPopulationExposure {
     death?: number;
     displaced?: number;
@@ -65,21 +65,16 @@ interface GdacsPopulationExposure {
     impact?: string;
 }
 
-interface Props {
-    data: GdacsItem;
-    exposure: GdacsExposure | undefined;
-    pending: boolean;
-}
+type Props = RiskEventDetailProps<GdacsItem, GdacsExposure | undefined>;
 
 function EventDetails(props: Props) {
     const {
         data: {
-            hazard_name,
-            start_date,
             event_details,
         },
         exposure,
         pending,
+        children,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -89,26 +84,21 @@ function EventDetails(props: Props) {
 
     return (
         <Container
-            className={styles.eventDetails}
-            childrenContainerClassName={styles.content}
-            heading={hazard_name}
-            headingLevel={4}
-            spacing="compact"
-            headerDescription={(
-                <TextOutput
-                    label={strings.eventStartOnLabel}
-                    value={start_date}
-                    valueType="date"
-                    strongValue
-                />
-            )}
+            contentViewType="vertical"
+            spacing="cozy"
+            withBorderAndHeaderBackground
+            pending={pending}
         >
-            {pending && <BlockLoading />}
-            <div className={styles.eventDetails}>
+            <Container
+                contentViewType="vertical"
+                spacing="compact"
+            >
                 {isDefined(eventDetails?.source) && (
                     <TextOutput
                         label={strings.eventSourceLabel}
                         value={eventDetails?.source}
+                        strongValue
+                        withBackground
                     />
                 )}
                 {isDefined(populationExposure?.death) && (
@@ -118,6 +108,8 @@ function EventDetails(props: Props) {
                         maximumFractionDigits={2}
                         compact
                         valueType="number"
+                        strongValue
+                        withBackground
                     />
                 )}
                 {isDefined(populationExposure?.displaced) && (
@@ -127,24 +119,32 @@ function EventDetails(props: Props) {
                         maximumFractionDigits={2}
                         compact
                         valueType="number"
+                        strongValue
+                        withBackground
                     />
                 )}
                 {isDefined(populationExposure?.exposed_population) && (
                     <TextOutput
                         label={strings.eventPopulationLabel}
                         value={populationExposure?.exposed_population}
+                        strongValue
+                        withBackground
                     />
                 )}
                 {isDefined(populationExposure?.people_affected) && (
                     <TextOutput
                         label={strings.eventPeopleAffectedLabel}
                         value={populationExposure?.people_affected}
+                        strongValue
+                        withBackground
                     />
                 )}
                 {isDefined(populationExposure?.impact) && (
                     <TextOutput
                         label={strings.eventImpactLabel}
                         value={populationExposure?.impact}
+                        strongValue
+                        withBackground
                     />
                 )}
                 {isDefined(eventDetails?.severitydata)
@@ -152,15 +152,19 @@ function EventDetails(props: Props) {
                     <TextOutput
                         label={strings.eventSeverityLabel}
                         value={eventDetails?.severitydata?.severitytext}
+                        strongValue
+                        withBackground
                     />
                 )}
                 {isDefined(eventDetails?.alertlevel) && (
                     <TextOutput
                         label={strings.eventAlertType}
                         value={eventDetails?.alertlevel}
+                        strongValue
+                        withBackground
                     />
                 )}
-            </div>
+            </Container>
             {isDefined(eventDetails)
                 && isDefined(eventDetails.url)
                 && isDefined(eventDetails.url.report)
@@ -173,6 +177,9 @@ function EventDetails(props: Props) {
                         {strings.eventMoreDetailsLink}
                     </Link>
                 )}
+            {/* NOTE: Intentional additional div to maintain gap */}
+            {children && <div />}
+            {children}
         </Container>
     );
 }

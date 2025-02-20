@@ -1,0 +1,11 @@
+{
+    "parent": "000012-1738141854510.json",
+    "actions": [
+        {
+            "action": "update",
+            "key": "errorMessage",
+            "namespace": "operationalLearning",
+            "newValue": "Encountered an error while attempting to generate operational learning summary. Please try again later. If the issue continues, please contact us at {link}."
+        }
+    ]
+}

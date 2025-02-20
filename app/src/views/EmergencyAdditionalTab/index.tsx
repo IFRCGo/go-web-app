@@ -18,6 +18,7 @@ interface Props {
     infoPageId?: number;
 }
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component(props: Props) {
     const urlParams = useParams<{ tabId: string }>();
@@ -34,7 +35,7 @@ export function Component(props: Props) {
 
     if (isDefined(additionalTab) && `#${additionalTab.tabId}` === location.hash) {
         const newPath = generatePath(
-            // eslint-disable-next-line react/destructuring-assignment
+
             routes.emergencyAdditionalInfo.absoluteForwardPath,
             {
                 ...urlParams,

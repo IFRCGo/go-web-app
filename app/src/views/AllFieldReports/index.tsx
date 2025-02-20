@@ -25,7 +25,7 @@ import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput'
 import ExportButton from '#components/domain/ExportButton';
 import RegionSelectInput from '#components/domain/RegionSelectInput';
 import Page from '#components/Page';
-import { components } from '#generated/types';
+import { type components } from '#generated/types';
 import useAlert from '#hooks/useAlert';
 import useFilterState from '#hooks/useFilterState';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
@@ -49,6 +49,7 @@ type RegionOption = components<'read'>['schemas']['ApiRegionNameEnum'];
 
 const fieldReportKeySelector = (item: FieldReportListItem) => item.id;
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);

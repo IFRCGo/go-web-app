@@ -1,0 +1,4918 @@
+{
+    "parent": "000004-1734686807363.json",
+    "actions": [
+        {
+            "action": "update",
+            "key": "drefTabTitle",
+            "namespace": "accountMyForms",
+            "newNamespace": "accountMyFormsLayout"
+        },
+        {
+            "action": "update",
+            "key": "fieldReportTabTitle",
+            "namespace": "accountMyForms",
+            "newNamespace": "accountMyFormsLayout"
+        },
+        {
+            "action": "update",
+            "key": "perTabTitle",
+            "namespace": "accountMyForms",
+            "newNamespace": "accountMyFormsLayout"
+        },
+        {
+            "action": "update",
+            "key": "threeWTabTitle",
+            "namespace": "accountMyForms",
+            "newNamespace": "accountMyFormsLayout"
+        },
+        {
+            "action": "update",
+            "key": "operationFollowButtonLabel",
+            "namespace": "accountNotifications",
+            "newNamespace": "operationListItem"
+        },
+        {
+            "action": "update",
+            "key": "operationLastUpdatedLabel",
+            "namespace": "accountNotifications",
+            "newNamespace": "operationListItem"
+        },
+        {
+            "action": "update",
+            "key": "operationUnfollowButtonLabel",
+            "namespace": "accountNotifications",
+            "newNamespace": "operationListItem"
+        },
+        {
+            "action": "update",
+            "key": "actionDropdownEditLabel",
+            "namespace": "common",
+            "newNamespace": "projectActions"
+        },
+        {
+            "action": "update",
+            "key": "activeOperationsTitle",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "appealsTableClearFilters",
+            "namespace": "common",
+            "newNamespace": "appealsTable"
+        },
+        {
+            "action": "update",
+            "key": "appealsTableCode",
+            "namespace": "common",
+            "newNamespace": "appealsTable"
+        },
+        {
+            "action": "update",
+            "key": "appealsTableCountry",
+            "namespace": "common",
+            "newNamespace": "appealsTable"
+        },
+        {
+            "action": "update",
+            "key": "appealsTableDisastertype",
+            "namespace": "common",
+            "newNamespace": "appealsTable"
+        },
+        {
+            "action": "update",
+            "key": "appealsTableFilterDisastersPlaceholder",
+            "namespace": "common",
+            "newNamespace": "appealsTable"
+        },
+        {
+            "action": "update",
+            "key": "appealsTableFilterDistrictPlaceholder",
+            "namespace": "common",
+            "newNamespace": "appealsTable"
+        },
+        {
+            "action": "update",
+            "key": "appealsTableFilterTypePlaceholder",
+            "namespace": "common",
+            "newNamespace": "appealsTable"
+        },
+        {
+            "action": "update",
+            "key": "appealsTableFundedAmount",
+            "namespace": "common",
+            "newNamespace": "appealsTable"
+        },
+        {
+            "action": "update",
+            "key": "appealsTableOperation",
+            "namespace": "common",
+            "newNamespace": "appealsTable"
+        },
+        {
+            "action": "update",
+            "key": "appealsTableProvinces",
+            "namespace": "common",
+            "newNamespace": "appealsTable"
+        },
+        {
+            "action": "update",
+            "key": "appealsTableRequestedAmount",
+            "namespace": "common",
+            "newNamespace": "appealsTable"
+        },
+        {
+            "action": "update",
+            "key": "appealsTableStartDate",
+            "namespace": "common",
+            "newNamespace": "appealsTable"
+        },
+        {
+            "action": "update",
+            "key": "appealsTableStartDateAfter",
+            "namespace": "common",
+            "newNamespace": "appealsTable"
+        },
+        {
+            "action": "update",
+            "key": "appealsTableStartDateBefore",
+            "namespace": "common",
+            "newNamespace": "appealsTable"
+        },
+        {
+            "action": "update",
+            "key": "appealsTableType",
+            "namespace": "common",
+            "newNamespace": "appealsTable"
+        },
+        {
+            "action": "update",
+            "key": "backToEventsLabel",
+            "namespace": "common",
+            "newNamespace": "riskImminentEventMap"
+        },
+        {
+            "action": "update",
+            "key": "benchmarksAssessed",
+            "namespace": "common",
+            "newNamespace": "perAssessmentSummary"
+        },
+        {
+            "action": "update",
+            "key": "benchmarksAssessedTitle",
+            "namespace": "common",
+            "newNamespace": "perAssessmentSummary"
+        },
+        {
+            "action": "update",
+            "key": "beta",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "categoryFiveDescription",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "categoryFourDescription",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "categoryOneDescription",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "categoryThreeDescription",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "categoryTwoDescription",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "country",
+            "namespace": "common",
+            "newNamespace": "keywordSearchSelectInput"
+        },
+        {
+            "action": "update",
+            "key": "deleteProject",
+            "namespace": "common",
+            "newNamespace": "projectActions"
+        },
+        {
+            "action": "update",
+            "key": "deleteProjectMessage",
+            "namespace": "common",
+            "newNamespace": "projectActions"
+        },
+        {
+            "action": "update",
+            "key": "detailsFailedToLoadErrorHelpText",
+            "namespace": "common",
+            "newNamespace": "detailsFailedToLoadMessage"
+        },
+        {
+            "action": "update",
+            "key": "detailsFailedToLoadErrorTitle",
+            "namespace": "common",
+            "newNamespace": "detailsFailedToLoadMessage"
+        },
+        {
+            "action": "update",
+            "key": "district",
+            "namespace": "common",
+            "newNamespace": "keywordSearchSelectInput"
+        },
+        {
+            "action": "update",
+            "key": "downloadMapTitle",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "drefClickDownloadLink",
+            "namespace": "common",
+            "newNamespace": "drefExportModal"
+        },
+        {
+            "action": "update",
+            "key": "drefDownloadPDF",
+            "namespace": "common",
+            "newNamespace": "drefExportModal"
+        },
+        {
+            "action": "update",
+            "key": "drefExportFailed",
+            "namespace": "common",
+            "newNamespace": "drefExportModal"
+        },
+        {
+            "action": "update",
+            "key": "drefExportSuccessfully",
+            "namespace": "common",
+            "newNamespace": "drefExportModal"
+        },
+        {
+            "action": "update",
+            "key": "drefExportTitle",
+            "namespace": "common",
+            "newNamespace": "drefExportModal"
+        },
+        {
+            "action": "update",
+            "key": "drefPreparingExport",
+            "namespace": "common",
+            "newNamespace": "drefExportModal"
+        },
+        {
+            "action": "update",
+            "key": "drefShareDescription",
+            "namespace": "common",
+            "newNamespace": "drefShareModal"
+        },
+        {
+            "action": "update",
+            "key": "drefShareSuccessfully",
+            "namespace": "common",
+            "newNamespace": "drefShareModal"
+        },
+        {
+            "action": "update",
+            "key": "drefShareTitle",
+            "namespace": "common",
+            "newNamespace": "drefShareModal"
+        },
+        {
+            "action": "update",
+            "key": "drefShareUpdate",
+            "namespace": "common",
+            "newNamespace": "drefShareModal"
+        },
+        {
+            "action": "update",
+            "key": "drefWaitingExport",
+            "namespace": "common",
+            "newNamespace": "drefExportModal"
+        },
+        {
+            "action": "update",
+            "key": "emergency",
+            "namespace": "common",
+            "newNamespace": "keywordSearchSelectInput"
+        },
+        {
+            "action": "update",
+            "key": "emptyImminentEventMessage",
+            "namespace": "common",
+            "newNamespace": "riskImminentEventMap"
+        },
+        {
+            "action": "update",
+            "key": "enterCaptionPlaceholder",
+            "namespace": "common",
+            "newNamespace": "multiImageWithCaptionInput"
+        },
+        {
+            "action": "update",
+            "key": "eventAlertType",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "eventDeathLabel",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "eventDetailsCreatedOn",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "eventDetailsHouseholdExposed",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "eventDetailsPeopleExposed",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "eventDetailsPeopleGroups",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "eventDetailsSchoolExposed",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "eventDetailsStartedOn",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "eventDetailsUpdatedOn",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "eventDetailsValueExposed",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "eventDisplacedLabel",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "eventHospitalsExposed",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "eventImpactLabel",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "eventListStartedOn",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "eventListViewDetails",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "eventMoreDetailsLink",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "eventPeopleAffectedLabel",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "eventPopulationLabel",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "eventSeverityLabel",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "eventSourceLabel",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "eventStartOnLabel",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "explanationBubbleAmountLabel",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "explanationBubbleDeployments",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "explanationBubbleDref",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "explanationBubbleEAP",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "explanationBubbleEmergencyAppeal",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "explanationBubbleMultiple",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "explanationBubblePopulationLabel",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "explanationBubbleScalePoints",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "explanationBubbleType",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "exportTableButtonLabel",
+            "namespace": "common",
+            "newNamespace": "exportButton"
+        },
+        {
+            "action": "update",
+            "key": "exportTableDownloadingButtonLabel",
+            "namespace": "common",
+            "newNamespace": "exportButton"
+        },
+        {
+            "action": "update",
+            "key": "failedUploadMessage",
+            "namespace": "common",
+            "newNamespace": "goSingleFileInput"
+        },
+        {
+            "action": "update",
+            "key": "formFailedToLoadErrorHelpText",
+            "namespace": "common",
+            "newNamespace": "formFailedToLoadMessage"
+        },
+        {
+            "action": "update",
+            "key": "formFailedToLoadErrorTitle",
+            "namespace": "common",
+            "newNamespace": "formFailedToLoadMessage"
+        },
+        {
+            "action": "update",
+            "key": "formNonEnglishErrorMessage",
+            "namespace": "common",
+            "newNamespace": "nonEnglishFormCreationMessage"
+        },
+        {
+            "action": "update",
+            "key": "formNonEnglishErrorTitle",
+            "namespace": "common",
+            "newNamespace": "nonEnglishFormCreationMessage"
+        },
+        {
+            "action": "update",
+            "key": "formNonEnglishHelpMessage",
+            "namespace": "common",
+            "newNamespace": "nonEnglishFormCreationMessage"
+        },
+        {
+            "action": "update",
+            "key": "fourHundredFour",
+            "namespace": "common",
+            "newNamespace": "fourHundredFour"
+        },
+        {
+            "action": "update",
+            "key": "fourHundredFourBackgroundImage",
+            "namespace": "common",
+            "newNamespace": "fourHundredFour"
+        },
+        {
+            "action": "update",
+            "key": "fundedLabel",
+            "namespace": "common",
+            "newNamespace": "historicalDataChart"
+        },
+        {
+            "action": "update",
+            "key": "fundingCoverageLabel",
+            "namespace": "common",
+            "newNamespace": "historicalDataChart"
+        },
+        {
+            "action": "update",
+            "key": "gdacsDescription",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "gdacsEventStartedOn",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "gdacsEventViewDetails",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "gdacsTitle",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "goMultiDeleteButton",
+            "namespace": "common",
+            "newNamespace": "goMultiFileInput"
+        },
+        {
+            "action": "update",
+            "key": "goMultiFailedUploadMessage",
+            "namespace": "common",
+            "newNamespace": "goMultiFileInput"
+        },
+        {
+            "action": "update",
+            "key": "hazardFilterPlaceholder",
+            "namespace": "common",
+            "newNamespace": "historicalDataChart"
+        },
+        {
+            "action": "update",
+            "key": "hazardsTypeLegendLabel",
+            "namespace": "common",
+            "newNamespace": "riskSeasonalMap"
+        },
+        {
+            "action": "update",
+            "key": "here",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "highlightedOperationsCountryTitle",
+            "namespace": "common",
+            "newNamespace": "highlightedOperations"
+        },
+        {
+            "action": "update",
+            "key": "highlightedOperationsTitle",
+            "namespace": "common",
+            "newNamespace": "highlightedOperations"
+        },
+        {
+            "action": "update",
+            "key": "highlightedOperationsViewAll",
+            "namespace": "common",
+            "newNamespace": "highlightedOperations"
+        },
+        {
+            "action": "update",
+            "key": "highlightedOperationsViewAllInCountry",
+            "namespace": "common",
+            "newNamespace": "highlightedOperations"
+        },
+        {
+            "action": "update",
+            "key": "highlightedOperationsViewAllInRegion",
+            "namespace": "common",
+            "newNamespace": "highlightedOperations"
+        },
+        {
+            "action": "update",
+            "key": "historicalChartHeading",
+            "namespace": "common",
+            "newNamespace": "historicalDataChart"
+        },
+        {
+            "action": "update",
+            "key": "homeMonthlyChartBackButtonLabel",
+            "namespace": "common",
+            "newNamespace": "appealsOverYearsChart"
+        },
+        {
+            "action": "update",
+            "key": "homeMonthlyChartTitle",
+            "namespace": "common",
+            "newNamespace": "appealsOverYearsChart"
+        },
+        {
+            "action": "update",
+            "key": "imagePreviewAlt",
+            "namespace": "common",
+            "newNamespace": "multiImageWithCaptionInput"
+        },
+        {
+            "action": "update",
+            "key": "imageWithCaptionEnterCaption",
+            "namespace": "common",
+            "newNamespace": "imageWithCaptionInput"
+        },
+        {
+            "action": "update",
+            "key": "imageWithCaptionPreview",
+            "namespace": "common",
+            "newNamespace": "imageWithCaptionInput"
+        },
+        {
+            "action": "update",
+            "key": "imminentEventsDescription",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "imminentEventsDrought",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "imminentEventsEarthquake",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "imminentEventsFlood",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "imminentEventsHeading",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "imminentEventsSourceGdacsLabel",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "imminentEventsSourceMeteoSwissLabel",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "imminentEventsSourcePdcLabel",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "imminentEventsSourceWfpAdamLabel",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "imminentEventsStorm",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "imminentEventsWildfire",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "impactLabel",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "languageMismatchErrorMessage",
+            "namespace": "common",
+            "newNamespace": "languageMismatchMessage"
+        },
+        {
+            "action": "update",
+            "key": "languageMismatchErrorTitle",
+            "namespace": "common",
+            "newNamespace": "languageMismatchMessage"
+        },
+        {
+            "action": "update",
+            "key": "languageMismatchHelpMessage",
+            "namespace": "common",
+            "newNamespace": "languageMismatchMessage"
+        },
+        {
+            "action": "update",
+            "key": "latitude",
+            "namespace": "common",
+            "newNamespace": "baseMapPointInput"
+        },
+        {
+            "action": "update",
+            "key": "longitude",
+            "namespace": "common",
+            "newNamespace": "baseMapPointInput"
+        },
+        {
+            "action": "update",
+            "key": "mapStartDateAfter",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "mapStartDateBefore",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "meteoSwissAuthoritativeLinkLabel",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "meteoSwissAuthoritativeMessage",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "meteoSwissDescriptionOne",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "meteoSwissDescriptionTwo",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "meteoSwissEconomicLossLabel",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "meteoSwissEstimatesNote",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "meteoSwissEventDescription",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "meteoSwissEventDetailsStartedOnLabel",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "meteoSwissEventDetailsUpdatedAtLabel",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "meteoSwissEventListStartedOn",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "meteoSwissEventListViewDetails",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "meteoSwissExposureLabel",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "meteoSwissHazardName",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "meteoSwissimpactHeading",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "meteoSwissImpactValue",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "meteoSwissTitle",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "meteoSwissTropicalStorm",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "noFileSelected",
+            "namespace": "common",
+            "newNamespace": "goSingleFileInput"
+        },
+        {
+            "action": "update",
+            "key": "operationCardDeployed",
+            "namespace": "common",
+            "newNamespace": "highlightedOperations"
+        },
+        {
+            "action": "update",
+            "key": "operationCardDepoloyedUnits",
+            "namespace": "common",
+            "newNamespace": "highlightedOperations"
+        },
+        {
+            "action": "update",
+            "key": "operationCardFollow",
+            "namespace": "common",
+            "newNamespace": "highlightedOperations"
+        },
+        {
+            "action": "update",
+            "key": "operationCardFunding",
+            "namespace": "common",
+            "newNamespace": "highlightedOperations"
+        },
+        {
+            "action": "update",
+            "key": "operationCardFundingCoverage",
+            "namespace": "common",
+            "newNamespace": "highlightedOperations"
+        },
+        {
+            "action": "update",
+            "key": "operationCardIFRCSurgePersonnel",
+            "namespace": "common",
+            "newNamespace": "highlightedOperations"
+        },
+        {
+            "action": "update",
+            "key": "operationCardInvolvesMultipleCountries",
+            "namespace": "common",
+            "newNamespace": "highlightedOperations"
+        },
+        {
+            "action": "update",
+            "key": "operationCardLastUpdated",
+            "namespace": "common",
+            "newNamespace": "highlightedOperations"
+        },
+        {
+            "action": "update",
+            "key": "operationCardNoCountryInvolved",
+            "namespace": "common",
+            "newNamespace": "highlightedOperations"
+        },
+        {
+            "action": "update",
+            "key": "operationCardNSReportingActivities",
+            "namespace": "common",
+            "newNamespace": "highlightedOperations"
+        },
+        {
+            "action": "update",
+            "key": "operationCardTargetedPopulation",
+            "namespace": "common",
+            "newNamespace": "highlightedOperations"
+        },
+        {
+            "action": "update",
+            "key": "operationCardUnfollow",
+            "namespace": "common",
+            "newNamespace": "highlightedOperations"
+        },
+        {
+            "action": "update",
+            "key": "operationDisastertype",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "operationFilterDisastersPlaceholder",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "operationFilterDistrictPlaceholder",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "operationFilterTypePlaceholder",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "operationMapClearFilters",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "operationMapProvinces",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "operationMapViewAll",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "operationMapViewAllInCountry",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "operationMapViewAllInRegion",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "operationPopoverActivity",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "operationPopoverAmountFunded",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "operationPopoverAmountRequested",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "operationPopoverEmpty",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "operationPopoverEnd",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "operationPopoverPeopleAffected",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "operationPopoverStart",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "operationType",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "pdcTooltipDescription",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "pdcTooltipTitle",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "pendingExportLabel",
+            "namespace": "common",
+            "newNamespace": "exportButton"
+        },
+        {
+            "action": "update",
+            "key": "people",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "peopleAffectedLabel",
+            "namespace": "common",
+            "newNamespace": "historicalDataChart"
+        },
+        {
+            "action": "update",
+            "key": "peopleAtRiskOptionLabel",
+            "namespace": "common",
+            "newNamespace": "riskSeasonalMap"
+        },
+        {
+            "action": "update",
+            "key": "peopleExposed",
+            "namespace": "common",
+            "newNamespace": "historicalDataChart"
+        },
+        {
+            "action": "update",
+            "key": "peopleExposedOptionLabel",
+            "namespace": "common",
+            "newNamespace": "riskSeasonalMap"
+        },
+        {
+            "action": "update",
+            "key": "perArea",
+            "namespace": "common",
+            "newNamespace": "perAssessmentSummary"
+        },
+        {
+            "action": "update",
+            "key": "perAssessmentSummaryHeading",
+            "namespace": "common",
+            "newNamespace": "perAssessmentSummary"
+        },
+        {
+            "action": "update",
+            "key": "presentationModeButton",
+            "namespace": "common",
+            "newNamespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "project",
+            "namespace": "common",
+            "newNamespace": "keywordSearchSelectInput"
+        },
+        {
+            "action": "update",
+            "key": "projectDeleteFailureMessage",
+            "namespace": "common",
+            "newNamespace": "projectActions"
+        },
+        {
+            "action": "update",
+            "key": "projectDuplicate",
+            "namespace": "common",
+            "newNamespace": "projectActions"
+        },
+        {
+            "action": "update",
+            "key": "projectHistory",
+            "namespace": "common",
+            "newNamespace": "projectActions"
+        },
+        {
+            "action": "update",
+            "key": "projectViewDetails",
+            "namespace": "common",
+            "newNamespace": "projectActions"
+        },
+        {
+            "action": "update",
+            "key": "region",
+            "namespace": "common",
+            "newNamespace": "keywordSearchSelectInput"
+        },
+        {
+            "action": "update",
+            "key": "regionKeyFigureActiveAppealDescription",
+            "namespace": "common",
+            "newNamespace": "regionKeyFigures"
+        },
+        {
+            "action": "update",
+            "key": "regionKeyFiguresActiveAppeals",
+            "namespace": "common",
+            "newNamespace": "regionKeyFigures"
+        },
+        {
+            "action": "update",
+            "key": "regionKeyFiguresActiveAppealsTitle",
+            "namespace": "common",
+            "newNamespace": "regionKeyFigures"
+        },
+        {
+            "action": "update",
+            "key": "regionKeyFiguresActiveDrefs",
+            "namespace": "common",
+            "newNamespace": "regionKeyFigures"
+        },
+        {
+            "action": "update",
+            "key": "regionKeyFiguresAppealsFunding",
+            "namespace": "common",
+            "newNamespace": "regionKeyFigures"
+        },
+        {
+            "action": "update",
+            "key": "regionKeyFiguresBudget",
+            "namespace": "common",
+            "newNamespace": "regionKeyFigures"
+        },
+        {
+            "action": "update",
+            "key": "regionKeyFiguresCountryPlan",
+            "namespace": "common",
+            "newNamespace": "regionKeyFigures"
+        },
+        {
+            "action": "update",
+            "key": "regionKeyFiguresDrefDescription",
+            "namespace": "common",
+            "newNamespace": "regionKeyFigures"
+        },
+        {
+            "action": "update",
+            "key": "regionKeyFiguresDrefTitle",
+            "namespace": "common",
+            "newNamespace": "regionKeyFigures"
+        },
+        {
+            "action": "update",
+            "key": "regionKeyFiguresTargetPop",
+            "namespace": "common",
+            "newNamespace": "regionKeyFigures"
+        },
+        {
+            "action": "update",
+            "key": "removeFileButtonTitle",
+            "namespace": "common",
+            "newNamespace": "goSingleFileInput"
+        },
+        {
+            "action": "update",
+            "key": "removeImagesButtonTitle",
+            "namespace": "common",
+            "newNamespace": "multiImageWithCaptionInput"
+        },
+        {
+            "action": "update",
+            "key": "removeUser",
+            "namespace": "common",
+            "newNamespace": "drefShareModal"
+        },
+        {
+            "action": "update",
+            "key": "report",
+            "namespace": "common",
+            "newNamespace": "keywordSearchSelectInput"
+        },
+        {
+            "action": "update",
+            "key": "riskAllCountries",
+            "namespace": "common",
+            "newNamespace": "riskSeasonalMap"
+        },
+        {
+            "action": "update",
+            "key": "riskCategoryHigh",
+            "namespace": "common",
+            "newNamespace": "riskSeasonalMap"
+        },
+        {
+            "action": "update",
+            "key": "riskCategoryLow",
+            "namespace": "common",
+            "newNamespace": "riskSeasonalMap"
+        },
+        {
+            "action": "update",
+            "key": "riskCategoryMedium",
+            "namespace": "common",
+            "newNamespace": "riskSeasonalMap"
+        },
+        {
+            "action": "update",
+            "key": "riskCategoryVeryHigh",
+            "namespace": "common",
+            "newNamespace": "riskSeasonalMap"
+        },
+        {
+            "action": "update",
+            "key": "riskCategoryVeryLow",
+            "namespace": "common",
+            "newNamespace": "riskSeasonalMap"
+        },
+        {
+            "action": "update",
+            "key": "riskCopingCapacity",
+            "namespace": "common",
+            "newNamespace": "riskSeasonalMap"
+        },
+        {
+            "action": "update",
+            "key": "riskImminentEventsMap",
+            "namespace": "common",
+            "newNamespace": "riskImminentEventMap"
+        },
+        {
+            "action": "update",
+            "key": "riskNormalize",
+            "namespace": "common",
+            "newNamespace": "riskSeasonalMap"
+        },
+        {
+            "action": "update",
+            "key": "riskPopupLabel",
+            "namespace": "common",
+            "newNamespace": "riskSeasonalMap"
+        },
+        {
+            "action": "update",
+            "key": "riskScoreOptionLabel",
+            "namespace": "common",
+            "newNamespace": "riskSeasonalMap"
+        },
+        {
+            "action": "update",
+            "key": "riskSeasonalCountriesByRiskHeading",
+            "namespace": "common",
+            "newNamespace": "riskSeasonalMap"
+        },
+        {
+            "action": "update",
+            "key": "riskSeasonalMapHeading",
+            "namespace": "common",
+            "newNamespace": "riskSeasonalMap"
+        },
+        {
+            "action": "update",
+            "key": "riskSelectHazardTypes",
+            "namespace": "common",
+            "newNamespace": "riskSeasonalMap"
+        },
+        {
+            "action": "update",
+            "key": "riskSelectMonths",
+            "namespace": "common",
+            "newNamespace": "riskSeasonalMap"
+        },
+        {
+            "action": "update",
+            "key": "rrDeployment",
+            "namespace": "common",
+            "newNamespace": "keywordSearchSelectInput"
+        },
+        {
+            "action": "update",
+            "key": "search",
+            "namespace": "common",
+            "newNamespace": "keywordSearchSelectInput"
+        },
+        {
+            "action": "update",
+            "key": "seasonalEventsDescriptionOne",
+            "namespace": "common",
+            "newNamespace": "riskSeasonalMap"
+        },
+        {
+            "action": "update",
+            "key": "seasonalEventsDescriptionTwo",
+            "namespace": "common",
+            "newNamespace": "riskSeasonalMap"
+        },
+        {
+            "action": "update",
+            "key": "selectAll",
+            "namespace": "common",
+            "newNamespace": "districtSearchMultiSelectInput"
+        },
+        {
+            "action": "update",
+            "key": "severityHighLabel",
+            "namespace": "common",
+            "newNamespace": "riskSeasonalMap"
+        },
+        {
+            "action": "update",
+            "key": "severityLegendLabel",
+            "namespace": "common",
+            "newNamespace": "riskSeasonalMap"
+        },
+        {
+            "action": "update",
+            "key": "severityLowLabel",
+            "namespace": "common",
+            "newNamespace": "riskSeasonalMap"
+        },
+        {
+            "action": "update",
+            "key": "surgeAlert",
+            "namespace": "common",
+            "newNamespace": "keywordSearchSelectInput"
+        },
+        {
+            "action": "update",
+            "key": "surgeDeployment",
+            "namespace": "common",
+            "newNamespace": "keywordSearchSelectInput"
+        },
+        {
+            "action": "update",
+            "key": "surgeGoBack",
+            "namespace": "common",
+            "newNamespace": "surgeCatalogueContainer"
+        },
+        {
+            "action": "update",
+            "key": "timelineChartAmountFundedLabel",
+            "namespace": "common",
+            "newNamespace": "appealsOverYearsChart"
+        },
+        {
+            "action": "update",
+            "key": "timelineChartDrefLabel",
+            "namespace": "common",
+            "newNamespace": "appealsOverYearsChart"
+        },
+        {
+            "action": "update",
+            "key": "timelineChartEmergencyAppealLabel",
+            "namespace": "common",
+            "newNamespace": "appealsOverYearsChart"
+        },
+        {
+            "action": "update",
+            "key": "timelineChartPeopleTargetedLabel",
+            "namespace": "common",
+            "newNamespace": "appealsOverYearsChart"
+        },
+        {
+            "action": "update",
+            "key": "tropicalStormDescription",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "uhohBackToHome",
+            "namespace": "common",
+            "newNamespace": "fourHundredFour"
+        },
+        {
+            "action": "update",
+            "key": "uhohOops",
+            "namespace": "common",
+            "newNamespace": "fourHundredFour"
+        },
+        {
+            "action": "update",
+            "key": "uhohPageDescriptionOne",
+            "namespace": "common",
+            "newNamespace": "fourHundredFour"
+        },
+        {
+            "action": "update",
+            "key": "uhohPageDescriptionTwo",
+            "namespace": "common",
+            "newNamespace": "fourHundredFour"
+        },
+        {
+            "action": "update",
+            "key": "uhohPageNotFoundTitle",
+            "namespace": "common",
+            "newNamespace": "fourHundredFour"
+        },
+        {
+            "action": "update",
+            "key": "usd",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "userListEmptyMessage",
+            "namespace": "common",
+            "newNamespace": "drefShareModal"
+        },
+        {
+            "action": "update",
+            "key": "wfpAdamDescription",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "wfpAdamTitle",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "wfpAlertType",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "wfpChartLabel",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "wfpDashboard",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "wfpDepth",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "wfpEffective",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "wfpEventDetailsKm",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "wfpEventDetailsPublishedOn",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "wfpEventListPublishedOn",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "wfpEventListViewDetails",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "wfpExposed120",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "wfpExposed60",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "wfpExposed90",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "wfpFloodArea",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "wfpFloodCropland",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "wfpFromDate",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "wfpMagnitude",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "wfpPeopleExposed",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "wfpPopulationTable",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "wfpRainfall",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "wfpShakemap",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "wfpShapefile",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "wfpSitrep",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "wfpSource",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "wfpToDate",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "wfpUsefulLinks",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "wfpWind",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "wfpWindSpeed",
+            "namespace": "common",
+            "newNamespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "yearlyAppealChartNotAvailableMessage",
+            "namespace": "common",
+            "newNamespace": "appealsOverYearsChart"
+        },
+        {
+            "action": "update",
+            "key": "yearlyAppealChartTitle",
+            "namespace": "common",
+            "newNamespace": "appealsOverYearsChart"
+        },
+        {
+            "action": "update",
+            "key": "yearlyAppealChartViewMonthlyLabel",
+            "namespace": "common",
+            "newNamespace": "appealsOverYearsChart"
+        },
+        {
+            "action": "update",
+            "key": "hereConditionTitle",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbCodeDescriptionEight",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbCodeDescriptionEighteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbCodeDescriptionEleven",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbCodeDescriptionFifteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbCodeDescriptionFive",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbCodeDescriptionFour",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbCodeDescriptionFourteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbCodeDescriptionNine",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbCodeDescriptionNineteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbCodeDescriptionOne",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbCodeDescriptionSeven",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbCodeDescriptionSeventeen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbCodeDescriptionSix",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbCodeDescriptionSixteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbCodeDescriptionTen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbCodeDescriptionThirteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbCodeDescriptionThree",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbCodeDescriptionTwelve",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbCodeDescriptionTwenty",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbCodeDescriptionTwo",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbLabDescriptionEight",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbLabDescriptionEighteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbLabDescriptionEleven",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbLabDescriptionFifteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbLabDescriptionFive",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbLabDescriptionFour",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbLabDescriptionFourteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbLabDescriptionNine",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbLabDescriptionNineteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbLabDescriptionOne",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbLabDescriptionSeven",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbLabDescriptionSeventeen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbLabDescriptionSix",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbLabDescriptionSixteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbLabDescriptionTen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbLabDescriptionThirteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbLabDescriptionThree",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbLabDescriptionTwelve",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbLabDescriptionTwenty",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcDbLabDescriptionTwo",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgCodeDescriptionEight",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgCodeDescriptionEighteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgCodeDescriptionEleven",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgCodeDescriptionFifteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgCodeDescriptionFive",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgCodeDescriptionFour",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgCodeDescriptionFourteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgCodeDescriptionNine",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgCodeDescriptionNineteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgCodeDescriptionOne",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgCodeDescriptionSeven",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgCodeDescriptionSeventeen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgCodeDescriptionSix",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgCodeDescriptionSixteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgCodeDescriptionTen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgCodeDescriptionThirteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgCodeDescriptionThree",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgCodeDescriptionTwelve",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgCodeDescriptionTwenty",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgCodeDescriptionTwo",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgLabDescriptionEight",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgLabDescriptionEighteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgLabDescriptionEleven",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgLabDescriptionFifteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgLabDescriptionFive",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgLabDescriptionFour",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgLabDescriptionFourteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgLabDescriptionNine",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgLabDescriptionNineteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgLabDescriptionOne",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgLabDescriptionSeven",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgLabDescriptionSeventeen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgLabDescriptionSix",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgLabDescriptionSixteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgLabDescriptionTen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgLabDescriptionThirteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgLabDescriptionThree",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgLabDescriptionTwelve",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgLabDescriptionTwenty",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgLabDescriptionTwo",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgtypeCodeDescriptionEight",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgtypeCodeDescriptionEighteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgtypeCodeDescriptionEleven",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgtypeCodeDescriptionFifteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgtypeCodeDescriptionFive",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgtypeCodeDescriptionFour",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgtypeCodeDescriptionFourteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgtypeCodeDescriptionNine",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgtypeCodeDescriptionNineteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgtypeCodeDescriptionOne",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgtypeCodeDescriptionSeven",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgtypeCodeDescriptionSeventeen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgtypeCodeDescriptionSix",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgtypeCodeDescriptionSixteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgtypeCodeDescriptionTen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgtypeCodeDescriptionThirteen",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgtypeCodeDescriptionThree",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgtypeCodeDescriptionTwelve",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgtypeCodeDescriptionTwenty",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "srcOrgtypeCodeDescriptionTwo",
+            "namespace": "conditionsModal",
+            "newNamespace": "termsAndConditions"
+        },
+        {
+            "action": "update",
+            "key": "climateChangeAverage",
+            "namespace": "countryClimateChart",
+            "newNamespace": "countryProfileOverview"
+        },
+        {
+            "action": "update",
+            "key": "climateChangeChart",
+            "namespace": "countryClimateChart",
+            "newNamespace": "countryProfileOverview"
+        },
+        {
+            "action": "update",
+            "key": "climateChangeMin",
+            "namespace": "countryClimateChart",
+            "newNamespace": "countryProfileOverview"
+        },
+        {
+            "action": "update",
+            "key": "climateChangePrecipitation",
+            "namespace": "countryClimateChart",
+            "newNamespace": "countryProfileOverview"
+        },
+        {
+            "action": "update",
+            "key": "climateChartMax",
+            "namespace": "countryClimateChart",
+            "newNamespace": "countryProfileOverview"
+        },
+        {
+            "action": "update",
+            "key": "climateChartTemperature",
+            "namespace": "countryClimateChart",
+            "newNamespace": "countryProfileOverview"
+        },
+        {
+            "action": "update",
+            "key": "climateKnowledgePortal",
+            "namespace": "countryClimateChart",
+            "newNamespace": "countryProfileOverview"
+        },
+        {
+            "action": "update",
+            "key": "source",
+            "namespace": "countryClimateChart",
+            "newNamespace": "countryNsOverviewActivities"
+        },
+        {
+            "action": "update",
+            "key": "countryHistoricalDREFOperations",
+            "namespace": "countryHistoricalKeyFigures",
+            "newNamespace": "countryProfilePreviousEvents"
+        },
+        {
+            "action": "update",
+            "key": "countryHistoricalFigureEmergencyAppealDescription",
+            "namespace": "countryHistoricalKeyFigures",
+            "newNamespace": "countryProfilePreviousEvents"
+        },
+        {
+            "action": "update",
+            "key": "keyFiguresAppealsFundingCoverage",
+            "namespace": "countryHistoricalKeyFigures",
+            "newNamespace": "countryProfilePreviousEvents"
+        },
+        {
+            "action": "update",
+            "key": "keyFiguresDref",
+            "namespace": "countryHistoricalKeyFigures",
+            "newNamespace": "countryProfilePreviousEvents"
+        },
+        {
+            "action": "update",
+            "key": "keyFiguresDrefTitle",
+            "namespace": "countryHistoricalKeyFigures",
+            "newNamespace": "countryProfilePreviousEvents"
+        },
+        {
+            "action": "update",
+            "key": "keyFiguresEmergencyAppeals",
+            "namespace": "countryHistoricalKeyFigures",
+            "newNamespace": "countryProfilePreviousEvents"
+        },
+        {
+            "action": "update",
+            "key": "keyFiguresEmergencyAppealTitle",
+            "namespace": "countryHistoricalKeyFigures",
+            "newNamespace": "countryProfilePreviousEvents"
+        },
+        {
+            "action": "update",
+            "key": "keyFiguresFundingRequirements",
+            "namespace": "countryHistoricalKeyFigures",
+            "newNamespace": "countryProfilePreviousEvents"
+        },
+        {
+            "action": "update",
+            "key": "keyFiguresTargetPopulation",
+            "namespace": "countryHistoricalKeyFigures",
+            "newNamespace": "countryProfilePreviousEvents"
+        },
+        {
+            "action": "remove",
+            "key": "countryOngoingActivitiesDREFOperations",
+            "namespace": "countryKeyFigures"
+        },
+        {
+            "action": "update",
+            "key": "countryOngoingActivitiesFigureAppealDescription",
+            "namespace": "countryKeyFigures",
+            "newNamespace": "countryOngoingActivitiesEmergencies"
+        },
+        {
+            "action": "update",
+            "key": "countryOngoingActivitiesKeyFiguresActiveAppeals",
+            "namespace": "countryKeyFigures",
+            "newNamespace": "countryOngoingActivitiesEmergencies"
+        },
+        {
+            "action": "update",
+            "key": "countryOngoingActivitiesKeyFiguresAppealsFunding",
+            "namespace": "countryKeyFigures",
+            "newNamespace": "countryOngoingActivitiesEmergencies"
+        },
+        {
+            "action": "update",
+            "key": "countryOngoingActivitiesKeyFiguresAppealsTitle",
+            "namespace": "countryKeyFigures",
+            "newNamespace": "countryOngoingActivitiesEmergencies"
+        },
+        {
+            "action": "update",
+            "key": "countryOngoingActivitiesKeyFiguresBudget",
+            "namespace": "countryKeyFigures",
+            "newNamespace": "countryOngoingActivitiesEmergencies"
+        },
+        {
+            "action": "update",
+            "key": "countryOngoingActivitiesKeyFiguresDref",
+            "namespace": "countryKeyFigures",
+            "newNamespace": "countryOngoingActivitiesEmergencies"
+        },
+        {
+            "action": "update",
+            "key": "countryOngoingActivitiesKeyFiguresDrefTitle",
+            "namespace": "countryKeyFigures",
+            "newNamespace": "countryOngoingActivitiesEmergencies"
+        },
+        {
+            "action": "update",
+            "key": "countryOngoingActivitiesKeyFiguresTargetPop",
+            "namespace": "countryKeyFigures",
+            "newNamespace": "countryOngoingActivitiesEmergencies"
+        },
+        {
+            "action": "remove",
+            "key": "moreDetails",
+            "namespace": "countryNsCapacityStrengthening"
+        },
+        {
+            "action": "update",
+            "key": "bocaAssessment",
+            "namespace": "countryNsCapacityStrengthening",
+            "newNamespace": "countryNsOverviewCapacity"
+        },
+        {
+            "action": "update",
+            "key": "capacityListItemAssessment",
+            "namespace": "countryNsCapacityStrengthening",
+            "newNamespace": "countryNsOverviewCapacity"
+        },
+        {
+            "action": "update",
+            "key": "capacityListItemDateOfAssessment",
+            "namespace": "countryNsCapacityStrengthening",
+            "newNamespace": "countryNsOverviewCapacity"
+        },
+        {
+            "action": "update",
+            "key": "countryNsCapacityStrengtheningDescription",
+            "namespace": "countryNsCapacityStrengthening",
+            "newNamespace": "countryNsOverviewCapacity"
+        },
+        {
+            "action": "update",
+            "key": "countryNsCapacityStrengtheningHeading",
+            "namespace": "countryNsCapacityStrengthening",
+            "newNamespace": "countryNsOverviewCapacity"
+        },
+        {
+            "action": "update",
+            "key": "globalOCAC",
+            "namespace": "countryNsCapacityStrengthening",
+            "newNamespace": "countryNsOverviewCapacity"
+        },
+        {
+            "action": "update",
+            "key": "localUnits",
+            "namespace": "countryNsCapacityStrengthening",
+            "newNamespace": "countryNsOverviewCapacity"
+        },
+        {
+            "action": "add",
+            "key": "moreDetailsLabel",
+            "namespace": "countryNsOverviewCapacity",
+            "value": "More Details"
+        },
+        {
+            "action": "add",
+            "key": "indicatorSourceFDRSLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "{nationalSociety} on FDRS"
+        },
+        {
+            "action": "add",
+            "key": "indicatorSourceLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Source"
+        },
+        {
+            "action": "add",
+            "key": "sourceFDRSLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "{nationalSociety} on FDRS"
+        },
+        {
+            "action": "add",
+            "key": "membershipSource",
+            "namespace": "countryNsOverviewSupportingPartners",
+            "value": "Source"
+        },
+        {
+            "action": "add",
+            "key": "activeDrefOperationsLabel",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Active DREF Operations"
+        },
+        {
+            "action": "add",
+            "key": "activeOperationLabel",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Active Operation"
+        },
+        {
+            "action": "add",
+            "key": "appealsDisastertype",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Disaster Type"
+        },
+        {
+            "action": "add",
+            "key": "appealsFilterDisastersPlaceholder",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "All Disaster Types"
+        },
+        {
+            "action": "add",
+            "key": "appealsFilterTypePlaceholder",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "All Appeal Types"
+        },
+        {
+            "action": "add",
+            "key": "appealsFundedAmount",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Funding Coverage"
+        },
+        {
+            "action": "add",
+            "key": "appealsRequestedAmount",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Funding Requirements"
+        },
+        {
+            "action": "add",
+            "key": "appealsStartDate",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Start Date"
+        },
+        {
+            "action": "add",
+            "key": "appealsStartDateAfter",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Start After"
+        },
+        {
+            "action": "add",
+            "key": "appealsStartDateBefore",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Start Before"
+        },
+        {
+            "action": "add",
+            "key": "appealsTypeLabel",
+            "namespace": "countryOngoingActivitiesEmergencies",
+            "value": "Appeal Type"
+        },
+        {
+            "action": "remove",
+            "key": "appealsTableCode",
+            "namespace": "countryOngoingActivitiesEmergenciesFilters"
+        },
+        {
+            "action": "remove",
+            "key": "appealsTableDisastertype",
+            "namespace": "countryOngoingActivitiesEmergenciesFilters"
+        },
+        {
+            "action": "remove",
+            "key": "appealsTableFilterDisastersPlaceholder",
+            "namespace": "countryOngoingActivitiesEmergenciesFilters"
+        },
+        {
+            "action": "remove",
+            "key": "appealsTableFilterTypePlaceholder",
+            "namespace": "countryOngoingActivitiesEmergenciesFilters"
+        },
+        {
+            "action": "remove",
+            "key": "appealsTableFundedAmount",
+            "namespace": "countryOngoingActivitiesEmergenciesFilters"
+        },
+        {
+            "action": "remove",
+            "key": "appealsTableOperation",
+            "namespace": "countryOngoingActivitiesEmergenciesFilters"
+        },
+        {
+            "action": "remove",
+            "key": "appealsTableRequestedAmount",
+            "namespace": "countryOngoingActivitiesEmergenciesFilters"
+        },
+        {
+            "action": "remove",
+            "key": "appealsTableStartDate",
+            "namespace": "countryOngoingActivitiesEmergenciesFilters"
+        },
+        {
+            "action": "remove",
+            "key": "appealsTableStartDateAfter",
+            "namespace": "countryOngoingActivitiesEmergenciesFilters"
+        },
+        {
+            "action": "remove",
+            "key": "appealsTableStartDateBefore",
+            "namespace": "countryOngoingActivitiesEmergenciesFilters"
+        },
+        {
+            "action": "remove",
+            "key": "appealsTableType",
+            "namespace": "countryOngoingActivitiesEmergenciesFilters"
+        },
+        {
+            "action": "update",
+            "key": "operationMapClearFilters",
+            "namespace": "countryOngoingActivitiesEmergenciesFilters",
+            "newNamespace": "countryOngoingActivitiesEmergencies"
+        },
+        {
+            "action": "update",
+            "key": "countryThreeWActivityFilterCountry",
+            "namespace": "countryOngoingActivitiesThreeWActivitiesFilter",
+            "newNamespace": "countryOngoingActivitiesThreeWActivities"
+        },
+        {
+            "action": "update",
+            "key": "countryThreeWActivityFilterDistrict",
+            "namespace": "countryOngoingActivitiesThreeWActivitiesFilter",
+            "newNamespace": "countryOngoingActivitiesThreeWActivities"
+        },
+        {
+            "action": "update",
+            "key": "countryThreeWActivityFilterEru",
+            "namespace": "countryOngoingActivitiesThreeWActivitiesFilter",
+            "newNamespace": "countryOngoingActivitiesThreeWActivities"
+        },
+        {
+            "action": "update",
+            "key": "countryThreeWActivityFilterReportingNs",
+            "namespace": "countryOngoingActivitiesThreeWActivitiesFilter",
+            "newNamespace": "countryOngoingActivitiesThreeWActivities"
+        },
+        {
+            "action": "update",
+            "key": "countryThreeWActivityFilterSector",
+            "namespace": "countryOngoingActivitiesThreeWActivitiesFilter",
+            "newNamespace": "countryOngoingActivitiesThreeWActivities"
+        },
+        {
+            "action": "update",
+            "key": "countryThreeWActivityFilterStatus",
+            "namespace": "countryOngoingActivitiesThreeWActivitiesFilter",
+            "newNamespace": "countryOngoingActivitiesThreeWActivities"
+        },
+        {
+            "action": "update",
+            "key": "countryPlanKeyFigurePeopleTargeted",
+            "namespace": "countryPlan",
+            "newNamespace": "countryNsOverviewStrategicPriorities"
+        },
+        {
+            "action": "update",
+            "key": "countryPlanStrategicPrioritiesTableHeading",
+            "namespace": "countryPlan",
+            "newNamespace": "countryNsOverviewStrategicPriorities"
+        },
+        {
+            "action": "update",
+            "key": "countryPlanStrategicPriority",
+            "namespace": "countryPlan",
+            "newNamespace": "countryNsOverviewStrategicPriorities"
+        },
+        {
+            "action": "add",
+            "key": "publicFocalPointEmailTitle",
+            "namespace": "countryPreparedness",
+            "value": "Email"
+        },
+        {
+            "action": "add",
+            "key": "publicFocalPointNameLabel",
+            "namespace": "countryPreparedness",
+            "value": "Focal Point"
+        },
+        {
+            "action": "add",
+            "key": "publicGoBackButtonTitle",
+            "namespace": "countryPreparedness",
+            "value": "Go back"
+        },
+        {
+            "action": "add",
+            "key": "publicLastUpdatedLabel",
+            "namespace": "countryPreparedness",
+            "value": "Last update"
+        },
+        {
+            "action": "add",
+            "key": "publicNsPreparednessAndResponseCapacityHeading",
+            "namespace": "countryPreparedness",
+            "value": "NS Preparedness and Response Capacity"
+        },
+        {
+            "action": "add",
+            "key": "publicPerCycleLabel",
+            "namespace": "countryPreparedness",
+            "value": "PER Cycle"
+        },
+        {
+            "action": "add",
+            "key": "publicPerPhaseLabel",
+            "namespace": "countryPreparedness",
+            "value": "PER Phase"
+        },
+        {
+            "action": "add",
+            "key": "publicStartDateLabel",
+            "namespace": "countryPreparedness",
+            "value": "Start Date"
+        },
+        {
+            "action": "add",
+            "key": "publicTypeOfAssessmentLabel",
+            "namespace": "countryPreparedness",
+            "value": "Type of Assessment"
+        },
+        {
+            "action": "add",
+            "key": "ratingPerAreaLabel",
+            "namespace": "countryPreparedness",
+            "value": "Area {areaNumber}: {areaTitle}"
+        },
+        {
+            "action": "update",
+            "key": "componentLimitedAccess",
+            "newKey": "publicComponentLimitedAccess",
+            "namespace": "countryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "componentLimitedAccessDescription",
+            "newKey": "publicComponentLimitedAccessDescription",
+            "namespace": "countryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "componentRequestSeeMore",
+            "newKey": "publicComponentRequestSeeMore",
+            "namespace": "countryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "perArea",
+            "namespace": "countryPreparedness",
+            "newValue": "Area {areaNumber}: {title}"
+        },
+        {
+            "action": "update",
+            "key": "countryICRCConfirmedPartner",
+            "namespace": "countryPresence",
+            "newNamespace": "countryNsOverviewSupportingPartners"
+        },
+        {
+            "action": "update",
+            "key": "countryICRCKeyOperations",
+            "namespace": "countryPresence",
+            "newNamespace": "countryNsOverviewSupportingPartners"
+        },
+        {
+            "action": "update",
+            "key": "countryICRCPresenceTitle",
+            "namespace": "countryPresence",
+            "newNamespace": "countryNsOverviewSupportingPartners"
+        },
+        {
+            "action": "update",
+            "key": "countryICRCWithin",
+            "namespace": "countryPresence",
+            "newNamespace": "countryNsOverviewSupportingPartners"
+        },
+        {
+            "action": "update",
+            "key": "countryIFRCContact",
+            "namespace": "countryPresence",
+            "newNamespace": "countryNsOverviewSupportingPartners"
+        },
+        {
+            "action": "update",
+            "key": "countryIFRCDelegationType",
+            "namespace": "countryPresence",
+            "newNamespace": "countryNsOverviewSupportingPartners"
+        },
+        {
+            "action": "update",
+            "key": "countryIFRCDisasterLaw",
+            "namespace": "countryPresence",
+            "newNamespace": "countryNsOverviewSupportingPartners"
+        },
+        {
+            "action": "update",
+            "key": "countryIFRCLegalStatus",
+            "namespace": "countryPresence",
+            "newNamespace": "countryNsOverviewSupportingPartners"
+        },
+        {
+            "action": "update",
+            "key": "countryIFRCLocation",
+            "namespace": "countryPresence",
+            "newNamespace": "countryNsOverviewSupportingPartners"
+        },
+        {
+            "action": "update",
+            "key": "countryIFRCPresenceHeadOfDelegation",
+            "namespace": "countryPresence",
+            "newNamespace": "countryNsOverviewSupportingPartners"
+        },
+        {
+            "action": "update",
+            "key": "countryIFRCPresenceTitle",
+            "namespace": "countryPresence",
+            "newNamespace": "countryNsOverviewSupportingPartners"
+        },
+        {
+            "action": "update",
+            "key": "disclaimer",
+            "namespace": "countryPresence",
+            "newNamespace": "countryNsOverviewSupportingPartners"
+        },
+        {
+            "action": "update",
+            "key": "fdrs",
+            "namespace": "countryPresence",
+            "newNamespace": "countryNsOverviewSupportingPartners"
+        },
+        {
+            "action": "update",
+            "key": "icrc",
+            "namespace": "countryPresence",
+            "newNamespace": "countryNsOverviewSupportingPartners"
+        },
+        {
+            "action": "update",
+            "key": "source",
+            "namespace": "countryPresence",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "add",
+            "key": "climateChartSource",
+            "namespace": "countryProfileOverview",
+            "value": "Source"
+        },
+        {
+            "action": "add",
+            "key": "populationMapSource",
+            "namespace": "countryProfileOverview",
+            "value": "Source"
+        },
+        {
+            "action": "add",
+            "key": "populationMapWorldBank",
+            "namespace": "countryProfileOverview",
+            "value": "The World Bank"
+        },
+        {
+            "action": "add",
+            "key": "pastEventsLastFiveYearsLabel",
+            "namespace": "countryProfilePreviousEvents",
+            "value": "Last 5 years"
+        },
+        {
+            "action": "add",
+            "key": "pastEventsLastTenYearsLabel",
+            "namespace": "countryProfilePreviousEvents",
+            "value": "Last 10 years"
+        },
+        {
+            "action": "remove",
+            "key": "source",
+            "namespace": "countryProfileSupportingPartners"
+        },
+        {
+            "action": "update",
+            "key": "membershipCoordinationTableNameOfPNS",
+            "namespace": "countryProfileSupportingPartners",
+            "newNamespace": "countryNsOverviewSupportingPartners"
+        },
+        {
+            "action": "update",
+            "key": "membershipCoordinationTableTitle",
+            "namespace": "countryProfileSupportingPartners",
+            "newNamespace": "countryNsOverviewSupportingPartners"
+        },
+        {
+            "action": "update",
+            "key": "unifiedPlanning",
+            "namespace": "countryProfileSupportingPartners",
+            "newNamespace": "countryNsOverviewSupportingPartners"
+        },
+        {
+            "action": "update",
+            "key": "countryResponseActivitiesNumberOfProjects",
+            "namespace": "countryResponseActivities",
+            "newNamespace": "countryOngoingActivitiesThreeWActivities"
+        },
+        {
+            "action": "update",
+            "key": "countryResponseActivitiesSeverityHigh",
+            "namespace": "countryResponseActivities",
+            "newNamespace": "countryOngoingActivitiesThreeWActivities"
+        },
+        {
+            "action": "update",
+            "key": "countryResponseActivitiesSeverityLow",
+            "namespace": "countryResponseActivities",
+            "newNamespace": "countryOngoingActivitiesThreeWActivities"
+        },
+        {
+            "action": "update",
+            "key": "countryResponseActivitiesSeverityMedium",
+            "namespace": "countryResponseActivities",
+            "newNamespace": "countryOngoingActivitiesThreeWActivities"
+        },
+        {
+            "action": "update",
+            "key": "countryResponseActivitiesSeveritySevere",
+            "namespace": "countryResponseActivities",
+            "newNamespace": "countryOngoingActivitiesThreeWActivities"
+        },
+        {
+            "action": "remove",
+            "key": "source",
+            "namespace": "countryRiskSourcesOutput"
+        },
+        {
+            "action": "update",
+            "key": "idmc",
+            "namespace": "countryRiskSourcesOutput",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "inform",
+            "namespace": "countryRiskSourcesOutput",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "ipc",
+            "namespace": "countryRiskSourcesOutput",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "sourceIDMC",
+            "namespace": "countryRiskSourcesOutput",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "sourceINFORM",
+            "namespace": "countryRiskSourcesOutput",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "sourceIPC",
+            "namespace": "countryRiskSourcesOutput",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "sourceUNDRR",
+            "namespace": "countryRiskSourcesOutput",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "undrr",
+            "namespace": "countryRiskSourcesOutput",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "multipleTypesLegend",
+            "namespace": "countryThreeWProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "threeWFilterOperationTypes",
+            "namespace": "countryThreeWProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "threeWFilterProgrammeTypes",
+            "namespace": "countryThreeWProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "threeWFilterProvinces",
+            "namespace": "countryThreeWProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "threeWFilterReportingNs",
+            "namespace": "countryThreeWProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "threeWFilterSectors",
+            "namespace": "countryThreeWProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "threeWFilterTags",
+            "namespace": "countryThreeWProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "threeWMapBudget",
+            "namespace": "countryThreeWProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "threeWMapLastUpdate",
+            "namespace": "countryThreeWProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "threeWMapProgrammeType",
+            "namespace": "countryThreeWProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "threeWMapStatus",
+            "namespace": "countryThreeWProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "threeWMapTitle",
+            "namespace": "countryThreeWProjects",
+            "newNamespace": "countryOngoingActivitiesThreeWProjects"
+        },
+        {
+            "action": "update",
+            "key": "description",
+            "namespace": "DownloadImportTemplateModal",
+            "newNamespace": "accountMyFormsDref"
+        },
+        {
+            "action": "update",
+            "key": "downloadButtonLabel",
+            "namespace": "DownloadImportTemplateModal",
+            "newNamespace": "accountMyFormsDref"
+        },
+        {
+            "action": "update",
+            "key": "heading",
+            "namespace": "DownloadImportTemplateModal",
+            "newNamespace": "accountMyFormsDref"
+        },
+        {
+            "action": "update",
+            "key": "typeOfDrefInputLabel",
+            "namespace": "DownloadImportTemplateModal",
+            "newNamespace": "accountMyFormsDref"
+        },
+        {
+            "action": "add",
+            "key": "importLabel",
+            "namespace": "drefApplicationForm",
+            "value": "Import"
+        },
+        {
+            "action": "update",
+            "key": "sourceInformationDeleteButton",
+            "namespace": "drefApplicationForm",
+            "newNamespace": "sourceInformationInput"
+        },
+        {
+            "action": "update",
+            "key": "sourceInformationLinkLabel",
+            "namespace": "drefApplicationForm",
+            "newNamespace": "sourceInformationInput"
+        },
+        {
+            "action": "update",
+            "key": "sourceInformationNameLabel",
+            "namespace": "drefApplicationForm",
+            "newNamespace": "sourceInformationInput"
+        },
+        {
+            "action": "remove",
+            "key": "drefImportButton",
+            "namespace": "drefImportButton"
+        },
+        {
+            "action": "update",
+            "key": "drefImportApplication",
+            "namespace": "drefImportModel",
+            "newNamespace": "drefApplicationForm"
+        },
+        {
+            "action": "update",
+            "key": "drefImportButton",
+            "namespace": "drefImportModel",
+            "newNamespace": "drefApplicationForm"
+        },
+        {
+            "action": "update",
+            "key": "drefImportFailed",
+            "namespace": "drefImportModel",
+            "newNamespace": "drefApplicationForm"
+        },
+        {
+            "action": "update",
+            "key": "drefImportFailedDescription",
+            "namespace": "drefImportModel",
+            "newNamespace": "drefApplicationForm"
+        },
+        {
+            "action": "update",
+            "key": "drefImportSelectFile",
+            "namespace": "drefImportModel",
+            "newNamespace": "drefApplicationForm"
+        },
+        {
+            "action": "update",
+            "key": "drefImportTemplate",
+            "namespace": "drefImportModel",
+            "newNamespace": "drefApplicationForm"
+        },
+        {
+            "action": "update",
+            "key": "emergenciesOverMonthTargetedPopulation",
+            "namespace": "emergenciesOverMonth",
+            "newNamespace": "countryProfilePreviousEvents"
+        },
+        {
+            "action": "update",
+            "key": "errorPageGoBack",
+            "namespace": "errorPage",
+            "newNamespace": "common"
+        },
+        {
+            "action": "update",
+            "key": "errorPageHide",
+            "namespace": "errorPage",
+            "newNamespace": "common"
+        },
+        {
+            "action": "update",
+            "key": "errorPageIssueMessage",
+            "namespace": "errorPage",
+            "newNamespace": "common"
+        },
+        {
+            "action": "update",
+            "key": "errorPageReload",
+            "namespace": "errorPage",
+            "newNamespace": "common"
+        },
+        {
+            "action": "update",
+            "key": "errorPageShowError",
+            "namespace": "errorPage",
+            "newNamespace": "common"
+        },
+        {
+            "action": "update",
+            "key": "errorPageStackTrace",
+            "namespace": "errorPage",
+            "newNamespace": "common"
+        },
+        {
+            "action": "update",
+            "key": "errorPageUnexpectedMessage",
+            "namespace": "errorPage",
+            "newNamespace": "common"
+        },
+        {
+            "action": "update",
+            "key": "errorSeeDeveloperConsole",
+            "namespace": "errorPage",
+            "newNamespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "source",
+            "namespace": "extracts"
+        },
+        {
+            "action": "update",
+            "key": "dateOfLearning",
+            "namespace": "extracts",
+            "newNamespace": "operationalLearning"
+        },
+        {
+            "action": "update",
+            "key": "foodInsecurityAnalysisDate",
+            "namespace": "foodInsecurityChart",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "foodInsecurityChartAverage",
+            "namespace": "foodInsecurityChart",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "foodInsecurityPeopleExposed",
+            "namespace": "foodInsecurityChart",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "acceptButtonLabel",
+            "namespace": "generateMontandonTokenModal",
+            "newNamespace": "accountDetails"
+        },
+        {
+            "action": "update",
+            "key": "cancelButtonLabel",
+            "namespace": "generateMontandonTokenModal",
+            "newNamespace": "accountDetails"
+        },
+        {
+            "action": "update",
+            "key": "description",
+            "namespace": "generateMontandonTokenModal",
+            "newNamespace": "accountDetails"
+        },
+        {
+            "action": "update",
+            "key": "doneButtonLabel",
+            "namespace": "generateMontandonTokenModal",
+            "newNamespace": "accountDetails"
+        },
+        {
+            "action": "update",
+            "key": "termsAndConditionLabel",
+            "namespace": "generateMontandonTokenModal",
+            "newNamespace": "accountDetails"
+        },
+        {
+            "action": "update",
+            "key": "title",
+            "namespace": "generateMontandonTokenModal",
+            "newNamespace": "accountDetails"
+        },
+        {
+            "action": "update",
+            "key": "titleInputHint",
+            "namespace": "generateMontandonTokenModal",
+            "newNamespace": "accountDetails"
+        },
+        {
+            "action": "update",
+            "key": "titleInputLabel",
+            "namespace": "generateMontandonTokenModal",
+            "newNamespace": "accountDetails"
+        },
+        {
+            "action": "update",
+            "key": "titleInputPlaceholder",
+            "namespace": "generateMontandonTokenModal",
+            "newNamespace": "accountDetails"
+        },
+        {
+            "action": "update",
+            "key": "tokenNote",
+            "namespace": "generateMontandonTokenModal",
+            "newNamespace": "accountDetails"
+        },
+        {
+            "action": "update",
+            "key": "initiativeAllocationTitle",
+            "namespace": "initiativeCard",
+            "newNamespace": "countryNsOverviewActivities"
+        },
+        {
+            "action": "update",
+            "key": "initiativeCategoriesTitle",
+            "namespace": "initiativeCard",
+            "newNamespace": "countryNsOverviewActivities"
+        },
+        {
+            "action": "update",
+            "key": "initiativeFund",
+            "namespace": "initiativeCard",
+            "newNamespace": "countryNsOverviewActivities"
+        },
+        {
+            "action": "update",
+            "key": "initiativeFundNameTitle",
+            "namespace": "initiativeCard",
+            "newNamespace": "countryNsOverviewActivities"
+        },
+        {
+            "action": "update",
+            "key": "initiativeTitle",
+            "namespace": "initiativeCard",
+            "newNamespace": "countryNsOverviewActivities"
+        },
+        {
+            "action": "update",
+            "key": "initiativeYearApprovedAndDuration",
+            "namespace": "initiativeCard",
+            "newNamespace": "countryNsOverviewActivities"
+        },
+        {
+            "action": "update",
+            "key": "initiativeYearApprovedTitle",
+            "namespace": "initiativeCard",
+            "newNamespace": "countryNsOverviewActivities"
+        },
+        {
+            "action": "update",
+            "key": "deleteFailureMessage",
+            "namespace": "localUnitDeleteButton",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "deleteLocalUnitHeading",
+            "namespace": "localUnitDeleteButton",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "deleteLocalUnitMessage",
+            "namespace": "localUnitDeleteButton",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "deleteSuccessMessage",
+            "namespace": "localUnitDeleteButton",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsDelete",
+            "namespace": "localUnitDeleteButton",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "addressAndContactTitle",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "addressEn",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "addressLocal",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "affiliation",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "ambulanceTypeA",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "ambulanceTypeB",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "ambulanceTypeC",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "bloodServices",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "coldChain",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "commentsNS",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "country",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "coverage",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "dateOfUpdate",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "dentist",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "editButtonLabel",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "email",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "englishLabel",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "failedMessage",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "focalPersonEn",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "focalPersonLocal",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "focalPointEmail",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "focalPointName",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "focalPointPhoneNumber",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "focalPointPosition",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "functionality",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "generalMedicalServices",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "generalPractitioner",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "healthFacilityType",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "hospitalType",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "humanResourcesTitle",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "inPatientCapacity",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "isolationRoomsWards",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "lastUpdateLabel",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localityEn",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localityLocal",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localLabel",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitDetail",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitNameEn",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitNameLocal",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "maximumCapacity",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "midwife",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "numberOfIsolationRooms",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "nurse",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "nursingAid",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "otherAffiliation",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "otherFacilityType",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "otherMedicalHeal",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "otherProfiles",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "otherServices",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "phone",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "postCode",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "primaryHealthCareCenter",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "professionalTrainingFacilities",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "residentsDoctor",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "servicesTitle",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "sourceEn",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "sourceLocal",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "specialist",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "specialitiesAndCapacityTitle",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "specializedMedicalService",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "specialties",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "submitButtonLabel",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "subtype",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "subtypeDescription",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "successMessage",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "teachingHospital",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "totalNumberOfHumanResources",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "type",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "updateFailedMessage",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "updateMessage",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "visibility",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "warehousing",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "website",
+            "namespace": "localUnitsForm",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "remove",
+            "key": "deleteLocalUnitHeading",
+            "namespace": "localUnitsTableActions"
+        },
+        {
+            "action": "remove",
+            "key": "deleteLocalUnitMessage",
+            "namespace": "localUnitsTableActions"
+        },
+        {
+            "action": "remove",
+            "key": "localUnitsDelete",
+            "namespace": "localUnitsTableActions"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsEdit",
+            "namespace": "localUnitsTableActions",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsView",
+            "namespace": "localUnitsTableActions",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsNotValidated",
+            "namespace": "localUnitValidateButton",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsValidate",
+            "namespace": "localUnitValidateButton",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsValidated",
+            "namespace": "localUnitValidateButton",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "validateLocalUnitHeading",
+            "namespace": "localUnitValidateButton",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "validateLocalUnitMessage",
+            "namespace": "localUnitValidateButton",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "validationFailureMessage",
+            "namespace": "localUnitValidateButton",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "validationSuccessMessage",
+            "namespace": "localUnitValidateButton",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "nSContactEmail",
+            "namespace": "nationalSocietyContacts",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "nSContactName",
+            "namespace": "nationalSocietyContacts",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "nSContactsTitle",
+            "namespace": "nationalSocietyContacts",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "nSContactTitle",
+            "namespace": "nationalSocietyContacts",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "remove",
+            "key": "source",
+            "namespace": "nationalSocietyDevelopmentInitiatives"
+        },
+        {
+            "action": "update",
+            "key": "ifrcNSDFunds",
+            "namespace": "nationalSocietyDevelopmentInitiatives",
+            "newNamespace": "countryNsOverviewActivities"
+        },
+        {
+            "action": "update",
+            "key": "nSDirectoryInitiativesDescription",
+            "namespace": "nationalSocietyDevelopmentInitiatives",
+            "newNamespace": "countryNsOverviewActivities"
+        },
+        {
+            "action": "update",
+            "key": "nSDirectoryInitiativesTitle",
+            "namespace": "nationalSocietyDevelopmentInitiatives",
+            "newNamespace": "countryNsOverviewActivities"
+        },
+        {
+            "action": "update",
+            "key": "countryNSDirectorySource",
+            "namespace": "nationalSocietyDirectory",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "countryNSDirectoryTitle",
+            "namespace": "nationalSocietyDirectory",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "nsIncomeOverTimeChartAxisLabel",
+            "namespace": "nationalSocietyIncomeOverTime",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "nsIncomeOverTimeHeading",
+            "namespace": "nationalSocietyIncomeOverTime",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "nsIncomeOverTimeTooltipTotalLabel",
+            "namespace": "nationalSocietyIncomeOverTime",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "sourceFDRS",
+            "namespace": "nationalSocietyIncomeOverTime",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "sourceLabel",
+            "namespace": "nationalSocietyIncomeOverTime",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "incomeSourceBreakdownHeading",
+            "namespace": "nationalSocietyIncomeSourceBreakdown",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "incomeSourceBreakdownNotAvailableMessage",
+            "namespace": "nationalSocietyIncomeSourceBreakdown",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "incomeSourceBreakdownSource",
+            "namespace": "nationalSocietyIncomeSourceBreakdown",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "incomeSourceBreakdownSourceLabel",
+            "namespace": "nationalSocietyIncomeSourceBreakdown",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "remove",
+            "key": "sourceFDRS",
+            "namespace": "nationalSocietyIndicators"
+        },
+        {
+            "action": "update",
+            "key": "ageLabel",
+            "namespace": "nationalSocietyIndicators",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "disaggregationNotAvailableMessage",
+            "namespace": "nationalSocietyIndicators",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "femaleLabel",
+            "namespace": "nationalSocietyIndicators",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "goToFDRS",
+            "namespace": "nationalSocietyIndicators",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "maleLabel",
+            "namespace": "nationalSocietyIndicators",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "nationalSocietyBranchesLabel",
+            "namespace": "nationalSocietyIndicators",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "nationalSocietyExpendituresLabel",
+            "namespace": "nationalSocietyIndicators",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "nationalSocietyFoundedDateLabel",
+            "namespace": "nationalSocietyIndicators",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "nationalSocietyIncomeLabel",
+            "namespace": "nationalSocietyIndicators",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "nationalSocietyIndicatorsTitle",
+            "namespace": "nationalSocietyIndicators",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "nationalSocietyStaffLabel",
+            "namespace": "nationalSocietyIndicators",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "nationalSocietyTrainedInFirstAidLabel",
+            "namespace": "nationalSocietyIndicators",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "nationalSocietyVolunteersLabel",
+            "namespace": "nationalSocietyIndicators",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "nationalSocietyYouthLabel",
+            "namespace": "nationalSocietyIndicators",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "source",
+            "namespace": "nationalSocietyIndicators",
+            "newNamespace": "countryNsOverviewSupportingPartners"
+        },
+        {
+            "action": "update",
+            "key": "staffModalHeading",
+            "namespace": "nationalSocietyIndicators",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "staffTooltipFemaleLabel",
+            "namespace": "nationalSocietyIndicators",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "staffTooltipMaleLabel",
+            "namespace": "nationalSocietyIndicators",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "tooltipAgeLabel",
+            "namespace": "nationalSocietyIndicators",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "totalLabel",
+            "namespace": "nationalSocietyIndicators",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "volunteerModalHeading",
+            "namespace": "nationalSocietyIndicators",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "volunteerTooltipFemaleLabel",
+            "namespace": "nationalSocietyIndicators",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "volunteerTooltipMaleLabel",
+            "namespace": "nationalSocietyIndicators",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "remove",
+            "key": "sourceFDRS",
+            "namespace": "nationalSocietyKeyDocuments"
+        },
+        {
+            "action": "update",
+            "key": "nSSocietyKeyDocumentsTitle",
+            "namespace": "nationalSocietyKeyDocuments",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "source",
+            "namespace": "nationalSocietyKeyDocuments",
+            "newNamespace": "countryProfileRiskWatch"
+        },
+        {
+            "action": "update",
+            "key": "addLocalUnitLabel",
+            "namespace": "nationalSocietyLocalUnits",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "closePresentationLabel",
+            "namespace": "nationalSocietyLocalUnits",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitDetailAddress",
+            "namespace": "nationalSocietyLocalUnits",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitDetailAddressValue",
+            "namespace": "nationalSocietyLocalUnits",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitDetailEmail",
+            "namespace": "nationalSocietyLocalUnits",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitDetailFocalPerson",
+            "namespace": "nationalSocietyLocalUnits",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitDetailLastUpdate",
+            "namespace": "nationalSocietyLocalUnits",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitDetailPhoneNumber",
+            "namespace": "nationalSocietyLocalUnits",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitDetailType",
+            "namespace": "nationalSocietyLocalUnits",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitHealthFacilityType",
+            "namespace": "nationalSocietyLocalUnits",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitLocalUnitType",
+            "namespace": "nationalSocietyLocalUnits",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsListView",
+            "namespace": "nationalSocietyLocalUnits",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsMapView",
+            "namespace": "nationalSocietyLocalUnits",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsModalHeading",
+            "namespace": "nationalSocietyLocalUnits",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsTableAddress",
+            "namespace": "nationalSocietyLocalUnits",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsTableEmail",
+            "namespace": "nationalSocietyLocalUnits",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsTableFocal",
+            "namespace": "nationalSocietyLocalUnits",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsTableName",
+            "namespace": "nationalSocietyLocalUnits",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsTablePhoneNumber",
+            "namespace": "nationalSocietyLocalUnits",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsTableType",
+            "namespace": "nationalSocietyLocalUnits",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsTitle",
+            "namespace": "nationalSocietyLocalUnits",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitTooltipMoreDetails",
+            "namespace": "nationalSocietyLocalUnits",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "presentationModeButton",
+            "namespace": "nationalSocietyLocalUnits",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsFilterClear",
+            "namespace": "nsLocalUnitsFilters",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsFilterSearchLabel",
+            "namespace": "nsLocalUnitsFilters",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsFilterSearchPlaceholderLabel",
+            "namespace": "nsLocalUnitsFilters",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsFilterTypeLabel",
+            "namespace": "nsLocalUnitsFilters",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsFilterTypePlaceholder",
+            "namespace": "nsLocalUnitsFilters",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsFilterValidatedLabel",
+            "namespace": "nsLocalUnitsFilters",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsFilterValidatedPlaceholder",
+            "namespace": "nsLocalUnitsFilters",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "notValidated",
+            "namespace": "nsLocalUnitsFilters",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "validated",
+            "namespace": "nsLocalUnitsFilters",
+            "newNamespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "add",
+            "key": "allExtractsModalExtractCount",
+            "namespace": "operationalLearning",
+            "value": "{count} extract"
+        },
+        {
+            "action": "add",
+            "key": "allExtractsModalExtractsCount",
+            "namespace": "operationalLearning",
+            "value": "{count} extracts"
+        },
+        {
+            "action": "add",
+            "key": "allExtractsModalHeading",
+            "namespace": "operationalLearning",
+            "value": "Operational Learning Extracts"
+        },
+        {
+            "action": "add",
+            "key": "keyInsightsCloseSources",
+            "namespace": "operationalLearning",
+            "value": "Close Sources"
+        },
+        {
+            "action": "add",
+            "key": "keyInsightsSeeSources",
+            "namespace": "operationalLearning",
+            "value": "Show Sources"
+        },
+        {
+            "action": "add",
+            "key": "summaryExtractCount",
+            "namespace": "operationalLearning",
+            "value": "({count} extract)"
+        },
+        {
+            "action": "add",
+            "key": "summaryExtractsCount",
+            "namespace": "operationalLearning",
+            "value": "({count} extracts)"
+        },
+        {
+            "action": "update",
+            "key": "appealEndDate",
+            "namespace": "operationalLearningFilters",
+            "newNamespace": "operationalLearning"
+        },
+        {
+            "action": "update",
+            "key": "appealStartDate",
+            "namespace": "operationalLearningFilters",
+            "newNamespace": "operationalLearning"
+        },
+        {
+            "action": "update",
+            "key": "filterComponentLabel",
+            "namespace": "operationalLearningFilters",
+            "newNamespace": "operationalLearning"
+        },
+        {
+            "action": "update",
+            "key": "filterComponentPlaceholder",
+            "namespace": "operationalLearningFilters",
+            "newNamespace": "operationalLearning"
+        },
+        {
+            "action": "update",
+            "key": "filterCountryLabel",
+            "namespace": "operationalLearningFilters",
+            "newNamespace": "operationalLearning"
+        },
+        {
+            "action": "update",
+            "key": "filterCountryPlaceholder",
+            "namespace": "operationalLearningFilters",
+            "newNamespace": "operationalLearning"
+        },
+        {
+            "action": "update",
+            "key": "filterDisasterTypeLabel",
+            "namespace": "operationalLearningFilters",
+            "newNamespace": "operationalLearning"
+        },
+        {
+            "action": "update",
+            "key": "filterDisasterTypePlaceholder",
+            "namespace": "operationalLearningFilters",
+            "newNamespace": "operationalLearning"
+        },
+        {
+            "action": "update",
+            "key": "filterOpsLearningSearchLabel",
+            "namespace": "operationalLearningFilters",
+            "newNamespace": "operationalLearning"
+        },
+        {
+            "action": "update",
+            "key": "filterOpsLearningSearchPlaceholder",
+            "namespace": "operationalLearningFilters",
+            "newNamespace": "operationalLearning"
+        },
+        {
+            "action": "update",
+            "key": "filterRegionLabel",
+            "namespace": "operationalLearningFilters",
+            "newNamespace": "operationalLearning"
+        },
+        {
+            "action": "update",
+            "key": "filterRegionPlaceholder",
+            "namespace": "operationalLearningFilters",
+            "newNamespace": "operationalLearning"
+        },
+        {
+            "action": "update",
+            "key": "filterSectorLabel",
+            "namespace": "operationalLearningFilters",
+            "newNamespace": "operationalLearning"
+        },
+        {
+            "action": "update",
+            "key": "filterSectorPlaceholder",
+            "namespace": "operationalLearningFilters",
+            "newNamespace": "operationalLearning"
+        },
+        {
+            "action": "remove",
+            "key": "extractCount",
+            "namespace": "operationalLearningSummary"
+        },
+        {
+            "action": "remove",
+            "key": "extractsCount",
+            "namespace": "operationalLearningSummary"
+        },
+        {
+            "action": "update",
+            "key": "closeSources",
+            "namespace": "operationalLearningSummary",
+            "newNamespace": "operationalLearning"
+        },
+        {
+            "action": "update",
+            "key": "seeSources",
+            "namespace": "operationalLearningSummary",
+            "newNamespace": "operationalLearning"
+        },
+        {
+            "action": "remove",
+            "key": "closeSources",
+            "namespace": "opsLearningKeyInsights"
+        },
+        {
+            "action": "remove",
+            "key": "seeSources",
+            "namespace": "opsLearningKeyInsights"
+        },
+        {
+            "action": "update",
+            "key": "keyInsightsDisclaimer",
+            "namespace": "opsLearningKeyInsights",
+            "newNamespace": "operationalLearning"
+        },
+        {
+            "action": "update",
+            "key": "keyInsightsReportIssue",
+            "namespace": "opsLearningKeyInsights",
+            "newNamespace": "operationalLearning"
+        },
+        {
+            "action": "update",
+            "key": "methodologyLinkLabel",
+            "namespace": "opsLearningKeyInsights",
+            "newNamespace": "operationalLearning"
+        },
+        {
+            "action": "update",
+            "key": "opsLearningSummariesHeading",
+            "namespace": "opsLearningKeyInsights",
+            "newNamespace": "operationalLearning"
+        },
+        {
+            "action": "remove",
+            "key": "filterLastFiveYearsLabel",
+            "namespace": "pastEventsChart"
+        },
+        {
+            "action": "remove",
+            "key": "filterLastTenYearsLabel",
+            "namespace": "pastEventsChart"
+        },
+        {
+            "action": "update",
+            "key": "pastEventsAmountFunded",
+            "namespace": "pastEventsChart",
+            "newNamespace": "countryProfilePreviousEvents"
+        },
+        {
+            "action": "update",
+            "key": "pastEventsAmountRequested",
+            "namespace": "pastEventsChart",
+            "newNamespace": "countryProfilePreviousEvents"
+        },
+        {
+            "action": "update",
+            "key": "pastEventsChartEvents",
+            "namespace": "pastEventsChart",
+            "newNamespace": "countryProfilePreviousEvents"
+        },
+        {
+            "action": "update",
+            "key": "pastEventsPeopleExposed",
+            "namespace": "pastEventsChart",
+            "newNamespace": "countryProfilePreviousEvents"
+        },
+        {
+            "action": "update",
+            "key": "pastEventsTargetedPopulation",
+            "namespace": "pastEventsChart",
+            "newNamespace": "countryProfilePreviousEvents"
+        },
+        {
+            "action": "remove",
+            "key": "worldBank",
+            "namespace": "populationMap"
+        },
+        {
+            "action": "update",
+            "key": "populationLegendLabel",
+            "namespace": "populationMap",
+            "newNamespace": "countryProfileOverview"
+        },
+        {
+            "action": "update",
+            "key": "populationMapTitle",
+            "namespace": "populationMap",
+            "newNamespace": "countryProfileOverview"
+        },
+        {
+            "action": "update",
+            "key": "populationPopupYearLabel",
+            "namespace": "populationMap",
+            "newNamespace": "countryProfileOverview"
+        },
+        {
+            "action": "update",
+            "key": "source",
+            "namespace": "populationMap",
+            "newNamespace": "operationalLearning"
+        },
+        {
+            "action": "remove",
+            "key": "focalPointEmailTitle",
+            "namespace": "privateCountryPreparedness"
+        },
+        {
+            "action": "remove",
+            "key": "focalPointNameLabel",
+            "namespace": "privateCountryPreparedness"
+        },
+        {
+            "action": "remove",
+            "key": "goBackButtonTitle",
+            "namespace": "privateCountryPreparedness"
+        },
+        {
+            "action": "remove",
+            "key": "lastUpdatedLabel",
+            "namespace": "privateCountryPreparedness"
+        },
+        {
+            "action": "remove",
+            "key": "nsPreparednessAndResponseCapacityHeading",
+            "namespace": "privateCountryPreparedness"
+        },
+        {
+            "action": "remove",
+            "key": "perArea",
+            "namespace": "privateCountryPreparedness"
+        },
+        {
+            "action": "remove",
+            "key": "perCycleLabel",
+            "namespace": "privateCountryPreparedness"
+        },
+        {
+            "action": "remove",
+            "key": "perPhaseLabel",
+            "namespace": "privateCountryPreparedness"
+        },
+        {
+            "action": "remove",
+            "key": "startDateLabel",
+            "namespace": "privateCountryPreparedness"
+        },
+        {
+            "action": "remove",
+            "key": "typeOfAssessmentLabel",
+            "namespace": "privateCountryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "averageComponentRatingLabel",
+            "namespace": "privateCountryPreparedness",
+            "newNamespace": "countryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "componentChartNotAvailable",
+            "namespace": "privateCountryPreparedness",
+            "newNamespace": "countryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "componentChartNotAvailableDescription",
+            "namespace": "privateCountryPreparedness",
+            "newNamespace": "countryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "componentContactPERTeam",
+            "namespace": "privateCountryPreparedness",
+            "newNamespace": "countryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "componentFetchingData",
+            "namespace": "privateCountryPreparedness",
+            "newNamespace": "countryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "componentHeading",
+            "namespace": "privateCountryPreparedness",
+            "newNamespace": "countryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "componentMessageDescription",
+            "namespace": "privateCountryPreparedness",
+            "newNamespace": "countryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "componentMessagePERDataNotAvailable",
+            "namespace": "privateCountryPreparedness",
+            "newNamespace": "countryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "componentNotReviewed",
+            "namespace": "privateCountryPreparedness",
+            "newNamespace": "countryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "componentRatingResultsHeading",
+            "namespace": "privateCountryPreparedness",
+            "newNamespace": "countryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "componentsByAreaHeading",
+            "namespace": "privateCountryPreparedness",
+            "newNamespace": "countryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "highlightedTopRatedComponentHeading",
+            "namespace": "privateCountryPreparedness",
+            "newNamespace": "countryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "NSResponseHeading",
+            "namespace": "privateCountryPreparedness",
+            "newNamespace": "countryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "perAreas",
+            "namespace": "privateCountryPreparedness",
+            "newNamespace": "countryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "perAssessmentHeading",
+            "namespace": "privateCountryPreparedness",
+            "newNamespace": "countryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "perExport",
+            "namespace": "privateCountryPreparedness",
+            "newNamespace": "countryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "priorityComponentToBeStrengthenedHeading",
+            "namespace": "privateCountryPreparedness",
+            "newNamespace": "countryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "relevantDocumentHeader",
+            "namespace": "privateCountryPreparedness",
+            "newNamespace": "countryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "totalBenchmarkSummaryHeading",
+            "namespace": "privateCountryPreparedness",
+            "newNamespace": "countryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "upload",
+            "namespace": "privateCountryPreparedness",
+            "newNamespace": "countryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "uploadLimitDisclaimer",
+            "namespace": "privateCountryPreparedness",
+            "newNamespace": "countryPreparedness"
+        },
+        {
+            "action": "update",
+            "key": "fullScreenHeading",
+            "namespace": "region",
+            "newNamespace": "regionOperations"
+        },
+        {
+            "action": "update",
+            "key": "regionCloseButton",
+            "namespace": "region",
+            "newNamespace": "regionOperations"
+        },
+        {
+            "action": "update",
+            "key": "cookiesBannerDescription",
+            "namespace": "root",
+            "newNamespace": "rootLayout"
+        },
+        {
+            "action": "update",
+            "key": "cookiesBannerIAccept",
+            "namespace": "root",
+            "newNamespace": "rootLayout"
+        },
+        {
+            "action": "update",
+            "key": "cookiesBannerLearnMore",
+            "namespace": "root",
+            "newNamespace": "rootLayout"
+        },
+        {
+            "action": "update",
+            "key": "environmentTextDevelopment",
+            "namespace": "root",
+            "newNamespace": "rootLayout"
+        },
+        {
+            "action": "update",
+            "key": "environmentTextProduction",
+            "namespace": "root",
+            "newNamespace": "rootLayout"
+        },
+        {
+            "action": "update",
+            "key": "environmentTextStaging",
+            "namespace": "root",
+            "newNamespace": "rootLayout"
+        },
+        {
+            "action": "update",
+            "key": "environmentTextTesting",
+            "namespace": "root",
+            "newNamespace": "rootLayout"
+        },
+        {
+            "action": "update",
+            "key": "noSources",
+            "namespace": "sources",
+            "newNamespace": "operationalLearning"
+        },
+        {
+            "action": "update",
+            "key": "viewAllExtracts",
+            "namespace": "sources",
+            "newNamespace": "operationalLearning"
+        },
+        {
+            "action": "update",
+            "key": "supportingPartnersContactsTitle",
+            "namespace": "supportingPartnersContacts",
+            "newNamespace": "countryNsOverviewSupportingPartners"
+        },
+        {
+            "action": "update",
+            "key": "copyButtonLabel",
+            "namespace": "tokenDetails",
+            "newNamespace": "accountDetails"
+        },
+        {
+            "action": "update",
+            "key": "copySuccessMessage",
+            "namespace": "tokenDetails",
+            "newNamespace": "accountDetails"
+        },
+        {
+            "action": "update",
+            "key": "createdAtLabel",
+            "namespace": "tokenDetails",
+            "newNamespace": "accountDetails"
+        },
+        {
+            "action": "update",
+            "key": "expiresOnLabel",
+            "namespace": "tokenDetails",
+            "newNamespace": "accountDetails"
+        },
+        {
+            "action": "remove",
+            "key": "extractCount",
+            "namespace": "viewAllExtracts"
+        },
+        {
+            "action": "remove",
+            "key": "extractsCount",
+            "namespace": "viewAllExtracts"
+        },
+        {
+            "action": "remove",
+            "key": "heading",
+            "namespace": "viewAllExtracts"
+        }
+    ]
+}

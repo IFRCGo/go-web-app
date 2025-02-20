@@ -298,7 +298,6 @@ function KeywordSearchSelectInput() {
 
     return (
         <SearchSelectInput
-            // eslint-disable-next-line react/jsx-props-no-spreading
             dropdownHidden={isNotDefined(searchText) || searchText.trim().length <= 0}
             name="keyword"
             options={undefined}

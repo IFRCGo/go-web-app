@@ -18,7 +18,6 @@ interface Props {
     priorityData?: GetCountryPlanResponse['strategic_priorities'];
 }
 
-// eslint-disable-next-line import/prefer-default-export
 function StrategicPrioritiesTable(props: Props) {
     const {
         priorityData,

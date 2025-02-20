@@ -1,0 +1,39 @@
+name: "Feature Request"
+description: "Suggest a new idea or enhancement."
+labels: ["type: feature-request"]
+type: "Feature"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Feature Request**
+        Thank you for suggesting a new feature!
+        Please provide as much detail as possible to help us understand and evaluate your idea.
+        **Please review [our guide on suggesting enhancements](https://github.com/IFRCGo/go-web-app/blob/develop/CONTRIBUTING.md#suggesting-enhancements).**
+
+  - type: textarea
+    attributes:
+      label: "Feature Description"
+      description: |
+        Describe your feature request in detail, including:
+        - What the feature is.
+        - Why it is needed and how it will improve the project.
+        - How it will benefit users (e.g., As a user, I want to [do something] so that [desired outcome].).
+      placeholder: "As a user, I want to filter search results by date so that I can quickly find recent information."
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: "Additional Context"
+      description: |
+        Provide any extra details or supporting information, such as:
+        - Links to references or related resources.
+        - Examples from other projects or systems.
+        - Screenshots, mockups, or diagrams.
+        *Tip: You can attach files by clicking here and dragging them in.*
+      placeholder: |
+        Here's a link to a similar feature in another project: [link].
+        I've also attached a mockup of what this could look like.
+    validations:
+      required: false

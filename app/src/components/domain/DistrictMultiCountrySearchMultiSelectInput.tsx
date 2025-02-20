@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import {
     SearchMultiSelectInput,
-    SearchMultiSelectInputProps,
+    type SearchMultiSelectInputProps,
 } from '@ifrc-go/ui';
 import { isNotDefined } from '@togglecorp/fujs';
 
-import { paths } from '#generated/types';
+import { type paths } from '#generated/types';
 import useDebouncedValue from '#hooks/useDebouncedValue';
 import { useRequest } from '#utils/restRequest';
 

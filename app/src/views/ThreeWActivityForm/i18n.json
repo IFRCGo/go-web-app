@@ -31,7 +31,7 @@
         "nsEmailLabel": "Email",
         "eruDeployedTitle": "Name of ERU",
         "eruDeployedDescription": "Which ERU is conducting the response activity?",
-        "activityReportingheading": "Activity Reporting",
+        "activityReportingHeading": "Activity Reporting",
         "actionTakenTitle": "Types of Actions Taken",
         "actionTakenLabel": "Actions Taken",
         "actionTakenDescription":"Select the actions that are being across all of the locations tagged above",

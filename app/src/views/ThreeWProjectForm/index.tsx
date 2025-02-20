@@ -213,6 +213,7 @@ interface AdminTwo {
     district_id: number;
 }
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -1049,7 +1050,6 @@ export function Component() {
                             )}
                             readOnly
                             name={undefined}
-                            // eslint-disable-next-line @typescript-eslint/no-empty-function
                             onChange={() => {}}
                         />
                         <Checkbox

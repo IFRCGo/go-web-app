@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import { MapLayer } from '@togglecorp/re-map';
 import {
-    FillLayer,
-    LineLayer,
-    SymbolLayer,
+    type FillLayer,
+    type LineLayer,
+    type SymbolLayer,
 } from 'mapbox-gl';
 
 import {

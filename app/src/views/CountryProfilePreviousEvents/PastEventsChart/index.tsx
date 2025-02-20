@@ -70,13 +70,13 @@ function PastEventsChart(props: Props) {
             return [
                 {
                     key: 'last-five-years',
-                    label: strings.filterLastFiveYearsLabel,
+                    label: strings.pastEventsLastFiveYearsLabel,
                     startDate: new Date(now.getFullYear() - 5, 0, 1),
                     endDate: new Date(now.getFullYear(), 11, 31),
                 },
                 {
                     key: 'last-ten-years',
-                    label: strings.filterLastTenYearsLabel,
+                    label: strings.pastEventsLastTenYearsLabel,
                     startDate: new Date(now.getFullYear() - 10, 0, 1),
                     endDate: new Date(now.getFullYear(), 11, 31),
                 },

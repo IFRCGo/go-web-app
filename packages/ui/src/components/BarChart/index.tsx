@@ -16,6 +16,7 @@ import styles from './styles.module.css';
 
 export interface Props<D> {
     className?: string;
+    barClassName?: string;
     data: D[] | null | undefined;
     keySelector: (datum: D) => number | string;
     valueSelector: (datum: D) => number | null | undefined;
@@ -29,6 +30,7 @@ export interface Props<D> {
 function BarChart<D>(props: Props<D>) {
     const {
         className,
+        barClassName,
         data,
         valueSelector,
         labelSelector,
@@ -76,7 +78,7 @@ function BarChart<D>(props: Props<D>) {
                     key={datum.key}
                 >
                     {isDefined(datum.tooltip)
-                        && hasSomeDefinedValue(datum.tooltip) && (
+                    && hasSomeDefinedValue(datum.tooltip) && (
                         <Tooltip
                             title={datum.label}
                             description={datum.tooltip}
@@ -89,7 +91,7 @@ function BarChart<D>(props: Props<D>) {
                     </div>
                     <div className={styles.barTrack}>
                         <div
-                            className={styles.bar}
+                            className={_cs(styles.bar, barClassName)}
                             style={{
                                 // FIXME: use percent function
                                 width: `${getPercentage(datum.value, maxValueSafe)}%`,

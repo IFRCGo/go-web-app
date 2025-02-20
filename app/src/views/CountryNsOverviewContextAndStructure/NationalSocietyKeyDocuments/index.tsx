@@ -19,9 +19,9 @@ import {
 
 import Link from '#components/Link';
 import useFilterState from '#hooks/useFilterState';
-import { CountryOutletContext } from '#utils/outletContext';
+import { type CountryOutletContext } from '#utils/outletContext';
 import {
-    GoApiResponse,
+    type GoApiResponse,
     useRequest,
 } from '#utils/restRequest';
 
@@ -69,6 +69,7 @@ function NationalSocietyKeyDocuments() {
             search: filter.searchText,
             year__gte: filter.startDateAfter,
             year__lte: filter.startDateBefore,
+            ordering: '-year',
         },
         preserveResponse: true,
     });

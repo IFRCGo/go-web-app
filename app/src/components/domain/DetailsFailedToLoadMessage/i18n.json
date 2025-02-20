@@ -1,6 +1,6 @@
 {
-    "namespace":"common",
-    "strings":{
+    "namespace": "detailsFailedToLoadMessage",
+    "strings": {
         "detailsFailedToLoadErrorTitle": "Failed to load the data!",
         "detailsFailedToLoadErrorHelpText": "Please make sure that the entity with given id exists and you have the permission to view it!"
     }

@@ -2,12 +2,13 @@ import { Image } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import pyramidImage from '#assets/images/surge-im-pyramid.png';
-import CatalogueInfoCard, { LinkData } from '#components/CatalogueInfoCard';
+import CatalogueInfoCard, { type LinkData } from '#components/CatalogueInfoCard';
 import SurgeCardContainer from '#components/domain/SurgeCardContainer';
 import SurgeCatalogueContainer from '#components/domain/SurgeCatalogueContainer';
 
 import i18n from './i18n.json';
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -78,7 +79,7 @@ export function Component() {
     const frameworkData: LinkData[] = [
         {
             title: strings.catalogueIMIM,
-            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ebz7vm6VjlNAifhse_vLmXQBxGSqF7VytmtmPFiZwUeXgw',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EgH4I6LxIMBFtkWGT8ROqegBc1rVqsgiPkxvVy_a-8qKZw',
             external: true,
             withLinkIcon: true,
         },

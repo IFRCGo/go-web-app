@@ -1,0 +1,368 @@
+{
+    "parent": "000006-1735037040790.json",
+    "actions": [
+        {
+            "action": "update",
+            "key": "editAccoutSuccessfulMessage",
+            "newKey": "editAccountSuccessfulMessage",
+            "namespace": "accountDetails"
+        },
+        {
+            "action": "update",
+            "key": "externalConnectionsDescription",
+            "namespace": "accountDetails",
+            "newValue": "You can connect and receive the data to use it in the external platform or dashboard using the GO APIs. You'll need an access token to make the connection."
+        },
+        {
+            "action": "update",
+            "key": "operationDisastertype",
+            "newKey": "operationDisasterType",
+            "namespace": "activeOperationMap"
+        },
+        {
+            "action": "update",
+            "key": "appealsTableDisastertype",
+            "newKey": "appealsTableDisasterType",
+            "namespace": "appealsTable"
+        },
+        {
+            "action": "update",
+            "key": "messageTitleFilterdDataNotAvailable",
+            "newKey": "messageTitleFilteredDataNotAvailable",
+            "namespace": "common"
+        },
+        {
+            "action": "add",
+            "key": "specialities",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Specialities"
+        },
+        {
+            "action": "remove",
+            "key": "specialties",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "appealsDisastertype",
+            "newKey": "appealsDisasterType",
+            "namespace": "countryOngoingActivitiesEmergencies"
+        },
+        {
+            "action": "update",
+            "key": "appealsTableDisastertype",
+            "newKey": "appealsTableDisasterType",
+            "namespace": "countryOngoingActivitiesEmergencies"
+        },
+        {
+            "action": "update",
+            "key": "uploadLimitDisclaimer",
+            "namespace": "countryPreparedness",
+            "newValue": "Note: You can only upload up to 10 documents."
+        },
+        {
+            "action": "update",
+            "key": "operationStragegyHeading",
+            "newKey": "operationStrategyHeading",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "update",
+            "key": "peopleWithDisabilitesLabel",
+            "newKey": "peopleWithDisabilitiesLabel",
+            "namespace": "drefApplicationExport"
+        },
+        {
+            "action": "update",
+            "key": "drefFormAssessmentReportUploadButtonLabel",
+            "namespace": "drefApplicationForm",
+            "newValue": "Upload assessment report"
+        },
+        {
+            "action": "update",
+            "key": "operationStragegyHeading",
+            "newKey": "operationStrategyHeading",
+            "namespace": "drefFinalReportExport"
+        },
+        {
+            "action": "update",
+            "key": "peopleWithDisabilitesLabel",
+            "newKey": "peopleWithDisabilitiesLabel",
+            "namespace": "drefFinalReportExport"
+        },
+        {
+            "action": "update",
+            "key": "operationStragegyHeading",
+            "newKey": "operationStrategyHeading",
+            "namespace": "drefOperationalUpdateExport"
+        },
+        {
+            "action": "update",
+            "key": "peopleWithDisabilitesLabel",
+            "newKey": "peopleWithDisabilitiesLabel",
+            "namespace": "drefOperationalUpdateExport"
+        },
+        {
+            "action": "update",
+            "key": "drefFormAssessmentReportUploadButtonLabel",
+            "namespace": "drefOperationalUpdateForm",
+            "newValue": "Upload assessment report"
+        },
+        {
+            "action": "update",
+            "key": "assisanceRequestedByGovernment",
+            "newKey": "assistanceRequestedByGovernment",
+            "namespace": "emergencyDetails"
+        },
+        {
+            "action": "update",
+            "key": "assisanceRequestedByNS",
+            "newKey": "assistanceRequestedByNS",
+            "namespace": "emergencyDetails"
+        },
+        {
+            "action": "update",
+            "key": "fieldsStep2SituationFieldsEPICasesSinceDesciption",
+            "newKey": "fieldsStep2SituationFieldsEPICasesSinceDescription",
+            "namespace": "fieldReportForm"
+        },
+        {
+            "action": "update",
+            "key": "situationFieldsEWAffectedPopCenteresDescription",
+            "newKey": "situationFieldsEWAffectedPopCenteredDescription",
+            "namespace": "fieldReportForm"
+        },
+        {
+            "action": "update",
+            "key": "situationFieldsEWAffectedPopCenteresLabel",
+            "newKey": "situationFieldsEWAffectedPopCenteredLabel",
+            "namespace": "fieldReportForm"
+        },
+        {
+            "action": "update",
+            "key": "operationCardDepoloyedUnits",
+            "newKey": "operationCardDeployedUnits",
+            "namespace": "highlightedOperations"
+        },
+        {
+            "action": "update",
+            "key": "keyInsightsDisclaimer",
+            "namespace": "operationalLearning",
+            "newValue": "These summaries were generated using AI and Large Language Models. They represent {numOfExtractsUsed} prioritised extracts out of {totalNumberOfExtracts} from the DREF and EA documents between {appealsFromDate} - {appealsToDate}. An initial automatic assessment of the quality of the summaries resulted in around 78% performance in terms of relevancy, coherence, consistency and fluency. To see the methodology behind the prioritisation {methodologyLink}."
+        },
+        {
+            "action": "update",
+            "key": "previousPerAssessmentInputLabel",
+            "namespace": "perOverviewForm",
+            "newValue": "Previous Per Assessment"
+        },
+        {
+            "action": "update",
+            "key": "confrimPassword",
+            "newKey": "confirmPassword",
+            "namespace": "recoverAccountConfirm"
+        },
+        {
+            "action": "update",
+            "key": "totalBuget",
+            "newKey": "totalBudget",
+            "namespace": "regionThreeW"
+        },
+        {
+            "action": "update",
+            "key": "successfulMessageDescription",
+            "namespace": "resendValidationEmail",
+            "newValue": "You should receive an email shortly on the submitted address."
+        },
+        {
+            "action": "add",
+            "key": "visitPDCImageAlt",
+            "namespace": "resources",
+            "value": "Visit PDC"
+        },
+        {
+            "action": "remove",
+            "key": "vistPDCImageAlt",
+            "namespace": "resources"
+        },
+        {
+            "action": "update",
+            "key": "redCrossImageNetherlandAlt",
+            "newKey": "redCrossImageNetherlandsAlt",
+            "namespace": "resources"
+        },
+        {
+            "action": "update",
+            "key": "imminentEventsDescription",
+            "namespace": "riskImminentEvents",
+            "newValue": "This map displays information about the modelled impact of specific forecasted or detected natural hazards (floods, storms, droughts, wildfires, earthquakes). By hovering over the icons, if available, you can see the forecasted/observed footprint of the hazard; when you click on it, the table of modelled impact estimates will appear, as well as an information about who produced the impact estimate."
+        },
+        {
+            "action": "update",
+            "key": "wfpAdamDescription",
+            "namespace": "riskImminentEvents",
+            "newValue": "These data points are received from the WFP ADAM, which performs a 24/7 automated data harvesting, analysis and mapping of natural hazards events. Click {here} for more information."
+        },
+        {
+            "action": "update",
+            "key": "searchResultforQuery",
+            "newKey": "searchResultQuery",
+            "namespace": "search"
+        },
+        {
+            "action": "update",
+            "key": "technicalCompetencyFrameworkAssesment",
+            "newKey": "technicalCompetencyFrameworkAssessment",
+            "namespace": "surgeCatalogueEmergencyNeedsAssessment"
+        },
+        {
+            "action": "update",
+            "key": "communityBasedDesignedForDetail",
+            "namespace": "surgeCatalogueHealthCommunityBasedSurveillance",
+            "newValue": "An advanced assessment team can be deployed for 1-2 weeks within  48 hours upon receiving a deployment request. If the assessment team determines that implementation of a CBS system is feasible, the remaining team members and equipment are deployed. Both components of the team are self-sufficient for the first month of operations, and the deployed CBS ERU module can operate for up to 4 months."
+        },
+        {
+            "action": "update",
+            "key": "accomodationModuleLabel",
+            "newKey": "accommodationModuleLabel",
+            "namespace": "surgeCatalogueHealthEruClinic"
+        },
+        {
+            "action": "update",
+            "key": "accomodationModuleValue",
+            "newKey": "accommodationModuleValue",
+            "namespace": "surgeCatalogueHealthEruClinic"
+        },
+        {
+            "action": "update",
+            "key": "adminstrationModuleLabel",
+            "newKey": "administrationModuleLabel",
+            "namespace": "surgeCatalogueHealthEruClinic"
+        },
+        {
+            "action": "update",
+            "key": "adminstrationModuleValue",
+            "newKey": "administrationModuleValue",
+            "namespace": "surgeCatalogueHealthEruClinic"
+        },
+        {
+            "action": "update",
+            "key": "healthIPCDetail",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "newValue": "The purpose of the infection prevention and control public health emergency response unit (IPC ERU) is to contribute to the reduction of mortality and morbidity due to the transmission of infectious diseases (nosocomial transmissions) in healthcare facilities during a crisis or epidemic outbreak. To achieve this, the IPC ERU supports and strengthens the IPC capacities of existing healthcare facilities. This enables a continued provision of care in a safer way, and protects the communities from harm."
+        },
+        {
+            "action": "add",
+            "key": "satelliteUNOSATItemFour",
+            "namespace": "surgeCatalogueInformationManagementSatelliteImagery",
+            "value": "If the request is accepted, follow up can then be directly between UNOSAT and the data requester."
+        },
+        {
+            "action": "remove",
+            "key": "satelliteUNOSATTItemFour",
+            "namespace": "surgeCatalogueInformationManagementSatelliteImagery"
+        },
+        {
+            "action": "update",
+            "key": "satelliteUNOSATTItemOne",
+            "newKey": "satelliteUNOSATItemOne",
+            "namespace": "surgeCatalogueInformationManagementSatelliteImagery"
+        },
+        {
+            "action": "update",
+            "key": "satelliteUNOSATTItemOneListOne",
+            "newKey": "satelliteUNOSATItemOneListOne",
+            "namespace": "surgeCatalogueInformationManagementSatelliteImagery"
+        },
+        {
+            "action": "update",
+            "key": "satelliteUNOSATTItemOneListTwo",
+            "newKey": "satelliteUNOSATItemOneListTwo",
+            "namespace": "surgeCatalogueInformationManagementSatelliteImagery"
+        },
+        {
+            "action": "update",
+            "key": "satelliteUNOSATTItemThree",
+            "newKey": "satelliteUNOSATItemThree",
+            "namespace": "surgeCatalogueInformationManagementSatelliteImagery"
+        },
+        {
+            "action": "update",
+            "key": "satelliteUNOSATTItemThreeLink",
+            "newKey": "satelliteUNOSATItemThreeLink",
+            "namespace": "surgeCatalogueInformationManagementSatelliteImagery"
+        },
+        {
+            "action": "update",
+            "key": "satelliteUNOSATTItemTwo",
+            "newKey": "satelliteUNOSATItemTwo",
+            "namespace": "surgeCatalogueInformationManagementSatelliteImagery"
+        },
+        {
+            "action": "update",
+            "key": "satelliteUNOSATTItemTwoListFive",
+            "newKey": "satelliteUNOSATItemTwoListFive",
+            "namespace": "surgeCatalogueInformationManagementSatelliteImagery"
+        },
+        {
+            "action": "update",
+            "key": "satelliteUNOSATTItemTwoListFour",
+            "newKey": "satelliteUNOSATItemTwoListFour",
+            "namespace": "surgeCatalogueInformationManagementSatelliteImagery"
+        },
+        {
+            "action": "update",
+            "key": "satelliteUNOSATTItemTwoListOne",
+            "newKey": "satelliteUNOSATItemTwoListOne",
+            "namespace": "surgeCatalogueInformationManagementSatelliteImagery"
+        },
+        {
+            "action": "update",
+            "key": "satelliteUNOSATTItemTwoListSix",
+            "newKey": "satelliteUNOSATItemTwoListSix",
+            "namespace": "surgeCatalogueInformationManagementSatelliteImagery"
+        },
+        {
+            "action": "update",
+            "key": "satelliteUNOSATTItemTwoListThree",
+            "newKey": "satelliteUNOSATItemTwoListThree",
+            "namespace": "surgeCatalogueInformationManagementSatelliteImagery"
+        },
+        {
+            "action": "update",
+            "key": "satelliteUNOSATTItemTwoListTwo",
+            "newKey": "satelliteUNOSATItemTwoListTwo",
+            "namespace": "surgeCatalogueInformationManagementSatelliteImagery"
+        },
+        {
+            "action": "update",
+            "key": "otherOverviewDetailOne",
+            "namespace": "surgeCatalogueOtherNationalSocietyDevelopment",
+            "newValue": "Strengthening of National Societies is one of the Federation’s and particularly the IFRC Secretariat’s fundamental tasks. During emergencies and crisis NS development may be jeopardized by national and international support channelled through the National Society. The IFRC and National Societies partners will ensure that National Societies are not harmed and NS development is not negatively affected by the international support they receive."
+        },
+        {
+            "action": "update",
+            "key": "designedForItemOne",
+            "namespace": "surgeCatalogueWashKitMsm20Eru",
+            "newValue": "Situations where bad hygiene is consistently practised by affected people, where there is the danger of diarrhoea, cholera, and other disease outbreaks will persist."
+        },
+        {
+            "action": "update",
+            "key": "personnelCompositionValueFourItem",
+            "namespace": "surgeCatalogueWashWaterSupplyRehabilitation",
+            "newValue": "Hygiene promoter/community mobiliser (behaviour change/gender and inclusion/community engagement and accountability)"
+        },
+        {
+            "action": "update",
+            "key": "toolboxValue",
+            "namespace": "surgeOperationalToolbox",
+            "newValue": "Click on each section in pre-disaster column to access the folders with all the relevant tools."
+        },
+        {
+            "action": "update",
+            "key": "activityReportingheading",
+            "newKey": "activityReportingHeading",
+            "namespace": "threeWActivityForm"
+        }
+    ]
+}

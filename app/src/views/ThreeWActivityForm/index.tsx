@@ -129,6 +129,7 @@ const deployedEruDescriptionSelector = (item: NonNullable<EruResponse['results']
 );
 const titleSelector = (item: { title: string }) => item.title;
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -307,7 +308,7 @@ export function Component() {
                     match = matchArray(locations, ['activities', NUM]);
                     if (isDefined(match)) {
                         const [activity_index] = match;
-                        // eslint-disable-next-line max-len
+
                         return value?.activities?.[activity_index]?.client_id;
                     }
                     return undefined;
@@ -380,7 +381,7 @@ export function Component() {
                     match = matchArray(locations, ['activities', NUM]);
                     if (isDefined(match)) {
                         const [activity_index] = match;
-                        // eslint-disable-next-line max-len
+
                         return value?.activities?.[activity_index]?.client_id;
                     }
                     return undefined;
@@ -729,7 +730,6 @@ export function Component() {
                                 : undefined}
                             readOnly
                             name={undefined}
-                            // eslint-disable-next-line @typescript-eslint/no-empty-function
                             onChange={() => {}}
                             // strongValue
                         />
@@ -834,7 +834,7 @@ export function Component() {
                         </InputSection>
                     )}
                     <Container
-                        heading={strings.activityReportingheading}
+                        heading={strings.activityReportingHeading}
                         childrenContainerClassName={styles.sectorsContainer}
                     >
                         <InputSection

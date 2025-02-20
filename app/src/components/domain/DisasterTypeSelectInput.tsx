@@ -1,9 +1,9 @@
 import {
     SelectInput,
-    SelectInputProps,
+    type SelectInputProps,
 } from '@ifrc-go/ui';
 
-import { DisasterTypes } from '#contexts/domain';
+import { type DisasterTypes } from '#contexts/domain';
 import useDisasterType from '#hooks/domain/useDisasterType';
 
 export type DisasterTypeItem = NonNullable<DisasterTypes['results']>[number];
@@ -25,7 +25,11 @@ type Props<NAME> = SelectInputProps<
 > & {
     className?: string;
     name: NAME;
-    onChange: (newValue: number | undefined, name: NAME) => void;
+    onChange: (
+        newValue: number | undefined,
+        name: NAME,
+        option: DisasterTypeItem | undefined,
+    ) => void;
     value: number | undefined | null;
     optionsFilter?: (item: DisasterTypeItem) => boolean;
 }

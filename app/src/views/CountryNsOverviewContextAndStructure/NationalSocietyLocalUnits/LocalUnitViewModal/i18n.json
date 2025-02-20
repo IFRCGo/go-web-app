@@ -1,0 +1,7 @@
+{
+    "namespace": "countryNsOverviewContextAndStructure",
+    "strings": {
+        "confirmChangesModalHeading": "Confirm the Changes",
+        "confirmChangesContentQuestion": "Are you sure you want to have these changes in this local unit?"
+    }
+}

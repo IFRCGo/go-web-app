@@ -4,8 +4,14 @@
     cursor: pointer;
     gap: var(--go-ui-spacing-sm);
 
+    &.with-background {
+        background-color: var(--go-ui-color-background);
+        padding: var(--go-ui-spacing-sm);
+    }
+
     .checkmark-container {
         position: relative;
+        flex-shrink: 0;
         line-height: 0;
         font-size: var(--go-ui-height-icon-multiplier);
 
@@ -26,8 +32,9 @@
 
     .content {
         flex-direction: column;
-        gap: 0;
+        flex-grow: 1;
         line-height: var(--go-ui-line-height-sm);
+        gap: 0;
     }
 
     .description {

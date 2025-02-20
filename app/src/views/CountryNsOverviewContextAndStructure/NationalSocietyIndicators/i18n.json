@@ -1,5 +1,5 @@
 {
-    "namespace": "nationalSocietyIndicators",
+    "namespace": "countryNsOverviewContextAndStructure",
     "strings": {
         "nationalSocietyIndicatorsTitle": "National Society Indicators",
         "nationalSocietyFoundedDateLabel": "Date Founded",
@@ -11,8 +11,8 @@
         "nationalSocietyStaffLabel": "Staff",
         "goToFDRS": "Go to FDRS",
         "nationalSocietyYouthLabel": "Youth (6-29 yrs)",
-        "sourceFDRS": "{nationalSociety} on FDRS",
-        "source": "Source",
+        "indicatorSourceFDRSLabel": "{nationalSociety} on FDRS",
+        "indicatorSourceLabel": "Source",
         "volunteerTooltipMaleLabel": "Male Volunteers",
         "volunteerTooltipFemaleLabel": "Female Volunteers",
         "staffTooltipMaleLabel": "Male Volunteers",

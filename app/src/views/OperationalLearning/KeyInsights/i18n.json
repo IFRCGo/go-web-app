@@ -1,0 +1,11 @@
+{
+    "namespace": "operationalLearning",
+    "strings": {
+        "opsLearningSummariesHeading": "Summary of learning",
+        "keyInsightsDisclaimer": "These summaries were generated using AI and Large Language Models. They represent {numOfExtractsUsed} prioritised extracts out of {totalNumberOfExtracts} from the DREF and EA documents between {appealsFromDate} - {appealsToDate}. An initial automatic assessment of the quality of the summaries resulted in around 78% performance in terms of relevancy, coherence, consistency and fluency. To see the methodology behind the prioritisation {methodologyLink}.",
+        "methodologyLinkLabel": "click here",
+        "keyInsightsReportIssue": "Report an issue",
+        "keyInsightsCloseSources": "Close Sources",
+        "keyInsightsSeeSources": "Show Sources"
+    }
+}

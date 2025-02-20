@@ -13,16 +13,16 @@ import {
 } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
-import { components } from '#generated/types';
-import { CountryOutletContext } from '#utils/outletContext';
+import { type components } from '#generated/types';
+import { type CountryOutletContext } from '#utils/outletContext';
 
 import OCACListItem from './OCACListItem';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-export type CapacityItem = NonNullable<NonNullable<CountryOutletContext['countryResponse']>['capacity']>[number];
-export type AssessmentTypeEnum = components<'read'>['schemas']['AssessmentTypeEnum'];
+type CapacityItem = NonNullable<NonNullable<CountryOutletContext['countryResponse']>['capacity']>[number];
+type AssessmentTypeEnum = components<'read'>['schemas']['AssessmentTypeEnum'];
 
 const TYPE_BOCA = 1 satisfies AssessmentTypeEnum;
 const TYPE_OCAC = 0 satisfies AssessmentTypeEnum;
@@ -53,7 +53,7 @@ function CountryNsCapacityStrengthening() {
 
     const uniqueLocalUnits = unique(
         bocaAssessments?.map(
-            (bocaAsssement) => bocaAsssement.branch_name,
+            (bocaAssessment) => bocaAssessment.branch_name,
         ).filter(isDefined) ?? [],
     );
 
@@ -72,7 +72,7 @@ function CountryNsCapacityStrengthening() {
             withHeaderBorder
             footerActions={!isEmpty && (
                 <TextOutput
-                    label={strings.moreDetails}
+                    label={strings.moreDetailsLabel}
                     value={(
                         <Link
                             variant="tertiary"

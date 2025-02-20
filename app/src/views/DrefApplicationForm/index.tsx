@@ -65,6 +65,7 @@ import {
     TYPE_LOAN,
     type TypeOfDrefEnum,
 } from './common';
+import DrefImportButton from './DrefImportButton';
 import EventDetail from './EventDetail';
 import ObsoletePayloadModal from './ObsoletePayloadModal';
 import Operation from './Operation';
@@ -118,8 +119,8 @@ function getNextStep(current: TabKeys, direction: 1 | -1, typeOfDref: TypeOfDref
     }
     return undefined;
 }
+/** @knipignore */
 
-// eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { drefId } = useParams<{ drefId: string }>();
 
@@ -282,6 +283,7 @@ export function Component() {
                 source_information,
                 ...otherValues
             } = removeNull(response);
+
             setValue({
                 ...otherValues,
                 planned_interventions: planned_interventions?.map(
@@ -510,7 +512,7 @@ export function Component() {
         [validate, setError, updateDref, createDref, drefId],
     );
 
-    const handleObsoletePayloadOverwiteButtonClick = useCallback(
+    const handleObsoletePayloadOverwriteButtonClick = useCallback(
         (newModifiedAt: string | undefined) => {
             setShowObsoletePayloadModal(false);
             // FIXME: Why not just set lastModifiedAtRef.current,
@@ -572,6 +574,11 @@ export function Component() {
                 )}
                 actions={(
                     <>
+                        {isNotDefined(drefId) && (
+                            <DrefImportButton
+                                onImport={setValue}
+                            />
+                        )}
                         {isDefined(drefId) && (
                             <>
                                 <Button
@@ -754,7 +761,7 @@ export function Component() {
                 {isTruthyString(drefId) && showObsoletePayloadModal && (
                     <ObsoletePayloadModal
                         drefId={+drefId}
-                        onOverwriteButtonClick={handleObsoletePayloadOverwiteButtonClick}
+                        onOverwriteButtonClick={handleObsoletePayloadOverwriteButtonClick}
                         onCancelButtonClick={setShowObsoletePayloadModal}
                     />
                 )}

@@ -1,5 +1,6 @@
 import { FlatCompat } from '@eslint/eslintrc';
 import js from '@eslint/js';
+import json from "@eslint/json";
 import tseslint from '@typescript-eslint/eslint-plugin';
 import process from 'process';
 
@@ -57,6 +58,15 @@ const appConfigs = compat.config({
 
         'no-shadow': 0,
         '@typescript-eslint/no-shadow': ['error'],
+
+        '@typescript-eslint/consistent-type-imports': [
+            'warn',
+            {
+                disallowTypeAnnotations: false,
+                fixStyle: 'inline-type-imports',
+                prefer: 'type-imports',
+            },
+        ],
 
         'import/no-extraneous-dependencies': [
             'error',
@@ -121,7 +131,12 @@ const appConfigs = compat.config({
 }).map((conf) => ({
     ...conf,
     files: ['src/**/*.tsx', 'src/**/*.jsx', 'src/**/*.ts', 'src/**/*.js'],
-    ignores: ['src/generated/types.ts'],
+    ignores: [
+        "node_modules/",
+        "build/",
+        "coverage/",
+        'src/generated/types.ts'
+    ],
 }));
 
 const otherConfig = {
@@ -130,7 +145,21 @@ const otherConfig = {
     ...tseslint.configs.recommended,
 };
 
+const jsonConfig = {
+    files: ['**/*.json'],
+    language: 'json/json',
+    rules: {
+        'json/no-duplicate-keys': 'error',
+    },
+};
+
 export default [
+    {
+        plugins: {
+            json,
+        },
+    },
     ...appConfigs,
     otherConfig,
+    jsonConfig,
 ];

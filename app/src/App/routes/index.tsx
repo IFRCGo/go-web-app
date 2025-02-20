@@ -1,4 +1,8 @@
-import { Navigate } from 'react-router-dom';
+import {
+    generatePath,
+    Navigate,
+    useParams,
+} from 'react-router-dom';
 
 import { unwrapRoute } from '#utils/routes';
 
@@ -119,6 +123,19 @@ const emergencies = customWrapRoute({
     wrapperComponent: Auth,
     context: {
         title: 'Emergencies',
+        visibility: 'anything',
+    },
+});
+const cookiePolicy = customWrapRoute({
+    parent: rootLayout,
+    path: 'cookie-policy',
+    component: {
+        render: () => import('#views/CookiePolicy'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Cookie Policy',
         visibility: 'anything',
     },
 });
@@ -364,7 +381,7 @@ const preparednessGlobalPerformance = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Preparedness - Global Performace',
+        title: 'Preparedness - Global Performance',
         visibility: 'anything',
     },
 });
@@ -379,21 +396,6 @@ const preparednessGlobalCatalogue = customWrapRoute({
     wrapperComponent: Auth,
     context: {
         title: 'Preparedness - Catalogue of Learning',
-        visibility: 'anything',
-    },
-});
-
-// FIXME: update name to `preparednessOperationalLearning`
-const preparednessGlobalOperational = customWrapRoute({
-    parent: preparednessLayout,
-    path: 'operational-learning',
-    component: {
-        render: () => import('#views/PreparednessOperationalLearning'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Preparedness - Operational Learning',
         visibility: 'anything',
     },
 });
@@ -612,6 +614,18 @@ const accountDetails = customWrapRoute({
     },
 });
 
+const termsAndConditions = customWrapRoute({
+    parent: rootLayout,
+    path: 'terms-and-conditions',
+    component: {
+        render: () => import('#views/TermsAndConditions'),
+        props: {},
+    },
+    context: {
+        title: 'Terms And Conditions',
+        visibility: 'anything',
+    },
+});
 type DefaultAccountMyFormsChild = 'field-report';
 const accountMyFormsLayout = customWrapRoute({
     parent: accountLayout,
@@ -724,6 +738,19 @@ const resources = customWrapRoute({
     wrapperComponent: Auth,
     context: {
         title: 'Resources',
+        visibility: 'anything',
+    },
+});
+const operationalLearning = customWrapRoute({
+    parent: rootLayout,
+    path: 'operational-learning',
+    component: {
+        render: () => import('#views/OperationalLearning'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Operational Learning',
         visibility: 'anything',
     },
 });
@@ -1148,6 +1175,56 @@ const perWorkPlanForm = customWrapRoute({
 });
 
 // Redirect Routes
+const preparednessOperationalLearning = customWrapRoute({
+    parent: preparednessLayout,
+    path: 'operational-learning',
+    component: {
+        eagerLoad: true,
+        render: Navigate,
+        props: {
+            to: operationalLearning.absolutePath,
+        },
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Operational Learning',
+        visibility: 'anything',
+    },
+});
+
+// eslint-disable-next-line react-refresh/only-export-components
+function ObsoleteFieldReportRedirection() {
+    const params = useParams<{
+        fieldReportId: string,
+    }>();
+
+    const path = generatePath(
+        fieldReportDetails.absoluteForwardPath,
+        { fieldReportId: params.fieldReportId },
+    );
+
+    return (
+        <Navigate
+            to={path}
+            replace
+        />
+    );
+}
+
+const obsoleteFieldReportDetails = customWrapRoute({
+    parent: rootLayout,
+    path: 'reports/:fieldReportId',
+    component: {
+        eagerLoad: true,
+        render: ObsoleteFieldReportRedirection,
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Field Report Details',
+        visibility: 'anything',
+    },
+});
 
 const wrappedRoutes = {
     fourHundredFour,
@@ -1159,6 +1236,7 @@ const wrappedRoutes = {
     resendValidationEmail,
     home,
     emergencies,
+    cookiePolicy,
     emergencySlug,
     emergencyFollow,
     emergenciesLayout,
@@ -1175,7 +1253,6 @@ const wrappedRoutes = {
     preparednessGlobalSummary,
     preparednessGlobalPerformance,
     preparednessGlobalCatalogue,
-    preparednessGlobalOperational,
     preparednessIndex,
     perProcessFormIndex,
     globalThreeW,
@@ -1227,10 +1304,15 @@ const wrappedRoutes = {
     perPrioritizationForm,
     perWorkPlanForm,
     threeWProjectDetail,
+    termsAndConditions,
+    operationalLearning,
     ...regionRoutes,
     ...countryRoutes,
     ...surgeRoutes,
 
+    // Redirects
+    preparednessOperationalLearning,
+    obsoleteFieldReportDetails,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));

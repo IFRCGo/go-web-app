@@ -20,7 +20,7 @@ import {
 import { createLinkColumn } from '#utils/domain/tableHelpers';
 import { type CountryOutletContext } from '#utils/outletContext';
 import {
-    GoApiResponse,
+    type GoApiResponse,
     useRequest,
 } from '#utils/restRequest';
 

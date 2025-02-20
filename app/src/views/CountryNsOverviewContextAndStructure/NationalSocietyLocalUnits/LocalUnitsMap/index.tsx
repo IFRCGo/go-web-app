@@ -57,8 +57,8 @@ import {
 import { localUnitMapStyle } from '#utils/map';
 import { type CountryOutletContext } from '#utils/outletContext';
 import {
-    GoApiResponse,
-    GoApiUrlQuery,
+    type GoApiResponse,
+    type GoApiUrlQuery,
     useRequest,
 } from '#utils/restRequest';
 
@@ -135,7 +135,7 @@ function LocalUnitsMap(props: Props) {
         localUnitsOptions,
     } = props;
     const { countryResponse } = useOutletContext<CountryOutletContext>();
-
+    const { isAuthenticated } = useAuth();
     const [showLocalUnitModal, {
         setTrue: setShowLocalUnitViewModalTrue,
         setFalse: setShowLocalUnitViewModalFalse,
@@ -154,8 +154,9 @@ function LocalUnitsMap(props: Props) {
         [filter, countryResponse],
     );
 
-    const { isAuthenticated } = useAuth();
-    const { isGuestUser } = usePermissions();
+    const {
+        isGuestUser,
+    } = usePermissions();
 
     const requestType = useMemo(
         () => {
@@ -184,6 +185,7 @@ function LocalUnitsMap(props: Props) {
     const {
         response: localUnitsResponse,
         pending: localUnitsPending,
+        retrigger: refetchLocalUnits,
     } = useRequest({
         skip: requestType !== AUTHENTICATED || isNotDefined(countryResponse),
         url: '/api/v2/local-units/',
@@ -270,7 +272,7 @@ function LocalUnitsMap(props: Props) {
             features: localUnits?.results?.map(
                 (localUnit) => ({
                     type: 'Feature' as const,
-                    geometry: localUnit.location_details as unknown as {
+                    geometry: localUnit.location_geojson as unknown as {
                         type: 'Point',
                         coordinates: [number, number],
                     },
@@ -369,7 +371,8 @@ function LocalUnitsMap(props: Props) {
         >
             <div className={styles.mapContainerWithContactDetails}>
                 <BaseMap
-                    withoutLabel
+                    // NOTE: Even though we are using localUnitMapStyle, the
+                    // layer override defined inside BaseMap works
                     mapStyle={localUnitMapStyle}
                     baseLayers={(
                         <ActiveCountryBaseMapLayer
@@ -448,6 +451,7 @@ function LocalUnitsMap(props: Props) {
                                     name=""
                                     variant="tertiary"
                                     onClick={handleLocalUnitHeadingClick}
+                                    disabled={!isAuthenticated}
                                 >
                                     {localUnitName}
                                 </Button>
@@ -459,24 +463,24 @@ function LocalUnitsMap(props: Props) {
                             compactMessage
                         >
                             <TextOutput
-                                label={strings.localUnitDetailLastUpdate}
+                                label={strings.localUnitsMapLastUpdate}
                                 value={localUnitDetail?.modified_at}
                                 strongLabel
                                 valueType="date"
                             />
                             <TextOutput
-                                label={strings.localUnitDetailAddress}
+                                label={strings.localUnitsMapAddress}
                                 strongLabel
                                 value={localUnitAddress}
                             />
                             <TextOutput
-                                label={strings.localUnitLocalUnitType}
+                                label={strings.localUnitsMapLocalUnitType}
                                 strongLabel
                                 value={localUnitDetail?.type_details.name}
                             />
                             {isDefined(localUnitDetail?.health) && (
                                 <TextOutput
-                                    label={strings.localUnitHealthFacilityType}
+                                    label={strings.localUnitsMapHealthFacilityType}
                                     strongLabel
                                     value={
                                         localUnitDetail
@@ -490,7 +494,7 @@ function LocalUnitsMap(props: Props) {
                                     external
                                     withLinkIcon
                                 >
-                                    {strings.localUnitTooltipMoreDetails}
+                                    {strings.localUnitsMapTooltipMoreDetails}
                                 </Link>
                             )}
                         </MapPopup>
@@ -504,7 +508,7 @@ function LocalUnitsMap(props: Props) {
                         onClick={onPresentationModeButtonClick}
                         variant="secondary"
                     >
-                        {strings.presentationModeButton}
+                        {strings.localUnitsMapPresentationModeButton}
                     </Button>
                 )}
                 {hasContactDetails && (
@@ -557,7 +561,7 @@ function LocalUnitsMap(props: Props) {
             </div>
             {filter.type === TYPE_HEALTH_CARE && (
                 <Legend
-                    label={strings.localUnitHealthFacilityType}
+                    label={strings.localUnitsMapHealthFacilityType}
                     items={localUnitsOptions?.health_facility_type}
                     keySelector={numericIdSelector}
                     labelSelector={stringNameSelector}
@@ -568,7 +572,7 @@ function LocalUnitsMap(props: Props) {
             )}
             {filter.type !== TYPE_HEALTH_CARE && (
                 <Legend
-                    label={strings.localUnitLocalUnitType}
+                    label={strings.localUnitsMapLocalUnitType}
                     items={localUnitsOptions?.type}
                     keySelector={numericIdSelector}
                     labelSelector={stringNameSelector}
@@ -583,6 +587,7 @@ function LocalUnitsMap(props: Props) {
                     localUnitId={clickedPointProperties?.localUnitId}
                     readOnly={readOnlyLocalUnitModal}
                     setReadOnly={setReadOnlyLocalUnitModal}
+                    onDeleteActionSuccess={refetchLocalUnits}
                 />
             ))}
         </Container>

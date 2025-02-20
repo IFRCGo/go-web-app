@@ -120,6 +120,7 @@ function getPeopleReached(project: ProjectListItem) {
     return sumSafe(project.activities?.map(getPeopleReachedInActivity));
 }
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);

@@ -10,7 +10,6 @@ type OptionKey = string | number;
 export type MultiSelectInputProps<
     OPTION_KEY extends OptionKey,
     NAME,
-    // eslint-disable-next-line @typescript-eslint/ban-types
     OPTION extends object,
     RENDER_PROPS extends Def,
     OMISSION extends string,
@@ -25,7 +24,6 @@ export type MultiSelectInputProps<
     withSelectAll?: boolean;
 };
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 function MultiSelectInput<
     OPTION_KEY extends OptionKey,
     const NAME,

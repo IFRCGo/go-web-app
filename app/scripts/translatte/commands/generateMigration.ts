@@ -54,7 +54,7 @@ function generateMigration(
         (prev, current) => prev.value === current.value,
     );
 
-    console.info(`Unchaged strings: ${identicalStateItems.length}`)
+    console.info(`Unchanged strings: ${identicalStateItems.length}`)
     console.info(`Value updated strings: ${valueUpdatedStateItems.length}`)
 
     console.info(`Potentially removed: ${potentiallyRemovedStateItems.length}`)
@@ -153,7 +153,7 @@ async function generate(
         projectPath,
         Array.isArray(translationFileName) ? translationFileName : [translationFileName],
     );
-    const translations = await readTranslations(translationFiles);
+    const { translations } = await readTranslations(translationFiles);
     const fileState = translations.map((item) => ({
         ...item,
     }));

@@ -12,6 +12,7 @@ import { type RegionOutletContext } from '#utils/outletContext';
 
 import styles from './styles.module.css';
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { regionId } = useParams<{ regionId: string }>();

@@ -1,0 +1,20 @@
+.summary {
+    background-color: var(--go-ui-color-background);
+
+    .heading {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-lg);
+    }
+
+    .footer {
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+    }
+}

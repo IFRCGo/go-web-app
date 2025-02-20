@@ -1,0 +1,11 @@
+{
+    "namespace": "countryNsOverviewContextAndStructure",
+    "strings": {
+        "submitLabel": "Submit",
+        "deleteSuccessMessage": "{localUnitName} has been successfully deleted.",
+        "deleteFailureMessage": "Unable to delete {localUnitName}. Please try again.",
+        "chooseDeleteReasonMessage": "Choose the reason to delete local unit.",
+        "deleteReasonExplanation": "Explain the reason why the local unit is being deleted.",
+        "deleteLocalUnitHeading": "Are you sure you want to delete \"{localUnitName}\"?"
+    }
+}

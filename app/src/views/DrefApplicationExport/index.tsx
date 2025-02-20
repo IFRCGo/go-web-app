@@ -29,7 +29,7 @@ import {
     DISASTER_CATEGORY_ORANGE,
     DISASTER_CATEGORY_RED,
     DISASTER_CATEGORY_YELLOW,
-    DisasterCategory,
+    type DisasterCategory,
     DREF_TYPE_ASSESSMENT,
     DREF_TYPE_IMMINENT,
     ONSET_SLOW,
@@ -61,6 +61,7 @@ const colorMap: Record<DisasterCategory, string> = {
     [DISASTER_CATEGORY_RED]: styles.red,
 };
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { drefId } = useParams<{ drefId: string }>();
@@ -818,7 +819,7 @@ export function Component() {
                     )}
                     {responseStrategyDefined && (
                         <Container
-                            heading={strings.operationStragegyHeading}
+                            heading={strings.operationStrategyHeading}
                         >
                             <DescriptionText>
                                 {drefResponse?.response_strategy}
@@ -906,7 +907,7 @@ export function Component() {
                 )}
                 <BlockTextOutput
                     className={styles.disabilitiesPopulation}
-                    label={strings.peopleWithDisabilitesLabel}
+                    label={strings.peopleWithDisabilitiesLabel}
                     value={drefResponse?.disability_people_per}
                     suffix="%"
                     valueType="number"

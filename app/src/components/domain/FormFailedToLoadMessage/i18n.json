@@ -1,6 +1,6 @@
 {
-    "namespace":"common",
-    "strings":{
+    "namespace": "formFailedToLoadMessage",
+    "strings": {
         "formFailedToLoadErrorTitle": "Failed to load the data!",
         "formFailedToLoadErrorHelpText": "Please make sure that the entity with given id exists and you have the permission to edit it!"
     }

@@ -3,7 +3,7 @@ import {
     ButtonProps as PureButtonProps,
 } from '@ifrc-go/ui';
 
-interface ButtonProps<N> extends PureButtonProps<N> {}
+type ButtonProps<N> = PureButtonProps<N>
 
 function Button<const N>(props: ButtonProps<N>) {
     return (

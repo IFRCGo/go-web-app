@@ -1,9 +1,0 @@
-version: '3.8'
-services:
-  react:
-    build: .
-    command: sh -c 'yarn install && yarn start --host'
-    volumes:
-      - .:/code
-    ports:
-      - '3000:3000'

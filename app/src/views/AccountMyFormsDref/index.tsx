@@ -10,10 +10,12 @@ import Link from '#components/Link';
 
 import ActiveDrefTable from './ActiveDrefTable';
 import CompletedDrefTable from './CompletedDrefTable';
+import DownloadImportTemplateButton from './DownloadImportTemplateButton';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const [currentView, setCurrentView] = useState<'active' | 'completed'>('active');
@@ -31,6 +33,9 @@ export function Component() {
                 >
                     {strings.drefFeedbackForm}
                 </Link>
+            </div>
+            <div className={styles.actions}>
+                <DownloadImportTemplateButton />
             </div>
             {currentView === 'active' && (
                 <ActiveDrefTable

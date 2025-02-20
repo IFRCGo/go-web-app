@@ -34,7 +34,7 @@ function AlertContainer(props: Props) {
     useEffect(
         () => {
             alerts.filter((alert) => !alert.nonDismissable).forEach((alert) => {
-                // NOTE: skip if there is alreayd a timeout
+                // NOTE: skip if there is already a timeout
                 if (dismissTimeout.current[alert.name]) {
                     return;
                 }

@@ -1,10 +1,9 @@
 {
-    "namespace": "localUnitsTableActions",
+    "namespace": "countryNsOverviewContextAndStructure",
     "strings": {
-        "localUnitsEdit": "Edit",
-        "localUnitsView": "View",
-        "localUnitsDelete": "Delete",
-        "deleteLocalUnitHeading": "Delete Local Unit Confirmation",
-        "deleteLocalUnitMessage": "Are you sure you want to delete \"{localUnitName}\"?"
+        "localUnitActionsEdit": "Edit",
+        "localUnitActionsView": "View",
+        "localUnitActionsDelete": "Delete",
+        "localUnitActionsLatestChangesFailureMessage": "Failed to get latest changes"
     }
 }

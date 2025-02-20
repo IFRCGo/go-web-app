@@ -1,15 +1,11 @@
 import type {
     CircleLayer,
     CirclePaint,
-    FillLayer,
-    SymbolLayer,
 } from 'mapbox-gl';
 
 import {
     COLOR_BLACK,
     COLOR_BLUE,
-    COLOR_DARK_GREY,
-    COLOR_LIGHT_GREY,
     COLOR_RED,
     COLOR_YELLOW,
 } from '#utils/constants';
@@ -21,27 +17,6 @@ export const COLOR_MIXED_RESPONSE = COLOR_BLUE;
 export const RESPONSE_LEVEL_WITHOUT_IFRC_RESPONSE = 0;
 export const RESPONSE_LEVEL_WITH_IFRC_RESPONSE = 1;
 export const RESPONSE_LEVEL_MIXED_RESPONSE = 2;
-
-export const adminLabelLayerOptions : Omit<SymbolLayer, 'id'> = {
-    type: 'symbol',
-    layout: {
-        'text-offset': [
-            0, 1,
-        ],
-    },
-};
-
-export const adminFillLayerOptions: Omit<FillLayer, 'id'> = {
-    type: 'fill',
-    paint: {
-        'fill-color': [
-            'case',
-            ['boolean', ['feature-state', 'hovered'], false],
-            COLOR_DARK_GREY,
-            COLOR_LIGHT_GREY,
-        ],
-    },
-};
 
 const circleColor: CirclePaint['circle-color'] = [
     'match',

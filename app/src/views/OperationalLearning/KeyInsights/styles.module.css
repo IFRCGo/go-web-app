@@ -1,0 +1,35 @@
+.key-insights {
+    background-color: var(--go-ui-color-background);
+
+    .sources {
+        grid-column: 1 / -1;
+    }
+
+    .disclaimer-text {
+        grid-column: 1 / -1;
+        text-transform: uppercase;
+        color: var(--go-ui-color-text-light);
+
+        .methodology-link {
+            text-transform: uppercase;
+        }
+    }
+
+    .report-issue-link-container {
+        display: flex;
+        justify-content: flex-end;
+        grid-column: 1 / -1;
+
+        .report-issue-link {
+            flex-shrink: 0;
+            color: var(--go-ui-color-negative);
+        }
+    }
+
+    .actions {
+        align-items: flex-end;
+        align-self: flex-end;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+}

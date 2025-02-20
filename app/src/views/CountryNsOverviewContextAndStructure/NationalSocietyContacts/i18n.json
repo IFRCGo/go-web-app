@@ -1,9 +1,9 @@
 {
-    "namespace": "nationalSocietyContacts",
+    "namespace": "countryNsOverviewContextAndStructure",
     "strings": {
         "nSContactsTitle": "National Society Contacts",
         "nSContactName": "Name",
         "nSContactTitle": "Title",
-        "nSContactEmail":"Email"
+        "nSContactEmail": "Email"
     }
 }

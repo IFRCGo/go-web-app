@@ -12,7 +12,7 @@ import {
 } from '@togglecorp/fujs';
 
 import useAlert from '#hooks/useAlert';
-import { GoApiResponse } from '#utils/restRequest';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';

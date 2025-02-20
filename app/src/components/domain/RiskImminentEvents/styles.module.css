@@ -34,13 +34,14 @@
 
     .footer-actions {
         flex-shrink: unset;
+        flex-wrap: wrap;
     }
 }
 
 .popup {
     .description {
-
         display: inline;
+
         .description-content {
             display: flex;
             flex-direction: column;

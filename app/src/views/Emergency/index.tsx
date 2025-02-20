@@ -51,6 +51,7 @@ function getRouteIdFromName(text: string) {
 }
 */
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { emergencyId } = useParams<{ emergencyId: string }>();

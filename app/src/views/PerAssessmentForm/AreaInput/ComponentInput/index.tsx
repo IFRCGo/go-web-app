@@ -5,6 +5,7 @@ import {
 import {
     Container,
     ExpandableContainer,
+    HtmlOutput,
     InputSection,
     SelectInput,
     TextArea,
@@ -21,9 +22,9 @@ import {
     mapToList,
 } from '@togglecorp/fujs';
 import {
-    Error,
+    type Error,
     getErrorObject,
-    SetValueArg,
+    type SetValueArg,
     useFormArray,
     useFormObject,
 } from '@togglecorp/toggle-form';
@@ -31,7 +32,7 @@ import {
 import NonFieldError from '#components/NonFieldError';
 import {
     type GoApiResponse,
-    ListResponseItem,
+    type ListResponseItem,
 } from '#utils/restRequest';
 
 import { type PartialAssessment } from '../../schema';
@@ -122,6 +123,7 @@ function ComponentInput(props: Props) {
         [error],
     );
 
+    // FIXME: We might need to use useFormArrayWithEmptyCheck
     const {
         setValue: setQuestionValue,
     } = useFormArray<'question_responses', NonNullable<Value['question_responses']>[number]>(
@@ -150,6 +152,7 @@ function ComponentInput(props: Props) {
 
     const groupedQuestions = useMemo(
         () => listToGroupList(
+            // FIXME: this sort will mutate the data
             questions?.sort((q1, q2) => compareNumber(q1.question_num, q2.question_num)),
             (question) => question.question_group ?? NO_GROUP,
         ),
@@ -184,14 +187,14 @@ function ComponentInput(props: Props) {
                 )}
                 key={component.id}
                 heading={getComponentTitle(component)}
-                childrenContainerClassName={styles.questionList}
-                headerDescription={component.description}
                 headingClassName={styles.heading}
                 withInternalPadding
                 withoutWrapInHeading
                 spacing="comfortable"
                 headingDescriptionContainerClassName={styles.statusSelectionContainer}
-            />
+            >
+                {component.description}
+            </Container>
         );
     }
 
@@ -200,10 +203,10 @@ function ComponentInput(props: Props) {
             className={_cs(styles.componentInput, className)}
             key={component.id}
             heading={getComponentTitle(component)}
-            childrenContainerClassName={styles.questionList}
             withHeaderBorder
             headerDescription={component.description}
-            headingDescriptionContainerClassName={styles.statusSelectionContainer}
+            headingClassName={styles.heading}
+            headingContainerClassName={styles.headingContainer}
             headingDescription={(
                 <SelectInput
                     readOnly={readOnly}
@@ -224,7 +227,7 @@ function ComponentInput(props: Props) {
             showExpandButtonAtBottom
             initiallyExpanded
             contentViewType="vertical"
-            spacing="relaxed"
+            spacing="comfortable"
         >
             <NonFieldError error={error} />
             <NonFieldError error={questionInputError} />
@@ -282,14 +285,7 @@ function ComponentInput(props: Props) {
                     withoutPadding
                     title={strings.epiConsiderationTitle}
                     description={(
-                        <ul className={styles.description}>
-                            <li>
-                                {strings.epiConsiderationDescriptionOne}
-                            </li>
-                            <li>
-                                {strings.epiConsiderationDescriptionTwo}
-                            </li>
-                        </ul>
+                        <HtmlOutput value={component?.epi_considerations_guidance} />
                     )}
                 >
                     <TextArea
@@ -307,7 +303,9 @@ function ComponentInput(props: Props) {
                 <InputSection
                     withoutPadding
                     title={strings.urbanConsiderationTitle}
-                    description={strings.urbanConsiderationDescription}
+                    description={(
+                        <HtmlOutput value={component?.urban_considerations_guidance} />
+                    )}
                 >
                     <TextArea
                         name="urban_considerations"
@@ -325,14 +323,9 @@ function ComponentInput(props: Props) {
                     withoutPadding
                     title={strings.environmentConsiderationTitle}
                     description={(
-                        <ul className={styles.description}>
-                            <li>
-                                {strings.environmentConsiderationDescriptionOne}
-                            </li>
-                            <li>
-                                {strings.environmentConsiderationDescriptionTwo}
-                            </li>
-                        </ul>
+                        <HtmlOutput
+                            value={component?.climate_environmental_considerations_guidance}
+                        />
                     )}
                 >
                     <TextArea

@@ -19,10 +19,7 @@ import {
     positiveIntegerCondition,
     positiveNumberCondition,
 } from '#utils/form';
-import {
-    type GoApiBody,
-    type GoApiResponse,
-} from '#utils/restRequest';
+import { type GoApiBody } from '#utils/restRequest';
 
 import {
     TYPE_ASSESSMENT,
@@ -47,7 +44,6 @@ function lessThanEqualToTwoImagesCondition<T>(value: T[] | undefined) {
         : undefined;
 }
 
-export type FinalReportResponse = GoApiResponse<'/api/v2/dref-final-report/{id}/'>;
 export type FinalReportRequestBody = GoApiBody<'/api/v2/dref-final-report/{id}/', 'PATCH'>;
 
 type NeedIdentifiedResponse = NonNullable<FinalReportRequestBody['needs_identified']>[number];

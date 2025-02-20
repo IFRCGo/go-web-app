@@ -57,6 +57,7 @@ export interface Props {
     spacing?: SpacingType;
     withHeaderBorder?: boolean;
     withFooterBorder?: boolean;
+    withBorderAndHeaderBackground?: boolean;
     withInternalPadding?: boolean;
     withOverflowInContent?: boolean;
     withoutWrapInHeading?: boolean;
@@ -111,6 +112,7 @@ function Container(props: Props) {
         spacing = 'default',
         withHeaderBorder = false,
         withFooterBorder = false,
+        withBorderAndHeaderBackground = false,
         withOverflowInContent = false,
         withInternalPadding = false,
         withoutWrapInHeading = false,
@@ -187,9 +189,10 @@ function Container(props: Props) {
             ref={containerRef}
             className={_cs(
                 styles.container,
-                gapSpacingTokens,
+                !withBorderAndHeaderBackground && gapSpacingTokens,
                 withInternalPadding && verticalPaddingSpacingTokens,
                 withOverflowInContent && styles.withOverflowInContent,
+                withBorderAndHeaderBackground && styles.withBorderAndHeaderBackground,
                 contentViewType === 'grid' && styles.withGridView,
                 contentViewType === 'grid' && numColumnToClassNameMap[numPreferredGridContentColumns],
                 contentViewType === 'vertical' && styles.withVerticalView,
@@ -201,7 +204,9 @@ function Container(props: Props) {
                     actions={actions}
                     className={_cs(
                         styles.header,
-                        withInternalPadding && horizontalPaddingSpacingTokens,
+                        withBorderAndHeaderBackground && verticalPaddingSpacingTokens,
+                        (withInternalPadding || withBorderAndHeaderBackground)
+                            && horizontalPaddingSpacingTokens,
                         headerClassName,
                     )}
                     elementRef={headerElementRef}
@@ -238,7 +243,9 @@ function Container(props: Props) {
                     className={_cs(
                         styles.content,
                         contentViewType !== 'default' && childrenGapTokens,
-                        withInternalPadding && horizontalPaddingSpacingTokens,
+                        (withInternalPadding || withBorderAndHeaderBackground)
+                            && horizontalPaddingSpacingTokens,
+                        withBorderAndHeaderBackground && verticalPaddingSpacingTokens,
                         overlayPending && pending && styles.pendingOverlaid,
                         childrenContainerClassName,
                     )}
@@ -268,6 +275,7 @@ function Container(props: Props) {
                     className={_cs(
                         styles.footer,
                         withInternalPadding && horizontalPaddingSpacingTokens,
+                        withBorderAndHeaderBackground && verticalPaddingSpacingTokens,
                         footerClassName,
                     )}
                     actionsContainerClassName={footerActionsContainerClassName}

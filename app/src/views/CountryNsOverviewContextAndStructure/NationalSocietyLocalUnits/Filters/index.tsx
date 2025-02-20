@@ -10,14 +10,14 @@ import {
     stringLabelSelector,
     stringNameSelector,
 } from '@ifrc-go/ui/utils';
-import { EntriesAsList } from '@togglecorp/toggle-form';
+import { type EntriesAsList } from '@togglecorp/toggle-form';
 
-import { GoApiResponse } from '#utils/restRequest';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import {
     NOT_VALIDATED,
     VALIDATED,
-    Validation,
+    type Validation,
 } from '../common';
 
 import i18n from './i18n.json';

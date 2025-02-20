@@ -1,5 +1,213 @@
 # go-web-app
 
+## 7.11.1
+
+### Patch Changes
+
+- ff426cd: Use current language for field report title generation
+
+## 7.11.0
+
+### Minor Changes
+
+- Field report number generation: Change only when the country or event changes
+
+## 7.10.1
+
+### Patch Changes
+
+- 14567f1: Improved tables by adding default and second-level ordering in [#1633](https://github.com/IFRCGo/go-web-app/issues/1633)
+
+  - Appeal Documents table, `emergencies/{xxx}/reports` page
+  - Recent Emergencies in Regions – All Appeals table
+  - All Deployed Personnel – Default sorting (filters to be added)
+  - Deployed ERUs – Changed filter title
+  - Key Documents tables in Countries
+  - Response documents
+  - Main page – Active Operations table
+  - The same `AppealsTable` is used in:
+    - Active Operations in Regions
+    - Previous Operations in Countries
+
+- 78d25b2:
+
+  - Update on the ERU MHPSS Module in the Catalogue of Services in [#1648](https://github.com/IFRCGo/go-web-app/issues/1648)
+  - Update on a PER role profile in [#1648](https://github.com/IFRCGo/go-web-app/issues/1648)
+  - Update link to the IM Technical Competency Framework in [#1483](https://github.com/IFRCGo/go-web-app/issues/1483)
+
+- 44623a7: Undo DREF Imminent changes
+- b57c453: Show the number of people assisted in the DREF Final Report export in [#1665](https://github.com/IFRCGo/go-web-app/issues/1665)
+
+## 7.10.0
+
+### Minor Changes
+
+- 4f89133: Fix DREF PGA export styling
+
+## 7.9.0
+
+### Minor Changes
+
+- 7927522: Update Imminent DREF Application in [#1455](https://github.com/IFRCGo/go-web-app/issues/1455)
+
+  - Hide sections/fields
+  - Rename sections/fields
+  - Remove sections/fields
+  - Reflect changes in the PDF export
+
+### Patch Changes
+
+- Updated dependencies [4032688]
+  - @ifrc-go/ui@1.3.0
+
+## 7.8.1
+
+### Patch Changes
+
+- 9c51dee: Remove `summary` field from field report form
+- Update @ifrc-go/ui version
+
+## 7.8.0
+
+### Minor Changes
+
+- 4843cb0: Added Operational Learning 2.0
+
+  - Key Figures Overview in Operational Learning
+  - Map View for Operational Learning
+  - Learning by Sector Bar Chart
+  - Learning by Region Bar Chart
+  - Sources Over Time Line Chart
+  - Methodology changes for the prioritization step
+  - Added an option to regenerate cached summaries
+  - Summary post-processing and cleanup
+  - Enabled MDR code search in admin
+
+### Patch Changes
+
+- f96e177: Move field report/emergency title generation logic from client to server
+- e85fc32: Integrate `crate-ci/typos` for code spell checking
+- 4cdea2b: Add redirection logic for `preparedness#operational-learning`
+- 9a50443: Add appeal doc type for appeal documents
+- 817d56d: Display properly formatted appeal type in search results
+- 1159fa4: Redirect obsolete URLs to recent ones
+  - redirect `/reports/` to `/field-reports/`
+  - redirect `/deployments/` -> `/surge/overview`
+- Updated dependencies [4843cb0]
+  - @ifrc-go/ui@1.2.3
+
+## 7.7.0
+
+### Minor Changes
+
+- 3258b96: Add local unit validation workflow
+
+### Patch Changes
+
+- Updated dependencies [c5a446f]
+  - @ifrc-go/ui@1.2.2
+
+## 7.6.6
+
+### Patch Changes
+
+- 8cdc946: Hide Local unit contact details on the list view for logged in users in [#1485](https://github.com/ifRCGo/go-web-app/issues/1485)
+  Update `tinymce-react` plugin to the latest version and enabled additional plugins, including support for lists in [#1481](https://github.com/ifRCGo/go-web-app/issues/1481)
+- ecca810: Replace the from-communication-copied text of CoS Health header
+- 7cf2514: Prioritize GDACS as the Primary Source for Imminent Risk Watch in [#1547](https://github.com/IFRCGo/go-web-app/issues/1547)
+- 8485076: Add Organization type and Learning type filter in Operational learning in [#1469](https://github.com/IFRCGo/go-web-app/issues/1469)
+- 766d98d: Auto append https:// for incomplete URLs in [#1505](https://github.com/IFRCGo/go-web-app/issues/1505)
+
+## 7.6.5
+
+### Patch Changes
+
+- 478e73b: Update labels for severity control in Imminent Risk Map
+  Update navigation for the events in Imminent Risk Map
+  Fix issue displayed when opening a DREF import template
+  Fix submission issue when importing a DREF import file
+- f82f846: Update Health Section in Catalogue of Surge Services
+- ade84aa: Display ICRC Presence
+  - Display ICRC presence across partner countries
+  - Highlight key operational countries
+
+## 7.6.4
+
+### Patch Changes
+
+- d85f64d: Update Imminent Events
+
+  - Hide WFP ADAM temporarily from list sources
+  - Show exposure control for cyclones from GDACS only
+
+## 7.6.3
+
+### Patch Changes
+
+- 7bbf3d2: Update key insights disclaimer text in Ops. Learning
+- 0e40681: Update FDRS data in Country / Context and Structure / NS indicators
+
+  - Add separate icon for each field for data year
+  - Use separate icon for disaggregation
+  - Update descriptions on dref import template (more details on _Missing / to be implemented_ section in https://github.com/IFRCGo/go-web-app/pull/1434#issuecomment-2459034932)
+
+- Updated dependencies [801ec3c]
+  - @ifrc-go/ui@1.2.1
+
+## 7.6.2
+
+### Patch Changes
+
+- 4fa6a36: Updated PER terminology and add PER logo in PER PDF export
+- 813e93f: Add link to GO UI storybook in resources page
+- 20dfeb3: Update DREF import template
+  - Update guidance
+  - Improve template stylings
+  - Update message in error popup when import fails
+- 8a18ad8: Add beta tag, URL redirect, and link to old dashboard on Ops Learning
+
+## 7.6.1
+
+### Patch Changes
+
+- 7afaf34: Fix null event in appeal for operational learning
+
+## 7.6.0
+
+### Minor Changes
+
+- Add new Operational Learning Page
+
+  - Add link to Operational Learning page under `Learn` navigation menu
+  - Integrate LLM summaries for Operational Learning
+
+## 7.5.3
+
+### Patch Changes
+
+- d7f5f53: Revamp risk imminent events for cyclone
+  - Visualize storm position, forecast uncertainty, track line and exposed area differently
+  - Add option to toggle visibility of these different layers
+  - Add severity legend for exposure
+  - Update styling for items in event list
+  - Update styling for event details page
+- 36a64fa: Integrate multi-select functionality in operational learning filters to allow selection of multiple filter items.
+- 894d00c: Add a new 404 page
+- 7757e54: Add an option to download excel import template for DREF (Response) which user can fill up and import.
+- a8d021d: Update resources page
+  - Add a new video for LocalUnits
+  - Update ordering of videos
+- aea512d: Prevent users from pasting images into rich text field
+- fd54657: Add Terms and Conditions page
+- bf55ccc: Add Cookie Policy page
+- df80c4f: Fix contact details in Field Report being always required when filled once
+- 81dc3bd: Added color mapping based on PER Area and Rating across all PER charts
+- Updated dependencies [dd92691]
+- Updated dependencies [d7f5f53]
+- Updated dependencies [fe6a455]
+- Updated dependencies [81dc3bd]
+  - @ifrc-go/ui@1.2.0
+
 ## 7.5.2
 
 ### Patch Changes
@@ -101,7 +309,7 @@
 ### Patch Changes
 
 - 478ab69: Hide contact information from IFRC Presence
-- 3fbe60f: Hide add/edit local units on production environmet
+- 3fbe60f: Hide add/edit local units on production environment
 - 90678ed: Show Organization Type properly in Account Details page
 
 ## 7.3.7
@@ -183,7 +391,7 @@
 
 ### Patch Changes
 
-- Fix crash due to undefined ICRC presense in country page
+- Fix crash due to undefined ICRC presence in country page
 
 ## 7.2.2
 

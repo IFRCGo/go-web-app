@@ -1,14 +1,17 @@
 .component-input {
+    .heading-container {
+        @media screen and (max-width: 50rem) {
+            flex-wrap: wrap;
+        }
+    }
+
     .heading {
         flex-grow: 1;
     }
 
-    .status-selection-container {
-        display: flex;
-
-        .status-selection {
-            width: 20rem;
-        }
+    .status-selection {
+        width: 100%;
+        max-width: 20rem;
     }
 
     .description {

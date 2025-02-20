@@ -121,12 +121,12 @@
 
         .rating-results {
             grid-column: 1 / -1;
+            grid-gap: var(--go-ui-spacing-md);
 
             .rating-results-content {
                 display: grid;
                 grid-gap: var(--go-ui-spacing-sm) var(--go-ui-spacing-xl);
                 grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
-
 
                 .separator {
                     grid-column: 1 / -1;
@@ -134,10 +134,24 @@
                     height: var(--go-ui-width-separator-thin);
                 }
             }
+
+            .legend {
+                display: flex;
+                flex-wrap: wrap;
+                background-color: var(--go-ui-color-background);
+                padding: var(--go-ui-spacing-lg);
+                gap: var(--go-ui-spacing-lg);
+
+                .separator {
+                    align-self: stretch;
+                    background-color: var(--go-ui-color-separator);
+                    width: var(--go-ui-width-separator-thin);
+                }
+            }
         }
 
         .relevant-documents {
-            grid-column: 1  / -1;
+            grid-column: 1 / -1;
 
             .upload-input-section {
                 gap: var(--go-ui-spacing-sm);

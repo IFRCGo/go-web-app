@@ -1,0 +1,54 @@
+{
+    "$schema": "https://unpkg.com/knip@5/schema.json",
+    // TODO: We need to also run knip in other workspaces
+    "ignoreWorkspaces": [
+        // TODO: need to fix issue with pnpm commands that categorized as
+        // unlisted binaries on github workflows before un-ignoring
+        // https://github.com/webpro-nl/knip/issues/433
+        // https://github.com/webpro-nl/knip/issues/735
+        ".",
+        // TODO: need to fix issues before un-ignoring
+        "packages/ui",
+        // TODO: need to fix issues before un-ignoring
+        "packages/go-ui-storybook"
+    ],
+    "workspaces": {
+        "app": {
+            "ignoreDependencies": [
+                // TODO: We should be able to remove these once we
+                // completely migrate to new configuration
+                // https://github.com/airbnb/javascript/issues/2961
+                "eslint-config-airbnb",
+                "eslint-import-resolver-typescript",
+                "eslint-plugin-import",
+                "eslint-plugin-import-exports-imports-resolver",
+                "eslint-plugin-import-newlines",
+                "eslint-plugin-jsx-a11y",
+                "eslint-plugin-react",
+                "eslint-plugin-react-hooks",
+                "eslint-plugin-react-refresh",
+                "eslint-plugin-simple-import-sort",
+                // We are using this with dotenv and cross-var so we are getting a false positive
+                "openapi-typescript"
+            ],
+            "entry": [
+                "scripts/translatte/main.ts",
+                "scripts/**/*.test.ts",
+                "generated/**/*.ts",
+                "src/**/*.test.ts",
+                "src/**/*.test.tsx",
+                "src/index.tsx!"
+            ],
+            "project": [
+                "scripts/**/*.test.ts",
+                "scripts/**/*.ts",
+                "src/**/*.d.ts",
+                "generated/**/*.ts",
+                "src/**/*.test.ts",
+                "src/**/*.test.tsx",
+                "src/**/*.tsx!",
+                "src/**/*.ts!"
+            ]
+        }
+    }
+}

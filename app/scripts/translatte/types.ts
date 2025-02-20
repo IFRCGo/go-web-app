@@ -1,17 +1,17 @@
-export interface MigrationAddActionItem {
+interface MigrationAddActionItem {
     action: 'add',
     key: string,
     value: string,
     namespace: string,
 }
 
-export interface MigrationRemoveActionItem {
+interface MigrationRemoveActionItem {
     action: 'remove',
     key: string,
     namespace: string,
 }
 
-export interface MigrationUpdateActionItem {
+interface MigrationUpdateActionItem {
     action: 'update',
     key: string,
     namespace: string,

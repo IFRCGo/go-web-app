@@ -1,5 +1,5 @@
 {
-    "namespace": "common",
+    "namespace": "historicalDataChart",
     "strings": {
         "historicalChartHeading": "Past Events and Historical Impact",
         "hazardFilterPlaceholder": "All Hazards",

@@ -12,15 +12,13 @@ import {
 } from '@togglecorp/fujs';
 import type { SetValueArg } from '@togglecorp/toggle-form';
 
+import {
+    monthKeyList,
+    multiMonthSelectDefaultValue,
+} from '#utils/constants';
+
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-const keyList = Array.from(Array(12).keys());
-const defaultValue = listToMap(
-    keyList,
-    (key) => key,
-    () => false,
-);
 
 interface Props<NAME> {
     className?: string;
@@ -87,7 +85,7 @@ function MultiMonthSelectInput<NAME>(props: Props<NAME>) {
                     ) {
                         // Selecting only single value
                         return {
-                            ...defaultValue,
+                            ...multiMonthSelectDefaultValue,
                             [month]: true,
                         };
                     }
@@ -127,7 +125,7 @@ function MultiMonthSelectInput<NAME>(props: Props<NAME>) {
     return (
         <div className={_cs(styles.multiMonthSelectInput, className)}>
             <div className={styles.monthList}>
-                {keyList.map(
+                {monthKeyList.map(
                     (key) => {
                         const date = new Date();
                         date.setDate(1);

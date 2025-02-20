@@ -1,15 +1,13 @@
 import {
     SelectInput,
-    SelectInputProps,
+    type SelectInputProps,
 } from '@ifrc-go/ui';
 import {
     numericIdSelector,
     stringNameSelector,
 } from '@ifrc-go/ui/utils';
 
-import useCountry, { Country } from '#hooks/domain/useCountry';
-
-export type CountryOption = Country;
+import useCountry, { type Country } from '#hooks/domain/useCountry';
 
 type Props<NAME> = SelectInputProps<
     number,
@@ -21,8 +19,9 @@ type Props<NAME> = SelectInputProps<
 > & {
     className?: string;
     name: NAME;
-    onChange: (newValue: number | undefined, name: NAME) => void;
+    onChange: (newValue: number | undefined, name: NAME, option: Country | undefined) => void;
     value: number | undefined | null;
+    regionId?: number;
 }
 
 function CountrySelectInput<const NAME>(props: Props<NAME>) {
@@ -31,10 +30,11 @@ function CountrySelectInput<const NAME>(props: Props<NAME>) {
         name,
         onChange,
         value,
+        regionId,
         ...otherProps
     } = props;
 
-    const countries = useCountry();
+    const countries = useCountry({ region: regionId });
 
     return (
         <SelectInput

@@ -1,7 +1,7 @@
 {
-    "namespace": "common",
+    "namespace": "appealsOverYearsChart",
     "strings": {
-        "homeMonthlyChartTitle":"Appeals by Month for {year}",
+        "homeMonthlyChartTitle": "Appeals by Month for {year}",
         "homeMonthlyChartBackButtonLabel": "Back to yearly"
     }
 }

@@ -6,9 +6,9 @@ import {
     stringLabelSelector,
     stringValueSelector,
 } from '@ifrc-go/ui/utils';
-import { EntriesAsList } from '@togglecorp/toggle-form';
+import { type EntriesAsList } from '@togglecorp/toggle-form';
 
-import useCountryRaw, { Country } from '#hooks/domain/useCountryRaw';
+import useCountryRaw, { type Country } from '#hooks/domain/useCountryRaw';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { useRequest } from '#utils/restRequest';
 

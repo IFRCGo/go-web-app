@@ -1,5 +1,4 @@
 {
-    "oldNamespace": "countryRiskWatch",
     "namespace": "countryProfileRiskWatch",
     "strings": {
         "riskBarChartVeryLowLabel": "Very low",

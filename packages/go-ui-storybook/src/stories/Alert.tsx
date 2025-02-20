@@ -3,7 +3,7 @@ import {
     AlertProps as PureAlertProps,
 } from '@ifrc-go/ui';
 
-interface AlertProps<N extends string> extends PureAlertProps<N> {}
+type AlertProps<N extends string> = PureAlertProps<N>;
 
 function Alert<N extends string>(props: AlertProps<N>) {
     return (

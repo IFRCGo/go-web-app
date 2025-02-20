@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { DeleteBinLineIcon } from '@ifrc-go/icons';
 import {
-    ButtonVariant,
+    type ButtonVariant,
     IconButton,
     InputError,
     type NameType,
@@ -26,7 +26,7 @@ import styles from './styles.module.css';
 
 export type SupportedPaths = '/api/v2/per-file/' | '/api/v2/dref-files/' | '/api/v2/flash-update-file/' | '/api/v2/per-document-upload/';
 
-export type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 'value' | 'onChange' | 'children'| 'inputRef'> & {
+type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 'value' | 'onChange' | 'children'| 'inputRef'> & {
     actions?: React.ReactNode;
     children?: React.ReactNode;
     className?: string;

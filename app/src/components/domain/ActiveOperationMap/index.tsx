@@ -32,9 +32,8 @@ import {
     MapLayer,
     MapSource,
 } from '@togglecorp/re-map';
-import type { LngLatBoundsLike } from 'mapbox-gl';
+import { type LngLatBoundsLike } from 'mapbox-gl';
 
-import BaseMap from '#components/domain/BaseMap';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import DistrictSearchMultiSelectInput, { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import Link from '#components/Link';
@@ -48,13 +47,13 @@ import {
     DEFAULT_MAP_PADDING,
     DURATION_MAP_ZOOM,
 } from '#utils/constants';
-import { adminFillLayerOptions } from '#utils/map';
 import type {
     GoApiResponse,
     GoApiUrlQuery,
 } from '#utils/restRequest';
 import { useRequest } from '#utils/restRequest';
 
+import GlobalMap, { type AdminZeroFeatureProperties } from '../GlobalMap';
 import {
     APPEAL_TYPE_DREF,
     APPEAL_TYPE_EAP,
@@ -69,7 +68,7 @@ import {
     optionLabelSelector,
     outerCircleLayerOptionsForFinancialRequirements,
     outerCircleLayerOptionsForPeopleTargeted,
-    ScaleOption,
+    type ScaleOption,
 } from './utils';
 
 import i18n from './i18n.json';
@@ -87,24 +86,8 @@ const sourceOptions: mapboxgl.GeoJSONSourceRaw = {
     type: 'geojson',
 };
 
-interface CountryProperties {
-    country_id: number;
-    disputed: boolean;
-    fdrs: string;
-    independent: boolean;
-    is_deprecated: boolean;
-    iso: string;
-    iso3: string;
-    name: string;
-    name_ar: string;
-    name_es: string;
-    name_fr: string;
-    record_type: number;
-    region_id: number;
-}
-
 interface ClickedPoint {
-    feature: GeoJSON.Feature<GeoJSON.Point, CountryProperties>;
+    featureProperties: AdminZeroFeatureProperties;
     lngLat: mapboxgl.LngLatLike;
 }
 
@@ -161,7 +144,6 @@ function ActiveOperationMap(props: Props) {
     const regionId = variant === 'region' ? props.regionId : undefined;
     // eslint-disable-next-line react/destructuring-assignment
     const countryId = variant === 'country' ? props.countryId : undefined;
-    // eslint-disable-next-line react/destructuring-assignment
 
     const query = useMemo<AppealQueryParams>(
         () => {
@@ -189,8 +171,8 @@ function ActiveOperationMap(props: Props) {
     );
 
     const [
-        clickedPointProperties,
-        setClickedPointProperties,
+        clickedPoint,
+        setClickedPoint,
     ] = useState<ClickedPoint| undefined>();
 
     const [scaleBy, setScaleBy] = useInputState<ScaleOption['value']>('peopleTargeted');
@@ -349,29 +331,30 @@ function ActiveOperationMap(props: Props) {
     );
 
     const handleCountryClick = useCallback((
-        feature: mapboxgl.MapboxGeoJSONFeature,
+        featureProperties: AdminZeroFeatureProperties,
         lngLat: mapboxgl.LngLatLike,
     ) => {
-        setClickedPointProperties({
-            feature: feature as unknown as ClickedPoint['feature'],
+        setClickedPoint({
+            featureProperties,
             lngLat,
         });
-        return false;
+
+        return true;
     }, []);
 
     const handlePointClose = useCallback(
         () => {
-            setClickedPointProperties(undefined);
+            setClickedPoint(undefined);
         },
-        [setClickedPointProperties],
+        [setClickedPoint],
     );
 
-    const handleClearFiltersButtonclick = useCallback(() => {
+    const handleClearFiltersButtonClick = useCallback(() => {
         setFilter({});
     }, [setFilter]);
 
-    const popupDetails = clickedPointProperties
-        ? countryGroupedAppeal[clickedPointProperties.feature.properties.iso3]
+    const popupDetails = clickedPoint
+        ? countryGroupedAppeal[clickedPoint.featureProperties.iso3]
         : undefined;
 
     const [districtOptions, setDistrictOptions] = useState<DistrictItem[] | null | undefined>();
@@ -420,15 +403,15 @@ function ActiveOperationMap(props: Props) {
                     />
                     <DisasterTypeSelectInput
                         placeholder={strings.operationFilterDisastersPlaceholder}
-                        label={strings.operationDisastertype}
+                        label={strings.operationDisasterType}
                         name="displacement"
                         value={rawFilter.displacement}
                         onChange={setFilterField}
                     />
-                    <div>
+                    <div className={styles.clearButton}>
                         <Button
                             name={undefined}
-                            onClick={handleClearFiltersButtonclick}
+                            onClick={handleClearFiltersButtonClick}
                             variant="secondary"
                             disabled={!filtered}
                         >
@@ -448,15 +431,8 @@ function ActiveOperationMap(props: Props) {
                 </Link>
             )}
         >
-            <BaseMap
-                baseLayers={(
-                    <MapLayer
-                        layerKey="admin-0"
-                        hoverable
-                        layerOptions={adminFillLayerOptions}
-                        onClick={handleCountryClick}
-                    />
-                )}
+            <GlobalMap
+                onAdminZeroFillClick={handleCountryClick}
             >
                 <MapContainerWithDisclaimer
                     className={styles.mapContainer}
@@ -504,18 +480,18 @@ function ActiveOperationMap(props: Props) {
                         }
                     />
                 </MapSource>
-                {clickedPointProperties?.lngLat && (
+                {clickedPoint?.lngLat && (
                     <MapPopup
                         onCloseButtonClick={handlePointClose}
-                        coordinates={clickedPointProperties.lngLat}
+                        coordinates={clickedPoint.lngLat}
                         heading={(
                             <Link
                                 to="countriesLayout"
                                 urlParams={{
-                                    countryId: clickedPointProperties.feature.properties.country_id,
+                                    countryId: clickedPoint.featureProperties.country_id,
                                 }}
                             >
-                                {clickedPointProperties.feature.properties.name}
+                                {clickedPoint.featureProperties.name}
                             </Link>
                         )}
                         childrenContainerClassName={styles.popupContent}
@@ -561,7 +537,7 @@ function ActiveOperationMap(props: Props) {
                         padding={DEFAULT_MAP_PADDING}
                     />
                 )}
-            </BaseMap>
+            </GlobalMap>
             {onPresentationModeButtonClick && !presentationMode && (
                 <Button
                     className={styles.presentationModeButton}

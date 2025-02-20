@@ -57,7 +57,6 @@ export type Props<
 
 function SegmentInput<
     const N,
-    // eslint-disable-next-line @typescript-eslint/ban-types
     O extends object,
     V extends string | number | boolean,
     RRP extends RadioProps<V, N>,

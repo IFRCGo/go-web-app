@@ -43,6 +43,7 @@ const getFormattedKey = (dateFromProps: string | Date) => {
 
 export interface Props<K> {
     className?: string;
+    xAxisTickClassName?: string;
     dataKeys: K[];
     timePoints: Date[];
     valueSelector: (dataKey: K, date: Date) => number | undefined;
@@ -55,6 +56,7 @@ export interface Props<K> {
 function TimeSeriesChart<const K extends string>(props: Props<K>) {
     const {
         className,
+        xAxisTickClassName,
         dataKeys,
         timePoints,
         valueSelector,
@@ -241,7 +243,7 @@ function TimeSeriesChart<const K extends string>(props: Props<K>) {
                 return (
                     <Fragment key={point.key}>
                         <text
-                            className={styles.xAxisTickText}
+                            className={_cs(xAxisTickClassName, styles.xAxisTickText)}
                             x={point.x}
                             y={chartBounds.height - X_AXIS_HEIGHT}
                             style={{

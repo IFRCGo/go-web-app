@@ -1,0 +1,11 @@
+.terms-and-conditions {
+    .main-section {
+        display: flex;
+        gap: var(--go-ui-spacing-xl);
+
+        .side-titles {
+            flex-shrink: 0;
+            max-width: 16rem;
+        }
+    }
+}

@@ -1,4 +1,9 @@
 .active-operation-map {
+    .clear-button {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
     .content {
         position: relative;
 
@@ -10,7 +15,8 @@
     }
 
     .map-container {
-        height: 40rem;
+        height: min(50rem, 70vh);
+        min-height: 20rem;
     }
 
     .footer {

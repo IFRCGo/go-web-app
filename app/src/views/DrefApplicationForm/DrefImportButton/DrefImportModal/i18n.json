@@ -1,0 +1,11 @@
+{
+    "namespace": "drefApplicationForm",
+    "strings": {
+        "drefImportApplication": "Import DREF Application",
+        "drefImportButton": "Invalid import file",
+        "drefImportFailed": "Failed to import",
+        "drefImportSelectFile": "Select file (xlsx)",
+        "drefImportTemplate": "Please select the filled template for the DREF Application",
+        "drefImportFailedDescription": "Failed to process the selected import file, make sure you've downloaded the import template from the GO platform. Please contact your DREF focal point in your region."
+    }
+}

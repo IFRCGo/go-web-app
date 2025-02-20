@@ -61,6 +61,7 @@ function getMostRecentAffectedValue(fieldReport: EventListItem['field_reports'])
 
 const eventKeySelector = (item: EventListItem) => item.id;
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);

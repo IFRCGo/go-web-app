@@ -12,7 +12,7 @@ import i18n from './i18n.json';
 interface Props {
     onClick: () => void;
     disabled?: boolean;
-    progress: number;
+    progress?: number;
     pendingExport: boolean;
     totalCount: number | undefined;
 }
@@ -29,22 +29,26 @@ function ExportButton(props: Props) {
 
     const exportButtonLabel = useMemo(() => {
         if (!pendingExport) {
-            return strings.exportTableButtonLabel;
+            return strings.exportButtonLabel;
         }
-        return resolveToComponent(
-            strings.exportTableDownloadingButtonLabel,
-            {
-                progress: (
-                    <NumberOutput
-                        value={progress * 100}
-                        maximumFractionDigits={0}
-                    />
-                ),
-            },
-        );
+        if (progress) {
+            return resolveToComponent(
+                strings.exportDownloadingButtonLabel,
+                {
+                    progress: (
+                        <NumberOutput
+                            value={progress * 100}
+                            maximumFractionDigits={0}
+                        />
+                    ),
+                },
+            );
+        }
+        return strings.pendingExportLabel;
     }, [
-        strings.exportTableButtonLabel,
-        strings.exportTableDownloadingButtonLabel,
+        strings.exportButtonLabel,
+        strings.exportDownloadingButtonLabel,
+        strings.pendingExportLabel,
         progress,
         pendingExport,
     ]);

@@ -14,6 +14,7 @@ import WikiLink from '#components/WikiLink';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -82,11 +83,6 @@ export function Component() {
                     to="preparednessGlobalCatalogue"
                 >
                     {strings.catalogueOfResources}
-                </NavigationTab>
-                <NavigationTab
-                    to="preparednessGlobalOperational"
-                >
-                    {strings.operationalLearning}
                 </NavigationTab>
             </NavigationTabList>
             <Outlet />

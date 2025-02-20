@@ -6,13 +6,14 @@
     }
 
     .table {
+        .type,
         .status,
         .date {
             width: 0%;
             min-width: 7rem;
         }
 
-        .type,
+        .country,
         .appeal-code {
             width: 0%;
             min-width: 8rem;
@@ -23,6 +24,7 @@
         }
 
         .country {
+            width: 0%;
             min-width: 9rem;
         }
 

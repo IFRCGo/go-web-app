@@ -1,19 +1,19 @@
 {
     "namespace": "countryPreparedness",
     "strings": {
-        "nsPreparednessAndResponseCapacityHeading": "NS Preparedness and Response Capacity",
+        "publicNsPreparednessAndResponseCapacityHeading": "NS Preparedness and Response Capacity",
         "publicHighlightedTopRatedComponentHeading": "Highlighted Top Rated Components",
         "publicPriorityComponentToBeStrengthenedHeading": "Priority Components To Be Strengthened",
-        "startDateLabel": "Start Date",
-        "perPhaseLabel": "PER Phase",
-        "perCycleLabel": "PER Cycle",
-        "typeOfAssessmentLabel": "Type of Assessment",
-        "focalPointNameLabel": "Focal Point",
-        "focalPointEmailTitle": "Email",
-        "lastUpdatedLabel": "Last update",
-        "goBackButtonTitle": "Go back",
-        "componentLimitedAccess": "Limited access!",
-        "componentLimitedAccessDescription": "You do not have enough permission to view more details on this PER.",
-        "componentRequestSeeMore": "Request to see more"
+        "publicStartDateLabel": "Start Date",
+        "publicPerPhaseLabel": "PER Phase",
+        "publicPerCycleLabel": "PER Cycle",
+        "publicTypeOfAssessmentLabel": "Type of Assessment",
+        "publicFocalPointNameLabel": "Focal Point",
+        "publicFocalPointEmailTitle": "Email",
+        "publicLastUpdatedLabel": "Last update",
+        "publicGoBackButtonTitle": "Go back",
+        "publicComponentLimitedAccess": "Limited access!",
+        "publicComponentLimitedAccessDescription": "You do not have enough permission to view more details on this PER.",
+        "publicComponentRequestSeeMore": "Request to see more"
     }
 }

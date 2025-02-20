@@ -1,16 +1,12 @@
 import { DEFAULT_INVALID_TEXT } from '@ifrc-go/ui/utils';
-import {
-    compareNumber,
-    isNotDefined,
-    isTruthyString,
-} from '@togglecorp/fujs';
+import { isTruthyString } from '@togglecorp/fujs';
 
 import type { GoApiResponse } from '#utils/restRequest';
 
 type SearchResponse = GoApiResponse<'/api/v1/search/'>;
 
 type SearchResponseKeys = keyof SearchResponse;
-// eslint-disable-next-line import/prefer-default-export
+
 export const defaultRanking: Record<SearchResponseKeys, number> = {
     regions: 1,
     countries: 2,
@@ -23,43 +19,6 @@ export const defaultRanking: Record<SearchResponseKeys, number> = {
     reports: 8,
     rapid_response_deployments: 9,
 };
-
-export function getSortedTopItemsInList<DATUM>(
-    list: undefined,
-    valueSelector: (item: DATUM) => number,
-    numItems?: number | undefined,
-    othersSelector?: (remainingList: DATUM[]) => DATUM,
-): undefined
-export function getSortedTopItemsInList<DATUM>(
-    list: DATUM[],
-    valueSelector: (item: DATUM) => number,
-    numItems?: number | undefined,
-    othersSelector?: (remainingList: DATUM[]) => DATUM,
-): DATUM[]
-export function getSortedTopItemsInList<DATUM>(
-    list: DATUM[] | undefined,
-    valueSelector: (item: DATUM) => number,
-    numItems = 5,
-    othersSelector: undefined | ((remainingList: DATUM[]) => DATUM) = undefined,
-) {
-    if (isNotDefined(list)) {
-        return undefined;
-    }
-
-    const sortedList = [...list].sort(
-        (a, b) => compareNumber(valueSelector(a), valueSelector(b)),
-    );
-
-    const topN = sortedList.slice(0, numItems);
-
-    if (!othersSelector) {
-        return topN;
-    }
-
-    const remaining = sortedList.slice(numItems, sortedList.length - 1);
-    const otherItem = othersSelector(remaining);
-    return [...topN, otherItem];
-}
 
 export function downloadFile(
     blob: Blob,

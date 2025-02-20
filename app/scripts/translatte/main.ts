@@ -27,9 +27,15 @@ yargs(hideBin(process.argv))
                 type: 'string',
                 describe: 'Read the files from TRANSLATION_FILE',
             });
+            yargs.options({
+                'fix': {
+                    type: 'boolean',
+                    description: 'Fix fixable issues',
+                },
+            });
         },
         async (argv) => {
-            await lint(currentDir, argv.TRANSLATION_FILE as string[]);
+            await lint(currentDir, argv.TRANSLATION_FILE as string[], argv.fix as boolean | undefined);
         },
     )
     .command(
@@ -112,7 +118,6 @@ yargs(hideBin(process.argv))
             });
         },
         async (argv) => {
-            console.warn(argv);
             await applyMigrations(
                 currentDir,
                 argv.SOURCE_FILE as string,
@@ -184,4 +189,5 @@ yargs(hideBin(process.argv))
         },
     )
     .strictCommands()
+    .showHelpOnFail(false)
     .parse()

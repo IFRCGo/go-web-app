@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import {
-    BlockLoading,
     Container,
     TextOutput,
     Tooltip,
@@ -17,8 +16,10 @@ import {
     isDefined,
     isFalsyString,
     isNotDefined,
+    unique,
 } from '@togglecorp/fujs';
 
+import { type RiskEventDetailProps } from '#components/domain/RiskImminentEventMap';
 import Link from '#components/Link';
 import {
     isValidFeatureCollection,
@@ -78,21 +79,16 @@ interface WfpAdamEventDetails {
     sitrep?: string;
 }
 
-interface Props {
-    data: WfpAdamItem;
-    exposure: WfpAdamExposure | undefined;
-    pending: boolean;
-}
+type Props = RiskEventDetailProps<WfpAdamItem, WfpAdamExposure | undefined>;
 
 function EventDetails(props: Props) {
     const {
         data: {
-            title,
-            publish_date,
             event_details,
         },
         exposure,
         pending,
+        children,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -130,16 +126,17 @@ function EventDetails(props: Props) {
                     const date = new Date(track_date);
 
                     return {
-                        id: date.getTime(),
+                        // NOTE: using date.getTime() caused duplicate ids
+                        id: track_date,
                         windSpeed: wind_speed,
                         date,
                     };
                 },
             ).filter(isDefined).sort(
                 (a, b) => compareDate(a.date, b.date),
-            );
+            ) ?? [];
 
-            return points;
+            return unique(points, (point) => point.id);
         },
         [exposure],
     );
@@ -156,24 +153,16 @@ function EventDetails(props: Props) {
         stormPoints?.map(({ windSpeed }) => windSpeed),
     );
 
-    // TODO: add exposure details
+    // TODO: Add exposure details
+    // TODO: Update stylings
     return (
         <Container
             className={styles.eventDetails}
+            contentViewType="vertical"
             childrenContainerClassName={styles.content}
-            heading={title}
-            headingLevel={4}
-            spacing="compact"
-            headingDescription={(
-                <TextOutput
-                    label={strings.wfpEventDetailsPublishedOn}
-                    value={publish_date}
-                    valueType="date"
-                    strongValue
-                />
-            )}
+            spacing="cozy"
+            pending={pending}
         >
-            {pending && <BlockLoading />}
             {stormPoints && stormPoints.length > 0 && isDefined(maxWindSpeed) && (
                 /* TODO: use proper svg charts */
                 <div className={styles.windSpeedChart}>
@@ -387,6 +376,7 @@ function EventDetails(props: Props) {
                     />
                 )}
             </div>
+            {children}
         </Container>
     );
 }

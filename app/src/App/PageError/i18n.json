@@ -1,5 +1,5 @@
 {
-    "namespace": "errorPage",
+    "namespace": "common",
     "strings": {
         "errorPageIssueMessage": "Oops! Looks like we ran into some issue!",
         "errorPageUnexpectedMessage": "Something unexpected happened!",

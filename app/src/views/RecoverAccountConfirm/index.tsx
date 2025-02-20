@@ -21,7 +21,7 @@ import Page from '#components/Page';
 import useAlert from '#hooks/useAlert';
 import useRouting from '#hooks/useRouting';
 import {
-    GoApiBody,
+    type GoApiBody,
     useLazyRequest,
 } from '#utils/restRequest';
 import { transformObjectError } from '#utils/restRequest/error';
@@ -79,6 +79,7 @@ const formSchema: FormSchema = {
     },
 };
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { username, token } = useParams<{ username: string, token: string }>();
@@ -171,7 +172,7 @@ export function Component() {
                 />
                 <PasswordInput
                     name="confirmPassword"
-                    label={strings.confrimPassword}
+                    label={strings.confirmPassword}
                     value={formValue.confirmPassword}
                     onChange={setFieldValue}
                     error={fieldError?.confirmPassword}

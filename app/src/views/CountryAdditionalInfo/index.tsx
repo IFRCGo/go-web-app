@@ -9,7 +9,7 @@ import {
 import {
     Container,
     HtmlOutput,
-    HtmlOutputProps,
+    type HtmlOutputProps,
     List,
     Message,
     Table,
@@ -39,6 +39,7 @@ type CountrySnippetType = NonNullable<GoApiResponse<'/api/v2/country_snippet/'>[
 type CountryContactsType = NonNullable<CountryResponse['contacts']>[number];
 type CountryLinksType = NonNullable<CountryResponse['links']>[number];
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { countryId } = useParams<{ countryId: string }>();

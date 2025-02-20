@@ -1,8 +1,0 @@
-.organisational-capacity {
-    .content {
-        .capacity-card {
-            border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
-            padding: var(--go-ui-spacing-lg);
-        }
-    }
-}

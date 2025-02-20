@@ -1,0 +1,7 @@
+apiVersion: v2
+name: ifrcgo-ui-storybook-nginx-serve
+description: "Helm Chart to deploy the IFRC GO UI Storybook"
+type: application
+version: 0.0.1-SET-BY-CICD
+sources:
+  - https://github.com/IFRCGo/go-web-app/tree/develop/packages/go-ui-storybook

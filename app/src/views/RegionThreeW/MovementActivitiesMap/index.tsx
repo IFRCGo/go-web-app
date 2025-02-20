@@ -7,7 +7,7 @@ import { useOutletContext } from 'react-router-dom';
 import {
     RawList,
     TextOutput,
-    TextOutputProps,
+    type TextOutputProps,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { numericIdSelector } from '@ifrc-go/ui/utils';
@@ -23,18 +23,17 @@ import {
 } from '@togglecorp/re-map';
 import getBbox from '@turf/bbox';
 
-import BaseMap from '#components/domain/BaseMap';
+import GlobalMap, { type AdminZeroFeatureProperties } from '#components/domain/GlobalMap';
 import Link from '#components/Link';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import MapPopup from '#components/MapPopup';
-import useCountryRaw, { Country } from '#hooks/domain/useCountryRaw';
+import useCountryRaw, { type Country } from '#hooks/domain/useCountryRaw';
 import {
     COLOR_RED,
     DEFAULT_MAP_PADDING,
     DURATION_MAP_ZOOM,
 } from '#utils/constants';
 import {
-    adminFillLayerOptions,
     getPointCircleHaloPaint,
     getPointCirclePaint,
 } from '#utils/map';
@@ -62,10 +61,10 @@ interface ClickedPoint {
 type ProjectGeoJson = GeoJSON.FeatureCollection<GeoJSON.Point, MovementActivityByCountry>;
 
 function getGeoJson(
-    actvities?: MovementActivityByCountry[],
+    activities?: MovementActivityByCountry[],
     countries?: Country[],
 ): ProjectGeoJson {
-    if (isNotDefined(actvities)) {
+    if (isNotDefined(activities)) {
         return {
             type: 'FeatureCollection' as const,
             features: [],
@@ -74,7 +73,7 @@ function getGeoJson(
 
     return {
         type: 'FeatureCollection' as const,
-        features: actvities?.map((activity) => ({
+        features: activities?.map((activity) => ({
             type: 'Feature' as const,
             id: activity.id,
             geometry: countries?.find(
@@ -107,7 +106,7 @@ function MovementActivitiesMap(props: Props) {
     const strings = useTranslation(i18n);
     const { regionResponse } = useOutletContext<RegionOutletContext>();
 
-    const countryBounds = useMemo(() => (
+    const regionBounds = useMemo(() => (
         regionResponse ? getBbox(regionResponse.bbox) : undefined
     ), [regionResponse]);
 
@@ -152,12 +151,12 @@ function MovementActivitiesMap(props: Props) {
     );
 
     const handleCountryClick = useCallback((
-        feature: mapboxgl.MapboxGeoJSONFeature,
+        properties: AdminZeroFeatureProperties,
         lngLat: mapboxgl.LngLatLike,
     ) => {
         setClickedPointProperties({
-            countryId: feature.properties?.country_id,
-            countryName: feature.properties?.name,
+            countryId: properties.country_id,
+            countryName: properties.name,
             lngLat,
         });
         return false;
@@ -209,15 +208,8 @@ function MovementActivitiesMap(props: Props) {
     return (
         <div className={_cs(styles.map, className)}>
             <div className={styles.mapWithLegend}>
-                <BaseMap
-                    baseLayers={(
-                        <MapLayer
-                            layerKey="admin-0"
-                            hoverable
-                            layerOptions={adminFillLayerOptions}
-                            onClick={handleCountryClick}
-                        />
-                    )}
+                <GlobalMap
+                    onAdminZeroFillClick={handleCountryClick}
                 >
                     <MapContainerWithDisclaimer className={styles.mapContainer} />
                     {activitiesGeoJson && (
@@ -246,7 +238,7 @@ function MovementActivitiesMap(props: Props) {
                     <MapBounds
                         duration={DURATION_MAP_ZOOM}
                         padding={DEFAULT_MAP_PADDING}
-                        bounds={countryBounds}
+                        bounds={regionBounds}
                     />
                     {/* eslint-disable-next-line max-len */}
                     {clickedPointProperties?.lngLat && isDefined(clickedPointProperties.countryId) && (
@@ -313,7 +305,7 @@ function MovementActivitiesMap(props: Props) {
                             </div>
                         </MapPopup>
                     )}
-                </BaseMap>
+                </GlobalMap>
             </div>
             {
                 sidebarContent && (

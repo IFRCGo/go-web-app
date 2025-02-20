@@ -14,18 +14,18 @@ import {
     MapLayer,
     MapSource,
 } from '@togglecorp/re-map';
-import { ObjectError } from '@togglecorp/toggle-form';
+import { type ObjectError } from '@togglecorp/toggle-form';
 import getBbox from '@turf/bbox';
 import {
-    CircleLayer,
-    FillLayer,
-    LngLat,
-    Map,
-    MapboxGeoJSONFeature,
-    Point,
+    type CircleLayer,
+    type FillLayer,
+    type LngLat,
+    type Map,
+    type MapboxGeoJSONFeature,
+    type Point,
 } from 'mapbox-gl';
 
-import BaseMap, { Props as BaseMapProps } from '#components/domain/BaseMap';
+import BaseMap, { type Props as BaseMapProps } from '#components/domain/BaseMap';
 import useCountry from '#hooks/domain/useCountry';
 import {
     COLOR_LIGHT_GREY,
@@ -38,7 +38,7 @@ import ActiveCountryBaseMapLayer from '../ActiveCountryBaseMapLayer';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-export interface GeoPoint {
+interface GeoPoint {
     lng: number;
     lat: number
 }
@@ -56,6 +56,9 @@ interface Props<NAME> extends BaseMapProps {
     readOnly?: boolean;
     required?: boolean;
     error?: ObjectError<Value>;
+    showChanges: boolean;
+    latitudeInputSectionClassName?: string;
+    longitudeInputSectionClassName?: string;
 }
 
 function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
@@ -74,6 +77,8 @@ function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
         country,
         required,
         error,
+        latitudeInputSectionClassName,
+        longitudeInputSectionClassName,
         ...otherProps
     } = props;
 
@@ -183,6 +188,7 @@ function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
         <div className={_cs(styles.baseMapPointInput, className)}>
             <div className={styles.locationInputs}>
                 <NumberInput
+                    inputSectionClassName={latitudeInputSectionClassName}
                     className={styles.input}
                     name="lat"
                     label={strings.latitude}
@@ -193,6 +199,7 @@ function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
                     required={required}
                 />
                 <NumberInput
+                    inputSectionClassName={longitudeInputSectionClassName}
                     className={styles.input}
                     name="lng"
                     label={strings.longitude}

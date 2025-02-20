@@ -1,0 +1,746 @@
+{
+    "parent": "000007-1735292530857.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "chooseDeleteReasonMessage",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Choose the reason to delete local unit."
+        },
+        {
+            "action": "add",
+            "key": "confirmChangesContentQuestion",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Are you sure you want to have these changes in this local unit?"
+        },
+        {
+            "action": "add",
+            "key": "confirmChangesModalHeading",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Confirm the Changes"
+        },
+        {
+            "action": "add",
+            "key": "deleteReasonExplanation",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Explain the reason why the local unit is being deleted."
+        },
+        {
+            "action": "add",
+            "key": "doneButtonLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Done"
+        },
+        {
+            "action": "add",
+            "key": "latitude",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Latitude"
+        },
+        {
+            "action": "add",
+            "key": "localUnitActionsDelete",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Delete"
+        },
+        {
+            "action": "add",
+            "key": "localUnitActionsEdit",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Edit"
+        },
+        {
+            "action": "add",
+            "key": "localUnitActionsLatestChangesFailureMessage",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Failed to get latest changes"
+        },
+        {
+            "action": "add",
+            "key": "localUnitDeleteButtonLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Delete"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsMapLatestChangesFailureMessage",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Failed to get latest changes"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsMapLocalUnitType",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Local unit type"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewAddressAndContactTitle",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Address and Contact"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewAddressEn",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Address (En)"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewAddressLocal",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Address (Local)"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewAffiliation",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Affiliation"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewAmbulanceTypeA",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Ambulance Type A"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewAmbulanceTypeB",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Ambulance Type B"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewAmbulanceTypeC",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Ambulance Type C"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewBloodServices",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Blood Services"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewColdChain",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Cold chain"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewCommentsNS",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Comments by the NS"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewConfirmChangesContentQuestion",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Are you sure you want to have these changes in this local unit?"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewConfirmChangesModalHeading",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Confirm the Changes"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewCountry",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Country"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewCoverage",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Coverage"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewDateOfUpdate",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Date of update"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewDentist",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Dentist"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewDoneButtonLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Done"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewEmail",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Local unit email"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewEnglishLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "English"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewFailedMessage",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Failed to add local unit"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewFocalPersonEn",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Focal person (En)"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewFocalPersonLocal",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Focal person (Local)"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewFocalPointEmail",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Focal person email"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewFocalPointName",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Focal person name"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewFocalPointPhoneNumber",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Focal person phone number"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewFocalPointPosition",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Focal person position"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewFunctionality",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Functionality"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewGeneralMedicalServices",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "General medical services"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewGeneralPractitioner",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "General Practitioner"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewHealthFacilityType",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Health Facility type"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewHospitalType",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Hospital type"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewHumanResourcesTitle",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Human Resources"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewInPatientCapacity",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "In-patient capacity"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewIsolationRoomsWards",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Isolation rooms wards"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewLastUpdateLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Last update: {modifiedAt} by {modifiedBy}"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewLatitude",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Latitude"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewLocalityEn",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Locality (En)"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewLocalityLocal",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Locality (Local)"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewLocalLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Local"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewLocalUnitDetail",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Local Unit detail"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewLocalUnitNameEn",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Local unit name (En)"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewLocalUnitNameLocal",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Local unit name (Local)"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewLongitude",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Longitude"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewMaximumCapacity",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Maximum capacity"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewMidwife",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Midwife"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewNewLocalUnitDescription",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "New local unit"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewNumberOfIsolationRooms",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Number of isolation rooms"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewNurse",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Nurse"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewNursingAid",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Nursing aid"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewOtherAffiliation",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Other Affiliation"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewOtherFacilityType",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Other Facility type"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewOtherMedicalHeal",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Other medical heal"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewOtherProfiles",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Other profiles"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewOtherServices",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Other Services"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewPhone",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Local unit phone number"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewPostCode",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Local unit post code"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewPrimaryHealthCareCenter",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Primary health care center"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewProfessionalTrainingFacilities",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Professional training facilities"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewReasonLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Reason"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewResidentsDoctor",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Residents doctor"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewRevertButtonLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Revert"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewRevertChangesContentQuestion",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Are you sure you want to have these changes revert in this project?"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewRevertChangesFailedMessage",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Failed to revert changes in the local unit"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewRevertChangesModalHeading",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Revert the Changes"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewRevertChangesSuccessMessage",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Local unit reverted successfully!"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewServicesTitle",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Services"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewSourceEn",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Source (En)"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewSourceLocal",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Source (Local)"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewSpecialist",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Specialist"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewSpecialitiesAndCapacityTitle",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Specialities & Capacity"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewSpecializedMedicalService",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Specialized medical beyond primary level"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewSpecialties",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Specialties"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewSubmitButtonLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Submit"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewSubtype",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Sub-type"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewSubtypeDescription",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "(e.g. hospital)"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewSuccessMessage",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Local unit added successfully!"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewTeachingHospital",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Teaching Hospital"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewTotalNumberOfHumanResources",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Total number of human resource"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewUpdateFailedMessage",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Failed to update local unit"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewUpdateMessage",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Local unit updated successfully!"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewVisibility",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Visibility"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewWarehousing",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Warehousing"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewWebsite",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Local unit website"
+        },
+        {
+            "action": "add",
+            "key": "longitude",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Longitude"
+        },
+        {
+            "action": "add",
+            "key": "newLocalUnitDescription",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "New local unit"
+        },
+        {
+            "action": "add",
+            "key": "noChangesMessage",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "You have made no changes to this local unit."
+        },
+        {
+            "action": "add",
+            "key": "reasonLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Reason"
+        },
+        {
+            "action": "add",
+            "key": "revertButtonLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Revert"
+        },
+        {
+            "action": "add",
+            "key": "revertChangesContentQuestion",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Are you sure you want to have these changes revert in this project?"
+        },
+        {
+            "action": "add",
+            "key": "revertChangesFailedMessage",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Failed to revert changes in the local unit"
+        },
+        {
+            "action": "add",
+            "key": "revertChangesModalHeading",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Revert the Changes"
+        },
+        {
+            "action": "add",
+            "key": "revertChangesSuccessMessage",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Local unit reverted successfully!"
+        },
+        {
+            "action": "add",
+            "key": "submitLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Submit"
+        },
+        {
+            "action": "add",
+            "key": "validateButtonLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Validate"
+        },
+        {
+            "action": "remove",
+            "key": "deleteLocalUnitMessage",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "remove",
+            "key": "localUnitDetailEmail",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "remove",
+            "key": "validateLocalUnitMessage",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "deleteFailureMessage",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "newValue": "Unable to delete {localUnitName}. Please try again."
+        },
+        {
+            "action": "update",
+            "key": "deleteLocalUnitHeading",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "newValue": "Are you sure you want to delete \"{localUnitName}\"?"
+        },
+        {
+            "action": "update",
+            "key": "deleteSuccessMessage",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "newValue": "{localUnitName} has been successfully deleted."
+        },
+        {
+            "action": "update",
+            "key": "localUnitDetailAddress",
+            "newKey": "localUnitsMapAddress",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitDetailFocalPerson",
+            "newKey": "localUnitsMapFocalPerson",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitDetailLastUpdate",
+            "newKey": "localUnitsMapLastUpdate",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitDetailPhoneNumber",
+            "newKey": "localUnitsMapPhoneNumber",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitHealthFacilityType",
+            "newKey": "localUnitsMapHealthFacilityType",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitLocalUnitType",
+            "newKey": "localUnitViewType",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsDelete",
+            "newKey": "localUnitViewLocalUnitDeleteButtonLabel",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsEdit",
+            "newKey": "localUnitViewEditButtonLabel",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsView",
+            "newKey": "localUnitActionsView",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "localUnitTooltipMoreDetails",
+            "newKey": "localUnitsMapTooltipMoreDetails",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "presentationModeButton",
+            "newKey": "localUnitsMapPresentationModeButton",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "validateLocalUnitHeading",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "newValue": "Are you sure you want to validate \"{localUnitName}\"?"
+        }
+    ]
+}

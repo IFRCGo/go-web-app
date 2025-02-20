@@ -38,3 +38,6 @@ coverage/
 
 # storybook build
 storybook-static/
+
+# Helm
+.helm-charts/

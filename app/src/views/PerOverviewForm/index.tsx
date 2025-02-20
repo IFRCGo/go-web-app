@@ -61,8 +61,8 @@ import { transformObjectError } from '#utils/restRequest/error';
 
 import {
     overviewSchema,
-    PartialOverviewFormFields,
-    PerOverviewRequestBody,
+    type PartialOverviewFormFields,
+    type PerOverviewRequestBody,
 } from './schema';
 
 import i18n from './i18n.json';
@@ -75,6 +75,7 @@ function perAssessmentMethodsKeySelector(option: PerOverviewAssessmentMethods) {
     return option.key;
 }
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -609,7 +610,6 @@ export function Component() {
                 </InputSection>
                 <InputSection
                     title={strings.climateAndEnvironmentalConsiderationsInputLabel}
-                    // eslint-disable-next-line max-len
                     description={strings.climateAndEnvironmentalConsiderationsInputDescription}
                     withoutPadding
                 >

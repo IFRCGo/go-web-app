@@ -66,7 +66,7 @@ type ActionTakenListMember = ReturnType<ActionTakenListSchema['member']>;
 type ActionTakenSchema = ObjectSchema<NonNullable<PartialFormValue['actions_taken']>[number], PartialFormValue>;
 type ActionTakenField = ReturnType<ActionTakenSchema['fields']>;
 
-export function getReportType(
+function getReportType(
     status: FieldReportStatusEnum | undefined,
     is_covid_report: boolean | undefined,
     dtype: number | undefined,
@@ -149,9 +149,9 @@ const fieldsInContext = [
     'districts',
     'dtype',
     'start_date',
-    'summary',
     'request_assistance',
     'ns_request_assistance',
+    'title',
 ] satisfies (keyof PartialFormValue)[];
 const fieldsInSituation = [
     'affected_pop_centres',
@@ -274,6 +274,7 @@ export const reportSchema: FormSchema = {
             country: { required: true },
             districts: { defaultValue: [] },
             dtype: { required: true },
+            title: { required: true, requiredValidation: requiredStringCondition },
             start_date: { required: true },
             request_assistance: {},
             ns_request_assistance: {},
@@ -285,34 +286,28 @@ export const reportSchema: FormSchema = {
                 member: (): ContactListMember => ({
                     fields: (): ContactField => ({
                         ctype: { required: true },
-                        name: {},
-                        title: {},
-                        email: { validations: [emailCondition] },
-                        phone: {},
+                        name: {
+                            required: true,
+                            requiredValidation: requiredStringCondition,
+                        },
+                        title: {
+                            required: true,
+                            requiredValidation: requiredStringCondition,
+                        },
+                        email: {
+                            required: true,
+                            requiredValidation: requiredStringCondition,
+                            validations: [emailCondition],
+                        },
+                        phone: {
+                            required: true,
+                            requiredValidation: requiredStringCondition,
+                        },
                     }),
                 }),
             },
             visibility: { required: true },
         });
-
-        // CONTEXT
-        baseSchema = addCondition(
-            baseSchema,
-            value,
-            ['status', 'is_covid_report', 'dtype'],
-            ['summary'],
-            (val): Pick<FormSchemaFields, 'summary'> => {
-                const reportType = getReportType(val?.status, val?.is_covid_report, val?.dtype);
-                if (reportType === 'COVID') {
-                    return {
-                        summary: { forceValue: nullValue },
-                    };
-                }
-                return {
-                    summary: { required: true, requiredValidation: requiredStringCondition },
-                };
-            },
-        );
 
         // SITUATION / RISK ANALYSIS
 

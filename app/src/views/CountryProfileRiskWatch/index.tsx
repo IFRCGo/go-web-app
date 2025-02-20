@@ -16,6 +16,7 @@ import RiskImminentEvents, { type ImminentEventSource } from '#components/domain
 import Link from '#components/Link';
 import WikiLink from '#components/WikiLink';
 import useInputState from '#hooks/useInputState';
+import { multiMonthSelectDefaultValue } from '#utils/constants';
 import type { CountryOutletContext } from '#utils/outletContext';
 import { useRiskRequest } from '#utils/restRequest';
 
@@ -29,6 +30,11 @@ import RiskTable from './RiskTable';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+function getCurrentMonth() {
+    return new Date().getMonth();
+}
+
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { countryResponse } = useOutletContext<CountryOutletContext>();
@@ -37,7 +43,10 @@ export function Component() {
     const [
         selectedMonths,
         setSelectedMonths,
-    ] = useInputState<Record<number, boolean> | undefined>({ 0: true });
+    ] = useInputState<(typeof multiMonthSelectDefaultValue) | undefined>({
+        ...multiMonthSelectDefaultValue,
+        [getCurrentMonth()]: true,
+    });
 
     const {
         pending: pendingCountryRiskResponse,

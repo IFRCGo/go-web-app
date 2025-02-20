@@ -1,11 +1,11 @@
 {
-    "namespace": "common",
+    "namespace": "drefExportModal",
     "strings": {
         "drefExportTitle": "Export DREF",
         "drefPreparingExport": "Preparing for export...",
         "drefWaitingExport": "Waiting for the export to complete...",
         "drefExportFailed": "Export failed",
-        "drefExportSuccessfully":"Export completed successfully",
+        "drefExportSuccessfully": "Export completed successfully",
         "drefClickDownloadLink": "Click on the download link below!",
         "drefDownloadPDF": "Download PDF"
     }

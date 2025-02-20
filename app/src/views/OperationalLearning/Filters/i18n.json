@@ -1,0 +1,23 @@
+{
+    "namespace": "operationalLearning",
+    "strings": {
+        "filterRegionLabel": "Region",
+        "filterRegionPlaceholder": "All Regions",
+        "filterCountryLabel": "Country",
+        "filterCountryPlaceholder": "All Countries",
+        "filterDisasterTypeLabel": "Disaster Type",
+        "filterDisasterTypePlaceholder": "All Disaster Types",
+        "filterSectorLabel": "Sector",
+        "filterSectorPlaceholder": "All Sectors",
+        "filterComponentLabel": "PER Component",
+        "filterComponentPlaceholder": "All Components",
+        "filterOpsLearningSearchLabel": "Search",
+        "filterOpsLearningSearchPlaceholder": "Search",
+        "appealStartDate": "Appeal Start Date",
+        "appealEndDate": "Appeal End Date",
+        "organizationTypesLabel": "Organization Type",
+        "organizationTypesLabelPlaceholder": "All Organization Types",
+        "perLearningTypesLabel": "Learning Type",
+        "perLearningTypesLabelPlaceholder": "All Learning Type"
+    }
+}

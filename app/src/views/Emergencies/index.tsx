@@ -80,6 +80,7 @@ const oneYearAgo = new Date();
 oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
 oneYearAgo.setHours(0, 0, 0, 0);
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -139,6 +140,7 @@ export function Component() {
             const numAffectedCalculated = sumSafe(
                 (events?.map(
                     (event) => {
+                        // FIXME: this sort will mutate the data
                         const latestFieldReport = event.field_reports.sort(
                             (a, b) => (
                                 new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()

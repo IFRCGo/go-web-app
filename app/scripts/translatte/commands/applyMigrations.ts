@@ -135,7 +135,7 @@ async function applyMigrations(
     console.info(`Found ${selectedMigrationFilesAttrs.length} migration files`);
 
     if (selectedMigrationFilesAttrs.length < 1) {
-        throw 'There should be atleast 1 migration file';
+        throw 'There should be at least 1 migration file';
     }
 
     const selectedMigrations = await readMigrations(

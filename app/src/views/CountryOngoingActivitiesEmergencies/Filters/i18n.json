@@ -1,17 +1,16 @@
 {
-    "namespace": "countryOngoingActivitiesEmergenciesFilters",
+    "namespace": "countryOngoingActivitiesEmergencies",
     "strings": {
-        "appealsTableStartDate": "Start Date",
-        "appealsTableStartDateAfter": "Start After",
-        "appealsTableStartDateBefore": "Start Before",
-        "appealsTableType": "Appeal Type",
-        "appealsTableCode": "Appeal Code",
-        "appealsTableOperation": "Active Operation",
-        "appealsTableDisastertype": "Disaster Type",
-        "appealsTableRequestedAmount": "Funding Requirements",
-        "appealsTableFundedAmount": "Funding Coverage",
-        "appealsTableFilterTypePlaceholder": "All Appeal Types",
-        "appealsTableFilterDisastersPlaceholder": "All Disaster Types",
+        "appealsStartDate": "Start Date",
+        "appealsStartDateAfter": "Start After",
+        "appealsStartDateBefore": "Start Before",
+        "appealsTypeLabel": "Appeal Type",
+        "activeOperationLabel": "Active Operation",
+        "appealsDisasterType": "Disaster Type",
+        "appealsRequestedAmount": "Funding Requirements",
+        "appealsFundedAmount": "Funding Coverage",
+        "appealsFilterTypePlaceholder": "All Appeal Types",
+        "appealsFilterDisastersPlaceholder": "All Disaster Types",
         "operationMapClearFilters": "Clear Filters"
     }
 }

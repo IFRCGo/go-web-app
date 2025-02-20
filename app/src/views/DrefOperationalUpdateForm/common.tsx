@@ -1,7 +1,4 @@
-import {
-    bound,
-    isNotDefined,
-} from '@togglecorp/fujs';
+import { isNotDefined } from '@togglecorp/fujs';
 import {
     analyzeErrors,
     type Error,
@@ -15,7 +12,7 @@ import { type PartialOpsUpdate } from './schema';
 export type TypeOfDrefEnum = components<'read'>['schemas']['DrefDrefDrefTypeEnumKey'];
 
 // FIXME: use constants from common
-type TypeOfOnsetEnum = components<'read'>['schemas']['TypeValidatedEnum'];
+type TypeOfOnsetEnum = components<'read'>['schemas']['DrefDrefOnsetTypeEnumKey'];
 
 // export const ONSET_SLOW = 1 satisfies TypeOfOnsetEnum;
 export const ONSET_SUDDEN = 2 satisfies TypeOfOnsetEnum;
@@ -33,33 +30,6 @@ export const DISASTER_FLOOD = 12;
 // TAB NAVIGATION
 
 export type TabKeys = 'overview' | 'eventDetail' | 'actions' | 'operation' | 'submission';
-type TabNumbers = 1 | 2 | 3 | 4 | 5;
-
-export const tabStepMap: Record<TabKeys, TabNumbers> = {
-    overview: 1,
-    eventDetail: 2,
-    actions: 3,
-    operation: 4,
-    submission: 5,
-};
-
-const tabByStepMap: Record<TabNumbers, TabKeys> = {
-    1: 'overview',
-    2: 'eventDetail',
-    3: 'actions',
-    4: 'operation',
-    5: 'submission',
-};
-
-export function getNextStep(currentStep: TabKeys, minSteps: number, maxSteps: number) {
-    const next = bound(tabStepMap[currentStep] + 1, minSteps, maxSteps) as TabNumbers;
-    return tabByStepMap[next];
-}
-
-export function getPreviousStep(currentStep: TabKeys, minSteps: number, maxSteps: number) {
-    const prev = bound(tabStepMap[currentStep] - 1, minSteps, maxSteps) as TabNumbers;
-    return tabByStepMap[prev];
-}
 
 // FORM ERROR
 

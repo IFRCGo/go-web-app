@@ -5,7 +5,7 @@ import {
     SelectInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { EntriesAsList } from '@togglecorp/toggle-form';
+import { type EntriesAsList } from '@togglecorp/toggle-form';
 
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
@@ -20,7 +20,7 @@ type AppealTypeOption = NonNullable<GlobalEnumsResponse['api_appeal_type']>[numb
 const appealTypeKeySelector = (option: AppealTypeOption) => option.key;
 const appealTypeLabelSelector = (option: AppealTypeOption) => option.value;
 
-export interface FilterValue {
+interface FilterValue {
     appeal?: 0 | 1 | 2 | 3 | undefined;
     district?: number[] | undefined;
     displacement?: number | undefined;
@@ -46,7 +46,7 @@ function Filters(props: Props) {
     const strings = useTranslation(i18n);
     const { api_appeal_type: appealTypeOptions } = useGlobalEnums();
 
-    const handleClearFiltersButtonclick = useCallback(() => {
+    const handleClearFiltersButtonClick = useCallback(() => {
         setFilter({});
     }, [setFilter]);
 
@@ -54,19 +54,19 @@ function Filters(props: Props) {
         <>
             <DateInput
                 name="startDateAfter"
-                label={strings.appealsTableStartDateAfter}
+                label={strings.appealsStartDateAfter}
                 onChange={onChange}
                 value={value.startDateAfter}
             />
             <DateInput
                 name="startDateBefore"
-                label={strings.appealsTableStartDateBefore}
+                label={strings.appealsStartDateBefore}
                 onChange={onChange}
                 value={value.startDateBefore}
             />
             <SelectInput
-                placeholder={strings.appealsTableFilterTypePlaceholder}
-                label={strings.appealsTableType}
+                placeholder={strings.appealsFilterTypePlaceholder}
+                label={strings.appealsTypeLabel}
                 name="appeal"
                 value={value.appeal}
                 onChange={onChange}
@@ -75,8 +75,8 @@ function Filters(props: Props) {
                 options={appealTypeOptions}
             />
             <DisasterTypeSelectInput
-                placeholder={strings.appealsTableFilterDisastersPlaceholder}
-                label={strings.appealsTableDisastertype}
+                placeholder={strings.appealsFilterDisastersPlaceholder}
+                label={strings.appealsDisasterType}
                 name="displacement"
                 value={value.displacement}
                 onChange={onChange}
@@ -85,7 +85,7 @@ function Filters(props: Props) {
                 <Button
                     name={undefined}
                     className={styles.clearFilter}
-                    onClick={handleClearFiltersButtonclick}
+                    onClick={handleClearFiltersButtonClick}
                     variant="secondary"
                     disabled={!filtered}
                 >

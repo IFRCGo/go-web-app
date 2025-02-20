@@ -24,6 +24,7 @@ import VideoList from './VideoList';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -110,6 +111,13 @@ export function Component() {
                         withLinkIcon
                     >
                         {strings.ifrcStrategicDirection}
+                    </Link>
+                    <Link
+                        href="https://66557be6b68dacbf0a96db23-zctxglhsnk.chromatic.com/"
+                        external
+                        withLinkIcon
+                    >
+                        {strings.goUIStorybook}
                     </Link>
                 </Container>
                 <div />
@@ -378,7 +386,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={nlrcLogo}
-                        alt={strings.redCrossImageNetherlandAlt}
+                        alt={strings.redCrossImageNetherlandsAlt}
                     />
                 </Link>
                 <Link
@@ -433,7 +441,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={pdcLogo}
-                        alt={strings.vistPDCImageAlt}
+                        alt={strings.visitPDCImageAlt}
                     />
                 </Link>
             </Container>

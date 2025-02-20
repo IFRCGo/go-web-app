@@ -4,18 +4,12 @@ import {
 } from 'react';
 import { LanguageContext } from '@ifrc-go/ui/contexts';
 import { ErrorBoundary } from '@sentry/react';
-import {
-    isDefined,
-    isFalsyString,
-    isNotDefined,
-} from '@togglecorp/fujs';
 import Map, {
     MapLayer,
     MapSource,
 } from '@togglecorp/re-map';
 import { type SymbolLayer } from 'mapbox-gl';
 
-import useCountry from '#hooks/domain/useCountry';
 import {
     defaultMapOptions,
     defaultMapStyle,
@@ -32,36 +26,7 @@ type overrides = 'mapStyle' | 'mapOptions' | 'navControlShown' | 'navControlPosi
 export type Props = Omit<MapProps, overrides> & {
     baseLayers?: React.ReactNode;
     withDisclaimer?: boolean;
-    withoutLabel?: boolean;
 } & Partial<Pick<MapProps, overrides>>;
-
-const sourceOptions: mapboxgl.GeoJSONSourceRaw = {
-    type: 'geojson',
-};
-
-const adminLabelOverrideOptions: Omit<SymbolLayer, 'id'> = {
-    type: 'symbol',
-    layout: {
-        'text-field': ['get', 'name'],
-        'text-font': ['Poppins Regular', 'Arial Unicode MS Regular'],
-        'text-letter-spacing': 0.15,
-        'text-line-height': 1.2,
-        'text-max-width': 8,
-        'text-justify': 'center',
-        'text-anchor': 'top',
-        'text-padding': 2,
-        'text-size': [
-            'interpolate', ['linear', 1], ['zoom'],
-            0, 6,
-            6, 16,
-        ],
-    },
-    paint: {
-        'text-color': '#000000',
-        'text-halo-color': '#555555',
-        'text-halo-width': 0.2,
-    },
-};
 
 function BaseMap(props: Props) {
     const {
@@ -73,40 +38,10 @@ function BaseMap(props: Props) {
         navControlOptions,
         scaleControlShown,
         children,
-        withoutLabel = false,
         ...otherProps
     } = props;
 
-    const countries = useCountry();
-
-    const countryCentroidGeoJson = useMemo(
-        (): GeoJSON.FeatureCollection<GeoJSON.Geometry> => ({
-            type: 'FeatureCollection' as const,
-            features: countries
-                ?.map((country) => {
-                    if (isFalsyString(country.name) || isNotDefined(country.centroid)) {
-                        return undefined;
-                    }
-
-                    return {
-                        type: 'Feature' as const,
-                        geometry: country.centroid as {
-                            type: 'Point',
-                            coordinates: [number, number],
-                        },
-                        properties: {
-                            id: country.id,
-                            name: country.name,
-                        },
-                    };
-                }).filter(isDefined) ?? [],
-        }),
-        [countries],
-    );
-
-    const {
-        currentLanguage,
-    } = useContext(LanguageContext);
+    const { currentLanguage } = useContext(LanguageContext);
 
     const adminLabelLayerOptions : Omit<SymbolLayer, 'id'> = useMemo(
         () => {
@@ -161,18 +96,6 @@ function BaseMap(props: Props) {
                 />
                 {baseLayers}
             </MapSource>
-            {!withoutLabel && (
-                <MapSource
-                    sourceKey="override-labels"
-                    sourceOptions={sourceOptions}
-                    geoJson={countryCentroidGeoJson}
-                >
-                    <MapLayer
-                        layerKey="point-circle"
-                        layerOptions={adminLabelOverrideOptions}
-                    />
-                </MapSource>
-            )}
             {children}
         </Map>
     );

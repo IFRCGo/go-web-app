@@ -59,6 +59,7 @@ function deploymentNationalSocietySelector(deployment: DeploymentsByNationalSoci
     return deployment.society_name;
 }
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);

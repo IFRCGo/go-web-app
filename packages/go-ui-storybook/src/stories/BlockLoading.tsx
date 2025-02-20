@@ -3,10 +3,10 @@ import {
     BlockLoadingProps,
 } from '@ifrc-go/ui';
 
-function Blockloading(props: BlockLoadingProps) {
+function BlockLoading(props: BlockLoadingProps) {
     return (
         // eslint-disable-next-line react/jsx-props-no-spreading
         <PureBlockLoading {...props} />
     );
 }
-export default Blockloading;
+export default BlockLoading;

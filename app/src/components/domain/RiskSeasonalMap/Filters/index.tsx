@@ -11,7 +11,7 @@ import {
     stringLabelSelector,
     stringNameSelector,
 } from '@ifrc-go/ui/utils';
-import { EntriesAsList } from '@togglecorp/toggle-form';
+import { type EntriesAsList } from '@togglecorp/toggle-form';
 
 import useCountry from '#hooks/domain/useCountry';
 import {
@@ -122,7 +122,7 @@ function Filters(props: Props) {
                     value={value.normalizeByPopulation}
                     onChange={handleChange}
                 />
-                {value.riskMetric !== 'riskScore' && (
+                {value.riskMetric === 'riskScore' && (
                     <Checkbox
                         name="includeCopingCapacity"
                         label={strings.riskCopingCapacity}

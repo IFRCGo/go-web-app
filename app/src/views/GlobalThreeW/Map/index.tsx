@@ -22,7 +22,7 @@ import {
     MapSource,
 } from '@togglecorp/re-map';
 
-import BaseMap from '#components/domain/BaseMap';
+import GlobalMap, { type AdminZeroFeatureProperties } from '#components/domain/GlobalMap';
 import Link from '#components/Link';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import MapPopup from '#components/MapPopup';
@@ -37,7 +37,6 @@ import {
     OPERATION_TYPE_PROGRAMME,
 } from '#utils/constants';
 import {
-    adminFillLayerOptions,
     getPointCircleHaloPaint,
     getPointCirclePaint,
     pointColorMap,
@@ -71,7 +70,7 @@ interface GeoJsonProps {
 }
 
 interface ClickedPoint {
-    feature: GeoJSON.Feature<GeoJSON.Point, GeoJsonProps>;
+    properties: AdminZeroFeatureProperties;
     countryId: number;
     lngLat: mapboxgl.LngLatLike;
 }
@@ -242,10 +241,10 @@ function GlobalThreeWMap(props: Props) {
     );
 
     const handleCountryClick = useCallback(
-        (feature: mapboxgl.MapboxGeoJSONFeature, lngLat: mapboxgl.LngLat) => {
+        (properties: AdminZeroFeatureProperties, lngLat: mapboxgl.LngLatLike) => {
             setClickedPointProperties({
-                feature: feature as unknown as ClickedPoint['feature'],
-                countryId: feature.properties?.country_id,
+                properties,
+                countryId: properties.country_id,
                 lngLat,
             });
             return true;
@@ -256,7 +255,7 @@ function GlobalThreeWMap(props: Props) {
     const handlePointClick = useCallback(
         (feature: mapboxgl.MapboxGeoJSONFeature, lngLat: mapboxgl.LngLat) => {
             setClickedPointProperties({
-                feature: feature as unknown as ClickedPoint['feature'],
+                properties: feature as unknown as ClickedPoint['properties'],
                 countryId: feature.properties?.countryId,
                 lngLat,
             });
@@ -273,15 +272,8 @@ function GlobalThreeWMap(props: Props) {
     );
 
     return (
-        <BaseMap
-            baseLayers={(
-                <MapLayer
-                    layerKey="admin-0"
-                    hoverable
-                    layerOptions={adminFillLayerOptions}
-                    onClick={handleCountryClick}
-                />
-            )}
+        <GlobalMap
+            onAdminZeroFillClick={handleCountryClick}
         >
             <MapContainerWithDisclaimer
                 className={_cs(styles.mapContainer, className)}
@@ -413,7 +405,7 @@ function GlobalThreeWMap(props: Props) {
                     </Container>
                 </MapPopup>
             )}
-        </BaseMap>
+        </GlobalMap>
     );
 }
 

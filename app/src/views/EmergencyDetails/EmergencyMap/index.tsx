@@ -84,7 +84,7 @@ function EmergencyMap(props: Props) {
         [event],
     );
 
-    const adminOneHightlightLayerOptions = useMemo<Omit<FillLayer, 'id'>>(
+    const adminOneHighlightLayerOptions = useMemo<Omit<FillLayer, 'id'>>(
         () => ({
             type: 'fill',
             layout: { visibility: 'visible' },
@@ -154,7 +154,7 @@ function EmergencyMap(props: Props) {
                         />
                         <MapLayer
                             layerKey="admin-1-highlight"
-                            layerOptions={adminOneHightlightLayerOptions}
+                            layerOptions={adminOneHighlightLayerOptions}
                         />
                         <MapLayer
                             layerKey="admin-1-label-selected"

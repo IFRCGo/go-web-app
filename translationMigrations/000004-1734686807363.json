@@ -1,0 +1,4739 @@
+{
+    "parent": "000003-1712631208970.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "externalConnectionMontandonDescription",
+            "namespace": "accountDetails",
+            "value": "The Montandon is the world’s largest disaster database: a public good with applications beyond IFRC. It contains information about natural hazards (both forecasted and observed), their impacts (also modeled and observed) as well as what actions were taken when, where, by whom and to what effect."
+        },
+        {
+            "action": "add",
+            "key": "externalConnectionMontandonTitle",
+            "namespace": "accountDetails",
+            "value": "Montandon - Global Crisis Data Bank"
+        },
+        {
+            "action": "add",
+            "key": "externalConnectionsDescription",
+            "namespace": "accountDetails",
+            "value": "You can connect and recieve the data to use it in the external platform or dashboard using the GO APIs. You'll need an access token to make the connection."
+        },
+        {
+            "action": "add",
+            "key": "externalConnectionsTitle",
+            "namespace": "accountDetails",
+            "value": "External Connections"
+        },
+        {
+            "action": "add",
+            "key": "generateNewTokenLabel",
+            "namespace": "accountDetails",
+            "value": "Generate new token"
+        },
+        {
+            "action": "add",
+            "key": "viewMoreDetailsLabel",
+            "namespace": "accountDetails",
+            "value": "View more details"
+        },
+        {
+            "action": "add",
+            "key": "cookiePolicy",
+            "namespace": "common",
+            "value": "Cookie Policy"
+        },
+        {
+            "action": "add",
+            "key": "deleteButtonLabel",
+            "namespace": "common",
+            "value": "Close"
+        },
+        {
+            "action": "add",
+            "key": "eventDetailsStartedOn",
+            "namespace": "common",
+            "value": "Started on"
+        },
+        {
+            "action": "add",
+            "key": "footerGoWiki",
+            "namespace": "common",
+            "value": "GO Wiki"
+        },
+        {
+            "action": "add",
+            "key": "fourHundredFour",
+            "namespace": "common",
+            "value": "Four hundred four"
+        },
+        {
+            "action": "add",
+            "key": "fourHundredFourBackgroundImage",
+            "namespace": "common",
+            "value": "Four hundred four background image"
+        },
+        {
+            "action": "add",
+            "key": "latitude",
+            "namespace": "common",
+            "value": "Latitude"
+        },
+        {
+            "action": "add",
+            "key": "longitude",
+            "namespace": "common",
+            "value": "Longitude"
+        },
+        {
+            "action": "add",
+            "key": "pendingExportLabel",
+            "namespace": "common",
+            "value": "Downloading..."
+        },
+        {
+            "action": "add",
+            "key": "policies",
+            "namespace": "common",
+            "value": "Policies"
+        },
+        {
+            "action": "add",
+            "key": "termsAndConditions",
+            "namespace": "common",
+            "value": "Terms and Conditions"
+        },
+        {
+            "action": "add",
+            "key": "uhohBackToHome",
+            "namespace": "common",
+            "value": "Back to Home"
+        },
+        {
+            "action": "add",
+            "key": "uhohOops",
+            "namespace": "common",
+            "value": "Oops!"
+        },
+        {
+            "action": "add",
+            "key": "uhohPageDescriptionOne",
+            "namespace": "common",
+            "value": "This page seems to have wandered off."
+        },
+        {
+            "action": "add",
+            "key": "uhohPageDescriptionTwo",
+            "namespace": "common",
+            "value": "Let's go back home and try again."
+        },
+        {
+            "action": "add",
+            "key": "userMenuOperationalLearningDescription",
+            "namespace": "common",
+            "value": "Operational learning in emergencies is the lesson learned from managing and dealing with crises, refining protocols for resource allocation, decision-making, communication strategies, and others."
+        },
+        {
+            "action": "remove",
+            "key": "eventDetailsViewDetails",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "uhohAreYouSureUrlIsCorrect",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "uhohExploreOurHomepage",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "uhohGetInTouch",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "uhohPageDescription",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "uhohPageNotFound",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "uhohWithThePlatformTeam",
+            "namespace": "common"
+        },
+        {
+            "action": "update",
+            "key": "benchmarksAssessedTitle",
+            "namespace": "common",
+            "newValue": "Benchmarks assessed : {allAnsweredResponses} / {totalQuestionCount}"
+        },
+        {
+            "action": "update",
+            "key": "eventSourceLabel",
+            "namespace": "common",
+            "newValue": "Forecast provider"
+        },
+        {
+            "action": "update",
+            "key": "infoLabel",
+            "namespace": "common",
+            "newValue": "Sources: ICRC, UN CODs"
+        },
+        {
+            "action": "update",
+            "key": "mapSourcesLabel",
+            "namespace": "common",
+            "newValue": "Sources: ICRC, {uncodsLink}"
+        },
+        {
+            "action": "update",
+            "key": "multiImageArea",
+            "newKey": "perArea",
+            "namespace": "common"
+        },
+        {
+            "action": "add",
+            "key": "hereConditionTitle",
+            "namespace": "conditionsModal",
+            "value": "Title"
+        },
+        {
+            "action": "add",
+            "key": "srcDbCodeDescriptionEight",
+            "namespace": "conditionsModal",
+            "value": "GO-EAP"
+        },
+        {
+            "action": "add",
+            "key": "srcDbCodeDescriptionEighteen",
+            "namespace": "conditionsModal",
+            "value": "GAUL"
+        },
+        {
+            "action": "add",
+            "key": "srcDbCodeDescriptionEleven",
+            "namespace": "conditionsModal",
+            "value": "GO-iDREF"
+        },
+        {
+            "action": "add",
+            "key": "srcDbCodeDescriptionFifteen",
+            "namespace": "conditionsModal",
+            "value": "GLIDE"
+        },
+        {
+            "action": "add",
+            "key": "srcDbCodeDescriptionFive",
+            "namespace": "conditionsModal",
+            "value": "GO-EA"
+        },
+        {
+            "action": "add",
+            "key": "srcDbCodeDescriptionFour",
+            "namespace": "conditionsModal",
+            "value": "COP_damass"
+        },
+        {
+            "action": "add",
+            "key": "srcDbCodeDescriptionFourteen",
+            "namespace": "conditionsModal",
+            "value": "GDACS"
+        },
+        {
+            "action": "add",
+            "key": "srcDbCodeDescriptionNine",
+            "namespace": "conditionsModal",
+            "value": "GO-sEAP"
+        },
+        {
+            "action": "add",
+            "key": "srcDbCodeDescriptionNineteen",
+            "namespace": "conditionsModal",
+            "value": "GovDes"
+        },
+        {
+            "action": "add",
+            "key": "srcDbCodeDescriptionOne",
+            "namespace": "conditionsModal",
+            "value": "EMDAT"
+        },
+        {
+            "action": "add",
+            "key": "srcDbCodeDescriptionSeven",
+            "namespace": "conditionsModal",
+            "value": "GO-FBA"
+        },
+        {
+            "action": "add",
+            "key": "srcDbCodeDescriptionSeventeen",
+            "namespace": "conditionsModal",
+            "value": "Atlas"
+        },
+        {
+            "action": "add",
+            "key": "srcDbCodeDescriptionSix",
+            "namespace": "conditionsModal",
+            "value": "GO-DREF"
+        },
+        {
+            "action": "add",
+            "key": "srcDbCodeDescriptionSixteen",
+            "namespace": "conditionsModal",
+            "value": "GO-Maps"
+        },
+        {
+            "action": "add",
+            "key": "srcDbCodeDescriptionTen",
+            "namespace": "conditionsModal",
+            "value": "GO-AA"
+        },
+        {
+            "action": "add",
+            "key": "srcDbCodeDescriptionThirteen",
+            "namespace": "conditionsModal",
+            "value": "GIDD"
+        },
+        {
+            "action": "add",
+            "key": "srcDbCodeDescriptionThree",
+            "namespace": "conditionsModal",
+            "value": "UNO_damass"
+        },
+        {
+            "action": "add",
+            "key": "srcDbCodeDescriptionTwelve",
+            "namespace": "conditionsModal",
+            "value": "GO-FR"
+        },
+        {
+            "action": "add",
+            "key": "srcDbCodeDescriptionTwenty",
+            "namespace": "conditionsModal",
+            "value": "DFO"
+        },
+        {
+            "action": "add",
+            "key": "srcDbCodeDescriptionTwo",
+            "namespace": "conditionsModal",
+            "value": "Desinventar"
+        },
+        {
+            "action": "add",
+            "key": "srcDbLabDescriptionEight",
+            "namespace": "conditionsModal",
+            "value": "IFRC Emergency Action Protocol Funding (EAP)"
+        },
+        {
+            "action": "add",
+            "key": "srcDbLabDescriptionEighteen",
+            "namespace": "conditionsModal",
+            "value": "Global Administrative Unit Layers (GAUL)"
+        },
+        {
+            "action": "add",
+            "key": "srcDbLabDescriptionEleven",
+            "namespace": "conditionsModal",
+            "value": "IFRC Imminent Disaster response Emergency Funding(iDREF)"
+        },
+        {
+            "action": "add",
+            "key": "srcDbLabDescriptionFifteen",
+            "namespace": "conditionsModal",
+            "value": "Global Identifier numbers (GLIDE)"
+        },
+        {
+            "action": "add",
+            "key": "srcDbLabDescriptionFive",
+            "namespace": "conditionsModal",
+            "value": "IFRC Emergency Appeals (EA)"
+        },
+        {
+            "action": "add",
+            "key": "srcDbLabDescriptionFour",
+            "namespace": "conditionsModal",
+            "value": "Copernicus EMS Satellite Image-based Damage Assessment Data"
+        },
+        {
+            "action": "add",
+            "key": "srcDbLabDescriptionFourteen",
+            "namespace": "conditionsModal",
+            "value": "Global Disaster Alert and Coordination System (GDACS)"
+        },
+        {
+            "action": "add",
+            "key": "srcDbLabDescriptionNine",
+            "namespace": "conditionsModal",
+            "value": "IFRC simplified Emergency Action Protocol Funding (sEAP)"
+        },
+        {
+            "action": "add",
+            "key": "srcDbLabDescriptionNineteen",
+            "namespace": "conditionsModal",
+            "value": "Official Government or UN ADM Boundaries"
+        },
+        {
+            "action": "add",
+            "key": "srcDbLabDescriptionOne",
+            "namespace": "conditionsModal",
+            "value": "Emergency Events Database"
+        },
+        {
+            "action": "add",
+            "key": "srcDbLabDescriptionSeven",
+            "namespace": "conditionsModal",
+            "value": "IFRC Forecast Based Action"
+        },
+        {
+            "action": "add",
+            "key": "srcDbLabDescriptionSeventeen",
+            "namespace": "conditionsModal",
+            "value": "Atlas Earthquake ShakeMap Catalog"
+        },
+        {
+            "action": "add",
+            "key": "srcDbLabDescriptionSix",
+            "namespace": "conditionsModal",
+            "value": "IFRC Disaster Response Emergency Funding (DREF)"
+        },
+        {
+            "action": "add",
+            "key": "srcDbLabDescriptionSixteen",
+            "namespace": "conditionsModal",
+            "value": "IFRC-GO ADM-0 Maps"
+        },
+        {
+            "action": "add",
+            "key": "srcDbLabDescriptionTen",
+            "namespace": "conditionsModal",
+            "value": "IFRC Anticipatory Actions(AA)"
+        },
+        {
+            "action": "add",
+            "key": "srcDbLabDescriptionThirteen",
+            "namespace": "conditionsModal",
+            "value": "Global Internal Displacement Database (GIDD)"
+        },
+        {
+            "action": "add",
+            "key": "srcDbLabDescriptionThree",
+            "namespace": "conditionsModal",
+            "value": "UNOSAT Satellite Image-based Damage Assessment Data"
+        },
+        {
+            "action": "add",
+            "key": "srcDbLabDescriptionTwelve",
+            "namespace": "conditionsModal",
+            "value": "IFRC Field Reports (FR)"
+        },
+        {
+            "action": "add",
+            "key": "srcDbLabDescriptionTwenty",
+            "namespace": "conditionsModal",
+            "value": "Dartmouth Flood Observatory (DFO)"
+        },
+        {
+            "action": "add",
+            "key": "srcDbLabDescriptionTwo",
+            "namespace": "conditionsModal",
+            "value": "Disaster Inventory System (Desinventar)"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgCodeDescriptionEight",
+            "namespace": "conditionsModal",
+            "value": "IFRC"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgCodeDescriptionEighteen",
+            "namespace": "conditionsModal",
+            "value": "FAO"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgCodeDescriptionEleven",
+            "namespace": "conditionsModal",
+            "value": "IFRC"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgCodeDescriptionFifteen",
+            "namespace": "conditionsModal",
+            "value": "ADRC"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgCodeDescriptionFive",
+            "namespace": "conditionsModal",
+            "value": "IFRC"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgCodeDescriptionFour",
+            "namespace": "conditionsModal",
+            "value": "COPERNICUS"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgCodeDescriptionFourteen",
+            "namespace": "conditionsModal",
+            "value": "EC-JRC"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgCodeDescriptionNine",
+            "namespace": "conditionsModal",
+            "value": "IFRC"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgCodeDescriptionNineteen",
+            "namespace": "conditionsModal",
+            "value": "UNDRR"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgCodeDescriptionOne",
+            "namespace": "conditionsModal",
+            "value": "CRED"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgCodeDescriptionSeven",
+            "namespace": "conditionsModal",
+            "value": "IFRC"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgCodeDescriptionSeventeen",
+            "namespace": "conditionsModal",
+            "value": "USGS"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgCodeDescriptionSix",
+            "namespace": "conditionsModal",
+            "value": "IFRC"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgCodeDescriptionSixteen",
+            "namespace": "conditionsModal",
+            "value": "IFRC"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgCodeDescriptionTen",
+            "namespace": "conditionsModal",
+            "value": "IFRC"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgCodeDescriptionThirteen",
+            "namespace": "conditionsModal",
+            "value": "IDMC"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgCodeDescriptionThree",
+            "namespace": "conditionsModal",
+            "value": "UNOSAT"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgCodeDescriptionTwelve",
+            "namespace": "conditionsModal",
+            "value": "IFRC"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgCodeDescriptionTwenty",
+            "namespace": "conditionsModal",
+            "value": "UniColumbia"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgCodeDescriptionTwo",
+            "namespace": "conditionsModal",
+            "value": "UNDRR"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgLabDescriptionEight",
+            "namespace": "conditionsModal",
+            "value": "International Federation of Red Cross Red Crescent Societies (IFRC)"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgLabDescriptionEighteen",
+            "namespace": "conditionsModal",
+            "value": "Food and Agriculture Organization"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgLabDescriptionEleven",
+            "namespace": "conditionsModal",
+            "value": "International Federation of Red Cross Red Crescent Societies (IFRC)"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgLabDescriptionFifteen",
+            "namespace": "conditionsModal",
+            "value": "Asian Disaster Reduction Center (ADRC)"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgLabDescriptionFive",
+            "namespace": "conditionsModal",
+            "value": "International Federation of Red Cross Red Crescent Societies (IFRC)"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgLabDescriptionFour",
+            "namespace": "conditionsModal",
+            "value": "Copernicus Emergency Management Services (EMS)"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgLabDescriptionFourteen",
+            "namespace": "conditionsModal",
+            "value": "European Commission - Joint Research Center"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgLabDescriptionNine",
+            "namespace": "conditionsModal",
+            "value": "International Federation of Red Cross Red Crescent Societies (IFRC)"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgLabDescriptionNineteen",
+            "namespace": "conditionsModal",
+            "value": "United Nations Disaster Risk Reduction (UNDRR)"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgLabDescriptionOne",
+            "namespace": "conditionsModal",
+            "value": "Centre for Research on the Epidemiology of Disasters (CRED) University of Louvain"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgLabDescriptionSeven",
+            "namespace": "conditionsModal",
+            "value": "International Federation of Red Cross Red Crescent Societies (IFRC)"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgLabDescriptionSeventeen",
+            "namespace": "conditionsModal",
+            "value": "United States Geological Survey (USGS)"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgLabDescriptionSix",
+            "namespace": "conditionsModal",
+            "value": "International Federation of Red Cross Red Crescent Societies (IFRC)"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgLabDescriptionSixteen",
+            "namespace": "conditionsModal",
+            "value": "International Federation of Red Cross Red Crescent Societies (IFRC)"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgLabDescriptionTen",
+            "namespace": "conditionsModal",
+            "value": "International Federation of Red Cross Red Crescent Societies (IFRC)"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgLabDescriptionThirteen",
+            "namespace": "conditionsModal",
+            "value": "Internal Monitoring Displacement Centre (IDMC)"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgLabDescriptionThree",
+            "namespace": "conditionsModal",
+            "value": "United Nations Satellite Centre (UNOSAT)"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgLabDescriptionTwelve",
+            "namespace": "conditionsModal",
+            "value": "International Federation of Red Cross Red Crescent Societies (IFRC)"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgLabDescriptionTwenty",
+            "namespace": "conditionsModal",
+            "value": "University of Columbia"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgLabDescriptionTwo",
+            "namespace": "conditionsModal",
+            "value": "United Nations Disaster Risk Reduction (UNDRR)"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgtypeCodeDescriptionEight",
+            "namespace": "conditionsModal",
+            "value": "orgtypepengo"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgtypeCodeDescriptionEighteen",
+            "namespace": "conditionsModal",
+            "value": "orgtypegov"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgtypeCodeDescriptionEleven",
+            "namespace": "conditionsModal",
+            "value": "orgtypepengo"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgtypeCodeDescriptionFifteen",
+            "namespace": "conditionsModal",
+            "value": "orgtyperio"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgtypeCodeDescriptionFive",
+            "namespace": "conditionsModal",
+            "value": "orgtypepengo"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgtypeCodeDescriptionFour",
+            "namespace": "conditionsModal",
+            "value": "orgtyperio"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgtypeCodeDescriptionFourteen",
+            "namespace": "conditionsModal",
+            "value": "orgtyperio"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgtypeCodeDescriptionNine",
+            "namespace": "conditionsModal",
+            "value": "orgtypepengo"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgtypeCodeDescriptionNineteen",
+            "namespace": "conditionsModal",
+            "value": "orgtypegov"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgtypeCodeDescriptionOne",
+            "namespace": "conditionsModal",
+            "value": "orgtypeacad"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgtypeCodeDescriptionSeven",
+            "namespace": "conditionsModal",
+            "value": "orgtypepengo"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgtypeCodeDescriptionSeventeen",
+            "namespace": "conditionsModal",
+            "value": "orgtypegov"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgtypeCodeDescriptionSix",
+            "namespace": "conditionsModal",
+            "value": "orgtypepengo"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgtypeCodeDescriptionSixteen",
+            "namespace": "conditionsModal",
+            "value": "orgtypepengo"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgtypeCodeDescriptionTen",
+            "namespace": "conditionsModal",
+            "value": "orgtypepengo"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgtypeCodeDescriptionThirteen",
+            "namespace": "conditionsModal",
+            "value": "orgtypepengo"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgtypeCodeDescriptionThree",
+            "namespace": "conditionsModal",
+            "value": "orgtypeun"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgtypeCodeDescriptionTwelve",
+            "namespace": "conditionsModal",
+            "value": "orgtypepengo"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgtypeCodeDescriptionTwenty",
+            "namespace": "conditionsModal",
+            "value": "orgtypeacad"
+        },
+        {
+            "action": "add",
+            "key": "srcOrgtypeCodeDescriptionTwo",
+            "namespace": "conditionsModal",
+            "value": "orgtypegov"
+        },
+        {
+            "action": "add",
+            "key": "automaticallyCollectedDescription",
+            "namespace": "cookiePolicy",
+            "value": "Just by visiting IFRC.org, certain metadata may still be collected and processed while we have worked to minimize data collection, the following may be collected (and processed for the reasons set out in Section B of this Privacy Policy):"
+        },
+        {
+            "action": "add",
+            "key": "automaticallyCollectedHeading",
+            "namespace": "cookiePolicy",
+            "value": "2. Automatically or routinely collected"
+        },
+        {
+            "action": "add",
+            "key": "automaticallyCollectedList1",
+            "namespace": "cookiePolicy",
+            "value": "your internet protocol(IP) address (which may reveal your approximate location and  time zone)"
+        },
+        {
+            "action": "add",
+            "key": "automaticallyCollectedList2",
+            "namespace": "cookiePolicy",
+            "value": "devices ID ( which indicates the type of device being used to access the platform and  may also reveal the operating system used)"
+        },
+        {
+            "action": "add",
+            "key": "automaticallyCollectedList3",
+            "namespace": "cookiePolicy",
+            "value": "dates and time of use"
+        },
+        {
+            "action": "add",
+            "key": "automaticallyCollectedList4",
+            "namespace": "cookiePolicy",
+            "value": "requested URL"
+        },
+        {
+            "action": "add",
+            "key": "automaticallyCollectedList5",
+            "namespace": "cookiePolicy",
+            "value": "Operating system you are using"
+        },
+        {
+            "action": "add",
+            "key": "cookiePolicyTitle",
+            "namespace": "cookiePolicy",
+            "value": "Cookie Policy"
+        },
+        {
+            "action": "add",
+            "key": "dataAccessSharingDescription1",
+            "namespace": "cookiePolicy",
+            "value": "As a general rule, the Federation will not disclose any information identifying you personally, except with your permission. Information you provide to the Federation will not be sold to third parties or used in a manner inconsistent with the aims of the website."
+        },
+        {
+            "action": "add",
+            "key": "dataAccessSharingDescription2",
+            "namespace": "cookiePolicy",
+            "value": "Information may be shared with the Federation membership or other components of the International Red Cross and Red Crescent Movement, to further facilitate humanitarian assistance. Some information identifying donors to the Federation is forwarded to third parties for purely technical and administrative processing (such as for payment processing). These parties are not authorized to distribute, sell or rent user information."
+        },
+        {
+            "action": "add",
+            "key": "dataAccessSharingDescription3",
+            "namespace": "cookiePolicy",
+            "value": "Further, your data will only be accessible to those staff (and other authorized individuals) that have a legitimate need to have such access."
+        },
+        {
+            "action": "add",
+            "key": "dataAccessSharingHeading",
+            "namespace": "cookiePolicy",
+            "value": "C) Data access and sharing"
+        },
+        {
+            "action": "add",
+            "key": "dataCollectedByAccessingHeading",
+            "namespace": "cookiePolicy",
+            "value": "A) Data collected by accessing our sites"
+        },
+        {
+            "action": "add",
+            "key": "dataProtectionPageLink",
+            "namespace": "cookiePolicy",
+            "value": "Data Protection page"
+        },
+        {
+            "action": "add",
+            "key": "disclaimerDescription",
+            "namespace": "cookiePolicy",
+            "value": "All the information contained in the website is Copyright © The International Federation of Red Cross and Red Crescent Societies. All rights reserved."
+        },
+        {
+            "action": "add",
+            "key": "disclaimerTitle",
+            "namespace": "cookiePolicy",
+            "value": "Disclaimer"
+        },
+        {
+            "action": "add",
+            "key": "howInformationUsedDescription",
+            "namespace": "cookiePolicy",
+            "value": "This information is used to improve our service, compile statistics (including on consultation) and to communicate with you. More specifically, it is used:"
+        },
+        {
+            "action": "add",
+            "key": "howInformationUsedDescriptionList1",
+            "namespace": "cookiePolicy",
+            "value": "To reply to your requests for information"
+        },
+        {
+            "action": "add",
+            "key": "howInformationUsedDescriptionList2",
+            "namespace": "cookiePolicy",
+            "value": "to enable you  to use certain interactive functions (e.g. download data,save files)"
+        },
+        {
+            "action": "add",
+            "key": "howInformationUsedDescriptionList3",
+            "namespace": "cookiePolicy",
+            "value": "To provide services or give help"
+        },
+        {
+            "action": "add",
+            "key": "howInformationUsedDescriptionList4",
+            "namespace": "cookiePolicy",
+            "value": "To improve our website, communication, products and services; to compile statistics on consultation, and to understand what content matters most to the community"
+        },
+        {
+            "action": "add",
+            "key": "howInformationUsedDescriptionList5",
+            "namespace": "cookiePolicy",
+            "value": "To maintain the security and integrity"
+        },
+        {
+            "action": "add",
+            "key": "howInformationUsedDescriptionList6",
+            "namespace": "cookiePolicy",
+            "value": "To ensure that content is presented in the way that suits you best"
+        },
+        {
+            "action": "add",
+            "key": "howInformationUsedHeading",
+            "namespace": "cookiePolicy",
+            "value": "B) How is this information used?"
+        },
+        {
+            "action": "add",
+            "key": "ifrcLimitedCookiesAnalyticDescription",
+            "namespace": "cookiePolicy",
+            "value": "Cookies are text files that contain small amounts of information that we may store on your device when you use our site. Cookies enable us to monitor site traffic and estimate our audience size and usage pattern as well as allowing us to store information about your preferences to allow us to customize our site according to those preferences. They also help us to improve our site and deliver a more personalized service. We use the following types of cookies in connection with our site:"
+        },
+        {
+            "action": "add",
+            "key": "ifrcLimitedCookiesAnalyticDescription2",
+            "namespace": "cookiePolicy",
+            "value": "Our site will issue cookies to your device when you log on to the site. Cookies may either be permanent (i.e. remaining on your device until you delete them) or temporary (i.e. remaining only until you close your browser). Most browsers permit you to reject or delete cookies."
+        },
+        {
+            "action": "add",
+            "key": "ifrcLimitedCookiesAnalyticDescription3",
+            "namespace": "cookiePolicy",
+            "value": "Certain browsers and devices allow you to block cookies. If you do choose to block cookies, you may not be able to use certain features on our site and/or may be required to re-enter information more frequently to use certain services on the site."
+        },
+        {
+            "action": "add",
+            "key": "ifrcLimitedCookiesAnalyticHeading",
+            "namespace": "cookiePolicy",
+            "value": "3. IFRC.org also makes limited use of cookies and analytics as further described below"
+        },
+        {
+            "action": "add",
+            "key": "ifrcLimitedCookiesAnalyticList1",
+            "namespace": "cookiePolicy",
+            "value": "Strictly Necessary: These cookies enable our site to function correctly and deliver the services and products that visitors have requested. These cookies do not gather information about the visitors that could be used for marketing or remembering sites that visitors have visited on the internet."
+        },
+        {
+            "action": "add",
+            "key": "ifrcLimitedCookiesAnalyticList2",
+            "namespace": "cookiePolicy",
+            "value": "Performance and Functionality: These cookies do things like remembering a visitor’s preferred language, understand their preferences, and associates users to any forms visitor’s submit to us to enable pre-completion of subsequent forms."
+        },
+        {
+            "action": "add",
+            "key": "ifrcLimitedCookiesAnalyticList3",
+            "namespace": "cookiePolicy",
+            "value": "Analytical: These cookies help us to analyze how our site is used, such as allowing us to compile reports on website activity and providing us other services relating to website activity and internet usage."
+        },
+        {
+            "action": "add",
+            "key": "ifrcLimitedCookiesAnalyticList4",
+            "namespace": "cookiePolicy",
+            "value": "User Authentication: These social media cookies allow visitors to login to share and promote their activities via social media."
+        },
+        {
+            "action": "add",
+            "key": "informationProvideDescription1",
+            "namespace": "cookiePolicy",
+            "value": "On certain IFRC.org webpages, your personal data may be requested. For instance, it is necessary to obtain your email address, name and other data to sign up for a newsletter or make a donation. It is important to note that some of the features on IFRC.org sites require the use of third-party providers (please see Section F below for more details)."
+        },
+        {
+            "action": "add",
+            "key": "informationProvideDescription2",
+            "namespace": "cookiePolicy",
+            "value": "You will also need to provide some personal data if you use the \"Contact us\" link at the bottom of our pages. If there are any specific changes (relative to this privacy policy) to how your data is handled on those IFRC.org, those changes will be specified in the privacy policies located on the respective site."
+        },
+        {
+            "action": "add",
+            "key": "informationProvideHeading",
+            "namespace": "cookiePolicy",
+            "value": "1. Information you provide"
+        },
+        {
+            "action": "add",
+            "key": "noteOnLinksToExternalWebsitesDescription1",
+            "namespace": "cookiePolicy",
+            "value": "Please note that this privacy policy only applies to the IFRC.org website. It does not apply to pages hosted by other organizations, including National Red Cross and Red Crescent Societies and the International Committee of the Red Cross, which have their own privacy policies."
+        },
+        {
+            "action": "add",
+            "key": "noteOnLinksToExternalWebsitesDescription2",
+            "namespace": "cookiePolicy",
+            "value": "Additionally, some IFRC.org webpages may: 1) incorporate or redirect to third-party service providers (such as Mailchimp or Lyris for the management of mailing lists, Podio for advocacy engagement, or Cornerstone for recruitment) and 2) contain links to third-party sites, such as Facebook, YouTube, or Twitter, for example. These third-party and external sites (and any other non-IFRC.org sites) will typically have their own privacy policies and data handling practices that the IFRC does not control. You are strongly encouraged to review those relevant privacy policies."
+        },
+        {
+            "action": "add",
+            "key": "noteOnLinksToExternalWebsitesHeading",
+            "namespace": "cookiePolicy",
+            "value": "F) Notes on links to external websites"
+        },
+        {
+            "action": "add",
+            "key": "ourPrivacyPolicyContent",
+            "namespace": "cookiePolicy",
+            "value": "This website is operated by the Federation. The Federation takes your privacy and the security of our personal information-meaning and information relating to an identified or identifiable individual seriously. Please take a moment to read this privacy and learn about the Federation's general privacy and information security principles. Any changes to this Privacy Policy will be posted on this page. The version of the policy was published on {publishedDay} {publishedDate} {publishedYear}."
+        },
+        {
+            "action": "add",
+            "key": "ourPrivacyPolicyHeading",
+            "namespace": "cookiePolicy",
+            "value": "Our Privacy Policy"
+        },
+        {
+            "action": "add",
+            "key": "policyProtectionOfPersonalDataLink",
+            "namespace": "cookiePolicy",
+            "value": "Policy on the Protection of Personal Data"
+        },
+        {
+            "action": "add",
+            "key": "privilegesAndImmunitiesDescription",
+            "namespace": "cookiePolicy",
+            "value": "Nothing in or relating to this Privacy Policy or this site shall be deemed a waiver of any of the privileges and immunities of the Federation."
+        },
+        {
+            "action": "add",
+            "key": "privilegesAndImmunitiesHeading",
+            "namespace": "cookiePolicy",
+            "value": "E) Privileges and immunities"
+        },
+        {
+            "action": "add",
+            "key": "securityQuestionsWebpageCollection",
+            "namespace": "cookiePolicy",
+            "value": "General webpage collection: {termsLink}"
+        },
+        {
+            "action": "add",
+            "key": "storageSecurityQuestionsAboutDataDescription3",
+            "namespace": "cookiePolicy",
+            "value": "These measures may be specific contractual provisions requiring those third parties to implement no less equivalent security measures than those of the Federation. Please be aware of this when sending any communications. We cannot (and do not) guarantee absolute security. Under certain circumstances, you may request to review personal information we hold about you. You may also object to certain personal data processing and/or request the correction or deletion of such personal data according to our {termsLink}. More detail about data subject requests can be found in Section 3 of that Policy."
+        },
+        {
+            "action": "add",
+            "key": "storageSecurityQuestionsAboutDataDescription4",
+            "namespace": "cookiePolicy",
+            "value": "For further information on how the IFRC processes personal data, please consult our {termsLink}. Here you may also find general information, useful tools for humanitarians, and information specific to procurements and other partners of the Federation."
+        },
+        {
+            "action": "add",
+            "key": "storageSecurityQuestionsAboutDataHeading",
+            "namespace": "cookiePolicy",
+            "value": "D) Storage ,security, questions about your data"
+        },
+        {
+            "action": "add",
+            "key": "storageSecurityQuestionsDataDescription1",
+            "namespace": "cookiePolicy",
+            "value": "The Federation uses secure systems and implements appropriate technical and organizational measures to safeguard your personal information and protect it against unauthorized or unlawful processing, accidental loss, destruction, or damage. While we take reasonable measures to protect your personal information, please be aware that no system can guarantee 100% security."
+        },
+        {
+            "action": "add",
+            "key": "storageSecurityQuestionsDataDescription2",
+            "namespace": "cookiePolicy",
+            "value": "Where it is necessary for your personal data to be shared with third parties, we will take reasonable measures to ensure that your personal data continues to be treated securely."
+        },
+        {
+            "action": "add",
+            "key": "storageSecurityQuestionsDataDescription5",
+            "namespace": "cookiePolicy",
+            "value": "Please contact the following department for personal data questions related to:"
+        },
+        {
+            "action": "add",
+            "key": "storageSecurityQuestionsDataDonations",
+            "namespace": "cookiePolicy",
+            "value": "Donations: {termsLink}"
+        },
+        {
+            "action": "add",
+            "key": "storageSecurityQuestionsDataEnquires",
+            "namespace": "cookiePolicy",
+            "value": "Other data protection enquiries: {termsLink}"
+        },
+        {
+            "action": "add",
+            "key": "storageSecurityQuestionsDataGoEnquires",
+            "namespace": "cookiePolicy",
+            "value": "IFRC-GO enquiries: {termsLink}"
+        },
+        {
+            "action": "add",
+            "key": "storageSecurityQuestionsDataRecruitment",
+            "namespace": "cookiePolicy",
+            "value": "Recruitment: {termsLink}"
+        },
+        {
+            "action": "add",
+            "key": "useOfOurInformationAudiovisualLink",
+            "namespace": "cookiePolicy",
+            "value": "audiovisual department"
+        },
+        {
+            "action": "add",
+            "key": "useOfOurInformationDescription1",
+            "namespace": "cookiePolicy",
+            "value": "To use text information from this website, please obtain prior permission from the IFRC."
+        },
+        {
+            "action": "add",
+            "key": "useOfOurInformationDescription2",
+            "namespace": "cookiePolicy",
+            "value": "To use photographs from this website, please contact our {termsLink}."
+        },
+        {
+            "action": "add",
+            "key": "useOfOurInformationDescription3",
+            "namespace": "cookiePolicy",
+            "value": "If you have any question about this website, or if you find any errors, please notify us."
+        },
+        {
+            "action": "add",
+            "key": "useOfOurInformationDescriptionLink",
+            "namespace": "cookiePolicy",
+            "value": "Click here for important information about fraudulent websites and emails."
+        },
+        {
+            "action": "add",
+            "key": "useOfOurInformationTitle",
+            "namespace": "cookiePolicy",
+            "value": "Use Of Our Information"
+        },
+        {
+            "action": "add",
+            "key": "countryHistoricalDREFOperations",
+            "namespace": "countryHistoricalKeyFigures",
+            "value": "DREF Operations"
+        },
+        {
+            "action": "add",
+            "key": "countryHistoricalFigureEmergencyAppealDescription",
+            "namespace": "countryHistoricalKeyFigures",
+            "value": "These are medium to large scale emergency operations funded through a public appeal for funds."
+        },
+        {
+            "action": "add",
+            "key": "keyFiguresAppealsFundingCoverage",
+            "namespace": "countryHistoricalKeyFigures",
+            "value": "Funding Coverage"
+        },
+        {
+            "action": "add",
+            "key": "keyFiguresDref",
+            "namespace": "countryHistoricalKeyFigures",
+            "value": "These are small to medium scale emergency operations funded through the Disaster Relief Emergency Fund (DREF).The DREF provides immediate financial support to National Red Cross and Red Crescent Societies, enabling them to carry out their unique role as first responders after a disaster."
+        },
+        {
+            "action": "add",
+            "key": "keyFiguresDrefTitle",
+            "namespace": "countryHistoricalKeyFigures",
+            "value": "DREF"
+        },
+        {
+            "action": "add",
+            "key": "keyFiguresEmergencyAppeals",
+            "namespace": "countryHistoricalKeyFigures",
+            "value": "Emergency Appeals"
+        },
+        {
+            "action": "add",
+            "key": "keyFiguresEmergencyAppealTitle",
+            "namespace": "countryHistoricalKeyFigures",
+            "value": "Emergency Appeal"
+        },
+        {
+            "action": "add",
+            "key": "keyFiguresFundingRequirements",
+            "namespace": "countryHistoricalKeyFigures",
+            "value": "Funding Requirements"
+        },
+        {
+            "action": "add",
+            "key": "keyFiguresTargetPopulation",
+            "namespace": "countryHistoricalKeyFigures",
+            "value": "Targeted Population"
+        },
+        {
+            "action": "add",
+            "key": "globalOCAC",
+            "namespace": "countryNsCapacityStrengthening",
+            "value": "Global OCAC Assessments Overview"
+        },
+        {
+            "action": "add",
+            "key": "moreDetails",
+            "namespace": "countryNsCapacityStrengthening",
+            "value": "More Details"
+        },
+        {
+            "action": "remove",
+            "key": "capacityListItemViewDetails",
+            "namespace": "countryNsCapacityStrengthening"
+        },
+        {
+            "action": "remove",
+            "key": "ifrc",
+            "namespace": "countryNsCapacityStrengthening"
+        },
+        {
+            "action": "remove",
+            "key": "viewDetails",
+            "namespace": "countryNsCapacityStrengthening"
+        },
+        {
+            "action": "update",
+            "key": "source",
+            "namespace": "countryNsCapacityStrengthening",
+            "newNamespace": "countryNsOverviewStrategicPriorities"
+        },
+        {
+            "action": "remove",
+            "key": "countryNsFinancialCapacityLabel",
+            "namespace": "countryNsOrganisationalCapacity"
+        },
+        {
+            "action": "remove",
+            "key": "countryNsLeadershipCapacityLabel",
+            "namespace": "countryNsOrganisationalCapacity"
+        },
+        {
+            "action": "remove",
+            "key": "countryNsOrganisationalCapacityHeading",
+            "namespace": "countryNsOrganisationalCapacity"
+        },
+        {
+            "action": "remove",
+            "key": "countryNsVolunteerCapacityLabel",
+            "namespace": "countryNsOrganisationalCapacity"
+        },
+        {
+            "action": "remove",
+            "key": "countryNsYouthCapacityLabel",
+            "namespace": "countryNsOrganisationalCapacity"
+        },
+        {
+            "action": "add",
+            "key": "partnersTabTitle",
+            "namespace": "countryNsOverview",
+            "value": "Partners"
+        },
+        {
+            "action": "remove",
+            "key": "supportingPartnersTabTitle",
+            "namespace": "countryNsOverview"
+        },
+        {
+            "action": "add",
+            "key": "nsActivitiesTitle",
+            "namespace": "countryNsOverviewActivities",
+            "value": "NS Activities ({count})"
+        },
+        {
+            "action": "remove",
+            "key": "nsInternationalWorkHeading",
+            "namespace": "countryNsOverviewActivities"
+        },
+        {
+            "action": "remove",
+            "key": "nsInternationalWorkTitle",
+            "namespace": "countryNsOverviewActivities"
+        },
+        {
+            "action": "update",
+            "key": "nSActivityDescription",
+            "namespace": "countryNsOverviewActivities",
+            "newValue": "The following data displays international and domestic activities of the National Society reported through GO, which may include emergency and non-emergency related projects. The displayed data is based on reporting and so may not include all the activities of the National Society."
+        },
+        {
+            "action": "add",
+            "key": "moreDetails",
+            "namespace": "countryNsOverviewCapacity",
+            "value": "More Details"
+        },
+        {
+            "action": "add",
+            "key": "perGlobalSummary",
+            "namespace": "countryNsOverviewCapacity",
+            "value": "PER Global Summary"
+        },
+        {
+            "action": "remove",
+            "key": "sourceFDRS",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "fdrs",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "newNamespace": "countryPresence"
+        },
+        {
+            "action": "update",
+            "key": "incomeSourceBreakdownHeading",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "newNamespace": "nationalSocietyIncomeSourceBreakdown"
+        },
+        {
+            "action": "update",
+            "key": "incomeSourceBreakdownNotAvailableMessage",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "newNamespace": "nationalSocietyIncomeSourceBreakdown"
+        },
+        {
+            "action": "update",
+            "key": "nsIncomeOverTimeChartAxisLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "newNamespace": "nationalSocietyIncomeOverTime"
+        },
+        {
+            "action": "update",
+            "key": "nsIncomeOverTimeHeading",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "newNamespace": "nationalSocietyIncomeOverTime"
+        },
+        {
+            "action": "update",
+            "key": "nsIncomeOverTimeTooltipTotalLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "newNamespace": "nationalSocietyIncomeOverTime"
+        },
+        {
+            "action": "update",
+            "key": "source",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "newNamespace": "nationalSocietyDevelopmentInitiatives"
+        },
+        {
+            "action": "update",
+            "key": "sourceLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "newNamespace": "nationalSocietyIncomeOverTime"
+        },
+        {
+            "action": "add",
+            "key": "countryPlan",
+            "namespace": "countryNsOverviewStrategicPriorities",
+            "value": "IFRC Network Plan"
+        },
+        {
+            "action": "add",
+            "key": "countryPlanInternal",
+            "namespace": "countryNsOverviewStrategicPriorities",
+            "value": "Unified Plan"
+        },
+        {
+            "action": "add",
+            "key": "strategicPlan",
+            "namespace": "countryNsOverviewStrategicPriorities",
+            "value": "NS Strategic Plan ({year})"
+        },
+        {
+            "action": "add",
+            "key": "unifiedPlanning",
+            "namespace": "countryNsOverviewStrategicPriorities",
+            "value": "IFRC Unified Planning"
+        },
+        {
+            "action": "remove",
+            "key": "countryPlanDownloadPlan",
+            "namespace": "countryNsOverviewStrategicPriorities"
+        },
+        {
+            "action": "remove",
+            "key": "countryPlanDownloadPlanInternal",
+            "namespace": "countryNsOverviewStrategicPriorities"
+        },
+        {
+            "action": "remove",
+            "key": "notAvailableMessage",
+            "namespace": "countryNsOverviewStrategicPriorities"
+        },
+        {
+            "action": "add",
+            "key": "perArea",
+            "namespace": "countryPreparedness",
+            "value": "Area {areaNumber}: {areaTitle}"
+        },
+        {
+            "action": "add",
+            "key": "countryIFRCDelegationType",
+            "namespace": "countryPresence",
+            "value": "Office Type"
+        },
+        {
+            "action": "add",
+            "key": "countryIFRCLocation",
+            "namespace": "countryPresence",
+            "value": "Location"
+        },
+        {
+            "action": "add",
+            "key": "disclaimer",
+            "namespace": "countryPresence",
+            "value": "This link will only be accessible to IFRC staff."
+        },
+        {
+            "action": "remove",
+            "key": "ifrc",
+            "namespace": "countryPresence"
+        },
+        {
+            "action": "update",
+            "key": "countryIFRCPresenceHeadOfDelegation",
+            "namespace": "countryPresence",
+            "newValue": "Head of {delegationOfficeType}"
+        },
+        {
+            "action": "remove",
+            "key": "dataLoadFailureMessage",
+            "namespace": "countryProfilePreviousEvents"
+        },
+        {
+            "action": "add",
+            "key": "returnPeriodIfrcMontandon",
+            "namespace": "countryProfileRiskWatch",
+            "value": "UNDRR, World Bank / GFDRR and IDMC"
+        },
+        {
+            "action": "add",
+            "key": "returnPeriodSource",
+            "namespace": "countryProfileRiskWatch",
+            "value": "Source"
+        },
+        {
+            "action": "add",
+            "key": "unifiedPlanning",
+            "namespace": "countryProfileSupportingPartners",
+            "value": "IFRC Unified Planning"
+        },
+        {
+            "action": "remove",
+            "key": "gotoIfrcLinkLabel",
+            "namespace": "countryProfileSupportingPartners"
+        },
+        {
+            "action": "add",
+            "key": "idmc",
+            "namespace": "countryRiskSourcesOutput",
+            "value": "IDMC"
+        },
+        {
+            "action": "add",
+            "key": "inform",
+            "namespace": "countryRiskSourcesOutput",
+            "value": "INFORM"
+        },
+        {
+            "action": "add",
+            "key": "ipc",
+            "namespace": "countryRiskSourcesOutput",
+            "value": "IPC"
+        },
+        {
+            "action": "add",
+            "key": "source",
+            "namespace": "countryRiskSourcesOutput",
+            "value": "Source"
+        },
+        {
+            "action": "add",
+            "key": "sourceIDMC",
+            "namespace": "countryRiskSourcesOutput",
+            "value": "{link} for the expected displacements"
+        },
+        {
+            "action": "add",
+            "key": "sourceINFORM",
+            "namespace": "countryRiskSourcesOutput",
+            "value": "{link} for each country's level of risk"
+        },
+        {
+            "action": "add",
+            "key": "sourceIPC",
+            "namespace": "countryRiskSourcesOutput",
+            "value": "{link} for food insecurity"
+        },
+        {
+            "action": "add",
+            "key": "sourceUNDRR",
+            "namespace": "countryRiskSourcesOutput",
+            "value": "{link} for the population exposure"
+        },
+        {
+            "action": "add",
+            "key": "undrr",
+            "namespace": "countryRiskSourcesOutput",
+            "value": "UNDRR"
+        },
+        {
+            "action": "add",
+            "key": "description",
+            "namespace": "DownloadImportTemplateModal",
+            "value": "The download template (.xlsx) can be used to fill up the DREF form separately and import back from the \"New DREF Application\" page in the GO."
+        },
+        {
+            "action": "add",
+            "key": "downloadButtonLabel",
+            "namespace": "DownloadImportTemplateModal",
+            "value": "Download"
+        },
+        {
+            "action": "add",
+            "key": "heading",
+            "namespace": "DownloadImportTemplateModal",
+            "value": "Download DREF import template"
+        },
+        {
+            "action": "add",
+            "key": "typeOfDrefInputLabel",
+            "namespace": "DownloadImportTemplateModal",
+            "value": "Select type of DREF for template"
+        },
+        {
+            "action": "add",
+            "key": "drefImportButton",
+            "namespace": "drefImportButton",
+            "value": "Import"
+        },
+        {
+            "action": "add",
+            "key": "drefImportApplication",
+            "namespace": "drefImportModel",
+            "value": "Import DREF Application"
+        },
+        {
+            "action": "add",
+            "key": "drefImportButton",
+            "namespace": "drefImportModel",
+            "value": "Invalid import file"
+        },
+        {
+            "action": "add",
+            "key": "drefImportFailed",
+            "namespace": "drefImportModel",
+            "value": "Failed to import"
+        },
+        {
+            "action": "add",
+            "key": "drefImportFailedDescription",
+            "namespace": "drefImportModel",
+            "value": "Failed to process the selected import file, make sure you've downloaded the import template from the GO platform. Please contact your DREF focal point in your region."
+        },
+        {
+            "action": "add",
+            "key": "drefImportSelectFile",
+            "namespace": "drefImportModel",
+            "value": "Select file (xlsx)"
+        },
+        {
+            "action": "add",
+            "key": "drefImportTemplate",
+            "namespace": "drefImportModel",
+            "value": "Please select the filled template for the DREF Application"
+        },
+        {
+            "action": "add",
+            "key": "dateOfLearning",
+            "namespace": "extracts",
+            "value": "Date of Learning"
+        },
+        {
+            "action": "add",
+            "key": "source",
+            "namespace": "extracts",
+            "value": "Source"
+        },
+        {
+            "action": "add",
+            "key": "acceptButtonLabel",
+            "namespace": "generateMontandonTokenModal",
+            "value": "Accept & Generate"
+        },
+        {
+            "action": "add",
+            "key": "cancelButtonLabel",
+            "namespace": "generateMontandonTokenModal",
+            "value": "Cancel"
+        },
+        {
+            "action": "add",
+            "key": "description",
+            "namespace": "generateMontandonTokenModal",
+            "value": "By clicking 'Accept & Generate' button, you'll  accept the {termsLink} of the Montandon API. Please make sure to review it."
+        },
+        {
+            "action": "add",
+            "key": "doneButtonLabel",
+            "namespace": "generateMontandonTokenModal",
+            "value": "Done"
+        },
+        {
+            "action": "add",
+            "key": "termsAndConditionLabel",
+            "namespace": "generateMontandonTokenModal",
+            "value": "Terms & Conditions"
+        },
+        {
+            "action": "add",
+            "key": "title",
+            "namespace": "generateMontandonTokenModal",
+            "value": "Generate token for Montandon"
+        },
+        {
+            "action": "add",
+            "key": "titleInputHint",
+            "namespace": "generateMontandonTokenModal",
+            "value": "Note: title should contain at least {minCharacters} characters"
+        },
+        {
+            "action": "add",
+            "key": "titleInputLabel",
+            "namespace": "generateMontandonTokenModal",
+            "value": "Title for token"
+        },
+        {
+            "action": "add",
+            "key": "titleInputPlaceholder",
+            "namespace": "generateMontandonTokenModal",
+            "value": "Enter a descriptive title for the token"
+        },
+        {
+            "action": "add",
+            "key": "tokenNote",
+            "namespace": "generateMontandonTokenModal",
+            "value": "Please make sure to copy and store the token safely. Once you close this modal, you'll not be able to see the token again!"
+        },
+        {
+            "action": "add",
+            "key": "deleteFailureMessage",
+            "namespace": "localUnitDeleteButton",
+            "value": "Failed to validate {localUnitName}"
+        },
+        {
+            "action": "add",
+            "key": "deleteLocalUnitHeading",
+            "namespace": "localUnitDeleteButton",
+            "value": "Delete Local Unit Confirmation"
+        },
+        {
+            "action": "add",
+            "key": "deleteLocalUnitMessage",
+            "namespace": "localUnitDeleteButton",
+            "value": "Are you sure you want to delete \"{localUnitName}\"?"
+        },
+        {
+            "action": "add",
+            "key": "deleteSuccessMessage",
+            "namespace": "localUnitDeleteButton",
+            "value": "{localUnitName} was deleted."
+        },
+        {
+            "action": "add",
+            "key": "localUnitsDelete",
+            "namespace": "localUnitDeleteButton",
+            "value": "Delete"
+        },
+        {
+            "action": "add",
+            "key": "addressAndContactTitle",
+            "namespace": "localUnitsForm",
+            "value": "Address and Contact"
+        },
+        {
+            "action": "add",
+            "key": "addressEn",
+            "namespace": "localUnitsForm",
+            "value": "Address (En)"
+        },
+        {
+            "action": "add",
+            "key": "addressLocal",
+            "namespace": "localUnitsForm",
+            "value": "Address (Local)"
+        },
+        {
+            "action": "add",
+            "key": "affiliation",
+            "namespace": "localUnitsForm",
+            "value": "Affiliation"
+        },
+        {
+            "action": "add",
+            "key": "ambulanceTypeA",
+            "namespace": "localUnitsForm",
+            "value": "Ambulance Type A"
+        },
+        {
+            "action": "add",
+            "key": "ambulanceTypeB",
+            "namespace": "localUnitsForm",
+            "value": "Ambulance Type B"
+        },
+        {
+            "action": "add",
+            "key": "ambulanceTypeC",
+            "namespace": "localUnitsForm",
+            "value": "Ambulance Type C"
+        },
+        {
+            "action": "add",
+            "key": "bloodServices",
+            "namespace": "localUnitsForm",
+            "value": "Blood Services"
+        },
+        {
+            "action": "add",
+            "key": "coldChain",
+            "namespace": "localUnitsForm",
+            "value": "Cold chain"
+        },
+        {
+            "action": "add",
+            "key": "commentsNS",
+            "namespace": "localUnitsForm",
+            "value": "Comments by the NS"
+        },
+        {
+            "action": "add",
+            "key": "country",
+            "namespace": "localUnitsForm",
+            "value": "Country"
+        },
+        {
+            "action": "add",
+            "key": "coverage",
+            "namespace": "localUnitsForm",
+            "value": "Coverage"
+        },
+        {
+            "action": "add",
+            "key": "dateOfUpdate",
+            "namespace": "localUnitsForm",
+            "value": "Date of update"
+        },
+        {
+            "action": "add",
+            "key": "dentist",
+            "namespace": "localUnitsForm",
+            "value": "Dentist"
+        },
+        {
+            "action": "add",
+            "key": "editButtonLabel",
+            "namespace": "localUnitsForm",
+            "value": "Edit"
+        },
+        {
+            "action": "add",
+            "key": "email",
+            "namespace": "localUnitsForm",
+            "value": "Local unit email"
+        },
+        {
+            "action": "add",
+            "key": "englishLabel",
+            "namespace": "localUnitsForm",
+            "value": "English"
+        },
+        {
+            "action": "add",
+            "key": "failedMessage",
+            "namespace": "localUnitsForm",
+            "value": "Failed to add local unit"
+        },
+        {
+            "action": "add",
+            "key": "focalPersonEn",
+            "namespace": "localUnitsForm",
+            "value": "Focal person (En)"
+        },
+        {
+            "action": "add",
+            "key": "focalPersonLocal",
+            "namespace": "localUnitsForm",
+            "value": "Focal person (Local)"
+        },
+        {
+            "action": "add",
+            "key": "focalPointEmail",
+            "namespace": "localUnitsForm",
+            "value": "Focal person email"
+        },
+        {
+            "action": "add",
+            "key": "focalPointName",
+            "namespace": "localUnitsForm",
+            "value": "Focal person name"
+        },
+        {
+            "action": "add",
+            "key": "focalPointPhoneNumber",
+            "namespace": "localUnitsForm",
+            "value": "Focal person phone number"
+        },
+        {
+            "action": "add",
+            "key": "focalPointPosition",
+            "namespace": "localUnitsForm",
+            "value": "Focal person position"
+        },
+        {
+            "action": "add",
+            "key": "functionality",
+            "namespace": "localUnitsForm",
+            "value": "Functionality"
+        },
+        {
+            "action": "add",
+            "key": "generalMedicalServices",
+            "namespace": "localUnitsForm",
+            "value": "General medical services"
+        },
+        {
+            "action": "add",
+            "key": "generalPractitioner",
+            "namespace": "localUnitsForm",
+            "value": "General Practitioner"
+        },
+        {
+            "action": "add",
+            "key": "healthFacilityType",
+            "namespace": "localUnitsForm",
+            "value": "Health Facility type"
+        },
+        {
+            "action": "add",
+            "key": "hospitalType",
+            "namespace": "localUnitsForm",
+            "value": "Hospital type"
+        },
+        {
+            "action": "add",
+            "key": "humanResourcesTitle",
+            "namespace": "localUnitsForm",
+            "value": "Human Resources"
+        },
+        {
+            "action": "add",
+            "key": "inPatientCapacity",
+            "namespace": "localUnitsForm",
+            "value": "In-patient capacity"
+        },
+        {
+            "action": "add",
+            "key": "isolationRoomsWards",
+            "namespace": "localUnitsForm",
+            "value": "Isolation rooms wards"
+        },
+        {
+            "action": "add",
+            "key": "lastUpdateLabel",
+            "namespace": "localUnitsForm",
+            "value": "Last update: {modifiedAt} by {modifiedBy}"
+        },
+        {
+            "action": "add",
+            "key": "localityEn",
+            "namespace": "localUnitsForm",
+            "value": "Locality (En)"
+        },
+        {
+            "action": "add",
+            "key": "localityLocal",
+            "namespace": "localUnitsForm",
+            "value": "Locality (Local)"
+        },
+        {
+            "action": "add",
+            "key": "localLabel",
+            "namespace": "localUnitsForm",
+            "value": "Local"
+        },
+        {
+            "action": "add",
+            "key": "localUnitDetail",
+            "namespace": "localUnitsForm",
+            "value": "Local Unit detail"
+        },
+        {
+            "action": "add",
+            "key": "localUnitNameEn",
+            "namespace": "localUnitsForm",
+            "value": "Local unit name (En)"
+        },
+        {
+            "action": "add",
+            "key": "localUnitNameLocal",
+            "namespace": "localUnitsForm",
+            "value": "Local unit name (Local)"
+        },
+        {
+            "action": "add",
+            "key": "maximumCapacity",
+            "namespace": "localUnitsForm",
+            "value": "Maximum capacity"
+        },
+        {
+            "action": "add",
+            "key": "midwife",
+            "namespace": "localUnitsForm",
+            "value": "Midwife"
+        },
+        {
+            "action": "add",
+            "key": "numberOfIsolationRooms",
+            "namespace": "localUnitsForm",
+            "value": "Number of isolation rooms"
+        },
+        {
+            "action": "add",
+            "key": "nurse",
+            "namespace": "localUnitsForm",
+            "value": "Nurse"
+        },
+        {
+            "action": "add",
+            "key": "nursingAid",
+            "namespace": "localUnitsForm",
+            "value": "Nursing aid"
+        },
+        {
+            "action": "add",
+            "key": "otherAffiliation",
+            "namespace": "localUnitsForm",
+            "value": "Other Affiliation"
+        },
+        {
+            "action": "add",
+            "key": "otherFacilityType",
+            "namespace": "localUnitsForm",
+            "value": "Other Facility type"
+        },
+        {
+            "action": "add",
+            "key": "otherMedicalHeal",
+            "namespace": "localUnitsForm",
+            "value": "Other medical heal"
+        },
+        {
+            "action": "add",
+            "key": "otherProfiles",
+            "namespace": "localUnitsForm",
+            "value": "Other profiles"
+        },
+        {
+            "action": "add",
+            "key": "otherServices",
+            "namespace": "localUnitsForm",
+            "value": "Other Services"
+        },
+        {
+            "action": "add",
+            "key": "phone",
+            "namespace": "localUnitsForm",
+            "value": "Local unit phone number"
+        },
+        {
+            "action": "add",
+            "key": "postCode",
+            "namespace": "localUnitsForm",
+            "value": "Local unit post code"
+        },
+        {
+            "action": "add",
+            "key": "primaryHealthCareCenter",
+            "namespace": "localUnitsForm",
+            "value": "Primary health care center"
+        },
+        {
+            "action": "add",
+            "key": "professionalTrainingFacilities",
+            "namespace": "localUnitsForm",
+            "value": "Professional training facilities"
+        },
+        {
+            "action": "add",
+            "key": "residentsDoctor",
+            "namespace": "localUnitsForm",
+            "value": "Residents doctor"
+        },
+        {
+            "action": "add",
+            "key": "servicesTitle",
+            "namespace": "localUnitsForm",
+            "value": "Services"
+        },
+        {
+            "action": "add",
+            "key": "sourceEn",
+            "namespace": "localUnitsForm",
+            "value": "Source (En)"
+        },
+        {
+            "action": "add",
+            "key": "sourceLocal",
+            "namespace": "localUnitsForm",
+            "value": "Source (Local)"
+        },
+        {
+            "action": "add",
+            "key": "specialist",
+            "namespace": "localUnitsForm",
+            "value": "Specialist"
+        },
+        {
+            "action": "add",
+            "key": "specialitiesAndCapacityTitle",
+            "namespace": "localUnitsForm",
+            "value": "Specialities & Capacity"
+        },
+        {
+            "action": "add",
+            "key": "specializedMedicalService",
+            "namespace": "localUnitsForm",
+            "value": "Specialized medical beyond primary level"
+        },
+        {
+            "action": "add",
+            "key": "specialties",
+            "namespace": "localUnitsForm",
+            "value": "Specialties"
+        },
+        {
+            "action": "add",
+            "key": "submitButtonLabel",
+            "namespace": "localUnitsForm",
+            "value": "Submit"
+        },
+        {
+            "action": "add",
+            "key": "subtype",
+            "namespace": "localUnitsForm",
+            "value": "Sub-type"
+        },
+        {
+            "action": "add",
+            "key": "subtypeDescription",
+            "namespace": "localUnitsForm",
+            "value": "(e.g. hospital)"
+        },
+        {
+            "action": "add",
+            "key": "successMessage",
+            "namespace": "localUnitsForm",
+            "value": "Local unit added successfully!"
+        },
+        {
+            "action": "add",
+            "key": "teachingHospital",
+            "namespace": "localUnitsForm",
+            "value": "Teaching Hospital"
+        },
+        {
+            "action": "add",
+            "key": "totalNumberOfHumanResources",
+            "namespace": "localUnitsForm",
+            "value": "Total number of human resource"
+        },
+        {
+            "action": "add",
+            "key": "type",
+            "namespace": "localUnitsForm",
+            "value": "Local unit type"
+        },
+        {
+            "action": "add",
+            "key": "updateFailedMessage",
+            "namespace": "localUnitsForm",
+            "value": "Failed to update local unit"
+        },
+        {
+            "action": "add",
+            "key": "updateMessage",
+            "namespace": "localUnitsForm",
+            "value": "Local unit updated successfully!"
+        },
+        {
+            "action": "add",
+            "key": "visibility",
+            "namespace": "localUnitsForm",
+            "value": "Visibility"
+        },
+        {
+            "action": "add",
+            "key": "warehousing",
+            "namespace": "localUnitsForm",
+            "value": "Warehousing"
+        },
+        {
+            "action": "add",
+            "key": "website",
+            "namespace": "localUnitsForm",
+            "value": "Local unit website"
+        },
+        {
+            "action": "add",
+            "key": "deleteLocalUnitHeading",
+            "namespace": "localUnitsTableActions",
+            "value": "Delete Local Unit Confirmation"
+        },
+        {
+            "action": "add",
+            "key": "deleteLocalUnitMessage",
+            "namespace": "localUnitsTableActions",
+            "value": "Are you sure you want to delete \"{localUnitName}\"?"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsDelete",
+            "namespace": "localUnitsTableActions",
+            "value": "Delete"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsEdit",
+            "namespace": "localUnitsTableActions",
+            "value": "Edit"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsView",
+            "namespace": "localUnitsTableActions",
+            "value": "View"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsNotValidated",
+            "namespace": "localUnitValidateButton",
+            "value": "Not validated"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsValidate",
+            "namespace": "localUnitValidateButton",
+            "value": "Validate"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsValidated",
+            "namespace": "localUnitValidateButton",
+            "value": "Validated"
+        },
+        {
+            "action": "add",
+            "key": "validateLocalUnitHeading",
+            "namespace": "localUnitValidateButton",
+            "value": "Validate Local Unit Confirmation"
+        },
+        {
+            "action": "add",
+            "key": "validateLocalUnitMessage",
+            "namespace": "localUnitValidateButton",
+            "value": "Are you sure you want to validate \"{localUnitName}\"?"
+        },
+        {
+            "action": "add",
+            "key": "validationFailureMessage",
+            "namespace": "localUnitValidateButton",
+            "value": "Failed to validate {localUnitName}"
+        },
+        {
+            "action": "add",
+            "key": "validationSuccessMessage",
+            "namespace": "localUnitValidateButton",
+            "value": "{localUnitName} was validated."
+        },
+        {
+            "action": "add",
+            "key": "ifrcNSDFunds",
+            "namespace": "nationalSocietyDevelopmentInitiatives",
+            "value": "IFRC NSD Funds"
+        },
+        {
+            "action": "remove",
+            "key": "ifrc",
+            "namespace": "nationalSocietyDirectory"
+        },
+        {
+            "action": "add",
+            "key": "sourceFDRS",
+            "namespace": "nationalSocietyIncomeOverTime",
+            "value": "{nationalSociety} on FDRS"
+        },
+        {
+            "action": "add",
+            "key": "incomeSourceBreakdownSource",
+            "namespace": "nationalSocietyIncomeSourceBreakdown",
+            "value": "{nationalSociety} on FDRS"
+        },
+        {
+            "action": "add",
+            "key": "incomeSourceBreakdownSourceLabel",
+            "namespace": "nationalSocietyIncomeSourceBreakdown",
+            "value": "Source"
+        },
+        {
+            "action": "add",
+            "key": "sourceFDRS",
+            "namespace": "nationalSocietyIndicators",
+            "value": "{nationalSociety} on FDRS"
+        },
+        {
+            "action": "remove",
+            "key": "fdrs",
+            "namespace": "nationalSocietyIndicators"
+        },
+        {
+            "action": "add",
+            "key": "sourceFDRS",
+            "namespace": "nationalSocietyKeyDocuments",
+            "value": "{nationalSociety} on FDRS"
+        },
+        {
+            "action": "remove",
+            "key": "ifrc",
+            "namespace": "nationalSocietyKeyDocuments"
+        },
+        {
+            "action": "add",
+            "key": "addLocalUnitLabel",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Add a Local Unit"
+        },
+        {
+            "action": "add",
+            "key": "closePresentationLabel",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Close"
+        },
+        {
+            "action": "add",
+            "key": "localUnitDetailFocalPerson",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Focal person"
+        },
+        {
+            "action": "add",
+            "key": "localUnitDetailLastUpdate",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Last updated"
+        },
+        {
+            "action": "add",
+            "key": "localUnitDetailPhoneNumber",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Phone number"
+        },
+        {
+            "action": "add",
+            "key": "localUnitHealthFacilityType",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Health facility types"
+        },
+        {
+            "action": "add",
+            "key": "localUnitLocalUnitType",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Local unit types"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsListView",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "List view"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsMapView",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Map view"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsModalHeading",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Local Unit Form"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsTableAddress",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Address"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsTableEmail",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Email"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsTableFocal",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Focal Person"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsTableName",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Name"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsTablePhoneNumber",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Phone Number"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsTableType",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Type"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsTitle",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "NS Local Units"
+        },
+        {
+            "action": "add",
+            "key": "localUnitTooltipMoreDetails",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "More details"
+        },
+        {
+            "action": "add",
+            "key": "presentationModeButton",
+            "namespace": "nationalSocietyLocalUnits",
+            "value": "Presentation mode"
+        },
+        {
+            "action": "remove",
+            "key": "editLocalUnitLink",
+            "namespace": "nationalSocietyLocalUnitsMap"
+        },
+        {
+            "action": "remove",
+            "key": "localUnitDetailFocalPerson",
+            "namespace": "nationalSocietyLocalUnitsMap"
+        },
+        {
+            "action": "remove",
+            "key": "localUnitDetailLastUpdate",
+            "namespace": "nationalSocietyLocalUnitsMap"
+        },
+        {
+            "action": "remove",
+            "key": "localUnitDetailPhoneNumber",
+            "namespace": "nationalSocietyLocalUnitsMap"
+        },
+        {
+            "action": "remove",
+            "key": "localUnitsFilterClear",
+            "namespace": "nationalSocietyLocalUnitsMap"
+        },
+        {
+            "action": "remove",
+            "key": "localUnitsMapTitle",
+            "namespace": "nationalSocietyLocalUnitsMap"
+        },
+        {
+            "action": "update",
+            "key": "localUnitDetailAddress",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "newNamespace": "nationalSocietyLocalUnits"
+        },
+        {
+            "action": "update",
+            "key": "localUnitDetailAddressValue",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "newNamespace": "nationalSocietyLocalUnits"
+        },
+        {
+            "action": "update",
+            "key": "localUnitDetailEmail",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "newNamespace": "nationalSocietyLocalUnits"
+        },
+        {
+            "action": "update",
+            "key": "localUnitDetailType",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "newNamespace": "nationalSocietyLocalUnits"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsFilterSearchLabel",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "newNamespace": "nsLocalUnitsFilters"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsFilterSearchPlaceholderLabel",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "newNamespace": "nsLocalUnitsFilters"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsFilterTypeLabel",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "newNamespace": "nsLocalUnitsFilters"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsFilterTypePlaceholder",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "newNamespace": "nsLocalUnitsFilters"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsFilterValidatedLabel",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "newNamespace": "nsLocalUnitsFilters"
+        },
+        {
+            "action": "update",
+            "key": "localUnitsFilterValidatedPlaceholder",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "newNamespace": "nsLocalUnitsFilters"
+        },
+        {
+            "action": "update",
+            "key": "notValidated",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "newNamespace": "nsLocalUnitsFilters"
+        },
+        {
+            "action": "update",
+            "key": "validated",
+            "namespace": "nationalSocietyLocalUnitsMap",
+            "newNamespace": "nsLocalUnitsFilters"
+        },
+        {
+            "action": "remove",
+            "key": "ifrc",
+            "namespace": "nsDirectoryInitiatives"
+        },
+        {
+            "action": "update",
+            "key": "nSDirectoryInitiativesDescription",
+            "namespace": "nsDirectoryInitiatives",
+            "newNamespace": "nationalSocietyDevelopmentInitiatives"
+        },
+        {
+            "action": "update",
+            "key": "nSDirectoryInitiativesTitle",
+            "namespace": "nsDirectoryInitiatives",
+            "newNamespace": "nationalSocietyDevelopmentInitiatives"
+        },
+        {
+            "action": "update",
+            "key": "source",
+            "namespace": "nsDirectoryInitiatives",
+            "newNamespace": "countryProfileSupportingPartners"
+        },
+        {
+            "action": "add",
+            "key": "localUnitsFilterClear",
+            "namespace": "nsLocalUnitsFilters",
+            "value": "Clear filters"
+        },
+        {
+            "action": "add",
+            "key": "applyFilters",
+            "namespace": "operationalLearning",
+            "value": "Apply Filters"
+        },
+        {
+            "action": "add",
+            "key": "beta",
+            "namespace": "operationalLearning",
+            "value": "beta"
+        },
+        {
+            "action": "add",
+            "key": "byComponentTitle",
+            "namespace": "operationalLearning",
+            "value": "Component"
+        },
+        {
+            "action": "add",
+            "key": "bySectorTitle",
+            "namespace": "operationalLearning",
+            "value": "Sector"
+        },
+        {
+            "action": "add",
+            "key": "clearFilters",
+            "namespace": "operationalLearning",
+            "value": "Clear Filters"
+        },
+        {
+            "action": "add",
+            "key": "disclaimerMessage",
+            "namespace": "operationalLearning",
+            "value": "This is an updated implementation of the Operational Learning project started by the DREF and PER teams at IFRC. The previous dashboard can be found {link}."
+        },
+        {
+            "action": "add",
+            "key": "emptyMessage",
+            "namespace": "operationalLearning",
+            "value": "There are no summaries available at the moment. Please adjust your filters or try again later."
+        },
+        {
+            "action": "add",
+            "key": "errorMessage",
+            "namespace": "operationalLearning",
+            "value": "Encountered an error while attempting to generate operational learning summary. Please try again later. If the issue continues, please contact the IFRC team."
+        },
+        {
+            "action": "add",
+            "key": "extractCount",
+            "namespace": "operationalLearning",
+            "value": "{count} extract"
+        },
+        {
+            "action": "add",
+            "key": "extractsCount",
+            "namespace": "operationalLearning",
+            "value": "{count} extracts"
+        },
+        {
+            "action": "add",
+            "key": "failedToCreateExport",
+            "namespace": "operationalLearning",
+            "value": "Failed to generate export."
+        },
+        {
+            "action": "add",
+            "key": "filteredEmptyMessage",
+            "namespace": "operationalLearning",
+            "value": "Current filters did not return any operational learning summaries. Please try adjusting or clearing your filters to check for available operational learning summaries."
+        },
+        {
+            "action": "add",
+            "key": "here",
+            "namespace": "operationalLearning",
+            "value": "here"
+        },
+        {
+            "action": "add",
+            "key": "noSummariesAvailableForComponent",
+            "namespace": "operationalLearning",
+            "value": "No summaries available for components."
+        },
+        {
+            "action": "add",
+            "key": "noSummariesAvailableForSector",
+            "namespace": "operationalLearning",
+            "value": "No summaries available for sectors."
+        },
+        {
+            "action": "add",
+            "key": "operationalLearningHeading",
+            "namespace": "operationalLearning",
+            "value": "Operational Learning"
+        },
+        {
+            "action": "add",
+            "key": "operationalLearningHeadingDescription",
+            "namespace": "operationalLearning",
+            "value": "Operational learning in emergencies is the lesson learned from managing and dealing with crises, refining protocols for resource allocation, decision-making, communication strategies, and others.  The summaries are generated using AI and Large Language Models, based on data coming from Final DREF Reports, Emergency Appeal reports and others."
+        },
+        {
+            "action": "add",
+            "key": "pendingMessage",
+            "namespace": "operationalLearning",
+            "value": "Request for generating operational learning summary is currently pending. Please wait a moment."
+        },
+        {
+            "action": "add",
+            "key": "selectedFilters",
+            "namespace": "operationalLearning",
+            "value": "Selected Filters"
+        },
+        {
+            "action": "add",
+            "key": "startedMessage",
+            "namespace": "operationalLearning",
+            "value": "Process of generating operational learning summary has started. This may take a few moments."
+        },
+        {
+            "action": "add",
+            "key": "appealEndDate",
+            "namespace": "operationalLearningFilters",
+            "value": "Appeal End Date"
+        },
+        {
+            "action": "add",
+            "key": "appealStartDate",
+            "namespace": "operationalLearningFilters",
+            "value": "Appeal Start Date"
+        },
+        {
+            "action": "add",
+            "key": "filterComponentLabel",
+            "namespace": "operationalLearningFilters",
+            "value": "Component"
+        },
+        {
+            "action": "add",
+            "key": "filterComponentPlaceholder",
+            "namespace": "operationalLearningFilters",
+            "value": "All Components"
+        },
+        {
+            "action": "add",
+            "key": "filterCountryLabel",
+            "namespace": "operationalLearningFilters",
+            "value": "Country"
+        },
+        {
+            "action": "add",
+            "key": "filterCountryPlaceholder",
+            "namespace": "operationalLearningFilters",
+            "value": "All Countries"
+        },
+        {
+            "action": "add",
+            "key": "filterDisasterTypeLabel",
+            "namespace": "operationalLearningFilters",
+            "value": "Disaster Type"
+        },
+        {
+            "action": "add",
+            "key": "filterDisasterTypePlaceholder",
+            "namespace": "operationalLearningFilters",
+            "value": "All Disaster Types"
+        },
+        {
+            "action": "add",
+            "key": "filterOpsLearningSearchLabel",
+            "namespace": "operationalLearningFilters",
+            "value": "Search"
+        },
+        {
+            "action": "add",
+            "key": "filterOpsLearningSearchPlaceholder",
+            "namespace": "operationalLearningFilters",
+            "value": "Search"
+        },
+        {
+            "action": "add",
+            "key": "filterRegionLabel",
+            "namespace": "operationalLearningFilters",
+            "value": "Region"
+        },
+        {
+            "action": "add",
+            "key": "filterRegionPlaceholder",
+            "namespace": "operationalLearningFilters",
+            "value": "All Regions"
+        },
+        {
+            "action": "add",
+            "key": "filterSectorLabel",
+            "namespace": "operationalLearningFilters",
+            "value": "Sector"
+        },
+        {
+            "action": "add",
+            "key": "filterSectorPlaceholder",
+            "namespace": "operationalLearningFilters",
+            "value": "All Sectors"
+        },
+        {
+            "action": "add",
+            "key": "closeSources",
+            "namespace": "operationalLearningSummary",
+            "value": "Close Sources"
+        },
+        {
+            "action": "add",
+            "key": "extractCount",
+            "namespace": "operationalLearningSummary",
+            "value": "({count} extract)"
+        },
+        {
+            "action": "add",
+            "key": "extractsCount",
+            "namespace": "operationalLearningSummary",
+            "value": "({count} extracts)"
+        },
+        {
+            "action": "add",
+            "key": "seeSources",
+            "namespace": "operationalLearningSummary",
+            "value": "Show Sources"
+        },
+        {
+            "action": "add",
+            "key": "closeSources",
+            "namespace": "opsLearningKeyInsights",
+            "value": "Close Sources"
+        },
+        {
+            "action": "add",
+            "key": "keyInsightsDisclaimer",
+            "namespace": "opsLearningKeyInsights",
+            "value": "These summaries were generated using AI and Large Language Models. They represent {numOfExtractsUsed} prioritised extracts out of {totalNumberOfExtracts} from the DREF and EA documents between {appealsFromDate} - {appealsToDate}. An initial automatic assessment of the quality of the summaries resulted in around 78% performance in terms of relevancy, coherence, consisentency and fluency. To see the methodology behind the prioritisation {methodologyLink}."
+        },
+        {
+            "action": "add",
+            "key": "keyInsightsReportIssue",
+            "namespace": "opsLearningKeyInsights",
+            "value": "Report an issue"
+        },
+        {
+            "action": "add",
+            "key": "methodologyLinkLabel",
+            "namespace": "opsLearningKeyInsights",
+            "value": "click here"
+        },
+        {
+            "action": "add",
+            "key": "opsLearningSummariesHeading",
+            "namespace": "opsLearningKeyInsights",
+            "value": "Summary of learnings"
+        },
+        {
+            "action": "add",
+            "key": "seeSources",
+            "namespace": "opsLearningKeyInsights",
+            "value": "Show Sources"
+        },
+        {
+            "action": "update",
+            "key": "epiConsiderationTitle",
+            "namespace": "perAssessmentForm",
+            "newValue": "Epidemic Considerations"
+        },
+        {
+            "action": "add",
+            "key": "perArea",
+            "namespace": "perExport",
+            "value": "Area {areaNumber}: {title}"
+        },
+        {
+            "action": "add",
+            "key": "perAreas",
+            "namespace": "perExport",
+            "value": "PER Areas"
+        },
+        {
+            "action": "add",
+            "key": "perLogoAltText",
+            "namespace": "perExport",
+            "value": "Preparedness for Effective Response"
+        },
+        {
+            "action": "update",
+            "key": "perImageLogoIFRCAlt",
+            "newKey": "ifrcLogoIFRCAltText",
+            "namespace": "perExport"
+        },
+        {
+            "action": "update",
+            "key": "epiConsiderationsInputLabel",
+            "namespace": "perOverviewForm",
+            "newValue": "Epidemic Considerations"
+        },
+        {
+            "action": "remove",
+            "key": "operationalLearning",
+            "namespace": "preparedness"
+        },
+        {
+            "action": "update",
+            "key": "preparednessHeading",
+            "namespace": "preparedness",
+            "newValue": "National Society Preparedness and Response Capacity Strengthening (PER)"
+        },
+        {
+            "action": "remove",
+            "key": "operationalLearningTitle",
+            "namespace": "preparednessOperationalLearning"
+        },
+        {
+            "action": "add",
+            "key": "perArea",
+            "namespace": "privateCountryPreparedness",
+            "value": "Area {areaNumber}: {title}"
+        },
+        {
+            "action": "add",
+            "key": "perAreas",
+            "namespace": "privateCountryPreparedness",
+            "value": "PER Areas"
+        },
+        {
+            "action": "add",
+            "key": "aboutCCF",
+            "namespace": "resources",
+            "value": "Core Competency Framework"
+        },
+        {
+            "action": "add",
+            "key": "aboutCoreCompetencyFramework",
+            "namespace": "resources",
+            "value": "Core Competency Framework"
+        },
+        {
+            "action": "add",
+            "key": "aboutCoS",
+            "namespace": "resources",
+            "value": "Catalogue of Surge Services"
+        },
+        {
+            "action": "add",
+            "key": "aboutHealthMapping",
+            "namespace": "resources",
+            "value": "Health Mapping - Phase 1 Report"
+        },
+        {
+            "action": "add",
+            "key": "aboutSIMS",
+            "namespace": "resources",
+            "value": "Surge Information Management Support (SIMS) portal"
+        },
+        {
+            "action": "add",
+            "key": "aboutSurgeLearning",
+            "namespace": "resources",
+            "value": "Surge Learning"
+        },
+        {
+            "action": "add",
+            "key": "aboutSurgeLinks",
+            "namespace": "resources",
+            "value": "IFRC Surge Links"
+        },
+        {
+            "action": "add",
+            "key": "goUIStorybook",
+            "namespace": "resources",
+            "value": "GO UI Storybook"
+        },
+        {
+            "action": "add",
+            "key": "videoCarouselHeadingHealth",
+            "namespace": "resources",
+            "value": "Mapping on professional Health Services"
+        },
+        {
+            "action": "add",
+            "key": "videoCarouselHeadingMontandon",
+            "namespace": "resources",
+            "value": "Montandon – the Global Crisis Data Bank"
+        },
+        {
+            "action": "add",
+            "key": "videoCarouselSubHeadingHealth",
+            "namespace": "resources",
+            "value": "View this video tutorial on the extensive mapping results and a wide range of information provided by Red Cross and Red Crescent National Societies on their health services and local branches."
+        },
+        {
+            "action": "add",
+            "key": "videoCarouselSubHeadingMontandon",
+            "namespace": "resources",
+            "value": "Mapping global crises' historical data. The IFRC GO Platform uses Montandon, the Global Crisis Data Bank, the world's largest repository of information on past natural hazards and their impact."
+        },
+        {
+            "action": "remove",
+            "key": "aboutCOP23Report",
+            "namespace": "resources"
+        },
+        {
+            "action": "remove",
+            "key": "aboutGoUserLibrary",
+            "namespace": "resources"
+        },
+        {
+            "action": "remove",
+            "key": "aboutSurgeNetwork",
+            "namespace": "resources"
+        },
+        {
+            "action": "remove",
+            "key": "aboutSurgeServices",
+            "namespace": "resources"
+        },
+        {
+            "action": "remove",
+            "key": "videoCarouselHeading3WInstructional",
+            "namespace": "resources"
+        },
+        {
+            "action": "remove",
+            "key": "videoCarouselHeadingTranslations",
+            "namespace": "resources"
+        },
+        {
+            "action": "remove",
+            "key": "videoCarouselSubHeading3WInstructional",
+            "namespace": "resources"
+        },
+        {
+            "action": "remove",
+            "key": "videoCarouselSubHeadingTranslations",
+            "namespace": "resources"
+        },
+        {
+            "action": "update",
+            "key": "goWorkplan",
+            "namespace": "resources",
+            "newValue": "GO Workplan 2024"
+        },
+        {
+            "action": "update",
+            "key": "videoCarouselHeading3w",
+            "newKey": "videoCarouselHeading3wDataCollection",
+            "namespace": "resources"
+        },
+        {
+            "action": "update",
+            "key": "videoCarouselHeading3W",
+            "namespace": "resources",
+            "newValue": "3W – Who does What, Where."
+        },
+        {
+            "action": "update",
+            "key": "videoCarouselHeading3wsub",
+            "newKey": "videoCarouselSubHeading3wDataCollection",
+            "namespace": "resources"
+        },
+        {
+            "action": "add",
+            "key": "cookiesBannerDescription",
+            "namespace": "root",
+            "value": "By entering this website, you consent to the use of technologies, such as cookies and analytics. These will be used to analyse traffic to the website, allowing us to understand visitor preferences and improve our services"
+        },
+        {
+            "action": "add",
+            "key": "cookiesBannerIAccept",
+            "namespace": "root",
+            "value": "I Accept"
+        },
+        {
+            "action": "add",
+            "key": "cookiesBannerLearnMore",
+            "namespace": "root",
+            "value": "Learn more"
+        },
+        {
+            "action": "update",
+            "key": "environmentTextProduction",
+            "namespace": "root",
+            "newValue": "Production Site"
+        },
+        {
+            "action": "add",
+            "key": "noSources",
+            "namespace": "sources",
+            "value": "The extract doesn't have any source."
+        },
+        {
+            "action": "add",
+            "key": "viewAllExtracts",
+            "namespace": "sources",
+            "value": "View All Extracts"
+        },
+        {
+            "action": "add",
+            "key": "catalogueCMR",
+            "namespace": "surgeCatalogue",
+            "value": "Civil Military Relations (CMR)"
+        },
+        {
+            "action": "add",
+            "key": "catalogueDDR",
+            "namespace": "surgeCatalogue",
+            "value": "Disaster Risk Reduction (DRR)"
+        },
+        {
+            "action": "add",
+            "key": "catalogueGR",
+            "namespace": "surgeCatalogue",
+            "value": "Green Response (GR)"
+        },
+        {
+            "action": "add",
+            "key": "catalogueHD",
+            "namespace": "surgeCatalogue",
+            "value": "Humanitarian Diplomacy (HD)"
+        },
+        {
+            "action": "add",
+            "key": "catalogueHR",
+            "namespace": "surgeCatalogue",
+            "value": "Human Resources (HR)"
+        },
+        {
+            "action": "add",
+            "key": "catalogueIDRL",
+            "namespace": "surgeCatalogue",
+            "value": "International Disaster Response Law (IDRL)"
+        },
+        {
+            "action": "add",
+            "key": "catalogueMigration",
+            "namespace": "surgeCatalogue",
+            "value": "Migration"
+        },
+        {
+            "action": "add",
+            "key": "catalogueNSD",
+            "namespace": "surgeCatalogue",
+            "value": "National Society Development (NSD)"
+        },
+        {
+            "action": "add",
+            "key": "cataloguePER",
+            "namespace": "surgeCatalogue",
+            "value": "National Society Preparedness and Response Capacity Strengthening (PER)"
+        },
+        {
+            "action": "add",
+            "key": "catalogueRecovery",
+            "namespace": "surgeCatalogue",
+            "value": "Recovery"
+        },
+        {
+            "action": "add",
+            "key": "catalogueSPRD",
+            "namespace": "surgeCatalogue",
+            "value": "Strategic Partnerships and Resource Mobilisation (SPRM)"
+        },
+        {
+            "action": "add",
+            "key": "catalogueUAV",
+            "namespace": "surgeCatalogue",
+            "value": "Drones – Uncrewed Aerial Vehicles (UAV)"
+        },
+        {
+            "action": "remove",
+            "key": "catalogueOther",
+            "namespace": "surgeCatalogue"
+        },
+        {
+            "action": "update",
+            "key": "catalogueLivelihoodsAndBasicNeeds",
+            "namespace": "surgeCatalogue",
+            "newValue": "Livelihoods and Basic Needs (LBN)"
+        },
+        {
+            "action": "add",
+            "key": "healthIPCTitle",
+            "namespace": "surgeCatalogueHealth",
+            "value": "Infection Prevention and Control (IPC)"
+        },
+        {
+            "action": "add",
+            "key": "communityBasedEmergencyDetailOne",
+            "namespace": "surgeCatalogueHealthCommunityBasedSurveillance",
+            "value": "Specific objectives: assess the need for a PH ERU CBS in the specific context; determine the configuration of the data collection, flow, protection and response, and other components of the CBS system that will be put into place; set up the data collection and analysis tools; train delegates, NS staff and volunteers who will support data collection, analysis and response; maintain ongoing analysis and use data for decision-making; ensure monitoring of data collection, analysis and response; early detection of cases of disease at community level, and appropriate preventive responses and referral, as necessary."
+        },
+        {
+            "action": "add",
+            "key": "communityBasedEmergencyDetailTwo",
+            "namespace": "surgeCatalogueHealthCommunityBasedSurveillance",
+            "value": "Activities include: assessment of needs, feasibility and capacity for response of the CBS based on initial request by NS or IFRC; design of CBS system; set up of CBS system adapted to context and need; coordination with all relevant stakeholders; training of RC volunteers in CBS methodology; depending on the situation; support epidemic control for volunteers training; development of exit strategy/plan."
+        },
+        {
+            "action": "add",
+            "key": "communityBasedPersonnelListItemOne",
+            "namespace": "surgeCatalogueHealthCommunityBasedSurveillance",
+            "value": "Advanced team: 2 people: Team lead, field epidemiologist or data/information manager"
+        },
+        {
+            "action": "add",
+            "key": "communityBasedPersonnelListItemTwo",
+            "namespace": "surgeCatalogueHealthCommunityBasedSurveillance",
+            "value": "Full deployment: 5. Complete CBS deployment, as above + public health, ICT and/or logistics, finance/admin"
+        },
+        {
+            "action": "remove",
+            "key": "communityBasedEmergencyDetail",
+            "namespace": "surgeCatalogueHealthCommunityBasedSurveillance"
+        },
+        {
+            "action": "remove",
+            "key": "communityBasedPersonnelCompositionLabel",
+            "namespace": "surgeCatalogueHealthCommunityBasedSurveillance"
+        },
+        {
+            "action": "remove",
+            "key": "communityBasedPersonnelCompositionListItemOne",
+            "namespace": "surgeCatalogueHealthCommunityBasedSurveillance"
+        },
+        {
+            "action": "remove",
+            "key": "communityBasedPersonnelCompositionListItemTwo",
+            "namespace": "surgeCatalogueHealthCommunityBasedSurveillance"
+        },
+        {
+            "action": "remove",
+            "key": "communityBasedPersonnelLabel",
+            "namespace": "surgeCatalogueHealthCommunityBasedSurveillance"
+        },
+        {
+            "action": "remove",
+            "key": "communityBasedPersonnelValue",
+            "namespace": "surgeCatalogueHealthCommunityBasedSurveillance"
+        },
+        {
+            "action": "remove",
+            "key": "communityBasedStandardComponentsListItemFour",
+            "namespace": "surgeCatalogueHealthCommunityBasedSurveillance"
+        },
+        {
+            "action": "remove",
+            "key": "communityBasedStandardComponentsListItemThree",
+            "namespace": "surgeCatalogueHealthCommunityBasedSurveillance"
+        },
+        {
+            "action": "update",
+            "key": "communityBasedDesignedForDetail",
+            "namespace": "surgeCatalogueHealthCommunityBasedSurveillance",
+            "newValue": "An advanced assessment team can be deployed for 1-2 weeks within  48 hours upon receiving a deployment request. If the assessment team determines that implementation of a CBS sytem is feasible, the remaining team members and equipment are deployed. Both components of the team are self-sufficient for the first month of operations, and the deployed CBS ERU module can operate for up to 4 months."
+        },
+        {
+            "action": "update",
+            "key": "communityBasedDetail",
+            "namespace": "surgeCatalogueHealthCommunityBasedSurveillance",
+            "newValue": "The purpose PH ERU CBS is to reduce the loss of lives by preventing or contributing to reduction of outbreaks or potential outbreaks of diseases or their negative impacts in sudden-onset disasters, protracted crisis or health emergencies/outbreaks, where there is a defined need for surveillance of diseases. PH ERU CBS supports the establishment of a CBS system for detecting and reporting of events of public health significance within a community by community members, to strengthen the response during an emergency."
+        },
+        {
+            "action": "update",
+            "key": "communityBasedSpecificationsNationValue",
+            "namespace": "surgeCatalogueHealthCommunityBasedSurveillance",
+            "newValue": "Norwegian RC"
+        },
+        {
+            "action": "update",
+            "key": "communityBasedSpecificationsVolumeLabel",
+            "namespace": "surgeCatalogueHealthCommunityBasedSurveillance",
+            "newValue": "Carry-on baggage"
+        },
+        {
+            "action": "update",
+            "key": "communityBasedSpecificationsWeightValue",
+            "namespace": "surgeCatalogueHealthCommunityBasedSurveillance",
+            "newValue": "10 kg"
+        },
+        {
+            "action": "update",
+            "key": "communityBasedStandardComponentsListItemOne",
+            "namespace": "surgeCatalogueHealthCommunityBasedSurveillance",
+            "newValue": "CBS platform kit"
+        },
+        {
+            "action": "update",
+            "key": "communityBasedStandardComponentsListItemTwo",
+            "namespace": "surgeCatalogueHealthCommunityBasedSurveillance",
+            "newValue": "Vehicles (rent or supply)"
+        },
+        {
+            "action": "remove",
+            "key": "communityCaseCapacityDetail",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementChlorea"
+        },
+        {
+            "action": "remove",
+            "key": "communityCaseDesignedForDetail",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementChlorea"
+        },
+        {
+            "action": "remove",
+            "key": "communityCaseEmergencyServicesDetail",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementChlorea"
+        },
+        {
+            "action": "remove",
+            "key": "communityCasePersonnelCompositionValue",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementChlorea"
+        },
+        {
+            "action": "remove",
+            "key": "communityCasePersonnelLabel",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementChlorea"
+        },
+        {
+            "action": "remove",
+            "key": "communityCaseSpecificationNationalSocietiesValue",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementChlorea"
+        },
+        {
+            "action": "remove",
+            "key": "communityCaseSpecificationsVolumeValue",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementChlorea"
+        },
+        {
+            "action": "remove",
+            "key": "communityCaseSpecificationsWeightValue",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementChlorea"
+        },
+        {
+            "action": "remove",
+            "key": "communityCaseStandardListItemOne",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementChlorea"
+        },
+        {
+            "action": "remove",
+            "key": "communityCaseStandardListItemThree",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementChlorea"
+        },
+        {
+            "action": "remove",
+            "key": "communityCaseStandardListItemTwo",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementChlorea"
+        },
+        {
+            "action": "update",
+            "key": "communityCaseCapacity",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementChlorea",
+            "newNamespace": "surgeCatalogueHealthCommunityCaseManagementCholera"
+        },
+        {
+            "action": "update",
+            "key": "communityCaseDesignedFor",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementChlorea",
+            "newNamespace": "surgeCatalogueHealthCommunityCaseManagementCholera"
+        },
+        {
+            "action": "update",
+            "key": "communityCaseEmergencyServices",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementChlorea",
+            "newNamespace": "surgeCatalogueHealthCommunityCaseManagementCholera"
+        },
+        {
+            "action": "update",
+            "key": "communityCaseImageCaption",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementChlorea",
+            "newNamespace": "surgeCatalogueHealthCommunityCaseManagementCholera"
+        },
+        {
+            "action": "update",
+            "key": "communityCasePersonnel",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementChlorea",
+            "newNamespace": "surgeCatalogueHealthCommunityCaseManagementCholera"
+        },
+        {
+            "action": "update",
+            "key": "communityCasePersonnelCompositionLabel",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementChlorea",
+            "newNamespace": "surgeCatalogueHealthCommunityCaseManagementCholera"
+        },
+        {
+            "action": "update",
+            "key": "communityCasePersonnelValue",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementChlorea",
+            "newNamespace": "surgeCatalogueHealthCommunityCaseManagementCholera"
+        },
+        {
+            "action": "update",
+            "key": "communityCaseSpecificationNationalSocietiesLabel",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementChlorea",
+            "newNamespace": "surgeCatalogueHealthCommunityCaseManagementCholera"
+        },
+        {
+            "action": "update",
+            "key": "communityCaseSpecifications",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementChlorea",
+            "newNamespace": "surgeCatalogueHealthCommunityCaseManagementCholera"
+        },
+        {
+            "action": "update",
+            "key": "communityCaseSpecificationsVolumeLabel",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementChlorea",
+            "newNamespace": "surgeCatalogueHealthCommunityCaseManagementCholera"
+        },
+        {
+            "action": "update",
+            "key": "communityCaseSpecificationsWeightLabel",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementChlorea",
+            "newNamespace": "surgeCatalogueHealthCommunityCaseManagementCholera"
+        },
+        {
+            "action": "update",
+            "key": "communityCaseStandardComponents",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementChlorea",
+            "newNamespace": "surgeCatalogueHealthCommunityCaseManagementCholera"
+        },
+        {
+            "action": "update",
+            "key": "communityCaseStandardListItemFive",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementChlorea",
+            "newNamespace": "surgeCatalogueHealthCommunityCaseManagementCholera"
+        },
+        {
+            "action": "update",
+            "key": "communityCaseStandardListItemFour",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementChlorea",
+            "newNamespace": "surgeCatalogueHealthCommunityCaseManagementCholera"
+        },
+        {
+            "action": "update",
+            "key": "communityCaseTitle",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementChlorea",
+            "newNamespace": "surgeCatalogueHealthCommunityCaseManagementCholera"
+        },
+        {
+            "action": "update",
+            "key": "communityCaseVariationOnConfiguration",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementChlorea",
+            "newNamespace": "surgeCatalogueHealthCommunityCaseManagementCholera"
+        },
+        {
+            "action": "update",
+            "key": "communityCaseVariationOnConfigurationDetail",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementChlorea",
+            "newNamespace": "surgeCatalogueHealthCommunityCaseManagementCholera"
+        },
+        {
+            "action": "add",
+            "key": "communityCaseCapacityDetail",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementCholera",
+            "value": "The overall goal of the CCMC  configuration is to contribute to the reduction of mortality and morbidity due to cholera through early response to a declared cholera or acute watery diarrhoea outbreak and promptly treat people infected with mild cholera/acute watery diarrhoea at community level."
+        },
+        {
+            "action": "add",
+            "key": "communityCaseDesignedForDetail",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementCholera",
+            "value": "Unit can be deployed within  48 hours upon receiving a deployment request, is self-sufficient for 1 month and can operate for up to 4 months. Designed for the provision of fixed but redeployable oral rehydration points in communities affected by cholera, with the goal of providing treatment in the community for les acute cases, and to reduce the burden on health services."
+        },
+        {
+            "action": "add",
+            "key": "communityCaseEmergencyServicesDetail",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementCholera",
+            "value": "Oral Rehydration Therapy at community level through Oral Rehydration Points (ORP). This is a public health intervention to reduce the morbidity and mortality due to cholera. This includes provision of oral rehydration solution at the ORP and given for home use as well as distribution of Zinc to eligible patient as defined in WHO guidelines. Referral of severely dehydrated and sick patients. WASH activities at the ORP for patients, including hygiene promotion, household water treatment, distribution of hygiene and water items in alignment with activities outside the ORP. Social mobilisation and community engagement and accountability (CEA). Data collection, analysis, interpretation and taking action (at ORP level). Safe management of dead bodies if someone dies at the ORP. One ORP kit can produce enough water each day to treat approximately 35 patients per day using the safe water from the filter. In order to calculate how many ORP kits will be needed, it is important to know the population size and how many people will get sick in the community (attack rate)."
+        },
+        {
+            "action": "add",
+            "key": "communityCasePersonnelCompositionValue",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementCholera",
+            "value": "Team Leader, Public Health / Epidemiologist, ORP Delegate, Hygiene Promotion and Community Engagement and Accountability,  WASH, Logistics, and Finance/Admin."
+        },
+        {
+            "action": "add",
+            "key": "communityCasePersonnelLabel",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementCholera",
+            "value": "Typically"
+        },
+        {
+            "action": "add",
+            "key": "communityCaseSpecificationNationalSocietiesValue",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementCholera",
+            "value": "Swiss RC"
+        },
+        {
+            "action": "add",
+            "key": "communityCaseSpecificationsVolumeValue",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementCholera",
+            "value": "1 pallet (infrastructure module) + gazebo + 1 pallet (medical kit) = 2 pallets + gazebo per ORP"
+        },
+        {
+            "action": "add",
+            "key": "communityCaseSpecificationsWeightValue",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementCholera",
+            "value": "170 kg (infrastructure module + gazebo) + 300 kg (medical module)  = 470 kg per ORP"
+        },
+        {
+            "action": "add",
+            "key": "communityCaseStandardListItemOne",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementCholera",
+            "value": "ORP kits"
+        },
+        {
+            "action": "add",
+            "key": "communityCaseStandardListItemThree",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementCholera",
+            "value": "Hygiene promotion kit"
+        },
+        {
+            "action": "add",
+            "key": "communityCaseStandardListItemTwo",
+            "namespace": "surgeCatalogueHealthCommunityCaseManagementCholera",
+            "value": "An ORP kit consists of 2 modules. The infrastructure module contains various equipment to set up an ORP (e.g. table, chairs, buckets, water filters, slabs etc.). Additionally, a simple tent (gazebo) is included. The medical module contains basic medical supplies needed at the ORP, including the Oral Rehydration Salts (ORS), Zinc and Chlorine. A medical module, which should be sufficient for supporting one ORP for the first 6 weeks, weighs about 300 kg and fits on one pallet.  20 infrastructure modules (22 pallets, 2’950 kg in total) are ready to dispatch, 20 medical modules are prepositioned."
+        },
+        {
+            "action": "update",
+            "key": "choleraCapacityDescription",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraCapacityTitle",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraDescription",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraDesignedForDescription",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraDesignedForListItemOne",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraDesignedForListItemThree",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraDesignedForListItemTwo",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraDesignedForTitle",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraDesignedPersonnel",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraEmergencyServices",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraEmergencyServicesDescription",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraEmergencyServicesTitle",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraSpecifications",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraSpecificationsLabel",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraSpecificationsValue",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraStandardComponentsDescription",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraStandardComponentsLabel",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraStandardModuleEightLabel",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraStandardModuleEightValue",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraStandardModuleElevenLabel",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraStandardModuleElevenValue",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraStandardModuleFiveLabel",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraStandardModuleFiveValue",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraStandardModuleFourLabel",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraStandardModuleFourValue",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraStandardModuleNineLabel",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraStandardModuleNineValue",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraStandardModuleOneLabel",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraStandardModuleOneValue",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraStandardModuleSevenLabel",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraStandardModuleSevenValue",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraStandardModuleSixLabel",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraStandardModuleSixValue",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraStandardModuleTenLabel",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraStandardModuleTenValue",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraStandardModuleThreeLabel",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraStandardModuleThreeValue",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraStandardModuleTwelveLabel",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraStandardModuleTwelveValue",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraStandardModuleTwoLabel",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraStandardModuleTwoValue",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraTotalPersonnelCompositionLabel",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraTotalPersonnelCompositionValue",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraTotalPersonnelLabel",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraTotalPersonnelValue",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "update",
+            "key": "choleraTreatmentHeading",
+            "namespace": "surgeCatalogueHealthEruChloreaTreatment",
+            "newNamespace": "surgeCatalogueHealthEruCholeraTreatment"
+        },
+        {
+            "action": "add",
+            "key": "healthIPCCapacity",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "Capacity"
+        },
+        {
+            "action": "add",
+            "key": "healthIPCCompositionLabel",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "Composition"
+        },
+        {
+            "action": "add",
+            "key": "healthIPCCompositionValue",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "A Team Leader, 2-3 IPC trainer and specialist, a WASH specialist, a logistician, and a finance admin."
+        },
+        {
+            "action": "add",
+            "key": "healthIPCDesignedFor",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "Designed For"
+        },
+        {
+            "action": "add",
+            "key": "healthIPCDesignedForDetail",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "Unit can be deployed within  48 hours upon receiving a deployment request, is self-sufficient for 1 month and can operate for up to 4 months. Designed for the provision of (some) equipment and technical support to existing health facilities."
+        },
+        {
+            "action": "add",
+            "key": "healthIPCDetail",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "The purpose of the infection prevention and control public health emergency response unit (IPC ERU) is to contribute to the reduction of mortality and morbidity due to the transmission of infectious diseases (nosocomial transmisisons) in healthcare facilities during a crisis or epidemic outbreak. To achieve this, the IPC ERU supports and strengthens the IPC capacities of existing healthcare facilities. This enables a continued provision of care in a safer way, and protects the communities from harm."
+        },
+        {
+            "action": "add",
+            "key": "healthIPCEmergencyServicesDetail1",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "Following a rapid IPC assessment conducted in the health facility(ies) to identify critical IPC needs and gaps, an IPC work plan is created and covers the following components:"
+        },
+        {
+            "action": "add",
+            "key": "healthIPCEmergencyServicesDetail2",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "Initial training: This initial training aims to support with knowledge around best practices for all healthcare workers and support staff in the health care facility."
+        },
+        {
+            "action": "add",
+            "key": "healthIPCEmergencyServicesDetail3",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "Technical support for interventions: In parallel with the initial trainings, delegates provide technical support for key interventions such as setting up a screening and triage area, hand washing stations, safe water access points, etc."
+        },
+        {
+            "action": "add",
+            "key": "healthIPCEmergencyServicesDetail4",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "Material, equipment and services: To ensure the uptake of IPC practices, the PH IPC ERU team might need to provide material support such as PPE, disinfectants, hand-washing stations, etc. This could be done either through local or international procurement. For waste management, it might be necessary to provide incinerators or waste disposal services. Providing these quickly even in time for the training ensures best uptake as the staff will feel supported."
+        },
+        {
+            "action": "add",
+            "key": "healthIPCEmergencyServicesDetail5",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "Routine monitoring, supervision, and refresher trainings: Once initial trainings and interventions have been set up, delegates should continue with routine supervision and monitoring using the monitoring tools provided in this handbook."
+        },
+        {
+            "action": "add",
+            "key": "healthIPCEmergencyServicesDetail6",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "Planning for exit and handover: Planning for exit needs to start from the first rotation, as such, it is important to bring this notion into discussions with MoH and managers of HCF as the work goes forward, and start discussing options with appropriate stakeholders."
+        },
+        {
+            "action": "add",
+            "key": "healthIPCEmergencyServicesDetail7",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "Trainings and interventions activities cover the major components of IPC practices including: Triage, screening and isolation, Hand hygiene, Personal protective equipment (PPE), Injection safety, Environmental cleaning, including bed linen handling, Healthcare waste management, Decontamination and sterilization of medical devices and patient care equipment, Standard and transmission-based precautions, Rapid screening at triage for patients meeting case definition."
+        },
+        {
+            "action": "add",
+            "key": "healthIPCEmergencyServicesTitle",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "Emergency Services"
+        },
+        {
+            "action": "add",
+            "key": "healthIPCPersonnel",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "Personnel"
+        },
+        {
+            "action": "add",
+            "key": "healthIPCSpecificationsCostLabel",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "Cost (indicative)"
+        },
+        {
+            "action": "add",
+            "key": "healthIPCSpecificationsCostValue",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "depending on configuration, scope and scale of intervention (between 50K and 700K CHF)"
+        },
+        {
+            "action": "add",
+            "key": "healthIPCSpecificationsLabel",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "Specifications"
+        },
+        {
+            "action": "add",
+            "key": "healthIPCSpecificationsNsLabel",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "National societies providing this service"
+        },
+        {
+            "action": "add",
+            "key": "healthIPCSpecificationsNsValue",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "French RC, Swedish RC"
+        },
+        {
+            "action": "add",
+            "key": "healthIPCSpecificationsVolumeLabel",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "Volume"
+        },
+        {
+            "action": "add",
+            "key": "healthIPCSpecificationsVolumeValue",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "Varies according to need assessment"
+        },
+        {
+            "action": "add",
+            "key": "healthIPCSpecificationsWeightLabel",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "Weight"
+        },
+        {
+            "action": "add",
+            "key": "healthIPCSpecificationsWeightValue",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "Varies according to need assessment"
+        },
+        {
+            "action": "add",
+            "key": "healthIPCStandardComponentsLabel",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "Standard Components"
+        },
+        {
+            "action": "add",
+            "key": "healthIPCStandardComponentsListItemFive",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "IPC assessment tool for health centers"
+        },
+        {
+            "action": "add",
+            "key": "healthIPCStandardComponentsListItemFour",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "IPC materials and equipment quantification tool"
+        },
+        {
+            "action": "add",
+            "key": "healthIPCStandardComponentsListItemOne",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "ERU IPC Handbook"
+        },
+        {
+            "action": "add",
+            "key": "healthIPCStandardComponentsListItemSix",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "Material and equipment package (variant according to local needs assessment): Hygiene equipment, Personal protective equipment (masks, gloves, etc.), Cleaning products, Waste management equipment and products, WASH material and equipment"
+        },
+        {
+            "action": "add",
+            "key": "healthIPCStandardComponentsListItemThree",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "IPC Field Training Toolkit"
+        },
+        {
+            "action": "add",
+            "key": "healthIPCStandardComponentsListItemTwo",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "IPC Delegate Training Toolkit"
+        },
+        {
+            "action": "add",
+            "key": "healthIPCTotalLabel",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "Total"
+        },
+        {
+            "action": "add",
+            "key": "healthIPCTotalValue",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "5-7 people."
+        },
+        {
+            "action": "add",
+            "key": "healthIPCVariationDescription",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "Number of IPC ERU teams and volume of material and equipment is based on the nature of the risk for nosocomial transmission posed by the infectious agent involved in the outbreak (e.g. high, medium or low) and the areas and HCFs affected or at risk (one site, multiple clustered sites or multiple spread-out sites)."
+        },
+        {
+            "action": "add",
+            "key": "healthIPCVariationLabel",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "Variation On Configuration"
+        },
+        {
+            "action": "add",
+            "key": "infectionPreventionAndControlTitle",
+            "namespace": "surgeCatalogueHealthInfectionPreventionAndControl",
+            "value": "Infection Prevention and Control (IPC)"
+        },
+        {
+            "action": "add",
+            "key": "healthBurialsDetailUnderDevelopment",
+            "namespace": "surgeCatalogueHealthSafeDignifiedBurials",
+            "value": "Establishment of safe and culturally appropriate approaches to burials for outbreaks of hemorrhagic fevers (e.g. Ebola, Marburg) and other high impact diseases with a significant risk of post-mortem transmission."
+        },
+        {
+            "action": "update",
+            "key": "healthBurialsCompositionValue",
+            "namespace": "surgeCatalogueHealthSafeDignifiedBurials",
+            "newValue": "Minimum: Health educator/trainer, IPC/WASH – One of these would be Team Leader. Additional profiles context-dependent and may be able to provide remote support: PSS,  logistician, finance/admin, Heath IM, CEA"
+        },
+        {
+            "action": "update",
+            "key": "healthBurialsDetail",
+            "namespace": "surgeCatalogueHealthSafeDignifiedBurials",
+            "newValue": "Under development."
+        },
+        {
+            "action": "update",
+            "key": "healthBurialsSpecificationsCostValue",
+            "namespace": "surgeCatalogueHealthSafeDignifiedBurials",
+            "newValue": "approx. EUR 6000-7000"
+        },
+        {
+            "action": "update",
+            "key": "healthBurialsSpecificationsNsValue",
+            "namespace": "surgeCatalogueHealthSafeDignifiedBurials",
+            "newValue": "Canadian RC"
+        },
+        {
+            "action": "update",
+            "key": "healthBurialsStandardComponentsListItemSix",
+            "namespace": "surgeCatalogueHealthSafeDignifiedBurials",
+            "newValue": "Vehicles x 2 per SDB team (locally supplied)"
+        },
+        {
+            "action": "update",
+            "key": "healthBurialsTotalValue",
+            "namespace": "surgeCatalogueHealthSafeDignifiedBurials",
+            "newValue": "2-3 people, up to 7, dependent on available resources and scope of need."
+        },
+        {
+            "action": "update",
+            "key": "healthBurialsVariationDescription",
+            "namespace": "surgeCatalogueHealthSafeDignifiedBurials",
+            "newValue": "Number of SDB teams and kits required to be scaled based on population and geography affected by outbreak, as well as capacity and resources of HNS."
+        },
+        {
+            "action": "add",
+            "key": "technicalCompetencyFramework",
+            "namespace": "surgeCatalogueLivelihood",
+            "value": "Technical Competency Framework"
+        },
+        {
+            "action": "add",
+            "key": "technicalCompetencyFrameworkDetails",
+            "namespace": "surgeCatalogueLivelihood",
+            "value": "Tiered competencies describing the knowledge and skills expected of personnel in this sector."
+        },
+        {
+            "action": "add",
+            "key": "technicalCompetencyFrameworkItemTitle",
+            "namespace": "surgeCatalogueLivelihood",
+            "value": "Livelihoods and Basic Needs Technical Competency Framework"
+        },
+        {
+            "action": "update",
+            "key": "catalogueLivelihoodServicesTitle",
+            "namespace": "surgeCatalogueLivelihood",
+            "newValue": "Livelihoods and Basic Needs (LBN)"
+        },
+        {
+            "action": "update",
+            "key": "catalogueLivelihoodTitle",
+            "namespace": "surgeCatalogueLivelihood",
+            "newValue": "Livelihoods and Basic Needs (LBN)"
+        },
+        {
+            "action": "remove",
+            "key": "otherAdditionalServicesHeading",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherCivilMilitaryRelations",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherCivilMilitaryRelationsDetail",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherDetail",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherDisaster",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherDisasterDetail",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherGreen",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherGreenDetail",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherHuman",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherHumanDetail",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherInternational",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherInternationalDetail",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherLearnMore",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherMigration",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherMigrationDetail",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherNSDevelopment",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherNSDevelopmentDetail",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherPartnership",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherPartnershipDetail",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherPreparedness",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherPreparednessDetail",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherRecovery",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherRecoveryDetail",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherTitle",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherUAV",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "remove",
+            "key": "otherUAVDetail",
+            "namespace": "surgeCatalogueOther"
+        },
+        {
+            "action": "add",
+            "key": "humanHeading",
+            "namespace": "surgeCatalogueOtherHumanitarianDiplomacy",
+            "value": "Humanitarian Diplomacy (HD)"
+        },
+        {
+            "action": "add",
+            "key": "linkOfficer",
+            "namespace": "surgeCatalogueOtherHumanitarianDiplomacy",
+            "value": "Humanitarian Diplomacy Officer Role Profile"
+        },
+        {
+            "action": "add",
+            "key": "overview",
+            "namespace": "surgeCatalogueOtherHumanitarianDiplomacy",
+            "value": "Overview"
+        },
+        {
+            "action": "add",
+            "key": "overviewDetail",
+            "namespace": "surgeCatalogueOtherHumanitarianDiplomacy",
+            "value": "Humanitarian Diplomacy (HD) is “persuading decision makers and opinion leaders to act, at all times, in the interests of vulnerable people, and with full respect for fundamental humanitarian principles”. In emergencies, IFRC delegations and NS may require specific surge support to strengthen HD efforts to identify HD issues and provide contextual analysis, draft HD key messages and engagement plan, set up an HD membership coordination system, and engage with external partners and stakeholders."
+        },
+        {
+            "action": "add",
+            "key": "rapidResponseDetail",
+            "namespace": "surgeCatalogueOtherHumanitarianDiplomacy",
+            "value": "Details about the expectations for this specialty can be found in the role profile:"
+        },
+        {
+            "action": "update",
+            "key": "otherLinkOne",
+            "newKey": "otherLinkOneCoord",
+            "namespace": "surgeCatalogueOtherHumanResources"
+        },
+        {
+            "action": "update",
+            "key": "otherLinkTwo",
+            "newKey": "otherLinkTwoOffic",
+            "namespace": "surgeCatalogueOtherHumanResources"
+        },
+        {
+            "action": "remove",
+            "key": "otherLinkOne",
+            "namespace": "surgeCatalogueOtherPartnershipResourceDevelopment"
+        },
+        {
+            "action": "remove",
+            "key": "otherLinkTwo",
+            "namespace": "surgeCatalogueOtherPartnershipResourceDevelopment"
+        },
+        {
+            "action": "remove",
+            "key": "otherOverviewDetail",
+            "namespace": "surgeCatalogueOtherPartnershipResourceDevelopment"
+        },
+        {
+            "action": "remove",
+            "key": "partnershipHeading",
+            "namespace": "surgeCatalogueOtherPartnershipResourceDevelopment"
+        },
+        {
+            "action": "update",
+            "key": "otherOverview",
+            "namespace": "surgeCatalogueOtherPartnershipResourceDevelopment",
+            "newNamespace": "surgeCatalogueOtherStrategicPartnershipsResourceMobilisation"
+        },
+        {
+            "action": "update",
+            "key": "rapidResponse",
+            "namespace": "surgeCatalogueOtherPartnershipResourceDevelopment",
+            "newNamespace": "surgeCatalogueOtherHumanitarianDiplomacy"
+        },
+        {
+            "action": "update",
+            "key": "rapidResponseDetail",
+            "namespace": "surgeCatalogueOtherPartnershipResourceDevelopment",
+            "newNamespace": "surgeCatalogueOtherStrategicPartnershipsResourceMobilisation"
+        },
+        {
+            "action": "add",
+            "key": "otherOverviewDetail1",
+            "namespace": "surgeCatalogueOtherPreparednessEffectiveResponse",
+            "value": "National Society (NS) Preparedness and Response Capacity Strengthening – also known as Preparedness for Effective Response (PER) – focuses on actions within an operation that support RCRC NS in fulfilling their mandate of providing timely and effective humanitarian services to affected populations."
+        },
+        {
+            "action": "add",
+            "key": "otherOverviewDetail2",
+            "namespace": "surgeCatalogueOtherPreparednessEffectiveResponse",
+            "value": "The NS Preparedness and Response Capacity Strengthening Coordinator will collaborate with the NS and IFRC operational and technical teams to identify critical components of NS response capacity that need enhancement. They will work with these teams to pinpoint tangible response capacity actions and provide input and recommendations to the emergency planning processes and the operational strategy."
+        },
+        {
+            "action": "add",
+            "key": "otherOverviewDetail3",
+            "namespace": "surgeCatalogueOtherPreparednessEffectiveResponse",
+            "value": "Identified actions will be aligned with the NS's overall strategic priorities and strengths, as well as existing preparedness plans, which are informed by lessons learned from previous operations. These actions will build on current NS response capacity priorities to ensure ownership and leadership within the operation. This will inform and support the efficient allocation of resources and ensure a coordinated approach to Movement support for the National Society."
+        },
+        {
+            "action": "remove",
+            "key": "otherOverviewDetail",
+            "namespace": "surgeCatalogueOtherPreparednessEffectiveResponse"
+        },
+        {
+            "action": "update",
+            "key": "preparednessHeading",
+            "namespace": "surgeCatalogueOtherPreparednessEffectiveResponse",
+            "newValue": "National Society Preparedness and Response Capacity Strengthening (PER)"
+        },
+        {
+            "action": "add",
+            "key": "catalogueRoleHeading",
+            "namespace": "surgeCatalogueOtherStrategicPartnershipsResourceMobilisation",
+            "value": "Rapid Response Personnel"
+        },
+        {
+            "action": "add",
+            "key": "catalogueRoleTitle",
+            "namespace": "surgeCatalogueOtherStrategicPartnershipsResourceMobilisation",
+            "value": "Role Profiles"
+        },
+        {
+            "action": "add",
+            "key": "linkOne",
+            "namespace": "surgeCatalogueOtherStrategicPartnershipsResourceMobilisation",
+            "value": "Rapid Response Strategic Partnerships and Resource Mobilisation (SPRM) Officer role profile"
+        },
+        {
+            "action": "add",
+            "key": "linkTwo",
+            "namespace": "surgeCatalogueOtherStrategicPartnershipsResourceMobilisation",
+            "value": "Rapid Response Strategic Partnerships and Resource Mobilisation (SPRM) Coordinator role profile"
+        },
+        {
+            "action": "add",
+            "key": "otherOverviewDetail",
+            "namespace": "surgeCatalogueOtherStrategicPartnershipsResourceMobilisation",
+            "value": "The IFRC provides both strategic and technical support in partnerships and resource mobilisation to National Societies who are working to increase their capacity. The IFRC partnership and resource mobilisation function provides support to the operational leadership, through engagement with partners and donors, coordination of contributions, resource mobilisation efforts, and pledge management, among others. In addition, the function may support National Societies in building their capacities to develop domestic fundraising portfolios. The IFRC also coordinates global initiatives when the IFRC is best placed to do so."
+        },
+        {
+            "action": "add",
+            "key": "partnershipHeading",
+            "namespace": "surgeCatalogueOtherStrategicPartnershipsResourceMobilisation",
+            "value": "Strategic Partnerships and Resource Mobilisation (SPRM)"
+        },
+        {
+            "action": "add",
+            "key": "rapidResponse",
+            "namespace": "surgeCatalogueOtherStrategicPartnershipsResourceMobilisation",
+            "value": "Rapid Response Personnel Role Profile"
+        },
+        {
+            "action": "add",
+            "key": "complianceDateOwnerDescription1",
+            "namespace": "termsAndConditions",
+            "value": "When reusing any data available in the Montandon database, it is user's responsibility to comply with any applicable terms of use or other conditions established by the data owner"
+        },
+        {
+            "action": "add",
+            "key": "complianceDateOwnerDescription2",
+            "namespace": "termsAndConditions",
+            "value": "To facilitate when the data owner is not IFRC, IFRC makes the applicable terms of use from data source available {termsLink} and will, to the extent possible, keep it updated."
+        },
+        {
+            "action": "add",
+            "key": "complianceDateOwnerDescription2Link",
+            "namespace": "termsAndConditions",
+            "value": "here"
+        },
+        {
+            "action": "add",
+            "key": "complianceDateOwnerDescription3",
+            "namespace": "termsAndConditions",
+            "value": "If unsure of the applicable terms, you may contact IFRC at {termsLink} and IFRC can help liaise with the data owner."
+        },
+        {
+            "action": "add",
+            "key": "complianceDateOwnerDescription4",
+            "namespace": "termsAndConditions",
+            "value": "Nonetheless, the obligation is still on the user to ensure compliance with the most recent and applicable terms of use required from the data source."
+        },
+        {
+            "action": "add",
+            "key": "complianceDateOwnerDescription5",
+            "namespace": "termsAndConditions",
+            "value": "Please not that, if you are not an academic, humanitarian or non-profit organization, different conditions may be applicable to your reuse of a dataset, as determined by the data owner."
+        },
+        {
+            "action": "add",
+            "key": "complianceDateOwnerHeading",
+            "namespace": "termsAndConditions",
+            "value": "COMPLIANCE WITH ANY APPLICABLE CONDITIONS FROM DATA OWNER"
+        },
+        {
+            "action": "add",
+            "key": "dataProvenanceDescription",
+            "namespace": "termsAndConditions",
+            "value": "GO and Montandon are composed of data collected and owned by IFRC and its network of National Societies. It also includes data from databases developed and maintained by our partners, such as the Global Internal Displacement Database, EM-DAT, and DesInventar, International Best Track Archive for Climate Stewardship, ShakeMap, and GDACS. GO and Montandon will always identify the data source."
+        },
+        {
+            "action": "add",
+            "key": "dataProvenanceHeading",
+            "namespace": "termsAndConditions",
+            "value": "DATA PROVENANCE"
+        },
+        {
+            "action": "add",
+            "key": "finalProvisionsDescription1",
+            "namespace": "termsAndConditions",
+            "value": "The IFRC reserves the right to amend or change these Terms at any time, at its sole discretion. You should consult them regularly to keep yourself informed of any changes."
+        },
+        {
+            "action": "add",
+            "key": "finalProvisionsDescription2",
+            "namespace": "termsAndConditions",
+            "value": "Any violation of these Terms may result in a temporary ban from the platform, and, where necessary, additional actions may be taken to address violations of these Terms."
+        },
+        {
+            "action": "add",
+            "key": "finalProvisionsDescription3",
+            "namespace": "termsAndConditions",
+            "value": "For more information on the database, its uses, data sources, limitations and peculiarities for data analysis ot other related matters, please contact IFRC at {termsLink}"
+        },
+        {
+            "action": "add",
+            "key": "finalProvisionsDescription4",
+            "namespace": "termsAndConditions",
+            "value": "You are not obligated to register to this platform; but, by doing so, you understand and agree to the terms of use."
+        },
+        {
+            "action": "add",
+            "key": "finalProvisionsHeading",
+            "namespace": "termsAndConditions",
+            "value": "FINAL PROVISIONS"
+        },
+        {
+            "action": "add",
+            "key": "liabilityOfIFRCDescription",
+            "namespace": "termsAndConditions",
+            "value": "To the extent reasonably possible, IFRC tries to ensure the data displayed (insert the criteria of relevance and quality used for the data contained in the database and any measures taken to ensure):"
+        },
+        {
+            "action": "add",
+            "key": "liabilityOfIFRCDescription2",
+            "namespace": "termsAndConditions",
+            "value": "Despite IFRC's best efforts, IFRC makes no representation or warranty that (i) and the data available will meet your needs,(ii) the service will be uninterrupted,punctual,secure or error-free,(iii) the data available and results obtained by using the platform will be accurate or reliable, or that (iv) any error of content will be corrected."
+        },
+        {
+            "action": "add",
+            "key": "liabilityOfIFRCDescription3",
+            "namespace": "termsAndConditions",
+            "value": "Any part of the content may be obsolete at any time without the IFRC being in any way bound to update this content."
+        },
+        {
+            "action": "add",
+            "key": "liabilityOfIFRCDescription3Link",
+            "namespace": "termsAndConditions",
+            "value": "FAIR Principles"
+        },
+        {
+            "action": "add",
+            "key": "liabilityOfIFRCDescription4",
+            "namespace": "termsAndConditions",
+            "value": "IFRC is not liable for any direct, consequential, incidental, particular or resulting damage,nor any punitive damages resulting from the use of the platform or the impossibility of using it or any other issue relating to the platform."
+        },
+        {
+            "action": "add",
+            "key": "liabilityOfIFRCDescription5",
+            "namespace": "termsAndConditions",
+            "value": "The IFRC reserves the right to alter or shut down the platform(ir any part of it) temporarily or for good, with or without notice.IFRC shall not be answerable to you or to any third part for any alteration to or suspension or cessation of the platform."
+        },
+        {
+            "action": "add",
+            "key": "liabilityOfIFRCDescriptionList1",
+            "namespace": "termsAndConditions",
+            "value": "Does not contain any personal or non-personal sensitive data"
+        },
+        {
+            "action": "add",
+            "key": "liabilityOfIFRCDescriptionList2",
+            "namespace": "termsAndConditions",
+            "value": "Is accurate and most updated"
+        },
+        {
+            "action": "add",
+            "key": "liabilityOfIFRCDescriptionList3",
+            "namespace": "termsAndConditions",
+            "value": "Is open and complies with the"
+        },
+        {
+            "action": "add",
+            "key": "liabilityOfIFRCDescriptionList4",
+            "namespace": "termsAndConditions",
+            "value": "Includes link to original data sources and metadata, as well as links to explanations for how the data has been treated, transformed, analysed and visualised"
+        },
+        {
+            "action": "add",
+            "key": "liabilityOfIFRCDescriptionList5",
+            "namespace": "termsAndConditions",
+            "value": "Conforms to internationally recognized standards with regard to the names and definitions of indicators, hazard definitions and hazard intensities"
+        },
+        {
+            "action": "add",
+            "key": "liabilityOfIFRCHeading",
+            "namespace": "termsAndConditions",
+            "value": "LIABILITY OF IFRC"
+        },
+        {
+            "action": "add",
+            "key": "privilegesAndImmunitiesDescription",
+            "namespace": "termsAndConditions",
+            "value": "Nothing in these Terms of Use or IFRC’s management of the database shall be deemed a limitation or waiver of any of the privileges and immunities of the Federation"
+        },
+        {
+            "action": "add",
+            "key": "privilegesAndImmunitiesHeading",
+            "namespace": "termsAndConditions",
+            "value": "PRIVILEGES AND IMMUNITIES"
+        },
+        {
+            "action": "add",
+            "key": "protectionUsersPersonalDataDescription",
+            "namespace": "termsAndConditions",
+            "value": "The personal data required for registration will be used by IFRC only for the purposes of "
+        },
+        {
+            "action": "add",
+            "key": "protectionUsersPersonalDataDescription2",
+            "namespace": "termsAndConditions",
+            "value": "IFRC will not share your personal data. Any usage statistics reports shared with partners will not contain any personal data of users. If you no longer wish to be a user, you may request at any time that we delete your account by e-mail us at {termsLink}."
+        },
+        {
+            "action": "add",
+            "key": "protectionUsersPersonalDataDescription3",
+            "namespace": "termsAndConditions",
+            "value": "IFRC will process and protect your personal data in accordance with its {termsLink}"
+        },
+        {
+            "action": "add",
+            "key": "protectionUsersPersonalDataDescription4",
+            "namespace": "termsAndConditions",
+            "value": "By agreeing to these Terms, you consent to the processing of your personal data by IFRC."
+        },
+        {
+            "action": "add",
+            "key": "protectionUsersPersonalDataDescription5",
+            "namespace": "termsAndConditions",
+            "value": "If you have any questions about how your personal data will be used, you may contact {termsLink}."
+        },
+        {
+            "action": "add",
+            "key": "protectionUsersPersonalDataDescriptionList1",
+            "namespace": "termsAndConditions",
+            "value": "Validating your registration"
+        },
+        {
+            "action": "add",
+            "key": "protectionUsersPersonalDataDescriptionList2",
+            "namespace": "termsAndConditions",
+            "value": "Providing access to the platform"
+        },
+        {
+            "action": "add",
+            "key": "protectionUsersPersonalDataDescriptionList3",
+            "namespace": "termsAndConditions",
+            "value": "Providing information or any necessary communication regarding the platform (e.g.,a survey to assess how to improve the platform and better serve user's needs and provide a better experience for users)"
+        },
+        {
+            "action": "add",
+            "key": "protectionUsersPersonalDataDescriptionList4",
+            "namespace": "termsAndConditions",
+            "value": "Providing aggregated metrics to partners so that they know how many people have viewed,accessed or downloaded their data via GO/Montandon"
+        },
+        {
+            "action": "add",
+            "key": "protectionUsersPersonalDataHeading",
+            "namespace": "termsAndConditions",
+            "value": "PROTECTION OF USER'S PERSONAL DATA"
+        },
+        {
+            "action": "add",
+            "key": "protectionUsersPersonalDataLink3",
+            "namespace": "termsAndConditions",
+            "value": "Policy on the Protection of Personal Data."
+        },
+        {
+            "action": "add",
+            "key": "termsAndConditionsDescription1",
+            "namespace": "termsAndConditions",
+            "value": "The IFRC GO is a Red Cross Crescent platform that to connect information on emergency needs with the the right response. This goal is achieved by making sure that the information – or data – we use is both accurate and accessible. Better data enables the Movement to respond more effectively to the needs of disaster-affected people."
+        },
+        {
+            "action": "add",
+            "key": "termsAndConditionsDescription2",
+            "namespace": "termsAndConditions",
+            "value": "At present some data on the GO platform is visible to everyone. Access to certain National Society data requires registration and is restricted to the IFRC, ICRC, and the National Societies and is managed by IFRC."
+        },
+        {
+            "action": "add",
+            "key": "termsAndConditionsDescription3",
+            "namespace": "termsAndConditions",
+            "value": "The Montandon is a public good with applications beyond IFRC. It contains information about natural hazards, their impacts, and what actions were taken when, where, by whom, and to what effect."
+        },
+        {
+            "action": "add",
+            "key": "termsAndConditionTitle",
+            "namespace": "termsAndConditions",
+            "value": "Terms and Conditions"
+        },
+        {
+            "action": "add",
+            "key": "unAuthorisedUsesDescription",
+            "namespace": "termsAndConditions",
+            "value": "By registering as a user, you commit to not"
+        },
+        {
+            "action": "add",
+            "key": "unAuthorisedUsesDescription2",
+            "namespace": "termsAndConditions",
+            "value": "In any case, as a user to this platform, you commit to not use the data available for any commercial use, unless entered into a separate agreement with the data owner."
+        },
+        {
+            "action": "add",
+            "key": "unAuthorisedUsesDescription3",
+            "namespace": "termsAndConditions",
+            "value": "Any reproduction or representation, whether in full or in part, for unauthorised purposes in prohibited.Failure to comply with this provision will constitute a breach of these terms and may incur the infringer's liability."
+        },
+        {
+            "action": "add",
+            "key": "unAuthorisedUsesDescriptionList1",
+            "namespace": "termsAndConditions",
+            "value": "Reproduce, copy, communicate, lend or otherwise distribute the data bank or a substantial part of data bank."
+        },
+        {
+            "action": "add",
+            "key": "unAuthorisedUsesDescriptionList10",
+            "namespace": "termsAndConditions",
+            "value": "Use the platform with the aim of creating a tool in competition with Montandon."
+        },
+        {
+            "action": "add",
+            "key": "unAuthorisedUsesDescriptionList2",
+            "namespace": "termsAndConditions",
+            "value": "Reverse assemble, decompile, decompose, or disassemble Montandon."
+        },
+        {
+            "action": "add",
+            "key": "unAuthorisedUsesDescriptionList3",
+            "namespace": "termsAndConditions",
+            "value": "Create Substitute or derivative databases of Montandon."
+        },
+        {
+            "action": "add",
+            "key": "unAuthorisedUsesDescriptionList4",
+            "namespace": "termsAndConditions",
+            "value": "Attempt to unlock or bypass any initialization or security system used by Montandon."
+        },
+        {
+            "action": "add",
+            "key": "unAuthorisedUsesDescriptionList5",
+            "namespace": "termsAndConditions",
+            "value": "Share, use or transmit any portion of Montandon via the Internet to unauthorised users."
+        },
+        {
+            "action": "add",
+            "key": "unAuthorisedUsesDescriptionList6",
+            "namespace": "termsAndConditions",
+            "value": "Divulge the password or share access tokens to unauthorised users."
+        },
+        {
+            "action": "add",
+            "key": "unAuthorisedUsesDescriptionList7",
+            "namespace": "termsAndConditions",
+            "value": "Remove, alter or obscure any proprietary legend, copyright, trademark, or other intellectual property right notice, logo, and image in or on Montandon."
+        },
+        {
+            "action": "add",
+            "key": "unAuthorisedUsesDescriptionList8",
+            "namespace": "termsAndConditions",
+            "value": "Perform acts that conflict with the normal exploitation of Montandon or unreasonable prejudice the interests of IFRC and/or data owner."
+        },
+        {
+            "action": "add",
+            "key": "unAuthorisedUsesDescriptionList9",
+            "namespace": "termsAndConditions",
+            "value": "Use the platform and contents in any way that may cause unjustified damage to the legitimate interests of IFRC and/or public image of IFRC or its database partners."
+        },
+        {
+            "action": "add",
+            "key": "unAuthorisedUsesHeading",
+            "namespace": "termsAndConditions",
+            "value": "UNAUTHORISED USES"
+        },
+        {
+            "action": "add",
+            "key": "userRegistrationAuthorizedUser",
+            "namespace": "termsAndConditions",
+            "value": "Authorized Uses"
+        },
+        {
+            "action": "add",
+            "key": "userRegistrationByLink",
+            "namespace": "termsAndConditions",
+            "value": "{termsLink}. Accessed DAY MONTH YEAR."
+        },
+        {
+            "action": "add",
+            "key": "userRegistrationDescription",
+            "namespace": "termsAndConditions",
+            "value": "Registration to this platform is open to staff, members and volunteers of the Red Cross Red Crescent Movement (National Societies, the IFRC and the ICRC) as well as to other responders, IFRC partners and authorised members of the public who agree to use the data and services for non-commercial purposes, such as research."
+        },
+        {
+            "action": "add",
+            "key": "userRegistrationDescription5",
+            "namespace": "termsAndConditions",
+            "value": "Any use of the data outside of Montandon shall duly identify the data bank and the database owner."
+        },
+        {
+            "action": "add",
+            "key": "userRegistrationDescriptionByRegistering",
+            "namespace": "termsAndConditions",
+            "value": "By registering as a user to this platform, you will be able to:"
+        },
+        {
+            "action": "add",
+            "key": "userRegistrationDescriptionLink",
+            "namespace": "termsAndConditions",
+            "value": "this link"
+        },
+        {
+            "action": "add",
+            "key": "userRegistrationDescriptionList",
+            "namespace": "termsAndConditions",
+            "value": "Information management - International Federation of Red Cross Crescent(IFRC).2024.Montandon - Global Crisis Data Bank:Revision 1. "
+        },
+        {
+            "action": "add",
+            "key": "userRegistrationDescriptionList1",
+            "namespace": "termsAndConditions",
+            "value": "Have free access to the database"
+        },
+        {
+            "action": "add",
+            "key": "userRegistrationDescriptionList2",
+            "namespace": "termsAndConditions",
+            "value": "Freely use of all published papers and technical reports from IFRC related to Montandon, provided the proper citation of Montandon and data obtained through it, which shall read as follow:"
+        },
+        {
+            "action": "add",
+            "key": "userRegistrationDescriptionList3",
+            "namespace": "termsAndConditions",
+            "value": "Generate and export maps, reports, dashboards, charts, plots, infographic, and other analyses,including by combining data form Montandon with other data sets."
+        },
+        {
+            "action": "add",
+            "key": "userRegistrationDescriptionList4",
+            "namespace": "termsAndConditions",
+            "value": "Other uses that are not prohibited below."
+        },
+        {
+            "action": "add",
+            "key": "userRegistrationDescriptionToLink",
+            "namespace": "termsAndConditions",
+            "value": "To request access and register, please use {termsLink}."
+        },
+        {
+            "action": "add",
+            "key": "userRegistrationHeading",
+            "namespace": "termsAndConditions",
+            "value": "USER REGISTRATION"
+        },
+        {
+            "action": "add",
+            "key": "copyButtonLabel",
+            "namespace": "tokenDetails",
+            "value": "Copy to clipboard"
+        },
+        {
+            "action": "add",
+            "key": "copySuccessMessage",
+            "namespace": "tokenDetails",
+            "value": "Token copied to the clipboard!"
+        },
+        {
+            "action": "add",
+            "key": "createdAtLabel",
+            "namespace": "tokenDetails",
+            "value": "Created at"
+        },
+        {
+            "action": "add",
+            "key": "expiresOnLabel",
+            "namespace": "tokenDetails",
+            "value": "Expires on"
+        },
+        {
+            "action": "add",
+            "key": "extractCount",
+            "namespace": "viewAllExtracts",
+            "value": "{count} extract"
+        },
+        {
+            "action": "add",
+            "key": "extractsCount",
+            "namespace": "viewAllExtracts",
+            "value": "{count} extracts"
+        },
+        {
+            "action": "add",
+            "key": "heading",
+            "namespace": "viewAllExtracts",
+            "value": "Operational Learning Extracts"
+        }
+    ]
+}

@@ -89,7 +89,7 @@ function PerTableActions(props: Props) {
         onSuccess: (response) => {
             try {
                 downloadFile(response as Blob, `${country}-per-${phaseDisplay}`, 'xlsx');
-            } catch (error) {
+            } catch {
                 alert.show(
                     strings.failureToDownloadMessage,
                     { variant: 'danger' },

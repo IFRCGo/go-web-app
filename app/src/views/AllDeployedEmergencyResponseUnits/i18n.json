@@ -8,7 +8,7 @@
         "eruFilterType": "Type of ERU",
         "eruTableFilterTypePlaceholder": "All ERU Types",
         "eruTablePersonnel": "Personnel Units",
-        "eruTableEquipment":"Equipments Units",
+        "eruTableEquipment":"Equipment Units",
         "eruTableCountry": "Country Deployed To",
         "eruTableEmergency": "Emergency"
     }

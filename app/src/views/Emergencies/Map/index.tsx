@@ -28,7 +28,7 @@ import {
     MapSource,
 } from '@togglecorp/re-map';
 
-import BaseMap from '#components/domain/BaseMap';
+import GlobalMap, { type AdminZeroFeatureProperties } from '#components/domain/GlobalMap';
 import Link from '#components/Link';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import MapPopup from '#components/MapPopup';
@@ -38,7 +38,6 @@ import { getNumAffected } from '#utils/domain/emergency';
 import type { GoApiResponse } from '#utils/restRequest';
 
 import {
-    adminFillLayerOptions,
     basePointLayerOptions,
     COLOR_MIXED_RESPONSE,
     COLOR_WITH_IFRC_RESPONSE,
@@ -50,7 +49,7 @@ import {
     RESPONSE_LEVEL_MIXED_RESPONSE,
     RESPONSE_LEVEL_WITH_IFRC_RESPONSE,
     RESPONSE_LEVEL_WITHOUT_IFRC_RESPONSE,
-    ScaleOption,
+    type ScaleOption,
 } from './utils';
 
 import i18n from './i18n.json';
@@ -63,25 +62,8 @@ const sourceOptions: mapboxgl.GeoJSONSourceRaw = {
 type EventResponse = GoApiResponse<'/api/v2/event/'>;
 type EventListItem = NonNullable<EventResponse['results']>[number];
 
-// NOTE: we can get this information from mapbox studio
-interface CountryProperties {
-    country_id: number;
-    disputed: boolean;
-    fdrs: string;
-    independent: boolean;
-    is_deprecated: boolean;
-    iso: string;
-    iso3: string;
-    name: string;
-    name_ar: string;
-    name_es: string;
-    name_fr: string;
-    record_type: number;
-    region_id: number;
-}
-
 interface ClickedPoint {
-    feature: GeoJSON.Feature<GeoJSON.Point, CountryProperties>;
+    properties: AdminZeroFeatureProperties;
     lngLat: mapboxgl.LngLatLike;
 }
 
@@ -237,11 +219,11 @@ function EmergenciesMap(props: Props) {
     );
 
     const handleCountryClick = useCallback((
-        feature: mapboxgl.MapboxGeoJSONFeature,
+        properties: AdminZeroFeatureProperties,
         lngLat: mapboxgl.LngLatLike,
     ) => {
         setClickedPointProperties({
-            feature: feature as unknown as ClickedPoint['feature'],
+            properties,
             lngLat,
         });
         return false;
@@ -255,7 +237,7 @@ function EmergenciesMap(props: Props) {
     );
 
     const popupDetails = clickedPointProperties
-        ? countryGroupedEvents[clickedPointProperties.feature.properties.iso3]
+        ? countryGroupedEvents[clickedPointProperties.properties.iso3]
         : undefined;
 
     return (
@@ -273,15 +255,8 @@ function EmergenciesMap(props: Props) {
                 </Link>
             )}
         >
-            <BaseMap
-                baseLayers={(
-                    <MapLayer
-                        layerKey="admin-0"
-                        hoverable
-                        layerOptions={adminFillLayerOptions}
-                        onClick={handleCountryClick}
-                    />
-                )}
+            <GlobalMap
+                onAdminZeroFillClick={handleCountryClick}
             >
                 <MapContainerWithDisclaimer
                     className={styles.mapContainer}
@@ -343,10 +318,10 @@ function EmergenciesMap(props: Props) {
                             <Link
                                 to="countriesLayout"
                                 urlParams={{
-                                    countryId: clickedPointProperties.feature.properties.country_id,
+                                    countryId: clickedPointProperties.properties.country_id,
                                 }}
                             >
-                                {clickedPointProperties.feature.properties.name}
+                                {clickedPointProperties.properties.name}
                             </Link>
                         )}
                         childrenContainerClassName={styles.popupContent}
@@ -375,7 +350,7 @@ function EmergenciesMap(props: Props) {
                         )}
                     </MapPopup>
                 )}
-            </BaseMap>
+            </GlobalMap>
         </Container>
     );
 }

@@ -1,0 +1,200 @@
+{
+    "parent": "000016-1739270322324.json",
+    "actions": [
+        {
+            "action": "update",
+            "key": "technicalCompetencyFrameworkItemTwoTitle",
+            "namespace": "surgeCatalogueHealth",
+            "newValue": "MHPSS"
+        },
+        {
+            "action": "update",
+            "key": "emergencyClinicPersonnelCompositionValue",
+            "namespace": "surgeCatalogueHealthEmergencyClinic",
+            "newValue": "Deployed team includes: team leader, deputy team leader, finance, admin, logistics, doctors, nurses, technicians, MHPSS, public health, and others. Contracted local personnel include nurse, triage nurse, doctor, translator, midwives, cleaners, social mobilization (NS Volunteers), MHPSS (NS Volunteers), and others."
+        },
+        {
+            "action": "update",
+            "key": "pssModuleValue",
+            "namespace": "surgeCatalogueHealthEruClinic",
+            "newValue": "Contains essential equipment and materials needed to carry out a rapid needs assessment to identify vulnerable groups, and support an operating NS to implement volunteer-driven MHPSS activities; activities focused on training up volunteers as needed, coordinating closely with social institutions and other humanitarian actors, assisting adults in affected communities with practical information, emotional and social support through PFA and referral, and setting up play and recreational activities for children where relevant."
+        },
+        {
+            "action": "update",
+            "key": "pssModuleValueLabel",
+            "namespace": "surgeCatalogueHealthEruClinic",
+            "newValue": "Mental Health and Psychosocial Support (MHPSS) Module"
+        },
+        {
+            "action": "add",
+            "key": "healthPSSCapacityDetailOne",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport",
+            "value": "The overall objective of this module is to complement strained or inexistent mental health and psychosocial support (MHPSS) capacity in a location affected by acute crisis, enabling promotion of positive mental health, supporting restoration of resilience mechanisms, and prevention of the deterioration of mental health and psychosocial wellbeing in the affected population. The module deploys with MHPSS personnel and equipment, able to provide support to adults and children, including through volunteer-driven MHPSS activities. The MHPSS teams conduct or support assessments and mapping, in close collaboration and coordination with the National Society and, where present, MHPSS Technical Working Groups or other relevant coordination bodies."
+        },
+        {
+            "action": "add",
+            "key": "healthPSSCapacityDetailTwo",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport",
+            "value": "Services typically include:"
+        },
+        {
+            "action": "add",
+            "key": "healthPSSCapacityListSeven",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport",
+            "value": "Activities aimed at caring for Staff and Volunteers"
+        },
+        {
+            "action": "add",
+            "key": "healthPSSDesignedForDetailOne",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport",
+            "value": "The MHPSS Module is deployed to support the affected NS towards implementing or strengthening activities that address the critical mental health and psychosocial needs of communities impacted by acute crises, such as natural disasters, population movement, health emergencies or other critical events."
+        },
+        {
+            "action": "add",
+            "key": "healthPSSDesignedForDetailTwo",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport",
+            "value": "The module can be deployed within 48 hours, upon receiving a deployment request, and can become operational within hours. The module can be deployed as a standalone service, or can complement other ERU modules. It is self-sufficient for 1 month and can operate for up to 4 months."
+        },
+        {
+            "action": "add",
+            "key": "healthPSSStandardComponentsDetailOne",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport",
+            "value": "Specific elements may vary and may be procured locally or adapted to the local reality."
+        },
+        {
+            "action": "add",
+            "key": "healthPSSStandardComponentsDetailTwo",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport",
+            "value": "The MHPSS module presents typically as a safe space, fenced if needed, with facilities to implement training, basic psychosocial support activities for children and adults, and individual private sessions. The module includes recreational equipment, three tents suitable for conducting activities and one tent used as an office and reception. The space may also include a play-ground area, a kitchen, accessible latrines for adults and children, and a waste management area – mostly dependent on whether the module is deployed as a stand-alone or in support of other ERU(s)."
+        },
+        {
+            "action": "add",
+            "key": "healthPSSStandardComponentsItemOne",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport",
+            "value": "One or more tents, able to accommodate different spaces for diverse activities"
+        },
+        {
+            "action": "add",
+            "key": "healthPSSStandardComponentsItemTwo",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport",
+            "value": "Play kits"
+        },
+        {
+            "action": "remove",
+            "key": "healthPSSCapacityDetail",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport"
+        },
+        {
+            "action": "remove",
+            "key": "healthPSSDesignedForDescription",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport"
+        },
+        {
+            "action": "remove",
+            "key": "healthPSSDesignedForDetail",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport"
+        },
+        {
+            "action": "remove",
+            "key": "healthPSSDesignedForListItemOne",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport"
+        },
+        {
+            "action": "remove",
+            "key": "healthPSSDesignedForListItemThree",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport"
+        },
+        {
+            "action": "remove",
+            "key": "healthPSSDesignedForListItemTwo",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport"
+        },
+        {
+            "action": "remove",
+            "key": "healthPSSStandardComponentsDetail",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport"
+        },
+        {
+            "action": "remove",
+            "key": "healthPSSStandardComponentsItemOneLabel",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport"
+        },
+        {
+            "action": "remove",
+            "key": "healthPSSStandardComponentsItemOneValue",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport"
+        },
+        {
+            "action": "update",
+            "key": "healthPSSAdditionalResourcesLink",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport",
+            "newValue": "For additional information, please contact sofia.ribeiro@ifrc.org or MHPSS.Geneva@ifrc.org."
+        },
+        {
+            "action": "update",
+            "key": "healthPSSCapacityListFive",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport",
+            "newValue": "Child Friendly Spaces and other safe spaces"
+        },
+        {
+            "action": "update",
+            "key": "healthPSSCapacityListFour",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport",
+            "newValue": "Crisis intervention and stabilization"
+        },
+        {
+            "action": "update",
+            "key": "healthPSSCapacityListOne",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport",
+            "newValue": "Information and Referrals"
+        },
+        {
+            "action": "update",
+            "key": "healthPSSCapacityListSix",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport",
+            "newValue": "Group recreational and psychoeducational activities"
+        },
+        {
+            "action": "update",
+            "key": "healthPSSCapacityListThree",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport",
+            "newValue": "Provision of Psychological First Aid (PFA)"
+        },
+        {
+            "action": "update",
+            "key": "healthPSSCapacityListTwo",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport",
+            "newValue": "Psychoeducation and awareness raising"
+        },
+        {
+            "action": "update",
+            "key": "healthPSSPersonnelCompositionValue",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport",
+            "newValue": "Deployed team includes, one MHPSS Team Leader, 2-3 MHPSS Officers, and one Technician to support with logistical and administrative tasks. Personnel must comply with the respective Role Profiles (MHPSS ERU officer, MHPSS Team Leader) and training requirements, including MHPSS in Emergencies training and ERU training for MHPSS personnel."
+        },
+        {
+            "action": "update",
+            "key": "healthPSSPersonnelTotalValue",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport",
+            "newValue": "Typically 4-5 people + National Society staff and volunteers, according to capacity and need."
+        },
+        {
+            "action": "update",
+            "key": "healthPSSSpecificationsNsValue",
+            "namespace": "surgeCatalogueHealthEruPsychosocialSupport",
+            "newValue": "Canadian, Danish, Spanish"
+        },
+        {
+            "action": "update",
+            "key": "healthBurialsCompositionValue",
+            "namespace": "surgeCatalogueHealthSafeDignifiedBurials",
+            "newValue": "Minimum: Health educator/trainer, IPC/WASH – One of these would be Team Leader. Additional profiles context-dependent and may be able to provide remote support: MHPSS,  logistician, finance/admin, Heath IM, CEA"
+        },
+        {
+            "action": "update",
+            "key": "otherLinkOne",
+            "namespace": "surgeCatalogueOtherPreparednessEffectiveResponse",
+            "newValue": "National Society Readiness and Response Capacity Strengthening Coordinator"
+        }
+    ]
+}

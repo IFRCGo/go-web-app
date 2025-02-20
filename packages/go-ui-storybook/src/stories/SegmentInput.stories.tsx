@@ -57,7 +57,7 @@ function Template(args:Args) {
     // used in SegmentInput
     const handleChange = useCallback((val: string, name: string) => {
         setArgs({ value: val });
-        // eslint-disable-next-line react/destructuring-assignment
+
         onChange(val, name);
     }, [onChange, setArgs]);
 

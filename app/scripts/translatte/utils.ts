@@ -1,7 +1,7 @@
 import { join, isAbsolute, basename } from 'path';
-import fg from 'fast-glob';
 import { promisify } from 'util';
 import { readFile, writeFile, unlink } from 'fs';
+import glob from 'fast-glob';
 import {
     isDefined,
     intersection,
@@ -17,10 +17,9 @@ import {
     SourceFileContent,
 } from './types';
 
-export const readFilePromisify = promisify(readFile);
+const readFilePromisify = promisify(readFile);
 export const writeFilePromisify = promisify(writeFile);
-export const unlinkPromisify = promisify(unlink);
-export const glob = fg.glob;
+const unlinkPromisify = promisify(unlink);
 
 // Utilities
 
@@ -306,7 +305,8 @@ export async function readTranslations(fileNames: string[]) {
             }),
         );
     });
-    return translations;
+
+    return { translations, filesContents };
 }
 
 export async function readMigrations(fileNames: string[]) {

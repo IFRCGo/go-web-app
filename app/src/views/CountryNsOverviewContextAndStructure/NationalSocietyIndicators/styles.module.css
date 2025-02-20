@@ -1,6 +1,11 @@
 .national-society-indicators {
-    .info-icon {
-        font-size: var(--go-ui-height-icon-multiplier);
+    .info-container {
+        display: flex;
+        gap: var(--go-ui-spacing-2xs);
+
+        .disaggregation-icon {
+            font-size: var(--go-ui-height-icon-multiplier);
+        }
     }
 }
 

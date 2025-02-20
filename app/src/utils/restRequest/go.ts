@@ -4,7 +4,7 @@ import {
     isFalsyString,
     isNotDefined,
 } from '@togglecorp/fujs';
-import { ContextInterface } from '@togglecorp/toggle-request';
+import { type ContextInterface } from '@togglecorp/toggle-request';
 
 import {
     api,
@@ -24,7 +24,7 @@ const CONTENT_TYPE_JSON = 'application/json';
 const CONTENT_TYPE_CSV = 'text/csv';
 const CONTENT_TYPE_EXCEL = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 
-export type ResponseError = {
+type ResponseError = {
     status: number;
     originalResponse: Response,
     responseText: string;
@@ -100,31 +100,6 @@ function transformError(
     }
 
     return fallbackMessage;
-}
-
-// FIXME: Add test
-export function resolvePath(
-    path: string,
-    params: Record<string, string | number | undefined> | undefined,
-) {
-    if (isNotDefined(path)) {
-        return '';
-    }
-
-    const resolvedUrl = path.replace(
-        /{(\w+)}/g,
-        (matchedText, matchedGroup) => {
-            const value = params?.[matchedGroup];
-            if (isNotDefined(value)) {
-                // eslint-disable-next-line no-console
-                console.error(`resolveUrlPath: value for key "${matchedGroup}" not provided in ${path}`);
-                return matchedText;
-            }
-            return String(value);
-        },
-    );
-
-    return resolvedUrl;
 }
 
 type GoContextInterface = ContextInterface<

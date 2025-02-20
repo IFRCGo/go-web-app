@@ -15,7 +15,7 @@ import { isDefined } from '@togglecorp/fujs';
 import useAlert from '#hooks/useAlert';
 import useInputState from '#hooks/useInputState';
 import {
-    GoApiBody,
+    type GoApiBody,
     useLazyRequest,
     useRequest,
 } from '#utils/restRequest';

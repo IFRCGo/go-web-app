@@ -40,8 +40,8 @@ function VideoList() {
         {
             id: 5,
             embedId: 'https://www.youtube.com/embed/7PvsxM_nzBo',
-            heading: strings.videoCarouselHeading3w,
-            description: strings.videoCarouselSubHeading3w,
+            heading: strings.videoCarouselHeading3wDataCollection,
+            description: strings.videoCarouselSubHeading3wDataCollection,
         },
     ];
 

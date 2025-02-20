@@ -59,7 +59,7 @@ import {
 import AreaInput from './AreaInput';
 import {
     assessmentSchema,
-    PartialAssessment,
+    type PartialAssessment,
 } from './schema';
 
 import i18n from './i18n.json';
@@ -76,6 +76,7 @@ type PerFormArea = NonNullable<PerFormQuestionResponse['results']>[number]['comp
 
 const defaultFormAreas: PerFormArea[] = [];
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { perId } = useParams<{ perId: string }>();
@@ -293,7 +294,7 @@ export function Component() {
             if (isNotDefined(assessmentId) || isNotDefined(perId)) {
                 // TODO: show proper error message to user
                 // eslint-disable-next-line no-console
-                console.error('assesment id not defined');
+                console.error('assessment id not defined');
                 return;
             }
             formContentRef.current?.scrollIntoView();
@@ -310,6 +311,7 @@ export function Component() {
         formContentRef.current?.scrollIntoView();
     }, []);
 
+    // FIXME: We might need to use useFormArrayWithEmptyCheck
     const {
         setValue: setAreaResponsesValue,
     } = useFormArray('area_responses', setFieldValue);

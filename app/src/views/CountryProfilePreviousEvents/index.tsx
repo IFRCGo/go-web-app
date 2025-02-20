@@ -21,7 +21,7 @@ import AppealsTable from '#components/domain/AppealsTable';
 import WikiLink from '#components/WikiLink';
 import { type CountryOutletContext } from '#utils/outletContext';
 import {
-    GoApiResponse,
+    type GoApiResponse,
     useRequest,
 } from '#utils/restRequest';
 
@@ -51,6 +51,7 @@ function timePeriodKeySelector({ key }: { key: TimePeriodKey }) {
     return key;
 }
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);

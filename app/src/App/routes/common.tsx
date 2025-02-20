@@ -31,7 +31,7 @@ export type ExtendedProps = {
     ) => boolean;
 };
 
-export interface CustomWrapRoute {
+interface CustomWrapRoute {
     <T>(
         myRouteOptions: MyInputIndexRouteObject<T, ExtendedProps>
     ): MyOutputIndexRouteObject<ExtendedProps>

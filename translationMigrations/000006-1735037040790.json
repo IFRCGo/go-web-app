@@ -1,0 +1,130 @@
+{
+    "parent": "000005-1734686854016.json",
+    "actions": [
+        {
+            "action": "update",
+            "key": "localUnitHealthFacilityType",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "newValue": "Health facility type"
+        },
+        {
+            "action": "update",
+            "key": "localUnitLocalUnitType",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "newValue": "Local unit type"
+        },
+        {
+            "action": "update",
+            "key": "exportTableButtonLabel",
+            "newKey": "exportButtonLabel",
+            "namespace": "exportButton"
+        },
+        {
+            "action": "update",
+            "key": "exportTableDownloadingButtonLabel",
+            "newKey": "exportDownloadingButtonLabel",
+            "namespace": "exportButton"
+        },
+        {
+            "action": "add",
+            "key": "dateOfOperation",
+            "namespace": "operationalLearning",
+            "value": "Date of Operation"
+        },
+        {
+            "action": "add",
+            "key": "organizationTypesLabel",
+            "namespace": "operationalLearning",
+            "value": "Organization Type"
+        },
+        {
+            "action": "add",
+            "key": "organizationTypesLabelPlaceholder",
+            "namespace": "operationalLearning",
+            "value": "All Organization Types"
+        },
+        {
+            "action": "add",
+            "key": "perLearningTypesLabel",
+            "namespace": "operationalLearning",
+            "value": "Learning Type"
+        },
+        {
+            "action": "add",
+            "key": "perLearningTypesLabelPlaceholder",
+            "namespace": "operationalLearning",
+            "value": "All Learning Type"
+        },
+        {
+            "action": "remove",
+            "key": "dateOfLearning",
+            "namespace": "operationalLearning"
+        },
+        {
+            "action": "update",
+            "key": "filterComponentLabel",
+            "namespace": "operationalLearning",
+            "newValue": "PER Component"
+        },
+        {
+            "action": "remove",
+            "key": "backToEventsLabel",
+            "namespace": "riskImminentEventMap"
+        },
+        {
+            "action": "remove",
+            "key": "eventDetailsStartedOn",
+            "namespace": "riskImminentEvents"
+        },
+        {
+            "action": "remove",
+            "key": "eventStartOnLabel",
+            "namespace": "riskImminentEvents"
+        },
+        {
+            "action": "remove",
+            "key": "meteoSwissEventDetailsStartedOnLabel",
+            "namespace": "riskImminentEvents"
+        },
+        {
+            "action": "remove",
+            "key": "meteoSwissEventDetailsUpdatedAtLabel",
+            "namespace": "riskImminentEvents"
+        },
+        {
+            "action": "remove",
+            "key": "wfpEventDetailsPublishedOn",
+            "namespace": "riskImminentEvents"
+        },
+        {
+            "action": "update",
+            "key": "eventListViewDetails",
+            "namespace": "riskImminentEvents",
+            "newValue": "View / Hide Details"
+        },
+        {
+            "action": "update",
+            "key": "gdacsEventViewDetails",
+            "namespace": "riskImminentEvents",
+            "newValue": "View / Hide Details"
+        },
+        {
+            "action": "update",
+            "key": "meteoSwissEventListViewDetails",
+            "namespace": "riskImminentEvents",
+            "newValue": "View / Hide Details"
+        },
+        {
+            "action": "update",
+            "key": "wfpEventListViewDetails",
+            "namespace": "riskImminentEvents",
+            "newValue": "View / Hide Details"
+        },
+        {
+            "action": "update",
+            "key": "healthDetails",
+            "namespace": "surgeCatalogueHealth",
+            "newValue": "The IFRC and its member National Societies have a network of personnel, equipment and approaches to prevent, detect and respond to health needs in emergencies, including both clinical and public health Emergency Response Units. These health response tools prevent and treat illness and improve health and dignity for communities affected by slow- and sudden-onset disasters or outbreaks. Deployable health capacities can support inter-agency health coordination, overall strategic direction for health, implementation of community- and clinic-based health interventions, and provide critical lifesaving services to communities, in support of government health systems and services."
+        }
+    ]
+}

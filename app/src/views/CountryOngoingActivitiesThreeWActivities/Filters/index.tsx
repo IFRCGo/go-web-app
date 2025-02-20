@@ -11,7 +11,7 @@ import {
 } from '@ifrc-go/ui/utils';
 import { isNotDefined } from '@togglecorp/fujs';
 import {
-    EntriesAsList,
+    type EntriesAsList,
     type SetValueArg,
 } from '@togglecorp/toggle-form';
 

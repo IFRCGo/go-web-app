@@ -1,11 +1,11 @@
 import React from 'react';
 import {
     InputContainer,
-    InputContainerProps,
+    type InputContainerProps,
 } from '@ifrc-go/ui';
 import {
     Editor,
-    IAllProps,
+    type IAllProps,
 } from '@tinymce/tinymce-react';
 import { _cs } from '@togglecorp/fujs';
 
@@ -19,11 +19,11 @@ const editorOptions: Omit<RawEditorOptions, 'selector' | 'target'> = {
     menubar: false, // https://www.tiny.cloud/docs/advanced/available-toolbar-buttons
     statusbar: false,
     paste_data_images: false,
-    plugins: ['advlist autolink code help link lists preview'],
-    toolbar: 'formatselect | bold italic superscript link | '
+    plugins: 'advlist autolink code help link lists preview',
+    toolbar: 'bold italic subscript superscript link | '
     + 'alignleft aligncenter alignright alignjustify | '
-    + 'bullist numlist outdent indent | code removeformat preview | help',
-    contextmenu: 'formats link',
+    + 'bullist numlist outdent indent | code removeformat preview fullscreen | help',
+    contextmenu: 'link',
     // https://www.tiny.cloud/docs/configure/content-filtering/#invalid_styles
     invalid_styles: { '*': 'opacity' },
 };
@@ -36,7 +36,7 @@ type InheritedProps<T> = Omit<InputContainerProps, 'input'> & {
         name: T,
     ) => void;
 }
-export interface Props<T extends string | undefined> extends InheritedProps<T> {
+interface Props<T extends string | undefined> extends InheritedProps<T> {
     inputElementRef?: React.RefObject<HTMLInputElement>;
     inputClassName?: string;
     placeholder?: string;

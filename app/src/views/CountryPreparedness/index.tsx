@@ -6,6 +6,7 @@ import usePermissions from '#hooks/domain/usePermissions';
 import PrivateCountryPreparedness from './PrivateCountryPreparedness';
 import PublicCountryPreparedness from './PublicCountryPreparedness';
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { countryId } = useParams<{ perId: string, countryId: string }>();

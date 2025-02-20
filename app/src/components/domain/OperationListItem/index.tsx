@@ -19,7 +19,7 @@ type EventResponseItem = NonNullable<EventGet['results']>[number];
 export interface Props {
     className?: string;
     eventItem: EventResponseItem;
-    updateSubscibedEvents: () => void;
+    updateSubscribedEvents: () => void;
     isLastItem: boolean;
 }
 
@@ -31,7 +31,7 @@ function OperationInfoCard(props: Props) {
             name,
             updated_at,
         },
-        updateSubscibedEvents: updateSubscribedEvents,
+        updateSubscribedEvents,
         isLastItem,
     } = props;
 

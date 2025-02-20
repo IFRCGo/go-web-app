@@ -22,7 +22,7 @@
         "fieldsStep2SituationFieldsDateEPILabel": "Date of Data",
         "fieldsStep2SituationFieldsEPICasesDescription": "Number of registered cases since the start of the outbreak.",
         "fieldsStep2SituationFieldsEPICasesLabel": "Cumulative Cases",
-        "fieldsStep2SituationFieldsEPICasesSinceDesciption": "Number of registered cases since the last field report",
+        "fieldsStep2SituationFieldsEPICasesSinceDescription": "Number of registered cases since the last field report",
         "fieldsStep2SituationFieldsEPIConfirmedCasesDescription": "Confirmed Cases.",
         "fieldsStep2SituationFieldsEPIConfirmedCasesLabel": "Confirmed Cases",
         "fieldsStep2SituationFieldsEPIDeadDescription": "Number of people confirmed dead since the start of the outbreak.",

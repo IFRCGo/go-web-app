@@ -12,7 +12,7 @@
         "phoneNumberInputLabel": "Phone Number",
         "editProfileConfirmButtonLabel": "Confirm",
         "editProfileCancelButtonLabel": "Cancel",
-        "editAccoutSuccessfulMessage": "Account edited successfully!",
+        "editAccountSuccessfulMessage": "Account edited successfully!",
         "editAccountFailureMessage": "Sorry, failed to edit account!"
     }
 }

@@ -18,10 +18,7 @@ import {
     positiveIntegerCondition,
     positiveNumberCondition,
 } from '#utils/form';
-import {
-    type GoApiBody,
-    type GoApiResponse,
-} from '#utils/restRequest';
+import { type GoApiBody } from '#utils/restRequest';
 
 import {
     DISASTER_FIRE,
@@ -50,7 +47,6 @@ function lessThanEqualToTwoImagesCondition<T>(value: T[] | undefined) {
         : undefined;
 }
 
-export type OpsUpdateResponse = GoApiResponse<'/api/v2/dref-op-update/{id}/'>;
 export type OpsUpdateRequestBody = GoApiBody<'/api/v2/dref-op-update/{id}/', 'PATCH'> & {
     operational_update_number: number | undefined;
 };

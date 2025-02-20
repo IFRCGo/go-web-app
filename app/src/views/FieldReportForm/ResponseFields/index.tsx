@@ -6,7 +6,10 @@ import {
     RadioInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { resolveToString } from '@ifrc-go/ui/utils';
+import {
+    hasSomeDefinedValue,
+    resolveToString,
+} from '@ifrc-go/ui/utils';
 import {
     isDefined,
     listToMap,
@@ -15,7 +18,6 @@ import {
     type EntriesAsList,
     type Error,
     getErrorObject,
-    useFormArray,
 } from '@togglecorp/toggle-form';
 
 import NonFieldError from '#components/NonFieldError';
@@ -30,6 +32,7 @@ import {
     VISIBILITY_PUBLIC,
     VISIBILITY_RCRC_MOVEMENT,
 } from '#utils/constants';
+import { useFormArrayWithEmptyCheck } from '#utils/form';
 
 import { type PartialFormValue } from '../common';
 import ContactInput, { type ContactValue } from './ContactInput';
@@ -73,9 +76,20 @@ function ResponseFields(props: Props) {
 
     const {
         setValue: setContactValue,
-    } = useFormArray<'contacts', ContactValue>(
+    } = useFormArrayWithEmptyCheck<'contacts', ContactValue>(
         'contacts',
         onValueChange,
+        (newValue) => {
+            const {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                id,
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                ctype,
+                ...other
+            } = newValue;
+
+            return !hasSomeDefinedValue(other);
+        },
     );
 
     const requestOptions = useMemo(() => api_request_choices?.filter((item) => (
@@ -163,7 +177,7 @@ function ResponseFields(props: Props) {
         strings.fieldsStep4ContactRowsMediaContactEVTEPIEWDesc,
     ]);
 
-    const mapping = useMemo(() => listToMap(
+    const contactsIndexMapping = useMemo(() => listToMap(
         value.contacts,
         (item) => item.ctype,
         (_, __, index) => index,
@@ -224,7 +238,7 @@ function ResponseFields(props: Props) {
                             value={value.appeal}
                             clearable
                             disabled={disabled}
-                        // eslint-disable-next-line max-len
+
                         // withAsterisk={isDefined(value.appeal_amount) || isDefined(value.appeal)}
                         />
                         <NumberInput
@@ -287,7 +301,6 @@ function ResponseFields(props: Props) {
                         // withAsterisk={isDefined(value.num_ifrc_staff) || isDefined(value.ifrc_staff)}
                         />
                         <NumberInput
-                            // eslint-disable-next-line max-len
                             label={strings.fieldsStep4PlannedResponseRowsIFRCStaffValueFieldLabel}
                             name="num_ifrc_staff"
                             value={value.num_ifrc_staff}
@@ -341,7 +354,7 @@ function ResponseFields(props: Props) {
             >
                 <NonFieldError error={getErrorObject(error?.contacts)} />
                 {contacts.map((contact) => {
-                    const index = mapping?.[contact.key];
+                    const index = contactsIndexMapping?.[contact.key];
                     return (
                         <InputSection
                             key={contact.key}
@@ -370,7 +383,7 @@ function ResponseFields(props: Props) {
                                 {resolveToString(
                                     strings.fieldReportFormVisibility,
                                     {
-                                        visibilityOptions: option.value,
+                                        visibilityValue: option.value,
                                         visibility: visibilityDescriptionMapping[option.key],
                                     },
                                 )}

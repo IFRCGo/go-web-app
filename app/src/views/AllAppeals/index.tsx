@@ -20,7 +20,10 @@ import {
     getPercentage,
     resolveToComponent,
 } from '@ifrc-go/ui/utils';
-import { isDefined } from '@togglecorp/fujs';
+import {
+    isDefined,
+    isNotDefined,
+} from '@togglecorp/fujs';
 import { saveAs } from 'file-saver';
 import Papa from 'papaparse';
 
@@ -58,6 +61,7 @@ const appealKeySelector = (option: AppealListItem) => option.id;
 const appealTypeKeySelector = (option: AppealTypeOption) => option.key;
 const appealTypeLabelSelector = (option: AppealTypeOption) => option.value;
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -136,11 +140,29 @@ export function Component() {
         (country) => country,
     );
 
+    const defaultOrdering = '-start_date';
+    const orderingWithFallback = useMemo(() => {
+        if (isNotDefined(ordering)) {
+            return defaultOrdering;
+        }
+
+        if (ordering === '-id') {
+            return '-start_date';
+        }
+
+        if (ordering === 'start_date' || ordering === '-start_date') {
+            return ordering;
+        }
+
+        // Add default ordering as second ordering
+        return [ordering, defaultOrdering].join(',');
+    }, [ordering]);
+
     const query = useMemo<AppealQueryParams>(
         () => ({
             limit,
             offset,
-            ordering,
+            ordering: orderingWithFallback,
             atype: filterAppealType,
             dtype: filterDisasterType,
             country: isDefined(filterCountry) ? [filterCountry] : undefined,
@@ -151,7 +173,7 @@ export function Component() {
         [
             limit,
             offset,
-            ordering,
+            orderingWithFallback,
             filterAppealType,
             filterDisasterType,
             filterCountry,
@@ -210,6 +232,7 @@ export function Component() {
                 'dtype',
                 strings.allAppealsDisasterType,
                 (item) => item.dtype?.name,
+                { sortable: true },
             ),
             createNumberColumn<AppealListItem, string>(
                 'amount_requested',

@@ -3,13 +3,13 @@ import React, {
     useRef,
 } from 'react';
 import { DeleteBinFillIcon } from '@ifrc-go/icons';
-import type { ButtonVariant } from '@ifrc-go/ui';
 import {
     Button,
+    type ButtonVariant,
     InputError,
-    NameType,
+    type NameType,
     RawFileInput,
-    RawFileInputProps,
+    type RawFileInputProps,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -43,7 +43,7 @@ function getFileNameFromUrl(urlString: string) {
     return splits[splits.length - 1];
 }
 
-export type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 'value' | 'onChange' | 'children' | 'inputRef'> & {
+type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 'value' | 'onChange' | 'children' | 'inputRef'> & {
     actions?: React.ReactNode;
     children?: React.ReactNode;
     className?: string;

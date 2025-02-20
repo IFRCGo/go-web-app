@@ -1,0 +1,16 @@
+environment: prod
+
+image:
+  name: SET-BY-CICD-IMAGE
+  tag: SET-BY-CICD-TAG
+
+resources:
+  requests:
+    cpu: "0.5"
+    memory: "100Mi"
+  limits:
+    cpu: "1"
+    memory: "100Mi"
+
+ingress:
+  host:

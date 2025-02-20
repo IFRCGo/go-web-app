@@ -8,16 +8,14 @@ import {
     stringNameSelector,
     stringValueSelector,
 } from '@ifrc-go/ui/utils';
-import { _cs } from '@togglecorp/fujs';
-import { EntriesAsList } from '@togglecorp/toggle-form';
+import { type EntriesAsList } from '@togglecorp/toggle-form';
 
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import useNationalSociety, { NationalSociety } from '#hooks/domain/useNationalSociety';
+import useNationalSociety, { type NationalSociety } from '#hooks/domain/useNationalSociety';
 import type { GoApiResponse } from '#utils/restRequest';
 import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 type DistrictListItem = NonNullable<GoApiResponse<'/api/v2/district/'>['results']>[number];
 
@@ -35,7 +33,6 @@ function countrySocietyNameSelector(country: NationalSociety) {
 }
 
 interface Props {
-    className?: string;
     value: FilterValue;
     onChange: React.Dispatch<React.SetStateAction<FilterValue>>;
     disabled?: boolean;
@@ -44,7 +41,6 @@ interface Props {
 
 function Filters(props: Props) {
     const {
-        className,
         value,
         onChange,
         disabled,
@@ -83,7 +79,7 @@ function Filters(props: Props) {
     }, [onChange]);
 
     return (
-        <div className={_cs(styles.filters, className)}>
+        <>
             <MultiSelectInput
                 name="reporting_ns"
                 placeholder={strings.threeWFilterReportingNs}
@@ -144,7 +140,7 @@ function Filters(props: Props) {
                 onChange={handleInputChange}
                 disabled={disabled}
             />
-        </div>
+        </>
     );
 }
 

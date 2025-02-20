@@ -23,7 +23,7 @@ import {
 import type { GoApiResponse } from '#utils/restRequest';
 import { useRequest } from '#utils/restRequest';
 
-import FlashUpdatesTableAction, { Props as FlashUpdatesTableActions } from './FlashUpdatesTableActions';
+import FlashUpdatesTableAction, { type Props as FlashUpdatesTableActions } from './FlashUpdatesTableActions';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -34,6 +34,7 @@ type TableKey = number;
 
 const keySelector = (item: FlashUpdateListItem) => item.id;
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);

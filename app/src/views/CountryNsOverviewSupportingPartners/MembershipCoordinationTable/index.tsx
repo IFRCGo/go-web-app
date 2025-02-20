@@ -132,7 +132,7 @@ function MembershipCoordinationTable(props: Props) {
             withHeaderBorder
             footerActions={(
                 <TextOutput
-                    label={strings.source}
+                    label={strings.membershipSource}
                     value={strings.unifiedPlanning}
                     strongValue
                 />

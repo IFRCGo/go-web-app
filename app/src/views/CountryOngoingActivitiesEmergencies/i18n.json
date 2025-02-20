@@ -11,7 +11,7 @@
         "appealsTableType": "Appeal Type",
         "appealsTableCode": "Appeal Code",
         "appealsTableOperation": "Active Operation",
-        "appealsTableDisastertype": "Disaster Type",
+        "appealsTableDisasterType": "Disaster Type",
         "appealsTableRequestedAmount": "Funding Requirements",
         "appealsTableFundedAmount": "Funding Coverage",
         "appealsTableFilterTypePlaceholder": "All Appeal Types",

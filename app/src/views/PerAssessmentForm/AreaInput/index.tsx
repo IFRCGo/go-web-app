@@ -5,7 +5,7 @@ import {
     listToMap,
 } from '@togglecorp/fujs';
 import {
-    Error,
+    type Error,
     getErrorObject,
     type SetValueArg,
     useFormArray,
@@ -15,7 +15,7 @@ import {
 import NonFieldError from '#components/NonFieldError';
 import {
     type GoApiResponse,
-    ListResponseItem,
+    type ListResponseItem,
 } from '#utils/restRequest';
 
 import { type PartialAssessment } from '../schema';
@@ -81,6 +81,7 @@ function AreaInput(props: Props) {
         }),
     );
 
+    // FIXME: We might need to use useFormArrayWithEmptyCheck
     const {
         setValue: setQuestionResponseValue,
     } = useFormArray('component_responses', setFieldValue);

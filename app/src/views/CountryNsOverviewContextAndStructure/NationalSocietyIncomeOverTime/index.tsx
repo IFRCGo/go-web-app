@@ -24,7 +24,7 @@ import Link from '#components/Link';
 import useNumericChartData from '#hooks/useNumericChartData';
 import { DEFAULT_Y_AXIS_WIDTH_WITH_LABEL } from '#utils/constants';
 import { type CountryOutletContext } from '#utils/outletContext';
-import { GoApiResponse } from '#utils/restRequest';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -140,7 +140,7 @@ function NationalSocietyIncomeOverTime(props: Props) {
                             withUnderline
                         >
                             {resolveToString(
-                                strings.sourceFDRS,
+                                strings.sourceFDRSLabel,
                                 { nationalSociety: countryResponse.society_name },
                             )}
                         </Link>

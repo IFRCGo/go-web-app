@@ -52,7 +52,7 @@ function DefaultMessage(props: Props) {
             }
 
             if (filtered) {
-                return filteredEmptyMessage ?? strings.messageTitleFilterdDataNotAvailable;
+                return filteredEmptyMessage ?? strings.messageTitleFilteredDataNotAvailable;
             }
 
             if (empty) {

@@ -20,9 +20,9 @@ import {
     mapToList,
 } from '@togglecorp/fujs';
 import {
-    Error,
+    type Error,
     getErrorObject,
-    SetValueArg,
+    type SetValueArg,
     useFormObject,
 } from '@togglecorp/toggle-form';
 

@@ -23,7 +23,7 @@ import {
     MapSource,
 } from '@togglecorp/re-map';
 
-import BaseMap from '#components/domain/BaseMap';
+import GlobalMap, { type AdminZeroFeatureProperties } from '#components/domain/GlobalMap';
 import Link from '#components/Link';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import MapPopup from '#components/MapPopup';
@@ -32,7 +32,6 @@ import useInputState from '#hooks/useInputState';
 import { useRequest } from '#utils/restRequest';
 
 import {
-    adminFillLayerOptions,
     basePointLayerOptions,
     getLegendOptions,
     getScaleOptions,
@@ -40,7 +39,7 @@ import {
     optionLabelSelector,
     outerCircleLayerOptionsForEru,
     outerCircleLayerOptionsForPersonnel,
-    ScaleOption,
+    type ScaleOption,
 } from './utils';
 
 import i18n from './i18n.json';
@@ -52,24 +51,8 @@ const sourceOptions: mapboxgl.GeoJSONSourceRaw = {
     type: 'geojson',
 };
 
-interface CountryProperties {
-    country_id: number;
-    disputed: boolean;
-    fdrs: string;
-    independent: boolean;
-    is_deprecated: boolean;
-    iso: string;
-    iso3: string;
-    name: string;
-    name_ar: string;
-    name_es: string;
-    name_fr: string;
-    record_type: number;
-    region_id: number;
-}
-
 interface ClickedPoint {
-    feature: GeoJSON.Feature<GeoJSON.Point, CountryProperties>;
+    properties: AdminZeroFeatureProperties;
     lngLat: mapboxgl.LngLatLike;
 }
 
@@ -206,7 +189,7 @@ function SurgeMap(props: Props) {
         ? {
             eruDeployedEvents: mapToList(
                 listToGroupList(
-                    countryGroupedErus[clickedPointProperties.feature.properties.country_id] ?? [],
+                    countryGroupedErus[clickedPointProperties.properties.country_id] ?? [],
                     (eru) => eru.event.id ?? -1,
                 ),
                 (eru) => ({
@@ -216,8 +199,7 @@ function SurgeMap(props: Props) {
             ),
             personnelDeployedEvents: mapToList(
                 listToGroupList(
-                    // eslint-disable-next-line max-len
-                    countryGroupedPersonnel?.[clickedPointProperties.feature.properties.country_id] ?? [],
+                    countryGroupedPersonnel?.[clickedPointProperties.properties.country_id] ?? [],
                     (personnel) => personnel.event.id,
                 ),
                 (personnel) => ({
@@ -229,11 +211,11 @@ function SurgeMap(props: Props) {
         : undefined;
 
     const handleCountryClick = useCallback((
-        feature: mapboxgl.MapboxGeoJSONFeature,
+        properties: AdminZeroFeatureProperties,
         lngLat: mapboxgl.LngLatLike,
     ) => {
         setClickedPointProperties({
-            feature: feature as unknown as ClickedPoint['feature'],
+            properties,
             lngLat,
         });
         return false;
@@ -250,15 +232,8 @@ function SurgeMap(props: Props) {
         <Container
             className={_cs(styles.surgeMap, className)}
         >
-            <BaseMap
-                baseLayers={(
-                    <MapLayer
-                        layerKey="admin-0"
-                        hoverable
-                        layerOptions={adminFillLayerOptions}
-                        onClick={handleCountryClick}
-                    />
-                )}
+            <GlobalMap
+                onAdminZeroFillClick={handleCountryClick}
             >
                 <MapContainerWithDisclaimer
                     className={styles.mapContainer}
@@ -316,10 +291,10 @@ function SurgeMap(props: Props) {
                             <Link
                                 to="countriesLayout"
                                 urlParams={{
-                                    countryId: clickedPointProperties.feature.properties.country_id,
+                                    countryId: clickedPointProperties.properties.country_id,
                                 }}
                             >
-                                {clickedPointProperties.feature.properties.name}
+                                {clickedPointProperties.properties.name}
                             </Link>
                         )}
                         childrenContainerClassName={styles.popupContent}
@@ -368,7 +343,7 @@ function SurgeMap(props: Props) {
                         )}
                     </MapPopup>
                 )}
-            </BaseMap>
+            </GlobalMap>
         </Container>
     );
 }

@@ -33,7 +33,7 @@ import NonFieldError from '#components/NonFieldError';
 import Page from '#components/Page';
 import WikiLink from '#components/WikiLink';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import useNationalSociety, { NationalSociety } from '#hooks/domain/useNationalSociety';
+import useNationalSociety, { type NationalSociety } from '#hooks/domain/useNationalSociety';
 import useAlert from '#hooks/useAlert';
 import useRouting from '#hooks/useRouting';
 import {
@@ -169,6 +169,7 @@ const formSchema: FormSchema = {
     },
 };
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);

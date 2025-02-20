@@ -2,7 +2,7 @@
     "namespace" : "perExport",
     "strings": {
         "perExportNSPreparedness": "NS Preparedness and Response Capacity",
-        "perImageLogoIFRCAlt": "IFRC",
+        "ifrcLogoIFRCAltText": "IFRC",
         "perExportTitle": "PER",
         "perExportStartDateLabel": "Start Date",
         "perExportPhaseLabel": "PER Phase",
@@ -17,6 +17,9 @@
         "perNSResponseHeading":"NS Response Mechanism Performance",
         "perHighlightedTopRatedComponentHeading": "Highlighted Top Rated Components",
         "perComponentRatingResultsHeading": "Components Rating Results",
-        "perComponentNotReviewed": "0 - Not reviewed"
+        "perComponentNotReviewed": "0 - Not reviewed",
+        "perAreas": "PER Areas",
+        "perArea": "Area {areaNumber}: {title}",
+        "perLogoAltText": "Preparedness for Effective Response"
     }
 }

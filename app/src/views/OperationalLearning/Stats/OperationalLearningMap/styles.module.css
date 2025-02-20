@@ -1,0 +1,47 @@
+.operation-learning-map {
+    display: flex;
+    flex-direction: column;
+
+    .main-content {
+        display: flex;
+        flex-grow: 1;
+        min-height: 40rem;
+        gap: var(--go-ui-spacing-md);
+
+        .map-container {
+            flex-grow: 1;
+        }
+    }
+
+    .footer {
+        background-color: var(--go-ui-color-background);
+        padding: var(--go-ui-spacing-md);
+
+        .legend {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--go-ui-spacing-xs) var(--go-ui-spacing-md);
+
+            .legend-label {
+                font-size: var(--go-ui-font-size-sm);
+                font-weight: var(--go-ui-font-weight-medium);
+            }
+
+            .legend-content {
+
+                .gradient {
+                    width: 10rem;
+                    height: 0.5rem;
+                }
+
+                .label-list {
+                    display: flex;
+                    justify-content: space-between;
+                    font-size: var(--go-ui-font-size-xs);
+                    font-weight: var(--go-ui-font-weight-medium);
+                }
+            }
+        }
+    }
+}

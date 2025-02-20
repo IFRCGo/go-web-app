@@ -68,18 +68,23 @@ function getPathData(radius: number, startAngle: number, endAngleFromParams: num
     return d.join(' ');
 }
 
-export interface Props<D> {
+export type Props<D> = {
     className?: string;
     legendClassName?: string;
     data: D[] | undefined | null;
     valueSelector: (datum: D) => number | undefined | null;
     labelSelector: (datum: D) => React.ReactNode;
     keySelector: (datum: D) => number | string;
-    colors: string[];
     pieRadius?: number;
     chartPadding?: number;
     showPercentageInLegend?: boolean;
-}
+} & ({
+    colorSelector: (datum: D) => string;
+    colors?: never;
+} | {
+    colors: string[];
+    colorSelector?: never;
+})
 
 function PieChart<D>(props: Props<D>) {
     const {
@@ -88,6 +93,7 @@ function PieChart<D>(props: Props<D>) {
         valueSelector,
         labelSelector,
         keySelector,
+        colorSelector,
         colors,
         pieRadius = DEFAULT_PIE_RADIUS,
         chartPadding = DEFAULT_CHART_PADDING,
@@ -101,7 +107,8 @@ function PieChart<D>(props: Props<D>) {
     const renderingData = useMemo(
         () => {
             let endAngle = 0;
-            return data?.map((datum) => {
+
+            const result = data?.map((datum) => {
                 const value = valueSelector(datum);
                 if (isNotDefined(value)) {
                     return undefined;
@@ -117,10 +124,24 @@ function PieChart<D>(props: Props<D>) {
                     startAngle: endAngle - currentAngle,
                     percentage: getPercentage(value, totalValueSafe),
                     endAngle,
+
+                    datum,
                 };
             }).filter(isDefined) ?? [];
+
+            if (colorSelector) {
+                return result.map(({ datum, ...other }) => ({
+                    ...other,
+                    color: colorSelector(datum),
+                }));
+            }
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            return result.map(({ datum, ...other }, i) => ({
+                ...other,
+                color: colors[i % colors.length],
+            }));
         },
-        [data, keySelector, valueSelector, labelSelector, totalValueSafe],
+        [data, keySelector, valueSelector, labelSelector, totalValueSafe, colorSelector, colors],
     );
 
     return (
@@ -133,12 +154,12 @@ function PieChart<D>(props: Props<D>) {
                 }}
             >
                 <g style={{ transform: `translate(${chartPadding / 2}px, ${chartPadding / 2}px)` }}>
-                    {renderingData.map((datum, i) => (
+                    {renderingData.map((datum) => (
                         <path
                             key={datum.key}
                             className={styles.path}
                             d={getPathData(pieRadius, datum.startAngle, datum.endAngle)}
-                            fill={colors[i % colors.length]}
+                            fill={datum.color}
                         >
                             <Tooltip
                                 description={(
@@ -153,7 +174,7 @@ function PieChart<D>(props: Props<D>) {
                 </g>
             </svg>
             <div className={_cs(styles.legend, legendClassName)}>
-                {renderingData.map((datum, i) => (
+                {renderingData.map((datum) => (
                     <LegendItem
                         className={styles.legendItem}
                         key={datum.key}
@@ -167,7 +188,7 @@ function PieChart<D>(props: Props<D>) {
                                 withoutLabelColon
                             />
                         ) : datum.label}
-                        color={colors[i % colors.length]}
+                        color={datum.color}
                     />
                 ))}
             </div>

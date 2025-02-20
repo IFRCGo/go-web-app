@@ -1,9 +1,10 @@
 import { useOutletContext } from 'react-router-dom';
-import { InfoIcon } from '@ifrc-go/icons';
+import { HumanResourcesIcon } from '@ifrc-go/icons';
 import {
     Button,
     Container,
     Heading,
+    InfoPopup,
     Message,
     Modal,
     NumberOutput,
@@ -28,10 +29,33 @@ import {
 
 import Link from '#components/Link';
 import { type CountryOutletContext } from '#utils/outletContext';
-import { GoApiResponse } from '#utils/restRequest';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+interface YearPopupProps {
+    year: number | undefined | null;
+}
+
+function YearPopup(props: YearPopupProps) {
+    const { year } = props;
+
+    if (isNotDefined(year)) {
+        return null;
+    }
+
+    return (
+        <InfoPopup
+            description={(
+                <TextOutput
+                    label="Data year"
+                    value={year}
+                />
+            )}
+        />
+    );
+}
 
 interface Props {
     databankResponse: GoApiResponse<'/api/v2/country/{id}/databank/'> | undefined;
@@ -56,100 +80,145 @@ function NationalSocietyIndicators(props: Props) {
         },
     ] = useBooleanState(false);
 
-    if (!databankResponse) {
+    if (isNotDefined(databankResponse)) {
         return null;
     }
 
-    const youthValue = sumSafe([
-        databankResponse.volunteer_age_6_12,
-        databankResponse.volunteer_age_13_17,
-        databankResponse.volunteer_age_18_29,
-        databankResponse.staff_age_18_29,
-    ]);
+    const {
+        fdrs_branches,
+        fdrs_branches_data_year,
+        fdrs_expenditures,
+        fdrs_expenditures_data_year,
+        fdrs_female_staff_age_18_29,
+        fdrs_female_staff_age_30_39,
+        fdrs_female_staff_age_40_49,
+        fdrs_female_staff_age_50_59,
+        fdrs_female_staff_age_60_69,
+        fdrs_female_staff_age_70_79,
+        fdrs_female_staff_age_80,
+        fdrs_female_volunteer_age_13_17,
+        fdrs_female_volunteer_age_18_29,
+        fdrs_female_volunteer_age_30_39,
+        fdrs_female_volunteer_age_40_49,
+        fdrs_female_volunteer_age_50_59,
+        fdrs_female_volunteer_age_60_69,
+        fdrs_female_volunteer_age_6_12,
+        fdrs_female_volunteer_age_70_79,
+        fdrs_female_volunteer_age_80,
+        fdrs_income,
+        fdrs_income_data_year,
+        fdrs_male_staff_age_18_29,
+        fdrs_male_staff_age_30_39,
+        fdrs_male_staff_age_40_49,
+        fdrs_male_staff_age_50_59,
+        fdrs_male_staff_age_60_69,
+        fdrs_male_staff_age_70_79,
+        fdrs_male_staff_age_80,
+        fdrs_male_volunteer_age_13_17,
+        fdrs_male_volunteer_age_18_29,
+        fdrs_male_volunteer_age_30_39,
+        fdrs_male_volunteer_age_40_49,
+        fdrs_male_volunteer_age_50_59,
+        fdrs_male_volunteer_age_60_69,
+        fdrs_male_volunteer_age_6_12,
+        fdrs_male_volunteer_age_70_79,
+        fdrs_male_volunteer_age_80,
+        fdrs_staff_age_18_29,
+        fdrs_staff_data_year,
+        fdrs_staff_total,
+        fdrs_trained_in_first_aid,
+        fdrs_trained_in_first_aid_data_year,
+        fdrs_volunteer_age_13_17,
+        fdrs_volunteer_age_18_29,
+        fdrs_volunteer_age_6_12,
+        fdrs_volunteer_data_year,
+        fdrs_volunteer_total,
+        founded_date,
+    } = databankResponse;
 
     const volunteerDisaggregation = [
         {
             label: '6-12',
-            male: databankResponse.male_volunteer_age_6_12,
-            female: databankResponse.female_volunteer_age_6_12,
+            male: fdrs_male_volunteer_age_6_12,
+            female: fdrs_female_volunteer_age_6_12,
         },
         {
             label: '13-17',
-            male: databankResponse.male_volunteer_age_13_17,
-            female: databankResponse.female_volunteer_age_13_17,
+            male: fdrs_male_volunteer_age_13_17,
+            female: fdrs_female_volunteer_age_13_17,
         },
         {
             label: '18-29',
-            male: databankResponse.male_volunteer_age_18_29,
-            female: databankResponse.female_volunteer_age_18_29,
+            male: fdrs_male_volunteer_age_18_29,
+            female: fdrs_female_volunteer_age_18_29,
         },
         {
             label: '30-39',
-            male: databankResponse.male_volunteer_age_30_39,
-            female: databankResponse.female_volunteer_age_30_39,
+            male: fdrs_male_volunteer_age_30_39,
+            female: fdrs_female_volunteer_age_30_39,
         },
         {
             label: '40-49',
-            male: databankResponse.male_volunteer_age_40_49,
-            female: databankResponse.female_volunteer_age_40_49,
+            male: fdrs_male_volunteer_age_40_49,
+            female: fdrs_female_volunteer_age_40_49,
         },
         {
             label: '50-59',
-            male: databankResponse.male_volunteer_age_50_59,
-            female: databankResponse.female_volunteer_age_50_59,
+            male: fdrs_male_volunteer_age_50_59,
+            female: fdrs_female_volunteer_age_50_59,
         },
         {
             label: '60-69',
-            male: databankResponse.male_volunteer_age_60_69,
-            female: databankResponse.female_volunteer_age_60_69,
+            male: fdrs_male_volunteer_age_60_69,
+            female: fdrs_female_volunteer_age_60_69,
         },
         {
             label: '70-79',
-            male: databankResponse.male_volunteer_age_70_79,
-            female: databankResponse.female_volunteer_age_70_79,
+            male: fdrs_male_volunteer_age_70_79,
+            female: fdrs_female_volunteer_age_70_79,
         },
         {
             label: '80+',
-            male: databankResponse.male_volunteer_age_80,
-            female: databankResponse.female_volunteer_age_80,
+            male: fdrs_male_volunteer_age_80,
+            female: fdrs_female_volunteer_age_80,
         },
     ];
 
     const staffDisaggregation = [
         {
             label: '18-29',
-            male: databankResponse.male_staff_age_18_29,
-            female: databankResponse.female_staff_age_18_29,
+            male: fdrs_male_staff_age_18_29,
+            female: fdrs_female_staff_age_18_29,
         },
         {
             label: '30-39',
-            male: databankResponse.male_staff_age_30_39,
-            female: databankResponse.female_staff_age_30_39,
+            male: fdrs_male_staff_age_30_39,
+            female: fdrs_female_staff_age_30_39,
         },
         {
             label: '40-49',
-            male: databankResponse.male_staff_age_40_49,
-            female: databankResponse.female_staff_age_40_49,
+            male: fdrs_male_staff_age_40_49,
+            female: fdrs_female_staff_age_40_49,
         },
         {
             label: '50-59',
-            male: databankResponse.male_staff_age_50_59,
-            female: databankResponse.female_staff_age_50_59,
+            male: fdrs_male_staff_age_50_59,
+            female: fdrs_female_staff_age_50_59,
         },
         {
             label: '60-69',
-            male: databankResponse.male_staff_age_60_69,
-            female: databankResponse.female_staff_age_60_69,
+            male: fdrs_male_staff_age_60_69,
+            female: fdrs_female_staff_age_60_69,
         },
         {
             label: '70-79',
-            male: databankResponse.male_staff_age_70_79,
-            female: databankResponse.female_staff_age_70_79,
+            male: fdrs_male_staff_age_70_79,
+            female: fdrs_female_staff_age_70_79,
         },
         {
             label: '80+',
-            male: databankResponse.male_staff_age_80,
-            female: databankResponse.female_staff_age_80,
+            male: fdrs_male_staff_age_80,
+            female: fdrs_female_staff_age_80,
         },
     ];
 
@@ -166,6 +235,16 @@ function NationalSocietyIndicators(props: Props) {
     const maxFemaleStaff = maxSafe(staffDisaggregation.map(({ female }) => female));
     const totalStaffDisaggregation = sumSafe([totalMaleStaff, totalFemaleStaff]);
     const maxStaffInDisaggregation = maxSafe([maxMaleStaff, maxFemaleStaff]);
+
+    let youthValue = sumSafe([
+        fdrs_volunteer_age_6_12,
+        fdrs_volunteer_age_13_17,
+        fdrs_volunteer_age_18_29,
+        fdrs_staff_age_18_29,
+    ]);
+    if (isDefined(totalVolunteerDisaggregation) || isDefined(totalStaffDisaggregation)) {
+        youthValue = youthValue ?? 0;
+    }
 
     return (
         <Container
@@ -187,96 +266,112 @@ function NationalSocietyIndicators(props: Props) {
             numPreferredGridContentColumns={3}
             footerActions={isDefined(countryResponse?.fdrs)
                 && isDefined(countryResponse.society_name) && (
-                <>
-                    <TextOutput
-                        label={strings.source}
-                        value={(
-                            <Link
-                                variant="tertiary"
-                                href={`https://data.ifrc.org/fdrs/national-society/${countryResponse.fdrs}`}
-                                external
-                                withUnderline
-                            >
-                                {resolveToString(
-                                    strings.sourceFDRS,
-                                    { nationalSociety: countryResponse.society_name },
-                                )}
-                            </Link>
-                        )}
-                    />
-                    {isDefined(databankResponse.fdrs_data_fetched_year) && (
-                        <TextOutput
-                            value={databankResponse?.fdrs_data_fetched_year}
-                            strongValue
-                        />
+                <TextOutput
+                    label={strings.indicatorSourceLabel}
+                    value={(
+                        <Link
+                            variant="tertiary"
+                            href={`https://data.ifrc.org/fdrs/national-society/${countryResponse.fdrs}`}
+                            external
+                            withUnderline
+                        >
+                            {resolveToString(
+                                strings.indicatorSourceFDRSLabel,
+                                { nationalSociety: countryResponse.society_name },
+                            )}
+                        </Link>
                     )}
-                </>
+                />
             )}
         >
             <TextOutput
                 label={strings.nationalSocietyFoundedDateLabel}
-                value={databankResponse?.founded_date}
+                value={founded_date}
                 valueType="date"
                 strongValue
             />
             <TextOutput
                 label={strings.nationalSocietyTrainedInFirstAidLabel}
-                value={databankResponse?.trained_in_first_aid}
+                value={fdrs_trained_in_first_aid}
                 valueType="number"
+                description={(isDefined(fdrs_trained_in_first_aid)
+                    && <YearPopup year={fdrs_trained_in_first_aid_data_year} />)}
                 strongValue
             />
             <TextOutput
                 label={strings.nationalSocietyIncomeLabel}
-                value={databankResponse?.income}
+                value={fdrs_income}
                 valueType="number"
+                description={isDefined(fdrs_income) && <YearPopup year={fdrs_income_data_year} />}
                 strongValue
             />
             <TextOutput
                 label={strings.nationalSocietyVolunteersLabel}
-                value={databankResponse?.volunteer_total}
+                value={fdrs_volunteer_total}
                 valueType="number"
                 strongValue
-                description={(
-                    <Button
-                        name={undefined}
-                        onClick={setShowVolunteerDisaggregationTrue}
-                        variant="tertiary"
-                    >
-                        <InfoIcon className={styles.infoIcon} />
-                    </Button>
+                descriptionClassName={styles.infoContainer}
+                description={isDefined(fdrs_volunteer_total) && (
+                    <>
+                        <YearPopup year={fdrs_income_data_year} />
+                        {isDefined(totalVolunteerDisaggregation) && (
+                            <Button
+                                name={undefined}
+                                onClick={setShowVolunteerDisaggregationTrue}
+                                variant="tertiary"
+                                // FIXME: use strings
+                                title="Show disaggregation"
+                            >
+                                <HumanResourcesIcon className={styles.disaggregationIcon} />
+                            </Button>
+                        )}
+                    </>
                 )}
             />
             <TextOutput
                 label={strings.nationalSocietyYouthLabel}
                 value={youthValue}
                 valueType="number"
+                description={isDefined(youthValue) && <YearPopup year={fdrs_volunteer_data_year} />}
                 strongValue
             />
             <TextOutput
                 label={strings.nationalSocietyExpendituresLabel}
-                value={databankResponse?.expenditures}
+                value={fdrs_expenditures}
+                description={(isDefined(fdrs_expenditures)
+                    && <YearPopup year={fdrs_expenditures_data_year} />)}
                 valueType="number"
                 strongValue
             />
             <TextOutput
                 label={strings.nationalSocietyBranchesLabel}
-                value={databankResponse?.branches}
+                value={fdrs_branches}
+                description={(isDefined(fdrs_branches)
+                    && <YearPopup year={fdrs_branches_data_year} />)}
                 valueType="number"
                 strongValue
             />
             <TextOutput
                 label={strings.nationalSocietyStaffLabel}
-                value={databankResponse?.staff_total}
+                value={fdrs_staff_total}
                 valueType="number"
                 strongValue
-                description={(
-                    <Button
-                        name={undefined}
-                        onClick={setShowStaffDisaggregationTrue}
-                        variant="tertiary"
-                    >
-                        <InfoIcon className={styles.infoIcon} />
-                    </Button>
+                descriptionClassName={styles.infoContainer}
+                description={isDefined(fdrs_staff_total) && (
+                    <>
+                        <YearPopup year={fdrs_staff_data_year} />
+                        {isDefined(totalStaffDisaggregation) && (
+                            <Button
+                                name={undefined}
+                                onClick={setShowStaffDisaggregationTrue}
+                                variant="tertiary"
+                                // FIXME: use strings
+                                title="Show disaggregation"
+                            >
+                                <HumanResourcesIcon className={styles.disaggregationIcon} />
+                            </Button>
+                        )}
+                    </>
                 )}
             />
             {showVolunteerDisaggregation && (
@@ -342,6 +437,7 @@ function NationalSocietyIndicators(props: Props) {
                                             className={styles.maleDisaggregation}
                                             value={volunteer.male}
                                             totalValue={maxVolunteerInDisaggregation}
+                                            color="var(--go-ui-color-primary-blue)"
                                         >
                                             <Tooltip
                                                 title={strings.volunteerTooltipMaleLabel}
@@ -374,6 +470,7 @@ function NationalSocietyIndicators(props: Props) {
                                             className={styles.femaleDisaggregation}
                                             value={volunteer.female}
                                             totalValue={maxVolunteerInDisaggregation}
+                                            color="var(--go-ui-color-primary-red)"
                                         >
                                             <Tooltip
                                                 title={strings.volunteerTooltipFemaleLabel}
@@ -468,7 +565,7 @@ function NationalSocietyIndicators(props: Props) {
                                         <NumberOutput
                                             className={styles.malePercentage}
                                             value={getPercentage(
-                                                staff.male,
+                                                staff.male ?? 0,
                                                 totalStaffDisaggregation,
                                             )}
                                             suffix="%"
@@ -537,7 +634,7 @@ function NationalSocietyIndicators(props: Props) {
                                         <NumberOutput
                                             className={styles.femalePercentage}
                                             value={getPercentage(
-                                                staff.female,
+                                                staff.female ?? 0,
                                                 totalStaffDisaggregation,
                                             )}
                                             suffix="%"

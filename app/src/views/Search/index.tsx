@@ -56,8 +56,9 @@ function isListTypeResult(
     return resultKey === 'regions' || resultKey === 'countries' || resultKey === 'district_province_response';
 }
 
-const feedbackLink = 'https://forms.office.com/e/wFQsu0V7Zb';
+const feedbackLink = 'https://forms.office.com/e/YEzYKfMwSB';
 
+/** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const [activeView, setActiveView] = useState<SearchResponseKeys | undefined>();
@@ -234,12 +235,12 @@ export function Component() {
                 return strings.searchHint;
             }
 
-            return strings.searchResultforQuery;
+            return strings.searchResultQuery;
         },
         [
             strings.searchThreeCharactersRequired,
             strings.searchHint,
-            strings.searchResultforQuery,
+            strings.searchResultQuery,
             urlSearchValue,
             trimmedSearchString,
         ],
