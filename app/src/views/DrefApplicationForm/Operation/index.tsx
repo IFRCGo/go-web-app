@@ -20,9 +20,7 @@ import {
     sumSafe,
 } from '@ifrc-go/ui/utils';
 import {
-    isDefined,
     isNotDefined,
-    listToGroupList,
     listToMap,
     randomString,
 } from '@togglecorp/fujs';
@@ -40,14 +38,9 @@ import GoSingleFileInput from '#components/domain/GoSingleFileInput';
 import Link from '#components/Link';
 import NonFieldError from '#components/NonFieldError';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import {
-    type GoApiResponse,
-    useRequest,
-} from '#utils/restRequest';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import {
-    EARLY_ACTIONS,
-    EARLY_RESPONSE,
     recalculateProposedActionValues,
     TYPE_ASSESSMENT,
     TYPE_IMMINENT,
@@ -62,21 +55,11 @@ import styles from './styles.module.css';
 
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type PlannedInterventionOption = NonNullable<GlobalEnumsResponse['dref_planned_intervention_title']>[number];
-type ProposedActionOption = NonNullable<GlobalEnumsResponse['dref_proposed_action']>[number];
 
 type Value = PartialDref;
 type PlannedInterventionFormFields = NonNullable<PartialDref['planned_interventions']>[number];
 type ProposedActionsFormFields = NonNullable<PartialDref['proposed_action']>[number];
 type RiskSecurityFormFields = NonNullable<PartialDref['risk_security']>[number];
-type ActivityOptions = NonNullable<GoApiResponse<'/api/v2/primarysector'>>[number];
-
-function activityKeySelector(option: ActivityOptions) {
-    return option.key;
-}
-
-function activityLabelSelector(option: ActivityOptions) {
-    return option.label;
-}
 
 function plannedInterventionKeySelector(option: PlannedInterventionOption) {
     return option.key;
@@ -136,40 +119,12 @@ function Operation(props: Props) {
         [setValue],
     );
 
-    const handleProposedActionRemove = useCallback(
-        (index: number) => {
-            setValue(
-                (oldValue) => {
-                    const newProposedValue = [...(oldValue.proposed_action ?? [])];
-                    newProposedValue.splice(index, 1);
-
-                    return {
-                        ...oldValue,
-                        proposed_action: newProposedValue,
-                    };
-                },
-                true,
-            );
-        },
-        [setValue],
-    );
-
     const error = getErrorObject(formError);
 
     const [
         selectedIntervention,
         setSelectedIntervention,
     ] = useState<PlannedInterventionOption['key'] | undefined>();
-
-    const [
-        selectedEarlyActionsActivity,
-        setSelectedEarlyActionsActivity,
-    ] = useState<ActivityOptions['key'] | undefined>();
-
-    const [
-        selectedEarlyResponseActivity,
-        setSelectedEarlyResponseActivity,
-    ] = useState<ActivityOptions['key'] | undefined>();
 
     const {
         setValue: onInterventionChange,
@@ -186,13 +141,6 @@ function Operation(props: Props) {
         'risk_security',
         setFieldValue,
     );
-
-    const {
-        pending: activityOptionPending,
-        response: activityOptionResponse,
-    } = useRequest({
-        url: '/api/v2/primarysector',
-    });
 
     const handleSurgeDeployedChange = useCallback(
         (val: PartialDref['is_surge_personnel_deployed'] | undefined) => (
@@ -224,91 +172,6 @@ function Operation(props: Props) {
         );
         setSelectedIntervention(undefined);
     }, [setFieldValue, setSelectedIntervention]);
-
-    const proposedActionsByType = useMemo(() => (
-        listToGroupList(
-            (value?.proposed_action ?? []).filter((proposed) => isDefined(proposed.proposed_type)),
-            (proposed) => proposed.proposed_type ?? 0,
-            (proposed, _, index) => ({
-                ...proposed,
-                mainIndex: index,
-            }),
-        )
-    ), [value?.proposed_action]);
-
-    const handleEarlyActionsActivityAddButtonClick = useCallback((name: ProposedActionOption['key']) => {
-        const newProposedActionItem: ProposedActionsFormFields = {
-            client_id: randomString(),
-            proposed_type: name,
-            activity: selectedEarlyActionsActivity,
-        };
-
-        setFieldValue(
-            (oldValue: ProposedActionsFormFields[] | undefined) => (
-                [...(oldValue ?? []), newProposedActionItem]
-            ),
-            'proposed_action' as const,
-        );
-        setSelectedEarlyActionsActivity(undefined);
-    }, [setFieldValue, selectedEarlyActionsActivity]);
-
-    const handleEarlyResponseActivityAddButtonClick = useCallback((name: ProposedActionOption['key']) => {
-        const newProposedActionItem: ProposedActionsFormFields = {
-            client_id: randomString(),
-            proposed_type: name,
-            activity: selectedEarlyResponseActivity,
-        };
-
-        setFieldValue(
-            (oldValue: ProposedActionsFormFields[] | undefined) => (
-                [...(oldValue ?? []), newProposedActionItem]
-            ),
-            'proposed_action' as const,
-        );
-        setSelectedEarlyResponseActivity(undefined);
-    }, [setFieldValue, selectedEarlyResponseActivity]);
-
-    const earlyActionActivitiesSelectedOptionsMap = useMemo(() => {
-        const earlyActionProposedActionValue = value.proposed_action?.filter(
-            (action) => action.proposed_type === EARLY_ACTIONS,
-        );
-
-        return listToMap(
-            earlyActionProposedActionValue,
-            (proposedAction) => proposedAction.activity ?? '<no-key>',
-            (proposedAction) => ({
-                type: proposedAction.proposed_type,
-                isFilter: true,
-            }),
-        );
-    }, [value.proposed_action]);
-
-    const earlyResponseActivitiesSelectedOptionsMap = useMemo(() => {
-        const earlyResponseProposedActionValue = value.proposed_action?.filter(
-            (action) => action.proposed_type === EARLY_RESPONSE,
-        );
-
-        return listToMap(
-            earlyResponseProposedActionValue,
-            (proposedAction) => proposedAction.activity ?? '<no-key>',
-            (proposedAction) => ({
-                type: proposedAction.proposed_type,
-                isFilter: true,
-            }),
-        );
-    }, [value.proposed_action]);
-
-    const filteredEarlyActionActivityOptions = useMemo(() => (
-        activityOptionResponse?.filter(
-            (response) => !earlyActionActivitiesSelectedOptionsMap?.[response.key]?.isFilter,
-        )
-    ), [activityOptionResponse, earlyActionActivitiesSelectedOptionsMap]);
-
-    const filteredEarlyResponseActivityOptions = useMemo(() => (
-        activityOptionResponse?.filter(
-            (response) => !earlyResponseActivitiesSelectedOptionsMap?.[response.key]?.isFilter,
-        )
-    ), [activityOptionResponse, earlyResponseActivitiesSelectedOptionsMap]);
 
     const warnings = useMemo(() => {
         if (isNotDefined(value?.total_targeted_population)) {
@@ -712,7 +575,7 @@ function Operation(props: Props) {
                             </div>
                         )}
                     >
-                        <div className={styles.interventionSelectionContainer}>
+                        <div className={styles.selectionContainer}>
                             <SelectInput
                                 className={styles.input}
                                 name={undefined}
@@ -876,88 +739,16 @@ function Operation(props: Props) {
                 <Container
                     heading={strings.drefFormProposedActions}
                 >
-                    <InputSection
-                        title={strings.drefFormProposedActionEarlyActionsLabel}
-                    >
-                        <div className={styles.selectionContainer}>
-                            <SelectInput
-                                className={styles.input}
-                                name={undefined}
-                                label={strings.drefFormProposedActionSelectActivitiesLabel}
-                                value={selectedEarlyActionsActivity}
-                                onChange={setSelectedEarlyActionsActivity}
-                                keySelector={activityKeySelector}
-                                labelSelector={activityLabelSelector}
-                                options={filteredEarlyActionActivityOptions}
-                                disabled={disabled || activityOptionPending}
-                            />
-                            <Button
-                                name={EARLY_ACTIONS}
-                                variant="secondary"
-                                spacing="compact"
-                                onClick={handleEarlyActionsActivityAddButtonClick}
-                                disabled={
-                                    isNotDefined(selectedEarlyActionsActivity)
-                                        || disabled
-                                }
-                            >
-                                {strings.drefFormProposedActionAddActivityLabel}
-                            </Button>
-                        </div>
-                        <NonFieldError error={getErrorObject(error?.proposed_action)} />
-                        {proposedActionsByType[EARLY_ACTIONS]?.map((action) => (
-                            <ProposedActionsInput
-                                key={action.client_id}
-                                index={action.mainIndex}
-                                value={action}
-                                activityOptions={activityOptionResponse}
-                                onChange={handleProposedActionChange}
-                                onRemove={handleProposedActionRemove}
-                                error={getErrorObject(error?.proposed_action)}
-                            />
-                        ))}
-                    </InputSection>
-                    <InputSection
-                        title={strings.drefFormProposedActionEarlyResponseLabel}
-                    >
-                        <div className={styles.selectionContainer}>
-                            <SelectInput
-                                className={styles.input}
-                                name={undefined}
-                                label={strings.drefFormProposedActionSelectActivitiesLabel}
-                                value={selectedEarlyResponseActivity}
-                                onChange={setSelectedEarlyResponseActivity}
-                                keySelector={activityKeySelector}
-                                labelSelector={activityLabelSelector}
-                                options={filteredEarlyResponseActivityOptions}
-                                disabled={disabled || activityOptionPending}
-                            />
-                            <Button
-                                name={EARLY_RESPONSE}
-                                variant="secondary"
-                                spacing="compact"
-                                onClick={handleEarlyResponseActivityAddButtonClick}
-                                disabled={
-                                    isNotDefined(selectedEarlyResponseActivity)
-                                        || disabled
-                                }
-                            >
-                                {strings.drefFormProposedActionAddActivityLabel}
-                            </Button>
-                        </div>
-                        <NonFieldError error={getErrorObject(error?.proposed_action)} />
-                        {proposedActionsByType[EARLY_RESPONSE]?.map((action) => (
-                            <ProposedActionsInput
-                                key={action.client_id}
-                                index={action.mainIndex}
-                                value={action}
-                                activityOptions={activityOptionResponse}
-                                onChange={handleProposedActionChange}
-                                onRemove={handleProposedActionRemove}
-                                error={getErrorObject(error?.proposed_action)}
-                            />
-                        ))}
-                    </InputSection>
+                    <NonFieldError error={getErrorObject(error?.proposed_action)} />
+                    {value.proposed_action?.map((action, i) => (
+                        <ProposedActionsInput
+                            key={action.client_id}
+                            index={i}
+                            value={action}
+                            onChange={handleProposedActionChange}
+                            error={getErrorObject(error?.proposed_action)}
+                        />
+                    ))}
                     <InputSection
                         description={(
                             <div className={styles.warning}>
@@ -968,15 +759,15 @@ function Operation(props: Props) {
                     >
                         <NumberInput
                             required
-                            name="sub_total"
+                            name="sub_total_cost"
                             readOnly
                             onChange={setFieldValue}
                             label={strings.drefFormProposedActionSubTotal}
-                            value={value.sub_total}
+                            value={value.sub_total_cost}
                             disabled={disabled}
                         />
                         <NonFieldError
-                            error={error?.sub_total}
+                            error={error?.sub_total_cost}
                         />
                         {value.is_surge_personnel_deployed && (
                             <NumberInput
@@ -1003,11 +794,11 @@ function Operation(props: Props) {
                         <NumberInput
                             required
                             readOnly
-                            name="total"
+                            name="total_cost"
                             onChange={setFieldValue}
                             label={strings.drefFormProposedActionTotal}
-                            value={value.total}
-                            error={error?.total}
+                            value={value.total_cost}
+                            error={error?.total_cost}
                             disabled={disabled}
                         />
                     </InputSection>

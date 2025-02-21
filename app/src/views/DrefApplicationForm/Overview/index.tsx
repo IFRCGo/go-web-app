@@ -15,12 +15,16 @@ import {
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { stringValueSelector } from '@ifrc-go/ui/utils';
-import { isNotDefined } from '@togglecorp/fujs';
+import {
+    isNotDefined,
+    randomString,
+} from '@togglecorp/fujs';
 import {
     type EntriesAsList,
     type Error,
     getErrorObject,
     getErrorString,
+    type SetBaseValueArg,
 } from '@togglecorp/toggle-form';
 
 import CountrySelectInput from '#components/domain/CountrySelectInput';
@@ -46,6 +50,8 @@ import {
     DISASTER_FIRE,
     DISASTER_FLASH_FLOOD,
     DISASTER_FLOOD,
+    EARLY_ACTIONS,
+    EARLY_RESPONSE,
     ONSET_SUDDEN,
     TYPE_IMMINENT,
     TYPE_LOAN,
@@ -76,6 +82,7 @@ function onsetTypeKeySelector(option: OnsetTypeOption) {
 interface Props {
     value: PartialDref;
     setFieldValue: (...entries: EntriesAsList<PartialDref>) => void;
+    setValue: (value: SetBaseValueArg<PartialDref>, partialUpdate?: boolean) => void;
     error: Error<PartialDref> | undefined;
     disabled?: boolean;
     fileIdToUrlMap: Record<number, string>;
@@ -94,6 +101,7 @@ function Overview(props: Props) {
     const {
         value,
         setFieldValue,
+        setValue,
         error: formError,
         fileIdToUrlMap,
         setFileIdToUrlMap,
@@ -161,9 +169,24 @@ function Overview(props: Props) {
     ) => {
         setFieldValue(typeOfDref, name);
         if (typeOfDref === TYPE_IMMINENT) {
-            setFieldValue(ONSET_SUDDEN, 'type_of_onset');
+            setValue((oldValue) => (
+                ({
+                    ...oldValue,
+                    type_of_onset: ONSET_SUDDEN,
+                    proposed_action: [
+                        {
+                            client_id: randomString(),
+                            proposed_type: EARLY_ACTIONS,
+                        },
+                        {
+                            client_id: randomString(),
+                            proposed_type: EARLY_RESPONSE,
+                        },
+                    ],
+                })
+            ), true);
         }
-    }, [setFieldValue]);
+    }, [setFieldValue, setValue]);
 
     const userRendererParams = useCallback((userId: number, user: User) => ({
         userId,
