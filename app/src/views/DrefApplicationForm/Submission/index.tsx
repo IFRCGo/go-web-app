@@ -294,7 +294,11 @@ function Submission(props: Props) {
                 )}
                 {value?.type_of_dref !== TYPE_LOAN && (
                     <InputSection
-                        title={strings.drefFormIfrcEmergency}
+                        title={
+                            value.type_of_dref === TYPE_IMMINENT
+                                ? strings.drefFormIfrcOperation
+                                : strings.drefFormIfrcEmergency
+                        }
                         numPreferredColumns={2}
                     >
                         <TextInput
