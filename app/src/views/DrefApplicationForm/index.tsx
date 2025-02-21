@@ -185,7 +185,9 @@ export function Component() {
     } = useForm(
         drefSchema,
         {
-            value: {},
+            value: {
+                operation_timeframe: 45,
+            },
         },
     );
 
@@ -333,6 +335,7 @@ export function Component() {
                 proposed_action: proposed_action?.map(
                     (action) => ({
                         ...injectClientId(action),
+                        activities: action.activities?.map(injectClientId),
                     }),
                 ),
                 source_information: source_information?.map(injectClientId),
@@ -404,6 +407,12 @@ export function Component() {
                     if (isDefined(match)) {
                         const [index] = match;
                         return value?.planned_interventions?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['proposed_action', NUM, 'activities', NUM]);
+                    if (isDefined(match)) {
+                        const [proposed_action_index, index] = match;
+                        // eslint-disable-next-line max-len
+                        return value?.proposed_action?.[proposed_action_index]?.activities?.[index]?.client_id;
                     }
                     match = matchArray(locations, ['proposed_action', NUM]);
                     if (isDefined(match)) {
@@ -497,6 +506,12 @@ export function Component() {
                     if (isDefined(match)) {
                         const [index] = match;
                         return value?.planned_interventions?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['proposed_action', NUM, 'activities', NUM]);
+                    if (isDefined(match)) {
+                        const [proposed_action_index, index] = match;
+                        // eslint-disable-next-line max-len
+                        return value?.proposed_action?.[proposed_action_index]?.activities?.[index]?.client_id;
                     }
                     match = matchArray(locations, ['proposed_action', NUM]);
                     if (isDefined(match)) {
@@ -745,6 +760,7 @@ export function Component() {
                             <Overview
                                 value={value}
                                 setFieldValue={setFieldValue}
+                                setValue={setValue}
                                 fileIdToUrlMap={fileIdToUrlMap}
                                 setFileIdToUrlMap={setFileIdToUrlMap}
                                 error={formError}

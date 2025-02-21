@@ -15,6 +15,7 @@ type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 export type TypeOfDrefEnum = components<'read'>['schemas']['DrefDrefDrefTypeEnumKey'];
 type TypeOfOnsetEnum = components<'read'>['schemas']['DrefDrefOnsetTypeEnumKey'];
 type ProposedActionOption = NonNullable<GlobalEnumsResponse['dref_proposed_action']>[number];
+type DrefResponseType = GoApiResponse<'/api/v2/dref/{id}/'>;
 
 // export const ONSET_SLOW = 1 satisfies TypeOfOnsetEnum;
 export const ONSET_SUDDEN = 2 satisfies TypeOfOnsetEnum;
@@ -169,9 +170,9 @@ const tabToFieldsMap = {
     submission: timeframeAndContactsTabFields,
 };
 
-export const recalculateProposedActionValues = (val: PartialDref) => {
+export const recalculateProposedActionValues = (val: PartialDref | DrefResponseType) => {
     const subTotal = sumSafe(
-        val.proposed_action?.map((pa) => pa.budget),
+        val?.proposed_action?.map((pa) => pa.total_budget),
     ) ?? 0;
 
     // NOTE: if Surge Personnel are deployed,
@@ -187,10 +188,10 @@ export const recalculateProposedActionValues = (val: PartialDref) => {
         [subTotal, indirectCost, surgeDeploymentCost],
     );
     return {
-        sub_total: subTotal,
+        sub_total_cost: subTotal,
         indirect_cost: indirectCost,
         surge_deployment_cost: surgeDeploymentCost,
-        total,
+        total_cost: total,
     };
 };
 
