@@ -49,6 +49,8 @@ import {
 import {
     EARLY_ACTIONS,
     EARLY_RESPONSE,
+    recalculateProposedActionValues,
+    TYPE_IMMINENT,
 } from '#views/DrefApplicationForm/common';
 
 import PgaExport, { BlockTextOutput } from './PgaExport';
@@ -421,6 +423,13 @@ export function Component() {
         )
     ), [drefResponse?.proposed_action]);
 
+    const drefAllocated = useMemo(() => {
+        if (isNotDefined(drefResponse)) {
+            return undefined;
+        }
+        return recalculateProposedActionValues(drefResponse);
+    }, [drefResponse]);
+
     return (
         <div className={styles.drefApplicationExport}>
             <Container childrenContainerClassName={styles.pageTitleSection}>
@@ -462,36 +471,80 @@ export function Component() {
                     value={drefResponse?.appeal_code}
                     strongValue
                 />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.countryLabel}
-                    value={drefResponse?.country_details?.name}
-                    strongValue
-                />
+                {drefResponse?.type_of_dref === TYPE_IMMINENT && (
+                    <TextOutput
+                        className={styles.metaItem}
+                        label={strings.drefAllocatedLabel}
+                        value={drefAllocated?.total}
+                        prefix={strings.chfPrefix}
+                        strongValue
+                    />
+                )}
+                {drefResponse?.type_of_dref !== TYPE_IMMINENT && (
+                    <TextOutput
+                        className={styles.metaItem}
+                        label={strings.countryLabel}
+                        value={drefResponse?.country_details?.name}
+                        strongValue
+                    />
+                )}
                 <TextOutput
                     className={styles.metaItem}
                     label={strings.hazardLabel}
                     value={drefResponse?.disaster_type_details?.name}
                     strongValue
                 />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.typeOfDrefLabel}
-                    value={drefResponse?.type_of_dref_display}
-                    strongValue
-                />
-                {drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
-                    <TextOutput
-                        className={styles.metaItem}
-                        label={strings.crisisCategoryLabel}
-                        value={drefResponse?.disaster_category_display}
-                        valueClassName={_cs(
-                            isDefined(drefResponse)
+                {drefResponse?.type_of_dref === TYPE_IMMINENT && (
+                    <>
+                        <TextOutput
+                            className={styles.metaItem}
+                            label={strings.countryLabel}
+                            value={drefResponse?.country_details?.name}
+                            strongValue
+                        />
+                        <TextOutput
+                            className={styles.metaItem}
+                            label={strings.drefFormRiskPeopleLabel}
+                            value={drefResponse?.num_affected}
+                            strongValue
+                        />
+                        <TextOutput
+                            className={styles.metaItem}
+                            label={strings.operationStartDateLabel}
+                            value={drefResponse?.date_of_approval}
+                            valueType="date"
+                            strongValue
+                        />
+                        <TextOutput
+                            className={styles.metaItem}
+                            label={strings.operationEndDateLabel}
+                            value={drefResponse?.end_date}
+                            valueType="date"
+                            strongValue
+                        />
+                        <div className={styles.metaActionsItem} />
+                    </>
+                )}
+                {drefResponse?.type_of_dref !== TYPE_IMMINENT && (
+                    <>
+                        <TextOutput
+                            className={styles.metaItem}
+                            label={strings.typeOfDrefLabel}
+                            value={drefResponse?.type_of_dref_display}
+                            strongValue
+                        />
+                        <TextOutput
+                            className={styles.metaItem}
+                            label={strings.crisisCategoryLabel}
+                            value={drefResponse?.disaster_category_display}
+                            valueClassName={_cs(
+                                isDefined(drefResponse)
                             && isDefined(drefResponse.disaster_category)
                             && colorMap[drefResponse.disaster_category],
-                        )}
-                        strongValue
-                    />
+                            )}
+                            strongValue
+                        />
+                    </>
                 )}
                 <TextOutput
                     className={styles.metaItem}
@@ -499,6 +552,25 @@ export function Component() {
                     value={drefResponse?.type_of_onset_display}
                     strongValue
                 />
+                {drefResponse?.type_of_dref === DREF_TYPE_IMMINENT && (
+                    <>
+                        <TextOutput
+                            className={styles.metaItem}
+                            label={strings.drefApplicationExportForecastedLabel}
+                            value={drefResponse?.hazard_date_and_location}
+                            strongValue
+                        />
+                        <TextOutput
+                            className={styles.metaItem}
+                            label={strings.operationTimeframeLabel}
+                            value={drefResponse?.operation_timeframe}
+                            valueType="number"
+                            suffix={strings.monthsSuffix}
+                            strongValue
+                        />
+                        <div className={styles.metaActionsItem} />
+                    </>
+                )}
                 {drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
                     <TextOutput
                         className={styles.budget}
@@ -510,58 +582,60 @@ export function Component() {
                     />
                 )}
                 {drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
-                    <TextOutput
-                        className={styles.metaItem}
-                        label={strings.glideNumberLabel}
-                        value={drefResponse?.glide_code}
-                        strongValue
-                    />
+                    <>
+                        <TextOutput
+                            className={styles.metaItem}
+                            label={strings.glideNumberLabel}
+                            value={drefResponse?.glide_code}
+                            strongValue
+                        />
+                        <TextOutput
+                            className={styles.metaItem}
+                            label={strings.peopleAffectedLabel}
+                            value={drefResponse?.num_affected}
+                            valueType="number"
+                            suffix={strings.peopleSuffix}
+                            strongValue
+                        />
+                        <TextOutput
+                            className={styles.budget}
+                            label={strings.peopleTargetedLabel}
+                            value={drefResponse?.total_targeted_population}
+                            suffix={strings.peopleSuffix}
+                            valueType="number"
+                            strongValue
+                        />
+                        <TextOutput
+                            className={styles.metaItem}
+                            label={strings.operationStartDateLabel}
+                            value={drefResponse?.date_of_approval}
+                            valueType="date"
+                            strongValue
+                        />
+                        <TextOutput
+                            className={styles.metaItem}
+                            label={strings.operationTimeframeLabel}
+                            value={drefResponse?.operation_timeframe}
+                            valueType="number"
+                            suffix={strings.monthsSuffix}
+                            strongValue
+                        />
+                        <TextOutput
+                            className={styles.metaItem}
+                            label={strings.operationEndDateLabel}
+                            value={drefResponse?.end_date}
+                            valueType="date"
+                            strongValue
+                        />
+                        <TextOutput
+                            className={styles.metaItem}
+                            label={strings.drefPublishedLabel}
+                            value={drefResponse?.publishing_date}
+                            valueType="date"
+                            strongValue
+                        />
+                    </>
                 )}
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.peopleAffectedLabel}
-                    value={drefResponse?.num_affected}
-                    valueType="number"
-                    suffix={strings.peopleSuffix}
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.budget}
-                    label={strings.peopleTargetedLabel}
-                    value={drefResponse?.total_targeted_population}
-                    suffix={strings.peopleSuffix}
-                    valueType="number"
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.operationStartDateLabel}
-                    value={drefResponse?.date_of_approval}
-                    valueType="date"
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.operationTimeframeLabel}
-                    value={drefResponse?.operation_timeframe}
-                    valueType="number"
-                    suffix={strings.monthsSuffix}
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.operationEndDateLabel}
-                    value={drefResponse?.end_date}
-                    valueType="date"
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.drefPublishedLabel}
-                    value={drefResponse?.publishing_date}
-                    valueType="date"
-                    strongValue
-                />
                 <TextOutput
                     className={styles.targetedAreas}
                     label={strings.targetedAreasLabel}
