@@ -10,7 +10,7 @@
         "drefFormClickEmergencyResponseFramework": "Click to view Emergency Response Framework",
         "drefFormPeopleInNeed": "People in need (Optional)",
         "drefFormPeopleAffected": "Total affected population",
-        "drefFormRiskPeopleLabel": "Total population at risk",
+        "drefFormRiskPeopleLabel": "Total population at risk (if available)",
         "drefFormPeopleInNeedDescriptionSlowSudden": "People in Need (PIN) are those members whose physical security, basic rights, dignity, living conditions or livelihoods are threatened or have been disrupted, and whose current level of access to basic services, goods and social protection is inadequate to re-establish normal living conditions without additional assistance.",
         "drefFormPeopleAffectedDescriptionImminent": "Includes all those whose lives and livelihoods are at risk as a direct result of the shock or stress.",
         "drefFormLessonsLearnedDescription": "Specify how the lessons learnt from these previous operations are being used to mitigate similar challenges in the current operation",
@@ -35,7 +35,7 @@
         "drefFormSourceInformationAddButton": "Add New Source Information",
         "drefFormSourceInformationTitle": "Source Information",
         "drefFormSourceInformationDescription": "Add the links and the name of the sources, the name will be shown in the export, as an hyperlink.",
-        "drefHazardExpectedTitle": "When and where is the hazard expected to happen?",
+        "drefHazardExpectedTitle": "When is the hazard expected to happen?",
         "drefHazardExpectedDescription": "Narrative including Date and geographical areas.",
         "drefHazardTitle": "Explain the underlying vulnerabilities and risks the hazard poses for at-risk communities?",
         "drefHazardDescription": "Based on comparison of past events, what humanitarian impacts do you expect? Of what magnitude? (e.g. last time there was a cyclone making landfall with this windspeed, XX houses were destroyed, and we had to launch a DREF/emergency appeal for CHF xxx)."
