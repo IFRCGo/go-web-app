@@ -57,6 +57,13 @@
                 color: var(--go-ui-color-orange);
             }
         }
+        .meta-actions-item {
+            display: flex;
+            flex-direction: column;
+            background-color: var(--pdf-element-bg);
+            padding: var(--go-ui-spacing-xs);
+            break-inside: avoid;
+        }
 
         .budget {
             display: flex;
