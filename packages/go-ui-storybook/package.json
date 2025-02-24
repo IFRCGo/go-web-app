@@ -26,7 +26,7 @@
         "@storybook/preview-api": "^8.1.5",
         "@storybook/test": "^8.1.5",
         "@storybook/theming": "^8.1.5",
-        "@togglecorp/fujs": "^2.1.1",
+        "@togglecorp/fujs": "^2.2.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0"
     },
