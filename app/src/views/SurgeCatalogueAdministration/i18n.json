@@ -1,0 +1,22 @@
+{
+    "namespace": "surgeCatalogueAdministration",
+    "strings": {
+        "catalogueAdministrationTitle": "Administration",
+        "catalogueAdministrationOverview": "Overview",
+        "administrationDetails": "The Administration function is a key pillar in delivering value-added services to member National Societies and the IFRC Secretariat at the global level.",
+        "administrationContexts": "Administrative colleagues operate across various contexts, including emergency operations, ensuring stakeholders benefit from the efficient establishment and management of:",
+        "administrationItemOne": "Welcome services",
+        "administrationItemTwo": "Accommodation arrangements",
+        "administrationItemThree": "Visa and residency processes",
+        "administrationItemFour": "Office management",
+        "administrationItemFive": "Administrative procurement",
+        "administrationItemSix": "Filing and archiving systems",
+        "administrationItemSeven": "Event management",
+        "administrationFootnote": "These services ensure smooth and effective support across all operational contexts.",
+        "administrationRapidResponsePersonnelTitle": "Rapid Response Personnel",
+        "administrationRoleProfiles": "Role Profiles",
+        "administrationRoleProfileOne": "Welcome Services Officer",
+        "administrationRoleProfileTwo": "Administration Officer",
+        "administrationRoleProfileThree": "Administration Coordinator"
+    }
+}

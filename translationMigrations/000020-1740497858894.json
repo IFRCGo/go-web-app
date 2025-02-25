@@ -1,0 +1,113 @@
+{
+    "parent": "000019-1740394638836.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "catalogueAdministration",
+            "namespace": "surgeCatalogue",
+            "value": "Administration"
+        },
+        {
+            "action": "add",
+            "key": "administrationContexts",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Administrative colleagues operate across various contexts, including emergency operations, ensuring stakeholders benefit from the efficient establishment and management of:"
+        },
+        {
+            "action": "add",
+            "key": "administrationDetails",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "The Administration function is a key pillar in delivering value-added services to member National Societies and the IFRC Secretariat at the global level."
+        },
+        {
+            "action": "add",
+            "key": "administrationFootnote",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "These services ensure smooth and effective support across all operational contexts."
+        },
+        {
+            "action": "add",
+            "key": "administrationItemFive",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Administrative procurement"
+        },
+        {
+            "action": "add",
+            "key": "administrationItemFour",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Office management"
+        },
+        {
+            "action": "add",
+            "key": "administrationItemOne",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Welcome services"
+        },
+        {
+            "action": "add",
+            "key": "administrationItemSeven",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Event management"
+        },
+        {
+            "action": "add",
+            "key": "administrationItemSix",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Filing and archiving systems"
+        },
+        {
+            "action": "add",
+            "key": "administrationItemThree",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Visa and residency processes"
+        },
+        {
+            "action": "add",
+            "key": "administrationItemTwo",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Accommodation arrangements"
+        },
+        {
+            "action": "add",
+            "key": "administrationRapidResponsePersonnelTitle",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Rapid Response Personnel"
+        },
+        {
+            "action": "add",
+            "key": "administrationRoleProfileOne",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Welcome Services Officer"
+        },
+        {
+            "action": "add",
+            "key": "administrationRoleProfiles",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Role Profiles"
+        },
+        {
+            "action": "add",
+            "key": "administrationRoleProfileThree",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Administration Coordinator"
+        },
+        {
+            "action": "add",
+            "key": "administrationRoleProfileTwo",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Administration Officer"
+        },
+        {
+            "action": "add",
+            "key": "catalogueAdministrationOverview",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Overview"
+        },
+        {
+            "action": "add",
+            "key": "catalogueAdministrationTitle",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Administration"
+        }
+    ]
+}

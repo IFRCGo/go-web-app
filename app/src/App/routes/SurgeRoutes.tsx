@@ -150,6 +150,20 @@ const surgeCatalogueEmergencyNeedsAssessmentCell = customWrapRoute({
     },
 });
 
+const surgeCatalogueAdministration = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'administration',
+    component: {
+        render: () => import('#views/SurgeCatalogueAdministration'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Administration',
+        visibility: 'anything',
+    },
+});
+
 const surgeCatalogueBasecamp = customWrapRoute({
     parent: surgeCatalogueLayout,
     path: 'basecamp',
@@ -1272,6 +1286,7 @@ function DeploymentCatalogueNavigate() {
     const catalogueRouteMap: Record<string, WrappedRoute> = {
         overview: surgeCatalogueOverview,
         emergency: surgeCatalogueEmergencyNeedsAssessment,
+        administration: surgeCatalogueAdministration,
         basecamp: surgeCatalogueBasecamp,
         cash: surgeCatalogueCash,
         community: surgeCatalogueCommunityEngagement,
@@ -1470,6 +1485,7 @@ export default {
     surgeCatalogueOverview,
     surgeCatalogueEmergencyNeedsAssessment,
     surgeCatalogueEmergencyNeedsAssessmentCell,
+    surgeCatalogueAdministration,
     surgeCatalogueBasecamp,
     surgeCatalogueBasecampEruSmall,
     surgeCatalogueBasecampEruMedium,
