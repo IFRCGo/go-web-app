@@ -21,24 +21,55 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.surgeITCapacityTitle}
             >
-                <div>{strings.surgeITCapacityDetail}</div>
+                <div>
+                    <p>{strings.surgeITCapacityDetail}
+                    <ul>
+                        <li>{strings.surgeITCapacityDetailItemOne}</li>
+                        <li>{strings.surgeITCapacityDetailItemTwo}</li>
+                        <li>{strings.surgeITCapacityDetailItemThree}</li>
+                        <li>{strings.surgeITCapacityDetailItemFour}</li>
+                    </ul>
+                    </p>
+                </div>
             </SurgeContentContainer>
             <SurgeContentContainer
                 heading={strings.surgeITEmergencyServicesTitle}
             >
-                <div>{strings.surgeITEmergencyServicesDetailTextOne}</div>
+                <ol>
+                    <li>{strings.surgeITEmergencyServicesDetailItemOne}</li>
+                    <ul>
+                        <li>{strings.surgeITEmergencyServicesDetailItemOneA}</li>
+                        <li>{strings.surgeITEmergencyServicesDetailItemOneB}</li>
+                    </ul>
+                    <div> </div>
+                    <li>{strings.surgeITEmergencyServicesDetailItemTwo}</li>
+                    <ul>
+                        <li>{strings.surgeITEmergencyServicesDetailItemTwoA}</li>
+                        <li>{strings.surgeITEmergencyServicesDetailItemTwoB}</li>
+                    </ul>
+                    <div> </div>
+                    <li>{strings.surgeITEmergencyServicesDetailItemThree}</li>
+                    <ul>
+                        <li>{strings.surgeITEmergencyServicesDetailItemThreeA}</li>
+                        <li>{strings.surgeITEmergencyServicesDetailItemThreeB}</li>
+                    </ul>
+                </ol>
                 <div>
                     {resolveToComponent(
-                        strings.surgeITEmergencyServicesDetailTextTwo,
+                        strings.surgeITEmergencyServicesDetailText,
                         {
                             link: (
                                 <Link
-                                    href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ed9M59SwliBMvgVU3I7XilwBG7EYMGvXuvResKhy9ut5TA"
+                                    // old one: "IT&T ERU Service Catalogue are here."
+                                    // href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ed9M59SwliBMvgVU3I7XilwBG7EYMGvXuvResKhy9ut5TA"
+                                    // orig new one with narrow permissions:
+                                    // href="https://ifrcorg.sharepoint.com/:b:/s/ERUProcess/ETj4oPrM42BFoieFE_ALJIIBIAb3gJSIRleymHgkDL2RIQ"
+                                    href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EdBlwUOheHxBtxopq5QbmfABq18hovd-xoxxakwjVdsKLA"
                                     external
                                     withUnderline
                                     withLinkIcon
                                 >
-                                    {strings.surgeITEmergencyServicesDetailTextTwoLink}
+                                    {strings.surgeITEmergencyServicesDetailTextLink}
                                 </Link>
                             ),
                         },
@@ -46,50 +77,71 @@ export function Component() {
                 </div>
             </SurgeContentContainer>
             <SurgeContentContainer
+                heading={strings.surgeITEmergencyModulesTitle}
+            >
+                <ul>
+                    <li><strong>{strings.surgeITEmergencyModulesItemOne}</strong></li>
+                    <ul>
+                        <li>{strings.surgeITEmergencyModulesItemOneA}</li>
+                        <li>{strings.surgeITEmergencyModulesItemOneB}</li>
+                        <li>{strings.surgeITEmergencyModulesItemOneC}</li>
+                    </ul>
+                    <li><strong>{strings.surgeITEmergencyModulesItemTwo}</strong></li>
+                    <ul>
+                        <li>{strings.surgeITEmergencyModulesItemTwoA}</li>
+                        <li>{strings.surgeITEmergencyModulesItemTwoB}</li>
+                    </ul>
+                    <li><strong>{strings.surgeITEmergencyModulesItemThree}</strong></li>
+                    <ul>
+                        <li>{strings.surgeITEmergencyModulesItemThreeA}</li>
+                        <li>{strings.surgeITEmergencyModulesItemThreeB}</li>
+                    </ul>
+                    <li><strong>{strings.surgeITEmergencyModulesItemFour}</strong></li>
+                    <ul>
+                        <li>{strings.surgeITEmergencyModulesItemFourA}</li>
+                    </ul>
+                    <li><strong>{strings.surgeITEmergencyModulesItemFive}</strong></li>
+                    <ul>
+                        <li>{strings.surgeITEmergencyModulesItemFiveA}</li>
+                    </ul>
+                    <li><strong>{strings.surgeITEmergencyModulesItemSix}</strong></li>
+                    <ul>
+                        <li><strong>{strings.surgeITEmergencyModulesItemSixA}</strong> {strings.surgeITEmergencyModulesItemSixB}</li>
+                        <li><strong>{strings.surgeITEmergencyModulesItemSixC}</strong> {strings.surgeITEmergencyModulesItemSixD}</li>
+                        <li><strong>{strings.surgeITEmergencyModulesItemSixE}</strong> {strings.surgeITEmergencyModulesItemSixF}</li>
+                        <li><strong>{strings.surgeITEmergencyModulesItemSixG}</strong> {strings.surgeITEmergencyModulesItemSixH}</li>
+                        <li><strong>{strings.surgeITEmergencyModulesItemSixI}</strong> {strings.surgeITEmergencyModulesItemSixJ}</li>
+                        <li><strong>{strings.surgeITEmergencyModulesItemSixK}</strong> {strings.surgeITEmergencyModulesItemSixL}</li>
+                    </ul>
+                    <li><strong>{strings.surgeITEmergencyModulesItemSeven}</strong></li>
+                    <ul>
+                        <li>{strings.surgeITEmergencyModulesItemSevenA}</li>
+                    </ul>
+                    <li><strong>{strings.surgeITEmergencyModulesItemEight}</strong></li>
+                    <ul>
+                        <li>{strings.surgeITEmergencyModulesItemEightA}</li>
+                    </ul>
+                </ul>
+            </SurgeContentContainer>
+            <SurgeContentContainer
                 heading={strings.surgeITEmergencyDesignedForTitle}
             >
-                <div>{strings.surgeITEmergencyDesignForDetail}</div>
+                <div>{strings.surgeITEmergencyDesignedForDetail}</div>
             </SurgeContentContainer>
             <SurgeContentContainer
                 heading={strings.surgeITPersonnelTitle}
             >
-                <TextOutput
-                    value={strings.surgeITPersonnelTotalValue}
-                    label={strings.surgeITPersonnelTotalLabel}
-                    strongLabel
-                />
-                <TextOutput
-                    value={strings.surgeITPersonnelCompositionValue}
-                    label={strings.surgeITPersonnelCompositionLabel}
-                    strongLabel
-                />
+                <div>{strings.surgeITPersonnelText}</div>
             </SurgeContentContainer>
             <SurgeContentContainer
                 heading={strings.surgeITStandardComponents}
             >
-                <ul>
-                    <li>{strings.surgeITStandardComponentsListOne}</li>
-                    <li>{strings.surgeITStandardComponentsListTwo}</li>
-                    <li>{strings.surgeITStandardComponentsListThree}</li>
-                    <li>{strings.surgeITStandardComponentsListFour}</li>
-                    <li>{strings.surgeITStandardComponentsListFive}</li>
-                    <li>{strings.surgeITStandardComponentsListSix}</li>
-                    <li>{strings.surgeITStandardComponentsListSeven}</li>
-                </ul>
+                <div>{strings.surgeITStandardComponentsText}</div>
             </SurgeContentContainer>
             <SurgeContentContainer
-                heading={strings.surgeITSpecificationsTitle}
+                heading={strings.surgeITOfferingsTitle}
             >
-                <TextOutput
-                    value={strings.surgeITSpecificationsCostValue}
-                    label={strings.surgeITSpecificationsCostLabel}
-                    strongLabel
-                />
-                <TextOutput
-                    value={strings.surgeITSpecificationsNSValue}
-                    label={strings.surgeITSpecificationsNSLabel}
-                    strongLabel
-                />
+                <div>{strings.surgeITOfferingsText}</div>
             </SurgeContentContainer>
         </SurgeCatalogueContainer>
     );
