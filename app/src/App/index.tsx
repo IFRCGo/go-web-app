@@ -56,7 +56,7 @@ import wrappedRoutes, { unwrappedRoutes } from './routes';
 
 import styles from './styles.module.css';
 
-const siteId = 5292885;
+const siteId = 5319882;
 const hotjarVersion = 6;
 
 Hotjar.init(siteId, hotjarVersion);
