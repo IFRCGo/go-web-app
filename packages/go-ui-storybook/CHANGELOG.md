@@ -27,7 +27,7 @@
 
 - 836e73b: Initial Release v1.0.0
 
-Integrated storybook for IFRC Go UI components in [#406](https://github.com/IFRCGo/go-web-app/issues/406)
+Integrated storybook for IFRC GO UI components in [#406](https://github.com/IFRCGo/go-web-app/issues/406)
 The storybook is deployed to chromatic via Github Actions CI.
 
 Wrote stories for following components
