@@ -1,0 +1,41 @@
+{
+    "parent": "000021-1740671551863.json",
+    "actions": [
+       {
+            "action": "update",
+            "key": "surgeITEmergencyModulesItemSixB",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "newValue": " IT equipment for a self-contained office including WIFI connection to printer, scanning and local storage facility (15 users) – 10 office sites."
+        },
+        {
+            "action": "update",
+            "key": "surgeITEmergencyModulesItemSixD",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "newValue": " IT equipment for a self-contained office including WIFI connection to printer, scanning and local storage facility (30 people) – 5 office sites."
+        },
+        {
+            "action": "update",
+            "key": "surgeITEmergencyModulesItemSixF",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "newValue": " ensure that operations area can be powered by developing a plan for power distribution if a base camp ERU is not deployed. Standing global capacity 5."
+        },
+        {
+            "action": "update",
+            "key": "surgeITEmergencyModulesItemSixH",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "newValue": " power small scale offices, or Information technology or Telecommunications equipment in remote locations. Standing global capacity 6."
+        },
+        {
+            "action": "update",
+            "key": "surgeITEmergencyModulesItemSixJ",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "newValue": " power medium scale offices, or Information technology or Telecommunications equipment in remote locations. Standing global capacity 6."
+        },
+        {
+            "action": "update",
+            "key": "surgeITEmergencyModulesItemSixL",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "newValue": " (15 people) – 5 units."
+        }
+    ]
+}

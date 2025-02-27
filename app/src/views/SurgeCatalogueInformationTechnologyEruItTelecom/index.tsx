@@ -1,4 +1,3 @@
-import { TextOutput } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { resolveToComponent } from '@ifrc-go/ui/utils';
 
@@ -22,13 +21,14 @@ export function Component() {
                 heading={strings.surgeITCapacityTitle}
             >
                 <div>
-                    <p>{strings.surgeITCapacityDetail}
-                    <ul>
-                        <li>{strings.surgeITCapacityDetailItemOne}</li>
-                        <li>{strings.surgeITCapacityDetailItemTwo}</li>
-                        <li>{strings.surgeITCapacityDetailItemThree}</li>
-                        <li>{strings.surgeITCapacityDetailItemFour}</li>
-                    </ul>
+                    <p>
+                        {strings.surgeITCapacityDetail}
+                        <ul>
+                            <li>{strings.surgeITCapacityDetailItemOne}</li>
+                            <li>{strings.surgeITCapacityDetailItemTwo}</li>
+                            <li>{strings.surgeITCapacityDetailItemThree}</li>
+                            <li>{strings.surgeITCapacityDetailItemFour}</li>
+                        </ul>
                     </p>
                 </div>
             </SurgeContentContainer>
@@ -41,13 +41,13 @@ export function Component() {
                         <li>{strings.surgeITEmergencyServicesDetailItemOneA}</li>
                         <li>{strings.surgeITEmergencyServicesDetailItemOneB}</li>
                     </ul>
-                    <div> </div>
+                    <div>&nbsp;</div>
                     <li>{strings.surgeITEmergencyServicesDetailItemTwo}</li>
                     <ul>
                         <li>{strings.surgeITEmergencyServicesDetailItemTwoA}</li>
                         <li>{strings.surgeITEmergencyServicesDetailItemTwoB}</li>
                     </ul>
-                    <div> </div>
+                    <div>&nbsp;</div>
                     <li>{strings.surgeITEmergencyServicesDetailItemThree}</li>
                     <ul>
                         <li>{strings.surgeITEmergencyServicesDetailItemThreeA}</li>
@@ -106,12 +106,42 @@ export function Component() {
                     </ul>
                     <li><strong>{strings.surgeITEmergencyModulesItemSix}</strong></li>
                     <ul>
-                        <li><strong>{strings.surgeITEmergencyModulesItemSixA}</strong> {strings.surgeITEmergencyModulesItemSixB}</li>
-                        <li><strong>{strings.surgeITEmergencyModulesItemSixC}</strong> {strings.surgeITEmergencyModulesItemSixD}</li>
-                        <li><strong>{strings.surgeITEmergencyModulesItemSixE}</strong> {strings.surgeITEmergencyModulesItemSixF}</li>
-                        <li><strong>{strings.surgeITEmergencyModulesItemSixG}</strong> {strings.surgeITEmergencyModulesItemSixH}</li>
-                        <li><strong>{strings.surgeITEmergencyModulesItemSixI}</strong> {strings.surgeITEmergencyModulesItemSixJ}</li>
-                        <li><strong>{strings.surgeITEmergencyModulesItemSixK}</strong> {strings.surgeITEmergencyModulesItemSixL}</li>
+                        <li>
+                            <strong>
+                                {strings.surgeITEmergencyModulesItemSixA}
+                            </strong>
+                            {strings.surgeITEmergencyModulesItemSixB}
+                        </li>
+                        <li>
+                            <strong>
+                                {strings.surgeITEmergencyModulesItemSixC}
+                            </strong>
+                            {strings.surgeITEmergencyModulesItemSixD}
+                        </li>
+                        <li>
+                            <strong>
+                                {strings.surgeITEmergencyModulesItemSixE}
+                            </strong>
+                            {strings.surgeITEmergencyModulesItemSixF}
+                        </li>
+                        <li>
+                            <strong>
+                                {strings.surgeITEmergencyModulesItemSixG}
+                            </strong>
+                            {strings.surgeITEmergencyModulesItemSixH}
+                        </li>
+                        <li>
+                            <strong>
+                                {strings.surgeITEmergencyModulesItemSixI}
+                            </strong>
+                            {strings.surgeITEmergencyModulesItemSixJ}
+                        </li>
+                        <li>
+                            <strong>
+                                {strings.surgeITEmergencyModulesItemSixK}
+                            </strong>
+                            {strings.surgeITEmergencyModulesItemSixL}
+                        </li>
                     </ul>
                     <li><strong>{strings.surgeITEmergencyModulesItemSeven}</strong></li>
                     <ul>
