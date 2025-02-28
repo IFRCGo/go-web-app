@@ -234,6 +234,34 @@ const surgeCatalogueBasecampFacilityManagement = customWrapRoute({
     },
 });
 
+const surgeCatalogueBasecampOffice = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'basecamp/office',
+    component: {
+        render: () => import('#views/SurgeCatalogueBasecampOffice'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Basecamp Office',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueBasecampWelcome = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'basecamp/welcome',
+    component: {
+        render: () => import('#views/SurgeCatalogueBasecampWelcome'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Basecamp Admin and Welcome Service',
+        visibility: 'anything',
+    },
+});
+
 const surgeCatalogueCash = customWrapRoute({
     parent: surgeCatalogueLayout,
     path: 'cash',
@@ -1314,6 +1342,8 @@ function DeploymentCatalogueNavigate() {
             'eru-base-camp-medium': surgeCatalogueBasecampEruMedium,
             'eru-base-camp-large': surgeCatalogueBasecampEruLarge,
             'facility-management': surgeCatalogueBasecampFacilityManagement,
+            office: surgeCatalogueBasecampOffice,
+            welcome: surgeCatalogueBasecampWelcome,
         },
         cash: {
             cva: surgeCatalogueCashRapidResponse,
@@ -1491,6 +1521,8 @@ export default {
     surgeCatalogueBasecampEruMedium,
     surgeCatalogueBasecampEruLarge,
     surgeCatalogueBasecampFacilityManagement,
+    surgeCatalogueBasecampOffice,
+    surgeCatalogueBasecampWelcome,
     surgeCatalogueCash,
     surgeCatalogueCashRapidResponse,
     surgeCatalogueCommunityEngagement,

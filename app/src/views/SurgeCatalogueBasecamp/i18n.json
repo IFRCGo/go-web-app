@@ -1,7 +1,7 @@
 {
     "namespace": "surgeCatalogueBasecamp",
     "strings": {
-        "catalogueBasecampTitle": "Basecamp",
+        "catalogueBasecampTitle": "Operations Support HUB (OSH)",
         "basecampDetails": "The Base Camp provides Red Cross Red Crescent staff (both host National Society and International Federation staff) engaged in emergency operations with appropriate living and working conditions. The Base Camp offers tented accommodation, conditioned for hot and cold climates, toilets, hot showers, recreational facilities, a kitchen, offices, administrative, and coordination facilities in locations where these are not available for Red Cross Red Crescent staff.",
         "basecampServicesTitle": "Services",
         "basecampEmergencyResponseUnit": "Emergency Response Unit",
@@ -13,6 +13,13 @@
         "eruLargeDetails": "Accommodation up to 60 - 100 persons.",
         "basecampFacilityManagementTitle": "Facility Management",
         "basecampFacilityManagementDetails": "All aspects of facility management.",
-        "learnMore": "Learn More"
+        "basecampLinkOneIntro": "The details of the {link}",
+        "basecampLinkOneText": "Operations Support Hub ERU are here.",
+        "basecampLinkTwoIntro": "The two-pager summary of the {link}",
+        "basecampLinkTwoText": "Emergency Operations Support Hub ERU is here.",
+        "basecampOfficeTitle": "Office",
+        "basecampOfficeDetails": "Accommodate up to 150 workspaces, office space and meeting facilities.",
+        "basecampWelcomeTitle": "Admin and Welcome Service",
+        "basecampWelcomeDetails": "Administrative support services to the surge team and welcome services for delegates."
     }
 }

@@ -1,8 +1,10 @@
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import { resolveToComponent } from '@ifrc-go/ui/utils';
 
 import CatalogueInfoCard, { type LinkData } from '#components/CatalogueInfoCard';
 import SurgeCardContainer from '#components/domain/SurgeCardContainer';
 import SurgeCatalogueContainer from '#components/domain/SurgeCatalogueContainer';
+import Link from '#components/Link';
 
 import i18n from './i18n.json';
 
@@ -37,8 +39,24 @@ export function Component() {
 
     const facilityManagement: LinkData[] = [
         {
-            title: strings.learnMore,
+            title: strings.basecampFacilityManagementTitle,
             to: 'surgeCatalogueBasecampFacilityManagement',
+            withLinkIcon: true,
+        },
+    ];
+
+    const office: LinkData[] = [
+        {
+            title: strings.basecampOfficeTitle,
+            to: 'surgeCatalogueBasecampOffice',
+            withLinkIcon: true,
+        },
+    ];
+
+    const welcome: LinkData[] = [
+        {
+            title: strings.basecampWelcomeTitle,
+            to: 'surgeCatalogueBasecampWelcome',
             withLinkIcon: true,
         },
     ];
@@ -48,6 +66,39 @@ export function Component() {
             heading={strings.catalogueBasecampTitle}
             description={strings.basecampDetails}
         >
+            <p>
+                {resolveToComponent(
+                    strings.basecampLinkOneIntro,
+                    {
+                        link: (
+                            <Link
+                                href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ETxoUV5FKsRAiORGfZkhU60B5k8ULQWzA0QrHFQplNQX4A"
+                                external
+                                withUnderline
+                                withLinkIcon
+                            >
+                                {strings.basecampLinkOneText}
+                            </Link>
+                        ),
+                    },
+                )}
+                <br />
+                {resolveToComponent(
+                    strings.basecampLinkTwoIntro,
+                    {
+                        link: (
+                            <Link
+                                href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EQ9p02JRIBBDr2dLmommwNgBOBeDA4JvEUGwSb7E-bprKw"
+                                external
+                                withUnderline
+                                withLinkIcon
+                            >
+                                {strings.basecampLinkTwoText}
+                            </Link>
+                        ),
+                    },
+                )}
+            </p>
             <SurgeCardContainer
                 heading={strings.basecampServicesTitle}
             >
@@ -70,6 +121,16 @@ export function Component() {
                     title={strings.basecampFacilityManagementTitle}
                     data={facilityManagement}
                     description={strings.basecampFacilityManagementDetails}
+                />
+                <CatalogueInfoCard
+                    title={strings.basecampOfficeTitle}
+                    data={office}
+                    description={strings.basecampOfficeDetails}
+                />
+                <CatalogueInfoCard
+                    title={strings.basecampWelcomeTitle}
+                    data={welcome}
+                    description={strings.basecampWelcomeDetails}
                 />
             </SurgeCardContainer>
         </SurgeCatalogueContainer>

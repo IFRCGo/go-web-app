@@ -62,13 +62,6 @@ export function Component() {
                     {strings.catalogueAdministration}
                 </NavigationTab>
                 <NavigationTab
-                    to="surgeCatalogueBasecamp"
-                    parentRoute
-                >
-                    <BasecampIcon className={styles.icon} />
-                    {strings.catalogueBasecamp}
-                </NavigationTab>
-                <NavigationTab
                     to="surgeCatalogueCash"
                     parentRoute
                 >
@@ -200,6 +193,13 @@ export function Component() {
                 >
                     <GroupIcon className={styles.icon} />
                     {strings.catalogueOperations}
+                </NavigationTab>
+                <NavigationTab
+                    to="surgeCatalogueBasecamp"
+                    parentRoute
+                >
+                    <BasecampIcon className={styles.icon} />
+                    {strings.catalogueBasecamp}
                 </NavigationTab>
                 <NavigationTab
                     to="surgeCataloguePmer"
