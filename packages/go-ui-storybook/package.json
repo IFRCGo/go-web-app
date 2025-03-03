@@ -41,13 +41,13 @@
         "@storybook/addon-onboarding": "^8.1.5",
         "@storybook/blocks": "^8.1.5",
         "@storybook/react": "^8.1.5",
-        "@storybook/react-vite": "^8.1.5",
+        "@storybook/react-vite": "^8.6.3",
         "@storybook/test": "^8.1.5",
         "@types/react": "^18.2.43",
         "@types/react-dom": "^18.2.17",
         "@typescript-eslint/eslint-plugin": "^8.11.0",
         "@typescript-eslint/parser": "^8.11.0",
-        "@vitejs/plugin-react-swc": "^3.5.0",
+        "@vitejs/plugin-react-swc": "^3.8.0",
         "chromatic": "^11.4.1",
         "cross-var": "^1.1.0",
         "dotenv-cli": "^7.4.2",
@@ -62,7 +62,7 @@
         "eslint-plugin-storybook": "^0.10.1",
         "storybook": "^8.1.5",
         "typescript": "^5.2.2",
-        "vite": "^5.0.8",
-        "vite-tsconfig-paths": "^4.2.3"
+        "vite": "^6.2.0",
+        "vite-tsconfig-paths": "^5.1.4"
     }
 }
