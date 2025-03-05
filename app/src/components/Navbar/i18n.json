@@ -68,6 +68,8 @@
         "userMenuPERCatalogueItem":"PER Catalogue of Resources",
         "userMenuPERCatalogueItemDescription":"PER Catalogue of Resources contains resource relevant to strengthening resource and capacity.",
         "userMenuGoResourcesItem":"GO Resources",
-        "userMenuGoResourcesItemDescription":"Find all relevant user guides, references videos, IFRC other resources, and GO contacts on this page."
+        "userMenuGoResourcesItemDescription":"Find all relevant user guides, references videos, IFRC other resources, and GO contacts on this page.",
+        "userMenuSurveyDesignToolItem":"Survey Design Tool",
+        "userMenuSurveyDesignToolItemDescription": "Build standardised needs assessment surveys quickly and efficiently and publish them in IFRC KoboToolbox."
     }
 }

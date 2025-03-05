@@ -1,0 +1,17 @@
+{
+    "parent": "000019-1740394638836.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "userMenuSurveyDesignToolItem",
+            "namespace": "common",
+            "value": "Survey Design Tool"
+        },
+        {
+            "action": "add",
+            "key": "userMenuSurveyDesignToolItemDescription",
+            "namespace": "common",
+            "value": "Build standardised needs assessment surveys quickly and efficiently and publish them in IFRC KoboToolbox."
+        }
+    ]
+}

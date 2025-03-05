@@ -9,14 +9,20 @@ import {
     Tabs,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { _cs } from '@togglecorp/fujs';
+import {
+    _cs,
+    isTruthyString,
+} from '@togglecorp/fujs';
 
 import goLogo from '#assets/icons/go-logo-2020.svg';
 import KeywordSearchSelectInput from '#components/domain/KeywordSearchSelectInput';
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import Link from '#components/Link';
 import NavigationTab from '#components/NavigationTab';
-import { environment } from '#config';
+import {
+    environment,
+    sdtUrl,
+} from '#config';
 import useAuth from '#hooks/domain/useAuth';
 
 import AuthenticatedUserDropdown from './AuthenticatedUserDropdown';
@@ -441,68 +447,94 @@ function Navbar(props: Props) {
                                 name="operational-learning"
                                 className={styles.optionDetail}
                             >
-                                <DropdownMenuItem
-                                    type="link"
-                                    to="operationalLearning"
-                                    variant="tertiary"
-                                >
-                                    {strings.userMenuOperationalLearning}
-                                </DropdownMenuItem>
-                                <div className={styles.description}>
-                                    {strings.userMenuOperationalLearningDescription}
+                                <div className={styles.menuItemWithDescription}>
+                                    <DropdownMenuItem
+                                        type="link"
+                                        to="operationalLearning"
+                                        variant="tertiary"
+                                    >
+                                        {strings.userMenuOperationalLearning}
+                                    </DropdownMenuItem>
+                                    <div className={styles.description}>
+                                        {strings.userMenuOperationalLearningDescription}
+                                    </div>
                                 </div>
                             </TabPanel>
                             <TabPanel
                                 name="tools"
                                 className={styles.optionDetail}
                             >
-                                <DropdownMenuItem
-                                    type="link"
-                                    to="surgeOperationalToolbox"
-                                    variant="tertiary"
-                                >
-                                    {strings.userMenuOperationalToolboxItem}
-                                </DropdownMenuItem>
-                                <div className={styles.description}>
-                                    {strings.userMenuOperationalToolboxItemDescription}
+                                <div className={styles.menuItemWithDescription}>
+                                    <DropdownMenuItem
+                                        type="link"
+                                        to="surgeOperationalToolbox"
+                                        variant="tertiary"
+                                    >
+                                        {strings.userMenuOperationalToolboxItem}
+                                    </DropdownMenuItem>
+                                    <div className={styles.description}>
+                                        {strings.userMenuOperationalToolboxItemDescription}
+                                    </div>
                                 </div>
+                                {isTruthyString(sdtUrl) && (
+                                    <div className={styles.menuItemWithDescription}>
+                                        <DropdownMenuItem
+                                            type="link"
+                                            external
+                                            href={sdtUrl}
+                                            variant="tertiary"
+                                            withLinkIcon
+                                        >
+                                            {strings.userMenuSurveyDesignToolItem}
+                                        </DropdownMenuItem>
+                                        <div className={styles.description}>
+                                            {strings.userMenuSurveyDesignToolItemDescription}
+                                        </div>
+                                    </div>
+                                )}
                             </TabPanel>
                             <TabPanel
                                 name="resources"
                                 className={styles.optionDetail}
                             >
-                                <DropdownMenuItem
-                                    type="link"
-                                    to="surgeCatalogueLayout"
-                                    variant="tertiary"
-                                    state={{ earlyWarning: true }}
-                                >
-                                    {strings.userMenuCatalogueSurgeServicesItem}
-                                </DropdownMenuItem>
-                                <div className={styles.description}>
-                                    {strings.userMenuCatalogueSurgeServicesItem}
+                                <div className={styles.menuItemWithDescription}>
+                                    <DropdownMenuItem
+                                        type="link"
+                                        to="surgeCatalogueLayout"
+                                        variant="tertiary"
+                                        state={{ earlyWarning: true }}
+                                    >
+                                        {strings.userMenuCatalogueSurgeServicesItem}
+                                    </DropdownMenuItem>
+                                    <div className={styles.description}>
+                                        {strings.userMenuCatalogueSurgeServicesItem}
+                                    </div>
                                 </div>
-                                <DropdownMenuItem
-                                    type="link"
-                                    to="preparednessGlobalCatalogue"
-                                    variant="tertiary"
-                                    state={{ earlyWarning: true }}
-                                >
-                                    {strings.userMenuPERCatalogueItem}
-                                </DropdownMenuItem>
-                                <div className={styles.description}>
-                                    {strings.userMenuPERCatalogueItemDescription}
+                                <div className={styles.menuItemWithDescription}>
+                                    <DropdownMenuItem
+                                        type="link"
+                                        to="preparednessGlobalCatalogue"
+                                        variant="tertiary"
+                                        state={{ earlyWarning: true }}
+                                    >
+                                        {strings.userMenuPERCatalogueItem}
+                                    </DropdownMenuItem>
+                                    <div className={styles.description}>
+                                        {strings.userMenuPERCatalogueItemDescription}
+                                    </div>
                                 </div>
-                                <DropdownMenuItem
-                                    type="link"
-                                    to="resources"
-                                    variant="tertiary"
-                                    state={{ earlyWarning: true }}
-                                >
-                                    {strings.userMenuGoResourcesItem}
-                                </DropdownMenuItem>
-                                <div className={styles.description}>
-                                    {strings.userMenuGoResourcesItemDescription}
+                                <div className={styles.menuItemWithDescription}>
+                                    <DropdownMenuItem
+                                        type="link"
+                                        to="resources"
+                                        variant="tertiary"
+                                        state={{ earlyWarning: true }}
+                                    >
+                                        {strings.userMenuGoResourcesItem}
+                                    </DropdownMenuItem>
+                                    <div className={styles.description}>
+                                        {strings.userMenuGoResourcesItemDescription}
+                                    </div>
                                 </div>
                             </TabPanel>
                         </Tabs>
