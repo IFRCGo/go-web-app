@@ -70,6 +70,7 @@
         "userMenuGoResourcesItem":"GO Resources",
         "userMenuGoResourcesItemDescription":"Find all relevant user guides, references videos, IFRC other resources, and GO contacts on this page.",
         "userMenuSurveyDesignToolItem":"Survey Designer",
-        "userMenuSurveyDesignToolItemDescription": "Build standardised needs assessment surveys quickly and efficiently and publish them in IFRC KoboToolbox."
+        "userMenuSurveyDesignToolItemDescription": "Build standardised needs assessment surveys quickly and efficiently and publish them in IFRC KoboToolbox.",
+        "userMenuActiveSurgeDeployments": "Active Surge Deployments"
     }
 }

@@ -63,6 +63,60 @@ const surgeOverview = customWrapRoute({
     },
 });
 
+const activeSurgeDeployments = customWrapRoute({
+    parent: surgeLayout,
+    path: 'active-surge-deployments',
+    component: {
+        render: () => import('#views/ActiveSurgeDeployments'),
+        props: {},
+    },
+    context: {
+        title: 'Active Surge Deployments',
+        visibility: 'anything',
+    },
+});
+
+const rapidResponsePersonnel = customWrapRoute({
+    parent: surgeOverview,
+    path: 'rapid-response-personnel',
+    component: {
+        render: () => import('#views/SurgeOverview/RapidResponsePersonnel'),
+        props: {},
+    },
+    context: {
+        title: 'Rapid Response Personnel',
+        visibility: 'anything',
+    },
+});
+
+const emergencyResponseUnit = customWrapRoute({
+    parent: surgeOverview,
+    path: 'emergency-response-unit',
+    component: {
+        render: () => import('#views/SurgeOverview/EmergencyResponseUnit'),
+        props: {},
+    },
+    context: {
+        title: 'Emergency Response Unit',
+        visibility: 'anything',
+    },
+});
+
+const updateERUReadinessForm = customWrapRoute({
+    parent: rootLayout,
+    path: 'update-eru-readiness',
+    component: {
+        // TODO: Add ERUReadinessUpdateForm Route
+        render: () => import('#views/Home'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'ERU Readiness Update Form',
+        visibility: 'anything',
+    },
+});
+
 const surgeOperationalToolbox = customWrapRoute({
     parent: surgeLayout,
     path: 'operational-toolbox',
@@ -1483,7 +1537,7 @@ const deploymentCatalogueIndex = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Catalogue of surge services',
+        title: 'Catalogue of Surge Services',
         visibility: 'anything',
     },
 });
@@ -1498,7 +1552,7 @@ const deploymentCatalogueChildren = customWrapRoute({
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Catalogue of surge services',
+        title: 'Catalogue of Surge Services',
         visibility: 'anything',
     },
 });
@@ -1619,4 +1673,8 @@ export default {
     deploymentCatalogueChildren,
     deploymentOthers,
     obsoleteUrlDeployments,
+    activeSurgeDeployments,
+    rapidResponsePersonnel,
+    emergencyResponseUnit,
+    updateERUReadinessForm,
 };
