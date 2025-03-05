@@ -29,6 +29,8 @@
         "technicalEquipmentWaterSupplyLink": "Water Supply Rehabilitation (WSR)",
         "technicalWaterTreatmentDetail" : "Design and implement a comprehensive household water program.",
         "technicalEquipmentWaterTreatmentLink": "Household Water Treatment and Safe Storage (HWTS)",
+        "technicalWaterSludgeDetail" : "Empty, transport and treat 20 m³ of design Faecal Sludge from on-site containments",
+        "technicalEquipmentWaterSludgeLink": "Faecal Sludge Management (FSM)",
         "additionalResources": "Additional Resources",
         "additionWatsan": "Watsan Mission Assistant",
         "additionWatsanDetail" : "This is a website resource for field WASH practitioners.",

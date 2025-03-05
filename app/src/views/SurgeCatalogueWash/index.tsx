@@ -103,6 +103,14 @@ export function Component() {
         },
     ];
 
+    const equipmentSludgeData: LinkData[] = [
+        {
+            title: strings.technicalEquipmentWaterSludgeLink,
+            to: 'surgeCatalogueWashSludge',
+            withLinkIcon: true,
+        },
+    ];
+
     const additionalData: LinkData[] = [
         {
             title: strings.learnMore,
@@ -167,6 +175,11 @@ export function Component() {
                     title={strings.technicalERU}
                     data={equipmentTreatmentData}
                     description={strings.technicalWaterTreatmentDetail}
+                />
+                <CatalogueInfoCard
+                    title={strings.technicalERU}
+                    data={equipmentSludgeData}
+                    description={strings.technicalWaterSludgeDetail}
                 />
             </SurgeCardContainer>
             <SurgeCardContainer

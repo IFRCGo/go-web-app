@@ -1,0 +1,437 @@
+{
+    "parent": "000023-1740755165956.json",
+    "actions": [
+       {
+            "action": "add",
+            "key": "technicalEquipmentWaterSludgeLink",
+            "namespace": "surgeCatalogueWash",
+            "value": "Faecal Sludge Management (FSM)"
+        },
+        {
+            "action": "add",
+            "key": "technicalWaterSludgeDetail",
+            "namespace": "surgeCatalogueWash",
+            "value": "Empty, transport and treat 20 m³ of design Faecal Sludge from on-site containments"
+        },
+        {
+            "action": "add",
+            "key": "designedFor",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Designed For"
+        },
+        {
+            "action": "add",
+            "key": "designedForItemOne",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Interoperability with IFRC Mass Sanitation Module 20 ERUs."
+        },
+        {
+            "action": "add",
+            "key": "designedForItemTwo",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Use in:"
+        },
+        {
+            "action": "add",
+            "key": "designedForItemTwoA",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Urban humanitarian aid settings with a very high population density and imminent lack of space and transport capacityRefugee/IDP camps with a very high population densityScenarios with collapsed FS or wastewater (WW) management services (emptying & transport, treatment and disposal)"
+        },
+        {
+            "action": "add",
+            "key": "designedForItemTwoB",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Scenarios where the traditional sanitation response is not sufficient (latrine pits fill up quicker than new construction is possible, no new construction of pits is possible)"
+        },
+        {
+            "action": "add",
+            "key": "emergencyServices",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Emergency Services"
+        },
+        {
+            "action": "add",
+            "key": "emergencyServicesSectionOneA",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Estimated collection capacity of 20 m³/d FS roughly equivalent to 20 000 people. Can be scaled up or down as needed."
+        },
+        {
+            "action": "add",
+            "key": "emergencyServicesSectionOneB",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "The included equipment allows for operation with different (logistical) access levels and ranges in case of"
+        },
+        {
+            "action": "add",
+            "key": "emergencyServicesSectionOneC",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Emptying from manual pumping to mobile vacuum pumps"
+        },
+        {
+            "action": "add",
+            "key": "emergencyServicesSectionOneD",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Transport from carrying to make-shift FS trucks"
+        },
+        {
+            "action": "add",
+            "key": "emergencyServicesSectionTwoA",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Estimated treatment capacity of 20 m³/d FS in a phased treatment approach. Can be scaled up or down as needed."
+        },
+        {
+            "action": "add",
+            "key": "emergencyServicesSectionTwoB",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "All the needed equipment for the construction of the 1st and 2nd phase treatment plants are included in the FSM ERU treatment plant module. The first two phases were developed for disaster response/humanitarian aid missions, with an estimated duration of 2 years or more with regular operation and maintenance."
+        },
+        {
+            "action": "add",
+            "key": "emergencyServicesSectionTwoC",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "1ˢᵗ phase – lime treatment"
+        },
+        {
+            "action": "add",
+            "key": "emergencyServicesSectionTwoCC",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "The 1ˢᵗ phase of the treatment plant is set-up to quickly provide Lime treatment, a chemical treatment, increases the pH (makes it alkaline) in FS to such a degree that pathogenic bacteria die off. The limed FS is put on sludge drying beds which separate the solid and liquid parts. The solids are dried and incinerated, the liquids are filtered through the sludge drying beds and infiltrated into the ground. "
+        },
+        {
+            "action": "add",
+            "key": "emergencyServicesSectionTwoD",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "2ⁿᵈ phase – aerobic treatment"
+        },
+        {
+            "action": "add",
+            "key": "emergencyServicesSectionTwoDD",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "The 2ⁿᵈ phase of the treatment plant uses as main liquid-phase treatment process the activated sludge process which allows biological carbon and nitrogen removal. Before discharge into the environment the liquid effluent is sand filtered and disinfected with chlorine. The solids separated out of FS are dried and incinerated."
+        },
+        {
+            "action": "add",
+            "key": "emergencyServicesSectionTwoE",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "3ʳᵈ phase – transferal to long-term sustainable treatment"
+        },
+        {
+            "action": "add",
+            "key": "emergencyServicesSectionTwoEE",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "The 3ʳᵈ phase of the treatment plant is different to the first two as it is not a one-way mobile, flat-packed, quick set-up plant, but a permanent construction adapted to local conditions. A guidebook for the technology decision of the permanent treatment plant was developed for use by WASH generalists during the design process with civil engineering companies."
+        },
+        {
+            "action": "add",
+            "key": "faecalSludgeManagement",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Faecal Sludge Management (FSM, under development)"
+        },
+        {
+            "action": "add",
+            "key": "personnel",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Personnel"
+        },
+        {
+            "action": "add",
+            "key": "personnelFooterA",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "The team size and specification will depend on results from the field test of the FSM ERU, on the specific deployment and phase of the deployment."
+        },
+        {
+            "action": "add",
+            "key": "personnelFooterB",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "More detailed job profiles in line with the Rapid Response Profiles are currently being developed."
+        },
+        {
+            "action": "add",
+            "key": "SludgeImageFourCaption",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Figure 4: Profile descriptions"
+        },
+        {
+            "action": "add",
+            "key": "SludgeImageOneCaption",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Figure 1: FSM ERU mission envelope in the sanitation service/value chain and interaction with IFRC MSM20"
+        },
+        {
+            "action": "add",
+            "key": "SludgeImageThreeCaption",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Figure 3: Roles and interfaces within the FSM ERU"
+        },
+        {
+            "action": "add",
+            "key": "SludgeImageTwoCaption",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Figure 2: field test treatment plant – a slightly reduced 2nd phase treatment plant line"
+        },
+        {
+            "action": "add",
+            "key": "specification",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Specification"
+        },
+        {
+            "action": "add",
+            "key": "specificationCostLabel",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Cost (indicative)"
+        },
+        {
+            "action": "add",
+            "key": "specificationCostValue",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "not yet available"
+        },
+        {
+            "action": "add",
+            "key": "specificationModularityFooter",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "**… the ambient temperature has a large impact on the chosen treatment processes. A winterization module is currently in planning."
+        },
+        {
+            "action": "add",
+            "key": "specificationModularityLabel",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Modular approach"
+        },
+        {
+            "action": "add",
+            "key": "specificationModularityValueA",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Emptying and transport"
+        },
+        {
+            "action": "add",
+            "key": "specificationModularityValueB",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Treatment plant"
+        },
+        {
+            "action": "add",
+            "key": "specificationModularityValueC",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Support module "
+        },
+        {
+            "action": "add",
+            "key": "specificationNSDescription",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "The following National Societies support the development of the FSM ERU:"
+        },
+        {
+            "action": "add",
+            "key": "specificationNSItem",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "The following National Societies support the development of the FSM ERU:"
+        },
+        {
+            "action": "add",
+            "key": "specificationNSItemA",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Austrian Red Cross"
+        },
+        {
+            "action": "add",
+            "key": "specificationNSItemB",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "German Red Cross"
+        },
+        {
+            "action": "add",
+            "key": "specificationNSItemC",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Swedish Red Cross"
+        },
+        {
+            "action": "add",
+            "key": "specificationNSItemD",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "British Red Cross"
+        },
+        {
+            "action": "add",
+            "key": "specificationNSItemE",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "French Red Cross"
+        },
+        {
+            "action": "add",
+            "key": "specificationNSItemF",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Uganda Red Cross Society"
+        },
+        {
+            "action": "add",
+            "key": "specificationNSItemG",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Netherlands Red Cross"
+        },
+        {
+            "action": "add",
+            "key": "specificationNSItemH",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "IFRC GVA"
+        },
+        {
+            "action": "add",
+            "key": "specificationNSItemI",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "IFRC Regional WASH coordinators"
+        },
+        {
+            "action": "add",
+            "key": "specificationNSLabel",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "National societies providing this service"
+        },
+        {
+            "action": "add",
+            "key": "specificationTemperatureLabel",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Temperature range"
+        },
+        {
+            "action": "add",
+            "key": "specificationTemperatureValue",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "0 – 40 °C ambient temperature**"
+        },
+        {
+            "action": "add",
+            "key": "specificationVolumeLabel",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Volume"
+        },
+        {
+            "action": "add",
+            "key": "specificationVolumeValue",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "not yet available"
+        },
+        {
+            "action": "add",
+            "key": "specificationWeightLabel",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Weight"
+        },
+        {
+            "action": "add",
+            "key": "specificationWeightValue",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "not yet available"
+        },
+        {
+            "action": "add",
+            "key": "totalPersonnelHeader",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "International staff:"
+        },
+        {
+            "action": "add",
+            "key": "totalPersonnelItemA",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Team leader"
+        },
+        {
+            "action": "add",
+            "key": "totalPersonnelItemB",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Admin/logistic support delegate"
+        },
+        {
+            "action": "add",
+            "key": "totalPersonnelItemC",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "HP/CEA delegate"
+        },
+        {
+            "action": "add",
+            "key": "totalPersonnelItemD",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Emptying and transport delegate"
+        },
+        {
+            "action": "add",
+            "key": "totalPersonnelItemE",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Treatment plant manager/operator"
+        },
+        {
+            "action": "add",
+            "key": "totalPersonnelItemF",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Laboratory manager/technician"
+        },
+        {
+            "action": "add",
+            "key": "totalPersonnelLabel",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Total"
+        },
+        {
+            "action": "add",
+            "key": "totalPersonnelValue",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "6 – 10"
+        },
+        {
+            "action": "add",
+            "key": "variation",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Variation of Configuration"
+        },
+        {
+            "action": "add",
+            "key": "variationTextOne",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "The FSM ERU treatment plant consists of two independent treatment lines. If needed the treatment plant can be split and positioned in separate locations and additional lines could be added over time."
+        },
+        {
+            "action": "add",
+            "key": "variationTextThree",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "While the FSM ERU has been designed for the collection, transport and treatment of FS, the treatment plant could be adapted for connection to a sewer system and use with wastewater."
+        },
+        {
+            "action": "add",
+            "key": "variationTextTwo",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "The whole FSM ERU treatment plant is designed to treat 20 m³ FS per day (estimated FS production of 20 000 people). The treatment plant capacity can be reduced:"
+        },
+        {
+            "action": "add",
+            "key": "variationTextTwoA",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "10 m³ FS per day (10 000 people): use of one treatment plant line"
+        },
+        {
+            "action": "add",
+            "key": "variationTextTwoB",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "5 m³ FS per day (5 000 people): use of one reduced treatment plant line"
+        },
+        {
+            "action": "add",
+            "key": "washCapacity",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Capacity"
+        },
+        {
+            "action": "add",
+            "key": "washCapacityTextOne",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "The Faecal Sludge Management Emergency Response Unit (FSM ERU) has the capacity to empty, transport and treat 20 m³ of design Faecal Sludge (FS)* from on-site containments. The FS accumulation in different containments (e.g. pits, septic tanks) can vary widely depending e.g. containment type, soil conditions, local cleansing practices. In the design of the FSM ERU, a FS accumulation of 1 L FS per person and day has been assumed. Therefore, the FSM ERU is designed to serve 20 000 people and to interface with an MSM20 ERU."
+        },
+        {
+            "action": "add",
+            "key": "washCapacityTextTwo",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "*… FS characteristics can vary widely depending on several factors. For the civil engineering calculations of the FSM ERU a design FS has been used."
+        }
+    ]
+}

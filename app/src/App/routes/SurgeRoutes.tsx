@@ -993,6 +993,20 @@ const surgeCatalogueWashHwts = customWrapRoute({
     },
 });
 
+const surgeCatalogueWashSludge = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'wash/sludge',
+    component: {
+        render: () => import('#views/SurgeCatalogueWashSludge'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Faecal Sludge Management',
+        visibility: 'anything',
+    },
+});
+
 const surgeCatalogueRelief = customWrapRoute({
     parent: surgeCatalogueLayout,
     path: 'relief',
@@ -1410,6 +1424,7 @@ function DeploymentCatalogueNavigate() {
             'sct-shelter-coordination-team': surgeCatalogueShelterCoordinatorTeam,
         },
         water: {
+            'faecal-sludge-management': surgeCatalogueWashSludge,
             'household-water-treatment-and-safe-storage-hwts': surgeCatalogueWashHwts,
             'water-supply-rehabilitation-wsr': surgeCatalogueWashWaterSupplyRehabilitation,
             'm40-eru': surgeCatalogueWashKitM40Eru,
@@ -1581,6 +1596,7 @@ export default {
     surgeCatalogueWashKitM40Eru,
     surgeCatalogueWashWaterSupplyRehabilitation,
     surgeCatalogueWashHwts,
+    surgeCatalogueWashSludge,
     surgeCatalogueOtherCivilMilitaryRelations,
     surgeCatalogueOtherDisasterRiskReduction,
     surgeCatalogueOtherHumanitarianDiplomacy,
