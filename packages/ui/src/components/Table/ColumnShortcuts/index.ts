@@ -23,6 +23,8 @@ import {
 } from '../types';
 import ExpandButton, { type ExpandButtonProps } from './ExpandButton';
 import ExpansionIndicator, { type Props as ExpansionIndicatorProps } from './ExpansionIndicator';
+import MultiTimelineHeader, { type Props as MultiTimelineHeaderProps } from './MultiTimelineHeader';
+import MultiTimelineItem, { type Props as MultiTimelineItemProps } from './MultiTimelineItem';
 import TimelineHeader, { type Props as TimelineHeaderProps } from './TimelineHeader';
 import TimelineItem, { type Props as TimelineItemProps } from './TimelineItem';
 
@@ -282,7 +284,7 @@ export function createDateRangeColumn<D, K>(
         cellRendererClassName: options?.cellRendererClassName,
         cellRenderer: DateRangeOutput,
         cellContainerClassName: options?.cellContainerClassName,
-        cellRendererParams: (_:K, datum: D): DateRangeOutputProps => ({
+        cellRendererParams: (_: K, datum: D): DateRangeOutputProps => ({
             ...accessor(datum),
         }),
         valueSelector: (datum) => accessor(datum).startDate,
@@ -450,6 +452,52 @@ export function createActionColumn<DATUM, KEY>(
         columnClassName: options?.columnClassName,
         headerCellRendererClassName: options?.headerCellRendererClassName,
         cellContainerClassName: options?.cellContainerClassName,
+        columnWidth: options?.columnWidth,
+        columnStretch: options?.columnStretch,
+        columnStyle: options?.columnStyle,
+    };
+
+    return item;
+}
+
+export function createMultiTimelineColumn<DATUM, KEY>(
+    id: string,
+    dateRange: { start: Date; end: Date } | undefined,
+    highlightedDateRange: { start: Date; end: Date } | undefined,
+    rendererParams: (datum: DATUM) => Omit<
+        MultiTimelineItemProps,
+        'dateRange' | 'highlightedDateRange'
+    > & {
+        startDateLabel: string;
+        endDateLabel: string;
+        highlightedStartDateLabel: string;
+        highlightedEndDateLabel: string;
+    },
+    options?: Options<DATUM, KEY, MultiTimelineItemProps, MultiTimelineHeaderProps>,
+) {
+    const item: Column<DATUM, KEY, MultiTimelineItemProps, MultiTimelineHeaderProps> = {
+        id,
+        title: '',
+        headerCellRenderer: MultiTimelineHeader,
+        headerCellRendererParams: {
+            dateRange,
+            highlightedDateRange,
+            sortable: options?.sortable,
+        },
+        cellRenderer: MultiTimelineItem,
+        cellRendererParams: (_, datum) => ({
+            dateRange,
+            highlightedDateRange,
+            ...rendererParams(datum),
+        }),
+        headerContainerClassName: options?.headerContainerClassName,
+        cellRendererClassName: options?.cellRendererClassName,
+        columnClassName: options?.columnClassName,
+        headerCellRendererClassName: options?.headerCellRendererClassName,
+        cellContainerClassName: _cs(
+            options?.cellContainerClassName,
+            styles.timelineCellContainer,
+        ),
         columnWidth: options?.columnWidth,
         columnStretch: options?.columnStretch,
         columnStyle: options?.columnStyle,

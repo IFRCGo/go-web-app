@@ -1,0 +1,7 @@
+{
+    "namespace": "surgeOverview",
+    "strings": {
+        "topFiveNationalSociety": "Top 5 NS Deploying Rapid Response Personnel ({year})",
+        "ongoingDeployments": "Ongoing Deployments Over The Last Year"
+    }
+}

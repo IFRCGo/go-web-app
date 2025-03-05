@@ -1,0 +1,24 @@
+.ongoing-rapid-response {
+    .position {
+       min-width: 15em;
+    }
+
+    .organisation {
+        min-width: 15em;
+    }
+
+    .timeline {
+        min-width: 18rem;
+    }
+
+    .sub-cell {
+        border-bottom: unset;
+        background-color: var(--go-ui-color-gray-20);
+    }
+
+    .legend {
+        display: flex;
+        gap: var(--go-ui-spacing-md);
+        padding: var(--go-ui-spacing-sm) var(--go-ui-spacing-md);
+    }
+}
