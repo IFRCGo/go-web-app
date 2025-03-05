@@ -7,6 +7,7 @@
         "deploymentsThisYearTitle": "Deployments This Year",
         "surgeOverviewTab": "Surge Overview",
         "operationalToolboxTab": "Operational Toolbox",
-        "surgeCatalogueTab": "Catalogue of Surge services"
+        "surgeCatalogueTab": "Catalogue of Surge Services",
+        "activeSurgeDeploymentsTab": "Active Surge Deployments"
     }
 }

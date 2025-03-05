@@ -2,9 +2,11 @@ import {
     useCallback,
     useMemo,
 } from 'react';
+import { Outlet } from 'react-router-dom';
 import {
     BarChart,
     Container,
+    NavigationTabList,
     TimeSeriesChart,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -14,6 +16,7 @@ import {
     resolveToString,
 } from '@ifrc-go/ui/utils';
 
+import NavigationTab from '#components/NavigationTab';
 import { useRequest } from '#utils/restRequest';
 import { type GoApiResponse } from '#utils/restRequest';
 
@@ -96,6 +99,19 @@ export function Component() {
 
     return (
         <div className={styles.surgeOverview}>
+            <NavigationTabList variant="secondary">
+                <NavigationTab
+                    to="rapidResponsePersonnel"
+                >
+                    {strings.rapidResponsePersonnelTitle}
+                </NavigationTab>
+                <NavigationTab
+                    to="emergencyResponseUnit"
+                >
+                    {strings.emergencyResponseUnitTitle}
+                </NavigationTab>
+            </NavigationTabList>
+            <Outlet />
             <SurgeMap />
             <div className={styles.charts}>
                 <Container
