@@ -66,7 +66,13 @@ export function Component() {
         >
             <NavigationTabList>
                 <NavigationTab
+                    to="activeSurgeDeployments"
+                >
+                    {strings.activeSurgeDeploymentsTab}
+                </NavigationTab>
+                <NavigationTab
                     to="surgeOverview"
+                    parentRoute
                 >
                     {strings.surgeOverviewTab}
                 </NavigationTab>
@@ -77,7 +83,6 @@ export function Component() {
                 </NavigationTab>
                 <NavigationTab
                     to="surgeCatalogueLayout"
-                    parentRoute
                 >
                     {strings.surgeCatalogueTab}
                 </NavigationTab>
