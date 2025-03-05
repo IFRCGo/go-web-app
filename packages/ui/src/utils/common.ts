@@ -702,6 +702,39 @@ export function addNumMonthsToDate(
     return dateSafe;
 }
 
+export function addNumDaysToDate(
+    date: string | Date | undefined,
+    numDays: number | undefined,
+) {
+    if (isNotDefined(date) || isNotDefined(numDays)) {
+        return undefined;
+    }
+
+    const dateSafe = new Date(date);
+    if (Number.isNaN(dateSafe.getTime())) {
+        return undefined;
+    }
+
+    dateSafe.setDate(dateSafe.getDate() + numDays);
+    return dateSafe;
+}
+
+export function ceilToEndOfMonth(date: string | Date | undefined) {
+    if (isNotDefined(date)) {
+        return undefined;
+    }
+
+    const dateSafe = new Date(date);
+    if (Number.isNaN(dateSafe.getTime())) {
+        return undefined;
+    }
+
+    dateSafe.setMonth(dateSafe.getMonth() + 1, 0); // Move to last day of current month
+    dateSafe.setHours(0, 0, 0, 0);
+
+    return dateSafe;
+}
+
 export function isValidDate<T extends DateLike>(
     value: T | null | undefined,
 ): value is T {

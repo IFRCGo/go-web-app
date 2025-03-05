@@ -415,13 +415,12 @@ function EventDetail(props: Props) {
                     <>
                         <InputSection
                             title={strings.drefHazardExpectedTitle}
-                            description={strings.drefHazardExpectedDescription}
                         >
                             <DateInput
-                                name="hazard_date_and_location"
+                                name="hazard_date"
                                 onChange={setFieldValue}
-                                value={value.hazard_date_and_location}
-                                error={error?.hazard_date_and_location}
+                                value={value.hazard_date}
+                                error={error?.hazard_date}
                                 disabled={disabled}
                             />
                         </InputSection>

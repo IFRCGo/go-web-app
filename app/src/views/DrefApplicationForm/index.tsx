@@ -185,9 +185,7 @@ export function Component() {
     } = useForm(
         drefSchema,
         {
-            value: {
-                operation_timeframe: 45,
-            },
+            value: {},
         },
     );
 
@@ -298,6 +296,51 @@ export function Component() {
         [],
     );
 
+    const loadResponseToFormValue = useCallback((response: GetDrefResponse) => {
+        handleDrefLoad(response);
+        const {
+            planned_interventions,
+            proposed_action,
+            needs_identified,
+            national_society_actions,
+            risk_security,
+            event_map_file,
+            cover_image_file,
+            images_file,
+            source_information,
+            ...otherValues
+        } = removeNull(response);
+
+        setValue({
+            ...otherValues,
+            planned_interventions: planned_interventions?.map(
+                (intervention) => ({
+                    ...injectClientId(intervention),
+                    indicators: intervention.indicators?.map(injectClientId),
+                }),
+            ),
+            proposed_action: proposed_action?.map(
+                (action) => ({
+                    ...injectClientId(action),
+                    activities: action.activities?.map(injectClientId),
+                }),
+            ),
+            source_information: source_information?.map(injectClientId),
+            needs_identified: needs_identified?.map(injectClientId),
+            national_society_actions: national_society_actions?.map(injectClientId),
+            risk_security: risk_security?.map(injectClientId),
+            event_map_file: isDefined(event_map_file)
+                ? injectClientId(event_map_file)
+                : undefined,
+            cover_image_file: isDefined(cover_image_file)
+                ? injectClientId(cover_image_file)
+                : undefined,
+            images_file: images_file?.map(injectClientId),
+        });
+
+        setDistrictOptions(response.district_details);
+    }, [handleDrefLoad, setValue]);
+
     const {
         pending: fetchingDref,
         response: drefResponse,
@@ -308,51 +351,7 @@ export function Component() {
         pathVariables: isDefined(drefId) ? {
             id: drefId,
         } : undefined,
-        onSuccess: (response) => {
-            handleDrefLoad(response);
-
-            const {
-                planned_interventions,
-                proposed_action,
-                needs_identified,
-                national_society_actions,
-                risk_security,
-                event_map_file,
-                cover_image_file,
-                images_file,
-                source_information,
-                ...otherValues
-            } = removeNull(response);
-
-            setValue({
-                ...otherValues,
-                planned_interventions: planned_interventions?.map(
-                    (intervention) => ({
-                        ...injectClientId(intervention),
-                        indicators: intervention.indicators?.map(injectClientId),
-                    }),
-                ),
-                proposed_action: proposed_action?.map(
-                    (action) => ({
-                        ...injectClientId(action),
-                        activities: action.activities?.map(injectClientId),
-                    }),
-                ),
-                source_information: source_information?.map(injectClientId),
-                needs_identified: needs_identified?.map(injectClientId),
-                national_society_actions: national_society_actions?.map(injectClientId),
-                risk_security: risk_security?.map(injectClientId),
-                event_map_file: isDefined(event_map_file)
-                    ? injectClientId(event_map_file)
-                    : undefined,
-                cover_image_file: isDefined(cover_image_file)
-                    ? injectClientId(cover_image_file)
-                    : undefined,
-                images_file: images_file?.map(injectClientId),
-            });
-
-            setDistrictOptions(response.district_details);
-        },
+        onSuccess: (response) => loadResponseToFormValue(response),
     });
 
     const {
@@ -368,7 +367,7 @@ export function Component() {
                 strings.formSaveRequestSuccessMessage,
                 { variant: 'success' },
             );
-            handleDrefLoad(response);
+            loadResponseToFormValue(response);
         },
         onFailure: ({
             value: { formErrors, messageForNotification },

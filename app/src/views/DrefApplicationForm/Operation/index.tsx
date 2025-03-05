@@ -41,7 +41,7 @@ import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import {
-    recalculateProposedActionValues,
+    calculateProposedActionsCost,
     TYPE_ASSESSMENT,
     TYPE_IMMINENT,
 } from '../common';
@@ -112,7 +112,7 @@ function Operation(props: Props) {
 
                 return {
                     ...newValue,
-                    ...recalculateProposedActionValues(newValue),
+                    ...calculateProposedActionsCost(newValue),
                 };
             }, true);
         },
@@ -151,7 +151,7 @@ function Operation(props: Props) {
                 };
                 return {
                     ...newValue,
-                    ...recalculateProposedActionValues(newValue),
+                    ...calculateProposedActionsCost(newValue),
                 };
             }, true)
         ),
@@ -341,114 +341,114 @@ function Operation(props: Props) {
                     </InputSection>
                 </Container>
             )}
-            <Container
-                heading={strings.drefFormAssistedPopulation}
-                headerDescription={(
-                    value?.type_of_dref !== TYPE_ASSESSMENT
-                    && warnings?.map((w) => (
-                        <div
-                            className={styles.warning}
-                            key={w}
-                        >
-                            <ErrorWarningFillIcon className={styles.icon} />
-                            {w}
-                        </div>
-                    ))
-                )}
-            >
-                <InputSection
-                    title={strings.drefFormTargetedPopulation}
-                    numPreferredColumns={2}
-                >
-                    {value?.type_of_dref !== TYPE_ASSESSMENT && (
-                        <>
-                            <NumberInput
-                                label={strings.drefFormWomen}
-                                name="women"
-                                value={value.women}
-                                onChange={setFieldValue}
-                                error={error?.women}
-                                disabled={disabled}
-                            />
-                            <NumberInput
-                                label={strings.drefFormMen}
-                                name="men"
-                                value={value.men}
-                                onChange={setFieldValue}
-                                error={error?.men}
-                                disabled={disabled}
-                            />
-                            <NumberInput
-                                label={strings.drefFormGirls}
-                                name="girls"
-                                value={value.girls}
-                                onChange={setFieldValue}
-                                error={error?.girls}
-                                disabled={disabled}
-                            />
-                            <NumberInput
-                                label={strings.drefFormBoys}
-                                name="boys"
-                                value={value.boys}
-                                onChange={setFieldValue}
-                                error={error?.boys}
-                                disabled={disabled}
-                            />
-                        </>
+            {value?.type_of_dref !== TYPE_IMMINENT && (
+                <Container
+                    heading={strings.drefFormAssistedPopulation}
+                    headerDescription={(
+                        value?.type_of_dref !== TYPE_ASSESSMENT
+                        && warnings?.map((w) => (
+                            <div
+                                className={styles.warning}
+                                key={w}
+                            >
+                                <ErrorWarningFillIcon className={styles.icon} />
+                                {w}
+                            </div>
+                        ))
                     )}
-                    <NumberInput
-                        label={strings.drefFormTotal}
-                        name="total_targeted_population"
-                        value={value.total_targeted_population}
-                        onChange={setFieldValue}
-                        error={error?.total_targeted_population}
-                        disabled={disabled}
-                    />
-                </InputSection>
-                <InputSection
-                    title={strings.drefFormEstimateResponse}
-                    numPreferredColumns={2}
                 >
-                    <NumberInput
-                        label={strings.drefFormEstimatePeopleDisability}
-                        name="disability_people_per"
-                        value={value.disability_people_per}
-                        onChange={setFieldValue}
-                        error={error?.disability_people_per}
-                        disabled={disabled}
-                    />
-                    <div className={styles.urbanToRural}>
-                        <InputLabel>
-                            {strings.drefFormEstimatedPercentage}
-                        </InputLabel>
-                        <div className={styles.inputs}>
-                            <NumberInput
-                                placeholder={strings.drefFormEstimatedUrban}
-                                name="people_per_urban"
-                                value={value.people_per_urban}
-                                onChange={setFieldValue}
-                                error={error?.people_per_urban}
-                                disabled={disabled}
-                            />
-                            <NumberInput
-                                placeholder={strings.drefFormEstimatedLocal}
-                                name="people_per_local"
-                                value={value.people_per_local}
-                                onChange={setFieldValue}
-                                error={error?.people_per_local}
-                                disabled={disabled}
-                            />
+                    <InputSection
+                        title={strings.drefFormTargetedPopulation}
+                        numPreferredColumns={2}
+                    >
+                        {value?.type_of_dref !== TYPE_ASSESSMENT && (
+                            <>
+                                <NumberInput
+                                    label={strings.drefFormWomen}
+                                    name="women"
+                                    value={value.women}
+                                    onChange={setFieldValue}
+                                    error={error?.women}
+                                    disabled={disabled}
+                                />
+                                <NumberInput
+                                    label={strings.drefFormMen}
+                                    name="men"
+                                    value={value.men}
+                                    onChange={setFieldValue}
+                                    error={error?.men}
+                                    disabled={disabled}
+                                />
+                                <NumberInput
+                                    label={strings.drefFormGirls}
+                                    name="girls"
+                                    value={value.girls}
+                                    onChange={setFieldValue}
+                                    error={error?.girls}
+                                    disabled={disabled}
+                                />
+                                <NumberInput
+                                    label={strings.drefFormBoys}
+                                    name="boys"
+                                    value={value.boys}
+                                    onChange={setFieldValue}
+                                    error={error?.boys}
+                                    disabled={disabled}
+                                />
+                            </>
+                        )}
+                        <NumberInput
+                            label={strings.drefFormTotal}
+                            name="total_targeted_population"
+                            value={value.total_targeted_population}
+                            onChange={setFieldValue}
+                            error={error?.total_targeted_population}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                    <InputSection
+                        title={strings.drefFormEstimateResponse}
+                        numPreferredColumns={2}
+                    >
+                        <NumberInput
+                            label={strings.drefFormEstimatePeopleDisability}
+                            name="disability_people_per"
+                            value={value.disability_people_per}
+                            onChange={setFieldValue}
+                            error={error?.disability_people_per}
+                            disabled={disabled}
+                        />
+                        <div className={styles.urbanToRural}>
+                            <InputLabel>
+                                {strings.drefFormEstimatedPercentage}
+                            </InputLabel>
+                            <div className={styles.inputs}>
+                                <NumberInput
+                                    placeholder={strings.drefFormEstimatedUrban}
+                                    name="people_per_urban"
+                                    value={value.people_per_urban}
+                                    onChange={setFieldValue}
+                                    error={error?.people_per_urban}
+                                    disabled={disabled}
+                                />
+                                <NumberInput
+                                    placeholder={strings.drefFormEstimatedLocal}
+                                    name="people_per_local"
+                                    value={value.people_per_local}
+                                    onChange={setFieldValue}
+                                    error={error?.people_per_local}
+                                    disabled={disabled}
+                                />
+                            </div>
                         </div>
-                    </div>
-                    <NumberInput
-                        label={strings.drefFormEstimatedDisplacedPeople}
-                        name="displaced_people"
-                        value={value.displaced_people}
-                        onChange={setFieldValue}
-                        error={error?.displaced_people}
-                        disabled={disabled}
-                    />
-                    {value?.type_of_dref === TYPE_IMMINENT && (
+                        <NumberInput
+                            label={strings.drefFormEstimatedDisplacedPeople}
+                            name="displaced_people"
+                            value={value.displaced_people}
+                            onChange={setFieldValue}
+                            error={error?.displaced_people}
+                            disabled={disabled}
+                        />
                         <NumberInput
                             label={strings.drefFormPeopleTargetedWithEarlyActions}
                             name="people_targeted_with_early_actions"
@@ -457,9 +457,9 @@ function Operation(props: Props) {
                             error={error?.people_targeted_with_early_actions}
                             disabled={disabled}
                         />
-                    )}
-                </InputSection>
-            </Container>
+                    </InputSection>
+                </Container>
+            )}
             {value?.type_of_dref !== TYPE_IMMINENT && (
                 <Container
                     heading={strings.drefFormRiskSecurity}

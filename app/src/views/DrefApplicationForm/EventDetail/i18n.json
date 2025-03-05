@@ -36,7 +36,6 @@
         "drefFormSourceInformationTitle": "Source Information",
         "drefFormSourceInformationDescription": "Add the links and the name of the sources, the name will be shown in the export, as an hyperlink.",
         "drefHazardExpectedTitle": "When is the hazard expected to happen?",
-        "drefHazardExpectedDescription": "Narrative including Date and geographical areas.",
         "drefHazardTitle": "Explain the underlying vulnerabilities and risks the hazard poses for at-risk communities?",
         "drefHazardDescription": "Based on comparison of past events, what humanitarian impacts do you expect? Of what magnitude? (e.g. last time there was a cyclone making landfall with this windspeed, XX houses were destroyed, and we had to launch a DREF/emergency appeal for CHF xxx)."
     }

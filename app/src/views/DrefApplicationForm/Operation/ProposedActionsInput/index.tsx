@@ -5,6 +5,7 @@ import {
 } from 'react';
 import {
     Button,
+    Container,
     InputSection,
     NumberInput,
     SelectInput,
@@ -34,7 +35,6 @@ import { type PartialDref } from '../../schema';
 import ActivitiesInput from './ActivitiesInput';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 type ProposedActionsFormFields = NonNullable<PartialDref['proposed_action']>[number];
 type ActivitiesFormFields = NonNullable<ProposedActionsFormFields['activities']>[number];
@@ -140,24 +140,13 @@ function ProposedActionsInput(props: Props) {
                     ? strings.drefFromProposedEarlyActionLabel
                     : strings.drefFromProposedEarlyResponseLabel
             }
-            numPreferredColumns={1}
-            description={(
-                <NumberInput
-                    required
-                    name="total_budget"
-                    value={value.total_budget}
-                    onChange={onProposedActionChange}
-                    error={error?.total_budget}
-                    label="Budget"
-                    disabled={disabled}
-                />
-            )}
+            numPreferredColumns={2}
         >
-            <div className={styles.dummy} />
             <NonFieldError error={error} />
-            <div className={styles.selectionContainer}>
+            <Container
+                contentViewType="vertical"
+            >
                 <SelectInput
-                    className={styles.input}
                     name={undefined}
                     label={strings.drefFormProposedActionSectorLabel}
                     value={selectedSector}
@@ -168,30 +157,40 @@ function ProposedActionsInput(props: Props) {
                     disabled={disabled || activityOptionPending}
                 />
                 <Button
-                    className={styles.addButton}
                     variant="secondary"
                     name={undefined}
                     onClick={handleActivityAddButtonClick}
                     disabled={
                         isNotDefined(selectedSector)
-                            || disabled
+                        || disabled
                     }
                 >
                     {strings.drefFormAddProposedActionLabel}
                 </Button>
-            </div>
-            <NonFieldError error={getErrorObject(error?.activities)} />
-            {value.activities?.map((activity, i) => (
-                <ActivitiesInput
-                    key={activity.client_id}
-                    index={i}
-                    value={activity}
-                    onChange={onActivityChange}
-                    onRemove={onActivityRemove}
-                    error={getErrorObject(error?.activities)}
-                    activityOptions={activityOptionResponse}
-                />
-            ))}
+                <Container>
+                    <NonFieldError error={getErrorObject(error?.activities)} />
+                    {value.activities?.map((activity, i) => (
+                        <ActivitiesInput
+                            key={activity.client_id}
+                            index={i}
+                            value={activity}
+                            onChange={onActivityChange}
+                            onRemove={onActivityRemove}
+                            error={getErrorObject(error?.activities)}
+                            activityOptions={activityOptionResponse}
+                        />
+                    ))}
+                </Container>
+            </Container>
+            <NumberInput
+                required
+                name="total_budget"
+                value={value.total_budget}
+                onChange={onProposedActionChange}
+                error={error?.total_budget}
+                label="Budget"
+                disabled={disabled}
+            />
         </InputSection>
     );
 }

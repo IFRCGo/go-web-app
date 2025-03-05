@@ -1,3 +1,4 @@
+import { useParams } from 'react-router-dom';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     Container,
@@ -7,6 +8,12 @@ import {
     TextOutput,
     type TextOutputProps,
 } from '@ifrc-go/ui/printable';
+import {
+    isDefined,
+    isFalsyString,
+} from '@togglecorp/fujs';
+
+import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -24,7 +31,18 @@ export function BlockTextOutput(props: TextOutputProps
 }
 
 function PgaExport() {
+    const { drefId } = useParams<{ drefId: string }>();
     const strings = useTranslation(i18n);
+
+    const {
+        response: drefResponse,
+    } = useRequest({
+        skip: isFalsyString(drefId),
+        url: '/api/v2/dref/{id}/',
+        pathVariables: isDefined(drefId) ? {
+            id: drefId,
+        } : undefined,
+    });
 
     return (
         <div className={styles.pgaExport}>
@@ -142,7 +160,8 @@ function PgaExport() {
                     />
                     <BlockTextOutput
                         label={strings.nationalSocietyAmount}
-                        value={strings.nationalSocietyAmountCHF}
+                        value={drefResponse?.total_cost}
+                        valueType="number"
                     />
                     <BlockTextOutput
                         label={strings.nationalSocietyAdvancePayment}
