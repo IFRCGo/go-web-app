@@ -170,7 +170,7 @@ const tabToFieldsMap = {
     submission: timeframeAndContactsTabFields,
 };
 
-export const recalculateProposedActionValues = (val: PartialDref | DrefResponseType) => {
+export const calculateProposedActionsCost = (val: PartialDref | DrefResponseType) => {
     const subTotal = sumSafe(
         val?.proposed_action?.map((pa) => pa.total_budget),
     ) ?? 0;

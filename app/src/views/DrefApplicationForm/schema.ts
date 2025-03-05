@@ -12,6 +12,7 @@ import {
     type ObjectSchema,
     type PartialForm,
     type PurgeNull,
+    requiredListCondition,
     requiredStringCondition,
     undefinedValue,
     urlCondition,
@@ -42,15 +43,8 @@ import {
 // Shouldn't this be set for all integer types?
 const MAX_INT_LIMIT = 2147483647;
 
-// Why not use lengthLessThanCondition?
-function max500CharCondition(value: string | undefined) {
-    return isDefined(value) && value.length > 500
-        ? 'Maximum 500 characters are allowed'
-        : undefined;
-}
-
 function lessThanEqualToTwoImagesCondition<T>(value: T[] | undefined) {
-    return isDefined(value) && Array.isArray(value) && value.length > 2
+    return isDefined(value) && Array.isArray(value) && value.length > 1
         ? 'Only two images are allowed'
         : undefined;
 }
@@ -128,7 +122,6 @@ type DrefFormFields = (
         SourceInformationFormFields
     >
 );
-
 export type PartialDref = PartialForm<
     PurgeNull<DrefFormFields>,
     'client_id'
@@ -188,7 +181,11 @@ const schema: DrefFormSchema = {
             operation_timeframe: {
                 validations: [
                     positiveIntegerCondition,
-                    lessThanOrEqualToCondition(45),
+                ],
+            },
+            operation_timeframe_imminent: {
+                validations: [
+                    positiveIntegerCondition,
                 ],
             },
             appeal_code: {},
@@ -233,6 +230,8 @@ const schema: DrefFormSchema = {
             'emergency_appeal_planned',
             'event_map_file',
             'cover_image_file',
+            'disaster_category',
+            'disaster_category_analysis',
         ] as const;
         type OverviewDrefTypeRelatedFields = Pick<
             DrefFormSchemaFields,
@@ -248,12 +247,32 @@ const schema: DrefFormSchema = {
                     emergency_appeal_planned: { forceValue: nullValue },
                     event_map_file: { forceValue: nullValue }, // NOTE: check if this works
                     cover_image_file: { forceValue: nullValue },
+                    disaster_category: { forceValue: nullValue },
+                    disaster_category_analysis: { forceValue: nullValue },
                 };
                 if (val?.type_of_dref === TYPE_LOAN) {
-                    return conditionalFields;
+                    return {
+                        ...conditionalFields,
+                        disaster_category: {},
+                        disaster_category_analysis: {},
+                    };
+                }
+                if (val?.type_of_dref === TYPE_IMMINENT) {
+                    return {
+                        ...conditionalFields,
+                        cover_image_file: {
+                            fields: (): CoverImageFileFields => ({
+                                client_id: {},
+                                id: { defaultValue: undefinedValue },
+                                caption: {},
+                            }),
+                        },
+                    };
                 }
                 return {
                     ...conditionalFields,
+                    disaster_category: {},
+                    disaster_category_analysis: {},
                     emergency_appeal_planned: {},
                     event_map_file: {
                         fields: (): EventMapFileFields => ({
@@ -290,7 +309,7 @@ const schema: DrefFormSchema = {
             'event_description',
             'images_file',
             'source_information',
-            'hazard_date_and_location',
+            'hazard_date',
             'hazard_vulnerabilities_and_risks',
         ] as const;
         type EventDetailDrefTypeRelatedFields = Pick<
@@ -319,7 +338,7 @@ const schema: DrefFormSchema = {
                     event_date: { forceValue: nullValue },
                     event_description: { forceValue: nullValue },
                     images_file: { forceValue: [] },
-                    hazard_date_and_location: { forceValue: nullValue },
+                    hazard_date: { forceValue: nullValue },
                     hazard_vulnerabilities_and_risks: { forceValue: nullValue },
                 };
 
@@ -339,10 +358,25 @@ const schema: DrefFormSchema = {
                 if (val?.type_of_dref === TYPE_IMMINENT) {
                     conditionalFields = {
                         ...conditionalFields,
-                        event_text: { validations: [max500CharCondition] },
                         scenario_analysis_supporting_document: {},
-                        hazard_date_and_location: {},
+                        hazard_date: {},
                         hazard_vulnerabilities_and_risks: {},
+                        source_information: {
+                            keySelector: (source) => source.client_id,
+                            member: () => ({
+                                fields: (): SourceInformationFields => ({
+                                    client_id: {},
+                                    source_name: {
+                                        required: true,
+                                        requiredValidation: requiredStringCondition,
+                                    },
+                                    source_link: {
+                                        required: true,
+                                        validations: [urlCondition],
+                                    },
+                                }),
+                            }),
+                        },
                     };
                 } else {
                     conditionalFields = {
@@ -351,7 +385,7 @@ const schema: DrefFormSchema = {
                     };
                 }
 
-                if (val?.type_of_dref !== TYPE_LOAN) {
+                if (val?.type_of_dref !== TYPE_LOAN && val?.type_of_dref !== TYPE_IMMINENT) {
                     conditionalFields = {
                         ...conditionalFields,
                         event_description: {},
@@ -488,6 +522,7 @@ const schema: DrefFormSchema = {
             'government_requested_assistance',
             'national_authorities',
             'un_or_other_actor',
+            'major_coordination_mechanism',
             'is_there_major_coordination_mechanism',
         ] as const;
         type ActionsDrefTypeRelatedFields = Pick<
@@ -513,8 +548,9 @@ const schema: DrefFormSchema = {
                     national_authorities: { forceValue: nullValue },
                     un_or_other_actor: { forceValue: nullValue },
                     is_there_major_coordination_mechanism: { forceValue: nullValue },
+                    major_coordination_mechanism: { forceValue: nullValue },
                 };
-                if (val?.type_of_dref === TYPE_LOAN) {
+                if (val?.type_of_dref === TYPE_LOAN || val?.type_of_dref === TYPE_IMMINENT) {
                     return conditionalFields;
                 }
                 conditionalFields = {
@@ -547,6 +583,8 @@ const schema: DrefFormSchema = {
                 if (val?.type_of_dref !== TYPE_ASSESSMENT) {
                     conditionalFields = {
                         ...conditionalFields,
+                        assessment_report: {},
+                        identified_gaps: {},
                         needs_identified: {
                             keySelector: (need) => need.client_id,
                             member: () => ({
@@ -565,16 +603,7 @@ const schema: DrefFormSchema = {
                         },
                     };
                 }
-                if (
-                    val?.type_of_dref !== TYPE_ASSESSMENT
-                    && val?.type_of_dref !== TYPE_IMMINENT
-                ) {
-                    conditionalFields = {
-                        ...conditionalFields,
-                        assessment_report: {},
-                        identified_gaps: {},
-                    };
-                }
+
                 return conditionalFields;
             },
         );
@@ -607,6 +636,7 @@ const schema: DrefFormSchema = {
             'proposed_action',
             'human_resource',
             'is_surge_personnel_deployed',
+            'surge_personnel_deployed',
             'sub_total_cost',
             'surge_deployment_cost',
             'indirect_cost',
@@ -649,6 +679,7 @@ const schema: DrefFormSchema = {
                     proposed_action: { forceValue: [] },
                     human_resource: { forceValue: nullValue },
                     is_surge_personnel_deployed: { forceValue: nullValue },
+                    surge_personnel_deployed: { forceValue: nullValue },
                     has_child_safeguarding_risk_analysis_assessment: { forceValue: nullValue },
                     sub_total_cost: { forceValue: nullValue },
                     surge_deployment_cost: { forceValue: nullValue },
@@ -660,6 +691,112 @@ const schema: DrefFormSchema = {
                 if (val?.type_of_dref === TYPE_LOAN) {
                     return conditionalFields;
                 }
+                if (val?.type_of_dref === TYPE_IMMINENT) {
+                    let imminentConditionalFields: OperationDrefTypeRelatedFields = {
+
+                        ...conditionalFields,
+                        is_surge_personnel_deployed: {},
+                        people_targeted_with_early_actions: {
+                            validations: [positiveIntegerCondition],
+                        },
+                        proposed_action: {
+                            required: true,
+                            requiredValidation: requiredListCondition,
+                            keySelector: (action) => action.client_id,
+                            member: () => ({
+                                fields: (): ProposedActionsFields => ({
+                                    client_id: {},
+                                    id: { defaultValue: undefinedValue },
+                                    total_budget: {
+                                        required: true,
+                                        validations: [
+                                            positiveIntegerCondition,
+                                            lessThanOrEqualToCondition(MAX_INT_LIMIT),
+                                        ],
+                                    },
+                                    proposed_type: {
+                                        required: true,
+                                    },
+                                    activities: {
+                                        required: true,
+                                        requiredValidation: requiredListCondition,
+                                        keySelector: (activity) => activity.client_id,
+                                        member: () => ({
+                                            fields: (): ActivitiesFields => ({
+                                                client_id: {},
+                                                id: { defaultValue: undefinedValue },
+                                                sector: { required: true },
+                                                activity: {},
+                                            }),
+                                        }),
+                                        validation: requiredListCondition,
+                                    },
+                                }),
+                            }),
+                        },
+                        sub_total_cost: {
+                            required: true,
+                            validations: [
+                                (value: Maybe<number>) => (
+                                    // FIXME: use translations
+                                    isDefined(value) && value !== SUB_TOTAL
+                                        ? 'The sub-total of the budgets should be exactly CHF 75000'
+                                        : undefined
+                                ),
+                            ],
+                        },
+                        total_cost: {
+                            required: true,
+                            validations: [
+                                positiveIntegerCondition,
+                                lessThanOrEqualToCondition(MAX_INT_LIMIT),
+                            ],
+                        },
+                        addressed_humanitarian_impacts: {},
+                        contingency_plans_supporting_document: {},
+                    };
+
+                    imminentConditionalFields = addCondition(
+                        imminentConditionalFields,
+                        formValue,
+                        ['is_surge_personnel_deployed'],
+                        ['indirect_cost', 'surge_deployment_cost', 'surge_personnel_deployed'],
+                        (value) => {
+                            if (value?.is_surge_personnel_deployed) {
+                                return {
+                                    surge_personnel_deployed: {},
+                                    surge_deployment_cost: {
+                                        required: true,
+                                        validations: [
+                                            positiveIntegerCondition,
+                                            lessThanOrEqualToCondition(SURGE_DEPLOYMENT_COST),
+                                        ],
+                                    },
+                                    indirect_cost: {
+                                        required: true,
+                                        validations: [
+                                            positiveIntegerCondition,
+                                            lessThanOrEqualToCondition(SURGE_INDIRECT_COST),
+                                        ],
+                                    },
+                                };
+                            }
+                            return {
+                                surge_deployment_cost: { forceValue: nullValue },
+                                indirect_cost: {
+                                    required: true,
+                                    validations: [
+                                        positiveIntegerCondition,
+                                        lessThanOrEqualToCondition(INDIRECT_COST),
+                                    ],
+                                },
+                            };
+                        },
+
+                    );
+                    return imminentConditionalFields;
+                }
+
                 conditionalFields = {
                     ...conditionalFields,
 
@@ -759,99 +896,7 @@ const schema: DrefFormSchema = {
                         communication: {},
                     };
                 }
-                if (val?.type_of_dref === TYPE_IMMINENT) {
-                    conditionalFields = {
-                        ...conditionalFields,
-                        people_targeted_with_early_actions: {
-                            validations: [positiveIntegerCondition],
-                        },
-                        proposed_action: {
-                            keySelector: (n) => n.client_id,
-                            member: () => ({
-                                fields: (): ProposedActionsFields => ({
-                                    client_id: {},
-                                    total_budget: {
-                                        validations: [
-                                            positiveIntegerCondition,
-                                            lessThanOrEqualToCondition(MAX_INT_LIMIT),
-                                        ],
-                                    },
-                                    proposed_type: {
-                                        required: true,
-                                    },
-                                    activities: {
-                                        keySelector: (activity) => activity.client_id,
-                                        member: () => ({
-                                            fields: (): ActivitiesFields => ({
-                                                client_id: {},
-                                                sector: { required: true },
-                                                activity: {},
-                                            }),
-                                        }),
-                                    },
-                                }),
-                            }),
-                        },
-                        sub_total_cost: {
-                            required: true,
-                            validations: [
-                                (value: Maybe<number>) => (
-                                    // FIXME: use translations
-                                    isDefined(value) && value !== SUB_TOTAL
-                                        ? 'The sub-total of the budgets should be exactly CHF 75000'
-                                        : undefined
-                                ),
-                            ],
-                        },
-                        total_cost: {
-                            required: true,
-                            validations: [
-                                positiveIntegerCondition,
-                                lessThanOrEqualToCondition(MAX_INT_LIMIT),
-                            ],
-                        },
-                        addressed_humanitarian_impacts: {},
-                        contingency_plans_supporting_document: {},
-                    };
 
-                    conditionalFields = addCondition(
-                        conditionalFields,
-                        formValue,
-                        ['is_surge_personnel_deployed'],
-                        ['indirect_cost', 'surge_deployment_cost'],
-                        (value) => {
-                            if (value?.is_surge_personnel_deployed) {
-                                return {
-                                    surge_deployment_cost: {
-                                        required: true,
-                                        validations: [
-                                            positiveIntegerCondition,
-                                            lessThanOrEqualToCondition(SURGE_DEPLOYMENT_COST),
-                                        ],
-                                    },
-                                    indirect_cost: {
-                                        required: true,
-                                        validations: [
-                                            positiveIntegerCondition,
-                                            lessThanOrEqualToCondition(SURGE_INDIRECT_COST),
-                                        ],
-                                    },
-                                };
-                            }
-                            return {
-                                surge_deployment_cost: { forceValue: nullValue },
-                                indirect_cost: {
-                                    required: true,
-                                    validations: [
-                                        positiveIntegerCondition,
-                                        lessThanOrEqualToCondition(INDIRECT_COST),
-                                    ],
-                                },
-                            };
-                        },
-
-                    );
-                }
                 return conditionalFields;
             },
         );
@@ -891,6 +936,8 @@ const schema: DrefFormSchema = {
             'end_date',
             'publishing_date',
             'glide_code',
+            'operation_timeframe',
+            'operation_timeframe_imminent',
         ] as const;
         type SubmissionDrefTypeRelatedFields = Pick<
             DrefFormSchemaFields,
@@ -918,14 +965,15 @@ const schema: DrefFormSchema = {
                     end_date: { forceValue: nullValue },
                     publishing_date: { forceValue: nullValue },
                     glide_code: { forceValue: nullValue },
+                    operation_timeframe: { forceValue: nullValue },
+                    operation_timeframe_imminent: { forceValue: nullValue },
                 };
 
-                if (val?.type_of_dref !== TYPE_LOAN) {
+                if (val?.type_of_dref === TYPE_IMMINENT) {
                     return {
                         ...baseSubmissionFields,
                         end_date: {},
                         publishing_date: {},
-                        glide_code: {},
                         national_society_contact_name: {},
                         national_society_contact_title: {},
                         national_society_contact_email: { validations: [emailCondition] },
@@ -938,10 +986,36 @@ const schema: DrefFormSchema = {
                         media_contact_title: {},
                         media_contact_email: { validations: [emailCondition] },
                         media_contact_phone_number: {},
+                        operation_timeframe_imminent: {},
                     };
                 }
 
-                return baseSubmissionFields;
+                if (val?.type_of_dref === TYPE_LOAN) {
+                    return {
+                        ...baseSubmissionFields,
+                        operation_timeframe: {},
+                    };
+                }
+
+                return {
+                    ...baseSubmissionFields,
+                    end_date: {},
+                    publishing_date: {},
+                    glide_code: {},
+                    national_society_contact_name: {},
+                    national_society_contact_title: {},
+                    national_society_contact_email: { validations: [emailCondition] },
+                    national_society_contact_phone_number: {},
+                    ifrc_emergency_name: {},
+                    ifrc_emergency_title: {},
+                    ifrc_emergency_email: { validations: [emailCondition] },
+                    ifrc_emergency_phone_number: {},
+                    media_contact_name: {},
+                    media_contact_title: {},
+                    media_contact_email: { validations: [emailCondition] },
+                    media_contact_phone_number: {},
+                    operation_timeframe: {},
+                };
             },
         );
 

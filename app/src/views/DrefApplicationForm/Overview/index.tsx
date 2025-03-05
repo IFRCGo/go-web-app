@@ -14,8 +14,14 @@ import {
     TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { stringValueSelector } from '@ifrc-go/ui/utils';
 import {
+    addNumDaysToDate,
+    ceilToEndOfMonth,
+    encodeDate,
+    stringValueSelector,
+} from '@ifrc-go/ui/utils';
+import {
+    isDefined,
     isNotDefined,
     randomString,
 } from '@togglecorp/fujs';
@@ -169,11 +175,19 @@ function Overview(props: Props) {
     ) => {
         setFieldValue(typeOfDref, name);
         if (typeOfDref === TYPE_IMMINENT) {
-            setValue((oldValue) => (
-                ({
+            setValue((oldValue) => {
+                const endDate = ceilToEndOfMonth(
+                    addNumDaysToDate(
+                        oldValue.date_of_approval,
+                        45,
+                    ),
+                );
+                return {
                     ...oldValue,
                     type_of_onset: ONSET_SUDDEN,
-                    proposed_action: [
+                    operation_timeframe_imminent: 45,
+                    end_date: isDefined(endDate) ? encodeDate(endDate) : undefined,
+                    proposed_action: isNotDefined(oldValue.proposed_action) ? [
                         {
                             client_id: randomString(),
                             proposed_type: EARLY_ACTIONS,
@@ -182,9 +196,14 @@ function Overview(props: Props) {
                             client_id: randomString(),
                             proposed_type: EARLY_RESPONSE,
                         },
-                    ],
-                })
-            ), true);
+                    ] : oldValue.proposed_action,
+                };
+            });
+        } else {
+            setValue((oldValue) => ({
+                ...oldValue,
+                end_date: undefined,
+            }));
         }
     }, [setFieldValue, setValue]);
 

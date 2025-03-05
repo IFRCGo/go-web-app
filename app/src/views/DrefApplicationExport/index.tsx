@@ -47,9 +47,9 @@ import {
     useRequest,
 } from '#utils/restRequest';
 import {
+    calculateProposedActionsCost,
     EARLY_ACTIONS,
     EARLY_RESPONSE,
-    recalculateProposedActionValues,
     TYPE_IMMINENT,
 } from '#views/DrefApplicationForm/common';
 
@@ -218,11 +218,14 @@ export function Component() {
         || sourceInformationDefined
         || isDefined(drefResponse?.event_map_file?.file);
 
-    const hazardDate = drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
-        && isDefined(drefResponse?.hazard_date_and_location);
-    const hazardRisk = drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
+    const isDefinedHazardDate = drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
+        && isDefined(drefResponse?.hazard_date);
+    const isDefinedHazardRisk = drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
         && drefResponse.hazard_vulnerabilities_and_risks;
-    const showScenarioAnalysis = hazardDate || hazardRisk;
+
+    const riskRegions = drefResponse?.district_details.map((district) => district.name).filter(isDefined).join(', ');
+
+    const showScenarioAnalysis = isDefinedHazardDate || isDefinedHazardRisk;
 
     const lessonsLearnedDefined = isTruthyString(drefResponse?.lessons_learned?.trim());
     const showPreviousOperations = drefResponse?.type_of_dref === DREF_TYPE_RESPONSE && (
@@ -427,7 +430,7 @@ export function Component() {
         if (isNotDefined(drefResponse)) {
             return undefined;
         }
-        return recalculateProposedActionValues(drefResponse);
+        return calculateProposedActionsCost(drefResponse);
     }, [drefResponse]);
 
     return (
@@ -459,8 +462,9 @@ export function Component() {
                 && (
                     <Container>
                         <Image
-                            src={drefResponse?.cover_image_file?.file}
-                            caption={drefResponse?.cover_image_file?.caption}
+                            src={drefResponse.cover_image_file.file}
+                            alt={drefResponse.title ?? ''}
+                            caption={drefResponse.cover_image_file.caption}
                         />
                     </Container>
                 )}
@@ -475,8 +479,9 @@ export function Component() {
                     <TextOutput
                         className={styles.metaItem}
                         label={strings.drefAllocatedLabel}
-                        value={drefAllocated?.total}
+                        value={drefAllocated?.total_cost}
                         prefix={strings.chfPrefix}
+                        valueType="number"
                         strongValue
                     />
                 )}
@@ -507,6 +512,7 @@ export function Component() {
                             label={strings.drefFormRiskPeopleLabel}
                             value={drefResponse?.num_affected}
                             strongValue
+                            valueType="number"
                         />
                         <TextOutput
                             className={styles.metaItem}
@@ -539,8 +545,8 @@ export function Component() {
                             value={drefResponse?.disaster_category_display}
                             valueClassName={_cs(
                                 isDefined(drefResponse)
-                            && isDefined(drefResponse.disaster_category)
-                            && colorMap[drefResponse.disaster_category],
+                                && isDefined(drefResponse.disaster_category)
+                                && colorMap[drefResponse.disaster_category],
                             )}
                             strongValue
                         />
@@ -557,15 +563,15 @@ export function Component() {
                         <TextOutput
                             className={styles.metaItem}
                             label={strings.drefApplicationExportForecastedLabel}
-                            value={drefResponse?.hazard_date_and_location}
+                            value={drefResponse?.hazard_date}
                             strongValue
                         />
                         <TextOutput
                             className={styles.metaItem}
                             label={strings.operationTimeframeLabel}
-                            value={drefResponse?.operation_timeframe}
+                            value={drefResponse?.operation_timeframe_imminent}
                             valueType="number"
-                            suffix={strings.monthsSuffix}
+                            suffix={strings.daysSuffix}
                             strongValue
                         />
                         <div className={styles.metaActionsItem} />
@@ -653,19 +659,19 @@ export function Component() {
                             ? strings.eventDescriptionSectionHeading
                             : strings.scenarioAnalysis}
                     </Heading>
-                    {hazardDate && (
+                    {isDefinedHazardDate && (
                         <Container
                             heading={strings.hazardDate}
                         >
                             <DescriptionText>
-                                {strings.dateAndGeographicalArea}
+                                {drefResponse?.hazard_date}
                             </DescriptionText>
                             <DescriptionText>
-                                {drefResponse?.hazard_date_and_location}
+                                {riskRegions}
                             </DescriptionText>
                         </Container>
                     )}
-                    {hazardRisk && (
+                    {isDefinedHazardRisk && (
                         <Container
                             heading={strings.hazardRisk}
                         >
@@ -750,9 +756,6 @@ export function Component() {
                             <Heading level={3}>
                                 {strings.sourceInformationSectionHeading}
                             </Heading>
-                            <DescriptionText>
-                                {strings.sourceInformationAttachments}
-                            </DescriptionText>
                             <Container
                                 childrenContainerClassName={styles.sourceInformationList}
                             >
@@ -791,13 +794,6 @@ export function Component() {
                             ? strings.aboutSupportServicesSectionHeading
                             : strings.plan}
                     </Heading>
-                    {drefResponse?.type_of_dref === DREF_TYPE_IMMINENT && (
-                        <Container>
-                            <DescriptionText>
-                                {strings.planDescription}
-                            </DescriptionText>
-                        </Container>
-                    )}
                     {humanResourceDefined && (
                         <Container
                             heading={strings.humanResourcesHeading}
@@ -1133,6 +1129,11 @@ export function Component() {
                     <DescriptionText
                         className={styles.actionsTitle}
                     >
+                        {strings.proposedActionsSector}
+                    </DescriptionText>
+                    <DescriptionText
+                        className={styles.actionsTitle}
+                    >
                         {strings.proposedActionsActivities}
                     </DescriptionText>
                     <DescriptionText
@@ -1147,80 +1148,73 @@ export function Component() {
                         withoutLabelColon
                         strongValue
                     />
-                    <TextOutput
-                        className={styles.actionsItem}
-                        label=""
-                        value={proposedActionsByType[EARLY_ACTIONS]?.map((action) => (
-                            <ul key={action.id}>
-                                <li>
+                    {proposedActionsByType[EARLY_ACTIONS]?.map((action) => (
+                        <Fragment key={action.id}>
+                            {action.activities.map((activity) => (
+                                <Fragment key={activity.id}>
                                     <SelectOutput
-                                        className={styles.actionsItem}
+                                        className={styles.actionsTitle}
                                         options={activityOptionResponse}
                                         label={undefined}
                                         labelSelector={activityLabelSelector}
                                         keySelector={activityKeySelector}
-                                        value={action?.activity}
+                                        value={activity.sector}
                                     />
-                                </li>
-                            </ul>
-                        ))}
-                        withoutLabelColon
-                        invalidText={null}
-                    />
+                                    <DescriptionText
+                                        className={styles.actionsTitle}
+                                    >
+                                        {activity.activity}
+                                    </DescriptionText>
+                                </Fragment>
+                            ))}
+                            <TextOutput
+                                className={styles.actionsItem}
+                                label=""
+                                value={action.total_budget}
+                                prefix={strings.chfPrefix}
+                                valueType="number"
+                                withoutLabelColon
+                                strongValue
+                            />
+                        </Fragment>
+                    ))}
                     <TextOutput
                         className={styles.actionsItem}
                         label=""
-                        value={proposedActionsByType[EARLY_ACTIONS]?.map((action) => (
-                            <TextOutput
-                                key={action.id}
-                                className={styles.actionsItem}
-                                value={action.budget}
-                                invalidText={null}
-                                withoutLabelColon
-                            />
-                        ))}
-                        withoutLabelColon
-                        invalidText={null}
-                    />
-
-                    <TextOutput
-                        className={styles.actionsItem}
                         value={strings.priorityActionsEarlyResponse}
                         withoutLabelColon
                         strongValue
                     />
-                    <TextOutput
-                        className={styles.actionsItem}
-                        value={proposedActionsByType[EARLY_RESPONSE]?.map((response) => (
-                            <ul key={response.id}>
-                                <li>
+                    {proposedActionsByType[EARLY_RESPONSE]?.map((action) => (
+                        <Fragment key={action.id}>
+                            {action.activities.map((activity) => (
+                                <Fragment key={action.id}>
                                     <SelectOutput
-                                        className={styles.actionsItem}
+                                        className={styles.actionsTitle}
                                         options={activityOptionResponse}
                                         label={undefined}
                                         labelSelector={activityLabelSelector}
                                         keySelector={activityKeySelector}
-                                        value={response?.activity}
+                                        value={activity.sector}
                                     />
-                                </li>
-                            </ul>
-                        ))}
-                        withoutLabelColon
-                        invalidText={null}
-                    />
-                    <TextOutput
-                        className={styles.actionsItem}
-                        value={proposedActionsByType[EARLY_RESPONSE]?.map((response) => (
+                                    <DescriptionText
+                                        className={styles.actionsTitle}
+                                    >
+                                        {activity.activity}
+                                    </DescriptionText>
+                                </Fragment>
+                            ))}
                             <TextOutput
                                 className={styles.actionsItem}
-                                value={response.budget}
-                                invalidText={null}
+                                label=""
+                                value={action.total_budget}
+                                prefix={strings.chfPrefix}
+                                valueType="number"
                                 withoutLabelColon
+                                strongValue
                             />
-                        ))}
-                        withoutLabelColon
-                        invalidText={null}
-                    />
+                        </Fragment>
+                    ))}
                     <div className={styles.actionsItem} />
                     <TextOutput
                         className={styles.costItem}
@@ -1229,10 +1223,14 @@ export function Component() {
                         withoutLabelColon
                         strongValue
                     />
+                    <div className={styles.actionsItem} />
                     <TextOutput
                         className={styles.actionsItem}
-                        value={drefResponse?.sub_total}
+                        value={drefResponse?.sub_total_cost}
+                        prefix={strings.chfPrefix}
+                        valueType="number"
                         withoutLabelColon
+                        strongValue
                     />
                     <div className={styles.actionsItem} />
                     <TextOutput
@@ -1241,9 +1239,13 @@ export function Component() {
                         withoutLabelColon
                         strongValue
                     />
+                    <div className={styles.actionsItem} />
                     <TextOutput
                         className={styles.actionsItem}
                         value={drefResponse?.surge_deployment_cost}
+                        prefix={strings.chfPrefix}
+                        strongValue
+                        valueType="number"
                         withoutLabelColon
                     />
                     <div className={styles.actionsItem} />
@@ -1253,9 +1255,13 @@ export function Component() {
                         withoutLabelColon
                         strongValue
                     />
+                    <div className={styles.actionsItem} />
                     <TextOutput
                         className={styles.actionsItem}
                         value={drefResponse?.indirect_cost}
+                        prefix={strings.chfPrefix}
+                        strongValue
+                        valueType="number"
                         withoutLabelColon
                     />
                     <div className={styles.actionsItem} />
@@ -1265,81 +1271,87 @@ export function Component() {
                         withoutLabelColon
                         strongValue
                     />
+                    <div className={styles.actionsItem} />
                     <TextOutput
                         className={styles.actionsItem}
-                        value={drefResponse?.total}
+                        value={drefResponse?.total_cost}
+                        prefix={strings.chfPrefix}
+                        strongValue
+                        valueType="number"
                         withoutLabelColon
                     />
                 </Container>
             )}
-            <Container
-                heading={strings.targetPopulationSectionHeading}
-                headingLevel={2}
-                childrenContainerClassName={styles.targetPopulationContent}
-            >
-                {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
+            {drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
+                <Container
+                    heading={strings.targetPopulationSectionHeading}
+                    headingLevel={2}
+                    childrenContainerClassName={styles.targetPopulationContent}
+                >
+                    {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
+                        <BlockTextOutput
+                            label={strings.womenLabel}
+                            value={drefResponse?.women}
+                            valueType="number"
+                            strongValue
+                        />
+                    )}
                     <BlockTextOutput
-                        label={strings.womenLabel}
-                        value={drefResponse?.women}
+                        label={strings.ruralLabel}
+                        value={drefResponse?.people_per_local}
+                        valueType="number"
+                        suffix="%"
+                        strongValue
+                    />
+                    {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
+                        <BlockTextOutput
+                            label={strings.girlsLabel}
+                            value={drefResponse?.girls}
+                            valueType="number"
+                            strongValue
+                        />
+                    )}
+                    <BlockTextOutput
+                        label={strings.urbanLabel}
+                        value={drefResponse?.people_per_urban}
+                        suffix="%"
                         valueType="number"
                         strongValue
                     />
-                )}
-                <BlockTextOutput
-                    label={strings.ruralLabel}
-                    value={drefResponse?.people_per_local}
-                    valueType="number"
-                    suffix="%"
-                    strongValue
-                />
-                {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
+                    {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
+                        <BlockTextOutput
+                            label={strings.menLabel}
+                            value={drefResponse?.men}
+                            valueType="number"
+                            strongValue
+                        />
+                    )}
                     <BlockTextOutput
-                        label={strings.girlsLabel}
-                        value={drefResponse?.girls}
+                        className={styles.disabilitiesPopulation}
+                        label={strings.peopleWithDisabilitiesLabel}
+                        value={drefResponse?.disability_people_per}
+                        suffix="%"
                         valueType="number"
                         strongValue
                     />
-                )}
-                <BlockTextOutput
-                    label={strings.urbanLabel}
-                    value={drefResponse?.people_per_urban}
-                    suffix="%"
-                    valueType="number"
-                    strongValue
-                />
-                {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
+                    {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
+                        <BlockTextOutput
+                            label={strings.boysLabel}
+                            value={drefResponse?.boys}
+                            valueType="number"
+                            strongValue
+                        />
+                    )}
+                    <div className={styles.emptyBlock} />
                     <BlockTextOutput
-                        label={strings.menLabel}
-                        value={drefResponse?.men}
+                        label={strings.targetedPopulationLabel}
+                        value={drefResponse?.total_targeted_population}
+                        valueClassName={styles.totalTargetedPopulationValue}
                         valueType="number"
                         strongValue
                     />
-                )}
-                <BlockTextOutput
-                    className={styles.disabilitiesPopulation}
-                    label={strings.peopleWithDisabilitiesLabel}
-                    value={drefResponse?.disability_people_per}
-                    suffix="%"
-                    valueType="number"
-                    strongValue
-                />
-                {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
-                    <BlockTextOutput
-                        label={strings.boysLabel}
-                        value={drefResponse?.boys}
-                        valueType="number"
-                        strongValue
-                    />
-                )}
-                <div className={styles.emptyBlock} />
-                <BlockTextOutput
-                    label={strings.targetedPopulationLabel}
-                    value={drefResponse?.total_targeted_population}
-                    valueClassName={styles.totalTargetedPopulationValue}
-                    valueType="number"
-                    strongValue
-                />
-            </Container>
+                </Container>
+            )}
             {showRiskAndSecuritySection && (
                 <>
                     <Heading level={2}>

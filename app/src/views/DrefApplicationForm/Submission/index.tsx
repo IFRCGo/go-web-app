@@ -8,7 +8,9 @@ import {
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
+    addNumDaysToDate,
     addNumMonthsToDate,
+    ceilToEndOfMonth,
     encodeDate,
 } from '@ifrc-go/ui/utils';
 import { isDefined } from '@togglecorp/fujs';
@@ -62,18 +64,45 @@ function Submission(props: Props) {
         [setFieldValue, value.date_of_approval],
     );
 
-    const handleDateOfApproval = useCallback(
-        (val: string | undefined, name: 'date_of_approval') => {
+    const handleImminentOperationTimeframeChange = useCallback(
+        (val: number | undefined, name: 'operation_timeframe_imminent') => {
             setFieldValue(val, name);
-            const endDate = addNumMonthsToDate(
-                val,
-                value.operation_timeframe,
+            const endDate = ceilToEndOfMonth(
+                addNumDaysToDate(
+                    value.date_of_approval,
+                    val,
+                ),
             );
             if (isDefined(endDate)) {
                 setFieldValue(encodeDate(endDate), 'end_date');
             }
         },
-        [setFieldValue, value.operation_timeframe],
+        [setFieldValue, value.date_of_approval],
+    );
+
+    const handleDateOfApproval = useCallback(
+        (val: string | undefined, name: 'date_of_approval') => {
+            setFieldValue(val, name);
+            if (isDefined(value.operation_timeframe)) {
+                const endDate = addNumMonthsToDate(
+                    val,
+                    value.operation_timeframe,
+                );
+                if (isDefined(endDate)) {
+                    setFieldValue(encodeDate(endDate), 'end_date');
+                }
+            } else if (isDefined(value.operation_timeframe_imminent)) {
+                const endDate = addNumDaysToDate(
+                    val,
+                    value.operation_timeframe_imminent,
+                );
+
+                if (isDefined(endDate)) {
+                    setFieldValue(encodeDate(endDate), 'end_date');
+                }
+            }
+        },
+        [setFieldValue, value.operation_timeframe, value.operation_timeframe_imminent],
     );
 
     return (
@@ -112,15 +141,28 @@ function Submission(props: Props) {
                         hint={strings.drefFormAddedByRegionalOffice}
                         disabled={disabled}
                     />
-                    <NumberInput
-                        label={strings.drefFormOperationTimeframeSubmission}
-                        name="operation_timeframe"
-                        placeholder={strings.drefFormOperationTimeframeSubmissionDescription}
-                        value={value.operation_timeframe}
-                        onChange={handleOperationTimeframeChange}
-                        error={error?.operation_timeframe}
-                        disabled={disabled}
-                    />
+                    {value?.type_of_dref !== TYPE_IMMINENT && (
+                        <NumberInput
+                            label={strings.drefFormOperationTimeframeSubmission}
+                            name="operation_timeframe"
+                            placeholder={strings.drefFormOperationTimeframeSubmissionDescription}
+                            value={value.operation_timeframe}
+                            onChange={handleOperationTimeframeChange}
+                            error={error?.operation_timeframe}
+                            disabled={disabled}
+                        />
+                    )}
+                    {value?.type_of_dref === TYPE_IMMINENT && (
+                        <NumberInput
+                            label={strings.drefFormOperationTimeframeSubmission}
+                            name="operation_timeframe_imminent"
+                            placeholder={strings.drefFormOperationTimeframeSubmissionDescription}
+                            value={value.operation_timeframe_imminent}
+                            onChange={handleImminentOperationTimeframeChange}
+                            error={error?.operation_timeframe_imminent}
+                            disabled={disabled}
+                        />
+                    )}
                     {value?.type_of_dref !== TYPE_LOAN && (
                         <DateInput
                             label={strings.drefFormSubmissionEndDate}
