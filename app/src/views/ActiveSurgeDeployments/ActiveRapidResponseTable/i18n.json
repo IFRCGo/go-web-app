@@ -1,12 +1,14 @@
 {
-    "namespace": "surgeOverview",
+    "namespace": "activeSurgeDeployments",
     "strings": {
-        "surgeAlertsTableHeading": "Open Surge Alerts",
+        "surgeAlertsTableHeading": "Active Rapid Response Alert",
         "surgeAlertsTableAlertDate": "Alert Date",
+        "surgeAlertsApplicationDeadline": "Application Deadline",
         "surgeAlertsTableDuration": "Duration",
         "surgeAlertsTableStartDate": "Start Date",
         "surgeAlertsTablePosition": "Position",
         "surgeAlertsTableKeywords": "Keywords",
+        "surgeAlertsSurgeType": "Surge Type",
         "surgeAlertsTableEmergency": "Emergency",
         "surgeAlertsTableCountry": "Country",
         "surgeAlertsTableStatus": "Status",
