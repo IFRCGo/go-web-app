@@ -58,7 +58,7 @@ function getMolnixKeywords(molnixTags: SurgeAlertListItem['molnix_tags']) {
     return filtered.map((tag) => tag.name).join(', ');
 }
 
-function SurgeAlertsTable() {
+function ActiveRapidResponseTable() {
     const strings = useTranslation(i18n);
     const {
         sortState,
@@ -92,6 +92,12 @@ function SurgeAlertsTable() {
             'opens',
             strings.surgeAlertsTableAlertDate,
             (surgeAlert) => surgeAlert.opens,
+            { sortable: false },
+        ),
+        createDateColumn<SurgeAlertListItem, number>(
+            'deadline',
+            strings.surgeAlertsApplicationDeadline,
+            (surgeAlert) => surgeAlert.end,
             { sortable: false },
         ),
         createStringColumn<SurgeAlertListItem, number>(
@@ -137,6 +143,11 @@ function SurgeAlertsTable() {
             strings.surgeAlertsTableKeywords,
             (surgeAlert) => getMolnixKeywords(surgeAlert.molnix_tags),
         ),
+        createStringColumn<SurgeAlertListItem, number>(
+            'atype_display',
+            strings.surgeAlertsSurgeType,
+            (surgeAlert) => surgeAlert.atype_display,
+        ),
         createLinkColumn<SurgeAlertListItem, number>(
             'event',
             strings.surgeAlertsTableEmergency,
@@ -174,6 +185,8 @@ function SurgeAlertsTable() {
         strings.surgeAlertsTableEmergency,
         strings.surgeAlertsTableCountry,
         strings.surgeAlertsTableStatus,
+        strings.surgeAlertsApplicationDeadline,
+        strings.surgeAlertsSurgeType,
     ]);
 
     return (
@@ -219,4 +232,4 @@ function SurgeAlertsTable() {
     );
 }
 
-export default SurgeAlertsTable;
+export default ActiveRapidResponseTable;

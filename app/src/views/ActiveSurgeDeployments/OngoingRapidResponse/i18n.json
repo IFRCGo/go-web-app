@@ -1,0 +1,18 @@
+{ "namespace": "activeSurgeDeployments",
+    "strings": {
+        "ongoingRapidEmergency": "Emergency / Name",
+        "ongoingRapidPosition": "Position",
+        "ongoingRapidDeployingOrganisation": "Deploying Organisation",
+        "ongoingRapidName": "Name",
+        "ongoingRapidRole": "Role",
+        "ongoingRapidOrganisation": "Organisation",
+        "ongoingRapidDeploymentHeading": "Ongoing Rapid Response Deployments",
+        "ongoingRapidViewAll": "View All",
+        "ongoingEmergencyStartDate": "Emergency Start Date",
+        "ongoingEmergencyEndDate": "Emergency End Date",
+        "ongoingDeploymentsStartDate": "Deployments Start Date",
+        "ongoingDeploymentsEndDate": "Deployments End Date",
+        "ongoingEmergencyTimeline": "Emergency Timeline",
+        "ongoingDeploymentsDate": "Deployments Date"
+    }
+}

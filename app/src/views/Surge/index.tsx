@@ -25,7 +25,7 @@ export function Component() {
 
     const {
         pending: surgeAggregatedResponsePending,
-        response: surgeAggregatedResponse,
+        response: aggregatedResponse,
     } = useRequest({
         url: '/api/v2/deployment/aggregated',
     });
@@ -39,24 +39,32 @@ export function Component() {
             info={(
                 <>
                     {surgeAggregatedResponsePending && <BlockLoading />}
-                    {surgeAggregatedResponse && (
+                    {aggregatedResponse && (
                         <>
                             <KeyFigure
                                 className={styles.keyFigure}
                                 icon={<DeployedIcon />}
-                                value={surgeAggregatedResponse.active_deployments}
+                                value={aggregatedResponse.active_rapid_response_personal}
+                                label={strings.activeDeploymentsTitle}
+                            />
+                            <KeyFigure
+                                className={styles.keyFigure}
+                                icon={<DeployedIcon />}
+                                value={aggregatedResponse.rapid_response_deployment_this_year}
                                 label={strings.activeDeploymentsTitle}
                             />
                             <KeyFigure
                                 className={styles.keyFigure}
                                 icon={<EmergencyResponseUnitIcon />}
-                                value={surgeAggregatedResponse.active_erus}
+                                value={aggregatedResponse.active_emergency_response_units}
                                 label={strings.activeErusTitle}
                             />
                             <KeyFigure
                                 className={styles.keyFigure}
                                 icon={<ClinicIcon />}
-                                value={surgeAggregatedResponse.deployments_this_year}
+                                value={
+                                    aggregatedResponse.emergency_response_units_deployed_this_year
+                                }
                                 label={strings.deploymentsThisYearTitle}
                             />
                         </>
