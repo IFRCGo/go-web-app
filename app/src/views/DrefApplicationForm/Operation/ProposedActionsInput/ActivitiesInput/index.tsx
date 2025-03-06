@@ -1,5 +1,6 @@
 import { DeleteBinLineIcon } from '@ifrc-go/icons';
 import {
+    Container,
     IconButton,
     SelectInput,
     TextArea,
@@ -17,7 +18,6 @@ import { type GoApiResponse } from '#utils/restRequest';
 import { type PartialDref } from '../../../schema';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 type ProposedActionsFormFields = NonNullable<PartialDref['proposed_action']>[number];
 type ActivitiesFormFields = NonNullable<ProposedActionsFormFields['activities']>[number];
@@ -64,45 +64,44 @@ function ActivitiesInput(props: Props) {
         : undefined;
 
     return (
-        <div className={styles.activityInput}>
-            <div className={styles.sector}>
-                <SelectInput
-                    required
-                    className={styles.input}
-                    name="sector"
-                    label={strings.drefFormProposedActionSector}
-                    options={activityOptions}
-                    keySelector={sectorKeySelector}
-                    labelSelector={sectorLabelSelector}
-                    error={error?.sector}
-                    onChange={onFieldChange}
-                    value={value.sector}
-                    readOnly
-                />
-                <TextArea
-                    className={styles.input}
-                    label={strings.drefFormProposedActionsListOfActivities}
-                    name="activity"
-                    value={value.activity}
-                    onChange={onFieldChange}
-                    error={error?.activity}
+        <Container
+            numPreferredGridContentColumns={2}
+            footerActions={(
+                <IconButton
+                    name={index}
+                    onClick={onRemove}
+                    title={strings.drefFormProposedActionRemoveSector}
+                    ariaLabel={strings.drefFormProposedActionRemoveSector}
+                    round={false}
+                    variant="tertiary"
                     disabled={disabled}
-                    autoBullets
-                />
-            </div>
-            <IconButton
-                className={styles.button}
-                name={index}
-                onClick={onRemove}
-                title={strings.drefFormProposedActionRemoveSector}
-                ariaLabel={strings.drefFormProposedActionRemoveSector}
-                round={false}
-                variant="tertiary"
+                >
+                    <DeleteBinLineIcon />
+                </IconButton>
+            )}
+        >
+            <SelectInput
+                required
+                name="sector"
+                label={strings.drefFormProposedActionSector}
+                options={activityOptions}
+                keySelector={sectorKeySelector}
+                labelSelector={sectorLabelSelector}
+                error={error?.sector}
+                onChange={onFieldChange}
+                value={value.sector}
+                readOnly
+            />
+            <TextArea
+                label={strings.drefFormProposedActionsListOfActivities}
+                name="activity"
+                value={value.activity}
+                onChange={onFieldChange}
+                error={error?.activity}
                 disabled={disabled}
-            >
-                <DeleteBinLineIcon />
-            </IconButton>
-        </div>
+                autoBullets
+            />
+        </Container>
     );
 }
 

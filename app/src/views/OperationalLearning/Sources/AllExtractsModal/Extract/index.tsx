@@ -15,7 +15,7 @@ interface Props {
     emergencyName: string | null | undefined;
     appealDocumentURL: string;
     extract: string | null | undefined;
-    operationStartDate: string;
+    operationStartDate: string | null | undefined;
 }
 function Extract(props: Props) {
     const {

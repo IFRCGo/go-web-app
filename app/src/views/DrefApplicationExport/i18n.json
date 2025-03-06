@@ -117,11 +117,13 @@
         "priorityActionsIndirectCost": "Indirect Cost",
         "priorityActionsTotal": "Total",
         "scenarioAnalysis": "Scenario analysis",
-        "hazardDate": "When  where is the hazard expected to happen?",
+        "hazardDate": "When and where is the hazard expected to happen?",
         "hazardRisk": "Explain the underlying vulnerabilities and risks the hazard poses for at-risk communities?",
         "sourceInformationAttachments": "Include the link to the source of information or indicate if shared as attachments.",
         "plan": "Plan",
         "plannedInterventionAltText": "Planned Intervention Image",
-        "proposedActionsSector": "Sector"
+        "proposedActionsSector": "Sector",
+        "yes": "Yes",
+        "no": "No"
     }
 }

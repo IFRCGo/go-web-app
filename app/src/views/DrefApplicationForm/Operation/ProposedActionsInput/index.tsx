@@ -167,7 +167,9 @@ function ProposedActionsInput(props: Props) {
                 >
                     {strings.drefFormAddProposedActionLabel}
                 </Button>
-                <Container>
+                <Container
+                    contentViewType="vertical"
+                >
                     <NonFieldError error={getErrorObject(error?.activities)} />
                     {value.activities?.map((activity, i) => (
                         <ActivitiesInput

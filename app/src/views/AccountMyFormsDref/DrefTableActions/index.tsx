@@ -54,7 +54,7 @@ export interface Props {
     hasPermissionToApprove?: boolean;
 
     onPublishSuccess?: () => void;
-    drefType: TypeOfDrefEnum | null | undefined;
+    drefType?: TypeOfDrefEnum | null | undefined;
 }
 
 function DrefTableActions(props: Props) {
