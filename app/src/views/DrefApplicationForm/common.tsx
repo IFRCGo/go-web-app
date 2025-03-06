@@ -77,7 +77,6 @@ export const eventDetailTabFields: (keyof PartialDref)[] = [
     'event_scope',
     'source_information',
     'images_file',
-    'hazard_date_and_location',
     'hazard_vulnerabilities_and_risks',
     'scenario_analysis_supporting_document',
 ] satisfies (keyof PartialDref)[];

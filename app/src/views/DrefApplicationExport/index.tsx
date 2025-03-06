@@ -26,6 +26,7 @@ import {
 import ifrcLogo from '#assets/icons/ifrc-square.png';
 import Link from '#components/printable/Link';
 import SelectOutput from '#components/SelectOutput';
+import usePrimarySector, { type PrimarySector } from '#hooks/domain/usePrimarySector';
 import useUrlSearchState from '#hooks/useUrlSearchState';
 import {
     DISASTER_CATEGORY_ORANGE,
@@ -42,10 +43,7 @@ import {
     nsActionsOrder,
     plannedInterventionOrder,
 } from '#utils/domain/dref';
-import {
-    type GoApiResponse,
-    useRequest,
-} from '#utils/restRequest';
+import { useRequest } from '#utils/restRequest';
 import {
     calculateProposedActionsCost,
     EARLY_ACTIONS,
@@ -58,19 +56,17 @@ import PgaExport, { BlockTextOutput } from './PgaExport';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type ActivityOptions = NonNullable<GoApiResponse<'/api/v2/primarysector'>>[number];
-
 const colorMap: Record<DisasterCategory, string> = {
     [DISASTER_CATEGORY_YELLOW]: styles.yellow,
     [DISASTER_CATEGORY_ORANGE]: styles.orange,
     [DISASTER_CATEGORY_RED]: styles.red,
 };
 
-function activityLabelSelector(option: ActivityOptions) {
+function primarySectoryLabelSelector(option: PrimarySector) {
     return option.label;
 }
 
-function activityKeySelector(option: ActivityOptions) {
+function primarySectoryKeySelector(option: PrimarySector) {
     return option.key;
 }
 
@@ -80,12 +76,7 @@ export function Component() {
     const { drefId } = useParams<{ drefId: string }>();
     const [previewReady, setPreviewReady] = useState(false);
     const strings = useTranslation(i18n);
-
-    const {
-        response: activityOptionResponse,
-    } = useRequest({
-        url: '/api/v2/primarysector',
-    });
+    const primarySectorOptions = usePrimarySector();
 
     const {
         response: drefResponse,
@@ -331,9 +322,8 @@ export function Component() {
     const humanResourceDefined = isDefined(drefResponse)
         && drefResponse.type_of_dref !== DREF_TYPE_IMMINENT
         && isTruthyString(drefResponse?.human_resource?.trim());
-    const surgePersonnelDeployedDefined = isTruthyString(
-        drefResponse?.surge_personnel_deployed?.trim(),
-    );
+    const surgePersonnelDeployedDefined = isDefined(drefResponse)
+        && drefResponse.is_surge_personnel_deployed;
     const humanitarianImpactsDefined = isDefined(drefResponse)
         && drefResponse.type_of_dref === DREF_TYPE_IMMINENT
         && isTruthyString(drefResponse?.addressed_humanitarian_impacts?.trim());
@@ -705,7 +695,7 @@ export function Component() {
                         </Container>
                     )}
                     {isTruthyString(drefResponse?.event_map_file?.file)
-                        && drefResponse.type_of_dref !== DREF_TYPE_IMMINENT && (
+                        && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
                         <Container>
                             <Image
                                 src={drefResponse?.event_map_file?.file}
@@ -752,38 +742,32 @@ export function Component() {
                         </Container>
                     )}
                     {sourceInformationDefined && (
-                        <>
-                            <Heading level={3}>
-                                {strings.sourceInformationSectionHeading}
-                            </Heading>
-                            <Container
-                                childrenContainerClassName={styles.sourceInformationList}
-                            >
-                                <div className={styles.nameTitle}>
-                                    {strings.sourceInformationSourceNameTitle}
-                                </div>
-                                <div className={styles.linkTitle}>
-                                    {strings.sourceInformationSourceLinkTitle}
-                                </div>
-                                {drefResponse?.source_information?.map(
-                                    (source, index) => (
-                                        <Fragment key={source.id}>
-                                            <DescriptionText className={styles.name}>
-                                                <div className={styles.nameList}>
-                                                    {`${index + 1}. ${source.source_name}`}
-                                                </div>
-                                            </DescriptionText>
-                                            <DescriptionText className={styles.link}>
-                                                <Link href={source.source_link}>
-                                                    {source?.source_link}
-                                                </Link>
-                                            </DescriptionText>
-                                        </Fragment>
-                                    ),
-                                )}
-
-                            </Container>
-                        </>
+                        <Container
+                            childrenContainerClassName={styles.sourceInformationList}
+                        >
+                            <div className={styles.nameTitle}>
+                                {strings.sourceInformationSourceNameTitle}
+                            </div>
+                            <div className={styles.linkTitle}>
+                                {strings.sourceInformationSourceLinkTitle}
+                            </div>
+                            {drefResponse?.source_information?.map(
+                                (source, index) => (
+                                    <Fragment key={source.id}>
+                                        <DescriptionText className={styles.name}>
+                                            <div className={styles.nameList}>
+                                                {`${index + 1}. ${source.source_name}`}
+                                            </div>
+                                        </DescriptionText>
+                                        <DescriptionText className={styles.link}>
+                                            <Link href={source.source_link}>
+                                                {source?.source_link}
+                                            </Link>
+                                        </DescriptionText>
+                                    </Fragment>
+                                ),
+                            )}
+                        </Container>
                     )}
                 </>
             )}
@@ -803,21 +787,25 @@ export function Component() {
                             </DescriptionText>
                         </Container>
                     )}
+                    {surgePersonnelDeployedDefined && (
+                        <Container
+                            heading={strings.surgePersonnelDeployedHeading}
+                        >
+                            <DescriptionText>
+                                {drefResponse?.is_surge_personnel_deployed
+                                    ? strings.yes : strings.no}
+                            </DescriptionText>
+                            <DescriptionText>
+                                {drefResponse?.surge_personnel_deployed}
+                            </DescriptionText>
+                        </Container>
+                    )}
                     {humanitarianImpactsDefined && (
                         <Container
                             heading={strings.humanitarianImpactsHeading}
                         >
                             <DescriptionText>
                                 {drefResponse?.addressed_humanitarian_impacts}
-                            </DescriptionText>
-                        </Container>
-                    )}
-                    {surgePersonnelDeployedDefined && (
-                        <Container
-                            heading={strings.surgePersonnelDeployedHeading}
-                        >
-                            <DescriptionText>
-                                {drefResponse?.surge_personnel_deployed}
                             </DescriptionText>
                         </Container>
                     )}
@@ -1150,14 +1138,17 @@ export function Component() {
                     />
                     {proposedActionsByType[EARLY_ACTIONS]?.map((action) => (
                         <Fragment key={action.id}>
-                            {action.activities.map((activity) => (
+                            {action.activities.map((activity, index) => (
                                 <Fragment key={activity.id}>
+                                    {index > 0 && (
+                                        <div className={styles.actionsItem} />
+                                    )}
                                     <SelectOutput
                                         className={styles.actionsTitle}
-                                        options={activityOptionResponse}
+                                        options={primarySectorOptions}
                                         label={undefined}
-                                        labelSelector={activityLabelSelector}
-                                        keySelector={activityKeySelector}
+                                        labelSelector={primarySectoryLabelSelector}
+                                        keySelector={primarySectoryKeySelector}
                                         value={activity.sector}
                                     />
                                     <DescriptionText
@@ -1165,17 +1156,21 @@ export function Component() {
                                     >
                                         {activity.activity}
                                     </DescriptionText>
+                                    {index === 0 ? (
+                                        <TextOutput
+                                            className={styles.actionsItem}
+                                            label=""
+                                            value={action.total_budget}
+                                            prefix={strings.chfPrefix}
+                                            valueType="number"
+                                            withoutLabelColon
+                                            strongValue
+                                        />
+                                    ) : (
+                                        <div className={styles.actionsItem} />
+                                    )}
                                 </Fragment>
                             ))}
-                            <TextOutput
-                                className={styles.actionsItem}
-                                label=""
-                                value={action.total_budget}
-                                prefix={strings.chfPrefix}
-                                valueType="number"
-                                withoutLabelColon
-                                strongValue
-                            />
                         </Fragment>
                     ))}
                     <TextOutput
@@ -1187,14 +1182,17 @@ export function Component() {
                     />
                     {proposedActionsByType[EARLY_RESPONSE]?.map((action) => (
                         <Fragment key={action.id}>
-                            {action.activities.map((activity) => (
+                            {action.activities.map((activity, index) => (
                                 <Fragment key={action.id}>
+                                    {index > 0 && (
+                                        <div className={styles.actionsItem} />
+                                    )}
                                     <SelectOutput
                                         className={styles.actionsTitle}
-                                        options={activityOptionResponse}
+                                        options={primarySectorOptions}
                                         label={undefined}
-                                        labelSelector={activityLabelSelector}
-                                        keySelector={activityKeySelector}
+                                        labelSelector={primarySectoryLabelSelector}
+                                        keySelector={primarySectoryKeySelector}
                                         value={activity.sector}
                                     />
                                     <DescriptionText
@@ -1202,17 +1200,21 @@ export function Component() {
                                     >
                                         {activity.activity}
                                     </DescriptionText>
+                                    {index === 0 ? (
+                                        <TextOutput
+                                            className={styles.actionsItem}
+                                            label=""
+                                            value={action.total_budget}
+                                            prefix={strings.chfPrefix}
+                                            valueType="number"
+                                            withoutLabelColon
+                                            strongValue
+                                        />
+                                    ) : (
+                                        <div className={styles.actionsItem} />
+                                    )}
                                 </Fragment>
                             ))}
-                            <TextOutput
-                                className={styles.actionsItem}
-                                label=""
-                                value={action.total_budget}
-                                prefix={strings.chfPrefix}
-                                valueType="number"
-                                withoutLabelColon
-                                strongValue
-                            />
                         </Fragment>
                     ))}
                     <div className={styles.actionsItem} />

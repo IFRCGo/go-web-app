@@ -161,6 +161,7 @@ function Submission(props: Props) {
                             onChange={handleImminentOperationTimeframeChange}
                             error={error?.operation_timeframe_imminent}
                             disabled={disabled}
+                            readOnly
                         />
                     )}
                     {value?.type_of_dref !== TYPE_LOAN && (

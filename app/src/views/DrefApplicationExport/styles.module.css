@@ -259,7 +259,7 @@
 
         .actions-item {
             display: flex;
-            flex-direction: column;
+            align-items: center;
             background-color: var(--pdf-element-bg);
             padding: var(--go-ui-spacing-xs);
             break-inside: avoid;
