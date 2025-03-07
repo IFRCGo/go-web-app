@@ -1,0 +1,1473 @@
+{
+    "parent": "000019-1740394638836.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "catalogueAdministration",
+            "namespace": "surgeCatalogue",
+            "value": "Administration"
+        },
+        {
+            "action": "update",
+            "key": "catalogueBasecamp",
+            "namespace": "surgeCatalogue",
+            "newValue": "Operations Support HUB (OSH)"
+        },
+        {
+            "action": "add",
+            "key": "administrationContexts",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Administrative colleagues operate across various contexts, including emergency operations, ensuring stakeholders benefit from the efficient establishment and management of:"
+        },
+        {
+            "action": "add",
+            "key": "administrationDetails",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "The Administration function is a key pillar in delivering value-added services to member National Societies and the IFRC Secretariat at the global level."
+        },
+        {
+            "action": "add",
+            "key": "administrationFootnote",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "These services ensure smooth and effective support across all operational contexts."
+        },
+        {
+            "action": "add",
+            "key": "administrationItemFive",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Administrative procurement"
+        },
+        {
+            "action": "add",
+            "key": "administrationItemFour",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Office management"
+        },
+        {
+            "action": "add",
+            "key": "administrationItemOne",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Welcome services"
+        },
+        {
+            "action": "add",
+            "key": "administrationItemSeven",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Event management"
+        },
+        {
+            "action": "add",
+            "key": "administrationItemSix",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Filing and archiving systems"
+        },
+        {
+            "action": "add",
+            "key": "administrationItemThree",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Visa and residency processes"
+        },
+        {
+            "action": "add",
+            "key": "administrationItemTwo",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Accommodation arrangements"
+        },
+        {
+            "action": "add",
+            "key": "administrationRapidResponsePersonnelTitle",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Rapid Response Personnel"
+        },
+        {
+            "action": "add",
+            "key": "administrationRoleProfileOne",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Welcome Services Officer"
+        },
+        {
+            "action": "add",
+            "key": "administrationRoleProfiles",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Role Profiles"
+        },
+        {
+            "action": "add",
+            "key": "administrationRoleProfileThree",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Administration Coordinator"
+        },
+        {
+            "action": "add",
+            "key": "administrationRoleProfileTwo",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Administration Officer"
+        },
+        {
+            "action": "add",
+            "key": "catalogueAdministrationOverview",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Overview"
+        },
+        {
+            "action": "add",
+            "key": "catalogueAdministrationTitle",
+            "namespace": "surgeCatalogueAdministration",
+            "value": "Administration"
+        },
+        {
+            "action": "add",
+            "key": "basecampLinkOneIntro",
+            "namespace": "surgeCatalogueBasecamp",
+            "value": "The details of the {link}"
+        },
+        {
+            "action": "add",
+            "key": "basecampLinkOneText",
+            "namespace": "surgeCatalogueBasecamp",
+            "value": "Operations Support Hub ERU are here."
+        },
+        {
+            "action": "add",
+            "key": "basecampLinkTwoIntro",
+            "namespace": "surgeCatalogueBasecamp",
+            "value": "The two-pager summary of the {link}"
+        },
+        {
+            "action": "add",
+            "key": "basecampLinkTwoText",
+            "namespace": "surgeCatalogueBasecamp",
+            "value": "Emergency Operations Support Hub ERU is here."
+        },
+        {
+            "action": "add",
+            "key": "basecampOfficeDetails",
+            "namespace": "surgeCatalogueBasecamp",
+            "value": "Accommodate up to 150 workspaces, office space and meeting facilities."
+        },
+        {
+            "action": "add",
+            "key": "basecampOfficeTitle",
+            "namespace": "surgeCatalogueBasecamp",
+            "value": "Office"
+        },
+        {
+            "action": "add",
+            "key": "basecampWelcomeDetails",
+            "namespace": "surgeCatalogueBasecamp",
+            "value": "Administrative support services to the surge team and welcome services for delegates."
+        },
+        {
+            "action": "add",
+            "key": "basecampWelcomeTitle",
+            "namespace": "surgeCatalogueBasecamp",
+            "value": "Admin and Welcome Service"
+        },
+        {
+            "action": "remove",
+            "key": "learnMore",
+            "namespace": "surgeCatalogueBasecamp"
+        },
+        {
+            "action": "update",
+            "key": "catalogueBasecampTitle",
+            "namespace": "surgeCatalogueBasecamp",
+            "newValue": "Operations Support HUB (OSH)"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruComponentListItemFive",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "Tents module"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruComponentListItemFour",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "Operation support module"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruComponentListItemOne",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "Climate module"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruComponentListItemSix",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "WASH module"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruComponentListItemThree",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "Office module"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruComponentListItemTwo",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "Electricity module"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruEmergencyListItemFive",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "Can be a mix of buildings and tents"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruEmergencyListItemFour",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "Provide electrical infrastructure"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruEmergencyListItemOne",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "Can accommodate up to 150 workspaces"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruEmergencyListItemThree",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "It can provide an Emergency Operation Center"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruEmergencyListItemTwo",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "Provide a combination of office space and meeting facilities"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruOfficeImageOne",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "Office"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruOfficeTitle",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "ERU Basecamp - Office Module"
+        },
+        {
+            "action": "add",
+            "key": "basecampVariation",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "Variation on Configuration"
+        },
+        {
+            "action": "add",
+            "key": "basecampVariationDetails",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "It can include the IT/Tel ERU module(s) complete or partially. This could include VSAT module for connectivity and or IT/Telecom expertise to support the set up and maintenance of communication networks, connectivity, printers, etc."
+        },
+        {
+            "action": "add",
+            "key": "compositionLabel",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "Composition"
+        },
+        {
+            "action": "add",
+            "key": "compositionValue",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "1 Team Leader, Base Camp Manager and technicians with context- appropriate skills if needed"
+        },
+        {
+            "action": "add",
+            "key": "designedFor",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "Designed For"
+        },
+        {
+            "action": "add",
+            "key": "designedForDetailsSectionFive",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "Lifespan – up to 24 month with proper mainteinance"
+        },
+        {
+            "action": "add",
+            "key": "designedForDetailsSectionFour",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "Operations were keeping delegates together is important for Coordination, Safety or Security reasons."
+        },
+        {
+            "action": "add",
+            "key": "designedForDetailsSectionOne",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "Areas where infrastructure is severely damaged, unsafe or missing (earthquakes, hurricanes/ typhons, floods or population movements)"
+        },
+        {
+            "action": "add",
+            "key": "designedForDetailsSectionSix",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "Can recycle up to 70% of the equipment"
+        },
+        {
+            "action": "add",
+            "key": "designedForDetailsSectionThree",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "Climates from 5 – 40 degree Celsius"
+        },
+        {
+            "action": "add",
+            "key": "designedForDetailsSectionTwo",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "For Red and/or Complex settings"
+        },
+        {
+            "action": "add",
+            "key": "emergencyServices",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "Emergency Services"
+        },
+        {
+            "action": "add",
+            "key": "personnel",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "Personnel"
+        },
+        {
+            "action": "add",
+            "key": "specifications",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "Specifications"
+        },
+        {
+            "action": "add",
+            "key": "specificationsCostLabel",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "Cost"
+        },
+        {
+            "action": "add",
+            "key": "specificationsCostValue",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "Customised setup, so depend on operational needs"
+        },
+        {
+            "action": "add",
+            "key": "specificationsNationalSocietyLabel",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "National societies providing this service"
+        },
+        {
+            "action": "add",
+            "key": "specificationsNationalSocietyValue",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "Danish RC, Italian RC"
+        },
+        {
+            "action": "add",
+            "key": "specificationsVolumeLabel",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "Volume"
+        },
+        {
+            "action": "add",
+            "key": "specificationsVolumeValue",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "Customised setup, so depend on operational needs"
+        },
+        {
+            "action": "add",
+            "key": "standardComponents",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "Standard Components"
+        },
+        {
+            "action": "add",
+            "key": "totalPersonnelLabel",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "Total"
+        },
+        {
+            "action": "add",
+            "key": "totalPersonnelValue",
+            "namespace": "surgeCatalogueBasecampOffice",
+            "value": "1-5 people"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruComponentListItemEight",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "First aid bag"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruComponentListItemEleven",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Generator"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruComponentListItemFive",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Flipover startup Kit"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruComponentListItemFour",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Facilitator Startup Kit"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruComponentListItemLast",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Tent"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruComponentListItemNine",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Tool Kit"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruComponentListItemOne",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "ID Card printer Startup kit"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruComponentListItemSeven",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Safe, Small"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruComponentListItemSix",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Office Printer Kit"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruComponentListItemTen",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Office furniture kit"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruComponentListItemThree",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Mobile Printer Startup kit"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruComponentListItemTwelve",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Perimeter- & Tent lamp kit"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruComponentListItemTwo",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Administration Startup kit"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruEmergencyListItemFive",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Provide light ITT Services"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruEmergencyListItemFour",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Coordinate small vehicle fleet for admin use"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruEmergencyListItemOne",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Provide administrative support services to the surge team"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruEmergencyListItemSix",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Help identify facilities, hotels, houses that can be used for accommodation for incoming delegates"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruEmergencyListItemThree",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Assist and organize briefings, meetings, workshops and trainings together with the existing admin/log structure in place"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruEmergencyListItemTwo",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Provide Welcome Service for in and outgoing delegates"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruWelcomeImageOne",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Admin and Welcome Services"
+        },
+        {
+            "action": "add",
+            "key": "basecampEruWelcomeTitle",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "ERU Basecamp - Admin and Welcome Services"
+        },
+        {
+            "action": "add",
+            "key": "compositionLabel",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Composition"
+        },
+        {
+            "action": "add",
+            "key": "compositionValue",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Facility Coordinator, Administration person and technicians as per the needs."
+        },
+        {
+            "action": "add",
+            "key": "designedFor",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Designed For"
+        },
+        {
+            "action": "add",
+            "key": "designedForDetailsSectionOne",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "All types of emergencies"
+        },
+        {
+            "action": "add",
+            "key": "emergencyServices",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Emergency Services"
+        },
+        {
+            "action": "add",
+            "key": "personnel",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Personnel"
+        },
+        {
+            "action": "add",
+            "key": "specifications",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Specifications"
+        },
+        {
+            "action": "add",
+            "key": "specificationsCostLabel",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Cost"
+        },
+        {
+            "action": "add",
+            "key": "specificationsCostValue",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Customised setup, dependent on the operational needs"
+        },
+        {
+            "action": "add",
+            "key": "specificationsNationalSocietyLabel",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "National societies providing this service"
+        },
+        {
+            "action": "add",
+            "key": "specificationsNationalSocietyValue",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "TBD."
+        },
+        {
+            "action": "add",
+            "key": "specificationsVolumeLabel",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Volume"
+        },
+        {
+            "action": "add",
+            "key": "specificationsVolumeValue",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Customised setup, so depended on the operational needs"
+        },
+        {
+            "action": "add",
+            "key": "standardComponents",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Standard Components"
+        },
+        {
+            "action": "add",
+            "key": "totalPersonnelLabel",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Total"
+        },
+        {
+            "action": "add",
+            "key": "totalPersonnelValue",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "1-3 people"
+        },
+        {
+            "action": "add",
+            "key": "variationDetails",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "TBD."
+        },
+        {
+            "action": "add",
+            "key": "variationTitle",
+            "namespace": "surgeCatalogueBasecampWelcome",
+            "value": "Variation on Configuration"
+        },
+        {
+            "action": "add",
+            "key": "surgeITCapacityDetailItemFour",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Emergency capacity enhancement, training, and National Society Development (NSD) advisory services, helping develop context-specific action plans and costed pathways to improve a National Society's digital maturity."
+        },
+        {
+            "action": "add",
+            "key": "surgeITCapacityDetailItemOne",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Reliable communication between responders and the wider humanitarian movement through satellite, radio, and internet systems, ensuring uninterrupted connectivity in areas with damaged or non-existent infrastructure."
+        },
+        {
+            "action": "add",
+            "key": "surgeITCapacityDetailItemThree",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Guidance on appropriate technologies for response operations, reducing the complexity of IT decision-making and providing on-site and remote support to enhance team effectiveness."
+        },
+        {
+            "action": "add",
+            "key": "surgeITCapacityDetailItemTwo",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Secure capture, storage, and transfer of information, using tools for data management and sharing to protect sensitive information and improve operational efficiency."
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyDesignedForDetail",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Supporting with IT/Telecom services to NS, IFRC Staff and people in need based on the different modules offered. It can be used in remote areas, non existing, damaged or non damaged infrastructure."
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemEight",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Community data collection enabler:"
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemEightA",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "support community information gathering by the local national society. The option enables a team of 12 people operating remotely in the field to conduct needs assessment, medical surveillance or other data gathering activity. Capacity 10."
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemFive",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Technical needs assessment"
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemFiveA",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Comprehensive assessment on IT and Telecommunications resource requirements early on in an operation. 5 units"
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemFour",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "IT User support – Service desk"
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemFourA",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "IT support engineer located at a central and known location to fix peoples IT issues (50 delegates/users) – 10 units"
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemOne",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Support for Humanitarian Services Points (HSP):"
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemOneA",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Internet Connection Hub (for 40 people) – 10 units"
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemOneB",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Mobile device charging stations (for 20 people) – 5 units"
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemOneC",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Information hubs (with screen) – 30 units"
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemSeven",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Restoring Family Links enabler:"
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemSevenA",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Locate a Restoring Family Links (RFL) information collection point at a known beneficiary gathering location. The option will provide a highly secure encrypted connection. Capacity 5."
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemSix",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Office support"
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemSixA",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Small office/Camp:"
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemSixB",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": " IT equipment for a self-contained office including WIFI connection to printer, scanning and local storage facility (15 users) – 10 office sites."
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemSixC",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Large office/Camp:"
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemSixD",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": " IT equipment for a self-contained office including WIFI connection to printer, scanning and local storage facility (30 people) – 5 office sites."
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemSixE",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Office/camp power installation planning:"
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemSixF",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": " ensure that operations area can be powered by developing a plan for power distribution if a base camp ERU is not deployed. Standing global capacity 5."
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemSixG",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Small scale power installation (up to 3 kVA):"
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemSixH",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": " power small scale offices, or Information technology or Telecommunications equipment in remote locations. Standing global capacity 6."
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemSixI",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Medium scale power installation (up to 8kVA):"
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemSixJ",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": " power medium scale offices, or Information technology or Telecommunications equipment in remote locations. Standing global capacity 6."
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemSixK",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Room based video conferencing services"
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemSixL",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": " (15 people) – 5 units."
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemThree",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Two way talk communication:"
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemThreeA",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Local area (12 users, 5 km radio) – 20 units"
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemThreeB",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Wide area – two way store and forward text communication (12 users) – 10 units"
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemTwo",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Internet connection:"
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemTwoA",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Low cost/capacity for small remotes sites (10 users) – 20 units"
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesItemTwoB",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Medium cost/capacity for medium sites (50 users) – 10 units"
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyModulesTitle",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Modules"
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyServicesDetailItemOne",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Connectivity Solutions:"
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyServicesDetailItemOneA",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Deployment of satellite communication systems, including Starlink devices, to provide high-speed internet and enhanced security in disaster-affected areas."
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyServicesDetailItemOneB",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Establishment of Local Area Networks (LAN) and Wi-Fi systems to ensure seamless connectivity for operational hubs."
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyServicesDetailItemThree",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Capacity enhancement:"
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyServicesDetailItemThreeA",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Pre-deployment training for ITT personnel and local teams to ensure NS readiness."
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyServicesDetailItemThreeB",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "On-site coaching to enhance capacity for National Societies and local responders."
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyServicesDetailItemTwo",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Equipment and Infrastructure Support"
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyServicesDetailItemTwoA",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "IT-in-a-Box solutions, pre-positioned for rapid deployment in strategic locations."
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyServicesDetailItemTwoB",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Maintenance and setup of essential hardware, including laptops, servers, and satellite phones."
+        },
+        {
+            "action": "add",
+            "key": "surgeITEmergencyServicesDetailTextLink",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "IT&T ERU Emergency Services are here."
+        },
+        {
+            "action": "add",
+            "key": "surgeITOfferingsText",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "American RC, Austrian RC, Finnish RC, New Zealand RC, Spanish RC"
+        },
+        {
+            "action": "add",
+            "key": "surgeITOfferingsTitle",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "NS offering these services"
+        },
+        {
+            "action": "add",
+            "key": "surgeITPersonnelText",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "Personnel varies as per the module requested and can vary from individual to a larger team to support the set up of several modules simultaneously."
+        },
+        {
+            "action": "add",
+            "key": "surgeITStandardComponentsText",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "value": "People, equipment and training as per the modules requested."
+        },
+        {
+            "action": "remove",
+            "key": "surgeITEmergencyDesignForDetail",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom"
+        },
+        {
+            "action": "remove",
+            "key": "surgeITEmergencyServicesDetailTextOne",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom"
+        },
+        {
+            "action": "remove",
+            "key": "surgeITEmergencyServicesDetailTextTwoLink",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom"
+        },
+        {
+            "action": "remove",
+            "key": "surgeITPersonnelCompositionLabel",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom"
+        },
+        {
+            "action": "remove",
+            "key": "surgeITPersonnelCompositionValue",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom"
+        },
+        {
+            "action": "remove",
+            "key": "surgeITPersonnelTotalLabel",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom"
+        },
+        {
+            "action": "remove",
+            "key": "surgeITPersonnelTotalValue",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom"
+        },
+        {
+            "action": "remove",
+            "key": "surgeITSpecificationsCostLabel",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom"
+        },
+        {
+            "action": "remove",
+            "key": "surgeITSpecificationsCostValue",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom"
+        },
+        {
+            "action": "remove",
+            "key": "surgeITSpecificationsNSLabel",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom"
+        },
+        {
+            "action": "remove",
+            "key": "surgeITSpecificationsNSValue",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom"
+        },
+        {
+            "action": "remove",
+            "key": "surgeITSpecificationsTitle",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom"
+        },
+        {
+            "action": "remove",
+            "key": "surgeITStandardComponentsListFive",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom"
+        },
+        {
+            "action": "remove",
+            "key": "surgeITStandardComponentsListFour",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom"
+        },
+        {
+            "action": "remove",
+            "key": "surgeITStandardComponentsListOne",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom"
+        },
+        {
+            "action": "remove",
+            "key": "surgeITStandardComponentsListSeven",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom"
+        },
+        {
+            "action": "remove",
+            "key": "surgeITStandardComponentsListSix",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom"
+        },
+        {
+            "action": "remove",
+            "key": "surgeITStandardComponentsListThree",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom"
+        },
+        {
+            "action": "remove",
+            "key": "surgeITStandardComponentsListTwo",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom"
+        },
+        {
+            "action": "update",
+            "key": "surgeITCapacityDetail",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom",
+            "newValue": "The ITT ERU ensures the rapid deployment of essential IT and telecommunications services during emergencies, enabling efficient communication, facilitating coordinated action, and supporting decision-making. Based on 20 individually selectable services, the unit provides:"
+        },
+        {
+            "action": "update",
+            "key": "surgeITEmergencyServicesDetailTextTwo",
+            "newKey": "surgeITEmergencyServicesDetailText",
+            "namespace": "surgeCatalogueInformationTechnologyEruItTelecom"
+        },
+        {
+            "action": "add",
+            "key": "technicalEquipmentWaterSludgeLink",
+            "namespace": "surgeCatalogueWash",
+            "value": "Faecal Sludge Management (FSM)"
+        },
+        {
+            "action": "add",
+            "key": "technicalWaterSludgeDetail",
+            "namespace": "surgeCatalogueWash",
+            "value": "Empty, transport and treat 20 m³ of design Faecal Sludge from on-site containments"
+        },
+        {
+            "action": "add",
+            "key": "designedFor",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Designed For"
+        },
+        {
+            "action": "add",
+            "key": "designedForItemOne",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Interoperability with IFRC Mass Sanitation Module 20 ERUs."
+        },
+        {
+            "action": "add",
+            "key": "designedForItemTwo",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Use in:"
+        },
+        {
+            "action": "add",
+            "key": "designedForItemTwoA",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Urban humanitarian aid settings with a very high population density and imminent lack of space and transport capacityRefugee/IDP camps with a very high population densityScenarios with collapsed FS or wastewater (WW) management services (emptying & transport, treatment and disposal)"
+        },
+        {
+            "action": "add",
+            "key": "designedForItemTwoB",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Scenarios where the traditional sanitation response is not sufficient (latrine pits fill up quicker than new construction is possible, no new construction of pits is possible)"
+        },
+        {
+            "action": "add",
+            "key": "emergencyServices",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Emergency Services"
+        },
+        {
+            "action": "add",
+            "key": "emergencyServicesSectionOneA",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Estimated collection capacity of 20 m³/d FS roughly equivalent to 20 000 people. Can be scaled up or down as needed."
+        },
+        {
+            "action": "add",
+            "key": "emergencyServicesSectionOneB",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "The included equipment allows for operation with different (logistical) access levels and ranges in case of"
+        },
+        {
+            "action": "add",
+            "key": "emergencyServicesSectionOneC",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Emptying from manual pumping to mobile vacuum pumps"
+        },
+        {
+            "action": "add",
+            "key": "emergencyServicesSectionOneD",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Transport from carrying to make-shift FS trucks"
+        },
+        {
+            "action": "add",
+            "key": "emergencyServicesSectionTwoA",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Estimated treatment capacity of 20 m³/d FS in a phased treatment approach. Can be scaled up or down as needed."
+        },
+        {
+            "action": "add",
+            "key": "emergencyServicesSectionTwoB",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "All the needed equipment for the construction of the 1st and 2nd phase treatment plants are included in the FSM ERU treatment plant module. The first two phases were developed for disaster response/humanitarian aid missions, with an estimated duration of 2 years or more with regular operation and maintenance."
+        },
+        {
+            "action": "add",
+            "key": "emergencyServicesSectionTwoC",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "1ˢᵗ phase – lime treatment"
+        },
+        {
+            "action": "add",
+            "key": "emergencyServicesSectionTwoCC",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "The 1ˢᵗ phase of the treatment plant is set-up to quickly provide Lime treatment, a chemical treatment, increases the pH (makes it alkaline) in FS to such a degree that pathogenic bacteria die off. The limed FS is put on sludge drying beds which separate the solid and liquid parts. The solids are dried and incinerated, the liquids are filtered through the sludge drying beds and infiltrated into the ground. "
+        },
+        {
+            "action": "add",
+            "key": "emergencyServicesSectionTwoD",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "2ⁿᵈ phase – aerobic treatment"
+        },
+        {
+            "action": "add",
+            "key": "emergencyServicesSectionTwoDD",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "The 2ⁿᵈ phase of the treatment plant uses as main liquid-phase treatment process the activated sludge process which allows biological carbon and nitrogen removal. Before discharge into the environment the liquid effluent is sand filtered and disinfected with chlorine. The solids separated out of FS are dried and incinerated."
+        },
+        {
+            "action": "add",
+            "key": "emergencyServicesSectionTwoE",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "3ʳᵈ phase – transferal to long-term sustainable treatment"
+        },
+        {
+            "action": "add",
+            "key": "emergencyServicesSectionTwoEE",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "The 3ʳᵈ phase of the treatment plant is different to the first two as it is not a one-way mobile, flat-packed, quick set-up plant, but a permanent construction adapted to local conditions. A guidebook for the technology decision of the permanent treatment plant was developed for use by WASH generalists during the design process with civil engineering companies."
+        },
+        {
+            "action": "add",
+            "key": "faecalSludgeManagement",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Faecal Sludge Management (FSM, under development)"
+        },
+        {
+            "action": "add",
+            "key": "personnel",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Personnel"
+        },
+        {
+            "action": "add",
+            "key": "personnelFooterA",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "The team size and specification will depend on results from the field test of the FSM ERU, on the specific deployment and phase of the deployment."
+        },
+        {
+            "action": "add",
+            "key": "personnelFooterB",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "More detailed job profiles in line with the Rapid Response Profiles are currently being developed."
+        },
+        {
+            "action": "add",
+            "key": "SludgeImageFourCaption",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Figure 4: Profile descriptions"
+        },
+        {
+            "action": "add",
+            "key": "SludgeImageOneCaption",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Figure 1: FSM ERU mission envelope in the sanitation service/value chain and interaction with IFRC MSM20"
+        },
+        {
+            "action": "add",
+            "key": "SludgeImageThreeCaption",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Figure 3: Roles and interfaces within the FSM ERU"
+        },
+        {
+            "action": "add",
+            "key": "SludgeImageTwoCaption",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Figure 2: field test treatment plant – a slightly reduced 2nd phase treatment plant line"
+        },
+        {
+            "action": "add",
+            "key": "specification",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Specification"
+        },
+        {
+            "action": "add",
+            "key": "specificationCostLabel",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Cost (indicative)"
+        },
+        {
+            "action": "add",
+            "key": "specificationCostValue",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "not yet available"
+        },
+        {
+            "action": "add",
+            "key": "specificationModularityFooter",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "**… the ambient temperature has a large impact on the chosen treatment processes. A winterization module is currently in planning."
+        },
+        {
+            "action": "add",
+            "key": "specificationModularityLabel",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Modular approach"
+        },
+        {
+            "action": "add",
+            "key": "specificationModularityValueA",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Emptying and transport"
+        },
+        {
+            "action": "add",
+            "key": "specificationModularityValueB",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Treatment plant"
+        },
+        {
+            "action": "add",
+            "key": "specificationModularityValueC",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Support module "
+        },
+        {
+            "action": "add",
+            "key": "specificationNSDescription",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "The following National Societies support the development of the FSM ERU:"
+        },
+        {
+            "action": "add",
+            "key": "specificationNSItem",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "The following National Societies support the development of the FSM ERU:"
+        },
+        {
+            "action": "add",
+            "key": "specificationNSItemA",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Austrian Red Cross"
+        },
+        {
+            "action": "add",
+            "key": "specificationNSItemB",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "German Red Cross"
+        },
+        {
+            "action": "add",
+            "key": "specificationNSItemC",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Swedish Red Cross"
+        },
+        {
+            "action": "add",
+            "key": "specificationNSItemD",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "British Red Cross"
+        },
+        {
+            "action": "add",
+            "key": "specificationNSItemE",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "French Red Cross"
+        },
+        {
+            "action": "add",
+            "key": "specificationNSItemF",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Uganda Red Cross Society"
+        },
+        {
+            "action": "add",
+            "key": "specificationNSItemG",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Netherlands Red Cross"
+        },
+        {
+            "action": "add",
+            "key": "specificationNSItemH",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "IFRC GVA"
+        },
+        {
+            "action": "add",
+            "key": "specificationNSItemI",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "IFRC Regional WASH coordinators"
+        },
+        {
+            "action": "add",
+            "key": "specificationNSLabel",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "National societies providing this service"
+        },
+        {
+            "action": "add",
+            "key": "specificationTemperatureLabel",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Temperature range"
+        },
+        {
+            "action": "add",
+            "key": "specificationTemperatureValue",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "0 – 40 °C ambient temperature**"
+        },
+        {
+            "action": "add",
+            "key": "specificationVolumeLabel",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Volume"
+        },
+        {
+            "action": "add",
+            "key": "specificationVolumeValue",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "not yet available"
+        },
+        {
+            "action": "add",
+            "key": "specificationWeightLabel",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Weight"
+        },
+        {
+            "action": "add",
+            "key": "specificationWeightValue",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "not yet available"
+        },
+        {
+            "action": "add",
+            "key": "totalPersonnelHeader",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "International staff:"
+        },
+        {
+            "action": "add",
+            "key": "totalPersonnelItemA",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Team leader"
+        },
+        {
+            "action": "add",
+            "key": "totalPersonnelItemB",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Admin/logistic support delegate"
+        },
+        {
+            "action": "add",
+            "key": "totalPersonnelItemC",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "HP/CEA delegate"
+        },
+        {
+            "action": "add",
+            "key": "totalPersonnelItemD",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Emptying and transport delegate"
+        },
+        {
+            "action": "add",
+            "key": "totalPersonnelItemE",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Treatment plant manager/operator"
+        },
+        {
+            "action": "add",
+            "key": "totalPersonnelItemF",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Laboratory manager/technician"
+        },
+        {
+            "action": "add",
+            "key": "totalPersonnelLabel",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Total"
+        },
+        {
+            "action": "add",
+            "key": "totalPersonnelValue",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "6 – 10"
+        },
+        {
+            "action": "add",
+            "key": "variation",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Variation of Configuration"
+        },
+        {
+            "action": "add",
+            "key": "variationTextOne",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "The FSM ERU treatment plant consists of two independent treatment lines. If needed the treatment plant can be split and positioned in separate locations and additional lines could be added over time."
+        },
+        {
+            "action": "add",
+            "key": "variationTextThree",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "While the FSM ERU has been designed for the collection, transport and treatment of FS, the treatment plant could be adapted for connection to a sewer system and use with wastewater."
+        },
+        {
+            "action": "add",
+            "key": "variationTextTwo",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "The whole FSM ERU treatment plant is designed to treat 20 m³ FS per day (estimated FS production of 20 000 people). The treatment plant capacity can be reduced:"
+        },
+        {
+            "action": "add",
+            "key": "variationTextTwoA",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "10 m³ FS per day (10 000 people): use of one treatment plant line"
+        },
+        {
+            "action": "add",
+            "key": "variationTextTwoB",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "5 m³ FS per day (5 000 people): use of one reduced treatment plant line"
+        },
+        {
+            "action": "add",
+            "key": "washCapacity",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "Capacity"
+        },
+        {
+            "action": "add",
+            "key": "washCapacityTextOne",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "The Faecal Sludge Management Emergency Response Unit (FSM ERU) has the capacity to empty, transport and treat 20 m³ of design Faecal Sludge (FS)* from on-site containments. The FS accumulation in different containments (e.g. pits, septic tanks) can vary widely depending e.g. containment type, soil conditions, local cleansing practices. In the design of the FSM ERU, a FS accumulation of 1 L FS per person and day has been assumed. Therefore, the FSM ERU is designed to serve 20 000 people and to interface with an MSM20 ERU."
+        },
+        {
+            "action": "add",
+            "key": "washCapacityTextTwo",
+            "namespace": "surgeCatalogueWashSludge",
+            "value": "*… FS characteristics can vary widely depending on several factors. For the civil engineering calculations of the FSM ERU a design FS has been used."
+        }
+    ]
+}
