@@ -24,6 +24,8 @@ import {
     useFormObject,
 } from '@togglecorp/toggle-form';
 
+import earlyActionsLogo from '#assets/icons/early_actions.svg';
+import earlyResponseLogo from '#assets/icons/early_response.svg';
 import NonFieldError from '#components/NonFieldError';
 import {
     type GoApiResponse,
@@ -35,6 +37,7 @@ import { type PartialDref } from '../../schema';
 import ActivitiesInput from './ActivitiesInput';
 
 import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 type ProposedActionsFormFields = NonNullable<PartialDref['proposed_action']>[number];
 type ActivitiesFormFields = NonNullable<ProposedActionsFormFields['activities']>[number];
@@ -137,8 +140,28 @@ function ProposedActionsInput(props: Props) {
         <InputSection
             title={
                 value.proposed_type === EARLY_ACTIONS
-                    ? strings.drefFromProposedEarlyActionLabel
-                    : strings.drefFromProposedEarlyResponseLabel
+                    ? (
+                        <div className={styles.proposedAction}>
+                            <img
+                                className={styles.logo}
+                                src={earlyActionsLogo}
+                                alt={strings.drefFromProposedEarlyActionLabel}
+                            />
+                            <span>
+                                {strings.drefFromProposedEarlyActionLabel}
+                            </span>
+                        </div>
+                    )
+                    : (
+                        <div className={styles.proposedAction}>
+                            <img
+                                className={styles.logo}
+                                src={earlyResponseLogo}
+                                alt={strings.drefFromProposedEarlyResponseLabel}
+                            />
+                            {strings.drefFromProposedEarlyResponseLabel}
+                        </div>
+                    )
             }
             numPreferredColumns={2}
         >
@@ -155,6 +178,7 @@ function ProposedActionsInput(props: Props) {
                     labelSelector={sectorLabelSelector}
                     options={activityFilteredOptions}
                     disabled={disabled || activityOptionPending}
+                    required
                 />
                 <Button
                     variant="secondary"
