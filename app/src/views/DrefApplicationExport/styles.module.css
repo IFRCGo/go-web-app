@@ -247,21 +247,31 @@
         display: grid;
         grid-gap: var(--go-ui-width-separator-md);
         grid-template-columns: 1fr 1fr 1fr 1fr;
+        page-break-inside: avoid;
 
         .actions-title {
             display: flex;
-            flex-direction: column;
             background-color: var(--pdf-element-bg);
             padding: var(--go-ui-spacing-sm);
             break-inside: avoid;
             font-weight: var(--go-ui-font-weight-bold);
         }
 
+        .actions-group {
+            display: flex;
+            background-color: var(--pdf-element-bg);
+            padding: var(--go-ui-spacing-sm);
+            break-inside: avoid;
+
+            .logo {
+                height: 3rem;
+            }
+        }
+
         .actions-item {
             display: flex;
-            align-items: center;
             background-color: var(--pdf-element-bg);
-            padding: var(--go-ui-spacing-xs);
+            padding: var(--go-ui-spacing-sm);
             break-inside: avoid;
         }
 
@@ -273,11 +283,5 @@
             break-inside: avoid;
             text-align: right;
         }
-    }
-
-    .cost-section {
-        display: grid;
-        grid-gap: var(--go-ui-width-separator-md);
-        grid-template-columns: 1fr 1fr;
     }
 }

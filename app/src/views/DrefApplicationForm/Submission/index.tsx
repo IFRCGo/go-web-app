@@ -83,7 +83,18 @@ function Submission(props: Props) {
     const handleDateOfApproval = useCallback(
         (val: string | undefined, name: 'date_of_approval') => {
             setFieldValue(val, name);
-            if (isDefined(value.operation_timeframe)) {
+            if (value.type_of_dref === TYPE_IMMINENT) {
+                const endDate = ceilToEndOfMonth(
+                    addNumDaysToDate(
+                        val,
+                        value.operation_timeframe_imminent,
+                    ),
+                );
+
+                if (isDefined(endDate)) {
+                    setFieldValue(encodeDate(endDate), 'end_date');
+                }
+            } else {
                 const endDate = addNumMonthsToDate(
                     val,
                     value.operation_timeframe,
@@ -91,18 +102,14 @@ function Submission(props: Props) {
                 if (isDefined(endDate)) {
                     setFieldValue(encodeDate(endDate), 'end_date');
                 }
-            } else if (isDefined(value.operation_timeframe_imminent)) {
-                const endDate = addNumDaysToDate(
-                    val,
-                    value.operation_timeframe_imminent,
-                );
-
-                if (isDefined(endDate)) {
-                    setFieldValue(encodeDate(endDate), 'end_date');
-                }
             }
         },
-        [setFieldValue, value.operation_timeframe, value.operation_timeframe_imminent],
+        [
+            setFieldValue,
+            value.operation_timeframe,
+            value.operation_timeframe_imminent,
+            value.type_of_dref,
+        ],
     );
 
     return (

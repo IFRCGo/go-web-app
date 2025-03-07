@@ -23,6 +23,8 @@ import {
     listToGroupList,
 } from '@togglecorp/fujs';
 
+import earlyActionsLogo from '#assets/icons/early_actions.svg';
+import earlyResponseLogo from '#assets/icons/early_response.svg';
 import ifrcLogo from '#assets/icons/ifrc-square.png';
 import Link from '#components/printable/Link';
 import SelectOutput from '#components/SelectOutput';
@@ -235,7 +237,7 @@ export function Component() {
         && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT
         && (ifrcActionsDefined || partnerNsActionsDefined);
 
-    const proposedActionsDefined = isDefined(drefResponse)
+    const showProposedActions = isDefined(drefResponse)
         && drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
         && drefResponse?.proposed_action;
 
@@ -1107,7 +1109,7 @@ export function Component() {
                     )}
                 </>
             )}
-            {proposedActionsDefined && (
+            {showProposedActions && (
                 <Container
                     heading={strings.proposedActions}
                     headingLevel={3}
@@ -1130,8 +1132,14 @@ export function Component() {
                         {strings.priorityActionsBudget}
                     </DescriptionText>
                     <TextOutput
-                        className={styles.actionsItem}
-                        label=""
+                        className={styles.actionsGroup}
+                        label={(
+                            <img
+                                className={styles.logo}
+                                src={earlyActionsLogo}
+                                alt={strings.proposedActionsEarlyActions}
+                            />
+                        )}
                         value={strings.proposedActionsEarlyActions}
                         withoutLabelColon
                         strongValue
@@ -1174,8 +1182,14 @@ export function Component() {
                         </Fragment>
                     ))}
                     <TextOutput
-                        className={styles.actionsItem}
-                        label=""
+                        className={styles.actionsGroup}
+                        label={(
+                            <img
+                                className={styles.logo}
+                                src={earlyResponseLogo}
+                                alt={strings.priorityActionsEarlyResponse}
+                            />
+                        )}
                         value={strings.priorityActionsEarlyResponse}
                         withoutLabelColon
                         strongValue

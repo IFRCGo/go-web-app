@@ -1,0 +1,9 @@
+.proposed-action {
+    display: flex;
+    gap: var(--go-ui-spacing-md);
+
+    .logo {
+        margin-top: -1rem;
+        height: 8rem;
+    }
+}
