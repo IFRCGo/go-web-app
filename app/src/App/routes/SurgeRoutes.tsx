@@ -126,8 +126,7 @@ const updateERUReadinessForm = customWrapRoute({
     parent: rootLayout,
     path: 'update-eru-readiness',
     component: {
-        // TODO: Add ERUReadinessUpdateForm Route
-        render: () => import('#views/Home'),
+        render: () => import('#views/EruReadinessForm'),
         props: {},
     },
     wrapperComponent: Auth,
