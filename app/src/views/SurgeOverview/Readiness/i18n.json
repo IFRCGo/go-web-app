@@ -1,7 +1,0 @@
-{
-    "namespace": "surgeOverview",
-    "strings": {
-        "readinessTitle": "Ready ERUs by National Society ({count})",
-        "eruOwnersTableFilterClear": "Reset Filters"
-    }
-}

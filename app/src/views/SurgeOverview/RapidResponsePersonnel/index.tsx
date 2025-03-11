@@ -16,6 +16,7 @@ import {
 
 import { useRequest } from '#utils/restRequest';
 import { type GoApiResponse } from '#utils/restRequest';
+import OngoingRapidResponse from '#views/ActiveSurgeDeployments/OngoingRapidResponse';
 
 import ActiveRapidResponseTable from '../../ActiveSurgeDeployments/ActiveRapidResponseTable';
 
@@ -124,6 +125,7 @@ export function Component() {
                 </Container>
             </div>
             <ActiveRapidResponseTable />
+            <OngoingRapidResponse />
         </div>
     );
 }
