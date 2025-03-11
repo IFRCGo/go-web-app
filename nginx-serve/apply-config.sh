@@ -32,6 +32,7 @@ find "$DESTINATION_DIRECTORY" -type f -exec sed -i "s|\<APP_TINY_API_KEY_PLACEHO
 find "$DESTINATION_DIRECTORY" -type f -exec sed -i "s|\<https://APP-API-ENDPOINT-PLACEHOLDER.COM/|$APP_API_ENDPOINT|g" {} +
 # NOTE: We don't need a word boundary at end as we already have a trailing slash
 find "$DESTINATION_DIRECTORY" -type f -exec sed -i "s|\<https://APP-RISK-API-ENDPOINT-PLACEHOLDER.COM/|$APP_RISK_API_ENDPOINT|g" {} +
+find "$DESTINATION_DIRECTORY" -type f -exec sed -i "s|\<https://APP-SDT-URL-PLACEHOLDER.COM/|$APP_SDT_URL|g" {} +
 find "$DESTINATION_DIRECTORY" -type f -exec sed -i "s|\<https://APP-SENTRY-DSN-PLACEHOLDER.COM\>|$APP_SENTRY_DSN|g" {} +
 
 # Show diffs (Useful to debug issues)

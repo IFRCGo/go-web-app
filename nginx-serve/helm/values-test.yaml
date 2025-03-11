@@ -14,3 +14,4 @@ env:
   APP_TINY_API_KEY: RANDOM_DUMMY_TOKEN
   APP_RISK_API_ENDPOINT: https://risk-1-api.test.com
   APP_SENTRY_DSN: https://random-token@random-user@sentry-test.io/10000
+  APP_SDT_URL: https://alpha-1-sdt.test.com
