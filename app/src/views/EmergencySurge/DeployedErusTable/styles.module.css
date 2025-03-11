@@ -1,14 +1,10 @@
-.ongoing-rapid-response {
-    .position {
-       min-width: 15em;
-    }
-
+.ongoing-eru-deployments {
     .organisation {
-        min-width: 15em;
+        min-width: 10em;
     }
 
     .timeline {
-        min-width: 18rem;
+        min-width: 15rem;
     }
 
     .sub-cell {
@@ -20,9 +16,5 @@
         display: flex;
         gap: var(--go-ui-spacing-md);
         padding: var(--go-ui-spacing-sm) var(--go-ui-spacing-md);
-
-        .legend-item {
-            font-size: var(--go-ui-font-size-md);
-        }
     }
 }
