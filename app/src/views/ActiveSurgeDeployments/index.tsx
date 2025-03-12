@@ -1,24 +1,27 @@
-import { Container } from '@ifrc-go/ui';
+import { useTranslation } from '@ifrc-go/ui/hooks';
+
+import Page from '#components/Page';
 
 import ActiveRapidResponseTable from './ActiveRapidResponseTable';
 import OngoingERUDeployments from './OngoingERUDeployments';
 import OngoingRapidResponse from './OngoingRapidResponse';
 import SurgeMap from './SurgeMap';
 
-import styles from './styles.module.css';
+import i18n from './i18n.json';
 
 /** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
+    const strings = useTranslation(i18n);
     return (
-        <Container
-            childrenContainerClassName={styles.activeSurge}
+        <Page
+            title={strings.activeSurgeDeploymentsPageTitle}
         >
             <SurgeMap />
             <ActiveRapidResponseTable />
             <OngoingRapidResponse />
             <OngoingERUDeployments />
-        </Container>
+        </Page>
     );
 }
 

@@ -1,4 +1,10 @@
 .surge-map {
+    .clear-button {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+
     .map-container {
         height: 40rem;
     }
@@ -28,14 +34,4 @@
     display: flex;
     flex-direction: column;
     gap: var(--go-ui-spacing-md);
-
-    .popup-item {
-        gap: var(--go-ui-spacing-xs);
-
-        .popup-item-detail {
-            display: flex;
-            flex-direction: column;
-            font-size: var(--go-ui-font-size-sm);
-        }
-    }
 }
