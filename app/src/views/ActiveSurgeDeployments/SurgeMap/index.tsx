@@ -4,25 +4,34 @@ import {
     useState,
 } from 'react';
 import {
+    Button,
     Container,
     LegendItem,
     RadioInput,
+    ReducedListDisplay,
+    SelectInput,
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { sumSafe } from '@ifrc-go/ui/utils';
+import {
+    numericIdSelector,
+    stringNameSelector,
+    sumSafe,
+} from '@ifrc-go/ui/utils';
 import {
     _cs,
     isDefined,
     isNotDefined,
     listToGroupList,
     mapToList,
+    unique,
 } from '@togglecorp/fujs';
 import {
     MapLayer,
     MapSource,
 } from '@togglecorp/re-map';
 
+import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import GlobalMap, { type AdminZeroFeatureProperties } from '#components/domain/GlobalMap';
 import Link from '#components/Link';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
@@ -45,11 +54,12 @@ import {
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-const now = new Date().toISOString();
-
 const sourceOptions: mapboxgl.GeoJSONSourceRaw = {
     type: 'geojson',
 };
+
+const SURGE_MECHANISM_ERU = 1;
+const SURGE_MECHANISM_RR = 2;
 
 interface ClickedPoint {
     properties: AdminZeroFeatureProperties;
@@ -60,12 +70,29 @@ interface Props {
     className?: string;
 }
 
+interface NameOutputProps {
+    name: string;
+}
+function NameOutput({ name }: NameOutputProps) {
+    return name;
+}
+
 function SurgeMap(props: Props) {
     const {
         className,
     } = props;
 
+    const [
+        disasterFilter,
+        setDisasterFilter,
+    ] = useInputState<number | undefined>(undefined);
+    const [
+        surgeMechanismFilter,
+        setSurgeMechanismFilter,
+    ] = useInputState<number | undefined>(undefined);
+
     const strings = useTranslation(i18n);
+
     const [
         clickedPointProperties,
         setClickedPointProperties,
@@ -79,7 +106,8 @@ function SurgeMap(props: Props) {
         url: '/api/v2/eru/',
         query: {
             deployed_to__isnull: false,
-            limit: 9999,
+            disaster_type: disasterFilter,
+            limit: 99,
         },
     });
 
@@ -88,13 +116,31 @@ function SurgeMap(props: Props) {
     } = useRequest({
         url: '/api/v2/personnel/',
         query: {
-            end_date__gt: now,
-            limit: 9999,
+            limit: 99,
         },
     });
 
+    const surgeMechanisms = useMemo(() => (
+        [
+            {
+                id: SURGE_MECHANISM_ERU,
+                name: strings.emergencyResponseUnit,
+            },
+            {
+                id: SURGE_MECHANISM_RR,
+                name: strings.rapidResponsePersonnel,
+            },
+        ]
+    ), [strings.rapidResponsePersonnel, strings.emergencyResponseUnit]);
+
     const countryResponse = useCountryRaw();
 
+    const rendererParams = useCallback(
+        (value: { name: string }) => ({
+            name: value.name,
+        }),
+        [],
+    );
     const [
         scaleOptions,
         legendOptions,
@@ -104,11 +150,16 @@ function SurgeMap(props: Props) {
     ]), [strings]);
 
     const countryGroupedErus = useMemo(() => {
+        if (surgeMechanismFilter === SURGE_MECHANISM_RR) {
+            return undefined;
+        }
         const erusWithCountry = eruResponse?.results
             ?.filter((eru) => isDefined(eru.deployed_to.iso3))
             ?.map((eru) => ({
                 units: eru.units,
                 deployedTo: eru.deployed_to,
+                deployingNS: eru.eru_owner.national_society_country.society_name,
+                eruType: eru.type_display,
                 event: { id: eru.event?.id, name: eru.event?.name },
             })) ?? [];
 
@@ -118,9 +169,12 @@ function SurgeMap(props: Props) {
                 (eru) => eru.deployedTo.id,
             )
         );
-    }, [eruResponse]);
+    }, [eruResponse, surgeMechanismFilter]);
 
     const countryGroupedPersonnel = useMemo(() => {
+        if (surgeMechanismFilter === SURGE_MECHANISM_ERU) {
+            return undefined;
+        }
         const personnelWithCountry = personnelResponse?.results
             ?.map((personnel) => {
                 if (isNotDefined(personnel.deployment.country_deployed_to)) {
@@ -130,6 +184,8 @@ function SurgeMap(props: Props) {
                 return {
                     units: 1,
                     deployedTo: personnel.deployment.country_deployed_to,
+                    deployingNS: personnel.country_from?.society_name,
+                    roleProfile: personnel.role,
                     event: {
                         id: personnel.deployment.event_deployed_to?.id,
                         name: personnel.deployment.event_deployed_to?.name,
@@ -143,7 +199,7 @@ function SurgeMap(props: Props) {
                 (personnel) => personnel.deployedTo?.id ?? '<no-key>',
             )
         );
-    }, [personnelResponse]);
+    }, [personnelResponse, surgeMechanismFilter]);
 
     const countryCentroidGeoJson = useMemo(
         (): GeoJSON.FeatureCollection<GeoJSON.Geometry> => ({
@@ -158,7 +214,7 @@ function SurgeMap(props: Props) {
                         return undefined;
                     }
 
-                    const eruList = countryGroupedErus[country.id];
+                    const eruList = countryGroupedErus?.[country.id];
                     const personnelList = countryGroupedPersonnel?.[country.id];
                     if (isNotDefined(eruList) && isNotDefined(personnelList)) {
                         return undefined;
@@ -189,11 +245,17 @@ function SurgeMap(props: Props) {
         ? {
             eruDeployedEvents: mapToList(
                 listToGroupList(
-                    countryGroupedErus[clickedPointProperties.properties.country_id] ?? [],
+                    countryGroupedErus?.[clickedPointProperties.properties.country_id] ?? [],
                     (eru) => eru.event.id ?? -1,
                 ),
                 (eru) => ({
                     ...eru[0].event,
+                    eruType: unique(
+                        eru.map((e) => e.eruType).filter(isDefined),
+                    ).map((eruType) => ({ name: eruType })),
+                    deployingNS: unique(
+                        eru.map((e) => e.deployingNS).filter(isDefined),
+                    ).map((deployingNS) => ({ name: deployingNS })),
                     units: sumSafe(eru.map((e) => e.units)) ?? 0,
                 }),
             ),
@@ -204,6 +266,12 @@ function SurgeMap(props: Props) {
                 ),
                 (personnel) => ({
                     ...personnel[0].event,
+                    roleProfile: unique(personnel.map(
+                        (p) => p.roleProfile,
+                    ).filter(isDefined)).map((roleProfile) => ({ name: roleProfile })),
+                    deployingNS: unique(personnel.map(
+                        (p) => p.deployingNS,
+                    ).filter(isDefined)).map((deployingNS) => ({ name: deployingNS })),
                     units: sumSafe(personnel.map((p) => p.units)) ?? 0,
                 }),
             ),
@@ -228,9 +296,47 @@ function SurgeMap(props: Props) {
         [setClickedPointProperties],
     );
 
+    const handleClearFiltersButtonClick = useCallback(() => {
+        setDisasterFilter(undefined);
+        setSurgeMechanismFilter(undefined);
+    }, [setDisasterFilter, setSurgeMechanismFilter]);
+
     return (
         <Container
             className={_cs(styles.surgeMap, className)}
+            heading={strings.surgeMapTitle}
+            filters={(
+                <>
+                    <DisasterTypeSelectInput
+                        placeholder={strings.disasterTypePlaceholder}
+                        label={strings.disasterTypeLabel}
+                        name="disasterType"
+                        value={disasterFilter}
+                        onChange={setDisasterFilter}
+                    />
+                    <SelectInput
+                        name={undefined}
+                        placeholder={strings.surgeMechanismsPlaceholder}
+                        label={strings.surgeMechanismsLabel}
+                        value={surgeMechanismFilter}
+                        onChange={setSurgeMechanismFilter}
+                        options={surgeMechanisms}
+                        keySelector={numericIdSelector}
+                        labelSelector={stringNameSelector}
+                    />
+                    <div className={styles.clearButton}>
+                        <Button
+                            name={undefined}
+                            onClick={handleClearFiltersButtonClick}
+                            variant="secondary"
+                            disabled={isNotDefined(disasterFilter)
+                                && isNotDefined(surgeMechanismFilter)}
+                        >
+                            {strings.clearFilters}
+                        </Button>
+                    </div>
+                </>
+            )}
         >
             <GlobalMap
                 onAdminZeroFillClick={handleCountryClick}
@@ -303,15 +409,38 @@ function SurgeMap(props: Props) {
                             (event) => (
                                 <Container
                                     key={event.id}
-                                    className={styles.popupEvent}
-                                    childrenContainerClassName={styles.popupEventDetail}
                                     heading={event?.name}
                                     headingLevel={5}
                                 >
                                     <TextOutput
                                         value={event.units}
-                                        description={strings.deployedErus}
+                                        label={strings.deployedEru}
+                                        strongLabel
                                         valueType="number"
+                                    />
+                                    <TextOutput
+                                        value={(
+                                            <ReducedListDisplay
+                                                list={event.eruType}
+                                                keySelector={stringNameSelector}
+                                                renderer={NameOutput}
+                                                rendererParams={rendererParams}
+                                            />
+                                        )}
+                                        label={strings.roleProfile}
+                                        strongLabel
+                                    />
+                                    <TextOutput
+                                        value={(
+                                            <ReducedListDisplay
+                                                list={event.deployingNS}
+                                                keySelector={stringNameSelector}
+                                                renderer={NameOutput}
+                                                rendererParams={rendererParams}
+                                            />
+                                        )}
+                                        label={strings.deployingNS}
+                                        strongLabel
                                     />
                                 </Container>
                             ),
@@ -320,15 +449,38 @@ function SurgeMap(props: Props) {
                             (event) => (
                                 <Container
                                     key={event.id}
-                                    className={styles.popupEvent}
-                                    childrenContainerClassName={styles.popupEventDetail}
                                     heading={event?.name}
                                     headingLevel={5}
                                 >
                                     <TextOutput
                                         value={event.units}
-                                        description={strings.deployedPersonnel}
+                                        label={strings.deployedPersonnel}
+                                        strongLabel
                                         valueType="number"
+                                    />
+                                    <TextOutput
+                                        value={(
+                                            <ReducedListDisplay
+                                                list={event.roleProfile}
+                                                keySelector={stringNameSelector}
+                                                renderer={NameOutput}
+                                                rendererParams={rendererParams}
+                                            />
+                                        )}
+                                        label={strings.roleProfile}
+                                        strongLabel
+                                    />
+                                    <TextOutput
+                                        value={(
+                                            <ReducedListDisplay
+                                                list={event.deployingNS}
+                                                keySelector={stringNameSelector}
+                                                renderer={NameOutput}
+                                                rendererParams={rendererParams}
+                                            />
+                                        )}
+                                        label={strings.deployingNS}
+                                        strongLabel
                                     />
                                 </Container>
                             ),

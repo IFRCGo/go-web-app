@@ -14,7 +14,7 @@
         "lint:js": "pnpm -r lint:js",
         "lint:css": "pnpm -r lint:css",
         "lint": "pnpm -r lint",
-        "lint:fix": "pnm -r lint:fix",
+        "lint:fix": "pnpm -r lint:fix",
         "build:ui": "pnpm -F @ifrc-go/ui build",
         "start:ui": "pnpm -F @ifrc-go/ui start",
         "build": "pnpm -F go-web-app build",
