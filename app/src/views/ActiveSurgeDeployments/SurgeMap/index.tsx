@@ -54,6 +54,7 @@ import {
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+import { MAX_PAGE_LIMIT } from '#utils/constants';
 
 const sourceOptions: mapboxgl.GeoJSONSourceRaw = {
     type: 'geojson',
@@ -71,6 +72,13 @@ interface ClickedPoint {
 
 interface Props {
     className?: string;
+}
+
+interface NameOutputProps {
+    name: string;
+}
+function NameOutput({ name }: NameOutputProps) {
+    return name;
 }
 
 function SurgeMap(props: Props) {
@@ -103,7 +111,7 @@ function SurgeMap(props: Props) {
         query: {
             deployed_to__isnull: false,
             disaster_type: disasterFilter,
-            limit: 9999,
+            limit: MAX_PAGE_LIMIT,
         },
     });
 
@@ -115,7 +123,7 @@ function SurgeMap(props: Props) {
             end_date__gt: now,
             is_active: true,
             dtype: disasterFilter,
-            limit: 9999,
+            limit: MAX_PAGE_LIMIT,
         },
     });
 
@@ -425,13 +433,13 @@ function SurgeMap(props: Props) {
                                         labelClassName={styles.label}
                                         value={(
                                             <ReducedListDisplay
-                                                list={event.eruType}
+                                                list={event.roleProfile}
                                                 keySelector={stringNameSelector}
                                                 renderer={DisplayName}
                                                 rendererParams={rendererParams}
                                             />
                                         )}
-                                        label={strings.eruType}
+                                        label={strings.roleProfile}
                                         strongLabel
                                     />
                                     <TextOutput
