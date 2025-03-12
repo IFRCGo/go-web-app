@@ -16,6 +16,7 @@ import {
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     addNumDaysToDate,
+    addNumMonthsToDate,
     ceilToEndOfMonth,
     encodeDate,
     stringValueSelector,
@@ -59,6 +60,7 @@ import {
     EARLY_ACTIONS,
     EARLY_RESPONSE,
     ONSET_SUDDEN,
+    OPERATION_TIMEFRAME_IMMINENT,
     TYPE_IMMINENT,
     TYPE_LOAN,
 } from '../common';
@@ -179,31 +181,38 @@ function Overview(props: Props) {
                 const endDate = ceilToEndOfMonth(
                     addNumDaysToDate(
                         oldValue.date_of_approval,
-                        45,
+                        oldValue.operation_timeframe_imminent,
                     ),
                 );
                 return {
                     ...oldValue,
                     type_of_onset: ONSET_SUDDEN,
-                    operation_timeframe_imminent: 45,
+                    operation_timeframe_imminent: OPERATION_TIMEFRAME_IMMINENT,
                     end_date: isDefined(endDate) ? encodeDate(endDate) : undefined,
-                    proposed_action: isNotDefined(oldValue.proposed_action) ? [
-                        {
-                            client_id: randomString(),
-                            proposed_type: EARLY_ACTIONS,
-                        },
-                        {
-                            client_id: randomString(),
-                            proposed_type: EARLY_RESPONSE,
-                        },
-                    ] : oldValue.proposed_action,
+                    proposed_action: isNotDefined(oldValue.proposed_action)
+                        || oldValue.proposed_action.length < 1 ? [
+                            {
+                                client_id: randomString(),
+                                proposed_type: EARLY_ACTIONS,
+                            },
+                            {
+                                client_id: randomString(),
+                                proposed_type: EARLY_RESPONSE,
+                            },
+                        ] : oldValue.proposed_action,
                 };
             });
         } else {
-            setValue((oldValue) => ({
-                ...oldValue,
-                end_date: undefined,
-            }));
+            setValue((oldValue) => {
+                const endDate = addNumMonthsToDate(
+                    oldValue.date_of_approval,
+                    oldValue.operation_timeframe,
+                );
+                return {
+                    ...oldValue,
+                    end_date: endDate,
+                };
+            });
         }
     }, [setFieldValue, setValue]);
 

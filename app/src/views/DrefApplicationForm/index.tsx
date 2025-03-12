@@ -27,6 +27,7 @@ import {
     isFalsyString,
     isNotDefined,
     isTruthyString,
+    randomString,
 } from '@togglecorp/fujs';
 import {
     removeNull,
@@ -62,6 +63,9 @@ import {
 import Actions from './Actions';
 import {
     checkTabErrors,
+    EARLY_ACTIONS,
+    EARLY_RESPONSE,
+    OPERATION_TIMEFRAME_IMMINENT,
     TYPE_IMMINENT,
     TYPE_LOAN,
     type TypeOfDrefEnum,
@@ -185,7 +189,9 @@ export function Component() {
     } = useForm(
         drefSchema,
         {
-            value: {},
+            value: {
+                operation_timeframe_imminent: OPERATION_TIMEFRAME_IMMINENT,
+            },
         },
     );
 
@@ -319,12 +325,25 @@ export function Component() {
                     indicators: intervention.indicators?.map(injectClientId),
                 }),
             ),
-            proposed_action: proposed_action?.map(
-                (action) => ({
-                    ...injectClientId(action),
-                    activities: action.activities?.map(injectClientId),
-                }),
-            ),
+            proposed_action: isDefined(proposed_action)
+                && proposed_action.length > 1 ? proposed_action?.map(
+                    (action) => ({
+                        ...injectClientId(action),
+                        activities: action.activities?.map(injectClientId),
+                    }),
+                ) : [
+                    {
+                        client_id: randomString(),
+                        proposed_type: EARLY_ACTIONS,
+                    },
+                    {
+                        client_id: randomString(),
+                        proposed_type: EARLY_RESPONSE,
+                    },
+                ],
+            // NOTE: If an old DREF imminent application is edited,
+            // the operation timeframe gets overridden.
+            operation_timeframe_imminent: OPERATION_TIMEFRAME_IMMINENT,
             source_information: source_information?.map(injectClientId),
             needs_identified: needs_identified?.map(injectClientId),
             national_society_actions: national_society_actions?.map(injectClientId),

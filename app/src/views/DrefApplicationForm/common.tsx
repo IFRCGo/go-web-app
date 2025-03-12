@@ -37,6 +37,7 @@ export const SUB_TOTAL = 75000;
 
 export const EARLY_ACTIONS = 1 satisfies ProposedActionOption['key'];
 export const EARLY_RESPONSE = 2 satisfies ProposedActionOption['key'];
+export const OPERATION_TIMEFRAME_IMMINENT = 45; // 45 days
 
 // TAB NAVIGATION
 
