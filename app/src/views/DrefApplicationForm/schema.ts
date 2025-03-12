@@ -643,6 +643,7 @@ const schema: DrefFormSchema = {
             'total_cost',
             'addressed_humanitarian_impacts',
             'contingency_plans_supporting_document',
+            'targeting_strategy_support_file',
         ] as const;
         type OperationDrefTypeRelatedFields = Pick<
             DrefFormSchemaFields,
@@ -687,6 +688,7 @@ const schema: DrefFormSchema = {
                     total_cost: { forceValue: nullValue },
                     addressed_humanitarian_impacts: { forceValue: nullValue },
                     contingency_plans_supporting_document: { forceValue: nullValue },
+                    targeting_strategy_support_file: { forceValue: nullValue },
                 };
                 if (val?.type_of_dref === TYPE_LOAN) {
                     return conditionalFields;
@@ -804,6 +806,7 @@ const schema: DrefFormSchema = {
                     response_strategy: {},
                     people_assisted: {},
                     selection_criteria: {},
+                    targeting_strategy_support_file: {},
                     total_targeted_population: { validations: [positiveIntegerCondition] },
                     disability_people_per: {
                         // FIXME: shouldn't these be integer?
