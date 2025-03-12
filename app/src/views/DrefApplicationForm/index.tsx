@@ -331,7 +331,8 @@ export function Component() {
                         ...injectClientId(action),
                         activities: action.activities?.map(injectClientId),
                     }),
-                ) : [
+                // NOTE: Display early actions before early response
+                ).sort((a, b) => a.proposed_type - b.proposed_type) : [
                     {
                         client_id: randomString(),
                         proposed_type: EARLY_ACTIONS,

@@ -37,6 +37,7 @@ import {
     type DisasterCategory,
     DREF_TYPE_ASSESSMENT,
     DREF_TYPE_IMMINENT,
+    DREF_TYPE_LOAN,
     DREF_TYPE_RESPONSE,
     ONSET_SLOW,
 } from '#utils/constants';
@@ -195,7 +196,7 @@ export function Component() {
         && isTruthyString(drefResponse?.event_description?.trim());
     const eventScopeDefined = drefResponse?.type_of_dref === DREF_TYPE_RESPONSE
         && isTruthyString(drefResponse?.event_scope?.trim());
-    const sourceInformationDefined = isDefined(drefResponse)
+    const isDefinedSourceInformation = isDefined(drefResponse)
         && isDefined(drefResponse.source_information)
         && drefResponse.source_information.length > 0;
     const imagesFileDefined = isDefined(drefResponse)
@@ -204,11 +205,16 @@ export function Component() {
         && drefResponse.images_file.length > 0;
     const eventDateDefined = drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT
         && isDefined(drefResponse?.event_date);
+    const isDefinedScenarioAnalysisSupportingDocument = (
+        drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
+        && isDefined(drefResponse.scenario_analysis_supporting_document)
+    );
     const showEventDescriptionSection = eventDescriptionDefined
         || eventScopeDefined
         || imagesFileDefined
         || eventDateDefined
-        || sourceInformationDefined
+        || isDefinedSourceInformation
+        || isDefinedScenarioAnalysisSupportingDocument
         || isDefined(drefResponse?.event_map_file?.file);
 
     const isDefinedHazardDate = drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
@@ -218,7 +224,9 @@ export function Component() {
 
     const riskRegions = drefResponse?.district_details.map((district) => district.name).filter(isDefined).join(', ');
 
-    const showScenarioAnalysis = isDefinedHazardDate || isDefinedHazardRisk;
+    const showScenarioAnalysis = isDefinedHazardDate
+        || isDefinedHazardRisk
+        || isDefinedSourceInformation;
 
     const lessonsLearnedDefined = isTruthyString(drefResponse?.lessons_learned?.trim());
     const showPreviousOperations = drefResponse?.type_of_dref === DREF_TYPE_RESPONSE && (
@@ -262,9 +270,11 @@ export function Component() {
     const showOtherActorsActionsSection = (governmentRequestedAssistanceDefined
         && isDefined(drefResponse)
         && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT)
-        || nationalAuthoritiesDefined
-        || unOrOtherActorDefined
-        || majorCoordinationMechanismDefined;
+        && (
+            nationalAuthoritiesDefined
+            || unOrOtherActorDefined
+            || majorCoordinationMechanismDefined
+        );
 
     const identifiedGapsDefined = drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT
         && isTruthyString(drefResponse?.identified_gaps?.trim());
@@ -295,9 +305,12 @@ export function Component() {
     );
     const showTargetingStrategySection = (isDefined(drefResponse)
         && drefResponse.type_of_dref !== DREF_TYPE_IMMINENT
-        && peopleAssistedDefined)
+        && drefResponse.type_of_dref !== DREF_TYPE_LOAN
+    ) && (
+        peopleAssistedDefined
         || selectionCriteriaDefined
-        || targetingStrategySupportingDocumentDefined;
+        || targetingStrategySupportingDocumentDefined
+    );
 
     const riskSecurityDefined = isDefined(drefResponse)
         && drefResponse.type_of_dref !== DREF_TYPE_IMMINENT
@@ -351,6 +364,7 @@ export function Component() {
         || pmerDefined
         || communicationDefined
         || humanitarianImpactsDefined
+        || showProposedActions
         || contingencyPlanDocument;
 
     const showBudgetOverview = isDefined(drefResponse)
@@ -743,7 +757,7 @@ export function Component() {
                             </Link>
                         </Container>
                     )}
-                    {sourceInformationDefined && (
+                    {isDefinedSourceInformation && (
                         <Container
                             childrenContainerClassName={styles.sourceInformationList}
                         >
@@ -769,6 +783,13 @@ export function Component() {
                                     </Fragment>
                                 ),
                             )}
+                        </Container>
+                    )}
+                    {isDefinedScenarioAnalysisSupportingDocument && (
+                        <Container>
+                            <Link href={drefResponse?.scenario_analysis_supporting_document_details?.file}>
+                                {strings.drefApplicationSupportingDocumentation}
+                            </Link>
                         </Container>
                     )}
                 </>
