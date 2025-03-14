@@ -55,7 +55,7 @@ const circleColor: CirclePaint['circle-color'] = [
 ];
 
 const basePointPaint: CirclePaint = {
-    'circle-radius': 5,
+    'circle-radius': 6,
     'circle-color': circleColor,
     'circle-opacity': 0.8,
 };
@@ -74,20 +74,15 @@ const outerCirclePaintForEru: CirclePaint = {
     ...baseOuterCirclePaint,
     'circle-radius': [
         'interpolate',
-        ['linear', 1],
+        ['linear'],
         ['get', 'units'],
-        2,
-        5,
-        4,
-        7,
-        6,
-        9,
-        8,
-        11,
-        10,
-        13,
-        12,
-        15,
+        1, 6,
+        2, 7,
+        3, 8,
+        5, 10,
+        7, 12,
+        9, 16,
+        10, 22,
     ],
 };
 
@@ -95,21 +90,17 @@ const outerCirclePaintForPersonnel: CirclePaint = {
     ...baseOuterCirclePaint,
     'circle-radius': [
         'interpolate',
-        ['linear', 1],
+        ['linear'],
         ['get', 'personnel'],
-
-        2,
-        5,
-        4,
-        7,
-        6,
-        9,
-        8,
-        11,
-        10,
-        13,
-        12,
-        15,
+        1, 6,
+        3, 8,
+        5, 10,
+        8, 12,
+        12, 14,
+        18, 16,
+        25, 18,
+        35, 20,
+        50, 22,
     ],
 };
 
