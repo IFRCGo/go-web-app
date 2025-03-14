@@ -61,6 +61,8 @@ const sourceOptions: mapboxgl.GeoJSONSourceRaw = {
 const SURGE_MECHANISM_ERU = 1;
 const SURGE_MECHANISM_RR = 2;
 
+const now = new Date().toISOString();
+
 interface ClickedPoint {
     properties: AdminZeroFeatureProperties;
     lngLat: mapboxgl.LngLatLike;
@@ -107,7 +109,7 @@ function SurgeMap(props: Props) {
         query: {
             deployed_to__isnull: false,
             disaster_type: disasterFilter,
-            limit: 99,
+            limit: 9999,
         },
     });
 
@@ -116,7 +118,10 @@ function SurgeMap(props: Props) {
     } = useRequest({
         url: '/api/v2/personnel/',
         query: {
-            limit: 99,
+            end_date__gt: now,
+            is_active: true,
+            dtype: disasterFilter,
+            limit: 9999,
         },
     });
 
@@ -408,6 +413,7 @@ function SurgeMap(props: Props) {
                         {popupDetails?.eruDeployedEvents?.map(
                             (event) => (
                                 <Container
+                                    spacing="compact"
                                     key={event.id}
                                     heading={event?.name}
                                     headingLevel={5}
@@ -419,6 +425,8 @@ function SurgeMap(props: Props) {
                                         valueType="number"
                                     />
                                     <TextOutput
+                                        className={styles.textOutput}
+                                        labelClassName={styles.label}
                                         value={(
                                             <ReducedListDisplay
                                                 list={event.eruType}
@@ -431,6 +439,8 @@ function SurgeMap(props: Props) {
                                         strongLabel
                                     />
                                     <TextOutput
+                                        className={styles.textOutput}
+                                        labelClassName={styles.label}
                                         value={(
                                             <ReducedListDisplay
                                                 list={event.deployingNS}
@@ -448,6 +458,7 @@ function SurgeMap(props: Props) {
                         {popupDetails?.personnelDeployedEvents?.map(
                             (event) => (
                                 <Container
+                                    spacing="compact"
                                     key={event.id}
                                     heading={event?.name}
                                     headingLevel={5}
@@ -459,6 +470,8 @@ function SurgeMap(props: Props) {
                                         valueType="number"
                                     />
                                     <TextOutput
+                                        className={styles.textOutput}
+                                        labelClassName={styles.label}
                                         value={(
                                             <ReducedListDisplay
                                                 list={event.roleProfile}
@@ -471,6 +484,8 @@ function SurgeMap(props: Props) {
                                         strongLabel
                                     />
                                     <TextOutput
+                                        className={styles.textOutput}
+                                        labelClassName={styles.label}
                                         value={(
                                             <ReducedListDisplay
                                                 list={event.deployingNS}
