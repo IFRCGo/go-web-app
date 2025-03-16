@@ -1,0 +1,7 @@
+.emergency-response-unit {
+    .separator {
+        flex-shrink: 0;
+        border-left: var(--go-ui-width-separator-sm) solid var(--go-ui-color-separator);
+        height: 1rem;
+    }
+}

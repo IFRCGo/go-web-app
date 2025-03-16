@@ -1,0 +1,102 @@
+.emergency-response-type-card {
+    border-radius: var(--go-ui-border-radius-lg);
+    box-shadow: var(--go-ui-box-shadow-md);
+
+    .last-updated {
+        color: var(--go-ui-color-text-light);
+    }
+
+    .figures {
+        display: flex;
+        gap: var(--go-ui-spacing-sm);
+        flex-grow: 1;
+
+        .readiness {
+            display: flex;
+            flex-direction: column-reverse;
+        }
+
+        .readiness-icon {
+            font-size: 1.7rem;
+        }
+
+        .green-icon {
+            color: var(--go-ui-color-green);
+        }
+
+        .yellow-icon {
+            color: var(--go-ui-color-semantic-yellow);
+        }
+
+        .red-icon {
+            color: var(--go-ui-color-primary-red);
+        }
+    }
+
+    .readiness-list {
+        display: flex;
+        flex-direction: column;
+
+        .separator {
+            flex-shrink: 0;
+            border-bottom: var(--go-ui-width-separator-sm) solid var(--go-ui-color-separator);
+        }
+
+        .separator-left {
+            flex-shrink: 0;
+            border-left: var(--go-ui-width-separator-sm) solid var(--go-ui-color-separator);
+        }
+
+        .show-icon {
+            display: flex;
+            justify-content: flex-end;
+        }
+    }
+}
+.modal {
+    display: flex;
+    flex-direction: column;
+
+    .society-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-sm);
+    }
+
+    .separator {
+        flex-shrink: 0;
+        border-bottom: var(--go-ui-width-separator-sm) solid var(--go-ui-color-separator);
+    }
+
+        .figures {
+            display: flex;
+            gap: var(--go-ui-spacing-sm);
+            flex-grow: 1;
+
+        .separator-left {
+            flex-shrink: 0;
+            border-left: var(--go-ui-width-separator-sm) solid var(--go-ui-color-separator);
+        }
+            .readiness {
+                display: flex;
+                flex-direction: column-reverse;
+                padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-md);
+            }
+
+            .readiness-icon {
+                font-size: 1.7rem;
+            }
+
+            .green-icon {
+                color: var(--go-ui-color-green);
+            }
+
+            .yellow-icon {
+                color: var(--go-ui-color-semantic-yellow);
+            }
+
+            .red-icon {
+                color: var(--go-ui-color-primary-red);
+            }
+        }
+    }

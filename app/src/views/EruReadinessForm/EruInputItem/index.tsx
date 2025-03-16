@@ -6,10 +6,7 @@ import {
     TextArea,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import {
-    isDefined,
-    randomString,
-} from '@togglecorp/fujs';
+import { randomString } from '@togglecorp/fujs';
 import {
     type ArrayError,
     getErrorObject,
@@ -46,7 +43,7 @@ interface Props {
     index: number;
     value: PartialForm<EruType>;
     onChange: (value: SetValueArg<PartialForm<EruType>>, index: number) => void;
-    title: Record<string, string> | undefined;
+    title: string | undefined;
     error: ArrayError<EruType> | undefined;
 }
 
@@ -70,9 +67,7 @@ function EruInputItem(props: Props) {
         onChange,
         defaultCollectionValue,
     );
-    const eruTypeLabel = isDefined(value.type)
-        ? title?.[value.type]
-        : undefined;
+
     const error = (value && value.client_id && errorFromProps)
         ? getErrorObject(errorFromProps?.[value.client_id])
         : undefined;
@@ -80,7 +75,7 @@ function EruInputItem(props: Props) {
     return (
         <Container
             childrenContainerClassName={styles.eruTypes}
-            heading={eruTypeLabel}
+            heading={title}
         >
             <InputSection
                 className={styles.readinessOptions}
@@ -140,14 +135,14 @@ function EruInputItem(props: Props) {
                 <Checkbox
                     label={strings.eruLead}
                     name="has_capacity_to_lead"
-                    value={value.has_capacity_to_lead}
+                    value={value?.has_capacity_to_lead}
                     onChange={onFieldChange}
                     error={error?.has_capacity_to_lead}
                 />
                 <Checkbox
                     label={strings.eruSupport}
                     name="has_capacity_to_support"
-                    value={value.has_capacity_to_support}
+                    value={value?.has_capacity_to_support}
                     onChange={onFieldChange}
                     error={error?.has_capacity_to_support}
                 />
