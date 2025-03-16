@@ -1,6 +1,5 @@
 import {
     useCallback,
-    useMemo,
     useState,
 } from 'react';
 import {
@@ -11,14 +10,9 @@ import {
     SelectInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import { stringValueSelector } from '@ifrc-go/ui/utils';
 import {
-    numericKeySelector,
-    stringValueSelector,
-} from '@ifrc-go/ui/utils';
-import {
-    isDefined,
     isNotDefined,
-    listToMap,
     randomString,
 } from '@togglecorp/fujs';
 import {
@@ -43,7 +37,6 @@ import EruInputItem from './EruInputItem';
 import schema, {
     type BaseFormType,
     type EruReadinessBody,
-    type EruReadinessPostBody,
 } from './schema';
 
 import i18n from './i18n.json';
@@ -63,13 +56,12 @@ function eruOwnerLabelSelector(option: EruOwnerOption) {
 
 const defaultFormValues: PartialForm<EruReadinessBody> = {};
 
+const eruTypeKeySelector = (eruType: EruTypeOption) => eruType.key;
+
 /** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-    // const { eruId } = useParams<{ eruId: number }>();
-    // TODO: Use useParams for eruId
-    const eruId = 1;
 
     const alert = useAlertContext();
     const {
@@ -90,28 +82,11 @@ export function Component() {
 
     const error = getErrorObject(formError);
 
-    const {
-        pending: createEruReadinessPending,
-        trigger: createEruReadiness,
-    } = useLazyRequest({
-        url: '/api/v2/eru-readiness/',
-        method: 'POST',
-        body: (ctx: EruReadinessPostBody) => ctx,
-        onSuccess: () => {
-            alert.show(
-                strings.eruFormCreatedSuccessfully,
-                { variant: 'success' },
-            );
-        },
-        onFailure: () => {
-            alert.show(
-                strings.eruFormFailedToCreate,
-                {
-                    variant: 'danger',
-                },
-            );
-        },
-    });
+    const [eruId, setEruId] = useState<number | undefined>();
+
+    const [selectedEruTypeList, setSelectedEruTypeList] = useState<EruTypeOption['key'][] | undefined>();
+
+    const [selectedEruOwner, setSelectedEruOwner] = useState<EruOwnerOption['id']>();
 
     const {
         trigger: updateEruReadinessForm,
@@ -119,9 +94,7 @@ export function Component() {
     } = useLazyRequest({
         url: '/api/v2/eru-readiness/{id}/',
         method: 'PATCH',
-        pathVariables: isDefined(eruId) ? {
-            id: Number(eruId),
-        } : undefined,
+        pathVariables: eruId !== undefined ? { id: Number(eruId) } : undefined,
         body: (ctx: EruReadinessBody) => ctx,
         onSuccess: () => {
             alert.show(
@@ -156,16 +129,35 @@ export function Component() {
         preserveResponse: true,
     });
 
-    const eruTypesTitleMap = useMemo(
-        () => (
-            listToMap(
-                deployments_eru_type,
-                (eruType) => eruType.key,
-                (eruType) => eruType.value,
-            )
-        ),
-        [deployments_eru_type],
-    );
+    const {
+        trigger: fetchEruReadinessData,
+        pending: fetchEruReadinessDataPending,
+    } = useLazyRequest({
+        url: '/api/v2/eru-readiness/',
+        query: (eruOwnerId: number) => ({ eru_owner: eruOwnerId }),
+        onSuccess: (response) => {
+            const results = response?.results ?? [];
+            if (results?.length > 0) {
+                const existingData = results[0];
+                setEruId(existingData.id);
+                setValue({
+                    ...existingData,
+                    eru_owner: existingData.eru_owner_details?.id,
+                    eru_types: existingData.eru_types?.map((eruType) => ({
+                        ...eruType,
+                        id: eruType.type,
+                    })),
+                });
+                setSelectedEruTypeList(existingData.eru_types?.map((eruType) => eruType.type));
+                setSelectedEruOwner(existingData.eru_owner_details?.id);
+            } else {
+                setEruId(undefined);
+                setValue({ ...defaultFormValues, eru_owner: undefined });
+                setSelectedEruTypeList(undefined);
+                setSelectedEruOwner(undefined);
+            }
+        },
+    });
 
     const {
         setValue: onEruChange,
@@ -173,42 +165,50 @@ export function Component() {
 
     const eruOwnerOption = eruOwnerResponse?.results;
 
-    const [selectedEruType, setSelectedEruType] = useState<EruTypeOption | undefined>();
-
-    const handleInputChange = useCallback((type: EruTypeOption['key']) => {
-        const newEruTypeItem = {
-            client_id: randomString(),
-            type,
-            id: eruId,
-        };
-
-        setFieldValue(
-            (oldValue: number[] | undefined) => (
-                [...(oldValue ?? []), newEruTypeItem]
-            ),
-            'eru_types' as const,
-        );
-        setSelectedEruType(undefined);
-    }, [
-        eruId,
-        setFieldValue,
-    ]);
-
     const handleSubmit = useCallback((finalValue: BaseFormType) => {
         setValue(finalValue);
-        if (isNotDefined(finalValue)) {
+
+        if (isNotDefined(finalValue) || !finalValue.eru_owner) {
             return;
         }
+
         if (isNotDefined(eruId)) {
-            createEruReadiness(finalValue as EruReadinessPostBody);
-        } else {
-            updateEruReadinessForm(finalValue as EruReadinessBody);
+            alert.show(
+                strings.eruNoRecord,
+                { variant: 'warning' },
+            );
+            return;
         }
+
+        const updatedEruTypes = (selectedEruTypeList || []).map((type) => {
+            const existingEru = finalValue.eru_types?.find((eruType) => eruType.type === type);
+
+            return {
+                id: existingEru?.id ?? undefined,
+                type,
+                comment: existingEru?.comment ?? null,
+                equipment_readiness: existingEru?.equipment_readiness ?? 1,
+                people_readiness: existingEru?.people_readiness ?? 1,
+                funding_readiness: existingEru?.funding_readiness ?? 1,
+                has_capacity_to_lead: existingEru?.has_capacity_to_lead ?? false,
+                has_capacity_to_support: existingEru?.has_capacity_to_support ?? false,
+            };
+        });
+
+        const updatedFinalValue: EruReadinessBody = {
+            ...finalValue,
+            eru_types: updatedEruTypes,
+            eru_owner: finalValue.eru_owner,
+        };
+
+        updateEruReadinessForm(updatedFinalValue);
     }, [
+        alert,
         setValue,
-        createEruReadiness,
         updateEruReadinessForm,
         eruId,
+        selectedEruTypeList,
+        strings.eruNoRecord,
     ]);
 
     const handleSave = useCallback(() => {
@@ -224,15 +224,52 @@ export function Component() {
         handleSubmit,
     ]);
 
-    const disabled = createEruReadinessPending || updateEruReadinessFormPending || eruOwnerPending;
+    const disabled = updateEruReadinessFormPending
+        || eruOwnerPending || fetchEruReadinessDataPending;
 
     const handleCancel = useCallback(() => {
         setFieldValue([], 'eru_types');
-        setFieldValue(undefined, 'eru_owner');
-        setSelectedEruType(undefined);
+        setSelectedEruOwner(undefined);
+        setSelectedEruTypeList(undefined);
     }, [
         setFieldValue,
     ]);
+
+    const handleSelectERUType = useCallback((values: EruTypeOption['key'][] | undefined) => {
+        setSelectedEruTypeList(values);
+
+        const existingEruTypeList = value.eru_types?.map((eruType) => eruType.id);
+        const addedEruTypeList = values?.filter((v) => !existingEruTypeList?.includes(v));
+        const removedEruTypeList = existingEruTypeList?.filter((v) => !values?.includes(v));
+
+        const addedEruTypeObjectList = addedEruTypeList?.map((a) => ({
+            clientId: randomString(),
+            id: a,
+            type: a,
+        }));
+
+        const newFieldValues = value.eru_types?.filter(
+            (fv) => !removedEruTypeList?.includes(fv.id),
+        );
+
+        setFieldValue([...(newFieldValues ?? []), ...(addedEruTypeObjectList ?? [])], 'eru_types');
+    }, [value.eru_types, setFieldValue]);
+
+    const handleEruOwnerChange = useCallback(
+        (newValue: number | undefined) => {
+            setSelectedEruOwner(newValue);
+            setFieldValue(newValue, 'eru_owner');
+
+            if (newValue) {
+                setValue({});
+                fetchEruReadinessData(newValue);
+            } else {
+                setValue({ ...defaultFormValues, eru_owner: undefined });
+                setSelectedEruTypeList(undefined);
+            }
+        },
+        [setFieldValue, fetchEruReadinessData, setValue],
+    );
 
     return (
         <Page
@@ -269,8 +306,8 @@ export function Component() {
                     <SelectInput
                         name="eru_owner"
                         options={eruOwnerOption}
-                        onChange={setFieldValue}
-                        value={value.eru_owner}
+                        onChange={handleEruOwnerChange}
+                        value={selectedEruOwner}
                         keySelector={eruOwnerKeySelector}
                         labelSelector={eruOwnerLabelSelector}
                         error={error?.eru_owner}
@@ -285,13 +322,10 @@ export function Component() {
                     <MultiSelectInput
                         name="eru_types"
                         options={deployments_eru_type}
-                        value={selectedEruType}
-                        keySelector={numericKeySelector}
+                        value={selectedEruTypeList}
+                        keySelector={eruTypeKeySelector}
                         labelSelector={stringValueSelector}
-                        onChange={(selected) => {
-                            const singleType = Array.isArray(selected) ? selected[0] : selected;
-                            handleInputChange(singleType);
-                        }}
+                        onChange={handleSelectERUType}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -303,7 +337,9 @@ export function Component() {
                         index={index}
                         value={eruType}
                         onChange={onEruChange}
-                        title={eruTypesTitleMap}
+                        title={deployments_eru_type?.find(
+                            (type) => type.key === eruType.type,
+                        )?.value}
                         error={getErrorObject(error?.eru_types)}
                     />
                 ))}
