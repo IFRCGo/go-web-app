@@ -11,6 +11,7 @@
         "eruFormCreatedSuccessfully": "ERU Readiness Created Successfully",
         "eruFormFailedToCreate": "Failed to create a ERU Readiness",
         "eruFormSuccessfullyUpdated": "Successfully Updated ERU Readiness Form",
-        "eruFormFailedToUpdate": "Failed to Update ERU Readiness Form"
+        "eruFormFailedToUpdate": "Failed to Update ERU Readiness Form",
+        "eruNoRecord": "No Existing Record"
     }
 }
