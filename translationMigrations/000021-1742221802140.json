@@ -1,11 +1,11 @@
 {
-    "parent": "000019-1740394638836.json",
+    "parent": "000020-1741349340806.json",
     "actions": [
         {
             "action": "add",
             "key": "userMenuSurveyDesignToolItem",
             "namespace": "common",
-            "value": "Survey Design Tool"
+            "value": "Survey Designer"
         },
         {
             "action": "add",

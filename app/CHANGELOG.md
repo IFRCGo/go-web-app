@@ -1,5 +1,20 @@
 # go-web-app
 
+## 7.12.0
+
+### Minor Changes
+
+- f766bc7: Add link to IFRC Survey Designer in the tools section under learn menu
+
+### Patch Changes
+
+- 7f51854: - Surge CoS: Health fix
+- 3a1cac8: Hide focal point details based on user permissions
+- 43d3bf1: - Add Surge CoS Administration section
+  - Add Surge CoS Faecal Sludge Management (FSM) section
+  - Update Surge CoS IT&T section
+  - Update Surge CoS Basecamp section (as OSH)
+
 ## 7.11.1
 
 ### Patch Changes
