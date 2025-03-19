@@ -52,3 +52,10 @@ export function getFirstTruthyString(
 
     return invalidText;
 }
+
+export function joinStrings(
+    values: (string | undefined)[],
+    separator: string = ', ',
+): string {
+    return values.filter(Boolean).join(separator);
+}
