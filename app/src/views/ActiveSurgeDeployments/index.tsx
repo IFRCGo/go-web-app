@@ -3,6 +3,7 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import Page from '#components/Page';
 
 import ActiveRapidResponseTable from './ActiveRapidResponseTable';
+import ActiveSurgeSupport from './ActiveSurgeSupport';
 import OngoingERUDeployments from './OngoingERUDeployments';
 import OngoingRapidResponse from './OngoingRapidResponse';
 import SurgeMap from './SurgeMap';
@@ -18,6 +19,7 @@ export function Component() {
             title={strings.activeSurgeDeploymentsPageTitle}
         >
             <SurgeMap />
+            <ActiveSurgeSupport />
             <ActiveRapidResponseTable />
             <OngoingRapidResponse />
             <OngoingERUDeployments />
