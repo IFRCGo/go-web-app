@@ -1,0 +1,10 @@
+{
+    "namespace": "activeSurgeDeployments",
+    "strings": {
+        "emergencyResponseUnit": "Emergency Response Unit",
+        "rapidResponsePersonnel": "Rapid Response Personnel",
+        "deployedERUs": "ERUs Deployed",
+        "deployedRRs": "RRs Deployed",
+        "deployingOrganizations": "Deploying Organisation"
+    }
+}
