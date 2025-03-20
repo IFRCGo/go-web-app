@@ -1,13 +1,25 @@
-.eru-types {
+.eru-input-item {
     display: flex;
+    flex-direction: column;
 
-    .readiness-options {
+    .content {
         display: flex;
-        flex-direction: column;
+        gap: var(--go-ui-spacing-sm);
+        flex-wrap: wrap;
 
-        .readiness-list {
+        .input-section {
             display: flex;
             flex-direction: column;
+            flex-grow: 1;
+
+            .readiness-input {
+                display: flex;
+
+                .radio-list {
+                    display: flex;
+                    flex-direction: column;
+                }
+            }
         }
     }
 }
