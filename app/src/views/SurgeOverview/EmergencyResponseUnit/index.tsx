@@ -10,7 +10,7 @@ import {
     SelectInput,
 } from '@ifrc-go/ui';
 import { numericKeySelector } from '@ifrc-go/ui/utils';
-import { isDefined } from '@togglecorp/fujs';
+import { isDefined, listToGroupList } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
@@ -30,7 +30,6 @@ type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type EruOwners = GoApiResponse<'/api/v2/eru_owner/mini/'>;
 type EruOwnerOption = NonNullable<EruOwners['results']>[number];
 type EruTypesOption = NonNullable<GlobalEnumsResponse['deployments_eru_type']>[number];
-type EruReadinessListItem = NonNullable<GetEruReadinessResponse['results']>[number];
 
 function eruOwnerKeySelector(option: EruOwnerOption) {
     return option.id;
@@ -100,8 +99,17 @@ export function Component() {
         type: item.type,
         updatedAt: item.updated_at,
         societyName: item.society_name,
-        eruTypes: item.er
+        eruTypes: item.er,
     }), []);
+
+
+    console.warn('eruReadinessResponse', eruReadinessResponse);
+
+    const uniqueData = eruReadinessResponse?.results?.flatMap((r) => (
+        [...(r.eru_types.map((t) => ({ ...t, owner: r.eru_owner_details, updated: r.updated_at })))]
+    ));
+
+    console.warn('uniq', listToGroupList(uniqueData, (d) => d.type));
 
     const uniqueEruReadinessData = useMemo(() => {
         const eruTypeMap = new Map<

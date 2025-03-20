@@ -1,6 +1,6 @@
+import { useMemo } from 'react';
 import {
     Checkbox,
-    Container,
     InputSection,
     RadioInput,
     TextArea,
@@ -10,7 +10,6 @@ import { randomString } from '@togglecorp/fujs';
 import {
     type ArrayError,
     getErrorObject,
-    type PartialForm,
     type SetValueArg,
     useFormObject,
 } from '@togglecorp/toggle-form';
@@ -18,7 +17,7 @@ import {
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { type GoApiResponse } from '#utils/restRequest';
 
-import { type EruType } from '../schema';
+import { type PartialEruItem } from '../schema';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -35,16 +34,15 @@ function readinessLabelSelector(option: ReadinessOption) {
     return option.value;
 }
 
-const defaultCollectionValue: PartialForm<EruType> = {
+const defaultCollectionValue: PartialEruItem = {
     client_id: randomString(),
 };
 
 interface Props {
     index: number;
-    value: PartialForm<EruType>;
-    onChange: (value: SetValueArg<PartialForm<EruType>>, index: number) => void;
-    title: string | undefined;
-    error: ArrayError<EruType> | undefined;
+    value: PartialEruItem;
+    onChange: (value: SetValueArg<PartialEruItem>, index: number) => void;
+    error: ArrayError<PartialEruItem> | undefined;
 }
 
 function EruInputItem(props: Props) {
@@ -52,13 +50,13 @@ function EruInputItem(props: Props) {
         index,
         value,
         onChange,
-        title,
         error: errorFromProps,
     } = props;
 
     const strings = useTranslation(i18n);
 
     const {
+        deployments_eru_type: eruTypeOptions,
         deployments_eru_readiness_status,
     } = useGlobalEnums();
 
@@ -72,17 +70,23 @@ function EruInputItem(props: Props) {
         ? getErrorObject(errorFromProps?.[value.client_id])
         : undefined;
 
+    const title = useMemo(() => (
+        eruTypeOptions?.find((eruType) => eruType.key === value.type)?.value
+    ), [eruTypeOptions, value.type]);
+
     return (
-        <Container
-            childrenContainerClassName={styles.eruTypes}
-            heading={title}
+        <InputSection
+            title={title}
+            className={styles.eruInputItem}
+            contentSectionClassName={styles.content}
         >
             <InputSection
-                className={styles.readinessOptions}
                 title={strings.eruEquipmentReadiness}
+                className={styles.inputSection}
             >
                 <RadioInput
-                    listContainerClassName={styles.readinessList}
+                    className={styles.readinessInput}
+                    listContainerClassName={styles.radioList}
                     name="equipment_readiness"
                     value={value.equipment_readiness}
                     onChange={onFieldChange}
@@ -93,11 +97,12 @@ function EruInputItem(props: Props) {
                 />
             </InputSection>
             <InputSection
-                className={styles.readinessOptions}
                 title={strings.eruPeopleReadiness}
+                className={styles.inputSection}
             >
                 <RadioInput
-                    listContainerClassName={styles.readinessList}
+                    className={styles.readinessInput}
+                    listContainerClassName={styles.radioList}
                     name="people_readiness"
                     value={value.people_readiness}
                     onChange={onFieldChange}
@@ -108,11 +113,12 @@ function EruInputItem(props: Props) {
                 />
             </InputSection>
             <InputSection
-                className={styles.readinessOptions}
                 title={strings.eruFundingReadiness}
+                className={styles.inputSection}
             >
                 <RadioInput
-                    listContainerClassName={styles.readinessList}
+                    className={styles.readinessInput}
+                    listContainerClassName={styles.radioList}
                     name="funding_readiness"
                     value={value.funding_readiness}
                     onChange={onFieldChange}
@@ -123,8 +129,8 @@ function EruInputItem(props: Props) {
                 />
             </InputSection>
             <InputSection
-                className={styles.readinessOptions}
                 title={strings.eruComments}
+                className={styles.inputSection}
             >
                 <TextArea
                     name="comment"
@@ -147,8 +153,7 @@ function EruInputItem(props: Props) {
                     error={error?.has_capacity_to_support}
                 />
             </InputSection>
-        </Container>
-
+        </InputSection>
     );
 }
 
