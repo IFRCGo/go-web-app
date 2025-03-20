@@ -1,5 +1,6 @@
 import {
     useCallback,
+    useMemo,
     useState,
 } from 'react';
 import {
@@ -10,19 +11,25 @@ import {
     SelectInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { stringValueSelector } from '@ifrc-go/ui/utils';
 import {
+    injectClientId,
+    resolveToComponent,
+    stringValueSelector,
+} from '@ifrc-go/ui/utils';
+import {
+    isDefined,
     isNotDefined,
     randomString,
 } from '@togglecorp/fujs';
 import {
     createSubmitHandler,
     getErrorObject,
-    type PartialForm,
     useForm,
     useFormArray,
 } from '@togglecorp/toggle-form';
 
+import Link from '#components/Link';
+import NonFieldError from '#components/NonFieldError';
 import Page from '#components/Page';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useAlertContext from '#hooks/useAlert';
@@ -35,8 +42,10 @@ import { transformObjectError } from '#utils/restRequest/error';
 
 import EruInputItem from './EruInputItem';
 import schema, {
-    type BaseFormType,
-    type EruReadinessBody,
+    type EruReadinessPatchBody,
+    type EruReadinessPostBody,
+    type FormType,
+    type PartialEruItem,
 } from './schema';
 
 import i18n from './i18n.json';
@@ -45,7 +54,7 @@ import styles from './styles.module.css';
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type EruOwners = GoApiResponse<'/api/v2/eru_owner/mini/'>;
 type EruOwnerOption = NonNullable<EruOwners['results']>[number];
-type EruTypeOption = NonNullable<GlobalEnumsResponse['deployments_eru_type']>[number];
+type EruOption = NonNullable<GlobalEnumsResponse['deployments_eru_type']>[number];
 
 function eruOwnerKeySelector(option: EruOwnerOption) {
     return option.id;
@@ -54,9 +63,11 @@ function eruOwnerLabelSelector(option: EruOwnerOption) {
     return option.national_society_country_details.society_name ?? '';
 }
 
-const defaultFormValues: PartialForm<EruReadinessBody> = {};
+function eruTypeKeySelector(eruType: EruOption) {
+    return eruType.key;
+}
 
-const eruTypeKeySelector = (eruType: EruTypeOption) => eruType.key;
+const defaultFormValues: FormType = {};
 
 /** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
@@ -65,7 +76,7 @@ export function Component() {
 
     const alert = useAlertContext();
     const {
-        deployments_eru_type,
+        deployments_eru_type: eruTypeOptions,
     } = useGlobalEnums();
 
     const {
@@ -82,20 +93,16 @@ export function Component() {
 
     const error = getErrorObject(formError);
 
-    const [eruId, setEruId] = useState<number | undefined>();
-
-    const [selectedEruTypeList, setSelectedEruTypeList] = useState<EruTypeOption['key'][] | undefined>();
-
-    const [selectedEruOwner, setSelectedEruOwner] = useState<EruOwnerOption['id']>();
+    const [eruReadinessId, setEruReadinessId] = useState<number | undefined>();
 
     const {
-        trigger: updateEruReadinessForm,
-        pending: updateEruReadinessFormPending,
+        trigger: updateEruReadiness,
+        pending: updateEruReadinessPending,
     } = useLazyRequest({
         url: '/api/v2/eru-readiness/{id}/',
         method: 'PATCH',
-        pathVariables: eruId !== undefined ? { id: Number(eruId) } : undefined,
-        body: (ctx: EruReadinessBody) => ctx,
+        pathVariables: eruReadinessId ? { id: Number(eruReadinessId) } : undefined,
+        body: (ctx: EruReadinessPatchBody) => ctx,
         onSuccess: () => {
             alert.show(
                 strings.eruFormSuccessfullyUpdated,
@@ -122,11 +129,50 @@ export function Component() {
     });
 
     const {
+        trigger: createEruReadiness,
+        pending: createEruReadinessPending,
+    } = useLazyRequest({
+        url: '/api/v2/eru-readiness/',
+        method: 'POST',
+        body: (ctx: EruReadinessPostBody) => ctx,
+        onSuccess: () => {
+            alert.show(
+                strings.eruFormSuccessfullyCreated,
+                { variant: 'success' },
+            );
+        },
+        onFailure: ({
+            value: {
+                messageForNotification,
+                formErrors,
+            },
+            debugMessage,
+        }) => {
+            setError(transformObjectError(formErrors, () => undefined));
+            alert.show(
+                strings.eruFormFailedToCreate,
+                {
+                    variant: 'danger',
+                    debugMessage,
+                    description: messageForNotification,
+                },
+            );
+        },
+    });
+    const {
         response: eruOwnerResponse,
         pending: eruOwnerPending,
     } = useRequest({
         url: '/api/v2/eru_owner/mini/',
         preserveResponse: true,
+        onFailure: () => {
+            alert.show(
+                strings.eruOwnerFailedToFetch,
+                {
+                    variant: 'danger',
+                },
+            );
+        },
     });
 
     const {
@@ -135,215 +181,213 @@ export function Component() {
     } = useLazyRequest({
         url: '/api/v2/eru-readiness/',
         query: (eruOwnerId: number) => ({ eru_owner: eruOwnerId }),
+        preserveResponse: true,
         onSuccess: (response) => {
             const results = response?.results ?? [];
             if (results?.length > 0) {
                 const existingData = results[0];
-                setEruId(existingData.id);
+                setEruReadinessId(existingData.id);
                 setValue({
-                    ...existingData,
-                    eru_owner: existingData.eru_owner_details?.id,
-                    eru_types: existingData.eru_types?.map((eruType) => ({
-                        ...eruType,
-                        id: eruType.type,
+                    eru_owner: existingData.eru_owner_details.id,
+                    eru_types: existingData.eru_types.map((eruType) => ({
+                        ...injectClientId(eruType),
+                        id: eruType.id,
+                        type: eruType.type,
+                        equipment_readiness: eruType.equipment_readiness,
+                        people_readiness: eruType.people_readiness,
+                        funding_readiness: eruType.funding_readiness,
+                        comment: eruType.comment,
+                        has_capacity_to_lead: eruType.has_capacity_to_lead,
+                        has_capacity_to_support: eruType.has_capacity_to_support,
+                        client_id: randomString(),
                     })),
                 });
-                setSelectedEruTypeList(existingData.eru_types?.map((eruType) => eruType.type));
-                setSelectedEruOwner(existingData.eru_owner_details?.id);
             } else {
-                setEruId(undefined);
-                setValue({ ...defaultFormValues, eru_owner: undefined });
-                setSelectedEruTypeList(undefined);
-                setSelectedEruOwner(undefined);
+                setEruReadinessId(undefined);
+                setValue((oldValues) => ({
+                    ...oldValues,
+                    eru_types: undefined,
+                }));
             }
+        },
+        onFailure: () => {
+            alert.show(
+                strings.eruReadinessFailedToFetch,
+                {
+                    variant: 'danger',
+                },
+            );
         },
     });
 
     const {
         setValue: onEruChange,
-    } = useFormArray('eru_types', setFieldValue);
+    } = useFormArray<'eru_types', PartialEruItem>(
+        'eru_types',
+        setFieldValue,
+    );
 
-    const eruOwnerOption = eruOwnerResponse?.results;
-
-    const handleSubmit = useCallback((finalValue: BaseFormType) => {
-        setValue(finalValue);
-
-        if (isNotDefined(finalValue) || !finalValue.eru_owner) {
-            return;
+    const handleSubmit = useCallback((formValues: FormType) => {
+        if (eruReadinessId) {
+            updateEruReadiness(formValues as EruReadinessPatchBody);
+        } else {
+            createEruReadiness(formValues as EruReadinessPostBody);
         }
+    }, [eruReadinessId, updateEruReadiness, createEruReadiness]);
 
-        if (isNotDefined(eruId)) {
-            alert.show(
-                strings.eruNoRecord,
-                { variant: 'warning' },
-            );
-            return;
-        }
+    const handleFormSubmit = createSubmitHandler(validate, setError, handleSubmit);
 
-        const updatedEruTypes = (selectedEruTypeList || []).map((type) => {
-            const existingEru = finalValue.eru_types?.find((eruType) => eruType.type === type);
-
-            return {
-                id: existingEru?.id ?? undefined,
-                type,
-                comment: existingEru?.comment ?? null,
-                equipment_readiness: existingEru?.equipment_readiness ?? 1,
-                people_readiness: existingEru?.people_readiness ?? 1,
-                funding_readiness: existingEru?.funding_readiness ?? 1,
-                has_capacity_to_lead: existingEru?.has_capacity_to_lead ?? false,
-                has_capacity_to_support: existingEru?.has_capacity_to_support ?? false,
-            };
-        });
-
-        const updatedFinalValue: EruReadinessBody = {
-            ...finalValue,
-            eru_types: updatedEruTypes,
-            eru_owner: finalValue.eru_owner,
-        };
-
-        updateEruReadinessForm(updatedFinalValue);
-    }, [
-        alert,
-        setValue,
-        updateEruReadinessForm,
-        eruId,
-        selectedEruTypeList,
-        strings.eruNoRecord,
-    ]);
-
-    const handleSave = useCallback(() => {
-        const handler = createSubmitHandler(
-            validate,
-            setError,
-            handleSubmit,
-        );
-        handler();
-    }, [
-        validate,
-        setError,
-        handleSubmit,
-    ]);
-
-    const disabled = updateEruReadinessFormPending
-        || eruOwnerPending || fetchEruReadinessDataPending;
+    const pending = updateEruReadinessPending
+        || eruOwnerPending
+        || fetchEruReadinessDataPending
+        || createEruReadinessPending;
 
     const handleCancel = useCallback(() => {
-        setFieldValue([], 'eru_types');
-        setSelectedEruOwner(undefined);
-        setSelectedEruTypeList(undefined);
+        setValue(defaultFormValues);
     }, [
-        setFieldValue,
+        setValue,
     ]);
 
-    const handleSelectERUType = useCallback((values: EruTypeOption['key'][] | undefined) => {
-        setSelectedEruTypeList(values);
-
-        const existingEruTypeList = value.eru_types?.map((eruType) => eruType.id);
-        const addedEruTypeList = values?.filter((v) => !existingEruTypeList?.includes(v));
-        const removedEruTypeList = existingEruTypeList?.filter((v) => !values?.includes(v));
-
-        const addedEruTypeObjectList = addedEruTypeList?.map((a) => ({
-            clientId: randomString(),
-            id: a,
-            type: a,
-        }));
-
-        const newFieldValues = value.eru_types?.filter(
-            (fv) => !removedEruTypeList?.includes(fv.id),
+    const handleSelectEru = useCallback((values: EruOption['key'][] | undefined) => {
+        const addedEruIdList = values?.filter(
+            (eruType) => !value.eru_types?.some(({ type }) => type === eruType),
         );
 
-        setFieldValue([...(newFieldValues ?? []), ...(addedEruTypeObjectList ?? [])], 'eru_types');
-    }, [value.eru_types, setFieldValue]);
+        const addedEruList: PartialEruItem[] | undefined = addedEruIdList
+            ?.map((a) => ({
+                client_id: randomString(),
+                type: a,
+            }));
+
+        const remainingEruList = value.eru_types?.filter(
+            (eru) => isDefined(eru.type) && values?.includes(eru.type),
+        );
+
+        setFieldValue([
+            ...(remainingEruList ?? []),
+            ...(addedEruList ?? []),
+        ], 'eru_types' as const);
+    }, [setFieldValue, value]);
 
     const handleEruOwnerChange = useCallback(
         (newValue: number | undefined) => {
-            setSelectedEruOwner(newValue);
-            setFieldValue(newValue, 'eru_owner');
-
-            if (newValue) {
-                setValue({});
+            setValue({
+                ...defaultFormValues,
+                eru_owner: newValue,
+            });
+            if (isDefined(newValue)) {
                 fetchEruReadinessData(newValue);
-            } else {
-                setValue({ ...defaultFormValues, eru_owner: undefined });
-                setSelectedEruTypeList(undefined);
             }
         },
-        [setFieldValue, fetchEruReadinessData, setValue],
+        [fetchEruReadinessData, setValue],
     );
+
+    const eruTypes = useMemo(() => (
+        value.eru_types?.map((eruType) => eruType.type).filter(isDefined)
+    ), [value.eru_types]);
 
     return (
         <Page
-            className={styles.updateForm}
             title={strings.eruReadinessFormTitle}
             heading={strings.eruReadinessFormHeading}
-            description={strings.eruReadinessFormDescription}
+            description={resolveToComponent(
+                strings.eruReadinessFormDescription,
+                {
+                    imContact: (
+                        <Link
+                            href="mailto:im@ifrc.org"
+                            external
+                            variant="tertiary"
+                        >
+                            {strings.imContact}
+                        </Link>
+                    ),
+                    surgeContact: (
+                        <Link
+                            href="mailto:surge@ifrc.org"
+                            external
+                            variant="tertiary"
+                        >
+                            {strings.imContact}
+                        </Link>
+                    ),
+                },
+            )}
             withBackgroundColorInMainSection
-            mainSectionClassName={styles.content}
+            mainSectionClassName={styles.mainSection}
             actions={(
                 <>
                     <Button
                         name={undefined}
                         onClick={handleCancel}
-                        variant="tertiary"
+                        variant="secondary"
                     >
                         {strings.eruCancelButton}
                     </Button>
                     <Button
                         name={undefined}
-                        onClick={handleSave}
-                        variant="secondary"
+                        onClick={handleFormSubmit}
+                        variant="primary"
                     >
                         {strings.eruSaveAndCloseButton}
                     </Button>
                 </>
             )}
         >
-            <Container>
+            <NonFieldError
+                error={formError}
+                withFallbackError
+            />
+            <Container
+                withFooterBorder
+                contentViewType="vertical"
+            >
                 <InputSection
-                    title={strings.eruNationalSociety}
+                    title={strings.eruSelectNationalSociety}
                     withAsteriskOnTitle
                 >
                     <SelectInput
                         name="eru_owner"
-                        options={eruOwnerOption}
+                        options={eruOwnerResponse?.results}
                         onChange={handleEruOwnerChange}
-                        value={selectedEruOwner}
+                        value={value.eru_owner}
                         keySelector={eruOwnerKeySelector}
                         labelSelector={eruOwnerLabelSelector}
                         error={error?.eru_owner}
-                        disabled={disabled}
+                        required
+                        disabled={pending}
                     />
                 </InputSection>
-            </Container>
-            <Container>
                 <InputSection
-                    title={strings.eruTypes}
+                    title={strings.eruSelectErus}
                 >
                     <MultiSelectInput
                         name="eru_types"
-                        options={deployments_eru_type}
-                        value={selectedEruTypeList}
+                        options={eruTypeOptions}
+                        value={eruTypes}
                         keySelector={eruTypeKeySelector}
                         labelSelector={stringValueSelector}
-                        onChange={handleSelectERUType}
-                        disabled={disabled}
+                        onChange={handleSelectEru}
+                        required
+                        disabled={pending || isNotDefined(value.eru_owner)}
                     />
                 </InputSection>
             </Container>
-            <div className={styles.eruTypeList}>
-                {value.eru_types?.map((eruType, index) => (
+            <Container
+                contentViewType="vertical"
+                pending={fetchEruReadinessDataPending}
+            >
+                <NonFieldError error={getErrorObject(error?.eru_types)} />
+                {value.eru_types?.map((eru, index) => (
                     <EruInputItem
-                        key={eruType.id}
+                        key={eru.client_id}
                         index={index}
-                        value={eruType}
+                        value={eru}
                         onChange={onEruChange}
-                        title={deployments_eru_type?.find(
-                            (type) => type.key === eruType.type,
-                        )?.value}
                         error={getErrorObject(error?.eru_types)}
                     />
                 ))}
-            </div>
+            </Container>
         </Page>
     );
 }
