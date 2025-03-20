@@ -17,11 +17,11 @@ import {
     rootLayout,
 } from './common';
 
-type DefaultSurgeChild = 'overview';
+type DefaultSurgeChild = 'active-surge-deployments';
 const surgeLayout = customWrapRoute({
     parent: rootLayout,
     path: 'surge',
-    forwardPath: 'overview' satisfies DefaultSurgeChild,
+    forwardPath: 'active-surge-deployments' satisfies DefaultSurgeChild,
     component: {
         render: () => import('#views/Surge'),
         props: {},
@@ -40,25 +40,12 @@ const surgeIndex = customWrapRoute({
         eagerLoad: true,
         render: Navigate,
         props: {
-            to: 'overview' satisfies DefaultSurgeChild,
+            to: 'active-surge-deployments' satisfies DefaultSurgeChild,
             replace: true,
         },
     },
     context: {
         title: 'Surge',
-        visibility: 'anything',
-    },
-});
-
-const surgeOverview = customWrapRoute({
-    parent: surgeLayout,
-    path: 'overview' satisfies DefaultSurgeChild,
-    component: {
-        render: () => import('#views/SurgeOverview'),
-        props: {},
-    },
-    context: {
-        title: 'Surge Overview',
         visibility: 'anything',
     },
 });
@@ -76,8 +63,41 @@ const activeSurgeDeployments = customWrapRoute({
     },
 });
 
+type DefaultSurgeOverviewChild = 'rapid-response-personnel';
+
+const surgeOverviewLayout = customWrapRoute({
+    parent: surgeLayout,
+    path: 'overview',
+    forwardPath: 'rapid-response-personnel' satisfies DefaultSurgeOverviewChild,
+    component: {
+        render: () => import('#views/SurgeOverview'),
+        props: {},
+    },
+    context: {
+        title: 'Surge Overview',
+        visibility: 'anything',
+    },
+});
+
+const surgeOverviewIndex = customWrapRoute({
+    parent: surgeOverviewLayout,
+    index: true,
+    component: {
+        eagerLoad: true,
+        render: Navigate,
+        props: {
+            to: 'rapid-response-personnel' satisfies DefaultSurgeOverviewChild,
+            replace: true,
+        },
+    },
+    context: {
+        title: 'Surge Overview',
+        visibility: 'anything',
+    },
+});
+
 const rapidResponsePersonnel = customWrapRoute({
-    parent: surgeOverview,
+    parent: surgeOverviewLayout,
     path: 'rapid-response-personnel',
     component: {
         render: () => import('#views/SurgeOverview/RapidResponsePersonnel'),
@@ -90,7 +110,7 @@ const rapidResponsePersonnel = customWrapRoute({
 });
 
 const emergencyResponseUnit = customWrapRoute({
-    parent: surgeOverview,
+    parent: surgeOverviewLayout,
     path: 'emergency-response-unit',
     component: {
         render: () => import('#views/SurgeOverview/EmergencyResponseUnit'),
@@ -1262,7 +1282,7 @@ function DeploymentNavigate() {
     const params = useParams<{ surgeId: string }>();
 
     const deploymentRouteMap: Record<string, MyOutputNonIndexRouteObject<ExtendedProps>> = {
-        overview: surgeOverview,
+        overview: surgeOverviewLayout,
         'operational-toolbox': surgeOperationalToolbox,
         personnel: allDeployedPersonnel,
         erus: allDeployedEmergencyResponseUnits,
@@ -1274,7 +1294,7 @@ function DeploymentNavigate() {
 
     const path = isDefined(newRoute)
         ? newRoute.absoluteForwardPath
-        : surgeOverview.absoluteForwardPath;
+        : surgeOverviewLayout.absoluteForwardPath;
 
     return (
         <Navigate
@@ -1504,7 +1524,7 @@ const obsoleteUrlDeployments = customWrapRoute({
         eagerLoad: true,
         render: Navigate,
         props: {
-            to: surgeOverview.absolutePath,
+            to: surgeOverviewLayout.absolutePath,
         },
     },
     wrapperComponent: Auth,
@@ -1516,9 +1536,10 @@ const obsoleteUrlDeployments = customWrapRoute({
 
 export default {
     surgeLayout,
-    surgeOverview,
+    surgeOverviewLayout,
     surgeOperationalToolbox,
     surgeCatalogueLayout,
+    surgeOverviewIndex,
     surgeIndex,
     catalogueIndex,
     surgeCatalogueOverview,
@@ -1553,10 +1574,8 @@ export default {
     surgeCatalogueInformationManagement,
     surgeCatalogueInformationManagementSatelliteImagery,
     surgeCatalogueInformationManagementRolesResponsibility,
-    // eslint-disable-next-line max-len
-    surgeCatalogueInformationManagementSupport: surgeCatalogueInformationManagementRegionalOfficeSupport,
-    // eslint-disable-next-line max-len
-    surgeCatalogueInformationManagementOperationSupport: surgeCatalogueInformationManagementGenevaSupport,
+    surgeCatalogueInformationManagementRegionalOfficeSupport,
+    surgeCatalogueInformationManagementGenevaSupport,
     surgeCatalogueInformationManagementComposition,
     surgeCatalogueInformationTechnology,
     surgeCataloguePmer,

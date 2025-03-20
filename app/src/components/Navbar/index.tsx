@@ -376,7 +376,7 @@ function Navbar(props: Props) {
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                     type="link"
-                                    to="surgeOverview"
+                                    to="surgeOverviewLayout"
                                     variant="tertiary"
                                 >
                                     {strings.userMenuSurgeGlobalOverview}

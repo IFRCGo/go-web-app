@@ -79,7 +79,7 @@ export function Component() {
                     {strings.activeSurgeDeploymentsTab}
                 </NavigationTab>
                 <NavigationTab
-                    to="surgeOverview"
+                    to="surgeOverviewLayout"
                     parentRoute
                 >
                     {strings.surgeOverviewTab}
