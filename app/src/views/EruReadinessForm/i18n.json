@@ -3,15 +3,19 @@
     "strings": {
         "eruReadinessFormTitle": "Update ERU Readiness Form",
         "eruReadinessFormHeading": "ERU Deployment Readiness",
-        "eruReadinessFormDescription": "Complete the form with the ERU Readiness data of your National Society. In case of any questions.",
+        "eruReadinessFormDescription": "Complete the form with the ERU readiness data of your National Society. In case of any questions, contact: {imContact} or {surgeContact}.",
+        "imContact": "im@ifrc.org",
+        "surgeContact": "surge@ifrc.org",
         "eruCancelButton": "Cancel",
         "eruSaveAndCloseButton": "Save and Close",
-        "eruNationalSociety": "National Society",
-        "eruTypes": "Select ERU Type(s)",
-        "eruFormCreatedSuccessfully": "ERU Readiness Created Successfully",
-        "eruFormFailedToCreate": "Failed to create a ERU Readiness",
-        "eruFormSuccessfullyUpdated": "Successfully Updated ERU Readiness Form",
-        "eruFormFailedToUpdate": "Failed to Update ERU Readiness Form",
-        "eruNoRecord": "No Existing Record"
+        "eruSelectNationalSociety": "National Society",
+        "eruSelectErus": "Select ERU Type(s)",
+        "eruFormSuccessfullyUpdated": "Successfully updated ERU readiness",
+        "eruFormFailedToUpdate": "Failed to update ERU readiness",
+        "eruNoRecord": "No existing record",
+        "eruOwnerFailedToFetch": "Failed to fetch ERU owners!",
+        "eruReadinessFailedToFetch": "Failed to fetch ERU readiness information!",
+        "eruFormSuccessfullyCreated": "Successfully created ERU readiness",
+        "eruFormFailedToCreate": "Failed to create ERU readiness"
     }
 }

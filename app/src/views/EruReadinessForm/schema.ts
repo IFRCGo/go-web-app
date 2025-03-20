@@ -1,26 +1,36 @@
+import { type DeepReplace } from '@ifrc-go/ui/utils';
 import {
     type ArraySchema,
     type ObjectSchema,
     type PartialForm,
+    requiredListCondition,
+    undefinedValue,
 } from '@togglecorp/toggle-form';
 
 import { type GoApiBody } from '#utils/restRequest';
 
-export type EruReadinessBody = GoApiBody<'/api/v2/eru-readiness/{id}/', 'PATCH'>;
+export type EruReadinessPatchBody = GoApiBody<'/api/v2/eru-readiness/{id}/', 'PATCH'>;
+export type EruReadinessPostBody = GoApiBody<'/api/v2/eru-readiness/', 'POST'>;
+type RawEruItem = NonNullable<EruReadinessPatchBody['eru_types']>[number];
+export type EruItem = RawEruItem & { client_id: string }
 
-export type BaseFormType = PartialForm<EruReadinessBody>;
+type EruReadinessFormFields = DeepReplace<
+    EruReadinessPatchBody,
+    RawEruItem,
+    EruItem
+>;
 
-type FormSchema = ObjectSchema<BaseFormType>;
+export type FormType = PartialForm<EruReadinessFormFields, 'client_id'>;
+
+export type PartialEruItem = NonNullable<FormType['eru_types']>[number];
+
+export type FormSchema = ObjectSchema<FormType>;
 type FormSchemaFields = ReturnType<FormSchema['fields']>;
-export type EruType = (NonNullable<NonNullable<EruReadinessBody['eru_types']>>[number]) & {
-    client_id: string;
-};
-export type EruTypesType = NonNullable<BaseFormType['eru_types']>[number];
 
-type EruTypeSchema = ObjectSchema<PartialForm<EruType>, BaseFormType>;
-type EruTypeSchemaFields = ReturnType<EruTypeSchema['fields']>;
-type EruTypesSchema = ArraySchema<PartialForm<EruType>, BaseFormType>;
-export type EruTypesSchemaMember = ReturnType<EruTypesSchema['member']>;
+type EruItemSchema = ObjectSchema<PartialForm<EruItem, 'client_id'>, FormType>;
+type EruItemSchemaFields = ReturnType<EruItemSchema['fields']>;
+type EruItemListSchema = ArraySchema<PartialForm<EruItem, 'client_id'>, FormType>;
+type EruItemListMemberSchema = ReturnType<EruItemListSchema['member']>;
 
 const schema: FormSchema = {
     fields: (): FormSchemaFields => ({
@@ -28,16 +38,19 @@ const schema: FormSchema = {
             required: true,
         },
         eru_types: {
+            required: true,
+            requiredValidation: requiredListCondition,
+            defaultValue: [],
             keySelector: (col) => col.client_id,
-            member: (): EruTypesSchemaMember => ({
-                fields: (): EruTypeSchemaFields => ({
-                    client_id: { },
-                    id: { defaultValue: undefined },
+            member: (): EruItemListMemberSchema => ({
+                fields: (): EruItemSchemaFields => ({
+                    client_id: {},
+                    id: { defaultValue: undefinedValue },
                     type: { required: true },
                     equipment_readiness: { required: true },
                     people_readiness: { required: true },
                     funding_readiness: { required: true },
-                    comment: { },
+                    comment: {},
                     has_capacity_to_lead: { defaultValue: false },
                     has_capacity_to_support: { defaultValue: false },
                 }),
