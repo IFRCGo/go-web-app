@@ -110,7 +110,7 @@ export function Component() {
     const ifrcRegionalData: LinkData[] = [
         {
             title: strings.learnMore,
-            to: 'surgeCatalogueInformationManagementSupport',
+            to: 'surgeCatalogueInformationManagementRegionalOfficeSupport',
             withLinkIcon: true,
         },
     ];
@@ -118,7 +118,7 @@ export function Component() {
     const ifrcGenevaData: LinkData[] = [
         {
             title: strings.learnMore,
-            to: 'surgeCatalogueInformationManagementOperationSupport',
+            to: 'surgeCatalogueInformationManagementGenevaSupport',
             withLinkIcon: true,
         },
     ];
