@@ -33,6 +33,7 @@ import NonFieldError from '#components/NonFieldError';
 import Page from '#components/Page';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useAlertContext from '#hooks/useAlert';
+import useRouting from '#hooks/useRouting';
 import {
     type GoApiResponse,
     useLazyRequest,
@@ -55,6 +56,7 @@ type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type EruOwners = GoApiResponse<'/api/v2/eru_owner/mini/'>;
 type EruOwnerOption = NonNullable<EruOwners['results']>[number];
 type EruOption = NonNullable<GlobalEnumsResponse['deployments_eru_type']>[number];
+type EruResponse = GoApiResponse<'/api/v2/eru-readiness/{id}/'>;
 
 function eruOwnerKeySelector(option: EruOwnerOption) {
     return option.id;
@@ -74,6 +76,7 @@ const defaultFormValues: FormType = {};
 export function Component() {
     const strings = useTranslation(i18n);
 
+    const { goBack } = useRouting();
     const alert = useAlertContext();
     const {
         deployments_eru_type: eruTypeOptions,
@@ -95,6 +98,24 @@ export function Component() {
 
     const [eruReadinessId, setEruReadinessId] = useState<number | undefined>();
 
+    const patchEruFormValues = (response: EruResponse) => {
+        setEruReadinessId(response.id);
+        setValue({
+            eru_owner: response.eru_owner_details.id,
+            eru_types: response.eru_types.map((eruType) => ({
+                ...injectClientId(eruType),
+                id: eruType.id,
+                type: eruType.type,
+                equipment_readiness: eruType.equipment_readiness,
+                people_readiness: eruType.people_readiness,
+                funding_readiness: eruType.funding_readiness,
+                comment: eruType.comment,
+                has_capacity_to_lead: eruType.has_capacity_to_lead,
+                has_capacity_to_support: eruType.has_capacity_to_support,
+                client_id: randomString(),
+            })),
+        });
+    };
     const {
         trigger: updateEruReadiness,
         pending: updateEruReadinessPending,
@@ -103,11 +124,13 @@ export function Component() {
         method: 'PATCH',
         pathVariables: eruReadinessId ? { id: Number(eruReadinessId) } : undefined,
         body: (ctx: EruReadinessPatchBody) => ctx,
-        onSuccess: () => {
+        onSuccess: (response) => {
+            patchEruFormValues(response);
             alert.show(
                 strings.eruFormSuccessfullyUpdated,
                 { variant: 'success' },
             );
+            goBack();
         },
         onFailure: ({
             value: {
@@ -135,11 +158,13 @@ export function Component() {
         url: '/api/v2/eru-readiness/',
         method: 'POST',
         body: (ctx: EruReadinessPostBody) => ctx,
-        onSuccess: () => {
+        onSuccess: (response) => {
+            patchEruFormValues(response);
             alert.show(
                 strings.eruFormSuccessfullyCreated,
                 { variant: 'success' },
             );
+            goBack();
         },
         onFailure: ({
             value: {
@@ -185,23 +210,7 @@ export function Component() {
         onSuccess: (response) => {
             const results = response?.results ?? [];
             if (results?.length > 0) {
-                const existingData = results[0];
-                setEruReadinessId(existingData.id);
-                setValue({
-                    eru_owner: existingData.eru_owner_details.id,
-                    eru_types: existingData.eru_types.map((eruType) => ({
-                        ...injectClientId(eruType),
-                        id: eruType.id,
-                        type: eruType.type,
-                        equipment_readiness: eruType.equipment_readiness,
-                        people_readiness: eruType.people_readiness,
-                        funding_readiness: eruType.funding_readiness,
-                        comment: eruType.comment,
-                        has_capacity_to_lead: eruType.has_capacity_to_lead,
-                        has_capacity_to_support: eruType.has_capacity_to_support,
-                        client_id: randomString(),
-                    })),
-                });
+                patchEruFormValues(results[0]);
             } else {
                 setEruReadinessId(undefined);
                 setValue((oldValues) => ({
@@ -244,7 +253,9 @@ export function Component() {
 
     const handleCancel = useCallback(() => {
         setValue(defaultFormValues);
+        goBack();
     }, [
+        goBack,
         setValue,
     ]);
 
