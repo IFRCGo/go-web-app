@@ -12,7 +12,7 @@ import { type GoApiBody } from '#utils/restRequest';
 export type EruReadinessPatchBody = GoApiBody<'/api/v2/eru-readiness/{id}/', 'PATCH'>;
 export type EruReadinessPostBody = GoApiBody<'/api/v2/eru-readiness/', 'POST'>;
 type RawEruItem = NonNullable<EruReadinessPatchBody['eru_types']>[number];
-export type EruItem = RawEruItem & { client_id: string }
+type EruItem = RawEruItem & { client_id: string }
 
 type EruReadinessFormFields = DeepReplace<
     EruReadinessPatchBody,
@@ -24,7 +24,7 @@ export type FormType = PartialForm<EruReadinessFormFields, 'client_id'>;
 
 export type PartialEruItem = NonNullable<FormType['eru_types']>[number];
 
-export type FormSchema = ObjectSchema<FormType>;
+type FormSchema = ObjectSchema<FormType>;
 type FormSchemaFields = ReturnType<FormSchema['fields']>;
 
 type EruItemSchema = ObjectSchema<PartialForm<EruItem, 'client_id'>, FormType>;

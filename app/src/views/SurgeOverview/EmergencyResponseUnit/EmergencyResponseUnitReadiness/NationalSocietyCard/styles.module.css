@@ -1,0 +1,49 @@
+.national-society-type-card {
+    border-radius: var(--go-ui-border-radius-lg);
+    box-shadow: var(--go-ui-box-shadow-md);
+
+    .last-updated {
+        color: var(--go-ui-color-text-light);
+    }
+}
+
+.modal {
+    .separator-left {
+        flex-shrink: 0;
+        border-left: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+    }
+
+    .readiness-container {
+        display: flex;
+        border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+        padding-bottom: var(--go-ui-spacing-md);
+        gap: var(--go-ui-spacing-md);
+
+        .readiness {
+            display: flex;
+            flex-direction: column-reverse;
+            flex-grow: 1;
+
+            .icon {
+                color: var(--go-ui-color-primary-gray);
+                font-size: var(--go-ui-height-compact-status-icon);
+            }
+        }
+    }
+}
+
+.green-icon {
+    color: var(--go-ui-color-green);
+}
+
+.yellow-icon {
+    color: var(--go-ui-color-semantic-yellow);
+}
+
+.red-icon {
+    color: var(--go-ui-color-primary-red);
+}
+
+.gray-icon {
+    color: var(--go-ui-color-primary-gray);
+}
