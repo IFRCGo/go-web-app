@@ -122,9 +122,9 @@ const emergencyResponseUnit = customWrapRoute({
     },
 });
 
-const updateERUReadinessForm = customWrapRoute({
+const eruReadinessForm = customWrapRoute({
     parent: rootLayout,
-    path: 'update-eru-readiness',
+    path: 'eru-readiness',
     component: {
         render: () => import('#views/EruReadinessForm'),
         props: {},
@@ -1694,5 +1694,5 @@ export default {
     activeSurgeDeployments,
     rapidResponsePersonnel,
     emergencyResponseUnit,
-    updateERUReadinessForm,
+    eruReadinessForm,
 };
