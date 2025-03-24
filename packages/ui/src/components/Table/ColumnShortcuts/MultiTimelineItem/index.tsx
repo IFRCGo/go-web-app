@@ -22,10 +22,6 @@ export interface Props {
     } | undefined;
     highlightedStartDate: DateLike | null | undefined;
     highlightedEndDate: DateLike | null | undefined;
-    highlightedDateRange: {
-        start: Date,
-        end: Date,
-    } | undefined;
     startDateLabel: string;
     endDateLabel: string;
     highlightedStartDateLabel: string;
@@ -40,14 +36,13 @@ function MultiTimelineItem(props: Props) {
         dateRange,
         highlightedStartDate,
         highlightedEndDate,
-        highlightedDateRange,
         startDateLabel,
         endDateLabel,
         highlightedStartDateLabel,
         highlightedEndDateLabel,
     } = props;
 
-    if (isNotDefined(dateRange) || isNotDefined(highlightedDateRange)) {
+    if (isNotDefined(dateRange)) {
         return null;
     }
 
@@ -63,6 +58,7 @@ function MultiTimelineItem(props: Props) {
 
     const start = 1 - (dateRange.end.getTime() - new Date(startDate).getTime()) / domainWidth;
     const end = (dateRange.end.getTime() - new Date(endDate).getTime()) / domainWidth;
+    const today = 1 - (dateRange.end.getTime() - new Date().getTime()) / domainWidth;
 
     const highlightedStart = 1 - (dateRange.end.getTime()
         - new Date(highlightedStartDate).getTime()) / domainWidth;
@@ -72,7 +68,15 @@ function MultiTimelineItem(props: Props) {
 
     return (
         <>
-            <div className={_cs(styles.timelineItem, className)}>
+            <div className={_cs(styles.multiTimelineItem, className)}>
+                <div className={styles.startDateMarker} />
+                <div className={styles.endDateMarker} />
+                <div
+                    className={styles.todayMarker}
+                    style={{
+                        left: `${100 * today}%`,
+                    }}
+                />
                 <div
                     className={styles.timelineProgressBar}
                     style={{
@@ -81,7 +85,7 @@ function MultiTimelineItem(props: Props) {
                     }}
                 />
                 <div
-                    className={styles.timelineProgressBarHighlighted}
+                    className={styles.highlightedTimelineProgressBar}
                     style={{
                         left: `${100 * highlightedStart}%`,
                         right: `${100 * highlightedEnd}%`,
@@ -104,9 +108,9 @@ function MultiTimelineItem(props: Props) {
                         {highlightedStartDate && highlightedEndDate && (
                             <>
                                 <TextOutput
-                                    valueType="date"
                                     label={highlightedStartDateLabel}
                                     value={highlightedStartDate}
+                                    valueType="date"
                                 />
                                 <TextOutput
                                     label={highlightedEndDateLabel}

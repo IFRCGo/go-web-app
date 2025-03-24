@@ -3,7 +3,6 @@
     "strings": {
         "surgeAlertsTableHeading": "Active Rapid Response Alert",
         "surgeAlertsTableAlertDate": "Alert Date",
-        "surgeAlertsApplicationDeadline": "Application Deadline",
         "surgeAlertsTableDuration": "Duration",
         "surgeAlertsTableStartDate": "Start Date",
         "surgeAlertsTablePosition": "Position",

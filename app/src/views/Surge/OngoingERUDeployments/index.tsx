@@ -17,13 +17,9 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     createEmptyColumn,
     createExpandColumn,
-    createExpansionIndicatorColumn,
     createMultiTimelineColumn,
     createStringColumn,
     createTimelineColumn,
-    isValidDate,
-    maxSafe,
-    minSafe,
     numericIdSelector,
 } from '@ifrc-go/ui/utils';
 import {
@@ -39,6 +35,7 @@ import {
     COLOR_LIGHT_GREY,
     COLOR_PRIMARY_RED,
 } from '#utils/constants';
+import { getEruEventDates } from '#utils/domain/eru';
 import { createLinkColumn } from '#utils/domain/tableHelpers';
 import {
     type GoApiResponse,
@@ -61,42 +58,6 @@ const emergencyResponseUnitTypeLabelSelector = (item: DeploymentsEruTypeEnum) =>
 
 const PAGE_SIZE = 5;
 
-function getDateRange(data: GetERUDeploymentsResponse, key: 'appeals' | 'active_erus') {
-    if (
-        isNotDefined(data)
-        || isNotDefined(data.results)
-        || data.results.length === 0
-    ) {
-        return undefined;
-    }
-
-    const startDateList = data.results
-        .flatMap((item) => item[key]?.map(
-            (entry) => (isValidDate(entry.start_date)
-                ? new Date(entry.start_date).getTime() : undefined),
-        ) ?? [])
-        .filter(isDefined);
-
-    const endDateList = data.results
-        .flatMap((item) => item[key]?.map(
-            (entry) => (isValidDate(entry.end_date)
-                ? new Date(entry.end_date).getTime() : undefined),
-        ) ?? [])
-        .filter(isDefined);
-
-    const start = minSafe(startDateList);
-    const end = maxSafe(endDateList);
-
-    if (isNotDefined(start) || isNotDefined(end)) {
-        return undefined;
-    }
-
-    return {
-        start: new Date(start),
-        end: new Date(end),
-    };
-}
-
 function OngoingERUDeployments() {
     const strings = useTranslation(i18n);
 
@@ -116,7 +77,7 @@ function OngoingERUDeployments() {
     });
 
     const {
-        deployments_eru_type,
+        deployments_eru_type: eruTypes,
     } = useGlobalEnums();
 
     const [expandedRow, setExpandedRow] = useState<ERUDeploymentListItem | undefined>();
@@ -134,19 +95,26 @@ function OngoingERUDeployments() {
         },
     });
 
-    const appealDateRange = useMemo(() => {
+    const eruEventDates = useMemo(() => {
         if (isNotDefined(deployedERUResponse)) {
             return undefined;
         }
-        return getDateRange(deployedERUResponse, 'appeals');
+        return getEruEventDates(deployedERUResponse.results);
     }, [deployedERUResponse]);
 
-    const dateRange = useMemo(() => {
-        if (isNotDefined(deployedERUResponse)) {
+    const timelineDateRange = useMemo(() => {
+        if (isNotDefined(eruEventDates)) {
             return undefined;
         }
-        return getDateRange(deployedERUResponse, 'active_erus');
-    }, [deployedERUResponse]);
+        if (isNotDefined(eruEventDates.timelineStartDate)
+            || isNotDefined(eruEventDates.timelineEndDate)) {
+            return undefined;
+        }
+        return {
+            start: eruEventDates.timelineStartDate,
+            end: eruEventDates.timelineEndDate,
+        };
+    }, [eruEventDates]);
 
     const handleExpandClick = useCallback(
         (row: ERUDeploymentListItem) => {
@@ -157,73 +125,43 @@ function OngoingERUDeployments() {
         [],
     );
 
-    const baseColumns = useMemo(() => ([
-        createLinkColumn<ERUDeploymentListItem, number>(
-            'name',
-            strings.deployedERUEmergency,
-            (item) => item.name,
-            (item) => ({
-                to: 'emergenciesLayout',
-                urlParams: {
-                    emergencyId: String(item.id),
-                },
-            }),
-        ),
-        createStringColumn<ERUDeploymentListItem, number>(
-            'organisation',
-            strings.deployedERUOrganisation,
-            () => '',
-            { columnClassName: styles.organisation },
-        ),
-        createMultiTimelineColumn<ERUDeploymentListItem, number>(
-            'timeline',
-            appealDateRange,
-            dateRange,
-            (item) => {
-                const appealRange = getDateRange({
-                    count: undefined,
-                    next: null,
-                    previous: null,
-                    results: [item],
-                }, 'appeals');
-
-                const eruRange = getDateRange({
-                    count: undefined,
-                    next: null,
-                    previous: null,
-                    results: [item],
-                }, 'active_erus');
-
-                return {
-                    startDate: appealRange?.start,
-                    endDate: appealRange?.end,
-                    highlightedStartDate: eruRange?.start,
-                    highlightedEndDate: eruRange?.end,
-                    startDateLabel: strings.deployedAppealStartDate,
-                    endDateLabel: strings.deployedAppealEndDate,
-                    highlightedStartDateLabel: strings.deployedERUStartDate,
-                    highlightedEndDateLabel: strings.deployedERUEndDate,
-                };
-            },
-            { columnClassName: styles.timeline },
-        ),
-    ]), [
-        appealDateRange,
-        dateRange,
-        strings.deployedERUEmergency,
-        strings.deployedERUOrganisation,
-        strings.deployedAppealStartDate,
-        strings.deployedAppealEndDate,
-        strings.deployedERUStartDate,
-        strings.deployedERUEndDate,
-    ]);
-
     const columns = useMemo(
         () => ([
-            createExpansionIndicatorColumn<ERUDeploymentListItem, number>(
-                false,
+            createLinkColumn<ERUDeploymentListItem, number>(
+                'name',
+                strings.deployedERUEmergency,
+                (item) => item.name,
+                (item) => ({
+                    to: 'emergenciesLayout',
+                    urlParams: {
+                        emergencyId: String(item.id),
+                    },
+                }),
             ),
-            ...baseColumns,
+            createStringColumn<ERUDeploymentListItem, number>(
+                'organisation',
+                strings.deployedERUOrganisation,
+                () => '',
+                { columnClassName: styles.organisation },
+            ),
+            createMultiTimelineColumn<ERUDeploymentListItem, number>(
+                'timeline',
+                timelineDateRange,
+                (item) => {
+                    const itemDateRange = getEruEventDates([item]);
+                    return {
+                        startDate: itemDateRange?.appealStartDate,
+                        endDate: itemDateRange?.appealEndDate,
+                        highlightedStartDate: itemDateRange?.eruStartDate,
+                        highlightedEndDate: itemDateRange?.eruEndDate,
+                        startDateLabel: strings.deployedAppealStartDate,
+                        endDateLabel: strings.deployedAppealEndDate,
+                        highlightedStartDateLabel: strings.deployedERUStartDate,
+                        highlightedEndDateLabel: strings.deployedERUEndDate,
+                    };
+                },
+                { columnClassName: styles.timeline },
+            ),
             createExpandColumn<ERUDeploymentListItem, number>(
                 'expandRow',
                 '',
@@ -233,12 +171,21 @@ function OngoingERUDeployments() {
                 }),
             ),
         ]),
-        [handleExpandClick, baseColumns, expandedRow],
+        [
+            handleExpandClick,
+            expandedRow,
+            timelineDateRange,
+            strings.deployedERUEmergency,
+            strings.deployedERUOrganisation,
+            strings.deployedAppealStartDate,
+            strings.deployedAppealEndDate,
+            strings.deployedERUStartDate,
+            strings.deployedERUEndDate,
+        ],
     );
 
-    const detailColumns = useMemo(
+    const eruColumns = useMemo(
         () => ([
-            createEmptyColumn<ActiveERUListItem, number>(),
             createStringColumn<ActiveERUListItem, number>(
                 'name',
                 strings.deployedERUName,
@@ -251,7 +198,7 @@ function OngoingERUDeployments() {
             ),
             createTimelineColumn<ActiveERUListItem, number>(
                 'timeline',
-                dateRange,
+                timelineDateRange,
                 (item) => ({
                     startDate: item.start_date,
                     endDate: item.end_date,
@@ -261,7 +208,7 @@ function OngoingERUDeployments() {
             createEmptyColumn<ActiveERUListItem, number>(),
         ]),
         [
-            dateRange,
+            timelineDateRange,
             strings.deployedERUOrganisation,
             strings.deployedERUName,
         ],
@@ -281,7 +228,7 @@ function OngoingERUDeployments() {
                     <TableBodyContent
                         keySelector={numericIdSelector}
                         data={subRows}
-                        columns={detailColumns}
+                        columns={eruColumns}
                         cellClassName={styles.subCell}
                     />
                 </>
@@ -289,7 +236,7 @@ function OngoingERUDeployments() {
         },
         [
             expandedRow,
-            detailColumns,
+            eruColumns,
         ],
     );
 
@@ -323,19 +270,16 @@ function OngoingERUDeployments() {
                     onChange={setFilterField}
                     keySelector={emergencyResponseUnitTypeKeySelector}
                     labelSelector={emergencyResponseUnitTypeLabelSelector}
-                    options={deployments_eru_type}
+                    options={eruTypes}
                 />
             )}
-            footerContentClassName={styles.legend}
             footerContent={(
                 <>
                     <LegendItem
-                        className={styles.legendItem}
                         label={strings.deploymentsERUEmergencyTimeline}
                         color={COLOR_LIGHT_GREY}
                     />
                     <LegendItem
-                        className={styles.legendItem}
                         label={strings.deploymentsERUDates}
                         color={COLOR_PRIMARY_RED}
                     />
