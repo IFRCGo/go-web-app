@@ -1,29 +1,29 @@
-import { useTranslation } from '@ifrc-go/ui/hooks';
+import { Container } from '@ifrc-go/ui';
 
-import Page from '#components/Page';
+import OngoingERUDeployments from '#views/Surge/OngoingERUDeployments';
+import OngoingRapidResponseDeployments from '#views/Surge/OngoingRapidResponseDeployments';
 
 import ActiveRapidResponseTable from './ActiveRapidResponseTable';
 import ActiveSurgeSupport from './ActiveSurgeSupport';
-import OngoingERUDeployments from './OngoingERUDeployments';
-import OngoingRapidResponse from './OngoingRapidResponse';
 import SurgeMap from './SurgeMap';
 
-import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 /** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const strings = useTranslation(i18n);
     return (
-        <Page
-            title={strings.activeSurgeDeploymentsPageTitle}
+        <Container
+            contentViewType="vertical"
+            spacing="loose"
+            className={styles.activeSurgeDeployments}
         >
             <SurgeMap />
             <ActiveSurgeSupport />
             <ActiveRapidResponseTable />
-            <OngoingRapidResponse />
+            <OngoingRapidResponseDeployments />
             <OngoingERUDeployments />
-        </Page>
+        </Container>
     );
 }
 

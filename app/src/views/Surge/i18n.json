@@ -2,9 +2,11 @@
     "namespace": "surge",
     "strings": {
         "surgeTitle": "Surge",
+        "activeRapidResponsePersonnel": "Active Rapid Response Personnel",
+        "rapidResponseDeployments": "Rapid Response Deployments This Year",
         "activeDeploymentsTitle": "Ongoing Rapid Response Deployments",
-        "activeErusTitle": "Deployed ERUs",
-        "deploymentsThisYearTitle": "Deployments This Year",
+        "activeErus": "Active Emergency Response Units",
+        "eruDeploymentsThisYear": "Emergency Response Unit Deployments This Year",
         "surgeOverviewTab": "Surge Overview",
         "operationalToolboxTab": "Operational Toolbox",
         "surgeCatalogueTab": "Catalogue of Surge Services",

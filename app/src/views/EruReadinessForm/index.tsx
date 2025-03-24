@@ -319,7 +319,7 @@ export function Component() {
                             external
                             variant="tertiary"
                         >
-                            {strings.imContact}
+                            {strings.surgeContact}
                         </Link>
                     ),
                 },

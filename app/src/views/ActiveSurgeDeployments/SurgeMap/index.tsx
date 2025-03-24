@@ -310,6 +310,7 @@ function SurgeMap(props: Props) {
         <Container
             className={_cs(styles.surgeMap, className)}
             heading={strings.surgeMapTitle}
+            withHeaderBorder
             filters={(
                 <>
                     <DisasterTypeSelectInput

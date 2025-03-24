@@ -1,0 +1,22 @@
+.rapid-response-deployments {
+    .table {
+        min-height: var(--go-ui-compact-content-min-height);
+        .name {
+            min-width: 8rem;
+        }
+
+        .role {
+            min-width: 8rem;
+        }
+
+        .timeline {
+            width: 24rem;
+        }
+
+        .sub-cell {
+            border-bottom: unset;
+            background-color: var(--go-ui-color-gray-20);
+        }
+    }
+}
+
