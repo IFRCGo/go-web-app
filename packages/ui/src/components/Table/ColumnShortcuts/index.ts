@@ -463,17 +463,11 @@ export function createActionColumn<DATUM, KEY>(
 export function createMultiTimelineColumn<DATUM, KEY>(
     id: string,
     dateRange: { start: Date; end: Date } | undefined,
-    highlightedDateRange: { start: Date; end: Date } | undefined,
     rendererParams: (datum: DATUM) => Omit<
         MultiTimelineItemProps,
-        'dateRange' | 'highlightedDateRange'
-    > & {
-        startDateLabel: string;
-        endDateLabel: string;
-        highlightedStartDateLabel: string;
-        highlightedEndDateLabel: string;
-    },
-    options?: Options<DATUM, KEY, MultiTimelineItemProps, MultiTimelineHeaderProps>,
+        'dateRange'
+    >,
+    options?: Options<DATUM, KEY, TableActionsProps, MultiTimelineHeaderProps>,
 ) {
     const item: Column<DATUM, KEY, MultiTimelineItemProps, MultiTimelineHeaderProps> = {
         id,
@@ -481,13 +475,11 @@ export function createMultiTimelineColumn<DATUM, KEY>(
         headerCellRenderer: MultiTimelineHeader,
         headerCellRendererParams: {
             dateRange,
-            highlightedDateRange,
             sortable: options?.sortable,
         },
         cellRenderer: MultiTimelineItem,
         cellRendererParams: (_, datum) => ({
             dateRange,
-            highlightedDateRange,
             ...rendererParams(datum),
         }),
         headerContainerClassName: options?.headerContainerClassName,

@@ -12,17 +12,12 @@ export interface Props extends HeaderCellProps {
         start: Date,
         end: Date,
     } | undefined;
-    highlightedDateRange?: {
-        start: Date,
-        end: Date,
-    } | undefined;
 }
 
 function MultiTimelineHeader(props: Props) {
     const {
         className,
         dateRange,
-        highlightedDateRange,
         ...otherProps
     } = props;
 
@@ -37,16 +32,6 @@ function MultiTimelineHeader(props: Props) {
                     <DateOutput
                         value={dateRange?.start}
                     />
-                    {highlightedDateRange && (
-                        <>
-                            <DateOutput
-                                value={highlightedDateRange.start}
-                            />
-                            <DateOutput
-                                value={highlightedDateRange.end}
-                            />
-                        </>
-                    )}
                     <DateOutput
                         value={dateRange?.end}
                     />
