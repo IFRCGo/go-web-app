@@ -94,12 +94,6 @@ function ActiveRapidResponseTable() {
             (surgeAlert) => surgeAlert.opens,
             { sortable: false },
         ),
-        createDateColumn<SurgeAlertListItem, number>(
-            'deadline',
-            strings.surgeAlertsApplicationDeadline,
-            (surgeAlert) => surgeAlert.end,
-            { sortable: false },
-        ),
         createStringColumn<SurgeAlertListItem, number>(
             'duration',
             strings.surgeAlertsTableDuration,
@@ -185,7 +179,6 @@ function ActiveRapidResponseTable() {
         strings.surgeAlertsTableEmergency,
         strings.surgeAlertsTableCountry,
         strings.surgeAlertsTableStatus,
-        strings.surgeAlertsApplicationDeadline,
         strings.surgeAlertsSurgeType,
     ]);
 

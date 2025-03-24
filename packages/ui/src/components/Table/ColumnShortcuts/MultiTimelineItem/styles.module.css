@@ -1,4 +1,4 @@
-.timeline-item {
+.multi-timeline-item {
     position: absolute;
     top: 0;
     left: var(--go-ui-spacing-sm);
@@ -11,17 +11,22 @@
         transform: translateY(-50%);
         border-radius: 0.25em;
         background-color: var(--go-ui-color-gray-30);
-        height: 0.8rem;
+        height: 0.5rem;
     }
 
-    .timeline-progress-bar-highlighted {
+    .highlighted-timeline-progress-bar {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        z-index: 2;
         border-radius: 0.25em;
         background-color: var(--go-ui-color-primary-red);
-        height: 0.55rem;
+        height: 0.5rem;
+    }
+
+    .today-marker {
+        position: absolute;
+        border-left: var(--go-ui-width-separator-sm) dashed var(--go-ui-color-primary-blue);
+        height: 100%;
     }
 
     .start-date-marker {

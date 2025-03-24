@@ -1,6 +1,7 @@
 import { Container } from '@ifrc-go/ui';
 
-import OngoingERUDeployments from '../../ActiveSurgeDeployments/OngoingERUDeployments';
+import OngoingERUDeployments from '#views/Surge/OngoingERUDeployments';
+
 import EmergencyResponseUnitReadiness from './EmergencyResponseUnitReadiness';
 /** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
