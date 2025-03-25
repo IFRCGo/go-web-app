@@ -43,8 +43,8 @@ import i18n from './i18n.json';
 
 type EruReadinessResponse = GoApiResponse<'/api/v2/eru-readiness/'>;
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
-type EruOwners = GoApiResponse<'/api/v2/eru_owner/mini/'>;
-type EruOwnerOption = NonNullable<EruOwners['results']>[number];
+type EruOwnersResponse = GoApiResponse<'/api/v2/eru_owner/mini/'>;
+type EruOwnerOption = NonNullable<EruOwnersResponse['results']>[number];
 type EruTypeOption = NonNullable<GlobalEnumsResponse['deployments_eru_type']>[number];
 type EruReadiness = NonNullable<EruReadinessResponse['results']>[0];
 
@@ -94,21 +94,30 @@ function EmergencyResponseUnitReadiness() {
     });
 
     const {
+        error: eruReadinessTypeError,
+        response: eruReadinessTypeResponse,
+        pending: eruReadinessTypePending,
+    } = useRequest({
+        url: '/api/v2/eru-readiness-type/',
+        preserveResponse: true,
+        query: {
+            type: filter.selectEruTypes,
+            eru_owner: filter.selectEruOwner,
+        },
+    });
+
+    const {
         deployments_eru_type: deploymentEruType,
     } = useGlobalEnums();
 
     const [activeTab, setActiveTab] = useState<'eruType' | 'nationalSociety'>('eruType');
 
     const groupedByEruType = useMemo(() => {
-        const eruData = eruReadinessResponse?.results?.flatMap((readiness) => (
-            [...(readiness.eru_types.map((eruType) => (
-                {
-                    ...eruType,
-                    eruOwner: readiness.eru_owner_details,
-                    updatedAt: readiness.updated_at,
-                }
-            )))]
-        ));
+        const eruData = eruReadinessTypeResponse?.results?.map((d) => ({
+            ...d,
+            eruOwner: d.eru_readiness?.[0]?.eru_owner_details,
+            updatedAt: d.eru_readiness?.[0]?.updated_at,
+        }));
         return (
             mapToList(
                 listToGroupList(
@@ -118,18 +127,16 @@ function EmergencyResponseUnitReadiness() {
                 (readinessList, eruType) => ({ key: eruType, readinessList }),
             )
         );
-    }, [eruReadinessResponse?.results]);
+    }, [eruReadinessTypeResponse?.results]);
 
     const eruRendererParams = useCallback((_: string, item: {
         key: string;
         readinessList: ReadinessList;
     }) => ({
-        typeDisplay: item.readinessList[0].type_display,
-        nationalSocieties: joinStrings(unique(
-            item.readinessList.map((v) => (
-                v.eruOwner.national_society_country_details.society_name
-            )).filter(isDefined),
-        )),
+        typeDisplay: item.readinessList?.[0]?.type_display,
+        nationalSocieties: joinStrings(unique(item.readinessList.map((v) => (
+            v.eruOwner.national_society_country_details.society_name
+        ))).filter(isDefined)),
         fundingReadiness: minSafe(item.readinessList.map((v) => v.funding_readiness)),
         equipmentReadiness: minSafe(item.readinessList.map((v) => v.equipment_readiness)),
         peopleReadiness: minSafe(item.readinessList.map((v) => v.people_readiness)),
@@ -150,7 +157,7 @@ function EmergencyResponseUnitReadiness() {
             <Container
                 heading={resolveToString(
                     strings.eruReadinessCount,
-                    { count: eruReadinessResponse?.count },
+                    { count: eruReadinessResponse?.count ?? '-' },
                 )}
                 withHeaderBorder
                 actions={(
@@ -198,8 +205,8 @@ function EmergencyResponseUnitReadiness() {
                     <Grid
                         numPreferredColumns={3}
                         data={groupedByEruType}
-                        pending={eruReadinessPending}
-                        errored={isDefined(eruReadinessError)}
+                        pending={eruReadinessTypePending}
+                        errored={isDefined(eruReadinessTypeError)}
                         filtered={filtered}
                         keySelector={stringKeySelector}
                         renderer={EmergencyResponseUnitCard}

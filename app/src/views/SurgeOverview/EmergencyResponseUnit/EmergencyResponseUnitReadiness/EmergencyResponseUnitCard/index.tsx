@@ -23,11 +23,11 @@ function getReadinessColor(rank: number | undefined) {
     return styles.grayIcon;
 }
 
-type GetEruReadinessResponse = GoApiResponse<'/api/v2/eru-readiness/'>;
+type GetEruReadinessResponse = GoApiResponse<'/api/v2/eru-readiness-type/'>;
 
-export type ReadinessList = Array<NonNullable<NonNullable<GetEruReadinessResponse['results']>[0]>['eru_types'][0] & {
-    eruOwner: NonNullable<NonNullable<GetEruReadinessResponse['results']>[0]>['eru_owner_details'];
-    updatedAt: NonNullable<NonNullable<GetEruReadinessResponse['results']>[0]>['updated_at'];
+export type ReadinessList = Array<NonNullable<NonNullable<GetEruReadinessResponse['results']>[0]> & {
+    eruOwner: NonNullable<NonNullable<NonNullable<GetEruReadinessResponse['results']>[0]>['eru_readiness']>[0]['eru_owner_details'];
+    updatedAt: NonNullable<NonNullable<NonNullable<GetEruReadinessResponse['results']>[0]>['eru_readiness']>[0]['updated_at'];
 }>
 
 interface Props {

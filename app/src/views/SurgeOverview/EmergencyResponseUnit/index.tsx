@@ -1,6 +1,6 @@
 import { Container } from '@ifrc-go/ui';
 
-import OngoingERUDeployments from '#views/ActiveSurgeDeployments/OngoingERUDeployments';
+import OngoingEruDeployments from '#views/ActiveSurgeDeployments/OngoingEruDeployments';
 
 import EmergencyResponseUnitReadiness from './EmergencyResponseUnitReadiness';
 
@@ -16,7 +16,7 @@ export function Component() {
             childrenContainerClassName={styles.content}
         >
             <EmergencyResponseUnitReadiness />
-            <OngoingERUDeployments />
+            <OngoingEruDeployments />
         </Container>
     );
 }

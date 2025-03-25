@@ -2,7 +2,7 @@ import { Container } from '@ifrc-go/ui';
 
 import ActiveRapidResponseTable from './ActiveRapidResponseTable';
 import ActiveSurgeSupport from './ActiveSurgeSupport';
-import OngoingERUDeployments from './OngoingERUDeployments';
+import OngoingEruDeployments from './OngoingEruDeployments';
 import OngoingRapidResponseDeployments from './OngoingRapidResponseDeployments';
 import SurgeMap from './SurgeMap';
 
@@ -22,7 +22,7 @@ export function Component() {
             <ActiveSurgeSupport />
             <ActiveRapidResponseTable />
             <OngoingRapidResponseDeployments />
-            <OngoingERUDeployments />
+            <OngoingEruDeployments />
         </Container>
     );
 }
