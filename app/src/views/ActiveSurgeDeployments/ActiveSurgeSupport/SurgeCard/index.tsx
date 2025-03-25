@@ -100,7 +100,7 @@ function SurgeCard(props: Props) {
                     footerContent={(
                         <TextOutput
                             value={eruDeployingOrganizations}
-                            label={strings.deployingOrganizations}
+                            label={strings.surgeDeployingOrganizations}
                             strongValue
                             withoutLabelColon
                             valueType="text"
@@ -110,7 +110,7 @@ function SurgeCard(props: Props) {
                     <KeyFigure
                         className={styles.figure}
                         value={deployedERUCount}
-                        label={strings.emergencyResponseUnit}
+                        label={strings.surgeEmergencyResponseUnit}
                         compactValue
                     />
                     <div className={styles.separator} />
@@ -118,7 +118,7 @@ function SurgeCard(props: Props) {
                         className={styles.figure}
                         labelClassName={styles.label}
                         label={deployedERUTypes}
-                        value={strings.deployedERUs}
+                        value={strings.surgeDeployedERUs}
                         strongLabel
                         withoutLabelColon
                     />
@@ -134,7 +134,7 @@ function SurgeCard(props: Props) {
                     footerContent={(
                         <TextOutput
                             value={personnelDeployingOrganizations}
-                            label={strings.deployingOrganizations}
+                            label={strings.surgeDeployingOrganizations}
                             strongValue
                             withoutLabelColon
                             valueType="text"
@@ -144,14 +144,14 @@ function SurgeCard(props: Props) {
                     <KeyFigure
                         className={styles.figure}
                         value={deployedPersonnelCount}
-                        label={strings.rapidResponsePersonnel}
+                        label={strings.surgeRapidResponsePersonnel}
                         compactValue
                     />
                     <div className={styles.separator} />
                     <TextOutput
                         className={styles.figure}
                         label={deployedPersonnelTypes}
-                        value={strings.deployedRRs}
+                        value={strings.surgeDeployedRRs}
                         strongLabel
                         withoutLabelColon
                     />

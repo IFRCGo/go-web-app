@@ -83,9 +83,9 @@ function EmergencyResponseUnitTypeCard(props: Props) {
                     name={undefined}
                     onClick={setShowReadinessInfoTrue}
                     variant="tertiary"
-                    title="See readiness info"
+                    title={strings.eruSeeReadinessInfoButton}
                 >
-                    See readiness info
+                    {strings.eruSeeReadinessInfoButton}
                 </Button>
             )}
             childrenContainerClassName={styles.content}
@@ -97,7 +97,7 @@ function EmergencyResponseUnitTypeCard(props: Props) {
                     <>
                         <TextOutput
                             className={styles.readiness}
-                            label="Equipment Readiness"
+                            label={strings.eruEquipmentReadiness}
                             value={(
                                 <CheckboxCircleLineIcon
                                     className={getReadinessColor(equipmentReadiness)}
@@ -109,7 +109,7 @@ function EmergencyResponseUnitTypeCard(props: Props) {
                         <div className={styles.separatorLeft} />
                         <TextOutput
                             className={styles.readiness}
-                            label="People Readiness"
+                            label={strings.eruPeopleReadiness}
                             value={(
                                 <CheckboxCircleLineIcon
                                     className={getReadinessColor(peopleReadiness)}
@@ -121,7 +121,7 @@ function EmergencyResponseUnitTypeCard(props: Props) {
                         <div className={styles.separatorLeft} />
                         <TextOutput
                             className={styles.readiness}
-                            label="Funding Readiness"
+                            label={strings.eruFundingReadiness}
                             value={(
                                 <CheckboxCircleLineIcon
                                     className={getReadinessColor(fundingReadiness)}
@@ -135,7 +135,7 @@ function EmergencyResponseUnitTypeCard(props: Props) {
             >
                 <TextOutput
                     className={styles.eruOwners}
-                    label="National Society"
+                    label={strings.emergencyResponseUnitNationalSociety}
                     value={nationalSocieties}
                     strongValue
                     withoutLabelColon
@@ -145,7 +145,7 @@ function EmergencyResponseUnitTypeCard(props: Props) {
                 <Modal
                     className={styles.modal}
                     heading={typeDisplay}
-                    headerDescription="Readiness Information by National Society"
+                    headerDescription={strings.eruReadinessInformationHeading}
                     onClose={setShowReadinessInfoFalse}
                     withHeaderBorder
                     size="md"
@@ -165,7 +165,7 @@ function EmergencyResponseUnitTypeCard(props: Props) {
                         >
                             <TextOutput
                                 className={styles.readiness}
-                                label="Equipment Readiness"
+                                label={strings.eruEquipmentReadiness}
                                 value={(
                                     <CheckboxCircleLineIcon
                                         className={getReadinessColor(readiness.equipment_readiness)}
@@ -177,7 +177,7 @@ function EmergencyResponseUnitTypeCard(props: Props) {
                             <div className={styles.separatorLeft} />
                             <TextOutput
                                 className={styles.readiness}
-                                label="People Readiness"
+                                label={strings.eruPeopleReadiness}
                                 value={(
                                     <CheckboxCircleLineIcon
                                         className={getReadinessColor(readiness.people_readiness)}
@@ -189,7 +189,7 @@ function EmergencyResponseUnitTypeCard(props: Props) {
                             <div className={styles.separatorLeft} />
                             <TextOutput
                                 className={styles.readiness}
-                                label="Funding Readiness"
+                                label={strings.eruFundingReadiness}
                                 value={(
                                     <CheckboxCircleLineIcon
                                         className={getReadinessColor(readiness.funding_readiness)}

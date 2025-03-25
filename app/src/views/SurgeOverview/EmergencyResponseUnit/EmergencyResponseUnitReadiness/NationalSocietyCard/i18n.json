@@ -1,8 +1,14 @@
 {
     "namespace": "surgeOverview",
     "strings": {
-        "emergencyResponseUnitOwnerCardLastUpdated": "Last updated",
-        "emergencyResponseUnitOwnerCardReady": "{count} Ready ERUs",
-        "emergencyResponseUnitOwnerCardDeployed": "{count} Deployed ERUs"
+        "emergencyResponseUnitOwnerNSCardLastUpdated": "Last updated",
+        "emergencyResponseUnitOwnerNSCardReady": "{count} Ready ERUs",
+        "emergencyResponseUnitOwnerNSCardDeployed": "{count} Deployed ERUs",
+        "eruNSSeeReadinessInfoButton": "See readiness info",
+        "eruTypesLabel": "ERU Type(s)",
+        "eruNSEquipmentReadiness": "Equipment Readiness",
+        "eruNSPeopleReadiness": "People Readiness",
+        "eruNSFundingReadiness": "Funding Readiness",
+        "eruNSReadinessInformationHeading": "Readiness Information by ERU Type"
     }
 }
