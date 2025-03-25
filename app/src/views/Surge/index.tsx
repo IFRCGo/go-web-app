@@ -44,13 +44,13 @@ export function Component() {
                             <KeyFigure
                                 className={styles.keyFigure}
                                 icon={<DeployedIcon />}
-                                value={aggregatedResponse.active_rapid_response_personal}
+                                value={aggregatedResponse.active_rapid_response_personnel}
                                 label={strings.activeRapidResponsePersonnel}
                             />
                             <KeyFigure
                                 className={styles.keyFigure}
                                 icon={<DeployedIcon />}
-                                value={aggregatedResponse.rapid_response_deployment_this_year}
+                                value={aggregatedResponse.rapid_response_deployments_this_year}
                                 label={strings.rapidResponseDeployments}
                             />
                             <KeyFigure
@@ -63,7 +63,7 @@ export function Component() {
                                 className={styles.keyFigure}
                                 icon={<ClinicIcon />}
                                 value={
-                                    aggregatedResponse.emergency_response_units_deployed_this_year
+                                    aggregatedResponse.emergency_response_unit_deployed_this_year
                                 }
                                 label={strings.eruDeploymentsThisYear}
                             />
