@@ -60,7 +60,7 @@ function NationalSocietyTypeCard(props: Props) {
             headerDescription={(
                 <TextOutput
                     className={styles.lastUpdated}
-                    label={strings.emergencyResponseUnitOwnerCardLastUpdated}
+                    label={strings.emergencyResponseUnitOwnerNSCardLastUpdated}
                     value={eruData.updated_at}
                     valueType="date"
                 />
@@ -70,14 +70,14 @@ function NationalSocietyTypeCard(props: Props) {
                     name={undefined}
                     onClick={setShowReadinessInfoTrue}
                     variant="tertiary"
-                    title="Show Readiness Information"
+                    title={strings.eruNSSeeReadinessInfoButton}
                 >
-                    Show Readiness Information
+                    {strings.eruNSSeeReadinessInfoButton}
                 </Button>
             )}
         >
             <TextOutput
-                label="ERU Type(s)"
+                label={strings.eruTypesLabel}
                 value={eruTypes}
                 strongValue
                 withoutLabelColon
@@ -88,7 +88,7 @@ function NationalSocietyTypeCard(props: Props) {
                     heading={
                         eruData.eru_owner_details.national_society_country_details.society_name
                     }
-                    headerDescription="Readiness Information by ERU Type"
+                    headerDescription={strings.eruNSReadinessInformationHeading}
                     onClose={setShowReadinessInfoFalse}
                     withHeaderBorder
                     size="md"
@@ -106,7 +106,7 @@ function NationalSocietyTypeCard(props: Props) {
                         >
                             <TextOutput
                                 className={styles.readiness}
-                                label="Equipment Readiness"
+                                label={strings.eruNSEquipmentReadiness}
                                 value={(
                                     <CheckboxCircleLineIcon
                                         className={getReadinessColor(eruType.equipment_readiness)}
@@ -118,7 +118,7 @@ function NationalSocietyTypeCard(props: Props) {
                             <div className={styles.separatorLeft} />
                             <TextOutput
                                 className={styles.readiness}
-                                label="People Readiness"
+                                label={strings.eruNSPeopleReadiness}
                                 value={(
                                     <CheckboxCircleLineIcon
                                         className={getReadinessColor(eruType.people_readiness)}
@@ -130,7 +130,7 @@ function NationalSocietyTypeCard(props: Props) {
                             <div className={styles.separatorLeft} />
                             <TextOutput
                                 className={styles.readiness}
-                                label="Funding EruType"
+                                label={strings.eruNSFundingReadiness}
                                 value={(
                                     <CheckboxCircleLineIcon
                                         className={getReadinessColor(eruType.funding_readiness)}
