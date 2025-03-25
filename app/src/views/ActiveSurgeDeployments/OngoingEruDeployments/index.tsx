@@ -47,18 +47,18 @@ import styles from './styles.module.css';
 
 type DeploymentsEruTypeEnum = components<'read'>['schemas']['DeploymentsEruTypeEnum'];
 
-type GetERUDeploymentsResponse = GoApiResponse<'/api/v2/deployed_eru_by_event/'>;
-type ERUDeploymentListItem = NonNullable<GetERUDeploymentsResponse['results']>[number];
-type ActiveERUListItem = NonNullable<ERUDeploymentListItem['active_erus']>[number];
+type GetEruByEventResponse = GoApiResponse<'/api/v2/deployed_eru_by_event/'>;
+type EruByEvent = NonNullable<GetEruByEventResponse['results']>[number];
+type EruListItem = NonNullable<EruByEvent['active_erus']>[number];
 
-const eruResponsesKeySelector = (item: ERUDeploymentListItem) => item.id;
+const deployedEruKeySelector = (item: EruByEvent) => item.id;
 
 const emergencyResponseUnitTypeKeySelector = (item: DeploymentsEruTypeEnum) => item.key;
 const emergencyResponseUnitTypeLabelSelector = (item: DeploymentsEruTypeEnum) => item.value ?? '?';
 
 const PAGE_SIZE = 5;
 
-function OngoingERUDeployments() {
+function OngoingEruDeployments() {
     const strings = useTranslation(i18n);
 
     const {
@@ -80,11 +80,11 @@ function OngoingERUDeployments() {
         deployments_eru_type: eruTypes,
     } = useGlobalEnums();
 
-    const [expandedRow, setExpandedRow] = useState<ERUDeploymentListItem | undefined>();
+    const [expandedRow, setExpandedRow] = useState<EruByEvent | undefined>();
 
     const {
-        pending: deployedERUResponsePending,
-        response: deployedERUResponse,
+        pending: deployedEruResponsePending,
+        response: deployedEruResponse,
     } = useRequest({
         url: '/api/v2/deployed_eru_by_event/',
         preserveResponse: true,
@@ -96,11 +96,11 @@ function OngoingERUDeployments() {
     });
 
     const eruEventDates = useMemo(() => {
-        if (isNotDefined(deployedERUResponse)) {
+        if (isNotDefined(deployedEruResponse)) {
             return undefined;
         }
-        return getEruEventDates(deployedERUResponse.results);
-    }, [deployedERUResponse]);
+        return getEruEventDates(deployedEruResponse.results);
+    }, [deployedEruResponse]);
 
     const timelineDateRange = useMemo(() => {
         if (isNotDefined(eruEventDates)) {
@@ -117,7 +117,7 @@ function OngoingERUDeployments() {
     }, [eruEventDates]);
 
     const handleExpandClick = useCallback(
-        (row: ERUDeploymentListItem) => {
+        (row: EruByEvent) => {
             setExpandedRow(
                 (prevValue) => (prevValue?.id === row.id ? undefined : row),
             );
@@ -127,9 +127,9 @@ function OngoingERUDeployments() {
 
     const columns = useMemo(
         () => ([
-            createLinkColumn<ERUDeploymentListItem, number>(
+            createLinkColumn<EruByEvent, number>(
                 'name',
-                strings.deployedERUEmergency,
+                strings.eruEmergency,
                 (item) => item.name,
                 (item) => ({
                     to: 'emergenciesLayout',
@@ -138,13 +138,13 @@ function OngoingERUDeployments() {
                     },
                 }),
             ),
-            createStringColumn<ERUDeploymentListItem, number>(
+            createStringColumn<EruByEvent, number>(
                 'organisation',
-                strings.deployedERUOrganisation,
+                strings.eruOrganisation,
                 () => '',
                 { columnClassName: styles.organisation },
             ),
-            createMultiTimelineColumn<ERUDeploymentListItem, number>(
+            createMultiTimelineColumn<EruByEvent, number>(
                 'timeline',
                 timelineDateRange,
                 (item) => {
@@ -154,15 +154,15 @@ function OngoingERUDeployments() {
                         endDate: itemDateRange?.appealEndDate,
                         highlightedStartDate: itemDateRange?.eruStartDate,
                         highlightedEndDate: itemDateRange?.eruEndDate,
-                        startDateLabel: strings.deployedAppealStartDate,
-                        endDateLabel: strings.deployedAppealEndDate,
-                        highlightedStartDateLabel: strings.deployedERUStartDate,
-                        highlightedEndDateLabel: strings.deployedERUEndDate,
+                        startDateLabel: strings.ongoingEmergencyStartDate,
+                        endDateLabel: strings.ongoingEmergencyEndDate,
+                        highlightedStartDateLabel: strings.eruStartDate,
+                        highlightedEndDateLabel: strings.eruEndDate,
                     };
                 },
                 { columnClassName: styles.timeline },
             ),
-            createExpandColumn<ERUDeploymentListItem, number>(
+            createExpandColumn<EruByEvent, number>(
                 'expandRow',
                 '',
                 (row) => ({
@@ -175,28 +175,28 @@ function OngoingERUDeployments() {
             handleExpandClick,
             expandedRow,
             timelineDateRange,
-            strings.deployedERUEmergency,
-            strings.deployedERUOrganisation,
-            strings.deployedAppealStartDate,
-            strings.deployedAppealEndDate,
-            strings.deployedERUStartDate,
-            strings.deployedERUEndDate,
+            strings.eruEmergency,
+            strings.eruOrganisation,
+            strings.ongoingEmergencyStartDate,
+            strings.ongoingEmergencyEndDate,
+            strings.eruStartDate,
+            strings.eruEndDate,
         ],
     );
 
     const eruColumns = useMemo(
         () => ([
-            createStringColumn<ActiveERUListItem, number>(
+            createStringColumn<EruListItem, number>(
                 'name',
-                strings.deployedERUName,
+                strings.eruName,
                 (item) => item?.type_display,
             ),
-            createStringColumn<ActiveERUListItem, number>(
+            createStringColumn<EruListItem, number>(
                 'society_name',
-                strings.deployedERUOrganisation,
+                strings.eruOrganisation,
                 (item) => item?.eru_owner_details?.national_society_country_details.society_name,
             ),
-            createTimelineColumn<ActiveERUListItem, number>(
+            createTimelineColumn<EruListItem, number>(
                 'timeline',
                 timelineDateRange,
                 (item) => ({
@@ -205,17 +205,17 @@ function OngoingERUDeployments() {
                 }),
                 { columnClassName: styles.timeline },
             ),
-            createEmptyColumn<ActiveERUListItem, number>(),
+            createEmptyColumn<EruListItem, number>(),
         ]),
         [
             timelineDateRange,
-            strings.deployedERUOrganisation,
-            strings.deployedERUName,
+            strings.eruOrganisation,
+            strings.eruName,
         ],
     );
 
     const rowModifier = useCallback(
-        ({ row, datum }: RowOptions<ERUDeploymentListItem, number>) => {
+        ({ row, datum }: RowOptions<EruByEvent, number>) => {
             if (datum.id !== expandedRow?.id) {
                 return row;
             }
@@ -243,12 +243,12 @@ function OngoingERUDeployments() {
     return (
         <Container
             className={styles.ongoingEruDeployments}
-            heading={strings.deployedERUHeading}
+            heading={strings.eruHeading}
             withHeaderBorder
             footerActions={(
                 <Pager
                     activePage={page}
-                    itemsCount={deployedERUResponse?.count ?? 0}
+                    itemsCount={deployedEruResponse?.count ?? 0}
                     maxItemsPerPage={limit}
                     onActivePageChange={setPage}
                 />
@@ -259,12 +259,12 @@ function OngoingERUDeployments() {
                     withLinkIcon
                     withUnderline
                 >
-                    {strings.deployedERUViewAll}
+                    {strings.eruViewAll}
                 </Link>
             )}
             filters={(
                 <SelectInput
-                    placeholder={strings.deployedERUTypes}
+                    placeholder={strings.eruTypes}
                     name="type"
                     value={rawFilter.type}
                     onChange={setFilterField}
@@ -276,11 +276,11 @@ function OngoingERUDeployments() {
             footerContent={(
                 <>
                     <LegendItem
-                        label={strings.deploymentsERUEmergencyTimeline}
+                        label={strings.eruEmergencyTimeline}
                         color={COLOR_LIGHT_GREY}
                     />
                     <LegendItem
-                        label={strings.deploymentsERUDates}
+                        label={strings.eruDeploymentTimeline}
                         color={COLOR_PRIMARY_RED}
                     />
                 </>
@@ -289,11 +289,11 @@ function OngoingERUDeployments() {
             <SortContext.Provider value={sortState}>
                 <Table
                     className={styles.table}
-                    pending={deployedERUResponsePending}
+                    pending={deployedEruResponsePending}
                     columns={columns}
                     rowModifier={rowModifier}
-                    keySelector={eruResponsesKeySelector}
-                    data={deployedERUResponse?.results}
+                    keySelector={deployedEruKeySelector}
+                    data={deployedEruResponse?.results}
                     filtered={filtered}
                 />
             </SortContext.Provider>
@@ -301,4 +301,4 @@ function OngoingERUDeployments() {
     );
 }
 
-export default OngoingERUDeployments;
+export default OngoingEruDeployments;
