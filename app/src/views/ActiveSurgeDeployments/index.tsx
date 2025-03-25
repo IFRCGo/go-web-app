@@ -1,10 +1,9 @@
 import { Container } from '@ifrc-go/ui';
 
-import OngoingERUDeployments from '#views/Surge/OngoingERUDeployments';
-import OngoingRapidResponseDeployments from '#views/Surge/OngoingRapidResponseDeployments';
-
 import ActiveRapidResponseTable from './ActiveRapidResponseTable';
 import ActiveSurgeSupport from './ActiveSurgeSupport';
+import OngoingERUDeployments from './OngoingERUDeployments';
+import OngoingRapidResponseDeployments from './OngoingRapidResponseDeployments';
 import SurgeMap from './SurgeMap';
 
 import styles from './styles.module.css';
@@ -17,6 +16,7 @@ export function Component() {
             contentViewType="vertical"
             spacing="loose"
             className={styles.activeSurgeDeployments}
+            childrenContainerClassName={styles.content}
         >
             <SurgeMap />
             <ActiveSurgeSupport />

@@ -151,6 +151,7 @@ function EmergencyResponseUnitTypeCard(props: Props) {
                     size="md"
                     contentViewType="vertical"
                     spacing="comfortable"
+                    childrenContainerClassName={styles.content}
                 >
                     {readinessList?.map((readiness) => (
                         <Container
