@@ -58,7 +58,7 @@ function getMolnixKeywords(molnixTags: SurgeAlertListItem['molnix_tags']) {
     return filtered.map((tag) => tag.name).join(', ');
 }
 
-function ActiveRapidResponseTable() {
+function ActiveRapidResponseAlertsTable() {
     const strings = useTranslation(i18n);
     const {
         sortState,
@@ -125,7 +125,7 @@ function ActiveRapidResponseTable() {
                 }
                 return undefined;
             },
-            { cellRendererClassName: styles.startColumn },
+            { columnClassName: styles.startColumn },
         ),
         createStringColumn<SurgeAlertListItem, number>(
             'message',
@@ -184,8 +184,8 @@ function ActiveRapidResponseTable() {
 
     return (
         <Container
-            className={styles.surgeAlertsTable}
             heading={strings.surgeAlertsTableHeading}
+            headerDescription={strings.surgeAlertsTableHeaderDescription}
             withHeaderBorder
             footerActions={(
                 <Pager
@@ -196,24 +196,18 @@ function ActiveRapidResponseTable() {
                 />
             )}
             actions={(
-                <>
-                    {/* {strings.wikiJsLink?.length > 0 && (
-                        <WikiLink
-                            href=''
-                        />
-                    )} */}
-                    <Link
-                        to="allSurgeAlerts"
-                        withLinkIcon
-                        withUnderline
-                    >
-                        {strings.surgeAlertsViewAll}
-                    </Link>
-                </>
+                <Link
+                    to="allSurgeAlerts"
+                    withLinkIcon
+                    withUnderline
+                >
+                    {strings.surgeAlertsViewAll}
+                </Link>
             )}
         >
             <SortContext.Provider value={sortState}>
                 <Table
+                    className={styles.activeRapidResponseTable}
                     pending={surgeAlertsPending}
                     columns={columns}
                     keySelector={surgeAlertKeySelector}
@@ -225,4 +219,4 @@ function ActiveRapidResponseTable() {
     );
 }
 
-export default ActiveRapidResponseTable;
+export default ActiveRapidResponseAlertsTable;

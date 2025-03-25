@@ -8,25 +8,31 @@
 }
 
 .modal {
-    .separator-left {
-        flex-shrink: 0;
-        border-left: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
-    }
+    max-height: 90vh;
 
-    .readiness-container {
-        display: flex;
-        border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
-        padding-bottom: var(--go-ui-spacing-md);
-        gap: var(--go-ui-spacing-md);
+    .content {
+        overflow: auto;
 
-        .readiness {
+        .separator-left {
+            flex-shrink: 0;
+            border-left: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+        }
+
+        .readiness-container {
             display: flex;
-            flex-direction: column-reverse;
-            flex-grow: 1;
+            border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+            padding-bottom: var(--go-ui-spacing-md);
+            gap: var(--go-ui-spacing-md);
 
-            .icon {
-                color: var(--go-ui-color-primary-gray);
-                font-size: var(--go-ui-height-compact-status-icon);
+            .readiness {
+                display: flex;
+                flex-direction: column-reverse;
+                flex-grow: 1;
+
+                .icon {
+                    color: var(--go-ui-color-primary-gray);
+                    font-size: var(--go-ui-height-compact-status-icon);
+                }
             }
         }
     }

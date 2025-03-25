@@ -16,9 +16,8 @@ import {
 
 import { useRequest } from '#utils/restRequest';
 import { type GoApiResponse } from '#utils/restRequest';
-import OngoingRapidResponseDeployments from '#views/Surge/OngoingRapidResponseDeployments';
-
-import ActiveRapidResponseTable from '../../ActiveSurgeDeployments/ActiveRapidResponseTable';
+import ActiveRapidResponseTable from '#views/ActiveSurgeDeployments/ActiveRapidResponseTable';
+import OngoingRapidResponseDeployments from '#views/ActiveSurgeDeployments/OngoingRapidResponseDeployments';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -61,12 +60,14 @@ export function Component() {
     const strings = useTranslation(i18n);
 
     const {
+        pending: deploymentByNationalSocietyPending,
         response: deploymentsByNationalSocietyResponse,
     } = useRequest({
         url: '/api/v2/deployment/aggregated_by_ns',
     });
 
     const {
+        pending: deploymentsByMonthPending,
         response: deploymentsByMonth,
     } = useRequest({
         url: '/api/v2/deployment/aggregated_by_month',
@@ -90,6 +91,8 @@ export function Component() {
         [deploymentsByMonth],
     );
 
+    const pending = deploymentByNationalSocietyPending || deploymentsByMonthPending;
+
     return (
         <div className={styles.rapidResponse}>
             <div className={styles.charts}>
@@ -98,6 +101,7 @@ export function Component() {
                     className={styles.deploymentsByNationalSociety}
                     withHeaderBorder
                     withInternalPadding
+                    pending={pending}
                 >
                     <BarChart
                         data={deploymentsByNationalSocietyResponse ?? []}
@@ -111,6 +115,7 @@ export function Component() {
                     className={styles.deploymentsOverLastYear}
                     withHeaderBorder
                     withInternalPadding
+                    pending={pending}
                 >
                     {deploymentsByNationalSocietyResponse && (
                         <TimeSeriesChart
