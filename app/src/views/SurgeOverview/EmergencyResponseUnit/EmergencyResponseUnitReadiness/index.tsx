@@ -12,16 +12,19 @@ import {
     TabPanel,
     Tabs,
 } from '@ifrc-go/ui';
+import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     maxSafe,
     minSafe,
     numericIdSelector,
+    resolveToString,
     stringKeySelector,
 } from '@ifrc-go/ui/utils';
 import {
     isDefined,
     listToGroupList,
     mapToList,
+    unique,
 } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
@@ -35,6 +38,8 @@ import {
 
 import EmergencyResponseUnitCard, { type ReadinessList } from './EmergencyResponseUnitCard';
 import NationalSocietyCard from './NationalSocietyCard';
+
+import i18n from './i18n.json';
 
 type EruReadinessResponse = GoApiResponse<'/api/v2/eru-readiness/'>;
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
@@ -53,14 +58,15 @@ const emergencyResponseUnitTypeKeySelector = (item: EruTypeOption) => item.key;
 const emergencyResponseUnitTypeLabelSelector = (item: EruTypeOption) => item.value ?? '?';
 
 function EmergencyResponseUnitReadiness() {
+    const strings = useTranslation(i18n);
     const {
         rawFilter,
         filtered,
         filter,
         setFilterField,
     } = useFilterState<{
-        selectEruTypes? : EruTypeOption['key'],
-        selectEruOwner? : EruOwnerOption['id'],
+        selectEruTypes? : number,
+        selectEruOwner? : number,
     }>({
         filter: {},
     });
@@ -119,11 +125,11 @@ function EmergencyResponseUnitReadiness() {
         readinessList: ReadinessList;
     }) => ({
         typeDisplay: item.readinessList[0].type_display,
-        nationalSocieties: joinStrings(
+        nationalSocieties: joinStrings(unique(
             item.readinessList.map((v) => (
                 v.eruOwner.national_society_country_details.society_name
             )).filter(isDefined),
-        ),
+        )),
         fundingReadiness: minSafe(item.readinessList.map((v) => v.funding_readiness)),
         equipmentReadiness: minSafe(item.readinessList.map((v) => v.equipment_readiness)),
         peopleReadiness: minSafe(item.readinessList.map((v) => v.people_readiness)),
@@ -142,14 +148,17 @@ function EmergencyResponseUnitReadiness() {
             variant="tertiary"
         >
             <Container
-                heading={`ERU Capacity and Readiness (${eruReadinessResponse?.count})`}
+                heading={resolveToString(
+                    strings.eruReadinessCount,
+                    { count: eruReadinessResponse?.count },
+                )}
                 withHeaderBorder
                 actions={(
                     <Link
                         to="eruReadinessForm"
                         variant="primary"
                     >
-                        Update ERU Readiness
+                        {strings.eruReadinessUpdateButton}
                     </Link>
                 )}
                 contentViewType="vertical"
@@ -157,7 +166,7 @@ function EmergencyResponseUnitReadiness() {
                     <>
 
                         <SelectInput
-                            placeholder="National Society"
+                            placeholder={strings.eruNationalSociety}
                             name="selectEruOwner"
                             options={eruOwnersResponse?.results}
                             onChange={setFilterField}
@@ -168,7 +177,7 @@ function EmergencyResponseUnitReadiness() {
                             disabled={eruOwnersPending}
                         />
                         <SelectInput
-                            placeholder="ERU Type"
+                            placeholder={strings.eruType}
                             name="selectEruTypes"
                             value={rawFilter.selectEruTypes}
                             onChange={setFilterField}
@@ -180,8 +189,8 @@ function EmergencyResponseUnitReadiness() {
                 )}
                 filterActions={(
                     <TabList>
-                        <Tab name="eruType">ERU Type</Tab>
-                        <Tab name="nationalSociety">National Society</Tab>
+                        <Tab name="eruType">{strings.eruType}</Tab>
+                        <Tab name="nationalSociety">{strings.eruNationalSociety}</Tab>
                     </TabList>
                 )}
             >
