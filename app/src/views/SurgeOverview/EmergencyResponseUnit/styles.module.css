@@ -1,8 +1,4 @@
-.active-surge-deployments {
-    display: flex;
-    flex-direction: column;
-    padding: var(--go-ui-spacing-2xl) 0;
-
+.emergency-response-unit {
     .content {
         display: flex;
         flex-direction: column;

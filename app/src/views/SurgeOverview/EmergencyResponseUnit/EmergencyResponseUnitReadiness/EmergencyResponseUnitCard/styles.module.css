@@ -31,19 +31,25 @@
 }
 
 .modal {
-    .readiness-container {
-        display: flex;
-        border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
-        padding-bottom: var(--go-ui-spacing-md);
-        gap: var(--go-ui-spacing-md);
+    max-height: 90vh;
 
-        .readiness {
-            flex: 1 0 0;
-            flex-direction: column-reverse;
+    .content {
+        overflow: auto;
 
-            .icon {
-                color: var(--go-ui-color-primary-gray);
-                font-size: var(--go-ui-height-compact-status-icon);
+        .readiness-container {
+            display: flex;
+            border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+            padding-bottom: var(--go-ui-spacing-md);
+            gap: var(--go-ui-spacing-md);
+
+            .readiness {
+                flex: 1 0 0;
+                flex-direction: column-reverse;
+
+                .icon {
+                    color: var(--go-ui-color-primary-gray);
+                    font-size: var(--go-ui-height-compact-status-icon);
+                }
             }
         }
     }

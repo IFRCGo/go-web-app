@@ -94,6 +94,7 @@ function NationalSocietyTypeCard(props: Props) {
                     size="md"
                     contentViewType="vertical"
                     spacing="comfortable"
+                    childrenContainerClassName={styles.content}
                 >
                     {eruData.eru_types.map((eruType) => (
                         <Container

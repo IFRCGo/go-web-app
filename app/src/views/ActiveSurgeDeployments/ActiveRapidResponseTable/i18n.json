@@ -1,7 +1,8 @@
 {
     "namespace": "activeSurgeDeployments",
     "strings": {
-        "surgeAlertsTableHeading": "Active Rapid Response Alert",
+        "surgeAlertsTableHeading": "Active Rapid Response Alerts",
+        "surgeAlertsTableHeaderDescription": "To apply for an open position, contact your local surge team.",
         "surgeAlertsTableAlertDate": "Alert Date",
         "surgeAlertsTableDuration": "Duration",
         "surgeAlertsTableStartDate": "Start Date",
