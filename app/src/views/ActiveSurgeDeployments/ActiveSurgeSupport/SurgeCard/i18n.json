@@ -5,6 +5,8 @@
         "surgeRapidResponsePersonnel": "Rapid Response Personnel",
         "surgeDeployedERUs": "ERUs Deployed",
         "surgeDeployedRRs": "RRs Deployed",
-        "surgeDeployingOrganizations": "Deploying Organisation"
+        "surgeDeployingOrganizations": "Deploying Organisation",
+        "operationTimeline": "{startDate} ({duration})",
+        "operationStartDate": "Operation Start Date"
     }
 }
