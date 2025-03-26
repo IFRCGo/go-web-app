@@ -359,6 +359,7 @@ export function Component() {
                         name={undefined}
                         onClick={handleFormSubmit}
                         variant="primary"
+                        disabled={pending}
                     >
                         {strings.eruSaveAndCloseButton}
                     </Button>

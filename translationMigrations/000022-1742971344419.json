@@ -1,0 +1,831 @@
+{
+    "parent": "000021-1742221802140.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "activeSurgeSupportHeading",
+            "namespace": "activeSurgeDeployments",
+            "value": "Active Surge Support Per Emergency"
+        },
+        {
+            "action": "add",
+            "key": "clearFilters",
+            "namespace": "activeSurgeDeployments",
+            "value": "Clear Filters"
+        },
+        {
+            "action": "add",
+            "key": "deployedEru",
+            "namespace": "activeSurgeDeployments",
+            "value": "Deployed ERU(s)"
+        },
+        {
+            "action": "add",
+            "key": "deployingNS",
+            "namespace": "activeSurgeDeployments",
+            "value": "Deploying NS"
+        },
+        {
+            "action": "add",
+            "key": "deploymentDate",
+            "namespace": "activeSurgeDeployments",
+            "value": "Deployment Timeline"
+        },
+        {
+            "action": "add",
+            "key": "deploymentEndDate",
+            "namespace": "activeSurgeDeployments",
+            "value": "Deployment End Date"
+        },
+        {
+            "action": "add",
+            "key": "deploymentStartDate",
+            "namespace": "activeSurgeDeployments",
+            "value": "Deployment Start Date"
+        },
+        {
+            "action": "add",
+            "key": "disasterTypeLabel",
+            "namespace": "activeSurgeDeployments",
+            "value": "Disaster Type"
+        },
+        {
+            "action": "add",
+            "key": "disasterTypePlaceholder",
+            "namespace": "activeSurgeDeployments",
+            "value": "All Disaster Types"
+        },
+        {
+            "action": "add",
+            "key": "emergencyEndDate",
+            "namespace": "activeSurgeDeployments",
+            "value": "Emergency End Date"
+        },
+        {
+            "action": "add",
+            "key": "emergencyResponseUnit",
+            "namespace": "activeSurgeDeployments",
+            "value": "Emergency Response Unit"
+        },
+        {
+            "action": "add",
+            "key": "emergencyStartDate",
+            "namespace": "activeSurgeDeployments",
+            "value": "Emergency Start Date"
+        },
+        {
+            "action": "add",
+            "key": "emergencyTimeline",
+            "namespace": "activeSurgeDeployments",
+            "value": "Emergency Timeline"
+        },
+        {
+            "action": "add",
+            "key": "eruAndPersonnel",
+            "namespace": "activeSurgeDeployments",
+            "value": "ERU & RR"
+        },
+        {
+            "action": "add",
+            "key": "eruDeploymentTimeline",
+            "namespace": "activeSurgeDeployments",
+            "value": "Deployment Timeline"
+        },
+        {
+            "action": "add",
+            "key": "eruEmergency",
+            "namespace": "activeSurgeDeployments",
+            "value": "Emergency / Name"
+        },
+        {
+            "action": "add",
+            "key": "eruEmergencyTimeline",
+            "namespace": "activeSurgeDeployments",
+            "value": "Emergency Timeline"
+        },
+        {
+            "action": "add",
+            "key": "eruEndDate",
+            "namespace": "activeSurgeDeployments",
+            "value": "Deployment End Date"
+        },
+        {
+            "action": "add",
+            "key": "eruHeading",
+            "namespace": "activeSurgeDeployments",
+            "value": "Ongoing ERU Deployments"
+        },
+        {
+            "action": "add",
+            "key": "eruName",
+            "namespace": "activeSurgeDeployments",
+            "value": "Name"
+        },
+        {
+            "action": "add",
+            "key": "eruOrganisation",
+            "namespace": "activeSurgeDeployments",
+            "value": "Organisation"
+        },
+        {
+            "action": "add",
+            "key": "eruStartDate",
+            "namespace": "activeSurgeDeployments",
+            "value": "Deployment Start Date"
+        },
+        {
+            "action": "add",
+            "key": "eruType",
+            "namespace": "activeSurgeDeployments",
+            "value": "ERU Type(s)"
+        },
+        {
+            "action": "add",
+            "key": "eruTypes",
+            "namespace": "activeSurgeDeployments",
+            "value": "ERU Types"
+        },
+        {
+            "action": "add",
+            "key": "eruViewAll",
+            "namespace": "activeSurgeDeployments",
+            "value": "View All"
+        },
+        {
+            "action": "add",
+            "key": "ongoingEmergencyEndDate",
+            "namespace": "activeSurgeDeployments",
+            "value": "Emergency End Date"
+        },
+        {
+            "action": "add",
+            "key": "ongoingEmergencyStartDate",
+            "namespace": "activeSurgeDeployments",
+            "value": "Emergency Start Date"
+        },
+        {
+            "action": "add",
+            "key": "personnelLabel",
+            "namespace": "activeSurgeDeployments",
+            "value": "RR"
+        },
+        {
+            "action": "add",
+            "key": "rapidResponseDeployingOrganisation",
+            "namespace": "activeSurgeDeployments",
+            "value": "Deploying Organisation"
+        },
+        {
+            "action": "add",
+            "key": "rapidResponseDeploymentHeading",
+            "namespace": "activeSurgeDeployments",
+            "value": "Ongoing Rapid Response Deployments"
+        },
+        {
+            "action": "add",
+            "key": "rapidResponseEmergency",
+            "namespace": "activeSurgeDeployments",
+            "value": "Emergency / Name"
+        },
+        {
+            "action": "add",
+            "key": "rapidResponseName",
+            "namespace": "activeSurgeDeployments",
+            "value": "Name"
+        },
+        {
+            "action": "add",
+            "key": "rapidResponseOrganisation",
+            "namespace": "activeSurgeDeployments",
+            "value": "Organisation"
+        },
+        {
+            "action": "add",
+            "key": "rapidResponsePersonnel",
+            "namespace": "activeSurgeDeployments",
+            "value": "Rapid Response Personnel"
+        },
+        {
+            "action": "add",
+            "key": "rapidResponsePosition",
+            "namespace": "activeSurgeDeployments",
+            "value": "Position"
+        },
+        {
+            "action": "add",
+            "key": "rapidResponseRole",
+            "namespace": "activeSurgeDeployments",
+            "value": "Role"
+        },
+        {
+            "action": "add",
+            "key": "rapidResponseViewAll",
+            "namespace": "activeSurgeDeployments",
+            "value": "View All"
+        },
+        {
+            "action": "add",
+            "key": "roleProfile",
+            "namespace": "activeSurgeDeployments",
+            "value": "Role Profile(s)"
+        },
+        {
+            "action": "add",
+            "key": "surgeAlertsSurgeType",
+            "namespace": "activeSurgeDeployments",
+            "value": "Surge Type"
+        },
+        {
+            "action": "add",
+            "key": "surgeAlertsTableHeaderDescription",
+            "namespace": "activeSurgeDeployments",
+            "value": "To apply for an open position, contact your local surge team."
+        },
+        {
+            "action": "add",
+            "key": "surgeAlertsTableHeading",
+            "namespace": "activeSurgeDeployments",
+            "value": "Active Rapid Response Alerts"
+        },
+        {
+            "action": "add",
+            "key": "surgeDeployedERUs",
+            "namespace": "activeSurgeDeployments",
+            "value": "ERUs Deployed"
+        },
+        {
+            "action": "add",
+            "key": "surgeDeployedRRs",
+            "namespace": "activeSurgeDeployments",
+            "value": "RRs Deployed"
+        },
+        {
+            "action": "add",
+            "key": "surgeDeployingOrganizations",
+            "namespace": "activeSurgeDeployments",
+            "value": "Deploying Organisation"
+        },
+        {
+            "action": "add",
+            "key": "surgeEmergencyResponseUnit",
+            "namespace": "activeSurgeDeployments",
+            "value": "Emergency Response Unit"
+        },
+        {
+            "action": "add",
+            "key": "surgeEruOnly",
+            "namespace": "activeSurgeDeployments",
+            "value": "Emergency Response Unit(ERU)"
+        },
+        {
+            "action": "add",
+            "key": "surgeMapTitle",
+            "namespace": "activeSurgeDeployments",
+            "value": "Active Deployments"
+        },
+        {
+            "action": "add",
+            "key": "surgeMechanismsLabel",
+            "namespace": "activeSurgeDeployments",
+            "value": "Surge Mechanism"
+        },
+        {
+            "action": "add",
+            "key": "surgeMechanismsPlaceholder",
+            "namespace": "activeSurgeDeployments",
+            "value": "All Surge Mechanisms"
+        },
+        {
+            "action": "add",
+            "key": "surgePersonnelOnly",
+            "namespace": "activeSurgeDeployments",
+            "value": "Rapid Response Personnel(RR)"
+        },
+        {
+            "action": "add",
+            "key": "surgeRapidResponsePersonnel",
+            "namespace": "activeSurgeDeployments",
+            "value": "Rapid Response Personnel"
+        },
+        {
+            "action": "add",
+            "key": "userMenuActiveSurgeDeployments",
+            "namespace": "common",
+            "value": "Active Surge Deployments"
+        },
+        {
+            "action": "add",
+            "key": "eruCancelButton",
+            "namespace": "eruReadinessForm",
+            "value": "Cancel"
+        },
+        {
+            "action": "add",
+            "key": "eruComments",
+            "namespace": "eruReadinessForm",
+            "value": "Comments"
+        },
+        {
+            "action": "add",
+            "key": "eruEquipmentReadiness",
+            "namespace": "eruReadinessForm",
+            "value": "Equipment Readiness"
+        },
+        {
+            "action": "add",
+            "key": "eruFormFailedToCreate",
+            "namespace": "eruReadinessForm",
+            "value": "Failed to create ERU readiness"
+        },
+        {
+            "action": "add",
+            "key": "eruFormFailedToUpdate",
+            "namespace": "eruReadinessForm",
+            "value": "Failed to update ERU readiness"
+        },
+        {
+            "action": "add",
+            "key": "eruFormSuccessfullyCreated",
+            "namespace": "eruReadinessForm",
+            "value": "Successfully created ERU readiness"
+        },
+        {
+            "action": "add",
+            "key": "eruFormSuccessfullyUpdated",
+            "namespace": "eruReadinessForm",
+            "value": "Successfully updated ERU readiness"
+        },
+        {
+            "action": "add",
+            "key": "eruFundingReadiness",
+            "namespace": "eruReadinessForm",
+            "value": "Funding Readiness"
+        },
+        {
+            "action": "add",
+            "key": "eruLead",
+            "namespace": "eruReadinessForm",
+            "value": "Confirm that you have capacity to lead this type of ERU"
+        },
+        {
+            "action": "add",
+            "key": "eruNoRecord",
+            "namespace": "eruReadinessForm",
+            "value": "No existing record"
+        },
+        {
+            "action": "add",
+            "key": "eruOwnerFailedToFetch",
+            "namespace": "eruReadinessForm",
+            "value": "Failed to fetch ERU owners!"
+        },
+        {
+            "action": "add",
+            "key": "eruPeopleReadiness",
+            "namespace": "eruReadinessForm",
+            "value": "People Readiness"
+        },
+        {
+            "action": "add",
+            "key": "eruReadinessFailedToFetch",
+            "namespace": "eruReadinessForm",
+            "value": "Failed to fetch ERU readiness information!"
+        },
+        {
+            "action": "add",
+            "key": "eruReadinessFormDescription",
+            "namespace": "eruReadinessForm",
+            "value": "Complete the form with the ERU readiness data of your National Society. In case of any questions, contact: {imContact} or {surgeContact}."
+        },
+        {
+            "action": "add",
+            "key": "eruReadinessFormHeading",
+            "namespace": "eruReadinessForm",
+            "value": "ERU Deployment Readiness"
+        },
+        {
+            "action": "add",
+            "key": "eruReadinessFormTitle",
+            "namespace": "eruReadinessForm",
+            "value": "Update ERU Readiness Form"
+        },
+        {
+            "action": "add",
+            "key": "eruSaveAndCloseButton",
+            "namespace": "eruReadinessForm",
+            "value": "Save and Close"
+        },
+        {
+            "action": "add",
+            "key": "eruSelectErus",
+            "namespace": "eruReadinessForm",
+            "value": "Select ERU Type(s)"
+        },
+        {
+            "action": "add",
+            "key": "eruSelectNationalSociety",
+            "namespace": "eruReadinessForm",
+            "value": "National Society"
+        },
+        {
+            "action": "add",
+            "key": "eruSupport",
+            "namespace": "eruReadinessForm",
+            "value": "Confirm that you have capacity to support this type of ERU"
+        },
+        {
+            "action": "add",
+            "key": "imContact",
+            "namespace": "eruReadinessForm",
+            "value": "im@ifrc.org"
+        },
+        {
+            "action": "add",
+            "key": "surgeContact",
+            "namespace": "eruReadinessForm",
+            "value": "surge@ifrc.org"
+        },
+        {
+            "action": "add",
+            "key": "activeErus",
+            "namespace": "surge",
+            "value": "Active Emergency Response Units"
+        },
+        {
+            "action": "add",
+            "key": "activeRapidResponsePersonnel",
+            "namespace": "surge",
+            "value": "Active Rapid Response Personnel"
+        },
+        {
+            "action": "add",
+            "key": "activeSurgeDeploymentsTab",
+            "namespace": "surge",
+            "value": "Active Surge Deployments"
+        },
+        {
+            "action": "add",
+            "key": "eruDeploymentsThisYear",
+            "namespace": "surge",
+            "value": "Emergency Response Unit Deployments This Year"
+        },
+        {
+            "action": "add",
+            "key": "rapidResponseDeployments",
+            "namespace": "surge",
+            "value": "Rapid Response Deployments This Year"
+        },
+        {
+            "action": "remove",
+            "key": "activeErusTitle",
+            "namespace": "surge"
+        },
+        {
+            "action": "remove",
+            "key": "deploymentsThisYearTitle",
+            "namespace": "surge"
+        },
+        {
+            "action": "update",
+            "key": "surgeCatalogueTab",
+            "namespace": "surge",
+            "newValue": "Catalogue of Surge Services"
+        },
+        {
+            "action": "add",
+            "key": "emergencyResponseUnitNationalSociety",
+            "namespace": "surgeOverview",
+            "value": "National Society"
+        },
+        {
+            "action": "add",
+            "key": "emergencyResponseUnitOwnerNSCardDeployed",
+            "namespace": "surgeOverview",
+            "value": "{count} Deployed ERUs"
+        },
+        {
+            "action": "add",
+            "key": "emergencyResponseUnitOwnerNSCardLastUpdated",
+            "namespace": "surgeOverview",
+            "value": "Last updated"
+        },
+        {
+            "action": "add",
+            "key": "emergencyResponseUnitOwnerNSCardReady",
+            "namespace": "surgeOverview",
+            "value": "{count} Ready ERUs"
+        },
+        {
+            "action": "add",
+            "key": "emergencyResponseUnitTitle",
+            "namespace": "surgeOverview",
+            "value": "Emergency Response Unit"
+        },
+        {
+            "action": "add",
+            "key": "eruEquipmentReadiness",
+            "namespace": "surgeOverview",
+            "value": "Equipment Readiness"
+        },
+        {
+            "action": "add",
+            "key": "eruFundingReadiness",
+            "namespace": "surgeOverview",
+            "value": "Funding Readiness"
+        },
+        {
+            "action": "add",
+            "key": "eruNationalSociety",
+            "namespace": "surgeOverview",
+            "value": "National Society"
+        },
+        {
+            "action": "add",
+            "key": "eruNSEquipmentReadiness",
+            "namespace": "surgeOverview",
+            "value": "Equipment Readiness"
+        },
+        {
+            "action": "add",
+            "key": "eruNSFundingReadiness",
+            "namespace": "surgeOverview",
+            "value": "Funding Readiness"
+        },
+        {
+            "action": "add",
+            "key": "eruNSPeopleReadiness",
+            "namespace": "surgeOverview",
+            "value": "People Readiness"
+        },
+        {
+            "action": "add",
+            "key": "eruNSReadinessInformationHeading",
+            "namespace": "surgeOverview",
+            "value": "Readiness Information by ERU Type"
+        },
+        {
+            "action": "add",
+            "key": "eruNSSeeReadinessInfoButton",
+            "namespace": "surgeOverview",
+            "value": "See readiness info"
+        },
+        {
+            "action": "add",
+            "key": "eruPeopleReadiness",
+            "namespace": "surgeOverview",
+            "value": "People Readiness"
+        },
+        {
+            "action": "add",
+            "key": "eruReadinessCount",
+            "namespace": "surgeOverview",
+            "value": "ERU Capacity and Readiness ({count})"
+        },
+        {
+            "action": "add",
+            "key": "eruReadinessInformationHeading",
+            "namespace": "surgeOverview",
+            "value": "Readiness Information by National Society"
+        },
+        {
+            "action": "add",
+            "key": "eruReadinessUpdateButton",
+            "namespace": "surgeOverview",
+            "value": "Update ERU Readiness"
+        },
+        {
+            "action": "add",
+            "key": "eruSeeReadinessInfoButton",
+            "namespace": "surgeOverview",
+            "value": "See readiness info"
+        },
+        {
+            "action": "add",
+            "key": "eruType",
+            "namespace": "surgeOverview",
+            "value": "ERU Type"
+        },
+        {
+            "action": "add",
+            "key": "eruTypesLabel",
+            "namespace": "surgeOverview",
+            "value": "ERU Type(s)"
+        },
+        {
+            "action": "remove",
+            "key": "deployedErus",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "remove",
+            "key": "emergencyResponseUnitsTableDeployedTo",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "remove",
+            "key": "emergencyResponseUnitsTableEmergency",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "remove",
+            "key": "emergencyResponseUnitsTableEquipment",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "remove",
+            "key": "emergencyResponseUnitsTableHeading",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "remove",
+            "key": "emergencyResponseUnitsTableOwner",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "remove",
+            "key": "emergencyResponseUnitsTableType",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "remove",
+            "key": "emergencyResponseUnitsTableUnits",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "remove",
+            "key": "emergencyResponseUnitsViewAll",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "remove",
+            "key": "emergencyResponseUnitTypeFilterLabel",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "remove",
+            "key": "emergencyResponseUnitTypeFilterPlaceholder",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "remove",
+            "key": "eruAndPersonnel",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "remove",
+            "key": "eruOwnersTableFilterClear",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "remove",
+            "key": "personnelByEventTableEmergency",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "remove",
+            "key": "personnelByEventTableHeading",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "remove",
+            "key": "personnelByEventTableOrganization",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "remove",
+            "key": "personnelByEventTablePersonnelCount",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "remove",
+            "key": "personnelByEventTableSurgeType",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "remove",
+            "key": "personnelViewAll",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "remove",
+            "key": "rapidResponseSurgeType",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "remove",
+            "key": "readinessTitle",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "remove",
+            "key": "surgeAlertsTableHeading",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "remove",
+            "key": "surgeEruOnly",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "remove",
+            "key": "surgePersonnelOnly",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "update",
+            "key": "deployedPersonnel",
+            "namespace": "surgeOverview",
+            "newNamespace": "activeSurgeDeployments"
+        },
+        {
+            "action": "update",
+            "key": "eruLabel",
+            "namespace": "surgeOverview",
+            "newNamespace": "activeSurgeDeployments"
+        },
+        {
+            "action": "update",
+            "key": "eventPopoverEmpty",
+            "namespace": "surgeOverview",
+            "newNamespace": "activeSurgeDeployments"
+        },
+        {
+            "action": "update",
+            "key": "explanationScalePoints",
+            "namespace": "surgeOverview",
+            "newNamespace": "activeSurgeDeployments"
+        },
+        {
+            "action": "update",
+            "key": "personnelLabel",
+            "newKey": "rapidResponsePersonnelTitle",
+            "namespace": "surgeOverview"
+        },
+        {
+            "action": "update",
+            "key": "surgeAlertImmediately",
+            "namespace": "surgeOverview",
+            "newNamespace": "activeSurgeDeployments"
+        },
+        {
+            "action": "update",
+            "key": "surgeAlertsTableAlertDate",
+            "namespace": "surgeOverview",
+            "newNamespace": "activeSurgeDeployments"
+        },
+        {
+            "action": "update",
+            "key": "surgeAlertsTableCountry",
+            "namespace": "surgeOverview",
+            "newNamespace": "activeSurgeDeployments"
+        },
+        {
+            "action": "update",
+            "key": "surgeAlertsTableDuration",
+            "namespace": "surgeOverview",
+            "newNamespace": "activeSurgeDeployments"
+        },
+        {
+            "action": "update",
+            "key": "surgeAlertsTableEmergency",
+            "namespace": "surgeOverview",
+            "newNamespace": "activeSurgeDeployments"
+        },
+        {
+            "action": "update",
+            "key": "surgeAlertsTableKeywords",
+            "namespace": "surgeOverview",
+            "newNamespace": "activeSurgeDeployments"
+        },
+        {
+            "action": "update",
+            "key": "surgeAlertsTablePosition",
+            "namespace": "surgeOverview",
+            "newNamespace": "activeSurgeDeployments"
+        },
+        {
+            "action": "update",
+            "key": "surgeAlertsTableStartDate",
+            "namespace": "surgeOverview",
+            "newNamespace": "activeSurgeDeployments"
+        },
+        {
+            "action": "update",
+            "key": "surgeAlertsTableStatus",
+            "namespace": "surgeOverview",
+            "newNamespace": "activeSurgeDeployments"
+        },
+        {
+            "action": "update",
+            "key": "surgeAlertsViewAll",
+            "namespace": "surgeOverview",
+            "newNamespace": "activeSurgeDeployments"
+        },
+        {
+            "action": "update",
+            "key": "surgeDownloadMapTitle",
+            "namespace": "surgeOverview",
+            "newNamespace": "activeSurgeDeployments"
+        }
+    ]
+}
