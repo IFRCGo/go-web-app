@@ -150,7 +150,7 @@ export function Component() {
                                 <>
                                     <TextOutput
                                         label={strings.perTypeOfAssessmentLabel}
-                                        value={perProcess.type_of_assessment_details.name}
+                                        value={perProcess.type_of_assessment_details?.name}
                                     />
                                     <TextOutput
                                         label={strings.perFocalPointLabel}
