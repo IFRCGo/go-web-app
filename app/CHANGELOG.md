@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.12.1
+
+### Patch Changes
+
+- Fix nullable type of assessment for NS capacity
+
 ## 7.12.0
 
 ### Minor Changes
