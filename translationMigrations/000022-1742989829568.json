@@ -165,6 +165,18 @@
         },
         {
             "action": "add",
+            "key": "operationStartDate",
+            "namespace": "activeSurgeDeployments",
+            "value": "Operation Start Date"
+        },
+        {
+            "action": "add",
+            "key": "operationTimeline",
+            "namespace": "activeSurgeDeployments",
+            "value": "{startDate} ({duration})"
+        },
+        {
+            "action": "add",
             "key": "personnelLabel",
             "namespace": "activeSurgeDeployments",
             "value": "RR"
