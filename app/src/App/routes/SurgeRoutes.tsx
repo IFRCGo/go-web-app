@@ -132,7 +132,7 @@ const eruReadinessForm = customWrapRoute({
     wrapperComponent: Auth,
     context: {
         title: 'ERU Readiness Update Form',
-        visibility: 'anything',
+        visibility: 'is-authenticated',
     },
 });
 
