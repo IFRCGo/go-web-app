@@ -6,6 +6,12 @@ import {
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
+    getDuration,
+    maxSafe,
+    minSafe,
+    resolveToComponent,
+} from '@ifrc-go/ui/utils';
+import {
     _cs,
     isDefined,
     unique,
@@ -38,10 +44,22 @@ function SurgeCard(props: Props) {
             deployed_personnel_count: deployedPersonnelCount,
             deployments,
             erus,
+            appeals,
         },
     } = props;
 
     const strings = useTranslation(i18n);
+
+    const operationStartDate = minSafe(appeals.map(
+        (a) => a.start_date,
+    ).filter(isDefined).map((d) => new Date(d).getTime()));
+
+    const operationEndDate = maxSafe(appeals.map(
+        (a) => a.end_date,
+    ).filter(isDefined).map((d) => new Date(d).getTime()));
+
+    const duration = isDefined(operationStartDate) && isDefined(operationEndDate)
+        ? getDuration(new Date(operationStartDate), new Date(operationEndDate)) : undefined;
 
     const deployedERUTypes = useMemo(() => (
         joinStrings(erus.map((eru) => eru.type_display).filter(isDefined))
@@ -81,6 +99,20 @@ function SurgeCard(props: Props) {
                     {emergencyName}
                 </Link>
             )}
+            headerDescriptionContainerClassName={styles.headerDescription}
+            headerDescription={resolveToComponent(
+                strings.operationTimeline,
+                {
+                    startDate: (
+                        <TextOutput
+                            value={operationStartDate}
+                            label={strings.operationStartDate}
+                            valueType="date"
+                        />
+                    ),
+                    duration,
+                },
+            )}
             headingLevel={4}
             withInternalPadding
             withHeaderBorder
@@ -96,6 +128,7 @@ function SurgeCard(props: Props) {
             {deployedERUCount > 0 && (
                 <Container
                     spacing="cozy"
+                    className={styles.surge}
                     childrenContainerClassName={styles.figures}
                     footerContent={(
                         <TextOutput
@@ -129,8 +162,10 @@ function SurgeCard(props: Props) {
             )}
             {deployedPersonnelCount > 0 && (
                 <Container
+                    className={styles.surge}
                     childrenContainerClassName={styles.figures}
                     spacing="cozy"
+                    footerClassName={styles.footerContent}
                     footerContent={(
                         <TextOutput
                             value={personnelDeployingOrganizations}
