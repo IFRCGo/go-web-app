@@ -157,7 +157,11 @@ function EmergencyResponseUnitReadiness() {
             <Container
                 heading={resolveToString(
                     strings.eruReadinessCount,
-                    { count: eruReadinessResponse?.count ?? '-' },
+                    {
+                        count: (
+                            activeTab === 'eruType' ? groupedByEruType?.length
+                                : eruReadinessResponse?.count) ?? '-',
+                    },
                 )}
                 withHeaderBorder
                 actions={(

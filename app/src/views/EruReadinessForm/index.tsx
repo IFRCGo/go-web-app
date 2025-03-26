@@ -32,6 +32,7 @@ import Link from '#components/Link';
 import NonFieldError from '#components/NonFieldError';
 import Page from '#components/Page';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import usePermissions from '#hooks/domain/usePermissions';
 import useAlertContext from '#hooks/useAlert';
 import useRouting from '#hooks/useRouting';
 import {
@@ -76,7 +77,15 @@ const defaultFormValues: FormType = {};
 export function Component() {
     const strings = useTranslation(i18n);
 
+    const {
+        isCountryAdmin,
+        isRegionAdmin,
+        isSuperUser,
+        isIfrcAdmin,
+    } = usePermissions();
+
     const { goBack } = useRouting();
+
     const alert = useAlertContext();
     const {
         deployments_eru_type: eruTypeOptions,
@@ -116,6 +125,7 @@ export function Component() {
             })),
         });
     };
+
     const {
         trigger: updateEruReadiness,
         pending: updateEruReadinessPending,
@@ -290,8 +300,18 @@ export function Component() {
                 fetchEruReadinessData(newValue);
             }
         },
-        [fetchEruReadinessData, setValue],
+        [
+            fetchEruReadinessData,
+            setValue,
+        ],
     );
+
+    const permittedEruOwners = eruOwnerResponse?.results?.filter((owner) => (
+        isSuperUser
+        || isIfrcAdmin
+        || isCountryAdmin(owner.national_society_country_details.id)
+        || isRegionAdmin(owner.national_society_country_details.region ?? undefined)
+    ));
 
     const eruTypes = useMemo(() => (
         value.eru_types?.map((eruType) => eruType.type).filter(isDefined)
@@ -359,7 +379,7 @@ export function Component() {
                 >
                     <SelectInput
                         name="eru_owner"
-                        options={eruOwnerResponse?.results}
+                        options={permittedEruOwners}
                         onChange={handleEruOwnerChange}
                         value={value.eru_owner}
                         keySelector={eruOwnerKeySelector}

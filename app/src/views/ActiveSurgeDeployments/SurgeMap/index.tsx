@@ -436,7 +436,7 @@ function SurgeMap(props: Props) {
                                                 rendererParams={rendererParams}
                                             />
                                         )}
-                                        label={strings.roleProfile}
+                                        label={strings.eruType}
                                         strongLabel
                                     />
                                     <TextOutput
