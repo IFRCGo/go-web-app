@@ -45,6 +45,7 @@ function PerExportModal(props: Props) {
             export_id: Number(perId),
             export_type: 'per' as const,
             per_country: Number(countryId),
+            is_pga: undefined, // FIXME: this should be fixed in export endpoint
         }),
         [perId, countryId],
     );

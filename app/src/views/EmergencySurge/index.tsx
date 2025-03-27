@@ -38,14 +38,14 @@ export function Component() {
                 <KeyFigure
                     icon={<DeployedIcon />}
                     className={styles.keyFigure}
-                    value={deploymentResponse?.active_deployments}
+                    value={deploymentResponse?.active_rapid_response_personnel}
                     compactValue
                     label={strings.emergencyActiveDeployments}
                 />
                 <KeyFigure
                     icon={<EmergencyResponseUnitIcon />}
                     className={styles.keyFigure}
-                    value={deploymentResponse?.active_erus}
+                    value={deploymentResponse?.active_emergency_response_units}
                     compactValue
                     label={strings.emergencyActiveErus}
                 />

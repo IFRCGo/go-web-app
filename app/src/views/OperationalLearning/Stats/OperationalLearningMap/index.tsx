@@ -87,7 +87,7 @@ function OperationalLearningMap(props: Props) {
             }
 
             const features = learningByCountry
-                .map((value) => {
+                ?.map((value) => {
                     const country = countriesMap?.[value.country_id];
                     if (isNotDefined(country)) {
                         return undefined;

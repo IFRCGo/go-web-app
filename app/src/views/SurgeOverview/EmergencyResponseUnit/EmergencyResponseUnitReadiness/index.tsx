@@ -21,6 +21,7 @@ import {
     stringKeySelector,
 } from '@ifrc-go/ui/utils';
 import {
+    compareString,
     isDefined,
     listToGroupList,
     mapToList,
@@ -88,6 +89,7 @@ function EmergencyResponseUnitReadiness() {
         url: '/api/v2/eru-readiness/',
         preserveResponse: true,
         query: {
+            ordering: '-updated-at',
             eru_type: filter.selectEruTypes,
             eru_owner: filter.selectEruOwner,
         },
@@ -101,6 +103,7 @@ function EmergencyResponseUnitReadiness() {
         url: '/api/v2/eru-readiness-type/',
         preserveResponse: true,
         query: {
+            ordering: '-updated-at',
             type: filter.selectEruTypes,
             eru_owner: filter.selectEruOwner,
         },
@@ -124,14 +127,19 @@ function EmergencyResponseUnitReadiness() {
                     eruData,
                     (eru) => eru.type,
                 ),
-                (readinessList, eruType) => ({ key: eruType, readinessList }),
-            )
+                (readinessList, eruType) => ({
+                    key: eruType,
+                    readinessList,
+                    eruType: readinessList?.[0].type_display,
+                }),
+            )?.sort((a, b) => (compareString(a.eruType, b.eruType)))
         );
     }, [eruReadinessTypeResponse?.results]);
 
     const eruRendererParams = useCallback((_: string, item: {
         key: string;
         readinessList: ReadinessList;
+        updatedAt: number | undefined;
     }) => ({
         typeDisplay: item.readinessList?.[0]?.type_display,
         nationalSocieties: joinStrings(unique(item.readinessList.map((v) => (
