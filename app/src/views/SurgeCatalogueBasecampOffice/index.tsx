@@ -66,7 +66,6 @@ export function Component() {
                     label={strings.compositionLabel}
                     strongLabel
                 />
-                <div>{strings.compositionDescription}</div>
             </SurgeContentContainer>
             <SurgeContentContainer
                 heading={strings.standardComponents}

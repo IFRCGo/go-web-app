@@ -3,7 +3,7 @@ import { TextOutput } from '@ifrc-go/ui';
 import { isDefined } from '@togglecorp/fujs';
 
 interface Props<VALUE, OPTION> {
-    className: string;
+    className?: string;
     value: VALUE | undefined;
     options: OPTION[] | undefined;
     keySelector: (datum: OPTION) => VALUE;
