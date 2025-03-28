@@ -133,6 +133,10 @@ const eruReadinessForm = customWrapRoute({
     context: {
         title: 'ERU Readiness Update Form',
         visibility: 'is-authenticated',
+        permissions: ({
+            isRegionalOrCountryAdmin,
+            isSuperUser,
+        }) => isSuperUser || isRegionalOrCountryAdmin,
     },
 });
 

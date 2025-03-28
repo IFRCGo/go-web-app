@@ -16,6 +16,7 @@ interface Perms {
     isCountryAdmin: (countryId: number | undefined) => boolean,
     isRegionPerAdmin: (regionId: number | undefined) => boolean,
     isCountryPerAdmin: (countryId: number | undefined) => boolean,
+    isRegionalOrCountryAdmin: boolean,
     isPerAdmin: boolean,
     isIfrcAdmin: boolean,
     isSuperUser: boolean,

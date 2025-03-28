@@ -38,12 +38,16 @@ function usePermissions() {
 
             const isPerAdmin = !isGuestUser
                 && ((userMe?.is_per_admin_for_countries.length ?? 0) > 0
-                || (userMe?.is_admin_for_regions.length ?? 0) > 0);
+                || (userMe?.is_per_admin_for_regions.length ?? 0) > 0);
 
             const isIfrcAdmin = !isGuestUser
                 && (!!userMe?.is_ifrc_admin || !!userMe?.email?.toLowerCase().endsWith('@ifrc.org'));
 
             const isSuperUser = !isGuestUser && !!userMe?.is_superuser;
+
+            const isRegionalOrCountryAdmin = !isGuestUser
+                && ((userMe?.is_admin_for_countries.length ?? 0) > 0
+                || (userMe?.is_admin_for_regions.length ?? 0) > 0);
 
             return {
                 isDrefRegionalCoordinator,
@@ -55,6 +59,7 @@ function usePermissions() {
                 isIfrcAdmin,
                 isSuperUser,
                 isGuestUser,
+                isRegionalOrCountryAdmin,
             };
         },
         [userMe],
