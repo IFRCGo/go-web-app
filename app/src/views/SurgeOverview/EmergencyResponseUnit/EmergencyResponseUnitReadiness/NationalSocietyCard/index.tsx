@@ -1,4 +1,3 @@
-import { CheckboxCircleLineIcon } from '@ifrc-go/icons';
 import {
     Button,
     Container,
@@ -14,18 +13,13 @@ import { _cs } from '@togglecorp/fujs';
 import { joinStrings } from '#utils/common';
 import { type GoApiResponse } from '#utils/restRequest';
 
+import ReadinessIcon from '../ReadinessIcon';
+
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type GetEruReadinessResponse = GoApiResponse<'/api/v2/eru-readiness/'>;
 type EruReadinessListItem = NonNullable<GetEruReadinessResponse['results']>[number];
-
-function getReadinessColor(rank: number | undefined) {
-    if (rank === 1) return styles.greenIcon;
-    if (rank === 2) return styles.yellowIcon;
-    if (rank === 3) return styles.redIcon;
-    return styles.grayIcon;
-}
 
 interface Props {
     className?: string;
@@ -108,8 +102,8 @@ function NationalSocietyTypeCard(props: Props) {
                                 className={styles.readiness}
                                 label={strings.eruNSEquipmentReadiness}
                                 value={(
-                                    <CheckboxCircleLineIcon
-                                        className={getReadinessColor(eruType.equipment_readiness)}
+                                    <ReadinessIcon
+                                        readiness={eruType.equipment_readiness}
                                     />
                                 )}
                                 valueClassName={styles.icon}
@@ -120,8 +114,8 @@ function NationalSocietyTypeCard(props: Props) {
                                 className={styles.readiness}
                                 label={strings.eruNSPeopleReadiness}
                                 value={(
-                                    <CheckboxCircleLineIcon
-                                        className={getReadinessColor(eruType.people_readiness)}
+                                    <ReadinessIcon
+                                        readiness={eruType.people_readiness}
                                     />
                                 )}
                                 valueClassName={styles.icon}
@@ -132,8 +126,8 @@ function NationalSocietyTypeCard(props: Props) {
                                 className={styles.readiness}
                                 label={strings.eruNSFundingReadiness}
                                 value={(
-                                    <CheckboxCircleLineIcon
-                                        className={getReadinessColor(eruType.funding_readiness)}
+                                    <ReadinessIcon
+                                        readiness={eruType.funding_readiness}
                                     />
                                 )}
                                 valueClassName={styles.icon}

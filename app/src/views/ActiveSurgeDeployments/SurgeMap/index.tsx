@@ -31,6 +31,7 @@ import {
     MapSource,
 } from '@togglecorp/re-map';
 
+import DisplayName from '#components/DisplayName';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import GlobalMap, { type AdminZeroFeatureProperties } from '#components/domain/GlobalMap';
 import Link from '#components/Link';
@@ -70,13 +71,6 @@ interface ClickedPoint {
 
 interface Props {
     className?: string;
-}
-
-interface NameOutputProps {
-    name: string;
-}
-function NameOutput({ name }: NameOutputProps) {
-    return name;
 }
 
 function SurgeMap(props: Props) {
@@ -146,6 +140,7 @@ function SurgeMap(props: Props) {
         }),
         [],
     );
+
     const [
         scaleOptions,
         legendOptions,
@@ -432,7 +427,7 @@ function SurgeMap(props: Props) {
                                             <ReducedListDisplay
                                                 list={event.eruType}
                                                 keySelector={stringNameSelector}
-                                                renderer={NameOutput}
+                                                renderer={DisplayName}
                                                 rendererParams={rendererParams}
                                             />
                                         )}
@@ -446,7 +441,7 @@ function SurgeMap(props: Props) {
                                             <ReducedListDisplay
                                                 list={event.deployingNS}
                                                 keySelector={stringNameSelector}
-                                                renderer={NameOutput}
+                                                renderer={DisplayName}
                                                 rendererParams={rendererParams}
                                             />
                                         )}
@@ -477,7 +472,7 @@ function SurgeMap(props: Props) {
                                             <ReducedListDisplay
                                                 list={event.roleProfile}
                                                 keySelector={stringNameSelector}
-                                                renderer={NameOutput}
+                                                renderer={DisplayName}
                                                 rendererParams={rendererParams}
                                             />
                                         )}
@@ -491,7 +486,7 @@ function SurgeMap(props: Props) {
                                             <ReducedListDisplay
                                                 list={event.deployingNS}
                                                 keySelector={stringNameSelector}
-                                                renderer={NameOutput}
+                                                renderer={DisplayName}
                                                 rendererParams={rendererParams}
                                             />
                                         )}

@@ -41,7 +41,9 @@ import styles from './styles.module.css';
 
 type GetRapidResponseByEvent = GoApiResponse<'/api/v2/personnel_by_event/'>;
 type RapidResponseByEventItem = NonNullable<GetRapidResponseByEvent['results']>[number];
-type Personnel = NonNullable<NonNullable<RapidResponseByEventItem['deployments']>[number]['personnel'] > [number];
+type Personnel = NonNullable<NonNullable<RapidResponseByEventItem['deployments']>[number]['personnel']>[number] & {
+    country_deployed_to?: NonNullable<RapidResponseByEventItem['deployments']>[number]['country_deployed_to'];
+};
 
 const rapidResponsesKeySelector = (item: RapidResponseByEventItem) => item.id;
 
@@ -126,6 +128,7 @@ function OngoingRapidResponseDeployments() {
                 strings.rapidResponsePosition,
                 () => '',
                 {
+                    defaultEmptyValue: '',
                     columnClassName: styles.role,
                 },
             ),
@@ -133,6 +136,19 @@ function OngoingRapidResponseDeployments() {
                 'organisation',
                 strings.rapidResponseDeployingOrganisation,
                 () => '',
+                {
+                    columnClassName: styles.organisation,
+                    defaultEmptyValue: '',
+                },
+            ),
+            createStringColumn<RapidResponseByEventItem, number>(
+                'country',
+                strings.rapidReponseDeploymentCountry,
+                () => '',
+                {
+                    defaultEmptyValue: '',
+                    columnClassName: styles.country,
+                },
             ),
             createMultiTimelineColumn<RapidResponseByEventItem, number>(
                 'timeline',
@@ -168,6 +184,7 @@ function OngoingRapidResponseDeployments() {
             strings.rapidResponseEmergency,
             strings.rapidResponsePosition,
             strings.rapidResponseDeployingOrganisation,
+            strings.rapidReponseDeploymentCountry,
             strings.emergencyEndDate,
             strings.emergencyStartDate,
             strings.deploymentStartDate,
@@ -198,6 +215,17 @@ function OngoingRapidResponseDeployments() {
                 strings.rapidResponseOrganisation,
                 (item) => item?.country_from?.society_name,
             ),
+            createLinkColumn<Personnel, number>(
+                'country',
+                strings.rapidReponseDeploymentCountry,
+                (item) => item?.country_deployed_to?.name,
+                (item) => ({
+                    to: 'countriesLayout',
+                    urlParams: {
+                        countryId: item?.country_deployed_to?.id,
+                    },
+                }),
+            ),
             createTimelineColumn<Personnel, number>(
                 'timeline',
                 timelineDateRange,
@@ -214,6 +242,7 @@ function OngoingRapidResponseDeployments() {
             strings.rapidResponseRole,
             strings.rapidResponseName,
             strings.rapidResponseOrganisation,
+            strings.rapidReponseDeploymentCountry,
         ],
     );
 
@@ -223,7 +252,10 @@ function OngoingRapidResponseDeployments() {
                 return row;
             }
 
-            const subRows = datum.deployments?.flatMap((deployment) => deployment.personnel);
+            const subRows = datum.deployments?.flatMap((deployment) => ({
+                ...deployment.personnel,
+                country_deployed_to: deployment.country_deployed_to,
+            }));
 
             return (
                 <>

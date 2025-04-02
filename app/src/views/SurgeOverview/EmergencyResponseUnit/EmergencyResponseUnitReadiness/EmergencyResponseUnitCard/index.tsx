@@ -1,4 +1,3 @@
-import { CheckboxCircleLineIcon } from '@ifrc-go/icons';
 import {
     Button,
     Container,
@@ -13,15 +12,10 @@ import { _cs } from '@togglecorp/fujs';
 
 import { type GoApiResponse } from '#utils/restRequest';
 
+import ReadinessIcon from '../ReadinessIcon';
+
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-function getReadinessColor(rank: number | undefined) {
-    if (rank === 1) return styles.greenIcon;
-    if (rank === 2) return styles.yellowIcon;
-    if (rank === 3) return styles.redIcon;
-    return styles.grayIcon;
-}
 
 type GetEruReadinessResponse = GoApiResponse<'/api/v2/eru-readiness-type/'>;
 
@@ -99,8 +93,8 @@ function EmergencyResponseUnitTypeCard(props: Props) {
                             className={styles.readiness}
                             label={strings.eruEquipmentReadiness}
                             value={(
-                                <CheckboxCircleLineIcon
-                                    className={getReadinessColor(equipmentReadiness)}
+                                <ReadinessIcon
+                                    readiness={equipmentReadiness}
                                 />
                             )}
                             valueClassName={styles.icon}
@@ -111,8 +105,8 @@ function EmergencyResponseUnitTypeCard(props: Props) {
                             className={styles.readiness}
                             label={strings.eruPeopleReadiness}
                             value={(
-                                <CheckboxCircleLineIcon
-                                    className={getReadinessColor(peopleReadiness)}
+                                <ReadinessIcon
+                                    readiness={peopleReadiness}
                                 />
                             )}
                             valueClassName={styles.icon}
@@ -123,8 +117,8 @@ function EmergencyResponseUnitTypeCard(props: Props) {
                             className={styles.readiness}
                             label={strings.eruFundingReadiness}
                             value={(
-                                <CheckboxCircleLineIcon
-                                    className={getReadinessColor(fundingReadiness)}
+                                <ReadinessIcon
+                                    readiness={fundingReadiness}
                                 />
                             )}
                             valueClassName={styles.icon}
@@ -167,8 +161,8 @@ function EmergencyResponseUnitTypeCard(props: Props) {
                                 className={styles.readiness}
                                 label={strings.eruEquipmentReadiness}
                                 value={(
-                                    <CheckboxCircleLineIcon
-                                        className={getReadinessColor(readiness.equipment_readiness)}
+                                    <ReadinessIcon
+                                        readiness={readiness.equipment_readiness}
                                     />
                                 )}
                                 valueClassName={styles.icon}
@@ -179,8 +173,8 @@ function EmergencyResponseUnitTypeCard(props: Props) {
                                 className={styles.readiness}
                                 label={strings.eruPeopleReadiness}
                                 value={(
-                                    <CheckboxCircleLineIcon
-                                        className={getReadinessColor(readiness.people_readiness)}
+                                    <ReadinessIcon
+                                        readiness={readiness.people_readiness}
                                     />
                                 )}
                                 valueClassName={styles.icon}
@@ -191,8 +185,8 @@ function EmergencyResponseUnitTypeCard(props: Props) {
                                 className={styles.readiness}
                                 label={strings.eruFundingReadiness}
                                 value={(
-                                    <CheckboxCircleLineIcon
-                                        className={getReadinessColor(readiness.funding_readiness)}
+                                    <ReadinessIcon
+                                        readiness={readiness.funding_readiness}
                                     />
                                 )}
                                 valueClassName={styles.icon}

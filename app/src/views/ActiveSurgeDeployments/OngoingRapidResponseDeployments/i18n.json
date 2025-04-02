@@ -13,6 +13,7 @@
         "deploymentStartDate": "Deployment Start Date",
         "deploymentEndDate": "Deployment End Date",
         "emergencyTimeline": "Emergency Timeline",
-        "deploymentDate": "Deployment Timeline"
+        "deploymentDate": "Deployment Timeline",
+        "rapidReponseDeploymentCountry": "Deployed To"
     }
 }
