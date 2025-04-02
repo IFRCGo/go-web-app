@@ -143,7 +143,7 @@ function OngoingRapidResponseDeployments() {
             ),
             createStringColumn<RapidResponseByEventItem, number>(
                 'country',
-                strings.rapidReponseDeploymentCountry,
+                strings.rapidResponseDeploymentCountry,
                 () => '',
                 {
                     defaultEmptyValue: '',
@@ -184,7 +184,7 @@ function OngoingRapidResponseDeployments() {
             strings.rapidResponseEmergency,
             strings.rapidResponsePosition,
             strings.rapidResponseDeployingOrganisation,
-            strings.rapidReponseDeploymentCountry,
+            strings.rapidResponseDeploymentCountry,
             strings.emergencyEndDate,
             strings.emergencyStartDate,
             strings.deploymentStartDate,
@@ -217,7 +217,7 @@ function OngoingRapidResponseDeployments() {
             ),
             createLinkColumn<Personnel, number>(
                 'country',
-                strings.rapidReponseDeploymentCountry,
+                strings.rapidResponseDeploymentCountry,
                 (item) => item?.country_deployed_to?.name,
                 (item) => ({
                     to: 'countriesLayout',
@@ -242,7 +242,7 @@ function OngoingRapidResponseDeployments() {
             strings.rapidResponseRole,
             strings.rapidResponseName,
             strings.rapidResponseOrganisation,
-            strings.rapidReponseDeploymentCountry,
+            strings.rapidResponseDeploymentCountry,
         ],
     );
 
