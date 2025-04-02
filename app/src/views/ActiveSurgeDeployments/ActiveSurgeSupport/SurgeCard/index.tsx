@@ -1,7 +1,11 @@
-import { useMemo } from 'react';
+import {
+    useCallback,
+    useMemo,
+} from 'react';
 import {
     Container,
     KeyFigure,
+    ReducedListDisplay,
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
@@ -10,6 +14,7 @@ import {
     maxSafe,
     minSafe,
     resolveToComponent,
+    stringNameSelector,
 } from '@ifrc-go/ui/utils';
 import {
     _cs,
@@ -17,9 +22,9 @@ import {
     unique,
 } from '@togglecorp/fujs';
 
+import DisplayName from '#components/DisplayName';
 import SeverityIndicator from '#components/domain/SeverityIndicator';
 import Link from '#components/Link';
-import { joinStrings } from '#utils/common';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -62,7 +67,10 @@ function SurgeCard(props: Props) {
         ? getDuration(new Date(operationStartDate), new Date(operationEndDate)) : undefined;
 
     const deployedERUTypes = useMemo(() => (
-        joinStrings(erus.map((eru) => eru.type_display).filter(isDefined))
+        unique(erus
+            .map((eru) => eru.type_display)
+            .filter(isDefined)
+            .map((eruType) => ({ name: eruType })))
     ), [erus]);
 
     const personnel = useMemo(() => (
@@ -70,20 +78,32 @@ function SurgeCard(props: Props) {
     ), [deployments]);
 
     const deployedPersonnelTypes = useMemo(() => (
-        joinStrings(unique(personnel.map((person) => person.role).filter(isDefined)))
+        unique(personnel
+            .map((person) => person.role)
+            .filter(isDefined)
+            .map((role) => ({ name: role })))
     ), [personnel]);
 
     const eruDeployingOrganizations = useMemo(() => (
-        joinStrings(unique(erus.map((eru) => (
-            eru.eru_owner_details.national_society_country_details.society_name
-        )).filter(isDefined)))
+        unique(erus
+            .map((eru) => eru.eru_owner_details.national_society_country_details.society_name)
+            .filter(isDefined)
+            .map((nationalSociety) => ({ name: nationalSociety })))
     ), [erus]);
 
     const personnelDeployingOrganizations = useMemo(() => (
-        joinStrings(unique(personnel.map((person) => (
-            person.country_from.society_name
-        )).filter(isDefined)))
+        unique(personnel
+            .map((person) => (person.country_from.society_name))
+            .filter(isDefined)
+            .map((nationalSociety) => ({ name: nationalSociety })))
     ), [personnel]);
+
+    const rendererParams = useCallback(
+        (value: { name: string }) => ({
+            name: value.name,
+        }),
+        [],
+    );
 
     return (
         <Container
@@ -132,11 +152,18 @@ function SurgeCard(props: Props) {
                     childrenContainerClassName={styles.figures}
                     footerContent={(
                         <TextOutput
-                            value={eruDeployingOrganizations}
+                            value={(
+                                <ReducedListDisplay
+                                    list={eruDeployingOrganizations}
+                                    keySelector={stringNameSelector}
+                                    renderer={DisplayName}
+                                    rendererParams={rendererParams}
+                                    maxItems={3}
+                                />
+                            )}
                             label={strings.surgeDeployingOrganizations}
                             strongValue
                             withoutLabelColon
-                            valueType="text"
                         />
                     )}
                 >
@@ -150,7 +177,15 @@ function SurgeCard(props: Props) {
                     <TextOutput
                         className={styles.figure}
                         labelClassName={styles.label}
-                        label={deployedERUTypes}
+                        label={(
+                            <ReducedListDisplay
+                                list={deployedERUTypes}
+                                keySelector={stringNameSelector}
+                                renderer={DisplayName}
+                                rendererParams={rendererParams}
+                                maxItems={3}
+                            />
+                        )}
                         value={strings.surgeDeployedERUs}
                         strongLabel
                         withoutLabelColon
@@ -168,11 +203,18 @@ function SurgeCard(props: Props) {
                     footerClassName={styles.footerContent}
                     footerContent={(
                         <TextOutput
-                            value={personnelDeployingOrganizations}
+                            value={(
+                                <ReducedListDisplay
+                                    list={personnelDeployingOrganizations}
+                                    keySelector={stringNameSelector}
+                                    renderer={DisplayName}
+                                    rendererParams={rendererParams}
+                                    maxItems={3}
+                                />
+                            )}
                             label={strings.surgeDeployingOrganizations}
                             strongValue
                             withoutLabelColon
-                            valueType="text"
                         />
                     )}
                 >
@@ -185,7 +227,15 @@ function SurgeCard(props: Props) {
                     <div className={styles.separator} />
                     <TextOutput
                         className={styles.figure}
-                        label={deployedPersonnelTypes}
+                        label={(
+                            <ReducedListDisplay
+                                list={deployedPersonnelTypes}
+                                keySelector={stringNameSelector}
+                                renderer={DisplayName}
+                                rendererParams={rendererParams}
+                                maxItems={3}
+                            />
+                        )}
                         value={strings.surgeDeployedRRs}
                         strongLabel
                         withoutLabelColon

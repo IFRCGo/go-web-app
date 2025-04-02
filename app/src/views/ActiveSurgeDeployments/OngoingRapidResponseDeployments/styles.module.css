@@ -1,11 +1,19 @@
 .rapid-response-deployments {
     .table {
-        min-height: var(--go-ui-compact-content-min-height);
+        min-height: 5rem;
         .name {
             min-width: 8rem;
         }
 
         .role {
+            min-width: 12rem;
+        }
+
+        .organisation {
+            min-width: 12rem;
+        }
+
+        .country {
             min-width: 8rem;
         }
 

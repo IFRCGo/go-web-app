@@ -3,7 +3,7 @@
     "strings": {
         "eruHeading": "Ongoing ERU Deployments",
         "eruEmergency": "Emergency / Name",
-        "eruOrganisation": "Organisation",
+        "eruOrganisation": "Deploying Organisation",
         "eruName": "Name",
         "eruViewAll": "View All",
         "eruTypes": "ERU Types",
@@ -12,6 +12,7 @@
         "eruStartDate": "Deployment Start Date",
         "eruEndDate": "Deployment End Date",
         "eruEmergencyTimeline": "Emergency Timeline",
-        "eruDeploymentTimeline": "Deployment Timeline"
+        "eruDeploymentTimeline": "Deployment Timeline",
+        "eruDeploymentCountry": "Deployed To"
     }
 }

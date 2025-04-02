@@ -1,0 +1,16 @@
+.green-icon {
+    color: var(--go-ui-color-green);
+}
+
+.yellow-icon {
+    color: var(--go-ui-color-semantic-yellow);
+}
+
+.red-icon {
+    color: var(--go-ui-color-primary-red);
+}
+
+.gray-icon {
+    color: var(--go-ui-color-primary-gray);
+}
+

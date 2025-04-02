@@ -142,7 +142,19 @@ function OngoingEruDeployments() {
                 'organisation',
                 strings.eruOrganisation,
                 () => '',
-                { columnClassName: styles.organisation },
+                {
+                    defaultEmptyValue: '',
+                    columnClassName: styles.organisation,
+                },
+            ),
+            createStringColumn<EruByEvent, number>(
+                'country',
+                strings.eruDeploymentCountry,
+                () => '',
+                {
+                    defaultEmptyValue: '',
+                    columnClassName: styles.country,
+                },
             ),
             createMultiTimelineColumn<EruByEvent, number>(
                 'timeline',
@@ -181,6 +193,7 @@ function OngoingEruDeployments() {
             strings.ongoingEmergencyEndDate,
             strings.eruStartDate,
             strings.eruEndDate,
+            strings.eruDeploymentCountry,
         ],
     );
 
@@ -196,6 +209,17 @@ function OngoingEruDeployments() {
                 strings.eruOrganisation,
                 (item) => item?.eru_owner_details?.national_society_country_details.society_name,
             ),
+            createLinkColumn<EruListItem, number>(
+                'country',
+                strings.eruDeploymentCountry,
+                (item) => item.deployed_to.name,
+                (item) => ({
+                    to: 'countriesLayout',
+                    urlParams: {
+                        countryId: item.deployed_to.id,
+                    },
+                }),
+            ),
             createTimelineColumn<EruListItem, number>(
                 'timeline',
                 timelineDateRange,
@@ -210,6 +234,7 @@ function OngoingEruDeployments() {
         [
             timelineDateRange,
             strings.eruOrganisation,
+            strings.eruDeploymentCountry,
             strings.eruName,
         ],
     );

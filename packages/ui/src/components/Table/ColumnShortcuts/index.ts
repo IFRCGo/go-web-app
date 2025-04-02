@@ -45,6 +45,7 @@ type Options<D, K, CompProps, HeaderProps> = {
 
     headerInfoTitle?: HeaderCellProps['infoTitle'];
     headerInfoDescription?: HeaderCellProps['infoDescription'];
+    defaultEmptyValue?: string;
 }
 
 export function createBooleanColumn<D, K>(
@@ -163,7 +164,7 @@ export function createStringColumn<D, K extends string | number>(
         cellContainerClassName: options?.cellContainerClassName,
         cellRenderer: Cell,
         cellRendererParams: (_: K, datum: D): CellProps<string> => ({
-            value: accessor(datum) || '--',
+            value: accessor(datum) || (options?.defaultEmptyValue ?? '--'),
         }),
         valueSelector: accessor,
         valueComparator: (foo: D, bar: D) => compareString(accessor(foo), accessor(bar)),

@@ -1,7 +1,11 @@
 .ongoing-eru-deployments {
     .table {
-        min-height: var(--go-ui-compact-content-min-height);
+        min-height: 5rem;
         .organisation {
+            min-width: 10rem;
+        }
+
+        .country {
             min-width: 10rem;
         }
 
