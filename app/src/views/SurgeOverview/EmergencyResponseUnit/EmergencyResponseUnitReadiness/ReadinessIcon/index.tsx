@@ -3,6 +3,12 @@ import {
     CloseCircleLineIcon,
 } from '@ifrc-go/icons';
 
+import {
+    ERU_READINESS_CAN_CONTRIBUTE,
+    ERU_READINESS_NO_CAPACITY,
+    ERU_READINESS_READY,
+} from '#utils/constants';
+
 import styles from './styles.module.css';
 
 interface ReadinessIconProps {
@@ -10,13 +16,13 @@ interface ReadinessIconProps {
 }
 
 function ReadinessIcon({ readiness }: ReadinessIconProps) {
-    if (readiness === 3) {
+    if (readiness === ERU_READINESS_NO_CAPACITY) {
         return <CloseCircleLineIcon className={styles.redIcon} />;
     }
-    if (readiness === 2) {
+    if (readiness === ERU_READINESS_CAN_CONTRIBUTE) {
         return <CheckboxCircleLineIcon className={styles.yellowIcon} />;
     }
-    if (readiness === 1) {
+    if (readiness === ERU_READINESS_READY) {
         return <CheckboxCircleLineIcon className={styles.greenIcon} />;
     }
     return <CheckboxCircleLineIcon className={styles.grayIcon} />;

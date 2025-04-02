@@ -208,3 +208,7 @@ export const multiMonthSelectDefaultValue = listToMap(
     (key) => key,
     () => false,
 );
+
+export const ERU_READINESS_READY = 1;
+export const ERU_READINESS_CAN_CONTRIBUTE = 2;
+export const ERU_READINESS_NO_CAPACITY = 3;

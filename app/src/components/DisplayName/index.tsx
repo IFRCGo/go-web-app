@@ -1,8 +1,8 @@
-interface DisplayNameOuputProps {
+interface DisplayNameOutputProps {
     name: string;
 }
 
-function DisplayName({ name }: DisplayNameOuputProps) {
+function DisplayName({ name }: DisplayNameOutputProps) {
     return name;
 }
 
