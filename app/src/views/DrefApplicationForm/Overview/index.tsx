@@ -395,8 +395,8 @@ function Overview(props: Props) {
                 <InputSection
                     title={
                         value?.type_of_dref !== TYPE_IMMINENT
-                            ? strings.drefFormAffectedCountryAndProvinceImminent
-                            : strings.drefFormRiskCountryLabel
+                            ? strings.drefFormAffectedCountryAndProvince
+                            : strings.drefFormRiskCountryLabelImminent
                     }
                     numPreferredColumns={2}
                 >

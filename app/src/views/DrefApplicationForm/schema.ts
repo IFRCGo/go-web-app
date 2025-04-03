@@ -1,5 +1,6 @@
 import { type DeepReplace } from '@ifrc-go/ui/utils';
 import {
+    encodeDate,
     isDefined,
     type Maybe,
 } from '@togglecorp/fujs';
@@ -19,6 +20,7 @@ import {
 } from '@togglecorp/toggle-form';
 
 import {
+    dateGreaterThanOrEqualCondition,
     positiveIntegerCondition,
     positiveNumberCondition,
 } from '#utils/form';
@@ -42,6 +44,8 @@ import {
 // Is this a server side limit or client side limit?
 // Shouldn't this be set for all integer types?
 const MAX_INT_LIMIT = 2147483647;
+
+const today = new Date();
 
 function lessThanEqualToTwoImagesCondition<T>(value: T[] | undefined) {
     return isDefined(value) && Array.isArray(value) && value.length > 1
@@ -359,7 +363,9 @@ const schema: DrefFormSchema = {
                     conditionalFields = {
                         ...conditionalFields,
                         scenario_analysis_supporting_document: {},
-                        hazard_date: {},
+                        hazard_date: {
+                            validations: [dateGreaterThanOrEqualCondition(encodeDate(today))],
+                        },
                         hazard_vulnerabilities_and_risks: {},
                         source_information: {
                             keySelector: (source) => source.client_id,
