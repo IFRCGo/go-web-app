@@ -787,7 +787,9 @@ export function Component() {
                     )}
                     {isDefinedScenarioAnalysisSupportingDocument && (
                         <Container>
-                            <Link href={drefResponse?.scenario_analysis_supporting_document_details?.file}>
+                            <Link href={drefResponse
+                                ?.scenario_analysis_supporting_document_details?.file}
+                            >
                                 {strings.drefApplicationSupportingDocumentation}
                             </Link>
                         </Container>
