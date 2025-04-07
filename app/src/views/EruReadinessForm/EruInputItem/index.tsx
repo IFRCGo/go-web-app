@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import {
-    Checkbox,
     InputSection,
     RadioInput,
     TextArea,
@@ -83,6 +82,7 @@ function EruInputItem(props: Props) {
             <InputSection
                 title={strings.eruEquipmentReadiness}
                 className={styles.inputSection}
+                withoutPadding
             >
                 <RadioInput
                     className={styles.readinessInput}
@@ -99,6 +99,7 @@ function EruInputItem(props: Props) {
             <InputSection
                 title={strings.eruPeopleReadiness}
                 className={styles.inputSection}
+                withoutPadding
             >
                 <RadioInput
                     className={styles.readinessInput}
@@ -115,6 +116,7 @@ function EruInputItem(props: Props) {
             <InputSection
                 title={strings.eruFundingReadiness}
                 className={styles.inputSection}
+                withoutPadding
             >
                 <RadioInput
                     className={styles.readinessInput}
@@ -131,26 +133,13 @@ function EruInputItem(props: Props) {
             <InputSection
                 title={strings.eruComments}
                 className={styles.inputSection}
+                withoutPadding
             >
                 <TextArea
                     name="comment"
                     value={value?.comment}
                     onChange={onFieldChange}
                     error={error?.comment}
-                />
-                <Checkbox
-                    label={strings.eruLead}
-                    name="has_capacity_to_lead"
-                    value={value?.has_capacity_to_lead}
-                    onChange={onFieldChange}
-                    error={error?.has_capacity_to_lead}
-                />
-                <Checkbox
-                    label={strings.eruSupport}
-                    name="has_capacity_to_support"
-                    value={value?.has_capacity_to_support}
-                    onChange={onFieldChange}
-                    error={error?.has_capacity_to_support}
                 />
             </InputSection>
         </InputSection>

@@ -137,11 +137,6 @@ function ActiveRapidResponseAlertsTable() {
             strings.surgeAlertsTableKeywords,
             (surgeAlert) => getMolnixKeywords(surgeAlert.molnix_tags),
         ),
-        createStringColumn<SurgeAlertListItem, number>(
-            'atype_display',
-            strings.surgeAlertsSurgeType,
-            (surgeAlert) => surgeAlert.atype_display,
-        ),
         createLinkColumn<SurgeAlertListItem, number>(
             'event',
             strings.surgeAlertsTableEmergency,
@@ -179,7 +174,6 @@ function ActiveRapidResponseAlertsTable() {
         strings.surgeAlertsTableEmergency,
         strings.surgeAlertsTableCountry,
         strings.surgeAlertsTableStatus,
-        strings.surgeAlertsSurgeType,
     ]);
 
     return (

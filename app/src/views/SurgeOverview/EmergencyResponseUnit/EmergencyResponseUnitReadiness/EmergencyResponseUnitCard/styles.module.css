@@ -19,10 +19,13 @@
         gap: var(--go-ui-spacing-md);
 
         .readiness {
+            align-items: center;
             flex: 1 0 0;
-            flex-direction: column-reverse;
+            flex-wrap: nowrap;
 
             .icon {
+                display: flex;
+                align-items: center;
                 color: var(--go-ui-color-primary-gray);
                 font-size: var(--go-ui-height-compact-status-icon);
             }
@@ -34,19 +37,24 @@
     max-height: 90vh;
 
     .content {
+        display: flex;
         overflow: auto;
+        gap: var(--go-ui-spacing-xl);
 
         .readiness-container {
             display: flex;
             border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
-            padding-bottom: var(--go-ui-spacing-md);
-            gap: var(--go-ui-spacing-md);
+            padding-bottom: var(--go-ui-spacing-sm);
+            gap: var(--go-ui-spacing-sm);
 
             .readiness {
+                align-items: center;
                 flex: 1 0 0;
-                flex-direction: column-reverse;
+                flex-wrap: nowrap;
 
                 .icon {
+                    display: flex;
+                    align-items: center;
                     color: var(--go-ui-color-primary-gray);
                     font-size: var(--go-ui-height-compact-status-icon);
                 }

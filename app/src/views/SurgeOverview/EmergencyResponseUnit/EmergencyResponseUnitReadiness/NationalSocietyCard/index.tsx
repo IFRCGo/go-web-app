@@ -100,37 +100,37 @@ function NationalSocietyTypeCard(props: Props) {
                         >
                             <TextOutput
                                 className={styles.readiness}
-                                label={strings.eruNSEquipmentReadiness}
-                                value={(
+                                value={strings.eruNSEquipmentReadiness}
+                                label={(
                                     <ReadinessIcon
                                         readiness={eruType.equipment_readiness}
                                     />
                                 )}
-                                valueClassName={styles.icon}
+                                labelClassName={styles.icon}
                                 withoutLabelColon
                             />
                             <div className={styles.separatorLeft} />
                             <TextOutput
                                 className={styles.readiness}
-                                label={strings.eruNSPeopleReadiness}
-                                value={(
+                                value={strings.eruNSPeopleReadiness}
+                                label={(
                                     <ReadinessIcon
                                         readiness={eruType.people_readiness}
                                     />
                                 )}
-                                valueClassName={styles.icon}
+                                labelClassName={styles.icon}
                                 withoutLabelColon
                             />
                             <div className={styles.separatorLeft} />
                             <TextOutput
                                 className={styles.readiness}
-                                label={strings.eruNSFundingReadiness}
-                                value={(
+                                value={strings.eruNSFundingReadiness}
+                                label={(
                                     <ReadinessIcon
                                         readiness={eruType.funding_readiness}
                                     />
                                 )}
-                                valueClassName={styles.icon}
+                                labelClassName={styles.icon}
                                 withoutLabelColon
                             />
                         </Container>

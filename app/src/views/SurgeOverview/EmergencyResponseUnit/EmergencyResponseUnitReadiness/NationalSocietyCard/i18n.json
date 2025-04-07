@@ -6,9 +6,9 @@
         "emergencyResponseUnitOwnerNSCardDeployed": "{count} Deployed ERUs",
         "eruNSSeeReadinessInfoButton": "See readiness info",
         "eruTypesLabel": "ERU Type(s)",
-        "eruNSEquipmentReadiness": "Equipment Readiness",
-        "eruNSPeopleReadiness": "People Readiness",
-        "eruNSFundingReadiness": "Funding Readiness",
+        "eruNSEquipmentReadiness": "Equipment",
+        "eruNSPeopleReadiness": "People",
+        "eruNSFundingReadiness": "Funding",
         "eruNSReadinessInformationHeading": "Readiness Information by ERU Type"
     }
 }

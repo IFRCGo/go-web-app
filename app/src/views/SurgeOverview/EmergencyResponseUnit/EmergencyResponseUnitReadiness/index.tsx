@@ -4,7 +4,6 @@ import {
     useState,
 } from 'react';
 import {
-    Button,
     Container,
     Grid,
     SelectInput,
@@ -30,14 +29,13 @@ import {
 } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
-import useAlert from '#hooks/useAlert';
+import { api } from '#config';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import useAlert from '#hooks/useAlert';
 import useFilterState from '#hooks/useFilterState';
 import { joinStrings } from '#utils/common';
-import { api } from '#config';
 import {
     type GoApiResponse,
-    useLazyRequest,
     useRequest,
 } from '#utils/restRequest';
 
@@ -126,24 +124,6 @@ function EmergencyResponseUnitReadiness() {
             );
         },
     });
-
-    const {
-        pending: eruReadinessExportPending,
-        trigger: triggerEruReadinessExport,
-    } = useLazyRequest({
-        method: 'GET',
-        url: '/api/v2/export-eru-readiness',
-        onFailure: () => {
-            alert.show(
-                strings.exportEruReadinessFailed,
-                { variant: 'danger' },
-            );
-        },
-    });
-
-    const handleEruReadinessExport = () => {
-        triggerEruReadinessExport(null);
-    };
 
     const {
         deployments_eru_type: deploymentEruType,
@@ -283,7 +263,7 @@ function EmergencyResponseUnitReadiness() {
                     />
                 </TabPanel>
             </Container>
-        </Tabs >
+        </Tabs>
     );
 }
 

@@ -28,7 +28,7 @@
                 .deployments-chart {
                     color: var(--go-ui-color-primary-red);
                     stroke: var(--go-ui-color-primary-red);
-                    stroke-width: var(1pt);
+                    stroke-width: 1pt;
                     fill: none;
                 }
             }

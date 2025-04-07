@@ -91,37 +91,37 @@ function EmergencyResponseUnitTypeCard(props: Props) {
                     <>
                         <TextOutput
                             className={styles.readiness}
-                            label={strings.eruEquipmentReadiness}
-                            value={(
+                            value={strings.eruEquipmentReadiness}
+                            label={(
                                 <ReadinessIcon
                                     readiness={equipmentReadiness}
                                 />
                             )}
-                            valueClassName={styles.icon}
+                            labelClassName={styles.icon}
                             withoutLabelColon
                         />
                         <div className={styles.separatorLeft} />
                         <TextOutput
                             className={styles.readiness}
-                            label={strings.eruPeopleReadiness}
-                            value={(
+                            value={strings.eruPeopleReadiness}
+                            label={(
                                 <ReadinessIcon
                                     readiness={peopleReadiness}
                                 />
                             )}
-                            valueClassName={styles.icon}
+                            labelClassName={styles.icon}
                             withoutLabelColon
                         />
                         <div className={styles.separatorLeft} />
                         <TextOutput
                             className={styles.readiness}
-                            label={strings.eruFundingReadiness}
-                            value={(
+                            value={strings.eruFundingReadiness}
+                            label={(
                                 <ReadinessIcon
                                     readiness={fundingReadiness}
                                 />
                             )}
-                            valueClassName={styles.icon}
+                            labelClassName={styles.icon}
                             withoutLabelColon
                         />
                     </>
@@ -159,37 +159,37 @@ function EmergencyResponseUnitTypeCard(props: Props) {
                         >
                             <TextOutput
                                 className={styles.readiness}
-                                label={strings.eruEquipmentReadiness}
-                                value={(
+                                value={strings.eruEquipmentReadiness}
+                                label={(
                                     <ReadinessIcon
                                         readiness={readiness.equipment_readiness}
                                     />
                                 )}
-                                valueClassName={styles.icon}
+                                labelClassName={styles.icon}
                                 withoutLabelColon
                             />
                             <div className={styles.separatorLeft} />
                             <TextOutput
                                 className={styles.readiness}
-                                label={strings.eruPeopleReadiness}
-                                value={(
+                                value={strings.eruPeopleReadiness}
+                                label={(
                                     <ReadinessIcon
                                         readiness={readiness.people_readiness}
                                     />
                                 )}
-                                valueClassName={styles.icon}
+                                labelClassName={styles.icon}
                                 withoutLabelColon
                             />
                             <div className={styles.separatorLeft} />
                             <TextOutput
                                 className={styles.readiness}
-                                label={strings.eruFundingReadiness}
-                                value={(
+                                value={strings.eruFundingReadiness}
+                                label={(
                                     <ReadinessIcon
                                         readiness={readiness.funding_readiness}
                                     />
                                 )}
-                                valueClassName={styles.icon}
+                                labelClassName={styles.icon}
                                 withoutLabelColon
                             />
                         </Container>

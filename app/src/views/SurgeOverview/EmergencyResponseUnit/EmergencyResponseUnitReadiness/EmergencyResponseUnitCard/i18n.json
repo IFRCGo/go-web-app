@@ -6,9 +6,9 @@
         "emergencyResponseUnitOwnerCardDeployed": "{count} Deployed ERUs",
         "emergencyResponseUnitNationalSociety": "National Society",
         "eruSeeReadinessInfoButton": "See readiness info",
-        "eruEquipmentReadiness": "Equipment Readiness",
-        "eruPeopleReadiness": "People Readiness",
-        "eruFundingReadiness": "Funding Readiness",
+        "eruEquipmentReadiness": "Equipment",
+        "eruPeopleReadiness": "People",
+        "eruFundingReadiness": "Funding",
         "eruReadinessInformationHeading": "Readiness Information by National Society"
     }
 }

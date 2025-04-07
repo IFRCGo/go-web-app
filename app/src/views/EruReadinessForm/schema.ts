@@ -51,8 +51,6 @@ const schema: FormSchema = {
                     people_readiness: { required: true },
                     funding_readiness: { required: true },
                     comment: {},
-                    has_capacity_to_lead: { defaultValue: false },
-                    has_capacity_to_support: { defaultValue: false },
                 }),
             }),
         },
