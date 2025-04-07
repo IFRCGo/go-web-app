@@ -4,6 +4,9 @@
         "eruReadinessCount": "ERU Capacity and Readiness ({count})",
         "eruReadinessUpdateButton": "Update ERU Readiness",
         "eruNationalSociety": "National Society",
-        "eruType": "ERU Type"
+        "eruType": "ERU Type",
+        "exportEruReadiness": "Export ERU Readiness",
+        "exportEruReadinessFailed": "Failed to export ERU readiness information.",
+        "fetchEruReadinessFailed": "Failed to fetch ERU readiness information."
     }
 }

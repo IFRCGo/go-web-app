@@ -4,6 +4,7 @@ import {
     useState,
 } from 'react';
 import {
+    Button,
     Container,
     Grid,
     SelectInput,
@@ -29,11 +30,14 @@ import {
 } from '@togglecorp/fujs';
 
 import Link from '#components/Link';
+import useAlert from '#hooks/useAlert';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useFilterState from '#hooks/useFilterState';
 import { joinStrings } from '#utils/common';
+import { api } from '#config';
 import {
     type GoApiResponse,
+    useLazyRequest,
     useRequest,
 } from '#utils/restRequest';
 
@@ -72,6 +76,8 @@ function EmergencyResponseUnitReadiness() {
         filter: {},
     });
 
+    const alert = useAlert();
+
     const {
         error: eruOwnersError,
         response: eruOwnersResponse,
@@ -93,6 +99,12 @@ function EmergencyResponseUnitReadiness() {
             eru_type: filter.selectEruTypes,
             eru_owner: filter.selectEruOwner,
         },
+        onFailure: () => {
+            alert.show(
+                strings.fetchEruReadinessFailed,
+                { variant: 'danger' },
+            );
+        },
     });
 
     const {
@@ -107,7 +119,31 @@ function EmergencyResponseUnitReadiness() {
             type: filter.selectEruTypes,
             eru_owner: filter.selectEruOwner,
         },
+        onFailure: () => {
+            alert.show(
+                strings.fetchEruReadinessFailed,
+                { variant: 'danger' },
+            );
+        },
     });
+
+    const {
+        pending: eruReadinessExportPending,
+        trigger: triggerEruReadinessExport,
+    } = useLazyRequest({
+        method: 'GET',
+        url: '/api/v2/export-eru-readiness',
+        onFailure: () => {
+            alert.show(
+                strings.exportEruReadinessFailed,
+                { variant: 'danger' },
+            );
+        },
+    });
+
+    const handleEruReadinessExport = () => {
+        triggerEruReadinessExport(null);
+    };
 
     const {
         deployments_eru_type: deploymentEruType,
@@ -173,12 +209,21 @@ function EmergencyResponseUnitReadiness() {
                 )}
                 withHeaderBorder
                 actions={(
-                    <Link
-                        to="eruReadinessForm"
-                        variant="primary"
-                    >
-                        {strings.eruReadinessUpdateButton}
-                    </Link>
+                    <>
+                        <Link
+                            href={`${api}/api/v2/export-eru-readiness`}
+                            variant="secondary"
+                            external
+                        >
+                            {strings.exportEruReadiness}
+                        </Link>
+                        <Link
+                            to="eruReadinessForm"
+                            variant="primary"
+                        >
+                            {strings.eruReadinessUpdateButton}
+                        </Link>
+                    </>
                 )}
                 contentViewType="vertical"
                 filters={(
@@ -238,7 +283,7 @@ function EmergencyResponseUnitReadiness() {
                     />
                 </TabPanel>
             </Container>
-        </Tabs>
+        </Tabs >
     );
 }
 
