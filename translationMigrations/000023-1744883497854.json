@@ -1,0 +1,88 @@
+{
+    "parent": "000022-1744013911100.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "activeSurgeDeploymentsPageTitle",
+            "namespace": "activeSurgeDeployments",
+            "value": "Active Surge Deployments"
+        },
+        {
+            "action": "add",
+            "key": "eruDeploymentCountry",
+            "namespace": "activeSurgeDeployments",
+            "value": "Deployed To"
+        },
+        {
+            "action": "add",
+            "key": "rapidResponseDeploymentCountry",
+            "namespace": "activeSurgeDeployments",
+            "value": "Deployed To"
+        },
+        {
+            "action": "remove",
+            "key": "surgeAlertsSurgeType",
+            "namespace": "activeSurgeDeployments"
+        },
+        {
+            "action": "update",
+            "key": "eruOrganisation",
+            "namespace": "activeSurgeDeployments",
+            "newValue": "Deploying Organisation"
+        },
+        {
+            "action": "add",
+            "key": "exportEruReadiness",
+            "namespace": "surgeOverview",
+            "value": "Export ERU Readiness"
+        },
+        {
+            "action": "add",
+            "key": "exportEruReadinessFailed",
+            "namespace": "surgeOverview",
+            "value": "Failed to export ERU readiness information."
+        },
+        {
+            "action": "add",
+            "key": "fetchEruReadinessFailed",
+            "namespace": "surgeOverview",
+            "value": "Failed to fetch ERU readiness information."
+        },
+        {
+            "action": "update",
+            "key": "eruEquipmentReadiness",
+            "namespace": "surgeOverview",
+            "newValue": "Equipment"
+        },
+        {
+            "action": "update",
+            "key": "eruFundingReadiness",
+            "namespace": "surgeOverview",
+            "newValue": "Funding"
+        },
+        {
+            "action": "update",
+            "key": "eruNSEquipmentReadiness",
+            "namespace": "surgeOverview",
+            "newValue": "Equipment"
+        },
+        {
+            "action": "update",
+            "key": "eruNSFundingReadiness",
+            "namespace": "surgeOverview",
+            "newValue": "Funding"
+        },
+        {
+            "action": "update",
+            "key": "eruNSPeopleReadiness",
+            "namespace": "surgeOverview",
+            "newValue": "People"
+        },
+        {
+            "action": "update",
+            "key": "eruPeopleReadiness",
+            "namespace": "surgeOverview",
+            "newValue": "People"
+        }
+    ]
+}
