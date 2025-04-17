@@ -133,7 +133,7 @@ export function Component() {
                         date: (
                             <DateOutput
                                 value={modifiedAt}
-                            /> ?? '?'
+                            />
                         ),
                         user: getUserName(modifiedBy),
                     },
