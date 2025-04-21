@@ -95,7 +95,7 @@
         "postcss": "^8.5.3",
         "postcss-nested": "^7.0.2",
         "postcss-normalize": "^13.0.1",
-        "postcss-preset-env": "^10.1.5",
+        "postcss-preset-env": "^10.1.6",
         "rollup-plugin-visualizer": "^5.9.0",
         "stylelint": "^16.17.0",
         "stylelint-config-concentric": "^2.0.2",
