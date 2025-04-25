@@ -128,15 +128,15 @@ function DrefTableActions(props: Props) {
         ),
         onSuccess: (response) => {
             const exportData = {
-                allocationFor: response?.type_of_dref_display === 'Loan' ? 'Emergency Appeal' : 'DREF Operation',
+                allocationFor: response?.type_of_dref === DREF_TYPE_LOAN ? 'Emergency Appeal' : 'DREF Operation',
                 appealManager: response?.ifrc_appeal_manager_name,
                 projectManager: response?.ifrc_project_manager_name,
                 affectedCountry: response?.country_details?.name,
                 name: response?.title,
                 disasterType: response?.disaster_type_details?.name,
                 responseType:
-                    response?.type_of_dref_display === 'Imminent'
-                    // FIXME: can't compare imminent with Imminent Crisis directly
+                    response?.type_of_dref === DREF_TYPE_IMMINENT
+                        // FIXME: add translations
                         ? 'Imminent Crisis'
                         : response?.type_of_onset_display,
                 noOfPeopleTargeted: response?.number_of_people_targeted,
@@ -147,8 +147,8 @@ function DrefTableActions(props: Props) {
                 previousAllocation: response?.dref_allocated_so_far ?? 0,
                 totalDREFAllocation: response?.total_dref_allocation,
                 toBeAllocatedFrom:
-                    response?.type_of_dref_display === 'Imminent'
-                    // FIXME: can't compare imminent with Anticipatory Pillar
+                    response?.type_of_dref === DREF_TYPE_IMMINENT
+                        // FIXME: add translations
                         ? 'Anticipatory Pillar'
                         : 'Response Pillar',
                 focalPointName: response?.regional_focal_point_name,
@@ -380,6 +380,8 @@ function DrefTableActions(props: Props) {
 
     const canApprove = status === DREF_STATUS_IN_PROGRESS && hasPermissionToApprove;
 
+    const shouldConfirmImminentAddOpsUpdate = drefType === DREF_TYPE_IMMINENT;
+
     const disabled = fetchingDref
         || fetchingOpsUpdate
         || publishDrefPending
@@ -418,7 +420,25 @@ function DrefTableActions(props: Props) {
                             {strings.dropdownActionAllocationFormLabel}
                         </DropdownMenuItem>
                     )}
-                    {canAddOpsUpdate && (
+                    {canAddOpsUpdate && shouldConfirmImminentAddOpsUpdate && (
+                        <DropdownMenuItem
+                            name={undefined}
+                            type="confirm-button"
+                            icons={<AddLineIcon className={styles.icon} />}
+                            confirmHeading={
+                                strings.dropdownActionImminentNewOpsUpdateConfirmationHeading
+                            }
+                            confirmMessage={
+                                strings.dropdownActionImminentNewOpsUpdateConfirmationMessage
+                            }
+                            onConfirm={handleAddOpsUpdate}
+                            disabled={disabled}
+                            persist
+                        >
+                            {strings.dropdownActionAddOpsUpdateLabel}
+                        </DropdownMenuItem>
+                    )}
+                    {canAddOpsUpdate && !shouldConfirmImminentAddOpsUpdate && (
                         <DropdownMenuItem
                             name={undefined}
                             type="button"

@@ -2,6 +2,7 @@ import {
     type Dispatch,
     type SetStateAction,
     useCallback,
+    useMemo,
 } from 'react';
 import { useLocation } from 'react-router-dom';
 import { WikiHelpSectionLineIcon } from '@ifrc-go/icons';
@@ -40,6 +41,7 @@ import Link from '#components/Link';
 import useCountry from '#hooks/domain/useCountry';
 import useDisasterType from '#hooks/domain/useDisasterType';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import { DREF_TYPE_IMMINENT } from '#utils/constants';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import {
@@ -108,6 +110,10 @@ function Overview(props: Props) {
         dref_dref_disaster_category: drefDisasterCategoryOptions,
         dref_dref_onset_type: drefOnsetTypeOptions,
     } = useGlobalEnums();
+
+    const typeOfDrefOptionsWithoutImminent = useMemo(() => (
+        typeOfDrefOptions?.filter((option) => option.key !== DREF_TYPE_IMMINENT)
+    ), [typeOfDrefOptions]);
 
     const countryOptions = useCountry();
 
@@ -184,8 +190,7 @@ function Overview(props: Props) {
         <div className={styles.operationOverview}>
             {state?.isNewOpsUpdate
                 && showChangeDrefTypeModal
-                && (value?.type_of_dref === TYPE_IMMINENT
-                || value?.type_of_dref === TYPE_ASSESSMENT) && (
+                && value?.type_of_dref === TYPE_ASSESSMENT && (
                 <Modal
                     size="sm"
                     heading={strings.changeToResponseHeading}
@@ -207,9 +212,24 @@ function Overview(props: Props) {
                             </Button>
                         </>
                     )}
-                    className={styles.flashUpdateShareModal}
                 >
                     {strings.isDrefChangingToResponse}
+                </Modal>
+            )}
+            {value.type_of_dref === TYPE_IMMINENT && (
+                <Modal
+                    size="sm"
+                    heading={strings.overviewChangeTypeHeading}
+                    footerActions={(
+                        <Button
+                            name={undefined}
+                            onClick={handleChangeToResponse}
+                        >
+                            {strings.overviewChangeTypeButtonLabel}
+                        </Button>
+                    )}
+                >
+                    {strings.overviewChangeTypeMessage}
                 </Modal>
             )}
             <Container
@@ -260,7 +280,7 @@ function Overview(props: Props) {
                     <SelectInput
                         name="type_of_dref"
                         label={strings.drefFormTypeOfDref}
-                        options={typeOfDrefOptions}
+                        options={typeOfDrefOptionsWithoutImminent}
                         keySelector={typeOfDrefKeySelector}
                         labelSelector={stringValueSelector}
                         onChange={setFieldValue}

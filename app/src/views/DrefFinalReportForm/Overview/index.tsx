@@ -2,6 +2,7 @@ import {
     type Dispatch,
     type SetStateAction,
     useCallback,
+    useMemo,
 } from 'react';
 import { WikiHelpSectionLineIcon } from '@ifrc-go/icons';
 import {
@@ -34,6 +35,7 @@ import Link from '#components/Link';
 import useCountry from '#hooks/domain/useCountry';
 import useDisasterType from '#hooks/domain/useDisasterType';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import { DREF_TYPE_IMMINENT } from '#utils/constants';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import {
@@ -133,9 +135,11 @@ function Overview(props: Props) {
         user,
     }), []);
 
-    const filteredTypeOfDrefOptions = (typeOfDrefOptions ?? []).filter(
-        (option) => option.key !== TYPE_LOAN,
-    );
+    const filteredTypeOfDrefOptions = useMemo(() => (
+        typeOfDrefOptions?.filter(
+            (option) => option.key !== TYPE_LOAN && option.key !== DREF_TYPE_IMMINENT,
+        )
+    ), [typeOfDrefOptions]);
 
     const error = getErrorObject(formError);
 
