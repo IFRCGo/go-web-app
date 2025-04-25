@@ -4,7 +4,10 @@ import {
     useState,
 } from 'react';
 import { useParams } from 'react-router-dom';
-import { DateOutput } from '@ifrc-go/ui';
+import {
+    DateOutput,
+    NumberOutput,
+} from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     Container,
@@ -13,7 +16,10 @@ import {
     Image,
     TextOutput,
 } from '@ifrc-go/ui/printable';
-import { DEFAULT_PRINT_DATE_FORMAT } from '@ifrc-go/ui/utils';
+import {
+    DEFAULT_PRINT_DATE_FORMAT,
+    sumSafe,
+} from '@ifrc-go/ui/utils';
 import {
     _cs,
     isDefined,
@@ -21,10 +27,11 @@ import {
     isNotDefined,
     isTruthyString,
     listToGroupList,
+    mapToList,
 } from '@togglecorp/fujs';
 
-import earlyActionsLogo from '#assets/icons/early_actions.svg';
-import earlyResponseLogo from '#assets/icons/early_response.svg';
+import earlyActionsIcon from '#assets/icons/early_actions.svg';
+import earlyResponseIcon from '#assets/icons/early_response.svg';
 import ifrcLogo from '#assets/icons/ifrc-square.png';
 import Link from '#components/printable/Link';
 import SelectOutput from '#components/SelectOutput';
@@ -49,7 +56,7 @@ import {
 import { useRequest } from '#utils/restRequest';
 import {
     calculateProposedActionsCost,
-    EARLY_ACTIONS,
+    EARLY_ACTION,
     EARLY_RESPONSE,
     TYPE_IMMINENT,
 } from '#views/DrefApplicationForm/common';
@@ -191,6 +198,58 @@ export function Component() {
         [drefResponse],
     );
 
+    const groupedProposedActions = useMemo(() => {
+        if (isNotDefined(drefResponse) || isNotDefined(drefResponse.proposed_action)) {
+            return [];
+        }
+
+        const typeGroupedActions = listToGroupList(
+            drefResponse.proposed_action.map((action) => {
+                const {
+                    proposed_type,
+                    activities,
+                    ...other
+                } = action;
+
+                if (isNotDefined(proposed_type)
+                    || isNotDefined(activities)
+                    || activities.length === 0
+                ) {
+                    return undefined;
+                }
+
+                return {
+                    ...other,
+                    activities,
+                    proposed_type,
+                };
+            }).filter(isDefined),
+            ({ proposed_type }) => proposed_type,
+        );
+
+        const proposedActivityIconMap: Record<string, string> = {
+            [EARLY_ACTION]: earlyActionsIcon,
+            [EARLY_RESPONSE]: earlyResponseIcon,
+        };
+
+        return mapToList(
+            typeGroupedActions,
+            (list, key) => {
+                const numActivities = sumSafe(
+                    list.map(({ activities }) => activities.length),
+                );
+
+                return {
+                    key,
+                    title: list[0].proposed_type_display,
+                    numActivities,
+                    actions: list,
+                    icon: proposedActivityIconMap[key],
+                };
+            },
+        );
+    }, [drefResponse]);
+
     const eventDescriptionDefined = isDefined(drefResponse)
         && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT
         && isTruthyString(drefResponse?.event_description?.trim());
@@ -224,6 +283,13 @@ export function Component() {
 
     const riskRegions = drefResponse?.district_details.map((district) => district.name).filter(isDefined).join(', ');
 
+    const drefAllocated = useMemo(() => {
+        if (isNotDefined(drefResponse)) {
+            return undefined;
+        }
+        return calculateProposedActionsCost(drefResponse);
+    }, [drefResponse]);
+
     const showScenarioAnalysis = isDefinedHazardDate
         || isDefinedHazardRisk
         || isDefinedSourceInformation;
@@ -245,9 +311,7 @@ export function Component() {
         && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT
         && (ifrcActionsDefined || partnerNsActionsDefined);
 
-    const showProposedActions = isDefined(drefResponse)
-        && drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
-        && drefResponse?.proposed_action;
+    const showProposedActions = groupedProposedActions.length > 0;
 
     const showNsAction = isDefined(drefResponse)
         && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT
@@ -422,22 +486,6 @@ export function Component() {
         },
         (is_pga) => is_pga,
     );
-
-    const proposedActionsByType = useMemo(() => (
-        listToGroupList(
-            (drefResponse?.proposed_action ?? []).filter(
-                (proposed) => isDefined(proposed.proposed_type),
-            ),
-            (proposed) => proposed.proposed_type ?? 0,
-        )
-    ), [drefResponse?.proposed_action]);
-
-    const drefAllocated = useMemo(() => {
-        if (isNotDefined(drefResponse)) {
-            return undefined;
-        }
-        return calculateProposedActionsCost(drefResponse);
-    }, [drefResponse]);
 
     return (
         <div className={styles.drefApplicationExport}>
@@ -1136,188 +1184,102 @@ export function Component() {
                 <Container
                     heading={strings.proposedActions}
                     headingLevel={3}
-                    childrenContainerClassName={styles.actionsSection}
+                    childrenContainerClassName={styles.proposedActions}
                 >
-                    <div className={styles.actionsItem} />
-                    <DescriptionText
-                        className={styles.actionsTitle}
-                    >
+                    <div className={styles.actionTitleLabel} />
+                    <div className={styles.actionTitleLabel}>
                         {strings.proposedActionsSector}
-                    </DescriptionText>
-                    <DescriptionText
-                        className={styles.actionsTitle}
-                    >
+                    </div>
+                    <div className={styles.actionTitleLabel}>
                         {strings.proposedActionsActivities}
-                    </DescriptionText>
-                    <DescriptionText
-                        className={styles.actionsTitle}
-                    >
+                    </div>
+                    <div className={styles.actionTitleLabel}>
                         {strings.priorityActionsBudget}
-                    </DescriptionText>
-                    <TextOutput
-                        className={styles.actionsGroup}
-                        label={(
-                            <img
-                                className={styles.logo}
-                                src={earlyActionsLogo}
-                                alt={strings.proposedActionsEarlyActions}
-                            />
-                        )}
-                        value={strings.proposedActionsEarlyActions}
-                        withoutLabelColon
-                        strongValue
-                    />
-                    {proposedActionsByType[EARLY_ACTIONS]?.map((action) => (
-                        <Fragment key={action.id}>
-                            {action.activities.map((activity, index) => (
-                                <Fragment key={activity.id}>
-                                    {index > 0 && (
-                                        <div className={styles.actionsItem} />
-                                    )}
-                                    <SelectOutput
-                                        className={styles.actionsTitle}
-                                        options={primarySectorOptions}
-                                        label={undefined}
-                                        labelSelector={primarySectoryLabelSelector}
-                                        keySelector={primarySectoryKeySelector}
-                                        value={activity.sector}
-                                    />
-                                    <DescriptionText
-                                        className={styles.actionsTitle}
-                                    >
-                                        {activity.activity}
-                                    </DescriptionText>
-                                    {index === 0 ? (
-                                        <TextOutput
-                                            className={styles.actionsItem}
-                                            label=""
-                                            value={action.total_budget}
-                                            prefix={strings.chfPrefix}
-                                            valueType="number"
-                                            withoutLabelColon
-                                            strongValue
-                                        />
-                                    ) : (
-                                        <div className={styles.actionsItem} />
-                                    )}
-                                </Fragment>
-                            ))}
-                        </Fragment>
-                    ))}
-                    <TextOutput
-                        className={styles.actionsGroup}
-                        label={(
-                            <img
-                                className={styles.logo}
-                                src={earlyResponseLogo}
-                                alt={strings.priorityActionsEarlyResponse}
-                            />
-                        )}
-                        value={strings.priorityActionsEarlyResponse}
-                        withoutLabelColon
-                        strongValue
-                    />
-                    {proposedActionsByType[EARLY_RESPONSE]?.map((action) => (
-                        <Fragment key={action.id}>
-                            {action.activities.map((activity, index) => (
+                    </div>
+                    {groupedProposedActions.map((proposedAction) => (
+                        <Fragment key={proposedAction.key}>
+                            <div
+                                className={styles.proposedAction}
+                                style={{
+                                    gridRow: `span ${proposedAction.numActivities}`,
+                                }}
+                            >
+                                <img
+                                    className={styles.icon}
+                                    src={proposedAction.icon}
+                                    alt=""
+                                />
+                                <div className={styles.title}>
+                                    {proposedAction.title}
+                                </div>
+                            </div>
+                            {proposedAction.actions.map((action) => (
                                 <Fragment key={action.id}>
-                                    {index > 0 && (
-                                        <div className={styles.actionsItem} />
-                                    )}
-                                    <SelectOutput
-                                        className={styles.actionsTitle}
-                                        options={primarySectorOptions}
-                                        label={undefined}
-                                        labelSelector={primarySectoryLabelSelector}
-                                        keySelector={primarySectoryKeySelector}
-                                        value={activity.sector}
-                                    />
-                                    <DescriptionText
-                                        className={styles.actionsTitle}
-                                    >
-                                        {activity.activity}
-                                    </DescriptionText>
-                                    {index === 0 ? (
-                                        <TextOutput
-                                            className={styles.actionsItem}
-                                            label=""
-                                            value={action.total_budget}
-                                            prefix={strings.chfPrefix}
-                                            valueType="number"
-                                            withoutLabelColon
-                                            strongValue
-                                        />
-                                    ) : (
-                                        <div className={styles.actionsItem} />
-                                    )}
+                                    {action.activities.map((activity, i) => (
+                                        <Fragment key={activity.id}>
+                                            <SelectOutput
+                                                className={styles.sector}
+                                                options={primarySectorOptions}
+                                                label={undefined}
+                                                labelSelector={primarySectoryLabelSelector}
+                                                keySelector={primarySectoryKeySelector}
+                                                value={activity.sector}
+                                            />
+                                            <div className={styles.activity}>
+                                                {activity.activity}
+                                            </div>
+                                            {i === 0 && (
+                                                <div
+                                                    className={styles.budget}
+                                                    style={{ gridRow: `span ${action.activities.length}` }}
+                                                >
+                                                    <NumberOutput
+                                                        value={action.total_budget}
+                                                        prefix={strings.chfPrefix}
+                                                    />
+                                                </div>
+                                            )}
+                                        </Fragment>
+                                    ))}
                                 </Fragment>
                             ))}
                         </Fragment>
                     ))}
-                    <div className={styles.actionsItem} />
-                    <TextOutput
-                        className={styles.costItem}
-                        label=""
-                        value={strings.priorityActionsSubTotal}
-                        withoutLabelColon
-                        strongValue
-                    />
-                    <div className={styles.actionsItem} />
-                    <TextOutput
-                        className={styles.actionsItem}
+                    <div className={styles.costLabel}>
+                        {strings.priorityActionsSubTotal}
+                    </div>
+                    <NumberOutput
+                        className={styles.costValue}
                         value={drefResponse?.sub_total_cost}
                         prefix={strings.chfPrefix}
-                        valueType="number"
-                        withoutLabelColon
-                        strongValue
                     />
-                    <div className={styles.actionsItem} />
-                    <TextOutput
-                        className={styles.costItem}
-                        value={strings.priorityActionsSurgeDeployment}
-                        withoutLabelColon
-                        strongValue
-                    />
-                    <div className={styles.actionsItem} />
-                    <TextOutput
-                        className={styles.actionsItem}
-                        value={drefResponse?.surge_deployment_cost}
-                        prefix={strings.chfPrefix}
-                        strongValue
-                        valueType="number"
-                        withoutLabelColon
-                    />
-                    <div className={styles.actionsItem} />
-                    <TextOutput
-                        className={styles.costItem}
-                        value={strings.priorityActionsIndirectCost}
-                        withoutLabelColon
-                        strongValue
-                    />
-                    <div className={styles.actionsItem} />
-                    <TextOutput
-                        className={styles.actionsItem}
+                    {isDefined(drefResponse?.surge_deployment_cost) && (
+                        <>
+                            <div className={styles.costLabel}>
+                                {strings.priorityActionsSurgeDeployment}
+                            </div>
+                            <NumberOutput
+                                className={styles.costValue}
+                                value={drefResponse.surge_deployment_cost}
+                                prefix={strings.chfPrefix}
+                            />
+                        </>
+                    )}
+                    <div className={styles.costLabel}>
+                        {strings.priorityActionsIndirectCost}
+                    </div>
+                    <NumberOutput
+                        className={styles.costValue}
                         value={drefResponse?.indirect_cost}
                         prefix={strings.chfPrefix}
-                        strongValue
-                        valueType="number"
-                        withoutLabelColon
                     />
-                    <div className={styles.actionsItem} />
-                    <TextOutput
-                        className={styles.costItem}
-                        value={strings.priorityActionsTotal}
-                        withoutLabelColon
-                        strongValue
-                    />
-                    <div className={styles.actionsItem} />
-                    <TextOutput
-                        className={styles.actionsItem}
+                    <div className={styles.costLabel}>
+                        {strings.priorityActionsTotal}
+                    </div>
+                    <NumberOutput
+                        className={styles.costValue}
                         value={drefResponse?.total_cost}
                         prefix={strings.chfPrefix}
-                        strongValue
-                        valueType="number"
-                        withoutLabelColon
                     />
                 </Container>
             )}

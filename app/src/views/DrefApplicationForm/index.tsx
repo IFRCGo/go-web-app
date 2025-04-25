@@ -63,7 +63,7 @@ import {
 import Actions from './Actions';
 import {
     checkTabErrors,
-    EARLY_ACTIONS,
+    EARLY_ACTION,
     EARLY_RESPONSE,
     OPERATION_TIMEFRAME_IMMINENT,
     TYPE_IMMINENT,
@@ -335,7 +335,7 @@ export function Component() {
                 ).sort((a, b) => a.proposed_type - b.proposed_type) : [
                     {
                         client_id: randomString(),
-                        proposed_type: EARLY_ACTIONS,
+                        proposed_type: EARLY_ACTION,
                     },
                     {
                         client_id: randomString(),

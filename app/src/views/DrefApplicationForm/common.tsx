@@ -35,7 +35,7 @@ export const SURGE_INDIRECT_COST = 5800;
 export const INDIRECT_COST = 5000;
 export const SUB_TOTAL = 75000;
 
-export const EARLY_ACTIONS = 1 satisfies ProposedActionOption['key'];
+export const EARLY_ACTION = 1 satisfies ProposedActionOption['key'];
 export const EARLY_RESPONSE = 2 satisfies ProposedActionOption['key'];
 export const OPERATION_TIMEFRAME_IMMINENT = 45; // 45 days
 

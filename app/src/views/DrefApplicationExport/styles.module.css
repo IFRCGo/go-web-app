@@ -243,45 +243,65 @@
         page-break-inside: avoid;
     }
 
-    .actions-section {
+    .proposed-actions {
         display: grid;
         grid-gap: var(--go-ui-width-separator-md);
-        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-columns: 4fr 5fr 5fr 4fr;
         page-break-inside: avoid;
 
-        .actions-title {
-            display: flex;
-            background-color: var(--pdf-element-bg);
+        .action-title-label {
+            background-color: var(--go-ui-color-element-background);
             padding: var(--go-ui-spacing-sm);
-            break-inside: avoid;
-            font-weight: var(--go-ui-font-weight-bold);
+            font-weight: var(--go-ui-font-weight-semibold);
         }
 
-        .actions-group {
+        .proposed-action {
             display: flex;
+            align-items: center;
+            flex-direction: column;
             background-color: var(--pdf-element-bg);
             padding: var(--go-ui-spacing-sm);
-            break-inside: avoid;
 
-            .logo {
+            .icon {
                 height: 3rem;
+            }
+
+            .title {
+                font-size: var(--go-ui-font-size-md);
+                font-weight: var(--go-ui-font-weight-semibold);
             }
         }
 
-        .actions-item {
-            display: flex;
+        .sector,
+        .activity,
+        .budget {
             background-color: var(--pdf-element-bg);
             padding: var(--go-ui-spacing-sm);
             break-inside: avoid;
         }
 
-        .cost-item {
+        .activity {
+            white-space: pre-wrap;
+        }
+
+        .budget {
             display: flex;
-            flex-direction: column;
+            align-items: center;
+        }
+
+        .cost-label {
+            grid-column: span 3;
             background-color: var(--pdf-element-bg);
             padding: var(--go-ui-spacing-sm);
             break-inside: avoid;
             text-align: right;
+            font-weight: var(--go-ui-font-weight-semibold);
+        }
+
+        .cost-value {
+            background-color: var(--pdf-element-bg);
+            padding: var(--go-ui-spacing-sm);
+            break-inside: avoid;
         }
     }
 }

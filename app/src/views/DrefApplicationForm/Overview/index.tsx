@@ -57,7 +57,7 @@ import {
     DISASTER_FIRE,
     DISASTER_FLASH_FLOOD,
     DISASTER_FLOOD,
-    EARLY_ACTIONS,
+    EARLY_ACTION,
     EARLY_RESPONSE,
     ONSET_SUDDEN,
     OPERATION_TIMEFRAME_IMMINENT,
@@ -193,7 +193,7 @@ function Overview(props: Props) {
                         || oldValue.proposed_action.length < 1 ? [
                             {
                                 client_id: randomString(),
-                                proposed_type: EARLY_ACTIONS,
+                                proposed_type: EARLY_ACTION,
                             },
                             {
                                 client_id: randomString(),

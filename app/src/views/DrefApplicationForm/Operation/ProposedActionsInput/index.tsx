@@ -31,7 +31,7 @@ import {
     type GoApiResponse,
     useRequest,
 } from '#utils/restRequest';
-import { EARLY_ACTIONS } from '#views/DrefApplicationForm/common';
+import { EARLY_ACTION } from '#views/DrefApplicationForm/common';
 
 import { type PartialDref } from '../../schema';
 import ActivitiesInput from './ActivitiesInput';
@@ -139,7 +139,7 @@ function ProposedActionsInput(props: Props) {
     return (
         <InputSection
             title={
-                value.proposed_type === EARLY_ACTIONS
+                value.proposed_type === EARLY_ACTION
                     ? (
                         <div className={styles.proposedAction}>
                             <img
