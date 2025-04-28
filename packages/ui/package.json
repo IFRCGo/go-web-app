@@ -87,7 +87,7 @@
         "postcss": "^8.5.3",
         "postcss-nested": "^7.0.2",
         "postcss-normalize": "^13.0.1",
-        "postcss-preset-env": "^10.1.5",
+        "postcss-preset-env": "^10.1.6",
         "react-focus-on": "^3.9.1",
         "sanitize-html": "^2.11.0",
         "stylelint": "^16.17.0",
