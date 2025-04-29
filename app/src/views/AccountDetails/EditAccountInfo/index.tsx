@@ -118,6 +118,7 @@ function EditAccountInfo(props: Props) {
             org: clearEmptyString(userDetails?.profile?.org),
             department: userDetails?.profile?.department,
             phone_number: userDetails?.profile?.phone_number,
+            position: userDetails?.profile.position,
         },
     };
 
