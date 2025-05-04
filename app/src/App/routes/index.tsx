@@ -741,6 +741,7 @@ const resources = customWrapRoute({
         visibility: 'anything',
     },
 });
+
 const operationalLearning = customWrapRoute({
     parent: rootLayout,
     path: 'operational-learning',
@@ -1174,6 +1175,20 @@ const perWorkPlanForm = customWrapRoute({
     },
 });
 
+const aboutRedirect = customWrapRoute({
+    parent: rootLayout,
+    path: '/about',
+    component: {
+        render: () => import('#views/Resources'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Resources',
+        visibility: 'anything',
+    },
+});
+
 // Redirect Routes
 const preparednessOperationalLearning = customWrapRoute({
     parent: preparednessLayout,
@@ -1306,6 +1321,7 @@ const wrappedRoutes = {
     threeWProjectDetail,
     termsAndConditions,
     operationalLearning,
+    aboutRedirect,
     ...regionRoutes,
     ...countryRoutes,
     ...surgeRoutes,
