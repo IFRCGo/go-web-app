@@ -98,6 +98,7 @@ function DrefExportModal(props: Props) {
             return {
                 export_id: id,
                 export_type: type,
+                is_pga: isPga,
                 selector: '#pdf-preview-ready',
                 per_country: undefined,
                 is_pga: false,
@@ -105,6 +106,7 @@ function DrefExportModal(props: Props) {
         },
         [
             id,
+            isPga,
             applicationType,
         ],
     );
