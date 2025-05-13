@@ -446,10 +446,9 @@ function LocalUnitsForm(props: Props) {
     const showChanges = !isNewLocalUnit && !!localUnitDetailsResponse?.is_locked;
 
     const hasDifference = useMemo(() => {
-        if (!value || !previousData) {
+        if (isNotDefined(value) || isNotDefined(previousData)) {
             return false;
         }
-
         const newFormFields = getFormFields(value);
         const oldFormFields = getFormFields(previousData);
 
@@ -462,8 +461,8 @@ function LocalUnitsForm(props: Props) {
             onClick={handleFormSubmit}
             disabled={
                 !hasDifference
-                    || addLocalUnitsPending
-                    || updateLocalUnitsPending
+                || addLocalUnitsPending
+                || updateLocalUnitsPending
             }
         >
             {strings.submitButtonLabel}
