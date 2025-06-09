@@ -30,6 +30,7 @@ import {
 import useUserMe from '#hooks/domain/useUserMe';
 import useFilterState from '#hooks/useFilterState';
 import {
+    DREF_TYPE_IMMINENT,
     DREF_TYPE_LOAN,
     type TypeOfDrefEnum,
 } from '#utils/constants';
@@ -232,15 +233,24 @@ function ActiveDrefTable(props: Props) {
                         has_ops_update,
                         has_final_report,
                         country_details,
+                        is_dref_imminent_v2,
                     } = originalDref;
 
                     const canAddOpsUpdate = (is_published ?? false)
                         && (applicationType === 'DREF' || applicationType === 'OPS_UPDATE')
                         && !has_final_report
-                        && unpublished_op_update_count === 0;
+                        && unpublished_op_update_count === 0
+                        // NOTE: Adding this to disable updates just for the old imminents
+                        && (
+                            item.type_of_dref !== DREF_TYPE_IMMINENT
+                            || (item.type_of_dref === DREF_TYPE_IMMINENT && is_dref_imminent_v2)
+                        );
 
                     const canCreateFinalReport = !has_final_report
                         && (applicationType === 'DREF' || applicationType === 'OPS_UPDATE')
+                        // TODO: Remove me after immplementation of DrefFinalReport for imminent
+                        && ((isDefined(is_dref_imminent_v2) && has_ops_update)
+                                || !is_dref_imminent_v2)
                         && (is_published ?? false)
                         && (item.type_of_dref !== DREF_TYPE_LOAN)
                         && (
@@ -263,7 +273,6 @@ function ActiveDrefTable(props: Props) {
                         canCreateFinalReport,
                         hasPermissionToApprove: isRegionCoordinator || userMe?.is_superuser,
                         onPublishSuccess: refetchActiveDref,
-                        drefType: item.type_of_dref,
                     };
                 },
                 { columnClassName: styles.actions },

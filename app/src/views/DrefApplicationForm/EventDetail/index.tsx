@@ -383,7 +383,6 @@ function EventDetail(props: Props) {
                         error={error?.estimated_number_of_affected_boys_under_18}
                         disabled={disabled}
                     />
-                    {/* FIXME: use grid to fix the empty div issue */}
                     {/* NOTE: Empty div to preserve the layout */}
                     <div />
                 </InputSection>

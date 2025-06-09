@@ -382,7 +382,9 @@ function Actions(props: Props) {
                 >
                     {/* NOTE: Only when RESPONSE */}
                     {value?.type_of_dref !== TYPE_IMMINENT && (
-                        <InputSection>
+                        <InputSection
+                            title=" "
+                        >
                             <GoSingleFileInput
                                 name="assessment_report"
                                 accept=".pdf, .docx, .pptx"

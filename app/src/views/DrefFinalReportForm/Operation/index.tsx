@@ -32,6 +32,7 @@ import {
     type EntriesAsList,
     type Error,
     getErrorObject,
+    type SetBaseValueArg,
     useFormArray,
 } from '@togglecorp/toggle-form';
 
@@ -42,6 +43,7 @@ import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import {
+    calculateTotalAssistedPopulation,
     TYPE_ASSESSMENT,
     TYPE_IMMINENT,
 } from '../common';
@@ -68,6 +70,7 @@ const peopleTargetedLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Sha
 interface Props {
     value: Value;
     setFieldValue: (...entries: EntriesAsList<Value>) => void;
+    setValue: (value: SetBaseValueArg<Value>, partialUpdate?: boolean) => void;
     error: Error<Value> | undefined;
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
@@ -83,6 +86,7 @@ function Operation(props: Props) {
     const {
         value,
         setFieldValue,
+        setValue,
         error: formError,
         fileIdToUrlMap,
         setFileIdToUrlMap,
@@ -126,6 +130,26 @@ function Operation(props: Props) {
         );
         setSelectedIntervention(undefined);
     }, [setFieldValue, setSelectedIntervention]);
+
+    const onPopulationChange = useCallback((
+        val: number | undefined,
+        name: 'men' | 'women' | 'girls' | 'boys',
+    ) => {
+        setValue(
+            (oldValue: PartialFinalReport | undefined) => {
+                const newValue = {
+                    ...oldValue,
+                    [name]: val,
+                };
+                return {
+                    ...newValue,
+                    num_assisted: calculateTotalAssistedPopulation(newValue),
+                };
+            },
+        );
+    }, [
+        setValue,
+    ]);
 
     const warnings = useMemo(() => {
         if (isNotDefined(value?.num_assisted)) {
@@ -335,7 +359,7 @@ function Operation(props: Props) {
                                 label={strings.drefFormWomen}
                                 name="assisted_num_of_women"
                                 value={value.assisted_num_of_women}
-                                onChange={setFieldValue}
+                                onChange={onPopulationChange}
                                 error={error?.assisted_num_of_women}
                                 disabled={disabled}
                             />
@@ -343,7 +367,7 @@ function Operation(props: Props) {
                                 label={strings.drefFormMen}
                                 name="assisted_num_of_men"
                                 value={value.assisted_num_of_men}
-                                onChange={setFieldValue}
+                                onChange={onPopulationChange}
                                 error={error?.assisted_num_of_men}
                                 disabled={disabled}
                             />
@@ -351,7 +375,7 @@ function Operation(props: Props) {
                                 label={strings.drefFormGirls}
                                 name="assisted_num_of_girls_under_18"
                                 value={value.assisted_num_of_girls_under_18}
-                                onChange={setFieldValue}
+                                onChange={onPopulationChange}
                                 error={error?.assisted_num_of_girls_under_18}
                                 disabled={disabled}
                             />
@@ -359,8 +383,8 @@ function Operation(props: Props) {
                                 label={strings.drefFormBoys}
                                 name="assisted_num_of_boys_under_18"
                                 value={value.assisted_num_of_boys_under_18}
-                                onChange={setFieldValue}
-                                error={error?.boys}
+                                onChange={onPopulationChange}
+                                error={error?.assisted_num_of_boys_under_18}
                                 disabled={disabled}
                             />
                         </>

@@ -1,5 +1,5 @@
 {
-    "parent": "000026-1746000560403.json",
+    "parent": "000037-1749812804342.json",
     "actions": [
         {
             "action": "add",
@@ -421,6 +421,12 @@
         },
         {
             "action": "add",
+            "key": "drefFormOperationTimeframeSubmissionForImminent",
+            "namespace": "drefApplicationForm",
+            "value": "Operation timeframe"
+        },
+        {
+            "action": "add",
             "key": "drefFormOverviewUploadDocumentButtonLabel",
             "namespace": "drefApplicationForm",
             "value": "Upload document"
@@ -483,7 +489,7 @@
             "action": "add",
             "key": "drefFormProposedActionSectorLabel",
             "namespace": "drefApplicationForm",
-            "value": "Select a sector"
+            "value": "Select the sector"
         },
         {
             "action": "add",
@@ -681,6 +687,12 @@
         },
         {
             "action": "update",
+            "key": "drefFormOperationTimeframeSubmission",
+            "namespace": "drefApplicationForm",
+            "newValue": "Operation timeframe (months)"
+        },
+        {
+            "action": "update",
             "key": "drefFormRiskPeopleLabel",
             "namespace": "drefApplicationForm",
             "newValue": "Total population at risk (if available)"
@@ -695,7 +707,13 @@
             "action": "update",
             "key": "drefFormUploadSupportingDocument",
             "namespace": "drefApplicationForm",
-            "newValue": "Upload any supporting document (Optional)"
+            "newValue": "Upload any support document (Optional)"
+        },
+        {
+            "action": "update",
+            "key": "drefFormUploadTargetingSupportingDescription",
+            "namespace": "drefApplicationForm",
+            "newValue": "Assessment report file type: pdf, docx, pptx, xlsx."
         },
         {
             "action": "add",
@@ -758,16 +776,16 @@
             "namespace": "drefOperationalUpdateForm"
         },
         {
+            "action": "update",
+            "key": "drefOperationalUpdateTimeFrameExtensionRequestedIfYes",
+            "namespace": "drefOperationalUpdateForm",
+            "newValue": "Operational end date"
+        },
+        {
             "action": "add",
             "key": "riskDataNotAvailable",
             "namespace": "riskSeasonalMap",
             "value": "Data not available for selected filters"
-        },
-        {
-            "action": "update",
-            "key": "surgeCatalogueTab",
-            "namespace": "surge",
-            "newValue": "Catalogue of Surge Services"
         },
         {
             "action": "update",

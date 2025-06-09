@@ -22,6 +22,13 @@
         }
     }
 
+    .urban-to-rural {
+        .inputs {
+            display: flex;
+            gap: var(--go-ui-spacing-xs);
+        }
+    }
+
     .warning {
         display: flex;
         align-items: flex-start;

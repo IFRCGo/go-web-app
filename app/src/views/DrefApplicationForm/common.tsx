@@ -211,6 +211,17 @@ export const calculateProposedActionsCost = (val: PartialDref | DrefResponseType
     };
 };
 
+export const calculateTotalTargetedPopulation = (val: PartialDref) => {
+    const totalTargetedPopulation = sumSafe([
+        val.boys,
+        val.women,
+        val.girls,
+        val.men,
+    ]) ?? 0;
+
+    return totalTargetedPopulation;
+};
+
 export function checkTabErrors(error: Error<PartialDref> | undefined, tabKey: TabKeys) {
     if (isNotDefined(analyzeErrors(error))) {
         return false;

@@ -105,10 +105,12 @@ function DrefTableActions(props: Props) {
                 noOfPeopleTargeted: response?.num_assisted,
                 nsRequestDate: response?.ns_request_date,
                 disasterStartDate: response?.event_date,
-                implementationPeriod: response?.operation_timeframe,
-                allocationRequested: response?.amount_requested,
-                previousAllocation: undefined,
+                implementationPeriod: response?.type_of_dref === DREF_TYPE_IMMINENT
+                    ? `${response.operation_timeframe_imminent} days` : `${response?.operation_timeframe} months`,
                 totalDREFAllocation: response?.amount_requested,
+                previousAllocation: undefined,
+                allocationRequested: response.type_of_dref === DREF_TYPE_IMMINENT
+                    ? response.total_cost : response?.amount_requested,
                 // FIXME: use translations
                 toBeAllocatedFrom: response?.type_of_dref === DREF_TYPE_IMMINENT ? 'Anticipatory Pillar' : 'Response Pillar',
                 focalPointName: response?.regional_focal_point_name,
@@ -142,7 +144,7 @@ function DrefTableActions(props: Props) {
                         : response?.type_of_onset_display,
                 nsRequestDate: response?.ns_request_date,
                 disasterStartDate: response?.event_date,
-                implementationPeriod: response?.total_operation_timeframe,
+                implementationPeriod: `${response?.total_operation_timeframe} months`,
                 allocationRequested: response?.additional_allocation,
                 previousAllocation: response?.dref_allocated_so_far ?? 0,
                 totalDREFAllocation: response?.total_dref_allocation,

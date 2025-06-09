@@ -161,7 +161,7 @@ function Submission(props: Props) {
                     )}
                     {value?.type_of_dref === TYPE_IMMINENT && (
                         <NumberInput
-                            label={strings.drefFormOperationTimeframeSubmission}
+                            label={strings.drefFormOperationTimeframeSubmissionForImminent}
                             name="operation_timeframe_imminent"
                             placeholder={strings.drefFormOperationTimeframeSubmissionDescription}
                             value={value.operation_timeframe_imminent}
@@ -474,19 +474,19 @@ function Submission(props: Props) {
                         disabled={disabled}
                     />
                     <TextInput
-                        label={strings.drefFormIntegrityContactEmailLabel}
-                        name="national_society_integrity_contact_email"
-                        value={value.national_society_integrity_contact_email}
-                        onChange={setFieldValue}
-                        error={error?.national_society_integrity_contact_email}
-                        disabled={disabled}
-                    />
-                    <TextInput
                         label={strings.drefFormIntegrityContactTitleLabel}
                         name="national_society_integrity_contact_title"
                         value={value.national_society_integrity_contact_title}
                         onChange={setFieldValue}
                         error={error?.national_society_integrity_contact_title}
+                        disabled={disabled}
+                    />
+                    <TextInput
+                        label={strings.drefFormIntegrityContactEmailLabel}
+                        name="national_society_integrity_contact_email"
+                        value={value.national_society_integrity_contact_email}
+                        onChange={setFieldValue}
+                        error={error?.national_society_integrity_contact_email}
                         disabled={disabled}
                     />
                     <TextInput

@@ -44,6 +44,7 @@ import { useRequest } from '#utils/restRequest';
 
 import {
     calculateProposedActionsCost,
+    calculateTotalTargetedPopulation,
     TYPE_ASSESSMENT,
     TYPE_IMMINENT,
 } from '../common';
@@ -181,6 +182,26 @@ function Operation(props: Props) {
         setSelectedIntervention(undefined);
     }, [setFieldValue, setSelectedIntervention]);
 
+    const onPopulationChange = useCallback((
+        val: number | undefined,
+        name: 'men' | 'women' | 'girls' | 'boys',
+    ) => {
+        setValue(
+            (oldValue: PartialDref | undefined) => {
+                const newValue = {
+                    ...oldValue,
+                    [name]: val,
+                };
+                return {
+                    ...newValue,
+                    total_targeted_population: calculateTotalTargetedPopulation(newValue),
+                };
+            },
+        );
+    }, [
+        setValue,
+    ]);
+
     const warnings = useMemo(() => {
         if (isNotDefined(value?.total_targeted_population)) {
             return [];
@@ -275,7 +296,7 @@ function Operation(props: Props) {
                             onChange={setFieldValue}
                             value={value.operation_objective}
                             error={error?.operation_objective}
-                            placeholder={strings.drefFormObjectiveOperationPlaceholder}
+                            hint={strings.drefFormObjectiveOperationPlaceholder}
                             disabled={disabled}
                         />
                     </InputSection>
@@ -313,7 +334,7 @@ function Operation(props: Props) {
                             onChange={setFieldValue}
                             value={value.response_strategy}
                             error={error?.response_strategy}
-                            placeholder={strings.drefFormResponseRationalePlaceholder}
+                            hint={strings.drefFormResponseRationalePlaceholder}
                             disabled={disabled}
                         />
                     </InputSection>
@@ -373,15 +394,15 @@ function Operation(props: Props) {
                     heading={strings.drefFormAssistedPopulation}
                     headerDescription={(
                         value?.type_of_dref !== TYPE_ASSESSMENT
-                            && warnings?.map((w) => (
-                                <div
-                                    className={styles.warning}
-                                    key={w}
-                                >
-                                    <ErrorWarningFillIcon className={styles.icon} />
-                                    {w}
-                                </div>
-                            ))
+                        && warnings?.map((w) => (
+                            <div
+                                className={styles.warning}
+                                key={w}
+                            >
+                                <ErrorWarningFillIcon className={styles.icon} />
+                                {w}
+                            </div>
+                        ))
                     )}
                 >
                     <InputSection
@@ -394,7 +415,7 @@ function Operation(props: Props) {
                                     label={strings.drefFormWomen}
                                     name="women"
                                     value={value.women}
-                                    onChange={setFieldValue}
+                                    onChange={onPopulationChange}
                                     error={error?.women}
                                     disabled={disabled}
                                 />
@@ -402,7 +423,7 @@ function Operation(props: Props) {
                                     label={strings.drefFormMen}
                                     name="men"
                                     value={value.men}
-                                    onChange={setFieldValue}
+                                    onChange={onPopulationChange}
                                     error={error?.men}
                                     disabled={disabled}
                                 />
@@ -410,7 +431,7 @@ function Operation(props: Props) {
                                     label={strings.drefFormGirls}
                                     name="girls"
                                     value={value.girls}
-                                    onChange={setFieldValue}
+                                    onChange={onPopulationChange}
                                     error={error?.girls}
                                     disabled={disabled}
                                 />
@@ -418,7 +439,7 @@ function Operation(props: Props) {
                                     label={strings.drefFormBoys}
                                     name="boys"
                                     value={value.boys}
-                                    onChange={setFieldValue}
+                                    onChange={onPopulationChange}
                                     error={error?.boys}
                                     disabled={disabled}
                                 />
@@ -754,7 +775,7 @@ function Operation(props: Props) {
                             </div>
                         ) : <div />}
                     >
-                        <div className={styles.interventionSelectionContainer}>
+                        <div className={styles.selectionContainer}>
                             <SelectInput
                                 className={styles.input}
                                 name={undefined}

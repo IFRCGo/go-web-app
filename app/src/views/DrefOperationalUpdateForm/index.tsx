@@ -730,6 +730,7 @@ export function Component() {
                             <Operation
                                 value={value}
                                 setFieldValue={setFieldValue}
+                                setValue={setValue}
                                 fileIdToUrlMap={fileIdToUrlMap}
                                 setFileIdToUrlMap={setFileIdToUrlMap}
                                 error={formError}

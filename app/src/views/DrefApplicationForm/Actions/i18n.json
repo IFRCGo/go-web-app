@@ -15,6 +15,7 @@
         "drefFormGapsInAssessmentDescriptionPoint3": "Operational challenges: mention any operational constraints that are preventing a full response to the needs (e.g., logistical issues, insufficient capacity).",
         "drefFormGapsInAssessmentDescriptionPoint4": "Coordination issues: note any challenges in coordinating with other actors or agencies that have resulted in gaps in service delivery or response coverage.",
         "drefFormGapsInAssessmentDescriptionPoint5": "Vulnerable groups: identify any specific vulnerable groups whose needs may not have been fully captured or addressed during the assessment (e.g., displaced persons, elderly, people with disabilities).",
+        "drefFormUploadTargetingSupportingDescription": "Assessment report file type: pdf, docx, pptx, xlsx.",
         "drefFormIcrc": "ICRC",
         "drefFormIcrcDescription": "Presence or not of ICRC in country, and support directly provided for this emergency response. Other programs and support provided outside of the scope of this emergency should not be indicated here.",
         "drefFormIfrc": "IFRC",

@@ -7,3 +7,19 @@
         height: 8rem;
     }
 }
+
+.content {
+    display: flex;
+    align-items: center;
+    align-self: flex-start;
+    flex-wrap: wrap;
+    gap: var(--go-ui-spacing-md);
+
+    .input {
+        flex-grow: 1;
+    }
+
+    .action {
+        flex-shrink: 0;
+    }
+}

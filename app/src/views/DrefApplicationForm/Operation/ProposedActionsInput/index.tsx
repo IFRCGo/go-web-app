@@ -163,13 +163,22 @@ function ProposedActionsInput(props: Props) {
                         </div>
                     )
             }
-            numPreferredColumns={2}
         >
             <NonFieldError error={error} />
-            <Container
-                contentViewType="vertical"
-            >
+            <NumberInput
+                required
+                name="total_budget"
+                value={value.total_budget}
+                onChange={onProposedActionChange}
+                error={error?.total_budget}
+                label={strings.drefFormProposedActionBudgetLabel}
+                disabled={disabled}
+            />
+            {/* NOTE: Empty div to preserve the layout */}
+            <div />
+            <div className={styles.content}>
                 <SelectInput
+                    className={styles.input}
                     name={undefined}
                     label={strings.drefFormProposedActionSectorLabel}
                     value={selectedSector}
@@ -181,6 +190,7 @@ function ProposedActionsInput(props: Props) {
                     required
                 />
                 <Button
+                    className={styles.action}
                     variant="secondary"
                     name={undefined}
                     onClick={handleActivityAddButtonClick}
@@ -191,32 +201,23 @@ function ProposedActionsInput(props: Props) {
                 >
                     {strings.drefFormAddProposedActionLabel}
                 </Button>
-                <Container
-                    contentViewType="vertical"
-                >
-                    <NonFieldError error={getErrorObject(error?.activities)} />
-                    {value.activities?.map((activity, i) => (
-                        <ActivitiesInput
-                            key={activity.client_id}
-                            index={i}
-                            value={activity}
-                            onChange={onActivityChange}
-                            onRemove={onActivityRemove}
-                            error={getErrorObject(error?.activities)}
-                            activityOptions={activityOptionResponse}
-                        />
-                    ))}
-                </Container>
+            </div>
+            <Container
+                contentViewType="vertical"
+            >
+                <NonFieldError error={getErrorObject(error?.activities)} />
+                {value.activities?.map((activity, i) => (
+                    <ActivitiesInput
+                        key={activity.client_id}
+                        index={i}
+                        value={activity}
+                        onChange={onActivityChange}
+                        onRemove={onActivityRemove}
+                        error={getErrorObject(error?.activities)}
+                        activityOptions={activityOptionResponse}
+                    />
+                ))}
             </Container>
-            <NumberInput
-                required
-                name="total_budget"
-                value={value.total_budget}
-                onChange={onProposedActionChange}
-                error={error?.total_budget}
-                label="Budget"
-                disabled={disabled}
-            />
         </InputSection>
     );
 }
