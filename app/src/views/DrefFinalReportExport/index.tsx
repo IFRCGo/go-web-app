@@ -386,6 +386,14 @@ export function Component() {
                 />
                 <TextOutput
                     className={styles.metaItem}
+                    label={strings.peopleAssistedLabel}
+                    value={drefResponse?.num_assisted}
+                    suffix={strings.peopleSuffix}
+                    valueType="number"
+                    strongValue
+                />
+                <TextOutput
+                    className={styles.metaItem}
                     label={strings.eventOnsetLabel}
                     value={drefResponse?.type_of_onset_display}
                     strongValue
@@ -764,9 +772,8 @@ export function Component() {
                 <div className={styles.emptyBlock} />
                 <BlockTextOutput
                     className={styles.metaItem}
-                    label={strings.peopleAssistedLabel}
+                    label={strings.totalAssistedPopulationLabel}
                     value={drefResponse?.num_assisted}
-                    suffix={strings.peopleSuffix}
                     valueType="number"
                     strongValue
                 />

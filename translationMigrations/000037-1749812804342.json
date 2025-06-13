@@ -1,0 +1,17 @@
+{
+    "parent": "000036-1749640127093.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "totalAssistedPopulationLabel",
+            "namespace": "drefFinalReportExport",
+            "value": "Total Assisted Population"
+        },
+        {
+            "action": "update",
+            "key": "peopleAssistedLabel",
+            "namespace": "drefFinalReportExport",
+            "newValue": "People Assisted"
+        }
+    ]
+}
