@@ -208,6 +208,7 @@ export function Component() {
 
                 if (
                     supporting_document_details
+                    && supporting_document_details.id
                     && supporting_document_details.file
                 ) {
                     newMap[
@@ -217,6 +218,7 @@ export function Component() {
 
                 if (
                     assessment_report_details
+                    && assessment_report_details.id
                     && assessment_report_details.file
                 ) {
                     newMap[
@@ -226,6 +228,7 @@ export function Component() {
 
                 if (
                     event_map_file
+                    && event_map_file.id
                     && event_map_file.file
                 ) {
                     newMap[event_map_file.id] = event_map_file.file;
@@ -233,6 +236,7 @@ export function Component() {
 
                 if (
                     cover_image_file
+                    && cover_image_file.id
                     && cover_image_file.file
                 ) {
                     newMap[cover_image_file.id] = cover_image_file.file;
@@ -240,7 +244,7 @@ export function Component() {
 
                 if ((images_file?.length ?? 0) > 0) {
                     images_file?.forEach((img) => {
-                        if (isDefined(img.file)) {
+                        if (isDefined(img.file) && isDefined(img.id)) {
                             newMap[img.id] = img.file;
                         }
                     });
@@ -248,6 +252,7 @@ export function Component() {
 
                 if (
                     disaster_category_analysis_details
+                    && disaster_category_analysis_details.id
                     && disaster_category_analysis_details.file
                 ) {
                     newMap[
@@ -257,6 +262,7 @@ export function Component() {
 
                 if (
                     targeting_strategy_support_file_details
+                    && targeting_strategy_support_file_details.id
                     && targeting_strategy_support_file_details.file
                 ) {
                     newMap[
@@ -265,6 +271,7 @@ export function Component() {
                 }
                 if (
                     scenario_analysis_supporting_document_details
+                    && scenario_analysis_supporting_document_details.id
                     && scenario_analysis_supporting_document_details.file
                 ) {
                     newMap[
@@ -274,6 +281,7 @@ export function Component() {
 
                 if (
                     contingency_plans_supporting_document_details
+                    && contingency_plans_supporting_document_details.id
                     && contingency_plans_supporting_document_details.file
                 ) {
                     newMap[
@@ -281,7 +289,11 @@ export function Component() {
                     ] = contingency_plans_supporting_document_details.file;
                 }
 
-                if (budget_file_details && budget_file_details.file) {
+                if (
+                    budget_file_details
+                    && budget_file_details.id
+                    && budget_file_details.file
+                ) {
                     newMap[budget_file_details.id] = budget_file_details.file;
                 }
 

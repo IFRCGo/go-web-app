@@ -44,8 +44,8 @@ interface Props {
     onValueChange: (...entries: EntriesAsList<PartialFormValue>) => void;
     value: PartialFormValue;
     disabled?: boolean;
-    externalPartnerOptions: ExternalPartnerOptions;
-    supportedActivityOptions: SupportedActivityOptions;
+    externalPartnerOptions: ExternalPartnerOptions | undefined;
+    supportedActivityOptions: SupportedActivityOptions | undefined;
     actionOptions: Record<
         OrganizationType,
         { id: number; name?: string | null, category?: CategoryType }[]

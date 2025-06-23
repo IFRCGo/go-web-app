@@ -142,6 +142,7 @@ export function Component() {
                 };
                 if (
                     response.assessment_report_details
+                    && response.assessment_report_details.id
                     && response.assessment_report_details.file
                 ) {
                     newMap[
@@ -150,12 +151,14 @@ export function Component() {
                 }
                 if (
                     response.event_map_file
+                    && response.event_map_file.id
                     && response.event_map_file.file
                 ) {
                     newMap[response.event_map_file.id] = response.event_map_file.file;
                 }
                 if (
                     response.cover_image_file
+                    && response.cover_image_file.id
                     && response.cover_image_file.file
                 ) {
                     newMap[response.cover_image_file.id] = response.cover_image_file.file;
@@ -163,6 +166,7 @@ export function Component() {
 
                 if (
                     response.financial_report_details
+                    && response.financial_report_details.id
                     && response.financial_report_details.file
                 ) {
                     // eslint-disable-next-line max-len
@@ -179,7 +183,7 @@ export function Component() {
                 */
                 if ((response.images_file?.length ?? 0) > 0) {
                     response.images_file?.forEach((img) => {
-                        if (isDefined(img.file)) {
+                        if (isDefined(img.file) && isDefined(img.id)) {
                             newMap[img.id] = img.file;
                         }
                     });

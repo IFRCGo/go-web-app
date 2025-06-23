@@ -133,7 +133,7 @@ function Operation(props: Props) {
 
     const onPopulationChange = useCallback((
         val: number | undefined,
-        name: 'men' | 'women' | 'girls' | 'boys',
+        name: 'assisted_num_of_women' | 'assisted_num_of_men' | 'assisted_num_of_girls_under_18' | 'assisted_num_of_boys_under_18',
     ) => {
         setValue(
             (oldValue: PartialFinalReport | undefined) => {

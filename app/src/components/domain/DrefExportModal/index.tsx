@@ -101,7 +101,6 @@ function DrefExportModal(props: Props) {
                 is_pga: isPga,
                 selector: '#pdf-preview-ready',
                 per_country: undefined,
-                is_pga: false,
             };
         },
         [

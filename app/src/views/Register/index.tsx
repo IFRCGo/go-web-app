@@ -71,7 +71,7 @@ type FormFields = PartialForm<RegisterRequestBody & { confirm_password: string }
 
 const defaultFormValue: FormFields = {};
 
-type FormSchema = ObjectSchema<FormFields, FormFields, { whitelistedDomains: WhiteListResponse['results'] }>;
+type FormSchema = ObjectSchema<FormFields, FormFields, { whitelistedDomains: WhiteListResponse['results'] | undefined }>;
 type FormSchemaFields = ReturnType<FormSchema['fields']>
 
 const formSchema: FormSchema = {

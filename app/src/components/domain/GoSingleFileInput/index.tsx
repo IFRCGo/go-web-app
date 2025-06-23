@@ -96,7 +96,7 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
                 onSuccess();
             }
 
-            if (isDefined(file) && setFileIdToUrlMap) {
+            if (isDefined(file) && isDefined(id) && setFileIdToUrlMap) {
                 setFileIdToUrlMap((oldMap) => {
                     const newMap = {
                         ...oldMap,
