@@ -87,14 +87,14 @@ function SurgeCard(props: Props) {
 
     const eruDeployingOrganizations = useMemo(() => (
         unique(erus
-            .map((eru) => eru.eru_owner_details.national_society_country_details.society_name)
+            .map((eru) => eru.eru_owner_details.national_society_country_details?.society_name)
             .filter(isDefined)
             .map((nationalSociety) => ({ name: nationalSociety })))
     ), [erus]);
 
     const personnelDeployingOrganizations = useMemo(() => (
         unique(personnel
-            .map((person) => (person.country_from.society_name))
+            .map((person) => (person.country_from?.society_name))
             .filter(isDefined)
             .map((nationalSociety) => ({ name: nationalSociety })))
     ), [personnel]);

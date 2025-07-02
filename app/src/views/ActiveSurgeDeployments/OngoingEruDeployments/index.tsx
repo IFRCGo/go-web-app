@@ -207,7 +207,7 @@ function OngoingEruDeployments() {
             createStringColumn<EruListItem, number>(
                 'society_name',
                 strings.eruOrganisation,
-                (item) => item?.eru_owner_details?.national_society_country_details.society_name,
+                (item) => item?.eru_owner_details?.national_society_country_details?.society_name,
             ),
             createLinkColumn<EruListItem, number>(
                 'country',
