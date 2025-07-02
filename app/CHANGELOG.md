@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.18.2
+
+### Patch Changes
+
+- 07436a3: Fix the undefined society name issue in surge page [#1899](https://github.com/IFRCGo/go-web-app/issues/1899)
+
 ## 7.18.1
 
 ### Patch Changes
