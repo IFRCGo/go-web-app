@@ -38,7 +38,10 @@ import NonFieldError from '#components/NonFieldError';
 import Page from '#components/Page';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 import useAlert from '#hooks/useAlert';
-import { DREF_TYPE_IMMINENT } from '#utils/constants';
+import {
+    DREF_TYPE_IMMINENT,
+    type TypeOfDrefEnum,
+} from '#utils/constants';
 import {
     type GoApiResponse,
     useLazyRequest,
@@ -51,7 +54,10 @@ import {
 } from '#utils/restRequest/error';
 
 import Actions from './Actions';
-import { checkTabErrors } from './common';
+import {
+    checkTabErrors,
+    TYPE_IMMINENT,
+} from './common';
 import EventDetail from './EventDetail';
 import ObsoletePayloadModal from './ObsoletePayloadModal';
 import Operation from './Operation';
@@ -66,7 +72,23 @@ type GetFinalReportResponse = GoApiResponse<'/api/v2/dref-final-report/{id}/'>;
 
 type TabKeys = 'overview' | 'eventDetail' | 'actions' | 'operation' | 'submission';
 
-function getNextStep(current: TabKeys, direction: 1 | -1) {
+function getNextStep(current: TabKeys, direction: 1 | -1, typeOfDref: TypeOfDrefEnum | '' | undefined) {
+    if (typeOfDref === TYPE_IMMINENT && direction === 1) {
+        const mapping: { [key in TabKeys]?: TabKeys } = {
+            overview: 'eventDetail',
+            eventDetail: 'operation',
+            operation: 'submission',
+        };
+        return mapping[current];
+    }
+    if (typeOfDref === TYPE_IMMINENT && direction === -1) {
+        const mapping: { [key in TabKeys]?: TabKeys } = {
+            submission: 'operation',
+            operation: 'eventDetail',
+            eventDetail: 'overview',
+        };
+        return mapping[current];
+    }
     if (direction === 1) {
         const mapping: { [key in TabKeys]?: TabKeys } = {
             overview: 'eventDetail',
@@ -356,8 +378,8 @@ export function Component() {
         setActiveTab(newTab);
     }, []);
 
-    const nextStep = getNextStep(activeTab, 1);
-    const prevStep = getNextStep(activeTab, -1);
+    const nextStep = getNextStep(activeTab, 1, value.type_of_dref);
+    const prevStep = getNextStep(activeTab, -1, value.type_of_dref);
     const saveFinalReportPending = updateFinalReportPending;
     const disabled = fetchingFinalReport || saveFinalReportPending;
 
@@ -426,21 +448,27 @@ export function Component() {
                             step={2}
                             errored={checkTabErrors(formError, 'eventDetail')}
                         >
-                            {strings.formTabEventDetailLabel}
+                            {finalReportResponse?.type_of_dref !== DREF_TYPE_IMMINENT
+                                ? strings.formTabEventDetailLabel
+                                : strings.formTabEventDevelopmentLabel}
                         </Tab>
-                        <Tab
-                            name="actions"
-                            step={3}
-                            errored={checkTabErrors(formError, 'actions')}
-                        >
-                            {strings.formTabActionsLabel}
-                        </Tab>
+                        {finalReportResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
+                            <Tab
+                                name="actions"
+                                step={3}
+                                errored={checkTabErrors(formError, 'actions')}
+                            >
+                                {strings.formTabActionsLabel}
+                            </Tab>
+                        )}
                         <Tab
                             name="operation"
                             step={4}
                             errored={checkTabErrors(formError, 'operation')}
                         >
-                            {strings.formTabOperationLabel}
+                            {finalReportResponse?.type_of_dref !== DREF_TYPE_IMMINENT
+                                ? strings.formTabOperationLabel
+                                : strings.formTabImplementation}
                         </Tab>
                         <Tab
                             name="submission"
@@ -483,6 +511,7 @@ export function Component() {
                         <TabPanel name="overview">
                             <Overview
                                 value={value}
+                                setValue={setValue}
                                 setFieldValue={setFieldValue}
                                 fileIdToUrlMap={fileIdToUrlMap}
                                 isPreviousImminent={isPreviousImminent}

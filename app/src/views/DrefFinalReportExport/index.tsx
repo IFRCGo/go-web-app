@@ -310,9 +310,15 @@ export function Component() {
                     alt={strings.imageLogoIFRCAlt}
                 />
                 <div>
-                    <Heading level={1}>
-                        {strings.exportTitle}
-                    </Heading>
+                    {drefResponse?.type_of_dref === DREF_TYPE_IMMINENT ? (
+                        <Heading level={1}>
+                            {strings.imminentExportTitle}
+                        </Heading>
+                    ) : (
+                        <Heading level={1}>
+                            {strings.exportTitle}
+                        </Heading>
+                    )}
                     <div className={styles.drefContentTitle}>
                         {drefResponse?.title}
                     </div>
@@ -440,9 +446,12 @@ export function Component() {
                 <>
                     <div className={styles.pageBreak} />
                     <Heading level={2}>
-                        {strings.eventDescriptionSectionHeading}
+                        {drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
+                            ? strings.eventDevelopmentHeading
+                            : strings.eventDescriptionSectionHeading}
                     </Heading>
-                    {isTruthyString(drefResponse?.event_map_file?.file) && (
+                    {isTruthyString(drefResponse?.event_map_file?.file)
+                        && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
                         <Container>
                             <Image
                                 src={drefResponse?.event_map_file?.file}
@@ -450,7 +459,7 @@ export function Component() {
                             />
                         </Container>
                     )}
-                    {eventTextDefined && (
+                    {eventTextDefined && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
                         <Container heading={strings.approximateDateOfImpactHeading}>
                             <DescriptionText>
                                 {drefResponse.event_text}
@@ -472,7 +481,7 @@ export function Component() {
                     {eventDescriptionDefined && (
                         <Container
                             heading={drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
-                                ? strings.situationUpdateSectionHeading
+                                ? strings.eventDevelopmentSectionHeading
                                 : strings.whatWhereWhenSectionHeading}
                         >
                             <DescriptionText>
@@ -495,7 +504,9 @@ export function Component() {
                     )}
                     {eventScopeDefined && (
                         <Container
-                            heading={strings.scopeAndScaleSectionHeading}
+                            heading={drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
+                                ? strings.eventsImpactHeading
+                                : strings.scopeAndScaleSectionHeading}
                         >
                             <DescriptionText>
                                 {drefResponse?.event_scope}
@@ -537,7 +548,7 @@ export function Component() {
                     )}
                 </>
             )}
-            {showNsActionsSection && (
+            {showNsActionsSection && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
                 <Container
                     heading={strings.nationalSocietyActionsHeading}
                     childrenContainerClassName={styles.nsActionsContent}
@@ -559,7 +570,8 @@ export function Component() {
                     )}
                 </Container>
             )}
-            {showMovementPartnersActionsSection && (
+            {showMovementPartnersActionsSection
+                && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
                 <Container
                     heading={strings.movementPartnersActionsHeading}
                     childrenContainerClassName={styles.movementPartnersActionsContent}
@@ -583,7 +595,7 @@ export function Component() {
                     )}
                 </Container>
             )}
-            {icrcActionsDefined && (
+            {icrcActionsDefined && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
                 <Container
                     heading={strings.icrcActionsHeading}
                     childrenContainerClassName={styles.icrcActionsContent}
@@ -594,7 +606,7 @@ export function Component() {
                     </DescriptionText>
                 </Container>
             )}
-            {showOtherActorsActionsSection && (
+            {showOtherActorsActionsSection && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
                 <Container
                     heading={strings.otherActionsHeading}
                     childrenContainerClassName={styles.otherActionsContent}
@@ -636,7 +648,7 @@ export function Component() {
                     )}
                 </Container>
             )}
-            {showNeedsIdentifiedSection && (
+            {showNeedsIdentifiedSection && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
                 <>
                     <Heading level={2}>
                         {strings.needsIdentifiedSectionHeading}
@@ -660,7 +672,7 @@ export function Component() {
                     )}
                 </>
             )}
-            {showOperationStrategySection && (
+            {showOperationStrategySection && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
                 <>
                     <Heading level={2}>
                         {strings.operationalStrategySectionHeading}
@@ -685,7 +697,7 @@ export function Component() {
                     )}
                 </>
             )}
-            {showTargetingStrategySection && (
+            {showTargetingStrategySection && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
                 <>
                     <Heading level={2}>
                         {strings.targetingStrategySectionHeading}
@@ -710,83 +722,85 @@ export function Component() {
                     )}
                 </>
             )}
-            <Container
-                heading={strings.targetPopulationSectionHeading}
-                headingLevel={2}
-                childrenContainerClassName={styles.targetPopulationContent}
-            >
-                {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
+            {drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
+                <Container
+                    heading={strings.targetPopulationSectionHeading}
+                    headingLevel={2}
+                    childrenContainerClassName={styles.targetPopulationContent}
+                >
+                    {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
+                        <BlockTextOutput
+                            label={strings.womenLabel}
+                            value={drefResponse?.assisted_num_of_women}
+                            valueType="number"
+                            strongValue
+                        />
+                    )}
                     <BlockTextOutput
-                        label={strings.womenLabel}
-                        value={drefResponse?.assisted_num_of_women}
+                        label={strings.ruralLabel}
+                        value={drefResponse?.people_per_local}
+                        valueType="number"
+                        suffix="%"
+                        strongValue
+                    />
+                    {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
+                        <BlockTextOutput
+                            label={strings.girlsLabel}
+                            value={drefResponse?.assisted_num_of_girls_under_18}
+                            valueType="number"
+                            strongValue
+                        />
+                    )}
+                    <BlockTextOutput
+                        label={strings.urbanLabel}
+                        value={drefResponse?.people_per_urban}
+                        suffix="%"
                         valueType="number"
                         strongValue
                     />
-                )}
-                <BlockTextOutput
-                    label={strings.ruralLabel}
-                    value={drefResponse?.people_per_local}
-                    valueType="number"
-                    suffix="%"
-                    strongValue
-                />
-                {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
+                    {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
+                        <BlockTextOutput
+                            label={strings.menLabel}
+                            value={drefResponse?.assisted_num_of_men}
+                            valueType="number"
+                            strongValue
+                        />
+                    )}
                     <BlockTextOutput
-                        label={strings.girlsLabel}
-                        value={drefResponse?.assisted_num_of_girls_under_18}
+                        className={styles.disabilitiesPopulation}
+                        label={strings.peopleWithDisabilitiesLabel}
+                        value={drefResponse?.disability_people_per}
+                        suffix="%"
                         valueType="number"
                         strongValue
                     />
-                )}
-                <BlockTextOutput
-                    label={strings.urbanLabel}
-                    value={drefResponse?.people_per_urban}
-                    suffix="%"
-                    valueType="number"
-                    strongValue
-                />
-                {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
+                    {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
+                        <BlockTextOutput
+                            label={strings.boysLabel}
+                            value={drefResponse?.assisted_num_of_boys_under_18}
+                            valueType="number"
+                            strongValue
+                        />
+                    )}
+                    <div className={styles.emptyBlock} />
                     <BlockTextOutput
-                        label={strings.menLabel}
-                        value={drefResponse?.assisted_num_of_men}
+                        className={styles.metaItem}
+                        label={strings.totalAssistedPopulationLabel}
+                        value={drefResponse?.num_assisted}
                         valueType="number"
                         strongValue
                     />
-                )}
-                <BlockTextOutput
-                    className={styles.disabilitiesPopulation}
-                    label={strings.peopleWithDisabilitiesLabel}
-                    value={drefResponse?.disability_people_per}
-                    suffix="%"
-                    valueType="number"
-                    strongValue
-                />
-                {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
+                    <div className={styles.emptyBlock} />
                     <BlockTextOutput
-                        label={strings.boysLabel}
-                        value={drefResponse?.assisted_num_of_boys_under_18}
+                        label={strings.targetedPopulationLabel}
+                        value={drefResponse?.total_targeted_population}
+                        valueClassName={styles.totalTargetedPopulationValue}
                         valueType="number"
                         strongValue
                     />
-                )}
-                <div className={styles.emptyBlock} />
-                <BlockTextOutput
-                    className={styles.metaItem}
-                    label={strings.totalAssistedPopulationLabel}
-                    value={drefResponse?.num_assisted}
-                    valueType="number"
-                    strongValue
-                />
-                <div className={styles.emptyBlock} />
-                <BlockTextOutput
-                    label={strings.targetedPopulationLabel}
-                    value={drefResponse?.total_targeted_population}
-                    valueClassName={styles.totalTargetedPopulationValue}
-                    valueType="number"
-                    strongValue
-                />
-            </Container>
-            {showRiskAndSecuritySection && (
+                </Container>
+            )}
+            {showRiskAndSecuritySection && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
                 <Container
                     childrenContainerClassName={styles.riskAndSecuritySection}
                     heading={strings.riskAndSecuritySectionHeading}
@@ -876,7 +890,7 @@ export function Component() {
                     )}
                 </Container>
             )}
-            {plannedInterventionDefined && (
+            {plannedInterventionDefined && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
                 <>
                     <Heading level={2}>
                         {strings.interventionSectionHeading}
