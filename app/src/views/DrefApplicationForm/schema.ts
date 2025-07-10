@@ -605,6 +605,7 @@ const schema: DrefFormSchema = {
                     national_authorities: {},
                     un_or_other_actor: {},
                     is_there_major_coordination_mechanism: {},
+                    major_coordination_mechanism: {},
                 };
                 if (val?.type_of_dref !== TYPE_ASSESSMENT) {
                     conditionalFields = {

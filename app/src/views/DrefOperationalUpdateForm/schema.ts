@@ -430,6 +430,7 @@ const schema: OpsUpdateFormSchema = {
             'national_authorities',
             'un_or_other_actor',
             'is_there_major_coordination_mechanism',
+            'major_coordination_mechanism',
         ] as const;
         type ActionsDrefTypeRelatedFields = Pick<
             OpsUpdateFormSchemaFields,
@@ -464,6 +465,7 @@ const schema: OpsUpdateFormSchema = {
                     government_requested_assistance: {},
                     national_authorities: {},
                     is_there_major_coordination_mechanism: {},
+                    major_coordination_mechanism: {},
                     un_or_other_actor: {},
                 };
                 if (val?.type_of_dref !== TYPE_ASSESSMENT) {
