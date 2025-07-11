@@ -32,7 +32,9 @@ import {
     type EntriesAsList,
     type Error,
     getErrorObject,
+    isCallable,
     type SetBaseValueArg,
+    type SetValueArg,
     useFormArray,
 } from '@togglecorp/toggle-form';
 
@@ -44,12 +46,14 @@ import { DREF_TYPE_IMMINENT } from '#utils/constants';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import {
+    calculateProposedActionsCost,
     calculateTotalAssistedPopulation,
     TYPE_ASSESSMENT,
     TYPE_IMMINENT,
 } from '../common';
 import { type PartialFinalReport } from '../schema';
 import InterventionInput from './InterventionInput';
+import ProposedActionsInput from './ProposedActionsInput';
 import RiskSecurityInput from './RiskSecurityInput';
 
 import i18n from './i18n.json';
@@ -61,6 +65,7 @@ type PlannedInterventionOption = NonNullable<GlobalEnumsResponse['dref_planned_i
 type Value = PartialFinalReport;
 type PlannedInterventionFormFields = NonNullable<PartialFinalReport['planned_interventions']>[number];
 type RiskSecurityFormFields = NonNullable<PartialFinalReport['risk_security']>[number];
+type ProposedActionsFormFields = NonNullable<PartialFinalReport['proposed_action']>[number];
 
 function plannedInterventionKeySelector(option: PlannedInterventionOption) {
     return option.key;
@@ -151,6 +156,34 @@ function Operation(props: Props) {
     }, [
         setValue,
     ]);
+
+    const handleProposedActionChange = useCallback(
+        (val: SetValueArg<ProposedActionsFormFields>, index: number | undefined) => {
+            setValue((oldVal) => {
+                const newProposedValue = [...(oldVal.proposed_action ?? [])];
+                if (isNotDefined(index)) {
+                    newProposedValue.push(
+                        isCallable(val) ? val(undefined) : val,
+                    );
+                } else {
+                    newProposedValue[index] = isCallable(val)
+                        ? val(newProposedValue[index])
+                        : val;
+                }
+
+                const newValue = {
+                    ...oldVal,
+                    proposed_action: newProposedValue,
+                };
+
+                return {
+                    ...newValue,
+                    ...calculateProposedActionsCost(newValue),
+                };
+            }, true);
+        },
+        [setValue],
+    );
 
     const warnings = useMemo(() => {
         if (isNotDefined(value?.num_assisted)) {
@@ -665,11 +698,155 @@ function Operation(props: Props) {
                     </InputSection>
                 </Container>
             )}
-            { /* TODO: Add Proposed Action here */}
             {value?.type_of_dref === TYPE_IMMINENT && (
                 <Container
                     heading={strings.drefFormProposedActions}
-                />
+                >
+                    <NonFieldError error={getErrorObject(error?.proposed_action)} />
+                    {value.proposed_action?.map((action, i) => (
+                        <ProposedActionsInput
+                            key={action.client_id}
+                            index={i}
+                            value={action}
+                            onChange={handleProposedActionChange}
+                            error={getErrorObject(error?.proposed_action)}
+                        />
+                    ))}
+                    <InputSection
+                        description={(
+                            <div className={styles.warning}>
+                                <ErrorWarningFillIcon className={styles.icon} />
+                                {strings.drefFormProposedActionSelectBudgetNote}
+                            </div>
+                        )}
+                    >
+                        <div className={styles.expenditure}>
+                            <NumberInput
+                                required
+                                name="sub_total_cost"
+                                readOnly
+                                onChange={setFieldValue}
+                                label={strings.drefFormProposedActionSubTotal}
+                                value={value.sub_total_cost}
+                                disabled={disabled}
+                            />
+                            <NonFieldError
+                                error={error?.sub_total_cost}
+                            />
+                            <NumberInput
+                                required
+                                name="sub_total_expenditure_cost"
+                                readOnly
+                                onChange={setFieldValue}
+                                label={strings.drefFinalReportSubTotalExpenditure}
+                                value={value.sub_total_expenditure_cost}
+                                disabled={disabled}
+                            />
+                        </div>
+                        <NonFieldError
+                            error={error?.sub_total_expenditure_cost}
+                        />
+                        {value.surge_deployment_cost && (
+                            <div className={styles.expenditure}>
+                                <NumberInput
+                                    required
+                                    readOnly
+                                    name="surge_deployment_cost"
+                                    onChange={setFieldValue}
+                                    label={strings.drefFormProposedActionSurgeDeployment}
+                                    value={value.surge_deployment_cost}
+                                    error={error?.surge_deployment_cost}
+                                    disabled={disabled}
+                                />
+                                <NumberInput
+                                    required
+                                    readOnly
+                                    name="surge_deployment_expenditure_cost"
+                                    onChange={setFieldValue}
+                                    label={strings.drefFormProposedActionSurgeDeployment}
+                                    value={value.surge_deployment_cost}
+                                    error={error?.surge_deployment_cost}
+                                    disabled={disabled}
+                                />
+                            </div>
+                        )}
+                        <div className={styles.expenditure}>
+                            <NumberInput
+                                required
+                                readOnly
+                                name="indirect_cost"
+                                onChange={setFieldValue}
+                                label={strings.drefFormProposedActionIndirectCost}
+                                value={value.indirect_cost}
+                                error={error?.indirect_cost}
+                                disabled={disabled}
+                            />
+                            <NumberInput
+                                required
+                                readOnly
+                                name="indirect_expenditure_cost"
+                                onChange={setFieldValue}
+                                label={strings.drefFinalReportIndirectCostExpenditure}
+                                value={value.indirect_expenditure_cost}
+                                error={error?.indirect_expenditure_cost}
+                                disabled={disabled}
+                            />
+                        </div>
+                        <div className={styles.expenditure}>
+                            <NumberInput
+                                required
+                                readOnly
+                                name="total_cost"
+                                onChange={setFieldValue}
+                                label={strings.drefFormProposedActionTotal}
+                                value={value.total_cost}
+                                error={error?.total_cost}
+                                disabled={disabled}
+                            />
+                            <NumberInput
+                                required
+                                readOnly
+                                name="total_expenditure_cost"
+                                onChange={setFieldValue}
+                                label={strings.drefFinalReportTotalExpenditure}
+                                value={value.total_expenditure_cost}
+                                error={error?.total_expenditure_cost}
+                                disabled={disabled}
+                            />
+                        </div>
+                    </InputSection>
+                </Container>
+            )}
+            {value?.type_of_dref === DREF_TYPE_IMMINENT && (
+                <Container
+                    heading={strings.drefFormActionTaken}
+                >
+                    <InputSection
+                        title={strings.drefFinalReportMitigationEfforts}
+                        description={strings.drefFinalReportMitigationEffortsDescription}
+                    >
+                        <TextArea
+                            label={strings.drefFormOperationDescription}
+                            name="mitigation_efforts_and_achievements"
+                            onChange={setFieldValue}
+                            value={value.mitigation_efforts_and_achievements}
+                            error={error?.mitigation_efforts_and_achievements}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                    <InputSection
+                        title={strings.drefFinalReportLessonsLearnt}
+                    >
+                        <TextArea
+                            label={strings.drefFormOperationDescription}
+                            name="lessons_learned_and_challenges"
+                            onChange={setFieldValue}
+                            value={value.lessons_learned_and_challenges}
+                            error={error?.lessons_learned_and_challenges}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                </Container>
             )}
             {value?.type_of_dref !== DREF_TYPE_IMMINENT && (
                 <Container

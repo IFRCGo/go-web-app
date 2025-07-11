@@ -1,0 +1,21 @@
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-2xl);
+
+    .add-need-container,
+    .add-ns-action-container {
+        display: flex;
+        align-items: center;
+        gap: var(--go-ui-spacing-md);
+        flex-wrap: wrap;
+
+        .input {
+            flex-grow: 1;
+        }
+
+        .action {
+            flex-shrink: 0;
+        }
+    }
+}

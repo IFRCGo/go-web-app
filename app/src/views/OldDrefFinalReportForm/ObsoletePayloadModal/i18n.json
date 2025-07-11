@@ -1,0 +1,11 @@
+{
+    "namespace": "drefFinalReportForm",
+    "strings": {
+        "drefConflictWhileSaving": "There's a newer version of current DREF application which was modified by &nbsp;",
+        "drefChangesWillBeOverridden": "If you continue saving, the previous changes will be overwritten by your changes.",
+        "drefChangesConflictWhileSaving": "Conflict while saving",
+        "drefChangesCancelButton": "Cancel",
+        "drefChangesOverwriteButton": "Overwrite",
+        "drefChangesNoteLabel": "Note:"
+    }
+}

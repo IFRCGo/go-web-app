@@ -1,0 +1,26 @@
+{
+    "namespace": "drefFinalReportForm",
+    "strings": {
+        "formPageTitle": "IFRC GO - DREF Final Report",
+        "formSaveButtonLabel": "Save",
+        "formSubmitButtonLabel": "Submit",
+        "formContinueButtonLabel": "Continue",
+        "formSaveRequestSuccessMessage": "DREF Final Report created/updated successfully",
+        "formSaveRequestFailureMessage": "Failed to create/update DREF Final Report",
+        "formLoadRequestFailureMessage": "Failed to load DREF Final Report",
+        "formExportLabel": "Export",
+        "formPageHeading": "DREF Final Report",
+        "formTabOverviewLabel": "Operation Overview",
+        "formTabEventDetailLabel": "Event Detail",
+        "formTabActionsLabel": "Actions/Needs",
+        "formTabOperationLabel": "Operation",
+        "formTabSubmissionLabel": "Operational timeframes and contacts",
+        "formNotAvailableInSelectedLanguageMessage": "DREF Final Report is not available for edit in the selected language!",
+        "formLoadingMessage": "Loading DREF Final Report...",
+        "formLoadErrorTitle": "Failed to load DREF Final Report",
+        "formLoadErrorDescription": "There was an error loading the DREF Final Report",
+        "formLoadErrorHelpText": "Please make sure that the final report with given id exists and you have the permission to view it",
+        "formBackButtonLabel": "Back",
+        "drefFeedbackForm": "Provide feedback on IFRC DREF"
+    }
+}

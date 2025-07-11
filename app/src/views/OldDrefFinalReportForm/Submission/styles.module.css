@@ -1,0 +1,5 @@
+.submission {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-2xl);
+}

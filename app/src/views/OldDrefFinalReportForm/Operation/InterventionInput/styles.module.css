@@ -1,0 +1,10 @@
+.intervention-input {
+    .action {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .empty-message {
+        color: var(--go-ui-color-text-light);
+    }
+}

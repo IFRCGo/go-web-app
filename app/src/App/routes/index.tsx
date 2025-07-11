@@ -1018,6 +1018,37 @@ const drefFinalReportExport = customWrapRoute({
     },
 });
 
+// TODO: Remove me after implementation of DrefFinalReport for imminent
+const oldDrefFinalReportForm = customWrapRoute({
+    parent: rootLayout,
+    path: 'old-dref-final-reports/:finalReportId/edit',
+    component: {
+        render: () => import('#views/OldDrefFinalReportForm'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Edit DREF Final Report Form',
+        visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
+    },
+});
+
+const oldDrefFinalReportExport = customWrapRoute({
+    path: 'old-dref-final-reports/:finalReportId/export',
+    component: {
+        render: () => import('#views/OldDrefFinalReportExport'),
+        props: {},
+    },
+    parent: rootLayout,
+    wrapperComponent: Auth,
+    context: {
+        title: 'DREF Final Report Export',
+        visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
+    },
+});
+
 const fieldReportFormNew = customWrapRoute({
     parent: rootLayout,
     path: 'field-reports/new',
@@ -1325,6 +1356,9 @@ const wrappedRoutes = {
     ...countryRoutes,
     ...surgeRoutes,
 
+    // TODO: Remove me after implementation of DrefFinalReport for imminent
+    oldDrefFinalReportForm,
+    oldDrefFinalReportExport,
     // Redirects
     preparednessOperationalLearning,
     obsoleteFieldReportDetails,

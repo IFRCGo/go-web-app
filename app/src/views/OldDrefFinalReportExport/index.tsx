@@ -17,26 +17,17 @@ import {
     TextOutput,
     type TextOutputProps,
 } from '@ifrc-go/ui/printable';
-import {
-    DEFAULT_PRINT_DATE_FORMAT,
-    sumSafe,
-} from '@ifrc-go/ui/utils';
+import { DEFAULT_PRINT_DATE_FORMAT } from '@ifrc-go/ui/utils';
 import {
     _cs,
     isDefined,
     isFalsyString,
     isNotDefined,
     isTruthyString,
-    listToGroupList,
-    mapToList,
 } from '@togglecorp/fujs';
 
-import earlyActionsIcon from '#assets/icons/early_actions.svg';
-import earlyResponseIcon from '#assets/icons/early_response.svg';
 import ifrcLogo from '#assets/icons/ifrc-square.png';
 import Link from '#components/printable/Link';
-import SelectOutput from '#components/SelectOutput';
-import usePrimarySector, { type PrimarySector } from '#hooks/domain/usePrimarySector';
 import {
     DISASTER_CATEGORY_ORANGE,
     DISASTER_CATEGORY_RED,
@@ -51,10 +42,6 @@ import {
     plannedInterventionOrder,
 } from '#utils/domain/dref';
 import { useRequest } from '#utils/restRequest';
-import {
-    EARLY_ACTION,
-    EARLY_RESPONSE,
-} from '#views/DrefFinalReportForm/common';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -76,21 +63,12 @@ const colorMap: Record<DisasterCategory, string> = {
     [DISASTER_CATEGORY_RED]: styles.red,
 };
 
-function primarySectoryLabelSelector(option: PrimarySector) {
-    return option.label;
-}
-
-function primarySectoryKeySelector(option: PrimarySector) {
-    return option.key;
-}
-
 /** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { finalReportId } = useParams<{ finalReportId: string }>();
     const [previewReady, setPreviewReady] = useState(false);
     const strings = useTranslation(i18n);
-    const primarySectorOptions = usePrimarySector();
 
     const {
         // pending: fetchingDref,
@@ -170,58 +148,6 @@ export function Component() {
         [filteredIdentifiedNeedsAndGaps],
     );
 
-    const groupedProposedActions = useMemo(() => {
-        if (isNotDefined(drefResponse) || isNotDefined(drefResponse.proposed_action)) {
-            return [];
-        }
-
-        const typeGroupedActions = listToGroupList(
-            drefResponse.proposed_action.map((action) => {
-                const {
-                    proposed_type,
-                    activities,
-                    ...other
-                } = action;
-
-                if (isNotDefined(proposed_type)
-                    || isNotDefined(activities)
-                    || activities.length === 0
-                ) {
-                    return undefined;
-                }
-
-                return {
-                    ...other,
-                    activities,
-                    proposed_type,
-                };
-            }).filter(isDefined),
-            ({ proposed_type }) => proposed_type,
-        );
-
-        const proposedActivityIconMap: Record<string, string> = {
-            [EARLY_ACTION]: earlyActionsIcon,
-            [EARLY_RESPONSE]: earlyResponseIcon,
-        };
-
-        return mapToList(
-            typeGroupedActions,
-            (list, key) => {
-                const numActivities = sumSafe(
-                    list.map(({ activities }) => activities.length),
-                );
-
-                return {
-                    key,
-                    title: list[0].proposed_type_display,
-                    numActivities,
-                    actions: list,
-                    icon: proposedActivityIconMap[key],
-                };
-            },
-        );
-    }, [drefResponse]);
-
     const showMainDonorsSection = isTruthyString(drefResponse?.main_donors?.trim());
     const eventDescriptionDefined = isTruthyString(drefResponse?.event_description?.trim());
     const eventScopeDefined = drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT
@@ -236,8 +162,6 @@ export function Component() {
     const sourceInformationDefined = isDefined(drefResponse)
         && isDefined(drefResponse.source_information)
         && drefResponse.source_information.length > 0;
-
-    const showProposedActions = groupedProposedActions.length > 0;
     const showEventDescriptionSection = eventDescriptionDefined
         || eventScopeDefined
         || imagesFileDefined
@@ -314,15 +238,6 @@ export function Component() {
     const financialReportDescriptionDefined = isTruthyString(
         drefResponse?.financial_report_description?.trim(),
     );
-
-    const mitigationEffortsDefined = isTruthyString(
-        drefResponse?.mitigation_efforts_and_achievements?.trim(),
-    );
-
-    const lessonsLearnedDefined = isTruthyString(
-        drefResponse?.lessons_learned_and_challenges?.trim(),
-    );
-
     const financialReportPreviewDefined = isTruthyString(
         drefResponse?.financial_report_preview?.trim(),
     );
@@ -395,15 +310,9 @@ export function Component() {
                     alt={strings.imageLogoIFRCAlt}
                 />
                 <div>
-                    {drefResponse?.type_of_dref === DREF_TYPE_IMMINENT ? (
-                        <Heading level={1}>
-                            {strings.imminentExportTitle}
-                        </Heading>
-                    ) : (
-                        <Heading level={1}>
-                            {strings.exportTitle}
-                        </Heading>
-                    )}
+                    <Heading level={1}>
+                        {strings.exportTitle}
+                    </Heading>
                     <div className={styles.drefContentTitle}>
                         {drefResponse?.title}
                     </div>
@@ -531,12 +440,9 @@ export function Component() {
                 <>
                     <div className={styles.pageBreak} />
                     <Heading level={2}>
-                        {drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
-                            ? strings.eventDevelopmentHeading
-                            : strings.eventDescriptionSectionHeading}
+                        {strings.eventDescriptionSectionHeading}
                     </Heading>
-                    {isTruthyString(drefResponse?.event_map_file?.file)
-                        && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
+                    {isTruthyString(drefResponse?.event_map_file?.file) && (
                         <Container>
                             <Image
                                 src={drefResponse?.event_map_file?.file}
@@ -544,7 +450,7 @@ export function Component() {
                             />
                         </Container>
                     )}
-                    {eventTextDefined && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
+                    {eventTextDefined && (
                         <Container heading={strings.approximateDateOfImpactHeading}>
                             <DescriptionText>
                                 {drefResponse.event_text}
@@ -566,7 +472,7 @@ export function Component() {
                     {eventDescriptionDefined && (
                         <Container
                             heading={drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
-                                ? strings.eventDevelopmentSectionHeading
+                                ? strings.situationUpdateSectionHeading
                                 : strings.whatWhereWhenSectionHeading}
                         >
                             <DescriptionText>
@@ -589,9 +495,7 @@ export function Component() {
                     )}
                     {eventScopeDefined && (
                         <Container
-                            heading={drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
-                                ? strings.eventsImpactHeading
-                                : strings.scopeAndScaleSectionHeading}
+                            heading={strings.scopeAndScaleSectionHeading}
                         >
                             <DescriptionText>
                                 {drefResponse?.event_scope}
@@ -633,144 +537,7 @@ export function Component() {
                     )}
                 </>
             )}
-            {showProposedActions && drefResponse?.type_of_dref === DREF_TYPE_IMMINENT && (
-                <Container
-                    heading={strings.actionsTaken}
-                    headingLevel={3}
-                    childrenContainerClassName={styles.proposedActions}
-                >
-                    <div className={styles.actionTitleLabel} />
-                    <div className={styles.actionTitleLabel}>
-                        {strings.proposedActionsSector}
-                    </div>
-                    <div className={styles.actionTitleLabel}>
-                        {strings.proposedActionsActivities}
-                    </div>
-                    <div className={styles.actionTitleLabel}>
-                        {strings.priorityActionsBudget}
-                    </div>
-                    <div className={styles.actionTitleLabel}>
-                        Expenditure
-                    </div>
-                    {groupedProposedActions.map((proposedAction) => (
-                        <Fragment key={proposedAction.key}>
-                            <div
-                                className={styles.proposedAction}
-                                style={{
-                                    gridRow: `span ${proposedAction.numActivities}`,
-                                }}
-                            >
-                                <img
-                                    className={styles.icon}
-                                    src={proposedAction.icon}
-                                    alt=""
-                                />
-                                <div className={styles.title}>
-                                    {proposedAction.title}
-                                </div>
-                            </div>
-                            {proposedAction.actions.map((action) => (
-                                <Fragment key={action.id}>
-                                    {action.activities.map((activity, i) => (
-                                        <Fragment key={activity.id}>
-                                            <SelectOutput
-                                                className={styles.sector}
-                                                options={primarySectorOptions}
-                                                label={undefined}
-                                                labelSelector={primarySectoryLabelSelector}
-                                                keySelector={primarySectoryKeySelector}
-                                                value={activity.sector}
-                                            />
-                                            <div className={styles.activity}>
-                                                {activity.activity}
-                                            </div>
-                                            {i === 0 && (
-                                                <div
-                                                    className={styles.budget}
-                                                    style={{ gridRow: `span ${action.activities.length}` }}
-                                                >
-                                                    <NumberOutput
-                                                        value={action.total_budget}
-                                                        prefix={strings.chfPrefix}
-                                                    />
-                                                </div>
-                                            )}
-                                            {i === 0 && (
-                                                <div
-                                                    className={styles.budget}
-                                                    style={{ gridRow: `span ${action.activities.length}` }}
-                                                >
-                                                    <NumberOutput
-                                                        value={action.total_expenditure}
-                                                        prefix={strings.chfPrefix}
-                                                    />
-                                                </div>
-                                            )}
-                                        </Fragment>
-                                    ))}
-                                </Fragment>
-                            ))}
-                        </Fragment>
-                    ))}
-                    <div className={styles.costLabel}>
-                        {strings.priorityActionsSubTotal}
-                    </div>
-                    <NumberOutput
-                        className={styles.costValue}
-                        value={drefResponse?.sub_total_cost}
-                        prefix={strings.chfPrefix}
-                    />
-                    <NumberOutput
-                        className={styles.costValue}
-                        value={drefResponse?.sub_total_expenditure_cost}
-                        prefix={strings.chfPrefix}
-                    />
-                    {isDefined(drefResponse?.surge_deployment_cost) && (
-                        <>
-                            <div className={styles.costLabel}>
-                                {strings.priorityActionsSurgeDeployment}
-                            </div>
-                            <NumberOutput
-                                className={styles.costValue}
-                                value={drefResponse.surge_deployment_cost}
-                                prefix={strings.chfPrefix}
-                            />
-                            <NumberOutput
-                                className={styles.costValue}
-                                value={drefResponse.surge_deployment_expenditure_cost}
-                                prefix={strings.chfPrefix}
-                            />
-                        </>
-                    )}
-                    <div className={styles.costLabel}>
-                        {strings.priorityActionsIndirectCost}
-                    </div>
-                    <NumberOutput
-                        className={styles.costValue}
-                        value={drefResponse?.indirect_cost}
-                        prefix={strings.chfPrefix}
-                    />
-                    <NumberOutput
-                        className={styles.costValue}
-                        value={drefResponse?.indirect_expenditure_cost}
-                        prefix={strings.chfPrefix}
-                    />
-                    <div className={styles.costLabel}>
-                        {strings.priorityActionsTotal}
-                    </div>
-                    <NumberOutput
-                        className={styles.costValue}
-                        value={drefResponse?.total_cost}
-                        prefix={strings.chfPrefix}
-                    />
-                    <NumberOutput
-                        className={styles.costValue}
-                        value={drefResponse?.total_expenditure_cost}
-                        prefix={strings.chfPrefix}
-                    />
-                </Container>
-            )}
-            {showNsActionsSection && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
+            {showNsActionsSection && (
                 <Container
                     heading={strings.nationalSocietyActionsHeading}
                     childrenContainerClassName={styles.nsActionsContent}
@@ -792,8 +559,7 @@ export function Component() {
                     )}
                 </Container>
             )}
-            {showMovementPartnersActionsSection
-                && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
+            {showMovementPartnersActionsSection && (
                 <Container
                     heading={strings.movementPartnersActionsHeading}
                     childrenContainerClassName={styles.movementPartnersActionsContent}
@@ -817,7 +583,7 @@ export function Component() {
                     )}
                 </Container>
             )}
-            {icrcActionsDefined && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
+            {icrcActionsDefined && (
                 <Container
                     heading={strings.icrcActionsHeading}
                     childrenContainerClassName={styles.icrcActionsContent}
@@ -828,7 +594,7 @@ export function Component() {
                     </DescriptionText>
                 </Container>
             )}
-            {showOtherActorsActionsSection && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
+            {showOtherActorsActionsSection && (
                 <Container
                     heading={strings.otherActionsHeading}
                     childrenContainerClassName={styles.otherActionsContent}
@@ -870,7 +636,7 @@ export function Component() {
                     )}
                 </Container>
             )}
-            {showNeedsIdentifiedSection && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
+            {showNeedsIdentifiedSection && (
                 <>
                     <Heading level={2}>
                         {strings.needsIdentifiedSectionHeading}
@@ -894,7 +660,7 @@ export function Component() {
                     )}
                 </>
             )}
-            {showOperationStrategySection && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
+            {showOperationStrategySection && (
                 <>
                     <Heading level={2}>
                         {strings.operationalStrategySectionHeading}
@@ -919,7 +685,7 @@ export function Component() {
                     )}
                 </>
             )}
-            {showTargetingStrategySection && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
+            {showTargetingStrategySection && (
                 <>
                     <Heading level={2}>
                         {strings.targetingStrategySectionHeading}
@@ -944,85 +710,83 @@ export function Component() {
                     )}
                 </>
             )}
-            {drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
-                <Container
-                    heading={strings.targetPopulationSectionHeading}
-                    headingLevel={2}
-                    childrenContainerClassName={styles.targetPopulationContent}
-                >
-                    {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
-                        <BlockTextOutput
-                            label={strings.womenLabel}
-                            value={drefResponse?.assisted_num_of_women}
-                            valueType="number"
-                            strongValue
-                        />
-                    )}
+            <Container
+                heading={strings.targetPopulationSectionHeading}
+                headingLevel={2}
+                childrenContainerClassName={styles.targetPopulationContent}
+            >
+                {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
                     <BlockTextOutput
-                        label={strings.ruralLabel}
-                        value={drefResponse?.people_per_local}
-                        valueType="number"
-                        suffix="%"
-                        strongValue
-                    />
-                    {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
-                        <BlockTextOutput
-                            label={strings.girlsLabel}
-                            value={drefResponse?.assisted_num_of_girls_under_18}
-                            valueType="number"
-                            strongValue
-                        />
-                    )}
-                    <BlockTextOutput
-                        label={strings.urbanLabel}
-                        value={drefResponse?.people_per_urban}
-                        suffix="%"
+                        label={strings.womenLabel}
+                        value={drefResponse?.assisted_num_of_women}
                         valueType="number"
                         strongValue
                     />
-                    {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
-                        <BlockTextOutput
-                            label={strings.menLabel}
-                            value={drefResponse?.assisted_num_of_men}
-                            valueType="number"
-                            strongValue
-                        />
-                    )}
+                )}
+                <BlockTextOutput
+                    label={strings.ruralLabel}
+                    value={drefResponse?.people_per_local}
+                    valueType="number"
+                    suffix="%"
+                    strongValue
+                />
+                {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
                     <BlockTextOutput
-                        className={styles.disabilitiesPopulation}
-                        label={strings.peopleWithDisabilitiesLabel}
-                        value={drefResponse?.disability_people_per}
-                        suffix="%"
+                        label={strings.girlsLabel}
+                        value={drefResponse?.assisted_num_of_girls_under_18}
                         valueType="number"
                         strongValue
                     />
-                    {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
-                        <BlockTextOutput
-                            label={strings.boysLabel}
-                            value={drefResponse?.assisted_num_of_boys_under_18}
-                            valueType="number"
-                            strongValue
-                        />
-                    )}
-                    <div className={styles.emptyBlock} />
+                )}
+                <BlockTextOutput
+                    label={strings.urbanLabel}
+                    value={drefResponse?.people_per_urban}
+                    suffix="%"
+                    valueType="number"
+                    strongValue
+                />
+                {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
                     <BlockTextOutput
-                        className={styles.metaItem}
-                        label={strings.totalAssistedPopulationLabel}
-                        value={drefResponse?.num_assisted}
+                        label={strings.menLabel}
+                        value={drefResponse?.assisted_num_of_men}
                         valueType="number"
                         strongValue
                     />
-                    <div className={styles.emptyBlock} />
+                )}
+                <BlockTextOutput
+                    className={styles.disabilitiesPopulation}
+                    label={strings.peopleWithDisabilitiesLabel}
+                    value={drefResponse?.disability_people_per}
+                    suffix="%"
+                    valueType="number"
+                    strongValue
+                />
+                {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
                     <BlockTextOutput
-                        label={strings.targetedPopulationLabel}
-                        value={drefResponse?.total_targeted_population}
-                        valueClassName={styles.totalTargetedPopulationValue}
+                        label={strings.boysLabel}
+                        value={drefResponse?.assisted_num_of_boys_under_18}
                         valueType="number"
                         strongValue
                     />
-                </Container>
-            )}
-            {showRiskAndSecuritySection && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
+                )}
+                <div className={styles.emptyBlock} />
+                <BlockTextOutput
+                    className={styles.metaItem}
+                    label={strings.totalAssistedPopulationLabel}
+                    value={drefResponse?.num_assisted}
+                    valueType="number"
+                    strongValue
+                />
+                <div className={styles.emptyBlock} />
+                <BlockTextOutput
+                    label={strings.targetedPopulationLabel}
+                    value={drefResponse?.total_targeted_population}
+                    valueClassName={styles.totalTargetedPopulationValue}
+                    valueType="number"
+                    strongValue
+                />
+            </Container>
+            {showRiskAndSecuritySection && (
                 <Container
                     childrenContainerClassName={styles.riskAndSecuritySection}
                     heading={strings.riskAndSecuritySectionHeading}
@@ -1112,7 +876,7 @@ export function Component() {
                     )}
                 </Container>
             )}
-            {plannedInterventionDefined && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
+            {plannedInterventionDefined && (
                 <>
                     <Heading level={2}>
                         {strings.interventionSectionHeading}
@@ -1237,11 +1001,9 @@ export function Component() {
             {showFinancialReportSection && (
                 <>
                     <div className={styles.pageBreak} />
-                    {drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
-                        <Heading level={2}>
-                            {strings.financialReportSectionHeading}
-                        </Heading>
-                    )}
+                    <Heading level={2}>
+                        {strings.financialReportSectionHeading}
+                    </Heading>
                     {financialReportPreviewDefined && (
                         <Container>
                             <Image
@@ -1260,27 +1022,9 @@ export function Component() {
                         </Container>
                     )}
                     {financialReportDescriptionDefined && (
-                        <Container heading={drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
-                            ? strings.financialReportVariancesModificationHeading
-                            : strings.financialReportVariancesHeading}
-                        >
+                        <Container heading={strings.financialReportVariancesHeading}>
                             <DescriptionText>
                                 {drefResponse?.financial_report_description}
-                            </DescriptionText>
-                        </Container>
-                    )}
-                    {mitigationEffortsDefined
-                        && drefResponse?.type_of_dref === DREF_TYPE_IMMINENT && (
-                        <Container heading={strings.mitigationEffortsAndAchievements}>
-                            <DescriptionText>
-                                {drefResponse?.mitigation_efforts_and_achievements}
-                            </DescriptionText>
-                        </Container>
-                    )}
-                    {lessonsLearnedDefined && drefResponse?.type_of_dref === DREF_TYPE_IMMINENT && (
-                        <Container heading={strings.lessonsLearntAndChallenges}>
-                            <DescriptionText>
-                                {drefResponse?.lessons_learned_and_challenges}
                             </DescriptionText>
                         </Container>
                     )}

@@ -1,8 +1,5 @@
 import { type DeepReplace } from '@ifrc-go/ui/utils';
-import {
-    isDefined,
-    type Maybe,
-} from '@togglecorp/fujs';
+import { isDefined } from '@togglecorp/fujs';
 import {
     addCondition,
     emailCondition,
@@ -26,8 +23,6 @@ import {
 import { type GoApiBody } from '#utils/restRequest';
 
 import {
-    SUB_TOTAL,
-    SURGE_DEPLOYMENT_COST,
     TYPE_ASSESSMENT,
     TYPE_IMMINENT,
 } from './common';
@@ -56,9 +51,6 @@ type NeedIdentifiedResponse = NonNullable<FinalReportRequestBody['needs_identifi
 type NsActionResponse = NonNullable<FinalReportRequestBody['national_society_actions']>[number];
 type InterventionResponse = NonNullable<FinalReportRequestBody['planned_interventions']>[number];
 type IndicatorResponse = NonNullable<InterventionResponse['indicators']>[number];
-type ProposedActionResponse = NonNullable<FinalReportRequestBody['proposed_action']>[number];
-type ActivitiesResponse = NonNullable<ProposedActionResponse['activities']>[number];
-
 type RiskSecurityResponse = NonNullable<FinalReportRequestBody['risk_security']>[number];
 type ImagesFileResponse = NonNullable<FinalReportRequestBody['images_file']>[number];
 type SourceInformationResponse = NonNullable<FinalReportRequestBody['source_information']>[number];
@@ -67,8 +59,6 @@ type NeedIdentifiedFormFields = NeedIdentifiedResponse & { client_id: string };
 type NsActionFormFields = NsActionResponse & { client_id: string; }
 type InterventionFormFields = InterventionResponse & { client_id: string };
 type IndicatorFormFields = IndicatorResponse & { client_id: string };
-type ProposedActionFormFields = ProposedActionResponse & { client_id: string };
-type ActivitiesFormFields = ActivitiesResponse & { client_id: string };
 type SourceInformationFormFields = SourceInformationResponse & { client_id: string };
 
 type RiskSecurityFormFields = RiskSecurityResponse & { client_id: string; };
@@ -90,29 +80,21 @@ type FinalReportFormFields = (
                             DeepReplace<
                                 DeepReplace<
                                     DeepReplace<
-                                        DeepReplace<
-                                            DeepReplace<
-                                                FinalReportRequestBody,
-                                                NeedIdentifiedResponse,
-                                                NeedIdentifiedFormFields
-                                            >,
-                                            NsActionResponse,
-                                            NsActionFormFields
-                                        >,
-                                        InterventionResponse,
-                                        InterventionFormFields
+                                        FinalReportRequestBody,
+                                        NeedIdentifiedResponse,
+                                        NeedIdentifiedFormFields
                                     >,
-                                    IndicatorResponse,
-                                    IndicatorFormFields
+                                    NsActionResponse,
+                                    NsActionFormFields
                                 >,
-                                IndicatorResponse,
-                                IndicatorFormFields
+                                InterventionResponse,
+                                InterventionFormFields
                             >,
-                            ProposedActionResponse,
-                            ProposedActionFormFields
+                            IndicatorResponse,
+                            IndicatorFormFields
                         >,
-                        ActivitiesResponse,
-                        ActivitiesFormFields
+                        IndicatorResponse,
+                        IndicatorFormFields
                     >,
                     RiskSecurityResponse,
                     RiskSecurityFormFields
@@ -143,8 +125,6 @@ type NeedsIdentifiedFields = ReturnType<ObjectSchema<NonNullable<PartialFinalRep
 type RiskSecurityFields = ReturnType<ObjectSchema<NonNullable<PartialFinalReport['risk_security']>[number], PartialFinalReport>['fields']>;
 type SourceInformationFields = ReturnType<ObjectSchema<NonNullable<PartialFinalReport['source_information']>[number], PartialFinalReport>['fields']>;
 type PlannedInterventionFields = ReturnType<ObjectSchema<NonNullable<PartialFinalReport['planned_interventions']>[number], PartialFinalReport>['fields']>;
-type ProposedActionsFields = ReturnType<ObjectSchema<NonNullable<PartialFinalReport['proposed_action']>[number], PartialFinalReport>['fields']>;
-type ActivitiesFields = ReturnType<ObjectSchema<NonNullable<NonNullable<PartialFinalReport['proposed_action']>[number]['activities']>[number], PartialFinalReport>['fields']>;
 type IndicatorFields = ReturnType<ObjectSchema<NonNullable<NonNullable<PartialFinalReport['planned_interventions']>[number]['indicators']>[number], PartialFinalReport>['fields']>;
 
 const schema: FinalReportFormSchema = {
@@ -186,8 +166,6 @@ const schema: FinalReportFormSchema = {
             change_in_operational_strategy: {},
             financial_report: {},
             financial_report_description: {},
-            mitigation_efforts_and_achievements: {},
-            lessons_learned_and_challenges: {},
 
             // EVENT DETAILS
             number_of_people_affected: {
@@ -532,15 +510,6 @@ const schema: FinalReportFormSchema = {
             'assisted_num_of_girls_under_18',
             'assisted_num_of_boys_under_18',
             'people_targeted_with_early_actions',
-            'proposed_action',
-            'sub_total_cost',
-            'total_cost',
-            'indirect_cost',
-            'sub_total_expenditure_cost',
-            'total_expenditure_cost',
-            'indirect_expenditure_cost',
-            'surge_deployment_expenditure_cost',
-            'surge_deployment_cost',
         ] as const;
         type OperationDrefTypeRelatedFields = Pick<
             FinalReportFormSchemaFields,
@@ -558,15 +527,6 @@ const schema: FinalReportFormSchema = {
                     assisted_num_of_girls_under_18: { forceValue: nullValue },
                     assisted_num_of_boys_under_18: { forceValue: nullValue },
                     people_targeted_with_early_actions: { forceValue: nullValue },
-                    proposed_action: { forceValue: [] },
-                    sub_total_cost: { forceValue: nullValue },
-                    surge_deployment_expenditure_cost: { forceValue: nullValue },
-                    total_cost: { forceValue: nullValue },
-                    sub_total_expenditure_cost: { forceValue: nullValue },
-                    total_expenditure_cost: { forceValue: nullValue },
-                    indirect_expenditure_cost: { forceValue: nullValue },
-                    indirect_cost: { forceValue: nullValue },
-                    surge_deployment_cost: { forceValue: nullValue },
                 };
                 if (val?.type_of_dref !== TYPE_ASSESSMENT) {
                     conditionalFields = {
@@ -582,100 +542,6 @@ const schema: FinalReportFormSchema = {
                         ...conditionalFields,
                         people_targeted_with_early_actions: {
                             validations: [positiveIntegerCondition],
-                        },
-                        proposed_action: {
-                            required: true,
-                            requiredValidation: requiredListCondition,
-                            keySelector: (action) => action.client_id,
-                            member: () => ({
-                                fields: (): ProposedActionsFields => ({
-                                    client_id: {},
-                                    id: { defaultValue: undefinedValue },
-                                    total_budget: {
-                                        required: true,
-                                        validations: [
-                                            positiveIntegerCondition,
-                                            lessThanOrEqualToCondition(MAX_INT_LIMIT),
-                                        ],
-                                    },
-                                    proposed_type: {
-                                        required: true,
-                                    },
-                                    total_expenditure: {
-                                        required: true,
-                                        validations: [
-                                            positiveIntegerCondition,
-                                            lessThanOrEqualToCondition(MAX_INT_LIMIT),
-                                        ],
-                                    },
-                                    activities: {
-                                        required: true,
-                                        requiredValidation: requiredListCondition,
-                                        keySelector: (activity) => activity.client_id,
-                                        member: () => ({
-                                            fields: (): ActivitiesFields => ({
-                                                client_id: {},
-                                                id: { defaultValue: undefinedValue },
-                                                sector: { required: true },
-                                                activity: {},
-                                            }),
-                                        }),
-                                        validation: requiredListCondition,
-                                    },
-                                }),
-                            }),
-                        },
-                        sub_total_cost: {
-                            required: true,
-                            validations: [
-                                (value: Maybe<number>) => (
-                                    // FIXME: use translations
-                                    isDefined(value) && value !== SUB_TOTAL
-                                        ? 'The sub-total of the budgets should be exactly CHF 75000'
-                                        : undefined
-                                ),
-                            ],
-                        },
-                        total_expenditure_cost: {
-                            required: true,
-                            validations: [
-                                positiveIntegerCondition,
-                                lessThanOrEqualToCondition(MAX_INT_LIMIT),
-                            ],
-                        },
-                        total_cost: {
-                            required: true,
-                            validations: [
-                                positiveIntegerCondition,
-                                lessThanOrEqualToCondition(MAX_INT_LIMIT),
-                            ],
-                        },
-                        sub_total_expenditure_cost: {
-                            required: true,
-                        },
-                        surge_deployment_expenditure_cost: {
-                            validations: [
-                                positiveIntegerCondition,
-                                lessThanOrEqualToCondition(SURGE_DEPLOYMENT_COST),
-                            ],
-                        },
-                        surge_deployment_cost: {
-                            validations: [
-                                positiveIntegerCondition,
-                                lessThanOrEqualToCondition(SURGE_DEPLOYMENT_COST),
-                            ],
-                        },
-                        indirect_cost: {
-                            required: true,
-                            validations: [
-                                positiveIntegerCondition,
-                            ],
-                        },
-                        indirect_expenditure_cost: {
-                            required: true,
-                            validations: [
-                                positiveIntegerCondition,
-                            ],
                         },
                     };
                 }
