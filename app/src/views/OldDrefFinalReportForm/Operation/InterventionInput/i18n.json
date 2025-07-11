@@ -1,0 +1,19 @@
+{
+    "namespace": "drefFinalReportForm",
+    "strings": {
+        "drefFormInterventionPersonAssistedLabel": "Persons Assisted",
+        "drefOperationalUpdateIndicatorMaleLabel": "Male",
+        "drefOperationalUpdateIndicatorFemaleLabel": "Female",
+        "finalReportPlannedInterventionNarrativeAchievement": "Narrative description of achievements ",
+        "finalReportPlannedInterventionLessonsLearnt": "Lessons Learnt",
+        "finalReportPlannedInterventionChallenges": "Challenges",
+        "drefFormInterventionBudgetLabel": "Budget",
+        "drefFormInterventionPersonTargetedLabel": "Persons Targeted",
+        "drefFormListOfActivities": "List of Activities",
+        "drefAddIndicatorButtonLabel": "Add Indicator",
+        "drefFormIndicatorsLabel": "Indicators",
+        "drefFormRemoveIntervention": "Remove Intervention",
+        "drefFormNoIndicatorMessage": "No indicators",
+        "drefFinalReportRemoveIntervention": "Remove Intervention"
+    }
+}

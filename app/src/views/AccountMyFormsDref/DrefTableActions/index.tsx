@@ -298,7 +298,7 @@ function DrefTableActions(props: Props) {
         body: (drefId: number) => ({ dref: drefId } as FinalReportRequestBody),
         onSuccess: (response) => {
             navigate(
-                'drefFinalReportForm',
+                isDrefImminentV2 ? 'drefFinalReportForm' : 'oldDrefFinalReportForm',
                 { params: { finalReportId: response.id } },
             );
         },
@@ -514,7 +514,7 @@ function DrefTableActions(props: Props) {
             )}
             {status === DREF_STATUS_IN_PROGRESS && applicationType === 'FINAL_REPORT' && (
                 <Link
-                    to="drefFinalReportForm"
+                    to={isDrefImminentV2 ? 'drefFinalReportForm' : 'oldDrefFinalReportForm'}
                     urlParams={{ finalReportId: id }}
                     variant="secondary"
                     icons={<PencilLineIcon className={styles.icon} />}

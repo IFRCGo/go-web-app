@@ -24,7 +24,6 @@ import {
     isFalsyString,
     isNotDefined,
     isTruthyString,
-    randomString,
 } from '@togglecorp/fujs';
 import {
     removeNull,
@@ -39,10 +38,7 @@ import NonFieldError from '#components/NonFieldError';
 import Page from '#components/Page';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 import useAlert from '#hooks/useAlert';
-import {
-    DREF_TYPE_IMMINENT,
-    type TypeOfDrefEnum,
-} from '#utils/constants';
+import { DREF_TYPE_IMMINENT } from '#utils/constants';
 import {
     type GoApiResponse,
     useLazyRequest,
@@ -55,12 +51,7 @@ import {
 } from '#utils/restRequest/error';
 
 import Actions from './Actions';
-import {
-    checkTabErrors,
-    EARLY_ACTION,
-    EARLY_RESPONSE,
-    TYPE_IMMINENT,
-} from './common';
+import { checkTabErrors } from './common';
 import EventDetail from './EventDetail';
 import ObsoletePayloadModal from './ObsoletePayloadModal';
 import Operation from './Operation';
@@ -75,23 +66,7 @@ type GetFinalReportResponse = GoApiResponse<'/api/v2/dref-final-report/{id}/'>;
 
 type TabKeys = 'overview' | 'eventDetail' | 'actions' | 'operation' | 'submission';
 
-function getNextStep(current: TabKeys, direction: 1 | -1, typeOfDref: TypeOfDrefEnum | '' | undefined) {
-    if (typeOfDref === TYPE_IMMINENT && direction === 1) {
-        const mapping: { [key in TabKeys]?: TabKeys } = {
-            overview: 'eventDetail',
-            eventDetail: 'operation',
-            operation: 'submission',
-        };
-        return mapping[current];
-    }
-    if (typeOfDref === TYPE_IMMINENT && direction === -1) {
-        const mapping: { [key in TabKeys]?: TabKeys } = {
-            submission: 'operation',
-            operation: 'eventDetail',
-            eventDetail: 'overview',
-        };
-        return mapping[current];
-    }
+function getNextStep(current: TabKeys, direction: 1 | -1) {
     if (direction === 1) {
         const mapping: { [key in TabKeys]?: TabKeys } = {
             overview: 'eventDetail',
@@ -245,7 +220,6 @@ export function Component() {
                 images_file,
                 photos_file,
                 source_information,
-                proposed_action,
                 ...otherValues
             } = removeNull(response);
 
@@ -257,23 +231,6 @@ export function Component() {
                         indicators: intervention.indicators?.map(injectClientId),
                     }),
                 ),
-                proposed_action: isDefined(proposed_action)
-                && proposed_action.length > 1 ? proposed_action?.map(
-                        (action) => ({
-                            ...injectClientId(action),
-                            activities: action.activities?.map(injectClientId),
-                        }),
-                        // NOTE: Display early actions before early response
-                    ).sort((a, b) => a.proposed_type - b.proposed_type) : [
-                        {
-                            client_id: randomString(),
-                            proposed_type: EARLY_ACTION,
-                        },
-                        {
-                            client_id: randomString(),
-                            proposed_type: EARLY_RESPONSE,
-                        },
-                    ],
                 needs_identified: needs_identified?.map(injectClientId),
                 national_society_actions: national_society_actions?.map(injectClientId),
                 risk_security: risk_security?.map(injectClientId),
@@ -399,8 +356,8 @@ export function Component() {
         setActiveTab(newTab);
     }, []);
 
-    const nextStep = getNextStep(activeTab, 1, value.type_of_dref);
-    const prevStep = getNextStep(activeTab, -1, value.type_of_dref);
+    const nextStep = getNextStep(activeTab, 1);
+    const prevStep = getNextStep(activeTab, -1);
     const saveFinalReportPending = updateFinalReportPending;
     const disabled = fetchingFinalReport || saveFinalReportPending;
 
@@ -469,27 +426,21 @@ export function Component() {
                             step={2}
                             errored={checkTabErrors(formError, 'eventDetail')}
                         >
-                            {finalReportResponse?.type_of_dref !== DREF_TYPE_IMMINENT
-                                ? strings.formTabEventDetailLabel
-                                : strings.formTabEventDevelopmentLabel}
+                            {strings.formTabEventDetailLabel}
                         </Tab>
-                        {finalReportResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
-                            <Tab
-                                name="actions"
-                                step={3}
-                                errored={checkTabErrors(formError, 'actions')}
-                            >
-                                {strings.formTabActionsLabel}
-                            </Tab>
-                        )}
+                        <Tab
+                            name="actions"
+                            step={3}
+                            errored={checkTabErrors(formError, 'actions')}
+                        >
+                            {strings.formTabActionsLabel}
+                        </Tab>
                         <Tab
                             name="operation"
                             step={4}
                             errored={checkTabErrors(formError, 'operation')}
                         >
-                            {finalReportResponse?.type_of_dref !== DREF_TYPE_IMMINENT
-                                ? strings.formTabOperationLabel
-                                : strings.formTabImplementation}
+                            {strings.formTabOperationLabel}
                         </Tab>
                         <Tab
                             name="submission"
@@ -532,7 +483,6 @@ export function Component() {
                         <TabPanel name="overview">
                             <Overview
                                 value={value}
-                                setValue={setValue}
                                 setFieldValue={setFieldValue}
                                 fileIdToUrlMap={fileIdToUrlMap}
                                 isPreviousImminent={isPreviousImminent}

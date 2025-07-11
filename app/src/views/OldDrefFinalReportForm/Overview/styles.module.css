@@ -1,0 +1,36 @@
+.operation-overview {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-2xl);
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-md);
+
+        .title-container {
+            display: flex;
+            align-items: center;
+            gap: var(--go-ui-spacing-md);
+            flex-wrap: wrap;
+
+            .title-input {
+                flex-grow: 1;
+            }
+
+            .generate-title-button {
+                flex-shrink: 0;
+            }
+        }
+        .user-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--go-ui-spacing-xs);
+        }
+
+        .message {
+            flex-grow: 1;
+            min-height: 3rem;
+        }
+    }
+}

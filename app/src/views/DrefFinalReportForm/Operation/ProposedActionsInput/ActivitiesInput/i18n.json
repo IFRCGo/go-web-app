@@ -1,0 +1,8 @@
+{
+    "namespace": "drefFinalReportForm",
+    "strings": {
+        "drefFormProposedActionsListOfActivities": "List of Activities",
+        "drefFormProposedActionSector": "Sector",
+        "drefFormProposedActionRemoveSector": "Remove Sector"
+    }
+}

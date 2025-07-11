@@ -1,0 +1,31 @@
+{
+    "namespace": "drefFinalReportForm",
+    "strings": {
+        "finalReportNationalSocietiesActions": "National Society Actions",
+        "finalReportHaveNationalSocietyConducted": "Have the National Society conducted any intervention additionally to those part of this DREF Operation?",
+        "finalReportDescriptionOfAdditionalActivities": "Please provide a brief description of those additional activities",
+        "drefFormNationalSocietiesActionsDescription": "Please indicate a description of the ongoing response with if possible: Branches involved, number of volunteers/staff involved in actions, assets deployed/distributed, number of people reach. Impact/added value of the NS in the response already ongoing.",
+        "drefFormActionFieldsLabel": "Select the needs that apply.",
+        "drefFormAssessmentReportUploadLabel": "Assessment Report (Optional)",
+        "drefFormCoordinationMechanism": "Are there major coordination mechanisms in place?",
+        "drefFormCoordinationMechanismDescription": "List coordination mechanisms/platform in place at local/district and national level. Indicate the lead authorities/agencies. How the National Society is involved/positioned in this coordination. Does the NS in any lead/co-lead role? Any identified gap/overlap in the coordination (e.g., sector missing…)?",
+        "drefFormActionDescription": "Description",
+        "drefFormIcrc": "ICRC",
+        "drefFormIcrcDescription": "Presence or not of ICRC in country, and support directly provided for this emergency response. Other programs and support provided outside of the scope of this emergency should not be indicated here.",
+        "drefFormIfrc": "IFRC",
+        "drefFormIfrcDescription": "Presence or not of IFRC in country (if not, indicate the cluster covering), support provided for this response, domestic coordination, technical, strategic, surge. Explain what support provided in terms of Secretariat services: PMER, Finance, Admin, HR, Security, logistics, NSD.",
+        "drefFormImminentNeedsIdentified": "Anticipated Needs",
+        "drefFormInternationalAssistance": "Government has requested international assistance",
+        "ifrcNetworkActionsHeading": "IFRC Network Actions Related To The Current Event",
+        "icrcActionsHeading": "ICRC Actions Related To The Current Event",
+        "drefFormNationalAuthorities": "National authorities",
+        "drefFormNationalAuthoritiesDescription": "Brief description of actions taken by the national authorities.",
+        "drefFormNationalOtherActors": "Other Actors Actions Related To The Current Event",
+        "drefFormNeedsIdentified": "Needs (Gaps) Identified",
+        "drefFormPartnerNationalSociety": "Participating National Societies",
+        "drefFormPartnerNationalSocietyDescription": "Briefly set out which PNS are present and give details of PNS contributions/roles on the ground and remotely for this specific operation",
+        "drefFormUNorOtherActors": "UN or other actors",
+        "drefFormUNorOtherActorsDescription": "Brief description of actions taken by the UN or other actors.",
+        "drefFormAddButton": "Add"
+    }
+}
