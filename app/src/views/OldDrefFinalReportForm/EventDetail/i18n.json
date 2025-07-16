@@ -1,5 +1,5 @@
 {
-    "namespace": "drefFinalReportForm",
+    "namespace": "oldDrefFinalReportForm",
     "strings": {
         "drefFormApproximateDateOfImpact": "Approximate date of impact",
         "drefFormDescriptionEvent": "Description of the Event",

@@ -729,8 +729,6 @@ function Operation(props: Props) {
                                 label={strings.drefFormProposedActionSubTotal}
                                 value={value.sub_total_cost}
                                 disabled={disabled}
-                            />
-                            <NonFieldError
                                 error={error?.sub_total_cost}
                             />
                             <NumberInput
@@ -741,11 +739,9 @@ function Operation(props: Props) {
                                 label={strings.drefFinalReportSubTotalExpenditure}
                                 value={value.sub_total_expenditure_cost}
                                 disabled={disabled}
+                                error={error?.sub_total_expenditure_cost}
                             />
                         </div>
-                        <NonFieldError
-                            error={error?.sub_total_expenditure_cost}
-                        />
                         {value.surge_deployment_cost && (
                             <div className={styles.expenditure}>
                                 <NumberInput
