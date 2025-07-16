@@ -437,28 +437,39 @@ export function Component() {
                 />
                 <TextOutput
                     className={styles.metaItem}
-                    label={strings.crisisCategoryLabel}
-                    value={drefResponse?.disaster_category_display}
-                    valueClassName={_cs(
-                        isDefined(drefResponse)
-                        && isDefined(drefResponse.disaster_category)
-                        && isDefined(drefResponse.disaster_category)
-                        && colorMap[drefResponse.disaster_category],
-                    )}
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.metaItem}
                     label={strings.hazardLabel}
                     value={drefResponse?.disaster_type_details?.name}
                     strongValue
                 />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.glideNumberLabel}
-                    value={drefResponse?.glide_code}
-                    strongValue
-                />
+                {drefResponse?.type_of_dref === DREF_TYPE_IMMINENT ? (
+                    <TextOutput
+                        className={styles.metaItem}
+                        label={strings.countryLabel}
+                        value={drefResponse?.country_details.name}
+                        strongValue
+                    />
+                ) : (
+                    <TextOutput
+                        className={styles.metaItem}
+                        label={strings.crisisCategoryLabel}
+                        value={drefResponse?.disaster_category_display}
+                        valueClassName={_cs(
+                            isDefined(drefResponse)
+                            && isDefined(drefResponse.disaster_category)
+                            && isDefined(drefResponse.disaster_category)
+                            && colorMap[drefResponse.disaster_category],
+                        )}
+                        strongValue
+                    />
+                )}
+                {drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
+                    <TextOutput
+                        className={styles.metaItem}
+                        label={strings.glideNumberLabel}
+                        value={drefResponse?.glide_code}
+                        strongValue
+                    />
+                )}
                 <TextOutput
                     className={styles.metaItem}
                     label={strings.peopleAffectedLabel}
@@ -511,6 +522,15 @@ export function Component() {
                     suffix={strings.monthsSuffix}
                     strongValue
                 />
+                {drefResponse?.type_of_dref === DREF_TYPE_IMMINENT && (
+                    <TextOutput
+                        className={styles.metaItem}
+                        label={strings.publicationDate}
+                        value={drefResponse?.date_of_publication}
+                        valueType="date"
+                        strongValue
+                    />
+                )}
                 <TextOutput
                     className={styles.targetedAreas}
                     label={strings.targetedAreasLabel}
@@ -635,7 +655,7 @@ export function Component() {
             )}
             {showProposedActions && drefResponse?.type_of_dref === DREF_TYPE_IMMINENT && (
                 <Container
-                    heading={strings.actionsTaken}
+                    heading={strings.implementation}
                     headingLevel={3}
                     childrenContainerClassName={styles.proposedActions}
                 >

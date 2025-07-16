@@ -197,7 +197,8 @@ function Overview(props: Props) {
         if (typeOfDref === TYPE_IMMINENT) {
             setValue((oldValue) => ({
                 ...oldValue,
-                type_of_onset: ONSET_SUDDEN,
+                [name]: typeOfDref,
+                ...(typeOfDref === TYPE_IMMINENT ? { type_of_onset: ONSET_SUDDEN } : {}),
             }));
         }
     }, [setFieldValue, setValue]);

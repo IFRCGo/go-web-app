@@ -257,13 +257,14 @@ export function Component() {
                         indicators: intervention.indicators?.map(injectClientId),
                     }),
                 ),
+                // Process proposed actions with injected client IDs, defaulting if missing
                 proposed_action: isDefined(proposed_action)
                 && proposed_action.length > 1 ? proposed_action?.map(
                         (action) => ({
                             ...injectClientId(action),
                             activities: action.activities?.map(injectClientId),
                         }),
-                        // NOTE: Display early actions before early response
+                        // NOTE: Sort and display early actions before early response
                     ).sort((a, b) => a.proposed_type - b.proposed_type) : [
                         {
                             client_id: randomString(),

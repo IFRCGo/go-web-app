@@ -1,5 +1,5 @@
 {
-    "namespace": "drefFinalReportForm",
+    "namespace": "oldDrefFinalReportForm",
     "strings": {
         "finalReportStartOfOperation": "Start of operation",
         "finalReportTotalOperatingTimeFrame": "Total operating timeframe",
