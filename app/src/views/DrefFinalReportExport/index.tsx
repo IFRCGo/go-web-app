@@ -964,84 +964,82 @@ export function Component() {
                     )}
                 </>
             )}
-            {drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
-                <Container
-                    heading={strings.targetPopulationSectionHeading}
-                    headingLevel={2}
-                    childrenContainerClassName={styles.targetPopulationContent}
-                >
-                    {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
-                        <BlockTextOutput
-                            label={strings.womenLabel}
-                            value={drefResponse?.assisted_num_of_women}
-                            valueType="number"
-                            strongValue
-                        />
-                    )}
+            <Container
+                heading={strings.targetPopulationSectionHeading}
+                headingLevel={2}
+                childrenContainerClassName={styles.targetPopulationContent}
+            >
+                {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
                     <BlockTextOutput
-                        label={strings.ruralLabel}
-                        value={drefResponse?.people_per_local}
-                        valueType="number"
-                        suffix="%"
-                        strongValue
-                    />
-                    {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
-                        <BlockTextOutput
-                            label={strings.girlsLabel}
-                            value={drefResponse?.assisted_num_of_girls_under_18}
-                            valueType="number"
-                            strongValue
-                        />
-                    )}
-                    <BlockTextOutput
-                        label={strings.urbanLabel}
-                        value={drefResponse?.people_per_urban}
-                        suffix="%"
+                        label={strings.womenLabel}
+                        value={drefResponse?.assisted_num_of_women}
                         valueType="number"
                         strongValue
                     />
-                    {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
-                        <BlockTextOutput
-                            label={strings.menLabel}
-                            value={drefResponse?.assisted_num_of_men}
-                            valueType="number"
-                            strongValue
-                        />
-                    )}
+                )}
+                <BlockTextOutput
+                    label={strings.ruralLabel}
+                    value={drefResponse?.people_per_local}
+                    valueType="number"
+                    suffix="%"
+                    strongValue
+                />
+                {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
                     <BlockTextOutput
-                        className={styles.disabilitiesPopulation}
-                        label={strings.peopleWithDisabilitiesLabel}
-                        value={drefResponse?.disability_people_per}
-                        suffix="%"
+                        label={strings.girlsLabel}
+                        value={drefResponse?.assisted_num_of_girls_under_18}
                         valueType="number"
                         strongValue
                     />
-                    {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
-                        <BlockTextOutput
-                            label={strings.boysLabel}
-                            value={drefResponse?.assisted_num_of_boys_under_18}
-                            valueType="number"
-                            strongValue
-                        />
-                    )}
-                    <div className={styles.emptyBlock} />
+                )}
+                <BlockTextOutput
+                    label={strings.urbanLabel}
+                    value={drefResponse?.people_per_urban}
+                    suffix="%"
+                    valueType="number"
+                    strongValue
+                />
+                {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
                     <BlockTextOutput
-                        className={styles.metaItem}
-                        label={strings.totalAssistedPopulationLabel}
-                        value={drefResponse?.num_assisted}
+                        label={strings.menLabel}
+                        value={drefResponse?.assisted_num_of_men}
                         valueType="number"
                         strongValue
                     />
-                    <div className={styles.emptyBlock} />
+                )}
+                <BlockTextOutput
+                    className={styles.disabilitiesPopulation}
+                    label={strings.peopleWithDisabilitiesLabel}
+                    value={drefResponse?.disability_people_per}
+                    suffix="%"
+                    valueType="number"
+                    strongValue
+                />
+                {drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
                     <BlockTextOutput
-                        label={strings.targetedPopulationLabel}
-                        value={drefResponse?.total_targeted_population}
-                        valueClassName={styles.totalTargetedPopulationValue}
+                        label={strings.boysLabel}
+                        value={drefResponse?.assisted_num_of_boys_under_18}
                         valueType="number"
                         strongValue
                     />
-                </Container>
-            )}
+                )}
+                <div className={styles.emptyBlock} />
+                <BlockTextOutput
+                    className={styles.metaItem}
+                    label={strings.totalAssistedPopulationLabel}
+                    value={drefResponse?.num_assisted}
+                    valueType="number"
+                    strongValue
+                />
+                <div className={styles.emptyBlock} />
+                <BlockTextOutput
+                    label={strings.targetedPopulationLabel}
+                    value={drefResponse?.total_targeted_population}
+                    valueClassName={styles.totalTargetedPopulationValue}
+                    valueType="number"
+                    strongValue
+                />
+            </Container>
             {showRiskAndSecuritySection && drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT && (
                 <Container
                     childrenContainerClassName={styles.riskAndSecuritySection}
