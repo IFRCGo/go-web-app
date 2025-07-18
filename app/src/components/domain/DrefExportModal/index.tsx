@@ -1,5 +1,6 @@
 import {
     useCallback,
+    useEffect,
     useMemo,
     useState,
 } from 'react';
@@ -57,7 +58,8 @@ function DrefExportModal(props: Props) {
 
     const [exportId, setExportId] = useState<number | undefined>();
     const [isPga, setIsPga] = useState<boolean>(false);
-    const [isPgaCheckboxVisible, setIsPgaCheckboxVisible] = useState(true);
+    const imminentFinalReport = applicationType === 'FINAL_REPORT' && drefType === DREF_TYPE_IMMINENT;
+    const [isPgaCheckboxVisible, setIsPgaCheckboxVisible] = useState(() => !imminentFinalReport);
 
     const drefExportTriggerBody = useMemo(
         () => {
@@ -136,7 +138,10 @@ function DrefExportModal(props: Props) {
         pending: pendingExportTrigger,
         error: exportTriggerError,
     } = useRequest({
-        skip: isDefined(exportId) || isNotDefined(id) || drefType === DREF_TYPE_IMMINENT,
+        skip: isDefined(exportId)
+            || isNotDefined(id)
+            || drefType === DREF_TYPE_IMMINENT
+            || imminentFinalReport,
         method: 'POST',
         useCurrentLanguageForMutation: true,
         url: '/api/v2/pdf-export/',
@@ -178,6 +183,22 @@ function DrefExportModal(props: Props) {
     }, [
         drefExportTriggerBody,
         drefImminentExportTrigger,
+    ]);
+
+    useEffect(() => {
+        if (
+            imminentFinalReport
+            && !exportId
+            && !pendingDrefImminentExportTrigger
+        ) {
+            drefImminentExportTrigger(drefExportTriggerBody);
+        }
+    }, [
+        imminentFinalReport,
+        exportId,
+        pendingDrefImminentExportTrigger,
+        drefImminentExportTrigger,
+        drefExportTriggerBody,
     ]);
 
     return (
@@ -223,9 +244,10 @@ function DrefExportModal(props: Props) {
                             ?? drefImminentExportError?.value.messageForNotification}
                 />
             )}
-            {!(pendingExportTrigger
-                || pendingExportStatus
-                || exportStatusResponse?.status === EXPORT_STATUS_PENDING)
+            {!imminentFinalReport
+                && !(pendingExportTrigger
+                    || pendingExportStatus
+                    || exportStatusResponse?.status === EXPORT_STATUS_PENDING)
                 && drefType === DREF_TYPE_IMMINENT
                 && !drefImminentExportError && (
                 exportStatusResponse?.pdf_file ? (
