@@ -215,14 +215,17 @@ function ActiveDrefTable(props: Props) {
                     // the application_type should be an enum
                     const applicationType = item.application_type as 'DREF' | 'OPS_UPDATE' | 'FINAL_REPORT';
                     const drefType = item.type_of_dref as TypeOfDrefEnum;
+
                     if (!originalDref) {
                         return {
                             id,
                             drefId: id,
+                            drefType,
                             status: item.status,
                             applicationType,
                             canAddOpsUpdate: false,
                             canCreateFinalReport: false,
+                            hasPermissionToApprove: false,
                         };
                     }
 
