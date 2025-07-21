@@ -421,10 +421,9 @@ function Overview(props: Props) {
                             />
                         )}
                     </InputSection>
-                    {(
-                        value?.disaster_category === DISASTER_CATEGORY_ORANGE
-                        || value?.disaster_category === DISASTER_CATEGORY_RED)
-                        && value?.type_of_dref !== TYPE_IMMINENT && (
+                    {(value?.disaster_category === DISASTER_CATEGORY_ORANGE
+                        || value?.disaster_category === DISASTER_CATEGORY_RED
+                    ) && value?.type_of_dref !== TYPE_IMMINENT && (
                         <InputSection title={strings.drefFormUploadCrisisDocument}>
                             <GoSingleFileInput
                                 name="disaster_category_analysis"

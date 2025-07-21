@@ -258,14 +258,15 @@ export function Component() {
                     }),
                 ),
                 // Process proposed actions with injected client IDs, defaulting if missing
-                proposed_action: isDefined(proposed_action)
-                && proposed_action.length > 1 ? proposed_action?.map(
+                proposed_action: isDefined(proposed_action) && proposed_action.length > 1
+                    ? proposed_action?.map(
                         (action) => ({
                             ...injectClientId(action),
                             activities: action.activities?.map(injectClientId),
                         }),
                         // NOTE: Sort and display early actions before early response
-                    ).sort((a, b) => a.proposed_type - b.proposed_type) : [
+                    ).sort((a, b) => a.proposed_type - b.proposed_type)
+                    : [
                         {
                             client_id: randomString(),
                             proposed_type: EARLY_ACTION,
