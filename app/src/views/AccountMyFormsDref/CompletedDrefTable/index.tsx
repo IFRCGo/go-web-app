@@ -26,6 +26,7 @@ import {
 } from '@togglecorp/fujs';
 
 import useFilterState from '#hooks/useFilterState';
+import { type TypeOfDrefEnum } from '#utils/constants';
 import { useRequest } from '#utils/restRequest';
 
 import DrefTableActions, { type Props as DrefTableActionsProps } from '../DrefTableActions';
@@ -76,7 +77,7 @@ function CompletedDrefTable(props: Props) {
         },
     });
 
-    type DrefResultItem = NonNullable<NonNullable<typeof completedDrefResponse>['results']>[number];
+    type DrefResultItem = NonNullable<NonNullable<typeof completedDrefResponse>['results']>[number] & { drefType?: TypeOfDrefEnum | null | undefined };
     type Key = DrefResultItem['id'];
 
     const [expandedRow, setExpandedRow] = useState<DrefResultItem | undefined>();
@@ -135,6 +136,7 @@ function CompletedDrefTable(props: Props) {
                     id,
                     drefId: item.dref.id,
                     status: item.status,
+                    drefType: item.drefType,
                     // FIXME: fix typing in server (medium priority)
                     // the application_type should be an enum
                     applicationType: item.application_type as 'DREF' | 'OPS_UPDATE' | 'FINAL_REPORT',
@@ -204,6 +206,7 @@ function CompletedDrefTable(props: Props) {
                 {
                     ...datum.dref,
                     dref: datum.dref,
+                    drefType: datum.dref.type_of_dref,
                     glide_code: datum.glide_code,
                     date_of_publication: datum.date_of_publication,
                 },

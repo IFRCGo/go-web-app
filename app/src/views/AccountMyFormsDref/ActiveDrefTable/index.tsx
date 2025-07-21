@@ -219,10 +219,12 @@ function ActiveDrefTable(props: Props) {
                         return {
                             id,
                             drefId: id,
+                            drefType,
                             status: item.status,
                             applicationType,
                             canAddOpsUpdate: false,
                             canCreateFinalReport: false,
+                            hasPermissionToApprove: false,
                         };
                     }
 

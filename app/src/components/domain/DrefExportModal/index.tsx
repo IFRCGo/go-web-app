@@ -112,9 +112,9 @@ function DrefExportModal(props: Props) {
             return;
         }
 
-        // Don't automatically trigger the export for imminent DREFs (except for Final Reports)
+        // Don't automatically trigger the export for imminent DREF Applications
         // We need to allow users to configure PGA before the export
-        if (drefType === DREF_TYPE_IMMINENT && applicationType !== 'FINAL_REPORT') {
+        if (drefType === DREF_TYPE_IMMINENT && applicationType === 'DREF') {
             return;
         }
 
