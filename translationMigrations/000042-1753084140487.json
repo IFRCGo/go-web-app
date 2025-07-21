@@ -1,0 +1,2447 @@
+{
+    "parent": "000041-1751540641267.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "configureExportLabel",
+            "namespace": "drefExportModal",
+            "value": "Configure export"
+        },
+        {
+            "action": "add",
+            "key": "includePgaLabel",
+            "namespace": "drefExportModal",
+            "value": "Include PGA"
+        },
+        {
+            "action": "add",
+            "key": "startExportLabel",
+            "namespace": "drefExportModal",
+            "value": "Start Export"
+        },
+        {
+            "action": "update",
+            "key": "drefExportSuccessfully",
+            "namespace": "drefExportModal",
+            "newValue": "Export completed successfully!"
+        },
+        {
+            "action": "add",
+            "key": "eventDevelopmentHeading",
+            "namespace": "drefFinalReportExport",
+            "value": "Event development"
+        },
+        {
+            "action": "add",
+            "key": "eventDevelopmentSectionDescription",
+            "namespace": "drefFinalReportExport",
+            "value": "In case of the event not materialising please explain why not."
+        },
+        {
+            "action": "add",
+            "key": "eventDevelopmentSectionHeading",
+            "namespace": "drefFinalReportExport",
+            "value": "Update regarding the event’s development"
+        },
+        {
+            "action": "add",
+            "key": "eventsImpactHeading",
+            "namespace": "drefFinalReportExport",
+            "value": "Events impact"
+        },
+        {
+            "action": "add",
+            "key": "financialReportVariancesModificationHeading",
+            "namespace": "drefFinalReportExport",
+            "value": "Explain any variances or modifications to the implemented activities"
+        },
+        {
+            "action": "add",
+            "key": "imminentExportTitle",
+            "namespace": "drefFinalReportExport",
+            "value": "Imminent DREF Final Report"
+        },
+        {
+            "action": "add",
+            "key": "implementation",
+            "namespace": "drefFinalReportExport",
+            "value": "Implementation"
+        },
+        {
+            "action": "add",
+            "key": "lessonsLearntAndChallenges",
+            "namespace": "drefFinalReportExport",
+            "value": "Lessons learnt and challenges"
+        },
+        {
+            "action": "add",
+            "key": "mitigationEffortsAndAchievements",
+            "namespace": "drefFinalReportExport",
+            "value": "Mitigation efforts and achievements."
+        },
+        {
+            "action": "add",
+            "key": "priorityActionsBudget",
+            "namespace": "drefFinalReportExport",
+            "value": "Budget (CHF)"
+        },
+        {
+            "action": "add",
+            "key": "priorityActionsIndirectCost",
+            "namespace": "drefFinalReportExport",
+            "value": "Indirect Cost"
+        },
+        {
+            "action": "add",
+            "key": "priorityActionsSubTotal",
+            "namespace": "drefFinalReportExport",
+            "value": "Sub-total"
+        },
+        {
+            "action": "add",
+            "key": "priorityActionsSurgeDeployment",
+            "namespace": "drefFinalReportExport",
+            "value": "Surge Deployment (if applicable)"
+        },
+        {
+            "action": "add",
+            "key": "priorityActionsTotal",
+            "namespace": "drefFinalReportExport",
+            "value": "Total"
+        },
+        {
+            "action": "add",
+            "key": "proposedActionsActivities",
+            "namespace": "drefFinalReportExport",
+            "value": "Activities"
+        },
+        {
+            "action": "add",
+            "key": "proposedActionsSector",
+            "namespace": "drefFinalReportExport",
+            "value": "Sector"
+        },
+        {
+            "action": "add",
+            "key": "publicationDate",
+            "namespace": "drefFinalReportExport",
+            "value": "Publication Date"
+        },
+        {
+            "action": "update",
+            "key": "situationUpdateSectionHeading",
+            "namespace": "drefFinalReportExport",
+            "newNamespace": "oldDrefFinalReportExport"
+        },
+        {
+            "action": "update",
+            "key": "totalAssistedPopulationLabel",
+            "namespace": "drefFinalReportExport",
+            "newValue": "Total Population Assisted"
+        },
+        {
+            "action": "add",
+            "key": "drefFinalReportIndirectCostExpenditure",
+            "namespace": "drefFinalReportForm",
+            "value": "Indirect Cost Expenditure"
+        },
+        {
+            "action": "add",
+            "key": "drefFinalReportLessonsLearnt",
+            "namespace": "drefFinalReportForm",
+            "value": "Lessons learnt and challenges"
+        },
+        {
+            "action": "add",
+            "key": "drefFinalReportMitigationEfforts",
+            "namespace": "drefFinalReportForm",
+            "value": "Mitigation efforts and achievements"
+        },
+        {
+            "action": "add",
+            "key": "drefFinalReportMitigationEffortsDescription",
+            "namespace": "drefFinalReportForm",
+            "value": "Detail the implementation of the actions, and the achievements in mitigating the potential impact of the event. In case the disaster materialized, indicate clearly which early actions were implemented before the impact of the disaster. In case no response is needed due to the success of the early actions, please explain. Please provide an update on any procurement done and its status."
+        },
+        {
+            "action": "add",
+            "key": "drefFinalReportSubTotalExpenditure",
+            "namespace": "drefFinalReportForm",
+            "value": "Sub-total Expenditure"
+        },
+        {
+            "action": "add",
+            "key": "drefFinalReportTotalExpenditure",
+            "namespace": "drefFinalReportForm",
+            "value": "Total Expenditure"
+        },
+        {
+            "action": "add",
+            "key": "drefFormActionTaken",
+            "namespace": "drefFinalReportForm",
+            "value": "Action Taken"
+        },
+        {
+            "action": "add",
+            "key": "drefFormAddProposedActionLabel",
+            "namespace": "drefFinalReportForm",
+            "value": "Add proposed action"
+        },
+        {
+            "action": "add",
+            "key": "drefFormEventsImpact",
+            "namespace": "drefFinalReportForm",
+            "value": "Events impact"
+        },
+        {
+            "action": "add",
+            "key": "drefFormEventsImpactDescription",
+            "namespace": "drefFinalReportForm",
+            "value": "In case of the even not materializing omit this section"
+        },
+        {
+            "action": "add",
+            "key": "drefFormExpenditureLabel",
+            "namespace": "drefFinalReportForm",
+            "value": "Expenditure"
+        },
+        {
+            "action": "add",
+            "key": "drefFormImminentDisasterGuidance",
+            "namespace": "drefFinalReportForm",
+            "value": "In case of the event not materializing please explain why not."
+        },
+        {
+            "action": "add",
+            "key": "drefFormPopulationAssisted",
+            "namespace": "drefFinalReportForm",
+            "value": "Total Population Assisted"
+        },
+        {
+            "action": "add",
+            "key": "drefFormProposedActionActivityLabel",
+            "namespace": "drefFinalReportForm",
+            "value": "Activity"
+        },
+        {
+            "action": "add",
+            "key": "drefFormProposedActionBudgetLabel",
+            "namespace": "drefFinalReportForm",
+            "value": "Budget(CHF)"
+        },
+        {
+            "action": "add",
+            "key": "drefFormProposedActionIndirectCost",
+            "namespace": "drefFinalReportForm",
+            "value": "Indirect cost"
+        },
+        {
+            "action": "add",
+            "key": "drefFormProposedActionRemoveSector",
+            "namespace": "drefFinalReportForm",
+            "value": "Remove Sector"
+        },
+        {
+            "action": "add",
+            "key": "drefFormProposedActions",
+            "namespace": "drefFinalReportForm",
+            "value": "Proposed Actions"
+        },
+        {
+            "action": "add",
+            "key": "drefFormProposedActionSector",
+            "namespace": "drefFinalReportForm",
+            "value": "Sector"
+        },
+        {
+            "action": "add",
+            "key": "drefFormProposedActionSectorLabel",
+            "namespace": "drefFinalReportForm",
+            "value": "Select the sector"
+        },
+        {
+            "action": "add",
+            "key": "drefFormProposedActionSelectBudgetNote",
+            "namespace": "drefFinalReportForm",
+            "value": "Please note that if Surge Personnel are deployed, the Surge Deployment cost will be CHF 10,000, and the Indirect Costs will be CHF 5,800. Conversely, if Surge Personnel are not deployed, the Surge Deployment cost will not be applicable, and the Indirect Costs will be CHF 5,000."
+        },
+        {
+            "action": "add",
+            "key": "drefFormProposedActionsListOfActivities",
+            "namespace": "drefFinalReportForm",
+            "value": "List of Activities"
+        },
+        {
+            "action": "add",
+            "key": "drefFormProposedActionSubTotal",
+            "namespace": "drefFinalReportForm",
+            "value": "Sub-total"
+        },
+        {
+            "action": "add",
+            "key": "drefFormProposedActionSurgeDeployment",
+            "namespace": "drefFinalReportForm",
+            "value": "Surge Deployment"
+        },
+        {
+            "action": "add",
+            "key": "drefFormProposedActionTotal",
+            "namespace": "drefFinalReportForm",
+            "value": "Total"
+        },
+        {
+            "action": "add",
+            "key": "drefFormRemoveActivity",
+            "namespace": "drefFinalReportForm",
+            "value": "Remove sector"
+        },
+        {
+            "action": "add",
+            "key": "drefFormRiskSecurityPotentialRiskAssessment",
+            "namespace": "drefFinalReportForm",
+            "value": "Please consider any possible challenges to conduct the assessment, any possible limitations in getting the information required and overall risk to the implementation"
+        },
+        {
+            "action": "add",
+            "key": "drefFromProposedEarlyActionLabel",
+            "namespace": "drefFinalReportForm",
+            "value": "Early Actions"
+        },
+        {
+            "action": "add",
+            "key": "drefFromProposedEarlyResponseLabel",
+            "namespace": "drefFinalReportForm",
+            "value": "Early Response"
+        },
+        {
+            "action": "add",
+            "key": "finalReportFinancialReportVariancesImminent",
+            "namespace": "drefFinalReportForm",
+            "value": "Explain any variances or modifications to the implemented activities"
+        },
+        {
+            "action": "add",
+            "key": "finalReportFinancialReportVariancesImminentDescription",
+            "namespace": "drefFinalReportForm",
+            "value": "Please explain any changes or modifications to the planned activities and any existing variances between budget and expenditure. In case of no event, confirm early response activities will be returned to the DREF."
+        },
+        {
+            "action": "add",
+            "key": "formTabEventDevelopmentLabel",
+            "namespace": "drefFinalReportForm",
+            "value": "Event Development"
+        },
+        {
+            "action": "add",
+            "key": "formTabImplementation",
+            "namespace": "drefFinalReportForm",
+            "value": "Implementation"
+        },
+        {
+            "action": "update",
+            "key": "drefFormApproximateDateOfImpact",
+            "namespace": "drefFinalReportForm",
+            "newNamespace": "oldDrefFinalReportForm"
+        },
+        {
+            "action": "update",
+            "key": "drefFormEstimatedPeopleInNeed",
+            "namespace": "drefFinalReportForm",
+            "newNamespace": "oldDrefFinalReportForm"
+        },
+        {
+            "action": "update",
+            "key": "drefFormImminentDisaster",
+            "namespace": "drefFinalReportForm",
+            "newValue": "Update regarding the event’s development."
+        },
+        {
+            "action": "update",
+            "key": "drefFormRiskPeopleLabel",
+            "namespace": "drefFinalReportForm",
+            "newValue": "Total population at risk (if available)"
+        },
+        {
+            "action": "update",
+            "key": "drefFormRiskSecurityPotentialRiskAssessmentDescription",
+            "namespace": "drefFinalReportForm",
+            "newNamespace": "oldDrefFinalReportForm"
+        },
+        {
+            "action": "add",
+            "key": "achievementsHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Narrative description of achievements"
+        },
+        {
+            "action": "add",
+            "key": "additionalAllocationRequestedLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Additional Allocation Requested"
+        },
+        {
+            "action": "add",
+            "key": "anticipatoryActionsHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Why your National Society is acting now and what criteria is used to launch this operation."
+        },
+        {
+            "action": "add",
+            "key": "appealLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Appeal"
+        },
+        {
+            "action": "add",
+            "key": "appealManagerContactHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "IFRC Appeal Manager"
+        },
+        {
+            "action": "add",
+            "key": "approximateDateOfImpactHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Approximate date of impact"
+        },
+        {
+            "action": "add",
+            "key": "assistedPersonsLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Assisted Persons"
+        },
+        {
+            "action": "add",
+            "key": "boysLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Assisted Boys (under 18)"
+        },
+        {
+            "action": "add",
+            "key": "budgetLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Budget"
+        },
+        {
+            "action": "add",
+            "key": "challengesHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Challenges"
+        },
+        {
+            "action": "add",
+            "key": "chfPrefix",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "CHF "
+        },
+        {
+            "action": "add",
+            "key": "contactInformationSectionDescription",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "For further information, specifically related to this operation please contact:"
+        },
+        {
+            "action": "add",
+            "key": "contactInformationSectionHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Contact Information"
+        },
+        {
+            "action": "add",
+            "key": "countryLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Country"
+        },
+        {
+            "action": "add",
+            "key": "crisisCategoryLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Crisis Category"
+        },
+        {
+            "action": "add",
+            "key": "dateOfEventSlowHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Date of event"
+        },
+        {
+            "action": "add",
+            "key": "dateWhenTriggerWasMetHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Date when the trigger was met"
+        },
+        {
+            "action": "add",
+            "key": "downloadFinancialReport",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Click here for the complete financial report"
+        },
+        {
+            "action": "add",
+            "key": "drefAllocationLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Total DREF Allocation"
+        },
+        {
+            "action": "add",
+            "key": "drefApplicationFormImageAlt",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Image"
+        },
+        {
+            "action": "add",
+            "key": "drefExportReference",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Click here for reference"
+        },
+        {
+            "action": "add",
+            "key": "eventDescriptionSectionHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Description of the Event"
+        },
+        {
+            "action": "add",
+            "key": "eventOnsetLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Event Onset"
+        },
+        {
+            "action": "add",
+            "key": "exportTitle",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "DREF Final Report"
+        },
+        {
+            "action": "add",
+            "key": "financialReportSectionHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Financial Report"
+        },
+        {
+            "action": "add",
+            "key": "financialReportVariancesHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Please explain variances (if any)"
+        },
+        {
+            "action": "add",
+            "key": "focalPointContactHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "IFRC focal point for the emergency"
+        },
+        {
+            "action": "add",
+            "key": "girlsLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Assisted Girls (under 18)"
+        },
+        {
+            "action": "add",
+            "key": "glideNumberLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Glide Number"
+        },
+        {
+            "action": "add",
+            "key": "governmentRequestedAssistanceLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Government has requested international assistance"
+        },
+        {
+            "action": "add",
+            "key": "hasAntiFraudPolicy",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Does your National Society have anti-fraud and corruption policy?"
+        },
+        {
+            "action": "add",
+            "key": "hasAntiSexualHarassmentPolicy",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Does your National Society have anti-sexual harassment policy?"
+        },
+        {
+            "action": "add",
+            "key": "hasChildProtectionPolicy",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Does your National Society have child protection/child safeguarding policy?"
+        },
+        {
+            "action": "add",
+            "key": "hasChildRiskCompleted",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Has the child safeguarding risk analysis assessment been completed?"
+        },
+        {
+            "action": "add",
+            "key": "hasSexualAbusePolicy",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Does your National Society have prevention of sexual exploitation and abuse policy?"
+        },
+        {
+            "action": "add",
+            "key": "hasWhistleblowerProtectionPolicy",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Does your National Society have whistleblower protection policy?"
+        },
+        {
+            "action": "add",
+            "key": "hazardLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Hazard"
+        },
+        {
+            "action": "add",
+            "key": "icrcActionsHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "ICRC Actions Related To The Current Event"
+        },
+        {
+            "action": "add",
+            "key": "imageLogoIFRCAlt",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "IFRC"
+        },
+        {
+            "action": "add",
+            "key": "indicatorActualLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Actual"
+        },
+        {
+            "action": "add",
+            "key": "indicatorsHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Indicators"
+        },
+        {
+            "action": "add",
+            "key": "indicatorTargetLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Target"
+        },
+        {
+            "action": "add",
+            "key": "indicatorTitleLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Title"
+        },
+        {
+            "action": "add",
+            "key": "interventionSectionHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Implementation"
+        },
+        {
+            "action": "add",
+            "key": "lessonsLearntHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Lessons Learnt"
+        },
+        {
+            "action": "add",
+            "key": "majorCoordinationMechanismLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Are there major coordination mechanism in place?"
+        },
+        {
+            "action": "add",
+            "key": "mediaContactHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Media Contact"
+        },
+        {
+            "action": "add",
+            "key": "menLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Assisted Men"
+        },
+        {
+            "action": "add",
+            "key": "mitigationLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Mitigation action"
+        },
+        {
+            "action": "add",
+            "key": "monthsSuffix",
+            "namespace": "oldDrefFinalReportExport",
+            "value": " months"
+        },
+        {
+            "action": "add",
+            "key": "movementPartnersActionsHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "IFRC Network Actions Related To The Current Event"
+        },
+        {
+            "action": "add",
+            "key": "nationalAuthoritiesLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "National authorities"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyActionsHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "National Society Actions"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyHotlineHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "National Society Hotline"
+        },
+        {
+            "action": "add",
+            "key": "nationalSocietyIntegrityHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "National Societies' Integrity Focal Point"
+        },
+        {
+            "action": "add",
+            "key": "needsIdentifiedSectionHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Needs (Gaps) Identified"
+        },
+        {
+            "action": "add",
+            "key": "nsConductedInterventionLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Have the National Society conducted any intervention additionally to those part of this DREF Operation?"
+        },
+        {
+            "action": "add",
+            "key": "nsContactHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "National Society contact"
+        },
+        {
+            "action": "add",
+            "key": "nsInterventionDescriptionLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Please provide a brief description of those additional activities"
+        },
+        {
+            "action": "add",
+            "key": "operationalStrategySectionHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Operational Strategy"
+        },
+        {
+            "action": "add",
+            "key": "operationEndDateLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Operational End Date"
+        },
+        {
+            "action": "add",
+            "key": "operationStartDateLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Operation Start Date"
+        },
+        {
+            "action": "add",
+            "key": "operationStrategyHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Operation strategy rationale"
+        },
+        {
+            "action": "add",
+            "key": "operationTimeframeLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Total Operating Timeframe"
+        },
+        {
+            "action": "add",
+            "key": "otherActionsHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Other Actors Actions Related To The Current Event"
+        },
+        {
+            "action": "add",
+            "key": "overallObjectiveHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Overall objective of the operation"
+        },
+        {
+            "action": "add",
+            "key": "participatingNsLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Participating National Societies"
+        },
+        {
+            "action": "add",
+            "key": "peopleAffectedLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "People Affected"
+        },
+        {
+            "action": "add",
+            "key": "peopleAssistedHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Who was targeted by this operation?"
+        },
+        {
+            "action": "add",
+            "key": "peopleAssistedLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "People Assisted"
+        },
+        {
+            "action": "add",
+            "key": "peopleSuffix",
+            "namespace": "oldDrefFinalReportExport",
+            "value": " people"
+        },
+        {
+            "action": "add",
+            "key": "peopleTargetedLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "People Targeted"
+        },
+        {
+            "action": "add",
+            "key": "peopleWithDisabilitiesLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "People with disabilities (estimated)"
+        },
+        {
+            "action": "add",
+            "key": "projectManagerContactHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "IFRC Project Manager"
+        },
+        {
+            "action": "add",
+            "key": "riskAndSecuritySectionHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Risk and Security Considerations (including \"management\")"
+        },
+        {
+            "action": "add",
+            "key": "riskLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Risk"
+        },
+        {
+            "action": "add",
+            "key": "riskSecurityHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Please analyse and indicate potential risks for this operation, its root causes and mitigation actions."
+        },
+        {
+            "action": "add",
+            "key": "ruralLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Rural"
+        },
+        {
+            "action": "add",
+            "key": "safetyConcernHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Please indicate any security and safety concerns for this operation"
+        },
+        {
+            "action": "add",
+            "key": "scopeAndScaleSectionHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Scope and Scale"
+        },
+        {
+            "action": "add",
+            "key": "secretariatLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Secretariat"
+        },
+        {
+            "action": "add",
+            "key": "selectionCriteriaHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Explain the selection criteria for the targeted population"
+        },
+        {
+            "action": "add",
+            "key": "sourceInformationSectionHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Source Information"
+        },
+        {
+            "action": "add",
+            "key": "sourceInformationSourceLinkTitle",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Source Link"
+        },
+        {
+            "action": "add",
+            "key": "sourceInformationSourceNameTitle",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Source Name"
+        },
+        {
+            "action": "add",
+            "key": "targetedAreasLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Targeted Regions"
+        },
+        {
+            "action": "add",
+            "key": "targetedFemaleLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Targeted Female"
+        },
+        {
+            "action": "add",
+            "key": "targetedMaleLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Targeted Male"
+        },
+        {
+            "action": "add",
+            "key": "targetedPersonsLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Targeted Persons"
+        },
+        {
+            "action": "add",
+            "key": "targetedPopulationLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Total Targeted Population"
+        },
+        {
+            "action": "add",
+            "key": "targetingStrategySectionHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Targeting Strategy"
+        },
+        {
+            "action": "add",
+            "key": "targetPopulationSectionHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Total Assisted Population"
+        },
+        {
+            "action": "add",
+            "key": "totalAssistedPopulationLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Total Assisted Population"
+        },
+        {
+            "action": "add",
+            "key": "typeOfDrefLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Type of DREF"
+        },
+        {
+            "action": "add",
+            "key": "unOrOtherActorsLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "UN or other actors"
+        },
+        {
+            "action": "add",
+            "key": "urbanLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Urban"
+        },
+        {
+            "action": "add",
+            "key": "whatWhereWhenSectionHeading",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "What happened, where and when?"
+        },
+        {
+            "action": "add",
+            "key": "womenLabel",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Assisted Women"
+        },
+        {
+            "action": "add",
+            "key": "drefAddIndicatorButtonLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Add Indicator"
+        },
+        {
+            "action": "add",
+            "key": "drefChangesCancelButton",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Cancel"
+        },
+        {
+            "action": "add",
+            "key": "drefChangesConflictWhileSaving",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Conflict while saving"
+        },
+        {
+            "action": "add",
+            "key": "drefChangesNoteLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Note:"
+        },
+        {
+            "action": "add",
+            "key": "drefChangesOverwriteButton",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Overwrite"
+        },
+        {
+            "action": "add",
+            "key": "drefChangesWillBeOverridden",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "If you continue saving, the previous changes will be overwritten by your changes."
+        },
+        {
+            "action": "add",
+            "key": "drefChildSafeguardingPolicyDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Child Safeguarding Policy"
+        },
+        {
+            "action": "add",
+            "key": "drefChildSafeguardingRiskAnalysisDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Q&A Child Safeguarding Risk Analysis"
+        },
+        {
+            "action": "add",
+            "key": "drefConflictWhileSaving",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "There's a newer version of current DREF application which was modified by &nbsp;"
+        },
+        {
+            "action": "add",
+            "key": "drefFeedbackForm",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Provide feedback on IFRC DREF"
+        },
+        {
+            "action": "add",
+            "key": "drefFinalReportDeleteRisk",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Delete Risk"
+        },
+        {
+            "action": "add",
+            "key": "drefFinalReportFormRemoveNeed",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Remove Need"
+        },
+        {
+            "action": "add",
+            "key": "drefFinalReportFormSelectImages",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Select images"
+        },
+        {
+            "action": "add",
+            "key": "drefFinalReportRemoveIntervention",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Remove Intervention"
+        },
+        {
+            "action": "add",
+            "key": "drefFinalReportRequestAmountDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "General funding requested to fund the interventions. List specific activities that will be carried out as part of the intervention in each sector. The activities should directly address the identified needs and align with the operation’s strategic objectives."
+        },
+        {
+            "action": "add",
+            "key": "drefFinalReportRequestAmountDescriptionPoint1",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "What specific actions will be taken in this sector to meet the identified needs?” Start by choosing indicators from the {indicatorDatabankLink} whenever possible. This makes it easier to compare and analyse results across all emergency operations."
+        },
+        {
+            "action": "add",
+            "key": "drefFinalReportRequestAmountDescriptionPoint2",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Pick indicators that align with the planned activities. This ensures that the indicators accurately reflect the actions being taken on the ground. Missing important indicators could mean missed chances to showcase the positive impact of the work being done."
+        },
+        {
+            "action": "add",
+            "key": "drefFinalReportRequestAmountDescriptionPoint3",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Keep in mind that more indicators can mean more work. Each indicator selected requires monitoring, tracking, and reporting, so be sure to choose the ones that best reflect the key outcomes of your actions."
+        },
+        {
+            "action": "add",
+            "key": "drefFinalReportRequestAmountDescriptionPoint4",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Consider the type of indicator unit. For example, it’s often simpler and clearer to track and report on the “number of people” rather than a “percentage of people.”"
+        },
+        {
+            "action": "add",
+            "key": "drefFinalReportRequestAmountDescriptionPoint5",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "For each indicator, set a target. This helps track progress and measure whether the operation is achieving its key objectives, making it easier to report results later on."
+        },
+        {
+            "action": "add",
+            "key": "drefFinalReportTotalTargeted",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Total assisted population is not equal to sum of other population fields"
+        },
+        {
+            "action": "add",
+            "key": "drefFormActionDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Description"
+        },
+        {
+            "action": "add",
+            "key": "drefFormActionFieldsLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Select the needs that apply."
+        },
+        {
+            "action": "add",
+            "key": "drefFormAddButton",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Add"
+        },
+        {
+            "action": "add",
+            "key": "drefFormAddCountry",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Add Country"
+        },
+        {
+            "action": "add",
+            "key": "drefFormAddRegion",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Region/Province"
+        },
+        {
+            "action": "add",
+            "key": "drefFormAffectedCountryAndProvince",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Affected Country and Affected Region(s)"
+        },
+        {
+            "action": "add",
+            "key": "drefFormAffectedFemaleLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Estimated female affected"
+        },
+        {
+            "action": "add",
+            "key": "drefFormAffectedMaleLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Estimated male affected"
+        },
+        {
+            "action": "add",
+            "key": "drefFormAffectedMinorBoysLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Estimated Boys (under 18)"
+        },
+        {
+            "action": "add",
+            "key": "drefFormAffectedMinorGirlsLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Estimated Girls (under 18)"
+        },
+        {
+            "action": "add",
+            "key": "drefFormAppealCode",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Appeal Code"
+        },
+        {
+            "action": "add",
+            "key": "drefFormAppealCodeDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Added by the regional PMER"
+        },
+        {
+            "action": "add",
+            "key": "drefFormAppealManager",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "IFRC Appeal Manager:"
+        },
+        {
+            "action": "add",
+            "key": "drefFormAppealManagerDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Added by the regional office"
+        },
+        {
+            "action": "add",
+            "key": "drefFormAssessmentReportUploadLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Assessment Report (Optional)"
+        },
+        {
+            "action": "add",
+            "key": "drefFormAssistedPopulation",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Total Assisted Population"
+        },
+        {
+            "action": "add",
+            "key": "drefFormBoys",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Assisted Boys (under 18)"
+        },
+        {
+            "action": "add",
+            "key": "drefFormBudgetTemplateLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Budget template"
+        },
+        {
+            "action": "add",
+            "key": "drefFormClickEmergencyResponseFramework",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Click to view Emergency Response Framework"
+        },
+        {
+            "action": "add",
+            "key": "drefFormClickEmergencyResponseFrameworkLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Click to view Emergency Response Framework"
+        },
+        {
+            "action": "add",
+            "key": "drefFormCoordinationMechanism",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Are there major coordination mechanisms in place?"
+        },
+        {
+            "action": "add",
+            "key": "drefFormCoordinationMechanismDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "List coordination mechanisms/platform in place at local/district and national level. Indicate the lead authorities/agencies. How the National Society is involved/positioned in this coordination. Does the NS in any lead/co-lead role? Any identified gap/overlap in the coordination (e.g., sector missing…)?"
+        },
+        {
+            "action": "add",
+            "key": "drefFormDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Description"
+        },
+        {
+            "action": "add",
+            "key": "drefFormDescriptionEvent",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Description of the Event"
+        },
+        {
+            "action": "add",
+            "key": "drefFormDisasterCategoryLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Disaster Category"
+        },
+        {
+            "action": "add",
+            "key": "drefFormDisasterDetails",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Disaster Details"
+        },
+        {
+            "action": "add",
+            "key": "drefFormDisasterTypeLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Type of Disaster"
+        },
+        {
+            "action": "add",
+            "key": "drefFormDrefRegionalPoint",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "DREF Regional Focal point:"
+        },
+        {
+            "action": "add",
+            "key": "drefFormDrefTypeTitle",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "DREF Type"
+        },
+        {
+            "action": "add",
+            "key": "drefFormEssentialInformation",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Essential Information"
+        },
+        {
+            "action": "add",
+            "key": "drefFormEstimatedDisplacedPeople",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Estimated Number of People on the move (if any)"
+        },
+        {
+            "action": "add",
+            "key": "drefFormEstimatedLocal",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Rural"
+        },
+        {
+            "action": "add",
+            "key": "drefFormEstimatedPercentage",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Estimated Percentage (Urban to Rural)"
+        },
+        {
+            "action": "add",
+            "key": "drefFormEstimatedUrban",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Urban"
+        },
+        {
+            "action": "add",
+            "key": "drefFormEstimatePeopleDisability",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Estimated Percentage People with Disability"
+        },
+        {
+            "action": "add",
+            "key": "drefFormEstimateResponse",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Estimate"
+        },
+        {
+            "action": "add",
+            "key": "drefFormEventDate",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Date of the Event"
+        },
+        {
+            "action": "add",
+            "key": "drefFormFocalPointNameLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Name"
+        },
+        {
+            "action": "add",
+            "key": "drefFormFocalPointTitleLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Title"
+        },
+        {
+            "action": "add",
+            "key": "drefFormGenerateTitle",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Generate title"
+        },
+        {
+            "action": "add",
+            "key": "drefFormGirls",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Assisted Girls (under 18)"
+        },
+        {
+            "action": "add",
+            "key": "drefFormGlideNum",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "GLIDE number"
+        },
+        {
+            "action": "add",
+            "key": "drefFormIcrc",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "ICRC"
+        },
+        {
+            "action": "add",
+            "key": "drefFormIcrcDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Presence or not of ICRC in country, and support directly provided for this emergency response. Other programs and support provided outside of the scope of this emergency should not be indicated here."
+        },
+        {
+            "action": "add",
+            "key": "drefFormIfrc",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "IFRC"
+        },
+        {
+            "action": "add",
+            "key": "drefFormIfrcDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Presence or not of IFRC in country (if not, indicate the cluster covering), support provided for this response, domestic coordination, technical, strategic, surge. Explain what support provided in terms of Secretariat services: PMER, Finance, Admin, HR, Security, logistics, NSD."
+        },
+        {
+            "action": "add",
+            "key": "drefFormIfrcEmergency",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "IFRC focal point for the emergency:"
+        },
+        {
+            "action": "add",
+            "key": "drefFormImminentDisaster",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Provide any updates in the situation since the field report and explain what is expected to happen."
+        },
+        {
+            "action": "add",
+            "key": "drefFormImminentDisasterCategoryLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Disaster Category (Optional)"
+        },
+        {
+            "action": "add",
+            "key": "drefFormImminentDisasterDetails",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Hazard Details"
+        },
+        {
+            "action": "add",
+            "key": "drefFormImminentDisasterTypeLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Type of Hazard"
+        },
+        {
+            "action": "add",
+            "key": "drefFormImminentNeedsIdentified",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Anticipated Needs"
+        },
+        {
+            "action": "add",
+            "key": "drefFormIndicatorsLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Indicators"
+        },
+        {
+            "action": "add",
+            "key": "drefFormIndicatorTargetLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Target"
+        },
+        {
+            "action": "add",
+            "key": "drefFormIndicatorTitleLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Title"
+        },
+        {
+            "action": "add",
+            "key": "drefFormInstantShareLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Create & Share"
+        },
+        {
+            "action": "add",
+            "key": "drefFormIntegrityContactEmailLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Email"
+        },
+        {
+            "action": "add",
+            "key": "drefFormIntegrityContactNameLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Name"
+        },
+        {
+            "action": "add",
+            "key": "drefFormIntegrityContactPhoneNumberLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Phone Number"
+        },
+        {
+            "action": "add",
+            "key": "drefFormIntegrityContactTitleLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Title"
+        },
+        {
+            "action": "add",
+            "key": "drefFormInternationalAssistance",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Government has requested international assistance"
+        },
+        {
+            "action": "add",
+            "key": "drefFormInterventionBudgetLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Budget"
+        },
+        {
+            "action": "add",
+            "key": "drefFormInterventionPersonAssistedLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Persons Assisted"
+        },
+        {
+            "action": "add",
+            "key": "drefFormInterventionPersonTargetedLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Persons Targeted"
+        },
+        {
+            "action": "add",
+            "key": "drefFormInterventionsLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Select the interventions that apply."
+        },
+        {
+            "action": "add",
+            "key": "drefFormListOfActivities",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "List of Activities"
+        },
+        {
+            "action": "add",
+            "key": "drefFormMediaContact",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Media Contact:"
+        },
+        {
+            "action": "add",
+            "key": "drefFormMen",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Assisted Men"
+        },
+        {
+            "action": "add",
+            "key": "drefFormNationalAuthorities",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "National authorities"
+        },
+        {
+            "action": "add",
+            "key": "drefFormNationalAuthoritiesDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Brief description of actions taken by the national authorities."
+        },
+        {
+            "action": "add",
+            "key": "drefFormNationalOtherActors",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Other Actors Actions Related To The Current Event"
+        },
+        {
+            "action": "add",
+            "key": "drefFormNationalSocietiesActionsDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Please indicate a description of the ongoing response with if possible: Branches involved, number of volunteers/staff involved in actions, assets deployed/distributed, number of people reach. Impact/added value of the NS in the response already ongoing."
+        },
+        {
+            "action": "add",
+            "key": "drefFormNationalSociety",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Name of National Society"
+        },
+        {
+            "action": "add",
+            "key": "drefFormNationalSocietyContact",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "National Society contact:"
+        },
+        {
+            "action": "add",
+            "key": "drefFormNationalSocietyDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Indicate your National Society by selecting it from the drop-down list."
+        },
+        {
+            "action": "add",
+            "key": "drefFormNationalSocietyHotlineNumberLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Phone Number"
+        },
+        {
+            "action": "add",
+            "key": "drefFormNationalSocietyHotlineNumberTitle",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "National Society Hotline"
+        },
+        {
+            "action": "add",
+            "key": "drefFormNationalSocietyIntegrityTitle",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "National Societies' Integrity Focal Point"
+        },
+        {
+            "action": "add",
+            "key": "drefFormNeedsIdentified",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Needs (Gaps) Identified"
+        },
+        {
+            "action": "add",
+            "key": "drefFormNoIndicatorMessage",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "No indicators"
+        },
+        {
+            "action": "add",
+            "key": "drefFormObjectiveAndStrategy",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Objective and Strategy Rationale"
+        },
+        {
+            "action": "add",
+            "key": "drefFormObjectiveOperation",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Overall objective of the operation"
+        },
+        {
+            "action": "add",
+            "key": "drefFormObjectiveOperationDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "The objective statement should clearly and concisely describe the primary goal of the operation, focusing on the humanitarian impact and the specific needs the operation aims to address."
+        },
+        {
+            "action": "add",
+            "key": "drefFormObjectiveOperationPlaceholder",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "The IFRC-DREF operation aims to [primary action] in order to [desired impact] for [target population] affected by [event/disaster], by providing [key services/interventions] and ensuring [core outcomes such as protection, dignity, and resilience] over [operation period]."
+        },
+        {
+            "action": "add",
+            "key": "drefFormOperationalTimeframes",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Operational Timeframes"
+        },
+        {
+            "action": "add",
+            "key": "drefFormOperationClickEmergencyResponseFramework",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Click to view Emergency Response Framework"
+        },
+        {
+            "action": "add",
+            "key": "drefFormOperationDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Description"
+        },
+        {
+            "action": "add",
+            "key": "drefFormPartnerNationalSociety",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Participating National Societies"
+        },
+        {
+            "action": "add",
+            "key": "drefFormPartnerNationalSocietyDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Briefly set out which PNS are present and give details of PNS contributions/roles on the ground and remotely for this specific operation"
+        },
+        {
+            "action": "add",
+            "key": "drefFormPeopleAffected",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Total affected population"
+        },
+        {
+            "action": "add",
+            "key": "drefFormPeopleAffectedDescriptionImminent",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Includes all those whose lives and livelihoods are at risk as a direct result of the shock or stress."
+        },
+        {
+            "action": "add",
+            "key": "drefFormPeopleAffectedDescriptionSlowSudden",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "People Affected include all those whose lives and livelihoods have been impacted as a direct result of the shock or stress."
+        },
+        {
+            "action": "add",
+            "key": "drefFormPeopleAssisted",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Total Assisted Population"
+        },
+        {
+            "action": "add",
+            "key": "drefFormPeopleAssistedDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Include all those whose the National Society assisted"
+        },
+        {
+            "action": "add",
+            "key": "drefFormPeopleAssistedThroughOperation",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Who was targeted by this operation?"
+        },
+        {
+            "action": "add",
+            "key": "drefFormPeopleAssistedThroughOperationDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Explain the logic behind our targets. Which groups are we targeting and why are we targeting these particular groups? Explain how you will target vulnerable groups (e.g., Migrants, refugees, etc.)"
+        },
+        {
+            "action": "add",
+            "key": "drefFormPeopleInNeed",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "People in need (Optional)"
+        },
+        {
+            "action": "add",
+            "key": "drefFormPeopleInNeedDescriptionImminent",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Include all those whose physical security, basic rights, dignity, living conditions or livelihoods are threatened or have been disrupted, and whose current level of access to basic services, goods and social protection will be inadequate to re-establish normal living conditions without additional assistance"
+        },
+        {
+            "action": "add",
+            "key": "drefFormPeopleInNeedDescriptionSlowSudden",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "People in Need (PIN) are those members whose physical security, basic rights, dignity, living conditions or livelihoods are threatened or have been disrupted, and whose current level of access to basic services, goods and social protection is inadequate to re-establish normal living conditions without additional assistance."
+        },
+        {
+            "action": "add",
+            "key": "drefFormPeopleTargetedWithEarlyActions",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Numbers of persons targeted with early actions (if any)"
+        },
+        {
+            "action": "add",
+            "key": "drefFormPlannedIntervention",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Planned Intervention"
+        },
+        {
+            "action": "add",
+            "key": "drefFormProjectManager",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "IFRC Project Manager:"
+        },
+        {
+            "action": "add",
+            "key": "drefFormProjectManagerDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Added by the regional office"
+        },
+        {
+            "action": "add",
+            "key": "drefFormRemoveIntervention",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Remove Intervention"
+        },
+        {
+            "action": "add",
+            "key": "drefFormResponseAddButton",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Add"
+        },
+        {
+            "action": "add",
+            "key": "drefFormResponseRationale",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Operation strategy rationale"
+        },
+        {
+            "action": "add",
+            "key": "drefFormResponseRationaleDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Elaborate on the overall plan, strategy and approach of the operation; explain the reasoning behind the chosen strategy for the emergency operation. Explain how the identified needs/gaps and actions taken/plans are linked."
+        },
+        {
+            "action": "add",
+            "key": "drefFormResponseRationaleDescriptionPoint1",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Highlight the most urgent needs the operation aims to address."
+        },
+        {
+            "action": "add",
+            "key": "drefFormResponseRationaleDescriptionPoint2",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Describe the main priorities and explain why these priorities were chosen based on the specific context of the emergency."
+        },
+        {
+            "action": "add",
+            "key": "drefFormResponseRationaleDescriptionPoint3",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Justify why particular methods and actions were selected and how they are expected to achieve the desired outcomes."
+        },
+        {
+            "action": "add",
+            "key": "drefFormResponseRationaleDescriptionPoint4",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Include any key factors that influence the strategy; mention how these factors were considered in shaping the operation."
+        },
+        {
+            "action": "add",
+            "key": "drefFormResponseRationaleForAssessment",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Please describe the strategy to conduct the assessment exercise, main objectives, who will be involved?"
+        },
+        {
+            "action": "add",
+            "key": "drefFormResponseRationalePlaceholder",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "To address the needs of the targeted population, this DREF will aim at (please briefly describe the planned activities)."
+        },
+        {
+            "action": "add",
+            "key": "drefFormRiskCountryLabelImminent",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "At Risk Country and Region(s)"
+        },
+        {
+            "action": "add",
+            "key": "drefFormRiskDoesNSHaveAntiFraudPolicy",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Does your National Society have anti-fraud and corruption policy?"
+        },
+        {
+            "action": "add",
+            "key": "drefFormRiskDoesNSHaveAntiSexualHarassmentPolicy",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Does your National Society have anti-sexual harassment policy?"
+        },
+        {
+            "action": "add",
+            "key": "drefFormRiskDoesNSHaveChildProtectionPolicy",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Does your National Society have child protection/child safeguarding policy?"
+        },
+        {
+            "action": "add",
+            "key": "drefFormRiskDoesNSHaveSexualAbusePolicy",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Does your National Society have prevention of sexual exploitation and abuse policy?"
+        },
+        {
+            "action": "add",
+            "key": "drefFormRiskDoesNSHaveWhistleblowerPolicy",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Does your National Society have whistleblower protection policy?"
+        },
+        {
+            "action": "add",
+            "key": "drefFormRiskPeopleLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Total population at risk"
+        },
+        {
+            "action": "add",
+            "key": "drefFormRiskSecurity",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Risk and Security Considerations (including \"management\")"
+        },
+        {
+            "action": "add",
+            "key": "drefFormRiskSecurityAddButton",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Add New Risk"
+        },
+        {
+            "action": "add",
+            "key": "drefFormRiskSecurityHasChildRiskCompleted",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Has the child safeguarding risk analysis assessment been completed?"
+        },
+        {
+            "action": "add",
+            "key": "drefFormRiskSecurityHasChildRiskCompletedDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "The IFRC Child Safeguarding Risk Analysis helps Operations quickly identify and rate their key child safeguarding risks in order to reduce the risk of harm against children, as outlined as a requirement in the IFRC Child Safeguarding Policy. Here are the link to the tool and Q&A"
+        },
+        {
+            "action": "add",
+            "key": "drefFormRiskSecurityMitigationLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Mitigation action"
+        },
+        {
+            "action": "add",
+            "key": "drefFormRiskSecurityPotentialRisk",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Please analyse and indicate potential risks for this operation, its root causes and mitigation actions."
+        },
+        {
+            "action": "add",
+            "key": "drefFormRiskSecurityPotentialRiskDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "When identifying the risks, please review the IFRC Risk Management Policy and Framework including the different risk categories. When possible, make sure that your identification of risks includes some analysis of previous incidents and performance of the NS in previous operations."
+        },
+        {
+            "action": "add",
+            "key": "drefFormRiskSecurityRiskCategoriesLinkLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Annex III - Risk Categories.pdf"
+        },
+        {
+            "action": "add",
+            "key": "drefFormRiskSecurityRiskLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Risk"
+        },
+        {
+            "action": "add",
+            "key": "drefFormRiskSecurityRiskSelectedDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Identify up to 5 key potential risks or threats that could negatively impact the success of the operation. These can range from environmental risks to social or logistical challenges."
+        },
+        {
+            "action": "add",
+            "key": "drefFormRiskSecurityRiskSelectedPoint1",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "What are the primary risks that could affect the operation’s implementation?"
+        },
+        {
+            "action": "add",
+            "key": "drefFormRiskSecurityRiskSelectedPoint2",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Are there any context-specific risks that need to be considered?"
+        },
+        {
+            "action": "add",
+            "key": "drefFormRiskSecurityRiskSelectedPoint3",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "How might these risks impact the operation’s objectives, timeline, or resources? Mitigation actions are actions or strategies that will be implemented to reduce or manage the identified risks, ensuring the operation can proceed as planned."
+        },
+        {
+            "action": "add",
+            "key": "drefFormRiskSecurityRiskSelectedPoint4",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "What specific measures or strategies will be put in place to mitigate the risks identified?"
+        },
+        {
+            "action": "add",
+            "key": "drefFormRiskSecurityRiskSelectedPoint5",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Will contingency plans or additional resources be required to address these risks?"
+        },
+        {
+            "action": "add",
+            "key": "drefFormRiskSecuritySafetyConcern",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Please indicate any security and safety concerns for this operation"
+        },
+        {
+            "action": "add",
+            "key": "drefFormRiskSecuritySafetyConcernDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Describe any specific security or safety threats that could impact the safety of personnel, volunteers, and communities during the operation."
+        },
+        {
+            "action": "add",
+            "key": "drefFormRiskSecuritySafetyConcernDescriptionPoint1",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Are there any security concerns related to the areas where the operation will take place (e.g., conflict zones, high-crime areas)"
+        },
+        {
+            "action": "add",
+            "key": "drefFormRiskSecuritySafetyConcernDescriptionPoint2",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "What safety risks could impact the well-being of staff, volunteers, or beneficiaries (e.g., dangerous terrain, health risks)?"
+        },
+        {
+            "action": "add",
+            "key": "drefFormRiskSecuritySafetyConcernDescriptionPoint3",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Are there any specific security protocols or measures that need to be established or followed during the operation?"
+        },
+        {
+            "action": "add",
+            "key": "drefFormScopeAndScaleDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Describe the extent this hazard will produce negative impacts on lives, livelihoods, well-being and infrastructure. Explain which people are most likely to experience the impacts of this hazard? Where do they live, and why are they vulnerable? Please explain which groups (e.g elderly, children, people with disabilities, IDPs, Refugees, etc.) are most likely to be affected? Provide historic information on how communities have been affected by the magnitude of this hazard in the past?"
+        },
+        {
+            "action": "add",
+            "key": "drefFormScopeAndScaleEvent",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Scope and scale of the event"
+        },
+        {
+            "action": "add",
+            "key": "drefFormSelectionCriteria",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Explain the selection criteria for the targeted population"
+        },
+        {
+            "action": "add",
+            "key": "drefFormSelectionCriteriaDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Explain the rational and logic behind which groups are being targeted and why and address vulnerable groups"
+        },
+        {
+            "action": "add",
+            "key": "drefFormSharingHeading",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Sharing"
+        },
+        {
+            "action": "add",
+            "key": "drefFormSlowEventDate",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Date when the trigger was met"
+        },
+        {
+            "action": "add",
+            "key": "drefFormSourceInformationAddButton",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Add New Source Information"
+        },
+        {
+            "action": "add",
+            "key": "drefFormSourceInformationDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Add the links and the name of the sources, the name will be shown in the export, as a hyperlink."
+        },
+        {
+            "action": "add",
+            "key": "drefFormSourceInformationTitle",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Source Information"
+        },
+        {
+            "action": "add",
+            "key": "drefFormSubmissionNameLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Name"
+        },
+        {
+            "action": "add",
+            "key": "drefFormSubmissionTitleLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Title"
+        },
+        {
+            "action": "add",
+            "key": "drefFormTargetedPopulation",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Assisted Population"
+        },
+        {
+            "action": "add",
+            "key": "drefFormTargetingStrategy",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Targeting Strategy"
+        },
+        {
+            "action": "add",
+            "key": "drefFormTitle",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "DREF Title"
+        },
+        {
+            "action": "add",
+            "key": "drefFormTotal",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Total Targeted Population"
+        },
+        {
+            "action": "add",
+            "key": "drefFormTrackingData",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Tracking Data and Contacts"
+        },
+        {
+            "action": "add",
+            "key": "drefFormTypeOfDref",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Type of DREF"
+        },
+        {
+            "action": "add",
+            "key": "drefFormTypeOfOnsetLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Type of Onset"
+        },
+        {
+            "action": "add",
+            "key": "drefFormUNorOtherActors",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "UN or other actors"
+        },
+        {
+            "action": "add",
+            "key": "drefFormUNorOtherActorsDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Brief description of actions taken by the UN or other actors."
+        },
+        {
+            "action": "add",
+            "key": "drefFormUploadAnImageLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Select an Image"
+        },
+        {
+            "action": "add",
+            "key": "drefFormUploadCoverImage",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Cover image"
+        },
+        {
+            "action": "add",
+            "key": "drefFormUploadCoverImageDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Upload a image for the cover page of the publicly published DREF application."
+        },
+        {
+            "action": "add",
+            "key": "drefFormUploadMap",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Upload map"
+        },
+        {
+            "action": "add",
+            "key": "drefFormUploadMapDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Add a map highlighting the targeted areas for this operation, it will be used for the publicly published DREF application."
+        },
+        {
+            "action": "add",
+            "key": "drefFormUploadPhotos",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Upload photos (e.g. impact of the events, NS in the field, assessments)"
+        },
+        {
+            "action": "add",
+            "key": "drefFormUploadPhotosLimitation",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Add maximum 4 photos"
+        },
+        {
+            "action": "add",
+            "key": "drefFormUploadTargetingSupportingDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Financial report file types: pdf"
+        },
+        {
+            "action": "add",
+            "key": "drefFormWhatWhereWhen",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "What happened, where and when?"
+        },
+        {
+            "action": "add",
+            "key": "drefFormWhatWhereWhenDescriptionHeading",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Clearly Describe:"
+        },
+        {
+            "action": "add",
+            "key": "drefFormWhatWhereWhenDescriptionPoint1",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "What happened: Briefly explain the nature of the emergency (e.g., flood, earthquake, epidemic). Include key details such as the intensity, and any unique aspects of the event."
+        },
+        {
+            "action": "add",
+            "key": "drefFormWhatWhereWhenDescriptionPoint2",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Where: Specify the geographic location(s) affected. Be as precise as possible, including names of countries, regions, cities, or specific areas impacted by the event."
+        },
+        {
+            "action": "add",
+            "key": "drefFormWhatWhereWhenDescriptionPoint3",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "When: Indicate the date and time when the event occurred or began. If the situation is ongoing, mention that and provide relevant updates on the timeframe."
+        },
+        {
+            "action": "add",
+            "key": "drefFormWomen",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Assisted Women"
+        },
+        {
+            "action": "add",
+            "key": "drefFromFocalPointEmailLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Email"
+        },
+        {
+            "action": "add",
+            "key": "drefFromFocalPointPhoneNumberLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Phone Number"
+        },
+        {
+            "action": "add",
+            "key": "drefFromSubmissionEmailLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Email"
+        },
+        {
+            "action": "add",
+            "key": "drefFromSubmissionPhoneNumberLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Phone Number"
+        },
+        {
+            "action": "add",
+            "key": "drefIndicatorDataLinkLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "IFRC Indicator Databank"
+        },
+        {
+            "action": "add",
+            "key": "drefIndicatorRemoveButtonLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Remove"
+        },
+        {
+            "action": "add",
+            "key": "drefOperationalShareApplicationDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "The users will be able to view, edit and add other users."
+        },
+        {
+            "action": "add",
+            "key": "drefOperationalShareApplicationLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "The DREF Final Report is shared with"
+        },
+        {
+            "action": "add",
+            "key": "drefOperationalUpdateIndicatorActualLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Actual"
+        },
+        {
+            "action": "add",
+            "key": "drefOperationalUpdateIndicatorFemaleLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Female"
+        },
+        {
+            "action": "add",
+            "key": "drefOperationalUpdateIndicatorMaleLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Male"
+        },
+        {
+            "action": "add",
+            "key": "finalReportChangeToOperationStrategy",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Has there been any changes to the operation strategy"
+        },
+        {
+            "action": "add",
+            "key": "finalReportChangeToOperationStrategyExplain",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Explain"
+        },
+        {
+            "action": "add",
+            "key": "finalReportDateOfPublication",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Publication date of final report"
+        },
+        {
+            "action": "add",
+            "key": "finalReportDescriptionOfAdditionalActivities",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Please provide a brief description of those additional activities"
+        },
+        {
+            "action": "add",
+            "key": "finalReportEndOfOperation",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Operational end date"
+        },
+        {
+            "action": "add",
+            "key": "finalReportFinancialReport",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Financial report"
+        },
+        {
+            "action": "add",
+            "key": "finalReportFinancialReportAttachment",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Please attach the final financial report"
+        },
+        {
+            "action": "add",
+            "key": "finalReportFinancialReportVariances",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Please explain variances (if any)"
+        },
+        {
+            "action": "add",
+            "key": "finalReportHaveNationalSocietyConducted",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Have the National Society conducted any intervention additionally to those part of this DREF Operation?"
+        },
+        {
+            "action": "add",
+            "key": "finalReportMainDonor",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Main Donors"
+        },
+        {
+            "action": "add",
+            "key": "finalReportNationalSocietiesActions",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "National Society Actions"
+        },
+        {
+            "action": "add",
+            "key": "finalReportPlannedInterventionChallenges",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Challenges"
+        },
+        {
+            "action": "add",
+            "key": "finalReportPlannedInterventionLessonsLearnt",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Lessons Learnt"
+        },
+        {
+            "action": "add",
+            "key": "finalReportPlannedInterventionNarrativeAchievement",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Narrative description of achievements "
+        },
+        {
+            "action": "add",
+            "key": "finalReportStartOfOperation",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Start of operation"
+        },
+        {
+            "action": "add",
+            "key": "finalReportTotalAllocation",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Total DREF Allocation"
+        },
+        {
+            "action": "add",
+            "key": "finalReportTotalOperatingTimeFrame",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Total operating timeframe"
+        },
+        {
+            "action": "add",
+            "key": "formBackButtonLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Back"
+        },
+        {
+            "action": "add",
+            "key": "formContinueButtonLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Continue"
+        },
+        {
+            "action": "add",
+            "key": "formExportLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Export"
+        },
+        {
+            "action": "add",
+            "key": "formLoadErrorDescription",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "There was an error loading the DREF Final Report"
+        },
+        {
+            "action": "add",
+            "key": "formLoadErrorHelpText",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Please make sure that the final report with given id exists and you have the permission to view it"
+        },
+        {
+            "action": "add",
+            "key": "formLoadErrorTitle",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Failed to load DREF Final Report"
+        },
+        {
+            "action": "add",
+            "key": "formLoadingMessage",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Loading DREF Final Report..."
+        },
+        {
+            "action": "add",
+            "key": "formLoadRequestFailureMessage",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Failed to load DREF Final Report"
+        },
+        {
+            "action": "add",
+            "key": "formNotAvailableInSelectedLanguageMessage",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "DREF Final Report is not available for edit in the selected language!"
+        },
+        {
+            "action": "add",
+            "key": "formPageHeading",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "DREF Final Report"
+        },
+        {
+            "action": "add",
+            "key": "formPageTitle",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "IFRC GO - DREF Final Report"
+        },
+        {
+            "action": "add",
+            "key": "formSaveButtonLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Save"
+        },
+        {
+            "action": "add",
+            "key": "formSaveRequestFailureMessage",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Failed to create/update DREF Final Report"
+        },
+        {
+            "action": "add",
+            "key": "formSaveRequestSuccessMessage",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "DREF Final Report created/updated successfully"
+        },
+        {
+            "action": "add",
+            "key": "formShareButtonLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Add"
+        },
+        {
+            "action": "add",
+            "key": "formSubmitButtonLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Submit"
+        },
+        {
+            "action": "add",
+            "key": "formTabActionsLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Actions/Needs"
+        },
+        {
+            "action": "add",
+            "key": "formTabEventDetailLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Event Detail"
+        },
+        {
+            "action": "add",
+            "key": "formTabOperationLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Operation"
+        },
+        {
+            "action": "add",
+            "key": "formTabOverviewLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Operation Overview"
+        },
+        {
+            "action": "add",
+            "key": "formTabSubmissionLabel",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Operational timeframes and contacts"
+        },
+        {
+            "action": "add",
+            "key": "icrcActionsHeading",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "ICRC Actions Related To The Current Event"
+        },
+        {
+            "action": "add",
+            "key": "ifrcNetworkActionsHeading",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "IFRC Network Actions Related To The Current Event"
+        },
+        {
+            "action": "add",
+            "key": "numericDetails",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "Numeric Details"
+        },
+        {
+            "action": "add",
+            "key": "userListEmptyMessage",
+            "namespace": "oldDrefFinalReportForm",
+            "value": "The DREF Final report is not shared with anyone."
+        }
+    ]
+}
