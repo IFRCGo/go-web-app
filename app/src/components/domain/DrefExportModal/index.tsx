@@ -1,9 +1,9 @@
 import {
-    useCallback,
     useEffect,
     useMemo,
     useState,
 } from 'react';
+import { DownloadLineIcon } from '@ifrc-go/icons';
 import {
     Button,
     Checkbox,
@@ -57,34 +57,7 @@ function DrefExportModal(props: Props) {
     const alert = useAlert();
 
     const [exportId, setExportId] = useState<number | undefined>();
-    const [isPga, setIsPga] = useState<boolean>(false);
-    const imminentFinalReport = applicationType === 'FINAL_REPORT' && drefType === DREF_TYPE_IMMINENT;
-    const [isPgaCheckboxVisible, setIsPgaCheckboxVisible] = useState(() => !imminentFinalReport);
-
-    const drefExportTriggerBody = useMemo(
-        () => {
-            let type: ExportTypeEnum;
-            if (applicationType === 'OPS_UPDATE') {
-                type = 'dref-operational-updates';
-            } else if (applicationType === 'FINAL_REPORT') {
-                type = 'dref-final-reports';
-            } else {
-                type = 'dref-applications';
-            }
-            return {
-                export_id: id,
-                export_type: type,
-                is_pga: isPga,
-                selector: '#pdf-preview-ready',
-                per_country: undefined,
-            };
-        },
-        [
-            id,
-            isPga,
-            applicationType,
-        ],
-    );
+    const [includePga, setIncludePga] = useState<boolean>(false);
 
     const exportTriggerBody = useMemo(
         () => {
@@ -100,48 +73,23 @@ function DrefExportModal(props: Props) {
             return {
                 export_id: id,
                 export_type: type,
-                is_pga: isPga,
+                is_pga: includePga,
                 selector: '#pdf-preview-ready',
                 per_country: undefined,
             };
         },
         [
             id,
-            isPga,
+            includePga,
             applicationType,
         ],
     );
 
     const {
-        pending: pendingDrefImminentExportTrigger,
-        error: drefImminentExportError,
-        trigger: drefImminentExportTrigger,
+        pending: exportPending,
+        error: exportError,
+        trigger: triggerExport,
     } = useLazyRequest({
-        method: 'POST',
-        useCurrentLanguageForMutation: true,
-        url: '/api/v2/pdf-export/',
-        body: drefExportTriggerBody,
-        onSuccess: (response) => {
-            if (isDefined(response.id)) {
-                setExportId(response.id);
-            }
-        },
-        onFailure: () => {
-            alert.show(
-                strings.drefFailureToExportMessage,
-                { variant: 'danger' },
-            );
-        },
-    });
-
-    const {
-        pending: pendingExportTrigger,
-        error: exportTriggerError,
-    } = useRequest({
-        skip: isDefined(exportId)
-            || isNotDefined(id)
-            || drefType === DREF_TYPE_IMMINENT
-            || imminentFinalReport,
         method: 'POST',
         useCurrentLanguageForMutation: true,
         url: '/api/v2/pdf-export/',
@@ -159,8 +107,22 @@ function DrefExportModal(props: Props) {
         },
     });
 
+    useEffect(() => {
+        if (isDefined(exportId) || isNotDefined(id)) {
+            return;
+        }
+
+        // Don't automatically trigger the export for imminent DREFs (except for Final Reports)
+        // We need to allow users to configure PGA before the export
+        if (drefType === DREF_TYPE_IMMINENT && applicationType !== 'FINAL_REPORT') {
+            return;
+        }
+
+        triggerExport(null);
+    }, [exportId, id, drefType, applicationType, triggerExport]);
+
     const {
-        pending: pendingExportStatus,
+        pending: exportStatusPending,
         response: exportStatusResponse,
         error: exportStatusError,
     } = useRequest({
@@ -177,111 +139,65 @@ function DrefExportModal(props: Props) {
         },
     });
 
-    const handleDrefImminent = useCallback(() => {
-        setIsPgaCheckboxVisible(false);
-        drefImminentExportTrigger(drefExportTriggerBody);
-    }, [
-        drefExportTriggerBody,
-        drefImminentExportTrigger,
-    ]);
-
-    useEffect(() => {
-        if (
-            imminentFinalReport
-            && !exportId
-            && !pendingDrefImminentExportTrigger
-        ) {
-            drefImminentExportTrigger(drefExportTriggerBody);
+    const exportStatus = useMemo(() => {
+        if (exportPending) {
+            return 'PREPARE';
         }
+
+        if (exportStatusPending || exportStatusResponse?.status === EXPORT_STATUS_PENDING) {
+            return 'WAITING';
+        }
+
+        if (isDefined(exportStatusError)
+            || isDefined(exportError)
+            || (isDefined(exportStatusResponse)
+                && exportStatusResponse.status === EXPORT_STATUS_ERRORED)
+        ) {
+            return 'FAILED';
+        }
+
+        if (isDefined(exportStatusResponse)
+            && isDefined(exportStatusResponse.status === EXPORT_STATUS_COMPLETED)
+            && isDefined(exportStatusResponse.pdf_file)
+        ) {
+            return 'SUCCESS';
+        }
+
+        return 'NOT_STARTED';
     }, [
-        imminentFinalReport,
-        exportId,
-        pendingDrefImminentExportTrigger,
-        drefImminentExportTrigger,
-        drefExportTriggerBody,
+        exportPending,
+        exportStatusError,
+        exportError,
+        exportStatusPending,
+        exportStatusResponse,
     ]);
 
     return (
         <Modal
             heading={strings.drefExportTitle}
             onClose={onCancel}
+            className={styles.drefExportModal}
         >
-            {drefType === DREF_TYPE_IMMINENT
-                && isPgaCheckboxVisible
-                && !(pendingExportTrigger
-                    || pendingExportStatus
-                    || exportStatusResponse?.status === EXPORT_STATUS_PENDING)
-                && (
-                    <Checkbox
-                        name={undefined}
-                        value={isPga}
-                        onChange={setIsPga}
-                        label={strings.drefDownloadPDFWithPGA}
-                    />
-                )}
-            {pendingExportTrigger && pendingDrefImminentExportTrigger && (
+            {exportStatus === 'PREPARE' && (
                 <Message
                     pending
                     title={strings.drefPreparingExport}
                 />
             )}
-            {(pendingExportStatus
-                || exportStatusResponse?.status === EXPORT_STATUS_PENDING) && (
+            {exportStatus === 'WAITING' && (
                 <Message
                     pending
                     title={strings.drefWaitingExport}
                 />
             )}
-            {(exportStatusResponse?.status === EXPORT_STATUS_ERRORED
-                || isDefined(exportTriggerError)
-                || isDefined(exportStatusError)
-                || isDefined(drefImminentExportError)
-            ) && (
+            {exportStatus === 'FAILED' && (
                 <Message
                     title={strings.drefExportFailed}
-                    description={exportTriggerError?.value.messageForNotification
-                            ?? exportStatusError?.value.messageForNotification
-                            ?? drefImminentExportError?.value.messageForNotification}
+                    description={exportError?.value.messageForNotification
+                            ?? exportStatusError?.value.messageForNotification}
                 />
             )}
-            {!imminentFinalReport
-                && !(pendingExportTrigger
-                    || pendingExportStatus
-                    || exportStatusResponse?.status === EXPORT_STATUS_PENDING)
-                && drefType === DREF_TYPE_IMMINENT
-                && !drefImminentExportError && (
-                exportStatusResponse?.pdf_file ? (
-                    <Message
-                        title={strings.drefExportSuccessfully}
-                        description={strings.drefClickDownloadLink}
-                        actions={(
-                            <Link
-                                variant="secondary"
-                                href={exportStatusResponse?.pdf_file}
-                                external
-                            >
-                                {strings.drefDownloadPDF}
-                            </Link>
-                        )}
-                    />
-                ) : (!exportStatusResponse && (
-                    <div className={styles.downloadButton}>
-                        <Button
-                            variant="secondary"
-                            name={undefined}
-                            onClick={handleDrefImminent}
-                        >
-                            {isPga
-                                ? strings.drefDownloadPDFWithPGA
-                                : strings.drefDownloadPDFwithoutPGA}
-                        </Button>
-                    </div>
-                ))
-            )}
-            {isDefined(exportStatusResponse)
-                && exportStatusResponse.status === EXPORT_STATUS_COMPLETED
-                && isDefined(exportStatusResponse.pdf_file)
-                && drefType !== DREF_TYPE_IMMINENT && (
+            {exportStatus === 'SUCCESS' && (
                 <Message
                     title={strings.drefExportSuccessfully}
                     description={strings.drefClickDownloadLink}
@@ -289,10 +205,32 @@ function DrefExportModal(props: Props) {
                         <Link
                             variant="secondary"
                             href={exportStatusResponse?.pdf_file}
+                            icons={<DownloadLineIcon className={styles.icon} />}
                             external
                         >
                             {strings.drefDownloadPDF}
                         </Link>
+                    )}
+                />
+            )}
+            {exportStatus === 'NOT_STARTED' && (
+                <Message
+                    title={strings.configureExportLabel}
+                    description={drefType === DREF_TYPE_IMMINENT && applicationType !== 'FINAL_REPORT' && (
+                        <Checkbox
+                            name={undefined}
+                            value={includePga}
+                            onChange={setIncludePga}
+                            label={strings.includePgaLabel}
+                        />
+                    )}
+                    actions={(
+                        <Button
+                            name={null}
+                            onClick={triggerExport}
+                        >
+                            {strings.startExportLabel}
+                        </Button>
                     )}
                 />
             )}

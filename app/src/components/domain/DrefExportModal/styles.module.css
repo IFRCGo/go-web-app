@@ -1,6 +1,5 @@
-.download-button {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    padding: var(--go-ui-spacing-md);
+.dref-export-modal {
+    .icon {
+        font-size: var(--go-ui-height-icon-multiplier);
+    }
 }
