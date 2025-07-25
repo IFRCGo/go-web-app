@@ -3,6 +3,18 @@
     "actions": [
         {
             "action": "add",
+            "key": "peopleAtRiskLabel",
+            "namespace": "drefApplicationExport",
+            "value": "People at Risk"
+        },
+        {
+            "action": "update",
+            "key": "peopleAffectedLabel",
+            "namespace": "drefApplicationExport",
+            "newNamespace": "oldDrefFinalReportExport"
+        },
+        {
+            "action": "add",
             "key": "configureExportLabel",
             "namespace": "drefExportModal",
             "value": "Configure export"
@@ -81,6 +93,12 @@
         },
         {
             "action": "add",
+            "key": "peopleAtRiskLabel",
+            "namespace": "drefFinalReportExport",
+            "value": "People at Risk"
+        },
+        {
+            "action": "add",
             "key": "priorityActionsBudget",
             "namespace": "drefFinalReportExport",
             "value": "Budget (CHF)"
@@ -126,6 +144,11 @@
             "key": "publicationDate",
             "namespace": "drefFinalReportExport",
             "value": "Publication Date"
+        },
+        {
+            "action": "remove",
+            "key": "peopleAffectedLabel",
+            "namespace": "drefFinalReportExport"
         },
         {
             "action": "update",
@@ -366,6 +389,17 @@
             "key": "drefFormRiskSecurityPotentialRiskAssessmentDescription",
             "namespace": "drefFinalReportForm",
             "newNamespace": "oldDrefFinalReportForm"
+        },
+        {
+            "action": "add",
+            "key": "peopleAtRiskLabel",
+            "namespace": "drefOperationalUpdateExport",
+            "value": "People at Risk"
+        },
+        {
+            "action": "remove",
+            "key": "peopleAffectedLabel",
+            "namespace": "drefOperationalUpdateExport"
         },
         {
             "action": "add",
@@ -768,12 +802,6 @@
             "key": "participatingNsLabel",
             "namespace": "oldDrefFinalReportExport",
             "value": "Participating National Societies"
-        },
-        {
-            "action": "add",
-            "key": "peopleAffectedLabel",
-            "namespace": "oldDrefFinalReportExport",
-            "value": "People Affected"
         },
         {
             "action": "add",
