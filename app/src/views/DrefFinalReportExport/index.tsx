@@ -514,14 +514,25 @@ export function Component() {
                     valueType="date"
                     strongValue
                 />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.operationTimeframeLabel}
-                    value={drefResponse?.total_operation_timeframe}
-                    valueType="number"
-                    suffix={strings.monthsSuffix}
-                    strongValue
-                />
+                {drefResponse?.type_of_dref === DREF_TYPE_IMMINENT ? (
+                    <TextOutput
+                        className={styles.metaItem}
+                        label={strings.operationTimeframeLabel}
+                        value={drefResponse?.total_operation_timeframe_imminent}
+                        valueType="number"
+                        suffix={strings.monthsSuffix}
+                        strongValue
+                    />
+                ) : (
+                    <TextOutput
+                        className={styles.metaItem}
+                        label={strings.operationTimeframeLabel}
+                        value={drefResponse?.total_operation_timeframe}
+                        valueType="number"
+                        suffix={strings.monthsSuffix}
+                        strongValue
+                    />
+                )}
                 {drefResponse?.type_of_dref === DREF_TYPE_IMMINENT && (
                     <TextOutput
                         className={styles.metaItem}

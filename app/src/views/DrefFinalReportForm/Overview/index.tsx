@@ -382,6 +382,7 @@ function Overview(props: Props) {
                         disabled={disabled}
                         onOptionsChange={setDistrictOptions}
                         error={getErrorString(error?.district)}
+                        withAsterisk
                     />
                 </InputSection>
                 <InputSection title={strings.drefFormTitle}>

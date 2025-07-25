@@ -19,6 +19,7 @@ import {
     urlCondition,
 } from '@togglecorp/toggle-form';
 
+import { DREF_TYPE_IMMINENT } from '#utils/constants';
 import {
     positiveIntegerCondition,
     positiveNumberCondition,
@@ -343,6 +344,7 @@ const schema: FinalReportFormSchema = {
             // SUBMISSION
             operation_start_date: {},
             total_operation_timeframe: { validations: [positiveNumberCondition] },
+            total_operation_timeframe_imminent: { validations: [positiveNumberCondition] },
             operation_end_date: {},
             date_of_publication: {},
             appeal_code: {},
@@ -684,6 +686,29 @@ const schema: FinalReportFormSchema = {
         );
 
         // SUBMISSION
+        formFields = addCondition(
+            formFields,
+            formValue,
+            ['type_of_dref'],
+            ['total_operation_timeframe', 'total_operation_timeframe_imminent'],
+            (val): Pick<FinalReportFormSchemaFields, 'total_operation_timeframe' | 'total_operation_timeframe_imminent'> => {
+                if (val?.type_of_dref === DREF_TYPE_IMMINENT) {
+                    return {
+                        total_operation_timeframe: { forceValue: undefinedValue },
+                        total_operation_timeframe_imminent: {
+                            validations: [positiveNumberCondition],
+                        },
+                    };
+                }
+
+                return {
+                    total_operation_timeframe_imminent: { forceValue: undefinedValue },
+                    total_operation_timeframe: {
+                        validations: [positiveNumberCondition],
+                    },
+                };
+            },
+        );
 
         // none
 

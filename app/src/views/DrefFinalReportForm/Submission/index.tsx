@@ -20,6 +20,7 @@ import {
 
 import { DREF_TYPE_IMMINENT } from '#utils/constants';
 
+import { TYPE_IMMINENT } from '../common';
 import { type PartialFinalReport } from '../schema';
 
 import i18n from './i18n.json';
@@ -92,14 +93,26 @@ function Submission(props: Props) {
                         error={error?.operation_start_date}
                         disabled={disabled}
                     />
-                    <NumberInput
-                        label={strings.finalReportTotalOperatingTimeFrame}
-                        name="total_operation_timeframe"
-                        value={value.total_operation_timeframe}
-                        onChange={handleTotalOperationTimeframeChange}
-                        error={error?.total_operation_timeframe}
-                        disabled={disabled}
-                    />
+                    {value.type_of_dref === TYPE_IMMINENT ? (
+                        <NumberInput
+                            label={strings.finalReportTotalOperatingTimeFrame}
+                            name="total_operation_timeframe_imminent"
+                            value={value.total_operation_timeframe_imminent}
+                            onChange={setFieldValue}
+                            error={error?.total_operation_timeframe_imminent}
+                            disabled={disabled}
+                            readOnly
+                        />
+                    ) : (
+                        <NumberInput
+                            label={strings.finalReportTotalOperatingTimeFrame}
+                            name="total_operation_timeframe"
+                            value={value.total_operation_timeframe}
+                            onChange={handleTotalOperationTimeframeChange}
+                            error={error?.total_operation_timeframe}
+                            disabled={disabled}
+                        />
+                    )}
                 </InputSection>
                 <InputSection
                     withoutTitleSection

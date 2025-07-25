@@ -140,6 +140,7 @@ export const operationTabFields: (keyof PartialDref)[] = [
     'communication',
     'addressed_humanitarian_impacts',
     'contingency_plans_supporting_document',
+    'proposed_action',
 ] satisfies (keyof PartialDref)[];
 
 export const timeframeAndContactsTabFields: (keyof PartialDref)[] = [
