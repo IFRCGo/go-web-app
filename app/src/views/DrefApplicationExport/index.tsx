@@ -697,7 +697,7 @@ export function Component() {
                         />
                         <TextOutput
                             className={styles.metaItem}
-                            label={strings.peopleAffectedLabel}
+                            label={strings.peopleAtRiskLabel}
                             value={drefResponse?.num_affected}
                             valueType="number"
                             suffix={strings.peopleSuffix}
