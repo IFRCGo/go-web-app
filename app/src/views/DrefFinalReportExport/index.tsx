@@ -93,7 +93,6 @@ export function Component() {
     const primarySectorOptions = usePrimarySector();
 
     const {
-        // pending: fetchingDref,
         response: drefResponse,
     } = useRequest({
         skip: isFalsyString(finalReportId),
@@ -670,7 +669,6 @@ export function Component() {
                     headingLevel={3}
                     childrenContainerClassName={styles.proposedActions}
                 >
-                    <div className={styles.actionTitleLabel} />
                     <div className={styles.actionTitleLabel}>
                         {strings.proposedActionsSector}
                     </div>
@@ -681,7 +679,7 @@ export function Component() {
                         {strings.priorityActionsBudget}
                     </div>
                     <div className={styles.actionTitleLabel}>
-                        Expenditure
+                        {strings.expenditure}
                     </div>
                     {groupedProposedActions.map((proposedAction) => (
                         <Fragment key={proposedAction.key}>
@@ -694,7 +692,7 @@ export function Component() {
                                 <img
                                     className={styles.icon}
                                     src={proposedAction.icon}
-                                    alt=""
+                                    alt={strings.imageIcon}
                                 />
                                 <div className={styles.title}>
                                     {proposedAction.title}
@@ -702,7 +700,7 @@ export function Component() {
                             </div>
                             {proposedAction.actions.map((action) => (
                                 <Fragment key={action.id}>
-                                    {action.activities.map((activity, i) => (
+                                    {action.activities.map((activity, index) => (
                                         <Fragment key={activity.id}>
                                             <SelectOutput
                                                 className={styles.sector}
@@ -715,7 +713,7 @@ export function Component() {
                                             <div className={styles.activity}>
                                                 {activity.activity}
                                             </div>
-                                            {i === 0 && (
+                                            {index === 0 && (
                                                 <div
                                                     className={styles.budget}
                                                     style={{ gridRow: `span ${action.activities.length}` }}
@@ -726,7 +724,7 @@ export function Component() {
                                                     />
                                                 </div>
                                             )}
-                                            {i === 0 && (
+                                            {index === 0 && (
                                                 <div
                                                     className={styles.budget}
                                                     style={{ gridRow: `span ${action.activities.length}` }}

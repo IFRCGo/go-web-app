@@ -16,18 +16,11 @@ type TypeOfDrefEnum = components<'read'>['schemas']['DrefDrefDrefTypeEnumKey'];
 type TypeOfOnsetEnum = components<'read'>['schemas']['DrefDrefOnsetTypeEnumKey'];
 type ProposedActionOption = NonNullable<GlobalEnumsResponse['dref_proposed_action']>[number];
 
-// export const ONSET_SLOW = 1 satisfies TypeOfOnsetEnum;
 export const ONSET_SUDDEN = 2 satisfies TypeOfOnsetEnum;
 
 export const TYPE_IMMINENT = 0 satisfies TypeOfDrefEnum;
 export const TYPE_ASSESSMENT = 1 satisfies TypeOfDrefEnum;
-// export const TYPE_RESPONSE = 2 satisfies TypeOfDrefEnum;
 export const TYPE_LOAN = 3 satisfies TypeOfDrefEnum;
-
-// FIXME: identify a way to store disaster
-// const DISASTER_FIRE = 15;
-// const DISASTER_FLASH_FLOOD = 27;
-// const DISASTER_FLOOD = 12;
 
 export const SUB_TOTAL = 75000;
 export const SURGE_DEPLOYMENT_COST = 10000;

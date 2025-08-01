@@ -313,21 +313,6 @@ function Overview(props: Props) {
                             value?.type_of_dref === TYPE_IMMINENT
                         }
                     />
-                    {/* (value?.disaster_type === DISASTER_FIRE
-                    || value?.disaster_type === DISASTER_FLASH_FLOOD
-                    || value?.disaster_type === DISASTER_FLOOD)
-                    ? (
-                        <BooleanInput
-                            name="is_man_made_event"
-                            label={strings.drefFormManMadeEvent}
-                            value={value?.is_man_made_event}
-                            onChange={setFieldValue}
-                            error={error?.is_man_made_event}
-                            disabled={disabled}
-                        />
-                    ) : (
-                        <div />
-                    ) */}
                     {value?.type_of_dref !== TYPE_IMMINENT && (
                         <SelectInput
                             name="disaster_category"
