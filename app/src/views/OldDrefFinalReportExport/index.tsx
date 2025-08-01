@@ -134,7 +134,6 @@ export function Component() {
 
     const sortedPlannedInterventions = useMemo(
         () => filteredPlannedIntervention?.sort(
-
             (a, b) => plannedInterventionOrder[a.title] - plannedInterventionOrder[b.title],
         ),
         [filteredPlannedIntervention],
@@ -142,7 +141,6 @@ export function Component() {
 
     const sortedIdentifiedNeedsAndGaps = useMemo(
         () => filteredIdentifiedNeedsAndGaps?.sort(
-
             (a, b) => identifiedNeedsAndGapsOrder[a.title] - identifiedNeedsAndGapsOrder[b.title],
         ),
         [filteredIdentifiedNeedsAndGaps],
@@ -648,7 +646,7 @@ export function Component() {
                                     <img
                                         className={styles.icon}
                                         src={identifiedNeed.image_url}
-                                        alt=""
+                                        alt={strings.imageIcon}
                                     />
                                     {identifiedNeed.title_display}
                                 </Heading>
@@ -888,7 +886,7 @@ export function Component() {
                                     <img
                                         className={styles.icon}
                                         src={plannedIntervention.image_url}
-                                        alt=""
+                                        alt={strings.imageIcon}
                                     />
                                     {plannedIntervention.title_display}
                                 </Heading>

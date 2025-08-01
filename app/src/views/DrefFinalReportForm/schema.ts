@@ -631,7 +631,6 @@ const schema: FinalReportFormSchema = {
                             required: true,
                             validations: [
                                 (value: Maybe<number>) => (
-                                    // FIXME: use translations
                                     isDefined(value) && value !== SUB_TOTAL
                                         ? 'The sub-total of the budgets should be exactly CHF 75000'
                                         : undefined

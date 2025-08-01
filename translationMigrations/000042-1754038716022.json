@@ -63,9 +63,21 @@
         },
         {
             "action": "add",
+            "key": "expenditure",
+            "namespace": "drefFinalReportExport",
+            "value": "Expenditure"
+        },
+        {
+            "action": "add",
             "key": "financialReportVariancesModificationHeading",
             "namespace": "drefFinalReportExport",
             "value": "Explain any variances or modifications to the implemented activities"
+        },
+        {
+            "action": "add",
+            "key": "imageIcon",
+            "namespace": "drefFinalReportExport",
+            "value": "Icon"
         },
         {
             "action": "add",
@@ -628,6 +640,12 @@
             "key": "icrcActionsHeading",
             "namespace": "oldDrefFinalReportExport",
             "value": "ICRC Actions Related To The Current Event"
+        },
+        {
+            "action": "add",
+            "key": "imageIcon",
+            "namespace": "oldDrefFinalReportExport",
+            "value": "Icon"
         },
         {
             "action": "add",

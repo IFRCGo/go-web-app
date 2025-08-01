@@ -100,6 +100,7 @@
         "nationalSocietyHotlineHeading": "National Society Hotline",
         "sourceInformationSectionHeading": "Source Information",
         "sourceInformationSourceNameTitle": "Source Name",
-        "sourceInformationSourceLinkTitle": "Source Link"
+        "sourceInformationSourceLinkTitle": "Source Link",
+        "imageIcon": "Icon"
     }
 }

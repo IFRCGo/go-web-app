@@ -174,15 +174,6 @@ export function Component() {
                     // eslint-disable-next-line max-len
                     newMap[response.financial_report_details.id] = response.financial_report_details.file;
                 }
-                /*
-                if ((response.photos_file?.length ?? 0) > 0) {
-                    response.photos_file?.forEach((img) => {
-                        if (isDefined(img.file)) {
-                            newMap[img.id] = img.file;
-                        }
-                    });
-                }
-                */
                 if ((response.images_file?.length ?? 0) > 0) {
                     response.images_file?.forEach((img) => {
                         if (isDefined(img.file) && isDefined(img.id)) {
