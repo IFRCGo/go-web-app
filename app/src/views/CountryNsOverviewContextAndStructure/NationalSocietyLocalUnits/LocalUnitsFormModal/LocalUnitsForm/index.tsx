@@ -466,6 +466,9 @@ function LocalUnitsForm(props: Props) {
         && !(localUnitDetailsResponse?.status === VALIDATED);
 
     const permissionError = useMemo(() => {
+        if (isExternallyManaged && isDefined(localUnitDetailsResponse?.bulk_upload)) {
+            return strings.noPermissionFormUpdateExternallyManaged;
+        }
         if (isExternallyManaged && !hasAddEditLocalUnitPermission) {
             if (isDefined(localUnitId)) {
                 return strings.noBothPermissionEditFormError;
@@ -483,14 +486,16 @@ function LocalUnitsForm(props: Props) {
         }
         return undefined;
     }, [
+        localUnitId,
         isExternallyManaged,
         hasAddEditLocalUnitPermission,
+        localUnitDetailsResponse?.bulk_upload,
+        strings.noPermissionFormUpdateExternallyManaged,
         strings.noLocalUnitAddPermission,
         strings.noLocalUnitEditPermission,
         strings.noPermissionFormExternallyManaged,
         strings.noBothPermissionAddFormError,
         strings.noBothPermissionEditFormError,
-        localUnitId,
     ]);
 
     const submitButton = readOnly ? null : (
@@ -690,11 +695,6 @@ function LocalUnitsForm(props: Props) {
                 <NonFieldError
                     error={error?.health}
                 />
-                {isDefined(localUnitDetailsResponse?.bulk_upload) && (
-                    <NonFieldError
-                        error={strings.noPermissionFormUpdateExternallyManaged}
-                    />
-                )}
                 <FormGrid>
                     <FormColumnContainer>
                         <DiffWrapper
