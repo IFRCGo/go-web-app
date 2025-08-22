@@ -43,6 +43,7 @@ interface Props {
     onCancel: () => void;
     applicationType: 'DREF' | 'OPS_UPDATE' | 'FINAL_REPORT';
     drefType?: TypeOfDrefEnum | null;
+    isDrefImminentV2?: boolean;
 }
 
 function DrefExportModal(props: Props) {
@@ -51,6 +52,7 @@ function DrefExportModal(props: Props) {
         onCancel,
         applicationType,
         drefType,
+        isDrefImminentV2,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -65,8 +67,15 @@ function DrefExportModal(props: Props) {
             if (applicationType === 'OPS_UPDATE') {
                 type = 'dref-operational-updates';
             } else if (applicationType === 'FINAL_REPORT') {
-                type = 'dref-final-reports';
+                if (isDrefImminentV2) {
+                    type = 'dref-final-reports';
+                } else {
+                    type = 'old-dref-final-reports';
+                }
+            } else if (applicationType === 'DREF') {
+                type = 'dref-applications';
             } else {
+                applicationType satisfies never;
                 type = 'dref-applications';
             }
 
@@ -82,6 +91,7 @@ function DrefExportModal(props: Props) {
             id,
             includePga,
             applicationType,
+            isDrefImminentV2,
         ],
     );
 

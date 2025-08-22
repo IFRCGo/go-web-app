@@ -626,6 +626,7 @@ export function Component() {
                         onCancel={setShowExportModalFalse}
                         id={Number(finalReportId)}
                         applicationType="FINAL_REPORT"
+                        isDrefImminentV2
                     />
                 )}
             </Page>

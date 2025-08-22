@@ -356,6 +356,8 @@ function DrefTableActions(props: Props) {
                 publishOpsUpdate(null);
             } else if (applicationType === 'FINAL_REPORT') {
                 publishFinalReport(null);
+            } else {
+                applicationType satisfies never;
             }
         },
         [
@@ -528,6 +530,7 @@ function DrefTableActions(props: Props) {
                     id={id}
                     applicationType={applicationType}
                     drefType={drefType}
+                    isDrefImminentV2={isDrefImminentV2}
                 />
             )}
             {showShareModal && (
