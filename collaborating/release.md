@@ -19,16 +19,17 @@ changesets isn't required for internal-only updates, minor refactoring, or docum
 In the IFRC GO project, we follow [SemVer](https://semver.org/) (Semantic Versioning) to maintain consistency and clarity. Here's a quick guide to determine whether your changes should be categorized as a patch, minor, or major version update
 
 1. **Patch Version (x.y.*patch*)**
-   * Bug fixes, small tweaks, or performance improvements.
+   * Hot fixes
 
 2. **Minor Version (x.*minor*.z)**
    * Adding new features.
+   * Small tweaks, or performance improvements.
 
 3. **Major Version (*major*.y.z)**
    * Introducing a significant new features.
 
 > \[!TIP]\
-> When in doubt, favor **patch** or **minor** updates to avoid unnecessary major releases.
+> When in doubt, favor **minor** updates to avoid unnecessary major releases.
 
 ### Before Release
 
