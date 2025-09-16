@@ -409,8 +409,8 @@ export function Component() {
     const languageMismatch = isDefined(finalReportId)
         && isDefined(finalReportResponse)
         && currentLanguage !== finalReportResponse?.translation_module_original_language;
-    const shouldHideForm = languageMismatch
-        || fetchingFinalReport
+
+    const shouldHideForm = fetchingFinalReport
         || isDefined(finalReportResponseError);
 
     return (
