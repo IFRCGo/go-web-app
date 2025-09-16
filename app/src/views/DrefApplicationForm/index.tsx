@@ -609,13 +609,14 @@ export function Component() {
     const disabled = fetchingDref || saveDrefPending;
 
     // New DREFs can only be created in English
-    const nonEnglishCreate = isNotDefined(drefId) && currentLanguage !== 'en';
+    // const nonEnglishCreate = isNotDefined(drefId) && currentLanguage !== 'en';
+
     const languageMismatch = isDefined(drefId)
         && isDefined(drefResponse)
         && currentLanguage !== drefResponse?.translation_module_original_language;
-    const shouldHideForm = nonEnglishCreate
-        || languageMismatch
-        || fetchingDref
+
+    const shouldHideForm = fetchingDref
+        // || nonEnglishCreate
         || isDefined(drefResponseError);
 
     return (
@@ -730,11 +731,11 @@ export function Component() {
                         originalLanguage={drefResponse.translation_module_original_language}
                     />
                 )}
-                {nonEnglishCreate && (
+                {/* nonEnglishCreate && (
                     <NonEnglishFormCreationMessage
                         title={strings.formNotAvailableInNonEnglishMessage}
                     />
-                )}
+                ) */}
                 {isDefined(drefResponseError) && (
                     <FormFailedToLoadMessage
                         title={strings.formLoadErrorTitle}

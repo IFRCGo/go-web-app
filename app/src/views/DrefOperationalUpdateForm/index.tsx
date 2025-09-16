@@ -575,8 +575,8 @@ export function Component() {
     const languageMismatch = isDefined(opsUpdateId)
         && isDefined(drefResponse)
         && currentLanguage !== opsUpdateResponse?.translation_module_original_language;
-    const shouldHideForm = languageMismatch
-        || fetchingOpsUpdate
+
+    const shouldHideForm = fetchingOpsUpdate
         || isDefined(opsUpdateResponseError);
 
     return (
