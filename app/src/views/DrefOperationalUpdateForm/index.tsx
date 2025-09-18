@@ -43,6 +43,7 @@ import NonFieldError from '#components/NonFieldError';
 import Page from '#components/Page';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 import useAlert from '#hooks/useAlert';
+import { DREF_STATUS_APPROVED } from '#utils/constants';
 import {
     type GoApiResponse,
     useLazyRequest,
@@ -313,7 +314,7 @@ export function Component() {
     const prevOperationalUpdateId = useMemo(() => {
         const currentOpsUpdate = drefResponse
             ?.operational_update_details
-            ?.find((ou) => !ou.is_published);
+            ?.find((ou) => !(ou.status === DREF_STATUS_APPROVED));
 
         if (isNotDefined(currentOpsUpdate)) {
             return undefined;
@@ -344,6 +345,7 @@ export function Component() {
     } = useLazyRequest({
         url: '/api/v2/dref-op-update/{id}/',
         method: 'PATCH',
+        useCurrentLanguageForMutation: true,
         pathVariables: isDefined(opsUpdateId) ? { id: opsUpdateId } : undefined,
         body: (formFields: OpsUpdateRequestBody) => formFields,
         onSuccess: (response) => {
