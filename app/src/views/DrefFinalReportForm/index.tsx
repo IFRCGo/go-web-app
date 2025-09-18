@@ -305,6 +305,7 @@ export function Component() {
         method: 'PATCH',
         pathVariables: isDefined(finalReportId) ? { id: finalReportId } : undefined,
         body: (formFields: FinalReportRequestBody) => formFields,
+        useCurrentLanguageForMutation: true,
         onSuccess: (response) => {
             alert.show(
                 strings.formSaveRequestSuccessMessage,

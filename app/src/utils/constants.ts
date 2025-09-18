@@ -84,7 +84,8 @@ export const FONT_FAMILY_HEADER = 'Montserrat';
 // This should not be the same as OperationType.
 export type DrefStatus = components<'read'>['schemas']['DrefDrefStatusEnumKey'];
 // const DREF_STATUS_COMPLETED = 1 satisfies DrefStatus;
-export const DREF_STATUS_IN_PROGRESS = 0 satisfies DrefStatus;
+export const DREF_STATUS_DRAFT = 1 satisfies DrefStatus;
+export const DREF_STATUS_APPROVED = 4 satisfies DrefStatus;
 
 export type TypeOfDrefEnum = components<'read'>['schemas']['DrefDrefDrefTypeEnumKey'];
 export const DREF_TYPE_IMMINENT = 0 satisfies TypeOfDrefEnum;

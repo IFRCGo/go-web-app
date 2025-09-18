@@ -27,7 +27,7 @@ import Link from '#components/Link';
 import useAlert from '#hooks/useAlert';
 import useRouting from '#hooks/useRouting';
 import {
-    DREF_STATUS_IN_PROGRESS,
+    DREF_STATUS_DRAFT,
     DREF_TYPE_IMMINENT,
     DREF_TYPE_LOAN,
     type DrefStatus,
@@ -167,7 +167,7 @@ function DrefTableActions(props: Props) {
         pending: publishDrefPending,
     } = useLazyRequest({
         method: 'POST',
-        url: '/api/v2/dref/{id}/publish/',
+        url: '/api/v2/dref/{id}/approve/',
         pathVariables: { id: String(id) },
         // FIXME: typings should be fixed in the server
         body: () => ({} as never),
@@ -198,7 +198,7 @@ function DrefTableActions(props: Props) {
         pending: publishOpsUpdatePending,
     } = useLazyRequest({
         method: 'POST',
-        url: '/api/v2/dref-op-update/{id}/publish/',
+        url: '/api/v2/dref-op-update/{id}/approve/',
         pathVariables: { id: String(id) },
         // FIXME: typings should be fixed in the server
         body: () => ({} as never),
@@ -229,7 +229,7 @@ function DrefTableActions(props: Props) {
         pending: publishFinalReportPending,
     } = useLazyRequest({
         method: 'POST',
-        url: '/api/v2/dref-final-report/{id}/publish/',
+        url: '/api/v2/dref-final-report/{id}/approve/',
         pathVariables: { id: String(id) },
         // FIXME: typings should be fixed in the server
         body: () => ({} as never),
@@ -385,7 +385,7 @@ function DrefTableActions(props: Props) {
 
     const canDownloadAllocation = (applicationType === 'DREF' || applicationType === 'OPS_UPDATE');
 
-    const canApprove = status === DREF_STATUS_IN_PROGRESS && hasPermissionToApprove;
+    const canApprove = status === DREF_STATUS_DRAFT && hasPermissionToApprove;
 
     const shouldConfirmImminentAddOpsUpdate = drefType === DREF_TYPE_IMMINENT && isDrefImminentV2;
 
@@ -494,7 +494,7 @@ function DrefTableActions(props: Props) {
                 </>
             )}
         >
-            {status === DREF_STATUS_IN_PROGRESS && applicationType === 'DREF' && (
+            {status === DREF_STATUS_DRAFT && applicationType === 'DREF' && (
                 <Link
                     to="drefApplicationForm"
                     urlParams={{ drefId: id }}
@@ -504,7 +504,7 @@ function DrefTableActions(props: Props) {
                     {strings.dropdownActionEditLabel}
                 </Link>
             )}
-            {status === DREF_STATUS_IN_PROGRESS && applicationType === 'OPS_UPDATE' && (
+            {status === DREF_STATUS_DRAFT && applicationType === 'OPS_UPDATE' && (
                 <Link
                     to="drefOperationalUpdateForm"
                     urlParams={{ opsUpdateId: id }}
@@ -514,7 +514,7 @@ function DrefTableActions(props: Props) {
                     {strings.dropdownActionEditLabel}
                 </Link>
             )}
-            {status === DREF_STATUS_IN_PROGRESS && applicationType === 'FINAL_REPORT' && (
+            {status === DREF_STATUS_DRAFT && applicationType === 'FINAL_REPORT' && (
                 <Link
                     to={isDrefImminentV2 ? 'drefFinalReportForm' : 'oldDrefFinalReportForm'}
                     urlParams={{ finalReportId: id }}

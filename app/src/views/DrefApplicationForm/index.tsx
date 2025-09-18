@@ -36,7 +36,6 @@ import DrefExportModal from '#components/domain/DrefExportModal';
 import { type FieldReportItem as FieldReportSearchItem } from '#components/domain/FieldReportSearchSelectInput';
 import FormFailedToLoadMessage from '#components/domain/FormFailedToLoadMessage';
 import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage';
-import NonEnglishFormCreationMessage from '#components/domain/NonEnglishFormCreationMessage';
 import Link from '#components/Link';
 import NonFieldError from '#components/NonFieldError';
 import Page from '#components/Page';
@@ -383,6 +382,7 @@ export function Component() {
         method: 'PATCH',
         pathVariables: isDefined(drefId) ? { id: drefId } : undefined,
         body: (formFields: DrefRequestBody) => formFields,
+        useCurrentLanguageForMutation: true,
         onSuccess: (response) => {
             alert.show(
                 strings.formSaveRequestSuccessMessage,
@@ -479,6 +479,7 @@ export function Component() {
         url: '/api/v2/dref/',
         method: 'POST',
         body: (formFields: DrefRequestPostBody) => formFields,
+        useCurrentLanguageForMutation: true,
         onSuccess: (response) => {
             alert.show(
                 strings.formSaveRequestSuccessMessage,
