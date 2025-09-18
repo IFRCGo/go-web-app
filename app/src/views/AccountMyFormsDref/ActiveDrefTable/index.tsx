@@ -30,6 +30,7 @@ import {
 import useUserMe from '#hooks/domain/useUserMe';
 import useFilterState from '#hooks/useFilterState';
 import {
+    DREF_STATUS_APPROVED,
     DREF_TYPE_LOAN,
     type TypeOfDrefEnum,
 } from '#utils/constants';
@@ -230,12 +231,14 @@ function ActiveDrefTable(props: Props) {
 
                     const {
                         unpublished_op_update_count,
-                        is_published,
+                        status,
                         has_ops_update,
                         has_final_report,
                         country_details,
                         is_dref_imminent_v2,
                     } = originalDref;
+
+                    const is_published = status === DREF_STATUS_APPROVED;
 
                     const canAddOpsUpdate = (is_published ?? false)
                         && (applicationType === 'DREF' || applicationType === 'OPS_UPDATE')
