@@ -1,0 +1,23 @@
+{
+    "parent": "000051-1758354992698.json",
+    "actions": [
+        {
+            "action": "update",
+            "key": "logisticsPersonnelCompositionValue",
+            "namespace": "surgeCatalogueLogisticsEru",
+            "newValue": "Team Leader, 1-2 Supply Chain Administration delegates, Receiving Unloading and Customs (RUC) delegate, 1-3 Warehouse/Transport delegates."
+        },
+        {
+            "action": "update",
+            "key": "logisticsSpecificationsVolumeValue",
+            "namespace": "surgeCatalogueLogisticsEru",
+            "newValue": "100 CBM, Includes 2 vehicles and one 4x4 forklift"
+        },
+        {
+            "action": "update",
+            "key": "logisticsSpecificationsWeightValue",
+            "namespace": "surgeCatalogueLogisticsEru",
+            "newValue": "10 MT, Includes 2 vehicles and one 4x4 forklift"
+        }
+    ]
+}
