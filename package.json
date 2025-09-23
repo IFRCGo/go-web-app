@@ -31,8 +31,8 @@
         "pnpm": "10.6.1"
     },
     "devDependencies": {
-        "@changesets/cli": "^2.27.10",
-        "knip": "^5.36.3"
+        "@changesets/cli": "^2.29.7",
+        "knip": "^5.65.0"
     },
     "packageManager": "pnpm@10.6.1+sha512.40ee09af407fa9fbb5fbfb8e1cb40fbb74c0af0c3e10e9224d7b53c7658528615b2c92450e74cfad91e3a2dcafe3ce4050d80bda71d757756d2ce2b66213e9a3",
     "pnpm": {
@@ -40,8 +40,7 @@
             "openapi-typescript@6.5.5": "patches/openapi-typescript@6.5.5.patch",
             "@turf/buffer@6.5.0": "patches/@turf__buffer@6.5.0.patch",
             "@turf/bbox@6.5.0": "patches/@turf__bbox@6.5.0.patch",
-            "@togglecorp/re-map@0.3.0": "patches/@togglecorp__re-map@0.3.0.patch",
-            "vite-plugin-webfont-dl@3.10.4": "patches/vite-plugin-webfont-dl@3.10.4.patch"
+            "@togglecorp/re-map@0.3.0": "patches/@togglecorp__re-map@0.3.0.patch"
         }
     }
 }
