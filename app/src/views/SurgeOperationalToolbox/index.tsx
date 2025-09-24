@@ -488,10 +488,10 @@ export function Component() {
             ),
             emailTwo: (
                 <Link
-                    href="mailto:betisa.egea@ifrc.org"
+                    href="mailto:marshal.mukuvare@ifrc.org"
                     external
                 >
-                    betisa.egea@ifrc.org
+                    marshal.mukuvare@ifrc.org
                 </Link>
             ),
         },
