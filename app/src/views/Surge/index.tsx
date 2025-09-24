@@ -91,6 +91,7 @@ export function Component() {
                 </NavigationTab>
                 <NavigationTab
                     to="surgeCatalogueLayout"
+                    parentRoute
                 >
                     {strings.surgeCatalogueTab}
                 </NavigationTab>
