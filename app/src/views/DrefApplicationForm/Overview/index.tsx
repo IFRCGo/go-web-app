@@ -101,6 +101,7 @@ function onsetTypeKeySelector(option: OnsetTypeOption) {
 
 interface Props {
     value: PartialDref;
+    readOnly: boolean;
     setFieldValue: (...entries: EntriesAsList<PartialDref>) => void;
     setValue: (value: SetBaseValueArg<PartialDref>, partialUpdate?: boolean) => void;
     error: Error<PartialDref> | undefined;
@@ -119,6 +120,7 @@ const userKeySelector = (item: User) => item.id;
 function Overview(props: Props) {
     const {
         value,
+        readOnly,
         setFieldValue,
         setValue,
         error: formError,
@@ -284,6 +286,7 @@ function Overview(props: Props) {
                     />
                     <Button
                         name={undefined}
+                        disabled={readOnly}
                         onClick={setShowShareModalTrue}
                         variant="secondary"
                         icons={<ShareLineIcon />}
@@ -311,6 +314,7 @@ function Overview(props: Props) {
                 >
                     <NationalSocietySelectInput
                         error={error?.national_society}
+                        readOnly={readOnly}
                         name="national_society"
                         onChange={handleNSChange}
                         value={value?.national_society}
@@ -320,6 +324,7 @@ function Overview(props: Props) {
                 {value?.type_of_dref !== TYPE_LOAN && (
                     <CopyFieldReportSection
                         value={value}
+                        readOnly={readOnly}
                         setFieldValue={setFieldValue}
                         disabled={disabled}
                         setDistrictOptions={setDistrictOptions}
@@ -333,6 +338,7 @@ function Overview(props: Props) {
                     withAsteriskOnTitle
                 >
                     <SelectInput
+                        readOnly={readOnly}
                         name="type_of_dref"
                         label={strings.drefFormTypeOfDref}
                         options={typeOfDrefOptions}
@@ -360,6 +366,7 @@ function Overview(props: Props) {
                                     : strings.drefFormDisasterTypeLabel
                             }
                             name="disaster_type"
+                            readOnly={readOnly}
                             value={value?.disaster_type}
                             onChange={setFieldValue}
                             error={error?.disaster_type}
@@ -378,6 +385,7 @@ function Overview(props: Props) {
                             withAsterisk
                             readOnly={
                                 value?.type_of_dref === TYPE_IMMINENT
+                                || readOnly
                             }
                         />
                         {(
@@ -386,6 +394,7 @@ function Overview(props: Props) {
                             || value?.disaster_type === DISASTER_FLOOD) ? (
                                 <BooleanInput
                                     name="is_man_made_event"
+                                    readOnly={readOnly}
                                     label={strings.drefFormManMadeEvent}
                                     value={value?.is_man_made_event}
                                     onChange={setFieldValue}
@@ -398,6 +407,7 @@ function Overview(props: Props) {
                         {value?.type_of_dref !== TYPE_IMMINENT && (
                             <SelectInput
                                 name="disaster_category"
+                                readOnly={readOnly}
                                 label={(
                                     <>
                                         {strings.drefFormDisasterCategoryLabel}
@@ -430,6 +440,7 @@ function Overview(props: Props) {
                                 accept=".pdf, .docx, .pptx"
                                 fileIdToUrlMap={fileIdToUrlMap}
                                 onChange={setFieldValue}
+                                readOnly={readOnly}
                                 url="/api/v2/dref-files/"
                                 value={value.disaster_category_analysis}
                                 error={error?.disaster_category_analysis}
@@ -452,6 +463,7 @@ function Overview(props: Props) {
                 >
                     <CountrySelectInput
                         name="country"
+                        readOnly={readOnly}
                         label={strings.drefFormAddCountry}
                         value={value?.country}
                         onChange={handleCountryChange}
@@ -460,6 +472,7 @@ function Overview(props: Props) {
                     />
                     <DistrictSearchMultiSelectInput
                         name="district"
+                        readOnly={readOnly}
                         countryId={value.country}
                         label={strings.drefFormAddRegion}
                         options={districtOptions}
@@ -477,6 +490,7 @@ function Overview(props: Props) {
                     <div className={styles.titleContainer}>
                         <TextInput
                             name="title"
+                            readOnly={readOnly}
                             className={styles.titleInput}
                             value={value?.title}
                             onChange={setFieldValue}
@@ -493,6 +507,7 @@ function Overview(props: Props) {
                                 || isNotDefined(value?.country)
                                 || isNotDefined(value?.disaster_type)
                                 || isNotDefined(disasterTypes)
+                                || readOnly
                             )}
                         >
                             {strings.drefFormGenerateTitle}
@@ -505,6 +520,7 @@ function Overview(props: Props) {
                     >
                         <BooleanInput
                             name="emergency_appeal_planned"
+                            readOnly={readOnly}
                             value={value?.emergency_appeal_planned}
                             onChange={setFieldValue}
                             error={error?.emergency_appeal_planned}
@@ -523,6 +539,7 @@ function Overview(props: Props) {
                             name="event_map_file"
                             url="/api/v2/dref-files/"
                             value={value?.event_map_file}
+                            readOnly={readOnly}
                             onChange={setFieldValue}
                             error={getErrorObject(error?.event_map_file)}
                             fileIdToUrlMap={fileIdToUrlMap}
@@ -543,6 +560,7 @@ function Overview(props: Props) {
                             name="cover_image_file"
                             url="/api/v2/dref-files/"
                             value={value?.cover_image_file}
+                            readOnly={readOnly}
                             onChange={setFieldValue}
                             error={getErrorObject(error?.cover_image_file)}
                             fileIdToUrlMap={fileIdToUrlMap}

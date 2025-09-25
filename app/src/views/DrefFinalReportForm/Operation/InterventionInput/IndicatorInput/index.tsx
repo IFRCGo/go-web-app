@@ -32,6 +32,7 @@ interface Props {
     onChange: (value: SetValueArg<IndicatorFormFields>, index: number) => void;
     onRemove: (index: number) => void;
     index: number;
+    readOnly: boolean;
     disabled?: boolean;
 }
 
@@ -44,6 +45,7 @@ function IndicatorInput(props: Props) {
         value,
         index,
         onRemove,
+        readOnly,
         disabled,
     } = props;
 
@@ -84,6 +86,7 @@ function IndicatorInput(props: Props) {
                 onChange={onFieldChange}
                 error={error?.actual}
                 disabled={disabled}
+                readOnly={readOnly}
                 withAsterisk
             />
             <Button
@@ -92,6 +95,7 @@ function IndicatorInput(props: Props) {
                 onClick={onRemove}
                 variant="tertiary"
                 title={strings.drefIndicatorRemoveButtonLabel}
+                readOnly={readOnly}
                 disabled={disabled}
             >
                 <DeleteBinTwoLineIcon />

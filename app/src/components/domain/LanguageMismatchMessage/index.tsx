@@ -14,6 +14,7 @@ interface Props {
     // FIXME: typings should be fixed in the server
     // this should be of type Language
     originalLanguage: string | undefined;
+    selectedLanguage: Language;
 }
 
 function LanguageMismatchMessage(props: Props) {
@@ -21,7 +22,8 @@ function LanguageMismatchMessage(props: Props) {
 
     const {
         title = strings.languageMismatchErrorTitle,
-        originalLanguage = 'en',
+        originalLanguage,
+        selectedLanguage,
     } = props;
 
     return (
@@ -32,16 +34,13 @@ function LanguageMismatchMessage(props: Props) {
                 resolveToString(
                     strings.languageMismatchErrorMessage,
                     // FIXME: this should not require cast
-                    { originalLanguage: languageNameMapEn[originalLanguage as Language] ?? '--' },
+                    {
+                        originalLanguage: languageNameMapEn[originalLanguage as Language] ?? '--',
+                        selectedLanguage: languageNameMapEn[selectedLanguage] ?? '--',
+                    },
                 )
             }
-            actions={
-                resolveToString(
-                    strings.languageMismatchHelpMessage,
-                    // FIXME: this should not require cast
-                    { originalLanguage: languageNameMapEn[originalLanguage as Language] ?? '--' },
-                )
-            }
+            actions={strings.languageMismatchHelpMessage}
         />
     );
 }

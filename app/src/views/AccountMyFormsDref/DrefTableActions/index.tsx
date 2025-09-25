@@ -28,6 +28,7 @@ import useAlert from '#hooks/useAlert';
 import useRouting from '#hooks/useRouting';
 import {
     DREF_STATUS_DRAFT,
+    DREF_STATUS_FINALIZED,
     DREF_TYPE_IMMINENT,
     DREF_TYPE_LOAN,
     type DrefStatus,
@@ -255,6 +256,96 @@ function DrefTableActions(props: Props) {
         },
     });
 
+    const {
+        trigger: finalizeDref,
+        pending: finalizeDrefPending,
+    } = useLazyRequest({
+        method: 'POST',
+        url: '/api/v2/dref/{id}/finalize/',
+        pathVariables: { id: String(id) },
+        body: () => ({} as never),
+        onSuccess: () => {
+            alert.show(
+                strings.drefFinalizeSuccessTitle,
+                { variant: 'success' },
+            );
+            if (onPublishSuccess) {
+                onPublishSuccess();
+            }
+        },
+        onFailure: ({
+            value: { messageForNotification },
+        }) => {
+            alert.show(
+                strings.drefFinalizeFailureTitle,
+                {
+                    description: messageForNotification,
+                    variant: 'danger',
+                },
+            );
+        },
+    });
+
+    const {
+        trigger: finalizeOpsUpdate,
+        pending: finalizeOpsUpdatePending,
+    } = useLazyRequest({
+        method: 'POST',
+        url: '/api/v2/dref-op-update/{id}/finalize/',
+        pathVariables: { id: String(id) },
+        body: () => ({} as never),
+        onSuccess: () => {
+            alert.show(
+                strings.drefFinalizeSuccessTitle,
+                { variant: 'success' },
+            );
+            if (onPublishSuccess) {
+                onPublishSuccess();
+            }
+        },
+        onFailure: ({
+            value: { messageForNotification },
+        }) => {
+            alert.show(
+                strings.drefFinalizeFailureTitle,
+                {
+                    description: messageForNotification,
+                    variant: 'danger',
+                },
+            );
+        },
+    });
+
+    const {
+        trigger: finalizeFinalReport,
+        pending: finalizeFinalReportPending,
+    } = useLazyRequest({
+        method: 'POST',
+        url: '/api/v2/dref-final-report/{id}/finalize/',
+        pathVariables: { id: String(id) },
+        body: () => ({} as never),
+        onSuccess: () => {
+            alert.show(
+                strings.drefFinalizeSuccessTitle,
+                { variant: 'success' },
+            );
+            if (onPublishSuccess) {
+                onPublishSuccess();
+            }
+        },
+        onFailure: ({
+            value: { messageForNotification },
+        }) => {
+            alert.show(
+                strings.drefFinalizeFailureTitle,
+                {
+                    description: messageForNotification,
+                    variant: 'danger',
+                },
+            );
+        },
+    });
+
     // FIXME: the type should be fixed on the server
     type OpsUpdateRequestBody = GoApiBody<'/api/v2/dref-op-update/', 'POST'>;
 
@@ -368,6 +459,26 @@ function DrefTableActions(props: Props) {
         ],
     );
 
+    const handleFinalizeClick = useCallback(
+        () => {
+            if (applicationType === 'DREF') {
+                finalizeDref(null);
+            } else if (applicationType === 'OPS_UPDATE') {
+                finalizeOpsUpdate(null);
+            } else if (applicationType === 'FINAL_REPORT') {
+                finalizeFinalReport(null);
+            } else {
+                applicationType satisfies never;
+            }
+        },
+        [
+            applicationType,
+            finalizeDref,
+            finalizeOpsUpdate,
+            finalizeFinalReport,
+        ],
+    );
+
     const handleDrefAllocationExport = useCallback(
         () => {
             if (applicationType === 'DREF') {
@@ -385,13 +496,18 @@ function DrefTableActions(props: Props) {
 
     const canDownloadAllocation = (applicationType === 'DREF' || applicationType === 'OPS_UPDATE');
 
-    const canApprove = status === DREF_STATUS_DRAFT && hasPermissionToApprove;
+    const canApprove = status === DREF_STATUS_FINALIZED && hasPermissionToApprove;
+
+    const canFinalize = status === DREF_STATUS_DRAFT && hasPermissionToApprove;
 
     const shouldConfirmImminentAddOpsUpdate = drefType === DREF_TYPE_IMMINENT && isDrefImminentV2;
 
     const disabled = fetchingDref
         || fetchingOpsUpdate
         || publishDrefPending
+        || finalizeDrefPending
+        || finalizeOpsUpdatePending
+        || finalizeFinalReportPending
         || publishOpsUpdatePending
         || publishFinalReportPending
         || createOpsUpdatePending
@@ -402,6 +518,19 @@ function DrefTableActions(props: Props) {
             persistent
             extraActions={(
                 <>
+                    {canFinalize && (
+                        <DropdownMenuItem
+                            name={undefined}
+                            type="confirm-button"
+                            icons={<CheckLineIcon className={styles.icon} />}
+                            confirmMessage={strings.drefAccountFinalizeConfirmMessage}
+                            onConfirm={handleFinalizeClick}
+                            disabled={disabled}
+                            persist
+                        >
+                            {strings.dropdownActionFinalizeLabel}
+                        </DropdownMenuItem>
+                    )}
                     {canApprove && (
                         <DropdownMenuItem
                             name={undefined}
@@ -494,7 +623,7 @@ function DrefTableActions(props: Props) {
                 </>
             )}
         >
-            {status === DREF_STATUS_DRAFT && applicationType === 'DREF' && (
+            {(status === DREF_STATUS_DRAFT || status === DREF_STATUS_FINALIZED) && applicationType === 'DREF' && (
                 <Link
                     to="drefApplicationForm"
                     urlParams={{ drefId: id }}
@@ -504,7 +633,7 @@ function DrefTableActions(props: Props) {
                     {strings.dropdownActionEditLabel}
                 </Link>
             )}
-            {status === DREF_STATUS_DRAFT && applicationType === 'OPS_UPDATE' && (
+            {(status === DREF_STATUS_DRAFT || status === DREF_STATUS_FINALIZED) && applicationType === 'OPS_UPDATE' && (
                 <Link
                     to="drefOperationalUpdateForm"
                     urlParams={{ opsUpdateId: id }}
@@ -514,7 +643,7 @@ function DrefTableActions(props: Props) {
                     {strings.dropdownActionEditLabel}
                 </Link>
             )}
-            {status === DREF_STATUS_DRAFT && applicationType === 'FINAL_REPORT' && (
+            {(status === DREF_STATUS_DRAFT || status === DREF_STATUS_FINALIZED) && applicationType === 'FINAL_REPORT' && (
                 <Link
                     to={isDrefImminentV2 ? 'drefFinalReportForm' : 'oldDrefFinalReportForm'}
                     urlParams={{ finalReportId: id }}

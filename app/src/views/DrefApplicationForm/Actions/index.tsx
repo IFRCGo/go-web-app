@@ -59,6 +59,7 @@ function needOptionKeySelector(option: NeedOption) {
 
 interface Props {
     value: Value;
+    readOnly: boolean;
     setFieldValue: (...entries: EntriesAsList<Value>) => void;
     error: Error<Value> | undefined;
     fileIdToUrlMap: Record<number, string>;
@@ -69,6 +70,7 @@ interface Props {
 function Actions(props: Props) {
     const {
         value,
+        readOnly,
         setFieldValue,
         error: formError,
         fileIdToUrlMap,
@@ -202,6 +204,7 @@ function Actions(props: Props) {
                 >
                     <BooleanInput
                         name="did_national_society"
+                        readOnly={readOnly}
                         onChange={setFieldValue}
                         value={value?.did_national_society}
                         error={error?.did_national_society}
@@ -214,6 +217,7 @@ function Actions(props: Props) {
                     >
                         <DateInput
                             name="ns_respond_date"
+                            readOnly={readOnly}
                             value={value.ns_respond_date}
                             onChange={setFieldValue}
                             error={error?.ns_respond_date}
@@ -228,6 +232,7 @@ function Actions(props: Props) {
                     <SelectInput
                         label={strings.drefFormNationalSocietiesActionsLabel}
                         name={undefined}
+                        readOnly={readOnly}
                         options={filteredNsActionOptions}
                         value={selectedNsAction}
                         keySelector={nsActionKeySelector}
@@ -240,7 +245,7 @@ function Actions(props: Props) {
                             variant="secondary"
                             name={selectedNsAction}
                             onClick={handleNsActionAddButtonClick}
-                            disabled={isNotDefined(selectedNsAction) || disabled}
+                            disabled={readOnly || isNotDefined(selectedNsAction) || disabled}
                         >
                             {strings.drefFormAddButton}
                         </Button>
@@ -258,7 +263,7 @@ function Actions(props: Props) {
                         onRemove={onNsActionRemove}
                         error={getErrorObject(error?.national_society_actions)}
                         titleDisplayMap={nsActionTitleDisplayMap}
-                        disabled={disabled}
+                        disabled={readOnly || disabled}
                     />
                 ))}
             </Container>
@@ -272,6 +277,7 @@ function Actions(props: Props) {
                     <TextArea
                         label={strings.drefFormActionDescription}
                         name="ifrc"
+                        readOnly={readOnly}
                         onChange={setFieldValue}
                         value={value.ifrc}
                         error={error?.ifrc}
@@ -284,6 +290,7 @@ function Actions(props: Props) {
                 >
                     <TextArea
                         name="partner_national_society"
+                        readOnly={readOnly}
                         onChange={setFieldValue}
                         value={value.partner_national_society}
                         error={error?.partner_national_society}
@@ -301,6 +308,7 @@ function Actions(props: Props) {
                     <TextArea
                         label={strings.drefFormActionDescription}
                         name="icrc"
+                        readOnly={readOnly}
                         onChange={setFieldValue}
                         value={value.icrc}
                         error={error?.icrc}
@@ -317,6 +325,7 @@ function Actions(props: Props) {
                 >
                     <BooleanInput
                         name="government_requested_assistance"
+                        readOnly={readOnly}
                         value={value.government_requested_assistance}
                         onChange={setFieldValue}
                         error={error?.government_requested_assistance}
@@ -330,6 +339,7 @@ function Actions(props: Props) {
                     <TextArea
                         label={strings.drefFormActionDescription}
                         name="national_authorities"
+                        readOnly={readOnly}
                         onChange={setFieldValue}
                         value={value.national_authorities}
                         error={error?.national_authorities}
@@ -343,6 +353,7 @@ function Actions(props: Props) {
                     <TextArea
                         label={strings.drefFormActionDescription}
                         name="un_or_other_actor"
+                        readOnly={readOnly}
                         onChange={setFieldValue}
                         value={value.un_or_other_actor}
                         error={error?.un_or_other_actor}
@@ -354,6 +365,7 @@ function Actions(props: Props) {
                 >
                     <BooleanInput
                         name="is_there_major_coordination_mechanism"
+                        readOnly={readOnly}
                         value={value.is_there_major_coordination_mechanism}
                         onChange={setFieldValue}
                         error={error?.is_there_major_coordination_mechanism}
@@ -367,6 +379,7 @@ function Actions(props: Props) {
                         <TextArea
                             label={strings.drefFormActionDescription}
                             name="major_coordination_mechanism"
+                            readOnly={readOnly}
                             onChange={setFieldValue}
                             value={value.major_coordination_mechanism}
                             error={error?.major_coordination_mechanism}
@@ -390,6 +403,7 @@ function Actions(props: Props) {
                                 accept=".pdf, .docx, .pptx"
                                 onChange={setFieldValue}
                                 url="/api/v2/dref-files/"
+                                readOnly={readOnly}
                                 value={value?.assessment_report}
                                 error={error?.assessment_report}
                                 fileIdToUrlMap={fileIdToUrlMap}
@@ -408,6 +422,7 @@ function Actions(props: Props) {
                     >
                         <SelectInput
                             className={styles.input}
+                            readOnly={readOnly}
                             label={strings.drefFormActionFieldsLabel}
                             name={undefined}
                             onChange={setSelectedNeed}
@@ -423,7 +438,7 @@ function Actions(props: Props) {
                                 variant="secondary"
                                 name={selectedNeed}
                                 onClick={handleNeedAddButtonClick}
-                                disabled={isNotDefined(selectedNeed) || disabled}
+                                disabled={readOnly || isNotDefined(selectedNeed) || disabled}
                             >
                                 {strings.drefFormAddButton}
                             </Button>
@@ -441,7 +456,7 @@ function Actions(props: Props) {
                             onRemove={onNeedRemove}
                             error={getErrorObject(error?.needs_identified)}
                             titleDisplayMap={needsIdentifiedTitleDisplayMap}
-                            disabled={disabled}
+                            disabled={disabled || readOnly}
                         />
                     ))}
                     {value?.type_of_dref !== TYPE_IMMINENT && (
@@ -475,6 +490,7 @@ function Actions(props: Props) {
                             <TextArea
                                 label={strings.drefFormActionDescription}
                                 name="identified_gaps"
+                                readOnly={readOnly}
                                 onChange={setFieldValue}
                                 value={value.identified_gaps}
                                 error={error?.identified_gaps}

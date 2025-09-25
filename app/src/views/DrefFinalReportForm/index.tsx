@@ -40,6 +40,8 @@ import Page from '#components/Page';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 import useAlert from '#hooks/useAlert';
 import {
+    DREF_STATUS_DRAFT,
+    DREF_STATUS_FINALIZED,
     DREF_TYPE_IMMINENT,
     type TypeOfDrefEnum,
 } from '#utils/constants';
@@ -411,6 +413,10 @@ export function Component() {
         && isDefined(finalReportResponse)
         && currentLanguage !== finalReportResponse?.translation_module_original_language;
 
+    const readOnly = languageMismatch
+        && (finalReportResponse?.status === DREF_STATUS_FINALIZED
+            || finalReportResponse?.status === DREF_STATUS_DRAFT);
+
     const shouldHideForm = fetchingFinalReport
         || isDefined(finalReportResponseError);
 
@@ -452,7 +458,7 @@ export function Component() {
                         <Button
                             name={undefined}
                             onClick={handleFormSubmit}
-                            disabled={disabled}
+                            disabled={disabled || readOnly}
                         >
                             {strings.formSaveButtonLabel}
                         </Button>
@@ -516,6 +522,7 @@ export function Component() {
                     <LanguageMismatchMessage
                         title={strings.formNotAvailableInSelectedLanguageMessage}
                         originalLanguage={finalReportResponse.translation_module_original_language}
+                        selectedLanguage={currentLanguage}
                     />
                 )}
                 {isDefined(finalReportResponseError) && (
@@ -541,6 +548,7 @@ export function Component() {
                                 isPreviousImminent={isPreviousImminent}
                                 setFileIdToUrlMap={setFileIdToUrlMap}
                                 error={formError}
+                                readOnly={readOnly}
                                 disabled={disabled}
                                 districtOptions={districtOptions}
                                 setDistrictOptions={setDistrictOptions}
@@ -554,6 +562,7 @@ export function Component() {
                                 fileIdToUrlMap={fileIdToUrlMap}
                                 setFileIdToUrlMap={setFileIdToUrlMap}
                                 error={formError}
+                                readOnly={readOnly}
                                 disabled={disabled}
                             />
                         </TabPanel>
@@ -562,6 +571,7 @@ export function Component() {
                                 value={value}
                                 setFieldValue={setFieldValue}
                                 error={formError}
+                                readOnly={readOnly}
                                 disabled={disabled}
                             />
                         </TabPanel>
@@ -573,6 +583,7 @@ export function Component() {
                                 fileIdToUrlMap={fileIdToUrlMap}
                                 setFileIdToUrlMap={setFileIdToUrlMap}
                                 error={formError}
+                                readOnly={readOnly}
                                 disabled={disabled}
                             />
                         </TabPanel>
@@ -581,6 +592,7 @@ export function Component() {
                                 value={value}
                                 setFieldValue={setFieldValue}
                                 error={formError}
+                                readOnly={readOnly}
                                 disabled={disabled}
                             />
                         </TabPanel>
@@ -606,7 +618,7 @@ export function Component() {
                                     <Button
                                         name={undefined}
                                         onClick={handleFormSubmit}
-                                        disabled={disabled}
+                                        disabled={disabled || readOnly}
                                     >
                                         {strings.formSaveButtonLabel}
                                     </Button>

@@ -83,8 +83,8 @@ export const FONT_FAMILY_HEADER = 'Montserrat';
 // FIXME: fix typing in server (medium priority)
 // This should not be the same as OperationType.
 export type DrefStatus = components<'read'>['schemas']['DrefDrefStatusEnumKey'];
-// const DREF_STATUS_COMPLETED = 1 satisfies DrefStatus;
 export const DREF_STATUS_DRAFT = 1 satisfies DrefStatus;
+export const DREF_STATUS_FINALIZED = 3 satisfies DrefStatus;
 export const DREF_STATUS_APPROVED = 4 satisfies DrefStatus;
 
 export type TypeOfDrefEnum = components<'read'>['schemas']['DrefDrefDrefTypeEnumKey'];

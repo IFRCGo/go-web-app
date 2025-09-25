@@ -34,6 +34,7 @@ interface Props {
     value: Value;
     setFieldValue: (...entries: EntriesAsList<Value>) => void;
     error: Error<Value> | undefined;
+    readOnly: boolean;
     disabled?: boolean;
 }
 
@@ -42,6 +43,7 @@ function Submission(props: Props) {
         error: formError,
         setFieldValue,
         value,
+        readOnly,
         disabled,
     } = props;
 
@@ -108,6 +110,7 @@ function Submission(props: Props) {
                         value={value.operation_start_date}
                         onChange={handleOperationStartDateChange}
                         error={error?.operation_start_date}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     {value.type_of_dref === TYPE_IMMINENT ? (
@@ -127,6 +130,7 @@ function Submission(props: Props) {
                             value={value.total_operation_timeframe}
                             onChange={handleTotalOperationTimeframeChange}
                             error={error?.total_operation_timeframe}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                     )}
@@ -150,6 +154,7 @@ function Submission(props: Props) {
                         value={value.date_of_publication}
                         onChange={setFieldValue}
                         error={error?.date_of_publication}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -169,6 +174,7 @@ function Submission(props: Props) {
                         value={value.appeal_code}
                         onChange={setFieldValue}
                         error={error?.appeal_code}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -182,6 +188,7 @@ function Submission(props: Props) {
                             value={value.glide_code}
                             onChange={setFieldValue}
                             error={error?.glide_code}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                     </InputSection>
@@ -197,6 +204,7 @@ function Submission(props: Props) {
                         value={value.ifrc_appeal_manager_name}
                         onChange={setFieldValue}
                         error={error?.ifrc_appeal_manager_name}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <TextInput
@@ -205,6 +213,7 @@ function Submission(props: Props) {
                         value={value.ifrc_appeal_manager_title}
                         onChange={setFieldValue}
                         error={error?.ifrc_appeal_manager_title}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <TextInput
@@ -213,6 +222,7 @@ function Submission(props: Props) {
                         value={value.ifrc_appeal_manager_email}
                         onChange={setFieldValue}
                         error={error?.ifrc_appeal_manager_email}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <TextInput
@@ -221,6 +231,7 @@ function Submission(props: Props) {
                         value={value.ifrc_appeal_manager_phone_number}
                         onChange={setFieldValue}
                         error={error?.ifrc_appeal_manager_phone_number}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -235,6 +246,7 @@ function Submission(props: Props) {
                         value={value.ifrc_project_manager_name}
                         onChange={setFieldValue}
                         error={error?.ifrc_project_manager_name}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <TextInput
@@ -243,6 +255,7 @@ function Submission(props: Props) {
                         value={value.ifrc_project_manager_title}
                         onChange={setFieldValue}
                         error={error?.ifrc_project_manager_title}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <TextInput
@@ -251,6 +264,7 @@ function Submission(props: Props) {
                         value={value.ifrc_project_manager_email}
                         onChange={setFieldValue}
                         error={error?.ifrc_project_manager_email}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <TextInput
@@ -259,6 +273,7 @@ function Submission(props: Props) {
                         value={value.ifrc_project_manager_phone_number}
                         onChange={setFieldValue}
                         error={error?.ifrc_project_manager_phone_number}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -272,6 +287,7 @@ function Submission(props: Props) {
                         value={value.national_society_contact_name}
                         onChange={setFieldValue}
                         error={error?.national_society_contact_name}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <TextInput
@@ -280,6 +296,7 @@ function Submission(props: Props) {
                         value={value.national_society_contact_title}
                         onChange={setFieldValue}
                         error={error?.national_society_contact_title}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <TextInput
@@ -288,6 +305,7 @@ function Submission(props: Props) {
                         value={value.national_society_contact_email}
                         onChange={setFieldValue}
                         error={error?.national_society_contact_email}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <TextInput
@@ -296,6 +314,7 @@ function Submission(props: Props) {
                         value={value.national_society_contact_phone_number}
                         onChange={setFieldValue}
                         error={error?.national_society_contact_phone_number}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -309,6 +328,7 @@ function Submission(props: Props) {
                         value={value.ifrc_emergency_name}
                         onChange={setFieldValue}
                         error={error?.ifrc_emergency_name}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <TextInput
@@ -317,6 +337,7 @@ function Submission(props: Props) {
                         value={value.ifrc_emergency_title}
                         onChange={setFieldValue}
                         error={error?.ifrc_emergency_title}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <TextInput
@@ -325,6 +346,7 @@ function Submission(props: Props) {
                         value={value.ifrc_emergency_email}
                         onChange={setFieldValue}
                         error={error?.ifrc_emergency_email}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <TextInput
@@ -333,6 +355,7 @@ function Submission(props: Props) {
                         value={value.ifrc_emergency_phone_number}
                         onChange={setFieldValue}
                         error={error?.ifrc_emergency_phone_number}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -346,6 +369,7 @@ function Submission(props: Props) {
                         value={value.regional_focal_point_name}
                         onChange={setFieldValue}
                         error={error?.regional_focal_point_name}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <TextInput
@@ -354,6 +378,7 @@ function Submission(props: Props) {
                         value={value.regional_focal_point_title}
                         onChange={setFieldValue}
                         error={error?.regional_focal_point_title}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <TextInput
@@ -362,6 +387,7 @@ function Submission(props: Props) {
                         value={value.regional_focal_point_email}
                         onChange={setFieldValue}
                         error={error?.regional_focal_point_email}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <TextInput
@@ -370,6 +396,7 @@ function Submission(props: Props) {
                         value={value.regional_focal_point_phone_number}
                         onChange={setFieldValue}
                         error={error?.regional_focal_point_phone_number}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -383,6 +410,7 @@ function Submission(props: Props) {
                         value={value.media_contact_name}
                         onChange={setFieldValue}
                         error={error?.media_contact_name}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <TextInput
@@ -391,6 +419,7 @@ function Submission(props: Props) {
                         value={value.media_contact_title}
                         onChange={setFieldValue}
                         error={error?.media_contact_title}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <TextInput
@@ -399,6 +428,7 @@ function Submission(props: Props) {
                         value={value.media_contact_email}
                         onChange={setFieldValue}
                         error={error?.media_contact_email}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <TextInput
@@ -407,6 +437,7 @@ function Submission(props: Props) {
                         value={value.media_contact_phone_number}
                         onChange={setFieldValue}
                         error={error?.media_contact_phone_number}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -420,6 +451,7 @@ function Submission(props: Props) {
                         value={value.national_society_integrity_contact_name}
                         onChange={setFieldValue}
                         error={error?.national_society_integrity_contact_name}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <TextInput
@@ -428,6 +460,7 @@ function Submission(props: Props) {
                         value={value.national_society_integrity_contact_title}
                         onChange={setFieldValue}
                         error={error?.national_society_integrity_contact_title}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <TextInput
@@ -436,6 +469,7 @@ function Submission(props: Props) {
                         value={value.national_society_integrity_contact_email}
                         onChange={setFieldValue}
                         error={error?.national_society_integrity_contact_email}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <TextInput
@@ -444,6 +478,7 @@ function Submission(props: Props) {
                         value={value.national_society_integrity_contact_phone_number}
                         onChange={setFieldValue}
                         error={error?.national_society_integrity_contact_phone_number}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -457,6 +492,7 @@ function Submission(props: Props) {
                         value={value.national_society_hotline_phone_number}
                         onChange={setFieldValue}
                         error={error?.national_society_hotline_phone_number}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>

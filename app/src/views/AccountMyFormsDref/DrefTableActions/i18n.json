@@ -2,6 +2,7 @@
     "namespace": "accountMyFormsDref",
     "strings": {
         "dropdownActionApproveLabel": "Approved",
+        "dropdownActionFinalizeLabel": "Finalize",
         "dropdownActionAllocationFormLabel": "Allocation Form",
         "dropdownActionAddOpsUpdateLabel": "Add Operational Update",
         "dropdownActionCreateFinalReportLabel": "Create Final Report",
@@ -10,10 +11,13 @@
         "dropdownActionEditLabel": "Edit",
         "drefApprovalSuccessTitle": "Successfully approved the DREF!",
         "drefApprovalFailureTitle": "Failed to approve the DREF!",
+        "drefFinalizeSuccessTitle": "Successfully finalized the DREF!",
+        "drefFinalizeFailureTitle": "Failed to finalize the DREF!",
         "drefApprovalInProgressTitle": "Approval in progress...",
         "drefAccountCouldNotCreate": "Could not create new operational update",
         "drefAccountCouldNotCreateFinalReport": "Could not create final report",
         "drefAccountConfirmMessage": "You're about to Approve this DREF. Once approved, it can no longer be edited. Are you sure you want to Approve?",
+        "drefAccountFinalizeConfirmMessage": "You're about to Finalize this DREF. Once finalize, it can no longer be edited. Are you sure you want to Finalize?",
         "dropdownActionImminentNewOpsUpdateConfirmationHeading": "Confirm addition of Operational Update",
         "dropdownActionImminentNewOpsUpdateConfirmationMessage": "The DREF type will be changed to Response (from Imminent) for the Operational Update. Once created, you'll be able to change it to other types except Imminent. Are you sure you want to add an Operational Update?"
     }

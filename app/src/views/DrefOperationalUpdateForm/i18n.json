@@ -13,7 +13,7 @@
         "formTabActionsLabel": "Actions/Needs",
         "formTabOperationLabel": "Operation",
         "formTabSubmissionLabel": "Operational timeframes and contacts",
-        "formNotAvailableInSelectedLanguageMessage": "DREF Operational Update is not available for edit in the selected language!",
+        "formNotAvailableInSelectedLanguageMessage": "DREF Operational Update is not available in the selected language!",
         "formLoadingMessage": "Loading DREF Operational Update...",
         "formLoadErrorTitle": "Failed to load DREF Operational Update",
         "formLoadErrorHelpText": "Please make sure that the operational update with given id exists and you have the permission to view it",

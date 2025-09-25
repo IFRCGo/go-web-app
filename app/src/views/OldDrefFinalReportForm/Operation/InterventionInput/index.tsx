@@ -46,6 +46,7 @@ interface Props {
     onRemove: (index: number) => void;
     index: number;
     titleMap: Record<string, string> | undefined;
+    readOnly: boolean;
     disabled?: boolean;
 }
 
@@ -57,6 +58,7 @@ function InterventionInput(props: Props) {
         index,
         onRemove,
         titleMap,
+        readOnly,
         disabled,
     } = props;
 
@@ -110,6 +112,7 @@ function InterventionInput(props: Props) {
                         onChange={onFieldChange}
                         error={error?.budget}
                         disabled={disabled}
+                        readOnly={readOnly}
                         withAsterisk
                     />
                     <NumberInput
@@ -119,6 +122,7 @@ function InterventionInput(props: Props) {
                         onChange={onFieldChange}
                         error={error?.person_targeted}
                         disabled={disabled}
+                        readOnly={readOnly}
                         withAsterisk
                     />
                     <NumberInput
@@ -128,6 +132,7 @@ function InterventionInput(props: Props) {
                         onChange={onFieldChange}
                         error={error?.person_assisted}
                         disabled={disabled}
+                        readOnly={readOnly}
                         withAsterisk
                     />
                     <NumberInput
@@ -137,6 +142,7 @@ function InterventionInput(props: Props) {
                         onChange={onFieldChange}
                         error={error?.male}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                     <NumberInput
                         label={strings.drefOperationalUpdateIndicatorFemaleLabel}
@@ -145,6 +151,7 @@ function InterventionInput(props: Props) {
                         onChange={onFieldChange}
                         error={error?.female}
                         disabled={disabled}
+                        readOnly={readOnly}
                     />
                 </>
             )}
@@ -155,7 +162,7 @@ function InterventionInput(props: Props) {
                     onClick={onRemove}
                     variant="tertiary"
                     title={strings.drefFormRemoveIntervention}
-                    disabled={disabled}
+                    disabled={disabled || readOnly}
                     icons={<DeleteBinTwoLineIcon />}
                 >
                     {strings.drefFinalReportRemoveIntervention}
@@ -169,6 +176,7 @@ function InterventionInput(props: Props) {
                 onChange={onFieldChange}
                 error={error?.description}
                 disabled={disabled}
+                readOnly={readOnly}
                 autoBullets
             />
             <TextArea
@@ -178,6 +186,7 @@ function InterventionInput(props: Props) {
                 onChange={onFieldChange}
                 error={error?.narrative_description_of_achievements}
                 disabled={disabled}
+                readOnly={readOnly}
                 autoBullets
             />
             <TextArea
@@ -187,6 +196,7 @@ function InterventionInput(props: Props) {
                 onChange={onFieldChange}
                 error={error?.lessons_learnt}
                 disabled={disabled}
+                readOnly={readOnly}
                 autoBullets
             />
             <TextArea
@@ -196,6 +206,7 @@ function InterventionInput(props: Props) {
                 onChange={onFieldChange}
                 error={error?.challenges}
                 disabled={disabled}
+                readOnly={readOnly}
                 autoBullets
             />
             <Container
@@ -206,7 +217,7 @@ function InterventionInput(props: Props) {
                         variant="secondary"
                         name={undefined}
                         onClick={handleIndicatorAddButtonClick}
-                        disabled={disabled}
+                        disabled={disabled || readOnly}
                     >
                         {strings.drefAddIndicatorButtonLabel}
                     </Button>
@@ -221,6 +232,7 @@ function InterventionInput(props: Props) {
                         onChange={onIndicatorChange}
                         onRemove={onIndicatorRemove}
                         error={getErrorObject(error?.indicators)}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 ))}
