@@ -42,6 +42,7 @@ interface Props {
     onRemove: (index: number) => void;
     index: number;
     disabled?: boolean;
+    readOnly: boolean;
     activityOptions?: ActivityOptions[];
 }
 function ActivitiesInput(props: Props) {
@@ -49,6 +50,7 @@ function ActivitiesInput(props: Props) {
         error: errorFromProps,
         onChange,
         value,
+        readOnly,
         index,
         onRemove,
         disabled,
@@ -74,7 +76,7 @@ function ActivitiesInput(props: Props) {
                     ariaLabel={strings.drefFormProposedActionRemoveSector}
                     round={false}
                     variant="tertiary"
-                    disabled={disabled}
+                    disabled={disabled || readOnly}
                 >
                     <DeleteBinLineIcon />
                 </IconButton>
@@ -99,6 +101,7 @@ function ActivitiesInput(props: Props) {
                 onChange={onFieldChange}
                 error={error?.activity}
                 disabled={disabled}
+                readOnly={readOnly}
                 autoBullets
             />
         </Container>

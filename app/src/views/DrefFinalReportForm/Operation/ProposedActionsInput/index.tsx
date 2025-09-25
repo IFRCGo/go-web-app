@@ -63,6 +63,7 @@ interface Props {
         index: number,
     ) => void;
     index: number;
+    readOnly: boolean;
     disabled?: boolean;
 }
 function ProposedActionsInput(props: Props) {
@@ -71,6 +72,7 @@ function ProposedActionsInput(props: Props) {
         onChange,
         value,
         index,
+        readOnly,
         disabled,
     } = props;
 
@@ -173,6 +175,7 @@ function ProposedActionsInput(props: Props) {
                     onChange={onProposedActionChange}
                     error={error?.total_budget}
                     label={strings.drefFormProposedActionBudgetLabel}
+                    readOnly={readOnly}
                     disabled={disabled}
                 />
                 <NumberInput
@@ -182,6 +185,7 @@ function ProposedActionsInput(props: Props) {
                     onChange={onProposedActionChange}
                     error={error?.total_expenditure}
                     label={strings.drefFormExpenditureLabel}
+                    readOnly={readOnly}
                     disabled={disabled}
                 />
             </div>
@@ -198,6 +202,7 @@ function ProposedActionsInput(props: Props) {
                     labelSelector={sectorLabelSelector}
                     options={activityFilteredOptions}
                     disabled={disabled || activityOptionPending}
+                    readOnly={readOnly}
                     required
                 />
                 <Button
@@ -208,6 +213,7 @@ function ProposedActionsInput(props: Props) {
                     disabled={
                         isNotDefined(selectedSector)
                         || disabled
+                        || readOnly
                     }
                 >
                     {strings.drefFormAddProposedActionLabel}
@@ -226,6 +232,7 @@ function ProposedActionsInput(props: Props) {
                         onRemove={onActivityRemove}
                         error={getErrorObject(error?.activities)}
                         activityOptions={activityOptionResponse}
+                        readOnly={readOnly}
                     />
                 ))}
             </Container>

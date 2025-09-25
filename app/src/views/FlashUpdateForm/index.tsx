@@ -407,6 +407,7 @@ export function Component() {
                 {languageMismatch && (
                     <LanguageMismatchMessage
                         originalLanguage={flashUpdateResponse.translation_module_original_language ?? 'en'}
+                        selectedLanguage={currentLanguage}
                     />
                 )}
                 {isDefined(flashUpdateResponseError) && (

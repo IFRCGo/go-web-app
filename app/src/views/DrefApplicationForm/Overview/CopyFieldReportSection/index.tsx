@@ -37,6 +37,7 @@ import styles from './styles.module.css';
 type Value = PartialDref;
 interface Props {
     value: Value;
+    readOnly: boolean;
     setFieldValue: (...entries: EntriesAsList<PartialDref>) => void;
     disabled?: boolean;
     setDistrictOptions: Dispatch<SetStateAction<DistrictItem[] | null | undefined>>;
@@ -47,6 +48,7 @@ interface Props {
 function CopyFieldReportSection(props: Props) {
     const {
         value,
+        readOnly,
         setFieldValue,
         disabled,
         setDistrictOptions,
@@ -243,6 +245,7 @@ function CopyFieldReportSection(props: Props) {
                 <FieldReportSearchSelectInput
                     className={styles.input}
                     name={undefined}
+                    readOnly={readOnly}
                     value={fieldReport}
                     onChange={setFieldReport}
                     nationalSociety={value?.national_society}
@@ -255,6 +258,7 @@ function CopyFieldReportSection(props: Props) {
                 <Button
                     className={styles.action}
                     variant="secondary"
+                    readOnly={readOnly}
                     disabled={isNotDefined(fieldReport) || frDetailPending || disabled}
                     onClick={handleCopyButtonClick}
                     name={fieldReport}

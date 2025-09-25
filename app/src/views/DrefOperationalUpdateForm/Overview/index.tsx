@@ -93,6 +93,7 @@ const userKeySelector = (item: User) => item.id;
 
 interface Props {
     value: PartialOpsUpdate;
+    readOnly: boolean;
     isPreviousImminent: boolean;
     setFieldValue: (...entries: EntriesAsList<PartialOpsUpdate>) => void;
     error: Error<PartialOpsUpdate> | undefined;
@@ -108,6 +109,7 @@ interface Props {
 function Overview(props: Props) {
     const {
         value,
+        readOnly,
         isPreviousImminent,
         setFieldValue,
         error: formError,
@@ -275,7 +277,7 @@ function Overview(props: Props) {
                     <Button
                         name={undefined}
                         onClick={setShowShareModalTrue}
-                        disabled={isNotDefined(opsUpdateId)}
+                        disabled={isNotDefined(opsUpdateId) || readOnly}
                         icons={<ShareLineIcon />}
                         variant="secondary"
                     >
@@ -298,6 +300,7 @@ function Overview(props: Props) {
                         name="national_society"
                         onChange={handleNSChange}
                         value={value?.national_society}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -318,6 +321,7 @@ function Overview(props: Props) {
                         onChange={setFieldValue}
                         value={value?.type_of_dref}
                         error={error?.type_of_dref}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -339,6 +343,7 @@ function Overview(props: Props) {
                         value={value?.disaster_type}
                         onChange={setFieldValue}
                         error={error?.disaster_type}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <SelectInput
@@ -350,6 +355,7 @@ function Overview(props: Props) {
                         value={value?.type_of_onset}
                         onChange={setFieldValue}
                         error={error?.type_of_onset}
+                        readOnly={readOnly}
                         disabled={disabled}
                         withAsterisk
                     />
@@ -363,6 +369,7 @@ function Overview(props: Props) {
                                 value={value?.is_man_made_event}
                                 onChange={setFieldValue}
                                 error={error?.is_man_made_event}
+                                readOnly={readOnly}
                                 disabled={disabled}
                             />
                         ) : (
@@ -392,6 +399,7 @@ function Overview(props: Props) {
                         value={value?.disaster_category}
                         onChange={setFieldValue}
                         error={error?.disaster_category}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -409,6 +417,7 @@ function Overview(props: Props) {
                         value={value?.country}
                         onChange={handleCountryChange}
                         error={error?.country}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <div>
@@ -419,6 +428,7 @@ function Overview(props: Props) {
                             options={districtOptions}
                             onChange={setFieldValue}
                             value={value?.district}
+                            readOnly={readOnly}
                             disabled={disabled}
                             onOptionsChange={setDistrictOptions}
                             error={getErrorString(error?.district)}
@@ -442,6 +452,7 @@ function Overview(props: Props) {
                             value={value?.title}
                             onChange={setFieldValue}
                             error={error?.title}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                         <Button
@@ -454,6 +465,7 @@ function Overview(props: Props) {
                                 || isNotDefined(value?.country)
                                 || isNotDefined(value?.disaster_type)
                                 || isNotDefined(disasterTypes)
+                                || readOnly
                             )}
                         >
                             {strings.drefFormGenerateTitle}
@@ -477,6 +489,7 @@ function Overview(props: Props) {
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             label={strings.drefFormUploadAnImageLabel}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                     </InputSection>
@@ -497,6 +510,7 @@ function Overview(props: Props) {
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             label={strings.drefFormUploadAnImageLabel}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                     </InputSection>
