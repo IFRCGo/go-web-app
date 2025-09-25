@@ -80,6 +80,7 @@ interface Props {
     error: Error<Value> | undefined;
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
+    readOnly: boolean;
     disabled?: boolean;
 }
 
@@ -96,6 +97,7 @@ function Operation(props: Props) {
         error: formError,
         fileIdToUrlMap,
         setFileIdToUrlMap,
+        readOnly,
         disabled,
     } = props;
 
@@ -269,6 +271,7 @@ function Operation(props: Props) {
                             value={value.operation_objective}
                             error={error?.operation_objective}
                             hint={strings.drefFormObjectiveOperationPlaceholder}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                     </InputSection>
@@ -307,6 +310,7 @@ function Operation(props: Props) {
                             value={value.response_strategy}
                             error={error?.response_strategy}
                             hint={strings.drefFormResponseRationalePlaceholder}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                     </InputSection>
@@ -327,6 +331,7 @@ function Operation(props: Props) {
                             onChange={setFieldValue}
                             value={value.people_assisted}
                             error={error?.people_assisted}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                     </InputSection>
@@ -340,6 +345,7 @@ function Operation(props: Props) {
                             onChange={setFieldValue}
                             value={value.selection_criteria}
                             error={error?.selection_criteria}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                     </InputSection>
@@ -351,6 +357,7 @@ function Operation(props: Props) {
                             value={value.change_in_operational_strategy}
                             onChange={setFieldValue}
                             error={error?.change_in_operational_strategy}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                     </InputSection>
@@ -364,6 +371,7 @@ function Operation(props: Props) {
                                 onChange={setFieldValue}
                                 value={value.change_in_operational_strategy_text}
                                 error={error?.change_in_operational_strategy_text}
+                                readOnly={readOnly}
                                 disabled={disabled}
                             />
                         </InputSection>
@@ -401,6 +409,7 @@ function Operation(props: Props) {
                                 value={value.assisted_num_of_women}
                                 onChange={onPopulationChange}
                                 error={error?.assisted_num_of_women}
+                                readOnly={readOnly}
                                 disabled={disabled}
                             />
                             <NumberInput
@@ -409,6 +418,7 @@ function Operation(props: Props) {
                                 value={value.assisted_num_of_men}
                                 onChange={onPopulationChange}
                                 error={error?.assisted_num_of_men}
+                                readOnly={readOnly}
                                 disabled={disabled}
                             />
                             <NumberInput
@@ -417,6 +427,7 @@ function Operation(props: Props) {
                                 value={value.assisted_num_of_girls_under_18}
                                 onChange={onPopulationChange}
                                 error={error?.assisted_num_of_girls_under_18}
+                                readOnly={readOnly}
                                 disabled={disabled}
                             />
                             <NumberInput
@@ -424,6 +435,7 @@ function Operation(props: Props) {
                                 name="assisted_num_of_boys_under_18"
                                 value={value.assisted_num_of_boys_under_18}
                                 onChange={onPopulationChange}
+                                readOnly={readOnly}
                                 error={error?.assisted_num_of_boys_under_18}
                                 disabled={disabled}
                             />
@@ -447,6 +459,7 @@ function Operation(props: Props) {
                         onChange={setFieldValue}
                         error={error?.num_assisted}
                         hint={strings.drefFormPeopleAssistedDescription}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     {/* NOTE: Empty div to preserve the layout */}
@@ -457,6 +470,7 @@ function Operation(props: Props) {
                         value={value.total_targeted_population}
                         onChange={setFieldValue}
                         error={error?.total_targeted_population}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -470,6 +484,7 @@ function Operation(props: Props) {
                         value={value.disability_people_per}
                         onChange={setFieldValue}
                         error={error?.disability_people_per}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <div className={styles.urbanToRural}>
@@ -483,6 +498,7 @@ function Operation(props: Props) {
                                 value={value.people_per_urban}
                                 onChange={setFieldValue}
                                 error={error?.people_per_urban}
+                                readOnly={readOnly}
                                 disabled={disabled}
                             />
                             <NumberInput
@@ -491,6 +507,7 @@ function Operation(props: Props) {
                                 value={value.people_per_local}
                                 onChange={setFieldValue}
                                 error={error?.people_per_local}
+                                readOnly={readOnly}
                                 disabled={disabled}
                             />
                         </div>
@@ -501,6 +518,7 @@ function Operation(props: Props) {
                         value={value.displaced_people}
                         onChange={setFieldValue}
                         error={error?.displaced_people}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     {value?.type_of_dref === TYPE_IMMINENT && (
@@ -510,6 +528,7 @@ function Operation(props: Props) {
                             value={value.people_targeted_with_early_actions}
                             onChange={setFieldValue}
                             error={error?.people_targeted_with_early_actions}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                     )}
@@ -527,6 +546,7 @@ function Operation(props: Props) {
                             value={value.has_anti_fraud_corruption_policy}
                             onChange={setFieldValue}
                             error={error?.has_anti_fraud_corruption_policy}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                     </InputSection>
@@ -538,6 +558,7 @@ function Operation(props: Props) {
                             value={value.has_sexual_abuse_policy}
                             onChange={setFieldValue}
                             error={error?.has_sexual_abuse_policy}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                     </InputSection>
@@ -549,6 +570,7 @@ function Operation(props: Props) {
                             value={value.has_child_protection_policy}
                             onChange={setFieldValue}
                             error={error?.has_child_protection_policy}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                     </InputSection>
@@ -560,6 +582,7 @@ function Operation(props: Props) {
                             value={value.has_whistleblower_protection_policy}
                             onChange={setFieldValue}
                             error={error?.has_whistleblower_protection_policy}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                     </InputSection>
@@ -571,6 +594,7 @@ function Operation(props: Props) {
                             value={value.has_anti_sexual_harassment_policy}
                             onChange={setFieldValue}
                             error={error?.has_anti_sexual_harassment_policy}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                     </InputSection>
@@ -624,6 +648,7 @@ function Operation(props: Props) {
                                 onChange={onRiskSecurityChange}
                                 onRemove={onRiskSecurityRemove}
                                 error={getErrorObject(error?.risk_security)}
+                                readOnly={readOnly}
                                 disabled={disabled}
                             />
                         ))}
@@ -632,7 +657,7 @@ function Operation(props: Props) {
                                 name={undefined}
                                 onClick={handleRiskSecurityAdd}
                                 variant="secondary"
-                                disabled={disabled}
+                                disabled={disabled || readOnly}
                             >
                                 {strings.drefFormRiskSecurityAddButton}
                             </Button>
@@ -665,6 +690,7 @@ function Operation(props: Props) {
                             error={error?.risk_security_concern}
                             onChange={setFieldValue}
                             disabled={disabled}
+                            readOnly={readOnly}
                         />
                     </InputSection>
                     <InputSection
@@ -694,6 +720,8 @@ function Operation(props: Props) {
                             value={value.has_child_safeguarding_risk_analysis_assessment}
                             onChange={setFieldValue}
                             error={error?.has_child_safeguarding_risk_analysis_assessment}
+                            readOnly={readOnly}
+                            disabled={disabled}
                         />
                     </InputSection>
                 </Container>
@@ -710,6 +738,7 @@ function Operation(props: Props) {
                             value={action}
                             onChange={handleProposedActionChange}
                             error={getErrorObject(error?.proposed_action)}
+                            readOnly={readOnly}
                         />
                     ))}
                     <InputSection
@@ -827,6 +856,7 @@ function Operation(props: Props) {
                             onChange={setFieldValue}
                             value={value.mitigation_efforts_and_achievements}
                             error={error?.mitigation_efforts_and_achievements}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                     </InputSection>
@@ -839,6 +869,7 @@ function Operation(props: Props) {
                             onChange={setFieldValue}
                             value={value.lessons_learned_and_challenges}
                             error={error?.lessons_learned_and_challenges}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                     </InputSection>
@@ -908,6 +939,7 @@ function Operation(props: Props) {
                                 labelSelector={stringValueSelector}
                                 onChange={setSelectedIntervention}
                                 value={selectedIntervention}
+                                readOnly={readOnly}
                                 disabled={disabled}
                             />
                             <Button
@@ -915,7 +947,9 @@ function Operation(props: Props) {
                                 variant="secondary"
                                 name={selectedIntervention}
                                 onClick={handleInterventionAddButtonClick}
-                                disabled={isNotDefined(selectedIntervention) || disabled}
+                                disabled={isNotDefined(selectedIntervention)
+                                    || disabled
+                                    || readOnly}
                             >
                                 {strings.drefFormResponseAddButton}
                             </Button>
@@ -931,6 +965,7 @@ function Operation(props: Props) {
                             onRemove={onInterventionRemove}
                             error={getErrorObject(error?.planned_interventions)}
                             titleMap={interventionTitleMap}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                     ))}
@@ -950,6 +985,7 @@ function Operation(props: Props) {
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         clearable
+                        readOnly={readOnly}
                         disabled={disabled}
                     >
                         {strings.finalReportFinancialReportAttachment}
@@ -968,6 +1004,7 @@ function Operation(props: Props) {
                         value={value.financial_report_description}
                         onChange={setFieldValue}
                         error={error?.financial_report_description}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>

@@ -27,6 +27,7 @@ interface Props {
     onChange: (value: SetValueArg<RiskSecurityFormFields>, index: number) => void;
     onRemove: (index: number) => void;
     index: number;
+    readOnly: boolean;
     disabled?: boolean;
 }
 
@@ -37,6 +38,7 @@ function RiskSecurityInput(props: Props) {
         value,
         index,
         onRemove,
+        readOnly,
         disabled,
     } = props;
 
@@ -65,6 +67,7 @@ function RiskSecurityInput(props: Props) {
                 error={error?.risk}
                 onChange={onFieldChange}
                 disabled={disabled}
+                readOnly={readOnly}
                 withAsterisk
             />
             <TextArea
@@ -75,6 +78,7 @@ function RiskSecurityInput(props: Props) {
                 error={error?.mitigation}
                 onChange={onFieldChange}
                 disabled={disabled}
+                readOnly={readOnly}
                 withAsterisk
             />
             <Button
@@ -82,7 +86,7 @@ function RiskSecurityInput(props: Props) {
                 name={index}
                 onClick={onRemove}
                 variant="tertiary"
-                disabled={disabled}
+                disabled={disabled || readOnly}
                 title={strings.drefFormDeleteRisk}
             >
                 <DeleteBinTwoLineIcon />

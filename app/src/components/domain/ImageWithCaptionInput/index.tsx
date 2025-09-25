@@ -30,6 +30,7 @@ interface Props<N> {
     name: N;
     url: SupportedPaths;
     value: Value | null | undefined;
+    readOnly: boolean;
     onChange: (value: SetValueArg<Value> | undefined, name: N) => void;
     error: ObjectError<Value> | undefined;
     fileIdToUrlMap: Record<number, string>;
@@ -44,6 +45,7 @@ interface Props<N> {
 function ImageWithCaptionInput<const N extends string | number>(props: Props<N>) {
     const {
         className,
+        readOnly,
         name,
         value,
         url,
@@ -92,6 +94,7 @@ function ImageWithCaptionInput<const N extends string | number>(props: Props<N>)
                 name="id"
                 accept="image/*"
                 value={value?.id}
+                readOnly={readOnly}
                 onChange={handleFileInputChange}
                 url={url}
                 fileIdToUrlMap={fileIdToUrlMap}
@@ -116,6 +119,7 @@ function ImageWithCaptionInput<const N extends string | number>(props: Props<N>)
                     className={styles.captionInput}
                     name="caption"
                     value={value?.caption}
+                    readOnly={readOnly}
                     onChange={setFieldValue}
                     error={error?.caption}
                     placeholder={strings.imageWithCaptionEnterCaption}

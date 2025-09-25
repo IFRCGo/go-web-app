@@ -37,6 +37,7 @@ const defaultActivitiesValue: ActivitiesFormFields = {
 
 interface Props {
     value: ActivitiesFormFields;
+    readOnly: boolean;
     error: ArrayError<ActivitiesFormFields> | undefined;
     onChange: (value: SetValueArg<ActivitiesFormFields>, index: number) => void;
     onRemove: (index: number) => void;
@@ -49,6 +50,7 @@ function ActivitiesInput(props: Props) {
         error: errorFromProps,
         onChange,
         value,
+        readOnly,
         index,
         onRemove,
         disabled,
@@ -74,7 +76,7 @@ function ActivitiesInput(props: Props) {
                     ariaLabel={strings.drefFormProposedActionRemoveSector}
                     round={false}
                     variant="tertiary"
-                    disabled={disabled}
+                    disabled={disabled || readOnly}
                 >
                     <DeleteBinLineIcon />
                 </IconButton>
@@ -99,6 +101,7 @@ function ActivitiesInput(props: Props) {
                 onChange={onFieldChange}
                 error={error?.activity}
                 disabled={disabled}
+                readOnly={readOnly}
                 autoBullets
             />
         </Container>

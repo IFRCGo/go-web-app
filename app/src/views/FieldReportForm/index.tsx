@@ -541,6 +541,7 @@ export function Component() {
                 {languageMismatch && (
                     <LanguageMismatchMessage
                         originalLanguage={fieldReportResponse.translation_module_original_language}
+                        selectedLanguage={currentLanguage}
                     />
                 )}
                 {isDefined(fieldReportResponseError) && (

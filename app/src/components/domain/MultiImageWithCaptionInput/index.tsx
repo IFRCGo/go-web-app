@@ -45,6 +45,7 @@ interface Props<N> {
     label: React.ReactNode;
     icons?: React.ReactNode;
     actions?: React.ReactNode;
+    readOnly?: boolean;
     disabled?: boolean;
 }
 
@@ -62,6 +63,7 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
         label,
         icons,
         actions,
+        readOnly,
         disabled,
     } = props;
 
@@ -139,6 +141,7 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
                 icons={icons}
                 actions={actions}
                 withoutPreview
+                readOnly={readOnly}
                 disabled={disabled}
             >
                 {label}
@@ -168,7 +171,7 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
                                     ariaLabel={strings.removeImagesButtonTitle}
                                     variant="secondary"
                                     spacing="none"
-                                    disabled={disabled}
+                                    disabled={disabled || readOnly}
                                 >
                                     <DeleteBinLineIcon />
                                 </IconButton>
@@ -187,6 +190,7 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
                                     onChange={handleCaptionChange}
                                     error={imageError?.caption}
                                     placeholder={strings.enterCaptionPlaceholder}
+                                    readOnly={readOnly}
                                     disabled={disabled}
                                 />
                             </div>

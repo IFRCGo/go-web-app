@@ -53,6 +53,7 @@ interface Props {
     value: Value;
     setFieldValue: (...entries: EntriesAsList<Value>) => void;
     error: Error<Value> | undefined;
+    readOnly: boolean;
     disabled?: boolean;
 }
 
@@ -61,6 +62,7 @@ function Actions(props: Props) {
         value,
         setFieldValue,
         error: formError,
+        readOnly,
         disabled,
     } = props;
 
@@ -139,6 +141,7 @@ function Actions(props: Props) {
                         onChange={setFieldValue}
                         value={value?.has_national_society_conducted}
                         error={error?.has_national_society_conducted}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -149,6 +152,7 @@ function Actions(props: Props) {
                             value={value.national_society_conducted_description}
                             onChange={setFieldValue}
                             error={error?.national_society_conducted_description}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                     </InputSection>
@@ -167,6 +171,7 @@ function Actions(props: Props) {
                         onChange={setFieldValue}
                         value={value.ifrc}
                         error={error?.ifrc}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -179,6 +184,7 @@ function Actions(props: Props) {
                         onChange={setFieldValue}
                         value={value.partner_national_society}
                         error={error?.partner_national_society}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -196,6 +202,7 @@ function Actions(props: Props) {
                         onChange={setFieldValue}
                         value={value.icrc}
                         error={error?.icrc}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -212,6 +219,7 @@ function Actions(props: Props) {
                         value={value.government_requested_assistance}
                         onChange={setFieldValue}
                         error={error?.government_requested_assistance}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -225,6 +233,7 @@ function Actions(props: Props) {
                         onChange={setFieldValue}
                         value={value.national_authorities}
                         error={error?.national_authorities}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -238,6 +247,7 @@ function Actions(props: Props) {
                         onChange={setFieldValue}
                         value={value.un_or_other_actor}
                         error={error?.un_or_other_actor}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -249,6 +259,7 @@ function Actions(props: Props) {
                         value={value.is_there_major_coordination_mechanism}
                         onChange={setFieldValue}
                         error={error?.is_there_major_coordination_mechanism}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -261,6 +272,7 @@ function Actions(props: Props) {
                             name="major_coordination_mechanism"
                             onChange={setFieldValue}
                             value={value.major_coordination_mechanism}
+                            readOnly={readOnly}
                             error={error?.major_coordination_mechanism}
                             disabled={disabled}
                         />
@@ -288,6 +300,7 @@ function Actions(props: Props) {
                                 labelSelector={stringValueSelector}
                                 options={filteredNeedOptions}
                                 value={selectedNeed}
+                                readOnly={readOnly}
                                 disabled={disabled}
                             />
                             <Button
@@ -295,7 +308,7 @@ function Actions(props: Props) {
                                 variant="secondary"
                                 name={selectedNeed}
                                 onClick={handleNeedAddButtonClick}
-                                disabled={isNotDefined(selectedNeed) || disabled}
+                                disabled={isNotDefined(selectedNeed) || disabled || readOnly}
                             >
                                 {strings.drefFormAddButton}
                             </Button>
@@ -311,6 +324,7 @@ function Actions(props: Props) {
                             onRemove={onNeedRemove}
                             error={getErrorObject(error?.needs_identified)}
                             titleDisplayMap={needsIdentifiedTitleDisplayMap}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                     ))}

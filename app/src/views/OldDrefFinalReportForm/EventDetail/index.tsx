@@ -40,6 +40,7 @@ interface Props {
     error: Error<Value> | undefined;
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
+    readOnly: boolean;
     disabled?: boolean;
 }
 
@@ -56,6 +57,7 @@ function EventDetail(props: Props) {
         value,
         fileIdToUrlMap,
         setFileIdToUrlMap,
+        readOnly,
         disabled,
     } = props;
 
@@ -96,6 +98,7 @@ function EventDetail(props: Props) {
                             value={value.event_text}
                             onChange={setFieldValue}
                             error={error?.event_text}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                     </InputSection>
@@ -112,6 +115,7 @@ function EventDetail(props: Props) {
                             value={value.event_date}
                             onChange={setFieldValue}
                             error={error?.event_date}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                     </InputSection>
@@ -154,6 +158,7 @@ function EventDetail(props: Props) {
                                 ? strings.drefFormPeopleAffectedDescriptionImminent
                                 : strings.drefFormPeopleAffectedDescriptionSlowSudden
                         )}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <NumberInput
@@ -182,6 +187,7 @@ function EventDetail(props: Props) {
                                 ? strings.drefFormPeopleInNeedDescriptionImminent
                                 : strings.drefFormPeopleInNeedDescriptionSlowSudden
                         )}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <NumberInput
@@ -190,6 +196,7 @@ function EventDetail(props: Props) {
                         value={value?.estimated_number_of_affected_male}
                         onChange={setFieldValue}
                         error={error?.estimated_number_of_affected_male}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <NumberInput
@@ -198,6 +205,7 @@ function EventDetail(props: Props) {
                         value={value?.estimated_number_of_affected_female}
                         onChange={setFieldValue}
                         error={error?.estimated_number_of_affected_female}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <NumberInput
@@ -206,6 +214,7 @@ function EventDetail(props: Props) {
                         value={value?.estimated_number_of_affected_girls_under_18}
                         onChange={setFieldValue}
                         error={error?.estimated_number_of_affected_girls_under_18}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <NumberInput
@@ -214,6 +223,7 @@ function EventDetail(props: Props) {
                         value={value?.estimated_number_of_affected_boys_under_18}
                         onChange={setFieldValue}
                         error={error?.estimated_number_of_affected_boys_under_18}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -247,6 +257,7 @@ function EventDetail(props: Props) {
                         onChange={setFieldValue}
                         value={value.event_description}
                         error={error?.event_description}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -265,6 +276,7 @@ function EventDetail(props: Props) {
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         error={getErrorObject(error?.images_file)}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -279,6 +291,7 @@ function EventDetail(props: Props) {
                             onChange={setFieldValue}
                             value={value.event_scope}
                             error={error?.event_scope}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                     </InputSection>
@@ -296,6 +309,7 @@ function EventDetail(props: Props) {
                             onChange={onSourceInformationChange}
                             onRemove={onSourceInformationRemove}
                             error={getErrorObject(error?.source_information)}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                     ))}
@@ -304,7 +318,7 @@ function EventDetail(props: Props) {
                         name={undefined}
                         onClick={handleSourceInformationAdd}
                         variant="secondary"
-                        disabled={disabled}
+                        disabled={disabled || readOnly}
                     >
                         {strings.drefFormSourceInformationAddButton}
                     </Button>

@@ -28,6 +28,7 @@ const defaultIndicatorValue: IndicatorFormFields = {
 
 interface Props {
     value: IndicatorFormFields;
+    readOnly: boolean;
     error: ArrayError<IndicatorFormFields> | undefined;
     onChange: (value: SetValueArg<IndicatorFormFields>, index: number) => void;
     onRemove: (index: number) => void;
@@ -40,6 +41,7 @@ function IndicatorInput(props: Props) {
 
     const {
         error: errorFromProps,
+        readOnly,
         onChange,
         value,
         index,
@@ -63,6 +65,7 @@ function IndicatorInput(props: Props) {
                 value={value.title}
                 onChange={onFieldChange}
                 error={error?.title}
+                readOnly={readOnly}
                 disabled={disabled}
             />
             <NumberInput
@@ -72,6 +75,7 @@ function IndicatorInput(props: Props) {
                 value={value.target}
                 onChange={onFieldChange}
                 error={error?.target}
+                readOnly={readOnly}
                 disabled={disabled}
             />
             <Button
@@ -80,7 +84,7 @@ function IndicatorInput(props: Props) {
                 onClick={onRemove}
                 variant="tertiary"
                 title={strings.drefIndicatorRemoveButtonLabel}
-                disabled={disabled}
+                disabled={disabled || readOnly}
             >
                 <DeleteBinTwoLineIcon />
             </Button>

@@ -57,6 +57,7 @@ const defaultProposedActionsValue: ProposedActionsFormFields = {
 
 interface Props {
     value: ProposedActionsFormFields;
+    readOnly: boolean;
     error: ArrayError<ProposedActionsFormFields> | undefined;
     onChange: (
         value: SetValueArg<ProposedActionsFormFields>,
@@ -70,6 +71,7 @@ function ProposedActionsInput(props: Props) {
         error: errorFromProps,
         onChange,
         value,
+        readOnly,
         index,
         disabled,
     } = props;
@@ -172,6 +174,7 @@ function ProposedActionsInput(props: Props) {
                 onChange={onProposedActionChange}
                 error={error?.total_budget}
                 label={strings.drefFormProposedActionBudgetLabel}
+                readOnly={readOnly}
                 disabled={disabled}
             />
             {/* NOTE: Empty div to preserve the layout */}
@@ -187,6 +190,7 @@ function ProposedActionsInput(props: Props) {
                     labelSelector={sectorLabelSelector}
                     options={activityFilteredOptions}
                     disabled={disabled || activityOptionPending}
+                    readOnly={readOnly}
                     required
                 />
                 <Button
@@ -197,6 +201,7 @@ function ProposedActionsInput(props: Props) {
                     disabled={
                         isNotDefined(selectedSector)
                         || disabled
+                        || readOnly
                     }
                 >
                     {strings.drefFormAddProposedActionLabel}
@@ -214,6 +219,7 @@ function ProposedActionsInput(props: Props) {
                         onChange={onActivityChange}
                         onRemove={onActivityRemove}
                         error={getErrorObject(error?.activities)}
+                        readOnly={readOnly}
                         activityOptions={activityOptionResponse}
                     />
                 ))}
