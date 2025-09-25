@@ -33,6 +33,7 @@ interface Props {
     onRemove: (index: number) => void;
     index: number;
     titleDisplayMap: Record<string, string> | undefined;
+    readOnly: boolean;
     disabled?: boolean;
 }
 
@@ -44,6 +45,7 @@ function NeedInput(props: Props) {
         index,
         titleDisplayMap,
         onRemove,
+        readOnly,
         disabled,
     } = props;
 
@@ -74,6 +76,7 @@ function NeedInput(props: Props) {
                 onChange={onFieldChange}
                 error={error?.description}
                 disabled={disabled}
+                readOnly={readOnly}
                 // withAsterisk
             />
             <Button
@@ -82,7 +85,7 @@ function NeedInput(props: Props) {
                 onClick={onRemove}
                 variant="tertiary"
                 title={strings.drefFinalReportFormRemoveNeed}
-                disabled={disabled}
+                disabled={disabled || readOnly}
             >
                 <DeleteBinTwoLineIcon />
             </Button>

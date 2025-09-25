@@ -28,6 +28,7 @@ const defaultNeedValue: NeedFormFields = {
 
 interface Props {
     value: PartialForm<NeedFormFields>;
+    readOnly: boolean;
     error: ArrayError<NeedFormFields> | undefined;
     onChange: (value: SetValueArg<NeedFormFields>, index: number) => void;
     onRemove: (index: number) => void;
@@ -44,6 +45,7 @@ function NeedInput(props: Props) {
         index,
         titleDisplayMap,
         onRemove,
+        readOnly,
         disabled,
     } = props;
 
@@ -73,6 +75,7 @@ function NeedInput(props: Props) {
                 value={value.description}
                 onChange={onFieldChange}
                 error={error?.description}
+                readOnly={readOnly}
                 disabled={disabled}
                 // withAsterisk
             />
@@ -82,7 +85,7 @@ function NeedInput(props: Props) {
                 onClick={onRemove}
                 variant="tertiary"
                 title={strings.drefOperationalUpdateFormRemoveNeed}
-                disabled={disabled}
+                disabled={disabled || readOnly}
             >
                 <DeleteBinTwoLineIcon />
             </Button>

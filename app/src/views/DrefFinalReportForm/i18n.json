@@ -15,7 +15,7 @@
         "formTabOperationLabel": "Operation",
         "formTabImplementation": "Implementation",
         "formTabSubmissionLabel": "Operational timeframes and contacts",
-        "formNotAvailableInSelectedLanguageMessage": "DREF Final Report is not available for edit in the selected language!",
+        "formNotAvailableInSelectedLanguageMessage": "DREF Final Report is not available in the selected language!",
         "formLoadingMessage": "Loading DREF Final Report...",
         "formLoadErrorTitle": "Failed to load DREF Final Report",
         "formLoadErrorHelpText": "Please make sure that the final report with given id exists and you have the permission to view it",

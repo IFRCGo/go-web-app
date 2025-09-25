@@ -42,6 +42,7 @@ type SourceInformationFormFields = NonNullable<PartialDref['source_information']
 
 interface Props {
     value: Value;
+    readOnly: boolean;
     setFieldValue: (...entries: EntriesAsList<Value>) => void;
     error: Error<Value> | undefined;
     fileIdToUrlMap: Record<number, string>;
@@ -58,6 +59,7 @@ function EventDetail(props: Props) {
 
     const {
         error: formError,
+        readOnly,
         setFieldValue,
         value,
         fileIdToUrlMap,
@@ -160,6 +162,7 @@ function EventDetail(props: Props) {
                     >
                         <BooleanInput
                             name="did_it_affect_same_area"
+                            readOnly={readOnly}
                             value={value.did_it_affect_same_area}
                             onChange={handleDidItAffectSafeAreaChange}
                             error={error?.did_it_affect_same_area}
@@ -172,6 +175,7 @@ function EventDetail(props: Props) {
                         >
                             <BooleanInput
                                 name="did_it_affect_same_population"
+                                readOnly={readOnly}
                                 value={value.did_it_affect_same_population}
                                 onChange={handleDidItAffectSamePopulationChange}
                                 error={error?.did_it_affect_same_population}
@@ -185,6 +189,7 @@ function EventDetail(props: Props) {
                         >
                             <BooleanInput
                                 name="did_ns_respond"
+                                readOnly={readOnly}
                                 value={value.did_ns_respond}
                                 onChange={handleDidNsRespondChange}
                                 error={error?.did_ns_respond}
@@ -198,6 +203,7 @@ function EventDetail(props: Props) {
                         >
                             <BooleanInput
                                 name="did_ns_request_fund"
+                                readOnly={readOnly}
                                 value={value.did_ns_request_fund}
                                 onChange={handleDidNsRequestFundChange}
                                 error={error?.did_ns_request_fund}
@@ -212,6 +218,7 @@ function EventDetail(props: Props) {
                             <TextInput
                                 placeholder={strings.drefFormNsFundingDetailDescription}
                                 name="ns_request_text"
+                                readOnly={readOnly}
                                 value={value.ns_request_text}
                                 onChange={setFieldValue}
                                 error={error?.ns_request_text}
@@ -229,6 +236,7 @@ function EventDetail(props: Props) {
                             >
                                 <TextArea
                                     name="dref_recurrent_text"
+                                    readOnly={readOnly}
                                     value={value.dref_recurrent_text}
                                     onChange={setFieldValue}
                                     error={error?.dref_recurrent_text}
@@ -243,6 +251,7 @@ function EventDetail(props: Props) {
                     >
                         <TextArea
                             name="lessons_learned"
+                            readOnly={readOnly}
                             onChange={setFieldValue}
                             value={value.lessons_learned}
                             error={error?.lessons_learned}
@@ -254,6 +263,7 @@ function EventDetail(props: Props) {
                     >
                         <BooleanInput
                             name="complete_child_safeguarding_risk"
+                            readOnly={readOnly}
                             value={value.complete_child_safeguarding_risk}
                             onChange={setFieldValue}
                             error={error?.complete_child_safeguarding_risk}
@@ -262,6 +272,7 @@ function EventDetail(props: Props) {
                         <TextArea
                             label={strings.drefFormChildSafeguardingRiskLevelLabel}
                             name="child_safeguarding_risk_level"
+                            readOnly={readOnly}
                             onChange={setFieldValue}
                             value={value.child_safeguarding_risk_level}
                             error={error?.child_safeguarding_risk_level}
@@ -283,6 +294,7 @@ function EventDetail(props: Props) {
                     >
                         <DateInput
                             name="event_date"
+                            readOnly={readOnly}
                             value={value.event_date}
                             onChange={setFieldValue}
                             error={error?.event_date}
@@ -296,6 +308,7 @@ function EventDetail(props: Props) {
                 >
                     <NumberInput
                         name="num_affected"
+                        readOnly={readOnly}
                         label={value?.type_of_dref === TYPE_IMMINENT ? (
                             <>
                                 {strings.drefFormRiskPeopleLabel}
@@ -344,6 +357,7 @@ function EventDetail(props: Props) {
                                 </>
                             )}
                             name="people_in_need"
+                            readOnly={readOnly}
                             value={value?.people_in_need}
                             onChange={setFieldValue}
                             error={error?.people_in_need}
@@ -353,6 +367,7 @@ function EventDetail(props: Props) {
                     )}
                     <NumberInput
                         name="estimated_number_of_affected_male"
+                        readOnly={readOnly}
                         label={strings.drefFormAffectedMaleLabel}
                         value={value?.estimated_number_of_affected_male}
                         onChange={setFieldValue}
@@ -361,6 +376,7 @@ function EventDetail(props: Props) {
                     />
                     <NumberInput
                         name="estimated_number_of_affected_female"
+                        readOnly={readOnly}
                         label={strings.drefFormAffectedFemaleLabel}
                         value={value?.estimated_number_of_affected_female}
                         onChange={setFieldValue}
@@ -369,6 +385,7 @@ function EventDetail(props: Props) {
                     />
                     <NumberInput
                         name="estimated_number_of_affected_girls_under_18"
+                        readOnly={readOnly}
                         label={strings.drefFormAffectedMinorGirlsLabel}
                         value={value?.estimated_number_of_affected_girls_under_18}
                         onChange={setFieldValue}
@@ -377,6 +394,7 @@ function EventDetail(props: Props) {
                     />
                     <NumberInput
                         name="estimated_number_of_affected_boys_under_18"
+                        readOnly={readOnly}
                         label={strings.drefFormAffectedMinorBoysLabel}
                         value={value?.estimated_number_of_affected_boys_under_18}
                         onChange={setFieldValue}
@@ -394,6 +412,7 @@ function EventDetail(props: Props) {
                         >
                             <NumberInput
                                 name="amount_requested"
+                                readOnly={readOnly}
                                 value={value?.amount_requested}
                                 onChange={setFieldValue}
                                 error={error?.amount_requested}
@@ -426,6 +445,7 @@ function EventDetail(props: Props) {
                     >
                         <TextArea
                             name="event_description"
+                            readOnly={readOnly}
                             onChange={setFieldValue}
                             value={value.event_description}
                             error={error?.event_description}
@@ -440,6 +460,7 @@ function EventDetail(props: Props) {
                     >
                         <TextArea
                             name="event_scope"
+                            readOnly={readOnly}
                             onChange={setFieldValue}
                             value={value.event_scope}
                             error={error?.event_scope}
@@ -462,6 +483,7 @@ function EventDetail(props: Props) {
                                     onChange={onSourceInformationChange}
                                     onRemove={onSourceInformationRemove}
                                     error={getErrorObject(error?.source_information)}
+                                    readOnly={readOnly}
                                     disabled={disabled}
                                 />
                             ))}
@@ -470,8 +492,9 @@ function EventDetail(props: Props) {
                                     name={undefined}
                                     onClick={handleSourceInformationAdd}
                                     variant="secondary"
-                                    disabled={disabled}
+                                    disabled={disabled || readOnly}
                                 >
+                                    dskd
                                     {strings.drefFormSourceInformationAddButton}
                                 </Button>
                             </div>
@@ -490,7 +513,7 @@ function EventDetail(props: Props) {
                                 fileIdToUrlMap={fileIdToUrlMap}
                                 setFileIdToUrlMap={setFileIdToUrlMap}
                                 error={getErrorObject(error?.images_file)}
-                                disabled={disabled}
+                                disabled={disabled || readOnly}
                             />
                         </InputSection>
                     </>
@@ -502,6 +525,7 @@ function EventDetail(props: Props) {
                         >
                             <DateInput
                                 name="hazard_date"
+                                readOnly={readOnly}
                                 onChange={setFieldValue}
                                 value={value.hazard_date}
                                 error={error?.hazard_date}
@@ -514,6 +538,7 @@ function EventDetail(props: Props) {
                         >
                             <TextArea
                                 name="hazard_date_and_location"
+                                readOnly={readOnly}
                                 onChange={setFieldValue}
                                 value={value.hazard_date_and_location}
                                 error={error?.hazard_date_and_location}
@@ -526,6 +551,7 @@ function EventDetail(props: Props) {
                         >
                             <TextArea
                                 name="hazard_vulnerabilities_and_risks"
+                                readOnly={readOnly}
                                 onChange={setFieldValue}
                                 value={value.hazard_vulnerabilities_and_risks}
                                 error={error?.hazard_vulnerabilities_and_risks}
@@ -545,15 +571,17 @@ function EventDetail(props: Props) {
                                     onChange={onSourceInformationChange}
                                     onRemove={onSourceInformationRemove}
                                     error={getErrorObject(error?.source_information)}
+                                    readOnly={readOnly}
                                     disabled={disabled}
                                 />
                             ))}
                             <div className={styles.actions}>
                                 <Button
                                     name={undefined}
+                                    readOnly={readOnly}
                                     onClick={handleSourceInformationAdd}
                                     variant="secondary"
-                                    disabled={disabled}
+                                    disabled={disabled || readOnly}
                                 >
                                     {strings.drefFormSourceInformationAddButton}
                                 </Button>
@@ -568,6 +596,7 @@ function EventDetail(props: Props) {
                                 fileIdToUrlMap={fileIdToUrlMap}
                                 onChange={setFieldValue}
                                 url="/api/v2/dref-files/"
+                                readOnly={readOnly}
                                 value={value.scenario_analysis_supporting_document}
                                 error={error?.scenario_analysis_supporting_document}
                                 setFileIdToUrlMap={setFileIdToUrlMap}

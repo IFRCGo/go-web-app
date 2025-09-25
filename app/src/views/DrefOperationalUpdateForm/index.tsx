@@ -43,7 +43,11 @@ import NonFieldError from '#components/NonFieldError';
 import Page from '#components/Page';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 import useAlert from '#hooks/useAlert';
-import { DREF_STATUS_APPROVED } from '#utils/constants';
+import {
+    DREF_STATUS_APPROVED,
+    DREF_STATUS_DRAFT,
+    DREF_STATUS_FINALIZED,
+} from '#utils/constants';
 import {
     type GoApiResponse,
     useLazyRequest,
@@ -314,7 +318,7 @@ export function Component() {
     const prevOperationalUpdateId = useMemo(() => {
         const currentOpsUpdate = drefResponse
             ?.operational_update_details
-            ?.find((ou) => !(ou.status === DREF_STATUS_APPROVED));
+            ?.find((ou) => ou.status !== DREF_STATUS_APPROVED);
 
         if (isNotDefined(currentOpsUpdate)) {
             return undefined;
@@ -575,8 +579,12 @@ export function Component() {
         || fetchingPrevOpsUpdate;
 
     const languageMismatch = isDefined(opsUpdateId)
-        && isDefined(drefResponse)
+        && isDefined(opsUpdateResponse)
         && currentLanguage !== opsUpdateResponse?.translation_module_original_language;
+
+    const readOnly = languageMismatch
+        && (opsUpdateResponse?.status === DREF_STATUS_FINALIZED
+            || opsUpdateResponse?.status === DREF_STATUS_DRAFT);
 
     const shouldHideForm = fetchingOpsUpdate
         || isDefined(opsUpdateResponseError);
@@ -619,7 +627,7 @@ export function Component() {
                         <Button
                             name={undefined}
                             onClick={handleFormSubmit}
-                            disabled={disabled}
+                            disabled={disabled || readOnly}
                         >
                             {strings.formSaveButtonLabel}
                         </Button>
@@ -680,7 +688,8 @@ export function Component() {
                 {languageMismatch && (
                     <LanguageMismatchMessage
                         title={strings.formNotAvailableInSelectedLanguageMessage}
-                        originalLanguage={drefResponse.translation_module_original_language}
+                        originalLanguage={opsUpdateResponse.translation_module_original_language}
+                        selectedLanguage={currentLanguage}
                     />
                 )}
                 {isDefined(opsUpdateResponseError) && (
@@ -705,6 +714,7 @@ export function Component() {
                                 fileIdToUrlMap={fileIdToUrlMap}
                                 setFileIdToUrlMap={setFileIdToUrlMap}
                                 error={formError}
+                                readOnly={readOnly}
                                 disabled={disabled}
                                 districtOptions={districtOptions}
                                 setDistrictOptions={setDistrictOptions}
@@ -719,6 +729,7 @@ export function Component() {
                                 fileIdToUrlMap={fileIdToUrlMap}
                                 setFileIdToUrlMap={setFileIdToUrlMap}
                                 error={formError}
+                                readOnly={readOnly}
                                 disabled={disabled}
                                 operationTimeframeWarning={operationTimeframeWarning}
                                 budgetWarning={budgetWarning}
@@ -733,6 +744,7 @@ export function Component() {
                                 fileIdToUrlMap={fileIdToUrlMap}
                                 setFileIdToUrlMap={setFileIdToUrlMap}
                                 error={formError}
+                                readOnly={readOnly}
                                 disabled={disabled}
                             />
                         </TabPanel>
@@ -744,6 +756,7 @@ export function Component() {
                                 fileIdToUrlMap={fileIdToUrlMap}
                                 setFileIdToUrlMap={setFileIdToUrlMap}
                                 error={formError}
+                                readOnly={readOnly}
                                 disabled={disabled}
                                 budgetWarning={budgetWarning}
                                 peopleTargetedWarning={peopleTargetedWarning}
@@ -755,6 +768,7 @@ export function Component() {
                                 setFieldValue={setFieldValue}
                                 error={formError}
                                 operationTimeframeWarning={operationTimeframeWarning}
+                                readOnly={readOnly}
                                 disabled={disabled}
                             />
                         </TabPanel>
@@ -780,7 +794,7 @@ export function Component() {
                                     <Button
                                         name={undefined}
                                         onClick={handleFormSubmit}
-                                        disabled={disabled}
+                                        disabled={disabled || readOnly}
                                     >
                                         {strings.formSaveButtonLabel}
                                     </Button>

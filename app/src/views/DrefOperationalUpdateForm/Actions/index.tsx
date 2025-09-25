@@ -53,6 +53,7 @@ function needOptionKeySelector(option: NeedOption) {
 
 interface Props {
     value: Value;
+    readOnly: boolean;
     setFieldValue: (...entries: EntriesAsList<Value>) => void;
     error: Error<Value> | undefined;
     fileIdToUrlMap: Record<number, string>;
@@ -63,6 +64,7 @@ interface Props {
 function Actions(props: Props) {
     const {
         value,
+        readOnly,
         setFieldValue,
         error: formError,
         fileIdToUrlMap,
@@ -147,6 +149,7 @@ function Actions(props: Props) {
                         onChange={setFieldValue}
                         value={value.ifrc}
                         error={error?.ifrc}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -159,6 +162,7 @@ function Actions(props: Props) {
                         onChange={setFieldValue}
                         value={value.partner_national_society}
                         error={error?.partner_national_society}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -176,6 +180,7 @@ function Actions(props: Props) {
                         onChange={setFieldValue}
                         value={value.icrc}
                         error={error?.icrc}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -192,6 +197,7 @@ function Actions(props: Props) {
                         value={value.government_requested_assistance}
                         onChange={setFieldValue}
                         error={error?.government_requested_assistance}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -205,6 +211,7 @@ function Actions(props: Props) {
                         onChange={setFieldValue}
                         value={value.national_authorities}
                         error={error?.national_authorities}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -218,6 +225,7 @@ function Actions(props: Props) {
                         onChange={setFieldValue}
                         value={value.un_or_other_actor}
                         error={error?.un_or_other_actor}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -229,6 +237,7 @@ function Actions(props: Props) {
                         value={value.is_there_major_coordination_mechanism}
                         onChange={setFieldValue}
                         error={error?.is_there_major_coordination_mechanism}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -242,6 +251,7 @@ function Actions(props: Props) {
                             onChange={setFieldValue}
                             value={value.major_coordination_mechanism}
                             error={error?.major_coordination_mechanism}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                     </InputSection>
@@ -268,6 +278,7 @@ function Actions(props: Props) {
                                 error={error?.assessment_report}
                                 fileIdToUrlMap={fileIdToUrlMap}
                                 setFileIdToUrlMap={setFileIdToUrlMap}
+                                readOnly={readOnly}
                                 disabled={disabled}
                                 clearable
                             >
@@ -288,6 +299,7 @@ function Actions(props: Props) {
                             labelSelector={stringValueSelector}
                             options={filteredNeedOptions}
                             value={selectedNeed}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                         <div className={styles.addButtonContainer}>
@@ -295,7 +307,7 @@ function Actions(props: Props) {
                                 variant="secondary"
                                 name={selectedNeed}
                                 onClick={handleNeedAddButtonClick}
-                                disabled={isNotDefined(selectedNeed) || disabled}
+                                disabled={isNotDefined(selectedNeed) || disabled || readOnly}
                             >
                                 {strings.drefFormAddButton}
                             </Button>
@@ -311,6 +323,7 @@ function Actions(props: Props) {
                             onRemove={onNeedRemove}
                             error={getErrorObject(error?.needs_identified)}
                             titleDisplayMap={needsIdentifiedTitleDisplayMap}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                     ))}
@@ -348,6 +361,7 @@ function Actions(props: Props) {
                                 onChange={setFieldValue}
                                 value={value.identified_gaps}
                                 error={error?.identified_gaps}
+                                readOnly={readOnly}
                                 disabled={disabled}
                             />
                         </InputSection>

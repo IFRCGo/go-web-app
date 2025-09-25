@@ -616,6 +616,7 @@ export function Component() {
             {languageMismatch && (
                 <LanguageMismatchMessage
                     originalLanguage={contentOriginalLanguage}
+                    selectedLanguage={currentLanguage}
                 />
             )}
             {isDefined(activityResponseError) && (

@@ -31,6 +31,7 @@ interface Props {
     onRemove: (index: number) => void;
     index: number;
     disabled?: boolean;
+    readOnly: boolean;
 }
 
 function SourceInformationInput(props: Props) {
@@ -41,6 +42,7 @@ function SourceInformationInput(props: Props) {
         index,
         onRemove,
         disabled,
+        readOnly,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -92,6 +94,7 @@ function SourceInformationInput(props: Props) {
                 value={value.source_name}
                 error={error?.source_name}
                 onChange={onFieldChange}
+                readOnly={readOnly}
                 disabled={disabled}
             />
             <TextInput
@@ -101,6 +104,7 @@ function SourceInformationInput(props: Props) {
                 value={value.source_link}
                 error={error?.source_link}
                 onChange={handleSourceFieldChange}
+                readOnly={readOnly}
                 disabled={disabled}
             />
             <Button
@@ -108,7 +112,7 @@ function SourceInformationInput(props: Props) {
                 name={index}
                 onClick={onRemove}
                 variant="tertiary"
-                disabled={disabled}
+                disabled={disabled || readOnly}
                 title={strings.sourceInformationDeleteButton}
             >
                 <DeleteBinTwoLineIcon />

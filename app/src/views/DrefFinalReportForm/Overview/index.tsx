@@ -85,6 +85,7 @@ interface Props {
     value: PartialFinalReport;
     setFieldValue: (...entries: EntriesAsList<PartialFinalReport>) => void;
     error: Error<PartialFinalReport> | undefined;
+    readOnly: boolean;
     disabled?: boolean;
     isPreviousImminent: boolean;
     setValue: (value: SetBaseValueArg<PartialFinalReport>, partialUpdate?: boolean) => void;
@@ -104,6 +105,7 @@ function Overview(props: Props) {
         fileIdToUrlMap,
         setValue,
         setFileIdToUrlMap,
+        readOnly,
         disabled,
         districtOptions,
         setDistrictOptions,
@@ -232,7 +234,7 @@ function Overview(props: Props) {
                     <Button
                         name={undefined}
                         onClick={setShowShareModalTrue}
-                        disabled={isNotDefined(drefId)}
+                        disabled={isNotDefined(drefId) || readOnly}
                         variant="secondary"
                         icons={<ShareLineIcon />}
                     >
@@ -255,6 +257,7 @@ function Overview(props: Props) {
                         name="national_society"
                         onChange={handleNSChange}
                         value={value?.national_society}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -275,6 +278,7 @@ function Overview(props: Props) {
                         onChange={handleTypeofDrefChange}
                         value={value?.type_of_dref}
                         error={error?.type_of_dref}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -296,6 +300,7 @@ function Overview(props: Props) {
                         value={value?.disaster_type}
                         onChange={setFieldValue}
                         error={error?.disaster_type}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                     <SelectInput
@@ -311,6 +316,7 @@ function Overview(props: Props) {
                         withAsterisk
                         readOnly={
                             value?.type_of_dref === TYPE_IMMINENT
+                            || readOnly
                         }
                     />
                     {value?.type_of_dref !== TYPE_IMMINENT && (
@@ -335,6 +341,7 @@ function Overview(props: Props) {
                             value={value?.disaster_category}
                             onChange={setFieldValue}
                             error={error?.disaster_category}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                     )}
@@ -355,6 +362,7 @@ function Overview(props: Props) {
                         onChange={setFieldValue}
                         error={error?.country}
                         disabled={disabled}
+                        readOnly={readOnly}
                         withAsterisk
                     />
                     <DistrictSearchMultiSelectInput
@@ -367,6 +375,7 @@ function Overview(props: Props) {
                         disabled={disabled}
                         onOptionsChange={setDistrictOptions}
                         error={getErrorString(error?.district)}
+                        readOnly={readOnly}
                         withAsterisk
                     />
                 </InputSection>
@@ -378,6 +387,7 @@ function Overview(props: Props) {
                             value={value?.title}
                             onChange={setFieldValue}
                             error={error?.title}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                         <Button
@@ -387,6 +397,7 @@ function Overview(props: Props) {
                             onClick={handleGenerateTitleButtonClick}
                             disabled={(
                                 disabled
+                                || readOnly
                                 || isNotDefined(value?.country)
                                 || isNotDefined(value?.disaster_type)
                                 || isNotDefined(disasterTypes)
@@ -412,6 +423,7 @@ function Overview(props: Props) {
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             label={strings.drefFormUploadAnImageLabel}
+                            readOnly={readOnly}
                             disabled={disabled}
                         />
                     </InputSection>
@@ -431,6 +443,7 @@ function Overview(props: Props) {
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         label={strings.drefFormUploadAnImageLabel}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -442,6 +455,7 @@ function Overview(props: Props) {
                         value={value.main_donors}
                         onChange={setFieldValue}
                         error={error?.main_donors}
+                        readOnly={readOnly}
                         disabled={disabled}
                     />
                 </InputSection>
