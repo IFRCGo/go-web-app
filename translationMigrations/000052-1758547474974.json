@@ -18,6 +18,81 @@
             "key": "logisticsSpecificationsWeightValue",
             "namespace": "surgeCatalogueLogisticsEru",
             "newValue": "10 MT, Includes 2 vehicles and one 4x4 forklift"
+        },
+        {
+            "action": "add",
+            "key": "hrCategoriesCompetencies",
+            "namespace": "surgeCatalogueOtherHumanResources",
+            "value": "Categories and Competencies"
+        },
+        {
+            "action": "add",
+            "key": "hrLinkOneCoord",
+            "namespace": "surgeCatalogueOtherHumanResources",
+            "value": "Rapid Response Human Resources Coordinator"
+        },
+        {
+            "action": "add",
+            "key": "hrLinkTwoOfficer",
+            "namespace": "surgeCatalogueOtherHumanResources",
+            "value": "Rapid Response Human Resources Officer"
+        },
+        {
+            "action": "add",
+            "key": "hrTechnical",
+            "namespace": "surgeCatalogueOtherHumanResources",
+            "value": "Technical Competency Framework"
+        },
+        {
+            "action": "add",
+            "key": "hrTechnicalDescription",
+            "namespace": "surgeCatalogueOtherHumanResources",
+            "value": "Tiered competencies describing the knowledge and skills expected of personnel in this sector."
+        },
+        {
+            "action": "add",
+            "key": "roleProfiles",
+            "namespace": "surgeCatalogueOtherHumanResources",
+            "value": "Role Profiles"
+        },
+        {
+            "action": "remove",
+            "key": "otherLinkOneCoord",
+            "namespace": "surgeCatalogueOtherHumanResources"
+        },
+        {
+            "action": "remove",
+            "key": "otherLinkTwoOffice",
+            "namespace": "surgeCatalogueOtherHumanResources"
+        },
+        {
+            "action": "remove",
+            "key": "rapidResponseDetail",
+            "namespace": "surgeCatalogueOtherHumanResources"
+        },
+        {
+            "action": "update",
+            "key": "humanHeading",
+            "newKey": "hrHeading",
+            "namespace": "surgeCatalogueOtherHumanResources"
+        },
+        {
+            "action": "update",
+            "key": "otherOverview",
+            "newKey": "hrOverview",
+            "namespace": "surgeCatalogueOtherHumanResources"
+        },
+        {
+            "action": "update",
+            "key": "otherOverviewDetail",
+            "newKey": "hrOverviewDetail",
+            "namespace": "surgeCatalogueOtherHumanResources"
+        },
+        {
+            "action": "update",
+            "key": "rapidResponse",
+            "namespace": "surgeCatalogueOtherHumanResources",
+            "newValue": "Rapid Response Personnel"
         }
     ]
 }
