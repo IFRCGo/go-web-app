@@ -419,12 +419,10 @@ export function Component() {
         || anticipatoryActionsDefined
         || isDefined(event_map_file?.file);
 
-    const hazardDateAndLocationDefined = (
-        type_of_dref === DREF_TYPE_IMMINENT && !is_dref_imminent_v2
-    ) && isDefined(hazard_date_and_location);
-    const hazardRiskDefined = (
-        type_of_dref === DREF_TYPE_IMMINENT && !is_dref_imminent_v2
-    ) && hazard_vulnerabilities_and_risks;
+    const hazardDateAndLocationDefined = type_of_dref === DREF_TYPE_IMMINENT
+        && isDefined(hazard_date_and_location);
+    const hazardRiskDefined = type_of_dref === DREF_TYPE_IMMINENT
+        && hazard_vulnerabilities_and_risks;
 
     const riskRegions = district_details.map(
         (district) => district.name,

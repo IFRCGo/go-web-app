@@ -262,7 +262,7 @@
     .proposed-actions {
         display: grid;
         grid-gap: var(--go-ui-width-separator-md);
-        grid-template-columns: 4fr 5fr 5fr 4fr;
+        grid-template-columns: 3fr 3fr 6fr 2fr;
         page-break-inside: avoid;
 
         .action-title-label {
