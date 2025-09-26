@@ -1,5 +1,14 @@
 # go-web-app
 
+## 7.22.1
+
+### Patch Changes
+
+- edef327: Update Imminent DREF Application export
+
+  - Add missing hazard date and risk section
+  - Improve layout of `Proposed Actions` table
+
 ## 7.22.0
 
 ### Minor Changes
@@ -22,6 +31,7 @@
   - Add accept / reject input in review modal
 
 - aecaaa2: Revert export structure for DREF Imminent Application v1
+
   - For Response type DREFs exports, update export label to "People Affected" from "People at Risk"
 
 - 7ef5534: Update visible appeal types in Active Operations map
