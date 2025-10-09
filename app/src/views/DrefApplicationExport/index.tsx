@@ -393,7 +393,7 @@ export function Component() {
 
     const eventDescriptionDefined = (type_of_dref !== DREF_TYPE_IMMINENT || !is_dref_imminent_v2)
         && isTruthyString(event_description?.trim());
-    const eventScopeDefined = (type_of_dref === DREF_TYPE_RESPONSE && !!is_dref_imminent_v2)
+    const eventScopeDefined = type_of_dref === DREF_TYPE_RESPONSE
         && isTruthyString(event_scope?.trim());
     const sourceInformationDefined = isDefined(source_information)
         && source_information.length > 0;
