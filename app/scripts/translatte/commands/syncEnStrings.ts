@@ -1,7 +1,7 @@
 import { isDefined, isFalsyString } from "@togglecorp/fujs";
 import { fetchServerState, postLanguageStrings, writeFilePromisify } from "../utils";
 
-async function syncEnStrings(sourceApiUrl: string, desinationApiUrl: string, authToken: string) {
+async function syncEnStrings(sourceApiUrl: string, destinationApiUrl: string, authToken: string) {
     const serverStrings = await fetchServerState(sourceApiUrl, authToken);
     const enStrings = serverStrings.filter((string) => string.language === 'en');
 
@@ -23,7 +23,7 @@ async function syncEnStrings(sourceApiUrl: string, desinationApiUrl: string, aut
     const result = await postLanguageStrings(
         'en',
         actions,
-        desinationApiUrl,
+        destinationApiUrl,
         authToken,
     )
 

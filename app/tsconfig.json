@@ -15,7 +15,8 @@
             "#strings/*": ["./src/strings/*"],
             "#utils/*": ["./src/utils/*"],
             "#views/*": ["./src/views/*"],
-            "#routes": ["./src/App/routes"]
+            "#routes": ["./src/App/routes"],
+            "#translationTypes": ["./translationTypes.ts"]
         },
 
         "target": "ESNext",

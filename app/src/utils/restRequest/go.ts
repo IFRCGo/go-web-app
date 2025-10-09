@@ -9,6 +9,8 @@ import { type ContextInterface } from '@togglecorp/toggle-request';
 import {
     api,
     riskApi,
+    translationApi,
+    translationApiKey,
 } from '#config';
 import { type UserAuth } from '#contexts/user';
 import {
@@ -39,8 +41,10 @@ export interface TransformedError {
     debugMessage: string;
 }
 
+type ApiType = 'go' | 'risk' | 'translation';
+
 export interface AdditionalOptions {
-    apiType?: 'go' | 'risk';
+    apiType?: ApiType;
     formData?: boolean;
     isCsvRequest?: boolean;
     enforceEnglishForQuery?: boolean;
@@ -111,6 +115,18 @@ type GoContextInterface = ContextInterface<
     AdditionalOptions
 >;
 
+function getEndPoint(apiType: ApiType | undefined) {
+    if (apiType === 'risk') {
+        return riskApi;
+    }
+
+    if (apiType === 'translation') {
+        return translationApi;
+    }
+
+    return api;
+}
+
 export const processGoUrls: GoContextInterface['transformUrl'] = (url, _, additionalOptions) => {
     if (isFalsyString(url)) {
         return '';
@@ -123,10 +139,12 @@ export const processGoUrls: GoContextInterface['transformUrl'] = (url, _, additi
 
     const { apiType } = additionalOptions;
 
-    return resolveUrl(
-        apiType === 'risk' ? riskApi : api,
-        url,
+    const resolvedUrl = resolveUrl(
+        getEndPoint(apiType),
+        `.${url}`,
     );
+
+    return resolvedUrl;
 };
 
 type Literal = string | number | boolean | File;
@@ -164,6 +182,7 @@ export const processGoOptions: GoContextInterface['transformOptions'] = (
     } = requestOptions;
 
     const {
+        apiType,
         formData,
         isCsvRequest,
         isExcelRequest,
@@ -176,9 +195,14 @@ export const processGoOptions: GoContextInterface['transformOptions'] = (
     const user = getFromStorage<UserAuth | undefined>(KEY_USER_STORAGE);
     const token = user?.token;
 
+    // FIXME: only inject on go apis
     const defaultHeaders: HeadersInit = {
         Authorization: token ? `Token ${token}` : '',
     };
+
+    if (apiType === 'translation') {
+        defaultHeaders['x-api-key'] = translationApiKey;
+    }
 
     if (method === 'GET') {
         // Query

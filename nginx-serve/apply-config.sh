@@ -28,8 +28,10 @@ find "$DESTINATION_DIRECTORY" -type f -exec sed -i "s|\<APP_TITLE_PLACEHOLDER\>|
 find "$DESTINATION_DIRECTORY" -type f -exec sed -i "s|\<APP_ENVIRONMENT_PLACEHOLDER\>|$APP_ENVIRONMENT|g" {} +
 find "$DESTINATION_DIRECTORY" -type f -exec sed -i "s|\<APP_MAPBOX_ACCESS_TOKEN_PLACEHOLDER\>|$APP_MAPBOX_ACCESS_TOKEN|g" {} +
 find "$DESTINATION_DIRECTORY" -type f -exec sed -i "s|\<APP_TINY_API_KEY_PLACEHOLDER\>|$APP_TINY_API_KEY|g" {} +
+find "$DESTINATION_DIRECTORY" -type f -exec sed -i "s|\<APP_TRANSLATION_API_KEY_PLACEHOLDER\>|$APP_TRANSLATION_API_KEY|g" {} +
 # NOTE: We don't need a word boundary at end as we already have a trailing slash
 find "$DESTINATION_DIRECTORY" -type f -exec sed -i "s|\<https://APP-API-ENDPOINT-PLACEHOLDER.COM/|$APP_API_ENDPOINT|g" {} +
+find "$DESTINATION_DIRECTORY" -type f -exec sed -i "s|\<https://APP-TRANSLATION-API-ENDPOINT-PLACEHOLDER.COM/|$APP_TRANSLATION_API_ENDPOINT|g" {} +
 # NOTE: We don't need a word boundary at end as we already have a trailing slash
 find "$DESTINATION_DIRECTORY" -type f -exec sed -i "s|\<https://APP-RISK-API-ENDPOINT-PLACEHOLDER.COM/|$APP_RISK_API_ENDPOINT|g" {} +
 find "$DESTINATION_DIRECTORY" -type f -exec sed -i "s|\<https://APP-SDT-URL-PLACEHOLDER.COM/|$APP_SDT_URL|g" {} +

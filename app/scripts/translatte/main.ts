@@ -17,6 +17,7 @@ import clearServerStrings from './commands/clearServerStrings';
 import pushStringsDref from './commands/pushStringsDref';
 import syncEnStrings from './commands/syncEnStrings';
 import testExcel from './commands/testExcel';
+import pushStringsFromExcelToIfrc from './commands/pushStringsFromExcelToIfrc';
 
 const currentDir = cwd();
 
@@ -258,7 +259,38 @@ yargs(hideBin(process.argv))
         },
     )
     .command(
-        'push-strings-dref <IMPORT_FILE_PATH> <TRANSLATION_FILES...>',
+        'push-strings-from-excel-to-ifrc <IMPORT_FILE_PATH>',
+        'Import migration from excel file and push it to server',
+        (yargs) => {
+            yargs.positional('IMPORT_FILE_PATH', {
+                type: 'string',
+                describe: 'Find the import file on IMPORT_FILE_PATH',
+            });
+            yargs.options({
+                'api-key': {
+                    type: 'string',
+                    describe: 'API key to access the API server',
+                    require: true,
+                },
+                'api-url': {
+                    type: 'string',
+                    describe: 'URL for the API server',
+                    require: true,
+                }
+            });
+        },
+        async (argv) => {
+            const importFilePath = (argv.IMPORT_FILE_PATH as string);
+
+            await pushStringsFromExcelToIfrc(
+                importFilePath,
+                argv.apiUrl as string,
+                argv.apiKey as string,
+            );
+        },
+    )
+    .command(
+        'push-strings-dref <IMPORT_FILE_PATH>',
         'IMPORTANT!!! Temporary command, do not use!',
         (yargs) => {
             yargs.positional('IMPORT_FILE_PATH', {
@@ -327,7 +359,7 @@ yargs(hideBin(process.argv))
                 currentDir,
                 argv.TRANSLATION_FILES as string[],
                 argv.apiUrl as string,
-                argv.authToken as string,
+                argv.apiKey as string,
             );
         },
     )

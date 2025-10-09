@@ -180,7 +180,7 @@ async function pushStringsFromExcel(importFilePath: string, apiUrl: string, acce
 
     const applicableLanguages: Language[] = ['en', 'fr', 'es', 'ar'];
 
-    const actionsByLanugage = listToMap(
+    const actionsByLanguage = listToMap(
         applicableLanguages,
         (lang) => lang,
         (lang) => translations.map((translation) => {
@@ -202,7 +202,7 @@ async function pushStringsFromExcel(importFilePath: string, apiUrl: string, acce
 
     for (let i = 0; i < applicableLanguages.length; i++) {
         const language = applicableLanguages[i];
-        const actions = actionsByLanugage[language];
+        const actions = actionsByLanguage[language];
 
         if (actions.length > 0) {
             console.log(`posting ${actions.length} ${language} actions...`);
