@@ -1,5 +1,13 @@
 # go-web-app
 
+## 7.22.2
+
+### Patch Changes
+
+- Update DREF Application Export
+
+  - Add Scope and Scale section for Response type DREFs
+
 ## 7.22.1
 
 ### Patch Changes
