@@ -2,6 +2,8 @@ import { listToMap } from '@togglecorp/fujs';
 
 import { type components } from '#generated/types';
 
+import { type GoApiResponse } from './restRequest';
+
 export const defaultChartMargin = {
     top: 0,
     right: 0,
@@ -199,3 +201,18 @@ export const multiMonthSelectDefaultValue = listToMap(
 export const ERU_READINESS_READY = 1;
 export const ERU_READINESS_CAN_CONTRIBUTE = 2;
 export const ERU_READINESS_NO_CAPACITY = 3;
+
+// LocalUnits
+type LocalUnitHealthFacilityTypeOptions = NonNullable<NonNullable<GoApiResponse<'/api/v2/local-units-options/'>['health_facility_type']>[number]>['id']
+
+export const AMBULANCE_TYPE = 1 satisfies LocalUnitHealthFacilityTypeOptions;
+export const HOSPITAL_TYPE = 3 satisfies LocalUnitHealthFacilityTypeOptions;
+export const PRIMARY_HEALTH_TYPE = 5 satisfies LocalUnitHealthFacilityTypeOptions;
+export const RESIDENTIAL_TYPE = 6 satisfies LocalUnitHealthFacilityTypeOptions;
+export const TRAINING_FACILITY_TYPE = 7 satisfies LocalUnitHealthFacilityTypeOptions;
+export const SPECIALIZED_SERVICES_TYPE = 8 satisfies LocalUnitHealthFacilityTypeOptions;
+export const OTHER_TYPE = 9 satisfies LocalUnitHealthFacilityTypeOptions;
+
+type LocalUnitAffiliationOptions = NonNullable<NonNullable<GoApiResponse<'/api/v2/local-units-options/'>['affiliation']>[number]>['id']
+
+export const OTHER_AFFILIATION = 9 satisfies LocalUnitAffiliationOptions;
