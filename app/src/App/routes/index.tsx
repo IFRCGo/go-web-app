@@ -319,6 +319,50 @@ const emergencyAdditionalInfo = customWrapRoute({
     },
 });
 
+type DefaultDrefDetailChild = 'dref-detail';
+const drefProcessLayout = customWrapRoute({
+    parent: rootLayout,
+    path: 'dref-process',
+    forwardPath: 'dref-detail' satisfies DefaultDrefDetailChild,
+    component: {
+        render: () => import('#views/DrefProcess'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'DREF Process',
+        visibility: 'anything',
+    },
+});
+
+const drefDetail = customWrapRoute({
+    parent: drefProcessLayout,
+    path: 'dref-detail' satisfies DefaultDrefDetailChild,
+    component: {
+        render: () => import('#views/DrefDetail'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Response and Imminent DREF',
+        visibility: 'anything',
+    },
+});
+
+const eapDetail = customWrapRoute({
+    parent: drefProcessLayout,
+    path: 'eap-detail',
+    component: {
+        render: () => import('#views/EarlyActionProtocols'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Early Action Protocols',
+        visibility: 'anything',
+    },
+});
+
 type DefaultPreparednessChild = 'global-summary';
 const preparednessLayout = customWrapRoute({
     parent: rootLayout,
@@ -715,6 +759,49 @@ const accountMyFormsThreeW = customWrapRoute({
     },
 });
 
+const accountMyFormsEap = customWrapRoute({
+    parent: accountMyFormsLayout,
+    path: 'eap-applications',
+    component: {
+        render: () => import('#views/AccountMyFormsEap'),
+        props: {},
+    },
+    context: {
+        title: 'Account - EAP Applications',
+        visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
+    },
+});
+
+const fullEapForm = customWrapRoute({
+    parent: rootLayout,
+    path: 'eap/:eapId/full',
+    component: {
+        render: () => import('#views/EapFullForm'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'EAP Full Forms',
+        visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
+    },
+});
+
+const simplifiedEapForm = customWrapRoute({
+    parent: rootLayout,
+    path: 'eap/:eapId/simplified',
+    component: {
+        render: () => import('#views/EapSimplifiedForm'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Simplified EAP Form',
+        visibility: 'is-authenticated',
+    },
+});
+
 const accountNotifications = customWrapRoute({
     parent: accountLayout,
     path: 'notifications',
@@ -1094,6 +1181,93 @@ const fieldReportDetails = customWrapRoute({
     },
 });
 
+type DefaultEapRegistrationChild = 'new';
+const eapRegistrationLayout = customWrapRoute({
+    parent: rootLayout,
+    path: 'eap-registration',
+    forwardPath: 'new' satisfies DefaultEapRegistrationChild,
+    component: {
+        render: () => import('#views/EapRegistration'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'EAP Process',
+        visibility: 'is-authenticated',
+    },
+});
+
+const newEapDevelopmentRegistration = customWrapRoute({
+    parent: eapRegistrationLayout,
+    path: 'new' satisfies DefaultEapRegistrationChild,
+    component: {
+        render: () => import('#views/EapRegistration'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'New EAP Development Registration',
+        visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
+    },
+});
+
+const eapDevelopmentRegistrationForm = customWrapRoute({
+    parent: eapRegistrationLayout,
+    path: ':eapId/',
+    component: {
+        render: () => import('#views/EapRegistration'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'View EAP',
+        visibility: 'is-authenticated',
+    },
+});
+
+const eapFullExport = customWrapRoute({
+    parent: rootLayout,
+    path: 'eap/:eapId/export/full',
+    component: {
+        render: () => import('#views/EapFullExport'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'EAP Export',
+        visibility: 'is-authenticated',
+    },
+});
+
+const eapSimplifiedExport = customWrapRoute({
+    parent: rootLayout,
+    path: 'eap/:eapId/export/simplified',
+    component: {
+        render: () => import('#views/EapSimplifiedExport'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'EAP Export',
+        visibility: 'is-authenticated',
+    },
+});
+
+const eapSummaryExport = customWrapRoute({
+    parent: rootLayout,
+    path: 'eap/:eapId/export/summary',
+    component: {
+        render: () => import('#views/EapSummaryExport'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'EAP Full Summary Export',
+        visibility: 'is-authenticated',
+    },
+});
+
 type DefaultPerProcessChild = 'new';
 const perProcessLayout = customWrapRoute({
     parent: rootLayout,
@@ -1317,6 +1491,7 @@ const wrappedRoutes = {
     accountMyFormsPer,
     accountMyFormsDref,
     accountMyFormsThreeW,
+    accountMyFormsEap,
     resources,
     search,
     allThreeWProject,
@@ -1353,6 +1528,9 @@ const wrappedRoutes = {
     termsAndConditions,
     operationalLearning,
     montandonLandingPage,
+    newEapDevelopmentRegistration,
+    fullEapForm,
+    simplifiedEapForm,
     ...regionRoutes,
     ...countryRoutes,
     ...surgeRoutes,
@@ -1363,6 +1541,14 @@ const wrappedRoutes = {
     // Redirects
     preparednessOperationalLearning,
     obsoleteFieldReportDetails,
+    drefDetail,
+    eapDetail,
+    drefProcessLayout,
+    eapRegistrationLayout,
+    eapDevelopmentRegistrationForm,
+    eapFullExport,
+    eapSimplifiedExport,
+    eapSummaryExport,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));

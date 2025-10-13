@@ -2,10 +2,6 @@
     display: grid;
     align-items: center;
 
-    &.with-inline-display {
-        display: inline-grid;
-    }
-
     &.start-aligned-content {
         align-items: start;
     }
@@ -65,4 +61,15 @@
             white-space: nowrap;
         }
     }
+
+    &.with-inline-display {
+        display: inline-grid;
+
+        .children {
+            &:not(.ellipsized) {
+                display: inline-flex;
+            }
+        }
+    }
+
 }

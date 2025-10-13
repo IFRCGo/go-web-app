@@ -46,6 +46,7 @@ interface InlineLayoutProps {
     withWrap?: boolean;
     withSpaceBetweenContents?: boolean;
     withCenteredContents?: boolean;
+    withStartAlignment?: boolean;
 
     numPreferredGridColumns?: never;
     minGridColumnSize?: never;
@@ -65,6 +66,7 @@ interface BlockLayoutProps {
     gridContentClassName?: never;
     withSidebar?: never;
     sidebarPosition?: never;
+    withStartAlignment?: never;
 }
 
 interface GridLayoutProps {
@@ -78,6 +80,7 @@ interface GridLayoutProps {
     withCenteredContents?: never;
     withSidebar?: never;
     sidebarPosition?: never;
+    withStartAlignment?: never;
 }
 
 interface GridLayoutWithSidebarProps {
@@ -91,6 +94,7 @@ interface GridLayoutWithSidebarProps {
     withCenteredContents?: never;
     minGridColumnSize?: never;
     gridContentClassName?: never;
+    withStartAlignment?: never;
 }
 
 export type Props = CommonProps & (
@@ -107,6 +111,7 @@ function ListView(props: Props) {
         withWrap,
         withSpaceBetweenContents,
         withCenteredContents,
+        withStartAlignment,
         spacing,
         withPadding,
         withBackground,
@@ -167,6 +172,7 @@ function ListView(props: Props) {
                 layout === 'grid' && styles.gridLayout,
                 layout !== 'grid' && spacingClassName,
                 withWrap && styles.withWrap,
+                withStartAlignment && styles.withStartAlignment,
                 withSpaceBetweenContents && styles.withSpaceBetweenContents,
                 withCenteredContents && styles.withCenteredContents,
                 withFullWidth && styles.withFullWidth,

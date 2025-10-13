@@ -1,0 +1,9 @@
+{
+    "namespace": "eapFullForm",
+    "strings": {
+        "selectionActionsPlannedOperationPeopleTargeted": "People Targeted",
+        "selectionActionsPlannedOperationBudget": "Budget",
+        "selectionActionsPlannedOperationApCode": "AP Code",
+        "selectionActionsPlannedOperationRemoveButton": "Remove"
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "namespace": "eapFullForm",
+    "strings": {
+        "approachBudget": "Budget",
+        "approachApCode": "AP Code",
+        "approachRemoveButton": "Remove"
+    }
+}

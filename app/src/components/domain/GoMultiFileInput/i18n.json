@@ -2,6 +2,7 @@
     "namespace": "goMultiFileInput",
     "strings": {
         "goMultiFailedUploadMessage": "Failed to upload the file!",
+        "noFileSelected": "No file Selected",
         "goMultiDeleteButton": "Delete"
     }
 }

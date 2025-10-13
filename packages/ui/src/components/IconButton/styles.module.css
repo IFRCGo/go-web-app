@@ -7,7 +7,7 @@
     --text-transform: none;
     --cursor: default;
     --spacing: var(--go-ui-spacing-4xs);
-    --padding: var(--go-ui-spacing-4xs);
+    --padding: var(--spacing);
 
     display: flex;
     position: relative;

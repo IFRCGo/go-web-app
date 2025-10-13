@@ -1,0 +1,59 @@
+.printable-data-display {
+    &.inline-variant {
+        display: flex;
+        flex-direction: row;
+    }
+
+    &.with-diff-view {
+        border: thick double var(--go-ui-color-red);
+    }
+
+    &.block-variant {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &.contents-variant {
+        display: contents;
+    }
+
+    &.with-background {
+        background-color: var(--go-ui-color-background);
+
+        &.contents-variant {
+            .value,
+            .label {
+                background-color: var(--go-ui-color-background);
+            }
+        }
+    }
+
+    .label {
+        &.with-colon::after {
+            content: ':';
+        }
+    }
+
+    .value {
+        &.text-type {
+            text-align: justify;
+            white-space: pre-wrap;
+        }
+
+        .added {
+            background-color: color-mix(in srgb, var(--go-ui-color-green) 10%, transparent);
+            color: var(--go-ui-color-green);
+        }
+
+        .removed {
+            background-color: color-mix(in srgb, var(--go-ui-color-red) 10%, transparent);
+            text-decoration: line-through;
+            color: var(--go-ui-color-red);
+        }
+    }
+
+    .strong {
+        color: var(--go-ui-color-black);
+        font-weight: var(--go-ui-font-weight-semibold);
+    }
+}

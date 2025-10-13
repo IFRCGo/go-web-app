@@ -144,7 +144,9 @@ export function createStringColumn<D, K extends string | number>(
     id: string,
     title: string,
     accessor: (item: D) => string | undefined | null,
-    options?: Options<D, K, CellProps<string>, HeaderCellProps>,
+    options?: Options<D, K, CellProps<string>, HeaderCellProps> & {
+        withLightText?: (datum: D) => boolean;
+    },
 ) {
     const item: Column<D, K, CellProps<string>, HeaderCellProps> & {
         valueSelector: (item: D) => string | undefined | null,
@@ -166,6 +168,7 @@ export function createStringColumn<D, K extends string | number>(
         cellRenderer: Cell,
         cellRendererParams: (_: K, datum: D): CellProps<string> => ({
             value: accessor(datum) || (options?.defaultEmptyValue ?? '--'),
+            withLightText: options?.withLightText?.(datum),
         }),
         valueSelector: accessor,
         valueComparator: (foo: D, bar: D) => compareString(accessor(foo), accessor(bar)),
@@ -334,6 +337,7 @@ export function createExpandColumn<D, K>(
 
 export function createExpansionIndicatorColumn<DATUM, KEY>(
     isExpanded?: boolean,
+    getDisabled?: (datum: DATUM) => boolean,
 ) {
     const item: Column<DATUM, KEY, ExpansionIndicatorProps, HeaderCellProps> = {
         id: randomString(),
@@ -343,7 +347,7 @@ export function createExpansionIndicatorColumn<DATUM, KEY>(
             sortable: false,
         },
         cellRenderer: ExpansionIndicator,
-        cellRendererParams: (_, __, i, data) => {
+        cellRendererParams: (_, datum, i, data) => {
             let variant: ExpansionIndicatorProps['variant'] = 'mid';
 
             if (data.length === 1) {
@@ -357,10 +361,14 @@ export function createExpansionIndicatorColumn<DATUM, KEY>(
             return {
                 isExpanded,
                 variant,
+                disabled: getDisabled?.(datum),
             };
         },
+        // cellRendererClassName: styles.expansionIndicatorCell,
+        cellContainerRendererParams: () => ({
+            withoutBorder: true,
+        }),
         cellContainerClassName: styles.expansionIndicatorCellContainer,
-        cellRendererClassName: styles.expansionIndicatorCell,
     };
 
     return item;

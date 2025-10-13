@@ -3,6 +3,13 @@
 
     .active-icon {
         color: var(--go-ui-color-primary-red);
+        /* FIXME: use variables */
+        font-size: 1.25rem;
+    }
+
+    .blank-icon {
+        /* FIXME: use variables */
+        font-size: 1.25rem;
     }
 
     .input {

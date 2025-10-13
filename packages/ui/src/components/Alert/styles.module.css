@@ -1,7 +1,14 @@
 .alert {
     border-radius: var(--go-ui-border-radius-md);
-    width: calc(14rem + 16vw);
-    color: var(--go-ui-color-white);
+    background-color: var(--variant-color);
+    color: var(--text-color);
+    --variant-color: var(--go-ui-color-background);
+    --text-color: var(--go-ui-color-text);
+
+    &.with-light-background {
+        background-color: color-mix(in srgb, var(--variant-color) 6%, var(--go-ui-color-foreground));
+        color: var(--variant-color);
+    }
 
     .icon {
         font-size: var(--go-ui-font-size-2xl);
@@ -12,18 +19,22 @@
     }
 
     &.info {
-        background-color: var(--go-ui-color-gray-80);
+        --variant-color: var(--go-ui-color-gray-80);
+        --text-color: var(--go-ui-color-text-on-dark);
     }
 
     &.success {
-        background-color: var(--go-ui-color-positive);
+        --variant-color: var(--go-ui-color-positive);
+        --text-color: var(--go-ui-color-text-on-dark);
     }
 
     &.danger {
-        background-color: var(--go-ui-color-negative);
+        --variant-color: var(--go-ui-color-negative);
+        --text-color: var(--go-ui-color-text-on-dark);
     }
 
     &.warning {
-        background-color: var(--go-ui-color-warning);
+        --variant-color: var(--go-ui-color-warning);
+        --text-color: var(--go-ui-color-text-on-dark);
     }
 }

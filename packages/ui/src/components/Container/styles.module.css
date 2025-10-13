@@ -19,9 +19,20 @@
         background-color: var(--go-ui-color-foreground);
     }
 
+    &.with-border {
+        border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+        border-radius: var(--go-ui-border-radius-lg);
+    }
+
     &.with-dark-background {
         border-radius: var(--go-ui-border-radius-lg);
         background-color: var(--go-ui-color-background);
+    }
+
+    &.form-variant {
+        >.before-container {
+            border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+        }
     }
 
     .content {

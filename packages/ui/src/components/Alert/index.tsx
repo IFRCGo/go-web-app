@@ -26,6 +26,8 @@ export interface Props<N> {
     nonDismissable?: boolean;
     onCloseButtonClick?: (name: N) => void;
     debugMessage?: string;
+    withLightBackground?: boolean;
+    withoutShadow?: boolean;
 }
 
 const alertTypeToClassNameMap: {
@@ -56,6 +58,8 @@ function Alert<N extends string>(props: Props<N>) {
         onCloseButtonClick,
         nonDismissable,
         debugMessage,
+        withLightBackground,
+        withoutShadow,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -83,6 +87,7 @@ function Alert<N extends string>(props: Props<N>) {
             className={_cs(
                 styles.alert,
                 alertTypeToClassNameMap[type],
+                withLightBackground && styles.withLightBackground,
                 className,
             )}
             headerIcons={icon[type]}
@@ -114,7 +119,7 @@ function Alert<N extends string>(props: Props<N>) {
                 </Button>
             )}
             withPadding
-            withShadow
+            withShadow={!withoutShadow}
         >
             {description}
         </Container>
