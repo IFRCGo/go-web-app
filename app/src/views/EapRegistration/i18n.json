@@ -1,0 +1,7 @@
+{
+    "namespace": "eapRegistration",
+    "strings": {
+        "eapRegistrationHeading": "EAP Development Registration",
+        "eapRegistrationDescription": "The purpose of this form is for you to notify the IFRC team of the start of your EAP process. If you need assistance with the initiation of the process, send us a message."
+    }
+}
