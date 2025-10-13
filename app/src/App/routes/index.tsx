@@ -701,6 +701,19 @@ const accountMyFormsDref = customWrapRoute({
     },
 });
 
+const earlyActionProtocols = customWrapRoute({
+    parent: rootLayout,
+    path: 'eap',
+    component: {
+        render: () => import('#views/EarlyActionProtocols'),
+        props: {},
+    },
+    context: {
+        title: 'Early Action Protocols',
+        visibility: 'anything',
+    },
+});
+
 const accountMyFormsThreeW = customWrapRoute({
     parent: accountMyFormsLayout,
     path: 'three-w',
@@ -1146,6 +1159,21 @@ const newPerOverviewForm = customWrapRoute({
     },
 });
 
+const eapDevelopmentRegistration = customWrapRoute({
+    parent: rootLayout,
+    path: 'eap-registration/new',
+    component: {
+        render: () => import('#views/EapRegistration'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'EAP Development Registration',
+        visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
+    },
+});
+
 const perOverviewForm = customWrapRoute({
     parent: perProcessLayout,
     path: ':perId/overview',
@@ -1353,6 +1381,7 @@ const wrappedRoutes = {
     termsAndConditions,
     operationalLearning,
     montandonLandingPage,
+    eapDevelopmentRegistration,
     ...regionRoutes,
     ...countryRoutes,
     ...surgeRoutes,
@@ -1363,6 +1392,7 @@ const wrappedRoutes = {
     // Redirects
     preparednessOperationalLearning,
     obsoleteFieldReportDetails,
+    earlyActionProtocols,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));
