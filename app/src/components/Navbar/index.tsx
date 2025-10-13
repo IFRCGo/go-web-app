@@ -353,6 +353,13 @@ function Navbar(props: Props) {
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                     type="link"
+                                    to="earlyActionProtocols"
+                                    variant="tertiary"
+                                >
+                                    {strings.earlyActionProtocols}
+                                </DropdownMenuItem>
+                                <DropdownMenuItem
+                                    type="link"
                                     to="newDrefApplicationForm"
                                     variant="secondary"
                                 >
