@@ -108,7 +108,6 @@ function TabLayout(props: Props) {
             )}
         >
             {children}
-            <span className={styles.visualFeedback} />
         </InlineLayout>
     );
 

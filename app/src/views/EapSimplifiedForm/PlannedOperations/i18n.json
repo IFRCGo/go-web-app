@@ -1,0 +1,21 @@
+{
+    "namespace": "eapSimplifiedForm",
+    "strings": {
+        "plannedOperationsTitle": "Planned Operations",
+        "plannedOperationsDescription": "Select sectors which are used in this Early Action Protocol.",
+        "plannedOperationsTooltipDescription": "In this section the National Society should reflect the sectors they plan to work on and delete the sectors that are not needed. We recommend keeping the plan simple, focus on key deliverables and not on all the steps that need to be taken to reach those deliverables. In the budget template the National Society can be much more specific and list all the activities that the plan to undertake (more details regarding the budget are provided in the ‘Budget’ section.",
+        "plannedSectionHeading": "Quality Criteria: Planned Operations",
+        "eapPlannedSectionHeading": "EAP activation",
+        "plannedSectionCriteriaIntroduction1": "National Society aims to implement the early action activities in the lead time, between the trigger and the impact of the event.",
+        "plannedSectionCriteriaComment11": "Early actions should be implemented with sufficient time for at risk communities to make use of the assistance received.",
+        "plannedSectionCriteriaComment12": "For slow onset or complex hazards, the impact may be interpreted as a spike or expected peak of impact which overwhelms the targeted community to cope. Therefore, the early actions should be activated with enough lead time to reduce impact of the hazard. In the case of drought, consider greater flexibility as it is challenging to identify the specific spike/peak as each will be context specific.",
+        "plannedSectionCriteriaIntroduction2": "The simplified EAP clearly explains who will be targeted with the early action activities and should target at least 2,000 people.",
+        "plannedSectionCriteriaComment21": "The National Society can use forecast information, expert judgment and vulnerability/exposure indicators to explain the process of deciding how they will select where the action will take place. The simplified EAP should explain the rationale of ‘at risk’ communities, should focus on the most vulnerable (rather than blanket coverage).",
+        "plannedSectionCriteriaComment22": "If the selection of people targeted cannot be done in advance of an activation, then the selection process needs to be feasible within the lead time.",
+        "plannedSectionCriteriaComment23": "The selection process should be coherent with IFRC minimum standards, including the Minimum Standards for PGI in Emergencies.",
+        "monitoringSectionCriteriaHeading": "Monitoring and Evaluation",
+        "plannedSectionCriteriaIntroduction3": "The simplified EAP includes a post-activation lesson learned workshop.",
+        "plannedSectionCriteriaComment31": "The simplified EAP must include a reasonable budget for a lessons learned workshop with partners and IFRC.",
+        "plannedSectionCriteriaComment32": "The simplified EAP could include a reasonable budget for monitoring early action activities of National Society staff and volunteers, with potential support from IFRC."
+    }
+}

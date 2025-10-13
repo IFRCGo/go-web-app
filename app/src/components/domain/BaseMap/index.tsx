@@ -28,7 +28,7 @@ export type Props = Omit<MapProps, overrides> & {
     withDisclaimer?: boolean;
 } & Partial<Pick<MapProps, overrides>>;
 
-function BaseMap(props: Props) {
+function BaseMapWithoutErrorBoundary(props: Props) {
     const {
         baseLayers,
         mapStyle,
@@ -101,7 +101,7 @@ function BaseMap(props: Props) {
     );
 }
 
-function BaseMapWithErrorBoundary(props: Props) {
+function BaseMap(props: Props) {
     return (
         <ErrorBoundary
             fallback={(
@@ -110,7 +110,7 @@ function BaseMapWithErrorBoundary(props: Props) {
                 </div>
             )}
         >
-            <BaseMap
+            <BaseMapWithoutErrorBoundary
                 // eslint-disable-next-line react/jsx-props-no-spreading
                 {...props}
             />
@@ -118,4 +118,4 @@ function BaseMapWithErrorBoundary(props: Props) {
     );
 }
 
-export default BaseMapWithErrorBoundary;
+export default BaseMap;

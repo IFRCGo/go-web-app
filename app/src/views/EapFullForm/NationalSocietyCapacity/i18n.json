@@ -1,0 +1,30 @@
+{
+    "namespace": "eapFullForm",
+    "strings": {
+        "capacityHeading": "National Society Capacity",
+        "capacityHeadingTooltip": "Capacity to deliver early action is a key aspect of the FbF system. To have access to the DREF the NS should describe why and how it will be able to implement the early actions proposed in this protocol within the lead time and reaching all of the targeted population. This section could make reference to NS’s experience with previous DREFs (types of disasters, quantity of operations, planned operations implemented, among others). If a National Society has already gone through a Preparedness for Effective Response (PER) assessment process the results of these assessments should be referred to in this section as they provide National Societies with systematic, evidence-based information on their ability to conduct timely early action (looking also at support areas).",
+        "capacityOperationalTitle": "Operational, thematic and administrative capacity",
+        "capacityOperationalDescription1": "Describe how the National Society has operative and administrative capacity to implement the EAPs. Describe the National Society’s experience in the implementation of the selected early actions (Livelihoods, including Cash and Voucher Assistance; WASH: Food Security; Shelter, etc.). If the NS does not have experience in these areas, indicate the steps taken to improve its capacity in the respective sector to implement the EAP effectively and efficiently.",
+        "capacityOperationalDescription2": "If a feasibility study on FbF was conducted, indicate the findings in relation to the capacity of the NS to implement FbF.",
+        "capacityOperationalDescription3": "Indicate the number of staff and volunteers available for a potential activation. Explain how they have been trained on FbF/ activation.",
+        "capacityOperationalDescription4": "Explain if special structures are foreseen for EAP activation, e.g. NDRTs and specially trained volunteers per branch.",
+        "capacityDescriptionLabel": "Description",
+        "capacityRequiredPointsLabel": "Required Points",
+        "capacityExplanatoryNoteLabel": "Explanatory Note",
+        "capacityExplanatoryNote": "While the funds for the readiness and pre-positioning will be transferred as soon as the EAP is approved and the legal agreement has been signed, the funds for the early action activation will only be transferred once the trigger has been met and the trigger notification has been received by IFRC.  Please not that while this allocation is done immediately upon notification it may still take a few days for the funds to arrive in country. Therefore, especially for short lead time EAPs it is crucial for the National Society and their partners to plan accordingly.",
+        "capacityStrategiesPlansTitle": "Strategies and plans",
+        "capacityStrategiesPlansDescription": "Describe how the EAP is aligned with the Disaster Risk Management strategy of the National Society (e.g. in the existing contingency plan, DRR plan etc.).",
+        "capacityFinancialCapacityTitle": "Financial capacity to advance funds",
+        "capacityFinancialDescription": "Indicate whether the NS (and/or PNS in country) has the capacity to advance funds, to start early actions, in the short duration between trigger and funds from the DREF arriving.",
+        "capacityNationalRelevantFilesTitle": "Attach relevant files",
+        "capacityNationalRelevantFilesDescription": "Attach any additional maps, documentation, files, images, etc.",
+        "capacityNationalRelevantFilesUploadLabel": "Upload",
+        "capacitySectionHeading": "Quality Criteria: National Society Capacity",
+        "capacityCriteriaIntroduction11": "The EAP describes the National Society operational (Cash, WASH, Food Security, Shelter etc.) and administrative (Finance, PMER, Human Resources) capacity and experience to implement the EAP.  If no capacity exists, the EAP describes how they plan to address this limitation in order to implement the EAP effectively and efficiently.",
+        "capacityCriteriaIntroduction12": "The EAP describes its alignment with the National Society Disaster Risk Management strategy (e.g. the existing contingency plan, response plan, DRR plan etc.)",
+        "capacityCriteriaComment1": "In the mid-term the EAP should be integrated in the DRM strategy.",
+        "capacitySourcesInformationTitle": "Sources of Information",
+        "capacitySourcesInformationDescription": "Add respective source(s) for the forecast and the link to the website, if applicable.",
+        "addNewCapacitySourceButtonLabel": "Add"
+    }
+}

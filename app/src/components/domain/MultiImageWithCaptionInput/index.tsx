@@ -29,31 +29,40 @@ import NonFieldError from '#components/NonFieldError';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type Value = {
-    client_id: string;
+type InputValue = {
     id?: number;
-    caption?: string;
+    client_id: string;
+    caption?: string | null;
 };
+
+type OutputValue = {
+    id?: number;
+    client_id: string;
+    caption?: string;
+}
 
 interface Props<N> {
     className?: string;
     name: N;
     url: SupportedPaths;
-    value: Value[] | null | undefined;
-    onChange: (value: SetValueArg<Value[] | undefined>, name: N) => void;
-    error: ArrayError<Value> | undefined;
+    value: InputValue[] | null | undefined;
+    onChange: (value: SetValueArg<OutputValue[] | undefined>, name: N) => void;
+    error: ArrayError<InputValue> | undefined;
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
-    label: React.ReactNode;
+    label?: React.ReactNode;
     readOnly?: boolean;
     before?: React.ReactNode;
     after?: React.ReactNode;
     disabled?: boolean;
+    description?: React.ReactNode;
     useCurrentLanguageForMutation?: boolean;
 }
 
 // FIXME: Move this to components
 function MultiImageWithCaptionInput<const N extends string | number>(props: Props<N>) {
+    const strings = useTranslation(i18n);
+
     const {
         className,
         name,
@@ -63,15 +72,14 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
         setFileIdToUrlMap,
         onChange,
         error: formError,
-        label,
+        label = strings.defaultLabel,
         readOnly,
         before,
         after,
         disabled,
+        description,
         useCurrentLanguageForMutation = false,
     } = props;
-
-    const strings = useTranslation(i18n);
 
     const error = getErrorObject(formError);
 
@@ -152,6 +160,7 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
                 readOnly={readOnly}
                 disabled={disabled}
                 useCurrentLanguageForMutation={useCurrentLanguageForMutation}
+                description={description}
             >
                 {label}
             </GoMultiFileInput>
@@ -185,8 +194,8 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
                                         <IconButton
                                             name={index}
                                             onClick={removeValue}
-                                            title={strings.removeImagesButtonTitle}
-                                            ariaLabel={strings.removeImagesButtonTitle}
+                                            title={strings.removeImageButtonTitle}
+                                            ariaLabel={strings.removeImageButtonTitle}
                                             variant="secondary"
                                             spacing="none"
                                             disabled={disabled || readOnly}
@@ -197,7 +206,7 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
                                 />
                                 <NonFieldError error={imageError} />
                                 <Image
-                                    alt={strings.imagePreviewAlt}
+                                    alt={strings.imagePreviewFallbackText}
                                     src={fileIdToUrlMap[fileValue.id]}
                                     size="sm"
                                 />
@@ -206,7 +215,7 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
                                     value={fileValue?.caption}
                                     onChange={handleCaptionChange}
                                     error={imageError?.caption}
-                                    placeholder={strings.enterCaptionPlaceholder}
+                                    placeholder={strings.captionInputPlaceholder}
                                     readOnly={readOnly}
                                     disabled={disabled}
                                 />

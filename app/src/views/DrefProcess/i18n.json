@@ -1,0 +1,9 @@
+{
+    "namespace": "drefProcess",
+    "strings": {
+        "eapHeading": "Disaster Response Emergency Fund (DREF)",
+        "eapDescription": "The IFRC's Disaster Emergency Fund (DREF): rapid, reliable funding for life-saving action.",
+        "eapProcessDrefTab": "Response And Imminent Dref",
+        "eapProcessEapTab": "Early Action Protocols (EAP)"
+    }
+}

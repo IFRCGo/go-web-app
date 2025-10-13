@@ -1,0 +1,18 @@
+.diff-text-output {
+    text-align: justify;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+
+    &.with-diff-view {
+        .added {
+            background-color: color-mix(in srgb, var(--go-ui-color-green) 10%, transparent);
+            color: var(--go-ui-color-green);
+        }
+
+        .removed {
+            background-color: color-mix(in srgb, var(--go-ui-color-red) 10%, transparent);
+            text-decoration: line-through;
+            color: var(--go-ui-color-red);
+        }
+    }
+}

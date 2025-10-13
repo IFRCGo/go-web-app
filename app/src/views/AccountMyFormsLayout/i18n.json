@@ -3,7 +3,8 @@
     "strings": {
         "fieldReportTabTitle": "Field Report",
         "perTabTitle": "PER",
-        "drefTabTitle": "DREF",
-        "threeWTabTitle": "3W"
+        "drefTabTitle": "DREF Applications",
+        "threeWTabTitle": "3W",
+        "eapApplications": "EAP Applications"
     }
 }

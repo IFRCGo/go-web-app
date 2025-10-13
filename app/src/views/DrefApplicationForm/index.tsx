@@ -310,6 +310,7 @@ export function Component() {
 
     const loadResponseToFormValue = useCallback((response: GetDrefResponse) => {
         handleDrefLoad(response);
+
         const {
             planned_interventions,
             proposed_action,

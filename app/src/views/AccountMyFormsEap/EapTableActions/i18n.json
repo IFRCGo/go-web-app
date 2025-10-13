@@ -1,0 +1,30 @@
+{
+    "namespace":"accountMyFormsEap",
+    "strings":{
+        "startFullEapLinkLabel": "Start Full EAP",
+        "startSimplifiedEapLinkLabel": "Start sEAP",
+        "editFullEapLinkLabel": "Edit Full EAP",
+        "viewFullEapLinkLabel": "View Full EAP",
+        "exportWithChangesButtonLabel": "Export v{version} PDF (with track changes)",
+        "previewExportWithChangesButtonLabel": "Preview Export v{version} PDF (with track changes)",
+        "exportButtonLabel": "Export",
+        "exportSummaryButtonLabel": "Export Summary",
+        "previewExportLinkLabel": "Preview Export",
+        "previewSummaryExportLinkLabel": "Preview Summary Export",
+        "downloadReviewChecklistLinkLabel": "Review Checklist v{version} (with IFRC comments)",
+        "downloadUpdatedChecklistLinkLabel": "Review Checklist v{version} (with NS comments)",
+        "downloadBudgetFileLabel": "Budget v{version}",
+        "editSimplifiedEapLinkLabel": "Edit sEAP",
+        "viewSimplifiedEapLinkLabel": "View sEAP",
+        "reviseEapLabel": "Revise EAP",
+        "reviseEapMessage": "Revising this EAP will create a new version. You can make any necessary changes in the new version.",
+        "downloadValidatedBudgetLinkLabel": "Download Validated Budget",
+        "additionalFilesButtonLabel": "Additional Attachments",
+        "theoryOfChangeTableLinkLabel": "Theory of Change Table",
+        "fullReviseSuccessAlert": "Full EAP revised successfully",
+        "fullReviseFailedAlert": "Full EAP revision failed",
+        "simplifiedReviseSuccessAlert": "Simplified EAP revised successfully",
+        "simplifiedReviseFailedAlert": "Simplified EAP revision failed",
+        "forecastTableLinkLabel": "Forecast Table"
+    }
+}

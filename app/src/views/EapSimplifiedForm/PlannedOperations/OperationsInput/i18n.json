@@ -1,0 +1,9 @@
+{
+    "namespace": "eapSimplifiedForm",
+    "strings": {
+        "operationPeopleTargeted": "People Targeted",
+        "operationBudget": "Budget(CHF)",
+        "operationApCode": "AP Code",
+        "operationRemoveButton": "Remove"
+    }
+}

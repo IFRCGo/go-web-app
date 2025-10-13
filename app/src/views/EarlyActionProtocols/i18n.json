@@ -1,0 +1,14 @@
+{
+    "namespace": "earlyActionProtocols",
+    "strings": {
+        "eapRegistrationLink": "Register your EAP",
+        "eapContent": "What is an EAP?",
+        "eapContentHeading": "Early Action Protocols (EAPs) are a core mechanism of the IFRC's Forecast-based Financing (FbF) approach, designed to ensure that humanitarian action happens before a disaster strikes, rather than only responding afterwards.",
+        "eapContentSubHeadingOne": "An EAP is a pre-agreed plan developed by a Nation Society together with partners, which outlines:",
+        "eapDescriptionOne": "The triggers (based on scientific forecasts and risk analysis) that indicate when a hazard is likely to impact communities.",
+        "eapDescriptionTwo": "The early actions to be implemented once those triggers are met - practical, life-saving measures that reduce the impacts of the forecasted disaster.",
+        "eapDescriptionThree": "The roles, responsibilities, and budget required to carry out these actions quickly and effectively.",
+        "eapContentSubHeadingTwo": "Why are the EAPs Important?",
+        "eapContentSubHeadingThree": "What is the EAP Application Process?"
+    }
+}

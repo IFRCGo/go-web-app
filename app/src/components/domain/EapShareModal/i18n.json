@@ -1,0 +1,13 @@
+{
+    "namespace": "eapShareModal",
+    "strings": {
+        "eapShareTitle": "share EAP",
+        "eapShareDescription": "Add or Remove users you with whom you want to share the EAP.",
+        "eapShareSuccessfully": "Successfully updated sharing preferences!",
+        "eapShareFailed": "Unable to save sharing preferences!",
+        "eapShareUpdate": "Update",
+        "eapSelectUserLabel": "Select users",
+        "eapAlreadySharedHeading": "Already shared to",
+        "userListEmptyMessage": "The EAP form is not shared with anyone."
+    }
+}

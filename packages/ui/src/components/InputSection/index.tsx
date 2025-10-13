@@ -18,6 +18,7 @@ export interface Props {
     withAsteriskOnTitle?: boolean;
     numPreferredColumns?: NumColumn;
     withShadow?: boolean;
+    headerActions?: React.ReactNode;
 }
 
 function InputSection(props: Props) {
@@ -35,6 +36,7 @@ function InputSection(props: Props) {
         numPreferredColumns = 1,
         withFullWidthContent,
         withShadow,
+        headerActions,
     } = props;
 
     const content = (
@@ -49,7 +51,12 @@ function InputSection(props: Props) {
                             )}
                         </>
                     )}
-                    headerActions={tooltip && <InfoPopup description={tooltip} />}
+                    headerActions={(
+                        <>
+                            {tooltip && <InfoPopup description={tooltip} />}
+                            {headerActions}
+                        </>
+                    )}
                     headingLevel={6}
                 >
                     <Description

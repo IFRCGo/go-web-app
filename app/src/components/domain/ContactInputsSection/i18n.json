@@ -1,0 +1,9 @@
+{
+    "namespace": "contactInputsSection",
+    "strings": {
+        "contactNameInputLabel": "Name",
+        "contactTitleInputLabel": "Title",
+        "contactEmailInputLabel": "Email",
+        "contactPhoneInputLabel": "Phone number"
+    }
+}
