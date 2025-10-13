@@ -353,6 +353,14 @@ function Navbar(props: Props) {
                                 >
                                     {strings.myDrefApplications}
                                 </DropdownMenuItem>
+                                <DropdownMenuItem
+                                    type="link"
+                                    to="accountMyFormsEap"
+                                    styleVariant="action"
+                                    withoutFullWidth
+                                >
+                                    {strings.earlyActionProtocols}
+                                </DropdownMenuItem>
                             </NavDropdownTabDetails>
                             <NavDropdownTabDetails
                                 name="surge"

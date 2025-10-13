@@ -64,6 +64,9 @@ importers:
       '@turf/buffer':
         specifier: ^6.5.0
         version: 6.5.0(patch_hash=f6b966f3d2d5a66fd961363e20ecdfad1b807ae7ba8d56eb6bd57592b3fa13af)
+      diff:
+        specifier: ^8.0.2
+        version: 8.0.2
       exceljs:
         specifier: ^4.4.0
         version: 4.4.0
@@ -3365,6 +3368,10 @@ packages:
   diff-sequences@29.6.3:
     resolution: {integrity: sha512-EjePK1srD3P08o2j4f0ExnylqRs5B9tJjcp9t1krH2qRi8CCdsYfwe9JgSLurFBWwq4uOlipzfk5fHNvwFKr8Q==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+
+  diff@8.0.2:
+    resolution: {integrity: sha512-sSuxWU5j5SR9QQji/o2qMvqRNYRDOcBTgsJ/DeCf4iSN4gW+gNMXM7wFIP+fdXZxoNiAnHUTGjCr+TSWXdRDKg==}
+    engines: {node: '>=0.3.1'}
 
   dir-glob@3.0.1:
     resolution: {integrity: sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==}
@@ -9979,6 +9986,8 @@ snapshots:
   detect-node-es@1.1.0: {}
 
   diff-sequences@29.6.3: {}
+
+  diff@8.0.2: {}
 
   dir-glob@3.0.1:
     dependencies:

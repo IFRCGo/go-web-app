@@ -1,0 +1,17 @@
+.page-break {
+    break-before: page;
+
+    @media screen {
+        margin: var(--go-ui-spacing-lg) 0;
+        border: var(--go-ui-width-separator-thin) dashed var(--go-ui-color-separator);
+    }
+}
+
+.heading:has(+ :empty),
+.heading:has(+ .heading + :empty) {
+    display: none;
+}
+
+.block-spacing:has(+ :empty) {
+    display: none;
+}

@@ -1,5 +1,6 @@
 import {
     DefaultMessage,
+    InlineLayout,
     ListView,
 } from '@ifrc-go/ui';
 import { isDefined } from '@togglecorp/fujs';
@@ -24,6 +25,9 @@ interface Props {
     pendingMessage?: React.ReactNode;
     withoutMessageIcon?: boolean;
     withCompactMessage?: boolean;
+
+    spacingOffset?: number;
+    headerAction?: React.ReactNode;
 }
 
 function TabPage(props: Props) {
@@ -31,6 +35,7 @@ function TabPage(props: Props) {
         elementRef,
         children,
         wikiLinkPathName,
+        headerAction,
 
         empty = false,
         filtered = false,
@@ -43,6 +48,7 @@ function TabPage(props: Props) {
         errorMessage,
         withoutMessageIcon,
         withCompactMessage,
+        spacingOffset,
     } = props;
 
     const mainContent = (children || empty || pending || errored || filtered) && (
@@ -70,15 +76,24 @@ function TabPage(props: Props) {
             ref={elementRef}
             className={styles.tabPage}
         >
-            {isDefined(wikiLinkPathName) && (
-                <WikiLink
-                    className={styles.wikiLink}
-                    pathName={wikiLinkPathName}
-                />
-            )}
+            <div className={styles.action}>
+                {isDefined(headerAction) && (
+                    <InlineLayout
+                        spacing="xs"
+                        className={styles.headerAction}
+                        after={(headerAction)}
+                    />
+                )}
+                {isDefined(wikiLinkPathName) && (
+                    <WikiLink
+                        pathName={wikiLinkPathName}
+                    />
+                )}
+            </div>
             <ListView
                 layout="block"
                 spacing="3xl"
+                spacingOffset={spacingOffset}
             >
                 {mainContent}
             </ListView>

@@ -1,0 +1,11 @@
+{
+    "namespace": "eapObsoleteResolutionModal",
+    "strings": {
+        "conflictWhileSaving": "There's a newer version of current EAP form which was modified by",
+        "changesWillBeOverridden": "If you continue saving, the previous changes will be overwritten by your changes.",
+        "changesConflictWhileSaving": "Conflict while saving",
+        "changesCancelButton": "Cancel",
+        "changesOverwriteButton": "Overwrite",
+        "changesNoteLabel": "Note"
+    }
+}

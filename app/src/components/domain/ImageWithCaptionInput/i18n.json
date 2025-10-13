@@ -1,7 +1,8 @@
 {
     "namespace": "imageWithCaptionInput",
     "strings": {
-        "imageWithCaptionEnterCaption": "Enter Caption",
-        "imageWithCaptionPreview": "preview"
+        "captionInputPlaceholder": "Enter Caption",
+        "previewFallbackText": "Preview not available",
+        "defaultLabel": "Select an image"
     }
 }

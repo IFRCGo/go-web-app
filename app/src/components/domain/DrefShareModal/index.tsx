@@ -23,7 +23,7 @@ import {
     useRequest,
 } from '#utils/restRequest';
 
-import UserItem from './UserItem';
+import ShareUserItem from '../ShareUserItem';
 
 import i18n from './i18n.json';
 
@@ -143,7 +143,7 @@ function DrefShareModal(props: Props) {
                     >
                         <RawList
                             data={selectedUsers}
-                            renderer={UserItem}
+                            renderer={ShareUserItem}
                             keySelector={userKeySelector}
                             rendererParams={userRendererParams}
                         />

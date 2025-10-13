@@ -1,0 +1,11 @@
+{
+    "namespace": "eapApplication",
+    "strings": {
+        "eapRegistrationLink": "Register Your EAP",
+        "eapApplicationsHeading": "EAP Application",
+        "eapLastUpdated": "Last Updated",
+        "eapName": "Name/Phase",
+        "eapType": "EAP Type",
+        "eapStatus": "Status"
+    }
+}

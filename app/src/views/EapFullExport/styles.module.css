@@ -1,0 +1,34 @@
+.summary {
+    display: grid;
+    grid-gap: var(--go-ui-width-separator-md);
+    grid-template-columns: 3fr 7fr;
+}
+
+.meta-items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-width-separator-md);
+
+    .meta-children-items {
+        display: grid;
+        grid-gap: var(--go-ui-width-separator-md);
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+.activity-items,
+.indicator-items {
+    display: grid;
+    grid-gap: var(--go-ui-width-separator-md);
+    grid-template-columns: 2fr 1fr;
+}
+
+.image-items {
+    display: flex;
+    gap: var(--go-ui-width-separator-md);
+}
+
+.sources {
+    display: flex;
+    gap: var(--go-ui-spacing-md);
+}
