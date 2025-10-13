@@ -31,7 +31,7 @@ import { transformObjectError } from '#utils/restRequest/error';
 
 import i18n from './i18n.json';
 
-export type SupportedPaths = '/api/v2/per-file/multiple/' | '/api/v2/dref-files/multiple/' | '/api/v2/flash-update-file/multiple/';
+export type SupportedPaths = '/api/v2/per-file/multiple/' | '/api/v2/dref-files/multiple/' | '/api/v2/flash-update-file/multiple/' | '/api/v2/eap-file/multiple/';
 
 interface FileUploadResult {
     id: number;
@@ -170,7 +170,7 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
     }, [onChange, name]);
 
     const disabled = disabledFromProps || pending || readOnly;
-    const valueUrls = isDefined(value) ? (
+    const valueUrls = (isDefined(value) && value.length > 0) ? (
         value.map((fileId) => ({ id: fileId, url: fileIdToUrlMap?.[fileId] }))
     ) : undefined;
 
@@ -193,10 +193,14 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
     return (
         <ListView
             layout="block"
-            spacing="xs"
+            spacing="sm"
             className={className}
         >
-            <ListView spacing="3xs">
+            <ListView
+                withWrap
+                spacing="sm"
+                withSpacingOpticalCorrection
+            >
                 <RawFileInput
                     name={name}
                     onChange={handleChange}
@@ -213,7 +217,7 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
                 >
                     {children}
                 </RawFileInput>
-                {clearable && value && (
+                {clearable && value && value.length > 0 && (
                     <IconButton
                         name={undefined}
                         onClick={handleClearButtonClick}
@@ -228,6 +232,11 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
                     >
                         <DeleteBinLineIcon />
                     </IconButton>
+                )}
+                {isNotDefined(valueUrls) && (
+                    <Description withLightText>
+                        {strings.noFileSelected}
+                    </Description>
                 )}
             </ListView>
             {!withoutPreview && isDefined(valueUrls) && valueUrls.length > 0 && (

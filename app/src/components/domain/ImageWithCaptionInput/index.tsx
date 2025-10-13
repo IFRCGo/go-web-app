@@ -21,22 +21,28 @@ import NonFieldError from '#components/NonFieldError';
 
 import i18n from './i18n.json';
 
-type Value = {
-    id?: number | undefined;
+type ImageWithCaptionValue = {
+    id?: number;
     client_id: string;
-    caption?: string | undefined;
+    caption?: string | null;
 };
 
-interface Props<N> {
+type OutputValue = {
+    id?: number;
+    client_id: string;
+    caption?: string;
+}
+
+interface Props<NAME> {
     className?: string;
-    name: N;
+    name: NAME;
     url: SupportedPaths;
-    value: Value | null | undefined;
-    onChange: (value: SetValueArg<Value> | undefined, name: N) => void;
-    error: ObjectError<Value> | undefined;
+    value: ImageWithCaptionValue | null | undefined;
+    onChange: (value: SetValueArg<OutputValue> | undefined, name: NAME) => void;
+    error: ObjectError<ImageWithCaptionValue> | undefined;
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
-    label: React.ReactNode;
+    label?: React.ReactNode;
     before?: React.ReactNode;
     after?: React.ReactNode;
     disabled?: boolean;
@@ -46,6 +52,8 @@ interface Props<N> {
 
 // FIXME: Move this to components
 function ImageWithCaptionInput<const N extends string | number>(props: Props<N>) {
+    const strings = useTranslation(i18n);
+
     const {
         className,
         readOnly,
@@ -56,14 +64,12 @@ function ImageWithCaptionInput<const N extends string | number>(props: Props<N>)
         setFileIdToUrlMap,
         onChange,
         error: formError,
-        label,
+        label = strings.defaultLabel,
         before,
         after,
         disabled,
         useCurrentLanguageForMutation,
     } = props;
-
-    const strings = useTranslation(i18n);
 
     const setFieldValue = useFormObject(
         name,
@@ -113,13 +119,14 @@ function ImageWithCaptionInput<const N extends string | number>(props: Props<N>)
                 // FIXME: Make Go single file input with preview
                 description={isDefined(fileUrl) ? (
                     <Image
-                        alt={strings.imageWithCaptionPreview}
+                        alt={strings.previewFallbackText}
                         src={fileUrl}
                         size="sm"
                     />
                 ) : undefined}
                 clearable
                 useCurrentLanguageForMutation={useCurrentLanguageForMutation}
+                error={error?.id}
             >
                 {label}
             </GoSingleFileInput>
@@ -130,7 +137,7 @@ function ImageWithCaptionInput<const N extends string | number>(props: Props<N>)
                     readOnly={readOnly}
                     onChange={setFieldValue}
                     error={error?.caption}
-                    placeholder={strings.imageWithCaptionEnterCaption}
+                    placeholder={strings.captionInputPlaceholder}
                     disabled={disabled}
                 />
             )}

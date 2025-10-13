@@ -1,0 +1,29 @@
+.time-span-check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-gray-50);
+    border-radius: var(--go-ui-border-radius-md);
+    cursor: pointer;
+    padding: 0 var(--go-ui-spacing-3xs);
+    min-width: 1.5rem;
+    height: 1.5rem;
+    text-align: center;
+    font-size: var(--go-ui-font-size-sm);
+
+    &.checked {
+        border-color: var(--go-ui-color-primary-red);
+        background-color: var(--go-ui-color-primary-red);
+        color: var(--go-ui-color-text-on-dark);
+    }
+
+    .input {
+        position: absolute;
+        opacity: 0;
+        margin: 0;
+        padding: 0;
+        width: 0;
+        height: 0;
+        pointer-events: none;
+    }
+}

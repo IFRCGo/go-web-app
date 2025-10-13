@@ -23,7 +23,7 @@ import { transformObjectError } from '#utils/restRequest/error';
 
 import i18n from './i18n.json';
 
-export type SupportedPaths = '/api/v2/per-file/' | '/api/v2/dref-files/' | '/api/v2/flash-update-file/' | '/api/v2/per-document-upload/';
+export type SupportedPaths = '/api/v2/per-file/' | '/api/v2/dref-files/' | '/api/v2/flash-update-file/' | '/api/v2/per-document-upload/' | '/api/v2/eap-file/';
 
 type Props<NAME> = Omit<CommonRawFileInputProps<NAME>, 'value'> & {
     name: NAME;
@@ -156,10 +156,14 @@ function GoSingleFileInput<const NAME>(props: Props<NAME>) {
     return (
         <ListView
             layout="block"
-            spacing="xs"
+            spacing="sm"
             className={className}
         >
-            <ListView spacing="3xs">
+            <ListView
+                withWrap
+                spacing="sm"
+                withSpacingOpticalCorrection
+            >
                 <RawFileInput
                     name={name}
                     onChange={handleChange}
@@ -174,32 +178,34 @@ function GoSingleFileInput<const NAME>(props: Props<NAME>) {
                 >
                     {children}
                 </RawFileInput>
-                {clearable && isDefined(value) && (
-                    <IconButton
-                        name={undefined}
-                        onClick={handleClearButtonClick}
-                        title={strings.removeFileButtonTitle}
-                        ariaLabel={strings.removeFileButtonTitle}
-                        spacing="none"
-                        disabled={disabled}
-                    >
-                        <DeleteBinLineIcon />
-                    </IconButton>
+                {isNotDefined(selectedFileUrl) && !withoutStatus && (
+                    <Description withLightText>
+                        {strings.noFileSelected}
+                    </Description>
                 )}
+                <ListView spacing="xs">
+                    {!withoutPreview && isDefined(selectedFileUrl) && (
+                        <Link
+                            href={selectedFileUrl}
+                            external
+                        >
+                            {selectedFileUrl.split('/').pop()}
+                        </Link>
+                    )}
+                    {clearable && isDefined(value) && (
+                        <IconButton
+                            name={undefined}
+                            onClick={handleClearButtonClick}
+                            title={strings.removeFileButtonTitle}
+                            ariaLabel={strings.removeFileButtonTitle}
+                            spacing="none"
+                            disabled={disabled}
+                        >
+                            <DeleteBinLineIcon />
+                        </IconButton>
+                    )}
+                </ListView>
             </ListView>
-            {!withoutPreview && isDefined(selectedFileUrl) && (
-                <Link
-                    href={selectedFileUrl}
-                    external
-                >
-                    {selectedFileUrl.split('/').pop()}
-                </Link>
-            )}
-            {isNotDefined(selectedFileUrl) && !withoutStatus && (
-                <Description withLightText>
-                    {strings.noFileSelected}
-                </Description>
-            )}
             {description && (
                 <Description withLightText>
                     {description}

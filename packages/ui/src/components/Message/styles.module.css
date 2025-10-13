@@ -4,7 +4,6 @@
     flex-direction: column;
     justify-content: center;
     border-radius: var(--go-ui-border-radius-lg);
-    background-color: var(--go-ui-color-foreground);
     padding: var(--go-ui-spacing-md);
     min-height: var(--go-ui-content-min-height);
     text-align: center;

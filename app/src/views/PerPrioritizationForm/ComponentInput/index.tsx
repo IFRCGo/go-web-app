@@ -208,9 +208,8 @@ function ComponentInput(props: Props) {
                                 {answerStats.map((answerStat) => (
                                     <ButtonLayout
                                         key={answerStat.answer}
-                                        spacing="sm"
+                                        spacing="xs"
                                         readOnly
-                                        styleVariant="translucent"
                                         // FIXME: use tag component
                                     >
                                         <TextOutput
