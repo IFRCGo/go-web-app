@@ -58,8 +58,8 @@ export const CATEGORY_RISK_VERY_HIGH = 5;
 // Colors
 
 export const COLOR_WHITE = '#ffffff';
-// export const COLOR_TEXT = '#313131';
-// export const COLOR_TEXT_ON_DARK = '#ffffff';
+export const COLOR_TEXT = '#313131';
+export const COLOR_TEXT_ON_DARK = '#ffffff';
 export const COLOR_LIGHT_GREY = '#e0e0e0';
 export const COLOR_DARK_GREY = '#a5a5a5';
 export const COLOR_BLACK = '#000000';
@@ -198,6 +198,7 @@ export const multiMonthSelectDefaultValue = listToMap(
     () => false,
 );
 
+// FIXME these need to satisfy some enum
 export const ERU_READINESS_READY = 1;
 export const ERU_READINESS_CAN_CONTRIBUTE = 2;
 export const ERU_READINESS_NO_CAPACITY = 3;
@@ -220,3 +221,25 @@ export const OTHER_TRAINING_FACILITIES = 9 satisfies LocalUnitTrainingFacilityTy
 type LocalUnitAffiliationOptions = NonNullable<NonNullable<GoApiResponse<'/api/v2/local-units-options/'>['affiliation']>[number]>['id']
 
 export const OTHER_AFFILIATION = 9 satisfies LocalUnitAffiliationOptions;
+
+// FIXME these need to satisfy some enum
+export const EAP_TYPE_SIMPLIFIED = 20;
+export const EAP_TYPE_FULL = 10;
+
+// Timeframe
+
+// FIXME these need to satisfy some enum
+export const TIMEFRAME_YEAR = 10;
+// export const TIMEFRAME_MONTHS = 20;
+// export const TIMEFRAME_DAYS = 30;
+// export const TIMEFRAME_HOURS = 40;
+
+type EapStatus = components['schemas']['EapEapStatusEnumKey'];
+
+export const EAP_STATUS_UNDER_DEVELOPMENT = 10 satisfies EapStatus;
+export const EAP_STATUS_UNDER_REVIEW = 20 satisfies EapStatus;
+export const EAP_STATUS_NS_ADDRESSING_COMMENTS = 30 satisfies EapStatus;
+export const EAP_STATUS_TECHNICALLY_VALIDATED = 40 satisfies EapStatus;
+export const EAP_STATUS_PENDING_PFA = 50 satisfies EapStatus;
+export const EAP_STATUS_APPROVED = 60 satisfies EapStatus;
+export const EAP_STATUS_ACTIVATED = 70 satisfies EapStatus;

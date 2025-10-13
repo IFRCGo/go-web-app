@@ -63,7 +63,7 @@ function Radio<NAME>(props: Props<NAME>) {
                 before={value ? (
                     <RadioButtonLineIcon className={styles.activeIcon} />
                 ) : (
-                    <CheckboxBlankCircleLineIcon />
+                    <CheckboxBlankCircleLineIcon className={styles.blankIcon} />
                 )}
                 className={className}
                 spacingOffset={-3}

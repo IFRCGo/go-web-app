@@ -1,6 +1,9 @@
 import { type Language } from '@ifrc-go/ui/contexts';
 import { DEFAULT_INVALID_TEXT } from '@ifrc-go/ui/utils';
-import { isTruthyString } from '@togglecorp/fujs';
+import {
+    isNotDefined,
+    isTruthyString,
+} from '@togglecorp/fujs';
 
 import type { GoApiResponse } from '#utils/restRequest';
 
@@ -67,4 +70,25 @@ export function joinStrings(
     separator: string = ', ',
 ): string {
     return values.filter(Boolean).join(separator);
+}
+
+export function formatSourceLink(value: string | undefined): string | undefined {
+    if (
+        isNotDefined(value)
+            || value.startsWith('http://')
+            || value.startsWith('https://')
+            || value === 'h'
+            || value === 'ht'
+            || value === 'htt'
+            || value === 'http'
+            || value === 'http:'
+            || value === 'http:/'
+            || value === 'https'
+            || value === 'https:'
+            || value === 'https:/'
+    ) {
+        return value;
+    }
+
+    return `https://${value}`;
 }

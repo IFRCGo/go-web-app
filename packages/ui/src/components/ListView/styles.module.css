@@ -53,6 +53,10 @@
         &.with-centered-contents {
             justify-content: center;
         }
+
+        &.with-start-alignment {
+            align-items: start;
+        }
     }
 
     &.block-layout {

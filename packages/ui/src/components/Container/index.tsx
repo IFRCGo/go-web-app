@@ -38,6 +38,7 @@ export interface Props extends Omit<HTMLProps<HTMLDivElement>, 'ref'>{
     withCenteredHeaderDescription?: boolean;
     withCenteredHeading?: boolean;
     withoutWrapInHeader?: boolean;
+    variant?: 'form' | 'default';
 
     filters?: React.ReactNode;
     children: React.ReactNode;
@@ -70,6 +71,8 @@ export interface Props extends Omit<HTMLProps<HTMLDivElement>, 'ref'>{
     withShadow?: boolean;
     withPadding?: boolean;
 
+    withBorder?: boolean;
+
     spacing?: SpacingType;
     spacingOffset?: number;
     withoutSpacingOpticalCorrection?: boolean;
@@ -94,6 +97,7 @@ function Container(props: Props) {
         withCenteredHeaderDescription,
         withoutWrapInHeader,
         withLargeBreakpointInHeader,
+        variant = 'default',
 
         filters,
 
@@ -123,6 +127,7 @@ function Container(props: Props) {
         withDarkBackground,
         withShadow,
         withPadding,
+        withBorder,
         withFixedHeight,
         spacing,
         spacingOffset = 0,
@@ -214,18 +219,23 @@ function Container(props: Props) {
                 withContentWell && styles.withContentWell,
                 withFixedHeight && styles.withFixedHeight,
                 withCenteredContent && styles.withCenteredContent,
+                withBorder && styles.withBorder,
+                variant === 'form' && styles.formVariant,
                 className,
             )}
             spacing={spacing}
             spacingOffset={spacingOffset}
             withoutSpacingOpticalCorrection={withoutSpacingOpticalCorrection}
             withPadding={withPadding}
+            beforeContainerClassName={styles.beforeContainer}
             before={shouldShowHeader && (
                 <ListView
                     spacing={spacing}
                     spacingOffset={spacingOffset}
                     layout="block"
                     withSpacingOpticalCorrection
+                    withBackground={variant === 'form'}
+                    withPadding={variant === 'form'}
                 >
                     {shouldShowHeadingRow && (
                         <InlineView
@@ -247,6 +257,7 @@ function Container(props: Props) {
                             <Heading
                                 level={headingLevel}
                                 ellipsize={withEllipsizedHeading}
+                                spacing={spacing}
                                 centerAligned={withCenteredHeading}
                             >
                                 {heading}

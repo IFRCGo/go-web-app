@@ -1,11 +1,16 @@
 .info-popup {
+    display: inline-flex;
+
     .label {
         display: inline-flex;
         align-items: center;
         gap: var(--go-ui-spacing-xs);
 
         .icon {
+            display: inline-flex;
             line-height: 1;
+            /* FIXME: use variables */
+            font-size: 1rem;
         }
     }
 
@@ -14,7 +19,7 @@
 .dropdown-container {
     padding: 0;
     min-width: min(20rem, 100vw);
-    max-width: 25rem;
+    max-width: min(30rem, 40vw);
 
     .content {
         display: flex;

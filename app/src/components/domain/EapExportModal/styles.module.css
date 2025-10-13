@@ -1,0 +1,5 @@
+.dref-export-modal {
+    .icon {
+        font-size: var(--go-ui-height-icon-multiplier);
+    }
+}

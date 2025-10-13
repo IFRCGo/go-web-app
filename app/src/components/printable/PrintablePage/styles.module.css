@@ -1,0 +1,38 @@
+.printable-page {
+    font-family: 'Open Sans', sans-serif;
+    font-size: var(--go-ui-font-size-export);
+
+    @media screen {
+        margin: var(--go-ui-spacing-xl) auto;
+        background-color: var(--go-ui-color-foreground);
+        padding: var(--go-ui-export-page-margin);
+        width: 210mm;
+        min-height: 297mm;
+    }
+
+    .header-section {
+        display: grid;
+        grid-template-areas:
+            "logo heading"
+            "desc desc";
+        margin-block-end: var(--go-ui-spacing-xl);
+
+        .ifrc-logo {
+            width: 6rem;
+            height: 6rem;
+            grid-area: logo;
+        }
+
+        .heading {
+            text-align: end;
+            grid-area: heading;
+        }
+
+        .description {
+            grid-area: desc;
+            text-align: end;
+            color: var(--go-ui-color-primary-blue);
+            font-size: var(--go-ui-font-size-lg);
+        }
+    }
+}

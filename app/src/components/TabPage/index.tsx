@@ -24,6 +24,8 @@ interface Props {
     pendingMessage?: React.ReactNode;
     withoutMessageIcon?: boolean;
     withCompactMessage?: boolean;
+
+    spacingOffset?: number;
 }
 
 function TabPage(props: Props) {
@@ -43,6 +45,7 @@ function TabPage(props: Props) {
         errorMessage,
         withoutMessageIcon,
         withCompactMessage,
+        spacingOffset,
     } = props;
 
     const mainContent = (children || empty || pending || errored || filtered) && (
@@ -79,6 +82,7 @@ function TabPage(props: Props) {
             <ListView
                 layout="block"
                 spacing="3xl"
+                spacingOffset={spacingOffset}
             >
                 {mainContent}
             </ListView>

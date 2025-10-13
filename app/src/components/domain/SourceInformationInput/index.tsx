@@ -5,10 +5,7 @@ import {
     TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import {
-    isNotDefined,
-    randomString,
-} from '@togglecorp/fujs';
+import { randomString } from '@togglecorp/fujs';
 import {
     type ArrayError,
     getErrorObject,
@@ -17,17 +14,23 @@ import {
 } from '@togglecorp/toggle-form';
 
 import NonFieldError from '#components/NonFieldError';
+import { formatSourceLink } from '#utils/common';
 import { type PartialDref } from '#views/DrefApplicationForm/schema';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type SourceInformationFormFields = NonNullable<PartialDref['source_information']>[number];
+type SourceInformationFormFields = NonNullable<
+    PartialDref['source_information']
+>[number];
 
 interface Props {
     value: SourceInformationFormFields;
     error: ArrayError<SourceInformationFormFields> | undefined;
-    onChange: (value: SetValueArg<SourceInformationFormFields>, index: number) => void;
+    onChange: (
+        value: SetValueArg<SourceInformationFormFields>,
+        index: number
+    ) => void;
     onRemove: (index: number) => void;
     index: number;
     disabled?: boolean;
@@ -47,39 +50,17 @@ function SourceInformationInput(props: Props) {
 
     const strings = useTranslation(i18n);
 
-    const onFieldChange = useFormObject(
-        index,
-        onChange,
-        () => ({
-            client_id: randomString(),
-        }),
-    );
+    const onFieldChange = useFormObject(index, onChange, () => ({
+        client_id: randomString(),
+    }));
 
-    const error = (value && value.client_id && errorFromProps)
+    const error = value && value.client_id && errorFromProps
         ? getErrorObject(errorFromProps?.[value.client_id])
         : undefined;
 
     const handleSourceFieldChange = useCallback(
-        (newValue: string | undefined) => {
-            if (
-                isNotDefined(newValue)
-                || newValue.startsWith('http://')
-                || newValue.startsWith('https://')
-                || newValue === 'h'
-                || newValue === 'ht'
-                || newValue === 'htt'
-                || newValue === 'http'
-                || newValue === 'http:'
-                || newValue === 'http:/'
-                || newValue === 'https'
-                || newValue === 'https:'
-                || newValue === 'https:/'
-            ) {
-                onFieldChange(newValue, 'source_link');
-                return;
-            }
-
-            onFieldChange(`https://${newValue}`, 'source_link');
+        (linkValue: string | undefined) => {
+            onFieldChange(formatSourceLink(linkValue), 'source_link');
         },
         [onFieldChange],
     );

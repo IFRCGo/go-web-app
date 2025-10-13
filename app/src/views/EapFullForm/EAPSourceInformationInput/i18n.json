@@ -1,0 +1,8 @@
+{
+    "namespace": "eapFullForm",
+    "strings": {
+        "eapSourceInformationNameLabel": "Name",
+        "eapSourceInformationLinkLabel": "Link",
+        "eapSourceInformationDeleteButton": "Delete Source Information"
+    }
+}

@@ -14,11 +14,15 @@ import {
 
 import Link from '#components/Link';
 import { type components } from '#generated/types';
-import { useRequest } from '#utils/restRequest';
+import {
+    type GoApiBody,
+    useRequest,
+} from '#utils/restRequest';
 
 import i18n from './i18n.json';
 
 type ExportStatusEnum = components<'read'>['schemas']['ExportStatusEnum'];
+type ExportBody = GoApiBody<'/api/v2/pdf-export/', 'POST'>;
 
 const EXPORT_STATUS_PENDING = 0 satisfies ExportStatusEnum;
 const EXPORT_STATUS_COMPLETED = 1 satisfies ExportStatusEnum;
@@ -45,8 +49,11 @@ function PerExportModal(props: Props) {
             export_id: Number(perId),
             export_type: 'per' as const,
             per_country: Number(countryId),
-            is_pga: false,
-        }),
+            is_pga: undefined,
+            summary: undefined,
+            version: undefined,
+            diff: undefined,
+        } satisfies ExportBody),
         [perId, countryId],
     );
 
