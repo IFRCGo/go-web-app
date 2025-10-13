@@ -1,4 +1,14 @@
 .local-units-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-lg);
+
+    .address-input {
+        display: grid;
+        gap: var(--go-ui-spacing-sm);
+        grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    }
+
     .point-input-map {
         background-color: var(--go-ui-color-background);
         height: 32rem;
