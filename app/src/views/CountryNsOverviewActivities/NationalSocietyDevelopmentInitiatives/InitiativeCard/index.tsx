@@ -25,7 +25,7 @@ function InitiativeCard(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
-    const categories = initiative.categories?.join(', ');
+    const { categories } = initiative;
 
     return (
         <Container
