@@ -35,6 +35,11 @@ export function Component() {
                 >
                     {strings.threeWTabTitle}
                 </NavigationTab>
+                <NavigationTab
+                    to="accountMyFormsEap"
+                >
+                    {strings.eapApplications}
+                </NavigationTab>
             </NavigationTabList>
             <Outlet />
         </TabPage>
