@@ -52,6 +52,11 @@ import {
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+interface CustomWindow extends Window {
+    gtag?: (...args: any[]) => void;
+    dataLayer?: any[];
+}
+
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { state } = useNavigation();
@@ -66,16 +71,69 @@ export function Component() {
 
     const [languagePending, setLanguagePending] = useState(false);
 
-    // FIXME: To be made functional after the implications of cookie rejections are finalized
     const [
         isCookiesBannerVisible,
         { setFalse: hideCookiesBanner },
-    ] = useBooleanState(false);
+    ] = useBooleanState(true);
 
-    const handleClick = useCallback(() => {
-        // FIXME: Add cookies permission to session storage
+    const loadGoogleAnalytics = useCallback(() => {
+        const consent = JSON.parse(sessionStorage.getItem('cookie-consent') || '{}');
+
+        if (isAuthenticated || consent.analytics) {
+            const win = window as CustomWindow;
+
+            if (!win.gtag) {
+                const script = document.createElement('script');
+                script.src = 'https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXX-X';
+                script.async = true;
+                document.head.appendChild(script);
+
+                win.dataLayer = win.dataLayer || [];
+                win.gtag = (...args) => win.dataLayer!.push(args);
+            }
+
+            win.gtag('js', new Date());
+            // TODO Add Google Analytics ID
+            win.gtag('config', 'UA-XXXXXXX-X', { anonymize_ip: true });
+        }
+    }, [isAuthenticated]);
+
+    const handleAccept = useCallback(() => {
+        const consent = { analytics: true };
+        sessionStorage.setItem('cookie-consent', JSON.stringify(consent));
+
+        loadGoogleAnalytics();
+
+        hideCookiesBanner();
+    }, [
+        hideCookiesBanner,
+        loadGoogleAnalytics,
+    ]);
+
+    const handleReject = useCallback(() => {
+        sessionStorage.setItem('cookie-consent', JSON.stringify({ analytics: false }));
+
+        const gaScript = document.querySelector('script[src*="googletagmanager.com/gtag/js"]');
+        if (gaScript) {
+            gaScript.remove();
+        }
+
+        // TODO: Add Google Analytics ID
+        window['ga-disable-UA-XXXXXXX-X'] = true;
+
         hideCookiesBanner();
     }, [hideCookiesBanner]);
+
+    useEffect(() => {
+        const savedConsent = JSON.parse(sessionStorage.getItem('cookie-consent') || '{}');
+
+        if (isAuthenticated || savedConsent.analytics) {
+            loadGoogleAnalytics();
+        }
+    }, [
+        isAuthenticated,
+        loadGoogleAnalytics,
+    ]);
 
     const {
         currentLanguage,
@@ -455,39 +513,44 @@ export function Component() {
                 </div>
                 <GlobalFooter className={styles.footer} />
                 <AlertContainer />
-                {(isCookiesBannerVisible || environment !== 'production') && (
+                {!isAuthenticated && isCookiesBannerVisible && userSkip && (
                     <div className={styles.bannersContainer}>
-                        {isCookiesBannerVisible && (
-                            <PageContainer className={styles.cookiesBanner}>
-                                <Container
-                                    withoutWrapInHeading
-                                    headingDescription={strings.cookiesBannerDescription}
-                                    icons={(
-                                        <AlertInformationLineIcon
-                                            className={styles.alertInfoIcon}
-                                        />
-                                    )}
-                                    spacing="comfortable"
-                                    actions={(
-                                        <>
-                                            <Link
-                                                to="cookiePolicy"
-                                                variant="tertiary"
-                                            >
-                                                {strings.cookiesBannerLearnMore}
-                                            </Link>
-                                            <Button
-                                                name={undefined}
-                                                variant="primary"
-                                                onClick={handleClick}
-                                            >
-                                                {strings.cookiesBannerIAccept}
-                                            </Button>
-                                        </>
-                                    )}
-                                />
-                            </PageContainer>
-                        )}
+                        <PageContainer className={styles.cookiesBanner}>
+                            <Container
+                                withoutWrapInHeading
+                                headingDescription={strings.cookiesBannerDescription}
+                                icons={(
+                                    <AlertInformationLineIcon
+                                        className={styles.alertInfoIcon}
+                                    />
+                                )}
+                                spacing="comfortable"
+                                actions={(
+                                    <>
+                                        <Link
+                                            to="cookiePolicy"
+                                            variant="tertiary"
+                                        >
+                                            {strings.cookiesBannerLearnMore}
+                                        </Link>
+                                        <Button
+                                            name={undefined}
+                                            variant="primary"
+                                            onClick={handleReject}
+                                        >
+                                            {strings.cookiesReject}
+                                        </Button>
+                                        <Button
+                                            name={undefined}
+                                            variant="primary"
+                                            onClick={handleAccept}
+                                        >
+                                            {strings.cookiesBannerIAccept}
+                                        </Button>
+                                    </>
+                                )}
+                            />
+                        </PageContainer>
                         {environment !== 'production' && (
                             <div className={styles.environmentBanner}>
                                 {/* NOTE: We are not translating alpha server names */}
