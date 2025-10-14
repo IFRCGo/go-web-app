@@ -494,7 +494,6 @@ function EventDetail(props: Props) {
                                     variant="secondary"
                                     disabled={disabled || readOnly}
                                 >
-                                    dskd
                                     {strings.drefFormSourceInformationAddButton}
                                 </Button>
                             </div>
