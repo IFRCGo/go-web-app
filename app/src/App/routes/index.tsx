@@ -728,6 +728,50 @@ const accountMyFormsThreeW = customWrapRoute({
     },
 });
 
+const accountMyFormsEap = customWrapRoute({
+    parent: accountMyFormsLayout,
+    path: 'eap-applications',
+    component: {
+        render: () => import('#views/EapApplications'),
+        props: {},
+    },
+    context: {
+        title: 'Account - EAP Applications',
+        visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
+    },
+});
+
+const eapFullForm = customWrapRoute({
+    parent: rootLayout,
+    path: 'eap-full-form',
+    component: {
+        render: () => import('#views/EapFullForm'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'EAP Full Forms',
+        visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
+    },
+});
+
+const simplifiedEapForm = customWrapRoute({
+    parent: rootLayout,
+    path: 'simplified-eap-form',
+    component: {
+        render: () => import('#views/SimplifiedEapForm'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Simplified EAP Forms',
+        visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
+    },
+});
+
 const accountNotifications = customWrapRoute({
     parent: accountLayout,
     path: 'notifications',
@@ -1344,6 +1388,7 @@ const wrappedRoutes = {
     accountMyFormsPer,
     accountMyFormsDref,
     accountMyFormsThreeW,
+    accountMyFormsEap,
     resources,
     search,
     allThreeWProject,
@@ -1381,6 +1426,8 @@ const wrappedRoutes = {
     operationalLearning,
     montandonLandingPage,
     eapDevelopmentRegistration,
+    eapFullForm,
+    simplifiedEapForm,
     ...regionRoutes,
     ...countryRoutes,
     ...surgeRoutes,
