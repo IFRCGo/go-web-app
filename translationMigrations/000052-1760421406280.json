@@ -1,5 +1,5 @@
 {
-    "parent": "000050-1758013961153.json",
+    "parent": "000051-1758354992698.json",
     "actions": [
         {
             "action": "add",
@@ -17,7 +17,7 @@
             "action": "add",
             "key": "drefFinalizeSuccessTitle",
             "namespace": "accountMyFormsDref",
-            "value": "Successfully finalize the DREF!"
+            "value": "Successfully finalized the DREF!"
         },
         {
             "action": "add",
