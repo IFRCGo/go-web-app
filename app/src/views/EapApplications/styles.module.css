@@ -1,0 +1,6 @@
+.eap-form-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--go-ui-spacing-sm);
+}

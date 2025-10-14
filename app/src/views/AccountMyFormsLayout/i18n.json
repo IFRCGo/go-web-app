@@ -4,6 +4,7 @@
         "fieldReportTabTitle": "Field Report",
         "perTabTitle": "PER",
         "drefTabTitle": "DREF",
-        "threeWTabTitle": "3W"
+        "threeWTabTitle": "3W",
+        "eapApplications": "EAP Applications"
     }
 }
