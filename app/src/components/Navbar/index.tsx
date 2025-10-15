@@ -44,7 +44,7 @@ function Navbar(props: Props) {
     const { isAuthenticated } = useAuth();
     const strings = useTranslation(i18n);
 
-    type PrepareOptionKey = 'risk-analysis' | 'per' | 'global-3w-projects';
+    type PrepareOptionKey = 'risk-analysis' | 'per' | 'global-logistics';
     const [activePrepareOption, setActivePrepareOption] = useState<PrepareOptionKey>('risk-analysis');
 
     type RespondOptionKey = 'emergencies' | 'early-warning' | 'dref-process' | 'surge';
@@ -168,10 +168,10 @@ function Navbar(props: Props) {
                                     {strings.userMenuPERLabel}
                                 </Tab>
                                 <Tab
-                                    name="global-3w-projects"
+                                    name="global-logistics"
                                     className={styles.option}
                                 >
-                                    {strings.userMenuGlobal3WProjects}
+                                    {strings.userMenuGlobalLogistics}
                                 </Tab>
                             </TabList>
                             <div className={styles.optionBorder} />
@@ -227,18 +227,18 @@ function Navbar(props: Props) {
                                 </DropdownMenuItem>
                             </TabPanel>
                             <TabPanel
-                                name="global-3w-projects"
+                                name="global-logistics"
                                 className={styles.optionDetail}
                             >
                                 <div className={styles.description}>
-                                    {strings.userMenuGlobal3WProjectDescription}
+                                    {strings.userMenuGlobalLogisticsDescription}
                                 </div>
                                 <DropdownMenuItem
                                     type="link"
-                                    to="globalThreeW"
+                                    to="globalLogistics"
                                     variant="tertiary"
                                 >
-                                    {strings.headerMenuThreeW}
+                                    {strings.userMenuSpark}
                                 </DropdownMenuItem>
                             </TabPanel>
                         </Tabs>

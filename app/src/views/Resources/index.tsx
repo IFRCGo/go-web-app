@@ -256,7 +256,7 @@ export function Component() {
                         {strings.aboutLearningPlatform}
                     </Link>
                     <Link
-                        href="https://prddsgofilestorage.blob.core.windows.net/api/documents/Health/Health.Mapping.-.Phase.1.Report.pdf"
+                        href="https://prddsgofilestorage.blob.core.windows.net/api/documents/Health/f872f96b01ab47d3853b301ebe17573d/Health_Mapping_Report_1.pdf"
                         external
                         withLinkIcon
                     >

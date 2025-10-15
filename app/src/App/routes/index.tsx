@@ -400,17 +400,17 @@ const preparednessGlobalCatalogue = customWrapRoute({
     },
 });
 
-const globalThreeW = customWrapRoute({
+const globalLogistics = customWrapRoute({
     parent: rootLayout,
-    path: 'three-w/projects',
+    path: 'spark',
     component: {
-        render: () => import('#views/GlobalThreeW'),
+        render: () => import('#views/Spark'),
         props: {},
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Global 3W',
-        visibility: 'anything',
+        title: 'SPARK',
+        visibility: 'is-authenticated',
     },
 });
 
@@ -742,19 +742,6 @@ const resources = customWrapRoute({
     },
 });
 
-const spark = customWrapRoute({
-    parent: rootLayout,
-    path: 'spark',
-    component: {
-        render: () => import('#views/Spark'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'SPARK',
-        visibility: 'is-authenticated',
-    },
-});
 const operationalLearning = customWrapRoute({
     parent: rootLayout,
     path: 'operational-learning',
@@ -1314,7 +1301,7 @@ const wrappedRoutes = {
     preparednessGlobalCatalogue,
     preparednessIndex,
     perProcessFormIndex,
-    globalThreeW,
+    globalLogistics,
     newThreeWProject,
     threeWProjectEdit,
     threeWActivityEdit,
@@ -1331,7 +1318,6 @@ const wrappedRoutes = {
     accountMyFormsDref,
     accountMyFormsThreeW,
     resources,
-    spark,
     search,
     allThreeWProject,
     allThreeWActivity,

@@ -2,6 +2,7 @@ import { Container } from '@ifrc-go/ui';
 import {
     isDefined,
     isNotDefined,
+    isTruthyString,
 } from '@togglecorp/fujs';
 
 import SparkEmbed from '#components/domain/SparkEmbed';
@@ -34,10 +35,12 @@ export function Component() {
     });
 
     // FIXME: the typings should be generated in the server
-    const auth = authRaw as unknown as BackendPowerBiAuth | undefined;
+    const auth = authRaw as BackendPowerBiAuth | undefined;
     const embedUrl = auth?.embed_url;
     const accessToken = auth?.embed_token;
     const reportId = auth?.report_id;
+
+    const isValidEmbedUrl = isTruthyString(embedUrl) && embedUrl.length >= 12;
 
     return (
         <Page
@@ -51,12 +54,12 @@ export function Component() {
                 errored={!!error}
                 errorMessage={error?.value.messageForNotification}
                 empty={isNotDefined(powerBiReportId1)
-                    || isNotDefined(embedUrl)
+                    || !isValidEmbedUrl
                     || isNotDefined(accessToken)}
                 // FIXME: use strings
-                emptyMessage="Page not available!"
+                emptyMessage="The dashboard is temporarily unavailable. Please try again later!"
             >
-                {isDefined(embedUrl) && isDefined(accessToken) && (
+                {isValidEmbedUrl && isDefined(accessToken) && (
                     <SparkEmbed
                         embedUrl={embedUrl}
                         accessToken={accessToken}

@@ -1266,6 +1266,20 @@ const surgeCatalogueOtherPreparednessEffectiveResponse = customWrapRoute({
     },
 });
 
+const surgeCatalogueRiskManagement = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'risk-management',
+    component: {
+        render: () => import('#views/SurgeCatalogueRiskManagement'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Risk Management',
+        visibility: 'anything',
+    },
+});
+
 const surgeCatalogueOtherRecovery = customWrapRoute({
     parent: surgeCatalogueLayout,
     path: 'other/recovery',
@@ -1684,6 +1698,7 @@ export default {
     surgeCatalogueOtherPreparednessEffectiveResponse,
     surgeCatalogueOtherRecovery,
     surgeCatalogueOtherGreenResponse,
+    surgeCatalogueRiskManagement,
     surgeCatalogueOtherUAV,
 
     allDeployedPersonnel,

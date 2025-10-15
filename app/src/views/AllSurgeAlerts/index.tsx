@@ -8,6 +8,7 @@ import {
     NumberOutput,
     Pager,
     Table,
+    TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -20,7 +21,9 @@ import {
 } from '@ifrc-go/ui/utils';
 import {
     isDefined,
+    isFalsyString,
     isNotDefined,
+    isTruthyString,
 } from '@togglecorp/fujs';
 import { saveAs } from 'file-saver';
 import Papa from 'papaparse';
@@ -111,6 +114,36 @@ export function Component() {
         EventItem[] | undefined | null
     >([]);
 
+    const [positionFilter, setPositionFilter] = useUrlSearchState<string | undefined>(
+        'position',
+        (value) => {
+            const trimmedValue = isTruthyString(value) ? value.trim() : undefined;
+
+            if (isFalsyString(trimmedValue)) {
+                return undefined;
+            }
+
+            setPage(0);
+            return trimmedValue;
+        },
+        (position) => position ?? undefined,
+    );
+
+    const [keywordsFilter, setKeywordsFilter] = useUrlSearchState<string | undefined>(
+        'keywords',
+        (value) => {
+            const trimmedValue = isTruthyString(value) ? value.trim() : undefined;
+
+            if (isFalsyString(trimmedValue)) {
+                return undefined;
+            }
+
+            setPage(0);
+            return trimmedValue;
+        },
+        (keywords) => keywords ?? undefined,
+    );
+
     useRequest({
         skip: isNotDefined(eventFilter)
             || (!!eventOptions?.find((event) => event.id === eventFilter)),
@@ -162,8 +195,9 @@ export function Component() {
             offset,
             event: eventFilter,
             country: countryFilter,
-
-            // FIXME: this should come from the useFilterState
+            message__icontains: positionFilter,
+            molnix_tag_name: keywordsFilter,
+            // FIXME: this should come from useFilterState
             ordering: 'molnix_status,-opens',
         },
     });
@@ -290,11 +324,21 @@ export function Component() {
         triggerExportStart(
             '/api/v2/surge_alert/',
             surgeResponse?.count,
-            {},
+            {
+                event: eventFilter,
+                country: countryFilter,
+                message__icontains: positionFilter,
+                molnix_tag_name: keywordsFilter,
+                ordering: 'molnix_status,-opens',
+            },
         );
     }, [
         triggerExportStart,
         surgeResponse?.count,
+        eventFilter,
+        countryFilter,
+        positionFilter,
+        keywordsFilter,
     ]);
 
     const heading = resolveToComponent(
@@ -327,6 +371,20 @@ export function Component() {
                             options={eventOptions}
                             onOptionsChange={setEventOptions}
                             countryId={countryFilter}
+                        />
+                        <TextInput
+                            name="position"
+                            label={strings.positionFilterLabel}
+                            placeholder={strings.defaultPlaceholder}
+                            value={positionFilter}
+                            onChange={setPositionFilter}
+                        />
+                        <TextInput
+                            name="keywords"
+                            label={strings.keywordsFilterLabel}
+                            placeholder={strings.defaultPlaceholder}
+                            value={keywordsFilter}
+                            onChange={setKeywordsFilter}
                         />
                     </>
                 )}

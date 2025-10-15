@@ -1,0 +1,12 @@
+{
+    "namespace": "surgeCatalogueRiskManagement",
+    "strings": {
+        "riskManagementHeading": "Risk Management",
+        "otherOverview": "Overview",
+        "otherOverviewDetailOne": "Risk management within IFRC operations focuses on strengthening the ability of the IFRC and its member National Societies to identify, assess, and manage risks that may affect the achievement of the objectives of the operation.",
+        "otherOverviewDetailTwo": "The function provides technical guidance, tools, and surge support to ensure risk-informed decision-making throughout the response cycle. It supports National Societies and operational leadership in establishing or enhancing risk management plans, processes and risk registers, aligned with IFRC’s Risk Management Policy and adapted to the local context. By embedding proactive risk identification and mitigation in planning and implementation, risk management helps safeguard people, resources, and reputation while promoting transparency and effective governance in humanitarian operations.",
+        "rapidResponse": "Rapid Response Personnel Role Profile",
+        "rapidResponseDetail": "Details about the expectations for this specialty can be found in the role profile: {link}",
+        "roleLink": "Risk Management Coordinator"
+    }
+}

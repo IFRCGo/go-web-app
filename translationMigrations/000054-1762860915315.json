@@ -1,0 +1,113 @@
+{
+    "parent": "000053-1761568674475.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "keywordsFilterLabel",
+            "namespace": "allSurgeAlerts",
+            "value": "Keywords"
+        },
+        {
+            "action": "add",
+            "key": "positionFilterLabel",
+            "namespace": "allSurgeAlerts",
+            "value": "Position"
+        },
+        {
+            "action": "add",
+            "key": "userMenuGlobalLogistics",
+            "namespace": "common",
+            "value": "Supply Chain"
+        },
+        {
+            "action": "add",
+            "key": "userMenuGlobalLogisticsDescription",
+            "namespace": "common",
+            "value": "Supply chain Preparedness Analysis and Response Knowledge – dashboard"
+        },
+        {
+            "action": "add",
+            "key": "userMenuSpark",
+            "namespace": "common",
+            "value": "SPARK"
+        },
+        {
+            "action": "remove",
+            "key": "headerMenuThreeW",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "userMenuGlobal3WProjectDescription",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "userMenuGlobal3WProjects",
+            "namespace": "common"
+        },
+        {
+            "action": "remove",
+            "key": "pageDescription",
+            "namespace": "globalThreeW"
+        },
+        {
+            "action": "remove",
+            "key": "pageHeading",
+            "namespace": "globalThreeW"
+        },
+        {
+            "action": "remove",
+            "key": "pageTitle",
+            "namespace": "globalThreeW"
+        },
+        {
+            "action": "add",
+            "key": "catalogueRiskManagement",
+            "namespace": "surgeCatalogue",
+            "value": "Risk Management"
+        },
+        {
+            "action": "add",
+            "key": "otherOverview",
+            "namespace": "surgeCatalogueRiskManagement",
+            "value": "Overview"
+        },
+        {
+            "action": "add",
+            "key": "otherOverviewDetailOne",
+            "namespace": "surgeCatalogueRiskManagement",
+            "value": "Risk management within IFRC operations focuses on strengthening the ability of the IFRC and its member National Societies to identify, assess, and manage risks that may affect the achievement of the objectives of the operation."
+        },
+        {
+            "action": "add",
+            "key": "otherOverviewDetailTwo",
+            "namespace": "surgeCatalogueRiskManagement",
+            "value": "The function provides technical guidance, tools, and surge support to ensure risk-informed decision-making throughout the response cycle. It supports National Societies and operational leadership in establishing or enhancing risk management plans, processes and risk registers, aligned with IFRC’s Risk Management Policy and adapted to the local context. By embedding proactive risk identification and mitigation in planning and implementation, risk management helps safeguard people, resources, and reputation while promoting transparency and effective governance in humanitarian operations."
+        },
+        {
+            "action": "add",
+            "key": "rapidResponse",
+            "namespace": "surgeCatalogueRiskManagement",
+            "value": "Rapid Response Personnel Role Profile"
+        },
+        {
+            "action": "add",
+            "key": "rapidResponseDetail",
+            "namespace": "surgeCatalogueRiskManagement",
+            "value": "Details about the expectations for this specialty can be found in the role profile: {link}"
+        },
+        {
+            "action": "add",
+            "key": "riskManagementHeading",
+            "namespace": "surgeCatalogueRiskManagement",
+            "value": "Risk Management"
+        },
+        {
+            "action": "add",
+            "key": "roleLink",
+            "namespace": "surgeCatalogueRiskManagement",
+            "value": "Risk Management Coordinator"
+        }
+    ]
+}

@@ -25,6 +25,7 @@ import {
     ProtectionIcon,
     PublicInformationIcon,
     RecoveryIcon,
+    RisksIcon,
     SafetyAndSecurityIcon,
     ShelterIcon,
     ShieldCrossFillIcon,
@@ -235,6 +236,13 @@ export function Component() {
                 >
                     <NonFoodItemsIcon className={styles.icon} />
                     {strings.catalogueRelief}
+                </NavigationTab>
+                <NavigationTab
+                    to="surgeCatalogueRiskManagement"
+                    parentRoute
+                >
+                    <RisksIcon className={styles.icon} />
+                    {strings.catalogueRiskManagement}
                 </NavigationTab>
                 <NavigationTab
                     to="surgeCatalogueSecurity"

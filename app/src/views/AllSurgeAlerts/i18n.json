@@ -5,6 +5,8 @@
         "allSurgeAlertsHeading": "All Surge Alerts ({numSurgeAlerts})",
         "eventFilterLabel": "Emergency",
         "countryFilterLabel": "Country",
+        "positionFilterLabel": "Position",
+        "keywordsFilterLabel": "Keywords",
         "defaultPlaceholder": "All",
         "failedToCreateExport": "Failed to generate export.",
         "surgeAlertDate": "Alert Date",
