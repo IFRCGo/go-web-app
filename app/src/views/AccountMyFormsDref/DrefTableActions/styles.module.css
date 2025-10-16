@@ -1,3 +1,9 @@
 .icon {
     font-size: var(--go-ui-height-icon-multiplier);
 }
+
+.add-ops-update-modal {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-lg);
+}

@@ -16,16 +16,9 @@ import {
 } from '@togglecorp/fujs';
 
 import DropdownMenuItem from '#components/DropdownMenuItem';
+import { languageNameMap } from '#utils/common';
 
 import styles from './styles.module.css';
-
-// NOTE: these doesn't need to be translated
-const languageNameMap: Record<Language, string> = {
-    en: 'English',
-    fr: 'Français',
-    es: 'Español',
-    ar: 'عربي',
-};
 
 const languageList = mapToList(
     languageNameMap,

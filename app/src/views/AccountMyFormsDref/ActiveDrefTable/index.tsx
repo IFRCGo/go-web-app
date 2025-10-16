@@ -10,6 +10,7 @@ import {
     TableBodyContent,
 } from '@ifrc-go/ui';
 import { type RowOptions } from '@ifrc-go/ui';
+import { type Language } from '@ifrc-go/ui/contexts';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     createDateColumn,
@@ -236,6 +237,7 @@ function ActiveDrefTable(props: Props) {
                         has_final_report,
                         country_details,
                         is_dref_imminent_v2,
+                        original_language,
                     } = originalDref;
 
                     const is_published = status === DREF_STATUS_APPROVED;
@@ -270,6 +272,7 @@ function ActiveDrefTable(props: Props) {
                         canCreateFinalReport,
                         hasPermissionToApprove: isRegionCoordinator || userMe?.is_superuser,
                         onPublishSuccess: refetchActiveDref,
+                        originalLanguage: original_language as Language,
                     };
                 },
                 { columnClassName: styles.actions },

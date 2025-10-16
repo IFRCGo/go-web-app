@@ -1,3 +1,4 @@
+import { type Language } from '@ifrc-go/ui/contexts';
 import { DEFAULT_INVALID_TEXT } from '@ifrc-go/ui/utils';
 import { isTruthyString } from '@togglecorp/fujs';
 
@@ -36,6 +37,14 @@ export function downloadFile(
 
     URL.revokeObjectURL(url);
 }
+
+// NOTE: these doesn't need to be translated
+export const languageNameMap: Record<Language, string> = {
+    en: 'English',
+    fr: 'Français',
+    es: 'Español',
+    ar: 'عربي',
+};
 
 export function getFirstTruthyString(
     primaryStr: string | null | undefined,
