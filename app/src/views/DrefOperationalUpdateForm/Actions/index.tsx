@@ -281,6 +281,7 @@ function Actions(props: Props) {
                                 readOnly={readOnly}
                                 disabled={disabled}
                                 clearable
+                                useCurrentLanguageForMutation
                             >
                                 {strings.drefFormAssessmentReportUploadButtonLabel}
                             </GoSingleFileInput>

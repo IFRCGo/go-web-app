@@ -390,6 +390,7 @@ function Operation(props: Props) {
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             clearable
                             disabled={disabled}
+                            useCurrentLanguageForMutation
                         >
                             {strings.drefFormUploadTargetingDocumentButtonLabel}
                         </GoSingleFileInput>
@@ -725,6 +726,7 @@ function Operation(props: Props) {
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             error={error?.budget_file}
                             disabled={disabled}
+                            useCurrentLanguageForMutation
                             clearable
                             description={(
                                 <Link
@@ -1068,6 +1070,7 @@ function Operation(props: Props) {
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             clearable
                             disabled={disabled}
+                            useCurrentLanguageForMutation
                         >
                             {strings.drefFormUploadSupportingDocumentButtonLabel}
                         </GoSingleFileInput>

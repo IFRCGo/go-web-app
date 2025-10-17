@@ -513,6 +513,7 @@ function EventDetail(props: Props) {
                                 setFileIdToUrlMap={setFileIdToUrlMap}
                                 error={getErrorObject(error?.images_file)}
                                 disabled={disabled || readOnly}
+                                useCurrentLanguageForMutation
                             />
                         </InputSection>
                     </>
@@ -601,6 +602,7 @@ function EventDetail(props: Props) {
                                 setFileIdToUrlMap={setFileIdToUrlMap}
                                 clearable
                                 disabled={disabled}
+                                useCurrentLanguageForMutation
                             >
                                 {strings.drefFormUploadSupportingDocumentButton}
                             </GoSingleFileInput>

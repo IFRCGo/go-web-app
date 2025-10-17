@@ -468,6 +468,7 @@ function EventDetail(props: Props) {
                             error={getErrorObject(error?.images_file)}
                             readOnly={readOnly}
                             disabled={disabled}
+                            useCurrentLanguageForMutation
                         />
                     </InputSection>
                 )}

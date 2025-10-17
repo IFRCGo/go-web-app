@@ -44,7 +44,9 @@ export interface AdditionalOptions {
     formData?: boolean;
     isCsvRequest?: boolean;
     enforceEnglishForQuery?: boolean;
+    // FIXME using the current language should be default behaviour so we might not need this.
     useCurrentLanguageForMutation?: boolean;
+    enforceLanguageForMutation?: Language;
     isExcelRequest?: boolean;
 }
 
@@ -167,6 +169,7 @@ export const processGoOptions: GoContextInterface['transformOptions'] = (
         isExcelRequest,
         enforceEnglishForQuery = false,
         useCurrentLanguageForMutation = false,
+        enforceLanguageForMutation,
     } = extraOptions;
 
     const currentLanguage = getFromStorage<Language>(KEY_LANGUAGE_STORAGE) ?? 'en';
@@ -180,9 +183,17 @@ export const processGoOptions: GoContextInterface['transformOptions'] = (
     if (method === 'GET') {
         // Query
         defaultHeaders['Accept-Language'] = enforceEnglishForQuery ? 'en' : currentLanguage;
-    } else {
+    } else if (method === 'POST' || method === 'PUT' || method === 'PATCH') {
         // Mutation
-        defaultHeaders['Accept-Language'] = useCurrentLanguageForMutation ? currentLanguage : 'en';
+        if (isDefined(enforceLanguageForMutation)) {
+            defaultHeaders['Accept-Language'] = enforceLanguageForMutation;
+        } else if (useCurrentLanguageForMutation) {
+            defaultHeaders['Accept-Language'] = currentLanguage;
+        } else {
+            defaultHeaders['Accept-Language'] = 'en';
+        }
+    } else {
+        defaultHeaders['Accept-Language'] = currentLanguage ?? 'en';
     }
 
     if (formData) {

@@ -410,6 +410,7 @@ function Actions(props: Props) {
                                 setFileIdToUrlMap={setFileIdToUrlMap}
                                 disabled={disabled}
                                 clearable
+                                useCurrentLanguageForMutation
                             >
                                 {strings.drefFormAssessmentReportUploadButtonLabel}
                             </GoSingleFileInput>

@@ -987,6 +987,7 @@ function Operation(props: Props) {
                         clearable
                         readOnly={readOnly}
                         disabled={disabled}
+                        useCurrentLanguageForMutation
                     >
                         {strings.finalReportFinancialReportAttachment}
                     </GoSingleFileInput>

@@ -39,6 +39,7 @@ interface Props<N> {
     icons?: React.ReactNode;
     actions?: React.ReactNode;
     disabled?: boolean;
+    useCurrentLanguageForMutation?: boolean;
 }
 
 // FIXME: Move this to components
@@ -57,6 +58,7 @@ function ImageWithCaptionInput<const N extends string | number>(props: Props<N>)
         icons,
         actions,
         disabled,
+        useCurrentLanguageForMutation,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -111,6 +113,7 @@ function ImageWithCaptionInput<const N extends string | number>(props: Props<N>)
                     />
                 ) : undefined}
                 clearable
+                useCurrentLanguageForMutation={useCurrentLanguageForMutation}
             >
                 {label}
             </GoSingleFileInput>

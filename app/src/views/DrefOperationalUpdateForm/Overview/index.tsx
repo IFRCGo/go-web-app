@@ -491,6 +491,7 @@ function Overview(props: Props) {
                             label={strings.drefFormUploadAnImageLabel}
                             readOnly={readOnly}
                             disabled={disabled}
+                            useCurrentLanguageForMutation
                         />
                     </InputSection>
                 )}
@@ -512,6 +513,7 @@ function Overview(props: Props) {
                             label={strings.drefFormUploadAnImageLabel}
                             readOnly={readOnly}
                             disabled={disabled}
+                            useCurrentLanguageForMutation
                         />
                     </InputSection>
                 )}

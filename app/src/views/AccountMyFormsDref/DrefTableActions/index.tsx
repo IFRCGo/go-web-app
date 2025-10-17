@@ -405,7 +405,7 @@ function DrefTableActions(props: Props) {
             dref: drefId,
             starting_language: startingLanguage === 'en' ? startingLanguage : selectOpsLanguage,
         } as unknown as OpsUpdateRequestBody),
-        useCurrentLanguageForMutation: true,
+        enforceLanguageForMutation: selectOpsLanguage,
         onSuccess: (response) => {
             navigate(
                 'drefOperationalUpdateForm',
@@ -434,8 +434,8 @@ function DrefTableActions(props: Props) {
     } = useLazyRequest({
         method: 'POST',
         url: '/api/v2/dref-final-report/',
+        enforceLanguageForMutation: selectFinalLanguage,
         // FIXME: the type should be fixed on the server
-        useCurrentLanguageForMutation: true,
         body: (
             drefId: number,
         ) => ({

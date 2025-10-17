@@ -792,6 +792,7 @@ function Operation(props: Props) {
                         readOnly={readOnly}
                         disabled={disabled}
                         clearable
+                        useCurrentLanguageForMutation
                         description={(
                             <Link
                                 href={globalFilesResponse?.budget_template_url}

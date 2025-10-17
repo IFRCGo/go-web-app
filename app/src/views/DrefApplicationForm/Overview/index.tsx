@@ -447,6 +447,7 @@ function Overview(props: Props) {
                                 setFileIdToUrlMap={setFileIdToUrlMap}
                                 clearable
                                 disabled={disabled}
+                                useCurrentLanguageForMutation
                             >
                                 {strings.drefFormOverviewUploadDocumentButtonLabel}
                             </GoSingleFileInput>
@@ -546,6 +547,7 @@ function Overview(props: Props) {
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             label={strings.drefFormUploadAnImageLabel}
                             disabled={disabled}
+                            useCurrentLanguageForMutation
                         />
                     </InputSection>
                 )}
@@ -567,6 +569,7 @@ function Overview(props: Props) {
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             label={strings.drefFormUploadAnImageLabel}
                             disabled={disabled}
+                            useCurrentLanguageForMutation
                         />
                     </InputSection>
                 )}

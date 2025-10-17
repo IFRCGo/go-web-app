@@ -62,6 +62,7 @@ type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 'value'
     withoutPreview?: boolean;
     error?: React.ReactNode;
     description?: React.ReactNode;
+    useCurrentLanguageForMutation?: boolean;
 }
 
 function GoMultiFileInput<T extends NameType>(props: Props<T>) {
@@ -85,6 +86,7 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
         withoutPreview,
         error,
         description,
+        useCurrentLanguageForMutation = false,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -97,7 +99,7 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
         formData: true,
         url,
         method: 'POST',
-        useCurrentLanguageForMutation: true,
+        useCurrentLanguageForMutation,
         body: (body: { files: File[] }) => {
             const formData = new FormData();
 

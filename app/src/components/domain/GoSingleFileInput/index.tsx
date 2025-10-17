@@ -45,6 +45,7 @@ type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 'value'
     description?: React.ReactNode;
     onSuccess?: () => void;
     withoutStatus?: boolean;
+    useCurrentLanguageForMutation?: boolean;
 }
 
 function GoSingleFileInput<T extends NameType>(props: Props<T>) {
@@ -72,6 +73,7 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
         requestBody,
         onSuccess,
         withoutStatus,
+        useCurrentLanguageForMutation = false,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -88,7 +90,7 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
         // FIXME: fix typing in server (low priority)
         // the server generated type for response and body is the same
         body: (body) => body as never,
-        useCurrentLanguageForMutation: true,
+        useCurrentLanguageForMutation,
         onSuccess: (response) => {
             const { id, file } = response;
             onChange(id, name);
