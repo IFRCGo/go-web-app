@@ -18,7 +18,6 @@
         "formLoadErrorTitle": "Failed to load DREF Application!",
         "formBackButtonLabel": "Back",
         "formLoadingMessage": "Loading DREF Application...",
-        "formNotAvailableInNonEnglishMessage": "DREF Application is not available in the selected language!",
         "formEditNotAvailableInSelectedLanguageMessage": "DREF Application is currently in view-only mode.",
         "drefFeedbackForm": "Provide feedback on IFRC DREF"
     }

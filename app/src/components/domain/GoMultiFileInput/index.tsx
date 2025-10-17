@@ -97,6 +97,7 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
         formData: true,
         url,
         method: 'POST',
+        useCurrentLanguageForMutation: true,
         body: (body: { files: File[] }) => {
             const formData = new FormData();
 

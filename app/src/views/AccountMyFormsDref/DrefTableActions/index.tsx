@@ -78,7 +78,7 @@ export interface Props {
     canCreateFinalReport: boolean;
     hasPermissionToApprove?: boolean;
     isDrefImminentV2?: boolean;
-    originalLanguage?: Language;
+    startingLanguage?: Language;
 
     onPublishSuccess?: () => void;
     drefType?: TypeOfDrefEnum | null | undefined;
@@ -96,10 +96,12 @@ function DrefTableActions(props: Props) {
         isDrefImminentV2,
         onPublishSuccess,
         drefType,
-        originalLanguage,
+        startingLanguage,
     } = props;
 
     const [selectOpsLanguage, setSelectOpsLanguage] = useState<Language | undefined>();
+
+    const [selectFinalLanguage, setSelectFinalLanguage] = useState<Language | undefined>();
 
     const { navigate } = useRouting();
 
@@ -108,17 +110,17 @@ function DrefTableActions(props: Props) {
     const strings = useTranslation(i18n);
 
     const selectLanguageOptions: SelectLanguageOption[] | undefined = useMemo(() => {
-        if (isNotDefined(originalLanguage)) {
+        if (isNotDefined(startingLanguage)) {
             return undefined;
         }
         return [
             {
-                key: originalLanguage,
-                label: `${languageNameMap[originalLanguage]} (${strings.drefOpsUpdateOriginalLanguageLabel})`,
+                key: startingLanguage,
+                label: `${languageNameMap[startingLanguage]} (${strings.drefOpsUpdateStartingLanguageLabel})`,
             },
             { key: 'en', label: languageNameMap.en },
         ];
-    }, [originalLanguage, strings.drefOpsUpdateOriginalLanguageLabel]);
+    }, [startingLanguage, strings.drefOpsUpdateStartingLanguageLabel]);
 
     const [showExportModal, {
         setTrue: setShowExportModalTrue,
@@ -401,8 +403,9 @@ function DrefTableActions(props: Props) {
             drefId: number,
         ) => ({
             dref: drefId,
-            original_language: originalLanguage === 'en' ? originalLanguage : selectOpsLanguage,
+            starting_language: startingLanguage === 'en' ? startingLanguage : selectOpsLanguage,
         } as unknown as OpsUpdateRequestBody),
+        useCurrentLanguageForMutation: true,
         onSuccess: (response) => {
             navigate(
                 'drefOperationalUpdateForm',
@@ -432,7 +435,13 @@ function DrefTableActions(props: Props) {
         method: 'POST',
         url: '/api/v2/dref-final-report/',
         // FIXME: the type should be fixed on the server
-        body: (drefId: number) => ({ dref: drefId } as FinalReportRequestBody),
+        useCurrentLanguageForMutation: true,
+        body: (
+            drefId: number,
+        ) => ({
+            dref: drefId,
+            starting_language: startingLanguage === 'en' ? startingLanguage : selectFinalLanguage,
+        } as FinalReportRequestBody),
         onSuccess: (response) => {
             navigate(
                 isDrefImminentV2 ? 'drefFinalReportForm' : 'oldDrefFinalReportForm',
@@ -474,6 +483,11 @@ function DrefTableActions(props: Props) {
     const [showOperationConfirmModal, {
         setTrue: setShowOperationConfirmModalTrue,
         setFalse: setShowOperationConfirmModalFalse,
+    }] = useBooleanState(false);
+
+    const [showFinalReportConfirmModal, {
+        setTrue: setShowFinalReportConfirmModalTrue,
+        setFalse: setShowFinalReportConfirmModalFalse,
     }] = useBooleanState(false);
 
     const handleExportClick: NonNullable<ButtonProps<undefined>['onClick']> = useCallback(
@@ -578,7 +592,7 @@ function DrefTableActions(props: Props) {
                                 resolveToString(
                                     strings.drefAccountFinalizeConfirmMessage,
                                     {
-                                        selectedLanguage: originalLanguage,
+                                        selectedLanguage: startingLanguage ? languageNameMap[startingLanguage] : '--',
                                     },
                                 )
                             }
@@ -614,19 +628,7 @@ function DrefTableActions(props: Props) {
                             {strings.dropdownActionAllocationFormLabel}
                         </DropdownMenuItem>
                     )}
-                    {(canAddOpsUpdate && originalLanguage === 'en') && (
-                        <DropdownMenuItem
-                            name={undefined}
-                            type="button"
-                            icons={<AddLineIcon className={styles.icon} />}
-                            onClick={handleAddOpsUpdate}
-                            disabled={disabled}
-                            persist
-                        >
-                            {strings.dropdownActionAddOpsUpdateLabel}
-                        </DropdownMenuItem>
-                    )}
-                    {(canAddOpsUpdate && originalLanguage !== 'en') && (
+                    {canAddOpsUpdate && (
                         <DropdownMenuItem
                             name={undefined}
                             type="button"
@@ -642,7 +644,7 @@ function DrefTableActions(props: Props) {
                         <DropdownMenuItem
                             name={undefined}
                             type="button"
-                            onClick={handleAddFinalReport}
+                            onClick={setShowFinalReportConfirmModalTrue}
                             icons={<CaseManagementIcon className={styles.icon} />}
                             disabled={disabled}
                             persist
@@ -741,23 +743,67 @@ function DrefTableActions(props: Props) {
                             <Button
                                 name={undefined}
                                 onClick={handleAddOpsUpdate}
-                                disabled={!selectOpsLanguage}
+                                disabled={(startingLanguage !== 'en' && !selectOpsLanguage)}
                             >
                                 {strings.dropdownActionAddOpsUpdateLabel}
                             </Button>
                         )}
                     >
+                        <p>{strings.dropdownActionNewOpsUpdateConfirmationMessage}</p>
                         {shouldConfirmImminentAddOpsUpdate
                             && strings.dropdownActionImminentNewOpsUpdateConfirmationMessage}
-                        <p>{strings.dropdownActionNewOpsUpdateLanguageConfirmationMessage}</p>
-                        <RadioInput
-                            name={undefined}
-                            value={selectOpsLanguage}
-                            options={selectLanguageOptions}
-                            onChange={setSelectOpsLanguage}
-                            keySelector={selectLanguageKeySelector}
-                            labelSelector={stringLabelSelector}
-                        />
+                        {startingLanguage !== 'en' && (
+                            <>
+                                <p>
+                                    {strings
+                                        .dropdownActionNewOpsUpdateLanguageSelectLanguageMessage}
+                                </p>
+                                <RadioInput
+                                    name={undefined}
+                                    value={selectOpsLanguage}
+                                    options={selectLanguageOptions}
+                                    onChange={setSelectOpsLanguage}
+                                    keySelector={selectLanguageKeySelector}
+                                    labelSelector={stringLabelSelector}
+                                />
+                            </>
+                        )}
+                    </Modal>
+                )
+            }
+            {
+                showFinalReportConfirmModal && (
+                    <Modal
+                        heading={strings.dropdownActionNewFinalReportConfirmationHeading}
+                        onClose={setShowFinalReportConfirmModalFalse}
+                        childrenContainerClassName={styles.addOpsUpdateModal}
+                        footerActions={(
+                            <Button
+                                name={undefined}
+                                onClick={handleAddFinalReport}
+                                disabled={(startingLanguage !== 'en' && !selectFinalLanguage)}
+                            >
+                                {strings.dropdownActionAddFinalReportLabel}
+                            </Button>
+                        )}
+                    >
+                        <p>{strings.dropdownActionNewFinalReportConfirmationMessage}</p>
+                        {startingLanguage !== 'en' && (
+                            <>
+                                <p>
+                                    {strings
+                                        .dropdownActionNewFinalReportLanguageSelectLanguageMessage}
+                                </p>
+                                <RadioInput
+                                    name={undefined}
+                                    value={selectFinalLanguage}
+                                    options={selectLanguageOptions}
+                                    onChange={setSelectFinalLanguage}
+                                    keySelector={selectLanguageKeySelector}
+                                    labelSelector={stringLabelSelector}
+                                />
+                            </>
+                        )}
                     </Modal>
                 )
             }

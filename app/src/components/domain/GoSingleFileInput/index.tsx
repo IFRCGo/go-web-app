@@ -88,6 +88,7 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
         // FIXME: fix typing in server (low priority)
         // the server generated type for response and body is the same
         body: (body) => body as never,
+        useCurrentLanguageForMutation: true,
         onSuccess: (response) => {
             const { id, file } = response;
             onChange(id, name);

@@ -237,7 +237,7 @@ function ActiveDrefTable(props: Props) {
                         has_final_report,
                         country_details,
                         is_dref_imminent_v2,
-                        original_language,
+                        starting_language,
                     } = originalDref;
 
                     const is_published = status === DREF_STATUS_APPROVED;
@@ -272,7 +272,7 @@ function ActiveDrefTable(props: Props) {
                         canCreateFinalReport,
                         hasPermissionToApprove: isRegionCoordinator || userMe?.is_superuser,
                         onPublishSuccess: refetchActiveDref,
-                        originalLanguage: original_language as Language,
+                        startingLanguage: starting_language as Language,
                     };
                 },
                 { columnClassName: styles.actions },
