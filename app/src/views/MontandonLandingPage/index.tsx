@@ -228,20 +228,8 @@ export function Component() {
                         im@ifrc.org
                     </Link>
                     <div>
-                        <div className={styles.contactInformation}>
-                            {strings.contactName}
-                        </div>
-                        <div>
-                            {strings.contactInfo}
-                        </div>
+                        {strings.contactText}
                     </div>
-                    <Link
-                        href="mailto:justin.ginnetti@ifrc.org"
-                        variant="tertiary"
-                        external
-                    >
-                        justin.ginnetti@ifrc.org
-                    </Link>
                 </Container>
 
             </Container>

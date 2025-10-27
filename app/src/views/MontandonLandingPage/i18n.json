@@ -33,8 +33,7 @@
         "scaledUpSystemsBlogPostTitle": "Scaled-up ambitions require scaled-up systems",
 
         "contact": "Contact",
-        "contactName": "Justin Ginnetti",
-        "contactInfo": "Senior Officer, Information Management and Risk Analysis, IFRC",
+        "contactText": "Please get in contact with the team in case interested to collaborate or learn more",
 
         "accessAPILabel": "Access the Montandon API",
         "exploreRadiantEarthLabel": "Explore data in STAC browser"

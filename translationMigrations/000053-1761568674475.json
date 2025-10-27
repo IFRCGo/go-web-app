@@ -1,0 +1,21 @@
+{
+    "parent": "000052-1758547474974.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "contactText",
+            "namespace": "montandonLandingPage",
+            "value": "Please get in contact with the team in case interested to collaborate or learn more"
+        },
+        {
+            "action": "remove",
+            "key": "contactInfo",
+            "namespace": "montandonLandingPage"
+        },
+        {
+            "action": "remove",
+            "key": "contactName",
+            "namespace": "montandonLandingPage"
+        }
+    ]
+}
