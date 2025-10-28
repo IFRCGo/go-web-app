@@ -270,6 +270,11 @@ type LazyRequestOptionsBase<PATH, METHOD, CONTEXT> = {
     OptionOmissions
 >;
 
+export type ExternalRequestOptions<RESPONSE> = Pick<
+RequestOptions<RESPONSE, TransformedError, unknown>,
+'query' | 'url' | 'skip'
+>;
+
 export type CustomRequestOptions<
     SCHEMA extends object,
     PATH extends keyof SCHEMA,
@@ -326,6 +331,8 @@ type LazyRequestReturn<RESPONSE, CONTEXT> = ReturnType<typeof useLazyRequest<
     AdditionalOptions,
     CONTEXT
 >>;
+
+export type ExternalRequestReturn<RESPONSE> = RequestReturn<RESPONSE>;
 
 export type CustomRequestReturn<
     SCHEMA,
