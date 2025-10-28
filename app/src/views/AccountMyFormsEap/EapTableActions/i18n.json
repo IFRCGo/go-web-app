@@ -3,7 +3,9 @@
     "strings":{
         "eapViewLabel": "View",
         "eapEditLabel": "Edit",
-        "eapFormLink": "Start Full EAP",
-        "simplifiedEapLink": "Start sEAP"
+        "eapStartFullLink": "Start Full EAP",
+        "eapStartSimplifiedLink": "Start sEAP",
+        "eapEditFullLink": "Edit Full EAP",
+        "eapEditSimplifiedLink": "Edit sEAP"
     }
 }
