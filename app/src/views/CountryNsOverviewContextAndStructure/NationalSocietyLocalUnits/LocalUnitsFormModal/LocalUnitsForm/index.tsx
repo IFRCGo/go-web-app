@@ -217,6 +217,7 @@ function LocalUnitsForm(props: Props) {
     const {
         response: localUnitPreviousResponse,
     } = useRequest({
+        skip: isNotDefined(localUnitId),
         url: '/api/v2/local-units/{id}/latest-change-request/',
         pathVariables: isDefined(localUnitId) ? { id: localUnitId } : undefined,
     });

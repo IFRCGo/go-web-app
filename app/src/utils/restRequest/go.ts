@@ -239,7 +239,17 @@ const isSuccessfulStatus = (status: number): boolean => status >= 200 && status 
 
 const isContentTypeExcel = (res: Response): boolean => res.headers.get('content-type') === CONTENT_TYPE_EXCEL;
 
-const isContentTypeJson = (res: Response): boolean => res.headers.get('content-type') === CONTENT_TYPE_JSON;
+const isContentTypeJson = (res: Response): boolean => {
+    const contentTypeHeaders = res.headers.get('content-type');
+
+    if (isNotDefined(contentTypeHeaders)) {
+        return false;
+    }
+
+    const mediaTypes = contentTypeHeaders.split('; ');
+
+    return mediaTypes[0]?.toLowerCase() === CONTENT_TYPE_JSON;
+};
 
 const isLoginRedirect = (url: string): boolean => new URL(url).pathname.includes('login');
 
