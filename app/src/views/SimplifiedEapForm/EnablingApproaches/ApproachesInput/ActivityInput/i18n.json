@@ -1,0 +1,8 @@
+{
+    "namespace": "simplifiedEapForm",
+    "strings": {
+        "approachReadiness": "Readiness",
+        "approachTimeFrame": "Time Frame",
+        "approachTimeValue": "Time Value"
+    }
+}

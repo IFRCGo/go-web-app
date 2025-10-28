@@ -63,8 +63,8 @@ export function Component() {
     });
 
     const {
-        response: eapResponse,
-        pending: eapPending,
+        response: eapListResponse,
+        pending: eapListPending,
     } = useRequest({
         url: '/api/v2/eap-registration/',
         preserveResponse: true,
@@ -150,8 +150,9 @@ export function Component() {
                 'actions',
                 '',
                 EapTableActions,
-                (eapId) => ({
+                (eapId, eap) => ({
                     eapId,
+                    eapType: eap.eap_type,
                 }),
             ),
             createEmptyColumn(),
@@ -165,7 +166,7 @@ export function Component() {
                 return row;
             }
 
-            const subRows = eapResponse?.results?.filter(
+            const subRows = eapListResponse?.results?.filter(
                 (subRow) => subRow.id === datum.id,
             );
 
@@ -183,7 +184,7 @@ export function Component() {
         [
             expandedRow,
             detailColumns,
-            eapResponse,
+            eapListResponse,
         ],
     );
 
@@ -191,7 +192,7 @@ export function Component() {
         <Container
             heading={strings.eapApplicationsHeading}
             withHeaderBorder
-            filters={(eapResponse?.count ?? 0) > 0 && (
+            filters={(eapListResponse?.count ?? 0) > 0 && (
                 <Filters
                     value={rawFilter}
                     onChange={setFilterField}
@@ -209,18 +210,18 @@ export function Component() {
             footerActions={(
                 <Pager
                     activePage={page}
-                    itemsCount={eapResponse?.count ?? 0}
+                    itemsCount={eapListResponse?.count ?? 0}
                     maxItemsPerPage={limit}
                     onActivePageChange={setPage}
                 />
             )}
         >
             <Table
-                data={eapResponse?.results}
+                data={eapListResponse?.results}
                 columns={baseColumns}
                 rowModifier={rowModifier}
                 keySelector={numericIdSelector}
-                pending={eapPending}
+                pending={eapListPending}
                 filtered={filtered}
             />
         </Container>

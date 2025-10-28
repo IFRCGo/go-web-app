@@ -1,0 +1,7 @@
+{
+    "namespace": "simplifiedEapForm",
+    "strings": {
+        "plannedOperationsTitle": "Planned Operations",
+        "plannedOperationsDescription": "Select sectors which are used in this Early Action Protocol."
+    }
+}
