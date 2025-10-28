@@ -32,7 +32,7 @@ import styles from './styles.module.css';
 type Value = {
     client_id: string;
     id?: number;
-    caption?: string;
+    caption?: string | null;
 };
 
 interface Props<N> {

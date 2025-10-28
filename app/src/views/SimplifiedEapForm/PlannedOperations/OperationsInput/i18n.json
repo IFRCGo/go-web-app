@@ -1,0 +1,14 @@
+{
+    "namespace": "simplifiedEapForm",
+    "strings": {
+        "operationPeopleTargeted": "People Targeted",
+        "operationBudget": "Budget",
+        "operationApCode": "AP Code",
+        "operationRemoveButton": "Remove",
+        "operationAddActivityButton": "Add Activity",
+        "operationReadinessActivities": "Readiness Activities",
+        "operationPrepositioningActivities": "Pre-positioning Activities",
+        "operationEarlyActionActivities": "Early Action Activities",
+        "operationNoActivitesMessage": "No activities added yet"
+    }
+}
