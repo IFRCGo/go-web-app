@@ -24,7 +24,7 @@ import i18n from './i18n.json';
 type Value = {
     id?: number | undefined;
     client_id: string;
-    caption?: string | undefined;
+    caption?: string | undefined | null;
 };
 
 interface Props<N> {

@@ -341,31 +341,32 @@ export function Component() {
                         description={strings.eapTypeDescription}
                         withAsteriskOnTitle
                     >
-                        <RadioInput
-                            name="eap_type"
-                            value={value?.eap_type ?? undefined}
-                            onChange={setFieldValue}
-                            options={eapFormOptions}
-                            keySelector={eapTypeKeySelector}
-                            labelSelector={stringValueSelector}
-                            error={error?.eap_type}
-                            readOnly={isReadOnly}
-                        />
-                        {/* FIXME: label is not showing */}
-                        <Radio
-                            name="eap_type"
-                            // FIXME: inputname should not be strings
-                            // it should be transferred to label
-                            inputName={strings.eapNotSure}
-                            value={value?.eap_type === null}
-                            onClick={handleEapTypeClick}
-                            readOnly={isReadOnly}
-                        />
+                        <ListView>
+                            <RadioInput
+                                name="eap_type"
+                                value={value?.eap_type ?? undefined}
+                                onChange={setFieldValue}
+                                options={eapFormOptions}
+                                keySelector={eapTypeKeySelector}
+                                labelSelector={stringValueSelector}
+                                error={error?.eap_type}
+                                readOnly={isReadOnly}
+                            />
+                            <Radio
+                                name="eap_type"
+                                value={value?.eap_type === null}
+                                onClick={handleEapTypeClick}
+                                readOnly={isReadOnly}
+                            >
+                                {strings.eapNotSure}
+                            </Radio>
+                        </ListView>
                     </InputSection>
                     <InputSection
                         title={strings.eapSubmission}
                         description={strings.eapSubmissionDescription}
                         withAsteriskOnTitle
+                        numPreferredColumns={2}
                     >
                         <DateInput
                             name="expected_submission_time"
@@ -374,16 +375,14 @@ export function Component() {
                             error={error?.expected_submission_time}
                             readOnly={isReadOnly}
                         />
-                        {/* FIXME: label is not showing */}
                         <Radio
                             name="expected_submission_time"
-                            // FIXME: inputname should not be strings
-                            // it should be transferred to label
-                            inputName={strings.eapNotSure}
                             value={value?.expected_submission_time === null}
                             onClick={handleSubmissionTimeClick}
                             readOnly={isReadOnly}
-                        />
+                        >
+                            {strings.eapNotSure}
+                        </Radio>
                     </InputSection>
                     <InputSection
                         title={strings.eapPartnersInvolved}

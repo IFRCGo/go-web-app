@@ -1,0 +1,7 @@
+{
+    "namespace": "simplifiedEapForm",
+    "strings": {
+        "enablingApproachesTitle": "Enabling Approaches",
+        "enablingApproachesDescription": "Select approaches which are used in this Early Action Protocol."
+    }
+}
