@@ -1,0 +1,14 @@
+{
+    "namespace": "simplifiedEapForm",
+    "strings": {
+        "approachBudget": "Budget",
+        "approachApCode": "AP Code",
+        "approachIndicatorTarget": "Indicator Target",
+        "approachRemoveButton": "Remove",
+        "approachAddActivityButton": "Add Activity",
+        "approachReadinessActivities": "Readiness Activities",
+        "approachPrepositioningActivities": "Pre-positioning Activities",
+        "approachEarlyActionActivities": "Early Action Activities",
+        "approachNoActivitesMessage": "No activities added yet"
+    }
+}

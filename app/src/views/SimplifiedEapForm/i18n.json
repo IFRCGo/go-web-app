@@ -1,0 +1,20 @@
+{
+    "namespace": "simplifiedEapForm",
+    "strings": {
+        "simplifiedEapHeading": "Simplified EAP form",
+        "simplifiedEapDescription": "Use the following form to submit the details of your Early Action Protocols (EAP) submission. This is the Full EAP form. If you are instead looking for the Simplified EAP.",
+        "simplifiedEapOverview": "Overview",
+        "simplifiedEapRiskAnalysis": "Risk Analysis & Early Action Selection",
+        "simplifiedEapEarlyAction": "Early Action Interventation",
+        "simplifiedPlannedOperations": "Planned Operations",
+        "simplifiedEnablingApproaches": "Enabling Approaches",
+        "simplifiedDeliverAndBudget": "Conditions to deliver & budgets",
+        "simplifiedCancelButton": "Cancel",
+        "simplifiedBackButton": "Back",
+        "simplifiedNextButton": "Next",
+        "simplifiedSaveButton": "Save",
+        "eapSimplifiedFailure": "Sorry could not create a new Simplifed EAP right now!",
+        "eapSimplifiedSuccess": "Successfully created a new Simplifed EAP!",
+        "eapSimplifiedUpdateMessage": "Simplified EAP Form updated Successfully."
+    }
+}

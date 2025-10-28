@@ -30,7 +30,7 @@ import i18n from './i18n.json';
 type Value = {
     client_id: string;
     id?: number;
-    caption?: string;
+    caption?: string | null;
 };
 
 interface Props<N> {

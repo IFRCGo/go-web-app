@@ -56,8 +56,8 @@ export const CATEGORY_RISK_VERY_HIGH = 5;
 // Colors
 
 export const COLOR_WHITE = '#ffffff';
-// export const COLOR_TEXT = '#313131';
-// export const COLOR_TEXT_ON_DARK = '#ffffff';
+export const COLOR_TEXT = '#313131';
+export const COLOR_TEXT_ON_DARK = '#ffffff';
 export const COLOR_LIGHT_GREY = '#e0e0e0';
 export const COLOR_DARK_GREY = '#a5a5a5';
 export const COLOR_BLACK = '#000000';
@@ -196,9 +196,19 @@ export const multiMonthSelectDefaultValue = listToMap(
     () => false,
 );
 
+// FIXME these need to satisfy some enum
 export const ERU_READINESS_READY = 1;
 export const ERU_READINESS_CAN_CONTRIBUTE = 2;
 export const ERU_READINESS_NO_CAPACITY = 3;
 
+// FIXME these need to satisfy some enum
 export const EAP_TYPE_SIMPLIFIED = 20;
 export const EAP_TYPE_FULL = 10;
+
+// Timeframe
+
+// FIXME these need to satisfy some enum
+export const TIMEFRAME_YEAR = 10;
+export const TIMEFRAME_MONTHS = 20;
+// export const TIMEFRAME_DAYS = 30;
+// export const TIMEFRAME_HOURS = 40;
