@@ -15,6 +15,8 @@ import type {
     CustomLazyRequestReturn,
     CustomRequestOptions,
     CustomRequestReturn,
+    ExternalRequestOptions,
+    ExternalRequestReturn,
     VALID_METHOD,
 } from './overrideTypes';
 
@@ -70,8 +72,13 @@ const useRiskLazyRequest = useLazyRequest as <
     requestOptions: CustomLazyRequestOptions<riskApiPaths, PATH, METHOD, CONTEXT> & { apiType: 'risk' }
 ) => CustomLazyRequestReturn<riskApiPaths, PATH, METHOD, CONTEXT>;
 
+const useExternalRequest = useRequest as <RESPONSE>(
+    requestOptions: ExternalRequestOptions<RESPONSE>,
+) => ExternalRequestReturn<RESPONSE>;
+
 export {
     RequestContext,
+    useExternalRequest,
     useGoLazyRequest as useLazyRequest,
     useGoRequest as useRequest,
     useRiskLazyRequest,
