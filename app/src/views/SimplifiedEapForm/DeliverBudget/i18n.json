@@ -1,0 +1,20 @@
+{
+    "namespace": "simplifiedEapForm",
+    "strings": {
+        "simplifiedEapDeliverHeading": "Risk Analysis",
+        "simplifiedEapDeliverEarlyActions": "Experience and/or capacity to implement the early actions",
+        "simplifiedEapDeliverEarlyActionsDescription": "Assumptions or minimum conditions needed to deliver on the early actions (including issues to be resolved.) Explain how the National Society will be able to delive on the early actions, what experiences and/or capacities they have related to be intervention. Are there issues to be addressed in order for the Naional Society to deliver on these actions? How will these issues be resolved?",
+        "simplifiedEapDeliverDescription": "Description",
+        "simplifiedEapDeliverInvolved": "RCRC Movement partners, Governmental/other agencies consulted/involved",
+        "simplifiedEapDeliverInvolvedDescription": "Explain who was part of the development of this plan, how were they involved and if they have any role on the implementation of the actions. Add any relevant information of the National Society's role on the National Disaster Response System.",
+        "simplifiedEapDeliverBudget": "Budget",
+        "simplifiedEapDeliverTotalBudget": "Total budget",
+        "simplifiedEapDeliverTotalBudgetDescription": "Add the expected budget amount",
+        "simplifiedEapDeliverBudgetLabel": "Budget",
+        "simplifiedEapDeliverReadinessLabel": "Readiness",
+        "simplifiedEapDeliverPrepositioning": "Prepositioning",
+        "simplifiedEapDeliverBudgetDetails": "Budget details",
+        "simplifiedEapDeliverBudgetDetailsDescription": "Add here the page from the budget template called EAP for publication.",
+        "simplifiedEapEarlyAction": "Early Action"
+    }
+}

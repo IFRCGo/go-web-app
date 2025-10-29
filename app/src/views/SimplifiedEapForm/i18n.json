@@ -8,6 +8,13 @@
         "simplifiedEapEarlyAction": "Early Action Interventation",
         "simplifiedPlannedOperations": "Planned Operations",
         "simplifiedEnablingApproaches": "Enabling Approaches",
-        "simplifiedDeliverAndBudget": "Conditions to deliver & budgets"
+        "simplifiedDeliverAndBudget": "Conditions to deliver & budgets",
+        "simplifiedCancelButton": "Cancel",
+        "simplifiedSaveAndCloseButton": "Save and Close",
+        "simplifiedBackButton": "Back",
+        "simplifiedNextButton": "Next",
+        "simplifiedSaveButton": "Save",
+        "eapSimplifiedFailure": "Sorry could not create a new Simplifed EAP right now!",
+        "eapSimplifiedSuccess": "Successfully created a new Simplifed EAP!"
     }
 }

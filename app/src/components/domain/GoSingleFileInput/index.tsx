@@ -24,7 +24,7 @@ import { transformObjectError } from '#utils/restRequest/error';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-export type SupportedPaths = '/api/v2/per-file/' | '/api/v2/dref-files/' | '/api/v2/flash-update-file/' | '/api/v2/per-document-upload/';
+export type SupportedPaths = '/api/v2/per-file/' | '/api/v2/dref-files/' | '/api/v2/flash-update-file/' | '/api/v2/per-document-upload/' | '/api/v2/eap-file/';
 
 type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 'value' | 'onChange' | 'children'| 'inputRef'> & {
     actions?: React.ReactNode;

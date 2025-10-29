@@ -1,0 +1,24 @@
+{
+    "namespace": "simplifiedEapForm",
+    "strings": {
+        "simplifiedEapActionHeading": "Early Action Intervention",
+        "simplifiedEapIntervention": "Overall objective of the intervention",
+        "simplifiedEapInterventionDescription": "Provide an objective statement that describes the main goal of the intervention.",
+        "simplifiedEapActionDescription": "Description",
+        "simplifiedEapActionPeopleTargeted": "People targeted",
+        "simplifiedEapActionPeopleTargetedDescription": "Add the number of people targeted for the event.",
+        "simplifiedEapActionOperation": "Assisted through the operation",
+        "simplifiedEapActionOperationDescription": "List who will be targeted by the early actions in this simplified EAP (these should be groups of people who are most exposed combined with those moose vulnerable to the impacts of the hazard)",
+        "simplifiedEapActionCriteria": "Explain your selection criteria for who will be targeted.",
+        "simplifiedEapActionsStatement": "Trigger(s) statement",
+        "simplifiedEapActionsStatementDescription": "State clear and precise criteria that will have to be met for the simplified EAP to be activated. If multiple triggers are used, indicate which trigger is linked to which early action.",
+        "simplifiedEapActionsLeadTime": "sEAP Lead Time",
+        "simplifiedEapActionsLeadTimeDescription": "This is the time between the trigger being met and the impact of the hazard, when the early actions are undertaken.",
+        "simplifiedEapActionsOperational": "Operational Timeframe",
+        "simplifiedEapActionsOperationalDescription": "The operational timeframe starts from the trigger date and includes the time it takes to implement the early action activities plus the time it takes to finalize the operation, including time to settle the finances, facilities the lessons learned workshop and prepare the final report.",
+        "simplifiedEapJustification": "Trigger threshold justification",
+        "simplifiedEapJustificationDescription": "Explain how the triggers(s) were set and provide information showing that the level chosen has caused humanitarian impact in the past.",
+        "simplifiedEapFullEap": "Next step towards full EAP",
+        "simplifiedEapFullEapDescription": "For National Societies that intend to develop a full EAP, outline the next steps you will be taking to continue developing this simplified EAP into a full EAP."
+    }
+}

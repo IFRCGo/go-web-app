@@ -788,18 +788,48 @@ const eapFullForm = customWrapRoute({
     },
 });
 
-const simplifiedEapForm = customWrapRoute({
+type DefaultEapSimplifiedChild = 'new';
+const eapSimplifiedLayout = customWrapRoute({
     parent: rootLayout,
-    path: 'simplified-eap-form',
+    path: 'eap-simplified',
+    forwardPath: 'new' satisfies DefaultEapSimplifiedChild,
     component: {
         render: () => import('#views/SimplifiedEapForm'),
         props: {},
     },
     wrapperComponent: Auth,
     context: {
-        title: 'Simplified EAP Forms',
+        title: 'EAP Simplified Form',
+        visibility: 'is-authenticated',
+    },
+});
+
+const newEapSimplifiedForm = customWrapRoute({
+    parent: eapSimplifiedLayout,
+    path: 'new' satisfies DefaultEapSimplifiedChild,
+    component: {
+        render: () => import('#views/SimplifiedEapForm'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'New EAP Simplified Form',
         visibility: 'is-authenticated',
         permissions: ({ isGuestUser }) => !isGuestUser,
+    },
+});
+
+const eapSimplifiedForm = customWrapRoute({
+    parent: eapSimplifiedLayout,
+    path: ':eapId/',
+    component: {
+        render: () => import('#views/SimplifiedEapForm'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'View EAP Simplified Form',
+        visibility: 'is-authenticated',
     },
 });
 
@@ -1488,7 +1518,8 @@ const wrappedRoutes = {
     montandonLandingPage,
     newEapDevelopmentRegistration,
     eapFullForm,
-    simplifiedEapForm,
+    eapSimplifiedForm,
+    newEapSimplifiedForm,
     ...regionRoutes,
     ...countryRoutes,
     ...surgeRoutes,
@@ -1504,6 +1535,7 @@ const wrappedRoutes = {
     drefProcessLayout,
     eapRegistrationLayout,
     eapDevelopmentRegistrationForm,
+    eapSimplifiedLayout,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));

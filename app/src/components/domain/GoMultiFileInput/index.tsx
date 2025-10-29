@@ -27,7 +27,7 @@ import { transformObjectError } from '#utils/restRequest/error';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-export type SupportedPaths = '/api/v2/per-file/multiple/' | '/api/v2/dref-files/multiple/' | '/api/v2/flash-update-file/multiple/';
+export type SupportedPaths = '/api/v2/per-file/multiple/' | '/api/v2/dref-files/multiple/' | '/api/v2/flash-update-file/multiple/' | '/api/v2/eap-file/multiple/';
 
 interface FileUploadResult {
     id: number;
