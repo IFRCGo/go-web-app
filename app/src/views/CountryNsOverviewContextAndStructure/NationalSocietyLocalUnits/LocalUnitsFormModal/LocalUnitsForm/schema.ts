@@ -1,4 +1,3 @@
-import { isNotDefined } from '@togglecorp/fujs';
 import {
     addCondition,
     emailCondition,
