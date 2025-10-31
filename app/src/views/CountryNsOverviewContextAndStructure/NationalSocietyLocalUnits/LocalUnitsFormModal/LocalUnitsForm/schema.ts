@@ -214,7 +214,6 @@ const schema: LocalUnitsFormSchema = {
                                         validations: [
                                             positiveIntegerCondition,
                                         ],
-                                        required: true,
                                     },
                                     general_practitioner: {
                                         validations: [

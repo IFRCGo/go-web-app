@@ -258,7 +258,7 @@ function LocalUnitBulkUploadModal(props: Props) {
                     {isNotDefined(bulkUploadFile) && (
                         <RawFileInput
                             name="file"
-                            accept=".csv"
+                            accept=".xlsx"
                             onChange={setBulkUploadFile}
                             variant="secondary"
                             disabled={
