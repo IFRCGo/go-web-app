@@ -871,27 +871,27 @@ function LocalUnitsForm(props: Props) {
                                 error={error?.postcode}
                             />
                         </DiffWrapper>
+                        <DiffWrapper
+                            showPreviousValue={showValueChanges}
+                            value={value.focal_person_loc}
+                            previousValue={previousData?.focal_person_loc}
+                            diffViewEnabled={diffViewEnabled}
+                            className={styles.diffContainer}
+                        >
+                            <TextInput
+                                inputSectionClassName={styles.inputSection}
+                                required
+                                label={strings.focalPersonLocal}
+                                name="focal_person_loc"
+                                value={value.focal_person_loc}
+                                onChange={setFieldValue}
+                                readOnly={readOnly}
+                                error={error?.focal_person_loc}
+                            />
+                        </DiffWrapper>
                         {value.type === TYPE_HEALTH_CARE && (
                             hasUpdatePermission && (
                                 <>
-                                    <DiffWrapper
-                                        showPreviousValue={showValueChanges}
-                                        value={value.focal_person_loc}
-                                        previousValue={previousData?.focal_person_loc}
-                                        diffViewEnabled={diffViewEnabled}
-                                        className={styles.diffContainer}
-                                    >
-                                        <TextInput
-                                            inputSectionClassName={styles.inputSection}
-                                            required
-                                            label={strings.focalPersonLocal}
-                                            name="focal_person_loc"
-                                            value={value.focal_person_loc}
-                                            onChange={setFieldValue}
-                                            readOnly={readOnly}
-                                            error={error?.focal_person_loc}
-                                        />
-                                    </DiffWrapper>
                                     <DiffWrapper
                                         showPreviousValue={showValueChanges}
                                         value={value.focal_person_en}
@@ -1773,7 +1773,6 @@ function LocalUnitsForm(props: Props) {
                                 >
                                     <NumberInput
                                         inputSectionClassName={styles.inputSection}
-                                        required
                                         label={strings.totalNumberOfHumanResources}
                                         name="total_number_of_human_resource"
                                         value={value.health?.total_number_of_human_resource}
