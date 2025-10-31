@@ -892,6 +892,18 @@ function LocalUnitView(props: Props) {
                             value={newValue?.health?.midwife}
                         />
                     </DiffWrapper>
+                    <DiffWrapper
+                        hideOnPristine
+                        value={newValue?.health?.pharmacists}
+                        previousValue={oldValue?.health?.pharmacists}
+                        diffViewEnabled
+                    >
+                        <TextOutput
+                            strongValue
+                            label={strings.localUnitViewPharmacists}
+                            value={newValue?.health?.pharmacists}
+                        />
+                    </DiffWrapper>
                     {isDefined(changedOtherProfiles) && changedOtherProfiles.length > 0 && (
                         <>
                             <span>

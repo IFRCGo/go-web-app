@@ -64,27 +64,30 @@ function LocalUnitsTableActions(props: Props) {
         isLocalUnitRegionValidatorByType,
         isSuperUser,
         isGuestUser,
+        isCountryAdmin,
+        isRegionAdmin,
     } = usePermissions();
 
     const isLocked = status !== VALIDATED;
+
+    const countryAdmin = isCountryAdmin(countryDetails?.id);
+    const regionAdmin = isRegionAdmin(countryDetails?.region);
 
     const isExternallyManaged = status === EXTERNALLY_MANAGED
         || (isDefined(localUnitType)
             && isDefined(manageResponse)
             && !!manageResponse[localUnitType]?.enabled);
 
-    const hasPermission = isAuthenticated
+    const hasValidatePermission = isAuthenticated
         && !isExternallyManaged
         && (isSuperUser
             || isLocalUnitGlobalValidatorByType(localUnitType)
             || isLocalUnitCountryValidatorByType(countryDetails?.id, localUnitType)
             || isLocalUnitRegionValidatorByType(countryDetails?.region, localUnitType));
 
-    const hasValidatePermission = isAuthenticated
-        && (isSuperUser
-            || isLocalUnitGlobalValidatorByType(localUnitType)
-            || isLocalUnitCountryValidatorByType(countryDetails?.id, localUnitType)
-            || isLocalUnitRegionValidatorByType(countryDetails?.region, localUnitType));
+    const hasAddEditLocalUnitPermission = !isLocked && (
+        (hasValidatePermission || countryAdmin || regionAdmin)
+    && !isBulkUploadLocalUnit);
 
     const [readOnlyLocalUnitModal, setReadOnlyLocalUnitModal] = useState(false);
 
@@ -165,7 +168,8 @@ function LocalUnitsTableActions(props: Props) {
                         >
                             {strings.localUnitActionsView}
                         </DropdownMenuItem>
-                        {(hasPermission && !isBulkUploadLocalUnit) && (
+                        {((hasValidatePermission || countryAdmin)
+                            && !isBulkUploadLocalUnit) && (
                             <DropdownMenuItem
                                 type="button"
                                 name={undefined}
@@ -174,7 +178,7 @@ function LocalUnitsTableActions(props: Props) {
                                 {strings.localUnitActionsDelete}
                             </DropdownMenuItem>
                         )}
-                        {!isLocked && (hasPermission && !isBulkUploadLocalUnit) && (
+                        {hasAddEditLocalUnitPermission && (
                             <DropdownMenuItem
                                 type="button"
                                 name={localUnitId}
@@ -190,7 +194,7 @@ function LocalUnitsTableActions(props: Props) {
                     <LocalUnitValidateButton
                         onClick={handleValidateLocalUnitClick}
                         status={status}
-                        hasValidatePermission={hasPermission}
+                        hasValidatePermission={hasValidatePermission}
                     />
                 )}
             </TableActions>
