@@ -1,3 +1,7 @@
+import { injectClientId } from '@ifrc-go/ui/utils';
+import { isNotDefined } from '@togglecorp/fujs';
+import { removeNull } from '@togglecorp/toggle-form';
+
 import { type GoApiResponse } from '#utils/restRequest';
 
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
@@ -17,3 +21,29 @@ export const EXTERNALLY_MANAGED = 4 satisfies ValidationStatusKey;
 
 export const AUTHENTICATED = 'authenticated' satisfies RequestType;
 export const PUBLIC = 'public' satisfies RequestType;
+
+type LocalUnitResponse = NonNullable<GoApiResponse<'/api/v2/local-units/{id}/'>>;
+
+export function injectClientIdToResponse(response: LocalUnitResponse | undefined) {
+    if (isNotDefined(response)) {
+        return undefined;
+    }
+
+    const {
+        health,
+        ...otherValues
+    } = response;
+
+    const {
+        other_profiles,
+        ...otherHealthValues
+    } = health ?? {};
+
+    return removeNull({
+        health: {
+            other_profiles: other_profiles?.map(injectClientId),
+            ...otherHealthValues,
+        },
+        ...otherValues,
+    });
+}

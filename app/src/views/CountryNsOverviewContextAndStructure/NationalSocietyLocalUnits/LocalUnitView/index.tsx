@@ -1,10 +1,14 @@
-import { useMemo } from 'react';
+import {
+    useCallback,
+    useMemo,
+} from 'react';
 import {
     Container,
     TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
+    injectClientId,
     numericIdSelector,
     stringNameSelector,
     stringValueSelector,
@@ -27,10 +31,12 @@ import {
     useRequest,
 } from '#utils/restRequest';
 
+import { injectClientIdToResponse } from '../common';
 import {
     type PartialLocalUnits,
     TYPE_HEALTH_CARE,
 } from '../LocalUnitsFormModal/LocalUnitsForm/schema';
+import OtherProfilesDiffOutput from './OtherProfilesDiffOutput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -79,15 +85,49 @@ function LocalUnitView(props: Props) {
         pathVariables: isDefined(localUnitId) ? { id: localUnitId } : undefined,
     });
 
+    const previousValue = injectClientIdToResponse(
+        // eslint-disable-next-line max-len
+        localUnitPreviousResponse?.previous_data_details as unknown as (LocalUnitResponse | undefined),
+    );
+
     const newValue = isDefined(locallyChangedValue)
         ? locallyChangedValue
-        : localUnitResponse;
+        : injectClientIdToResponse(localUnitResponse);
+
     const oldValue = isDefined(locallyChangedValue)
-        ? localUnitResponse
-        : (localUnitPreviousResponse?.previous_data_details as unknown as LocalUnitResponse);
+        ? injectClientIdToResponse(localUnitResponse)
+        : previousValue;
+
+    const getPreviousProfileValue = useCallback((profileClientId: string) => (
+        oldValue?.health?.other_profiles?.find(
+            (previousProfile) => injectClientId(previousProfile)?.client_id === profileClientId,
+        )
+    ), [oldValue]);
+
+    const removedOtherProfiles = useMemo(() => (
+        oldValue?.health?.other_profiles?.filter(({ client_id: oldClientId }) => (
+            newValue?.health?.other_profiles?.findIndex(
+                ({ client_id: newClientId }) => oldClientId === newClientId,
+            ) === -1
+        ))
+    ), [oldValue, newValue]);
+
+    const changedOtherProfiles = useMemo(() => {
+        const potentiallyChanged = newValue?.health?.other_profiles?.filter(
+            (newOne) => {
+                const oldOne = oldValue?.health?.other_profiles?.find(
+                    ({ client_id: oldClientId }) => newOne.client_id === oldClientId,
+                );
+
+                return hasDifferences(newOne, oldOne);
+            },
+        );
+
+        return potentiallyChanged;
+    }, [oldValue, newValue]);
 
     const hasDifference = useMemo(() => {
-        if (isNotDefined(newValue) || isNotDefined(oldValue)) {
+        if (isNotDefined(newValue) && isNotDefined(oldValue)) {
             return false;
         }
 
@@ -852,18 +892,32 @@ function LocalUnitView(props: Props) {
                             value={newValue?.health?.midwife}
                         />
                     </DiffWrapper>
-                    <DiffWrapper
-                        hideOnPristine
-                        value={newValue?.health?.other_profiles}
-                        previousValue={oldValue?.health?.other_profiles}
-                        diffViewEnabled
-                    >
-                        <TextOutput
-                            strongValue
-                            label={strings.localUnitViewOtherProfiles}
-                            value={newValue?.health?.other_profiles}
-                        />
-                    </DiffWrapper>
+                    {isDefined(changedOtherProfiles) && changedOtherProfiles.length > 0 && (
+                        <>
+                            <span>
+                                {strings.localUnitViewOtherProfiles}
+                            </span>
+                            {newValue?.health?.other_profiles?.map((profile) => (
+                                <OtherProfilesDiffOutput
+                                    newValue={profile}
+                                    oldValue={getPreviousProfileValue(profile.client_id)}
+                                />
+                            ))}
+                        </>
+                    )}
+                    {isDefined(removedOtherProfiles) && removedOtherProfiles.length > 0 && (
+                        <>
+                            <span>
+                                {strings.localUnitViewRemovedOtherProfiles}
+                            </span>
+                            {removedOtherProfiles?.map((profile) => (
+                                <OtherProfilesDiffOutput
+                                    newValue={profile}
+                                    oldValue={undefined}
+                                />
+                            ))}
+                        </>
+                    )}
                     <DiffWrapper
                         hideOnPristine
                         value={newValue?.health?.other_medical_heal}

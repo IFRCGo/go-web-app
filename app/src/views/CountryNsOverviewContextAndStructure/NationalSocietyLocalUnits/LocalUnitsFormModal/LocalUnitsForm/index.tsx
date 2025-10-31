@@ -26,6 +26,7 @@ import {
     useTranslation,
 } from '@ifrc-go/ui/hooks';
 import {
+    injectClientId,
     numericIdSelector,
     resolveToComponent,
     stringNameSelector,
@@ -34,12 +35,14 @@ import {
 import {
     isDefined,
     isNotDefined,
+    listToMap,
+    randomString,
 } from '@togglecorp/fujs';
 import {
     getErrorObject,
     getErrorString,
-    removeNull,
     useForm,
+    useFormArray,
     useFormObject,
 } from '@togglecorp/toggle-form';
 
@@ -59,6 +62,7 @@ import {
     AMBULANCE_TYPE,
     HOSPITAL_TYPE,
     OTHER_AFFILIATION,
+    OTHER_TRAINING_FACILITIES,
     OTHER_TYPE,
     PRIMARY_HEALTH_TYPE,
     RESIDENTIAL_TYPE,
@@ -77,7 +81,7 @@ import { transformObjectError } from '#utils/restRequest/error';
 
 import {
     EXTERNALLY_MANAGED,
-    type ManageResponse,
+    injectClientIdToResponse,
     UNVALIDATED,
     VALIDATED,
 } from '../../common';
@@ -87,6 +91,7 @@ import LocalUnitStatus from '../../LocalUnitStatus';
 import LocalUnitValidateButton from '../../LocalUnitValidateButton';
 import LocalUnitValidateModal from '../../LocalUnitValidateModal';
 import LocalUnitViewModal from '../../LocalUnitViewModal';
+import OtherProfilesInput from './OtherProfilesInput';
 import schema, {
     type LocalUnitsRequestPostBody,
     type PartialLocalUnits,
@@ -96,7 +101,8 @@ import schema, {
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type HealthLocalUnitFormFields = PartialLocalUnits['health'];
+type HealthLocalUnitFormFields = NonNullable<PartialLocalUnits['health']>;
+type OtherProfilesFormFields = NonNullable<HealthLocalUnitFormFields['other_profiles']>[number];
 type VisibilityOptions = NonNullable<GoApiResponse<'/api/v2/global-enums/'>['api_visibility_choices']>[number]
 type LocalUnitResponse = NonNullable<GoApiResponse<'/api/v2/local-units/{id}/'>>;
 
@@ -130,7 +136,6 @@ interface Props {
     actionsContainerRef: RefObject<HTMLDivElement>;
     headingDescriptionRef?: RefObject<HTMLDivElement>;
     headerDescriptionRef: RefObject<HTMLDivElement>;
-    manageResponse: ManageResponse;
 }
 
 function LocalUnitsForm(props: Props) {
@@ -143,7 +148,6 @@ function LocalUnitsForm(props: Props) {
         headingDescriptionRef,
         headerDescriptionRef,
         onDeleteActionSuccess,
-        manageResponse,
     } = props;
 
     const { isAuthenticated } = useAuth();
@@ -213,6 +217,14 @@ function LocalUnitsForm(props: Props) {
     );
 
     const {
+        setValue: onOtherProfilesChanges,
+        removeValue: onOtherProfilesRemove,
+    } = useFormArray<'other_profiles', OtherProfilesFormFields>(
+        'other_profiles',
+        onHealthFieldChange,
+    );
+
+    const {
         response: localUnitDetailsResponse,
         pending: localUnitDetailsPending,
         error: localUnitDetailsError,
@@ -221,7 +233,11 @@ function LocalUnitsForm(props: Props) {
         url: '/api/v2/local-units/{id}/',
         pathVariables: isDefined(localUnitId) ? { id: localUnitId } : undefined,
         onSuccess: (response) => {
-            setValue(removeNull(response));
+            const responseWithClientId = injectClientIdToResponse(response);
+
+            if (isDefined(responseWithClientId)) {
+                setValue(responseWithClientId);
+            }
         },
     });
 
@@ -233,20 +249,38 @@ function LocalUnitsForm(props: Props) {
         pathVariables: isDefined(localUnitId) ? { id: localUnitId } : undefined,
     });
 
-    const isLocked = (
-        isDefined(localUnitDetailsResponse?.status)
-        && !(localUnitDetailsResponse.status === VALIDATED)
-    );
+    const {
+        response: externallyManagedLocalUnitsResponse,
+    } = useRequest({
+        url: '/api/v2/externally-managed-local-unit/',
+        query: {
+            country__id: countryResponse?.id,
+            limit: 9999,
+        },
+    });
 
-    const isNewLocalUnit = localUnitDetailsResponse?.status === UNVALIDATED;
+    const externallyManagedByLocalUnitType = useMemo(() => {
+        if (isNotDefined(externallyManagedLocalUnitsResponse?.results)) {
+            return undefined;
+        }
 
-    const isExternallyManaged = (localUnitDetailsResponse?.status === EXTERNALLY_MANAGED
-        || (isDefined(value.type)
-            && isDefined(manageResponse)
-            && !!manageResponse[value.type]?.enabled));
+        return listToMap(
+            externallyManagedLocalUnitsResponse?.results,
+            (res) => res.local_unit_type_details.id,
+            (res) => res.enabled,
+        );
+    }, [externallyManagedLocalUnitsResponse]);
 
-    const readOnly = readOnlyFromProps
-        || isLocked || isExternallyManaged;
+    const isEditable = isDefined(localUnitDetailsResponse?.status)
+        && localUnitDetailsResponse.status === VALIDATED;
+
+    const isNewlyCreated = localUnitDetailsResponse?.status === UNVALIDATED;
+    const isExternallyManaged = localUnitDetailsResponse?.status === EXTERNALLY_MANAGED;
+    const isExternallyManagedType = isDefined(value.type)
+        ? !!(externallyManagedByLocalUnitType?.[value.type])
+        : false;
+
+    const readOnly = readOnlyFromProps || !isEditable || isExternallyManaged;
 
     const {
         response: localUnitsOptions,
@@ -348,16 +382,14 @@ function LocalUnitsForm(props: Props) {
         },
     });
 
-    const hasValidatePermission = isAuthenticated
-        && !isExternallyManaged
-        && (isSuperUser
-            || isLocalUnitGlobalValidatorByType(value.type)
-            || isLocalUnitCountryValidatorByType(countryResponse?.id, value.type)
-            || isLocalUnitRegionValidatorByType(countryResponse?.region, value.type));
+    const hasValidatePermission = isAuthenticated && (
+        isSuperUser
+        || isLocalUnitGlobalValidatorByType(value.type)
+        || isLocalUnitCountryValidatorByType(countryResponse?.id, value.type)
+        || isLocalUnitRegionValidatorByType(countryResponse?.region, value.type)
+    );
 
-    const hasUpdatePermission = (isCountryAdmin(countryResponse?.id)
-        || hasValidatePermission)
-        && !isExternallyManaged;
+    const hasUpdatePermission = isCountryAdmin(countryResponse?.id) || hasValidatePermission;
 
     const handleFormSubmit = useCallback(
         () => {
@@ -412,22 +444,48 @@ function LocalUnitsForm(props: Props) {
         localUnitPreviousResponse?.previous_data_details as unknown as LocalUnitResponse | undefined
     );
 
-    const showChanges = !isNewLocalUnit
-        && isLocked
-        && showValueChanges
+    const diffViewEnabled = showValueChanges
+        && !isNewlyCreated
+        && !isEditable
+        && !isExternallyManagedType
         && !isExternallyManaged;
 
-    const showViewChanges = !isNewLocalUnit
+    const showViewChangesButton = !isNewlyCreated
         && isDefined(localUnitId)
-        && isLocked
+        && !isEditable
         && !isExternallyManaged;
 
-    const permissionError = useMemo(() => {
-        if (isExternallyManaged) {
-            if (isDefined(localUnitId)) {
-                return strings.noPermissionFormUpdateExternallyManaged;
-            }
+    const isOtherTrainingFacility = useMemo(() => {
+        if (isNotDefined(value.health?.professional_training_facilities)) {
+            return false;
+        }
+        return value.health?.professional_training_facilities?.some(
+            (facility) => facility === OTHER_TRAINING_FACILITIES,
+        );
+    }, [value.health?.professional_training_facilities]);
 
+    const handleOtherProfilesAddButtonClick = useCallback(
+        () => {
+            const newOtherProfiles: OtherProfilesFormFields = {
+                client_id: randomString(),
+            };
+
+            onHealthFieldChange(
+                (oldValue: OtherProfilesFormFields[] | undefined) => (
+                    [...(oldValue ?? []), newOtherProfiles]
+                ),
+                'other_profiles' as const,
+            );
+        },
+        [onHealthFieldChange],
+    );
+
+    const otherErrors = useMemo(() => {
+        if (isExternallyManaged) {
+            return strings.noPermissionFormUpdateExternallyManaged;
+        }
+
+        if (isExternallyManagedType) {
             return strings.noPermissionFormExternallyManaged;
         }
 
@@ -443,12 +501,19 @@ function LocalUnitsForm(props: Props) {
     }, [
         localUnitId,
         isExternallyManaged,
+        isExternallyManagedType,
         hasUpdatePermission,
         strings.noPermissionFormUpdateExternallyManaged,
         strings.noLocalUnitAddPermission,
         strings.noLocalUnitEditPermission,
         strings.noPermissionFormExternallyManaged,
     ]);
+
+    const getPreviousProfileValue = useCallback((profileClientId: string) => (
+        previousData?.health?.other_profiles?.find(
+            (previousProfile) => injectClientId(previousProfile)?.client_id === profileClientId,
+        )
+    ), [previousData]);
 
     const submitButton = readOnly ? null : (
         <Button
@@ -459,6 +524,7 @@ function LocalUnitsForm(props: Props) {
                 || updateLocalUnitsPending
                 || !hasUpdatePermission
                 || isExternallyManaged
+                || isExternallyManagedType
                 || (isDefined(localUnitId) && isNotDefined(updateReason))
             }
         >
@@ -489,7 +555,7 @@ function LocalUnitsForm(props: Props) {
                                 />
                             )}
                             {readOnlyFromProps
-                                && !isLocked
+                                && isEditable
                                 && hasUpdatePermission && (
                                 <Button
                                     name={undefined}
@@ -545,7 +611,7 @@ function LocalUnitsForm(props: Props) {
                     <FormGrid>
                         <SelectDiffWrapper
                             showPreviousValue={showValueChanges}
-                            enabled={showChanges}
+                            enabled={diffViewEnabled}
                             oldValue={previousData?.type}
                             value={value.type}
                             options={localUnitsOptions?.type}
@@ -563,7 +629,7 @@ function LocalUnitsForm(props: Props) {
                                 onChange={setFieldValue}
                                 keySelector={numericIdSelector}
                                 labelSelector={stringNameSelector}
-                                readOnly={readOnlyFromProps || isLocked}
+                                readOnly={readOnlyFromProps || isEditable}
                                 error={error?.type}
                                 nonClearable
                             />
@@ -571,7 +637,7 @@ function LocalUnitsForm(props: Props) {
                         <FormGrid>
                             <SelectDiffWrapper
                                 showPreviousValue={showValueChanges}
-                                enabled={showChanges}
+                                enabled={diffViewEnabled}
                                 oldValue={previousData?.visibility}
                                 value={value.visibility}
                                 options={visibilityOptions}
@@ -594,7 +660,7 @@ function LocalUnitsForm(props: Props) {
                                     error={error?.type}
                                 />
                             </SelectDiffWrapper>
-                            {showViewChanges && (
+                            {showViewChangesButton && (
                                 <Switch
                                     className={styles.toggleViewChanges}
                                     name="valueChanges"
@@ -608,6 +674,13 @@ function LocalUnitsForm(props: Props) {
                 </Portal>
             )}
             {/* Address and Contact */}
+            <NonFieldError
+                error={formError}
+                withFallbackError
+            />
+            {isDefined(otherErrors) && (
+                <NonFieldError error={otherErrors} />
+            )}
             <Container
                 heading={strings.addressAndContactTitle}
                 withHeaderBorder
@@ -615,25 +688,17 @@ function LocalUnitsForm(props: Props) {
                 footerActionsContainerClassName={styles.footerActions}
                 footerActions={!readOnly && isNotDefined(actionsContainerRef) && submitButton}
                 contentViewType="vertical"
-                // spacing="loose"
                 pending={localUnitDetailsPending || localUnitsOptionsPending}
                 errored={isDefined(localUnitId) && isDefined(localUnitDetailsError)}
                 errorMessage={localUnitDetailsError?.value.messageForNotification}
             >
-                <NonFieldError
-                    error={formError}
-                    withFallbackError
-                />
-                {isDefined(permissionError) && (
-                    <NonFieldError error={permissionError} />
-                )}
                 <FormGrid>
                     <FormColumnContainer>
                         <DiffWrapper
                             showPreviousValue={showValueChanges}
                             value={value.date_of_data}
                             previousValue={previousData?.date_of_data}
-                            diffViewEnabled={showChanges}
+                            diffViewEnabled={diffViewEnabled}
                             className={styles.diffContainer}
                         >
                             <DateInput
@@ -651,7 +716,7 @@ function LocalUnitsForm(props: Props) {
                             showPreviousValue={showValueChanges}
                             value={value.subtype}
                             previousValue={previousData?.subtype}
-                            diffViewEnabled={showChanges}
+                            diffViewEnabled={diffViewEnabled}
                             className={styles.diffContainer}
                         >
                             <TextInput
@@ -670,7 +735,7 @@ function LocalUnitsForm(props: Props) {
                                 showPreviousValue={showValueChanges}
                                 value={value.level}
                                 oldValue={previousData?.level}
-                                enabled={showChanges}
+                                enabled={diffViewEnabled}
                                 options={localUnitsOptions?.level}
                                 keySelector={numericIdSelector}
                                 labelSelector={stringNameSelector}
@@ -694,7 +759,7 @@ function LocalUnitsForm(props: Props) {
                             showPreviousValue={showValueChanges}
                             value={value.english_branch_name}
                             previousValue={previousData?.english_branch_name}
-                            diffViewEnabled={showChanges}
+                            diffViewEnabled={diffViewEnabled}
                             className={styles.diffContainer}
                         >
                             <TextInput
@@ -711,7 +776,7 @@ function LocalUnitsForm(props: Props) {
                             showPreviousValue={showValueChanges}
                             value={value.local_branch_name}
                             previousValue={previousData?.local_branch_name}
-                            diffViewEnabled={showChanges}
+                            diffViewEnabled={diffViewEnabled}
                             className={styles.diffContainer}
                         >
                             <TextInput
@@ -733,7 +798,7 @@ function LocalUnitsForm(props: Props) {
                                             showPreviousValue={showValueChanges}
                                             value={value.phone}
                                             previousValue={previousData?.phone}
-                                            diffViewEnabled={showChanges}
+                                            diffViewEnabled={diffViewEnabled}
                                             className={styles.diffContainer}
                                         >
                                             <TextInput
@@ -750,7 +815,7 @@ function LocalUnitsForm(props: Props) {
                                             showPreviousValue={showValueChanges}
                                             value={value.email}
                                             previousValue={previousData?.email}
-                                            diffViewEnabled={showChanges}
+                                            diffViewEnabled={diffViewEnabled}
                                             className={styles.diffContainer}
                                         >
                                             <TextInput
@@ -769,7 +834,7 @@ function LocalUnitsForm(props: Props) {
                                     showPreviousValue={showValueChanges}
                                     value={value.link}
                                     previousValue={previousData?.link}
-                                    diffViewEnabled={showChanges}
+                                    diffViewEnabled={diffViewEnabled}
                                     className={styles.diffContainer}
                                 >
                                     <TextInput
@@ -788,7 +853,7 @@ function LocalUnitsForm(props: Props) {
                             showPreviousValue={showValueChanges}
                             value={value.postcode}
                             previousValue={previousData?.postcode}
-                            diffViewEnabled={showChanges}
+                            diffViewEnabled={diffViewEnabled}
                             className={styles.diffContainer}
                         >
                             <TextInput
@@ -809,7 +874,7 @@ function LocalUnitsForm(props: Props) {
                                     previousValue={
                                         previousData?.health?.focal_point_position
                                     }
-                                    diffViewEnabled={showChanges}
+                                    diffViewEnabled={diffViewEnabled}
                                     className={styles.diffContainer}
                                 >
                                     <TextInput
@@ -829,7 +894,7 @@ function LocalUnitsForm(props: Props) {
                                             value={value.health?.focal_point_email}
                                             previousValue={previousData
                                                 ?.health?.focal_point_email}
-                                            diffViewEnabled={showChanges}
+                                            diffViewEnabled={diffViewEnabled}
                                             className={styles.diffContainer}
                                         >
                                             <TextInput
@@ -849,7 +914,7 @@ function LocalUnitsForm(props: Props) {
                                             previousValue={
                                                 previousData?.health?.focal_point_phone_number
                                             }
-                                            diffViewEnabled={showChanges}
+                                            diffViewEnabled={diffViewEnabled}
                                             className={styles.diffContainer}
                                         >
                                             <TextInput
@@ -874,7 +939,7 @@ function LocalUnitsForm(props: Props) {
                                     showPreviousValue={showValueChanges}
                                     value={value.focal_person_en}
                                     previousValue={previousData?.focal_person_en}
-                                    diffViewEnabled={showChanges}
+                                    diffViewEnabled={diffViewEnabled}
                                     className={styles.diffContainer}
                                 >
                                     <TextInput
@@ -891,7 +956,7 @@ function LocalUnitsForm(props: Props) {
                                     showPreviousValue={showValueChanges}
                                     value={value.focal_person_loc}
                                     previousValue={previousData?.focal_person_loc}
-                                    diffViewEnabled={showChanges}
+                                    diffViewEnabled={diffViewEnabled}
                                     className={styles.diffContainer}
                                 >
                                     <TextInput
@@ -913,7 +978,7 @@ function LocalUnitsForm(props: Props) {
                                     showPreviousValue={showValueChanges}
                                     value={value.source_en}
                                     previousValue={previousData?.source_en}
-                                    diffViewEnabled={showChanges}
+                                    diffViewEnabled={diffViewEnabled}
                                     className={styles.diffContainer}
                                 >
                                     <TextInput
@@ -930,7 +995,7 @@ function LocalUnitsForm(props: Props) {
                                     showPreviousValue={showValueChanges}
                                     value={value.source_loc}
                                     previousValue={previousData?.source_loc}
-                                    diffViewEnabled={showChanges}
+                                    diffViewEnabled={diffViewEnabled}
                                     className={styles.diffContainer}
                                 >
                                     <TextInput
@@ -951,7 +1016,7 @@ function LocalUnitsForm(props: Props) {
                                     showPreviousValue={showValueChanges}
                                     value={value.health?.affiliation}
                                     oldValue={previousData?.health?.affiliation}
-                                    enabled={showChanges}
+                                    enabled={diffViewEnabled}
                                     diffContainerClassName={styles.diffContainer}
                                     options={localUnitsOptions?.affiliation}
                                     keySelector={numericIdSelector}
@@ -976,7 +1041,7 @@ function LocalUnitsForm(props: Props) {
                                         showPreviousValue={showValueChanges}
                                         value={value.health?.other_affiliation}
                                         previousValue={previousData?.health?.other_affiliation}
-                                        diffViewEnabled={showChanges}
+                                        diffViewEnabled={diffViewEnabled}
                                         className={styles.diffContainer}
                                     >
                                         <TextInput
@@ -994,7 +1059,7 @@ function LocalUnitsForm(props: Props) {
                                     showPreviousValue={showValueChanges}
                                     value={value.health?.functionality}
                                     oldValue={previousData?.health?.functionality}
-                                    enabled={showChanges}
+                                    enabled={diffViewEnabled}
                                     diffContainerClassName={styles.diffContainer}
                                     options={localUnitsOptions?.functionality}
                                     keySelector={numericIdSelector}
@@ -1022,7 +1087,7 @@ function LocalUnitsForm(props: Props) {
                             showPreviousValue={showValueChanges}
                             value={value.country}
                             previousValue={previousData?.country}
-                            diffViewEnabled={showChanges}
+                            diffViewEnabled={diffViewEnabled}
                             className={styles.diffContainer}
                         >
                             <CountrySelectInput
@@ -1040,7 +1105,7 @@ function LocalUnitsForm(props: Props) {
                                 showPreviousValue={showValueChanges}
                                 value={value.address_en}
                                 previousValue={previousData?.address_en}
-                                diffViewEnabled={showChanges}
+                                diffViewEnabled={diffViewEnabled}
                                 className={styles.diffContainer}
                             >
                                 <TextInput
@@ -1057,7 +1122,7 @@ function LocalUnitsForm(props: Props) {
                                 showPreviousValue={showValueChanges}
                                 value={value.address_loc}
                                 previousValue={previousData?.address_loc}
-                                diffViewEnabled={showChanges}
+                                diffViewEnabled={diffViewEnabled}
                                 className={styles.diffContainer}
                             >
                                 <TextInput
@@ -1076,7 +1141,7 @@ function LocalUnitsForm(props: Props) {
                                 showPreviousValue={showValueChanges}
                                 value={value.city_en}
                                 previousValue={previousData?.city_en}
-                                diffViewEnabled={showChanges}
+                                diffViewEnabled={diffViewEnabled}
                                 className={styles.diffContainer}
                             >
                                 <TextInput
@@ -1093,7 +1158,7 @@ function LocalUnitsForm(props: Props) {
                                 showPreviousValue={showValueChanges}
                                 value={value.city_loc}
                                 previousValue={previousData?.city_loc}
-                                diffViewEnabled={showChanges}
+                                diffViewEnabled={diffViewEnabled}
                                 className={styles.diffContainer}
                             >
                                 <TextInput
@@ -1122,7 +1187,7 @@ function LocalUnitsForm(props: Props) {
                             onChange={setFieldValue}
                             readOnly={readOnly}
                             error={getErrorObject(error?.location_json)}
-                            showChanges={showChanges}
+                            showChanges={diffViewEnabled}
                             showPreviousValue={showValueChanges}
                             required
                         />
@@ -1148,7 +1213,7 @@ function LocalUnitsForm(props: Props) {
                                     showPreviousValue={showValueChanges}
                                     value={value.health?.health_facility_type}
                                     oldValue={previousData?.health?.health_facility_type}
-                                    enabled={showChanges}
+                                    enabled={diffViewEnabled}
                                     diffContainerClassName={styles.diffContainer}
                                     keySelector={numericIdSelector}
                                     labelSelector={stringNameSelector}
@@ -1174,10 +1239,11 @@ function LocalUnitsForm(props: Props) {
                                         value={value.health?.other_facility_type}
                                         previousValue={previousData?.health
                                             ?.other_facility_type}
-                                        diffViewEnabled={showChanges}
+                                        diffViewEnabled={diffViewEnabled}
                                         className={styles.diffContainer}
                                     >
                                         <TextInput
+                                            required
                                             inputSectionClassName={styles.inputSection}
                                             label={strings.otherFacilityType}
                                             name="other_facility_type"
@@ -1195,13 +1261,14 @@ function LocalUnitsForm(props: Props) {
                                         value={value.health?.primary_health_care_center}
                                         oldValue={previousData?.health
                                             ?.primary_health_care_center}
-                                        enabled={showChanges}
+                                        enabled={diffViewEnabled}
                                         diffContainerClassName={styles.diffContainer}
                                         options={localUnitsOptions?.primary_health_care_center}
                                         keySelector={numericIdSelector}
                                         labelSelector={stringNameSelector}
                                     >
                                         <SelectInput
+                                            required
                                             inputSectionClassName={styles.inputSection}
                                             label={strings.primaryHealthCareCenter}
                                             name="primary_health_care_center"
@@ -1222,10 +1289,11 @@ function LocalUnitsForm(props: Props) {
                                         showPreviousValue={showValueChanges}
                                         value={value.health?.speciality}
                                         previousValue={previousData?.health?.speciality}
-                                        diffViewEnabled={showChanges}
+                                        diffViewEnabled={diffViewEnabled}
                                         className={styles.diffContainer}
                                     >
                                         <TextInput
+                                            required
                                             inputSectionClassName={styles.inputSection}
                                             label={strings.specialities}
                                             name="speciality"
@@ -1244,7 +1312,7 @@ function LocalUnitsForm(props: Props) {
                                         showPreviousValue={showValueChanges}
                                         value={value.health?.hospital_type}
                                         oldValue={previousData?.health?.hospital_type}
-                                        enabled={showChanges}
+                                        enabled={diffViewEnabled}
                                         diffContainerClassName={styles.diffContainer}
                                     >
                                         <SelectInput
@@ -1269,7 +1337,7 @@ function LocalUnitsForm(props: Props) {
                                             previousValue={
                                                 previousData?.health?.ambulance_type_a
                                             }
-                                            diffViewEnabled={showChanges}
+                                            diffViewEnabled={diffViewEnabled}
                                             className={styles.diffContainer}
                                         >
                                             <NumberInput
@@ -1290,7 +1358,7 @@ function LocalUnitsForm(props: Props) {
                                             previousValue={
                                                 previousData?.health?.ambulance_type_b
                                             }
-                                            diffViewEnabled={showChanges}
+                                            diffViewEnabled={diffViewEnabled}
                                             className={styles.diffContainer}
                                         >
                                             <NumberInput
@@ -1311,7 +1379,7 @@ function LocalUnitsForm(props: Props) {
                                             previousValue={
                                                 previousData?.health?.ambulance_type_c
                                             }
-                                            diffViewEnabled={showChanges}
+                                            diffViewEnabled={diffViewEnabled}
                                             className={styles.diffContainer}
                                         >
                                             <NumberInput
@@ -1330,36 +1398,58 @@ function LocalUnitsForm(props: Props) {
                                 )}
                                 {value.health
                                     ?.health_facility_type === TRAINING_FACILITY_TYPE && (
-                                    <MultiSelectDiffWrapper
-                                        showPreviousValue={showValueChanges}
-                                        value={value.health?.professional_training_facilities}
-                                        oldValue={previousData?.health
-                                            ?.professional_training_facilities}
-                                        enabled={showChanges}
-                                        diffContainerClassName={styles.diffContainer}
-                                        keySelector={numericIdSelector}
-                                        labelSelector={stringNameSelector}
-                                        options={localUnitsOptions
-                                            ?.professional_training_facilities}
-                                    >
-                                        <Checklist
-                                            className={styles.inputSection}
-                                            label={strings.professionalTrainingFacilities}
-                                            name="professional_training_facilities"
-                                            options={localUnitsOptions
+                                    <>
+                                        <MultiSelectDiffWrapper
+                                            showPreviousValue={showValueChanges}
+                                            value={value.health?.professional_training_facilities}
+                                            oldValue={previousData?.health
                                                 ?.professional_training_facilities}
-                                            value={value.health
-                                                ?.professional_training_facilities}
-                                            onChange={onHealthFieldChange}
+                                            enabled={diffViewEnabled}
+                                            diffContainerClassName={styles.diffContainer}
                                             keySelector={numericIdSelector}
                                             labelSelector={stringNameSelector}
-                                            readOnly={readOnly}
-                                            error={getErrorString(
-                                                healthFormError
-                                                    ?.professional_training_facilities,
-                                            )}
-                                        />
-                                    </MultiSelectDiffWrapper>
+                                            options={localUnitsOptions
+                                                ?.professional_training_facilities}
+                                        >
+                                            <Checklist
+                                                className={styles.inputSection}
+                                                label={strings.professionalTrainingFacilities}
+                                                name="professional_training_facilities"
+                                                options={localUnitsOptions
+                                                    ?.professional_training_facilities}
+                                                value={value.health
+                                                    ?.professional_training_facilities}
+                                                onChange={onHealthFieldChange}
+                                                keySelector={numericIdSelector}
+                                                labelSelector={stringNameSelector}
+                                                readOnly={readOnly}
+                                                error={getErrorString(
+                                                    healthFormError
+                                                        ?.professional_training_facilities,
+                                                )}
+                                            />
+                                        </MultiSelectDiffWrapper>
+                                        {isOtherTrainingFacility && (
+                                            <DiffWrapper
+                                                showPreviousValue={showValueChanges}
+                                                value={value.health?.other_training_facilities}
+                                                previousValue={previousData?.health
+                                                    ?.other_training_facilities}
+                                                diffViewEnabled={diffViewEnabled}
+                                                className={styles.diffContainer}
+                                            >
+                                                <TextInput
+                                                    name="other_training_facilities"
+                                                    label={strings.otherTrainingFacilities}
+                                                    value={value.health?.other_training_facilities}
+                                                    onChange={onHealthFieldChange}
+                                                    readOnly={readOnly}
+                                                    error={healthFormError
+                                                        ?.other_training_facilities}
+                                                />
+                                            </DiffWrapper>
+                                        )}
+                                    </>
                                 )}
                             </FormColumnContainer>
                             <FormColumnContainer>
@@ -1367,7 +1457,7 @@ function LocalUnitsForm(props: Props) {
                                     showPreviousValue={showValueChanges}
                                     value={value.health?.general_medical_services}
                                     oldValue={previousData?.health?.general_medical_services}
-                                    enabled={showChanges}
+                                    enabled={diffViewEnabled}
                                     options={localUnitsOptions?.general_medical_services}
                                     keySelector={numericIdSelector}
                                     labelSelector={stringNameSelector}
@@ -1398,7 +1488,7 @@ function LocalUnitsForm(props: Props) {
                                         previousData
                                             ?.health?.specialized_medical_beyond_primary_level
                                     }
-                                    enabled={showChanges}
+                                    enabled={diffViewEnabled}
                                     options={localUnitsOptions
                                         ?.specialized_medical_beyond_primary_level}
                                     keySelector={numericIdSelector}
@@ -1428,7 +1518,7 @@ function LocalUnitsForm(props: Props) {
                                     showPreviousValue={showValueChanges}
                                     value={value.health?.blood_services}
                                     oldValue={previousData?.health?.blood_services}
-                                    enabled={showChanges}
+                                    enabled={diffViewEnabled}
                                     diffContainerClassName={styles.diffContainer}
                                     keySelector={numericIdSelector}
                                     labelSelector={stringNameSelector}
@@ -1452,7 +1542,7 @@ function LocalUnitsForm(props: Props) {
                                     showPreviousValue={showValueChanges}
                                     value={value.health?.other_services}
                                     previousValue={previousData?.health?.other_services}
-                                    diffViewEnabled={showChanges}
+                                    diffViewEnabled={diffViewEnabled}
                                     className={styles.diffContainer}
                                 >
                                     <TextInput
@@ -1476,7 +1566,7 @@ function LocalUnitsForm(props: Props) {
                                         showPreviousValue={showValueChanges}
                                         value={value.health?.is_warehousing}
                                         previousValue={previousData?.health?.is_warehousing}
-                                        diffViewEnabled={showChanges}
+                                        diffViewEnabled={diffViewEnabled}
                                         className={styles.diffContainer}
                                     >
                                         <BooleanInput
@@ -1496,7 +1586,7 @@ function LocalUnitsForm(props: Props) {
                                         showPreviousValue={showValueChanges}
                                         value={value.health?.is_cold_chain}
                                         previousValue={previousData?.health?.is_cold_chain}
-                                        diffViewEnabled={showChanges}
+                                        diffViewEnabled={diffViewEnabled}
                                         className={styles.diffContainer}
                                     >
                                         <BooleanInput
@@ -1516,7 +1606,7 @@ function LocalUnitsForm(props: Props) {
                                         showPreviousValue={showValueChanges}
                                         value={value.health?.other_medical_heal}
                                         previousValue={previousData?.health?.other_medical_heal}
-                                        diffViewEnabled={showChanges}
+                                        diffViewEnabled={diffViewEnabled}
                                         className={styles.diffContainer}
                                     >
                                         <BooleanInput
@@ -1541,7 +1631,7 @@ function LocalUnitsForm(props: Props) {
                                                     previousValue={
                                                         previousData?.health?.maximum_capacity
                                                     }
-                                                    diffViewEnabled={showChanges}
+                                                    diffViewEnabled={diffViewEnabled}
                                                     className={styles.diffContainer}
                                                 >
                                                     <NumberInput
@@ -1565,7 +1655,7 @@ function LocalUnitsForm(props: Props) {
                                                         previousData
                                                             ?.health?.number_of_isolation_rooms
                                                     }
-                                                    diffViewEnabled={showChanges}
+                                                    diffViewEnabled={diffViewEnabled}
                                                     className={styles.diffContainer}
                                                 >
                                                     <NumberInput
@@ -1594,7 +1684,7 @@ function LocalUnitsForm(props: Props) {
                                             previousValue={
                                                 previousData?.health?.is_teaching_hospital
                                             }
-                                            diffViewEnabled={showChanges}
+                                            diffViewEnabled={diffViewEnabled}
                                             className={styles.diffContainer}
                                         >
                                             <BooleanInput
@@ -1626,7 +1716,7 @@ function LocalUnitsForm(props: Props) {
                                                 previousValue={
                                                     previousData?.health?.is_in_patient_capacity
                                                 }
-                                                diffViewEnabled={showChanges}
+                                                diffViewEnabled={diffViewEnabled}
                                                 className={styles.diffContainer}
                                             >
                                                 <BooleanInput
@@ -1646,7 +1736,7 @@ function LocalUnitsForm(props: Props) {
                                                 previousValue={
                                                     previousData?.health?.is_isolation_rooms_wards
                                                 }
-                                                diffViewEnabled={showChanges}
+                                                diffViewEnabled={diffViewEnabled}
                                                 className={styles.diffContainer}
                                             >
                                                 <BooleanInput
@@ -1680,7 +1770,7 @@ function LocalUnitsForm(props: Props) {
                                     previousValue={
                                         previousData?.health?.total_number_of_human_resource
                                     }
-                                    diffViewEnabled={showChanges}
+                                    diffViewEnabled={diffViewEnabled}
                                     className={styles.diffContainer}
                                 >
                                     <NumberInput
@@ -1702,7 +1792,7 @@ function LocalUnitsForm(props: Props) {
                                     previousValue={
                                         previousData?.health?.general_practitioner
                                     }
-                                    diffViewEnabled={showChanges}
+                                    diffViewEnabled={diffViewEnabled}
                                     className={styles.diffContainer}
                                 >
                                     <NumberInput
@@ -1721,7 +1811,7 @@ function LocalUnitsForm(props: Props) {
                                     showPreviousValue={showValueChanges}
                                     value={value.health?.specialist}
                                     previousValue={previousData?.health?.specialist}
-                                    diffViewEnabled={showChanges}
+                                    diffViewEnabled={diffViewEnabled}
                                     className={styles.diffContainer}
                                 >
                                     <NumberInput
@@ -1742,7 +1832,7 @@ function LocalUnitsForm(props: Props) {
                                     previousValue={
                                         previousData?.health?.residents_doctor
                                     }
-                                    diffViewEnabled={showChanges}
+                                    diffViewEnabled={diffViewEnabled}
                                     className={styles.diffContainer}
                                 >
                                     <NumberInput
@@ -1761,7 +1851,7 @@ function LocalUnitsForm(props: Props) {
                                     showPreviousValue={showValueChanges}
                                     value={value.health?.nurse}
                                     previousValue={previousData?.health?.nurse}
-                                    diffViewEnabled={showChanges}
+                                    diffViewEnabled={diffViewEnabled}
                                     className={styles.diffContainer}
                                 >
                                     <NumberInput
@@ -1782,7 +1872,7 @@ function LocalUnitsForm(props: Props) {
                                     showPreviousValue={showValueChanges}
                                     value={value.health?.dentist}
                                     previousValue={previousData?.health?.dentist}
-                                    diffViewEnabled={showChanges}
+                                    diffViewEnabled={diffViewEnabled}
                                     className={styles.diffContainer}
                                 >
                                     <NumberInput
@@ -1801,7 +1891,7 @@ function LocalUnitsForm(props: Props) {
                                     showPreviousValue={showValueChanges}
                                     value={value.health?.nursing_aid}
                                     previousValue={previousData?.health?.nursing_aid}
-                                    diffViewEnabled={showChanges}
+                                    diffViewEnabled={diffViewEnabled}
                                     className={styles.diffContainer}
                                 >
                                     <NumberInput
@@ -1820,7 +1910,7 @@ function LocalUnitsForm(props: Props) {
                                     showPreviousValue={showValueChanges}
                                     value={value.health?.midwife}
                                     previousValue={previousData?.health?.midwife}
-                                    diffViewEnabled={showChanges}
+                                    diffViewEnabled={diffViewEnabled}
                                     className={styles.diffContainer}
                                 >
                                     <NumberInput
@@ -1835,26 +1925,31 @@ function LocalUnitsForm(props: Props) {
                                         )}
                                     />
                                 </DiffWrapper>
+                                {!readOnly && (
+                                    <Button
+                                        name={undefined}
+                                        variant="secondary"
+                                        disabled={readOnly}
+                                        onClick={handleOtherProfilesAddButtonClick}
+                                    >
+                                        {strings.addOtherProfilesButtonLabel}
+                                    </Button>
+                                )}
+                                {value.health?.other_profiles?.map((profile, i) => (
+                                    <OtherProfilesInput
+                                        key={profile.client_id}
+                                        index={i}
+                                        value={profile}
+                                        onChange={onOtherProfilesChanges}
+                                        onRemove={onOtherProfilesRemove}
+                                        error={getErrorObject(healthFormError?.other_profiles)}
+                                        readOnly={readOnly}
+                                        showChanges={diffViewEnabled}
+                                        previousValue={getPreviousProfileValue(profile.client_id)}
+                                        showValueChanges={showValueChanges}
+                                    />
+                                ))}
                             </FormColumnContainer>
-                        </FormGrid>
-                        <FormGrid>
-                            <DiffWrapper
-                                showPreviousValue={showValueChanges}
-                                value={value.health?.other_profiles}
-                                previousValue={previousData?.health?.other_profiles}
-                                diffViewEnabled={showChanges}
-                                className={styles.diffContainer}
-                            >
-                                <TextInput
-                                    inputSectionClassName={styles.inputSection}
-                                    label={strings.otherProfiles}
-                                    name="other_profiles"
-                                    value={value.health?.other_profiles}
-                                    onChange={onHealthFieldChange}
-                                    readOnly={readOnly}
-                                    error={healthFormError?.other_profiles}
-                                />
-                            </DiffWrapper>
                         </FormGrid>
                     </Container>
                     <Container>
@@ -1862,7 +1957,7 @@ function LocalUnitsForm(props: Props) {
                             showPreviousValue={showValueChanges}
                             value={value.health?.feedback}
                             previousValue={previousData?.health?.feedback}
-                            diffViewEnabled={showChanges}
+                            diffViewEnabled={diffViewEnabled}
                             className={styles.diffContainer}
                         >
                             <TextArea
@@ -1911,20 +2006,17 @@ function LocalUnitsForm(props: Props) {
                     </LocalUnitViewModal>
                 )
             }
-            {
-                showValidateLocalUnitModal
-                && isDefined(localUnitId) && (
-                    <LocalUnitValidateModal
-                        localUnitId={localUnitId}
-                        onClose={setShowValidateLocalUnitModalFalse}
-                        localUnitName={getFirstTruthyString(
-                            value.local_branch_name,
-                            value.english_branch_name,
-                        )}
-                        onActionSuccess={onSuccess}
-                    />
-                )
-            }
+            {showValidateLocalUnitModal && isDefined(localUnitId) && (
+                <LocalUnitValidateModal
+                    localUnitId={localUnitId}
+                    onClose={setShowValidateLocalUnitModalFalse}
+                    localUnitName={getFirstTruthyString(
+                        value.local_branch_name,
+                        value.english_branch_name,
+                    )}
+                    onActionSuccess={onSuccess}
+                />
+            )}
         </div>
     );
 }
