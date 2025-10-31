@@ -11,6 +11,7 @@ import { useExternalRequest } from '#utils/restRequest';
 export interface LocationSearchResult {
     addresstype: string;
     boundingbox: string[];
+    readOnly?: boolean;
     class: string;
     display_name: string;
     importance: number;
@@ -41,12 +42,14 @@ interface Props {
     className?: string;
     onResultSelect: (result: LocationSearchResult | undefined) => void;
     countryIso: string;
+    readOnly?: boolean;
 }
 
 function LocationSearchInput(props: Props) {
     const {
         className,
         onResultSelect,
+        readOnly,
         countryIso,
     } = props;
 
@@ -84,6 +87,7 @@ function LocationSearchInput(props: Props) {
             name=""
             // FIXME: use translations
             placeholder="Search for a place"
+            readOnly={readOnly}
             options={undefined}
             value={undefined}
             keySelector={keySelector}

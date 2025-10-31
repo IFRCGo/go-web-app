@@ -1,0 +1,8 @@
+{
+    "namespace": "countryNsOverviewContextAndStructure",
+    "strings": {
+        "otherProfileOutputLabel": "Other Profiles",
+        "otherProfilePositionOutputLabel": "Position",
+        "otherProfileNumberOutputLabel": "Number"
+    }
+}

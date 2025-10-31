@@ -63,7 +63,6 @@ import {
     useRequest,
 } from '#utils/restRequest';
 
-import { type ManageResponse } from '../common';
 import {
     AUTHENTICATED,
     PUBLIC,
@@ -133,7 +132,6 @@ interface Props {
     presentationMode?: boolean;
     filter: FilterValue;
     localUnitsOptions: GoApiResponse<'/api/v2/local-units-options/'> | undefined;
-    manageResponse: ManageResponse;
 }
 
 function LocalUnitsMap(props: Props) {
@@ -142,7 +140,6 @@ function LocalUnitsMap(props: Props) {
         presentationMode = false,
         filter,
         localUnitsOptions,
-        manageResponse,
     } = props;
     const { countryResponse } = useOutletContext<CountryOutletContext>();
     const { isAuthenticated } = useAuth();
@@ -612,7 +609,6 @@ function LocalUnitsMap(props: Props) {
             )}
             {(showLocalUnitModal && (
                 <LocalUnitsFormModal
-                    manageResponse={manageResponse}
                     onClose={handleLocalUnitsFormModalClose}
                     localUnitId={clickedPointProperties?.localUnitId}
                     readOnly={readOnlyLocalUnitModal}
