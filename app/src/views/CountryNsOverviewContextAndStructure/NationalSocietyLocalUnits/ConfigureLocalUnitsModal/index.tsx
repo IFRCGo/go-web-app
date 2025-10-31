@@ -67,22 +67,13 @@ function ConfigureLocalUnitsModal(props: Props) {
 
     const handleLocalUnitSwitchChange = useCallback((value: boolean, name: number) => {
         setLocalUnitType(name);
-        if (isNotDefined(manageResponse)
-            && isDefined(countryResponse)
-        ) {
+
+        if (isDefined(countryResponse)) {
+            const isNew = isNotDefined(manageResponse) || isNotDefined(manageResponse[name]);
+            const manageId = isNew ? undefined : manageResponse[name]?.externallyManagedId;
+
             setManageLocalUnitsValues({
-                id: undefined,
-                country: countryResponse.id,
-                local_unit_type: name,
-                enabled: value,
-            });
-        }
-        if (isDefined(manageResponse)
-            && isDefined(manageResponse[name])
-            && isDefined(countryResponse)
-        ) {
-            setManageLocalUnitsValues({
-                id: manageResponse[name].externallyManagedId,
+                id: manageId,
                 country: countryResponse.id,
                 local_unit_type: name,
                 enabled: value,
@@ -97,8 +88,8 @@ function ConfigureLocalUnitsModal(props: Props) {
     ]);
 
     const isNewManageLocalUnit = useMemo(() => {
-        if (isDefined(manageLocalUnitsValues)
-            && isDefined(manageLocalUnitsValues.id)) {
+        if (isNotDefined(manageLocalUnitsValues)
+            || isNotDefined(manageLocalUnitsValues?.id)) {
             return true;
         }
         return false;

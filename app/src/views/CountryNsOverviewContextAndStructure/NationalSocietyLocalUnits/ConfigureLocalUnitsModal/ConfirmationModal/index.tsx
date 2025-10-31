@@ -111,8 +111,9 @@ function ConfirmationModal(props: Props) {
     const handleConfirmButtonChange = useCallback(() => {
         if (isNewManageLocalUnit) {
             addManageLocalUnit(manageLocalUnitsValues);
+        } else {
+            updateManageLocalUnit(manageLocalUnitsValues);
         }
-        updateManageLocalUnit(manageLocalUnitsValues);
     }, [isNewManageLocalUnit,
         addManageLocalUnit, manageLocalUnitsValues, updateManageLocalUnit]);
 

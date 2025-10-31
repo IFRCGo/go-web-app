@@ -20,7 +20,7 @@ function usePermissions() {
                 && isDefined(countryId)
                 && !!userMe?.is_admin_for_countries?.includes(countryId)
             );
-            const isRegionAdmin = (regionId: number | undefined) => (
+            const isRegionAdmin = (regionId: number | null | undefined) => (
                 !isGuestUser
                 && isDefined(regionId)
                 && !!userMe?.is_admin_for_regions?.includes(regionId)

@@ -58,6 +58,7 @@ function LocalUnitsTable(props: Props) {
     const {
         isSuperUser,
         isCountryAdmin,
+        isRegionAdmin,
         isLocalUnitGlobalValidator,
         isLocalUnitRegionValidator,
         isLocalUnitCountryValidator,
@@ -71,6 +72,7 @@ function LocalUnitsTable(props: Props) {
         || isLocalUnitRegionValidator(countryResponse?.region ?? undefined);
 
     const hasAddEditLocalUnitPermission = isCountryAdmin(countryResponse?.id)
+        || isRegionAdmin(countryResponse?.region)
         || hasPermission;
 
     const {

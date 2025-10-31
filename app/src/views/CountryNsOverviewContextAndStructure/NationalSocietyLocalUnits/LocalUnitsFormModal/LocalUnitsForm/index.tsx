@@ -155,6 +155,7 @@ function LocalUnitsForm(props: Props) {
     const {
         isSuperUser,
         isCountryAdmin,
+        isRegionAdmin,
         isLocalUnitGlobalValidatorByType,
         isLocalUnitRegionValidatorByType,
         isLocalUnitCountryValidatorByType,
@@ -388,7 +389,12 @@ function LocalUnitsForm(props: Props) {
         || isLocalUnitRegionValidatorByType(countryResponse?.region, value.type)
     );
 
-    const hasUpdatePermission = isCountryAdmin(countryResponse?.id) || hasValidatePermission;
+    const hasUpdatePermission = isCountryAdmin(countryResponse?.id)
+        || isRegionAdmin(countryResponse?.region)
+        || hasValidatePermission;
+
+    const hasDeletePermission = isCountryAdmin(countryResponse?.id)
+        || hasValidatePermission;
 
     const handleFormSubmit = useCallback(
         () => {
@@ -537,7 +543,7 @@ function LocalUnitsForm(props: Props) {
                 <Portal container={actionsContainerRef.current}>
                     {isDefined(localUnitDetailsResponse) && (
                         <>
-                            {hasUpdatePermission && (
+                            {hasDeletePermission && (
                                 <Button
                                     name={undefined}
                                     onClick={setShowDeleteLocalUnitModalTrue}
