@@ -271,8 +271,7 @@ function LocalUnitsForm(props: Props) {
         );
     }, [externallyManagedLocalUnitsResponse]);
 
-    const isEditable = isDefined(localUnitDetailsResponse?.status)
-        && localUnitDetailsResponse.status === VALIDATED;
+    const isEditable = localUnitDetailsResponse?.status === VALIDATED;
 
     const isNewlyCreated = localUnitDetailsResponse?.status === UNVALIDATED;
     const isExternallyManaged = localUnitDetailsResponse?.status === EXTERNALLY_MANAGED;
@@ -280,7 +279,7 @@ function LocalUnitsForm(props: Props) {
         ? !!(externallyManagedByLocalUnitType?.[value.type])
         : false;
 
-    const readOnly = readOnlyFromProps || !isEditable || isExternallyManaged;
+    const readOnly = readOnlyFromProps || isExternallyManaged || isExternallyManagedType;
 
     const {
         response: localUnitsOptions,
@@ -867,110 +866,105 @@ function LocalUnitsForm(props: Props) {
                             />
                         </DiffWrapper>
                         {value.type === TYPE_HEALTH_CARE && (
-                            <>
-                                <DiffWrapper
-                                    showPreviousValue={showValueChanges}
-                                    value={value.health?.focal_point_position}
-                                    previousValue={
-                                        previousData?.health?.focal_point_position
-                                    }
-                                    diffViewEnabled={diffViewEnabled}
-                                    className={styles.diffContainer}
-                                >
-                                    <TextInput
-                                        inputSectionClassName={styles.inputSection}
-                                        label={strings.focalPointPosition}
-                                        name="focal_point_position"
-                                        value={value.health?.focal_point_position}
-                                        onChange={onHealthFieldChange}
-                                        readOnly={readOnly}
-                                        error={healthFormError?.focal_point_position}
-                                    />
-                                </DiffWrapper>
-                                {hasUpdatePermission && (
-                                    <>
-                                        <DiffWrapper
-                                            showPreviousValue={showValueChanges}
-                                            value={value.health?.focal_point_email}
-                                            previousValue={previousData
-                                                ?.health?.focal_point_email}
-                                            diffViewEnabled={diffViewEnabled}
-                                            className={styles.diffContainer}
-                                        >
-                                            <TextInput
-                                                inputSectionClassName={styles.inputSection}
-                                                label={strings.focalPointEmail}
-                                                required
-                                                name="focal_point_email"
-                                                value={value.health?.focal_point_email}
-                                                onChange={onHealthFieldChange}
-                                                readOnly={readOnly}
-                                                error={healthFormError?.focal_point_email}
-                                            />
-                                        </DiffWrapper>
-                                        <DiffWrapper
-                                            showPreviousValue={showValueChanges}
-                                            value={value.health?.focal_point_phone_number}
-                                            previousValue={
-                                                previousData?.health?.focal_point_phone_number
-                                            }
-                                            diffViewEnabled={diffViewEnabled}
-                                            className={styles.diffContainer}
-                                        >
-                                            <TextInput
-                                                inputSectionClassName={styles.inputSection}
-                                                label={strings.focalPointPhoneNumber}
-                                                name="focal_point_phone_number"
-                                                value={value.health?.focal_point_phone_number}
-                                                onChange={onHealthFieldChange}
-                                                readOnly={readOnly}
-                                                error={
-                                                    healthFormError?.focal_point_phone_number
-                                                }
-                                            />
-                                        </DiffWrapper>
-                                    </>
-                                )}
-                            </>
-                        )}
-                        {value.type !== TYPE_HEALTH_CARE && hasUpdatePermission && (
-                            <>
-                                <DiffWrapper
-                                    showPreviousValue={showValueChanges}
-                                    value={value.focal_person_en}
-                                    previousValue={previousData?.focal_person_en}
-                                    diffViewEnabled={diffViewEnabled}
-                                    className={styles.diffContainer}
-                                >
-                                    <TextInput
-                                        inputSectionClassName={styles.inputSection}
-                                        name="focal_person_en"
-                                        label={strings.focalPersonEn}
-                                        value={value.focal_person_en}
-                                        onChange={setFieldValue}
-                                        readOnly={readOnly}
-                                        error={error?.focal_person_en}
-                                    />
-                                </DiffWrapper>
-                                <DiffWrapper
-                                    showPreviousValue={showValueChanges}
-                                    value={value.focal_person_loc}
-                                    previousValue={previousData?.focal_person_loc}
-                                    diffViewEnabled={diffViewEnabled}
-                                    className={styles.diffContainer}
-                                >
-                                    <TextInput
-                                        inputSectionClassName={styles.inputSection}
-                                        required
-                                        label={strings.focalPersonLocal}
-                                        name="focal_person_loc"
+                            hasUpdatePermission && (
+                                <>
+                                    <DiffWrapper
+                                        showPreviousValue={showValueChanges}
                                         value={value.focal_person_loc}
-                                        onChange={setFieldValue}
-                                        readOnly={readOnly}
-                                        error={error?.focal_person_loc}
-                                    />
-                                </DiffWrapper>
-                            </>
+                                        previousValue={previousData?.focal_person_loc}
+                                        diffViewEnabled={diffViewEnabled}
+                                        className={styles.diffContainer}
+                                    >
+                                        <TextInput
+                                            inputSectionClassName={styles.inputSection}
+                                            required
+                                            label={strings.focalPersonLocal}
+                                            name="focal_person_loc"
+                                            value={value.focal_person_loc}
+                                            onChange={setFieldValue}
+                                            readOnly={readOnly}
+                                            error={error?.focal_person_loc}
+                                        />
+                                    </DiffWrapper>
+                                    <DiffWrapper
+                                        showPreviousValue={showValueChanges}
+                                        value={value.focal_person_en}
+                                        previousValue={previousData?.focal_person_en}
+                                        diffViewEnabled={diffViewEnabled}
+                                        className={styles.diffContainer}
+                                    >
+                                        <TextInput
+                                            inputSectionClassName={styles.inputSection}
+                                            name="focal_person_en"
+                                            label={strings.focalPersonEn}
+                                            value={value.focal_person_en}
+                                            onChange={setFieldValue}
+                                            readOnly={readOnly}
+                                            error={error?.focal_person_en}
+                                        />
+                                    </DiffWrapper>
+                                    <DiffWrapper
+                                        showPreviousValue={showValueChanges}
+                                        value={value.health?.focal_point_position}
+                                        previousValue={
+                                            previousData?.health?.focal_point_position
+                                        }
+                                        diffViewEnabled={diffViewEnabled}
+                                        className={styles.diffContainer}
+                                    >
+                                        <TextInput
+                                            required
+                                            inputSectionClassName={styles.inputSection}
+                                            label={strings.focalPointPosition}
+                                            name="focal_point_position"
+                                            value={value.health?.focal_point_position}
+                                            onChange={onHealthFieldChange}
+                                            readOnly={readOnly}
+                                            error={healthFormError?.focal_point_position}
+                                        />
+                                    </DiffWrapper>
+                                    <DiffWrapper
+                                        showPreviousValue={showValueChanges}
+                                        value={value.health?.focal_point_email}
+                                        previousValue={previousData
+                                            ?.health?.focal_point_email}
+                                        diffViewEnabled={diffViewEnabled}
+                                        className={styles.diffContainer}
+                                    >
+                                        <TextInput
+                                            inputSectionClassName={styles.inputSection}
+                                            label={strings.focalPointEmail}
+                                            required
+                                            name="focal_point_email"
+                                            value={value.health?.focal_point_email}
+                                            onChange={onHealthFieldChange}
+                                            readOnly={readOnly}
+                                            error={healthFormError?.focal_point_email}
+                                        />
+                                    </DiffWrapper>
+                                    <DiffWrapper
+                                        showPreviousValue={showValueChanges}
+                                        value={value.health?.focal_point_phone_number}
+                                        previousValue={
+                                            previousData?.health?.focal_point_phone_number
+                                        }
+                                        diffViewEnabled={diffViewEnabled}
+                                        className={styles.diffContainer}
+                                    >
+                                        <TextInput
+                                            inputSectionClassName={styles.inputSection}
+                                            label={strings.focalPointPhoneNumber}
+                                            name="focal_point_phone_number"
+                                            value={value.health?.focal_point_phone_number}
+                                            onChange={onHealthFieldChange}
+                                            readOnly={readOnly}
+                                            error={
+                                                healthFormError?.focal_point_phone_number
+                                            }
+                                        />
+                                    </DiffWrapper>
+                                </>
+                            )
                         )}
                         {value.type !== TYPE_HEALTH_CARE && (
                             <>
@@ -1622,59 +1616,6 @@ function LocalUnitsForm(props: Props) {
                                             )}
                                         />
                                     </DiffWrapper>
-                                    {value.health?.health_facility_type === HOSPITAL_TYPE && (
-                                        <>
-                                            {value.health?.is_in_patient_capacity && (
-                                                <DiffWrapper
-                                                    showPreviousValue={showValueChanges}
-                                                    value={value.health?.maximum_capacity}
-                                                    previousValue={
-                                                        previousData?.health?.maximum_capacity
-                                                    }
-                                                    diffViewEnabled={diffViewEnabled}
-                                                    className={styles.diffContainer}
-                                                >
-                                                    <NumberInput
-                                                        inputSectionClassName={styles.inputSection}
-                                                        label={strings.maximumCapacity}
-                                                        name="maximum_capacity"
-                                                        value={value.health?.maximum_capacity}
-                                                        onChange={onHealthFieldChange}
-                                                        readOnly={readOnly}
-                                                        error={getErrorString(
-                                                            healthFormError?.maximum_capacity,
-                                                        )}
-                                                    />
-                                                </DiffWrapper>
-                                            )}
-                                            {value.health?.is_isolation_rooms_wards && (
-                                                <DiffWrapper
-                                                    showPreviousValue={showValueChanges}
-                                                    value={value.health?.number_of_isolation_rooms}
-                                                    previousValue={
-                                                        previousData
-                                                            ?.health?.number_of_isolation_rooms
-                                                    }
-                                                    diffViewEnabled={diffViewEnabled}
-                                                    className={styles.diffContainer}
-                                                >
-                                                    <NumberInput
-                                                        inputSectionClassName={styles.inputSection}
-                                                        label={strings.numberOfIsolationRooms}
-                                                        name="number_of_isolation_rooms"
-                                                        value={value.health
-                                                            ?.number_of_isolation_rooms}
-                                                        onChange={onHealthFieldChange}
-                                                        readOnly={readOnly}
-                                                        error={getErrorString(
-                                                            healthFormError
-                                                                ?.number_of_isolation_rooms,
-                                                        )}
-                                                    />
-                                                </DiffWrapper>
-                                            )}
-                                        </>
-                                    )}
                                 </FormColumnContainer>
                                 <FormColumnContainer>
                                     {value?.health?.health_facility_type === HOSPITAL_TYPE && (
@@ -1730,6 +1671,30 @@ function LocalUnitsForm(props: Props) {
                                                     error={healthFormError?.is_in_patient_capacity}
                                                 />
                                             </DiffWrapper>
+                                            {value.health?.is_in_patient_capacity && (
+                                                <DiffWrapper
+                                                    showPreviousValue={showValueChanges}
+                                                    value={value.health?.maximum_capacity}
+                                                    previousValue={
+                                                        previousData?.health?.maximum_capacity
+                                                    }
+                                                    diffViewEnabled={diffViewEnabled}
+                                                    className={styles.diffContainer}
+                                                >
+                                                    <NumberInput
+                                                        required
+                                                        inputSectionClassName={styles.inputSection}
+                                                        label={strings.maximumCapacity}
+                                                        name="maximum_capacity"
+                                                        value={value.health?.maximum_capacity}
+                                                        onChange={onHealthFieldChange}
+                                                        readOnly={readOnly}
+                                                        error={getErrorString(
+                                                            healthFormError?.maximum_capacity,
+                                                        )}
+                                                    />
+                                                </DiffWrapper>
+                                            )}
                                             <DiffWrapper
                                                 showPreviousValue={showValueChanges}
                                                 value={value.health?.is_isolation_rooms_wards}
@@ -1751,6 +1716,33 @@ function LocalUnitsForm(props: Props) {
                                                         ?.is_isolation_rooms_wards}
                                                 />
                                             </DiffWrapper>
+                                            {value.health?.is_isolation_rooms_wards && (
+                                                <DiffWrapper
+                                                    showPreviousValue={showValueChanges}
+                                                    value={value.health?.number_of_isolation_rooms}
+                                                    previousValue={
+                                                        previousData
+                                                            ?.health?.number_of_isolation_rooms
+                                                    }
+                                                    diffViewEnabled={diffViewEnabled}
+                                                    className={styles.diffContainer}
+                                                >
+                                                    <NumberInput
+                                                        required
+                                                        inputSectionClassName={styles.inputSection}
+                                                        label={strings.numberOfIsolationRooms}
+                                                        name="number_of_isolation_rooms"
+                                                        value={value.health
+                                                            ?.number_of_isolation_rooms}
+                                                        onChange={onHealthFieldChange}
+                                                        readOnly={readOnly}
+                                                        error={getErrorString(
+                                                            healthFormError
+                                                                ?.number_of_isolation_rooms,
+                                                        )}
+                                                    />
+                                                </DiffWrapper>
+                                            )}
                                         </>
                                     )}
                                 </FormColumnContainer>
@@ -1925,16 +1917,25 @@ function LocalUnitsForm(props: Props) {
                                         )}
                                     />
                                 </DiffWrapper>
-                                {!readOnly && (
-                                    <Button
-                                        name={undefined}
-                                        variant="secondary"
-                                        disabled={readOnly}
-                                        onClick={handleOtherProfilesAddButtonClick}
-                                    >
-                                        {strings.addOtherProfilesButtonLabel}
-                                    </Button>
-                                )}
+                                <DiffWrapper
+                                    showPreviousValue={showValueChanges}
+                                    value={value.health?.pharmacists}
+                                    previousValue={previousData?.health?.pharmacists}
+                                    diffViewEnabled={diffViewEnabled}
+                                    className={styles.diffContainer}
+                                >
+                                    <NumberInput
+                                        inputSectionClassName={styles.inputSection}
+                                        label={strings.pharmacists}
+                                        name="pharmacists"
+                                        value={value.health?.pharmacists}
+                                        onChange={onHealthFieldChange}
+                                        readOnly={readOnly}
+                                        error={getErrorString(
+                                            healthFormError?.pharmacists,
+                                        )}
+                                    />
+                                </DiffWrapper>
                                 {value.health?.other_profiles?.map((profile, i) => (
                                     <OtherProfilesInput
                                         key={profile.client_id}
@@ -1949,6 +1950,16 @@ function LocalUnitsForm(props: Props) {
                                         showValueChanges={showValueChanges}
                                     />
                                 ))}
+                                {!readOnly && (
+                                    <Button
+                                        name={undefined}
+                                        variant="secondary"
+                                        disabled={readOnly}
+                                        onClick={handleOtherProfilesAddButtonClick}
+                                    >
+                                        {strings.addOtherProfilesButtonLabel}
+                                    </Button>
+                                )}
                             </FormColumnContainer>
                         </FormGrid>
                     </Container>

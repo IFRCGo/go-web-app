@@ -162,6 +162,7 @@ const schema: LocalUnitsFormSchema = {
                                         ],
                                     },
                                     focal_point_position: {
+                                        required: true,
                                         validations: [lengthSmallerThanCondition(50)],
                                     },
                                     focal_point_phone_number: {
@@ -246,6 +247,11 @@ const schema: LocalUnitsFormSchema = {
                                         ],
                                     },
                                     midwife: {
+                                        validations: [
+                                            positiveIntegerCondition,
+                                        ],
+                                    },
+                                    pharmacists: {
                                         validations: [
                                             positiveIntegerCondition,
                                         ],
