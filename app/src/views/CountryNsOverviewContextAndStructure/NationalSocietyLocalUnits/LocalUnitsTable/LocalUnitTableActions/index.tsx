@@ -204,7 +204,6 @@ function LocalUnitsTableActions(props: Props) {
             )}
             {showLocalUnitModal && (
                 <LocalUnitsFormModal
-                    manageResponse={manageResponse}
                     onClose={handleLocalUnitsFormModalClose}
                     localUnitId={localUnitId}
                     readOnly={readOnlyLocalUnitModal}

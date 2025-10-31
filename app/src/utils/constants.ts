@@ -209,6 +209,10 @@ export const TRAINING_FACILITY_TYPE = 7 satisfies LocalUnitHealthFacilityTypeOpt
 export const SPECIALIZED_SERVICES_TYPE = 8 satisfies LocalUnitHealthFacilityTypeOptions;
 export const OTHER_TYPE = 9 satisfies LocalUnitHealthFacilityTypeOptions;
 
+type LocalUnitTrainingFacilityTypeOptions = NonNullable<NonNullable<GoApiResponse<'/api/v2/local-units-options/'>['professional_training_facilities']>[number]>['id']
+
+export const OTHER_TRAINING_FACILITIES = 9 satisfies LocalUnitTrainingFacilityTypeOptions;
+
 type LocalUnitAffiliationOptions = NonNullable<NonNullable<GoApiResponse<'/api/v2/local-units-options/'>['affiliation']>[number]>['id']
 
 export const OTHER_AFFILIATION = 9 satisfies LocalUnitAffiliationOptions;
