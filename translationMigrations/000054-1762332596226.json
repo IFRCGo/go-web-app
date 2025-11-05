@@ -1,0 +1,100 @@
+{
+    "parent": "000053-1761568674475.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "addOtherProfilesButtonLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Add Other Profiles"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewPharmacists",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Pharmacists"
+        },
+        {
+            "action": "add",
+            "key": "localUnitViewRemovedOtherProfiles",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Removed Other profiles"
+        },
+        {
+            "action": "add",
+            "key": "otherProfileNumberOutputLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Number"
+        },
+        {
+            "action": "add",
+            "key": "otherProfilePositionOutputLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Position"
+        },
+        {
+            "action": "add",
+            "key": "otherProfilesNumberLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Number"
+        },
+        {
+            "action": "add",
+            "key": "otherProfilesPositionLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Position"
+        },
+        {
+            "action": "add",
+            "key": "otherProfilesRemoveLabel",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Remove"
+        },
+        {
+            "action": "add",
+            "key": "otherTrainingFacilities",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Other training facilities"
+        },
+        {
+            "action": "add",
+            "key": "pharmacists",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Pharmacists"
+        },
+        {
+            "action": "add",
+            "key": "qualifiersTitle",
+            "namespace": "countryNsOverviewContextAndStructure",
+            "value": "Qualifiers"
+        },
+        {
+            "action": "remove",
+            "key": "otherProfiles",
+            "namespace": "countryNsOverviewContextAndStructure"
+        },
+        {
+            "action": "update",
+            "key": "contentStructureDescription",
+            "namespace": "localUnitImportModal",
+            "newValue": "The contents in the xlsx should follow the structure provided in {templateLink}."
+        },
+        {
+            "action": "update",
+            "key": "modalDescription",
+            "namespace": "localUnitImportModal",
+            "newValue": "Please select a local unit type and upload the xlsx file"
+        },
+        {
+            "action": "update",
+            "key": "uploadFileSectionDescription",
+            "namespace": "localUnitImportModal",
+            "newValue": "Please make sure to select a supported file format (xlsx) with size less than 10MB"
+        },
+        {
+            "action": "update",
+            "key": "uploadFileSectionTitle",
+            "namespace": "localUnitImportModal",
+            "newValue": "Upload xlsx file"
+        }
+    ]
+}
