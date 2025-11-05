@@ -32,6 +32,7 @@ import useUserMe from '#hooks/domain/useUserMe';
 import useFilterState from '#hooks/useFilterState';
 import {
     DREF_STATUS_APPROVED,
+    DREF_STATUS_FINALIZING,
     DREF_TYPE_LOAN,
     type TypeOfDrefEnum,
 } from '#utils/constants';
@@ -86,6 +87,21 @@ function ActiveDrefTable(props: Props) {
             type_of_dref: isDefined(filter.type_of_dref) ? [filter.type_of_dref] : undefined,
             disaster_type: filter.disaster_type,
             appeal_code: filter.appeal_code,
+        },
+        shouldPoll: (res) => {
+            if (res.errored) {
+                return -1;
+            }
+
+            const hasFinalizingStatus = res.value.results.some(
+                (item) => item.status === DREF_STATUS_FINALIZING,
+            );
+
+            if (!hasFinalizingStatus) {
+                return -1;
+            }
+
+            return 3000;
         },
     });
 

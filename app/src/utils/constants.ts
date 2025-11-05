@@ -85,8 +85,9 @@ export const FONT_FAMILY_HEADER = 'Montserrat';
 export type DrefStatus = components<'read'>['schemas']['DrefDrefStatusEnumKey'];
 
 export const DREF_STATUS_DRAFT = 1 satisfies DrefStatus;
-export const DREF_STATUS_FINALIZED = 2 satisfies DrefStatus;
-export const DREF_STATUS_APPROVED = 3 satisfies DrefStatus;
+export const DREF_STATUS_FINALIZING = 2 satisfies DrefStatus;
+export const DREF_STATUS_FINALIZED = 3 satisfies DrefStatus;
+export const DREF_STATUS_APPROVED = 4 satisfies DrefStatus;
 
 export type TypeOfDrefEnum = components<'read'>['schemas']['DrefDrefDrefTypeEnumKey'];
 export const DREF_TYPE_IMMINENT = 0 satisfies TypeOfDrefEnum;
