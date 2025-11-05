@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.22.4
+
+### Patch Changes
+
+- f2d2eaa: Update Montandon contact information on /montandon-landing page
+
 ## 7.22.3
 
 ### Patch Changes
