@@ -1,0 +1,15 @@
+{
+    "namespace": "drefDetail",
+    "strings": {
+        "drefIntroHeading": "DREF Intro",
+        "drefIntroDetailOne": "Every year, small and medium-sized disasters occur in silence. Without media attention or international visibility, they can struggle to attract funding—putting affected communities at risk of being completely neglected.",
+        "drefIntroDetailTwo": "To support these smaller disasters, or to provide initial funding before launching an Emergency Appeal, we rapidly channel funding to Red Cross and Red Crescent Societies through the DREF—enabling them to deliver fast and effective local humanitarian action.",
+        "drefProcessHeading": "Dref Process",
+        "drefProcessSubHeading": "We provide funding in two ways:",
+        "drefProcessListOne": "A loan facility: start-up funding for the IFRC and National Societies to respond to large-scale disasters, which will later be reimbursed by donor contributions to an Emergency Appeal.",
+        "drefProcessListTwo": "A grant facility: funding for National Society responses to small- and medium-sized disasters. This is used when no Emergency Appeal will be launched or when support from other actors is not foreseen.",
+        "drefProcessDetailOne": "The fund is demand-driven and locally-owned. It is open to all 191 National Societies that submit funding applications and plans of action reflecting locally identified priorities and needs.",
+        "drefProcessDetailTwo": "On average, the DREF supports more than 100 responses to small and medium-sized disasters every year.",
+        "drefDrefApplication": "DREF Application"
+    }
+}

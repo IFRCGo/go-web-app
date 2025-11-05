@@ -1,7 +1,7 @@
 {
     "namespace": "eapApplication",
     "strings": {
-        "eapRegistrationLink": "EAP In Process? Let Us Know",
+        "eapRegistrationLink": "Register Your EAP",
         "eapFormLink": "Start Full EAP",
         "simplifiedEapLink": "Start sEAP"
     }

@@ -319,6 +319,50 @@ const emergencyAdditionalInfo = customWrapRoute({
     },
 });
 
+type DefaultDrefDetailChild = 'dref-detail';
+const drefProcessLayout = customWrapRoute({
+    parent: rootLayout,
+    path: 'dref-process',
+    forwardPath: 'dref-detail' satisfies DefaultDrefDetailChild,
+    component: {
+        render: () => import('#views/DrefProcess'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'DREF Process',
+        visibility: 'anything',
+    },
+});
+
+const drefDetail = customWrapRoute({
+    parent: drefProcessLayout,
+    path: 'dref-detail' satisfies DefaultDrefDetailChild,
+    component: {
+        render: () => import('#views/DrefDetail'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Response and Imminent DREF',
+        visibility: 'anything',
+    },
+});
+
+const eapDetail = customWrapRoute({
+    parent: drefProcessLayout,
+    path: 'eap-detail',
+    component: {
+        render: () => import('#views/EarlyActionProtocols'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Early Action Protocols',
+        visibility: 'anything',
+    },
+});
+
 type DefaultPreparednessChild = 'global-summary';
 const preparednessLayout = customWrapRoute({
     parent: rootLayout,
@@ -698,19 +742,6 @@ const accountMyFormsDref = customWrapRoute({
         title: 'Account - DREF Applications',
         visibility: 'is-authenticated',
         permissions: ({ isGuestUser }) => !isGuestUser,
-    },
-});
-
-const earlyActionProtocols = customWrapRoute({
-    parent: rootLayout,
-    path: 'eap',
-    component: {
-        render: () => import('#views/EarlyActionProtocols'),
-        props: {},
-    },
-    context: {
-        title: 'Early Action Protocols',
-        visibility: 'anything',
     },
 });
 
@@ -1438,7 +1469,9 @@ const wrappedRoutes = {
     // Redirects
     preparednessOperationalLearning,
     obsoleteFieldReportDetails,
-    earlyActionProtocols,
+    drefDetail,
+    eapDetail,
+    drefProcessLayout,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));
