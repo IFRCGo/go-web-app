@@ -1,10 +1,7 @@
 {
     "namespace": "earlyActionProtocols",
     "strings": {
-        "eapHeading": "Disaster Response Emergency Fund (DREF)",
-        "eapDescription": "The IFRC's Disaster Emergency Fund (DREF): rapid, reliable funding for life-saving action.",
-        "eapTitle": "Early Action Protocols (EAP)",
-        "eapRegistrationLink": "EAP in Progress? Let Us Know",
+        "eapRegistrationLink": "Register your EAP",
         "eapContent": "What is an EAP?",
         "eapContentHeading": "Early Action Protocols (EAPs) are a core mechanism of the IFRC's Forecast-based Financing (FbF) approach, designed to ensure that humanitarian action happens before a disaster strikes, rather than only responding afterwards.",
         "eapContentSubHeadingOne": "An EAP is a pre-agreed plan developed by a Nation Society together with partners, which outlines:",
