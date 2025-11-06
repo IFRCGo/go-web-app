@@ -1,0 +1,12 @@
+{
+  "mode": "pre",
+  "tag": "beta",
+  "initialVersions": {
+    "go-web-app": "7.23.0",
+    "go-ui-storybook": "1.0.8",
+    "@ifrc-go/ui": "1.5.2"
+  },
+  "changesets": [
+    "angry-rings-shave"
+  ]
+}

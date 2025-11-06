@@ -1,5 +1,5 @@
 ---
-"go-web-app": patch
+"go-web-app": minor
 ---
 
 Enable editing of DREF forms in all languages
