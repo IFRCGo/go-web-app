@@ -43,6 +43,7 @@ import useRouting from '#hooks/useRouting';
 import { languageNameMap } from '#utils/common';
 import {
     DREF_STATUS_DRAFT,
+    DREF_STATUS_FAILED,
     DREF_STATUS_FINALIZED,
     DREF_TYPE_IMMINENT,
     DREF_TYPE_LOAN,
@@ -563,7 +564,9 @@ function DrefTableActions(props: Props) {
 
     const canApprove = status === DREF_STATUS_FINALIZED && hasPermissionToApprove;
 
-    const canFinalize = status === DREF_STATUS_DRAFT && hasPermissionToApprove;
+    const canFinalize = status === (DREF_STATUS_DRAFT
+        || DREF_STATUS_FAILED)
+        && hasPermissionToApprove;
 
     const shouldConfirmImminentAddOpsUpdate = drefType === DREF_TYPE_IMMINENT && isDrefImminentV2;
 

@@ -8,6 +8,7 @@ import {
     Pager,
     Table,
     TableBodyContent,
+    TextOutput,
 } from '@ifrc-go/ui';
 import { type RowOptions } from '@ifrc-go/ui';
 import { type Language } from '@ifrc-go/ui/contexts';
@@ -28,10 +29,14 @@ import {
     listToMap,
 } from '@togglecorp/fujs';
 
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useUserMe from '#hooks/domain/useUserMe';
 import useFilterState from '#hooks/useFilterState';
 import {
     DREF_STATUS_APPROVED,
+    DREF_STATUS_DRAFT,
+    DREF_STATUS_FAILED,
+    DREF_STATUS_FINALIZED,
     DREF_STATUS_FINALIZING,
     DREF_TYPE_LOAN,
     type TypeOfDrefEnum,
@@ -71,6 +76,8 @@ function ActiveDrefTable(props: Props) {
         filter: {},
         pageSize: 6,
     });
+
+    const { dref_dref_status: drefStatus } = useGlobalEnums();
 
     const {
         response: activeDrefResponse,
@@ -179,6 +186,53 @@ function ActiveDrefTable(props: Props) {
         [],
     );
 
+    const statusDescription = useMemo(() => {
+        if (isNotDefined(drefStatus)) {
+            return undefined;
+        }
+
+        const statusMap = listToMap(
+            drefStatus,
+            (item) => item.key,
+            (item) => item.value,
+        );
+
+        return [
+            {
+                key: DREF_STATUS_DRAFT,
+                status: statusMap[DREF_STATUS_DRAFT],
+                description: strings.activeDrefTableStatusDraftDescription,
+            },
+            {
+                key: DREF_STATUS_FINALIZING,
+                status: statusMap[DREF_STATUS_FINALIZING],
+                description: strings.activeDrefTableStatusFinalizingDescription,
+            },
+            {
+                key: DREF_STATUS_FINALIZED,
+                status: statusMap[DREF_STATUS_FINALIZED],
+                description: strings.activeDrefTableStatusFinalizedDescription,
+            },
+            {
+                key: DREF_STATUS_APPROVED,
+                status: statusMap[DREF_STATUS_APPROVED],
+                description: strings.activeDrefTableStatusApprovedDescription,
+            },
+            {
+                key: DREF_STATUS_FAILED,
+                status: statusMap[DREF_STATUS_FAILED],
+                description: strings.activeDrefTableStatusFailedDescription,
+            },
+        ];
+    }, [
+        drefStatus,
+        strings.activeDrefTableStatusDraftDescription,
+        strings.activeDrefTableStatusFinalizingDescription,
+        strings.activeDrefTableStatusFinalizedDescription,
+        strings.activeDrefTableStatusApprovedDescription,
+        strings.activeDrefTableStatusFailedDescription,
+    ]);
+
     const baseColumns = useMemo(
         () => ([
             createDateColumn<LatestDref, Key>(
@@ -221,7 +275,21 @@ function ActiveDrefTable(props: Props) {
                 'status',
                 strings.activeDrefTableStatusHeading,
                 (item) => item.status_display,
-                { columnClassName: styles.status },
+                {
+                    columnClassName: styles.status,
+                    headerInfoTitle: strings.activeDrefTableStatusHeading,
+                    headerInfoDescription: (
+                        statusDescription?.map((status) => (
+                            <TextOutput
+                                key={status.key}
+                                strongLabel
+                                withoutLabelColon
+                                label={status.status}
+                                value={status.description}
+                            />
+                        ))
+                    ),
+                },
             ),
             createElementColumn<LatestDref, Key, DrefTableActionsProps>(
                 'actions',
@@ -306,6 +374,7 @@ function ActiveDrefTable(props: Props) {
             userMe,
             userRegionCoordinatorMap,
             refetchActiveDref,
+            statusDescription,
         ],
     );
 

@@ -8,6 +8,11 @@
         "activeDrefTableStageHeading": "Stage",
         "activeDrefTableTypeOfDrefHeading": "Type of DREF",
         "activeDrefTableCountryHeading": "Country",
-        "activeDrefTableStatusHeading": "Status"
+        "activeDrefTableStatusHeading": "Status",
+        "activeDrefTableStatusDraftDescription": "The form is in its initial stage and has not been finalized yet.",
+        "activeDrefTableStatusFinalizingDescription": "The form is being finalizing. The original language content is being translated into English.",
+        "activeDrefTableStatusFinalizedDescription": "The form has been finalized, and the original language has been switched to English. All further edits must now be made in English.",
+        "activeDrefTableStatusApprovedDescription": "Approved: The form has been reviewed and approved.",
+        "activeDrefTableStatusFailedDescription": "The form finalization process has failed. You can retry to finalize the form again"
     }
 }
