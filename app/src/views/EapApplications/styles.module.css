@@ -6,5 +6,10 @@
             width: 0%;
             min-width: 7rem;
         }
+
+        .sub-cell {
+            border-bottom: unset;
+            background-color: var(--go-ui-color-gray-20);
+        }
     }
 }
