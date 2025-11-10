@@ -5,11 +5,15 @@ import {
 } from 'react';
 import {
     Container,
+    type RowOptions,
     Table,
+    TableBodyContent,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     createDateColumn,
+    createElementColumn,
+    createEmptyColumn,
     createExpandColumn,
     createExpansionIndicatorColumn,
     createStringColumn,
@@ -23,6 +27,7 @@ import {
     useRequest,
 } from '#utils/restRequest';
 
+import EapTableActions, { type Props as EapTableActionProps } from './EapTableActions';
 import Filters, { type FilterValue } from './Filters';
 
 import i18n from './i18n.json';
@@ -37,6 +42,7 @@ type Key = EapListItem['id'];
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
+
     const {
         filter,
         offset,
@@ -113,7 +119,7 @@ export function Component() {
         [],
     );
 
-    const columns = useMemo(
+    const aggregatedColumns = useMemo(
         () => ([
             createExpansionIndicatorColumn<EapListItem, Key>(false),
             ...baseColumns,
@@ -129,6 +135,59 @@ export function Component() {
         [baseColumns, handleExpandClick, expandedRow],
     );
 
+    const detailColumns = useMemo(
+        () => ([
+            createExpansionIndicatorColumn<EapListItem, number>(true),
+            createStringColumn<EapListItem, number>(
+                'title',
+                '',
+                () => 'EAP Registration',
+                { columnClassName: styles.detailTitle },
+            ),
+            createElementColumn<EapListItem, number, EapTableActionProps>(
+                'actions',
+                'EAP Registration',
+                EapTableActions,
+                (eapId) => ({
+                    eapId,
+                }),
+            ),
+            createEmptyColumn(),
+            createEmptyColumn(),
+            createEmptyColumn(),
+        ]),
+        [],
+    );
+
+    const rowModifier = useCallback(
+        ({ row, datum }: RowOptions<EapListItem, number>) => {
+            if (datum.id !== expandedRow?.id) {
+                return row;
+            }
+
+            const subRows = eapResponse?.results?.filter(
+                (subRow) => subRow.id === datum.id,
+            );
+
+            return (
+                <>
+                    {row}
+                    <TableBodyContent
+                        keySelector={numericIdSelector}
+                        data={subRows}
+                        columns={detailColumns}
+                        cellClassName={styles.subCell}
+                    />
+                </>
+            );
+        },
+        [
+            expandedRow,
+            detailColumns,
+            eapResponse,
+        ],
+    );
+
     return (
         <Container
             childrenContainerClassName={styles.eapFormLinks}
@@ -141,35 +200,19 @@ export function Component() {
                 />
             )}
             actions={(
-                <>
-                    <Link
-                        to="home"
-                        variant="secondary"
-                    >
-                        {strings.eapRegistrationLink}
-                    </Link>
-                    {/* TODO: Move this to table action
-                    <Link
-                        to="eapFullForm"
-                        variant="secondary"
-                    >
-                        {strings.eapFormLink}
-                    </Link>
-                    <Link
-                        to="simplifiedEapForm"
-                        variant="secondary"
-                    >
-                        {strings.simplifiedEapLink}
-                    </Link>
-                    */}
-                </>
+                <Link
+                    to="home"
+                    variant="secondary"
+                >
+                    {strings.eapRegistrationLink}
+                </Link>
             )}
         >
-            {/* FIXME: Add eap registration link */}
             <Table
                 className={styles.table}
                 data={eapResponse?.results}
-                columns={columns}
+                columns={aggregatedColumns}
+                rowModifier={rowModifier}
                 keySelector={numericIdSelector}
                 pending={eapPending}
                 filtered={filtered}

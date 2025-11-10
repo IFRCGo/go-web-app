@@ -1,0 +1,8 @@
+{
+    "namespace":"accountMyFormsEap",
+    "strings":{
+        "eapViewLabel": "View",
+        "eapFormLink": "Start Full EAP",
+        "simplifiedEapLink": "Start sEAP"
+    }
+}
