@@ -2,6 +2,7 @@
     "namespace": "eapApplication",
     "strings": {
         "eapRegistrationLink": "Register Your EAP",
+        "eapApplicationsHeading": "EAP Application",
         "eapFormLink": "Start Full EAP",
         "simplifiedEapLink": "Start sEAP"
     }
