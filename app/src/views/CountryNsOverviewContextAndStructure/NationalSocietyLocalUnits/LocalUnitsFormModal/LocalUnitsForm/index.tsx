@@ -382,13 +382,13 @@ function LocalUnitsForm(props: Props) {
         },
     });
 
-    const hasValidatePermission = isAuthenticated && (
-        !isExternallyManaged
-        || isSuperUser
-        || isLocalUnitGlobalValidatorByType(value.type)
-        || isLocalUnitCountryValidatorByType(countryResponse?.id, value.type)
-        || isLocalUnitRegionValidatorByType(countryResponse?.region, value.type)
-    );
+    const hasValidatePermission = isAuthenticated
+        && !isExternallyManaged
+        && (isSuperUser
+            || isLocalUnitGlobalValidatorByType(value.type)
+            || isLocalUnitCountryValidatorByType(countryResponse?.id, value.type)
+            || isLocalUnitRegionValidatorByType(countryResponse?.region, value.type)
+        );
 
     const hasUpdatePermission = isCountryAdmin(countryResponse?.id)
         || isRegionAdmin(countryResponse?.region)
@@ -542,20 +542,20 @@ function LocalUnitsForm(props: Props) {
                     {isDefined(localUnitDetailsResponse) && (
                         <>
                             {hasValidatePermission && (
-                                <Button
-                                    name={undefined}
-                                    onClick={setShowDeleteLocalUnitModalTrue}
-                                    variant="secondary"
-                                >
-                                    {strings.localUnitDeleteButtonLabel}
-                                </Button>
-                            )}
-                            {hasValidatePermission && (
-                                <LocalUnitValidateButton
-                                    onClick={setShowValidateLocalUnitModalTrue}
-                                    status={localUnitDetailsResponse.status}
-                                    hasValidatePermission={hasValidatePermission}
-                                />
+                                <>
+                                    <Button
+                                        name={undefined}
+                                        onClick={setShowDeleteLocalUnitModalTrue}
+                                        variant="secondary"
+                                    >
+                                        {strings.localUnitDeleteButtonLabel}
+                                    </Button>
+                                    <LocalUnitValidateButton
+                                        onClick={setShowValidateLocalUnitModalTrue}
+                                        status={localUnitDetailsResponse.status}
+                                        hasValidatePermission={hasValidatePermission}
+                                    />
+                                </>
                             )}
                             {readOnlyFromProps
                                 && isEditable

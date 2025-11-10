@@ -219,12 +219,15 @@ function BaseMapPointInput<NAME extends string>(props: Props<NAME>) {
     const [searchResult, setSearchResult] = useState<LocationSearchResult | undefined>();
 
     const center = useMemo(() => {
-        if (isNotDefined(searchResult)) {
-            return undefined;
+        if (isDefined(value?.lng) && isDefined(value?.lat)) {
+            return [value.lng, value.lat] satisfies [number, number];
+        }
+        if (isDefined(searchResult)) {
+            return [+searchResult.lon, +searchResult.lat] satisfies [number, number];
         }
 
-        return [+searchResult.lon, +searchResult.lat] satisfies [number, number];
-    }, [searchResult]);
+        return undefined;
+    }, [searchResult, value?.lng, value?.lat]);
 
     return (
         <div className={_cs(styles.baseMapPointInput, className)}>

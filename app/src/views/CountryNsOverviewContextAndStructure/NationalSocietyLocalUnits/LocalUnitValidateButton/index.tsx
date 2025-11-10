@@ -1,8 +1,10 @@
 import { Button } from '@ifrc-go/ui';
+import { useTranslation } from '@ifrc-go/ui/hooks';
 import { _cs } from '@togglecorp/fujs';
 
 import { VALIDATED } from '../common';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 interface Props {
@@ -13,10 +15,11 @@ interface Props {
 function LocalUnitValidateButton(props: Props) {
     const {
         status,
-        // statusDetails,
         onClick,
         hasValidatePermission,
     } = props;
+
+    const strings = useTranslation(i18n);
 
     const isValidated = status === VALIDATED;
 
@@ -36,9 +39,8 @@ function LocalUnitValidateButton(props: Props) {
                 !hasValidatePermission
                 || isValidated
             }
-            // FIXME: use translations
         >
-            Review
+            {strings.localUnitReviewButtonLabel}
         </Button>
     );
 }

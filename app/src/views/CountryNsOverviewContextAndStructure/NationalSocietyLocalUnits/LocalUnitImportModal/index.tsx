@@ -14,6 +14,7 @@ import {
     Modal,
     RawFileInput,
     SelectInput,
+    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -230,24 +231,32 @@ function LocalUnitBulkUploadModal(props: Props) {
                     withInternalPadding
                     footerContent={(
                         <div className={styles.fileStructureDescription}>
-                            {resolveToComponent(
-                                strings.contentStructureDescription,
-                                {
-                                    templateLink: (
-                                        <Link
-                                            external
-                                            href={localUnitType === TYPE_HEALTH_CARE
-                                                ? bulkUploadHealthTemplate?.template_url
-                                                : bulkUploadDefaultTemplate?.template_url}
-                                            variant="tertiary"
-                                            iconsContainerClassName={styles.downloadLink}
-                                            withUnderline
-                                        >
-                                            {strings.templateLinkLabel}
-                                        </Link>
-                                    ),
-                                },
-                            )}
+                            <span>
+                                {resolveToComponent(
+                                    strings.contentStructureDescription,
+                                    {
+                                        templateLink: (
+                                            <Link
+                                                external
+                                                href={localUnitType === TYPE_HEALTH_CARE
+                                                    ? bulkUploadHealthTemplate?.template_url
+                                                    : bulkUploadDefaultTemplate?.template_url}
+                                                variant="tertiary"
+                                                iconsContainerClassName={styles.downloadLink}
+                                                withUnderline
+                                            >
+                                                {strings.templateLinkLabel}
+                                            </Link>
+                                        ),
+                                    },
+                                )}
+                            </span>
+                            <TextOutput
+                                strongLabel
+                                valueType="text"
+                                label={strings.contentStructureNoteLabel}
+                                value={strings.contentStructureNote}
+                            />
                         </div>
                     )}
                 >
@@ -258,7 +267,7 @@ function LocalUnitBulkUploadModal(props: Props) {
                     {isNotDefined(bulkUploadFile) && (
                         <RawFileInput
                             name="file"
-                            accept=".xlsx"
+                            accept=".xlsx, .xlsm"
                             onChange={setBulkUploadFile}
                             variant="secondary"
                             disabled={

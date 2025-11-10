@@ -168,7 +168,7 @@ function LocalUnitsTableActions(props: Props) {
                         >
                             {strings.localUnitActionsView}
                         </DropdownMenuItem>
-                        {((hasValidatePermission || countryAdmin)
+                        {(hasValidatePermission
                             && !isBulkUploadLocalUnit) && (
                             <DropdownMenuItem
                                 type="button"

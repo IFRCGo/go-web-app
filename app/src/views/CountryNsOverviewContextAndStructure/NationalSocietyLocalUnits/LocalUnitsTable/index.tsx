@@ -134,21 +134,6 @@ function LocalUnitsTable(props: Props) {
                     (item) => item.type_details.name,
                     { columnClassName: styles.type },
                 ),
-                createStringColumn<LocalUnitsTableListItem, number>(
-                    'focal',
-                    strings.localUnitsTableFocal,
-                    (item) => getFirstTruthyString(item.focal_person_loc, item.focal_person_en),
-                ),
-                createStringColumn<LocalUnitsTableListItem, number>(
-                    'phone',
-                    strings.localUnitsTablePhoneNumber,
-                    (item) => item.phone,
-                ),
-                createStringColumn<LocalUnitsTableListItem, number>(
-                    'email',
-                    strings.localUnitsTableEmail,
-                    (item) => item.email,
-                ),
                 createElementColumn<LocalUnitsTableListItem, number, LocalUnitStatusProps>(
                     'status',
                     strings.localUnitsTableStatus,
@@ -227,9 +212,6 @@ function LocalUnitsTable(props: Props) {
         strings.localUnitsTableAddress,
         strings.localUnitsTableName,
         strings.localUnitsTableType,
-        strings.localUnitsTableFocal,
-        strings.localUnitsTablePhoneNumber,
-        strings.localUnitsTableEmail,
         strings.localUnitsTableStatus,
         refetchLocalUnits,
     ]);
