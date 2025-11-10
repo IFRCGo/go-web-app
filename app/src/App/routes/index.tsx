@@ -1182,6 +1182,68 @@ const fieldReportDetails = customWrapRoute({
     },
 });
 
+type DefaultEapRegistrationChild = 'new';
+const eapRegistrationLayout = customWrapRoute({
+    parent: rootLayout,
+    path: 'eap-registration',
+    forwardPath: 'new' satisfies DefaultEapRegistrationChild,
+    component: {
+        render: () => import('#views/EapRegistration'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'EAP Process',
+        visibility: 'is-authenticated',
+    },
+});
+
+const eapRegistrationFormIndex = customWrapRoute({
+    parent: eapRegistrationLayout,
+    index: true,
+    component: {
+        eagerLoad: true,
+        render: Navigate,
+        props: {
+            to: 'new' satisfies DefaultPerProcessChild,
+            replace: true,
+        },
+    },
+    context: {
+        title: 'EAP Registration',
+        visibility: 'anything',
+    },
+});
+
+const eapDevelopmentRegistration = customWrapRoute({
+    parent: eapRegistrationLayout,
+    path: 'new' satisfies DefaultEapRegistrationChild,
+    component: {
+        render: () => import('#views/EapRegistration'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'New EAP Development Registration',
+        visibility: 'is-authenticated',
+        permissions: ({ isGuestUser }) => !isGuestUser,
+    },
+});
+
+const eapDevelopmentRegistrationForm = customWrapRoute({
+    parent: eapRegistrationLayout,
+    path: ':eapId/view',
+    component: {
+        render: () => import('#views/EapRegistration'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'View EAP Overview',
+        visibility: 'is-authenticated',
+    },
+});
+
 type DefaultPerProcessChild = 'new';
 const perProcessLayout = customWrapRoute({
     parent: rootLayout,
@@ -1231,21 +1293,6 @@ const newPerOverviewForm = customWrapRoute({
             isSuperUser,
             isPerAdmin,
         }) => isSuperUser || isPerAdmin,
-    },
-});
-
-const eapDevelopmentRegistration = customWrapRoute({
-    parent: rootLayout,
-    path: 'eap-registration/new',
-    component: {
-        render: () => import('#views/EapRegistration'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'EAP Development Registration',
-        visibility: 'is-authenticated',
-        permissions: ({ isGuestUser }) => !isGuestUser,
     },
 });
 
@@ -1473,6 +1520,9 @@ const wrappedRoutes = {
     drefDetail,
     eapDetail,
     drefProcessLayout,
+    eapRegistrationLayout,
+    eapDevelopmentRegistrationForm,
+    eapRegistrationFormIndex,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));
