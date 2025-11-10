@@ -564,8 +564,8 @@ function DrefTableActions(props: Props) {
 
     const canApprove = status === DREF_STATUS_FINALIZED && hasPermissionToApprove;
 
-    const canFinalize = status === (DREF_STATUS_DRAFT
-        || DREF_STATUS_FAILED)
+    const canFinalize = (status === DREF_STATUS_DRAFT
+        || status === DREF_STATUS_FAILED)
         && hasPermissionToApprove;
 
     const shouldConfirmImminentAddOpsUpdate = drefType === DREF_TYPE_IMMINENT && isDrefImminentV2;

@@ -385,6 +385,10 @@ export function Component() {
             updateFinalReport({
                 ...result.value,
                 modified_at: modifiedAt ?? lastModifiedAtRef.current,
+                cover_image_file: isNotDefined(result.value.cover_image_file?.id)
+                    ? null : result.value.cover_image_file,
+                event_map_file: isNotDefined(result.value.event_map_file?.id)
+                    ? null : result.value.cover_image_file,
             } as FinalReportRequestBody);
         },
         [validate, setError, updateFinalReport],
