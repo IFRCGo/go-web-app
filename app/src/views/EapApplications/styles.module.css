@@ -1,6 +1,10 @@
 .eap-form-links {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--go-ui-spacing-sm);
+    .table {
+        .type,
+        .status,
+        .date {
+            width: 0%;
+            min-width: 7rem;
+        }
+    }
 }
