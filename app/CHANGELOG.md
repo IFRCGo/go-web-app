@@ -1,5 +1,16 @@
 # go-web-app
 
+## 7.23.1
+
+### Patch Changes
+
+- fbe83e8: Add Risk Management section in Catalogue of Surge services
+  Reword unavailablity message in spark dashboard
+- fbe83e8: Position and Keywords filter for all Surge Alerts (/alerts/all)
+- fbe83e8: Add Prepare / Supply Chain / SPARK menu item to navigation
+  Remove Programmatic Partnerships menu from navigation
+  Change aboutHealthMapping PDF URL in /resources
+
 ## 7.23.0
 
 ### Minor Changes
