@@ -21,7 +21,7 @@ export function Component() {
             childrenContainerClassName={styles.content}
             actions={(
                 <Link
-                    to="eapDevelopmentRegistration"
+                    to="newEapDevelopmentRegistration"
                     variant="secondary"
                 >
                     {strings.eapRegistrationLink}
