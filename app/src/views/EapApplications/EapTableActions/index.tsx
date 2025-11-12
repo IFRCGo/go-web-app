@@ -18,13 +18,24 @@ function EapTableActions(props: Props) {
     return (
         <TableActions
             extraActions={(
-                <DropdownMenuItem
-                    type="link"
-                    to="eapDevelopmentRegistrationForm"
-                    urlParams={{ eapId }}
-                >
-                    {strings.eapViewLabel}
-                </DropdownMenuItem>
+                <>
+                    <DropdownMenuItem
+                        type="link"
+                        to="eapDevelopmentRegistrationForm"
+                        urlParams={{ eapId }}
+                        state={{ mode: 'view' }}
+                    >
+                        {strings.eapViewLabel}
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                        type="link"
+                        to="eapDevelopmentRegistrationForm"
+                        urlParams={{ eapId }}
+                        state={{ mode: 'edit' }}
+                    >
+                        {strings.eapEditLabel}
+                    </DropdownMenuItem>
+                </>
             )}
         >
             <Link

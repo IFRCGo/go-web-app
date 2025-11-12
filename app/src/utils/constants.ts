@@ -220,3 +220,5 @@ export const OTHER_TRAINING_FACILITIES = 9 satisfies LocalUnitTrainingFacilityTy
 type LocalUnitAffiliationOptions = NonNullable<NonNullable<GoApiResponse<'/api/v2/local-units-options/'>['affiliation']>[number]>['id']
 
 export const OTHER_AFFILIATION = 9 satisfies LocalUnitAffiliationOptions;
+export const EAP_TYPE_SIMPLIFIED = 20;
+export const EAP_TYPE_FULL = 10;

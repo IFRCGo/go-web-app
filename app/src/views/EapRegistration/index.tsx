@@ -4,6 +4,10 @@ import {
     useRef,
 } from 'react';
 import {
+    useLocation,
+    useParams,
+} from 'react-router-dom';
+import {
     ConfirmButton,
     Container,
     DateInput,
@@ -18,6 +22,11 @@ import {
     stringValueSelector,
 } from '@ifrc-go/ui/utils';
 import {
+    isDefined,
+    isNotDefined,
+    isTruthyString,
+} from '@togglecorp/fujs';
+import {
     createSubmitHandler,
     getErrorObject,
     useForm,
@@ -25,6 +34,7 @@ import {
 
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
+import FormFailedToLoadMessage from '#components/domain/FormFailedToLoadMessage';
 import NationalSocietyMultiSelectInput from '#components/domain/NationalSocietyMultiSelectInput';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
 import Link from '#components/Link';
@@ -36,6 +46,7 @@ import {
     type GoApiBody,
     type GoApiResponse,
     useLazyRequest,
+    useRequest,
 } from '#utils/restRequest';
 import { transformObjectError } from '#utils/restRequest/error';
 
@@ -61,12 +72,18 @@ export function Component() {
     const strings = useTranslation(i18n);
     const alert = useAlert();
     const { navigate } = useRouting();
+    const { eapId: eapIdFromParams } = useParams<{ eapId: string }>();
+
+    const { state } = useLocation();
+    const eapId = eapIdFromParams ?? state?.eapId as string | undefined;
+    const isReadOnly = state?.mode === 'view';
 
     const {
         value,
         setFieldValue,
         error: formError,
         setError,
+        setValue,
         validate,
     } = useForm(formSchema, { value: defaultFormValue });
 
@@ -76,6 +93,23 @@ export function Component() {
 
     const error = getErrorObject(formError);
     const formContentRef = useRef<ElementRef<'div'>>(null);
+
+    const {
+        pending: fetchingEap,
+        error: eapError,
+    } = useRequest({
+        skip: isNotDefined(eapId),
+        url: '/api/v2/eap-registration/{id}/',
+        pathVariables: isTruthyString(eapId) ? {
+            id: Number(eapId),
+        } : undefined,
+        onSuccess: (response) => {
+            const {
+                ...formValues
+            } = response;
+            setValue(formValues);
+        },
+    });
 
     const {
         pending: eapRegistrationPending,
@@ -108,6 +142,49 @@ export function Component() {
         },
     });
 
+    const {
+        pending: updateEapRegistrationPending,
+        trigger: updateEapRegistration,
+    } = useLazyRequest({
+        url: '/api/v2/eap-registration/{id}/',
+        method: 'PATCH',
+        pathVariables: {
+            id: Number(eapId),
+        },
+        body: (formFields: EapRegisterRequestBody) => formFields,
+        onSuccess: (response) => {
+            alert.show(
+                strings.eapRegistrationUpdateMessage,
+                { variant: 'success' },
+            );
+            navigate(
+                'accountMyFormsEap',
+                { params: { eapId: response.id } },
+            );
+        },
+        onFailure: (err) => {
+            const {
+                value: {
+                    formErrors,
+                    messageForNotification,
+                },
+            } = err;
+
+            setError(transformObjectError(
+                formErrors,
+                () => undefined,
+            ));
+
+            alert.show(
+                strings.eapRegistrationFailureMessage,
+                {
+                    variant: 'danger',
+                    description: messageForNotification,
+                },
+            );
+        },
+    });
+
     const handleCountryChange = useCallback(
         (val: number | undefined, name: 'country') => {
             setFieldValue(val, name);
@@ -116,19 +193,32 @@ export function Component() {
     );
 
     const handleEapTypeClick = useCallback(() => {
-        setFieldValue(undefined, 'eap_type');
-    }, [setFieldValue]);
+        if (isReadOnly) {
+            return;
+        }
+        setFieldValue(null, 'eap_type');
+    }, [isReadOnly, setFieldValue]);
 
     const handleSubmissionTimeClick = useCallback(() => {
-        setFieldValue(undefined, 'expected_submission_time');
-    }, [setFieldValue]);
+        if (isReadOnly) {
+            return;
+        }
+        setFieldValue(null, 'expected_submission_time');
+    }, [isReadOnly, setFieldValue]);
 
     const eapRegistration = useCallback(() => {
         const handler = createSubmitHandler(
             validate,
             setError,
             (formValues) => {
-                eapRegister(formValues as EapRegisterRequestBody);
+                if (isNotDefined(eapId)) {
+                    eapRegister(formValues as EapRegisterRequestBody);
+                } else {
+                    updateEapRegistration({
+                        ...formValues,
+                        id: eapId,
+                    } as EapRegisterRequestBody);
+                }
             },
         );
         handler();
@@ -136,6 +226,8 @@ export function Component() {
         setError,
         validate,
         eapRegister,
+        updateEapRegistration,
+        eapId,
     ]);
 
     const handleFormError = useCallback(() => {
@@ -157,7 +249,15 @@ export function Component() {
         setError,
     ]);
 
-    const disabled = eapRegistrationPending;
+    const disabled = eapRegistrationPending || fetchingEap || updateEapRegistrationPending;
+
+    if (isDefined(eapError)) {
+        return (
+            <FormFailedToLoadMessage
+                description={strings.eapFailedToLoad}
+            />
+        );
+    }
 
     return (
         <Page
@@ -180,7 +280,7 @@ export function Component() {
                     to="accountMyFormsEap"
                     variant="secondary"
                 >
-                    {strings.eapCancelButton}
+                    {eapId ? strings.eapBackButton : strings.eapCancelButton}
                 </Link>
             )}
             withBackgroundColorInMainSection
@@ -201,6 +301,7 @@ export function Component() {
                             onChange={setFieldValue}
                             value={value?.national_society}
                             disabled={disabled}
+                            readOnly={isReadOnly}
                         />
                     </InputSection>
                     <InputSection
@@ -214,6 +315,7 @@ export function Component() {
                             onChange={handleCountryChange}
                             value={value?.country}
                             disabled={disabled}
+                            readOnly={isReadOnly}
                         />
                     </InputSection>
                     <InputSection
@@ -227,6 +329,7 @@ export function Component() {
                             onChange={setFieldValue}
                             error={error?.disaster_type}
                             disabled={disabled}
+                            readOnly={isReadOnly}
                         />
                     </InputSection>
                     <InputSection
@@ -238,19 +341,20 @@ export function Component() {
                     >
                         <RadioInput
                             name="eap_type"
-                            value={value?.eap_type}
+                            value={value?.eap_type ?? undefined}
                             onChange={setFieldValue}
                             options={eapFormOptions}
                             keySelector={eapTypeKeySelector}
                             labelSelector={stringValueSelector}
                             error={error?.eap_type}
+                            readOnly={isReadOnly}
                         />
                         <Radio
                             name="eap_type"
                             label={strings.eapNotSure}
-                            value={value?.eap_type === undefined}
+                            value={value?.eap_type === null}
                             onClick={handleEapTypeClick}
-                            disabled={disabled}
+                            readOnly={isReadOnly}
                         />
                     </InputSection>
                     <InputSection
@@ -262,15 +366,16 @@ export function Component() {
                         <DateInput
                             name="expected_submission_time"
                             onChange={setFieldValue}
-                            value={value?.expected_submission_time}
+                            value={value?.expected_submission_time ?? undefined}
                             error={error?.expected_submission_time}
+                            readOnly={isReadOnly}
                         />
                         <Radio
                             name="expected_submission_time"
                             label={strings.eapNotSure}
-                            value={value?.expected_submission_time === undefined}
+                            value={value?.expected_submission_time === null}
                             onClick={handleSubmissionTimeClick}
-                            disabled={disabled}
+                            readOnly={isReadOnly}
                         />
                     </InputSection>
                     <InputSection
@@ -283,6 +388,7 @@ export function Component() {
                             value={value.partners}
                             onChange={setFieldValue}
                             disabled={disabled}
+                            readOnly={isReadOnly}
                         />
                     </InputSection>
                 </Container>
@@ -301,6 +407,7 @@ export function Component() {
                             onChange={setFieldValue}
                             error={error?.national_society_contact_name}
                             disabled={disabled}
+                            readOnly={isReadOnly}
                         />
                         <TextInput
                             label={strings.eapNSTitle}
@@ -309,6 +416,7 @@ export function Component() {
                             onChange={setFieldValue}
                             error={error?.national_society_contact_title}
                             disabled={disabled}
+                            readOnly={isReadOnly}
                         />
                         <TextInput
                             label={strings.eapNSEmail}
@@ -317,6 +425,7 @@ export function Component() {
                             onChange={setFieldValue}
                             error={error?.national_society_contact_email}
                             disabled={disabled}
+                            readOnly={isReadOnly}
                         />
                         <TextInput
                             label={strings.eapNSPhoneNumber}
@@ -325,6 +434,7 @@ export function Component() {
                             onChange={setFieldValue}
                             error={error?.national_society_contact_phone_number}
                             disabled={disabled}
+                            readOnly={isReadOnly}
                         />
                     </InputSection>
                     <InputSection
@@ -339,6 +449,7 @@ export function Component() {
                             onChange={setFieldValue}
                             error={error?.ifrc_contact_name}
                             disabled={disabled}
+                            readOnly={isReadOnly}
                         />
                         <TextInput
                             label={strings.eapIFRCTitle}
@@ -347,6 +458,7 @@ export function Component() {
                             onChange={setFieldValue}
                             error={error?.ifrc_contact_title}
                             disabled={disabled}
+                            readOnly={isReadOnly}
                         />
                         <TextInput
                             label={strings.eapIFRCEmail}
@@ -355,6 +467,7 @@ export function Component() {
                             onChange={setFieldValue}
                             error={error?.ifrc_contact_email}
                             disabled={disabled}
+                            readOnly={isReadOnly}
                         />
                         <TextInput
                             label={strings.eapIFRCPhoneNumber}
@@ -363,6 +476,7 @@ export function Component() {
                             onChange={setFieldValue}
                             error={error?.ifrc_contact_phone_number}
                             disabled={disabled}
+                            readOnly={isReadOnly}
                         />
                     </InputSection>
                     <InputSection
@@ -377,6 +491,7 @@ export function Component() {
                             onChange={setFieldValue}
                             error={error?.dref_focal_point_name}
                             disabled={disabled}
+                            readOnly={isReadOnly}
                         />
                         <TextInput
                             label={strings.eapFocalPointTitle}
@@ -385,6 +500,7 @@ export function Component() {
                             onChange={setFieldValue}
                             error={error?.dref_focal_point_title}
                             disabled={disabled}
+                            readOnly={isReadOnly}
                         />
                         <TextInput
                             label={strings.eapFocalPointEmail}
@@ -393,6 +509,7 @@ export function Component() {
                             onChange={setFieldValue}
                             error={error?.dref_focal_point_email}
                             disabled={disabled}
+                            readOnly={isReadOnly}
                         />
                         <TextInput
                             label={strings.eapFocalPointPhoneNumber}
@@ -401,20 +518,23 @@ export function Component() {
                             onChange={setFieldValue}
                             error={error?.dref_focal_point_phone_number}
                             disabled={disabled}
+                            readOnly={isReadOnly}
                         />
                     </InputSection>
                 </Container>
             </div>
             <div className={styles.footer}>
-                <ConfirmButton
-                    name={undefined}
-                    confirmHeading={strings.eapDevelopmentRegistrationHeading}
-                    confirmMessage={strings.eapDevelopmentRegistrationDescription}
-                    onConfirm={handleEapRegistration}
-                    disabled={disabled}
-                >
-                    {strings.eapSubmitButton}
-                </ConfirmButton>
+                {!isReadOnly && (
+                    <ConfirmButton
+                        name={undefined}
+                        confirmHeading={strings.eapDevelopmentRegistrationHeading}
+                        confirmMessage={strings.eapDevelopmentRegistrationDescription}
+                        onConfirm={handleEapRegistration}
+                        disabled={disabled}
+                    >
+                        {strings.eapSubmitButton}
+                    </ConfirmButton>
+                )}
             </div>
         </Page>
     );
