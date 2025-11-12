@@ -1,12 +1,9 @@
 .eap-form-links {
     .table {
-        .type,
-        .status,
-        .date {
+        .status {
             width: 0%;
-            min-width: 7rem;
+            min-width: 19rem;
         }
-
         .sub-cell {
             border-bottom: unset;
             background-color: var(--go-ui-color-gray-20);

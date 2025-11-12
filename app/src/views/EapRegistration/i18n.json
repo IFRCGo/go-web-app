@@ -37,11 +37,15 @@
         "eapFocalPointEmail": "Email",
         "eapFocalPointPhoneNumber": "Phone Number",
         "eapSubmitButton": "Submit",
+        "eapBackButton": "Back",
         "eapCancelButton": "Cancel",
         "eapRegistrationFailure": "Sorry could not register new EAP right now!",
         "eapRegistrationSuccess": "Successfully created a new EAP!",
         "eapNotSure": "Not Sure",
         "eapDevelopmentRegistrationHeading": "EAP Development Registration",
-        "eapDevelopmentRegistrationDescription": "Thank you for notifying us about the start of your EAP process. We look forward to your completed application."
+        "eapDevelopmentRegistrationDescription": "Thank you for notifying us about the start of your EAP process. We look forward to your completed application.",
+        "eapFailedToLoad": "Failed to Load",
+        "eapRegistrationUpdateMessage": "EAP Registration updated Successfully.",
+        "eapRegistrationFailureMessage": "Failed to update EAP Registration"
     }
 }
