@@ -102,6 +102,10 @@ async function pushMigration(migrationFilePath: string, apiUrl: string, authToke
             const serverActionsForCurrentLanguage = actions.flatMap((actionItem) => {
                 if (language === 'en') {
                     if (actionItem.action === 'add') {
+                        if (isFalsyString(actionItem.value)) {
+                            return undefined;
+                        }
+
                         return {
                             action: 'set' as const,
                             key: actionItem.key,
@@ -168,7 +172,7 @@ async function pushMigration(migrationFilePath: string, apiUrl: string, authToke
     );
 
     await writeFilePromisify(
-        `server-actions.json`,
+        `/tmp/server-actions.json`,
         JSON.stringify(serverActions, null, 2),
         'utf8',
     );
@@ -193,7 +197,7 @@ async function pushMigration(migrationFilePath: string, apiUrl: string, authToke
         const setActions = actions.filter(({ action }) => action === 'set');
         const deleteActions = actions.filter(({ action }) => action === 'delete');
 
-        console.log(`Pusing deleted actions for ${lang}...`)
+        console.log(`Pushing deleted actions for ${lang}...`)
         const deleteResponse = await postLanguageStrings(
             lang,
             deleteActions,
@@ -221,7 +225,7 @@ async function pushMigration(migrationFilePath: string, apiUrl: string, authToke
     await applyAction(serverActions.ar.language, serverActions.ar.actions);
 
     await writeFilePromisify(
-        `push-migration-logs.json`,
+        `/tmp/push-migration-logs.json`,
         JSON.stringify(logs, null, 2),
         'utf8',
     );

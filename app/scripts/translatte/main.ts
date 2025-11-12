@@ -14,6 +14,7 @@ import pushMigration from './commands/pushMigration';
 import pushStringsFromExcel from './commands/pushStringsFromExcel';
 import exportServerStringsToExcel from './commands/exportServerStringsToExcel';
 import clearServerStrings from './commands/clearServerStrings';
+import pushStringsDref from './commands/pushStringsDref';
 
 const currentDir = cwd();
 
@@ -248,6 +249,37 @@ yargs(hideBin(process.argv))
             const importFilePath = (argv.IMPORT_FILE_PATH as string);
 
             await pushStringsFromExcel(
+                importFilePath,
+                argv.apiUrl as string,
+                argv.authToken as string,
+            );
+        },
+    )
+    .command(
+        'push-strings-dref <IMPORT_FILE_PATH>',
+        'IMPORTANT!!! Temporary command, do not use!',
+        (yargs) => {
+            yargs.positional('IMPORT_FILE_PATH', {
+                type: 'string',
+                describe: 'Find the import file on IMPORT_FILE_PATH',
+            });
+            yargs.options({
+                'auth-token': {
+                    type: 'string',
+                    describe: 'Authentication token to access the API server',
+                    require: true,
+                },
+                'api-url': {
+                    type: 'string',
+                    describe: 'URL for the API server',
+                    require: true,
+                }
+            });
+        },
+        async (argv) => {
+            const importFilePath = (argv.IMPORT_FILE_PATH as string);
+
+            await pushStringsDref(
                 importFilePath,
                 argv.apiUrl as string,
                 argv.authToken as string,
