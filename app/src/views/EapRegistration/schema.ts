@@ -9,8 +9,8 @@ import { type GoApiBody } from '#utils/restRequest';
 type EapRegisterRequestBody = GoApiBody<'/api/v2/eap-registration/', 'POST'>;
 
 export const defaultFormValue: FormFields = {
-    eap_type: null,
-    expected_submission_time: null,
+    eap_type: undefined,
+    expected_submission_time: undefined,
 };
 
 type FormFields = PartialForm<EapRegisterRequestBody>;

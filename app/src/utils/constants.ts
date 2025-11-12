@@ -199,3 +199,6 @@ export const multiMonthSelectDefaultValue = listToMap(
 export const ERU_READINESS_READY = 1;
 export const ERU_READINESS_CAN_CONTRIBUTE = 2;
 export const ERU_READINESS_NO_CAPACITY = 3;
+
+export const EAP_TYPE_SIMPLIFIED = 20;
+export const EAP_TYPE_FULL = 10;

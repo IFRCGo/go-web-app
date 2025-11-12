@@ -1198,24 +1198,7 @@ const eapRegistrationLayout = customWrapRoute({
     },
 });
 
-const eapRegistrationFormIndex = customWrapRoute({
-    parent: eapRegistrationLayout,
-    index: true,
-    component: {
-        eagerLoad: true,
-        render: Navigate,
-        props: {
-            to: 'new' satisfies DefaultPerProcessChild,
-            replace: true,
-        },
-    },
-    context: {
-        title: 'EAP Registration',
-        visibility: 'anything',
-    },
-});
-
-const eapDevelopmentRegistration = customWrapRoute({
+const newEapDevelopmentRegistration = customWrapRoute({
     parent: eapRegistrationLayout,
     path: 'new' satisfies DefaultEapRegistrationChild,
     component: {
@@ -1232,14 +1215,14 @@ const eapDevelopmentRegistration = customWrapRoute({
 
 const eapDevelopmentRegistrationForm = customWrapRoute({
     parent: eapRegistrationLayout,
-    path: ':eapId/view',
+    path: ':eapId/',
     component: {
         render: () => import('#views/EapRegistration'),
         props: {},
     },
     wrapperComponent: Auth,
     context: {
-        title: 'View EAP Overview',
+        title: 'View EAP',
         visibility: 'is-authenticated',
     },
 });
@@ -1504,7 +1487,7 @@ const wrappedRoutes = {
     termsAndConditions,
     operationalLearning,
     montandonLandingPage,
-    eapDevelopmentRegistration,
+    newEapDevelopmentRegistration,
     eapFullForm,
     simplifiedEapForm,
     ...regionRoutes,
@@ -1522,7 +1505,6 @@ const wrappedRoutes = {
     drefProcessLayout,
     eapRegistrationLayout,
     eapDevelopmentRegistrationForm,
-    eapRegistrationFormIndex,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));

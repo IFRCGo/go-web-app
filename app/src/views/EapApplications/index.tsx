@@ -5,6 +5,7 @@ import {
 } from 'react';
 import {
     Container,
+    Pager,
     type RowOptions,
     Table,
     TableBodyContent,
@@ -23,6 +24,10 @@ import {
 import Link from '#components/Link';
 import useFilterState from '#hooks/useFilterState';
 import {
+    EAP_TYPE_FULL,
+    EAP_TYPE_SIMPLIFIED,
+} from '#utils/constants';
+import {
     type GoApiResponse,
     useRequest,
 } from '#utils/restRequest';
@@ -37,6 +42,7 @@ type EapResponse = GoApiResponse<'/api/v2/eap-registration/'>;
 type EapListItem = NonNullable<EapResponse['results']>[number];
 
 type Key = EapListItem['id'];
+const ITEM_PER_PAGE = 6;
 
 /** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
@@ -50,9 +56,11 @@ export function Component() {
         rawFilter,
         filtered,
         setFilterField,
+        page,
+        setPage,
     } = useFilterState<FilterValue>({
         filter: {},
-        pageSize: 6,
+        pageSize: ITEM_PER_PAGE,
     });
 
     const {
@@ -82,19 +90,18 @@ export function Component() {
         () => ([
             createDateColumn<EapListItem, number>(
                 'created_at',
-                'Last Updated',
+                strings.eapLastUpdated,
                 (item) => item.created_at,
-                { columnClassName: styles.date },
             ),
             createStringColumn<EapListItem, number>(
                 'name',
-                'Name/Phase',
+                strings.eapName,
                 (item) => {
                     const baseYear = new Date(item.created_at).getFullYear();
                     let addedYear = baseYear;
-                    if (item.eap_type === 10) {
-                        addedYear = baseYear + 4;
-                    } else if (item.eap_type === 20) {
+                    if (item.eap_type === EAP_TYPE_FULL) {
+                        addedYear = baseYear + 5;
+                    } else if (item.eap_type === EAP_TYPE_SIMPLIFIED) {
                         addedYear = baseYear + 2;
                     }
                     return `${item.country_details?.name}:
@@ -105,24 +112,15 @@ export function Component() {
             ),
             createStringColumn<EapListItem, number>(
                 'eap_type_display',
-                'EAP Type',
+                strings.eapType,
                 (item) => item.eap_type_display,
-                { columnClassName: styles.type },
             ),
             createStringColumn<EapListItem, number>(
                 'status_display',
-                'Status',
+                strings.eapStatus,
                 (item) => item.status_display,
                 { columnClassName: styles.status },
             ),
-        ]),
-        [],
-    );
-
-    const aggregatedColumns = useMemo(
-        () => ([
-            createExpansionIndicatorColumn<EapListItem, Key>(false),
-            ...baseColumns,
             createExpandColumn<EapListItem, Key>(
                 'expandRow',
                 '',
@@ -132,7 +130,14 @@ export function Component() {
                 }),
             ),
         ]),
-        [baseColumns, handleExpandClick, expandedRow],
+        [
+            strings.eapLastUpdated,
+            strings.eapName,
+            strings.eapType,
+            strings.eapStatus,
+            expandedRow,
+            handleExpandClick,
+        ],
     );
 
     const detailColumns = useMemo(
@@ -141,22 +146,21 @@ export function Component() {
             createStringColumn<EapListItem, number>(
                 'title',
                 '',
-                () => 'EAP Registration',
+                () => strings.eapRegistration,
                 { columnClassName: styles.detailTitle },
             ),
+            createEmptyColumn(),
             createElementColumn<EapListItem, number, EapTableActionProps>(
                 'actions',
-                'EAP Registration',
+                '',
                 EapTableActions,
                 (eapId) => ({
                     eapId,
                 }),
             ),
             createEmptyColumn(),
-            createEmptyColumn(),
-            createEmptyColumn(),
         ]),
-        [],
+        [strings.eapRegistration],
     );
 
     const rowModifier = useCallback(
@@ -193,7 +197,7 @@ export function Component() {
             childrenContainerClassName={styles.eapFormLinks}
             heading={strings.eapApplicationsHeading}
             withHeaderBorder
-            filters={(
+            filters={(eapResponse?.count ?? 0) > 0 && (
                 <Filters
                     value={rawFilter}
                     onChange={setFilterField}
@@ -201,17 +205,25 @@ export function Component() {
             )}
             actions={(
                 <Link
-                    to="home"
+                    to="newEapDevelopmentRegistration"
                     variant="secondary"
                 >
                     {strings.eapRegistrationLink}
                 </Link>
             )}
+            footerActions={(
+                <Pager
+                    activePage={page}
+                    itemsCount={eapResponse?.count ?? 0}
+                    maxItemsPerPage={limit}
+                    onActivePageChange={setPage}
+                />
+            )}
         >
             <Table
                 className={styles.table}
                 data={eapResponse?.results}
-                columns={aggregatedColumns}
+                columns={baseColumns}
                 rowModifier={rowModifier}
                 keySelector={numericIdSelector}
                 pending={eapPending}
