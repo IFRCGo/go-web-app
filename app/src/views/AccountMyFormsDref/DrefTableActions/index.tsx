@@ -746,7 +746,7 @@ function DrefTableActions(props: Props) {
                             <Button
                                 name={undefined}
                                 onClick={handleAddOpsUpdate}
-                                disabled={(startingLanguage !== 'en' && !selectOpsLanguage)}
+                                disabled={(startingLanguage !== 'en' && !selectOpsLanguage) || disabled}
                             >
                                 {strings.dropdownActionAddOpsUpdateLabel}
                             </Button>
@@ -784,7 +784,7 @@ function DrefTableActions(props: Props) {
                             <Button
                                 name={undefined}
                                 onClick={handleAddFinalReport}
-                                disabled={(startingLanguage !== 'en' && !selectFinalLanguage)}
+                                disabled={(startingLanguage !== 'en' && !selectFinalLanguage) || disabled}
                             >
                                 {strings.dropdownActionAddFinalReportLabel}
                             </Button>
