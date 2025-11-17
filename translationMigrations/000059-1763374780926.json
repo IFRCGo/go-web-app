@@ -1,0 +1,503 @@
+{
+    "parent": "000058-1762859195042.json",
+    "actions": [
+        {
+            "action": "add",
+            "key": "eapEditLabel",
+            "namespace": "accountMyFormsEap",
+            "value": "Edit"
+        },
+        {
+            "action": "add",
+            "key": "eapFormLink",
+            "namespace": "accountMyFormsEap",
+            "value": "Start Full EAP"
+        },
+        {
+            "action": "add",
+            "key": "eapViewLabel",
+            "namespace": "accountMyFormsEap",
+            "value": "View"
+        },
+        {
+            "action": "add",
+            "key": "filterStatusPlaceholder",
+            "namespace": "accountMyFormsEap",
+            "value": "Select Status"
+        },
+        {
+            "action": "add",
+            "key": "simplifiedEapLink",
+            "namespace": "accountMyFormsEap",
+            "value": "Start sEAP"
+        },
+        {
+            "action": "add",
+            "key": "eapApplications",
+            "namespace": "accountMyFormsLayout",
+            "value": "EAP Applications"
+        },
+        {
+            "action": "add",
+            "key": "earlyActionProtocols",
+            "namespace": "common",
+            "value": "Early Action Protocols (EAP)"
+        },
+        {
+            "action": "add",
+            "key": "drefDrefApplication",
+            "namespace": "drefDetail",
+            "value": "DREF Application"
+        },
+        {
+            "action": "add",
+            "key": "drefIntroDetailOne",
+            "namespace": "drefDetail",
+            "value": "Every year, small and medium-sized disasters occur in silence. Without media attention or international visibility, they can struggle to attract funding—putting affected communities at risk of being completely neglected."
+        },
+        {
+            "action": "add",
+            "key": "drefIntroDetailTwo",
+            "namespace": "drefDetail",
+            "value": "To support these smaller disasters, or to provide initial funding before launching an Emergency Appeal, we rapidly channel funding to Red Cross and Red Crescent Societies through the DREF—enabling them to deliver fast and effective local humanitarian action."
+        },
+        {
+            "action": "add",
+            "key": "drefIntroHeading",
+            "namespace": "drefDetail",
+            "value": "DREF Intro"
+        },
+        {
+            "action": "add",
+            "key": "drefProcessDetailOne",
+            "namespace": "drefDetail",
+            "value": "The fund is demand-driven and locally-owned. It is open to all 191 National Societies that submit funding applications and plans of action reflecting locally identified priorities and needs."
+        },
+        {
+            "action": "add",
+            "key": "drefProcessDetailTwo",
+            "namespace": "drefDetail",
+            "value": "On average, the DREF supports more than 100 responses to small and medium-sized disasters every year."
+        },
+        {
+            "action": "add",
+            "key": "drefProcessHeading",
+            "namespace": "drefDetail",
+            "value": "Dref Process"
+        },
+        {
+            "action": "add",
+            "key": "drefProcessListOne",
+            "namespace": "drefDetail",
+            "value": "A loan facility: start-up funding for the IFRC and National Societies to respond to large-scale disasters, which will later be reimbursed by donor contributions to an Emergency Appeal."
+        },
+        {
+            "action": "add",
+            "key": "drefProcessListTwo",
+            "namespace": "drefDetail",
+            "value": "A grant facility: funding for National Society responses to small- and medium-sized disasters. This is used when no Emergency Appeal will be launched or when support from other actors is not foreseen."
+        },
+        {
+            "action": "add",
+            "key": "drefProcessSubHeading",
+            "namespace": "drefDetail",
+            "value": "We provide funding in two ways:"
+        },
+        {
+            "action": "add",
+            "key": "eapDescription",
+            "namespace": "drefProcess",
+            "value": "The IFRC's Disaster Emergency Fund (DREF): rapid, reliable funding for life-saving action."
+        },
+        {
+            "action": "add",
+            "key": "eapHeading",
+            "namespace": "drefProcess",
+            "value": "Disaster Response Emergency Fund (DREF)"
+        },
+        {
+            "action": "add",
+            "key": "eapProcessDrefTab",
+            "namespace": "drefProcess",
+            "value": "Response And Imminent Dref"
+        },
+        {
+            "action": "add",
+            "key": "eapProcessEapTab",
+            "namespace": "drefProcess",
+            "value": "Early Action Protocols (EAP)"
+        },
+        {
+            "action": "add",
+            "key": "eapApplicationsHeading",
+            "namespace": "eapApplication",
+            "value": "EAP Application"
+        },
+        {
+            "action": "add",
+            "key": "eapLastUpdated",
+            "namespace": "eapApplication",
+            "value": "Last Updated"
+        },
+        {
+            "action": "add",
+            "key": "eapName",
+            "namespace": "eapApplication",
+            "value": "Name/Phase"
+        },
+        {
+            "action": "add",
+            "key": "eapRegistration",
+            "namespace": "eapApplication",
+            "value": "EAP Registration"
+        },
+        {
+            "action": "add",
+            "key": "eapRegistrationLink",
+            "namespace": "eapApplication",
+            "value": "Register Your EAP"
+        },
+        {
+            "action": "add",
+            "key": "eapStatus",
+            "namespace": "eapApplication",
+            "value": "Status"
+        },
+        {
+            "action": "add",
+            "key": "eapType",
+            "namespace": "eapApplication",
+            "value": "EAP Type"
+        },
+        {
+            "action": "add",
+            "key": "eapApplicationDetails",
+            "namespace": "eapRegistration",
+            "value": "Application Details"
+        },
+        {
+            "action": "add",
+            "key": "eapBackButton",
+            "namespace": "eapRegistration",
+            "value": "Back"
+        },
+        {
+            "action": "add",
+            "key": "eapCancelButton",
+            "namespace": "eapRegistration",
+            "value": "Cancel"
+        },
+        {
+            "action": "add",
+            "key": "eapContacts",
+            "namespace": "eapRegistration",
+            "value": "Contacts"
+        },
+        {
+            "action": "add",
+            "key": "eapCountry",
+            "namespace": "eapRegistration",
+            "value": "Country"
+        },
+        {
+            "action": "add",
+            "key": "eapCountryDescription",
+            "namespace": "eapRegistration",
+            "value": "The country will be pre-populated based on the NS selection, but can be adapted as needed."
+        },
+        {
+            "action": "add",
+            "key": "eapDevelopmentRegistrationDescription",
+            "namespace": "eapRegistration",
+            "value": "Thank you for notifying us about the start of your EAP process. We look forward to your completed application."
+        },
+        {
+            "action": "add",
+            "key": "eapDevelopmentRegistrationHeading",
+            "namespace": "eapRegistration",
+            "value": "EAP Development Registration"
+        },
+        {
+            "action": "add",
+            "key": "eapDisasterType",
+            "namespace": "eapRegistration",
+            "value": "Disaster Type"
+        },
+        {
+            "action": "add",
+            "key": "eapDisasterTypeDescription",
+            "namespace": "eapRegistration",
+            "value": "Select the disaster type for which the EAP is needed."
+        },
+        {
+            "action": "add",
+            "key": "eapFailedToLoad",
+            "namespace": "eapRegistration",
+            "value": "Failed to Load"
+        },
+        {
+            "action": "add",
+            "key": "eapFocalPoint",
+            "namespace": "eapRegistration",
+            "value": "DREF Focal Point"
+        },
+        {
+            "action": "add",
+            "key": "eapFocalPointDescription",
+            "namespace": "eapRegistration",
+            "value": "The DREF contact person form IFRC"
+        },
+        {
+            "action": "add",
+            "key": "eapFocalPointEmail",
+            "namespace": "eapRegistration",
+            "value": "Email"
+        },
+        {
+            "action": "add",
+            "key": "eapFocalPointName",
+            "namespace": "eapRegistration",
+            "value": "Name"
+        },
+        {
+            "action": "add",
+            "key": "eapFocalPointPhoneNumber",
+            "namespace": "eapRegistration",
+            "value": "Phone Number"
+        },
+        {
+            "action": "add",
+            "key": "eapFocalPointTitle",
+            "namespace": "eapRegistration",
+            "value": "Title"
+        },
+        {
+            "action": "add",
+            "key": "eapIFRCContact",
+            "namespace": "eapRegistration",
+            "value": "IFRC Contact"
+        },
+        {
+            "action": "add",
+            "key": "eapIFRCContactDescription",
+            "namespace": "eapRegistration",
+            "value": "The most senior staff in the National Society responsible and knowledgable about the disaster event."
+        },
+        {
+            "action": "add",
+            "key": "eapIFRCEmail",
+            "namespace": "eapRegistration",
+            "value": "Email"
+        },
+        {
+            "action": "add",
+            "key": "eapIFRCName",
+            "namespace": "eapRegistration",
+            "value": "Name"
+        },
+        {
+            "action": "add",
+            "key": "eapIFRCPhoneNumber",
+            "namespace": "eapRegistration",
+            "value": "Phone Number"
+        },
+        {
+            "action": "add",
+            "key": "eapIFRCTitle",
+            "namespace": "eapRegistration",
+            "value": "Title"
+        },
+        {
+            "action": "add",
+            "key": "eapNationalSociety",
+            "namespace": "eapRegistration",
+            "value": "National Society (NS)"
+        },
+        {
+            "action": "add",
+            "key": "eapNationalSocietyDescription",
+            "namespace": "eapRegistration",
+            "value": "Select National Society that is planning to apply for the EAP"
+        },
+        {
+            "action": "add",
+            "key": "eapNotSure",
+            "namespace": "eapRegistration",
+            "value": "Not Sure"
+        },
+        {
+            "action": "add",
+            "key": "eapNSContact",
+            "namespace": "eapRegistration",
+            "value": "National Society Contact"
+        },
+        {
+            "action": "add",
+            "key": "eapNSContactDescription",
+            "namespace": "eapRegistration",
+            "value": "National Society contact responsible for the EAP process"
+        },
+        {
+            "action": "add",
+            "key": "eapNSEmail",
+            "namespace": "eapRegistration",
+            "value": "Email"
+        },
+        {
+            "action": "add",
+            "key": "eapNSName",
+            "namespace": "eapRegistration",
+            "value": "Name"
+        },
+        {
+            "action": "add",
+            "key": "eapNSPhoneNumber",
+            "namespace": "eapRegistration",
+            "value": "Phone Number"
+        },
+        {
+            "action": "add",
+            "key": "eapNSTitle",
+            "namespace": "eapRegistration",
+            "value": "Title"
+        },
+        {
+            "action": "add",
+            "key": "eapPartnersInvolved",
+            "namespace": "eapRegistration",
+            "value": "Partners Involved"
+        },
+        {
+            "action": "add",
+            "key": "eapPartnersInvolvedDescription",
+            "namespace": "eapRegistration",
+            "value": "Select from the list the partners involved in this process. Add as many as needed or select not applicable if no partners involved."
+        },
+        {
+            "action": "add",
+            "key": "eapRegistrationDescription",
+            "namespace": "eapRegistration",
+            "value": "Use the following page to submit your National Society's interest in following the Early Action Protocol (EAP) application process. Once you submit this form, the EAP team members will contact you to start the procedure. You can find more information on the process and different ways to apply {link}"
+        },
+        {
+            "action": "add",
+            "key": "eapRegistrationFailure",
+            "namespace": "eapRegistration",
+            "value": "Sorry could not register new EAP right now!"
+        },
+        {
+            "action": "add",
+            "key": "eapRegistrationFailureMessage",
+            "namespace": "eapRegistration",
+            "value": "Failed to update EAP Registration"
+        },
+        {
+            "action": "add",
+            "key": "eapRegistrationHeading",
+            "namespace": "eapRegistration",
+            "value": "EAP Development Registration"
+        },
+        {
+            "action": "add",
+            "key": "eapRegistrationLink",
+            "namespace": "eapRegistration",
+            "value": "on this page."
+        },
+        {
+            "action": "add",
+            "key": "eapRegistrationSuccess",
+            "namespace": "eapRegistration",
+            "value": "Successfully created a new EAP!"
+        },
+        {
+            "action": "add",
+            "key": "eapRegistrationUpdateMessage",
+            "namespace": "eapRegistration",
+            "value": "EAP Registration updated Successfully."
+        },
+        {
+            "action": "add",
+            "key": "eapSubmission",
+            "namespace": "eapRegistration",
+            "value": "Expected Time of Submission"
+        },
+        {
+            "action": "add",
+            "key": "eapSubmissionDescription",
+            "namespace": "eapRegistration",
+            "value": "Include the proposed time of submission, accounting for the time it will take to deliver the application."
+        },
+        {
+            "action": "add",
+            "key": "eapSubmitButton",
+            "namespace": "eapRegistration",
+            "value": "Submit"
+        },
+        {
+            "action": "add",
+            "key": "eapType",
+            "namespace": "eapRegistration",
+            "value": "EAP Type"
+        },
+        {
+            "action": "add",
+            "key": "eapTypeDescription",
+            "namespace": "eapRegistration",
+            "value": "Select the EAP type. Find details of both under this link."
+        },
+        {
+            "action": "add",
+            "key": "eapContent",
+            "namespace": "earlyActionProtocols",
+            "value": "What is an EAP?"
+        },
+        {
+            "action": "add",
+            "key": "eapContentHeading",
+            "namespace": "earlyActionProtocols",
+            "value": "Early Action Protocols (EAPs) are a core mechanism of the IFRC's Forecast-based Financing (FbF) approach, designed to ensure that humanitarian action happens before a disaster strikes, rather than only responding afterwards."
+        },
+        {
+            "action": "add",
+            "key": "eapContentSubHeadingOne",
+            "namespace": "earlyActionProtocols",
+            "value": "An EAP is a pre-agreed plan developed by a Nation Society together with partners, which outlines:"
+        },
+        {
+            "action": "add",
+            "key": "eapContentSubHeadingThree",
+            "namespace": "earlyActionProtocols",
+            "value": "What is the EAP Application Process?"
+        },
+        {
+            "action": "add",
+            "key": "eapContentSubHeadingTwo",
+            "namespace": "earlyActionProtocols",
+            "value": "Why are the EAPs Important?"
+        },
+        {
+            "action": "add",
+            "key": "eapDescriptionOne",
+            "namespace": "earlyActionProtocols",
+            "value": "The triggers (based on scientific forecasts and risk analysis) that indicate when a hazard is likely to impact communities."
+        },
+        {
+            "action": "add",
+            "key": "eapDescriptionThree",
+            "namespace": "earlyActionProtocols",
+            "value": "The roles, responsibilities, and budget required to carry out these actions quickly and effectively."
+        },
+        {
+            "action": "add",
+            "key": "eapDescriptionTwo",
+            "namespace": "earlyActionProtocols",
+            "value": "The early actions to be implemented once those triggers are met - practical, life-saving measures that reduce the impacts of the forecasted disaster."
+        },
+        {
+            "action": "add",
+            "key": "eapRegistrationLink",
+            "namespace": "earlyActionProtocols",
+            "value": "Register your EAP"
+        }
+    ]
+}
