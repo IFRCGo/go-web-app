@@ -1,0 +1,7 @@
+{
+    "namespace": "common",
+    "strings": {
+        "timeframeLabel": "Timeframe",
+        "timespanLabel": "Time Span"
+    }
+}

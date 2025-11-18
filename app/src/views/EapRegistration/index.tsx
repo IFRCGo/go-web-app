@@ -2,6 +2,7 @@ import {
     type ElementRef,
     useCallback,
     useRef,
+    useState,
 } from 'react';
 import {
     useLocation,
@@ -40,6 +41,7 @@ import NationalSocietyMultiSelectInput from '#components/domain/NationalSocietyM
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
 import Link from '#components/Link';
 import Page from '#components/Page';
+import TimespanInput, { type TimespanInputValue } from '#components/TimespanInput';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useAlert from '#hooks/useAlert';
 import useRouting from '#hooks/useRouting';
@@ -74,6 +76,8 @@ export function Component() {
     const alert = useAlert();
     const { navigate } = useRouting();
     const { eapId: eapIdFromParams } = useParams<{ eapId: string }>();
+
+    const [timespanValue, setTimespanValue] = useState<TimespanInputValue>();
 
     const { state } = useLocation();
     const eapId = eapIdFromParams ?? state?.eapId as string | undefined;
@@ -531,6 +535,11 @@ export function Component() {
                             error={error?.dref_focal_point_phone_number}
                             disabled={disabled}
                             readOnly={isReadOnly}
+                        />
+                        {/* NOTE: Just for testing purpose */}
+                        <TimespanInput
+                            value={timespanValue}
+                            onChange={setTimespanValue}
                         />
                     </InputSection>
                 </ListView>
