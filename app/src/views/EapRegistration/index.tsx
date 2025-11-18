@@ -12,6 +12,7 @@ import {
     Container,
     DateInput,
     InputSection,
+    ListView,
     Radio,
     RadioInput,
     TextInput,
@@ -261,7 +262,6 @@ export function Component() {
 
     return (
         <Page
-            mainSectionClassName={styles.eapRegistrationForm}
             heading={strings.eapRegistrationHeading}
             description={resolveToComponent(
                 strings.eapRegistrationDescription,
@@ -278,17 +278,20 @@ export function Component() {
             actions={(
                 <Link
                     to="accountMyFormsEap"
-                    variant="secondary"
+                    styleVariant="outline"
+                    colorVariant="primary"
                 >
                     {eapId ? strings.eapBackButton : strings.eapCancelButton}
                 </Link>
             )}
+            elementRef={formContentRef}
             withBackgroundColorInMainSection
         >
-            <div ref={formContentRef}>
-                <Container
-                    heading={strings.eapApplicationDetails}
-                    childrenContainerClassName={styles.content}
+            <Container
+                heading={strings.eapApplicationDetails}
+            >
+                <ListView
+                    layout="block"
                 >
                     <InputSection
                         title={strings.eapNationalSociety}
@@ -336,7 +339,6 @@ export function Component() {
                         title={strings.eapType}
                         // TODO: Add link here
                         description={strings.eapTypeDescription}
-                        contentSectionClassName={styles.radioContent}
                         withAsteriskOnTitle
                     >
                         <RadioInput
@@ -349,9 +351,12 @@ export function Component() {
                             error={error?.eap_type}
                             readOnly={isReadOnly}
                         />
+                        {/* FIXME: label is not showing */}
                         <Radio
                             name="eap_type"
-                            label={strings.eapNotSure}
+                            // FIXME: inputname should not be strings
+                            // it should be transferred to label
+                            inputName={strings.eapNotSure}
                             value={value?.eap_type === null}
                             onClick={handleEapTypeClick}
                             readOnly={isReadOnly}
@@ -360,7 +365,6 @@ export function Component() {
                     <InputSection
                         title={strings.eapSubmission}
                         description={strings.eapSubmissionDescription}
-                        contentSectionClassName={styles.radioContent}
                         withAsteriskOnTitle
                     >
                         <DateInput
@@ -370,9 +374,12 @@ export function Component() {
                             error={error?.expected_submission_time}
                             readOnly={isReadOnly}
                         />
+                        {/* FIXME: label is not showing */}
                         <Radio
                             name="expected_submission_time"
-                            label={strings.eapNotSure}
+                            // FIXME: inputname should not be strings
+                            // it should be transferred to label
+                            inputName={strings.eapNotSure}
                             value={value?.expected_submission_time === null}
                             onClick={handleSubmissionTimeClick}
                             readOnly={isReadOnly}
@@ -391,9 +398,14 @@ export function Component() {
                             readOnly={isReadOnly}
                         />
                     </InputSection>
-                </Container>
-                <Container
-                    heading={strings.eapContacts}
+                </ListView>
+            </Container>
+            <Container
+                heading={strings.eapContacts}
+                spacing="md"
+            >
+                <ListView
+                    layout="block"
                 >
                     <InputSection
                         title={strings.eapNSContact}
@@ -521,8 +533,8 @@ export function Component() {
                             readOnly={isReadOnly}
                         />
                     </InputSection>
-                </Container>
-            </div>
+                </ListView>
+            </Container>
             <div className={styles.footer}>
                 {!isReadOnly && (
                     <ConfirmButton
