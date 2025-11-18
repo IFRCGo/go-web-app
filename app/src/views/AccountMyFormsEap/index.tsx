@@ -36,7 +36,6 @@ import EapTableActions, { type Props as EapTableActionProps } from './EapTableAc
 import Filters, { type FilterValue } from './Filters';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 type EapResponse = GoApiResponse<'/api/v2/eap-registration/'>;
 type EapListItem = NonNullable<EapResponse['results']>[number];
@@ -108,7 +107,6 @@ export function Component() {
                         ${item.disaster_type_details?.name}
                         ${baseYear} - ${addedYear}`;
                 },
-                { columnClassName: styles.title },
             ),
             createStringColumn<EapListItem, number>(
                 'eap_type_display',
@@ -119,7 +117,6 @@ export function Component() {
                 'status_display',
                 strings.eapStatus,
                 (item) => item.status_display,
-                { columnClassName: styles.status },
             ),
             createExpandColumn<EapListItem, Key>(
                 'expandRow',
@@ -147,7 +144,6 @@ export function Component() {
                 'title',
                 '',
                 () => strings.eapRegistration,
-                { columnClassName: styles.detailTitle },
             ),
             createEmptyColumn(),
             createElementColumn<EapListItem, number, EapTableActionProps>(
@@ -180,7 +176,6 @@ export function Component() {
                         keySelector={numericIdSelector}
                         data={subRows}
                         columns={detailColumns}
-                        cellClassName={styles.subCell}
                     />
                 </>
             );
@@ -194,7 +189,6 @@ export function Component() {
 
     return (
         <Container
-            childrenContainerClassName={styles.eapFormLinks}
             heading={strings.eapApplicationsHeading}
             withHeaderBorder
             filters={(eapResponse?.count ?? 0) > 0 && (
@@ -203,10 +197,11 @@ export function Component() {
                     onChange={setFilterField}
                 />
             )}
-            actions={(
+            headerActions={(
                 <Link
                     to="newEapDevelopmentRegistration"
-                    variant="secondary"
+                    styleVariant="outline"
+                    colorVariant="primary"
                 >
                     {strings.eapRegistrationLink}
                 </Link>
@@ -221,7 +216,6 @@ export function Component() {
             )}
         >
             <Table
-                className={styles.table}
                 data={eapResponse?.results}
                 columns={baseColumns}
                 rowModifier={rowModifier}
