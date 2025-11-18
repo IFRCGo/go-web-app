@@ -41,14 +41,14 @@ function EapTableActions(props: Props) {
             <Link
                 to="eapFullForm"
                 urlParams={{ eapId }}
-                variant="secondary"
+                styleVariant="filled"
             >
                 {strings.eapFormLink}
             </Link>
             <Link
                 to="simplifiedEapForm"
                 urlParams={{ eapId }}
-                variant="secondary"
+                styleVariant="filled"
             >
                 {strings.simplifiedEapLink}
             </Link>
