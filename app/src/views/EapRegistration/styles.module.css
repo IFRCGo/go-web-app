@@ -1,22 +1,5 @@
-.eap-registration-form {
+.footer {
     display: flex;
-    flex-direction: column;
-    gap: var(--go-ui-spacing-md);
-
-    .content {
-        display: flex;
-        flex-direction: column;
-        gap: var(--go-ui-spacing-md);
-
-        .radio-content {
-            display: flex;
-            gap: var(--go-ui-spacing-md);
-        }
-    }
-
-    .footer {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+    align-items: center;
+    justify-content: center;
 }

@@ -7,7 +7,6 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import Link from '#components/Link';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 /** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
@@ -16,13 +15,10 @@ export function Component() {
 
     return (
         <Container
-            className={styles.eapDetail}
-            contentViewType="vertical"
-            childrenContainerClassName={styles.content}
-            actions={(
+            headerActions={(
                 <Link
                     to="newEapDevelopmentRegistration"
-                    variant="secondary"
+                    styleVariant="filled"
                 >
                     {strings.eapRegistrationLink}
                 </Link>
@@ -52,10 +48,16 @@ export function Component() {
             {/* TODO: Add remaining content */}
             <ExpandableContainer
                 heading={strings.eapContentSubHeadingTwo}
-            />
+            >
+                {/* TODO: Add real content and replace with strings */}
+                EAP content sub heading description two
+            </ExpandableContainer>
             <ExpandableContainer
                 heading={strings.eapContentSubHeadingThree}
-            />
+            >
+                {/* TODO: Add real content and replace with strings */}
+                EAP content sub heading description three
+            </ExpandableContainer>
         </Container>
     );
 }

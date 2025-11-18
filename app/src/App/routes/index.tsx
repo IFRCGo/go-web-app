@@ -763,7 +763,7 @@ const accountMyFormsEap = customWrapRoute({
     parent: accountMyFormsLayout,
     path: 'eap-applications',
     component: {
-        render: () => import('#views/EapApplications'),
+        render: () => import('#views/AccountMyFormsEap'),
         props: {},
     },
     context: {

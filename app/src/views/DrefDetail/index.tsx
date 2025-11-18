@@ -15,8 +15,6 @@ export function Component() {
     return (
         <Container
             className={styles.drefDetail}
-            contentViewType="vertical"
-            childrenContainerClassName={styles.content}
         >
             <SurgeContentContainer
                 heading={strings.drefIntroHeading}
