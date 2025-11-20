@@ -67,7 +67,7 @@ export interface TimespanInputValue {
     timespan?: number[];
 }
 
-export interface Props {
+interface Props {
     value?: TimespanInputValue;
     onChange: (value: TimespanInputValue) => void;
 }
