@@ -15,6 +15,7 @@ import pushStringsFromExcel from './commands/pushStringsFromExcel';
 import exportServerStringsToExcel from './commands/exportServerStringsToExcel';
 import clearServerStrings from './commands/clearServerStrings';
 import pushStringsDref from './commands/pushStringsDref';
+import syncEnStrings from './commands/syncEnStrings';
 
 const currentDir = cwd();
 
@@ -282,6 +283,36 @@ yargs(hideBin(process.argv))
             await pushStringsDref(
                 importFilePath,
                 argv.apiUrl as string,
+                argv.authToken as string,
+            );
+        },
+    )
+    .command(
+        'sync-en-strings',
+        'IMPORTANT!!! Temporary command, do not use!',
+        (yargs) => {
+            yargs.options({
+                'auth-token': {
+                    type: 'string',
+                    describe: 'Authentication token to access the API server',
+                    require: true,
+                },
+                'source-api-url': {
+                    type: 'string',
+                    describe: 'URL for the source API server',
+                    require: true,
+                },
+                'destination-api-url': {
+                    type: 'string',
+                    describe: 'URL for the destination',
+                    require: true,
+                }
+            });
+        },
+        async (argv) => {
+            await syncEnStrings(
+                argv.sourceApiUrl as string,
+                argv.destinationApiUrl as string,
                 argv.authToken as string,
             );
         },

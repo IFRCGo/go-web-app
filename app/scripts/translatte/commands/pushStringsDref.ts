@@ -2,6 +2,7 @@ import xlsx, { CellValue } from 'exceljs';
 import { fetchServerState, postLanguageStrings } from "../utils";
 import { encodeDate, isDefined, isNotDefined, listToGroupList, listToMap, mapToList } from '@togglecorp/fujs';
 import { Language, ServerActionItem, SourceStringItem } from '../types';
+import { Md5 } from 'ts-md5';
 
 
 function getValueFromCellValue(cellValue: CellValue) {
@@ -78,6 +79,16 @@ async function pushStringsDref(importFilePath: string, apiUrl: string, accessTok
     const updatedStrings: SourceStringItem[] = [];
 
     firstSheet.eachRow((row) => {
+        const keyColumn = columnMap['Key'];
+        const key = isDefined(keyColumn) ? String(getValueFromCellValue(row.getCell(keyColumn).value)) : undefined;
+
+        const namespaceColumn = columnMap['Namespace'];
+        const namespace = isDefined(namespaceColumn) ? String(getValueFromCellValue(row.getCell(namespaceColumn).value)) : undefined;
+
+        if (isNotDefined(key) || isNotDefined(namespace)) {
+            return;
+        }
+
         const enColumnKey = columnMap['EN'];
         const frColumnKey = columnMap['FR'];
         const esColumnKey = columnMap['ES'];
@@ -85,27 +96,69 @@ async function pushStringsDref(importFilePath: string, apiUrl: string, accessTok
 
         const enValue = isDefined(enColumnKey) ? getValueFromCellValue(row.getCell(enColumnKey).value) : undefined;
 
-        const string = enStrings.find(({ value }) => value === enValue);
+        const strings = enStrings.filter(({ value }) => value === enValue);
 
-        if (string) {
+        if (strings.length > 0) {
+            strings.forEach((string) => {
+                const frValue = isDefined(frColumnKey) ? getValueFromCellValue(row.getCell(frColumnKey).value) : undefined;
+                const esValue = isDefined(esColumnKey) ? getValueFromCellValue(row.getCell(esColumnKey).value) : undefined;
+                const arValue = isDefined(arColumnKey) ? getValueFromCellValue(row.getCell(arColumnKey).value) : undefined;
+
+                updatedStrings.push({
+                    ...string,
+                    language: 'fr',
+                    value: String(frValue),
+                });
+
+                updatedStrings.push({
+                    ...string,
+                    language: 'es',
+                    value: String(esValue),
+                });
+
+                updatedStrings.push({
+                    ...string,
+                    language: 'ar',
+                    value: String(arValue),
+                });
+            });
+        }
+
+        if (strings.length === 0) {
             const frValue = isDefined(frColumnKey) ? getValueFromCellValue(row.getCell(frColumnKey).value) : undefined;
             const esValue = isDefined(esColumnKey) ? getValueFromCellValue(row.getCell(esColumnKey).value) : undefined;
             const arValue = isDefined(arColumnKey) ? getValueFromCellValue(row.getCell(arColumnKey).value) : undefined;
 
+            const hash =  Md5.hashStr(String(enValue));
+
             updatedStrings.push({
-                ...string,
+                key,
+                page_name: namespace,
+                hash,
+                language: 'en',
+                value: String(enValue),
+            });
+
+            updatedStrings.push({
+                key,
+                page_name: namespace,
+                hash,
                 language: 'fr',
                 value: String(frValue),
             });
 
             updatedStrings.push({
-                ...string,
+                key,
+                page_name: namespace,
+                hash,
                 language: 'es',
                 value: String(esValue),
             });
 
             updatedStrings.push({
-                ...string,
+                key,
+                page_name: namespace,
+                hash,
                 language: 'ar',
                 value: String(arValue),
             });

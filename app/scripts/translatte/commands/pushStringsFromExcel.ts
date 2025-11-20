@@ -1,9 +1,9 @@
 import xlsx, { CellValue } from 'exceljs';
 import { Md5 } from 'ts-md5';
-import { encodeDate, isDefined, isNotDefined, listToGroupList, listToMap, mapToList } from '@togglecorp/fujs';
+import { encodeDate, isDefined, isFalsyString, isNotDefined, isTruthyString, listToGroupList, listToMap, mapToList } from '@togglecorp/fujs';
 
 import { Language, ServerActionItem } from '../types';
-import { postLanguageStrings } from '../utils';
+import { postLanguageStrings, writeFilePromisify } from '../utils';
 
 function getValueFromCellValue(cellValue: CellValue) {
     if (isNotDefined(cellValue)) {
@@ -82,19 +82,27 @@ async function pushStringsFromExcel(importFilePath: string, apiUrl: string, acce
     }[] = [];
 
     firstSheet.eachRow(
-        (row) => {
+        (row, i) => {
+            if (i === 0) {
+                return;
+            }
+
             const keyColumn = columnMap['Key'];
             const key = isDefined(keyColumn) ? String(getValueFromCellValue(row.getCell(keyColumn).value)) : undefined;
 
             const namespaceColumn = columnMap['Namespace'];
             const namespace = isDefined(namespaceColumn) ? String(getValueFromCellValue(row.getCell(namespaceColumn).value)) : undefined;
 
-            if (isNotDefined(key) || isNotDefined(namespace)) {
+            if (isFalsyString(key) || isFalsyString(namespace)) {
                 return;
             }
 
             const enColumn = columnMap['EN'];
             const en = isDefined(enColumn) ? String(getValueFromCellValue(row.getCell(enColumn).value)) : undefined;
+
+            if (isFalsyString(en)) {
+                return;
+            }
 
             const arColumn = columnMap['AR'];
             const ar = isDefined(arColumn) ? String(getValueFromCellValue(row.getCell(arColumn).value)) : undefined;
@@ -111,7 +119,6 @@ async function pushStringsFromExcel(importFilePath: string, apiUrl: string, acce
 
             const hash = Md5.hashStr(en);
 
-            /*
             strings.push({
                 key,
                 namespace,
@@ -119,9 +126,8 @@ async function pushStringsFromExcel(importFilePath: string, apiUrl: string, acce
                 value: en,
                 hash,
             });
-            */
 
-            if (isDefined(ar)) {
+            if (isTruthyString(ar)) {
                 strings.push({
                     key,
                     namespace,
@@ -131,7 +137,7 @@ async function pushStringsFromExcel(importFilePath: string, apiUrl: string, acce
                 });
             }
 
-            if (isDefined(fr)) {
+            if (isTruthyString(fr)) {
                 strings.push({
                     key,
                     namespace,
@@ -141,7 +147,7 @@ async function pushStringsFromExcel(importFilePath: string, apiUrl: string, acce
                 });
             }
 
-            if (isDefined(es)) {
+            if (isTruthyString(es)) {
                 strings.push({
                     key,
                     namespace,
@@ -173,6 +179,12 @@ async function pushStringsFromExcel(importFilePath: string, apiUrl: string, acce
             language: language as Language,
             actions,
         })
+    );
+
+    await writeFilePromisify(
+        '/tmp/language-grouped-actions.json',
+        JSON.stringify(languageGroupedActions, null, 2),
+        'utf8',
     );
 
     for (let i = 0; i < languageGroupedActions.length; i++) {
