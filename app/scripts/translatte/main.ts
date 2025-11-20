@@ -16,6 +16,7 @@ import exportServerStringsToExcel from './commands/exportServerStringsToExcel';
 import clearServerStrings from './commands/clearServerStrings';
 import pushStringsDref from './commands/pushStringsDref';
 import syncEnStrings from './commands/syncEnStrings';
+import testExcel from './commands/testExcel';
 
 const currentDir = cwd();
 
@@ -257,12 +258,16 @@ yargs(hideBin(process.argv))
         },
     )
     .command(
-        'push-strings-dref <IMPORT_FILE_PATH>',
+        'push-strings-dref <IMPORT_FILE_PATH> <TRANSLATION_FILES...>',
         'IMPORTANT!!! Temporary command, do not use!',
         (yargs) => {
             yargs.positional('IMPORT_FILE_PATH', {
                 type: 'string',
                 describe: 'Find the import file on IMPORT_FILE_PATH',
+            });
+            yargs.positional('TRANSLATION_FILES', {
+                type: 'string',
+                describe: 'Read the files from TRANSLATION_FILES',
             });
             yargs.options({
                 'auth-token': {
@@ -281,7 +286,46 @@ yargs(hideBin(process.argv))
             const importFilePath = (argv.IMPORT_FILE_PATH as string);
 
             await pushStringsDref(
+                currentDir,
                 importFilePath,
+                argv.TRANSLATION_FILES as string[],
+                argv.apiUrl as string,
+                argv.authToken as string,
+            );
+        },
+    )
+    .command(
+        'test-excel <IMPORT_FILE_PATH> <TRANSLATION_FILES...>',
+        'IMPORTANT!!! Temporary command, do not use!',
+        (yargs) => {
+            yargs.positional('IMPORT_FILE_PATH', {
+                type: 'string',
+                describe: 'Find the import file on IMPORT_FILE_PATH',
+            });
+            yargs.positional('TRANSLATION_FILES', {
+                type: 'string',
+                describe: 'Read the files from TRANSLATION_FILES',
+            });
+            yargs.options({
+                'auth-token': {
+                    type: 'string',
+                    describe: 'Authentication token to access the API server',
+                    // require: true,
+                },
+                'api-url': {
+                    type: 'string',
+                    describe: 'URL for the API server',
+                    require: true,
+                }
+            });
+        },
+        async (argv) => {
+            const importFilePath = (argv.IMPORT_FILE_PATH as string);
+
+            await testExcel(
+                importFilePath,
+                currentDir,
+                argv.TRANSLATION_FILES as string[],
                 argv.apiUrl as string,
                 argv.authToken as string,
             );

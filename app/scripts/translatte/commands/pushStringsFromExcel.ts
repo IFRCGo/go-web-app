@@ -1,6 +1,6 @@
 import xlsx, { CellValue } from 'exceljs';
 import { Md5 } from 'ts-md5';
-import { encodeDate, isDefined, isFalsyString, isNotDefined, isTruthyString, listToGroupList, listToMap, mapToList } from '@togglecorp/fujs';
+import { encodeDate, isDefined, isFalsyString, isNotDefined, listToGroupList, listToMap, mapToList } from '@togglecorp/fujs';
 
 import { Language, ServerActionItem } from '../types';
 import { postLanguageStrings, writeFilePromisify } from '../utils';
@@ -57,15 +57,23 @@ async function pushStringsFromExcel(importFilePath: string, apiUrl: string, acce
     await workbook.xlsx.readFile(importFilePath);
 
     const firstSheet = workbook.worksheets[0];
-    const columns = firstSheet.columns.map(
-        (column) => {
-            const key = column.values?.[1]?.toString();
-            if (isNotDefined(key)) {
-                return undefined;
-            }
-            return { key, column: column.number }
+    console.info(firstSheet.columnCount);
+
+    const columns: {
+        key: string;
+        column: number | undefined;
+    }[] = [];
+
+    for (let i = 0; i < firstSheet.columnCount; i++) {
+        const column = firstSheet.columns[i];
+        const key = column.values?.[1]?.toString();
+
+        if (isNotDefined(key)) {
+            return;
         }
-    ).filter(isDefined);
+
+        columns.push({ key, column: column.number })
+    }
 
     const columnMap = listToMap(
         columns,
@@ -98,66 +106,70 @@ async function pushStringsFromExcel(importFilePath: string, apiUrl: string, acce
             }
 
             const enColumn = columnMap['EN'];
-            const en = isDefined(enColumn) ? String(getValueFromCellValue(row.getCell(enColumn).value)) : undefined;
+            const en = isDefined(enColumn) ? getValueFromCellValue(row.getCell(enColumn).value) : undefined;
 
             if (isFalsyString(en)) {
                 return;
             }
 
             const arColumn = columnMap['AR'];
-            const ar = isDefined(arColumn) ? String(getValueFromCellValue(row.getCell(arColumn).value)) : undefined;
+            const ar = isDefined(arColumn) ? getValueFromCellValue(row.getCell(arColumn).value) : undefined;
 
             const frColumn = columnMap['FR'];
-            const fr = isDefined(frColumn) ? String(getValueFromCellValue(row.getCell(frColumn).value)) : undefined;
+            const fr = isDefined(frColumn) ? getValueFromCellValue(row.getCell(frColumn).value) : undefined;
 
             const esColumn = columnMap['ES'];
-            const es = isDefined(esColumn) ? String(getValueFromCellValue(row.getCell(esColumn).value)) : undefined;
+            const es = isDefined(esColumn) ? getValueFromCellValue(row.getCell(esColumn).value) : undefined;
 
             if (isNotDefined(en)) {
                 return;
             }
 
-            const hash = Md5.hashStr(en);
+            const hash = Md5.hashStr(String(en));
 
             strings.push({
                 key,
                 namespace,
                 language: 'en',
-                value: en,
+                value: String(en),
                 hash,
             });
 
-            if (isTruthyString(ar)) {
-                strings.push({
-                    key,
-                    namespace,
-                    language: 'ar',
-                    value: ar,
-                hash,
-                });
-            }
-
-            if (isTruthyString(fr)) {
+            if (isDefined(fr)) {
                 strings.push({
                     key,
                     namespace,
                     language: 'fr',
-                    value: fr,
+                    value: String(fr),
                     hash,
                 });
             }
 
-            if (isTruthyString(es)) {
+
+            if (isDefined(es)) {
                 strings.push({
                     key,
                     namespace,
                     language: 'es',
-                    value: es,
+                    value: String(es),
                     hash,
                 });
             }
+
+            if (isDefined(ar)) {
+                strings.push({
+                    key,
+                    namespace,
+                    language: 'ar',
+                    value: String(ar),
+                    hash,
+                });
+            }
+
         }
     );
+
+    console.info(`Total ${strings.length} actions`);
 
     const languageGroupedActions = mapToList(
         listToGroupList(

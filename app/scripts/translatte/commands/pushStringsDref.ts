@@ -1,6 +1,6 @@
 import xlsx, { CellValue } from 'exceljs';
-import { fetchServerState, postLanguageStrings } from "../utils";
-import { encodeDate, isDefined, isNotDefined, listToGroupList, listToMap, mapToList } from '@togglecorp/fujs';
+import { fetchServerState, getTranslationFileNames, postLanguageStrings, readTranslations, writeFilePromisify } from "../utils";
+import { encodeDate, isDefined, isFalsyString, isNotDefined, listToGroupList, listToMap, mapToList } from '@togglecorp/fujs';
 import { Language, ServerActionItem, SourceStringItem } from '../types';
 import { Md5 } from 'ts-md5';
 
@@ -51,12 +51,85 @@ function getValueFromCellValue(cellValue: CellValue) {
     return getValueFromCellValue(cellValue.result);
 }
 
-async function pushStringsDref(importFilePath: string, apiUrl: string, accessToken: string) {
-    const strings = await fetchServerState(apiUrl);
-    const enStrings = strings.filter((string) => string.language === 'en');
+function getCombinedKey(namespace: string, key: string) {
+    return `${namespace}:${key}`;
+}
+
+async function createExcel(groupedStrings: Record<string, SourceStringItem[]>) {
+    const workbook = new xlsx.Workbook();
+    const now = new Date();
+    workbook.created = now;
+
+    const yyyy = now.getFullYear();
+    const mm = (now.getMonth() + 1).toString().padStart(2, '0');
+    const dd = now.getDate().toString().padStart(2, '0');
+    const HH = now.getHours().toString().padStart(2, '0');
+    const MM = now.getMinutes().toString().padStart(2, '0');
+
+    const worksheet = workbook.addWorksheet(
+        `${yyyy}-${mm}-${dd} ${HH}-${MM}`
+    );
+
+    worksheet.columns = [
+        { header: 'Namespace', key: 'namespace' },
+        { header: 'Key', key: 'key' },
+        { header: 'EN', key: 'en' },
+        { header: 'FR', key: 'fr' },
+        { header: 'ES', key: 'es' },
+        { header: 'AR', key: 'ar' },
+    ];
+
+    Object.values(groupedStrings).map((translations) => {
+        const translationByLang = listToMap(
+            translations,
+            ({ language }) => language,
+        );
+
+        if (isFalsyString(translationByLang.en)) {
+            console.info(JSON.stringify(translationByLang, null, 2));
+        } else {
+            worksheet.addRow({
+                namespace: translationByLang.en.page_name,
+                key: translationByLang.en.key,
+                en: translationByLang.en.value,
+                fr: translationByLang.fr?.value,
+                es: translationByLang.es?.value,
+                ar: translationByLang.ar?.value,
+            });
+        }
+    });
+
+    const fileName = `go-dref-updated-strings-${yyyy}-${mm}-${dd}`;
+
+    await workbook.xlsx.writeFile(`${fileName}.xlsx`);
+}
+
+async function pushStringsDref(
+    projectPath: string,
+    importFilePath: string,
+    translationFileNames: string[],
+    apiUrl: string,
+    accessToken: string,
+) {
+    const serverState = await fetchServerState(apiUrl);
+
+    const groupedServerStateMapping = listToGroupList(
+        serverState,
+        ({ page_name, key }) => getCombinedKey(page_name, key),
+    );
+
+    const serverEnStringItems = serverState.filter((string) => string.language === 'en');
+
+    const translationFiles = await getTranslationFileNames(
+        projectPath,
+        Array.isArray(translationFileNames) ? translationFileNames : [translationFileNames],
+    );
+    const { translations } = await readTranslations(translationFiles);
+    const fileState = translations.map((item) => ({
+        ...item,
+    }));
 
     const workbook = new xlsx.Workbook();
-
     await workbook.xlsx.readFile(importFilePath);
 
     const firstSheet = workbook.worksheets[0];
@@ -78,14 +151,8 @@ async function pushStringsDref(importFilePath: string, apiUrl: string, accessTok
 
     const updatedStrings: SourceStringItem[] = [];
 
-    firstSheet.eachRow((row) => {
-        const keyColumn = columnMap['Key'];
-        const key = isDefined(keyColumn) ? String(getValueFromCellValue(row.getCell(keyColumn).value)) : undefined;
-
-        const namespaceColumn = columnMap['Namespace'];
-        const namespace = isDefined(namespaceColumn) ? String(getValueFromCellValue(row.getCell(namespaceColumn).value)) : undefined;
-
-        if (isNotDefined(key) || isNotDefined(namespace)) {
+    firstSheet.eachRow((row, i) => {
+        if (i === 0) {
             return;
         }
 
@@ -95,74 +162,140 @@ async function pushStringsDref(importFilePath: string, apiUrl: string, accessTok
         const arColumnKey = columnMap['AR'];
 
         const enValue = isDefined(enColumnKey) ? getValueFromCellValue(row.getCell(enColumnKey).value) : undefined;
+        const frValue = isDefined(frColumnKey) ? getValueFromCellValue(row.getCell(frColumnKey).value) : undefined;
+        const esValue = isDefined(esColumnKey) ? getValueFromCellValue(row.getCell(esColumnKey).value) : undefined;
+        const arValue = isDefined(arColumnKey) ? getValueFromCellValue(row.getCell(arColumnKey).value) : undefined;
 
-        const strings = enStrings.filter(({ value }) => value === enValue);
+        const serverMatchedStrings = serverEnStringItems.filter(({ value }) => value === enValue);
 
-        if (strings.length > 0) {
-            strings.forEach((string) => {
-                const frValue = isDefined(frColumnKey) ? getValueFromCellValue(row.getCell(frColumnKey).value) : undefined;
-                const esValue = isDefined(esColumnKey) ? getValueFromCellValue(row.getCell(esColumnKey).value) : undefined;
-                const arValue = isDefined(arColumnKey) ? getValueFromCellValue(row.getCell(arColumnKey).value) : undefined;
+        serverMatchedStrings.forEach((matchedItem) => {
+            const combinedKey = getCombinedKey(matchedItem.page_name, matchedItem.key);
 
-                updatedStrings.push({
-                    ...string,
+            groupedServerStateMapping[combinedKey] = groupedServerStateMapping[combinedKey].map((translationItem) => {
+                if (translationItem.language === 'fr') {
+                    return {
+                        ...matchedItem,
+                        language: 'fr',
+                        value: String(frValue),
+                    }
+                }
+
+                if (translationItem.language === 'es') {
+                    return {
+                        ...matchedItem,
+                        language: 'es',
+                        value: String(esValue),
+                    }
+                }
+
+                if (translationItem.language === 'ar') {
+                    return {
+                        ...matchedItem,
+                        language: 'ar',
+                        value: String(esValue),
+                    }
+                }
+
+                return translationItem;
+            });
+
+            updatedStrings.push({
+                ...matchedItem,
+                language: 'fr',
+                value: String(frValue),
+            });
+
+            updatedStrings.push({
+                ...matchedItem,
+                language: 'es',
+                value: String(esValue),
+            });
+
+            updatedStrings.push({
+                ...matchedItem,
+                language: 'ar',
+                value: String(arValue),
+            });
+        });
+
+        const serverMatchedStringsMapping = listToMap(
+            serverMatchedStrings,
+            ({ key, page_name }) => getCombinedKey(page_name, key),
+            () => true,
+        );
+
+        const fileMatchedEnStrings = fileState.filter(
+            ({ value, key, namespace }) => value === enValue && !serverMatchedStringsMapping[getCombinedKey(namespace, key)]
+        );
+
+        fileMatchedEnStrings.forEach((matchedItem) => {
+            const hash = Md5.hashStr(matchedItem.value);
+            const combinedKey = getCombinedKey(matchedItem.namespace, matchedItem.key);
+
+            groupedServerStateMapping[combinedKey] = [
+                {
+                    key: matchedItem.key,
+                    page_name: matchedItem.namespace,
+                    hash,
+                    language: 'en',
+                    value: matchedItem.value,
+                },
+                {
+                    key: matchedItem.key,
+                    page_name: matchedItem.namespace,
+                    hash,
                     language: 'fr',
                     value: String(frValue),
-                });
-
-                updatedStrings.push({
-                    ...string,
+                },
+                {
+                    key: matchedItem.key,
+                    page_name: matchedItem.namespace,
+                    hash,
                     language: 'es',
                     value: String(esValue),
-                });
-
-                updatedStrings.push({
-                    ...string,
+                },
+                {
+                    key: matchedItem.key,
+                    page_name: matchedItem.namespace,
+                    hash,
                     language: 'ar',
                     value: String(arValue),
-                });
-            });
-        }
+                },
+            ];
 
-        if (strings.length === 0) {
-            const frValue = isDefined(frColumnKey) ? getValueFromCellValue(row.getCell(frColumnKey).value) : undefined;
-            const esValue = isDefined(esColumnKey) ? getValueFromCellValue(row.getCell(esColumnKey).value) : undefined;
-            const arValue = isDefined(arColumnKey) ? getValueFromCellValue(row.getCell(arColumnKey).value) : undefined;
-
-            const hash =  Md5.hashStr(String(enValue));
 
             updatedStrings.push({
-                key,
-                page_name: namespace,
+                key: matchedItem.key,
+                page_name: matchedItem.namespace,
                 hash,
                 language: 'en',
-                value: String(enValue),
+                value: matchedItem.value,
             });
 
             updatedStrings.push({
-                key,
-                page_name: namespace,
+                key: matchedItem.key,
+                page_name: matchedItem.namespace,
                 hash,
                 language: 'fr',
                 value: String(frValue),
             });
 
             updatedStrings.push({
-                key,
-                page_name: namespace,
+                key: matchedItem.key,
+                page_name: matchedItem.namespace,
                 hash,
                 language: 'es',
                 value: String(esValue),
             });
 
             updatedStrings.push({
-                key,
-                page_name: namespace,
+                key: matchedItem.key,
+                page_name: matchedItem.namespace,
                 hash,
                 language: 'ar',
                 value: String(arValue),
             });
-        }
+        });
     });
 
     const languageGroupedActions = mapToList(
@@ -187,6 +320,9 @@ async function pushStringsDref(importFilePath: string, apiUrl: string, accessTok
         })
     );
 
+    await createExcel(groupedServerStateMapping);
+
+    /*
     for (let i = 0; i < languageGroupedActions.length; i++) {
         const action = languageGroupedActions[i];
 
@@ -199,8 +335,13 @@ async function pushStringsDref(importFilePath: string, apiUrl: string, accessTok
         )
 
         const resultJson = await result.json();
-        console.info(resultJson);
+        await writeFilePromisify(
+            `/tmp/push-${action.language}-strings-dref-logs.json`,
+            JSON.stringify(resultJson, null, 2),
+            'utf8',
+        );
     }
+    */
 }
 
 export default pushStringsDref;
