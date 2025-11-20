@@ -1,4 +1,7 @@
-import { Container } from '@ifrc-go/ui';
+import {
+    Container,
+    ListView,
+} from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 
 import SurgeContentContainer from '#components/domain/SurgeContentContainer';
@@ -16,37 +19,41 @@ export function Component() {
         <Container
             className={styles.drefDetail}
         >
-            <SurgeContentContainer
-                heading={strings.drefIntroHeading}
+            <ListView
+                layout="block"
             >
-                <div>{strings.drefIntroDetailOne}</div>
-                <div>{strings.drefIntroDetailTwo}</div>
-            </SurgeContentContainer>
-            <SurgeContentContainer
-                heading={strings.drefProcessHeading}
-            >
-                <div>{strings.drefProcessSubHeading}</div>
-                <ul>
-                    <li>
-                        {strings.drefProcessListOne}
-                    </li>
-                    <li>
-                        {strings.drefProcessListTwo}
-                    </li>
-                </ul>
-                <div>
-                    {strings.drefProcessDetailOne}
-                </div>
-                <div>
-                    {strings.drefProcessDetailTwo}
-                </div>
-            </SurgeContentContainer>
-            <Link
-                to="newDrefApplicationForm"
-                withUnderline
-            >
-                {strings.drefDrefApplication}
-            </Link>
+                <SurgeContentContainer
+                    heading={strings.drefIntroHeading}
+                >
+                    <div>{strings.drefIntroDetailOne}</div>
+                    <div>{strings.drefIntroDetailTwo}</div>
+                </SurgeContentContainer>
+                <SurgeContentContainer
+                    heading={strings.drefProcessHeading}
+                >
+                    <div>{strings.drefProcessSubHeading}</div>
+                    <ul>
+                        <li>
+                            {strings.drefProcessListOne}
+                        </li>
+                        <li>
+                            {strings.drefProcessListTwo}
+                        </li>
+                    </ul>
+                    <div>
+                        {strings.drefProcessDetailOne}
+                    </div>
+                    <div>
+                        {strings.drefProcessDetailTwo}
+                    </div>
+                </SurgeContentContainer>
+                <Link
+                    to="newDrefApplicationForm"
+                    withUnderline
+                >
+                    {strings.drefDrefApplication}
+                </Link>
+            </ListView>
         </Container>
     );
 }
