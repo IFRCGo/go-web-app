@@ -278,7 +278,8 @@ export function Component() {
             actions={(
                 <Link
                     to="accountMyFormsEap"
-                    styleVariant="filled"
+                    styleVariant="outline"
+                    colorVariant="primary"
                 >
                     {eapId ? strings.eapBackButton : strings.eapCancelButton}
                 </Link>
@@ -354,6 +355,8 @@ export function Component() {
                         {/* FIXME: label is not showing */}
                         <Radio
                             name="eap_type"
+                            // FIXME: inputname should not be strings
+                            // it should be transferred to label
                             inputName={strings.eapNotSure}
                             value={value?.eap_type === null}
                             onClick={handleEapTypeClick}
