@@ -289,7 +289,6 @@ export function Component() {
         >
             <Container
                 heading={strings.eapApplicationDetails}
-                spacing="md"
             >
                 <ListView
                     layout="block"
@@ -378,6 +377,8 @@ export function Component() {
                         {/* FIXME: label is not showing */}
                         <Radio
                             name="expected_submission_time"
+                            // FIXME: inputname should not be strings
+                            // it should be transferred to label
                             inputName={strings.eapNotSure}
                             value={value?.expected_submission_time === null}
                             onClick={handleSubmissionTimeClick}

@@ -15,7 +15,7 @@ export function Component() {
     const strings = useTranslation(i18n);
 
     return (
-        <Container spacing="md">
+        <Container>
             <ListView
                 layout="block"
             >
