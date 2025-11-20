@@ -200,7 +200,8 @@ export function Component() {
             headerActions={(
                 <Link
                     to="newEapDevelopmentRegistration"
-                    styleVariant="filled"
+                    styleVariant="outline"
+                    colorVariant="primary"
                 >
                     {strings.eapRegistrationLink}
                 </Link>
