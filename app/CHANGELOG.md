@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.23.2
+
+### Patch Changes
+
+- 3401833: Fix Field Report form getting an error in Risk Analysis section
+
 ## 7.23.1
 
 ### Patch Changes
