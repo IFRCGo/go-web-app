@@ -1,6 +1,8 @@
 {
     "namespace": "simplifiedEapExport",
     "strings": {
+        "pageTitleSimplifiedText": "Simplified",
+        "pageTitleEapText": "Early Action Protocol",
         "sEapNoLabel": "sEAP No",
         "totalBudgetLabel": "Total Budget",
         "readinessLabel": "Readiness",
@@ -33,7 +35,6 @@
         "conditionsToDeliverHeading": "Conditions to deliver the Early Action",
         "earlyActionCapacityHeading": "Experience and/or capacity to implement the early actions",
         "rcrcMovementInvolvementHeading": "RCRC Movement partners, Governmental/other agencies consulted/involved",
-        "budgetHeading": "Budget",
         "contactInformationHeading": "Contact information",
         "contactInformationDescription": "For further information, specifically related to this simplified EAP please contact:"
     }

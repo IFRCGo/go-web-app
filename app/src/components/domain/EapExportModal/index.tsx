@@ -41,6 +41,7 @@ interface Props {
     eapType: EapType;
     version?: number;
     onClose: () => void;
+    diff?: boolean;
 }
 
 function EapExportModal(props: Props) {
@@ -49,6 +50,7 @@ function EapExportModal(props: Props) {
         eapType,
         onClose,
         version,
+        diff,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -59,13 +61,14 @@ function EapExportModal(props: Props) {
     const exportTriggerBody = useMemo<ExportBody>(
         () => ({
             export_id: eapId,
-            export_type: eapType === EAP_TYPE_SIMPLIFIED ? 'simplified-eap' : 'full-eap',
+            export_type: eapType === EAP_TYPE_SIMPLIFIED ? 'simplified' : 'full',
             selector: '#pdf-preview-ready',
-            is_pga: false,
+            is_pga: undefined,
             per_country: undefined,
             version,
+            diff,
         }),
-        [eapId, eapType, version],
+        [eapId, eapType, version, diff],
     );
 
     const {
