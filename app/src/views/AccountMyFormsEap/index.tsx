@@ -251,23 +251,23 @@ export function Component() {
 
     const detailColumns = useMemo(
         () => ([
-            createExpansionIndicatorColumn<EapExpandedListItem, string>(
+            createExpansionIndicatorColumn<EapExpandedListItem, string | number>(
                 true,
                 (row) => !!row.disabled,
             ),
-            createDateColumn<EapExpandedListItem, string>(
+            createDateColumn<EapExpandedListItem, string | number>(
                 'created_at',
                 strings.eapLastUpdated,
                 (row) => row.lastUpdated,
             ),
-            createStringColumn<EapExpandedListItem, string>(
+            createStringColumn<EapExpandedListItem, string | number>(
                 'title',
                 '',
                 (row) => row.label,
                 { withLightText: (item) => !!item.disabled },
             ),
-            createEmptyColumn<EapExpandedItem, string>(),
-            createElementColumn<EapExpandedListItem, string, EapTableActionProps>(
+            createEmptyColumn<EapExpandedListItem, string | number>(),
+            createElementColumn<EapExpandedListItem, string | number, EapTableActionProps>(
                 'actions',
                 '',
                 EapTableActions,
@@ -275,7 +275,7 @@ export function Component() {
                     expandedListItem: row,
                 }),
             ),
-            createEmptyColumn<EapExpandedItem, string>(),
+            createEmptyColumn<EapExpandedListItem, string | number>(),
         ]),
         [strings.eapLastUpdated],
     );

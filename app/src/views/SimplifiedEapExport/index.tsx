@@ -4,10 +4,7 @@ import {
 } from 'react-router-dom';
 import { Label } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import {
-    DescriptionText,
-    Image,
-} from '@ifrc-go/ui/printable';
+import { Image } from '@ifrc-go/ui/printable';
 import {
     isDefined,
     isFalsyString,
@@ -18,6 +15,7 @@ import {
 
 import PrintableContainer from '#components/printable/PrintableContainer';
 import PrintableDataDisplay from '#components/printable/PrintableDataDisplay';
+import PrintableDescription from '#components/printable/PrintableDescription';
 import PrintablePage from '#components/printable/PrintablePage';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { useRequest } from '#utils/restRequest';
@@ -30,7 +28,9 @@ import styles from './styles.module.css';
 export function Component() {
     const { eapId } = useParams<{ eapId: string }>();
     const [searchParams] = useSearchParams();
+
     const version = searchParams.get('version') ?? undefined;
+    const showDiff = searchParams.get('diff') ?? undefined;
 
     const strings = useTranslation(i18n);
 
@@ -45,18 +45,45 @@ export function Component() {
         } : undefined,
     });
 
-    const latestSimplifiedEap = eapRegistrationResponse?.simplified_eap_details?.find(
+    const selectedSimplifiedEap = eapRegistrationResponse?.simplified_eap_details?.find(
         (simplifiedEap) => String(simplifiedEap.version) === String(version),
+    );
+
+    const latestSimplifiedEapVersion = eapRegistrationResponse?.latest_simplified_eap;
+    const latestSimplifiedEap = eapRegistrationResponse?.simplified_eap_details?.find(
+        (simplifiedEap) => simplifiedEap.version === latestSimplifiedEapVersion,
+    );
+
+    const currentSimplifiedEap = selectedSimplifiedEap ?? latestSimplifiedEap;
+    const currentSimplifiedEapId = currentSimplifiedEap?.id;
+
+    const prevSimplifiedEapVersion = isDefined(currentSimplifiedEap?.version)
+        && currentSimplifiedEap.version > 1
+        ? currentSimplifiedEap.version - 1
+        : undefined;
+    const prevSimplifiedEap = eapRegistrationResponse?.simplified_eap_details.find(
+        (simplifiedEap) => simplifiedEap.version === prevSimplifiedEapVersion,
     );
 
     const {
         pending: simplifiedEapPending,
         response: simplifiedEapResponse,
     } = useRequest({
-        skip: isNotDefined(latestSimplifiedEap?.id),
+        skip: isNotDefined(currentSimplifiedEapId),
         url: '/api/v2/simplified-eap/{id}/',
-        pathVariables: isDefined(latestSimplifiedEap?.id) ? {
-            id: Number(latestSimplifiedEap.id),
+        pathVariables: isDefined(currentSimplifiedEapId) ? {
+            id: Number(currentSimplifiedEapId),
+        } : undefined,
+    });
+
+    const {
+        pending: prevSimplifiedEapPending,
+        response: prevSimplifiedEapResponse,
+    } = useRequest({
+        skip: isNotDefined(prevSimplifiedEap) || showDiff?.toLowerCase() !== 'true',
+        url: '/api/v2/simplified-eap/{id}/',
+        pathVariables: isDefined(prevSimplifiedEap) ? {
+            id: Number(prevSimplifiedEap.id),
         } : undefined,
     });
 
@@ -113,21 +140,36 @@ export function Component() {
         national_society_contact_phone_number,
     } = simplifiedEapResponse ?? {};
 
+    const {
+        prioritized_hazard_and_impact: prev_prioritized_hazard_and_impact,
+        risks_selected_protocols: prev_risks_selected_protocols,
+        overall_objective_intervention: prev_overall_objective_intervention,
+        potential_geographical_high_risk_areas: prev_potential_geographical_high_risk_areas,
+        assisted_through_operation: prev_assisted_through_operation,
+        trigger_statement: prev_trigger_statement,
+        trigger_threshold_justification: prev_trigger_threshold_justification,
+        next_step_towards_full_eap: prev_next_step_towards_full_eap,
+        early_action_capability: prev_early_action_capability,
+        rcrc_movement_involvement: prev_rcrc_movement_involvement,
+    } = prevSimplifiedEapResponse ?? {};
+
     const eapTitle = [
         country_details?.name,
         admin2_details?.map(({ name }) => name).join(', '),
         disaster_type_details?.name,
     ].filter(isTruthyString).join(' | ');
 
-    const previewReady = !eapRegistrationPending && !simplifiedEapPending;
+    const previewReady = !eapRegistrationPending
+        && !simplifiedEapPending
+        && !prevSimplifiedEapPending;
 
     return (
         <PrintablePage
             heading={(
                 <>
-                    Simplified
+                    {strings.pageTitleSimplifiedText}
                     <br />
-                    Early Action Protocol
+                    {strings.pageTitleEapText}
                 </>
             )}
             description={eapTitle ?? '--'}
@@ -235,17 +277,19 @@ export function Component() {
                     heading={strings.prioritizedHazardAndImpactHeading}
                     headingLevel={3}
                 >
-                    <DescriptionText>
-                        {prioritized_hazard_and_impact}
-                    </DescriptionText>
+                    <PrintableDescription
+                        value={prioritized_hazard_and_impact}
+                        prevValue={prev_prioritized_hazard_and_impact}
+                    />
                 </PrintableContainer>
                 <PrintableContainer
                     heading={strings.riskSelectedProtocolsHeading}
                     headingLevel={3}
                 >
-                    <DescriptionText>
-                        {risks_selected_protocols}
-                    </DescriptionText>
+                    <PrintableDescription
+                        value={risks_selected_protocols}
+                        prevValue={prev_risks_selected_protocols}
+                    />
                 </PrintableContainer>
             </PrintableContainer>
             <PrintableContainer
@@ -256,49 +300,55 @@ export function Component() {
                     heading={strings.overallObjectiveInterventionHeading}
                     headingLevel={3}
                 >
-                    <DescriptionText>
-                        {overall_objective_intervention}
-                    </DescriptionText>
+                    <PrintableDescription
+                        value={overall_objective_intervention}
+                        prevValue={prev_overall_objective_intervention}
+                    />
                 </PrintableContainer>
                 <PrintableContainer
                     heading={strings.potentialGeographicalHighRiskAreasHeading}
                     headingLevel={3}
                 >
-                    <DescriptionText>
-                        {potential_geographical_high_risk_areas}
-                    </DescriptionText>
+                    <PrintableDescription
+                        value={potential_geographical_high_risk_areas}
+                        prevValue={prev_potential_geographical_high_risk_areas}
+                    />
                 </PrintableContainer>
                 <PrintableContainer
                     heading={strings.assistedThroughOperationHeading}
                     headingLevel={3}
                 >
-                    <DescriptionText>
-                        {assisted_through_operation}
-                    </DescriptionText>
+                    <PrintableDescription
+                        value={assisted_through_operation}
+                        prevValue={prev_assisted_through_operation}
+                    />
                 </PrintableContainer>
                 <PrintableContainer
                     heading={strings.triggerStatementHeading}
                     headingLevel={3}
                 >
-                    <DescriptionText>
-                        {trigger_statement}
-                    </DescriptionText>
+                    <PrintableDescription
+                        value={trigger_statement}
+                        prevValue={prev_trigger_statement}
+                    />
                 </PrintableContainer>
                 <PrintableContainer
                     heading={strings.triggerThresholdJustificationHeading}
                     headingLevel={3}
                 >
-                    <DescriptionText>
-                        {trigger_threshold_justification}
-                    </DescriptionText>
+                    <PrintableDescription
+                        value={trigger_threshold_justification}
+                        prevValue={prev_trigger_threshold_justification}
+                    />
                 </PrintableContainer>
                 <PrintableContainer
                     heading={strings.nextStepsTowardsFullEapHeading}
                     headingLevel={3}
                 >
-                    <DescriptionText>
-                        {next_step_towards_full_eap}
-                    </DescriptionText>
+                    <PrintableDescription
+                        value={next_step_towards_full_eap}
+                        prevValue={prev_next_step_towards_full_eap}
+                    />
                 </PrintableContainer>
             </PrintableContainer>
             <PrintableContainer
@@ -495,30 +545,36 @@ export function Component() {
                     heading={strings.earlyActionCapacityHeading}
                     headingLevel={3}
                 >
-                    <DescriptionText>
-                        {early_action_capability}
-                    </DescriptionText>
+                    <PrintableDescription
+                        value={early_action_capability}
+                        prevValue={prev_early_action_capability}
+                    />
                 </PrintableContainer>
                 <PrintableContainer
                     heading={strings.rcrcMovementInvolvementHeading}
                     headingLevel={3}
                 >
-                    <DescriptionText>
-                        {rcrc_movement_involvement}
-                    </DescriptionText>
+                    <PrintableDescription
+                        value={rcrc_movement_involvement}
+                        prevValue={prev_rcrc_movement_involvement}
+                    />
                 </PrintableContainer>
             </PrintableContainer>
+            {/*
             <PrintableContainer
                 heading={strings.budgetHeading}
                 headingLevel={2}
+                // FIXME: add budget details
             >
-                <DescriptionText>
-                    Budget details
-                </DescriptionText>
+                <PrintableDescription
+                    value="Budget details"
+                />
             </PrintableContainer>
+            */}
             <PrintableContainer
                 heading={strings.contactInformationHeading}
                 headingLevel={2}
+                // FIXME: add proper contact information
             >
                 <PrintableContainer headingLevel={5}>
                     <Label

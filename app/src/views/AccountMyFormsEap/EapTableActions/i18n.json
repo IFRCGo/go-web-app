@@ -1,8 +1,6 @@
 {
     "namespace":"accountMyFormsEap",
     "strings":{
-        "eapViewLabel": "View",
-        "eapEditLabel": "Edit",
         "eapStartFullLink": "Start Full EAP",
         "eapStartSimplifiedLink": "Start sEAP",
         "eapEditFullLink": "Edit Full EAP",

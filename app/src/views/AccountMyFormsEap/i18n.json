@@ -6,7 +6,6 @@
         "eapLastUpdated": "Last Updated",
         "eapName": "Name/Phase",
         "eapType": "EAP Type",
-        "eapStatus": "Status",
-        "eapRegistration": "EAP Registration"
+        "eapStatus": "Status"
     }
 }
