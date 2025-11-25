@@ -416,11 +416,6 @@ export const reportSchema: FormSchema = {
                 if (reportType === 'EW') {
                     return {
                         ...baseSchemaTwo,
-                        situationalOverviewConsented: {
-                            validations: [
-                                consentRequired ? isTrueValue : undefined,
-                            ].filter(isDefined),
-                        },
                         num_potentially_affected: { validations: [positiveIntegerCondition] },
                         gov_num_potentially_affected: { validations: [positiveIntegerCondition] },
                         other_num_potentially_affected: { validations: [positiveIntegerCondition] },
