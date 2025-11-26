@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.23.3
+
+### Patch Changes
+
+- ddc879f: Fix crashing for PER prioritization and work plan forms
+
 ## 7.23.2
 
 ### Patch Changes
