@@ -47,7 +47,7 @@ function organizationTypeKeySelector(option: PerWorkPlanOrganizationTypeOption) 
 interface Props {
     value?: Value;
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
-    index: number;
+    index: number | undefined;
     error: Error<Value> | undefined;
     component: ComponentResponse['component_details'];
     readOnly?: boolean;

@@ -15,7 +15,10 @@ import {
     resolveToString,
     stringValueSelector,
 } from '@ifrc-go/ui/utils';
-import { randomString } from '@togglecorp/fujs';
+import {
+    isDefined,
+    randomString,
+} from '@togglecorp/fujs';
 import {
     type Error,
     getErrorObject,
@@ -48,10 +51,10 @@ function organizationTypeKeySelector(option: PerWorkPlanOrganizationTypeOption) 
 }
 
 interface Props {
-    value: Value;
+    value: Value | undefined;
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
     error: Error<Value> | undefined;
-    index: number;
+    index: number | undefined;
     onRemove: (index: number) => void;
     actionNumber: number;
     readOnly?: boolean;
@@ -106,7 +109,7 @@ function AdditionalActionInput(props: Props) {
             headingLevel={4}
             childrenContainerClassName={styles.content}
             spacing="compact"
-            actions={(
+            actions={isDefined(index) && (
                 <Button
                     name={index}
                     onClick={onRemove}

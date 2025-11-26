@@ -46,7 +46,7 @@ type Value = NonNullable<PartialPrioritization['prioritized_action_responses']>[
 interface Props {
     value?: Value;
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
-    index: number;
+    index: number | undefined;
     error: Error<Value> | undefined;
     component: NonNullable<PerFormComponentResponse['results']>[number];
     onSelectionChange: (checked: boolean, index: number, componentId: number) => void;
@@ -164,7 +164,7 @@ function ComponentInput(props: Props) {
                 : `${component.component_num}. ${component.title}`}
             headingLevel={4}
             spacing="comfortable"
-            icons={(
+            icons={isDefined(index) && (
                 <Checkbox
                     name={index}
                     value={isDefined(value)}

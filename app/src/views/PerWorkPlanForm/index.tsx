@@ -413,8 +413,8 @@ export function Component() {
                 {prioritizationResponse?.prioritized_action_responses?.map((componentResponse) => (
                     <PrioritizedActionInput
                         key={componentResponse.component}
-                        index={componentResponseMapping[componentResponse.component]!.index}
-                        value={componentResponseMapping[componentResponse.component]!.value}
+                        index={componentResponseMapping[componentResponse.component]?.index}
+                        value={componentResponseMapping[componentResponse.component]?.value}
                         onChange={setComponentValue}
                         component={componentResponse.component_details}
                         error={componentResponseError?.[componentResponse.component]}
@@ -448,10 +448,10 @@ export function Component() {
                         key={customComponent.client_id}
                         actionNumber={i + 1}
                         index={
-                            customComponentResponseMapping[customComponent.client_id]!.index
+                            customComponentResponseMapping[customComponent.client_id]?.index
                         }
                         value={
-                            customComponentResponseMapping[customComponent.client_id]!.value
+                            customComponentResponseMapping[customComponent.client_id]?.value
                         }
                         onChange={setCustomComponentValue}
                         onRemove={removeCustomComponentValue}

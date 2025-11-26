@@ -523,8 +523,8 @@ export function Component() {
                     return (
                         <ComponentInput
                             key={component.id}
-                            index={componentResponseMapping[component.id]!.index}
-                            value={componentResponseMapping[component.id]!.value}
+                            index={componentResponseMapping[component.id]?.index}
+                            value={componentResponseMapping[component.id]?.value}
                             onChange={setComponentValue}
                             component={component}
                             error={componentInputError?.[component.id]}
