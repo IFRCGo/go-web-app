@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.23.4
+
+### Patch Changes
+
+- bd95338: Fix missing checkbox on PER prioritization form
+
 ## 7.23.3
 
 ### Patch Changes
