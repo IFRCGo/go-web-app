@@ -164,9 +164,10 @@ function ComponentInput(props: Props) {
                 : `${component.component_num}. ${component.title}`}
             headingLevel={4}
             spacing="comfortable"
-            icons={isDefined(index) && (
+            icons={(
                 <Checkbox
-                    name={index}
+                    // FIXME: checkbox needs to support undefined name
+                    name={index!}
                     value={isDefined(value)}
                     onChange={handleCheck}
                     readOnly={readOnly}
