@@ -159,6 +159,7 @@ function LocalUnitsForm(props: Props) {
         isLocalUnitGlobalValidatorByType,
         isLocalUnitRegionValidatorByType,
         isLocalUnitCountryValidatorByType,
+        canEditLocalUnit,
     } = usePermissions();
 
     const { api_visibility_choices: visibilityOptions } = useGlobalEnums();
@@ -392,7 +393,8 @@ function LocalUnitsForm(props: Props) {
 
     const hasUpdatePermission = isCountryAdmin(countryResponse?.id)
         || isRegionAdmin(countryResponse?.region)
-        || hasValidatePermission;
+        || hasValidatePermission
+        || canEditLocalUnit(countryResponse?.id);
 
     const handleFormSubmit = useCallback(
         () => {
@@ -1437,6 +1439,7 @@ function LocalUnitsForm(props: Props) {
                                                 className={styles.diffContainer}
                                             >
                                                 <TextInput
+                                                    required
                                                     name="other_training_facilities"
                                                     label={strings.otherTrainingFacilities}
                                                     value={value.health?.other_training_facilities}

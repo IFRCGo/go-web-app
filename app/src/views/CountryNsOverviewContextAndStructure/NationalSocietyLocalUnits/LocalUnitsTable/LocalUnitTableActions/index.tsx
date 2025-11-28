@@ -66,6 +66,7 @@ function LocalUnitsTableActions(props: Props) {
         isGuestUser,
         isCountryAdmin,
         isRegionAdmin,
+        canEditLocalUnit,
     } = usePermissions();
 
     const isLocked = status !== VALIDATED;
@@ -86,7 +87,7 @@ function LocalUnitsTableActions(props: Props) {
             || isLocalUnitRegionValidatorByType(countryDetails?.region, localUnitType));
 
     const hasAddEditLocalUnitPermission = !isLocked && (
-        (hasValidatePermission || countryAdmin || regionAdmin)
+        (hasValidatePermission || countryAdmin || regionAdmin || canEditLocalUnit(countryId))
     && !isBulkUploadLocalUnit);
 
     const [readOnlyLocalUnitModal, setReadOnlyLocalUnitModal] = useState(false);
@@ -178,7 +179,7 @@ function LocalUnitsTableActions(props: Props) {
                                 {strings.localUnitActionsDelete}
                             </DropdownMenuItem>
                         )}
-                        {hasAddEditLocalUnitPermission && (
+                        {(hasAddEditLocalUnitPermission) && (
                             <DropdownMenuItem
                                 type="button"
                                 name={localUnitId}
