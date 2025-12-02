@@ -1,0 +1,44 @@
+.printable-data-display {
+    &.inline-variant {
+        display: flex;
+        flex-direction: row;
+    }
+
+    &.block-variant {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &.contents-variant {
+        display: contents;
+    }
+
+    &.with-background {
+        background-color: var(--go-ui-color-background);
+
+        &.contents-variant {
+            .value,
+            .label {
+                background-color: var(--go-ui-color-background);
+            }
+        }
+    }
+
+    .label {
+        &.with-colon::after {
+            content: ':';
+        }
+    }
+
+    .value {
+        &.text-type {
+            text-align: justify;
+            white-space: pre-wrap;
+        }
+    }
+
+    .strong {
+        color: var(--go-ui-color-black);
+        font-weight: var(--go-ui-font-weight-semibold);
+    }
+}
