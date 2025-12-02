@@ -1226,6 +1226,21 @@ const eapDevelopmentRegistrationForm = customWrapRoute({
     },
 });
 
+const simplifiedEapExport = customWrapRoute({
+    parent: rootLayout,
+    path: 'eap/:eapId/export',
+    component: {
+        render: () => import('#views/SimplifiedEapExport'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Simplified EAP Export',
+        visibility: 'is-authenticated',
+    },
+});
+
+
 type DefaultPerProcessChild = 'new';
 const perProcessLayout = customWrapRoute({
     parent: rootLayout,
@@ -1504,6 +1519,7 @@ const wrappedRoutes = {
     drefProcessLayout,
     eapRegistrationLayout,
     eapDevelopmentRegistrationForm,
+    simplifiedEapExport,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));

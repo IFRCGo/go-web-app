@@ -192,7 +192,7 @@ export function Component() {
         <Container
             heading={strings.eapApplicationsHeading}
             withHeaderBorder
-            filters={(eapListResponse?.count ?? 0) > 0 && (
+            filters={(
                 <Filters
                     value={rawFilter}
                     onChange={setFilterField}

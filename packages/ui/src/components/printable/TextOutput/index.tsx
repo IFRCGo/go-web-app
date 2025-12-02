@@ -19,7 +19,9 @@ interface BaseProps {
     strongLabel?: boolean;
     withoutLabelColon?: boolean;
     invalidText?: React.ReactNode;
-    variant?: 'default' | 'contents';
+    variant?: 'block' | 'default' | 'contents';
+    withPadding?: boolean;
+    withBackground?: boolean;
 }
 
 interface BooleanProps extends BooleanOutputProps {
@@ -59,6 +61,8 @@ function TextOutput(props: Props) {
         withoutLabelColon,
         invalidText = DEFAULT_INVALID_TEXT,
         variant = 'default',
+        withPadding,
+        withBackground,
         ...otherProps
     } = props;
 
@@ -100,6 +104,9 @@ function TextOutput(props: Props) {
                 styles.textOutput,
                 variant === 'default' && styles.defaultVariant,
                 variant === 'contents' && styles.contentsVariant,
+                variant === 'block' && styles.blockVariant,
+                withPadding && styles.withPadding,
+                withBackground && styles.withBackground,
                 className,
             )}
         >
