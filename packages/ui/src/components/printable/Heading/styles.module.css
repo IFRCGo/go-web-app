@@ -1,11 +1,11 @@
 .heading {
     --font-size: var(--go-ui-font-size-xl);
 
-    margin: 0 0 var(--go-ui-spacing-sm) 0;
     font-family: Montserrat, sans-serif;
     font-size: var(--font-size);
     font-weight: var(--go-ui-font-weight-bold);
     page-break-after: avoid;
+    margin-block-start: unset;
 
     &.level-one {
         --font-size: var(--go-ui-font-size-4xl);
