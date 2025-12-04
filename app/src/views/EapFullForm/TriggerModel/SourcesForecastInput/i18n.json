@@ -1,0 +1,8 @@
+{
+    "namespace": "eapFullForm",
+    "strings": {
+        "eapFullFormSourcesForecastNameLabel": "Name",
+        "eapFullFormSourcesForecastLinkLabel": "Link",
+        "eapFullFormSourcesForecastDeleteButton": "Delete Source Information"
+    }
+}

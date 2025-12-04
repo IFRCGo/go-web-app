@@ -1,0 +1,22 @@
+{
+    "namespace": "eapFullForm",
+    "strings": {
+        "eapFullFormHeading": "Full EAP form",
+        "eapFullFormDescription": "Use the following form to submit the details of your Early Action Protocols (EAP) submission. This is the Full EAP form. If you are instead looking for the Simplified EAP.",
+        "eapFullFormOverview": "Overview",
+        "eapFullFormRiskAnalysis": "Risk Analysis",
+        "eapFullFormTriggerModel": "Trigger Model",
+        "eapFullFormSelectionActions": "Selection of Actions",
+        "eapFullFormEapActivationProcess": "EAP Activation Process",
+        "eapFullFormMeal": "Meal",
+        "eapFullFormNationalSocietyCapacity": "National Society Capacity",
+        "eapFullFormFinanceLogistics": "Finance and Logistics",
+        "eapFullBackButton": "Back",
+        "eapFullNextButton": "Next",
+        "eapFullSaveButton": "Save",
+        "eapFullFailure": "Sorry could not create a new Full EAP right now!",
+        "eapFullSuccess": "Successfully created a new Full EAP!",
+        "eapFullUpdateFailure": "Sorry could not update Full EAP right now!",
+        "eapFullUpdateSuccess": "Successfully updated a new Full EAP!"
+    }
+}

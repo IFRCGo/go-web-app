@@ -1,0 +1,30 @@
+{
+    "namespace": "eapFullForm",
+    "strings": {
+        "eapFullFormHazardSelectionTitle": "Hazard selection",
+        "eapFullFormHazardSelectionDescriptionLabel": "Description",
+        "eapFullFormHazardSelectionDescription1": "Provide a brief rationale about the selection of the hazard for the FbF system.",
+        "eapFullFormHazardSelectionDescription2": "Explain the selection of the hazard based on an analysis of historical disaster impacts (using the events registered in the below-mentioned table).",
+        "eapFullFormHazardSelectionDescription3": "Describe the extent to which this hazard has produced and will produce negative impacts on lives, livelihoods, well-being and other developmental aspects.",
+        "eapFullFormHazardSelectionDescription4": "Ensure to address these key questions: What are the impacts of this hazard? How are people most affected? What are the largest daily challenges related to this disaster that will jeopardize their well-being and development? What are the most affected sectors?",
+        "eapFullFormExposeElementTitle": "Exposed elements and their vulnerability factors",
+        "eapFullFormExposeElementDescriptionLabel": "Description",
+        "eapFullFormExposeElementDescription1": "Explain which people are most likely to experience the impacts of this hazard? Where do they live, and why are they vulnerable? Note: This will inform the early action selection.",
+        "eapFullFormExposeElementDescription2": "Based on the analysis of past impacts, provide a brief overview which population, infrastructure, natural resources, markets, assets (others) were and/or are likely to be exposed to the selected hazard and where they are located.",
+        "eapFullFormExposeElementDescription3": "Based on past impact and exposure, describe the key factors of vulnerability of the specific population, infrastructure, natural resources, assets (others) that are likely to be impacted.",
+        "eapFullFormExposeElementDescription4": "Please explain how specific population groups (e.g elderly, children, people with disabilities, IDPs, Refugees, etc.) are most likely to be affected.",
+        "eapFullFormExposeElementDescription5": "Note: this exposure and vulnerability analysis will be the basis for the selection of indicators used for the trigger model (section 4.4).",
+        "eapFullFormPrioritisedImpactTitle": "Prioritised impact",
+        "eapFullFormPrioritisedImpactsLabel": "Prioritised impacts",
+        "eapFullFormPrioritisedImpactDescription": "Add the list of prioritised impacts. Explain which priority impacts the EAP will address and why (e.g mortality of alpacas due to cold waves, Internal Displacement due to floods, malnutrition of children under 5 due to drought etc.).",
+        "eapFullFormPrioritisedImpactDescriptionLabel": "Description",
+        "eapFullFormAttachFilesTitle": "Attach relevant files",
+        "eapFullFormAttachFilesDescription": "Attach any additional documentation, files, images, etc.",
+        "eapFullFormAttachFilesSelectImagesLabel": "Select Images",
+        "eapFullFormAttachFilesUploadLabel": "Upload",
+        "eapFullFormImpactAddButtonLabel": "Add",
+        "eapFullFormSourceOfInformationTitle": "Sources of information",
+        "eapFullFormSourceOfInformationDescription": "Add the description of the sources one at a time. If the source has a link, add in the second field.",
+        "eapFullFormSourceOfInformationAddNewLabel": "Add New Source Information"
+    }
+}
