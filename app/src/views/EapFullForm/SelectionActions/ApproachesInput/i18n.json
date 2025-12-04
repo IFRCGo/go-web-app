@@ -1,0 +1,13 @@
+{
+    "namespace": "eapFullForm",
+    "strings": {
+        "eapFullFormApproachBudget": "Budget",
+        "eapFullFormApproachApCode": "AP Code",
+        "eapFullFormApproachRemoveButton": "Remove",
+        "eapFullFormApproachAddActivityButton": "Add Activity",
+        "eapFullFormApproachReadinessActivities": "Readiness Activities",
+        "eapFullFormApproachPrepositioningActivities": "Pre-positioning Activities",
+        "eapFullFormApproachEarlyActionActivities": "Early Action Activities",
+        "eapFullFormApproachNoActivitiesMessage": "No activities added yet"
+    }
+}

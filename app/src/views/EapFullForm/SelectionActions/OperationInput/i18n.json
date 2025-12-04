@@ -1,0 +1,14 @@
+{
+    "namespace": "eapFullForm",
+    "strings": {
+        "eapFullOperationPeopleTargeted": "People Targeted",
+        "eapFullOperationBudget": "Budget",
+        "eapFullOperationApCode": "AP Code",
+        "eapFullOperationRemoveButton": "Remove",
+        "eapFullOperationAddActivityButton": "Add activity",
+        "eapFullOperationReadinessActivities": "Readiness Activities",
+        "eapFullOperationPrepositioningActivities": "Pre-positioning Activities",
+        "eapFullOperationEarlyActionActivities": "Early Action Activities",
+        "eapFullOperationNoActivitiesMessage": "No activities added yet"
+    }
+}

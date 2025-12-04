@@ -1,0 +1,25 @@
+{
+    "namespace": "eapFullForm",
+    "strings": {
+        "eapFullFormSelectionProcessTitle": "Early action selection process",
+        "eapFullFormSelectionProcessDescription1": "Add the list of early actions",
+        "eapFullFormSelectionProcessDescription2": "Based on the prioritized impacts/risks of section 3, provide a brief rationale (e.g. your criteria) for the selection of action(s), also indicating which actions were considered but not chosen.",
+        "eapFullFormSelectionProcessDescription3": "Describe the process used to select the actions: Who was consulted? Which assessments/research were carried out?",
+        "eapFullFormSelectionProcessDescription4": "Does the FbF activation intend to use government social protection systems? Other State institutions’ databases and/or sources? Provide an explanation of potential number of target population to be selected.",
+        "eapFullFormSelectionProcessDescription5": "If CVA is included, has a cash feasibility assessment been conducted (including needs and affected population preference, markets, financial service providers and National Society capacity assessments)?",
+        "eapFullFormSelectionActionDescriptionLabel": "Description",
+        "eapFullFormSelectionActionUploadLabel": "Upload",
+        "eapFullFormEvidenceBaseTitle": "Evidence Base",
+        "eapFullFormEvidenceBaseDescription": "Explain how the selected actions will reduce the expected disaster impacts with a reference to academic research, empirical studies, interviews with key informants/experts, among other sources of evidence.",
+        "eapFullFormPlannedOperationTitle": "Planned Operation",
+        "eapFullFormPlannedOperationDescription": "Select sectors which are used in this Early Action Protocol.",
+        "eapFullFormEnablingApproachesTitle": "Enabling Approaches",
+        "eapFullFormEnablingApproachesDescription": "Select approaches which are used in this Early Action Protocol.",
+        "eapFullFormSelectionAttachFilesTitle": "Attach relevant files",
+        "eapFullFormSelectionAttachFilesDescription": "Attach any additional documentation, files, images, etc.",
+        "eapFullFormSelectionAttachFilesUploadLabel": "Upload",
+        "eapFullFormSelectionSourceOfInformationTitle": "Sources of information",
+        "eapFullFormSelectionSourceOfInformationDescription": "Add the description of the sources one at a time. If the source has a link, add in the second field.",
+        "eapFullFormSelectionSourceOfInformationAddNewLabel": "Add New Source Information"
+    }
+}

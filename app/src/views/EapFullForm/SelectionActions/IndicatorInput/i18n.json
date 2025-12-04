@@ -1,0 +1,8 @@
+{
+    "namespace": "eapFullForm",
+    "strings": {
+        "eapFullIndicatorRemoveTitle": "Remove",
+        "eapFullIndicatorTitleLabel": "Title",
+        "eapFullIndicatorTargetLabel": "Target"
+    }
+}

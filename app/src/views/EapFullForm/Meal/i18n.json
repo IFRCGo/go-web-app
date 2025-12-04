@@ -1,0 +1,13 @@
+{
+    "namespace": "eapFullForm",
+    "strings": {
+        "eapFullFormMealTitle": "Meal",
+        "eapFullFormMealDescription1": "Following the guidance of the FbF Manual, describe the M&E plan for this EAP. Including:",
+        "eapFullFormMealDescription2": "EAP Monitoring (between the trigger moment and the implementation of the actions)",
+        "eapFullFormMealDescription3": "Impact evaluation plan: how, when and by whom will the robust impact evaluation to assess how early actions reduced the humanitarian impact of the extreme event be conducted. Please note that the IFRC DREF...",
+        "eapFullFormMealDescriptionLabel": "Description",
+        "eapFullFormMealAttachRelevantFilesTitle": "Attach relevant files",
+        "eapFullFormMealAttachRelevantFilesDescription": "Attach any additional maps, documentation, files, images, etc.",
+        "eapFullFormMealAttachRelevantFilesUploadLabel": "Upload"
+    }
+}

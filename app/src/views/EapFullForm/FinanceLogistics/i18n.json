@@ -1,0 +1,28 @@
+{
+    "namespace": "eapFullForm",
+    "strings": {
+        "eapFullFormBudgetTitle": "Budget",
+        "eapFullFormBudgetDescription1": "Provide the EAP budget as a separate attachment",
+        "eapFullFormBudgetDescription2": "Use the IFRC standard budgeting template for Early Action Protocol",
+        "eapFullFormBudgetDescription3": "Following the same order (and output codes) as in the operational matrix filled in the EAP activation process section...",
+        "eapFullFormTotalBudgetLabel": "Total Budget",
+        "eapFullFormFinanceDescriptionLabel": "Description",
+        "eapFullFormFinanceUploadButtonLabel": "Upload",
+        "eapFullFormFinanceUploadBudgetLabel": "Upload Budget",
+        "eapFullFormReadinessCostTitle": "Readiness Cost",
+        "eapFullFormReadinessCostDescription1": "For each item of readiness costs in the budget, explain why these are necessary for the upkeep of the EAP and how these were calculated.",
+        "eapFullFormReadinessCostDescription2": "Indicate who will manage these funds and describe how it will be ensured that they are only used for the indicated purposes.",
+        "eapFullFormReadinessBudgetLabel": "Readiness Budget",
+        "eapFullFormPrePositioningTitle": "Pre-positioning Cost",
+        "eapFullFormPrePositioningDescription1": "Explain for which items (if any) the pre-positioning funds are requested. Mention why no other option is possible.",
+        "eapFullFormPrePositioningDescription2": "Expiry date of the items should not be prior to the end of the lifecycle of the EAP",
+        "eapFullFormPrePositioningDescription3": "Provide information about the location of the storage facilities and costs of storage, etc.",
+        "eapFullFormPrePositioningBudgetLabel": "Pre-Positioning Budget",
+        "eapFullFormEarlyActionCostTitle": "Early Action Cost",
+        "eapFullFormEarlyActionBudgetLabel": "Early Actions Budget",
+        "eapFullFormEarlyActionCostDescription1": "In the budget, list all these costs under the section early action costs.",
+        "eapFullFormEarlyActionCostDescription2": "If any early action costs are listed in the budget, indicate activation procedures including who initiates the funds request, approval chain/procedures and process of disbursement including...",
+        "eapFullFormEapEndorsementTitle": "EAP endorsement",
+        "eapFullFormEapEndorsementDescription": "Describe by whom, how and when the EAP was agreed and endorsed."
+    }
+}
