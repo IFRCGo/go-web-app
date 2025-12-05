@@ -1,6 +1,4 @@
-import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
 import {
-    Button,
     NumberInput,
     TextInput,
 } from '@ifrc-go/ui';
@@ -30,7 +28,6 @@ interface Props {
     value: IndicatorFormFields;
     error: ArrayError<IndicatorFormFields> | undefined;
     onChange: (value: SetValueArg<IndicatorFormFields>, index: number) => void;
-    onRemove: (index: number) => void;
     index: number;
     disabled?: boolean;
 }
@@ -43,7 +40,6 @@ function IndicatorInput(props: Props) {
         onChange,
         value,
         index,
-        onRemove,
         disabled,
     } = props;
 
@@ -86,16 +82,6 @@ function IndicatorInput(props: Props) {
                 disabled={disabled}
                 withAsterisk
             />
-            <Button
-                name={index}
-                className={styles.removeButton}
-                onClick={onRemove}
-                variant="tertiary"
-                title={strings.drefIndicatorRemoveButtonLabel}
-                disabled={disabled}
-            >
-                <DeleteBinTwoLineIcon />
-            </Button>
         </div>
     );
 }

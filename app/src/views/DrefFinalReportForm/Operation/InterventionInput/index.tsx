@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+// import { useCallback } from 'react';
 import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
 import {
     Button,
@@ -11,7 +11,7 @@ import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
     isDefined,
     isNotDefined,
-    randomString,
+    // randomString,
 } from '@togglecorp/fujs';
 import {
     type ArrayError,
@@ -74,12 +74,13 @@ function InterventionInput(props: Props) {
 
     const {
         setValue: onIndicatorChange,
-        removeValue: onIndicatorRemove,
+        // removeValue: onIndicatorRemove,
     } = useFormArray<'indicators', IndicatorFormFields>(
         'indicators' as const,
         onFieldChange,
     );
 
+    /*
     const handleIndicatorAddButtonClick = useCallback(
         () => {
             const newIndicatorItem: IndicatorFormFields = {
@@ -95,6 +96,7 @@ function InterventionInput(props: Props) {
         },
         [onFieldChange],
     );
+    */
 
     return (
         <InputSection
@@ -201,16 +203,16 @@ function InterventionInput(props: Props) {
             <Container
                 heading={strings.drefFormIndicatorsLabel}
                 headingLevel={5}
-                footerIcons={(
-                    <Button
-                        variant="secondary"
-                        name={undefined}
-                        onClick={handleIndicatorAddButtonClick}
-                        disabled={disabled}
-                    >
-                        {strings.drefAddIndicatorButtonLabel}
-                    </Button>
-                )}
+                // footerIcons={(
+                //     <Button
+                //         variant="secondary"
+                //         name={undefined}
+                //         onClick={handleIndicatorAddButtonClick}
+                //         disabled={disabled}
+                //     >
+                //         {strings.drefAddIndicatorButtonLabel}
+                //     </Button>
+                // )}
             >
                 <NonFieldError error={getErrorObject(error?.indicators)} />
                 {value?.indicators?.map((indicator, i) => (
@@ -219,7 +221,7 @@ function InterventionInput(props: Props) {
                         index={i}
                         value={indicator}
                         onChange={onIndicatorChange}
-                        onRemove={onIndicatorRemove}
+                        // onRemove={onIndicatorRemove}
                         error={getErrorObject(error?.indicators)}
                         disabled={disabled}
                     />
