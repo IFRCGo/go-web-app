@@ -1,5 +1,13 @@
 # go-web-app
 
+## 7.23.5
+
+### Patch Changes
+
+- 5e3b444: Update DREF Final Report
+
+  - Remove option to add/remove indicators
+
 ## 7.23.4
 
 ### Patch Changes
