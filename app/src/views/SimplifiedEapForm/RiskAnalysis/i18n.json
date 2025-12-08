@@ -2,7 +2,7 @@
     "namespace": "simplifiedEapForm",
     "strings": {
         "simplifiedEapRiskHeading": "Risk Analysis",
-        "simplifiedEapRiskDescription": "Which hazard needs to be addressed by aniticipatory actions in the country as a priority? Provide an explanation on the reasons that the selected hazard was choosen for this simplified Eap, why it is a major problem in the country and the humanitarian impacts it has caused in the past. Describe the extent to which this hazard has produced and/or will produce negative impacts on lives, livelihoods, well-being and other development aspects.",
+        "simplifiedEapRiskDescription": "Which hazard needs to be addressed by aniticipatory actions in the country as a priority? Provide an explanation on the reasons that the selected hazard was chosen for this simplified Eap, why it is a major problem in the country and the humanitarian impacts it has caused in the past. Describe the extent to which this hazard has produced and/or will produce negative impacts on lives, livelihoods, well-being and other development aspects.",
         "simplifiedHistoricalImpact": "Prioritized hazard and its historical Impact",
         "simplifiedFormUploadlabel": "Upload",
         "simplifiedFormDescriptionLabel": "Description",

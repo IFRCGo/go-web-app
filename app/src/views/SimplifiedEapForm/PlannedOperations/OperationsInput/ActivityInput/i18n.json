@@ -1,8 +1,0 @@
-{
-    "namespace": "simplifiedEapForm",
-    "strings": {
-        "operationReadiness": "Readiness",
-        "operationTimeFrame": "Time Frame",
-        "operationTimeValue": "Time Value"
-    }
-}

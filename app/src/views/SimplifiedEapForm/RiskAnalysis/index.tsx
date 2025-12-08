@@ -42,9 +42,7 @@ function RiskAnalysis(props: Props) {
 
     return (
         <TabPage>
-            <Container
-                heading={strings.simplifiedEapRiskHeading}
-            >
+            <Container heading={strings.simplifiedEapRiskHeading}>
                 <ListView
                     layout="block"
                     spacing="sm"
@@ -101,9 +99,7 @@ function RiskAnalysis(props: Props) {
                     </InputSection>
                 </ListView>
             </Container>
-            <Container
-                heading={strings.simplifiedFormEarlyActionSelection}
-            >
+            <Container heading={strings.simplifiedFormEarlyActionSelection}>
                 <ListView
                     layout="block"
                     spacing="sm"

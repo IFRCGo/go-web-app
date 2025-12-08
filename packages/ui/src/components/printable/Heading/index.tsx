@@ -1,7 +1,8 @@
 import { _cs } from '@togglecorp/fujs';
 
-import styles from './styles.module.css';
 import { getSpacingValue } from '#utils/style';
+
+import styles from './styles.module.css';
 
 export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 

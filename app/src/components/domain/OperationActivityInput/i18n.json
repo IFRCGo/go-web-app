@@ -1,0 +1,8 @@
+{
+    "namespace": "operationActivityInput",
+    "strings": {
+        "operationPriorityActionLabel": "Priority action",
+        "operationTimeFrameLabel": "Time Frame",
+        "operationTimeValueLabel": "Time Value"
+    }
+}

@@ -2,11 +2,13 @@ import { type DeepReplace } from '@ifrc-go/ui/utils';
 import { isDefined } from '@togglecorp/fujs';
 import {
     emailCondition,
+    type LiteralSchema,
     type ObjectSchema,
     type PartialForm,
     undefinedValue,
 } from '@togglecorp/toggle-form';
 
+import operationActivitySchema from '#components/domain/OperationActivityInput/schema';
 import { type GoApiBody } from '#utils/restRequest';
 
 function lessThanEqualToFiveImagesCondition<T>(value: T[] | undefined) {
@@ -114,15 +116,7 @@ type FormFields = (
 
 export type PartialSimplifiedEapType = PartialForm<FormFields, 'client_id'>;
 type PlannedOperationalFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['planned_operations']>[number], PartialSimplifiedEapType>['fields']>;
-type EarlyActionFields = ReturnType<ObjectSchema<NonNullable<NonNullable<PartialSimplifiedEapType['planned_operations']>[number]['early_action_activities']>[number], PartialSimplifiedEapType>['fields']>;
-type PrepositioningFields = ReturnType<ObjectSchema<NonNullable<NonNullable<PartialSimplifiedEapType['planned_operations']>[number]['prepositioning_activities']>[number], PartialSimplifiedEapType>['fields']>;
-type ReadinessFields = ReturnType<ObjectSchema<NonNullable<NonNullable<PartialSimplifiedEapType['planned_operations']>[number]['readiness_activities']>[number], PartialSimplifiedEapType>['fields']>;
-
 type EnableApproachesFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['enable_approaches']>[number], PartialSimplifiedEapType>['fields']>;
-type EarlyActionApproachesFields = ReturnType<ObjectSchema<NonNullable<NonNullable<PartialSimplifiedEapType['enable_approaches']>[number]['early_action_activities']>[number], PartialSimplifiedEapType>['fields']>;
-type PrepositioningApproachesFields = ReturnType<ObjectSchema<NonNullable<NonNullable<PartialSimplifiedEapType['enable_approaches']>[number]['prepositioning_activities']>[number], PartialSimplifiedEapType>['fields']>;
-type ReadinessApproachesFields = ReturnType<ObjectSchema<NonNullable<NonNullable<PartialSimplifiedEapType['enable_approaches']>[number]['readiness_activities']>[number], PartialSimplifiedEapType>['fields']>;
-
 type CoverImageFileFormFields = ReturnType<ObjectSchema<PartialSimplifiedEapType['cover_image_file'], PartialSimplifiedEapType>['fields']>;
 
 type RiskProtocolsFileFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['risk_selected_protocols_images']>[number], PartialSimplifiedEapType>['fields']>;
@@ -132,10 +126,42 @@ type EarlyActionFileFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifi
 type FormSchema = ObjectSchema<PartialSimplifiedEapType>;
 type FormSchemaFields = ReturnType<FormSchema['fields']>;
 
+type FieldKeys = keyof EapSimplifiedRequestBody;
+
+type ContactFieldSuffix = 'name' | 'title' | 'email' | 'phone_number';
+type ExtractContactPrefix<KEY extends FieldKeys> = KEY extends `${infer PREFIX}_name`
+    ? `${PREFIX}_title` extends FieldKeys
+        ? `${PREFIX}_email` extends FieldKeys
+            ? `${PREFIX}_phone_number` extends FieldKeys
+                ? PREFIX
+                : never
+            : never
+        : never
+    : never
+
+export type ValidContactFieldPrefixes = ExtractContactPrefix<FieldKeys>;
+
+function getContactSchema<KEY extends ValidContactFieldPrefixes>(key: KEY) {
+    type ContactSchema = {
+        [K in `${KEY}_${ContactFieldSuffix}`]: LiteralSchema<string | undefined | null, PartialSimplifiedEapType>
+    }
+
+    return {
+        [`${key}_name`]: {},
+        [`${key}_title`]: {},
+        [`${key}_email`]: { validations: [emailCondition] },
+        [`${key}_phone_number`]: {},
+    } as ContactSchema;
+}
+
 export const formSchema: FormSchema = {
     fields: (): FormSchemaFields => ({
-        admin2: { },
-        budget_file: { required: true },
+        // Overview
+
+        // national_society: {},
+        // country: {},
+        // disaster_type: {},
+
         cover_image_file: {
             fields: (): CoverImageFileFormFields => ({
                 client_id: {},
@@ -143,6 +169,21 @@ export const formSchema: FormSchema = {
                 id: { defaultValue: undefinedValue },
             }),
         },
+        seap_timeframe: { required: true },
+
+        ...getContactSchema('national_society_contact'),
+        ...getContactSchema('partner_ns'),
+        ...getContactSchema('ifrc_delegation_focal_point'),
+        ...getContactSchema('ifrc_head_of_delegation'),
+        ...getContactSchema('dref_focal_point'),
+        ...getContactSchema('ifrc_regional_focal_point'),
+        ...getContactSchema('ifrc_regional_ops_manager'),
+        ...getContactSchema('ifrc_regional_head_dcc'),
+        ...getContactSchema('ifrc_global_ops_coordinator'),
+
+        // Risk Analysis
+
+        prioritized_hazard_and_impact: {},
         hazard_impact_images: {
             keySelector: (item) => item.client_id,
             member: () => ({
@@ -154,6 +195,7 @@ export const formSchema: FormSchema = {
             }),
             validation: lessThanEqualToFiveImagesCondition,
         },
+        risks_selected_protocols: {},
         risk_selected_protocols_images: {
             keySelector: (item) => item.client_id,
             member: () => ({
@@ -165,6 +207,7 @@ export const formSchema: FormSchema = {
             }),
             validation: lessThanEqualToFiveImagesCondition,
         },
+        selected_early_actions: {},
         selected_early_actions_images: {
             keySelector: (item) => item.client_id,
             member: () => ({
@@ -176,115 +219,28 @@ export const formSchema: FormSchema = {
             }),
             validation: lessThanEqualToFiveImagesCondition,
         },
-        seap_timeframe: { required: true },
+
+        // Early Action Interventions
+
+        overall_objective_intervention: {},
+        potential_geographical_high_risk_areas: {},
+        admin2: {},
+        people_targeted: { required: true },
         assisted_through_operation: {},
-        dref_focal_point_name: {},
-        dref_focal_point_title: {},
-        dref_focal_point_email: { validations: [emailCondition] },
-        dref_focal_point_phone_number: {},
-        eap_registration: {},
-        early_action_budget: { required: true },
-        early_action_capability: {},
-        ifrc_delegation_focal_point_name: {},
-        ifrc_delegation_focal_point_title: {},
-        ifrc_delegation_focal_point_email: { validations: [emailCondition] },
-        ifrc_delegation_focal_point_phone_number: {},
-        ifrc_global_ops_coordinator_name: {},
-        ifrc_global_ops_coordinator_title: {},
-        ifrc_global_ops_coordinator_phone_number: {},
-        ifrc_global_ops_coordinator_email: { validations: [emailCondition] },
-        ifrc_head_of_delegation_name: {},
-        ifrc_head_of_delegation_title: {},
-        ifrc_head_of_delegation_email: { validations: [emailCondition] },
-        ifrc_head_of_delegation_phone_number: {},
-        ifrc_regional_focal_point_name: {},
-        ifrc_regional_focal_point_title: {},
-        ifrc_regional_focal_point_email: { validations: [emailCondition] },
-        ifrc_regional_focal_point_phone_number: {},
-        ifrc_regional_head_dcc_name: {},
-        ifrc_regional_head_dcc_title: {},
-        ifrc_regional_head_dcc_email: { validations: [emailCondition] },
-        ifrc_regional_head_dcc_phone_number: {},
-        ifrc_regional_ops_manager_name: {},
-        ifrc_regional_ops_manager_title: {},
-        ifrc_regional_ops_manager_phone_number: {},
-        ifrc_regional_ops_manager_email: { validations: [emailCondition] },
-        national_society_contact_name: {},
-        national_society_contact_title: {},
-        national_society_contact_email: { validations: [emailCondition] },
-        national_society_contact_phone_number: {},
+        selection_criteria: {},
+        trigger_statement: {},
+        seap_lead_time: { required: true },
+        seap_lead_timeframe_unit: { required: true },
         operational_timeframe: {
             required: true,
             validations: [maxOperationalTimeframeCondition],
         },
-        partner_ns_name: {},
-        partner_ns_title: {},
-        partner_ns_email: { validations: [emailCondition] },
-        partner_ns_phone_number: {},
-        people_targeted: { required: true },
-        pre_positioning_budget: { required: true },
-        readiness_budget: { required: true },
-        seap_lead_time: { required: true },
-        selected_early_actions: {},
-        selection_criteria: {},
-        trigger_threshold_justification: {},
-        trigger_statement: {},
-        total_budget: { required: true },
-        prioritized_hazard_and_impact: {},
-        risks_selected_protocols: {},
-        seap_lead_timeframe_unit: { required: true },
         operational_timeframe_unit: {},
+        trigger_threshold_justification: {},
         next_step_towards_full_eap: { required: true },
-        enable_approaches: {
-            keySelector: (item) => item.client_id,
-            member: () => ({
-                fields: (): EnableApproachesFields => ({
-                    client_id: {},
-                    id: { defaultValue: undefinedValue },
-                    title: {},
-                    approach: {},
-                    budget_per_approach: {},
-                    ap_code: {},
-                    indicator_target: {},
-                    early_action_activities: {
-                        keySelector: (item) => item.client_id,
-                        member: () => ({
-                            fields: (): EarlyActionApproachesFields => ({
-                                client_id: { forceValue: undefinedValue },
-                                id: { defaultValue: undefinedValue },
-                                activity: {},
-                                timeframe: {},
-                                time_value: {},
-                            }),
-                        }),
-                    },
-                    readiness_activities: {
-                        keySelector: (item) => item.client_id,
-                        member: () => ({
-                            fields: (): ReadinessApproachesFields => ({
-                                client_id: { forceValue: undefinedValue },
-                                id: { defaultValue: undefinedValue },
-                                activity: {},
-                                timeframe: {},
-                                time_value: {},
-                            }),
-                        }),
-                    },
-                    prepositioning_activities: {
-                        keySelector: (item) => item.client_id,
-                        member: () => ({
-                            fields: (): PrepositioningApproachesFields => ({
-                                client_id: { forceValue: undefinedValue },
-                                id: { defaultValue: undefinedValue },
-                                activity: {},
-                                timeframe: {},
-                                time_value: {},
-                            }),
-                        }),
-                    },
-                }),
-            }),
-        },
+
+        // Planned Operations
+
         planned_operations: {
             keySelector: (item) => item.client_id,
             member: () => ({
@@ -298,42 +254,57 @@ export const formSchema: FormSchema = {
                     people_targeted: {},
                     early_action_activities: {
                         keySelector: (item) => item.client_id,
-                        member: () => ({
-                            fields: (): EarlyActionFields => ({
-                                client_id: { forceValue: undefinedValue },
-                                id: { defaultValue: undefinedValue },
-                                activity: {},
-                                timeframe: {},
-                                time_value: {},
-                            }),
-                        }),
+                        member: () => operationActivitySchema,
                     },
                     readiness_activities: {
                         keySelector: (item) => item.client_id,
-                        member: () => ({
-                            fields: (): ReadinessFields => ({
-                                client_id: { forceValue: undefinedValue },
-                                id: { defaultValue: undefinedValue },
-                                activity: {},
-                                timeframe: {},
-                                time_value: {},
-                            }),
-                        }),
+                        member: () => operationActivitySchema,
                     },
                     prepositioning_activities: {
                         keySelector: (item) => item.client_id,
-                        member: () => ({
-                            fields: (): PrepositioningFields => ({
-                                client_id: { forceValue: undefinedValue },
-                                id: { defaultValue: undefinedValue },
-                                activity: {},
-                                timeframe: {},
-                                time_value: {},
-                            }),
-                        }),
+                        member: () => operationActivitySchema,
                     },
                 }),
             }),
         },
+
+        // Enabling Approaches
+
+        enable_approaches: {
+            keySelector: (item) => item.client_id,
+            member: () => ({
+                fields: (): EnableApproachesFields => ({
+                    client_id: {},
+                    id: { defaultValue: undefinedValue },
+                    title: {},
+                    approach: {},
+                    budget_per_approach: {},
+                    ap_code: {},
+                    indicator_target: {},
+                    early_action_activities: {
+                        keySelector: (item) => item.client_id,
+                        member: () => operationActivitySchema,
+                    },
+                    readiness_activities: {
+                        keySelector: (item) => item.client_id,
+                        member: () => operationActivitySchema,
+                    },
+                    prepositioning_activities: {
+                        keySelector: (item) => item.client_id,
+                        member: () => operationActivitySchema,
+                    },
+                }),
+            }),
+        },
+
+        // Delivery & Budget
+
+        early_action_capability: {},
+        rcrc_movement_involvement: {},
+        total_budget: { required: true },
+        readiness_budget: { required: true },
+        pre_positioning_budget: { required: true },
+        early_action_budget: { required: true },
+        budget_file: { required: true },
     }),
 };

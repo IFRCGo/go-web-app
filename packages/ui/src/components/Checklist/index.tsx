@@ -1,4 +1,8 @@
-import React, { useCallback } from 'react';
+import {
+    type ComponentType,
+    type ReactNode,
+    useCallback,
+} from 'react';
 
 import Checkbox, { Props as CheckboxProps } from '#components/Checkbox';
 import InputError from '#components/InputError';
@@ -18,13 +22,13 @@ export interface Props<
     disabled?: boolean;
     error?: string;
     errorOnTooltip?: boolean;
-    hint?: React.ReactNode;
+    hint?: ReactNode;
     hintContainerClassName?: string;
     keySelector: (option: OPTION) => KEY;
-    label?: React.ReactNode;
+    label?: ReactNode;
     labelContainerClassName?: string;
     labelSelector: (option: OPTION) => string;
-    descriptionSelector?: (option: OPTION) => React.ReactNode;
+    descriptionSelector?: (option: OPTION) => ReactNode;
     name: NAME;
     onChange: (newValue: KEY[], name: NAME) => void;
     options: OPTION[] | undefined;
@@ -32,10 +36,13 @@ export interface Props<
     value: KEY[] | undefined | null;
     checkListLayout?: 'inline' | 'block' | 'grid';
     checkListLayoutPreferredGridColumns?: number;
+    checkListLayoutMinGridColumnSize?: string;
     spacing?: SpacingType;
     withPadding?: boolean;
     withBackground?: boolean;
     withDarkBackground?: boolean;
+    renderer?: ComponentType<CheckboxProps<KEY>>
+    withoutOpticalSpacingCorrection?: boolean;
 }
 
 function CheckList<
@@ -63,10 +70,13 @@ function CheckList<
         value,
         checkListLayout = 'inline',
         checkListLayoutPreferredGridColumns,
+        checkListLayoutMinGridColumnSize,
         spacing,
         withPadding,
         withBackground,
         withDarkBackground,
+        renderer = Checkbox<KEY>,
+        withoutOpticalSpacingCorrection,
     } = props;
 
     const handleCheck = useCallback((isSelected: boolean, key: KEY) => {
@@ -100,7 +110,7 @@ function CheckList<
         <RawList<OPTION, KEY, CheckboxProps<KEY>>
             data={options}
             keySelector={keySelector}
-            renderer={Checkbox}
+            renderer={renderer}
             rendererParams={optionListRendererParams}
         />
     );
@@ -124,7 +134,7 @@ function CheckList<
             {checkListLayout === 'inline' && (
                 <ListView
                     withWrap
-                    withSpacingOpticalCorrection
+                    withSpacingOpticalCorrection={!withoutOpticalSpacingCorrection}
                     spacing={spacing}
                 >
                     {checkList}
@@ -133,7 +143,7 @@ function CheckList<
             {checkListLayout === 'block' && (
                 <ListView
                     layout="block"
-                    withSpacingOpticalCorrection
+                    withSpacingOpticalCorrection={!withoutOpticalSpacingCorrection}
                     spacing={spacing}
                 >
                     {checkList}
@@ -143,7 +153,8 @@ function CheckList<
                 <ListView
                     layout="grid"
                     numPreferredGridColumns={checkListLayoutPreferredGridColumns}
-                    withSpacingOpticalCorrection
+                    minGridColumnSize={checkListLayoutMinGridColumnSize}
+                    withSpacingOpticalCorrection={!withoutOpticalSpacingCorrection}
                     spacing={spacing}
                 >
                     {checkList}

@@ -1,13 +1,16 @@
 import { TableActions } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import { isNotDefined } from '@togglecorp/fujs';
 
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import Link from '#components/Link';
+import {
+    EAP_TYPE_FULL,
+    EAP_TYPE_SIMPLIFIED,
+} from '#utils/constants';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
-import { isNotDefined } from '@togglecorp/fujs';
-import { EAP_TYPE_FULL, EAP_TYPE_SIMPLIFIED } from '#utils/constants';
 
 type EapResponse = GoApiResponse<'/api/v2/eap-registration/{id}/'>;
 
