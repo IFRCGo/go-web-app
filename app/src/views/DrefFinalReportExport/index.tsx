@@ -522,7 +522,7 @@ export function Component() {
                         label={strings.operationTimeframeLabel}
                         value={drefResponse?.total_operation_timeframe_imminent}
                         valueType="number"
-                        suffix={strings.monthsSuffix}
+                        suffix={strings.daysSuffix}
                         strongValue
                     />
                 ) : (

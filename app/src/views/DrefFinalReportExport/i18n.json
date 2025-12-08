@@ -29,6 +29,7 @@
         "operationStartDateLabel": "Operation Start Date",
         "operationTimeframeLabel": "Total Operating Timeframe",
         "monthsSuffix": " months",
+        "daysSuffix": " days",
         "operationEndDateLabel": "Operational End Date",
         "targetedAreasLabel": "Targeted Regions",
         "eventDescriptionSectionHeading": "Description of the Event",
