@@ -8,13 +8,14 @@ import {
 import { useParams } from 'react-router-dom';
 import {
     Button,
+    ListView,
     Tab,
     TabList,
     TabPanel,
     Tabs,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { hasSomeDefinedValue } from '@ifrc-go/ui/utils';
+import { injectClientId } from '@ifrc-go/ui/utils';
 import {
     isDefined,
     isNotDefined,
@@ -22,6 +23,7 @@ import {
 } from '@togglecorp/fujs';
 import {
     createSubmitHandler,
+    removeNull,
     useForm,
 } from '@togglecorp/toggle-form';
 
@@ -31,15 +33,20 @@ import useAlert from '#hooks/useAlert';
 import useRouting from '#hooks/useRouting';
 import {
     type GoApiBody,
+    type GoApiResponse,
     useLazyRequest,
     useRequest,
 } from '#utils/restRequest';
-import { transformObjectError } from '#utils/restRequest/error';
+import {
+    matchArray,
+    NUM,
+    transformObjectError,
+} from '#utils/restRequest/error';
 
 import { checkTabErrors } from './common';
 import DeliveryAndBudget from './DeliveryAndBudget';
 import EarlyAction from './EarlyAction';
-import EnablingApproches from './EnablingApproaches';
+import EnablingApproaches from './EnablingApproaches';
 import Overview from './Overview';
 import PlannedOperations from './PlannedOperations';
 import RiskAnalysis from './RiskAnalysis';
@@ -52,6 +59,7 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type EapSimplifiedRequestBody = GoApiBody<'/api/v2/simplified-eap/', 'POST'>;
+type GetSimplifiedResponse = GoApiResponse<'/api/v2/simplified-eap/{id}/'>;
 
 type TabKeys = 'overview' | 'riskAnalysis' | 'earlyAction' | 'plannedOperations' | 'enablingApproaches' | 'deliveryAndBudget';
 
@@ -98,6 +106,78 @@ export function Component() {
     const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
     const { eapId } = useParams<{ eapId: string }>();
 
+    const handleSimplifiedLoad = useCallback((response: GetSimplifiedResponse) => {
+        setFileIdToUrlMap((preMap) => {
+            const newMap = {
+                ...preMap,
+            };
+
+            const {
+                budget_file_details,
+                cover_image_file,
+            } = response;
+
+            if (
+                budget_file_details
+                && budget_file_details.id
+                && budget_file_details.file
+            ) {
+                newMap[
+                    budget_file_details.id
+                ] = budget_file_details.file;
+            }
+
+            if (
+                cover_image_file
+                && cover_image_file.id
+                && cover_image_file.file
+            ) {
+                newMap[cover_image_file.id] = cover_image_file.file;
+            }
+            return newMap;
+        });
+    }, []);
+
+    const loadResponseToFormValue = useCallback((response: GetSimplifiedResponse) => {
+        handleSimplifiedLoad(response);
+
+        const {
+            planned_operations,
+            enable_approaches,
+            cover_image_file,
+            hazard_impact_images,
+            selected_early_actions_images,
+            risk_selected_protocols_images,
+            ...otherValues
+        } = removeNull(response);
+
+        setValue({
+            ...otherValues,
+
+            cover_image_file: isDefined(cover_image_file)
+                ? injectClientId(cover_image_file)
+                : undefined,
+
+            hazard_impact_images: hazard_impact_images?.map(injectClientId),
+            selected_early_actions_images: selected_early_actions_images?.map(injectClientId),
+            risk_selected_protocols_images: risk_selected_protocols_images?.map(injectClientId),
+
+            planned_operations: planned_operations?.map((intervention) => ({
+                ...injectClientId(intervention),
+                early_action_activities: intervention.early_action_activities?.map(injectClientId),
+                readiness_activities: intervention.readiness_activities?.map(injectClientId),
+                prepositioning_activities: intervention.prepositioning_activities
+                    ?.map(injectClientId),
+            })),
+            enable_approaches: enable_approaches?.map((approach) => ({
+                ...injectClientId(approach),
+                early_action_activities: approach.early_action_activities?.map(injectClientId),
+                readiness_activities: approach.readiness_activities?.map(injectClientId),
+                prepositioning_activities: approach.prepositioning_activities?.map(injectClientId),
+            })),
+        });
+    }, [handleSimplifiedLoad, setValue]);
+
     const {
         pending: fetchingEap,
         response: eapDetailResponse,
@@ -119,19 +199,7 @@ export function Component() {
         pathVariables: isDefined(latestSimplifiedEapId) ? ({
             id: latestSimplifiedEapId,
         }) : undefined,
-        onSuccess: (simplifiedEapResponse) => {
-            // FIXME: remove unnecessary variables
-            // FIXME: add setFileIdToUrlMap
-            // FIXME: inject client ID
-            const {
-                admin2_details,
-                budget_file_details,
-                ...otherValues
-            } = simplifiedEapResponse;
-
-            // FIXME: typings
-            setValue(otherValues);
-        },
+        onSuccess: (simplifiedEapResponse) => loadResponseToFormValue(simplifiedEapResponse),
     });
 
     const {
@@ -156,7 +224,81 @@ export function Component() {
                 },
             } = err;
 
-            setError(transformObjectError(formErrors, () => undefined));
+            setError(transformObjectError(
+                formErrors,
+                (locations) => {
+                    let match = matchArray(locations, ['cover_image_file', NUM]);
+                    if (isDefined(match)) {
+                        return value?.cover_image_file?.client_id;
+                    }
+
+                    match = matchArray(locations, ['hazard_impact_images', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.hazard_impact_images?.[index!]?.client_id;
+                    }
+
+                    match = matchArray(locations, ['risk_selected_protocols_images', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.risk_selected_protocols_images?.[index!]?.client_id;
+                    }
+
+                    match = matchArray(locations, ['selected_early_actions_images', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.selected_early_actions_images?.[index!]?.client_id;
+                    }
+
+                    match = matchArray(locations, ['planned_operations', NUM, 'early_action_activities', NUM]);
+                    if (isDefined(match)) {
+                        const [poIndex, index] = match;
+                        return value?.planned_operations?.[poIndex!]
+                            ?.early_action_activities?.[index!]?.client_id;
+                    }
+                    match = matchArray(locations, ['planned_operations', NUM, 'readiness_activities', NUM]);
+                    if (isDefined(match)) {
+                        const [poIndex, index] = match;
+                        return value?.planned_operations?.[poIndex!]
+                            ?.readiness_activities?.[index!]?.client_id;
+                    }
+                    match = matchArray(locations, ['planned_operations', NUM, 'prepositioning_activities', NUM]);
+                    if (isDefined(match)) {
+                        const [poIndex, index] = match;
+                        return value?.planned_operations?.[poIndex!]
+                            ?.prepositioning_activities?.[index!]?.client_id;
+                    }
+                    match = matchArray(locations, ['planned_operations', NUM]);
+                    if (isDefined(match)) {
+                        const [poIndex] = match;
+                        return value?.planned_operations?.[poIndex!]?.client_id;
+                    }
+                    match = matchArray(locations, ['enable_approaches', NUM, 'early_action_activities', NUM]);
+                    if (isDefined(match)) {
+                        const [eaIndex, index] = match;
+                        return value?.enable_approaches?.[eaIndex!]
+                            ?.early_action_activities?.[index!]?.client_id;
+                    }
+                    match = matchArray(locations, ['enable_approaches', NUM, 'readiness_activities', NUM]);
+                    if (isDefined(match)) {
+                        const [eaIndex, index] = match;
+                        return value?.enable_approaches?.[eaIndex!]
+                            ?.readiness_activities?.[index!]?.client_id;
+                    }
+                    match = matchArray(locations, ['enable_approaches', NUM, 'prepositioning_activities', NUM]);
+                    if (isDefined(match)) {
+                        const [eaIndex, index] = match;
+                        return value?.enable_approaches?.[eaIndex!]
+                            ?.prepositioning_activities?.[index!]?.client_id;
+                    }
+                    match = matchArray(locations, ['enable_approaches', NUM]);
+                    if (isDefined(match)) {
+                        const [eaIndex] = match;
+                        return value?.enable_approaches?.[eaIndex!]?.client_id;
+                    }
+                    return undefined;
+                },
+            ));
 
             alert.show(
                 strings.eapSimplifiedFailure,
@@ -195,7 +337,86 @@ export function Component() {
 
             setError(transformObjectError(
                 formErrors,
-                () => undefined,
+                (locations) => {
+                    let match = matchArray(locations, ['cover_image_file']);
+                    if (isDefined(match)) {
+                        return value?.cover_image_file?.client_id;
+                    }
+
+                    match = matchArray(locations, ['hazard_impact_images', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.hazard_impact_images?.[index!]?.client_id;
+                    }
+
+                    match = matchArray(locations, ['risk_selected_protocols_images', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.risk_selected_protocols_images?.[index!]?.client_id;
+                    }
+
+                    match = matchArray(locations, ['selected_early_actions_images', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.selected_early_actions_images?.[index!]?.client_id;
+                    }
+
+                    match = matchArray(locations, ['planned_operations', NUM, 'early_action_activities', NUM]);
+                    if (isDefined(match)) {
+                        const [poIndex, index] = match;
+                        return value?.planned_operations?.[poIndex!]
+                            ?.early_action_activities?.[index!]?.client_id;
+                    }
+
+                    match = matchArray(locations, ['planned_operations', NUM, 'readiness_activities', NUM]);
+                    if (isDefined(match)) {
+                        const [poIndex, index] = match;
+                        return value?.planned_operations?.[poIndex!]
+                            ?.readiness_activities?.[index!]?.client_id;
+                    }
+
+                    match = matchArray(locations, ['planned_operations', NUM, 'prepositioning_activities', NUM]);
+                    if (isDefined(match)) {
+                        const [poIndex, index] = match;
+                        return value?.planned_operations?.[poIndex!]
+                            ?.prepositioning_activities?.[index!]?.client_id;
+                    }
+
+                    match = matchArray(locations, ['planned_operations', NUM]);
+                    if (isDefined(match)) {
+                        const [poIndex] = match;
+                        return value?.planned_operations?.[poIndex!]?.client_id;
+                    }
+
+                    match = matchArray(locations, ['enable_approaches', NUM, 'early_action_activities', NUM]);
+                    if (isDefined(match)) {
+                        const [eaIndex, index] = match;
+                        return value?.enable_approaches?.[eaIndex!]
+                            ?.early_action_activities?.[index!]?.client_id;
+                    }
+
+                    match = matchArray(locations, ['enable_approaches', NUM, 'readiness_activities', NUM]);
+                    if (isDefined(match)) {
+                        const [eaIndex, index] = match;
+                        return value?.enable_approaches?.[eaIndex!]
+                            ?.readiness_activities?.[index!]?.client_id;
+                    }
+
+                    match = matchArray(locations, ['enable_approaches', NUM, 'prepositioning_activities', NUM]);
+                    if (isDefined(match)) {
+                        const [eaIndex, index] = match;
+                        return value?.enable_approaches?.[eaIndex!]
+                            ?.prepositioning_activities?.[index!]?.client_id;
+                    }
+
+                    match = matchArray(locations, ['enable_approaches', NUM]);
+                    if (isDefined(match)) {
+                        const [eaIndex] = match;
+                        return value?.enable_approaches
+                            ?.[eaIndex!]?.client_id;
+                    }
+                    return undefined;
+                },
             ));
 
             alert.show(
@@ -215,10 +436,9 @@ export function Component() {
             createSimplifiedEap({
                 ...validatedFormValue as EapSimplifiedRequestBody,
                 eap_registration: Number(eapId),
+
+                // FIXME: update admin2 input
                 admin2: [27485],
-                cover_image_file: hasSomeDefinedValue(validatedFormValue.cover_image_file)
-                    ? validatedFormValue.cover_image_file
-                    : undefined,
             });
         } else {
             updateSimplifiedEap({
@@ -282,7 +502,7 @@ export function Component() {
                     </Link>
                 )}
                 info={(
-                    <TabList className={styles.tabList}>
+                    <TabList>
                         <Tab
                             name="overview"
                             step={1}
@@ -369,7 +589,7 @@ export function Component() {
                     />
                 </TabPanel>
                 <TabPanel name="approaches">
-                    <EnablingApproches
+                    <EnablingApproaches
                         value={value}
                         setFieldValue={setFieldValue}
                         error={formError}
@@ -386,36 +606,30 @@ export function Component() {
                         setFileIdToUrlMap={setFileIdToUrlMap}
                     />
                 </TabPanel>
-                <div className={styles.actions}>
-                    <div className={styles.pageActions}>
+                <ListView withCenteredContents>
+                    <Button
+                        name={prevStep ?? activeTab}
+                        onClick={handleTabChange}
+                        disabled={isNotDefined(prevStep)}
+                    >
+                        {strings.simplifiedBackButton}
+                    </Button>
+                    {isDefined(nextStep) ? (
                         <Button
-                            name={prevStep ?? activeTab}
+                            name={nextStep ?? activeTab}
                             onClick={handleTabChange}
-                            disabled={isNotDefined(prevStep)}
-                            colorVariant="secondary"
-                            styleVariant="outline"
                         >
-                            {strings.simplifiedBackButton}
+                            {strings.simplifiedNextButton}
                         </Button>
-                        {isDefined(nextStep) ? (
-                            <Button
-                                name={nextStep ?? activeTab}
-                                onClick={handleTabChange}
-                                colorVariant="secondary"
-                                styleVariant="outline"
-                            >
-                                {strings.simplifiedNextButton}
-                            </Button>
-                        ) : (
-                            <Button
-                                name={undefined}
-                                onClick={handleSave}
-                            >
-                                {strings.simplifiedSaveButton}
-                            </Button>
-                        )}
-                    </div>
-                </div>
+                    ) : (
+                        <Button
+                            name={undefined}
+                            onClick={handleSave}
+                        >
+                            {strings.simplifiedSaveButton}
+                        </Button>
+                    )}
+                </ListView>
             </Page>
         </Tabs>
     );

@@ -5,10 +5,10 @@
         "operationBudget": "Budget",
         "operationApCode": "AP Code",
         "operationRemoveButton": "Remove",
-        "operationAddActivityButton": "Add Activity",
+        "operationAddActivityButton": "Add activity",
         "operationReadinessActivities": "Readiness Activities",
         "operationPrepositioningActivities": "Pre-positioning Activities",
         "operationEarlyActionActivities": "Early Action Activities",
-        "operationNoActivitesMessage": "No activities added yet"
+        "operationNoActivitiesMessage": "No activities added yet"
     }
 }

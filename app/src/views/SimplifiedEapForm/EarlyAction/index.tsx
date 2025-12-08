@@ -82,20 +82,18 @@ function EarlyAction(props: Props) {
     );
 
     return (
-        <Container
-            heading={strings.simplifiedEapActionHeading}
-        >
+        <Container heading={strings.actionHeading}>
             <ListView
                 layout="block"
                 spacing="sm"
             >
                 <InputSection
-                    title={strings.simplifiedEapIntervention}
-                    description={strings.simplifiedEapInterventionDescription}
+                    title={strings.intervention}
+                    description={strings.interventionDescription}
                     withAsteriskOnTitle
                 >
                     <TextArea
-                        label={strings.simplifiedEapActionDescription}
+                        label={strings.actionDescription}
                         name="overall_objective_intervention"
                         value={value?.overall_objective_intervention}
                         onChange={setFieldValue}
@@ -104,12 +102,12 @@ function EarlyAction(props: Props) {
                     />
                 </InputSection>
                 <InputSection
-                    title={strings.simplifiedGeographicalRiskArea}
-                    description={strings.simplifiedGeographicalRiskAreaDescription}
+                    title={strings.geographicalRiskArea}
+                    description={strings.geographicalRiskAreaDescription}
                     withAsteriskOnTitle
                 >
                     <TextArea
-                        label={strings.simplifiedEapActionDescription}
+                        label={strings.actionDescription}
                         name="potential_geographical_high_risk_areas"
                         value={value?.potential_geographical_high_risk_areas}
                         onChange={setFieldValue}
@@ -134,13 +132,13 @@ function EarlyAction(props: Props) {
                     />
                 </InputSection>
                 <InputSection
-                    title={strings.simplifiedEapActionPeopleTargeted}
-                    description={strings.simplifiedEapActionPeopleTargetedDescription}
+                    title={strings.actionPeopleTargeted}
+                    description={strings.actionPeopleTargetedDescription}
                     withAsteriskOnTitle
                     numPreferredColumns={2}
                 >
                     <NumberInput
-                        label={strings.simplifiedEapActionDescription}
+                        label={strings.actionDescription}
                         name="people_targeted"
                         value={value?.people_targeted}
                         onChange={setFieldValue}
@@ -149,12 +147,12 @@ function EarlyAction(props: Props) {
                     />
                 </InputSection>
                 <InputSection
-                    title={strings.simplifiedEapActionOperation}
-                    description={strings.simplifiedEapActionOperationDescription}
+                    title={strings.actionOperation}
+                    description={strings.actionOperationDescription}
                     withAsteriskOnTitle
                 >
                     <TextArea
-                        label={strings.simplifiedEapActionDescription}
+                        label={strings.actionDescription}
                         name="assisted_through_operation"
                         value={value?.assisted_through_operation}
                         onChange={setFieldValue}
@@ -163,11 +161,11 @@ function EarlyAction(props: Props) {
                     />
                 </InputSection>
                 <InputSection
-                    description={strings.simplifiedEapActionCriteria}
+                    description={strings.actionCriteria}
                     withAsteriskOnTitle
                 >
                     <TextArea
-                        label={strings.simplifiedEapActionDescription}
+                        label={strings.actionDescription}
                         name="selection_criteria"
                         value={value?.selection_criteria}
                         onChange={setFieldValue}
@@ -176,12 +174,12 @@ function EarlyAction(props: Props) {
                     />
                 </InputSection>
                 <InputSection
-                    title={strings.simplifiedEapActionsStatement}
-                    description={strings.simplifiedEapActionsStatementDescription}
+                    title={strings.actionsStatement}
+                    description={strings.actionsStatementDescription}
                     withAsteriskOnTitle
                 >
                     <TextArea
-                        label={strings.simplifiedEapActionDescription}
+                        label={strings.actionDescription}
                         name="trigger_statement"
                         value={value?.trigger_statement}
                         onChange={setFieldValue}
@@ -190,13 +188,13 @@ function EarlyAction(props: Props) {
                     />
                 </InputSection>
                 <InputSection
-                    title={strings.simplifiedEapActionsLeadTime}
-                    description={strings.simplifiedEapActionsLeadTimeDescription}
+                    title={strings.actionsLeadTime}
+                    description={strings.actionsLeadTimeDescription}
                     withAsteriskOnTitle
                     numPreferredColumns={2}
                 >
                     <NumberInput
-                        label={strings.simplifiedEapActionValue}
+                        label={strings.actionValue}
                         name="seap_lead_time"
                         value={value?.seap_lead_time}
                         onChange={setFieldValue}
@@ -216,13 +214,13 @@ function EarlyAction(props: Props) {
                     />
                 </InputSection>
                 <InputSection
-                    title={strings.simplifiedEapActionsOperational}
-                    description={strings.simplifiedEapActionsOperationalDescription}
+                    title={strings.actionsOperational}
+                    description={strings.actionsOperationalDescription}
                     withAsteriskOnTitle
                     numPreferredColumns={2}
                 >
                     <NumberInput
-                        label={strings.simplifiedEapActionValue}
+                        label={strings.actionValue}
                         name="operational_timeframe"
                         value={value?.operational_timeframe}
                         onChange={setFieldValue}
@@ -242,12 +240,12 @@ function EarlyAction(props: Props) {
                     />
                 </InputSection>
                 <InputSection
-                    title={strings.simplifiedEapJustification}
-                    description={strings.simplifiedEapJustificationDescription}
+                    title={strings.justification}
+                    description={strings.justificationDescription}
                     withAsteriskOnTitle
                 >
                     <TextArea
-                        label={strings.simplifiedEapActionDescription}
+                        label={strings.actionDescription}
                         name="trigger_threshold_justification"
                         value={value?.trigger_threshold_justification}
                         onChange={setFieldValue}
@@ -256,12 +254,12 @@ function EarlyAction(props: Props) {
                     />
                 </InputSection>
                 <InputSection
-                    title={strings.simplifiedEapFullEap}
-                    description={strings.simplifiedEapFullEapDescription}
+                    title={strings.fullEap}
+                    description={strings.fullEapDescription}
                     withAsteriskOnTitle
                 >
                     <TextArea
-                        label={strings.simplifiedEapActionDescription}
+                        label={strings.actionDescription}
                         name="next_step_towards_full_eap"
                         value={value?.next_step_towards_full_eap}
                         onChange={setFieldValue}

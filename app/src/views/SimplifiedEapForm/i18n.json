@@ -5,7 +5,7 @@
         "simplifiedEapDescription": "Use the following form to submit the details of your Early Action Protocols (EAP) submission. This is the Full EAP form. If you are instead looking for the Simplified EAP.",
         "simplifiedEapOverview": "Overview",
         "simplifiedEapRiskAnalysis": "Risk Analysis & Early Action Selection",
-        "simplifiedEapEarlyAction": "Early Action Interventation",
+        "simplifiedEapEarlyAction": "Early Action Intervention",
         "simplifiedPlannedOperations": "Planned Operations",
         "simplifiedEnablingApproaches": "Enabling Approaches",
         "simplifiedDeliverAndBudget": "Conditions to deliver & budgets",
@@ -13,8 +13,8 @@
         "simplifiedBackButton": "Back",
         "simplifiedNextButton": "Next",
         "simplifiedSaveButton": "Save",
-        "eapSimplifiedFailure": "Sorry could not create a new Simplifed EAP right now!",
-        "eapSimplifiedSuccess": "Successfully created a new Simplifed EAP!",
+        "eapSimplifiedFailure": "Sorry could not create a new Simplified EAP right now!",
+        "eapSimplifiedSuccess": "Successfully created a new Simplified EAP!",
         "eapSimplifiedUpdateMessage": "Simplified EAP Form updated Successfully."
     }
 }

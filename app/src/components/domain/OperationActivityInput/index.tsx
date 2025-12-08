@@ -3,7 +3,7 @@ import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
 import {
     Button,
     Checklist,
-    Container,
+    InlineLayout,
     ListView,
     SelectInput,
     TextInput,
@@ -17,22 +17,19 @@ import {
     useFormObject,
 } from '@togglecorp/toggle-form';
 
+import { type components } from '#generated/types';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import { type GoApiResponse } from '#utils/restRequest';
 
-import { type PartialSimplifiedEapType } from '../../../schema';
+import { type OperationActivityFormFields } from './schema';
+import TimeSpanCheck from './TimeSpanCheck';
 
 import i18n from './i18n.json';
 
-type ApproachesFormFields = NonNullable<PartialSimplifiedEapType['enable_approaches']>[number];
-type ActivityFormField = NonNullable<ApproachesFormFields['early_action_activities']>[number];
-
-type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
-type TimeframeOption = NonNullable<GlobalEnumsResponse['eap_timeframe']>[number];
-
-const defaultActivityValue: ActivityFormField = {
+const defaultActivityValue: OperationActivityFormFields = {
     client_id: '-1',
 };
+
+type TimeframeOption = components['schemas']['EapTimeframeEnum'];
 
 function timeframeKeySelector(option: TimeframeOption) {
     return option.key;
@@ -43,15 +40,15 @@ const timeValueKeySelector = (
 ) => option.key;
 
 interface Props {
-    value: ActivityFormField;
-    error: ArrayError<ActivityFormField> | undefined;
-    onChange: (value: SetValueArg<ActivityFormField>, index: number) => void;
+    value: OperationActivityFormFields;
+    error: ArrayError<OperationActivityFormFields> | undefined;
+    onChange: (value: SetValueArg<OperationActivityFormFields>, index: number) => void;
     onRemove: (index: number) => void;
     index: number;
     disabled?: boolean;
 }
 
-function ActivityInput(props: Props) {
+function OperationActivityInput(props: Props) {
     const {
         error: errorFromProps,
         onChange,
@@ -110,12 +107,12 @@ function ActivityInput(props: Props) {
     );
 
     return (
-        <Container
-            headerActions={(
+        <InlineLayout
+            after={(
                 <Button
                     name={index}
                     onClick={onRemove}
-                    styleVariant="outline"
+                    styleVariant="action"
                     title="Remove"
                     disabled={disabled}
                 >
@@ -123,18 +120,18 @@ function ActivityInput(props: Props) {
                 </Button>
             )}
         >
-            <ListView layout="block">
-                <ListView layout="grid" numPreferredGridColumns={3}>
-                    <TextInput
-                        label={strings.approachReadiness}
-                        name="activity"
-                        value={value.activity}
-                        onChange={onFieldChange}
-                        disabled={disabled}
-                        withAsterisk
-                    />
+            <ListView layout="grid">
+                <TextInput
+                    label={strings.operationPriorityActionLabel}
+                    name="activity"
+                    value={value.activity}
+                    onChange={onFieldChange}
+                    disabled={disabled}
+                    withAsterisk
+                />
+                <ListView layout="grid">
                     <SelectInput
-                        label={strings.approachTimeFrame}
+                        label={strings.operationTimeFrameLabel}
                         name="timeframe"
                         value={value.timeframe}
                         onChange={handleTimeframeChange}
@@ -144,23 +141,25 @@ function ActivityInput(props: Props) {
                         disabled={disabled}
                         error={error?.timeframe}
                     />
-
                     {value?.timeframe && (
                         <Checklist
-                            label={strings.approachTimeValue}
+                            label={strings.operationTimeValueLabel}
                             name="time_value"
                             value={value?.time_value}
+                            spacing="xs"
                             onChange={onFieldChange}
                             keySelector={timeValueKeySelector}
                             labelSelector={stringValueSelector}
                             options={timeValueOptions}
                             disabled={disabled}
+                            renderer={TimeSpanCheck}
+                            withoutOpticalSpacingCorrection
                         />
                     )}
                 </ListView>
             </ListView>
-        </Container>
+        </InlineLayout>
     );
 }
 
-export default ActivityInput;
+export default OperationActivityInput;

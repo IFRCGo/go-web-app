@@ -1,6 +1,5 @@
 import {
     Container,
-    Heading,
     InputSection,
     ListView,
     NumberInput,
@@ -15,6 +14,7 @@ import {
 } from '@togglecorp/toggle-form';
 
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
+import TabPage from '#components/TabPage';
 
 import { type PartialSimplifiedEapType } from '../schema';
 
@@ -43,92 +43,90 @@ function DeliveryAndBudget(props: Props) {
     const error = getErrorObject(formError);
 
     return (
-        <Container
-            heading={strings.simplifiedEapDeliverHeading}
-        >
-            <ListView
-                layout="block"
-                spacing="sm"
-            >
+        <TabPage>
+            <Container heading={strings.deliverHeading}>
+                <ListView
+                    layout="block"
+                    spacing="sm"
+                >
+                    <InputSection
+                        title={strings.deliverEarlyActions}
+                        description={strings.deliverEarlyActionsDescription}
+                        withAsteriskOnTitle
+                    >
+                        <TextArea
+                            label={strings.deliverDescription}
+                            name="early_action_capability"
+                            value={value?.early_action_capability}
+                            onChange={setFieldValue}
+                            error={error?.early_action_capability}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                    <InputSection
+                        title={strings.deliverInvolved}
+                        description={strings.deliverInvolvedDescription}
+                        withAsteriskOnTitle
+                    >
+                        <TextArea
+                            label={strings.deliverDescription}
+                            name="rcrc_movement_involvement"
+                            value={value?.rcrc_movement_involvement}
+                            onChange={setFieldValue}
+                            error={error?.rcrc_movement_involvement}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                </ListView>
+            </Container>
+            <Container heading={strings.budgetHeading}>
                 <InputSection
-                    title={strings.simplifiedEapDeliverEarlyActions}
-                    description={strings.simplifiedEapDeliverEarlyActionsDescription}
+                    title={strings.deliverTotalBudget}
+                    description={strings.deliverTotalBudgetDescription}
                     withAsteriskOnTitle
                 >
-                    <TextArea
-                        label={strings.simplifiedEapDeliverDescription}
-                        name="early_action_capability"
-                        value={value?.early_action_capability}
-                        onChange={setFieldValue}
-                        error={error?.early_action_capability}
-                        disabled={disabled}
-                    />
-                </InputSection>
-                <InputSection
-                    title={strings.simplifiedEapDeliverInvolved}
-                    description={strings.simplifiedEapDeliverInvolvedDescription}
-                    withAsteriskOnTitle
-                >
-                    <TextArea
-                        label={strings.simplifiedEapDeliverDescription}
-                        name="rcrc_movement_involvement"
-                        value={value?.rcrc_movement_involvement}
-                        onChange={setFieldValue}
-                        error={error?.rcrc_movement_involvement}
-                        disabled={disabled}
-                    />
-                </InputSection>
-                <Heading level={4}>
-                    {strings.simplifiedEapDeliverBudget}
-                </Heading>
-                <InputSection
-                    title={strings.simplifiedEapDeliverTotalBudget}
-                    description={strings.simplifiedEapDeliverTotalBudgetDescription}
-                    withAsteriskOnTitle
-                >
-                    <ListView layout="block">
-                        <ListView
-                            layout="grid"
-                            numPreferredGridColumns={2}
-                        >
-                            <NumberInput
-                                name="total_budget"
-                                value={value?.total_budget}
-                                onChange={setFieldValue}
-                                error={error?.total_budget}
-                                disabled={disabled}
-                                label={strings.simplifiedEapDeliverBudgetLabel}
-                            />
-                            <NumberInput
-                                label={strings.simplifiedEapDeliverReadinessLabel}
-                                name="readiness_budget"
-                                value={value?.readiness_budget}
-                                onChange={setFieldValue}
-                                error={error?.readiness_budget}
-                                disabled={disabled}
-                            />
-                            <NumberInput
-                                label={strings.simplifiedEapDeliverPrepositioning}
-                                name="pre_positioning_budget"
-                                value={value?.pre_positioning_budget}
-                                onChange={setFieldValue}
-                                error={error?.pre_positioning_budget}
-                                disabled={disabled}
-                            />
-                            <NumberInput
-                                label={strings.simplifiedEapEarlyAction}
-                                name="early_action_budget"
-                                value={value?.early_action_budget}
-                                onChange={setFieldValue}
-                                error={error?.early_action_budget}
-                                disabled={disabled}
-                            />
-                        </ListView>
+                    <ListView
+                        layout="grid"
+                        numPreferredGridColumns={4}
+                    >
+                        <NumberInput
+                            // FIXME: total budget should be automatically calculated
+                            name="total_budget"
+                            value={value?.total_budget}
+                            onChange={setFieldValue}
+                            error={error?.total_budget}
+                            disabled={disabled}
+                            label={strings.deliverBudgetLabel}
+                        />
+                        <NumberInput
+                            label={strings.deliverReadinessLabel}
+                            name="readiness_budget"
+                            value={value?.readiness_budget}
+                            onChange={setFieldValue}
+                            error={error?.readiness_budget}
+                            disabled={disabled}
+                        />
+                        <NumberInput
+                            label={strings.deliverPrepositioning}
+                            name="pre_positioning_budget"
+                            value={value?.pre_positioning_budget}
+                            onChange={setFieldValue}
+                            error={error?.pre_positioning_budget}
+                            disabled={disabled}
+                        />
+                        <NumberInput
+                            label={strings.earlyAction}
+                            name="early_action_budget"
+                            value={value?.early_action_budget}
+                            onChange={setFieldValue}
+                            error={error?.early_action_budget}
+                            disabled={disabled}
+                        />
                     </ListView>
                 </InputSection>
                 <InputSection
-                    title={strings.simplifiedEapDeliverBudgetDetails}
-                    description={strings.simplifiedEapDeliverBudgetDetailsDescription}
+                    title={strings.deliverBudgetDetails}
+                    description={strings.deliverBudgetDetailsDescription}
                     withAsteriskOnTitle
                 >
                     <GoSingleFileInput
@@ -141,11 +139,11 @@ function DeliveryAndBudget(props: Props) {
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         disabled={disabled}
                     >
-                        {strings.simplifiedEapUpload}
+                        {strings.upload}
                     </GoSingleFileInput>
                 </InputSection>
-            </ListView>
-        </Container>
+            </Container>
+        </TabPage>
     );
 }
 
