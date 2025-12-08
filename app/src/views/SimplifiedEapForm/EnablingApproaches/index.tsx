@@ -18,7 +18,6 @@ import {
     type EntriesAsList,
     type Error,
     getErrorObject,
-    getErrorString,
     useFormArray,
 } from '@togglecorp/toggle-form';
 
@@ -46,7 +45,7 @@ interface Props {
 function approachesKeySelector(option: EnablingApproachesOption) {
     return option.key;
 }
-function EnablingApproches(props: Props) {
+function EnablingApproaches(props: Props) {
     const {
         value,
         error: formError,
@@ -166,4 +165,4 @@ function EnablingApproches(props: Props) {
     );
 }
 
-export default EnablingApproches;
+export default EnablingApproaches;

@@ -1,5 +1,8 @@
 import { useCallback } from 'react';
-import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
+import {
+    AddLineIcon,
+    DeleteBinTwoLineIcon,
+} from '@ifrc-go/icons';
 import {
     Button,
     Container,
@@ -21,10 +24,10 @@ import {
     useFormObject,
 } from '@togglecorp/toggle-form';
 
+import OperationActivityInput from '#components/domain/OperationActivityInput';
 import NonFieldError from '#components/NonFieldError';
 
 import { type PartialSimplifiedEapType } from '../../schema';
-import ActivityInput from './ActivityInput';
 
 import i18n from './i18n.json';
 
@@ -147,17 +150,18 @@ function OperationsBySectorInput(props: Props) {
                 <Button
                     name={index}
                     onClick={onRemove}
-                    styleVariant="outline"
-                    title="Button"
+                    styleVariant="action"
                     disabled={disabled}
-                    before={<DeleteBinTwoLineIcon />}
+                    title={strings.operationRemoveButton}
                 >
-                    {strings.operationRemoveButton}
+                    <DeleteBinTwoLineIcon />
                 </Button>
             )}
             withPadding
             withBackground
             initiallyExpanded
+            withHeaderBorder
+            // FIXME: add non field error and error indicator
         >
             <ListView layout="block">
                 <ListView
@@ -189,19 +193,26 @@ function OperationsBySectorInput(props: Props) {
                         error={error?.ap_code}
                     />
                 </ListView>
-                <ListView layout="block">
+                <ListView
+                    layout="block"
+                    spacing="2xs"
+                    // FIXME: following can be converted into a component and reused
+                >
                     <Container
+                        spacing="sm"
                         withDarkBackground
                         withHeaderBorder
                         withPadding
                         heading={strings.operationReadinessActivities}
                         headingLevel={5}
-                        headerActions={(
+                        footerActions={(
                             <Button
                                 styleVariant="outline"
                                 name={undefined}
                                 onClick={handleReadinessAddButtonClick}
+                                spacing="sm"
                                 disabled={disabled}
+                                before={<AddLineIcon />}
                             >
                                 {strings.operationAddActivityButton}
                             </Button>
@@ -209,7 +220,7 @@ function OperationsBySectorInput(props: Props) {
                         withCompactMessage
                         empty={isNotDefined(value.readiness_activities)
                             || value.readiness_activities.length === 0}
-                        emptyMessage={strings.operationNoActivitesMessage}
+                        emptyMessage={strings.operationNoActivitiesMessage}
                         headerDescription={(
                             <NonFieldError error={
                                 getErrorObject(error?.readiness_activities)
@@ -217,30 +228,35 @@ function OperationsBySectorInput(props: Props) {
                             />
                         )}
                     >
-                        {value?.readiness_activities?.map((activity, i) => (
-                            <ActivityInput
-                                key={activity.client_id}
-                                index={i}
-                                value={activity}
-                                onChange={onReadinessChange}
-                                onRemove={onReadinessRemove}
-                                error={getErrorObject(error?.readiness_activities)}
-                                disabled={disabled}
-                            />
-                        ))}
+                        <ListView layout="block">
+                            {value?.readiness_activities?.map((activity, i) => (
+                                <OperationActivityInput
+                                    key={activity.client_id}
+                                    index={i}
+                                    value={activity}
+                                    onChange={onReadinessChange}
+                                    onRemove={onReadinessRemove}
+                                    error={getErrorObject(error?.readiness_activities)}
+                                    disabled={disabled}
+                                />
+                            ))}
+                        </ListView>
                     </Container>
                     <Container
+                        spacing="sm"
                         withDarkBackground
                         withHeaderBorder
                         withPadding
                         heading={strings.operationPrepositioningActivities}
                         headingLevel={5}
-                        headerActions={(
+                        footerActions={(
                             <Button
                                 name={undefined}
                                 onClick={handlePrepositioningAddButtonClick}
                                 disabled={disabled}
                                 styleVariant="outline"
+                                spacing="sm"
+                                before={<AddLineIcon />}
                             >
                                 {strings.operationAddActivityButton}
                             </Button>
@@ -248,7 +264,7 @@ function OperationsBySectorInput(props: Props) {
                         withCompactMessage
                         empty={isNotDefined(value.prepositioning_activities)
                             || value.prepositioning_activities.length === 0}
-                        emptyMessage={strings.operationNoActivitesMessage}
+                        emptyMessage={strings.operationNoActivitiesMessage}
                         headerDescription={(
                             <NonFieldError error={
                                 getErrorObject(error?.prepositioning_activities)
@@ -258,7 +274,7 @@ function OperationsBySectorInput(props: Props) {
                     >
                         <ListView layout="block">
                             {value?.prepositioning_activities?.map((activity, i) => (
-                                <ActivityInput
+                                <OperationActivityInput
                                     key={activity.client_id}
                                     index={i}
                                     value={activity}
@@ -271,17 +287,20 @@ function OperationsBySectorInput(props: Props) {
                         </ListView>
                     </Container>
                     <Container
+                        spacing="sm"
                         withDarkBackground
                         withHeaderBorder
                         withPadding
                         heading={strings.operationEarlyActionActivities}
                         headingLevel={5}
-                        headerActions={(
+                        footerActions={(
                             <Button
                                 name={undefined}
                                 onClick={handleEarlyActionAddButtonClick}
                                 disabled={disabled}
                                 styleVariant="outline"
+                                spacing="sm"
+                                before={<AddLineIcon />}
                             >
                                 {strings.operationAddActivityButton}
                             </Button>
@@ -289,14 +308,14 @@ function OperationsBySectorInput(props: Props) {
                         withCompactMessage
                         empty={isNotDefined(value.early_action_activities)
                             || value.early_action_activities.length === 0}
-                        emptyMessage={strings.operationNoActivitesMessage}
+                        emptyMessage={strings.operationNoActivitiesMessage}
                         headerDescription={(
                             <NonFieldError error={getErrorObject(error?.early_action_activities)} />
                         )}
                     >
                         <ListView layout="block">
                             {value?.early_action_activities?.map((activity, i) => (
-                                <ActivityInput
+                                <OperationActivityInput
                                     key={activity.client_id}
                                     index={i}
                                     value={activity}

@@ -18,7 +18,6 @@ import {
     type EntriesAsList,
     type Error,
     getErrorObject,
-    getErrorString,
     useFormArray,
 } from '@togglecorp/toggle-form';
 
@@ -98,6 +97,7 @@ function PlannedOperations(props: Props) {
             const index = value.planned_operations?.findIndex(
                 (op) => op.title === key,
             );
+
             if (index !== undefined && index >= 0) {
                 onOperationRemove(index);
             }
