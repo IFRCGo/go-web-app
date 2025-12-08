@@ -1,5 +1,11 @@
 # go-web-app
 
+## 7.23.6
+
+### Patch Changes
+
+- b13b3db: Update Imminent DREF Final Report export timeframe unit from "months" to "days"
+
 ## 7.23.5
 
 ### Patch Changes
