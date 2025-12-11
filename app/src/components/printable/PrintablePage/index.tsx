@@ -1,4 +1,8 @@
-import React from 'react';
+import React, {
+    useEffect,
+    useRef,
+    useState,
+} from 'react';
 import { Heading } from '@ifrc-go/ui/printable';
 import { _cs } from '@togglecorp/fujs';
 
@@ -11,6 +15,7 @@ interface Props {
     children: React.ReactNode;
     heading: React.ReactNode;
     description: React.ReactNode;
+    dataReady?: boolean;
 }
 
 function PrintablePage(props: Props) {
@@ -19,10 +24,58 @@ function PrintablePage(props: Props) {
         children,
         heading,
         description,
+        dataReady = false,
     } = props;
 
+    const [previewReady, setPreviewReady] = useState(false);
+
+    const mainRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (!dataReady) {
+            return;
+        }
+
+        const mainContainer = mainRef.current;
+
+        async function waitForImages() {
+            if (!mainContainer) {
+                return;
+            }
+
+            const images = mainContainer.querySelectorAll('img');
+
+            if (images.length === 0) {
+                setPreviewReady(true);
+                return;
+            }
+
+            const promises = Array.from(images).map(
+                (image) => {
+                    if (image.complete) {
+                        return undefined;
+                    }
+
+                    return new Promise((accept) => {
+                        image.addEventListener('load', () => {
+                            accept(true);
+                        });
+                    });
+                },
+            );
+
+            await Promise.all(promises);
+            setPreviewReady(true);
+        }
+
+        waitForImages();
+    }, [dataReady]);
+
     return (
-        <main className={_cs(styles.printablePage, className)}>
+        <main
+            className={_cs(styles.printablePage, className)}
+            ref={mainRef}
+        >
             <div className={styles.headerSection}>
                 <img
                     className={styles.ifrcLogo}
@@ -40,6 +93,7 @@ function PrintablePage(props: Props) {
                 </div>
             </div>
             {children}
+            {previewReady && <div id="pdf-preview-ready" />}
         </main>
     );
 }

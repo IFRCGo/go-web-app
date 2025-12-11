@@ -48,7 +48,10 @@ export function Component() {
 
     const strings = useTranslation(i18n);
 
-    const { response: eapRegistrationResponse } = useRequest({
+    const {
+        pending: eapRegistrationPending,
+        response: eapRegistrationResponse,
+    } = useRequest({
         skip: isFalsyString(eapId),
         url: '/api/v2/eap-registration/{id}/',
         pathVariables: isTruthyString(eapId) ? {
@@ -58,7 +61,10 @@ export function Component() {
 
     const latestSimplifiedEap = eapRegistrationResponse?.simplified_eap_details[0];
 
-    const { response: simplifiedEapResponse } = useRequest({
+    const {
+        pending: simplifiedEapPending,
+        response: simplifiedEapResponse,
+    } = useRequest({
         skip: isNotDefined(latestSimplifiedEap?.id),
         url: '/api/v2/simplified-eap/{id}/',
         pathVariables: isDefined(latestSimplifiedEap?.id) ? {
@@ -125,6 +131,8 @@ export function Component() {
         disaster_type_details?.name,
     ].filter(isTruthyString).join(' | ');
 
+    const previewReady = !eapRegistrationPending && !simplifiedEapPending;
+
     return (
         <PrintablePage
             heading={(
@@ -135,6 +143,7 @@ export function Component() {
                 </>
             )}
             description={eapTitle ?? '--'}
+            dataReady={previewReady}
         >
             {isDefined(cover_image_file?.file) && (
                 <PrintableContainer>
@@ -149,7 +158,7 @@ export function Component() {
                 <div className={styles.metaItems}>
                     <PrintableDataDisplay
                         label={strings.sEapNoLabel}
-                        value="sEAP2024NP01"
+                        value="--"
                         strongValue
                         variant="block"
                         withPadding
@@ -521,7 +530,9 @@ export function Component() {
                 heading={strings.budgetHeading}
                 headingLevel={2}
             >
-                Budget details
+                <DescriptionText>
+                    Budget details
+                </DescriptionText>
             </PrintableContainer>
             <PrintableContainer
                 heading={strings.contactInformationHeading}
