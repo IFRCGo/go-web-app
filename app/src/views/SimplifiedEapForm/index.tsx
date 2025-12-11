@@ -106,7 +106,7 @@ export function Component() {
     const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
     const { eapId } = useParams<{ eapId: string }>();
 
-    const handleSimplifiedLoad = useCallback((response: GetSimplifiedResponse) => {
+    const handleSimplifiedEapLoad = useCallback((response: GetSimplifiedResponse) => {
         setFileIdToUrlMap((preMap) => {
             const newMap = {
                 ...preMap,
@@ -139,7 +139,7 @@ export function Component() {
     }, []);
 
     const loadResponseToFormValue = useCallback((response: GetSimplifiedResponse) => {
-        handleSimplifiedLoad(response);
+        handleSimplifiedEapLoad(response);
 
         const {
             planned_operations,
@@ -176,7 +176,7 @@ export function Component() {
                 prepositioning_activities: approach.prepositioning_activities?.map(injectClientId),
             })),
         });
-    }, [handleSimplifiedLoad, setValue]);
+    }, [handleSimplifiedEapLoad, setValue]);
 
     const {
         pending: fetchingEap,
@@ -227,6 +227,9 @@ export function Component() {
             setError(transformObjectError(
                 formErrors,
                 (locations) => {
+                    // FIXME: this transformation is duplicated
+                    // let's create a function to reuse it
+
                     let match = matchArray(locations, ['cover_image_file', NUM]);
                     if (isDefined(match)) {
                         return value?.cover_image_file?.client_id;
@@ -436,9 +439,6 @@ export function Component() {
             createSimplifiedEap({
                 ...validatedFormValue as EapSimplifiedRequestBody,
                 eap_registration: Number(eapId),
-
-                // FIXME: update admin2 input
-                admin2: [27485],
             });
         } else {
             updateSimplifiedEap({
