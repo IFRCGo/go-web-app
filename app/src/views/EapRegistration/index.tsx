@@ -30,6 +30,7 @@ import {
 import {
     createSubmitHandler,
     getErrorObject,
+    getErrorString,
     useForm,
 } from '@togglecorp/toggle-form';
 
@@ -57,7 +58,6 @@ import {
 } from './schema';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 type EapRegisterRequestBody = GoApiBody<'/api/v2/eap-registration/', 'POST'>;
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
@@ -252,6 +252,11 @@ export function Component() {
 
     const disabled = eapRegistrationPending || fetchingEap || updateEapRegistrationPending;
 
+    const handleNationalSocietyInputChange = useCallback((newValue: number | undefined) => {
+        setFieldValue(newValue, 'national_society');
+        setFieldValue(newValue, 'country');
+    }, [setFieldValue]);
+
     if (isDefined(eapError)) {
         return (
             <FormFailedToLoadMessage
@@ -287,21 +292,18 @@ export function Component() {
             elementRef={formContentRef}
             withBackgroundColorInMainSection
         >
-            <Container
-                heading={strings.eapApplicationDetails}
-            >
-                <ListView
-                    layout="block"
-                >
+            <Container heading={strings.eapApplicationDetails}>
+                <ListView layout="block">
                     <InputSection
                         title={strings.eapNationalSociety}
                         description={strings.eapNationalSocietyDescription}
                         withAsteriskOnTitle
+                        numPreferredColumns={2}
                     >
                         <NationalSocietySelectInput
                             error={error?.national_society}
                             name="national_society"
-                            onChange={setFieldValue}
+                            onChange={handleNationalSocietyInputChange}
                             value={value?.national_society}
                             disabled={disabled}
                             readOnly={isReadOnly}
@@ -311,6 +313,7 @@ export function Component() {
                         title={strings.eapCountry}
                         description={strings.eapCountryDescription}
                         withAsteriskOnTitle
+                        numPreferredColumns={2}
                     >
                         <CountrySelectInput
                             error={error?.country}
@@ -325,6 +328,7 @@ export function Component() {
                         title={strings.eapDisasterType}
                         description={strings.eapDisasterTypeDescription}
                         withAsteriskOnTitle
+                        numPreferredColumns={2}
                     >
                         <DisasterTypeSelectInput
                             name="disaster_type"
@@ -354,7 +358,7 @@ export function Component() {
                             />
                             <Radio
                                 name="eap_type"
-                                value={value?.eap_type === null}
+                                value={isNotDefined(value?.eap_type)}
                                 onClick={handleEapTypeClick}
                                 readOnly={isReadOnly}
                             >
@@ -371,13 +375,13 @@ export function Component() {
                         <DateInput
                             name="expected_submission_time"
                             onChange={setFieldValue}
-                            value={value?.expected_submission_time ?? undefined}
+                            value={value?.expected_submission_time}
                             error={error?.expected_submission_time}
                             readOnly={isReadOnly}
                         />
                         <Radio
                             name="expected_submission_time"
-                            value={value?.expected_submission_time === null}
+                            value={isNotDefined(value?.expected_submission_time)}
                             onClick={handleSubmissionTimeClick}
                             readOnly={isReadOnly}
                         >
@@ -392,6 +396,7 @@ export function Component() {
                         <NationalSocietyMultiSelectInput
                             name="partners"
                             value={value.partners}
+                            error={getErrorString(error?.partners)}
                             onChange={setFieldValue}
                             disabled={disabled}
                             readOnly={isReadOnly}
@@ -534,19 +539,17 @@ export function Component() {
                     </InputSection>
                 </ListView>
             </Container>
-            <div className={styles.footer}>
-                {!isReadOnly && (
-                    <ConfirmButton
-                        name={undefined}
-                        confirmHeading={strings.eapDevelopmentRegistrationHeading}
-                        confirmMessage={strings.eapDevelopmentRegistrationDescription}
-                        onConfirm={handleEapRegistration}
-                        disabled={disabled}
-                    >
-                        {strings.eapSubmitButton}
-                    </ConfirmButton>
-                )}
-            </div>
+            <ListView withCenteredContents>
+                <ConfirmButton
+                    name={undefined}
+                    confirmHeading={strings.eapDevelopmentRegistrationHeading}
+                    confirmMessage={strings.eapDevelopmentRegistrationDescription}
+                    onConfirm={handleEapRegistration}
+                    disabled={disabled || isReadOnly}
+                >
+                    {strings.eapSubmitButton}
+                </ConfirmButton>
+            </ListView>
         </Page>
     );
 }
