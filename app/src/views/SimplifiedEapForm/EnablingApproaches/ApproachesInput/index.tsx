@@ -12,7 +12,6 @@ import {
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
-    isDefined,
     isNotDefined,
     randomString,
 } from '@togglecorp/fujs';
@@ -37,7 +36,7 @@ type PrepositioningFormFields = NonNullable<EnableApproachesFormFields['preposit
 type ReadinessFormFields = NonNullable<EnableApproachesFormFields['readiness_activities']>[number];
 
 const defaultApproachValue: EnableApproachesFormFields = {
-    client_id: '-1',
+    approach: 10,
 };
 
 interface Props {
@@ -47,7 +46,7 @@ interface Props {
     onRemove: (index: number) => void;
     index: number;
     disabled?: boolean;
-    titleMap: Record<string, string> | undefined;
+    approachTitle?: React.ReactNode;
 }
 
 function OperationsBySectorInput(props: Props) {
@@ -58,18 +57,14 @@ function OperationsBySectorInput(props: Props) {
         index,
         onRemove,
         disabled,
-        titleMap,
+        approachTitle,
     } = props;
 
     const strings = useTranslation(i18n);
     const onFieldChange = useFormObject(index, onChange, defaultApproachValue);
 
-    const approachLabel = isDefined(value.title)
-        ? titleMap?.[value.title]
-        : undefined;
-
-    const error = (value && value.client_id && errorFromProps)
-        ? getErrorObject(errorFromProps?.[value.client_id])
+    const error = (value && value.approach && errorFromProps)
+        ? getErrorObject(errorFromProps?.[value.approach])
         : undefined;
 
     const {
@@ -144,7 +139,7 @@ function OperationsBySectorInput(props: Props) {
 
     return (
         <ExpandableContainer
-            heading={approachLabel ?? '--'}
+            heading={approachTitle ?? '--'}
             headerActions={(
                 <Button
                     name={index}

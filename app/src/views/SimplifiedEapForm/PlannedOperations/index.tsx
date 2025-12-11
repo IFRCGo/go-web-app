@@ -10,10 +10,7 @@ import {
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { stringValueSelector } from '@ifrc-go/ui/utils';
-import {
-    listToMap,
-    randomString,
-} from '@togglecorp/fujs';
+import { listToMap } from '@togglecorp/fujs';
 import {
     type EntriesAsList,
     type Error,
@@ -23,16 +20,16 @@ import {
 
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
+import { type components } from '#generated/types';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import { type GoApiResponse } from '#utils/restRequest';
 
 import { type PartialSimplifiedEapType } from '../schema';
 import OperationInput from './OperationsInput';
 
 import i18n from './i18n.json';
 
-type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
-type EapSectorOption = NonNullable<GlobalEnumsResponse['eap_sector']>[number];
+type EapSector = components['schemas']['EapSectorEnumKey'];
+type EapSectorOption = components['schemas']['EapSectorEnum'];
 
 type PlannedOperationFormFields = NonNullable<PartialSimplifiedEapType['planned_operations']>[number];
 function sectorKeySelector(option: EapSectorOption) {
@@ -56,14 +53,15 @@ function PlannedOperations(props: Props) {
 
     const error = getErrorObject(formError);
     const strings = useTranslation(i18n);
+    const { eap_sector: eapSectorOptions } = useGlobalEnums();
 
-    const {
-        eap_sector: eapSectorOptions,
-    } = useGlobalEnums();
-
-    const selectedOperations = (value.planned_operations ?? [])
-        .map((op) => op.title)
-        .filter((key): key is EapSectorOption['key'] => key !== undefined);
+    const eapSectorLabelMapping = useMemo(() => (
+        listToMap(
+            eapSectorOptions,
+            ({ key }) => key,
+            ({ value: label }) => label,
+        )
+    ), [eapSectorOptions]);
 
     const {
         setValue: onOperationChange,
@@ -73,51 +71,28 @@ function PlannedOperations(props: Props) {
         setFieldValue,
     );
 
-    const handleOperationSelect = useCallback((selectedKeys: EapSectorOption['key'][]) => {
-        const previousKeys = (value.planned_operations ?? [])
-            .map((op) => op.title)
-            .filter((key): key is EapSectorOption['key'] => key !== undefined);
-
-        const addedKeys = selectedKeys.filter((key) => !previousKeys.includes(key));
-        const removedKeys = previousKeys.filter((key) => !selectedKeys.includes(key));
-
-        if (addedKeys.length > 0) {
-            const newOperations = addedKeys.map((key) => ({
-                client_id: randomString(),
-                title: key,
-            }));
-
-            setFieldValue(
-                (oldValue: PlannedOperationFormFields[] = []) => [...oldValue, ...newOperations],
-                'planned_operations',
-            );
-        }
-
-        removedKeys.forEach((key) => {
-            const index = value.planned_operations?.findIndex(
-                (op) => op.title === key,
+    const handleOperationChecklistChange = useCallback((sectors: EapSector[] | undefined) => {
+        setFieldValue((previousValue: PlannedOperationFormFields[] | undefined) => {
+            const previousValueMapping = listToMap(
+                previousValue,
+                ({ sector }) => sector,
             );
 
-            if (index !== undefined && index >= 0) {
-                onOperationRemove(index);
-            }
-        });
-    }, [
-        value.planned_operations,
-        setFieldValue,
-        onOperationRemove,
-    ]);
+            return sectors?.map((sector) => {
+                const prevSectorValue = previousValueMapping?.[sector];
 
-    const eapSectorTitleMap = useMemo(
-        () => (
-            listToMap(
-                eapSectorOptions,
-                (sector) => sector.key,
-                (sector) => sector.value,
-            )
-        ),
-        [eapSectorOptions],
-    );
+                if (prevSectorValue) {
+                    return prevSectorValue;
+                }
+
+                return {
+                    sector,
+                } satisfies PlannedOperationFormFields;
+            });
+        }, 'planned_operations');
+    }, [setFieldValue]);
+
+    const selectedSectors = value?.planned_operations?.map(({ sector }) => sector);
 
     return (
         <TabPage>
@@ -136,8 +111,8 @@ function PlannedOperations(props: Props) {
                         <Checklist
                             name={undefined}
                             options={eapSectorOptions}
-                            value={selectedOperations}
-                            onChange={handleOperationSelect}
+                            value={selectedSectors}
+                            onChange={handleOperationChecklistChange}
                             disabled={disabled}
                             keySelector={sectorKeySelector}
                             labelSelector={stringValueSelector}
@@ -148,14 +123,14 @@ function PlannedOperations(props: Props) {
                     </InputSection>
                     {value?.planned_operations?.map((operation, index) => (
                         <OperationInput
-                            key={operation.client_id}
+                            operationTitle={eapSectorLabelMapping?.[operation.sector]}
+                            key={operation.sector}
                             index={index}
                             value={operation}
                             onChange={onOperationChange}
                             onRemove={onOperationRemove}
                             error={getErrorObject(error?.planned_operations)}
                             disabled={disabled}
-                            titleMap={eapSectorTitleMap}
                         />
                     ))}
                 </ListView>

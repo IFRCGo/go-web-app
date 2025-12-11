@@ -5,6 +5,7 @@ import {
     type LiteralSchema,
     type ObjectSchema,
     type PartialForm,
+    type PurgeNull,
     undefinedValue,
 } from '@togglecorp/toggle-form';
 
@@ -23,7 +24,7 @@ function maxOperationalTimeframeCondition(value: number | undefined) {
         : undefined;
 }
 
-type EapSimplifiedRequestBody = GoApiBody<'/api/v2/simplified-eap/', 'POST'>;
+type EapSimplifiedRequestBody = PurgeNull<GoApiBody<'/api/v2/simplified-eap/', 'POST'>>;
 
 type EnableApproachesResponse = NonNullable<EapSimplifiedRequestBody['enable_approaches']>[number];
 type EarlyActionApproachesResponse = NonNullable<EnableApproachesResponse['early_action_activities']>[number];
@@ -68,7 +69,7 @@ type EnableApproachesResponseFormFields = (
         ReadinessApproachesResponse,
         ReadinessApproachesFormFields
     >
-) & { client_id: string, title: number | undefined }
+);
 
 type OperationsResponseFormFields = (
     DeepReplace<
@@ -84,7 +85,7 @@ type OperationsResponseFormFields = (
         ReadinessResponse,
         ReadinessFormFields
     >
-) & { client_id: string, title: number | undefined }
+);
 
 type FormFields = (
     DeepReplace<
@@ -114,7 +115,7 @@ type FormFields = (
     >
 );
 
-export type PartialSimplifiedEapType = PartialForm<FormFields, 'client_id'>;
+export type PartialSimplifiedEapType = PartialForm<FormFields, 'client_id' | 'sector' | 'approach'>;
 type PlannedOperationalFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['planned_operations']>[number], PartialSimplifiedEapType>['fields']>;
 type EnableApproachesFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['enable_approaches']>[number], PartialSimplifiedEapType>['fields']>;
 type CoverImageFileFormFields = ReturnType<ObjectSchema<PartialSimplifiedEapType['cover_image_file'], PartialSimplifiedEapType>['fields']>;
@@ -143,7 +144,7 @@ export type ValidContactFieldPrefixes = ExtractContactPrefix<FieldKeys>;
 
 function getContactSchema<KEY extends ValidContactFieldPrefixes>(key: KEY) {
     type ContactSchema = {
-        [K in `${KEY}_${ContactFieldSuffix}`]: LiteralSchema<string | undefined | null, PartialSimplifiedEapType>
+        [K in `${KEY}_${ContactFieldSuffix}`]: LiteralSchema<string | undefined, PartialSimplifiedEapType>
     }
 
     return {
@@ -242,12 +243,10 @@ export const formSchema: FormSchema = {
         // Planned Operations
 
         planned_operations: {
-            keySelector: (item) => item.client_id,
+            keySelector: (item) => item.sector,
             member: () => ({
                 fields: (): PlannedOperationalFields => ({
-                    client_id: {},
                     id: { defaultValue: undefinedValue },
-                    title: {},
                     sector: {},
                     budget_per_sector: {},
                     ap_code: {},
@@ -271,12 +270,10 @@ export const formSchema: FormSchema = {
         // Enabling Approaches
 
         enable_approaches: {
-            keySelector: (item) => item.client_id,
+            keySelector: (item) => item.approach,
             member: () => ({
                 fields: (): EnableApproachesFields => ({
-                    client_id: {},
                     id: { defaultValue: undefinedValue },
-                    title: {},
                     approach: {},
                     budget_per_approach: {},
                     ap_code: {},

@@ -29,19 +29,25 @@ import NonFieldError from '#components/NonFieldError';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type Value = {
-    client_id: string;
+type InputValue = {
     id?: number;
+    client_id: string;
     caption?: string | null;
 };
+
+type OutputValue = {
+    id?: number;
+    client_id: string;
+    caption?: string;
+}
 
 interface Props<N> {
     className?: string;
     name: N;
     url: SupportedPaths;
-    value: Value[] | null | undefined;
-    onChange: (value: SetValueArg<Value[] | undefined>, name: N) => void;
-    error: ArrayError<Value> | undefined;
+    value: InputValue[] | null | undefined;
+    onChange: (value: SetValueArg<OutputValue[] | undefined>, name: N) => void;
+    error: ArrayError<InputValue> | undefined;
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
     label: React.ReactNode;
