@@ -32,6 +32,7 @@ import {
     useRequest,
 } from '#utils/restRequest';
 
+import EapStatus, { type Props as EapStatusProps } from './EapStatus';
 import EapTableActions, { type Props as EapTableActionProps } from './EapTableActions';
 import Filters, { type FilterValue } from './Filters';
 
@@ -65,6 +66,7 @@ export function Component() {
     const {
         response: eapListResponse,
         pending: eapListPending,
+        retrigger: reloadEapList,
     } = useRequest({
         url: '/api/v2/eap-registration/',
         preserveResponse: true,
@@ -113,10 +115,15 @@ export function Component() {
                 strings.eapType,
                 (item) => item.eap_type_display,
             ),
-            createStringColumn<EapListItem, number>(
+            createElementColumn<EapListItem, number, EapStatusProps>(
                 'status_display',
                 strings.eapStatus,
-                (item) => item.status_display,
+                EapStatus,
+                (key, row) => ({
+                    eapId: key,
+                    status: row.status,
+                    onStatusUpdate: reloadEapList,
+                }),
             ),
             createExpandColumn<EapListItem, Key>(
                 'expandRow',
@@ -134,6 +141,7 @@ export function Component() {
             strings.eapStatus,
             expandedRow,
             handleExpandClick,
+            reloadEapList,
         ],
     );
 
