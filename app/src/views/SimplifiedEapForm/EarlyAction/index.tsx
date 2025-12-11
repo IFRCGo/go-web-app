@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
     Container,
     InputSection,
@@ -9,6 +8,7 @@ import {
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { stringValueSelector } from '@ifrc-go/ui/utils';
+import { isDefined } from '@togglecorp/fujs';
 import {
     type EntriesAsList,
     type Error,
@@ -16,19 +16,15 @@ import {
     getErrorString,
 } from '@togglecorp/toggle-form';
 
-import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
+import Admin2Input from '#components/domain/Admin2Input';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { TIMEFRAME_YEAR } from '#utils/constants';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import { type PartialSimplifiedEapType } from '../schema';
-import DistrictMap from './DistrictMap';
 
 import i18n from './i18n.json';
 
-type GetDistrictResponse = GoApiResponse<'/api/v2/district/'>;
-
-export type Admin2item = Pick<NonNullable<GetDistrictResponse['results']>[number], 'id' | 'name'>;
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 
 type TimeframeOption = NonNullable<GlobalEnumsResponse['eap_timeframe']>[number];
@@ -45,12 +41,6 @@ interface Props {
     eapRegistrationDetail?: GoApiResponse<'/api/v2/eap-registration/{id}/'>;
 }
 
-interface AdminTwo {
-    id: number;
-    name: string;
-    district_id: number;
-}
-
 function EarlyAction(props: Props) {
     const {
         value,
@@ -63,19 +53,9 @@ function EarlyAction(props: Props) {
     const strings = useTranslation(i18n);
     const error = getErrorObject(formError);
 
-    const [districtOptions, setDistrictOptions] = useState<
-        DistrictItem[] | undefined | null
-    >([]);
-
-    const [admin2Options, setAdmin2Options] = useState<
-    AdminTwo[] | undefined | null
-    >([]);
-
     const {
         eap_timeframe,
     } = useGlobalEnums();
-
-    const [districts, setDistricts] = useState<number[] | undefined>();
 
     const eapTimeframeOption = eap_timeframe?.filter(
         (item) => item.key !== TIMEFRAME_YEAR,
@@ -114,22 +94,15 @@ function EarlyAction(props: Props) {
                         error={error?.potential_geographical_high_risk_areas}
                         disabled={disabled}
                     />
-                    <DistrictMap
-                        districtsName="district"
-                        districtsValue={districts}
-                        admin2Name="admin2"
-                        admin2Value={value?.admin2}
-                        onDistrictsChange={setDistricts}
-                        districtOptions={districtOptions}
-                        onDistrictsOptionsChange={setDistrictOptions}
-                        onAdmin2Change={setFieldValue}
-                        admin2Options={admin2Options}
-                        onAdmin2OptionsChange={setAdmin2Options}
-                        countryId={eapRegistrationDetail?.country}
-                        disabled={disabled}
-                        districtsError={getErrorString(error?.admin2)}
-                        admin2Error={getErrorString(error?.admin2)}
-                    />
+                    {isDefined(eapRegistrationDetail?.country) && (
+                        <Admin2Input
+                            name="admin2"
+                            onChange={setFieldValue}
+                            value={value?.admin2}
+                            countryId={eapRegistrationDetail.country}
+                            error={getErrorString(error?.admin2)}
+                        />
+                    )}
                 </InputSection>
                 <InputSection
                     title={strings.actionPeopleTargeted}

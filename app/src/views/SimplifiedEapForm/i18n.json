@@ -2,7 +2,7 @@
     "namespace": "simplifiedEapForm",
     "strings": {
         "simplifiedEapHeading": "Simplified EAP form",
-        "simplifiedEapDescription": "Use the following form to submit the details of your Early Action Protocols (EAP) submission. This is the Full EAP form. If you are instead looking for the Simplified EAP.",
+        "simplifiedEapDescription": "Use the following form to submit the details of your Simplified Early Action Protocols (sEAP) submission",
         "simplifiedEapOverview": "Overview",
         "simplifiedEapRiskAnalysis": "Risk Analysis & Early Action Selection",
         "simplifiedEapEarlyAction": "Early Action Intervention",
