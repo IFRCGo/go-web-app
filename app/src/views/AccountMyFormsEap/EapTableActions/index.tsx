@@ -1,22 +1,32 @@
-import { TableActions } from '@ifrc-go/ui';
-import { useTranslation } from '@ifrc-go/ui/hooks';
-import { isNotDefined } from '@togglecorp/fujs';
+import {
+    Button,
+    TableActions,
+} from '@ifrc-go/ui';
+import {
+    useBooleanState,
+    useTranslation,
+} from '@ifrc-go/ui/hooks';
+import {
+    isDefined,
+    isNotDefined,
+} from '@togglecorp/fujs';
 
+import EapExportModal from '#components/domain/EapExportModal';
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import Link from '#components/Link';
+import { type components } from '#generated/types';
 import {
     EAP_TYPE_FULL,
     EAP_TYPE_SIMPLIFIED,
 } from '#utils/constants';
-import { type GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 
-type EapResponse = GoApiResponse<'/api/v2/eap-registration/{id}/'>;
+type EapType = components['schemas']['EapEapTypeEnumKey'];
 
 export interface Props {
     eapId: number;
-    eapType: EapResponse['eap_type'];
+    eapType: EapType | null | undefined;
 }
 
 function EapTableActions(props: Props) {
@@ -26,6 +36,13 @@ function EapTableActions(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
+    const [
+        showExportModal,
+        {
+            setTrue: setShowExportModalTrue,
+            setFalse: setShowExportModalFalse,
+        },
+    ] = useBooleanState(false);
 
     return (
         <TableActions
@@ -91,6 +108,22 @@ function EapTableActions(props: Props) {
                 >
                     {strings.eapEditSimplifiedLink}
                 </Link>
+            )}
+            {eapType === EAP_TYPE_SIMPLIFIED && (
+                <Button
+                    name={undefined}
+                    onClick={setShowExportModalTrue}
+                    // FIXME: use strings
+                >
+                    Export
+                </Button>
+            )}
+            {showExportModal && isDefined(eapType) && (
+                <EapExportModal
+                    eapId={eapId}
+                    eapType={eapType}
+                    onClose={setShowExportModalFalse}
+                />
             )}
         </TableActions>
     );

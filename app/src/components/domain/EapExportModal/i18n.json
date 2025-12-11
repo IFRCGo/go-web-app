@@ -1,0 +1,13 @@
+{
+    "namespace": "eapExportModal",
+    "strings": {
+        "exportTitle": "Export EAP",
+        "preparingExport": "Preparing for export...",
+        "waitingExport": "Waiting for the export to complete...",
+        "exportFailed": "Export failed",
+        "exportSuccessfully": "Export completed successfully!",
+        "downloadLinkDescription": "Click on the download link below!",
+        "downloadLinkLabel": "Download PDF",
+        "failureToExportMessage":"Failed to export PDF."
+    }
+}

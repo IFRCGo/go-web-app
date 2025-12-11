@@ -92,7 +92,7 @@ function EapStatus(props: Props) {
     const requestBody = useMemo<EapStatusBody>(() => ({
         status: newStatus,
         review_checklist_file: undefined,
-    }), [newStatus]);
+    } as EapStatusBody), [newStatus]);
 
     const handleStatusUpdateCancel = useCallback(() => {
         setNewStatus(undefined);
