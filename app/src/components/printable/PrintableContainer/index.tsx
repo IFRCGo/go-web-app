@@ -29,12 +29,18 @@ function PrintableContainer(props: Props) {
         <>
             {breakBefore && <div className={styles.pageBreak} />}
             {heading && (
-                <Heading level={headingLevel}>
+                <Heading
+                    level={headingLevel}
+                    className={styles.heading}
+                >
                     {heading}
                 </Heading>
             )}
             {children}
-            <div style={{ marginBlockEnd: spacing }} />
+            <div
+                className={styles.blockSpacing}
+                style={{ marginBlockEnd: spacing }}
+            />
             {breakAfter && <div className={styles.pageBreak} />}
         </>
     );

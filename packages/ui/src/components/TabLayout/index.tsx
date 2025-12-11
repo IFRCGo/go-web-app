@@ -1,4 +1,7 @@
-import { CheckFillIcon } from '@ifrc-go/icons';
+import {
+    CheckFillIcon,
+    CloseLineIcon,
+} from '@ifrc-go/icons';
 import { _cs } from '@togglecorp/fujs';
 
 import InlineLayout, { type Props as InlineLayoutProps } from '#components/InlineLayout';
@@ -79,7 +82,6 @@ function TabLayout(props: Props) {
                 stepCompleted && styles.completed,
                 disabled && styles.disabled,
                 active && styles.active,
-                // FIXME: implement this
                 errored && styles.errored,
                 className,
             )}
@@ -87,7 +89,6 @@ function TabLayout(props: Props) {
             withAdditionalInlinePadding={styleVariant === 'pill'}
         >
             {children}
-            <span className={styles.visualFeedback} />
         </InlineLayout>
     );
 
@@ -125,9 +126,10 @@ function TabLayout(props: Props) {
                 <div className={styles.dotWrapper}>
                     <div className={styles.beforeDot} />
                     <div className={styles.dot}>
-                        {stepCompleted && (
+                        {!errored && stepCompleted && (
                             <CheckFillIcon className={styles.icon} />
                         )}
+                        {errored && <CloseLineIcon className={styles.icon} />}
                     </div>
                     <div className={styles.afterDot} />
                 </div>
