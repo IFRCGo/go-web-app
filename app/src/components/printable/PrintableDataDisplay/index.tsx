@@ -55,7 +55,7 @@ interface NodeProps {
     value?: React.ReactNode;
 }
 
-export type Props = BaseProps & (
+type Props = BaseProps & (
     NodeProps | TextProps | DateProps | NumberProps | BooleanProps
 );
 

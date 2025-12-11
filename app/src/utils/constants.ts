@@ -230,6 +230,6 @@ export const EAP_TYPE_FULL = 10;
 
 // FIXME these need to satisfy some enum
 export const TIMEFRAME_YEAR = 10;
-export const TIMEFRAME_MONTHS = 20;
+// export const TIMEFRAME_MONTHS = 20;
 // export const TIMEFRAME_DAYS = 30;
 // export const TIMEFRAME_HOURS = 40;

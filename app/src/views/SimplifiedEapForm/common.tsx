@@ -9,7 +9,7 @@ import { type PartialSimplifiedEapType } from './schema';
 
 type TabKeys = 'overview' | 'riskAnalysis' | 'earlyAction' | 'plannedOperations' | 'approaches' | 'deliverBudget';
 
-export const overviewTabFields: (keyof PartialSimplifiedEapType)[] = [
+const overviewTabFields: (keyof PartialSimplifiedEapType)[] = [
     'cover_image_file',
     'seap_timeframe',
     'national_society_contact_name',
@@ -49,7 +49,7 @@ export const overviewTabFields: (keyof PartialSimplifiedEapType)[] = [
     'ifrc_global_ops_coordinator_phone_number',
 ] satisfies (keyof PartialSimplifiedEapType)[];
 
-export const riskAnalysisTabFields: (keyof PartialSimplifiedEapType)[] = [
+const riskAnalysisTabFields: (keyof PartialSimplifiedEapType)[] = [
     'prioritized_hazard_and_impact',
     'hazard_impact_images',
     'risks_selected_protocols',
@@ -58,7 +58,7 @@ export const riskAnalysisTabFields: (keyof PartialSimplifiedEapType)[] = [
     'selected_early_actions_images',
 ] satisfies (keyof PartialSimplifiedEapType)[];
 
-export const earlyActionTabFields: (keyof PartialSimplifiedEapType)[] = [
+const earlyActionTabFields: (keyof PartialSimplifiedEapType)[] = [
     'overall_objective_intervention',
     'potential_geographical_high_risk_areas',
     'admin2',
@@ -74,15 +74,15 @@ export const earlyActionTabFields: (keyof PartialSimplifiedEapType)[] = [
     'next_step_towards_full_eap',
 ] satisfies (keyof PartialSimplifiedEapType)[];
 
-export const plannedOperationsTabFields: (keyof PartialSimplifiedEapType)[] = [
+const plannedOperationsTabFields: (keyof PartialSimplifiedEapType)[] = [
     'planned_operations',
 ] satisfies (keyof PartialSimplifiedEapType)[];
 
-export const approachesTabFields: (keyof PartialSimplifiedEapType)[] = [
+const approachesTabFields: (keyof PartialSimplifiedEapType)[] = [
     'enable_approaches',
 ] satisfies (keyof PartialSimplifiedEapType)[];
 
-export const deliverBudgetTabFields: (keyof PartialSimplifiedEapType)[] = [
+const deliverBudgetTabFields: (keyof PartialSimplifiedEapType)[] = [
     'early_action_capability',
     'rcrc_movement_involvement',
     'total_budget',
@@ -101,8 +101,11 @@ const tabToFieldsMap = {
     deliverBudget: deliverBudgetTabFields,
 };
 
-export function checkTabErrors(error: Error<PartialSimplifiedEapType>
-    | undefined, tabKey: TabKeys) {
+// eslint-disable-next-line import/prefer-default-export
+export function checkTabErrors(
+    error: Error<PartialSimplifiedEapType> | undefined,
+    tabKey: TabKeys,
+) {
     if (isNotDefined(analyzeErrors(error))) {
         return false;
     }

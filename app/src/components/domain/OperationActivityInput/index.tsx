@@ -13,6 +13,7 @@ import { stringValueSelector } from '@ifrc-go/ui/utils';
 import {
     type ArrayError,
     getErrorObject,
+    getErrorString,
     type SetValueArg,
     useFormObject,
 } from '@togglecorp/toggle-form';
@@ -125,6 +126,7 @@ function OperationActivityInput(props: Props) {
                     label={strings.operationPriorityActionLabel}
                     name="activity"
                     value={value.activity}
+                    error={error?.activity}
                     onChange={onFieldChange}
                     disabled={disabled}
                     withAsterisk
@@ -154,6 +156,7 @@ function OperationActivityInput(props: Props) {
                             disabled={disabled}
                             renderer={TimeSpanCheck}
                             withoutOpticalSpacingCorrection
+                            error={getErrorString(error?.time_value)}
                         />
                     )}
                 </ListView>

@@ -29,7 +29,7 @@
                 "eslint-plugin-react-refresh",
                 "eslint-plugin-simple-import-sort",
                 // We are using this with dotenv and cross-var so we are getting a false positive
-                "openapi-typescript",
+                // "openapi-typescript",
                 // We are using this in eslint.config.ts but we are getting a false positive
                 "@typescript-eslint/parser",
                 "@typescript-eslint/eslint-plugin"

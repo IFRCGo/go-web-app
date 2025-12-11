@@ -81,7 +81,13 @@ export function Component() {
     );
 
     const {
-        cover_image_details,
+        disaster_type_details,
+        country_details,
+    } = eapRegistrationResponse ?? {};
+
+    const {
+        cover_image_file,
+        admin2_details,
 
         total_budget,
         readiness_budget,
@@ -113,6 +119,12 @@ export function Component() {
         national_society_contact_phone_number,
     } = simplifiedEapResponse ?? {};
 
+    const eapTitle = [
+        country_details?.name,
+        admin2_details?.map(({ name }) => name).join(', '),
+        disaster_type_details?.name,
+    ].filter(isTruthyString).join(' | ');
+
     return (
         <PrintablePage
             heading={(
@@ -122,14 +134,14 @@ export function Component() {
                     Early Action Protocol
                 </>
             )}
-            description="Nepal, Western Terai | Flood"
+            description={eapTitle ?? '--'}
         >
-            {isDefined(cover_image_details?.file) && (
+            {isDefined(cover_image_file?.file) && (
                 <PrintableContainer>
                     <Image
-                        src={cover_image_details.file}
+                        src={cover_image_file.file}
                         alt=""
-                        caption={cover_image_details.caption}
+                        caption={cover_image_file.caption}
                     />
                 </PrintableContainer>
             )}
@@ -531,7 +543,7 @@ export function Component() {
                             national_society_contact_title,
                             national_society_contact_email,
                             national_society_contact_phone_number,
-                        ].join(', ')}
+                        ].filter(isTruthyString).join(', ')}
                         variant="block"
                         strongLabel
                     />

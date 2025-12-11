@@ -190,7 +190,7 @@ export function Component() {
     });
 
     // FIXME: get the latest simplified instead of using 0
-    const latestSimplifiedEapId = eapDetailResponse?.simplified_eap_details[0]?.id;
+    const latestSimplifiedEapId = eapDetailResponse?.simplified_eap_details?.[0]?.id;
 
     // FIXME: handle errors
     useRequest({
@@ -274,7 +274,7 @@ export function Component() {
                     match = matchArray(locations, ['planned_operations', NUM]);
                     if (isDefined(match)) {
                         const [poIndex] = match;
-                        return value?.planned_operations?.[poIndex!]?.client_id;
+                        return value?.planned_operations?.[poIndex!]?.sector;
                     }
                     match = matchArray(locations, ['enable_approaches', NUM, 'early_action_activities', NUM]);
                     if (isDefined(match)) {
@@ -297,7 +297,7 @@ export function Component() {
                     match = matchArray(locations, ['enable_approaches', NUM]);
                     if (isDefined(match)) {
                         const [eaIndex] = match;
-                        return value?.enable_approaches?.[eaIndex!]?.client_id;
+                        return value?.enable_approaches?.[eaIndex!]?.approach;
                     }
                     return undefined;
                 },
@@ -338,7 +338,7 @@ export function Component() {
                 },
             } = err;
 
-            setError(transformObjectError(
+            const transformedError = transformObjectError(
                 formErrors,
                 (locations) => {
                     let match = matchArray(locations, ['cover_image_file']);
@@ -388,7 +388,7 @@ export function Component() {
                     match = matchArray(locations, ['planned_operations', NUM]);
                     if (isDefined(match)) {
                         const [poIndex] = match;
-                        return value?.planned_operations?.[poIndex!]?.client_id;
+                        return value?.planned_operations?.[poIndex!]?.sector;
                     }
 
                     match = matchArray(locations, ['enable_approaches', NUM, 'early_action_activities', NUM]);
@@ -416,11 +416,13 @@ export function Component() {
                     if (isDefined(match)) {
                         const [eaIndex] = match;
                         return value?.enable_approaches
-                            ?.[eaIndex!]?.client_id;
+                            ?.[eaIndex!]?.approach;
                     }
                     return undefined;
                 },
-            ));
+            );
+
+            setError(transformedError);
 
             alert.show(
                 strings.eapSimplifiedFailure,
