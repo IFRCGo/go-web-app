@@ -55,7 +55,10 @@ function Overview(props: Props) {
 
     return (
         <TabPage>
-            <Container heading={strings.detailsHeading}>
+            <Container
+                heading={strings.detailsHeading}
+                spacing="lg"
+            >
                 <ListView
                     layout="block"
                     spacing="sm"
@@ -135,7 +138,10 @@ function Overview(props: Props) {
                     </InputSection>
                 </ListView>
             </Container>
-            <Container heading={strings.contacts}>
+            <Container
+                heading={strings.contacts}
+                spacing="lg"
+            >
                 <ListView
                     layout="block"
                     spacing="lg"
