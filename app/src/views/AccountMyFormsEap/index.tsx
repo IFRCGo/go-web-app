@@ -169,6 +169,8 @@ export function Component() {
                     status,
                 } = eapListItem;
 
+                const eapStarted = simplified_eap_details.length > 0 || full_eap_details.length > 0;
+
                 const items = [
                     {
                         label: 'EAP Development Registration',
@@ -206,7 +208,7 @@ export function Component() {
                         } satisfies EapExpandedListItem)).toReversed()
                         : []
                     ),
-                    (isNotDefined(eap_type)
+                    ((isNotDefined(eap_type) || !eapStarted)
                         ? ({
                             label: 'EAP Application v1',
                             eap: eapListItem,
@@ -262,6 +264,7 @@ export function Component() {
                 'title',
                 '',
                 (row) => row.label,
+                { withLightText: (item) => !!item.disabled },
             ),
             createEmptyColumn<EapExpandedItem, string>(),
             createElementColumn<EapExpandedListItem, string, EapTableActionProps>(

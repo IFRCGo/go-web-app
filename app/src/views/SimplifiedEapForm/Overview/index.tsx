@@ -118,7 +118,6 @@ function Overview(props: Props) {
                             error={getErrorObject(error?.cover_image_file)}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.uploadAnImageLabel}
                             disabled={disabled}
                         />
                     </InputSection>

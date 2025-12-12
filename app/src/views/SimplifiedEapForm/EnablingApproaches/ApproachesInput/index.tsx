@@ -26,6 +26,7 @@ import {
 import OperationActivityInput from '#components/domain/OperationActivityInput';
 import NonFieldError from '#components/NonFieldError';
 
+import IndicatorInput from '../../IndicatorInput';
 import { type PartialSimplifiedEapType } from '../../schema';
 
 import i18n from './i18n.json';
@@ -34,6 +35,7 @@ type EnableApproachesFormFields = NonNullable<PartialSimplifiedEapType['enable_a
 type EarlyActionFormFields = NonNullable<EnableApproachesFormFields['early_action_activities']>[number];
 type PrepositioningFormFields = NonNullable<EnableApproachesFormFields['prepositioning_activities']>[number];
 type ReadinessFormFields = NonNullable<EnableApproachesFormFields['readiness_activities']>[number];
+type IndicatorFormFields = NonNullable<EnableApproachesFormFields['indicators']>[number];
 
 const defaultApproachValue: EnableApproachesFormFields = {
     approach: 10,
@@ -88,6 +90,13 @@ function OperationsBySectorInput(props: Props) {
         'readiness_activities' as const,
         onFieldChange,
     );
+    const {
+        setValue: onIndicatorChange,
+        removeValue: onIndicatorRemove,
+    } = useFormArray<'indicators', IndicatorFormFields>(
+        'indicators' as const,
+        onFieldChange,
+    );
 
     const handleEarlyActionAddButtonClick = useCallback(
         () => {
@@ -137,6 +146,22 @@ function OperationsBySectorInput(props: Props) {
         [onFieldChange],
     );
 
+    const handleIndicatorAddButtonClick = useCallback(
+        () => {
+            const newIndicator: IndicatorFormFields = {
+                client_id: randomString(),
+            };
+
+            onFieldChange(
+                (oldValue: IndicatorFormFields[] | undefined) => (
+                    [...(oldValue ?? []), newIndicator]
+                ),
+                'indicators' as const,
+            );
+        },
+        [onFieldChange],
+    );
+
     return (
         <ExpandableContainer
             heading={approachTitle ?? '--'}
@@ -176,16 +201,50 @@ function OperationsBySectorInput(props: Props) {
                         disabled={disabled}
                         error={error?.ap_code}
                     />
-                    <NumberInput
-                        label={strings.approachIndicatorTarget}
-                        name="indicator_target"
-                        value={value?.indicator_target}
-                        onChange={onFieldChange}
-                        disabled={disabled}
-                        error={error?.indicator_target}
-                    />
                 </ListView>
-                <ListView layout="block">
+                <ListView
+                    layout="block"
+                    spacing="2xs"
+                >
+                    <Container
+                        spacing="sm"
+                        withDarkBackground
+                        withHeaderBorder
+                        withPadding
+                        withCompactMessage
+                        headingLevel={6}
+                        // FIXME: use strings
+                        heading="Indicators"
+                        footerActions={(
+                            <Button
+                                name={undefined}
+                                onClick={handleIndicatorAddButtonClick}
+                                spacing="sm"
+                                disabled={disabled}
+                                before={<AddLineIcon />}
+                                // FIXME: use strings
+                            >
+                                Add Indicator
+                            </Button>
+                        )}
+                        empty={isNotDefined(value.indicators) || value.indicators.length === 0}
+                        // FIXME: use strings
+                        emptyMessage="No indicators yet"
+                    >
+                        <ListView layout="block">
+                            {value.indicators?.map((indicator, i) => (
+                                <IndicatorInput
+                                    key={indicator.client_id}
+                                    index={i}
+                                    value={indicator}
+                                    onChange={onIndicatorChange}
+                                    onRemove={onIndicatorRemove}
+                                    error={getErrorObject(error?.indicators)}
+                                    disabled={disabled}
+                                />
+                            ))}
+                        </ListView>
+                    </Container>
                     <Container
                         spacing="sm"
                         withDarkBackground

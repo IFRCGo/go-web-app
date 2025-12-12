@@ -7,7 +7,7 @@ import {
 
 import { type PartialSimplifiedEapType } from './schema';
 
-type TabKeys = 'overview' | 'riskAnalysis' | 'earlyAction' | 'plannedOperations' | 'approaches' | 'deliverBudget';
+export type TabKeys = 'overview' | 'riskAnalysis' | 'earlyAction' | 'plannedOperations' | 'enablingApproaches' | 'deliveryAndBudget';
 
 const overviewTabFields: (keyof PartialSimplifiedEapType)[] = [
     'cover_image_file',
@@ -78,11 +78,11 @@ const plannedOperationsTabFields: (keyof PartialSimplifiedEapType)[] = [
     'planned_operations',
 ] satisfies (keyof PartialSimplifiedEapType)[];
 
-const approachesTabFields: (keyof PartialSimplifiedEapType)[] = [
+const enablingApproachesTabFields: (keyof PartialSimplifiedEapType)[] = [
     'enable_approaches',
 ] satisfies (keyof PartialSimplifiedEapType)[];
 
-const deliverBudgetTabFields: (keyof PartialSimplifiedEapType)[] = [
+const deliveryAndBudgetTabFields: (keyof PartialSimplifiedEapType)[] = [
     'early_action_capability',
     'rcrc_movement_involvement',
     'total_budget',
@@ -92,16 +92,15 @@ const deliverBudgetTabFields: (keyof PartialSimplifiedEapType)[] = [
     'budget_file',
 ] satisfies (keyof PartialSimplifiedEapType)[];
 
-const tabToFieldsMap = {
+const tabToFieldsMap: Record<TabKeys, (keyof PartialSimplifiedEapType)[]> = {
     overview: overviewTabFields,
     riskAnalysis: riskAnalysisTabFields,
     earlyAction: earlyActionTabFields,
     plannedOperations: plannedOperationsTabFields,
-    approaches: approachesTabFields,
-    deliverBudget: deliverBudgetTabFields,
+    enablingApproaches: enablingApproachesTabFields,
+    deliveryAndBudget: deliveryAndBudgetTabFields,
 };
 
-// eslint-disable-next-line import/prefer-default-export
 export function checkTabErrors(
     error: Error<PartialSimplifiedEapType> | undefined,
     tabKey: TabKeys,

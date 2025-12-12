@@ -105,9 +105,7 @@ function PlannedOperations(props: Props) {
                         title={strings.plannedOperationsTitle}
                         description={strings.plannedOperationsDescription}
                     >
-                        <NonFieldError
-                            error={getErrorObject(error?.planned_operations)}
-                        />
+                        <NonFieldError error={getErrorObject(error?.planned_operations)} />
                         <Checklist
                             name={undefined}
                             options={eapSectorOptions}

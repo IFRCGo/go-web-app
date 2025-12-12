@@ -26,6 +26,7 @@ import {
 import OperationActivityInput from '#components/domain/OperationActivityInput';
 import NonFieldError from '#components/NonFieldError';
 
+import IndicatorInput from '../../IndicatorInput';
 import { type PartialSimplifiedEapType } from '../../schema';
 
 import i18n from './i18n.json';
@@ -34,6 +35,7 @@ type PlannedOperationFormFields = NonNullable<PartialSimplifiedEapType['planned_
 type EarlyActionFormFields = NonNullable<PlannedOperationFormFields['early_action_activities']>[number];
 type PrepositioningFormFields = NonNullable<PlannedOperationFormFields['prepositioning_activities']>[number];
 type ReadinessFormFields = NonNullable<PlannedOperationFormFields['readiness_activities']>[number];
+type IndicatorFormFields = NonNullable<PlannedOperationFormFields['indicators']>[number];
 
 const defaultOperationValue: PlannedOperationFormFields = {
     sector: 101,
@@ -88,6 +90,13 @@ function OperationsBySectorInput(props: Props) {
         'readiness_activities' as const,
         onFieldChange,
     );
+    const {
+        setValue: onIndicatorChange,
+        removeValue: onIndicatorRemove,
+    } = useFormArray<'indicators', IndicatorFormFields>(
+        'indicators' as const,
+        onFieldChange,
+    );
 
     const handleEarlyActionAddButtonClick = useCallback(
         () => {
@@ -132,6 +141,22 @@ function OperationsBySectorInput(props: Props) {
                     [...(oldValue ?? []), newActionItem]
                 ),
                 'readiness_activities' as const,
+            );
+        },
+        [onFieldChange],
+    );
+
+    const handleIndicatorAddButtonClick = useCallback(
+        () => {
+            const newIndicator: IndicatorFormFields = {
+                client_id: randomString(),
+            };
+
+            onFieldChange(
+                (oldValue: IndicatorFormFields[] | undefined) => (
+                    [...(oldValue ?? []), newIndicator]
+                ),
+                'indicators' as const,
             );
         },
         [onFieldChange],
@@ -197,11 +222,49 @@ function OperationsBySectorInput(props: Props) {
                         withDarkBackground
                         withHeaderBorder
                         withPadding
+                        withCompactMessage
+                        headingLevel={6}
+                        // FIXME: use strings
+                        heading="Indicators"
+                        footerActions={(
+                            <Button
+                                name={undefined}
+                                onClick={handleIndicatorAddButtonClick}
+                                spacing="sm"
+                                disabled={disabled}
+                                before={<AddLineIcon />}
+                                // FIXME: use strings
+                            >
+                                Add Indicator
+                            </Button>
+                        )}
+                        empty={isNotDefined(value.indicators) || value.indicators.length === 0}
+                        // FIXME: use strings
+                        emptyMessage="No indicators yet"
+                    >
+                        <ListView layout="block">
+                            {value.indicators?.map((indicator, i) => (
+                                <IndicatorInput
+                                    key={indicator.client_id}
+                                    index={i}
+                                    value={indicator}
+                                    onChange={onIndicatorChange}
+                                    onRemove={onIndicatorRemove}
+                                    error={getErrorObject(error?.indicators)}
+                                    disabled={disabled}
+                                />
+                            ))}
+                        </ListView>
+                    </Container>
+                    <Container
+                        spacing="sm"
+                        withDarkBackground
+                        withHeaderBorder
+                        withPadding
                         heading={strings.operationReadinessActivities}
                         headingLevel={5}
                         footerActions={(
                             <Button
-                                styleVariant="outline"
                                 name={undefined}
                                 onClick={handleReadinessAddButtonClick}
                                 spacing="sm"
@@ -248,7 +311,6 @@ function OperationsBySectorInput(props: Props) {
                                 name={undefined}
                                 onClick={handlePrepositioningAddButtonClick}
                                 disabled={disabled}
-                                styleVariant="outline"
                                 spacing="sm"
                                 before={<AddLineIcon />}
                             >
@@ -292,7 +354,6 @@ function OperationsBySectorInput(props: Props) {
                                 name={undefined}
                                 onClick={handleEarlyActionAddButtonClick}
                                 disabled={disabled}
-                                styleVariant="outline"
                                 spacing="sm"
                                 before={<AddLineIcon />}
                             >

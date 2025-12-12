@@ -21,6 +21,7 @@ import {
     isDefined,
     isNotDefined,
     isTruthyString,
+    listToMap,
 } from '@togglecorp/fujs';
 import {
     createSubmitHandler,
@@ -41,10 +42,14 @@ import {
 import {
     matchArray,
     NUM,
+    type ResponseObjectError,
     transformObjectError,
 } from '#utils/restRequest/error';
 
-import { checkTabErrors } from './common';
+import {
+    checkTabErrors,
+    type TabKeys,
+} from './common';
 import DeliveryAndBudget from './DeliveryAndBudget';
 import EarlyAction from './EarlyAction';
 import EnablingApproaches from './EnablingApproaches';
@@ -62,30 +67,19 @@ import styles from './styles.module.css';
 type EapSimplifiedRequestBody = GoApiBody<'/api/v2/simplified-eap/', 'POST'>;
 type GetSimplifiedResponse = GoApiResponse<'/api/v2/simplified-eap/{id}/'>;
 
-type TabKeys = 'overview' | 'riskAnalysis' | 'earlyAction' | 'plannedOperations' | 'enablingApproaches' | 'deliveryAndBudget';
-
 function getNextStep(current: TabKeys, direction: 1 | -1) {
-    if (direction === 1) {
-        const mapping: { [key in TabKeys]?: TabKeys } = {
-            overview: 'riskAnalysis',
-            riskAnalysis: 'earlyAction',
-            earlyAction: 'plannedOperations',
-            plannedOperations: 'enablingApproaches',
-            enablingApproaches: 'deliveryAndBudget',
-        };
-        return mapping[current];
-    }
-    if (direction === -1) {
-        const mapping: { [key in TabKeys]?: TabKeys } = {
-            deliveryAndBudget: 'enablingApproaches',
-            enablingApproaches: 'plannedOperations',
-            plannedOperations: 'earlyAction',
-            earlyAction: 'riskAnalysis',
-            riskAnalysis: 'overview',
-        };
-        return mapping[current];
-    }
-    return undefined;
+    const tabKeyList: TabKeys[] = [
+        'overview',
+        'riskAnalysis',
+        'earlyAction',
+        'plannedOperations',
+        'enablingApproaches',
+        'deliveryAndBudget',
+    ];
+
+    const currentIndex = tabKeyList.findIndex((key) => key === current);
+
+    return tabKeyList[currentIndex + direction];
 }
 
 /** @knipignore */
@@ -107,40 +101,57 @@ export function Component() {
     const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
     const { eapId } = useParams<{ eapId: string }>();
 
-    const handleSimplifiedEapLoad = useCallback((response: GetSimplifiedResponse) => {
-        setFileIdToUrlMap((preMap) => {
-            const newMap = {
-                ...preMap,
-            };
-
+    const updateFileUrlMapping = useCallback((response: GetSimplifiedResponse) => {
+        setFileIdToUrlMap((prevMap) => {
             const {
-                budget_file_details,
                 cover_image_file,
+
+                hazard_impact_images,
+                risk_selected_protocols_images,
+                selected_early_actions_images,
+
+                budget_file_details,
             } = response;
 
-            if (
-                budget_file_details
-                && budget_file_details.id
-                && budget_file_details.file
-            ) {
-                newMap[
-                    budget_file_details.id
-                ] = budget_file_details.file;
-            }
+            return {
+                ...prevMap,
+                ...listToMap(
+                    [
+                        cover_image_file,
+                        ...hazard_impact_images ?? [],
+                        ...risk_selected_protocols_images ?? [],
+                        ...selected_early_actions_images ?? [],
+                        budget_file_details,
+                    ].map(
+                        (eapFile) => {
+                            if (isNotDefined(eapFile)) {
+                                return undefined;
+                            }
 
-            if (
-                cover_image_file
-                && cover_image_file.id
-                && cover_image_file.file
-            ) {
-                newMap[cover_image_file.id] = cover_image_file.file;
-            }
-            return newMap;
+                            const {
+                                id,
+                                file,
+                            } = eapFile;
+
+                            if (isNotDefined(id) || isNotDefined(file)) {
+                                return undefined;
+                            }
+
+                            return {
+                                id,
+                                file,
+                            };
+                        },
+                    ).filter(isDefined),
+                    (file) => file.id,
+                    (file) => file.file,
+                ),
+            };
         });
     }, []);
 
     const loadResponseToFormValue = useCallback((response: GetSimplifiedResponse) => {
-        handleSimplifiedEapLoad(response);
+        updateFileUrlMapping(response);
 
         const {
             planned_operations,
@@ -164,20 +175,101 @@ export function Component() {
             risk_selected_protocols_images: risk_selected_protocols_images?.map(injectClientId),
 
             planned_operations: planned_operations?.map((intervention) => ({
-                ...injectClientId(intervention),
+                ...intervention,
+                indicators: intervention.indicators?.map(injectClientId),
                 early_action_activities: intervention.early_action_activities?.map(injectClientId),
                 readiness_activities: intervention.readiness_activities?.map(injectClientId),
                 prepositioning_activities: intervention.prepositioning_activities
                     ?.map(injectClientId),
             })),
             enable_approaches: enable_approaches?.map((approach) => ({
-                ...injectClientId(approach),
+                ...approach,
+                indicators: approach.indicators?.map(injectClientId),
                 early_action_activities: approach.early_action_activities?.map(injectClientId),
                 readiness_activities: approach.readiness_activities?.map(injectClientId),
                 prepositioning_activities: approach.prepositioning_activities?.map(injectClientId),
             })),
         });
-    }, [handleSimplifiedEapLoad, setValue]);
+    }, [updateFileUrlMapping, setValue]);
+
+    const processServerErrors = useCallback((errors: ResponseObjectError) => {
+        setError(transformObjectError(
+            errors,
+            (locations) => {
+                let match = matchArray(locations, ['cover_image_file', NUM]);
+                if (isDefined(match)) {
+                    return value?.cover_image_file?.client_id;
+                }
+
+                match = matchArray(locations, ['hazard_impact_images', NUM]);
+                if (isDefined(match)) {
+                    const [index] = match;
+                    return value?.hazard_impact_images?.[index!]?.client_id;
+                }
+
+                match = matchArray(locations, ['risk_selected_protocols_images', NUM]);
+                if (isDefined(match)) {
+                    const [index] = match;
+                    return value?.risk_selected_protocols_images?.[index!]?.client_id;
+                }
+
+                match = matchArray(locations, ['selected_early_actions_images', NUM]);
+                if (isDefined(match)) {
+                    const [index] = match;
+                    return value?.selected_early_actions_images?.[index!]?.client_id;
+                }
+
+                match = matchArray(locations, ['planned_operations', NUM, 'early_action_activities', NUM]);
+                if (isDefined(match)) {
+                    const [poIndex, index] = match;
+                    return value?.planned_operations?.[poIndex!]
+                        ?.early_action_activities?.[index!]?.client_id;
+                }
+                match = matchArray(locations, ['planned_operations', NUM, 'readiness_activities', NUM]);
+                if (isDefined(match)) {
+                    const [poIndex, index] = match;
+                    return value?.planned_operations?.[poIndex!]
+                        ?.readiness_activities?.[index!]?.client_id;
+                }
+                match = matchArray(locations, ['planned_operations', NUM, 'prepositioning_activities', NUM]);
+                if (isDefined(match)) {
+                    const [poIndex, index] = match;
+                    return value?.planned_operations?.[poIndex!]
+                        ?.prepositioning_activities?.[index!]?.client_id;
+                }
+                match = matchArray(locations, ['planned_operations', NUM]);
+                if (isDefined(match)) {
+                    const [poIndex] = match;
+                    return value?.planned_operations?.[poIndex!]?.sector;
+                }
+                match = matchArray(locations, ['enable_approaches', NUM, 'early_action_activities', NUM]);
+                if (isDefined(match)) {
+                    const [eaIndex, index] = match;
+                    return value?.enable_approaches?.[eaIndex!]
+                        ?.early_action_activities?.[index!]?.client_id;
+                }
+                match = matchArray(locations, ['enable_approaches', NUM, 'readiness_activities', NUM]);
+                if (isDefined(match)) {
+                    const [eaIndex, index] = match;
+                    return value?.enable_approaches?.[eaIndex!]
+                        ?.readiness_activities?.[index!]?.client_id;
+                }
+                match = matchArray(locations, ['enable_approaches', NUM, 'prepositioning_activities', NUM]);
+                if (isDefined(match)) {
+                    const [eaIndex, index] = match;
+                    return value?.enable_approaches?.[eaIndex!]
+                        ?.prepositioning_activities?.[index!]?.client_id;
+                }
+                match = matchArray(locations, ['enable_approaches', NUM]);
+                if (isDefined(match)) {
+                    const [eaIndex] = match;
+                    return value?.enable_approaches?.[eaIndex!]?.approach;
+                }
+
+                return undefined;
+            },
+        ));
+    }, [value, setError]);
 
     const {
         pending: fetchingEap,
@@ -224,91 +316,18 @@ export function Component() {
             const {
                 value: {
                     formErrors,
+                    messageForNotification,
                 },
             } = err;
 
-            setError(transformObjectError(
-                formErrors,
-                (locations) => {
-                    // FIXME: this transformation is duplicated
-                    // let's create a function to reuse it
-
-                    let match = matchArray(locations, ['cover_image_file', NUM]);
-                    if (isDefined(match)) {
-                        return value?.cover_image_file?.client_id;
-                    }
-
-                    match = matchArray(locations, ['hazard_impact_images', NUM]);
-                    if (isDefined(match)) {
-                        const [index] = match;
-                        return value?.hazard_impact_images?.[index!]?.client_id;
-                    }
-
-                    match = matchArray(locations, ['risk_selected_protocols_images', NUM]);
-                    if (isDefined(match)) {
-                        const [index] = match;
-                        return value?.risk_selected_protocols_images?.[index!]?.client_id;
-                    }
-
-                    match = matchArray(locations, ['selected_early_actions_images', NUM]);
-                    if (isDefined(match)) {
-                        const [index] = match;
-                        return value?.selected_early_actions_images?.[index!]?.client_id;
-                    }
-
-                    match = matchArray(locations, ['planned_operations', NUM, 'early_action_activities', NUM]);
-                    if (isDefined(match)) {
-                        const [poIndex, index] = match;
-                        return value?.planned_operations?.[poIndex!]
-                            ?.early_action_activities?.[index!]?.client_id;
-                    }
-                    match = matchArray(locations, ['planned_operations', NUM, 'readiness_activities', NUM]);
-                    if (isDefined(match)) {
-                        const [poIndex, index] = match;
-                        return value?.planned_operations?.[poIndex!]
-                            ?.readiness_activities?.[index!]?.client_id;
-                    }
-                    match = matchArray(locations, ['planned_operations', NUM, 'prepositioning_activities', NUM]);
-                    if (isDefined(match)) {
-                        const [poIndex, index] = match;
-                        return value?.planned_operations?.[poIndex!]
-                            ?.prepositioning_activities?.[index!]?.client_id;
-                    }
-                    match = matchArray(locations, ['planned_operations', NUM]);
-                    if (isDefined(match)) {
-                        const [poIndex] = match;
-                        return value?.planned_operations?.[poIndex!]?.sector;
-                    }
-                    match = matchArray(locations, ['enable_approaches', NUM, 'early_action_activities', NUM]);
-                    if (isDefined(match)) {
-                        const [eaIndex, index] = match;
-                        return value?.enable_approaches?.[eaIndex!]
-                            ?.early_action_activities?.[index!]?.client_id;
-                    }
-                    match = matchArray(locations, ['enable_approaches', NUM, 'readiness_activities', NUM]);
-                    if (isDefined(match)) {
-                        const [eaIndex, index] = match;
-                        return value?.enable_approaches?.[eaIndex!]
-                            ?.readiness_activities?.[index!]?.client_id;
-                    }
-                    match = matchArray(locations, ['enable_approaches', NUM, 'prepositioning_activities', NUM]);
-                    if (isDefined(match)) {
-                        const [eaIndex, index] = match;
-                        return value?.enable_approaches?.[eaIndex!]
-                            ?.prepositioning_activities?.[index!]?.client_id;
-                    }
-                    match = matchArray(locations, ['enable_approaches', NUM]);
-                    if (isDefined(match)) {
-                        const [eaIndex] = match;
-                        return value?.enable_approaches?.[eaIndex!]?.approach;
-                    }
-                    return undefined;
-                },
-            ));
+            processServerErrors(formErrors);
 
             alert.show(
                 strings.eapSimplifiedFailure,
-                { variant: 'danger' },
+                {
+                    variant: 'danger',
+                    description: messageForNotification,
+                },
             );
         },
     });
@@ -328,6 +347,8 @@ export function Component() {
                 strings.eapSimplifiedUpdateMessage,
                 { variant: 'success' },
             );
+
+            // FIXME: only navigate to accounts page for the submit action
             navigate(
                 'accountMyFormsEap',
                 { params: { eapId: response.id } },
@@ -341,91 +362,7 @@ export function Component() {
                 },
             } = err;
 
-            const transformedError = transformObjectError(
-                formErrors,
-                (locations) => {
-                    let match = matchArray(locations, ['cover_image_file']);
-                    if (isDefined(match)) {
-                        return value?.cover_image_file?.client_id;
-                    }
-
-                    match = matchArray(locations, ['hazard_impact_images', NUM]);
-                    if (isDefined(match)) {
-                        const [index] = match;
-                        return value?.hazard_impact_images?.[index!]?.client_id;
-                    }
-
-                    match = matchArray(locations, ['risk_selected_protocols_images', NUM]);
-                    if (isDefined(match)) {
-                        const [index] = match;
-                        return value?.risk_selected_protocols_images?.[index!]?.client_id;
-                    }
-
-                    match = matchArray(locations, ['selected_early_actions_images', NUM]);
-                    if (isDefined(match)) {
-                        const [index] = match;
-                        return value?.selected_early_actions_images?.[index!]?.client_id;
-                    }
-
-                    match = matchArray(locations, ['planned_operations', NUM, 'early_action_activities', NUM]);
-                    if (isDefined(match)) {
-                        const [poIndex, index] = match;
-                        return value?.planned_operations?.[poIndex!]
-                            ?.early_action_activities?.[index!]?.client_id;
-                    }
-
-                    match = matchArray(locations, ['planned_operations', NUM, 'readiness_activities', NUM]);
-                    if (isDefined(match)) {
-                        const [poIndex, index] = match;
-                        return value?.planned_operations?.[poIndex!]
-                            ?.readiness_activities?.[index!]?.client_id;
-                    }
-
-                    match = matchArray(locations, ['planned_operations', NUM, 'prepositioning_activities', NUM]);
-                    if (isDefined(match)) {
-                        const [poIndex, index] = match;
-                        return value?.planned_operations?.[poIndex!]
-                            ?.prepositioning_activities?.[index!]?.client_id;
-                    }
-
-                    match = matchArray(locations, ['planned_operations', NUM]);
-                    if (isDefined(match)) {
-                        const [poIndex] = match;
-                        return value?.planned_operations?.[poIndex!]?.sector;
-                    }
-
-                    match = matchArray(locations, ['enable_approaches', NUM, 'early_action_activities', NUM]);
-                    if (isDefined(match)) {
-                        const [eaIndex, index] = match;
-                        return value?.enable_approaches?.[eaIndex!]
-                            ?.early_action_activities?.[index!]?.client_id;
-                    }
-
-                    match = matchArray(locations, ['enable_approaches', NUM, 'readiness_activities', NUM]);
-                    if (isDefined(match)) {
-                        const [eaIndex, index] = match;
-                        return value?.enable_approaches?.[eaIndex!]
-                            ?.readiness_activities?.[index!]?.client_id;
-                    }
-
-                    match = matchArray(locations, ['enable_approaches', NUM, 'prepositioning_activities', NUM]);
-                    if (isDefined(match)) {
-                        const [eaIndex, index] = match;
-                        return value?.enable_approaches?.[eaIndex!]
-                            ?.prepositioning_activities?.[index!]?.client_id;
-                    }
-
-                    match = matchArray(locations, ['enable_approaches', NUM]);
-                    if (isDefined(match)) {
-                        const [eaIndex] = match;
-                        return value?.enable_approaches
-                            ?.[eaIndex!]?.approach;
-                    }
-                    return undefined;
-                },
-            );
-
-            setError(transformedError);
+            processServerErrors(formErrors);
 
             alert.show(
                 strings.eapSimplifiedFailure,
@@ -498,13 +435,21 @@ export function Component() {
                 heading={strings.simplifiedEapHeading}
                 description={strings.simplifiedEapDescription}
                 actions={(
-                    <Link
-                        to="accountMyFormsEap"
-                        styleVariant="outline"
-                        colorVariant="primary"
-                    >
-                        {strings.simplifiedCancelButton}
-                    </Link>
+                    <>
+                        <Link
+                            to="accountMyFormsEap"
+                            styleVariant="outline"
+                            colorVariant="primary"
+                        >
+                            {strings.simplifiedCancelButton}
+                        </Link>
+                        <Button
+                            name={undefined}
+                            onClick={handleSave}
+                        >
+                            {strings.simplifiedSaveButton}
+                        </Button>
+                    </>
                 )}
                 info={(
                     <TabList>
@@ -537,16 +482,16 @@ export function Component() {
                             {strings.simplifiedPlannedOperations}
                         </Tab>
                         <Tab
-                            name="approaches"
+                            name="enablingApproaches"
                             step={5}
-                            errored={checkTabErrors(formError, 'approaches')}
+                            errored={checkTabErrors(formError, 'enablingApproaches')}
                         >
                             {strings.simplifiedEnablingApproaches}
                         </Tab>
                         <Tab
-                            name="deliverBudget"
+                            name="deliveryAndBudget"
                             step={6}
-                            errored={checkTabErrors(formError, 'deliverBudget')}
+                            errored={checkTabErrors(formError, 'deliveryAndBudget')}
                         >
                             {strings.simplifiedDeliverAndBudget}
                         </Tab>
@@ -593,7 +538,7 @@ export function Component() {
                         disabled={disabled}
                     />
                 </TabPanel>
-                <TabPanel name="approaches">
+                <TabPanel name="enablingApproaches">
                     <EnablingApproaches
                         value={value}
                         setFieldValue={setFieldValue}
@@ -601,7 +546,7 @@ export function Component() {
                         disabled={disabled}
                     />
                 </TabPanel>
-                <TabPanel name="deliverBudget">
+                <TabPanel name="deliveryAndBudget">
                     <DeliveryAndBudget
                         value={value}
                         setFieldValue={setFieldValue}

@@ -10,7 +10,6 @@
         "disasterTypeDescription": "Select the disaster type for which the EAP is needed.",
         "uploadCoverImage": "Cover Photo",
         "uploadCoverImageDescription": "Upload a image for the cover page of the publicly published DREF application.",
-        "uploadAnImageLabel": "Select an Image",
         "timeframe": "sEAP Timeframe",
         "timeframeDescription": "A simplified EAP has a timeframe of two years (unless the early actions are activiated)",
         "contacts": "Contacts",
