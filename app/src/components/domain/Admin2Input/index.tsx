@@ -236,6 +236,7 @@ function Admin2Input<const NAME>(props: Props<NAME>) {
                 >
                     {value?.map((admin2Id) => (
                         <ButtonLayout
+                            key={admin2Id}
                             spacing="2xs"
                             after={(
                                 <Button

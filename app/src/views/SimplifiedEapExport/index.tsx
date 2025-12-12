@@ -1,4 +1,7 @@
-import { useParams, useSearchParams } from 'react-router-dom';
+import {
+    useParams,
+    useSearchParams,
+} from 'react-router-dom';
 import { Label } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -21,25 +24,6 @@ import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-// FIXME: indicators should come from the server (for each sector)
-const sampleIndicators = [
-    {
-        id: 1,
-        title: '# households would have improved access to drinking water in case of Karnali flooding.',
-        target: 420,
-    },
-    {
-        id: 2,
-        title: '# households would have improved access to drinking water in case of Babai flooding.',
-        target: 640,
-    },
-    {
-        id: 3,
-        title: '# households would have improved access to drinking water in case of West Rapti Flooding',
-        target: 440,
-    },
-];
 
 /** @knipignore */
 // eslint-disable-next-line import/prefer-default-export
@@ -360,7 +344,7 @@ export function Component() {
                                 >
                                     {strings.indicatorTargetLabel}
                                 </Label>
-                                {sampleIndicators.map((indicator) => (
+                                {operation.indicators.map((indicator) => (
                                     <PrintableDataDisplay
                                         key={indicator.id}
                                         label={indicator.title}
@@ -431,12 +415,6 @@ export function Component() {
                                 prefix="CHF "
                                 strongLabel
                             />
-                            <PrintableDataDisplay
-                                label={strings.operationPeopleTargetedLabel}
-                                value={approach.indicator_target}
-                                valueType="number"
-                                strongLabel
-                            />
                         </PrintableContainer>
                         <PrintableContainer
                             heading={strings.indicatorsHeading}
@@ -456,7 +434,7 @@ export function Component() {
                                 >
                                     {strings.indicatorTargetLabel}
                                 </Label>
-                                {sampleIndicators.map((indicator) => (
+                                {approach.indicators.map((indicator) => (
                                     <PrintableDataDisplay
                                         key={indicator.id}
                                         label={indicator.title}

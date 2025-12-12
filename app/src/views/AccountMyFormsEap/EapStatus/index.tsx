@@ -45,7 +45,6 @@ const validStatusTransition: Record<EapStatus, EapStatus[]> = {
     ],
     [EAP_STATUS_NS_ADDRESSING_COMMENTS]: [
         EAP_STATUS_UNDER_REVIEW,
-        EAP_STATUS_TECHNICALLY_VALIDATED,
     ],
     [EAP_STATUS_TECHNICALLY_VALIDATED]: [
         EAP_STATUS_UNDER_REVIEW,
@@ -156,7 +155,10 @@ function EapStatus(props: Props) {
                             </div>
                         </ListView>
                         {newStatus === EAP_STATUS_NS_ADDRESSING_COMMENTS && (
-                            <>
+                            <ListView
+                                layout="block"
+                                spacing="sm"
+                            >
                                 <RawFileInput
                                     name="review_checklist_file"
                                     onChange={setChecklistFile}
@@ -166,7 +168,7 @@ function EapStatus(props: Props) {
                                 <Label>
                                     {isDefined(checklistFile) && checklistFile.name}
                                 </Label>
-                            </>
+                            </ListView>
                         )}
                     </ListView>
                 </Modal>

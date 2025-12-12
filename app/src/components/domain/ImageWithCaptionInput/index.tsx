@@ -42,7 +42,7 @@ interface Props<NAME> {
     error: ObjectError<InputValue> | undefined;
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
-    label: React.ReactNode;
+    label?: React.ReactNode;
     before?: React.ReactNode;
     after?: React.ReactNode;
     disabled?: boolean;
@@ -52,6 +52,8 @@ interface Props<NAME> {
 
 // FIXME: Move this to components
 function ImageWithCaptionInput<const N extends string | number>(props: Props<N>) {
+    const strings = useTranslation(i18n);
+
     const {
         className,
         readOnly,
@@ -62,14 +64,12 @@ function ImageWithCaptionInput<const N extends string | number>(props: Props<N>)
         setFileIdToUrlMap,
         onChange,
         error: formError,
-        label,
+        label = strings.defaultLabel,
         before,
         after,
         disabled,
         useCurrentLanguageForMutation,
     } = props;
-
-    const strings = useTranslation(i18n);
 
     const setFieldValue = useFormObject(
         name,
@@ -119,13 +119,14 @@ function ImageWithCaptionInput<const N extends string | number>(props: Props<N>)
                 // FIXME: Make Go single file input with preview
                 description={isDefined(fileUrl) ? (
                     <Image
-                        alt={strings.imageWithCaptionPreview}
+                        alt={strings.previewFallbackText}
                         src={fileUrl}
                         size="sm"
                     />
                 ) : undefined}
                 clearable
                 useCurrentLanguageForMutation={useCurrentLanguageForMutation}
+                error={error?.id}
             >
                 {label}
             </GoSingleFileInput>
@@ -136,7 +137,7 @@ function ImageWithCaptionInput<const N extends string | number>(props: Props<N>)
                     readOnly={readOnly}
                     onChange={setFieldValue}
                     error={error?.caption}
-                    placeholder={strings.imageWithCaptionEnterCaption}
+                    placeholder={strings.captionInputPlaceholder}
                     disabled={disabled}
                 />
             )}
