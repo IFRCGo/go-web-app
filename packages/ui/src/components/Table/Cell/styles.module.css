@@ -1,0 +1,5 @@
+.cell {
+    &.with-light-text {
+        color: var(--go-ui-color-text-light);
+    }
+}

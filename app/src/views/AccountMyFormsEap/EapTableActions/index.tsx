@@ -1,4 +1,8 @@
 import {
+    DocumentPdfLineIcon,
+    DownloadTwoLineIcon,
+} from '@ifrc-go/icons';
+import {
     Button,
     TableActions,
 } from '@ifrc-go/ui';
@@ -12,12 +16,10 @@ import {
 } from '@togglecorp/fujs';
 
 import EapExportModal from '#components/domain/EapExportModal';
-import DropdownMenuItem from '#components/DropdownMenuItem';
 import Link from '#components/Link';
-import { type components } from '#generated/types';
 import {
+    EAP_STATUS_NS_ADDRESSING_COMMENTS,
     EAP_STATUS_UNDER_DEVELOPMENT,
-    EAP_STATUS_UNDER_REVIEW,
     EAP_TYPE_FULL,
     EAP_TYPE_SIMPLIFIED,
 } from '#utils/constants';
@@ -50,15 +52,13 @@ function EapTableActions(props: Props) {
 
     return (
         <TableActions>
-            {type === 'development' && eap.eap_type === EAP_TYPE_SIMPLIFIED && (
+            {type === 'development' && details?.data.is_locked && isDefined(eap.review_checklist_file) && (
                 <Link
-                    to="simplifiedEapExport"
-                    urlParams={{ eapId: eap.id }}
-                    urlSearch={isDefined(details?.data.version)
-                        ? `version=${details.data.version}`
-                        : undefined}
+                    external
+                    href={eap.review_checklist_file}
+                    before={<DownloadTwoLineIcon />}
                 >
-                    Preview Export
+                    Review Checklist
                 </Link>
             )}
             {type === 'development' && eap.eap_type === EAP_TYPE_SIMPLIFIED && (
@@ -70,16 +70,42 @@ function EapTableActions(props: Props) {
                     Export
                 </Button>
             )}
-            {type === 'development' && !details?.data.is_locked && eap.eap_type === EAP_TYPE_SIMPLIFIED && (
-                <Link
-                    to="simplifiedEapForm"
-                    urlParams={{ eapId: eap.id }}
-                    styleVariant="outline"
-                    colorVariant="primary"
-                >
-                    {strings.eapEditSimplifiedLink}
-                </Link>
+            {type === 'development' && isNotDefined(eap.eap_type) && isNotDefined(details) && (
+                <>
+                    <Link
+                        to="simplifiedEapForm"
+                        urlParams={{ eapId: eap.id }}
+                        styleVariant="outline"
+                        colorVariant="primary"
+                    >
+                        {strings.eapStartSimplifiedLink}
+                    </Link>
+                    <Link
+                        to="fullEapForm"
+                        urlParams={{ eapId: eap.id }}
+                        styleVariant="outline"
+                        colorVariant="primary"
+                    >
+                        {strings.eapStartFullLink}
+                    </Link>
+                </>
             )}
+            {type === 'development'
+                && !details?.data.is_locked
+                && eap.eap_type === EAP_TYPE_SIMPLIFIED
+                && (eap.status === EAP_STATUS_UNDER_DEVELOPMENT
+                    || (eap.status === EAP_STATUS_NS_ADDRESSING_COMMENTS
+                        && eap.latest_simplified_eap === details?.data.id))
+                && (
+                    <Link
+                        to="simplifiedEapForm"
+                        urlParams={{ eapId: eap.id }}
+                        styleVariant="outline"
+                        colorVariant="primary"
+                    >
+                        {strings.eapEditSimplifiedLink}
+                    </Link>
+                )}
             {type === 'development' && !details?.data.is_locked && eap.eap_type === EAP_TYPE_FULL && (
                 <Link
                     to="fullEapForm"
@@ -90,38 +116,18 @@ function EapTableActions(props: Props) {
                     {strings.eapEditFullLink}
                 </Link>
             )}
-            {/*
-            {isNotDefined(eapType) && (
+            {type === 'development' && eap.eap_type === EAP_TYPE_SIMPLIFIED && (
                 <Link
-                    to="fullEapForm"
-                    urlParams={{ eapId }}
-                    styleVariant="outline"
-                    colorVariant="primary"
+                    to="simplifiedEapExport"
+                    urlParams={{ eapId: eap.id }}
+                    urlSearch={isDefined(details?.data.version)
+                        ? `version=${details.data.version}`
+                        : undefined}
+                    title="Preview export"
                 >
-                    {strings.eapStartFullLink}
+                    <DocumentPdfLineIcon fontSize={18} />
                 </Link>
             )}
-            {isNotDefined(eapType) && (
-                <Link
-                    to="simplifiedEapForm"
-                    urlParams={{ eapId }}
-                    styleVariant="outline"
-                    colorVariant="primary"
-                >
-                    {strings.eapStartSimplifiedLink}
-                </Link>
-            )}
-            {eapType === EAP_TYPE_FULL && (
-                <Link
-                    to="fullEapForm"
-                    urlParams={{ eapId }}
-                    styleVariant="outline"
-                    colorVariant="primary"
-                >
-                    {strings.eapEditFullLink}
-                </Link>
-            )}
-            */}
             {showExportModal && isDefined(eap.eap_type) && (
                 <EapExportModal
                     eapId={eap.id}

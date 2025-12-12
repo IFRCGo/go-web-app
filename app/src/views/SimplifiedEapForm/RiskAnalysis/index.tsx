@@ -68,7 +68,6 @@ function RiskAnalysis(props: Props) {
                             error={getErrorObject(error?.hazard_impact_images)}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.simplifiedFormUploadlabel}
                             disabled={disabled}
                         />
                     </InputSection>
@@ -93,7 +92,6 @@ function RiskAnalysis(props: Props) {
                             error={getErrorObject(error?.risk_selected_protocols_images)}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.simplifiedFormUploadlabel}
                             disabled={disabled}
                         />
                     </InputSection>
@@ -125,7 +123,6 @@ function RiskAnalysis(props: Props) {
                             error={getErrorObject(error?.selected_early_actions_images)}
                             fileIdToUrlMap={fileIdToUrlMap}
                             setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.simplifiedFormUploadlabel}
                             disabled={disabled}
                         />
                     </InputSection>

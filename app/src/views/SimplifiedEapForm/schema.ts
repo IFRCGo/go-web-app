@@ -10,6 +10,7 @@ import {
 } from '@togglecorp/toggle-form';
 
 import operationActivitySchema from '#components/domain/OperationActivityInput/schema';
+import { positiveNumberCondition } from '#utils/form';
 import { type GoApiBody } from '#utils/restRequest';
 
 function lessThanEqualToFiveImagesCondition<T>(value: T[] | undefined) {
@@ -27,14 +28,16 @@ function maxOperationalTimeframeCondition(value: number | undefined) {
 type EapSimplifiedRequestBody = PurgeNull<GoApiBody<'/api/v2/simplified-eap/', 'POST'>>;
 
 type EnableApproachesResponse = NonNullable<EapSimplifiedRequestBody['enable_approaches']>[number];
-type EarlyActionApproachesResponse = NonNullable<EnableApproachesResponse['early_action_activities']>[number];
-type PrepositioningApproachesResponse = NonNullable<EnableApproachesResponse['prepositioning_activities']>[number];
-type ReadinessApproachesResponse = NonNullable<EnableApproachesResponse['readiness_activities']>[number];
+type ApproachEarlyActionResponse = NonNullable<EnableApproachesResponse['early_action_activities']>[number];
+type ApproachPrepositioningResponse = NonNullable<EnableApproachesResponse['prepositioning_activities']>[number];
+type ApproachReadinessResponse = NonNullable<EnableApproachesResponse['readiness_activities']>[number];
+type ApproachIndicatorResponse = NonNullable<EnableApproachesResponse['indicators']>[number];
 
-type OperationsResponse = NonNullable<EapSimplifiedRequestBody['planned_operations']>[number];
-type EarlyActionResponse = NonNullable<OperationsResponse['early_action_activities']>[number];
-type PrepositioningResponse = NonNullable<OperationsResponse['prepositioning_activities']>[number];
-type ReadinessResponse = NonNullable<OperationsResponse['readiness_activities']>[number];
+type PlannedOperationsResponse = NonNullable<EapSimplifiedRequestBody['planned_operations']>[number];
+type EarlyActionResponse = NonNullable<PlannedOperationsResponse['early_action_activities']>[number];
+type PrepositioningResponse = NonNullable<PlannedOperationsResponse['prepositioning_activities']>[number];
+type ReadinessResponse = NonNullable<PlannedOperationsResponse['readiness_activities']>[number];
+type IndicatorResponse = NonNullable<PlannedOperationsResponse['indicators']>[number];
 
 type CoverImageFileResponse = NonNullable<EapSimplifiedRequestBody['cover_image_file']>;
 
@@ -42,14 +45,17 @@ type HazardImagesResponse = NonNullable<EapSimplifiedRequestBody['hazard_impact_
 type RiskImagesResponse = NonNullable<EapSimplifiedRequestBody['risk_selected_protocols_images']>[number];
 type EarlyActionImagesResponse = NonNullable<EapSimplifiedRequestBody['selected_early_actions_images']>[number];
 
-type EarlyActionApproachesFormFields = EarlyActionApproachesResponse & { client_id: string };
-type PrepositioningApproachesFormFields = PrepositioningApproachesResponse & { client_id: string };
-type ReadinessApproachesFormFields = ReadinessApproachesResponse & { client_id: string };
+type ApproachEarlyActionFormFields = ApproachEarlyActionResponse & { client_id: string };
+type ApproachPrepositioningFormFields = ApproachPrepositioningResponse & { client_id: string };
+type ApproachReadinessFormFields = ApproachReadinessResponse & { client_id: string };
+type ApproachIndicatorFormFields = ApproachIndicatorResponse & { client_id: string };
+
 type CoverImageFileFields = CoverImageFileResponse & { client_id: string };
 
 type EarlyActionFormFields = EarlyActionResponse & { client_id: string };
 type PrepositioningFormFields = PrepositioningResponse & { client_id: string };
 type ReadinessFormFields = ReadinessResponse & { client_id: string };
+type IndicatorFormFields = IndicatorResponse & { client_id: string };
 
 type HazardImagesFormFields = HazardImagesResponse & { client_id: string };
 type RiskImagesFormFields = RiskImagesResponse & { client_id: string };
@@ -59,15 +65,19 @@ type EnableApproachesResponseFormFields = (
     DeepReplace<
         DeepReplace<
             DeepReplace<
-                EnableApproachesResponse,
-                EarlyActionApproachesResponse,
-                EarlyActionApproachesFormFields
+                DeepReplace<
+                    EnableApproachesResponse,
+                    ApproachEarlyActionResponse,
+                    ApproachEarlyActionFormFields
+                >,
+                ApproachPrepositioningResponse,
+                ApproachPrepositioningFormFields
             >,
-            PrepositioningApproachesResponse,
-            PrepositioningApproachesFormFields
+            ApproachReadinessResponse,
+            ApproachReadinessFormFields
         >,
-        ReadinessApproachesResponse,
-        ReadinessApproachesFormFields
+        ApproachIndicatorResponse,
+        ApproachIndicatorFormFields
     >
 );
 
@@ -75,15 +85,19 @@ type OperationsResponseFormFields = (
     DeepReplace<
         DeepReplace<
             DeepReplace<
-                OperationsResponse,
-                EarlyActionResponse,
-                EarlyActionFormFields
+                DeepReplace<
+                    PlannedOperationsResponse,
+                    EarlyActionResponse,
+                    EarlyActionFormFields
+                >,
+                PrepositioningResponse,
+                PrepositioningFormFields
             >,
-            PrepositioningResponse,
-            PrepositioningFormFields
+            ReadinessResponse,
+            ReadinessFormFields
         >,
-        ReadinessResponse,
-        ReadinessFormFields
+        IndicatorResponse,
+        IndicatorFormFields
     >
 );
 
@@ -95,7 +109,7 @@ type FormFields = (
                     DeepReplace<
                         DeepReplace<
                             EapSimplifiedRequestBody,
-                            OperationsResponse,
+                            PlannedOperationsResponse,
                             OperationsResponseFormFields
                         >,
                         EnableApproachesResponse,
@@ -119,6 +133,18 @@ export type PartialSimplifiedEapType = PartialForm<FormFields, 'client_id' | 'se
 type PlannedOperationalFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['planned_operations']>[number], PartialSimplifiedEapType>['fields']>;
 type EnableApproachesFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['enable_approaches']>[number], PartialSimplifiedEapType>['fields']>;
 type CoverImageFileFormFields = ReturnType<ObjectSchema<PartialSimplifiedEapType['cover_image_file'], PartialSimplifiedEapType>['fields']>;
+type IndicatorFields = ReturnType<
+    ObjectSchema<
+        NonNullable<NonNullable<PartialSimplifiedEapType['planned_operations']>[number]['indicators']>[number],
+        PartialSimplifiedEapType
+    >['fields']
+>;
+type ApproachIndicatorFields = ReturnType<
+    ObjectSchema<
+        NonNullable<NonNullable<PartialSimplifiedEapType['enable_approaches']>[number]['indicators']>[number],
+        PartialSimplifiedEapType
+    >['fields']
+>;
 
 type RiskProtocolsFileFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['risk_selected_protocols_images']>[number], PartialSimplifiedEapType>['fields']>;
 type HazardImpactFileFields = ReturnType<ObjectSchema<NonNullable<PartialSimplifiedEapType['hazard_impact_images']>[number], PartialSimplifiedEapType>['fields']>;
@@ -225,7 +251,9 @@ export const formSchema: FormSchema = {
 
         overall_objective_intervention: {},
         potential_geographical_high_risk_areas: {},
-        admin2: {},
+        admin2: {
+            defaultValue: [],
+        },
         people_targeted: { required: true },
         assisted_through_operation: {},
         selection_criteria: {},
@@ -250,6 +278,17 @@ export const formSchema: FormSchema = {
                     sector: {},
                     budget_per_sector: {},
                     ap_code: {},
+                    indicators: {
+                        keySelector: (indicator) => indicator.client_id,
+                        member: () => ({
+                            fields: (): IndicatorFields => ({
+                                client_id: {},
+                                id: { defaultValue: undefinedValue },
+                                title: {},
+                                target: { validations: [positiveNumberCondition] },
+                            }),
+                        }),
+                    },
                     people_targeted: {},
                     early_action_activities: {
                         keySelector: (item) => item.client_id,
@@ -277,7 +316,17 @@ export const formSchema: FormSchema = {
                     approach: {},
                     budget_per_approach: {},
                     ap_code: {},
-                    indicator_target: {},
+                    indicators: {
+                        keySelector: (indicator) => indicator.client_id,
+                        member: () => ({
+                            fields: (): ApproachIndicatorFields => ({
+                                client_id: {},
+                                id: { defaultValue: undefinedValue },
+                                title: {},
+                                target: { validations: [positiveNumberCondition] },
+                            }),
+                        }),
+                    },
                     early_action_activities: {
                         keySelector: (item) => item.client_id,
                         member: () => operationActivitySchema,

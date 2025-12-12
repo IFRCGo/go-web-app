@@ -1,8 +1,9 @@
 {
     "namespace": "multiImageWithCaptionInput",
     "strings": {
-        "removeImagesButtonTitle": "Remove",
-        "imagePreviewAlt": "preview",
-        "enterCaptionPlaceholder": "Enter Caption"
+        "removeImageButtonTitle": "Remove",
+        "imagePreviewFallbackText": "Preview not available",
+        "defaultLabel": "Select images",
+        "captionInputPlaceholder": "Enter caption"
     }
 }
