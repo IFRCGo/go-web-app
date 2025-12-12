@@ -334,6 +334,7 @@ export function createExpandColumn<D, K>(
 
 export function createExpansionIndicatorColumn<DATUM, KEY>(
     isExpanded?: boolean,
+    getDisabled?: (datum: DATUM) => boolean,
 ) {
     const item: Column<DATUM, KEY, ExpansionIndicatorProps, HeaderCellProps> = {
         id: randomString(),
@@ -343,7 +344,7 @@ export function createExpansionIndicatorColumn<DATUM, KEY>(
             sortable: false,
         },
         cellRenderer: ExpansionIndicator,
-        cellRendererParams: (_, __, i, data) => {
+        cellRendererParams: (_, datum, i, data) => {
             let variant: ExpansionIndicatorProps['variant'] = 'mid';
 
             if (data.length === 1) {
@@ -357,9 +358,10 @@ export function createExpansionIndicatorColumn<DATUM, KEY>(
             return {
                 isExpanded,
                 variant,
+                disabled: getDisabled?.(datum),
             };
         },
-        cellContainerClassName: styles.expansionIndicatorCellContainer,
+        cellContainerClassName: isExpanded ? styles.expansionIndicatorCellContainer : undefined,
         cellRendererClassName: styles.expansionIndicatorCell,
     };
 

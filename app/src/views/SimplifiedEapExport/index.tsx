@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { Label } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -45,6 +45,8 @@ const sampleIndicators = [
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { eapId } = useParams<{ eapId: string }>();
+    const [searchParams] = useSearchParams();
+    const version = searchParams.get('version') ?? undefined;
 
     const strings = useTranslation(i18n);
 
@@ -59,7 +61,9 @@ export function Component() {
         } : undefined,
     });
 
-    const latestSimplifiedEap = eapRegistrationResponse?.simplified_eap_details[0];
+    const latestSimplifiedEap = eapRegistrationResponse?.simplified_eap_details?.find(
+        (simplifiedEap) => String(simplifiedEap.version) === String(version),
+    );
 
     const {
         pending: simplifiedEapPending,

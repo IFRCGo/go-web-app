@@ -19,6 +19,7 @@ interface Props<DATUM, KEY extends string | number, COLUMN extends Column<DATUM,
     rowClassName?: string | ((key: KEY, datum: DATUM) => (string | undefined));
     cellClassName?: string | ((key: KEY, datum: DATUM, columnKey: string) => (string | undefined));
     rowModifier?: (rowOptions: RowOptions<DATUM, KEY>) => React.ReactNode;
+    expandedContent?: boolean;
 }
 
 function TableBodyContent<
@@ -34,6 +35,7 @@ function TableBodyContent<
         rowClassName,
         cellClassName,
         rowModifier,
+        expandedContent,
     } = props;
 
     return (
@@ -65,6 +67,7 @@ function TableBodyContent<
                             className={_cs(
                                 styles.cell,
                                 cellContainerClassName,
+                                expandedContent && styles.expandedContentCell,
                                 typeof cellClassName === 'function'
                                     ? cellClassName(key, datum, id)
                                     : cellClassName,
