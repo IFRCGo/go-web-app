@@ -17,6 +17,7 @@ import {
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { injectClientId } from '@ifrc-go/ui/utils';
 import {
+    compareNumber,
     isDefined,
     isNotDefined,
     isTruthyString,
@@ -189,8 +190,10 @@ export function Component() {
         } : undefined,
     });
 
-    // FIXME: get the latest simplified instead of using 0
-    const latestSimplifiedEapId = eapDetailResponse?.simplified_eap_details?.[0]?.id;
+    // FIXME: get the latest simplified properly
+    const latestSimplifiedEapId = eapDetailResponse?.simplified_eap_details?.toSorted(
+        (a, b) => compareNumber(a.version, b.version, -1),
+    )?.[0]?.id;
 
     // FIXME: handle errors
     useRequest({

@@ -39,6 +39,7 @@ const EXPORT_STATUS_ERRORED = 2 satisfies ExportStatusEnum;
 interface Props {
     eapId: number;
     eapType: EapType;
+    version?: number;
     onClose: () => void;
 }
 
@@ -47,6 +48,7 @@ function EapExportModal(props: Props) {
         eapId,
         eapType,
         onClose,
+        version,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -61,8 +63,9 @@ function EapExportModal(props: Props) {
             selector: '#pdf-preview-ready',
             is_pga: false,
             per_country: undefined,
+            version,
         }),
-        [eapId, eapType],
+        [eapId, eapType, version],
     );
 
     const {

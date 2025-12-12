@@ -233,3 +233,14 @@ export const TIMEFRAME_YEAR = 10;
 // export const TIMEFRAME_MONTHS = 20;
 // export const TIMEFRAME_DAYS = 30;
 // export const TIMEFRAME_HOURS = 40;
+
+type EapStatus = components['schemas']['EapEapStatusEnumKey'];
+
+export const EAP_STATUS_UNDER_DEVELOPMENT = 10 satisfies EapStatus;
+export const EAP_STATUS_UNDER_REVIEW = 20 satisfies EapStatus;
+export const EAP_STATUS_NS_ADDRESSING_COMMENTS = 30 satisfies EapStatus;
+export const EAP_STATUS_TECHNICALLY_VALIDATED = 40 satisfies EapStatus;
+export const EAP_STATUS_APPROVED = 50 satisfies EapStatus;
+export const EAP_STATUS_PFA_SIGNED = 60 satisfies EapStatus;
+export const EAP_STATUS_ACTIVATED = 70 satisfies EapStatus;
+

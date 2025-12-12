@@ -5,6 +5,11 @@
         overflow-wrap: break-word;
     }
 
+    .expanded-content-cell {
+        border-bottom-color: var(--go-ui-color-separator-light);
+        background-color: var(--go-ui-color-background);
+    }
+
     /*
     &:hover {
         .cell {

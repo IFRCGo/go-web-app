@@ -7,8 +7,10 @@ import { ArrowRightFillIcon } from '@ifrc-go/icons';
 import {
     Button,
     DropdownMenu,
+    Label,
     ListView,
     Modal,
+    RawFileInput,
 } from '@ifrc-go/ui';
 import {
     isDefined,
@@ -19,24 +21,28 @@ import DropdownMenuItem from '#components/DropdownMenuItem';
 import { type components } from '#generated/types';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import {
+    EAP_STATUS_ACTIVATED,
+    EAP_STATUS_APPROVED,
+    EAP_STATUS_NS_ADDRESSING_COMMENTS,
+    EAP_STATUS_PFA_SIGNED,
+    EAP_STATUS_TECHNICALLY_VALIDATED,
+    EAP_STATUS_UNDER_DEVELOPMENT,
+    EAP_STATUS_UNDER_REVIEW,
+} from '#utils/constants';
+import {
     type GoApiBody,
     useLazyRequest,
 } from '#utils/restRequest';
 
-type EapStatus = components['schemas']['EapEapStatusEnumKey'];
 type EapStatusBody = GoApiBody<'/api/v2/eap-registration/{id}/status/', 'POST'>;
-
-const EAP_STATUS_UNDER_DEVELOPMENT = 10 satisfies EapStatus;
-const EAP_STATUS_UNDER_REVIEW = 20 satisfies EapStatus;
-const EAP_STATUS_NS_ADDRESSING_COMMENTS = 30 satisfies EapStatus;
-const EAP_STATUS_TECHNICALLY_VALIDATED = 40 satisfies EapStatus;
-const EAP_STATUS_APPROVED = 50 satisfies EapStatus;
-const EAP_STATUS_PFA_SIGNED = 60 satisfies EapStatus;
-const EAP_STATUS_ACTIVATED = 70 satisfies EapStatus;
+type EapStatus = components['schemas']['EapEapStatusEnumKey'];
 
 const validStatusTransition: Record<EapStatus, EapStatus[]> = {
     [EAP_STATUS_UNDER_DEVELOPMENT]: [EAP_STATUS_UNDER_REVIEW],
-    [EAP_STATUS_UNDER_REVIEW]: [EAP_STATUS_NS_ADDRESSING_COMMENTS],
+    [EAP_STATUS_UNDER_REVIEW]: [
+        EAP_STATUS_NS_ADDRESSING_COMMENTS,
+        EAP_STATUS_TECHNICALLY_VALIDATED,
+    ],
     [EAP_STATUS_NS_ADDRESSING_COMMENTS]: [
         EAP_STATUS_UNDER_REVIEW,
         EAP_STATUS_TECHNICALLY_VALIDATED,
@@ -65,6 +71,7 @@ function EapStatus(props: Props) {
 
     const { eap_eap_status: eapStatusOptions } = useGlobalEnums();
     const [newStatus, setNewStatus] = useState<EapStatus | undefined>();
+    const [checklistFile, setChecklistFile] = useState<File | undefined>();
 
     const statusLabelMapping = listToMap(
         eapStatusOptions,
@@ -86,13 +93,17 @@ function EapStatus(props: Props) {
             }
             // TODO alert on status update
         },
+        formData: true,
     });
 
     // FIXME: fix typings in the server
-    const requestBody = useMemo<EapStatusBody>(() => ({
-        status: newStatus,
-        review_checklist_file: undefined,
-    } as EapStatusBody), [newStatus]);
+    const requestBody = useMemo<EapStatusBody>(
+        () => ({
+            status: newStatus,
+            review_checklist_file: checklistFile,
+        } as EapStatusBody),
+        [newStatus, checklistFile],
+    );
 
     const handleStatusUpdateCancel = useCallback(() => {
         setNewStatus(undefined);
@@ -144,6 +155,19 @@ function EapStatus(props: Props) {
                                 {statusLabelMapping?.[newStatus]}
                             </div>
                         </ListView>
+                        {newStatus === EAP_STATUS_NS_ADDRESSING_COMMENTS && (
+                            <>
+                                <RawFileInput
+                                    name="review_checklist_file"
+                                    onChange={setChecklistFile}
+                                >
+                                    Select review checklist file
+                                </RawFileInput>
+                                <Label>
+                                    {isDefined(checklistFile) && checklistFile.name}
+                                </Label>
+                            </>
+                        )}
                     </ListView>
                 </Modal>
             )}

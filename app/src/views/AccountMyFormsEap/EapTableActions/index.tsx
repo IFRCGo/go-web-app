@@ -16,24 +16,28 @@ import DropdownMenuItem from '#components/DropdownMenuItem';
 import Link from '#components/Link';
 import { type components } from '#generated/types';
 import {
+    EAP_STATUS_UNDER_DEVELOPMENT,
+    EAP_STATUS_UNDER_REVIEW,
     EAP_TYPE_FULL,
     EAP_TYPE_SIMPLIFIED,
 } from '#utils/constants';
 
+import { type EapExpandedListItem } from '../utils';
+
 import i18n from './i18n.json';
 
-type EapType = components['schemas']['EapEapTypeEnumKey'];
-
 export interface Props {
-    eapId: number;
-    eapType: EapType | null | undefined;
+    expandedListItem: EapExpandedListItem;
 }
 
 function EapTableActions(props: Props) {
+    const { expandedListItem } = props;
+
     const {
-        eapId,
-        eapType,
-    } = props;
+        type,
+        eap,
+        details,
+    } = expandedListItem;
 
     const strings = useTranslation(i18n);
     const [
@@ -45,30 +49,48 @@ function EapTableActions(props: Props) {
     ] = useBooleanState(false);
 
     return (
-        <TableActions
-            extraActions={(
-                <>
-                    <DropdownMenuItem
-                        type="link"
-                        to="eapDevelopmentRegistrationForm"
-                        urlParams={{ eapId }}
-                        // FIXME: we should use the route for read-only view
-                        state={{ mode: 'view' }}
-                    >
-                        {strings.eapViewLabel}
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                        type="link"
-                        to="eapDevelopmentRegistrationForm"
-                        urlParams={{ eapId }}
-                        // FIXME: we should use separate route for edit view
-                        state={{ mode: 'edit' }}
-                    >
-                        {strings.eapEditLabel}
-                    </DropdownMenuItem>
-                </>
+        <TableActions>
+            {type === 'development' && eap.eap_type === EAP_TYPE_SIMPLIFIED && (
+                <Link
+                    to="simplifiedEapExport"
+                    urlParams={{ eapId: eap.id }}
+                    urlSearch={isDefined(details?.data.version)
+                        ? `version=${details.data.version}`
+                        : undefined}
+                >
+                    Preview Export
+                </Link>
             )}
-        >
+            {type === 'development' && eap.eap_type === EAP_TYPE_SIMPLIFIED && (
+                <Button
+                    name={undefined}
+                    onClick={setShowExportModalTrue}
+                    // FIXME: use strings
+                >
+                    Export
+                </Button>
+            )}
+            {type === 'development' && !details?.data.is_locked && eap.eap_type === EAP_TYPE_SIMPLIFIED && (
+                <Link
+                    to="simplifiedEapForm"
+                    urlParams={{ eapId: eap.id }}
+                    styleVariant="outline"
+                    colorVariant="primary"
+                >
+                    {strings.eapEditSimplifiedLink}
+                </Link>
+            )}
+            {type === 'development' && !details?.data.is_locked && eap.eap_type === EAP_TYPE_FULL && (
+                <Link
+                    to="fullEapForm"
+                    urlParams={{ eapId: eap.id }}
+                    styleVariant="outline"
+                    colorVariant="primary"
+                >
+                    {strings.eapEditFullLink}
+                </Link>
+            )}
+            {/*
             {isNotDefined(eapType) && (
                 <Link
                     to="fullEapForm"
@@ -99,30 +121,13 @@ function EapTableActions(props: Props) {
                     {strings.eapEditFullLink}
                 </Link>
             )}
-            {eapType === EAP_TYPE_SIMPLIFIED && (
-                <Link
-                    to="simplifiedEapForm"
-                    urlParams={{ eapId }}
-                    styleVariant="outline"
-                    colorVariant="primary"
-                >
-                    {strings.eapEditSimplifiedLink}
-                </Link>
-            )}
-            {eapType === EAP_TYPE_SIMPLIFIED && (
-                <Button
-                    name={undefined}
-                    onClick={setShowExportModalTrue}
-                    // FIXME: use strings
-                >
-                    Export
-                </Button>
-            )}
-            {showExportModal && isDefined(eapType) && (
+            */}
+            {showExportModal && isDefined(eap.eap_type) && (
                 <EapExportModal
-                    eapId={eapId}
-                    eapType={eapType}
+                    eapId={eap.id}
+                    eapType={eap.eap_type}
                     onClose={setShowExportModalFalse}
+                    version={details?.data.version}
                 />
             )}
         </TableActions>
