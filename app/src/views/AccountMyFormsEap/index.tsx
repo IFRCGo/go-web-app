@@ -214,7 +214,7 @@ export function Component() {
                             eap: eapListItem,
                             type: 'development',
                             details: undefined,
-                            disabled: false,
+                            disabled: true,
                         } satisfies EapExpandedListItem)
                         : undefined
                     ),
