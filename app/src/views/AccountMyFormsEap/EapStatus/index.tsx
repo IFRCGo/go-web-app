@@ -20,6 +20,7 @@ import {
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import { type components } from '#generated/types';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import useAlert from '#hooks/useAlert';
 import {
     EAP_STATUS_ACTIVATED,
     EAP_STATUS_APPROVED,
@@ -68,6 +69,8 @@ function EapStatus(props: Props) {
         onStatusUpdate,
     } = props;
 
+    const alert = useAlert();
+
     const { eap_eap_status: eapStatusOptions } = useGlobalEnums();
     const [newStatus, setNewStatus] = useState<EapStatus | undefined>();
     const [checklistFile, setChecklistFile] = useState<File | undefined>();
@@ -90,9 +93,19 @@ function EapStatus(props: Props) {
             if (onStatusUpdate) {
                 onStatusUpdate();
             }
-            // TODO alert on status update
+
+            alert.show(
+                'Status updated successfully!',
+                { variant: 'success' },
+            );
         },
         formData: true,
+        onFailure: () => {
+            alert.show(
+                'Failed to update the status!',
+                { variant: 'danger' },
+            );
+        },
     });
 
     // FIXME: fix typings in the server
