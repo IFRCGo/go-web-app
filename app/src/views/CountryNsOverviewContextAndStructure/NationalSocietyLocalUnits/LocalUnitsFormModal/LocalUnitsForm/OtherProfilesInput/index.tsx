@@ -105,6 +105,9 @@ function OtherProfilesInput(props: Props) {
                 diffViewEnabled={showChanges}
             >
                 <NumberInput
+                    changed={
+                        showChanges && hasChanged(value.number, previousValue?.number)
+                    }
                     label={strings.otherProfilesNumberLabel}
                     name="number"
                     value={value.number}
