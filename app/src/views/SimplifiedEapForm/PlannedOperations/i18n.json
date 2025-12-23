@@ -2,6 +2,7 @@
     "namespace": "simplifiedEapForm",
     "strings": {
         "plannedOperationsTitle": "Planned Operations",
-        "plannedOperationsDescription": "Select sectors which are used in this Early Action Protocol."
+        "plannedOperationsDescription": "Select sectors which are used in this Early Action Protocol.",
+        "plannedOperationsTooltipDescription": "In this section the National Society should reflect the sectors they plan to work on and delete the sectors that are not needed. We recommend keeping the plan simple, focus on key deliverables and not on all the steps that need to be taken to reach those deliverables. In the budget template the National Society can be much more specific and list all the activities that the plan to undertake (more details regarding the budget are provided in the ‘Budget’ section."
     }
 }

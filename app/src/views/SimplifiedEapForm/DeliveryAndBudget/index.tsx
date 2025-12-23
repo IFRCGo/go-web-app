@@ -1,11 +1,14 @@
 import {
     Container,
+    InfoPopup,
     InputSection,
     ListView,
     NumberInput,
     TextArea,
+    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import { resolveToComponent } from '@ifrc-go/ui/utils';
 import {
     type EntriesAsList,
     type Error,
@@ -14,6 +17,7 @@ import {
 } from '@togglecorp/toggle-form';
 
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
+import Link from '#components/Link';
 import TabPage from '#components/TabPage';
 
 import { type PartialSimplifiedEapType } from '../schema';
@@ -52,6 +56,7 @@ function DeliveryAndBudget(props: Props) {
                     <InputSection
                         title={strings.deliverEarlyActions}
                         description={strings.deliverEarlyActionsDescription}
+                        tooltip={strings.deliverEarlyActionsTooltip}
                         withAsteriskOnTitle
                     >
                         <TextArea
@@ -66,6 +71,36 @@ function DeliveryAndBudget(props: Props) {
                     <InputSection
                         title={strings.deliverInvolved}
                         description={strings.deliverInvolvedDescription}
+                        tooltip={(
+                            <ListView layout="block">
+                                <p>{strings.deliverInvolvedTooltipDescriptionOne}</p>
+                                <TextOutput
+                                    strongLabel
+                                    label={strings.deliverInvolvedTooltipDescriptionTwo}
+                                    value={resolveToComponent(
+                                        strings.deliverInvolvedTooltipDescriptionThree,
+                                        {
+                                            guideLink: (
+                                                <Link
+                                                    href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EQn1ca51QIBCgok06lTQUFUBdmFAz3k28QkRMzbxMnRv1A?e=uBzYht"
+                                                    styleVariant="action"
+                                                    external
+                                                >
+                                                    {strings.guideLink}
+                                                </Link>
+                                            ),
+                                        },
+                                    )}
+                                />
+                                <p>{strings.deliverInvolvedTooltipDescriptionFour}</p>
+                                <ul>
+                                    <li>{strings.deliverInvolvedTooltipListOne}</li>
+                                    <li>{strings.deliverInvolvedTooltipListTwo}</li>
+                                    <li>{strings.deliverInvolvedTooltipListThree}</li>
+                                    <li>{strings.deliverInvolvedTooltipListFour}</li>
+                                </ul>
+                            </ListView>
+                        )}
                         withAsteriskOnTitle
                     >
                         <TextArea
@@ -79,7 +114,65 @@ function DeliveryAndBudget(props: Props) {
                     </InputSection>
                 </ListView>
             </Container>
-            <Container heading={strings.budgetHeading}>
+            <Container
+                heading={(
+                    <ListView layout="inline">
+                        {strings.budgetHeading}
+                        <InfoPopup
+                            description={(
+                                <ListView layout="block">
+                                    <p>
+                                        {resolveToComponent(
+                                            strings.deliverTotalBudgetTooltipDescription,
+                                            {
+                                                hereLink: (
+                                                    <Link
+                                                        href="https://ifrcorg.sharepoint.com/:x:/s/IFRCSharing/EYPXxZjKUdNJrifrpPBDAEgB0gWWyzb5SayqJqU56HvEnQ?e=GAiaFP"
+                                                        styleVariant="action"
+                                                        external
+                                                    >
+                                                        {strings.hereLink}
+                                                    </Link>
+                                                ),
+                                            },
+                                        )}
+                                    </p>
+                                    <ul>
+                                        <li>
+                                            {strings.deliverTotalBudgetTooltipListOne}
+                                        </li>
+                                        <li>
+                                            {strings.deliverTotalBudgetTooltipListTwo}
+                                        </li>
+                                        <li>
+                                            {strings.deliverTotalBudgetTooltipListThree}
+                                        </li>
+                                        <li>
+                                            {strings.deliverTotalBudgetTooltipListFour}
+                                        </li>
+                                        <li>
+                                            {strings.deliverTotalBudgetTooltipListFive}
+                                        </li>
+                                        <li>
+                                            {strings.deliverTotalBudgetTooltipListSix}
+                                        </li>
+                                        <li>
+                                            {strings.deliverTotalBudgetTooltipListSeven}
+                                        </li>
+                                        <li>
+                                            {strings.deliverTotalBudgetTooltipListEight}
+                                        </li>
+                                        <li>
+                                            {strings.deliverTotalBudgetTooltipListNine}
+                                        </li>
+                                    </ul>
+                                    {strings.deliverTotalBudgetTooltipListSix}
+                                </ListView>
+                            )}
+                        />
+                    </ListView>
+                )}
+            >
                 <ListView
                     layout="block"
                     spacing="sm"
@@ -87,6 +180,7 @@ function DeliveryAndBudget(props: Props) {
                     <InputSection
                         title={strings.deliverTotalBudget}
                         description={strings.deliverTotalBudgetDescription}
+                        tooltip={strings.deliverTotalBudgetTooltip}
                         withAsteriskOnTitle
                     >
                         <ListView
