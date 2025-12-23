@@ -1,0 +1,38 @@
+{
+  username: "admin@togglecorp.com",
+  password: "kvZYZ&Ry72R5uBA*5k",
+
+  eapForm: {
+    national_society: "Afghan Red Crescent Society",
+    country: "Afghanistan",
+    disaster_type: "Biological Emergency",
+    eap_type: "Full EAP",
+    expected_submission_time: "2025-12-18",
+
+    partners: [
+      "Albanian Red Cross",
+      "Algerian Red Crescent"
+    ],
+
+    national_society_contact: {
+      name: "Ram Bahadur",
+      title: "National Society Contact",
+      email: "ram@gmail.com",
+      phone: "1234567890"
+    },
+
+    ifrc_contact: {
+      name: "Shyam Bahadur",
+      title: "IFRC Contact",
+      email: "shyam@gmail.com",
+      phone: "12345678"
+    },
+
+    dref_focal_point: {
+      name: "Hari Bahadur",
+      title: "DREF Focal Point",
+      email: "hari@gmail.com",
+      phone: "1234567890"
+    }
+  }
+}
