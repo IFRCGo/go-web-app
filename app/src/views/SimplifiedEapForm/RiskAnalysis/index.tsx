@@ -5,6 +5,7 @@ import {
     TextArea,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import { resolveToComponent } from '@ifrc-go/ui/utils';
 import {
     type EntriesAsList,
     type Error,
@@ -12,6 +13,7 @@ import {
 } from '@togglecorp/toggle-form';
 
 import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaptionInput';
+import Link from '#components/Link';
 import TabPage from '#components/TabPage';
 
 import { type PartialSimplifiedEapType } from '../schema';
@@ -42,18 +44,77 @@ function RiskAnalysis(props: Props) {
 
     return (
         <TabPage>
-            <Container heading={strings.simplifiedEapRiskHeading}>
+            <Container heading={strings.riskHeading}>
                 <ListView
                     layout="block"
                     spacing="sm"
                 >
                     <InputSection
-                        title={strings.simplifiedHistoricalImpact}
-                        description={strings.simplifiedEapRiskDescription}
+                        title={strings.historicalImpact}
+                        description={strings.riskDescription}
+                        tooltip={(resolveToComponent(
+                            strings.riskTooltipDescription,
+                            {
+                                drefOperationsLink: (
+                                    <Link
+                                        href="https://www.ifrc.org/appeals"
+                                        styleVariant="action"
+                                        external
+                                    >
+                                        {strings.drefOperationsLink}
+                                    </Link>
+                                ),
+                                goPlatformLink: (
+                                    <Link
+                                        href="https://go.ifrc.org/"
+                                        styleVariant="action"
+                                        external
+                                    >
+                                        {strings.goPlatformLink}
+                                    </Link>
+                                ),
+                                reliefwebLink: (
+                                    <Link
+                                        href="https://reliefweb.int/countries"
+                                        styleVariant="action"
+                                        external
+                                    >
+                                        {strings.reliefwebLink}
+                                    </Link>
+                                ),
+                                desinventarLink: (
+                                    <Link
+                                        href="https://www.desinventar.net/DesInventar/index.jsp"
+                                        styleVariant="action"
+                                        external
+                                    >
+                                        {strings.desinventarLink}
+                                    </Link>
+                                ),
+                                eMdATLink: (
+                                    <Link
+                                        href="https://public.emdat.be/"
+                                        styleVariant="action"
+                                        external
+                                    >
+                                        {strings.eMdATLink}
+                                    </Link>
+                                ),
+                                idmcLink: (
+                                    <Link
+                                        href="https://www.internal-displacement.org/#:~:text=IDMC&text=Every%20day%2C%20people%20flee%20conflict,implement%20solutions%20to%20internal%20displacement."
+                                        styleVariant="action"
+                                        external
+                                    >
+                                        {strings.idmcLink}
+                                    </Link>
+                                ),
+                            },
+                        ))}
                         withAsteriskOnTitle
                     >
                         <TextArea
-                            label={strings.simplifiedFormDescriptionLabel}
+                            label={strings.riskDescriptionLabel}
                             name="prioritized_hazard_and_impact"
                             value={value?.prioritized_hazard_and_impact}
                             onChange={setFieldValue}
@@ -72,12 +133,12 @@ function RiskAnalysis(props: Props) {
                         />
                     </InputSection>
                     <InputSection
-                        title={strings.simplifiedFormRiskProtocol}
-                        description={strings.simplifiedFormRiskProtocolDescription}
+                        title={strings.riskProtocol}
+                        description={strings.riskProtocolDescription}
                         withAsteriskOnTitle
                     >
                         <TextArea
-                            label={strings.simplifiedFormDescriptionLabel}
+                            label={strings.riskDescriptionLabel}
                             name="risks_selected_protocols"
                             value={value?.risks_selected_protocols}
                             onChange={setFieldValue}
@@ -97,18 +158,57 @@ function RiskAnalysis(props: Props) {
                     </InputSection>
                 </ListView>
             </Container>
-            <Container heading={strings.simplifiedFormEarlyActionSelection}>
+            <Container heading={strings.earlyActionSelection}>
                 <ListView
                     layout="block"
                     spacing="sm"
                 >
                     <InputSection
-                        title={strings.simplifiedFormSelectedEarlyAction}
-                        description={strings.simplifiedFormSelectedEarlyActionDescription}
+                        title={strings.selectedEarlyAction}
+                        description={strings.selectedEarlyActionDescription}
+                        tooltip={(
+                            <ListView layout="block">
+                                <p>
+                                    {resolveToComponent(
+                                        strings.selectedEarlyActionTooltipDescriptionOne,
+                                        {
+                                            earlyActionsLink: (
+                                                <Link
+                                                    href="https://manual.forecast-based-financing.org/en/chapter/select-early-actions/"
+                                                    styleVariant="action"
+                                                    external
+                                                >
+                                                    {strings.earlyActionsLink}
+                                                </Link>
+                                            ),
+                                        },
+                                    )}
+                                </p>
+                                {strings.selectedEarlyActionTooltipDescriptionTwo}
+                                <ul>
+                                    <li>
+                                        {strings.selectedEarlyActionTooltipDescriptionListOne}
+                                    </li>
+                                    <li>
+                                        {strings.selectedEarlyActionTooltipDescriptionListTwo}
+                                    </li>
+                                    <li>
+                                        {strings.selectedEarlyActionTooltipDescriptionListThree}
+                                    </li>
+                                    <li>
+                                        {strings.selectedEarlyActionTooltipDescriptionListFour}
+                                    </li>
+                                    <li>
+                                        {strings.selectedEarlyActionTooltipDescriptionListFive}
+                                    </li>
+                                </ul>
+                                {strings.selectedEarlyActionTooltipDescriptionThree}
+                            </ListView>
+                        )}
                         withAsteriskOnTitle
                     >
                         <TextArea
-                            label={strings.simplifiedFormDescriptionLabel}
+                            label={strings.riskDescriptionLabel}
                             name="selected_early_actions"
                             value={value?.selected_early_actions}
                             onChange={setFieldValue}
