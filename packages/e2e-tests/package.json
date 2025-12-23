@@ -2,7 +2,9 @@
   "name": "e2e-tests",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test:e2e": "playwright test"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

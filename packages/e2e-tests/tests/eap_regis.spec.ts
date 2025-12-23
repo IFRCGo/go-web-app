@@ -1,9 +1,13 @@
 import { test, expect } from '@playwright/test';
 import JSON5 from 'json5';
 import fs from 'fs';
+import path from 'path';
 
-// Load JSON5
-const data = JSON5.parse(fs.readFileSync('eap_regis_data.json5', 'utf-8'));
+const dataPath = path.resolve(__dirname, 'eap_regis_data.json5');
+
+const data = JSON5.parse(
+  fs.readFileSync(dataPath, 'utf-8'),
+);
 
 // Function to fill contact fields
 async function fillContact(page,prefix: string,contact: { name: string; title: string; email: string; phone: string })
