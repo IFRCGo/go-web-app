@@ -103,6 +103,7 @@ function EnablingApproaches(props: Props) {
                 <InputSection
                     title={strings.enablingApproachesTitle}
                     description={strings.enablingApproachesDescription}
+                    tooltip={strings.enablingApproachesTooltip}
                 >
                     <NonFieldError error={getErrorObject(error?.enable_approaches)} />
                     <Checklist

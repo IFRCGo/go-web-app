@@ -7,10 +7,12 @@ import {
     Button,
     Container,
     ExpandableContainer,
+    InfoPopup,
     ListView,
     NumberInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
+import { resolveToComponent } from '@ifrc-go/ui/utils';
 import {
     isNotDefined,
     randomString,
@@ -24,6 +26,7 @@ import {
 } from '@togglecorp/toggle-form';
 
 import OperationActivityInput from '#components/domain/OperationActivityInput';
+import Link from '#components/Link';
 import NonFieldError from '#components/NonFieldError';
 
 import IndicatorInput from '../../IndicatorInput';
@@ -224,8 +227,7 @@ function OperationsBySectorInput(props: Props) {
                         withPadding
                         withCompactMessage
                         headingLevel={6}
-                        // FIXME: use strings
-                        heading="Indicators"
+                        heading={strings.operationIndicators}
                         footerActions={(
                             <Button
                                 name={undefined}
@@ -233,14 +235,12 @@ function OperationsBySectorInput(props: Props) {
                                 spacing="sm"
                                 disabled={disabled}
                                 before={<AddLineIcon />}
-                                // FIXME: use strings
                             >
-                                Add Indicator
+                                {strings.operationAddIndicators}
                             </Button>
                         )}
                         empty={isNotDefined(value.indicators) || value.indicators.length === 0}
-                        // FIXME: use strings
-                        emptyMessage="No indicators yet"
+                        emptyMessage={strings.operationNoindicatorsYet}
                     >
                         <ListView layout="block">
                             {value.indicators?.map((indicator, i) => (
@@ -261,7 +261,14 @@ function OperationsBySectorInput(props: Props) {
                         withDarkBackground
                         withHeaderBorder
                         withPadding
-                        heading={strings.operationReadinessActivities}
+                        heading={(
+                            <>
+                                {strings.operationReadinessActivities}
+                                <InfoPopup
+                                    description={strings.operationReadinessActivitiesTooltip}
+                                />
+                            </>
+                        )}
                         headingLevel={5}
                         footerActions={(
                             <Button
@@ -304,7 +311,14 @@ function OperationsBySectorInput(props: Props) {
                         withDarkBackground
                         withHeaderBorder
                         withPadding
-                        heading={strings.operationPrepositioningActivities}
+                        heading={(
+                            <>
+                                {strings.operationPrepositioningActivities}
+                                <InfoPopup
+                                    description={strings.operationPrepositioningActivitiesTooltip}
+                                />
+                            </>
+                        )}
                         headingLevel={5}
                         footerActions={(
                             <Button
@@ -347,7 +361,27 @@ function OperationsBySectorInput(props: Props) {
                         withDarkBackground
                         withHeaderBorder
                         withPadding
-                        heading={strings.operationEarlyActionActivities}
+                        heading={(
+                            <>
+                                {strings.operationEarlyActionActivities}
+                                <InfoPopup
+                                    description={(resolveToComponent(
+                                        strings.operationEarlyActionActivitiesTooltip,
+                                        {
+                                            earlyActionDatabaseLink: (
+                                                <Link
+                                                    href="https://www.anticipation-hub.org/experience/early-action/early-action-database/ea-list"
+                                                    styleVariant="action"
+                                                    external
+                                                >
+                                                    {strings.earlyActionDatabaseLink}
+                                                </Link>
+                                            ),
+                                        },
+                                    ))}
+                                />
+                            </>
+                        )}
                         headingLevel={5}
                         footerActions={(
                             <Button
