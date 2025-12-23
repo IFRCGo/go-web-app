@@ -104,6 +104,7 @@ function PlannedOperations(props: Props) {
                     <InputSection
                         title={strings.plannedOperationsTitle}
                         description={strings.plannedOperationsDescription}
+                        tooltip={strings.plannedOperationsTooltipDescription}
                     >
                         <NonFieldError error={getErrorObject(error?.planned_operations)} />
                         <Checklist

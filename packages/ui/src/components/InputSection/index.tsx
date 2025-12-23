@@ -10,7 +10,7 @@ export interface Props {
     children?: React.ReactNode;
     description?: React.ReactNode;
     // contentSectionClassName?: string;
-    tooltip?: string;
+    tooltip?: React.ReactNode;
     withoutTitleSection?: boolean;
     withFullWidthContent?: boolean;
     withoutPadding?: boolean;

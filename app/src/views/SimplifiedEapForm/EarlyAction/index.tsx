@@ -5,9 +5,13 @@ import {
     NumberInput,
     SelectInput,
     TextArea,
+    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import { stringValueSelector } from '@ifrc-go/ui/utils';
+import {
+    resolveToComponent,
+    stringValueSelector,
+} from '@ifrc-go/ui/utils';
 import { isDefined } from '@togglecorp/fujs';
 import {
     type EntriesAsList,
@@ -17,6 +21,7 @@ import {
 } from '@togglecorp/toggle-form';
 
 import Admin2Input from '#components/domain/Admin2Input';
+import Link from '#components/Link';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { TIMEFRAME_YEAR } from '#utils/constants';
 import { type GoApiResponse } from '#utils/restRequest';
@@ -70,6 +75,22 @@ function EarlyAction(props: Props) {
                 <InputSection
                     title={strings.intervention}
                     description={strings.interventionDescription}
+                    tooltip={(
+                        <>
+                            {strings.interventiontooltipDescription}
+                            <ul>
+                                <li>
+                                    {strings.interventiontooltipDescriptionListOne}
+                                </li>
+                                <li>
+                                    {strings.interventiontooltipDescriptionListTwo}
+                                </li>
+                                <li>
+                                    {strings.interventiontooltipDescriptionListThree}
+                                </li>
+                            </ul>
+                        </>
+                    )}
                     withAsteriskOnTitle
                 >
                     <TextArea
@@ -84,6 +105,20 @@ function EarlyAction(props: Props) {
                 <InputSection
                     title={strings.geographicalRiskArea}
                     description={strings.geographicalRiskAreaDescription}
+                    tooltip={(resolveToComponent(
+                        strings.geographicalRiskAreaTooltip,
+                        {
+                            practitionersManualLink: (
+                                <Link
+                                    href="https://manual.forecast-based-financing.org/en/chapter/set-the-trigger/"
+                                    styleVariant="action"
+                                    external
+                                >
+                                    {strings.practitionersManualLink}
+                                </Link>
+                            ),
+                        },
+                    ))}
                     withAsteriskOnTitle
                 >
                     <TextArea
@@ -107,6 +142,7 @@ function EarlyAction(props: Props) {
                 <InputSection
                     title={strings.actionPeopleTargeted}
                     description={strings.actionPeopleTargetedDescription}
+                    tooltip={strings.actionPeopleTargetedTooltip}
                     withAsteriskOnTitle
                     numPreferredColumns={2}
                 >
@@ -122,6 +158,7 @@ function EarlyAction(props: Props) {
                 <InputSection
                     title={strings.actionOperation}
                     description={strings.actionOperationDescription}
+                    tooltip={strings.actionOperationTooltip}
                     withAsteriskOnTitle
                 >
                     <TextArea
@@ -135,6 +172,13 @@ function EarlyAction(props: Props) {
                 </InputSection>
                 <InputSection
                     description={strings.actionCriteria}
+                    tooltip={(
+                        <TextOutput
+                            strongLabel
+                            label={strings.actionCriteriaTooltipHeading}
+                            value={strings.actionCriteriaTooltip}
+                        />
+                    )}
                     withAsteriskOnTitle
                 >
                     <TextArea
@@ -149,6 +193,52 @@ function EarlyAction(props: Props) {
                 <InputSection
                     title={strings.actionsStatement}
                     description={strings.actionsStatementDescription}
+                    tooltip={(
+                        <ListView layout="block">
+                            {strings.actionsStatementDescriptionTooltipDescriptionOne}
+                            <TextOutput
+                                strongLabel
+                                label={strings.actionsStatementDescriptionTooltipDescriptionTwo}
+                                value={strings.actionsStatementDescriptionTooltipDescriptionThree}
+                            />
+                            <ul>
+                                <li>
+                                    {strings.actionsStatementDescriptionTooltipListOne}
+                                </li>
+                                <li>
+                                    {strings.actionsStatementDescriptionTooltipListTwo}
+                                </li>
+                                <li>
+                                    {strings.actionsStatementDescriptionTooltipListThree}
+                                </li>
+                                <li>
+                                    {strings.actionsStatementDescriptionTooltipListFour}
+                                </li>
+                            </ul>
+                            <TextOutput
+                                strongLabel
+                                label={strings.actionsStatementDescriptionTooltipDescriptionFour}
+                                value={strings.actionsStatementDescriptionTooltipDescriptionFive}
+                            />
+                            {strings.actionsStatementDescriptionTooltipDescriptionSix}
+                            <p>
+                                {resolveToComponent(
+                                    strings.actionsStatementDescriptionTooltipDescriptionSeven,
+                                    {
+                                        triggerDatabaseLink: (
+                                            <Link
+                                                href="https://www.anticipation-hub.org/experience/triggers/trigger-database/trigger-list"
+                                                styleVariant="action"
+                                                external
+                                            >
+                                                {strings.triggerDatabaseLink}
+                                            </Link>
+                                        ),
+                                    },
+                                )}
+                            </p>
+                        </ListView>
+                    )}
                     withAsteriskOnTitle
                 >
                     <TextArea
@@ -215,6 +305,16 @@ function EarlyAction(props: Props) {
                 <InputSection
                     title={strings.justification}
                     description={strings.justificationDescription}
+                    tooltip={(
+                        <ListView layout="block">
+                            <p>{strings.justificationTooltipDescriptionOne}</p>
+                            <TextOutput
+                                strongLabel
+                                label={strings.justificationTooltipDescriptionTwo}
+                                value={strings.justificationTooltipDescriptionThree}
+                            />
+                        </ListView>
+                    )}
                     withAsteriskOnTitle
                 >
                     <TextArea
