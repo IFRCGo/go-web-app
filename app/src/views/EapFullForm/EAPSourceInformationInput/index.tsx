@@ -12,28 +12,34 @@ import {
 import {
     type ArrayError,
     getErrorObject,
+    type PartialForm,
     type SetValueArg,
     useFormObject,
 } from '@togglecorp/toggle-form';
 
 import NonFieldError from '#components/NonFieldError';
-import { type PartialEapFullFormType } from '#views/EapFullForm/schema';
+import { type components } from '#generated/types';
 
 import i18n from './i18n.json';
 
-type SourcesForecastFormFields = NonNullable<PartialEapFullFormType['trigger_statement_source_of_information']>[number];
+type EAPSourceInformation = components['schemas']['EAPSourceInformation'] & { client_id: string };
+
+export type SourceInformationFormFields = PartialForm<EAPSourceInformation, 'client_id'>;
 
 interface Props {
-    value: SourcesForecastFormFields;
-    error: ArrayError<SourcesForecastFormFields> | undefined;
-    onChange: (value: SetValueArg<SourcesForecastFormFields>, index: number) => void;
+    value: SourceInformationFormFields;
+    error: ArrayError<SourceInformationFormFields> | undefined;
+    onChange: (
+        value: SetValueArg<SourceInformationFormFields>,
+        index: number
+    ) => void;
     onRemove: (index: number) => void;
     index: number;
     disabled?: boolean;
     readOnly?: boolean;
 }
 
-function SourcesForecastInput(props: Props) {
+function EAPSourceInformationInput(props: Props) {
     const {
         error: errorFromProps,
         onChange,
@@ -46,15 +52,11 @@ function SourcesForecastInput(props: Props) {
 
     const strings = useTranslation(i18n);
 
-    const onFieldChange = useFormObject(
-        index,
-        onChange,
-        () => ({
-            client_id: randomString(),
-        }),
-    );
+    const onFieldChange = useFormObject(index, onChange, () => ({
+        client_id: randomString(),
+    }));
 
-    const error = (value && value.client_id && errorFromProps)
+    const error = value && value.client_id && errorFromProps
         ? getErrorObject(errorFromProps?.[value.client_id])
         : undefined;
 
@@ -87,7 +89,7 @@ function SourcesForecastInput(props: Props) {
         <>
             <NonFieldError error={error} />
             <TextInput
-                label={strings.eapFullFormSourcesForecastNameLabel}
+                label={strings.eapSourceInformationNameLabel}
                 name="source_name"
                 value={value.source_name}
                 error={error?.source_name}
@@ -96,7 +98,7 @@ function SourcesForecastInput(props: Props) {
                 disabled={disabled}
             />
             <TextInput
-                label={strings.eapFullFormSourcesForecastLinkLabel}
+                label={strings.eapSourceInformationLinkLabel}
                 name="source_link"
                 value={value.source_link}
                 error={error?.source_link}
@@ -109,7 +111,7 @@ function SourcesForecastInput(props: Props) {
                 onClick={onRemove}
                 styleVariant="action"
                 disabled={disabled || readOnly}
-                title={strings.eapFullFormSourcesForecastDeleteButton}
+                title={strings.eapSourceInformationDeleteButton}
             >
                 <DeleteBinTwoLineIcon />
             </Button>
@@ -117,4 +119,4 @@ function SourcesForecastInput(props: Props) {
     );
 }
 
-export default SourcesForecastInput;
+export default EAPSourceInformationInput;

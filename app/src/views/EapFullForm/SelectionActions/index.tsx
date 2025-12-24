@@ -6,6 +6,8 @@ import {
     Button,
     Checklist,
     Container,
+    Heading,
+    InfoPopup,
     InputSection,
     ListView,
     TextArea,
@@ -33,10 +35,10 @@ import TabPage from '#components/TabPage';
 import { type components } from '#generated/types';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 
+import EAPSourceInformationInput, { type SourceInformationFormFields } from '../EAPSourceInformationInput';
 import { type PartialEapFullFormType } from '../schema';
 import ApproachesInput from './ApproachesInput';
 import EarlyActionsInput from './EarlyActionsInput';
-import EvidenceBaseSourceInformationInput from './EvidenceBaseSourceInformation';
 import OperationsInput from './OperationInput';
 
 import i18n from './i18n.json';
@@ -53,10 +55,6 @@ type EnablingApproachesFormFields = NonNullable<
 
 type PlannedOperationFormFields = NonNullable<
     PartialEapFullFormType['planned_operations']
->[number];
-
-type EvidenceSourceInformationFormFields = NonNullable<
-    PartialEapFullFormType['evidence_base_source_of_information']
 >[number];
 
 type EarlyActionsFormFields = NonNullable<
@@ -191,16 +189,16 @@ function SelectionActions(props: Props) {
         removeValue: onSourceInformationRemove,
     } = useFormArray<
         'evidence_base_source_of_information',
-        EvidenceSourceInformationFormFields
+        SourceInformationFormFields
     >('evidence_base_source_of_information', setFieldValue);
 
     const handleSourceInformationAdd = useCallback(() => {
-        const newSourceInformationItem: EvidenceSourceInformationFormFields = {
+        const newSourceInformationItem: SourceInformationFormFields = {
             client_id: randomString(),
         };
 
         setFieldValue(
-            (oldValue: EvidenceSourceInformationFormFields[] | undefined) => [
+            (oldValue: SourceInformationFormFields[] | undefined) => [
                 ...(oldValue ?? []),
                 newSourceInformationItem,
             ],
@@ -229,151 +227,200 @@ function SelectionActions(props: Props) {
 
     return (
         <TabPage>
-            <Container>
-                <ListView layout="block" spacing="sm">
-                    <InputSection
-                        title={strings.eapFullFormSelectionProcessTitle}
-                        description={(
-                            <ul>
-                                <li>{strings.eapFullFormSelectionProcessDescription1}</li>
-                                <li>{strings.eapFullFormSelectionProcessDescription2}</li>
-                                <li>{strings.eapFullFormSelectionProcessDescription3}</li>
-                                <li>{strings.eapFullFormSelectionProcessDescription4}</li>
-                                <li>{strings.eapFullFormSelectionProcessDescription5}</li>
-                            </ul>
-                        )}
-                        withAsteriskOnTitle
-                    >
-                        <TextOutput
-                            // FIXME use translation strings
-                            withLightText
-                            value="Early Actions"
-                        />
-                        {value?.early_actions?.map((action, index) => (
-                            <EarlyActionsInput
-                                key={action.client_id}
-                                index={index}
-                                value={action}
-                                onChange={onEarlyActionsChange}
-                                onRemove={onEarlyActionsRemove}
-                                error={getErrorObject(error?.early_actions)}
-                                disabled={disabled}
+            <ListView layout="block">
+                <Heading level={4}>
+                    {strings.selectionActionsHeading}
+                    <InfoPopup
+                        description={strings.selectionActionsTooltipDescription}
+                    />
+                </Heading>
+                <InputSection
+                    title={strings.selectionProcessTitle}
+                    tooltip={(
+                        <ListView layout="block">
+                            <TextOutput
+                                label={strings.selectionActionExplanatoryNoteLabel}
+                                strongLabel
+                                value={strings.selectionProcessExplanatoryNote}
                             />
-                        ))}
-                        <Button
-                            name={undefined}
-                            onClick={handleEarlyActionsAdd}
-                            disabled={disabled}
-                        >
-                            {/* FIXME use translation strings */}
-                            Add
-                        </Button>
-                        <TextArea
-                            label={strings.eapFullFormSelectionActionDescriptionLabel}
-                            name="early_action_selection_process"
-                            value={value?.early_action_selection_process}
-                            onChange={setFieldValue}
-                            error={error?.early_action_selection_process}
-                            disabled={disabled}
-                        />
-                        <MultiImageWithCaptionInput
-                            name="early_action_selection_process_images"
-                            url="/api/v2/eap-file/multiple/"
-                            value={value?.early_action_selection_process_images}
-                            onChange={setFieldValue}
-                            error={getErrorObject(
-                                error?.early_action_selection_process_images,
-                            )}
-                            fileIdToUrlMap={fileIdToUrlMap}
-                            setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.eapFullFormSelectionActionUploadLabel}
-                            disabled={disabled}
-                        />
-                        <GoSingleFileInput
-                            accept=".pdf"
-                            required
-                            name="theory_of_change_table_file"
-                            value={value.theory_of_change_table_file}
-                            url="/api/v2/eap-file/"
-                            error={error?.theory_of_change_table_file}
-                            disabled={disabled}
-                            // FIXME Use translation strings
-                            label="Upload"
-                            fileIdToUrlMap={fileIdToUrlMap}
-                            setFileIdToUrlMap={setFileIdToUrlMap}
-                            onChange={setFieldValue}
-                        >
-                            {/* FIXME Use translation strings */}
-                            Upload
-                        </GoSingleFileInput>
-                    </InputSection>
-                    <InputSection
-                        title={strings.eapFullFormEvidenceBaseTitle}
-                        description={strings.eapFullFormEvidenceBaseDescription}
-                        withAsteriskOnTitle
-                    >
-                        <TextArea
-                            label={strings.eapFullFormSelectionActionDescriptionLabel}
-                            name="evidence_base"
-                            value={value?.evidence_base}
-                            onChange={setFieldValue}
-                            error={error?.evidence_base}
-                            disabled={disabled}
-                        />
-                    </InputSection>
-                    <InputSection
-                        title={strings.eapFullFormSelectionAttachFilesTitle}
-                        description={strings.eapFullFormSelectionAttachFilesDescription}
-                    >
-                        <GoMultiFileInput
-                            name="evidence_base_relevant_files"
-                            accept=".pdf, .docx, .pptx"
-                            fileIdToUrlMap={fileIdToUrlMap}
-                            onChange={setFieldValue}
-                            url="/api/v2/eap-file/multiple/"
-                            value={value.evidence_base_relevant_files}
-                            error={getErrorString(error?.evidence_base_relevant_files)}
-                            setFileIdToUrlMap={setFileIdToUrlMap}
-                            clearable
-                            disabled={disabled}
-                            useCurrentLanguageForMutation
-                        >
-                            {strings.eapFullFormSelectionActionUploadLabel}
-                        </GoMultiFileInput>
-                    </InputSection>
-                    <InputSection
-                        title={strings.eapFullFormSelectionSourceOfInformationTitle}
-                        description={
-                            strings.eapFullFormSelectionSourceOfInformationDescription
-                        }
-                    >
-                        <NonFieldError
-                            error={getErrorObject(error?.evidence_base_source_of_information)}
-                        />
-                        {value.evidence_base_source_of_information?.map((source, index) => (
-                            <EvidenceBaseSourceInformationInput
-                                key={source.client_id}
-                                index={index}
-                                value={source}
-                                onChange={onSourceInformationChange}
-                                onRemove={onSourceInformationRemove}
-                                error={getErrorObject(
-                                    error?.evidence_base_source_of_information,
+                            <TextOutput
+                                label={strings.selectionActionRequiredPointsLabel}
+                                strongLabel
+                                value={(
+                                    <ul>
+                                        <li>
+                                            {strings.selectionProcessRequiredPoint1}
+                                        </li>
+                                        <li>
+                                            {strings.selectionProcessRequiredPoint2}
+                                        </li>
+                                        <li>
+                                            {strings.selectionProcessRequiredPoint3}
+                                        </li>
+                                        <li>
+                                            {strings.selectionProcessRequiredPoint4}
+                                        </li>
+                                        <li>
+                                            {strings.selectionProcessRequiredPoint5}
+                                        </li>
+                                    </ul>
                                 )}
-                                disabled={disabled}
                             />
-                        ))}
-                        <Button
-                            name={undefined}
-                            onClick={handleSourceInformationAdd}
+                        </ListView>
+                    )}
+                    description={(
+                        <ul>
+                            <li>{strings.selectionProcessDescription1}</li>
+                            <li>{strings.selectionProcessDescription2}</li>
+                            <li>{strings.selectionProcessDescription3}</li>
+                            <li>{strings.selectionProcessDescription4}</li>
+                            <li>{strings.selectionProcessDescription5}</li>
+                        </ul>
+                    )}
+                    withAsteriskOnTitle
+                >
+                    <TextOutput
+                        withLightText
+                        value={strings.earlyActionsOutputValue}
+                    />
+                    {value?.early_actions?.map((action, index) => (
+                        <EarlyActionsInput
+                            key={action.client_id}
+                            index={index}
+                            value={action}
+                            onChange={onEarlyActionsChange}
+                            onRemove={onEarlyActionsRemove}
+                            error={getErrorObject(error?.early_actions)}
                             disabled={disabled}
-                        >
-                            {strings.eapFullFormSelectionSourceOfInformationAddNewLabel}
-                        </Button>
-                    </InputSection>
+                        />
+                    ))}
+                    <Button
+                        name={undefined}
+                        onClick={handleEarlyActionsAdd}
+                        disabled={disabled}
+                    >
+                        {strings.earlyActionsAddButtonLabel}
+                    </Button>
+                    <TextArea
+                        label={strings.selectionActionDescriptionLabel}
+                        name="early_action_selection_process"
+                        value={value?.early_action_selection_process}
+                        onChange={setFieldValue}
+                        error={error?.early_action_selection_process}
+                        disabled={disabled}
+                    />
+                    <MultiImageWithCaptionInput
+                        name="early_action_selection_process_images"
+                        url="/api/v2/eap-file/multiple/"
+                        value={value?.early_action_selection_process_images}
+                        onChange={setFieldValue}
+                        error={getErrorObject(
+                            error?.early_action_selection_process_images,
+                        )}
+                        fileIdToUrlMap={fileIdToUrlMap}
+                        setFileIdToUrlMap={setFileIdToUrlMap}
+                        label={strings.selectionActionUploadLabel}
+                        disabled={disabled}
+                    />
+                    <GoSingleFileInput
+                        accept=".pdf"
+                        required
+                        name="theory_of_change_table_file"
+                        value={value.theory_of_change_table_file}
+                        url="/api/v2/eap-file/"
+                        error={error?.theory_of_change_table_file}
+                        disabled={disabled}
+                        label={strings.selectionActionUploadTableLabel}
+                        fileIdToUrlMap={fileIdToUrlMap}
+                        setFileIdToUrlMap={setFileIdToUrlMap}
+                        onChange={setFieldValue}
+                    >
+                        {strings.selectionActionUploadLabel}
+                    </GoSingleFileInput>
+                </InputSection>
+                <InputSection
+                    title={strings.evidenceBaseTitle}
+                    tooltip={(
+                        <TextOutput
+                            label={strings.selectionActionExplanatoryNoteLabel}
+                            strongLabel
+                            value={strings.evidenceBaseExplanatoryNote}
+                        />
+                    )}
+                    description={strings.evidenceBaseDescription}
+                    withAsteriskOnTitle
+                >
+                    <TextArea
+                        label={strings.selectionActionDescriptionLabel}
+                        name="evidence_base"
+                        value={value?.evidence_base}
+                        onChange={setFieldValue}
+                        error={error?.evidence_base}
+                        disabled={disabled}
+                    />
+                </InputSection>
+                <InputSection
+                    title={strings.selectionAttachFilesTitle}
+                    description={strings.selectionAttachFilesDescription}
+                >
+                    <GoMultiFileInput
+                        name="evidence_base_relevant_files"
+                        accept=".pdf, .docx, .pptx"
+                        fileIdToUrlMap={fileIdToUrlMap}
+                        onChange={setFieldValue}
+                        url="/api/v2/eap-file/multiple/"
+                        value={value.evidence_base_relevant_files}
+                        error={getErrorString(error?.evidence_base_relevant_files)}
+                        setFileIdToUrlMap={setFileIdToUrlMap}
+                        clearable
+                        disabled={disabled}
+                        useCurrentLanguageForMutation
+                    >
+                        {strings.selectionActionUploadLabel}
+                    </GoMultiFileInput>
+                </InputSection>
+                <InputSection
+                    title={strings.selectionSourceOfInformationTitle}
+                    description={
+                        strings.selectionSourceOfInformationDescription
+                    }
+                >
+                    <NonFieldError
+                        error={getErrorObject(error?.evidence_base_source_of_information)}
+                    />
+                    {value.evidence_base_source_of_information?.map((source, index) => (
+                        <EAPSourceInformationInput
+                            key={source.client_id}
+                            index={index}
+                            value={source}
+                            onChange={onSourceInformationChange}
+                            onRemove={onSourceInformationRemove}
+                            error={getErrorObject(
+                                error?.evidence_base_source_of_information,
+                            )}
+                            disabled={disabled}
+                        />
+                    ))}
+                    <Button
+                        name={undefined}
+                        onClick={handleSourceInformationAdd}
+                        disabled={disabled}
+                    >
+                        {strings.selectionSourceOfInformationAddNewLabel}
+                    </Button>
+                </InputSection>
+            </ListView>
+            <Container
+                withHeaderBorder
+                heading={strings.selectionActionPlannedOperationHeading}
+                headerDescription={
+                    strings.selectionActionPlannedOperationHeadingDescription
+                }
+            >
+                <ListView layout="block">
                     <InputSection
-                        title={strings.eapFullFormPlannedOperationTitle}
-                        description={strings.eapFullFormPlannedOperationDescription}
+                        title={strings.plannedOperationTitle}
+                        description={strings.plannedOperationDescription}
                     >
                         <NonFieldError error={getErrorObject(error?.planned_operations)} />
                         <Checklist
@@ -401,8 +448,8 @@ function SelectionActions(props: Props) {
                         />
                     ))}
                     <InputSection
-                        title={strings.eapFullFormEnablingApproachesTitle}
-                        description={strings.eapFullFormEnablingApproachesDescription}
+                        title={strings.enablingApproachesTitle}
+                        description={strings.enablingApproachesDescription}
                     >
                         <NonFieldError error={getErrorObject(error?.planned_operations)} />
                         <Checklist
@@ -417,30 +464,35 @@ function SelectionActions(props: Props) {
                             checkListLayoutPreferredGridColumns={3}
                         />
                     </InputSection>
-                    {value?.enable_approaches?.map((approach, index) => (
-                        <ApproachesInput
-                            approachTitle={eapApproachLabelMapping?.[approach.approach]}
-                            key={approach.approach}
-                            index={index}
-                            value={approach}
-                            onChange={onApproachChange}
-                            onRemove={onApproachRemove}
-                            error={getErrorObject(error?.enable_approaches)}
-                            disabled={disabled}
-                        />
-                    ))}
+                    {value?.enable_approaches
+                        ?.map((approach, index) => (
+                            <ApproachesInput
+                                approachTitle={eapApproachLabelMapping?.[approach.approach]}
+                                key={approach.approach}
+                                index={index}
+                                value={approach}
+                                onChange={onApproachChange}
+                                onRemove={onApproachRemove}
+                                error={getErrorObject(error?.enable_approaches)}
+                                disabled={disabled}
+                            />
+                        ))}
                     <InputSection
-                        // FIXME Use translation strings
-                        title="Usefulness of actions in case of non-occurring event"
-                        description="Describe how your selected actions will contribute
-                        to the well-being of the population even if the expected event
-                        does not materialize. Include a description of the measures
-                        taken to ensure that the actions taken will be of maximum use
-                        for the targeted population in a future event."
+                        title={strings.useFullnessActionsTitle}
+                        description={strings.useFullnessActionsDescription}
+                        tooltip={(
+                            <ListView layout="block">
+                                <TextOutput
+                                    strongLabel
+                                    label={strings.selectionActionExplanatoryNoteLabel}
+                                    value={strings.useFullnessActionsExplanatoryNote}
+                                />
+                            </ListView>
+                        )}
                         withAsteriskOnTitle
                     >
                         <TextArea
-                            label={strings.eapFullFormSelectionActionDescriptionLabel}
+                            label={strings.selectionActionDescriptionLabel}
                             name="usefulness_of_actions"
                             value={value?.usefulness_of_actions}
                             onChange={setFieldValue}
@@ -449,19 +501,35 @@ function SelectionActions(props: Props) {
                         />
                     </InputSection>
                     <InputSection
-                        // FIXME Use translation strings
-                        title="Feasibility"
-                        description="Indicate how feasible it is to implement the proposed
-                        early actions in the planned timeframe. Has it been tested?  Have
-                        similar actions been carried out by the NS in past operations and/or
-                        in as short a time with similar resources? If not, was a simulation conducted?
-                        If Cash and Voucher Assistance (CVA) is chosen as an early action,
-                        describe how necessary information for disbursement is collected in the
-                        short period of time and how national legislative requirements are met."
+                        title={strings.feasibilityTitle}
+                        description={strings.feasibilityDescription}
+                        tooltip={(
+                            <ListView layout="block">
+                                <TextOutput
+                                    strongLabel
+                                    label={strings.selectionActionExplanatoryNoteLabel}
+                                    value={strings.feasibilityExplanatoryNote}
+                                />
+                                <TextOutput
+                                    label={strings.selectionActionRequiredPointsLabel}
+                                    strongLabel
+                                    value={(
+                                        <ul>
+                                            <li>
+                                                {strings.feasibilityRequiredPoint1}
+                                            </li>
+                                            <li>
+                                                {strings.feasibilityRequiredPoint2}
+                                            </li>
+                                        </ul>
+                                    )}
+                                />
+                            </ListView>
+                        )}
                         withAsteriskOnTitle
                     >
                         <TextArea
-                            label={strings.eapFullFormSelectionActionDescriptionLabel}
+                            label={strings.selectionActionDescriptionLabel}
                             name="feasibility"
                             value={value?.feasibility}
                             onChange={setFieldValue}

@@ -8,6 +8,7 @@ import {
 import { useParams } from 'react-router-dom';
 import {
     Button,
+    ListView,
     Tab,
     TabList,
     TabPanel,
@@ -28,6 +29,7 @@ import {
     useForm,
 } from '@togglecorp/toggle-form';
 
+import Link from '#components/Link';
 import Page from '#components/Page';
 import useAlert from '#hooks/useAlert';
 import useRouting from '#hooks/useRouting';
@@ -62,37 +64,23 @@ import SelectionActions from './SelectionActions';
 import TriggerModel from './TriggerModel';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 type EapFullRequestBody = GoApiBody<'/api/v2/full-eap/', 'POST'>;
 type GetFullEapResponse = GoApiResponse<'/api/v2/full-eap/{id}/'>;
 
 function getNextStep(current: TabKeys, direction: 1 | -1) {
-    if (direction === 1) {
-        const mapping: { [key in TabKeys]?: TabKeys } = {
-            overview: 'riskAnalysis',
-            riskAnalysis: 'triggerModel',
-            triggerModel: 'selectionActions',
-            selectionActions: 'eapActivation',
-            eapActivation: 'meal',
-            meal: 'nationalSocietyCapacity',
-            nationalSocietyCapacity: 'financeLogistics',
-        };
-        return mapping[current];
-    }
-    if (direction === -1) {
-        const mapping: { [key in TabKeys]?: TabKeys } = {
-            financeLogistics: 'nationalSocietyCapacity',
-            nationalSocietyCapacity: 'meal',
-            meal: 'eapActivation',
-            eapActivation: 'selectionActions',
-            selectionActions: 'triggerModel',
-            triggerModel: 'riskAnalysis',
-            riskAnalysis: 'overview',
-        };
-        return mapping[current];
-    }
-    return undefined;
+    const tabKeyList: TabKeys[] = [
+        'overview',
+        'riskAnalysis',
+        'triggerModel',
+        'selectionActions',
+        'eapActivation',
+        'meal',
+        'nationalSocietyCapacity',
+    ];
+    const currentIndex = tabKeyList.findIndex((key) => key === current);
+
+    return tabKeyList[currentIndex + direction];
 }
 
 /** @knipignore */
@@ -543,7 +531,7 @@ export function Component() {
         url: '/api/v2/full-eap/',
         body: (body: EapFullRequestBody) => body,
         onSuccess: () => {
-            const message = strings.eapFullSuccess;
+            const message = strings.fullEapSuccess;
             alert.show(message, { variant: 'success' });
             navigate('accountMyFormsEap');
         },
@@ -554,7 +542,7 @@ export function Component() {
 
             processServerErrors(formErrors);
 
-            alert.show(strings.eapFullFailure, {
+            alert.show(strings.fullEapFailure, {
                 variant: 'danger',
                 description: messageForNotification,
             });
@@ -569,7 +557,7 @@ export function Component() {
         },
         body: (formFields: EapFullRequestBody) => formFields,
         onSuccess: (response) => {
-            alert.show(strings.eapFullUpdateSuccess, { variant: 'success' });
+            alert.show(strings.fullEapUpdateSuccess, { variant: 'success' });
 
             // FIXME: only navigate to accounts page for the submit action
             navigate('accountMyFormsEap', { params: { eapId: response.id } });
@@ -581,7 +569,7 @@ export function Component() {
 
             processServerErrors(formErrors);
 
-            alert.show(strings.eapFullFailure, {
+            alert.show(strings.fullEapUpdateFailure, {
                 variant: 'danger',
                 description: messageForNotification,
             });
@@ -631,10 +619,23 @@ export function Component() {
     return (
         <Tabs value={activeTab} onChange={setActiveTab} styleVariant="step">
             <Page
-                className={styles.fullEapForm}
-                heading={strings.eapFullFormHeading}
-                description={strings.eapFullFormDescription}
+                heading={strings.fullEapHeading}
+                description={strings.fullEapDescription}
                 withBackgroundColorInMainSection
+                actions={(
+                    <>
+                        <Link
+                            to="accountMyFormsEap"
+                            styleVariant="outline"
+                            colorVariant="primary"
+                        >
+                            {strings.fullEapCancelButton}
+                        </Link>
+                        <Button name={undefined} onClick={handleSave}>
+                            {strings.fullEapSaveButton}
+                        </Button>
+                    </>
+                )}
                 info={(
                     <TabList>
                         <Tab
@@ -642,56 +643,56 @@ export function Component() {
                             step={1}
                             errored={checkTabErrors(formError, 'overview')}
                         >
-                            {strings.eapFullFormOverview}
+                            {strings.fullEapOverview}
                         </Tab>
                         <Tab
                             name="riskAnalysis"
                             step={2}
                             errored={checkTabErrors(formError, 'riskAnalysis')}
                         >
-                            {strings.eapFullFormRiskAnalysis}
+                            {strings.fullEapRiskAnalysis}
                         </Tab>
                         <Tab
                             name="triggerModel"
                             step={3}
                             errored={checkTabErrors(formError, 'triggerModel')}
                         >
-                            {strings.eapFullFormTriggerModel}
+                            {strings.fullEapTriggerModel}
                         </Tab>
                         <Tab
                             name="selectionActions"
                             step={4}
                             errored={checkTabErrors(formError, 'selectionActions')}
                         >
-                            {strings.eapFullFormSelectionActions}
+                            {strings.fullEapSelectionActions}
                         </Tab>
                         <Tab
                             name="eapActivation"
                             step={5}
                             errored={checkTabErrors(formError, 'eapActivation')}
                         >
-                            {strings.eapFullFormEapActivationProcess}
+                            {strings.fullEapActivationProcess}
                         </Tab>
                         <Tab
                             name="meal"
                             step={6}
                             errored={checkTabErrors(formError, 'meal')}
                         >
-                            {strings.eapFullFormMeal}
+                            {strings.fullEapMeal}
                         </Tab>
                         <Tab
                             name="nationalSocietyCapacity"
                             step={7}
                             errored={checkTabErrors(formError, 'nationalSocietyCapacity')}
                         >
-                            {strings.eapFullFormNationalSocietyCapacity}
+                            {strings.fullEapNationalSocietyCapacity}
                         </Tab>
                         <Tab
                             name="financeLogistics"
                             step={8}
                             errored={checkTabErrors(formError, 'financeLogistics')}
                         >
-                            {strings.eapFullFormFinanceLogistics}
+                            {strings.fullEapFinanceLogistics}
                         </Tab>
                     </TabList>
                 )}
@@ -778,33 +779,26 @@ export function Component() {
                         setFileIdToUrlMap={setFileIdToUrlMap}
                     />
                 </TabPanel>
-                <div className={styles.actions}>
-                    <div className={styles.pageActions}>
-                        <Button
-                            name={prevStep ?? activeTab}
-                            onClick={handleTabChange}
-                            disabled={isNotDefined(prevStep)}
-                            colorVariant="secondary"
-                            styleVariant="outline"
-                        >
-                            {strings.eapFullBackButton}
+                <ListView
+                    withCenteredContents
+                >
+                    <Button
+                        name={prevStep ?? activeTab}
+                        onClick={handleTabChange}
+                        disabled={isNotDefined(prevStep)}
+                    >
+                        {strings.fullEapBackButton}
+                    </Button>
+                    {isDefined(nextStep) ? (
+                        <Button name={nextStep ?? activeTab} onClick={handleTabChange}>
+                            {strings.fullEapNextButton}
                         </Button>
-                        {isDefined(nextStep) ? (
-                            <Button
-                                name={nextStep ?? activeTab}
-                                onClick={handleTabChange}
-                                colorVariant="secondary"
-                                styleVariant="outline"
-                            >
-                                {strings.eapFullNextButton}
-                            </Button>
-                        ) : (
-                            <Button name={undefined} onClick={handleSave}>
-                                {strings.eapFullSaveButton}
-                            </Button>
-                        )}
-                    </div>
-                </div>
+                    ) : (
+                        <Button name={undefined} onClick={handleSave}>
+                            {strings.fullEapSaveButton}
+                        </Button>
+                    )}
+                </ListView>
             </Page>
         </Tabs>
     );

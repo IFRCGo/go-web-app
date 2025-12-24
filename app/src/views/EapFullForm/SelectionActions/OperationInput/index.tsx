@@ -7,6 +7,7 @@ import {
     Button,
     Container,
     ExpandableContainer,
+    InfoPopup,
     ListView,
     NumberInput,
 } from '@ifrc-go/ui';
@@ -168,7 +169,7 @@ function OperationsInput(props: Props) {
                     onClick={onRemove}
                     styleVariant="action"
                     disabled={disabled}
-                    title={strings.eapFullOperationRemoveButton}
+                    title={strings.selectionActionsPlannedOperationRemoveButton}
                 >
                     <DeleteBinTwoLineIcon />
                 </Button>
@@ -182,7 +183,7 @@ function OperationsInput(props: Props) {
             <ListView layout="block">
                 <ListView layout="grid" numPreferredGridColumns={3}>
                     <NumberInput
-                        label={strings.eapFullOperationPeopleTargeted}
+                        label={strings.selectionActionsPlannedOperationPeopleTargeted}
                         name="people_targeted"
                         value={value?.people_targeted}
                         onChange={onFieldChange}
@@ -190,7 +191,7 @@ function OperationsInput(props: Props) {
                         error={error?.people_targeted}
                     />
                     <NumberInput
-                        label={strings.eapFullOperationBudget}
+                        label={strings.selectionActionsPlannedOperationBudget}
                         name="budget_per_sector"
                         value={value?.budget_per_sector}
                         onChange={onFieldChange}
@@ -198,7 +199,7 @@ function OperationsInput(props: Props) {
                         error={error?.budget_per_sector}
                     />
                     <NumberInput
-                        label={strings.eapFullOperationApCode}
+                        label={strings.selectionActionsPlannedOperationApCode}
                         name="ap_code"
                         value={value?.ap_code}
                         onChange={onFieldChange}
@@ -218,8 +219,7 @@ function OperationsInput(props: Props) {
                         withPadding
                         withCompactMessage
                         headingLevel={6}
-                        // FIXME: use strings
-                        heading="Indicators"
+                        heading={strings.selectionActionsPlannedOperationIndicators}
                         footerActions={(
                             <Button
                                 name={undefined}
@@ -227,16 +227,14 @@ function OperationsInput(props: Props) {
                                 spacing="sm"
                                 disabled={disabled}
                                 before={<AddLineIcon />}
-                            // FIXME: use strings
                             >
-                                Add Indicator
+                                {strings.addIndicatorsButtonLabel}
                             </Button>
                         )}
                         empty={
                             isNotDefined(value.indicators) || value.indicators.length === 0
                         }
-                        // FIXME: use strings
-                        emptyMessage="No indicators yet"
+                        emptyMessage={strings.noIndicatorsMessage}
                     >
                         <ListView layout="block">
                             {value.indicators?.map((indicator, i) => (
@@ -257,7 +255,16 @@ function OperationsInput(props: Props) {
                         withDarkBackground
                         withHeaderBorder
                         withPadding
-                        heading={strings.eapFullOperationReadinessActivities}
+                        heading={(
+                            <>
+                                {strings.selectionActionsReadinessActivities}
+                                <InfoPopup
+                                    description={
+                                        strings.selectionActionsReadinessActivitiesDescription
+                                    }
+                                />
+                            </>
+                        )}
                         headingLevel={5}
                         footerActions={(
                             <Button
@@ -268,7 +275,7 @@ function OperationsInput(props: Props) {
                                 disabled={disabled}
                                 before={<AddLineIcon />}
                             >
-                                {strings.eapFullOperationAddActivityButton}
+                                {strings.selectionActionsPlannedOperationAddActivityButton}
                             </Button>
                         )}
                         withCompactMessage
@@ -276,7 +283,7 @@ function OperationsInput(props: Props) {
                             isNotDefined(value.readiness_activities)
                             || value.readiness_activities.length === 0
                         }
-                        emptyMessage={strings.eapFullOperationNoActivitiesMessage}
+                        emptyMessage={strings.selectionActionsNoActivitiesMessage}
                         headerDescription={(
                             <NonFieldError
                                 error={getErrorObject(error?.readiness_activities)}
@@ -302,7 +309,16 @@ function OperationsInput(props: Props) {
                         withDarkBackground
                         withHeaderBorder
                         withPadding
-                        heading={strings.eapFullOperationPrepositioningActivities}
+                        heading={(
+                            <>
+                                {strings.selectionActionsPrepositioningActivities}
+                                <InfoPopup
+                                    description={
+                                        strings.selectionActionsPrepositioningActivitiesDescription
+                                    }
+                                />
+                            </>
+                        )}
                         headingLevel={5}
                         footerActions={(
                             <Button
@@ -313,7 +329,7 @@ function OperationsInput(props: Props) {
                                 spacing="sm"
                                 before={<AddLineIcon />}
                             >
-                                {strings.eapFullOperationAddActivityButton}
+                                {strings.selectionActionsPlannedOperationAddActivityButton}
                             </Button>
                         )}
                         withCompactMessage
@@ -321,7 +337,7 @@ function OperationsInput(props: Props) {
                             isNotDefined(value.prepositioning_activities)
                             || value.prepositioning_activities.length === 0
                         }
-                        emptyMessage={strings.eapFullOperationNoActivitiesMessage}
+                        emptyMessage={strings.selectionActionsNoActivitiesMessage}
                         headerDescription={(
                             <NonFieldError
                                 error={getErrorObject(error?.prepositioning_activities)}
@@ -347,7 +363,16 @@ function OperationsInput(props: Props) {
                         withDarkBackground
                         withHeaderBorder
                         withPadding
-                        heading={strings.eapFullOperationEarlyActionActivities}
+                        heading={(
+                            <>
+                                {strings.selectionActionsEarlyActionActivities}
+                                <InfoPopup
+                                    description={
+                                        strings.selectionActionsEarlyActionActivitiesDescription
+                                    }
+                                />
+                            </>
+                        )}
                         headingLevel={5}
                         footerActions={(
                             <Button
@@ -358,7 +383,7 @@ function OperationsInput(props: Props) {
                                 spacing="sm"
                                 before={<AddLineIcon />}
                             >
-                                {strings.eapFullOperationAddActivityButton}
+                                {strings.selectionActionsPlannedOperationAddActivityButton}
                             </Button>
                         )}
                         withCompactMessage
@@ -366,7 +391,7 @@ function OperationsInput(props: Props) {
                             isNotDefined(value.early_action_activities)
                             || value.early_action_activities.length === 0
                         }
-                        emptyMessage={strings.eapFullOperationNoActivitiesMessage}
+                        emptyMessage={strings.selectionActionsNoActivitiesMessage}
                         headerDescription={(
                             <NonFieldError
                                 error={getErrorObject(error?.early_action_activities)}

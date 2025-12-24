@@ -1,8 +1,9 @@
 import {
-    Container,
+    Heading,
     InputSection,
     ListView,
     TextArea,
+    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -43,55 +44,86 @@ function Meal(props: Props) {
 
     return (
         <TabPage>
-            <Container>
-                <ListView
-                    layout="block"
-                    spacing="sm"
-                >
-                    <InputSection
-                        title={strings.eapFullFormMealTitle}
-                        description={(
-                            <ul>
-                                <li>{strings.eapFullFormMealDescription1}</li>
-                                <ul>
-                                    <li>{strings.eapFullFormMealDescription2}</li>
-                                    <li>{strings.eapFullFormMealDescription3}</li>
-                                </ul>
-                            </ul>
-                        )}
-                        withAsteriskOnTitle
-                    >
-                        <TextArea
-                            label={strings.eapFullFormMealDescriptionLabel}
-                            name="meal"
-                            value={value?.meal}
-                            error={error?.meal}
-                            onChange={setFieldValue}
-                            disabled={disabled}
-                        />
-                    </InputSection>
-                    <InputSection
-                        title={strings.eapFullFormMealAttachRelevantFilesTitle}
-                        description={strings.eapFullFormMealAttachRelevantFilesDescription}
-                    >
-                        <GoMultiFileInput
-                            name="meal_relevant_files"
-                            accept=".pdf, .docx, .pptx"
-                            fileIdToUrlMap={fileIdToUrlMap}
-                            onChange={setFieldValue}
-                            url="/api/v2/eap-file/multiple/"
-                            value={value?.meal_relevant_files}
-                            error={getErrorString(error?.meal_relevant_files)}
-                            setFileIdToUrlMap={setFileIdToUrlMap}
-                            clearable
-                            disabled={disabled}
-                            useCurrentLanguageForMutation
+            <ListView
+                layout="block"
+            >
+                <Heading level={4}>
+                    {strings.mealHeading}
+                </Heading>
+                <InputSection
+                    title={strings.mealTitle}
+                    tooltip={(
+                        <ListView
+                            layout="block"
                         >
-                            {strings.eapFullFormMealAttachRelevantFilesUploadLabel}
-                        </GoMultiFileInput>
-                    </InputSection>
-                </ListView>
-            </Container>
+                            <TextOutput
+                                strongLabel
+                                label={strings.mealExplanatoryNoteLabel}
+                                value={strings.mealExplanatoryNote}
+                            />
+                            <TextOutput
+                                strongLabel
+                                label={strings.mealRequiredPointsLabel}
+                                value={(
+                                    <ul>
+                                        <li>{strings.mealDescription1}</li>
+                                        <ul>
+                                            <li>{strings.mealDescription11}</li>
+                                            <li>{strings.mealDescription12}</li>
+                                            <li>{strings.mealDescription13}</li>
+                                            <li>{strings.mealDescription14}</li>
+                                        </ul>
+                                        <li>{strings.mealDescription2}</li>
+                                        <li>{strings.mealDescription3}</li>
+                                    </ul>
+                                )}
+                            />
+                        </ListView>
+                    )}
+                    description={(
+                        <ul>
+                            <li>{strings.mealDescription1}</li>
+                            <ul>
+                                <li>{strings.mealDescription11}</li>
+                                <li>{strings.mealDescription12}</li>
+                                <li>{strings.mealDescription13}</li>
+                            </ul>
+                            <li>{strings.mealDescription2}</li>
+                            <li>{strings.mealDescription3}</li>
+                        </ul>
+                    )}
+                    withAsteriskOnTitle
+                >
+                    <TextArea
+                        label={strings.mealDescriptionLabel}
+                        name="meal"
+                        value={value?.meal}
+                        error={error?.meal}
+                        onChange={setFieldValue}
+                        disabled={disabled}
+                    />
+                </InputSection>
+                <InputSection
+                    title={strings.mealAttachRelevantFilesTitle}
+                    description={strings.mealAttachRelevantFilesDescription}
+                >
+                    <GoMultiFileInput
+                        name="meal_relevant_files"
+                        accept=".pdf, .docx, .pptx"
+                        fileIdToUrlMap={fileIdToUrlMap}
+                        onChange={setFieldValue}
+                        url="/api/v2/eap-file/multiple/"
+                        value={value?.meal_relevant_files}
+                        error={getErrorString(error?.meal_relevant_files)}
+                        setFileIdToUrlMap={setFileIdToUrlMap}
+                        clearable
+                        disabled={disabled}
+                        useCurrentLanguageForMutation
+                    >
+                        {strings.mealAttachRelevantFilesUploadLabel}
+                    </GoMultiFileInput>
+                </InputSection>
+            </ListView>
         </TabPage>
     );
 }
