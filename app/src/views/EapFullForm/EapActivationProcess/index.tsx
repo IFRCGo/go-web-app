@@ -1,11 +1,13 @@
 import { useCallback } from 'react';
 import {
     Button,
-    Container,
+    Heading,
+    InfoPopup,
     InputSection,
     ListView,
     NumberInput,
     TextArea,
+    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import { randomString } from '@togglecorp/fujs';
@@ -22,12 +24,10 @@ import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaption
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 
+import EAPSourceInformationInput, { type SourceInformationFormFields } from '../EAPSourceInformationInput';
 import { type PartialEapFullFormType } from '../schema';
-import ActivationSourceInformationInput from './ActivationSourcesInformationInput';
 
 import i18n from './i18n.json';
-
-type ActivationSourceInformationFormFields = NonNullable<PartialEapFullFormType['activation_process_source_of_information']>[number];
 
 interface Props {
     value: PartialEapFullFormType;
@@ -35,7 +35,9 @@ interface Props {
     error: Error<PartialEapFullFormType> | undefined;
     disabled?: boolean;
     fileIdToUrlMap: Record<number, string>;
-    setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
+    setFileIdToUrlMap?: React.Dispatch<
+        React.SetStateAction<Record<number, string>>
+    >;
 }
 
 function EapActivationProcess(props: Props) {
@@ -55,214 +57,280 @@ function EapActivationProcess(props: Props) {
     const {
         setValue: onRiskSourceInformationChange,
         removeValue: onRiskSourceInformationRemove,
-    } = useFormArray<'activation_process_source_of_information', ActivationSourceInformationFormFields>(
+    } = useFormArray<
         'activation_process_source_of_information',
-        setFieldValue,
-    );
+        SourceInformationFormFields
+    >('activation_process_source_of_information', setFieldValue);
 
     const handleSourceInformationAdd = useCallback(() => {
-        const newSourceInformationItem: ActivationSourceInformationFormFields = {
+        const newSourceInformationItem: SourceInformationFormFields = {
             client_id: randomString(),
         };
 
         setFieldValue(
-            (oldValue: ActivationSourceInformationFormFields[] | undefined) => (
-                [...(oldValue ?? []), newSourceInformationItem]
-            ),
+            (oldValue: SourceInformationFormFields[] | undefined) => [
+                ...(oldValue ?? []),
+                newSourceInformationItem,
+            ],
             'activation_process_source_of_information' as const,
         );
     }, [setFieldValue]);
 
     return (
         <TabPage>
-            <Container>
-                <ListView
-                    layout="block"
-                    spacing="sm"
+            <ListView layout="block">
+                <Heading level={4}>
+                    {strings.activationProcessHeading}
+                    <InfoPopup description={strings.activationProcessTooltip} />
+                </Heading>
+                <InputSection
+                    title={strings.activationProcessTitle}
+                    tooltip={(
+                        <ListView layout="block">
+                            <TextOutput
+                                strongLabel
+                                label={strings.activationProcessExplanatoryLabel}
+                                value={strings.activationImplementationExplanatoryNote}
+                            />
+                            <TextOutput
+                                strongLabel
+                                label={strings.activationProcessRequiredPointsLabel}
+                                value={(
+                                    <ul>
+                                        <li>{strings.activationImplementationRequiredPoint1}</li>
+                                        <li>{strings.activationImplementationRequiredPoint2}</li>
+                                        <li>{strings.activationImplementationRequiredPoint3}</li>
+                                        <li>{strings.activationImplementationRequiredPoint4}</li>
+                                    </ul>
+                                )}
+                            />
+                        </ListView>
+                    )}
+                    description={(
+                        <ul>
+                            <li>{strings.activationProcessDescription1}</li>
+                            <li>{strings.activationProcessDescription2}</li>
+                        </ul>
+                    )}
+                    withAsteriskOnTitle
                 >
-                    <InputSection
-                        title={strings.eapFullFormImplementationProcessTitle}
-                        description={(
-                            <ul>
-                                <li>{strings.eapFullFormImplementationProcessDescription1}</li>
-                                <li>{strings.eapFullFormImplementationProcessDescription2}</li>
-                            </ul>
+                    <TextArea
+                        label={strings.activationProcessDescriptionLabel}
+                        name="early_action_implementation_process"
+                        onChange={setFieldValue}
+                        value={value?.early_action_implementation_process}
+                        error={error?.early_action_implementation_process}
+                        disabled={disabled}
+                    />
+                    <MultiImageWithCaptionInput
+                        name="early_action_implementation_images"
+                        url="/api/v2/eap-file/multiple/"
+                        value={value?.early_action_implementation_images}
+                        onChange={setFieldValue}
+                        error={getErrorObject(error?.early_action_implementation_images)}
+                        fileIdToUrlMap={fileIdToUrlMap}
+                        setFileIdToUrlMap={setFileIdToUrlMap}
+                        label={strings.activationProcessUploadLabel}
+                        disabled={disabled}
+                    />
+                </InputSection>
+                <InputSection
+                    withAsteriskOnTitle
+                    title={strings.activationTriggerTitle}
+                    tooltip={(
+                        <ListView layout="block">
+                            <TextOutput
+                                strongLabel
+                                label={strings.activationProcessExplanatoryLabel}
+                                value={strings.activationTriggerExplanatoryNote}
+                            />
+                            <TextOutput
+                                strongLabel
+                                label={strings.activationProcessRequiredPointsLabel}
+                                value={(
+                                    <ul>
+                                        <li>{strings.activationTriggerRequiredPoint1}</li>
+                                        <li>{strings.activationTriggerRequiredPoint2}</li>
+                                        <li>{strings.activationTriggerRequiredPoint3}</li>
+                                    </ul>
+                                )}
+                            />
+                        </ListView>
+                    )}
+                    description={(
+                        <ul>
+                            <li>{strings.activationTriggerDescription1}</li>
+                            <li>{strings.activationTriggerDescription2}</li>
+                            <li>{strings.activationTriggerDescription3}</li>
+                        </ul>
+                    )}
+                >
+                    <TextArea
+                        label={strings.activationProcessDescriptionLabel}
+                        name="trigger_activation_system"
+                        onChange={setFieldValue}
+                        value={value?.trigger_activation_system}
+                        error={error?.trigger_activation_system}
+                        disabled={disabled}
+                    />
+                    <MultiImageWithCaptionInput
+                        name="trigger_activation_system_images"
+                        url="/api/v2/eap-file/multiple/"
+                        value={value?.trigger_activation_system_images}
+                        onChange={setFieldValue}
+                        error={getErrorObject(error?.trigger_activation_system_images)}
+                        fileIdToUrlMap={fileIdToUrlMap}
+                        setFileIdToUrlMap={setFileIdToUrlMap}
+                        label={strings.activationProcessUploadLabel}
+                        disabled={disabled}
+                    />
+                </InputSection>
+                <InputSection
+                    title={strings.activationPeopleTargetedTitle}
+                    description={strings.activationPeopleTargetedDescription}
+                    withAsteriskOnTitle
+                >
+                    <NumberInput
+                        name="people_targeted"
+                        onChange={setFieldValue}
+                        value={value?.people_targeted}
+                        error={error?.people_targeted}
+                        disabled={disabled}
+                    />
+                </InputSection>
+                <InputSection
+                    withAsteriskOnTitle
+                    title={strings.activationSelectionPopulationTitle}
+                    tooltip={(
+                        <ListView layout="block">
+                            <TextOutput
+                                strongLabel
+                                label={strings.activationProcessExplanatoryLabel}
+                                value={strings.activationSelectionExplanatoryNote}
+                            />
+                            <TextOutput
+                                strongLabel
+                                label={strings.activationProcessRequiredPointsLabel}
+                                value={(
+                                    <ul>
+                                        <li>{strings.activationSelectionDescription1}</li>
+                                        <li>{strings.activationSelectionDescription2}</li>
+                                        <li>{strings.activationSelectionDescription3}</li>
+                                    </ul>
+                                )}
+                            />
+                        </ListView>
+                    )}
+                    description={(
+                        <ul>
+                            <li>{strings.activationSelectionDescription1}</li>
+                            <li>{strings.activationSelectionDescription2}</li>
+                            <li>{strings.activationSelectionDescription3}</li>
+                        </ul>
+                    )}
+                >
+                    <TextArea
+                        label={strings.activationProcessDescriptionLabel}
+                        name="selection_of_target_population"
+                        onChange={setFieldValue}
+                        value={value?.selection_of_target_population}
+                        error={error?.selection_of_target_population}
+                        disabled={disabled}
+                    />
+                </InputSection>
+                <InputSection
+                    withAsteriskOnTitle
+                    title={strings.activationStopMechanismTitle}
+                    tooltip={(
+                        <ListView layout="block">
+                            <TextOutput
+                                strongLabel
+                                label={strings.activationProcessExplanatoryLabel}
+                                value={strings.activationStopMechanismExplanatoryNote}
+                            />
+                            <TextOutput
+                                strongLabel
+                                label={strings.activationProcessRequiredPointsLabel}
+                                value={(
+                                    <ul>
+                                        <li>{strings.activationStopMechanismDescription1}</li>
+                                        <li>{strings.activationStopMechanismDescription2}</li>
+                                        <li>{strings.activationStopMechanismDescription3}</li>
+                                    </ul>
+                                )}
+                            />
+                        </ListView>
+                    )}
+                    description={(
+                        <ul>
+                            <li>{strings.activationStopMechanismDescription1}</li>
+                            <li>{strings.activationStopMechanismDescription2}</li>
+                            <li>{strings.activationStopMechanismDescription3}</li>
+                        </ul>
+                    )}
+                >
+                    <TextArea
+                        label={strings.activationProcessDescriptionLabel}
+                        name="stop_mechanism"
+                        onChange={setFieldValue}
+                        value={value?.stop_mechanism}
+                        error={error?.stop_mechanism}
+                        disabled={disabled}
+                    />
+                </InputSection>
+                <InputSection
+                    title={strings.activationAttachFilesTitle}
+                    description={strings.activationAttachFilesDescription}
+                >
+                    <GoMultiFileInput
+                        name="activation_process_relevant_files"
+                        accept=".pdf, .docx, .pptx"
+                        fileIdToUrlMap={fileIdToUrlMap}
+                        onChange={setFieldValue}
+                        url="/api/v2/eap-file/multiple/"
+                        value={value?.activation_process_relevant_files}
+                        error={getErrorString(error?.activation_process_relevant_files)}
+                        setFileIdToUrlMap={setFileIdToUrlMap}
+                        clearable
+                        disabled={disabled}
+                        useCurrentLanguageForMutation
+                    >
+                        {strings.activationProcessUploadLabel}
+                    </GoMultiFileInput>
+                </InputSection>
+                <InputSection
+                    title={strings.activationSourceOfInformationTitle}
+                    description={strings.activationSourceOfInformationDescription}
+                >
+                    <NonFieldError
+                        error={getErrorObject(
+                            error?.activation_process_source_of_information,
                         )}
-                        withAsteriskOnTitle
-                    >
-                        <TextArea
-                            label={strings.eapFullFormImplementationProcessDescriptionLabel}
-                            name="early_action_implementation_process"
-                            onChange={setFieldValue}
-                            value={value?.early_action_implementation_process}
-                            error={error?.early_action_implementation_process}
-                            disabled={disabled}
-                        />
-                        <MultiImageWithCaptionInput
-                            name="early_action_implementation_images"
-                            url="/api/v2/eap-file/multiple/"
-                            value={value?.early_action_implementation_images}
-                            onChange={setFieldValue}
-                            error={getErrorObject(error?.early_action_implementation_images)}
-                            fileIdToUrlMap={fileIdToUrlMap}
-                            setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.eapFullFormImplementationProcessUploadLabel}
-                            disabled={disabled}
-                        />
-                    </InputSection>
-                    <InputSection
-                        withAsteriskOnTitle
-                        title={strings.eapFullFormImplementationTriggerActivationTitle}
-                        description={(
-                            <ul>
-                                <li>
-                                    {strings.eapFullFormImplementationTriggerActivationDescription1}
-                                </li>
-                                <li>
-                                    {strings.eapFullFormImplementationTriggerActivationDescription2}
-                                </li>
-                                <li>
-                                    {strings.eapFullFormImplementationTriggerActivationDescription3}
-                                </li>
-                            </ul>
-                        )}
-                    >
-                        <TextArea
-                            label={strings.eapFullFormImplementationProcessDescriptionLabel}
-                            name="trigger_activation_system"
-                            onChange={setFieldValue}
-                            value={value?.trigger_activation_system}
-                            error={error?.trigger_activation_system}
-                            disabled={disabled}
-                        />
-                        <MultiImageWithCaptionInput
-                            name="trigger_activation_system_images"
-                            url="/api/v2/eap-file/multiple/"
-                            value={value?.trigger_activation_system_images}
-                            onChange={setFieldValue}
-                            error={getErrorObject(error?.trigger_activation_system_images)}
-                            fileIdToUrlMap={fileIdToUrlMap}
-                            setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.eapFullFormImplementationProcessUploadLabel}
-                            disabled={disabled}
-                        />
-                    </InputSection>
-                    <InputSection
-                        title={strings.eapFullFormImplementationPeopleTargetedTitle}
-                        description={strings.eapFullFormImplementationPeopleTargetedDescription}
-                        withAsteriskOnTitle
-                    >
-                        <NumberInput
-                            name="people_targeted"
-                            onChange={setFieldValue}
-                            value={value?.people_targeted}
-                            error={error?.people_targeted}
-                            disabled={disabled}
-                        />
-                    </InputSection>
-                    <InputSection
-                        withAsteriskOnTitle
-                        title={strings.eapFullFormImplementationSelectionPopulationTitle}
-                        description={(
-                            <ul>
-                                <li>
-                                    {strings.eapFullFormImplementationSelectionDescription1}
-                                </li>
-                                <li>
-                                    {strings.eapFullFormImplementationSelectionDescription2}
-                                </li>
-                                <li>
-                                    {strings.eapFullFormImplementationSelectionDescription3}
-                                </li>
-                            </ul>
-                        )}
-                    >
-                        <TextArea
-                            label={strings.eapFullFormImplementationProcessDescriptionLabel}
-                            name="selection_of_target_population"
-                            onChange={setFieldValue}
-                            value={value?.selection_of_target_population}
-                            error={error?.selection_of_target_population}
-                            disabled={disabled}
-                        />
-                    </InputSection>
-                    <InputSection
-                        withAsteriskOnTitle
-                        title={strings.eapFullFormImplementationStopMechanismTitle}
-                        description={(
-                            <ul>
-                                <li>
-                                    {strings.eapFullFormImplementationStopMechanismDescription1}
-                                </li>
-                                <li>
-                                    {strings.eapFullFormImplementationStopMechanismDescription2}
-                                </li>
-                                <li>
-                                    {strings.eapFullFormImplementationStopMechanismDescription3}
-                                </li>
-                            </ul>
-                        )}
-                    >
-                        <TextArea
-                            label={strings.eapFullFormImplementationProcessDescriptionLabel}
-                            name="stop_mechanism"
-                            onChange={setFieldValue}
-                            value={value?.stop_mechanism}
-                            error={error?.stop_mechanism}
-                            disabled={disabled}
-                        />
-                    </InputSection>
-                    <InputSection
-                        title={strings.eapFullFormImplementationAttachFilesTitle}
-                        description={strings.eapFullFormImplementationAttachFilesDescription}
-                    >
-                        <GoMultiFileInput
-                            name="activation_process_relevant_files"
-                            accept=".pdf, .docx, .pptx"
-                            fileIdToUrlMap={fileIdToUrlMap}
-                            onChange={setFieldValue}
-                            url="/api/v2/eap-file/multiple/"
-                            value={value?.activation_process_relevant_files}
-                            error={getErrorString(error?.activation_process_relevant_files)}
-                            setFileIdToUrlMap={setFileIdToUrlMap}
-                            clearable
-                            disabled={disabled}
-                            useCurrentLanguageForMutation
-                        >
-                            {strings.eapFullFormImplementationProcessUploadLabel}
-                        </GoMultiFileInput>
-                    </InputSection>
-                    <InputSection
-                        title={strings.eapFullFormImplementationSourceOfInformationTitle}
-                        description={
-                            strings.eapFullFormImplementationSourceOfInformationDescription
-                        }
-                    >
-                        <NonFieldError
-                            error={getErrorObject(error?.activation_process_source_of_information)}
-                        />
-                        {value?.activation_process_source_of_information?.map((source, index) => (
-                            <ActivationSourceInformationInput
+                    />
+                    {value?.activation_process_source_of_information?.map(
+                        (source, index) => (
+                            <EAPSourceInformationInput
                                 key={source.client_id}
                                 index={index}
                                 value={source}
                                 onChange={onRiskSourceInformationChange}
                                 onRemove={onRiskSourceInformationRemove}
-                                error={getErrorObject(error
-                                    ?.activation_process_source_of_information)}
+                                error={getErrorObject(
+                                    error?.activation_process_source_of_information,
+                                )}
                                 disabled={disabled}
                             />
-                        ))}
-                        <Button
-                            name={undefined}
-                            onClick={handleSourceInformationAdd}
-                            disabled={disabled}
-                        >
-                            {strings.eapFullFormImplementationSourceOfInformationAddNewLabel}
-                        </Button>
-                    </InputSection>
-                </ListView>
-            </Container>
+                        ),
+                    )}
+                    <Button
+                        name={undefined}
+                        onClick={handleSourceInformationAdd}
+                        disabled={disabled}
+                    >
+                        {strings.activationSourceOfInformationAddNewLabel}
+                    </Button>
+                </InputSection>
+            </ListView>
         </TabPage>
     );
 }

@@ -7,6 +7,7 @@ import {
     Button,
     Container,
     ExpandableContainer,
+    InfoPopup,
     ListView,
     NumberInput,
 } from '@ifrc-go/ui';
@@ -171,7 +172,7 @@ function ApproachesInput(props: Props) {
                     name={index}
                     onClick={onRemove}
                     styleVariant="action"
-                    title={strings.eapFullFormApproachRemoveButton}
+                    title={strings.approachRemoveButton}
                     disabled={disabled}
                 >
                     <DeleteBinTwoLineIcon />
@@ -187,7 +188,7 @@ function ApproachesInput(props: Props) {
                     numPreferredGridColumns={3}
                 >
                     <NumberInput
-                        label={strings.eapFullFormApproachBudget}
+                        label={strings.approachBudget}
                         name="budget_per_approach"
                         value={value?.budget_per_approach}
                         onChange={onFieldChange}
@@ -195,7 +196,7 @@ function ApproachesInput(props: Props) {
                         error={error?.budget_per_approach}
                     />
                     <NumberInput
-                        label={strings.eapFullFormApproachApCode}
+                        label={strings.approachApCode}
                         name="ap_code"
                         value={value?.ap_code}
                         onChange={onFieldChange}
@@ -214,8 +215,7 @@ function ApproachesInput(props: Props) {
                         withPadding
                         withCompactMessage
                         headingLevel={6}
-                        // FIXME: use strings
-                        heading="Indicators"
+                        heading={strings.approachIndicators}
                         footerActions={(
                             <Button
                                 name={undefined}
@@ -223,14 +223,12 @@ function ApproachesInput(props: Props) {
                                 spacing="sm"
                                 disabled={disabled}
                                 before={<AddLineIcon />}
-                                // FIXME: use strings
                             >
-                                Add Indicator
+                                {strings.approachAddIndicatorsButtonLabel}
                             </Button>
                         )}
                         empty={isNotDefined(value.indicators) || value.indicators.length === 0}
-                        // FIXME: use strings
-                        emptyMessage="No indicators yet"
+                        emptyMessage={strings.approachNoIndicatorsMessage}
                     >
                         <ListView layout="block">
                             {value.indicators?.map((indicator, i) => (
@@ -251,7 +249,14 @@ function ApproachesInput(props: Props) {
                         withDarkBackground
                         withHeaderBorder
                         withPadding
-                        heading={strings.eapFullFormApproachReadinessActivities}
+                        heading={(
+                            <>
+                                {strings.approachReadinessActivities}
+                                <InfoPopup
+                                    description={strings.approachReadinessActivitiesDescription}
+                                />
+                            </>
+                        )}
                         headingLevel={5}
                         footerActions={(
                             <Button
@@ -262,13 +267,13 @@ function ApproachesInput(props: Props) {
                                 spacing="sm"
                                 before={<AddLineIcon />}
                             >
-                                {strings.eapFullFormApproachAddActivityButton}
+                                {strings.approachAddActivityButton}
                             </Button>
                         )}
                         withCompactMessage
                         empty={isNotDefined(value.readiness_activities)
                             || value.readiness_activities.length === 0}
-                        emptyMessage={strings.eapFullFormApproachNoActivitiesMessage}
+                        emptyMessage={strings.approachNoActivitiesMessage}
                         headerDescription={(
                             <NonFieldError error={
                                 getErrorObject(error?.readiness_activities)
@@ -295,7 +300,16 @@ function ApproachesInput(props: Props) {
                         withDarkBackground
                         withHeaderBorder
                         withPadding
-                        heading={strings.eapFullFormApproachPrepositioningActivities}
+                        heading={(
+                            <>
+                                {strings.approachPrepositioningActivities}
+                                <InfoPopup
+                                    description={
+                                        strings.approachPrepositioningActivitiesDescription
+                                    }
+                                />
+                            </>
+                        )}
                         headingLevel={5}
                         footerActions={(
                             <Button
@@ -306,13 +320,13 @@ function ApproachesInput(props: Props) {
                                 spacing="sm"
                                 before={<AddLineIcon />}
                             >
-                                {strings.eapFullFormApproachAddActivityButton}
+                                {strings.approachAddActivityButton}
                             </Button>
                         )}
                         withCompactMessage
                         empty={isNotDefined(value.prepositioning_activities)
                             || value.prepositioning_activities.length === 0}
-                        emptyMessage={strings.eapFullFormApproachNoActivitiesMessage}
+                        emptyMessage={strings.approachNoActivitiesMessage}
                         headerDescription={(
                             <NonFieldError error={
                                 getErrorObject(error?.prepositioning_activities)
@@ -339,7 +353,14 @@ function ApproachesInput(props: Props) {
                         withDarkBackground
                         withHeaderBorder
                         withPadding
-                        heading={strings.eapFullFormApproachEarlyActionActivities}
+                        heading={(
+                            <>
+                                {strings.approachEarlyActionActivities}
+                                <InfoPopup
+                                    description={strings.approachEarlyActionActivitiesDescription}
+                                />
+                            </>
+                        )}
                         headingLevel={5}
                         footerActions={(
                             <Button
@@ -350,13 +371,13 @@ function ApproachesInput(props: Props) {
                                 spacing="sm"
                                 before={<AddLineIcon />}
                             >
-                                {strings.eapFullFormApproachAddActivityButton}
+                                {strings.approachAddActivityButton}
                             </Button>
                         )}
                         withCompactMessage
                         empty={isNotDefined(value.early_action_activities)
                             || value.early_action_activities.length === 0}
-                        emptyMessage={strings.eapFullFormApproachNoActivitiesMessage}
+                        emptyMessage={strings.approachNoActivitiesMessage}
                         headerDescription={(
                             <NonFieldError error={
                                 getErrorObject(error?.early_action_activities)

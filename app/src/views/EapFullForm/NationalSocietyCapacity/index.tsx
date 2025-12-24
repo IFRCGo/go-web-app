@@ -1,8 +1,10 @@
 import {
-    Container,
+    Heading,
+    InfoPopup,
     InputSection,
     ListView,
     TextArea,
+    TextOutput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
 import {
@@ -25,7 +27,9 @@ interface Props {
     error: Error<PartialEapFullFormType> | undefined;
     disabled?: boolean;
     fileIdToUrlMap: Record<number, string>;
-    setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
+    setFileIdToUrlMap?: React.Dispatch<
+        React.SetStateAction<Record<number, string>>
+    >;
 }
 function NationalSocietyCapacity(props: Props) {
     const {
@@ -42,80 +46,99 @@ function NationalSocietyCapacity(props: Props) {
 
     return (
         <TabPage>
-            <Container>
-                <ListView
-                    layout="block"
-                    spacing="sm"
+            <ListView layout="block">
+                <Heading level={4}>
+                    {strings.capacityHeading}
+                    <InfoPopup description={strings.capacityHeadingTooltip} />
+                </Heading>
+                <InputSection
+                    title={strings.capacityOperationalTitle}
+                    description={(
+                        <ul>
+                            <li>{strings.capacityOperationalDescription1}</li>
+                            <li>{strings.capacityOperationalDescription2}</li>
+                            <li>{strings.capacityOperationalDescription3}</li>
+                            <li>{strings.capacityOperationalDescription4}</li>
+                        </ul>
+                    )}
+                    withAsteriskOnTitle
                 >
-                    <InputSection
-                        title={strings.eapFullFormOperationalTitle}
-                        description={(
-                            <ul>
-                                <li>{strings.eapFullFormOperationalDescription1}</li>
-                                <li>{strings.eapFullFormOperationalDescription2}</li>
-                            </ul>
-                        )}
-                        withAsteriskOnTitle
+                    <TextArea
+                        label={strings.capacityDescriptionLabel}
+                        name="operational_administrative_capacity"
+                        value={value?.operational_administrative_capacity}
+                        error={error?.operational_administrative_capacity}
+                        onChange={setFieldValue}
+                        disabled={disabled}
+                    />
+                </InputSection>
+                <InputSection
+                    title={strings.capacityStrategiesPlansTitle}
+                    description={strings.capacityStrategiesPlansDescription}
+                    withAsteriskOnTitle
+                >
+                    <TextArea
+                        label={strings.capacityDescriptionLabel}
+                        name="strategies_and_plans"
+                        value={value?.strategies_and_plans}
+                        error={error?.strategies_and_plans}
+                        onChange={setFieldValue}
+                        disabled={disabled}
+                    />
+                </InputSection>
+                <InputSection
+                    title={strings.capacityFinancialCapacityTitle}
+                    tooltip={(
+                        <ListView layout="block">
+                            <TextOutput
+                                strongLabel
+                                label={strings.capacityExplanatoryNoteLabel}
+                                value={strings.capacityExplanatoryNote}
+                            />
+                            <TextOutput
+                                strongLabel
+                                label={strings.capacityRequiredPointsLabel}
+                                value={(
+                                    <ul>
+                                        <li>{strings.capacityFinancialCapacityDescription}</li>
+                                    </ul>
+                                )}
+                            />
+                        </ListView>
+                    )}
+                    description={strings.capacityFinancialCapacityDescription}
+                    withAsteriskOnTitle
+                >
+                    <TextArea
+                        label={strings.capacityDescriptionLabel}
+                        name="advance_financial_capacity"
+                        value={value?.advance_financial_capacity}
+                        error={error?.advance_financial_capacity}
+                        onChange={setFieldValue}
+                        disabled={disabled}
+                    />
+                </InputSection>
+                <InputSection
+                    title={strings.capacityNationalRelevantFilesTitle}
+                    description={strings.capacityNationalRelevantFilesDescription}
+                >
+                    <GoMultiFileInput
+                        name="capacity_relevant_files"
+                        accept=".pdf, .docx, .pptx"
+                        fileIdToUrlMap={fileIdToUrlMap}
+                        onChange={setFieldValue}
+                        url="/api/v2/eap-file/multiple/"
+                        value={value?.capacity_relevant_files}
+                        error={getErrorString(error?.capacity_relevant_files)}
+                        setFileIdToUrlMap={setFileIdToUrlMap}
+                        clearable
+                        disabled={disabled}
+                        useCurrentLanguageForMutation
                     >
-                        <TextArea
-                            label={strings.eapFullFormNationalCapacityDescriptionLabel}
-                            name="operational_administrative_capacity"
-                            value={value?.operational_administrative_capacity}
-                            error={error?.operational_administrative_capacity}
-                            onChange={setFieldValue}
-                            disabled={disabled}
-                        />
-                    </InputSection>
-                    <InputSection
-                        title={strings.eapFullFormStrategiesPlansTitle}
-                        description={strings.eapFullFormStrategiesPlansDescription}
-                        withAsteriskOnTitle
-                    >
-                        <TextArea
-                            label={strings.eapFullFormNationalCapacityDescriptionLabel}
-                            name="strategies_and_plans"
-                            value={value?.strategies_and_plans}
-                            error={error?.strategies_and_plans}
-                            onChange={setFieldValue}
-                            disabled={disabled}
-                        />
-                    </InputSection>
-                    <InputSection
-                        title={strings.eapFullFormFinancialCapacityTitle}
-                        description={strings.eapFullFormFinancialCapacityDescription}
-                        withAsteriskOnTitle
-                    >
-                        <TextArea
-                            label={strings.eapFullFormNationalCapacityDescriptionLabel}
-                            name="advance_financial_capacity"
-                            value={value?.advance_financial_capacity}
-                            error={error?.advance_financial_capacity}
-                            onChange={setFieldValue}
-                            disabled={disabled}
-                        />
-                    </InputSection>
-                    <InputSection
-                        title={strings.eapFullFormNationalRelevantFilesTitle}
-                        description={strings.eapFullFormNationalRelevantFilesDescription}
-                    >
-                        <GoMultiFileInput
-                            name="capacity_relevant_files"
-                            accept=".pdf, .docx, .pptx"
-                            fileIdToUrlMap={fileIdToUrlMap}
-                            onChange={setFieldValue}
-                            url="/api/v2/eap-file/multiple/"
-                            value={value?.capacity_relevant_files}
-                            error={getErrorString(error?.capacity_relevant_files)}
-                            setFileIdToUrlMap={setFileIdToUrlMap}
-                            clearable
-                            disabled={disabled}
-                            useCurrentLanguageForMutation
-                        >
-                            {strings.eapFullFormNationalRelevantFilesUploadLabel}
-                        </GoMultiFileInput>
-                    </InputSection>
-                </ListView>
-            </Container>
+                        {strings.capacityNationalRelevantFilesUploadLabel}
+                    </GoMultiFileInput>
+                </InputSection>
+            </ListView>
         </TabPage>
     );
 }

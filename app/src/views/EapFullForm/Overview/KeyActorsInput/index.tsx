@@ -57,7 +57,7 @@ function KeyActorsInput(props: Props) {
     return (
         <>
             <NationalSocietySelectInput
-                label={strings.fullFormKeyActorsSelectPartnerLabel}
+                label={strings.overviewKeyActorsSelectPartnerLabel}
                 error={error?.national_society}
                 name="national_society"
                 onChange={onFieldChange}
@@ -67,7 +67,7 @@ function KeyActorsInput(props: Props) {
             />
             <TextArea
                 required
-                label={strings.fullFormKeyActorsDescriptionLabel}
+                label={strings.overviewKeyActorsDescriptionLabel}
                 name="description"
                 value={value?.description}
                 onChange={onFieldChange}
@@ -77,7 +77,7 @@ function KeyActorsInput(props: Props) {
                 onClick={onRemove}
                 styleVariant="action"
                 disabled={disabled || readOnly}
-                title={strings.fullFormKeyActorsDeleteButton}
+                title={strings.overviewKeyActorsDeleteButton}
             >
                 <DeleteBinTwoLineIcon />
             </Button>

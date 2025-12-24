@@ -476,16 +476,15 @@ type EapFullFormSchemaFields = ReturnType<EapFullFormSchema['fields']>;
 type FieldKeys = keyof EapFullRequestBody;
 
 type ContactFieldSuffix = 'name' | 'title' | 'email' | 'phone_number';
-type ExtractContactPrefix<KEY extends FieldKeys> =
-    KEY extends `${infer PREFIX}_name`
+type ExtractContactPrefix<KEY extends FieldKeys> = KEY extends `${infer PREFIX}_name`
     ? `${PREFIX}_title` extends FieldKeys
-    ? `${PREFIX}_email` extends FieldKeys
-    ? `${PREFIX}_phone_number` extends FieldKeys
-    ? PREFIX
+        ? `${PREFIX}_email` extends FieldKeys
+            ? `${PREFIX}_phone_number` extends FieldKeys
+                ? PREFIX
+                : never
+            : never
+        : never
     : never
-    : never
-    : never
-    : never;
 
 export type ValidContactFieldPrefixes = ExtractContactPrefix<FieldKeys>;
 

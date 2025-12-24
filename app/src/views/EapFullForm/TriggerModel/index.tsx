@@ -1,7 +1,8 @@
 import { useCallback } from 'react';
 import {
     Button,
-    Container,
+    Heading,
+    InfoPopup,
     InputSection,
     ListView,
     NumberInput,
@@ -29,18 +30,10 @@ import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 import { type GoApiResponse } from '#utils/restRequest';
 
+import EAPSourceInformationInput, { type SourceInformationFormFields } from '../EAPSourceInformationInput';
 import { type PartialEapFullFormType } from '../schema';
-import SourceInformationInput from './SourceInformationInput';
-import SourcesForecastInput from './SourcesForecastInput';
 
 import i18n from './i18n.json';
-
-type SourcesForecastFormFields = NonNullable<
-    PartialEapFullFormType['trigger_statement_source_of_information']
->[number];
-type SourceInformationFormFields = NonNullable<
-    PartialEapFullFormType['trigger_model_source_of_information']
->[number];
 
 interface Props {
     value: PartialEapFullFormType;
@@ -73,16 +66,16 @@ function TriggerModel(props: Props) {
         removeValue: onSourcesForecastRemove,
     } = useFormArray<
         'trigger_statement_source_of_information',
-        SourcesForecastFormFields
+        SourceInformationFormFields
     >('trigger_statement_source_of_information', setFieldValue);
 
     const handleSourcesForecastAdd = useCallback(() => {
-        const newSourceInformationItem: SourcesForecastFormFields = {
+        const newSourceInformationItem: SourceInformationFormFields = {
             client_id: randomString(),
         };
 
         setFieldValue(
-            (oldValue: SourcesForecastFormFields[] | undefined) => [
+            (oldValue: SourceInformationFormFields[] | undefined) => [
                 ...(oldValue ?? []),
                 newSourceInformationItem,
             ],
@@ -114,258 +107,307 @@ function TriggerModel(props: Props) {
 
     return (
         <TabPage>
-            <Container>
-                <ListView layout="block" spacing="sm">
-                    <InputSection
-                        title={strings.eapFullFormTriggerStatementTitle}
-                        description={strings.eapFullFormTriggerStatementDescription}
-                        withAsteriskOnTitle
-                    >
-                        <TextArea
-                            label={strings.eapFullFormTriggerModelDescriptionLabel}
-                            name="trigger_statement"
-                            value={value?.trigger_statement}
-                            error={error?.trigger_statement}
-                            onChange={setFieldValue}
-                            disabled={disabled}
-                        />
-                    </InputSection>
-                    <InputSection title="Lead Time" withAsteriskOnTitle>
-                        <NumberInput
-                            name="lead_time"
-                            value={value?.lead_time}
-                            error={error?.lead_time}
-                            onChange={setFieldValue}
-                            disabled={disabled}
-                        />
-                    </InputSection>
-                    <InputSection
-                        title={strings.eapFullFormSourcesForecastTitle}
-                        description={strings.eapFullFormSourcesForecastDescription}
-                    >
-                        <NonFieldError
-                            error={getErrorObject(
-                                error?.trigger_statement_source_of_information,
-                            )}
-                        />
-                        {value?.trigger_statement_source_of_information?.map(
-                            (source, index) => (
-                                <SourcesForecastInput
-                                    key={source.client_id}
-                                    index={index}
-                                    value={source}
-                                    onChange={onSourcesForecastChange}
-                                    onRemove={onSourcesForecastRemove}
-                                    error={getErrorObject(
-                                        error?.risk_analysis_source_of_information,
-                                    )}
-                                    disabled={disabled}
-                                />
-                            ),
-                        )}
-                        <Button
-                            name={undefined}
-                            onClick={handleSourcesForecastAdd}
-                            disabled={disabled}
-                        >
-                            {strings.eapFullFormAddNewSourcesForecastLabel}
-                        </Button>
-                    </InputSection>
-                    <InputSection
-                        title={strings.eapFullFormForecastSelectionTitle}
-                        description={strings.eapFullFormForecastSelectionDescription}
-                        withAsteriskOnTitle
-                    >
-                        <TextArea
-                            label={strings.eapFullFormTriggerModelDescriptionLabel}
-                            name="forecast_selection"
-                            value={value?.forecast_selection}
-                            error={error?.forecast_selection}
-                            onChange={setFieldValue}
-                            disabled={disabled}
-                        />
-                        <MultiImageWithCaptionInput
-                            name="forecast_selection_images"
-                            url="/api/v2/eap-file/multiple/"
-                            value={value?.forecast_selection_images}
-                            onChange={setFieldValue}
-                            error={getErrorObject(error?.forecast_selection_images)}
-                            fileIdToUrlMap={fileIdToUrlMap}
-                            setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.eapFullFormTriggerSelectImagesLabel}
-                            disabled={disabled}
-                        />
+            <ListView layout="block">
+                <Heading level={4}>
+                    {strings.triggerModelHeading}
+                    <InfoPopup description={strings.triggerModelTooltipDescription} />
+                </Heading>
+                <InputSection
+                    title={strings.triggerStatementTitle}
+                    tooltip={(
                         <TextOutput
-                            withLightText
-                            value={strings.eapFullFormForecastTableLabel}
+                            label={strings.triggerExplanatoryNoteLabel}
+                            strongLabel
+                            value={strings.triggerStatementExplanatoryNote}
                         />
-                        <GoSingleFileInput
-                            accept=".pdf"
-                            name="forecast_table_file"
-                            value={value.forecast_table_file}
-                            url="/api/v2/eap-file/"
-                            error={error?.forecast_table_file}
-                            disabled={disabled}
-                            label={strings.eapFullFormAttachRelevantFilesUploadLabel}
-                            fileIdToUrlMap={fileIdToUrlMap}
-                            setFileIdToUrlMap={setFileIdToUrlMap}
-                            onChange={setFieldValue}
-                        >
-                            {strings.eapFullFormTriggerUploadTableLabel}
-                        </GoSingleFileInput>
-                    </InputSection>
-                    <InputSection
-                        title={strings.eapFullFormDefinitionJustificationTitle}
-                        description={(
-                            <ul>
-                                <li>
-                                    {strings.eapFullFormDefinitionJustificationDescription1}
-                                </li>
-                                <li>
-                                    {strings.eapFullFormDefinitionJustificationDescription2}
-                                </li>
-                                <li>
-                                    {strings.eapFullFormDefinitionJustificationDescription3}
-                                </li>
-                                <li>
-                                    {strings.eapFullFormDefinitionJustificationDescription4}
-                                </li>
-                                <li>
-                                    {strings.eapFullFormDefinitionJustificationDescription5}
-                                </li>
-                            </ul>
+                    )}
+                    description={strings.triggerStatementDescription}
+                    withAsteriskOnTitle
+                >
+                    <TextArea
+                        label={strings.triggerModelDescriptionLabel}
+                        name="trigger_statement"
+                        value={value?.trigger_statement}
+                        error={error?.trigger_statement}
+                        onChange={setFieldValue}
+                        disabled={disabled}
+                    />
+                </InputSection>
+                <InputSection
+                    title={strings.triggerLeadTimeTitle}
+                    withAsteriskOnTitle
+                >
+                    <NumberInput
+                        name="lead_time"
+                        value={value?.lead_time}
+                        error={error?.lead_time}
+                        onChange={setFieldValue}
+                        disabled={disabled}
+                    />
+                </InputSection>
+                <InputSection
+                    title={strings.sourcesForecastTitle}
+                    description={strings.sourcesForecastDescription}
+                >
+                    <NonFieldError
+                        error={getErrorObject(
+                            error?.trigger_statement_source_of_information,
                         )}
-                        withAsteriskOnTitle
-                    >
-                        <TextArea
-                            label={strings.eapFullFormTriggerModelDescriptionLabel}
-                            name="definition_and_justification_impact_level"
-                            value={value?.definition_and_justification_impact_level}
-                            error={error?.definition_and_justification_impact_level}
-                            onChange={setFieldValue}
-                            disabled={disabled}
-                        />
-                        <MultiImageWithCaptionInput
-                            name="definition_and_justification_impact_level_images"
-                            url="/api/v2/eap-file/multiple/"
-                            value={value?.definition_and_justification_impact_level_images}
-                            onChange={setFieldValue}
-                            error={getErrorObject(
-                                error?.definition_and_justification_impact_level_images,
-                            )}
-                            fileIdToUrlMap={fileIdToUrlMap}
-                            setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.eapFullFormTriggerSelectImagesLabel}
-                            disabled={disabled}
-                        />
-                    </InputSection>
-                    <InputSection
-                        title={strings.eapFullFormIdentificationInterventionTitle}
-                        description={(
-                            <ul>
-                                <li>
-                                    {strings.eapFullFormIdentificationInterventionDescription1}
-                                </li>
-                                <li>
-                                    {strings.eapFullFormIdentificationInterventionDescription2}
-                                </li>
-                                <li>
-                                    {strings.eapFullFormIdentificationInterventionDescription3}
-                                </li>
-                            </ul>
-                        )}
-                        withAsteriskOnTitle
-                    >
-                        <TextArea
-                            label={strings.eapFullFormTriggerModelDescriptionLabel}
-                            name="identification_of_the_intervention_area"
-                            value={value?.identification_of_the_intervention_area}
-                            error={error?.identification_of_the_intervention_area}
-                            onChange={setFieldValue}
-                            disabled={disabled}
-                        />
-                        <MultiImageWithCaptionInput
-                            name="identification_of_the_intervention_area_images"
-                            url="/api/v2/eap-file/multiple/"
-                            value={value?.identification_of_the_intervention_area_images}
-                            onChange={setFieldValue}
-                            error={getErrorObject(
-                                error?.identification_of_the_intervention_area_images,
-                            )}
-                            fileIdToUrlMap={fileIdToUrlMap}
-                            setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.eapFullFormTriggerSelectImagesLabel}
-                            disabled={disabled}
-                        />
-                    </InputSection>
-                    <InputSection
-                        title={strings.eapFullFormSelectRegionTitle}
-                        description={strings.eapFullFormSelectRegionDescription}
-                        withAsteriskOnTitle
-                    >
-                        {isDefined(eapRegistrationDetail?.country) && (
-                            <Admin2Input
-                                name="admin2"
-                                onChange={setFieldValue}
-                                value={value?.admin2}
-                                countryId={eapRegistrationDetail.country}
-                                error={getErrorString(error?.admin2)}
+                    />
+                    {value?.trigger_statement_source_of_information?.map(
+                        (source, index) => (
+                            <EAPSourceInformationInput
+                                key={source.client_id}
+                                index={index}
+                                value={source}
+                                onChange={onSourcesForecastChange}
+                                onRemove={onSourcesForecastRemove}
+                                error={getErrorObject(
+                                    error?.risk_analysis_source_of_information,
+                                )}
+                                disabled={disabled}
                             />
-                        )}
-                    </InputSection>
-                    <InputSection
-                        title={strings.eapFullFormAttachRelevantFilesTitle}
-                        description={strings.eapFullFormAttachRelevantFilesDescription}
-                        withAsteriskOnTitle
+                        ),
+                    )}
+                    <Button
+                        name={undefined}
+                        onClick={handleSourcesForecastAdd}
+                        disabled={disabled}
                     >
-                        <GoMultiFileInput
-                            name="trigger_model_relevant_files"
-                            accept=".pdf, .docx, .pptx"
-                            fileIdToUrlMap={fileIdToUrlMap}
+                        {strings.addNewSourcesForecastLabel}
+                    </Button>
+                </InputSection>
+                <InputSection
+                    title={strings.forecastSelectionTitle}
+                    tooltip={(
+                        <ListView layout="block">
+                            <TextOutput
+                                label={strings.triggerExplanatoryNoteLabel}
+                                strongLabel
+                                value={strings.forecastExplanatoryNote}
+                            />
+                            <TextOutput
+                                label={strings.triggerRequiredPointsLabel}
+                                strongLabel
+                                value={(
+                                    <ul>
+                                        <li>{strings.forecastRequiredPoint1}</li>
+                                        <li>{strings.forecastRequiredPoint2}</li>
+                                    </ul>
+                                )}
+                            />
+                        </ListView>
+                    )}
+                    description={strings.forecastSelectionDescription}
+                    withAsteriskOnTitle
+                >
+                    <TextArea
+                        label={strings.triggerModelDescriptionLabel}
+                        name="forecast_selection"
+                        value={value?.forecast_selection}
+                        error={error?.forecast_selection}
+                        onChange={setFieldValue}
+                        disabled={disabled}
+                    />
+                    <MultiImageWithCaptionInput
+                        name="forecast_selection_images"
+                        url="/api/v2/eap-file/multiple/"
+                        value={value?.forecast_selection_images}
+                        onChange={setFieldValue}
+                        error={getErrorObject(error?.forecast_selection_images)}
+                        fileIdToUrlMap={fileIdToUrlMap}
+                        setFileIdToUrlMap={setFileIdToUrlMap}
+                        label={strings.triggerSelectImagesLabel}
+                        disabled={disabled}
+                    />
+                    <TextOutput withLightText value={strings.forecastTableLabel} />
+                    <GoSingleFileInput
+                        accept=".pdf"
+                        name="forecast_table_file"
+                        value={value.forecast_table_file}
+                        url="/api/v2/eap-file/"
+                        error={error?.forecast_table_file}
+                        disabled={disabled}
+                        label={strings.attachRelevantFilesUploadLabel}
+                        fileIdToUrlMap={fileIdToUrlMap}
+                        setFileIdToUrlMap={setFileIdToUrlMap}
+                        onChange={setFieldValue}
+                    >
+                        {strings.triggerUploadTableLabel}
+                    </GoSingleFileInput>
+                </InputSection>
+                <InputSection
+                    title={strings.definitionJustificationTitle}
+                    tooltip={(
+                        <ListView layout="block">
+                            <TextOutput
+                                label={strings.triggerExplanatoryNoteLabel}
+                                strongLabel
+                                value={strings.definitionJustificationExplanatoryNote}
+                            />
+                            <TextOutput
+                                label={strings.triggerRequiredPointsLabel}
+                                strongLabel
+                                value={(
+                                    <ul>
+                                        <li>{strings.definitionJustificationRequiredPoint1}</li>
+                                        <li>{strings.definitionJustificationRequiredPoint2}</li>
+                                        <li>{strings.definitionJustificationRequiredPoint3}</li>
+                                        <li>{strings.definitionJustificationRequiredPoint4}</li>
+                                    </ul>
+                                )}
+                            />
+                        </ListView>
+                    )}
+                    description={(
+                        <ul>
+                            <li>{strings.definitionJustificationDescription1}</li>
+                            <li>{strings.definitionJustificationDescription2}</li>
+                            <li>{strings.definitionJustificationDescription3}</li>
+                            <li>{strings.definitionJustificationDescription4}</li>
+                            <li>{strings.definitionJustificationDescription5}</li>
+                        </ul>
+                    )}
+                    withAsteriskOnTitle
+                >
+                    <TextArea
+                        label={strings.triggerModelDescriptionLabel}
+                        name="definition_and_justification_impact_level"
+                        value={value?.definition_and_justification_impact_level}
+                        error={error?.definition_and_justification_impact_level}
+                        onChange={setFieldValue}
+                        disabled={disabled}
+                    />
+                    <MultiImageWithCaptionInput
+                        name="definition_and_justification_impact_level_images"
+                        url="/api/v2/eap-file/multiple/"
+                        value={value?.definition_and_justification_impact_level_images}
+                        onChange={setFieldValue}
+                        error={getErrorObject(
+                            error?.definition_and_justification_impact_level_images,
+                        )}
+                        fileIdToUrlMap={fileIdToUrlMap}
+                        setFileIdToUrlMap={setFileIdToUrlMap}
+                        label={strings.triggerSelectImagesLabel}
+                        disabled={disabled}
+                    />
+                </InputSection>
+                <InputSection
+                    title={strings.identificationInterventionTitle}
+                    tooltip={(
+                        <ListView layout="block">
+                            <TextOutput
+                                label={strings.triggerExplanatoryNoteLabel}
+                                strongLabel
+                                value={strings.identificationInterventionExplanatoryNote}
+                            />
+                            <TextOutput
+                                label={strings.triggerRequiredPointsLabel}
+                                strongLabel
+                                value={(
+                                    <ul>
+                                        <li>{strings.identificationInterventionRequiredPoint1}</li>
+                                        <li>{strings.identificationInterventionRequiredPoint2}</li>
+                                        <li>{strings.identificationInterventionRequiredPoint3}</li>
+                                    </ul>
+                                )}
+                            />
+                        </ListView>
+                    )}
+                    description={(
+                        <ul>
+                            <li>{strings.identificationInterventionDescription1}</li>
+                            <li>{strings.identificationInterventionDescription2}</li>
+                            <li>{strings.identificationInterventionDescription3}</li>
+                        </ul>
+                    )}
+                    withAsteriskOnTitle
+                >
+                    <TextArea
+                        label={strings.triggerModelDescriptionLabel}
+                        name="identification_of_the_intervention_area"
+                        value={value?.identification_of_the_intervention_area}
+                        error={error?.identification_of_the_intervention_area}
+                        onChange={setFieldValue}
+                        disabled={disabled}
+                    />
+                    <MultiImageWithCaptionInput
+                        name="identification_of_the_intervention_area_images"
+                        url="/api/v2/eap-file/multiple/"
+                        value={value?.identification_of_the_intervention_area_images}
+                        onChange={setFieldValue}
+                        error={getErrorObject(
+                            error?.identification_of_the_intervention_area_images,
+                        )}
+                        fileIdToUrlMap={fileIdToUrlMap}
+                        setFileIdToUrlMap={setFileIdToUrlMap}
+                        label={strings.triggerSelectImagesLabel}
+                        disabled={disabled}
+                    />
+                </InputSection>
+                <InputSection
+                    title={strings.selectRegionTitle}
+                    description={strings.selectRegionDescription}
+                    withAsteriskOnTitle
+                >
+                    {isDefined(eapRegistrationDetail?.country) && (
+                        <Admin2Input
+                            name="admin2"
                             onChange={setFieldValue}
-                            url="/api/v2/eap-file/multiple/"
-                            value={value?.trigger_model_relevant_files}
-                            error={getErrorString(error?.trigger_model_relevant_files)}
-                            setFileIdToUrlMap={setFileIdToUrlMap}
-                            clearable
-                            disabled={disabled}
-                            useCurrentLanguageForMutation
-                        >
-                            {strings.eapFullFormAttachRelevantFilesUploadLabel}
-                        </GoMultiFileInput>
-                    </InputSection>
-                    <InputSection
-                        title={strings.eapFullFormSourceInformationTitle}
-                        description={strings.eapFullFormSourceInformationDescription}
-                    >
-                        <NonFieldError
-                            error={getErrorObject(error?.trigger_model_source_of_information)}
+                            value={value?.admin2}
+                            countryId={eapRegistrationDetail.country}
+                            error={getErrorString(error?.admin2)}
                         />
-                        {value?.trigger_model_source_of_information?.map(
-                            (source, index) => (
-                                <SourceInformationInput
-                                    key={source.client_id}
-                                    index={index}
-                                    value={source}
-                                    onChange={onSourceInformationChange}
-                                    onRemove={onSourceInformationRemove}
-                                    error={getErrorObject(
-                                        error?.trigger_model_source_of_information,
-                                    )}
-                                    disabled={disabled}
-                                />
-                            ),
-                        )}
-                        <Button
-                            name={undefined}
-                            onClick={handleSourceInformationAdd}
+                    )}
+                </InputSection>
+                <InputSection
+                    title={strings.attachRelevantFilesTitle}
+                    description={strings.attachRelevantFilesDescription}
+                    withAsteriskOnTitle
+                >
+                    <GoMultiFileInput
+                        name="trigger_model_relevant_files"
+                        accept=".pdf, .docx, .pptx"
+                        fileIdToUrlMap={fileIdToUrlMap}
+                        onChange={setFieldValue}
+                        url="/api/v2/eap-file/multiple/"
+                        value={value?.trigger_model_relevant_files}
+                        error={getErrorString(error?.trigger_model_relevant_files)}
+                        setFileIdToUrlMap={setFileIdToUrlMap}
+                        clearable
+                        disabled={disabled}
+                        useCurrentLanguageForMutation
+                    >
+                        {strings.attachRelevantFilesUploadLabel}
+                    </GoMultiFileInput>
+                </InputSection>
+                <InputSection
+                    title={strings.sourceInformationTitle}
+                    description={strings.sourceInformationDescription}
+                >
+                    <NonFieldError
+                        error={getErrorObject(error?.trigger_model_source_of_information)}
+                    />
+                    {value?.trigger_model_source_of_information?.map((source, index) => (
+                        <EAPSourceInformationInput
+                            key={source.client_id}
+                            index={index}
+                            value={source}
+                            onChange={onSourceInformationChange}
+                            onRemove={onSourceInformationRemove}
+                            error={getErrorObject(error?.trigger_model_source_of_information)}
                             disabled={disabled}
-                        >
-                            {strings.eapFullFormAddNewSourceInformationLabel}
-                        </Button>
-                    </InputSection>
-                </ListView>
-            </Container>
+                        />
+                    ))}
+                    <Button
+                        name={undefined}
+                        onClick={handleSourceInformationAdd}
+                        disabled={disabled}
+                    >
+                        {strings.addNewSourceInformationLabel}
+                    </Button>
+                </InputSection>
+            </ListView>
         </TabPage>
     );
 }
