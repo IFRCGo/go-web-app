@@ -30,7 +30,7 @@ import Link from '#components/Link';
 import useFilterState from '#hooks/useFilterState';
 import {
     EAP_STATUS_APPROVED,
-    EAP_STATUS_PFA_SIGNED,
+    EAP_STATUS_PENDING_PFA,
     EAP_STATUS_TECHNICALLY_VALIDATED,
     EAP_TYPE_FULL,
     EAP_TYPE_SIMPLIFIED,
@@ -230,14 +230,14 @@ export function Component() {
                         eap: eapListItem,
                         type: 'approved',
                         details: undefined,
-                        disabled: status < EAP_STATUS_APPROVED,
+                        disabled: status < EAP_STATUS_PENDING_PFA,
                     } satisfies EapExpandedListItem,
                     {
                         label: 'PFA Signed',
                         eap: eapListItem,
                         type: 'signed',
                         details: undefined,
-                        disabled: status < EAP_STATUS_PFA_SIGNED,
+                        disabled: status < EAP_STATUS_APPROVED,
                     } satisfies EapExpandedListItem,
                 ].filter(isDefined).toReversed();
 
