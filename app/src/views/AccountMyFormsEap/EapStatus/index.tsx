@@ -25,7 +25,7 @@ import {
     EAP_STATUS_ACTIVATED,
     EAP_STATUS_APPROVED,
     EAP_STATUS_NS_ADDRESSING_COMMENTS,
-    EAP_STATUS_PFA_SIGNED,
+    EAP_STATUS_PENDING_PFA,
     EAP_STATUS_TECHNICALLY_VALIDATED,
     EAP_STATUS_UNDER_DEVELOPMENT,
     EAP_STATUS_UNDER_REVIEW,
@@ -49,10 +49,10 @@ const validStatusTransition: Record<EapStatus, EapStatus[]> = {
     ],
     [EAP_STATUS_TECHNICALLY_VALIDATED]: [
         EAP_STATUS_UNDER_REVIEW,
-        EAP_STATUS_APPROVED,
+        EAP_STATUS_PENDING_PFA,
     ],
-    [EAP_STATUS_APPROVED]: [EAP_STATUS_PFA_SIGNED],
-    [EAP_STATUS_PFA_SIGNED]: [EAP_STATUS_ACTIVATED],
+    [EAP_STATUS_PENDING_PFA]: [EAP_STATUS_APPROVED],
+    [EAP_STATUS_APPROVED]: [EAP_STATUS_ACTIVATED],
     [EAP_STATUS_ACTIVATED]: [],
 };
 
@@ -100,10 +100,13 @@ function EapStatus(props: Props) {
             );
         },
         formData: true,
-        onFailure: () => {
+        onFailure: (error) => {
             alert.show(
                 'Failed to update the status!',
-                { variant: 'danger' },
+                {
+                    variant: 'danger',
+                    description: error.value.messageForNotification,
+                },
             );
         },
     });
