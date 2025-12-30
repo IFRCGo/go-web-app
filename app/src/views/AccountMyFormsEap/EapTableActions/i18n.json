@@ -1,9 +1,13 @@
 {
     "namespace":"accountMyFormsEap",
     "strings":{
-        "eapStartFullLink": "Start Full EAP",
-        "eapStartSimplifiedLink": "Start sEAP",
-        "eapEditFullLink": "Edit Full EAP",
-        "eapEditSimplifiedLink": "Edit sEAP"
+        "startFullLink": "Start Full EAP",
+        "startSimplifiedLink": "Start sEAP",
+        "editFullLink": "Edit Full EAP",
+        "editSimplifiedLink": "Edit sEAP",
+        "exportChangesButton": "Export with changes",
+        "exportButton": "Export",
+        "previewExportLink": "Preview export",
+        "reviewCheckList": "Review Checklist"
     }
 }
