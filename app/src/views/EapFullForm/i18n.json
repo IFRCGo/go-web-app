@@ -15,6 +15,7 @@
         "fullEapNextButton": "Next",
         "fullEapSaveButton": "Save",
         "fullEapCancelButton": "Cancel",
+        "fullEapSubmitButton": "Submit for Approval",
         "fullEapFailure": "Sorry could not create a new Full EAP right now!",
         "fullEapSuccess": "Successfully created a new Full EAP!",
         "fullEapUpdateFailure": "Sorry could not update Full EAP right now!",

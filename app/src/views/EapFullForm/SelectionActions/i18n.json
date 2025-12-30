@@ -21,6 +21,7 @@
         "earlyActionsOutputValue": "Early Actions",
         "earlyActionsAddButtonLabel": "Add",
         "selectionActionUploadLabel": "Upload",
+        "downloadTableLabel": "Download Theory of Change table",
         "selectionActionUploadTableLabel": "Upload Table",
         "evidenceBaseTitle": "Evidence Base",
         "evidenceBaseDescription": "Explain how the selected actions will reduce the expected disaster impacts with a reference to academic research, empirical studies, interviews with key informants/experts, among other sources of evidence.",

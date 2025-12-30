@@ -14,7 +14,10 @@ import {
     TabPanel,
     Tabs,
 } from '@ifrc-go/ui';
-import { useTranslation } from '@ifrc-go/ui/hooks';
+import {
+    useBooleanState,
+    useTranslation,
+} from '@ifrc-go/ui/hooks';
 import { injectClientId } from '@ifrc-go/ui/utils';
 import {
     compareNumber,
@@ -33,6 +36,7 @@ import Link from '#components/Link';
 import Page from '#components/Page';
 import useAlert from '#hooks/useAlert';
 import useRouting from '#hooks/useRouting';
+import { EAP_STATUS_UNDER_DEVELOPMENT } from '#utils/constants';
 import {
     type GoApiBody,
     type GoApiResponse,
@@ -46,6 +50,7 @@ import {
     transformObjectError,
 } from '#utils/restRequest/error';
 
+import ApprovalModal from './ApprovalModal';
 import {
     checkTabErrors,
     type TabKeys,
@@ -94,6 +99,10 @@ export function Component() {
     const formContentRef = useRef<ElementRef<'div'>>(null);
     const strings = useTranslation(i18n);
     const { navigate } = useRouting();
+    const [
+        showApprovalModal,
+        { setTrue: setShowApprovalModalTrue, setFalse: setShowApprovalModalFalse },
+    ] = useBooleanState(false);
 
     const alert = useAlert();
 
@@ -616,6 +625,11 @@ export function Component() {
         [handleFormError, handleValidationSuccess, validate, setError],
     );
 
+    const handleSubmitApproval = useCallback(() => {
+        handleSave();
+        setShowApprovalModalTrue();
+    }, [handleSave, setShowApprovalModalTrue]);
+
     return (
         <Tabs value={activeTab} onChange={setActiveTab} styleVariant="step">
             <Page
@@ -633,6 +647,15 @@ export function Component() {
                         </Link>
                         <Button name={undefined} onClick={handleSave}>
                             {strings.fullEapSaveButton}
+                        </Button>
+                        <Button
+                            name={undefined}
+                            onClick={handleSubmitApproval}
+                            disabled={
+                                eapDetailResponse?.status !== EAP_STATUS_UNDER_DEVELOPMENT
+                            }
+                        >
+                            {strings.fullEapSubmitButton}
                         </Button>
                     </>
                 )}
@@ -779,9 +802,7 @@ export function Component() {
                         setFileIdToUrlMap={setFileIdToUrlMap}
                     />
                 </TabPanel>
-                <ListView
-                    withCenteredContents
-                >
+                <ListView withCenteredContents>
                     <Button
                         name={prevStep ?? activeTab}
                         onClick={handleTabChange}
@@ -799,6 +820,17 @@ export function Component() {
                         </Button>
                     )}
                 </ListView>
+                {showApprovalModal
+                    && isDefined(eapId)
+                    && isDefined(eapDetailResponse)
+                    && isNotDefined(formError)
+                    && (
+                        <ApprovalModal
+                            onClose={setShowApprovalModalFalse}
+                            eapId={eapId}
+                            status={eapDetailResponse?.status}
+                        />
+                    )}
             </Page>
         </Tabs>
     );
