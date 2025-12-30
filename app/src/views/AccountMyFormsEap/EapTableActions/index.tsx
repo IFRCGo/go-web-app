@@ -67,10 +67,10 @@ function EapTableActions(props: Props) {
                         urlSearch={isDefined(details?.data.version)
                             ? `version=${details.data.version}`
                             : undefined}
-                        title="Preview export"
+                        title={strings.previewExportLink}
                         before={<DocumentPdfLineIcon fontSize={18} />}
                     >
-                        Preview export
+                        {strings.previewExportLink}
                     </Link>
                 )}
                 {type === 'development' && details?.data.is_locked && isDefined(eap.review_checklist_file) && (
@@ -79,7 +79,7 @@ function EapTableActions(props: Props) {
                         href={eap.review_checklist_file}
                         before={<DownloadTwoLineIcon />}
                     >
-                        Review Checklist
+                        {strings.reviewCheckList}
                     </Link>
                 )}
                 {type === 'development' && eap.eap_type === EAP_TYPE_SIMPLIFIED && (
@@ -88,9 +88,8 @@ function EapTableActions(props: Props) {
                         onClick={setShowExportModalTrue}
                         before={<DownloadTwoLineIcon />}
                         styleVariant="action"
-                        // FIXME: use strings
                     >
-                        Export
+                        {strings.exportButton}
                     </Button>
                 )}
                 {type === 'development'
@@ -103,9 +102,8 @@ function EapTableActions(props: Props) {
                             onClick={setShowExportModalTrue}
                             before={<DownloadTwoLineIcon />}
                             styleVariant="action"
-                            // FIXME: use strings
                         >
-                            Export with changes
+                            {strings.exportChangesButton}
                         </Button>
                     )}
                 {type === 'registration' && isNotDefined(eap.eap_type) && isNotDefined(details) && (
@@ -116,7 +114,7 @@ function EapTableActions(props: Props) {
                             styleVariant="outline"
                             colorVariant="primary"
                         >
-                            {strings.eapStartSimplifiedLink}
+                            {strings.startSimplifiedLink}
                         </Link>
                         <Link
                             to="fullEapForm"
@@ -124,7 +122,7 @@ function EapTableActions(props: Props) {
                             styleVariant="outline"
                             colorVariant="primary"
                         >
-                            {strings.eapStartFullLink}
+                            {strings.startFullLink}
                         </Link>
                     </ListView>
                 )}
@@ -141,7 +139,7 @@ function EapTableActions(props: Props) {
                             styleVariant="outline"
                             colorVariant="primary"
                         >
-                            {strings.eapEditSimplifiedLink}
+                            {strings.editSimplifiedLink}
                         </Link>
                     )}
                 {type === 'development' && !details?.data.is_locked && eap.eap_type === EAP_TYPE_FULL && (
@@ -151,7 +149,7 @@ function EapTableActions(props: Props) {
                         styleVariant="outline"
                         colorVariant="primary"
                     >
-                        {strings.eapEditFullLink}
+                        {strings.editFullLink}
                     </Link>
                 )}
             </ListView>

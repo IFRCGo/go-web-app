@@ -113,15 +113,12 @@ export function Component() {
         total_budget,
         readiness_budget,
         pre_positioning_budget,
-        early_action_budget,
-        people_targeted,
         seap_timeframe,
-        seap_lead_time,
-        operational_timeframe,
 
         prioritized_hazard_and_impact,
         risks_selected_protocols,
 
+        selected_early_actions,
         overall_objective_intervention,
         potential_geographical_high_risk_areas,
         assisted_through_operation,
@@ -133,11 +130,45 @@ export function Component() {
 
         early_action_capability,
         rcrc_movement_involvement,
-
         national_society_contact_name,
         national_society_contact_email,
         national_society_contact_title,
         national_society_contact_phone_number,
+        partner_ns_name,
+        partner_ns_title,
+        partner_ns_email,
+        partner_ns_phone_number,
+        ifrc_delegation_focal_point_name,
+        ifrc_delegation_focal_point_title,
+        ifrc_delegation_focal_point_email,
+        ifrc_delegation_focal_point_phone_number,
+        ifrc_head_of_delegation_name,
+        ifrc_head_of_delegation_title,
+        ifrc_head_of_delegation_email,
+        ifrc_head_of_delegation_phone_number,
+        dref_focal_point_name,
+        dref_focal_point_title,
+        dref_focal_point_email,
+        dref_focal_point_phone_number,
+        ifrc_regional_focal_point_name,
+        ifrc_regional_focal_point_title,
+        ifrc_regional_focal_point_email,
+        ifrc_regional_focal_point_phone_number,
+        ifrc_regional_ops_manager_name,
+        ifrc_regional_ops_manager_title,
+        ifrc_regional_ops_manager_email,
+        ifrc_regional_ops_manager_phone_number,
+        ifrc_regional_head_dcc_name,
+        ifrc_regional_head_dcc_title,
+        ifrc_regional_head_dcc_email,
+        ifrc_regional_head_dcc_phone_number,
+        ifrc_global_ops_coordinator_name,
+        ifrc_global_ops_coordinator_title,
+        ifrc_global_ops_coordinator_email,
+        people_targeted,
+        seap_lead_time,
+        seap_lead_timeframe_unit,
+        ifrc_global_ops_coordinator_phone_number,
     } = simplifiedEapResponse ?? {};
 
     const {
@@ -151,6 +182,10 @@ export function Component() {
         next_step_towards_full_eap: prev_next_step_towards_full_eap,
         early_action_capability: prev_early_action_capability,
         rcrc_movement_involvement: prev_rcrc_movement_involvement,
+        selected_early_actions: prev_selected_early_actions,
+        seap_lead_time: prev_seap_lead_time,
+        seap_lead_timeframe_unit: prev_seap_lead_timeframe_unit,
+        people_targeted: prev_people_targeted,
     } = prevSimplifiedEapResponse ?? {};
 
     const eapTitle = [
@@ -195,51 +230,6 @@ export function Component() {
                         withBackground
                     />
                     <PrintableDataDisplay
-                        label={strings.totalBudgetLabel}
-                        value={total_budget}
-                        valueType="number"
-                        strongValue
-                        variant="block"
-                        withPadding
-                        withBackground
-                    />
-                    <PrintableDataDisplay
-                        label={strings.readinessLabel}
-                        value={readiness_budget}
-                        valueType="number"
-                        strongValue
-                        variant="block"
-                        withPadding
-                        withBackground
-                    />
-                    <PrintableDataDisplay
-                        label={strings.prepositioningLabel}
-                        value={pre_positioning_budget}
-                        valueType="number"
-                        strongValue
-                        variant="block"
-                        withPadding
-                        withBackground
-                    />
-                    <PrintableDataDisplay
-                        label={strings.earlyActionLabel}
-                        value={early_action_budget}
-                        valueType="number"
-                        strongValue
-                        variant="block"
-                        withPadding
-                        withBackground
-                    />
-                    <PrintableDataDisplay
-                        label={strings.peopleTargetedLabel}
-                        value={people_targeted}
-                        valueType="number"
-                        strongValue
-                        variant="block"
-                        withPadding
-                        withBackground
-                    />
-                    <PrintableDataDisplay
                         label={strings.sEapTimeframeLabel}
                         value={seap_timeframe}
                         valueType="number"
@@ -248,25 +238,158 @@ export function Component() {
                         withPadding
                         withBackground
                     />
-                    <PrintableDataDisplay
-                        label={strings.sEapLeadTimeLabel}
-                        value={seap_lead_time}
-                        valueType="number"
-                        strongValue
-                        variant="block"
-                        withPadding
-                        withBackground
-                    />
-                    <PrintableDataDisplay
-                        label={strings.operationalTimeframeLabel}
-                        value={operational_timeframe}
-                        valueType="number"
-                        strongValue
-                        variant="block"
-                        withPadding
-                        withBackground
-                    />
                 </div>
+            </PrintableContainer>
+            <PrintableContainer
+                heading={strings.contactInformationHeading}
+                headingLevel={2}
+            >
+                <PrintableContainer headingLevel={5}>
+                    <Label
+                        strong
+                        textSize="sm"
+                    >
+                        {strings.contactInformationDescription}
+                    </Label>
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.nationalHeading}
+                    headingLevel={5}
+                >
+                    <ul>
+                        <li>
+                            <PrintableDataDisplay
+                                label={strings.nationalSocietyContactHeading}
+                                value={[
+                                    national_society_contact_name,
+                                    national_society_contact_title,
+                                    national_society_contact_email,
+                                    national_society_contact_phone_number,
+                                ].filter(isTruthyString).join(', ')}
+                                variant="block"
+                                strongLabel
+                            />
+                        </li>
+                        <li>
+                            <PrintableDataDisplay
+                                label={strings.partnerNationalSocietyContactHeading}
+                                value={[
+                                    partner_ns_name,
+                                    partner_ns_title,
+                                    partner_ns_email,
+                                    partner_ns_phone_number,
+                                ].filter(isTruthyString).join(', ')}
+                                variant="block"
+                                strongLabel
+                            />
+                        </li>
+                    </ul>
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.delegationHeading}
+                    headingLevel={5}
+                >
+                    <ul>
+                        <li>
+                            <PrintableDataDisplay
+                                label={strings.delegationFocalPointLabel}
+                                value={[
+                                    ifrc_delegation_focal_point_name,
+                                    ifrc_delegation_focal_point_title,
+                                    ifrc_delegation_focal_point_email,
+                                    ifrc_delegation_focal_point_phone_number,
+                                ].filter(isTruthyString).join(', ')}
+                                variant="block"
+                                strongLabel
+                            />
+                        </li>
+                        <li>
+                            <PrintableDataDisplay
+                                label={strings.delegationHeadLabel}
+                                value={[
+                                    ifrc_head_of_delegation_name,
+                                    ifrc_head_of_delegation_title,
+                                    ifrc_head_of_delegation_email,
+                                    ifrc_head_of_delegation_phone_number,
+                                ].filter(isTruthyString).join(', ')}
+                                variant="block"
+                                strongLabel
+                            />
+                        </li>
+                    </ul>
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.regionalGlobalHeading}
+                    headingLevel={5}
+                >
+                    <ul>
+                        <li>
+                            <PrintableDataDisplay
+                                label={strings.drefFocalPointLabel}
+                                value={[
+                                    dref_focal_point_name,
+                                    dref_focal_point_title,
+                                    dref_focal_point_email,
+                                    dref_focal_point_phone_number,
+                                ].filter(isTruthyString).join(', ')}
+                                variant="block"
+                                strongLabel
+                            />
+                        </li>
+                        <li>
+                            <PrintableDataDisplay
+                                label={strings.regionalFocalPointLabel}
+                                value={[
+                                    ifrc_regional_focal_point_name,
+                                    ifrc_regional_focal_point_title,
+                                    ifrc_regional_focal_point_email,
+                                    ifrc_regional_focal_point_phone_number,
+                                ].filter(isTruthyString).join(', ')}
+                                variant="block"
+                                strongLabel
+                            />
+                        </li>
+                        <li>
+                            <PrintableDataDisplay
+                                label={strings.regionalOpsManager}
+                                value={[
+                                    ifrc_regional_ops_manager_name,
+                                    ifrc_regional_ops_manager_title,
+                                    ifrc_regional_ops_manager_email,
+                                    ifrc_regional_ops_manager_phone_number,
+                                ].filter(isTruthyString).join(', ')}
+                                variant="block"
+                                strongLabel
+                            />
+                        </li>
+                        <li>
+                            <PrintableDataDisplay
+                                label={strings.regionalHeadLabel}
+                                value={[
+                                    ifrc_regional_head_dcc_name,
+                                    ifrc_regional_head_dcc_title,
+                                    ifrc_regional_head_dcc_email,
+                                    ifrc_regional_head_dcc_phone_number,
+                                ].filter(isTruthyString).join(', ')}
+                                variant="block"
+                                strongLabel
+                            />
+                        </li>
+                        <li>
+                            <PrintableDataDisplay
+                                label={strings.globalOpsCoordinator}
+                                value={[
+                                    ifrc_global_ops_coordinator_name,
+                                    ifrc_global_ops_coordinator_title,
+                                    ifrc_global_ops_coordinator_email,
+                                    ifrc_global_ops_coordinator_phone_number,
+                                ].filter(isTruthyString).join(', ')}
+                                variant="block"
+                                strongLabel
+                            />
+                        </li>
+                    </ul>
+                </PrintableContainer>
             </PrintableContainer>
             <PrintableContainer
                 heading={strings.riskAnalysisHeading}
@@ -289,6 +412,15 @@ export function Component() {
                     <PrintableDescription
                         value={risks_selected_protocols}
                         prevValue={prev_risks_selected_protocols}
+                    />
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.selectedEarlyActionsHeading}
+                    headingLevel={3}
+                >
+                    <PrintableDescription
+                        value={selected_early_actions}
+                        prevValue={prev_selected_early_actions}
                     />
                 </PrintableContainer>
             </PrintableContainer>
@@ -315,6 +447,15 @@ export function Component() {
                     />
                 </PrintableContainer>
                 <PrintableContainer
+                    heading={strings.peopleTargetedHeading}
+                    headingLevel={3}
+                >
+                    <PrintableDescription
+                        value={String(people_targeted)}
+                        prevValue={String(prev_people_targeted)}
+                    />
+                </PrintableContainer>
+                <PrintableContainer
                     heading={strings.assistedThroughOperationHeading}
                     headingLevel={3}
                 >
@@ -330,6 +471,24 @@ export function Component() {
                     <PrintableDescription
                         value={trigger_statement}
                         prevValue={prev_trigger_statement}
+                    />
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.sleadTimeHeading}
+                    headingLevel={3}
+                >
+                    <PrintableDescription
+                        value={String(seap_lead_time)}
+                        prevValue={String(prev_seap_lead_time)}
+                    />
+                </PrintableContainer>
+                <PrintableContainer
+                    heading={strings.operationTimeframeHeading}
+                    headingLevel={3}
+                >
+                    <PrintableDescription
+                        value={String(seap_lead_timeframe_unit)}
+                        prevValue={String(prev_seap_lead_timeframe_unit)}
                     />
                 </PrintableContainer>
                 <PrintableContainer
@@ -375,6 +534,12 @@ export function Component() {
                                 valueType="number"
                                 strongLabel
                             />
+                            <PrintableDataDisplay
+                                label={strings.apCodeLabel}
+                                value={operation.ap_code}
+                                valueType="number"
+                                strongLabel
+                            />
                         </PrintableContainer>
                         <PrintableContainer
                             heading={strings.indicatorsHeading}
@@ -412,37 +577,58 @@ export function Component() {
                             heading={strings.readinessActivitiesHeading}
                             headingLevel={4}
                         >
-                            <ol>
-                                {operation.readiness_activities.map((activity) => (
-                                    <li key={activity.id}>
-                                        {activity.activity}
-                                    </li>
+                            <div className={styles.indicatorItems}>
+                                {operation.readiness_activities.map((activity, index) => (
+                                    <PrintableDataDisplay
+                                        key={activity.id}
+                                        label={`${index + 1}. ${activity.activity}`}
+                                        value={`${activity.time_value} ${activity.timeframe_display}`}
+                                        valueType="text"
+                                        variant="contents"
+                                        withBackground
+                                        withPadding
+                                        withoutLabelColon
+                                    />
                                 ))}
-                            </ol>
+                            </div>
                         </PrintableContainer>
                         <PrintableContainer
                             heading={strings.prepositioningActivitiesHeading}
                             headingLevel={4}
                         >
-                            <ol>
-                                {operation.prepositioning_activities.map((activity) => (
-                                    <li key={activity.id}>
-                                        {activity.activity}
-                                    </li>
+                            <div className={styles.indicatorItems}>
+                                {operation.prepositioning_activities.map((activity, index) => (
+                                    <PrintableDataDisplay
+                                        key={activity.id}
+                                        label={`${index + 1}. ${activity.activity}`}
+                                        value={`${activity.time_value} ${activity.timeframe_display}`}
+                                        valueType="text"
+                                        variant="contents"
+                                        withBackground
+                                        withPadding
+                                        withoutLabelColon
+                                    />
                                 ))}
-                            </ol>
+                            </div>
                         </PrintableContainer>
                         <PrintableContainer
                             heading={strings.earlyActionActivitiesHeading}
                             headingLevel={4}
                         >
-                            <ol>
-                                {operation.early_action_activities.map((activity) => (
-                                    <li key={activity.id}>
-                                        {activity.activity}
-                                    </li>
+                            <div className={styles.indicatorItems}>
+                                {operation.early_action_activities.map((activity, index) => (
+                                    <PrintableDataDisplay
+                                        key={activity.id}
+                                        label={`${index + 1}. ${activity.activity}`}
+                                        value={`${activity.time_value} ${activity.timeframe_display}`}
+                                        valueType="text"
+                                        variant="contents"
+                                        withBackground
+                                        withPadding
+                                        withoutLabelColon
+                                    />
                                 ))}
-                            </ol>
+                            </div>
                         </PrintableContainer>
                     </PrintableContainer>
                 ))}
@@ -463,6 +649,12 @@ export function Component() {
                                 value={approach.budget_per_approach}
                                 valueType="number"
                                 prefix="CHF "
+                                strongLabel
+                            />
+                            <PrintableDataDisplay
+                                label={strings.apCodeLabel}
+                                value={approach.ap_code}
+                                valueType="number"
                                 strongLabel
                             />
                         </PrintableContainer>
@@ -502,37 +694,58 @@ export function Component() {
                             heading={strings.readinessActivitiesHeading}
                             headingLevel={4}
                         >
-                            <ol>
-                                {approach.readiness_activities.map((activity) => (
-                                    <li key={activity.id}>
-                                        {activity.activity}
-                                    </li>
+                            <div className={styles.indicatorItems}>
+                                {approach.readiness_activities.map((activity, index) => (
+                                    <PrintableDataDisplay
+                                        key={activity.id}
+                                        label={`${index + 1}. ${activity.activity}`}
+                                        value={`${activity.time_value} ${activity.timeframe_display}`}
+                                        valueType="text"
+                                        variant="contents"
+                                        withBackground
+                                        withPadding
+                                        withoutLabelColon
+                                    />
                                 ))}
-                            </ol>
+                            </div>
                         </PrintableContainer>
                         <PrintableContainer
                             heading={strings.prepositioningActivitiesHeading}
                             headingLevel={4}
                         >
-                            <ol>
-                                {approach.prepositioning_activities.map((activity) => (
-                                    <li key={activity.id}>
-                                        {activity.activity}
-                                    </li>
+                            <div className={styles.indicatorItems}>
+                                {approach.prepositioning_activities.map((activity, index) => (
+                                    <PrintableDataDisplay
+                                        key={activity.id}
+                                        label={`${index + 1}. ${activity.activity}`}
+                                        value={`${activity.time_value} ${activity.timeframe_display}`}
+                                        valueType="text"
+                                        variant="contents"
+                                        withBackground
+                                        withPadding
+                                        withoutLabelColon
+                                    />
                                 ))}
-                            </ol>
+                            </div>
                         </PrintableContainer>
                         <PrintableContainer
                             heading={strings.earlyActionActivitiesHeading}
                             headingLevel={4}
                         >
-                            <ol>
-                                {approach.early_action_activities.map((activity) => (
-                                    <li key={activity.id}>
-                                        {activity.activity}
-                                    </li>
+                            <div className={styles.indicatorItems}>
+                                {approach.early_action_activities.map((activity, index) => (
+                                    <PrintableDataDisplay
+                                        key={activity.id}
+                                        label={`${index + 1}. ${activity.activity}`}
+                                        value={`${activity.time_value} ${activity.timeframe_display}`}
+                                        valueType="text"
+                                        variant="contents"
+                                        withBackground
+                                        withPadding
+                                        withoutLabelColon
+                                    />
                                 ))}
-                            </ol>
+                            </div>
                         </PrintableContainer>
                     </PrintableContainer>
                 ))}
@@ -560,40 +773,40 @@ export function Component() {
                     />
                 </PrintableContainer>
             </PrintableContainer>
-            {/*
             <PrintableContainer
                 heading={strings.budgetHeading}
                 headingLevel={2}
-                // FIXME: add budget details
             >
                 <PrintableDescription
-                    value="Budget details"
+                    value={strings.budgetDescription}
                 />
-            </PrintableContainer>
-            */}
-            <PrintableContainer
-                heading={strings.contactInformationHeading}
-                headingLevel={2}
-                // FIXME: add proper contact information
-            >
-                <PrintableContainer headingLevel={5}>
-                    <Label
-                        strong
-                        textSize="sm"
-                    >
-                        {strings.contactInformationDescription}
-                    </Label>
-                </PrintableContainer>
                 <PrintableContainer>
                     <PrintableDataDisplay
-                        label="National Society Contact"
-                        value={[
-                            national_society_contact_name,
-                            national_society_contact_title,
-                            national_society_contact_email,
-                            national_society_contact_phone_number,
-                        ].filter(isTruthyString).join(', ')}
-                        variant="block"
+                        label={strings.totalBudgetHeading}
+                        value={total_budget}
+                        valueType="number"
+                        prefix="CHF "
+                        strongLabel
+                    />
+                    <PrintableDataDisplay
+                        label={strings.readinessHeading}
+                        value={readiness_budget}
+                        valueType="number"
+                        prefix="CHF "
+                        strongLabel
+                    />
+                    <PrintableDataDisplay
+                        label={strings.prepositioningHeading}
+                        value={pre_positioning_budget}
+                        valueType="number"
+                        prefix="CHF "
+                        strongLabel
+                    />
+                    <PrintableDataDisplay
+                        label={strings.earlyActionHeading}
+                        value={pre_positioning_budget}
+                        valueType="number"
+                        prefix="CHF "
                         strongLabel
                     />
                 </PrintableContainer>
