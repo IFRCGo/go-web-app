@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { DownloadLineIcon } from '@ifrc-go/icons';
 import {
     Button,
     Heading,
@@ -26,9 +27,13 @@ import Admin2Input from '#components/domain/Admin2Input';
 import GoMultiFileInput from '#components/domain/GoMultiFileInput';
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
 import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaptionInput';
+import Link from '#components/Link';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
-import { type GoApiResponse } from '#utils/restRequest';
+import {
+    type GoApiResponse,
+    useRequest,
+} from '#utils/restRequest';
 
 import EAPSourceInformationInput, { type SourceInformationFormFields } from '../EAPSourceInformationInput';
 import { type PartialEapFullFormType } from '../schema';
@@ -60,6 +65,13 @@ function TriggerModel(props: Props) {
 
     const error = getErrorObject(formError);
     const strings = useTranslation(i18n);
+
+    const { response: templateUrl } = useRequest({
+        url: '/api/v2/eap/global-files/{template_type}/',
+        pathVariables: {
+            template_type: 'forecast_table',
+        },
+    });
 
     const {
         setValue: onSourcesForecastChange,
@@ -133,10 +145,7 @@ function TriggerModel(props: Props) {
                         disabled={disabled}
                     />
                 </InputSection>
-                <InputSection
-                    title={strings.triggerLeadTimeTitle}
-                    withAsteriskOnTitle
-                >
+                <InputSection title={strings.triggerLeadTimeTitle} withAsteriskOnTitle>
                     <NumberInput
                         name="lead_time"
                         value={value?.lead_time}
@@ -221,6 +230,20 @@ function TriggerModel(props: Props) {
                         disabled={disabled}
                     />
                     <TextOutput withLightText value={strings.forecastTableLabel} />
+                </InputSection>
+                <InputSection
+                    description={(
+                        <Link
+                            external
+                            href={templateUrl?.url}
+                            styleVariant="action"
+                            withUnderline
+                        >
+                            {strings.downloadForecastTableLabel}
+                            <DownloadLineIcon />
+                        </Link>
+                    )}
+                >
                     <GoSingleFileInput
                         accept=".pdf"
                         name="forecast_table_file"

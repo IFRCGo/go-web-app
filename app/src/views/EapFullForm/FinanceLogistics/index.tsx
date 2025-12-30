@@ -1,3 +1,4 @@
+import { DownloadLineIcon } from '@ifrc-go/icons';
 import {
     Heading,
     InputSection,
@@ -15,7 +16,9 @@ import {
 } from '@togglecorp/toggle-form';
 
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
+import Link from '#components/Link';
 import TabPage from '#components/TabPage';
+import { useRequest } from '#utils/restRequest';
 
 import { type PartialEapFullFormType } from '../schema';
 
@@ -44,6 +47,13 @@ function FinanceLogistics(props: Props) {
 
     const error = getErrorObject(formError);
     const strings = useTranslation(i18n);
+
+    const { response: templateUrl } = useRequest({
+        url: '/api/v2/eap/global-files/{template_type}/',
+        pathVariables: {
+            template_type: 'budget_template',
+        },
+    });
 
     return (
         <TabPage>
@@ -85,7 +95,19 @@ function FinanceLogistics(props: Props) {
                         disabled={disabled}
                     />
                 </InputSection>
-                <InputSection description={strings.financeDownloadDescription}>
+                <InputSection
+                    description={(
+                        <Link
+                            external
+                            href={templateUrl?.url}
+                            styleVariant="action"
+                            withUnderline
+                        >
+                            {strings.financeDownloadDescription}
+                            <DownloadLineIcon />
+                        </Link>
+                    )}
+                >
                     <GoSingleFileInput
                         name="budget_file"
                         accept=".pdf, .docx, .pptx"

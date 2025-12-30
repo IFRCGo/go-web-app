@@ -2,6 +2,7 @@ import {
     useCallback,
     useMemo,
 } from 'react';
+import { DownloadLineIcon } from '@ifrc-go/icons';
 import {
     Button,
     Checklist,
@@ -30,10 +31,12 @@ import {
 import GoMultiFileInput from '#components/domain/GoMultiFileInput';
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
 import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaptionInput';
+import Link from '#components/Link';
 import NonFieldError from '#components/NonFieldError';
 import TabPage from '#components/TabPage';
 import { type components } from '#generated/types';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import { useRequest } from '#utils/restRequest';
 
 import EAPSourceInformationInput, { type SourceInformationFormFields } from '../EAPSourceInformationInput';
 import { type PartialEapFullFormType } from '../schema';
@@ -102,6 +105,13 @@ function SelectionActions(props: Props) {
         ),
         [eapSectorOptions],
     );
+
+    const { response: templateUrl } = useRequest({
+        url: '/api/v2/eap/global-files/{template_type}/',
+        pathVariables: {
+            template_type: 'theory_of_change_table',
+        },
+    });
 
     const { setValue: onOperationChange, removeValue: onOperationRemove } = useFormArray<'planned_operations', PlannedOperationFormFields>(
         'planned_operations',
@@ -230,9 +240,7 @@ function SelectionActions(props: Props) {
             <ListView layout="block">
                 <Heading level={4}>
                     {strings.selectionActionsHeading}
-                    <InfoPopup
-                        description={strings.selectionActionsTooltipDescription}
-                    />
+                    <InfoPopup description={strings.selectionActionsTooltipDescription} />
                 </Heading>
                 <InputSection
                     title={strings.selectionProcessTitle}
@@ -248,21 +256,11 @@ function SelectionActions(props: Props) {
                                 strongLabel
                                 value={(
                                     <ul>
-                                        <li>
-                                            {strings.selectionProcessRequiredPoint1}
-                                        </li>
-                                        <li>
-                                            {strings.selectionProcessRequiredPoint2}
-                                        </li>
-                                        <li>
-                                            {strings.selectionProcessRequiredPoint3}
-                                        </li>
-                                        <li>
-                                            {strings.selectionProcessRequiredPoint4}
-                                        </li>
-                                        <li>
-                                            {strings.selectionProcessRequiredPoint5}
-                                        </li>
+                                        <li>{strings.selectionProcessRequiredPoint1}</li>
+                                        <li>{strings.selectionProcessRequiredPoint2}</li>
+                                        <li>{strings.selectionProcessRequiredPoint3}</li>
+                                        <li>{strings.selectionProcessRequiredPoint4}</li>
+                                        <li>{strings.selectionProcessRequiredPoint5}</li>
                                     </ul>
                                 )}
                             />
@@ -279,10 +277,7 @@ function SelectionActions(props: Props) {
                     )}
                     withAsteriskOnTitle
                 >
-                    <TextOutput
-                        withLightText
-                        value={strings.earlyActionsOutputValue}
-                    />
+                    <TextOutput withLightText value={strings.earlyActionsOutputValue} />
                     {value?.early_actions?.map((action, index) => (
                         <EarlyActionsInput
                             key={action.client_id}
@@ -314,14 +309,26 @@ function SelectionActions(props: Props) {
                         url="/api/v2/eap-file/multiple/"
                         value={value?.early_action_selection_process_images}
                         onChange={setFieldValue}
-                        error={getErrorObject(
-                            error?.early_action_selection_process_images,
-                        )}
+                        error={getErrorObject(error?.early_action_selection_process_images)}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         label={strings.selectionActionUploadLabel}
                         disabled={disabled}
                     />
+                </InputSection>
+                <InputSection
+                    description={(
+                        <Link
+                            external
+                            href={templateUrl?.url}
+                            styleVariant="action"
+                            withUnderline
+                        >
+                            {strings.downloadTableLabel}
+                            <DownloadLineIcon />
+                        </Link>
+                    )}
+                >
                     <GoSingleFileInput
                         accept=".pdf"
                         required
@@ -381,9 +388,7 @@ function SelectionActions(props: Props) {
                 </InputSection>
                 <InputSection
                     title={strings.selectionSourceOfInformationTitle}
-                    description={
-                        strings.selectionSourceOfInformationDescription
-                    }
+                    description={strings.selectionSourceOfInformationDescription}
                 >
                     <NonFieldError
                         error={getErrorObject(error?.evidence_base_source_of_information)}
@@ -395,9 +400,7 @@ function SelectionActions(props: Props) {
                             value={source}
                             onChange={onSourceInformationChange}
                             onRemove={onSourceInformationRemove}
-                            error={getErrorObject(
-                                error?.evidence_base_source_of_information,
-                            )}
+                            error={getErrorObject(error?.evidence_base_source_of_information)}
                             disabled={disabled}
                         />
                     ))}
@@ -464,19 +467,18 @@ function SelectionActions(props: Props) {
                             checkListLayoutPreferredGridColumns={3}
                         />
                     </InputSection>
-                    {value?.enable_approaches
-                        ?.map((approach, index) => (
-                            <ApproachesInput
-                                approachTitle={eapApproachLabelMapping?.[approach.approach]}
-                                key={approach.approach}
-                                index={index}
-                                value={approach}
-                                onChange={onApproachChange}
-                                onRemove={onApproachRemove}
-                                error={getErrorObject(error?.enable_approaches)}
-                                disabled={disabled}
-                            />
-                        ))}
+                    {value?.enable_approaches?.map((approach, index) => (
+                        <ApproachesInput
+                            approachTitle={eapApproachLabelMapping?.[approach.approach]}
+                            key={approach.approach}
+                            index={index}
+                            value={approach}
+                            onChange={onApproachChange}
+                            onRemove={onApproachRemove}
+                            error={getErrorObject(error?.enable_approaches)}
+                            disabled={disabled}
+                        />
+                    ))}
                     <InputSection
                         title={strings.useFullnessActionsTitle}
                         description={strings.useFullnessActionsDescription}
@@ -515,12 +517,8 @@ function SelectionActions(props: Props) {
                                     strongLabel
                                     value={(
                                         <ul>
-                                            <li>
-                                                {strings.feasibilityRequiredPoint1}
-                                            </li>
-                                            <li>
-                                                {strings.feasibilityRequiredPoint2}
-                                            </li>
+                                            <li>{strings.feasibilityRequiredPoint1}</li>
+                                            <li>{strings.feasibilityRequiredPoint2}</li>
                                         </ul>
                                     )}
                                 />
