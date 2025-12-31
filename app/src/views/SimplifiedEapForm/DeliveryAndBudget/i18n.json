@@ -38,6 +38,7 @@
         "deliverBudgetDetails": "Budget details",
         "deliverBudgetDetailsDescription": "Add here the page from the budget template called “EAP for publication”. Explain your selection criteria for who will be targeted.",
         "earlyAction": "Early Action",
-        "upload": "Upload"
+        "upload": "Upload",
+        "downloadBudgetTemplate": "Download budget template"
     }
 }
