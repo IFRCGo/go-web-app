@@ -14,7 +14,9 @@ import {
 } from '@togglecorp/toggle-form';
 
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
+import Link from '#components/Link';
 import TabPage from '#components/TabPage';
+import { useRequest } from '#utils/restRequest';
 
 import { type PartialSimplifiedEapType } from '../schema';
 
@@ -41,6 +43,12 @@ function DeliveryAndBudget(props: Props) {
 
     const strings = useTranslation(i18n);
     const error = getErrorObject(formError);
+
+    const {
+        response: globalFilesResponse,
+    } = useRequest({
+        url: '/api/v2/eap/global-files/budget_template/',
+    });
 
     return (
         <TabPage>
@@ -130,7 +138,18 @@ function DeliveryAndBudget(props: Props) {
                     </InputSection>
                     <InputSection
                         title={strings.deliverBudgetDetails}
-                        description={strings.deliverBudgetDetailsDescription}
+                        description={(
+                            <>
+                                {strings.deliverBudgetDetailsDescription}
+                                <Link
+                                    href={globalFilesResponse?.url}
+                                    withLinkIcon
+                                    external
+                                >
+                                    {strings.downloadBudgetTemplate}
+                                </Link>
+                            </>
+                        )}
                         withAsteriskOnTitle
                     >
                         <GoSingleFileInput
