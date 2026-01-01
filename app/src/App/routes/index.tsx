@@ -1226,6 +1226,20 @@ const eapDevelopmentRegistrationForm = customWrapRoute({
     },
 });
 
+const eapFullExport = customWrapRoute({
+    parent: rootLayout,
+    path: 'eap/:eapId/full/export',
+    component: {
+        render: () => import('#views/EapFullExport'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Full EAP Export',
+        visibility: 'is-authenticated',
+    },
+});
+
 const simplifiedEapExport = customWrapRoute({
     parent: rootLayout,
     path: 'eap/:eapId/export',
@@ -1519,6 +1533,7 @@ const wrappedRoutes = {
     eapRegistrationLayout,
     eapDevelopmentRegistrationForm,
     simplifiedEapExport,
+    eapFullExport,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));
