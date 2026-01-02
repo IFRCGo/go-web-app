@@ -5,10 +5,7 @@ import {
     TextInput,
 } from '@ifrc-go/ui';
 import { useTranslation } from '@ifrc-go/ui/hooks';
-import {
-    isNotDefined,
-    randomString,
-} from '@togglecorp/fujs';
+import { randomString } from '@togglecorp/fujs';
 import {
     type ArrayError,
     getErrorObject,
@@ -19,12 +16,18 @@ import {
 
 import NonFieldError from '#components/NonFieldError';
 import { type components } from '#generated/types';
+import { formatSourceLink } from '#utils/common';
 
 import i18n from './i18n.json';
 
-type EAPSourceInformation = components['schemas']['EAPSourceInformation'] & { client_id: string };
+type EAPSourceInformation = components['schemas']['EAPSourceInformation'] & {
+    client_id: string;
+};
 
-export type SourceInformationFormFields = PartialForm<EAPSourceInformation, 'client_id'>;
+export type SourceInformationFormFields = PartialForm<
+    EAPSourceInformation,
+    'client_id'
+>;
 
 interface Props {
     value: SourceInformationFormFields;
@@ -61,26 +64,8 @@ function EAPSourceInformationInput(props: Props) {
         : undefined;
 
     const handleSourceFieldChange = useCallback(
-        (newValue: string | undefined) => {
-            if (
-                isNotDefined(newValue)
-                || newValue.startsWith('http://')
-                || newValue.startsWith('https://')
-                || newValue === 'h'
-                || newValue === 'ht'
-                || newValue === 'htt'
-                || newValue === 'http'
-                || newValue === 'http:'
-                || newValue === 'http:/'
-                || newValue === 'https'
-                || newValue === 'https:'
-                || newValue === 'https:/'
-            ) {
-                onFieldChange(newValue, 'source_link');
-                return;
-            }
-
-            onFieldChange(`https://${newValue}`, 'source_link');
+        (linkValue: string | undefined) => {
+            onFieldChange(formatSourceLink(linkValue), 'source_link');
         },
         [onFieldChange],
     );

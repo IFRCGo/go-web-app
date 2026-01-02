@@ -72,6 +72,27 @@ export function joinStrings(
     return values.filter(Boolean).join(separator);
 }
 
+export function formatSourceLink(value: string | undefined): string | undefined {
+    if (
+        isNotDefined(value)
+            || value.startsWith('http://')
+            || value.startsWith('https://')
+            || value === 'h'
+            || value === 'ht'
+            || value === 'htt'
+            || value === 'http'
+            || value === 'http:'
+            || value === 'http:/'
+            || value === 'https'
+            || value === 'https:'
+            || value === 'https:/'
+    ) {
+        return value;
+    }
+
+    return `https://${value}`;
+}
+
 export function hasChanged(prevValue: unknown, newValue: unknown) {
     // NOTE: we consider `null` and `undefined` as same for
     // this scenario
