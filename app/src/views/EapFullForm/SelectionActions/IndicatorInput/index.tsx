@@ -62,7 +62,7 @@ function IndicatorInput(props: Props) {
                     name={index}
                     onClick={onRemove}
                     styleVariant="action"
-                    title={strings.eapFullIndicatorRemoveTitle}
+                    title={strings.indicatorRemoveTitle}
                     disabled={disabled || readOnly}
                 >
                     <DeleteBinTwoLineIcon />
@@ -72,7 +72,7 @@ function IndicatorInput(props: Props) {
         >
             <ListView layout="grid" spacing="sm">
                 <TextInput
-                    label={strings.eapFullIndicatorTitleLabel}
+                    label={strings.indicatorTitleLabel}
                     name="title"
                     value={value.title}
                     onChange={onFieldChange}
@@ -81,7 +81,7 @@ function IndicatorInput(props: Props) {
                     readOnly={readOnly}
                 />
                 <NumberInput
-                    label={strings.eapFullIndicatorTargetLabel}
+                    label={strings.indicatorTargetLabel}
                     name="target"
                     value={value.target}
                     onChange={onFieldChange}

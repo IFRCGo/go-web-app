@@ -81,7 +81,7 @@ function FinanceLogistics(props: Props) {
                     <NumberInput
                         label={strings.financeTotalBudgetLabel}
                         name="total_budget"
-                        value={value?.total_budget}
+                        value={value.total_budget}
                         error={error?.total_budget}
                         onChange={setFieldValue}
                         disabled={disabled}

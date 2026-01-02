@@ -43,11 +43,11 @@ function ApprovalModal(props: Props) {
         },
         body: (fields: EapStatusBody) => fields,
         onSuccess: () => {
-            alert.show('Status updated successfully!', { variant: 'success' });
+            alert.show(strings.approvalUpdateSuccessMessage, { variant: 'success' });
         },
         formData: true,
         onFailure: () => {
-            alert.show('Failed to update the status!', { variant: 'danger' });
+            alert.show(strings.approvalUpdateFailedMessage, { variant: 'danger' });
         },
     });
 
@@ -67,10 +67,10 @@ function ApprovalModal(props: Props) {
             footerActions={(
                 <ListView>
                     <Button name={requestBody} onClick={triggerStatusUpdate} disabled={disabled}>
-                        Confirm
+                        {strings.approvalConfirmButton}
                     </Button>
                     <Button name={undefined} onClick={onClose}>
-                        Cancel
+                        {strings.approvalCancelButton}
                     </Button>
                 </ListView>
             )}

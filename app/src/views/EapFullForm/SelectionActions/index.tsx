@@ -145,9 +145,9 @@ function SelectionActions(props: Props) {
         [setFieldValue],
     );
 
-    const selectedSectors = value?.planned_operations?.map(
+    const selectedSectors = useMemo(() => value?.planned_operations?.map(
         ({ sector }) => sector,
-    );
+    ), [value?.planned_operations]);
 
     const eapApproachLabelMapping = useMemo(
         () => listToMap(
@@ -190,9 +190,9 @@ function SelectionActions(props: Props) {
         [setFieldValue],
     );
 
-    const selectedApproaches = value?.enable_approaches?.map(
+    const selectedApproaches = useMemo(() => value?.enable_approaches?.map(
         ({ approach }) => approach,
-    );
+    ), [value?.enable_approaches]);
 
     const {
         setValue: onSourceInformationChange,
