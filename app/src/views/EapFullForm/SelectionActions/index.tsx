@@ -330,7 +330,7 @@ function SelectionActions(props: Props) {
                     )}
                 >
                     <GoSingleFileInput
-                        accept=".pdf"
+                        accept=".docx"
                         required
                         name="theory_of_change_table_file"
                         value={value.theory_of_change_table_file}

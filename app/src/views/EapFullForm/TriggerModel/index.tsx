@@ -245,7 +245,7 @@ function TriggerModel(props: Props) {
                     )}
                 >
                     <GoSingleFileInput
-                        accept=".pdf"
+                        accept=".docx"
                         name="forecast_table_file"
                         value={value.forecast_table_file}
                         url="/api/v2/eap-file/"

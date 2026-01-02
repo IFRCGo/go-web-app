@@ -82,6 +82,7 @@ function getNextStep(current: TabKeys, direction: 1 | -1) {
         'eapActivation',
         'meal',
         'nationalSocietyCapacity',
+        'financeLogistics',
     ];
     const currentIndex = tabKeyList.findIndex((key) => key === current);
 
